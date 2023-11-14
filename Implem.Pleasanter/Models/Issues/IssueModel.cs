@@ -1,10 +1,12 @@
 ﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.Classes;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Extensions;
 using Implem.Pleasanter.Libraries.General;
+using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Requests;
@@ -16,8 +18,9 @@ using Implem.Pleasanter.Libraries.Settings;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using System.Linq;
-using System.Text.RegularExpressions;
+using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
 namespace Implem.Pleasanter.Models
 {
     [Serializable]
@@ -3579,7 +3582,7 @@ namespace Implem.Pleasanter.Models
             ss.Formulas?.ForEach(formulaSet =>
             {
                 var columnName = formulaSet.Target;
-                if (formulaSet.CalculationMethod == FormulaSet.CalculationMethods.Default.ToString())
+                if (string.IsNullOrEmpty(formulaSet.CalculationMethod) || formulaSet.CalculationMethod == FormulaSet.CalculationMethods.Default.ToString())
                 {
                     var formula = formulaSet.Formula;
                     var view = ss.Views?.Get(formulaSet.Condition);
@@ -3631,7 +3634,7 @@ namespace Implem.Pleasanter.Models
                 }
                 else if (formulaSet.CalculationMethod == FormulaSet.CalculationMethods.Script.ToString())
                 {
-                    var columns = Regex.Matches(formulaSet.FormulaScript, @"\[([^]]*)\]");
+                    var columns = System.Text.RegularExpressions.Regex.Matches(formulaSet.FormulaScript, @"\[([^]]*)\]");
                     foreach (var column in columns)
                     {
                         var columnParam = column.ToString()[1..^1];

@@ -363,7 +363,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetDateScript()
         {
             return @"
-                function DATE(year, month, day) {
+                function DATE(year, month, day)
+                {
                     if (isNaN(year) || isNaN(month) || isNaN(day))
                     {
                         throw 'Invalid Parameter';
@@ -389,7 +390,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetDateDifScript()
         {
             return @"
-                function DATEDIF(firstDate, secondDate, unit) {
+                function DATEDIF(firstDate, secondDate, unit)
+                {
                     if (firstDate == undefined || secondDate == undefined || unit == undefined)
                     {
                         throw 'Invalid Parameter';
@@ -472,7 +474,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetDayScript()
         {
             return @"
-                function DAY(date) {
+                function DAY(date)
+                {
                     if (date == undefined)
                     {
                         throw 'Invalid Parameter';
@@ -497,7 +500,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetDaysScript()
         {
             return @"
-                function DAYS(firstDate, secondDate) {
+                function DAYS(firstDate, secondDate)
+                {
                     if (firstDate == undefined || secondDate == undefined)
                     {
                         throw 'Invalid Parameter';
@@ -545,7 +549,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetHourScript()
         {
             return @"
-                function HOUR(date) {
+                function HOUR(date)
+                {
                     if (date == undefined)
                     {
                         throw 'Invalid Parameter';
@@ -582,7 +587,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetMinuteScript()
         {
             return @"
-                function MINUTE(date) {
+                function MINUTE(date)
+                {
                     if (date == undefined)
                     {
                         throw 'Invalid Parameter';
@@ -629,7 +635,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetMonthScript()
         {
             return @"
-                function MONTH(date) {
+                function MONTH(date)
+                {
                     if (date == undefined)
                     {
                         throw 'Invalid Parameter';
@@ -654,7 +661,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetNowScript(Context context)
         {
             return @"
-                function NOW() {
+                function NOW()
+                {
 		            var d = new Date();
                     d.setMinutes(d.getMinutes() + d.getTimezoneOffset() + " + context.TimeZoneInfo.BaseUtcOffset.Hours * 60 + @");
 		            return d.getFullYear()
@@ -668,7 +676,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetSecondScript()
         {
             return @"
-                function SECOND(date) {
+                function SECOND(date)
+                {
 		            if (date == undefined)
                     {
                         throw 'Invalid Parameter';
@@ -705,7 +714,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetTodayScript(Context context)
         {
             return @"
-                function TODAY() {
+                function TODAY()
+                {
 		            var d = new Date();
                     d.setMinutes(d.getMinutes() + d.getTimezoneOffset() + " + context.TimeZoneInfo.BaseUtcOffset.Hours * 60 + @");
 		            return d.getFullYear()
@@ -717,7 +727,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetYearScript()
         {
             return @"
-                function YEAR(date) {
+                function YEAR(date)
+                {
                     if (date == undefined)
                     {
                         throw 'Invalid Parameter';
@@ -742,7 +753,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetConcatScript()
         {
             return @"
-                function CONCAT(firstString) {
+                function CONCAT(firstString)
+                {
                     if (firstString == undefined)
                     {
                         throw 'Invalid Parameter';
@@ -758,7 +770,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetFindScript()
         {
             return @"
-                function FIND(firstString, secondString, start = 1) {
+                function FIND(firstString, secondString, start = 1)
+                {
                     if (firstString == undefined || secondString == undefined || isNaN(start))
                     {
                         throw 'Invalid Parameter';
@@ -780,7 +793,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetLeftScript()
         {
             return @"
-                function LEFT(firstString, length = 1) {
+                function LEFT(firstString, length = 1)
+                {
                     if (firstString == undefined || isNaN(length))
                     {
                         throw 'Invalid Parameter';
@@ -797,7 +811,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetLenScript()
         {
             return @"
-                function LEN(firstString) {
+                function LEN(firstString)
+                {
                     if (firstString == undefined)
                     {
                         throw 'Invalid Parameter';
@@ -809,7 +824,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetLowerScript()
         {
             return @"
-                function LOWER(firstString) {
+                function LOWER(firstString)
+                {
                     if (firstString == undefined)
                     {
                         throw 'Invalid Parameter';
@@ -821,7 +837,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetMidScript()
         {
             return @"
-                function MID(firstString, start, length) {
+                function MID(firstString, start, length)
+                {
                     if (firstString == undefined || isNaN(start) || isNaN(length))
                     {
                         throw 'Invalid Parameter';
@@ -839,7 +856,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetRightScript()
         {
             return @"
-                function RIGHT(firstString, length = 1) {
+                function RIGHT(firstString, length = 1)
+                {
                     if (firstString == undefined || isNaN(length))
                     {
                         throw 'Invalid Parameter';
@@ -856,7 +874,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetSubstituteScript()
         {
             return @"
-                function SUBSTITUTE(firstString, secondString, thirdString, index) {
+                function SUBSTITUTE(firstString, secondString, thirdString, index)
+                {
                     if (firstString == undefined || secondString == undefined || thirdString == undefined)
                     {
                         throw 'Invalid Parameter';
@@ -884,7 +903,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetTrimScript()
         {
             return @"
-                function TRIM(firstString) {
+                function TRIM(firstString)
+                {
                     if (firstString == undefined)
                     {
                         throw 'Invalid Parameter';
@@ -896,7 +916,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetUpperScript()
         {
             return @"
-                function UPPER(firstString) {
+                function UPPER(firstString)
+                {
                     if (firstString == undefined)
                     {
                         throw 'Invalid Parameter';
@@ -908,7 +929,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetAndScript()
         {
             return @"
-                function AND(firstClause) {
+                function AND(firstClause)
+                {
                     if (firstClause == undefined)
                     {
                         throw 'Invalid Parameter';
@@ -940,7 +962,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetIfScript()
         {
             return @"
-                function IF(firstClause, retValue1, retValue2 = false) {
+                function IF(firstClause, retValue1, retValue2 = false)
+                {
                     if (firstClause == undefined || retValue1 == undefined)
                     {
                         throw 'Invalid Parameter';
@@ -960,7 +983,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetNotScript()
         {
             return @"
-                function NOT(firstClause) {
+                function NOT(firstClause)
+                {
                     if (firstClause == undefined)
                     {
                         throw 'Invalid Parameter';
@@ -980,7 +1004,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetOrScript()
         {
             return @"
-                function OR(firstClause) {
+                function OR(firstClause)
+                {
                     if (firstClause == undefined)
                     {
                         throw 'Invalid Parameter';
