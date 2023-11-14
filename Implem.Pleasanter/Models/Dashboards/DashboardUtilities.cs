@@ -2138,7 +2138,8 @@ namespace Implem.Pleasanter.Models
             switch (currentSs.ReferenceType)
             {
                 case "Issues":
-                    var issues = hb.Div(
+                    var issues = IssueUtilities.UpdateByCalendar(context: context, ss: currentSs);
+                    var issueCalendar = hb.Div(
                         id: $"DashboardPart_{dashboardPart.Id}",
                         attributes: new HtmlAttributes().DataId(dashboardPart.Id.ToString()),
                         css: "dashboard-calendar-container " + dashboardPart.ExtendedCss,
@@ -2150,7 +2151,7 @@ namespace Implem.Pleasanter.Models
                                     css: "dashboard-part-title",
                                     action: () => hb.Text(dashboardPart.Title));
                             }
-                            hb.Raw(text: IssueUtilities.UpdateByCalendar(context: context, ss: currentSs));
+                            hb.Raw(text: issues);
                         }).ToString();
                     List<Dictionary<string, string>> issuesJson = Jsons.Deserialize<List<Dictionary<string, string>>>(issues);
                     if (issuesJson != null)
@@ -2173,7 +2174,7 @@ namespace Implem.Pleasanter.Models
                     return new ResponseCollection(context: context)
                         .Html(
                             target: $"#DashboardPart_{dashboardPart.Id}",
-                            value: issues)
+                            value: issueCalendar)
                         .Message(context.ErrorData.Type != Error.Types.None
                             ? context.ErrorData.Message(context: context)
                             : Messages.Updated(
@@ -2182,7 +2183,8 @@ namespace Implem.Pleasanter.Models
                         .Invoke("setCalendar", dashboardPart.Id.ToString())
                         .ToJson();
                 case "Results":
-                    var results = hb.Div(
+                    var results = ResultUtilities.UpdateByCalendar(context: context, ss: currentSs);
+                    var resultCalendar = hb.Div(
                         id: $"DashboardPart_{dashboardPart.Id}",
                         attributes: new HtmlAttributes().DataId(dashboardPart.Id.ToString()),
                         css: "dashboard-calendar-container " + dashboardPart.ExtendedCss,
@@ -2217,7 +2219,7 @@ namespace Implem.Pleasanter.Models
                     return new ResponseCollection(context: context)
                         .Html(
                             target: $"#DashboardPart_{dashboardPart.Id}",
-                            value: results)
+                            value: resultCalendar)
                         .Message(context.ErrorData.Type != Error.Types.None
                             ? context.ErrorData.Message(context: context)
                             : Messages.Updated(
