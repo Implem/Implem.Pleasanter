@@ -1037,7 +1037,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetReplaceScript()
         {
             return @"
-                function REPLACE(firstString, start, length, secondString) {
+                function REPLACE(firstString, start, length, secondString)
+                {
                     if (firstString == undefined || secondString == undefined
                         || isNaN(start) || isNaN(length))
                     {
@@ -1049,16 +1050,17 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     {
                         throw 'Invalid Parameter';
                     }
-                    return firstString.substring(0, start - 1)
-                        + secondString
-                        + firstString.substring(start - 1 + length);
+                    return firstString.toString().substring(0, start - 1)
+                        + secondString.toString()
+                        + firstString.toString().substring(start - 1 + length);
 	            }";
         }
 
         private static string GetSearchScript()
         {
             return @"
-                function SEARCH(firstString, secondString, start = 1) {
+                function SEARCH(firstString, secondString, start = 1)
+                {
                     if (firstString == undefined || secondString == undefined || isNaN(start))
                     {
                         throw 'Invalid Parameter';
@@ -1080,7 +1082,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetIfsScript()
         {
             return @"
-                function IFS(firstClause, retValue1) {
+                function IFS(firstClause, retValue1)
+                {
                     if (firstClause == undefined || retValue1 == undefined)
                     {
                         throw 'Invalid Parameter';
@@ -1113,7 +1116,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetIsEvenScript()
         {
             return @"
-                function ISEVEN(number) {
+                function ISEVEN(number)
+                {
                     if (number == undefined)
                     {
                         throw 'Invalid Parameter';
@@ -1130,7 +1134,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetIsNumberScript()
         {
             return @"
-                function ISNUMBER(number) {
+                function ISNUMBER(number)
+                {
                     if (number == undefined)
                     {
                         throw 'Invalid Parameter';
@@ -1146,7 +1151,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetIsOddScript()
         {
             return @"
-                function ISODD(number) {
+                function ISODD(number)
+                {
                     if (number == undefined)
                     {
                         throw 'Invalid Parameter';
@@ -1163,7 +1169,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetIsTextScript()
         {
             return @"
-                function ISTEXT(text) {
+                function ISTEXT(text)
+                {
                     if (text == undefined)
                     {
                         throw 'Invalid Parameter';
@@ -1175,7 +1182,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetModScript()
         {
             return @"
-                function MOD(number, divisor) {
+                function MOD(number, divisor)
+                {
                     if (number == undefined || divisor == undefined || isNaN(number) || isNaN(divisor))
                     {
                         throw 'Invalid Parameter';
@@ -1187,7 +1195,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetOddScript()
         {
             return @"
-                function ODD(number) {
+                function ODD(number)
+                {
                     if (number == undefined)
                     {
                         throw 'Invalid Parameter';
@@ -1204,7 +1213,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetAverageScript()
         {
             return @"
-                function AVERAGE(number1) {
+                function AVERAGE(number1)
+                {
                     if (number1 == undefined || isNaN(number1))
                     {
                         throw 'Invalid Parameter';
@@ -1226,7 +1236,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetWeekdayScript()
         {
             return @"
-                function WEEKDAY(date, returnType = 1) {
+                function WEEKDAY(date, returnType = 1)
+                {
                     if (date == undefined)
                     {
                         throw 'Invalid Parameter';
@@ -1279,15 +1290,17 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetMinScript()
         {
             return @"
-                function MIN(number1) {
+                function MIN(number1)
+                {
                     if (number1 == undefined || arguments.length > 255)
                     {
                         throw 'Invalid Parameter';
                     }
-                    
                     let minValue = number1;
-                    for (let i = 1; i < arguments.length; i++) {
-                        if (arguments[i] !== null && arguments[i] !== '' && arguments[i] < minValue) {
+                    for (let i = 1; i < arguments.length; i++)
+                    {
+                        if (arguments[i] !== null && arguments[i] !== '' && arguments[i] < minValue)
+                        {
                             minValue = arguments[i];
                         }
                     }
@@ -1304,15 +1317,17 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetMaxScript()
         {
             return @"
-                function MAX(number1) {
+                function MAX(number1)
+                {
                     if (number1 == undefined || arguments.length > 255)
                     {
                         throw 'Invalid Parameter';
                     }
-                    
                     let maxValue = number1;
-                    for (let i = 1; i < arguments.length; i++) {
-                        if (arguments[i] !== null && arguments[i] !== '' && arguments[i] > maxValue) {
+                    for (let i = 1; i < arguments.length; i++)
+                    {
+                        if (arguments[i] !== null && arguments[i] !== '' && arguments[i] > maxValue)
+                        {
                             maxValue = arguments[i];
                         }
                     }
@@ -1329,19 +1344,25 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetRoundScript()
         {
             return @"
-                 function ROUND(number, numDigits) {
-                    if (number === '' || numDigits === '' || isNaN(Number(number)) || isNaN(Number(numDigits))) {
+                function ROUND(number, numDigits)
+                {
+                    if (number === '' || numDigits === '' || isNaN(Number(number)) || isNaN(Number(numDigits)))
+                    {
                         throw 'Invalid Parameter';
                     }
                     let negative = 1,
                     result;
-                    if (number < 0) {
+                    if (number < 0)
+                    {
                         negative = -1;
                         number = number * -1;
                     }
-                    if (numDigits === 0) {
+                    if (numDigits === 0)
+                    {
                         result = Math.round(number) * negative;
-                    } else if (numDigits > 0) {
+                    }
+                    else if (numDigits > 0)
+                    {
                         let multiplier = Math.pow(10, numDigits),
                             n = parseFloat(
                                 (number * multiplier).toFixed(numDigits + 1)
@@ -1349,7 +1370,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         result =
                             (Math.round(n) / multiplier).toFixed(numDigits) *
                             negative;
-                    } else if (numDigits < 0) {
+                    }
+                    else if (numDigits < 0)
+                    {
                         let divider = Math.pow(10, -numDigits);
                         result = Math.round(number / divider) * divider * negative;
                     }
@@ -1366,19 +1389,25 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetRoundUpScript()
         {
             return @"
-                 function ROUNDUP(number, numDigits) {
-                    if (number === '' || numDigits === '' || isNaN(Number(number)) || isNaN(Number(numDigits))) {
+                function ROUNDUP(number, numDigits)
+                {
+                    if (number === '' || numDigits === '' || isNaN(Number(number)) || isNaN(Number(numDigits)))
+                    {
                         throw 'Invalid Parameter';
                     }
                     let negative = 1,
                     result;
-                    if (number < 0) {
+                    if (number < 0)
+                    {
                         negative = -1;
                         number = number * -1;
                     }
-                    if (numDigits === 0) {
+                    if (numDigits === 0)
+                    {
                         result = Math.ceil(number) * negative;
-                    } else if (numDigits > 0) {
+                    }
+                    else if (numDigits > 0)
+                    {
                         let multiplier = Math.pow(10, numDigits),
                             n = parseFloat(
                                 (number * multiplier).toFixed(numDigits + 1)
@@ -1386,7 +1415,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         result =
                             (Math.ceil(n) / multiplier).toFixed(numDigits) *
                             negative;
-                    } else if (numDigits < 0) {
+                    }
+                    else if (numDigits < 0)
+                    {
                         let divider = Math.pow(10, -numDigits);
                         result = Math.ceil(number / divider) * divider * negative;
                     }
@@ -1403,19 +1434,25 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetRoundDownScript()
         {
             return @"
-                 function ROUNDDOWN(number, numDigits) {
-                    if (number === '' || numDigits === '' || isNaN(Number(number)) || isNaN(Number(numDigits))) {
+                function ROUNDDOWN(number, numDigits)
+                {
+                    if (number === '' || numDigits === '' || isNaN(Number(number)) || isNaN(Number(numDigits)))
+                    {
                         throw 'Invalid Parameter';
                     }
                     let negative = 1,
                     result;
-                    if (number < 0) {
+                    if (number < 0)
+                    {
                         negative = -1;
                         number = number * -1;
                     }
-                    if (numDigits === 0) {
+                    if (numDigits === 0)
+                    {
                         result = Math.floor(number) * negative;
-                    } else if (numDigits > 0) {
+                    }
+                    else if (numDigits > 0)
+                    {
                         let multiplier = Math.pow(10, numDigits),
                             n = parseFloat(
                                 (number * multiplier).toFixed(numDigits + 1)
@@ -1423,7 +1460,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         result =
                             (Math.floor(n) / multiplier).toFixed(numDigits) *
                             negative;
-                    } else if (numDigits < 0) {
+                    }
+                    else if (numDigits < 0)
+                    {
                         let divider = Math.pow(10, -numDigits);
                         result = Math.floor(number / divider) * divider * negative;
                     }
@@ -1440,23 +1479,27 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetTruncScript()
         {
             return @"
-                 function TRUNC(number, numDigits) {
-                    if (numDigits == undefined) {
+                function TRUNC(number, numDigits)
+                {
+                    if (numDigits == undefined)
+                    {
                         numDigits = 0;
                     }
-                    if (
-                        number == undefined ||
+                    if (number == undefined ||
                         number === '' ||
                         numDigits === '' ||
                         isNaN(Number(number)) ||
-                        isNaN(Number(numDigits))
-                    ) {
-                          throw 'Invalid Parameter';
+                        isNaN(Number(numDigits)))
+                    {
+                        throw 'Invalid Parameter';
                     }
-                    if (numDigits >= 0) {
+                    if (numDigits >= 0)
+                    {
                         let multiplier = Math.pow(10, numDigits);
                         return Math.trunc(number * multiplier) / multiplier;
-                    } else if (numDigits < 0) {
+                    }
+                    else if (numDigits < 0)
+                    {
                         let divider = Math.pow(10, -numDigits);
                         return Math.trunc(number / divider) * divider;
                     }
@@ -1472,7 +1515,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetAscScript()
         {
             return @"
-                 function ASC(text) {
+                function ASC(text)
+                {
                     return text.replace(/[Ａ-Ｚａ-ｚ０-９]/g, function (s) {
                         return String.fromCharCode(s.charCodeAt(0) - 0xfee0);
                     });
@@ -1488,7 +1532,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetJisScript()
         {
             return @"
-                 function JIS(text) {
+                function JIS(text)
+                {
                     return text.replace(/[A-Za-z0-9]/g, function (s) {
                         return String.fromCharCode(s.charCodeAt(0) + 0xfee0);
                     });
@@ -1504,8 +1549,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetValueScript()
         {
             return @"
-                function VALUE(text) {
-                    if (text == undefined || text === '' || isNaN(Number(text))) {
+                function VALUE(text)
+                {
+                    if (text == undefined || text === '' || isNaN(Number(text)))
+                    {
                         throw 'Invalid Parameter';
                     }
                     return Number(text);
