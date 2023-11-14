@@ -2196,7 +2196,7 @@ namespace Implem.Pleasanter.Models
                                     css: "dashboard-part-title",
                                     action: () => hb.Text(dashboardPart.Title));
                             }
-                            hb.Raw(text: ResultUtilities.UpdateByCalendar(context: context, ss: currentSs));
+                            hb.Raw(text: results);
                         }).ToString();
                     List<Dictionary<string, string>> resultsJson = Jsons.Deserialize<List<Dictionary<string, string>>>(results);
                     if (resultsJson != null)
