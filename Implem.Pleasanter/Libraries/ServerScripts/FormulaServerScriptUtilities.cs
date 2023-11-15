@@ -115,7 +115,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     context: context,
                     ss: ss,
                     columnName: element.Key,
-                    value: element.Value,
+                    value: element.Value.ToString("yyyy/MM/dd"),
                     mine: mine)));
             values.AddRange(model
                 .DescriptionHash
