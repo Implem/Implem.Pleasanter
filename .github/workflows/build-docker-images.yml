@@ -1,4 +1,4 @@
-name: Publish Docker image
+﻿name: Publish Docker image
 
 on:
   release:
@@ -39,7 +39,8 @@ jobs:
       - name: Build and push (Pleasanter)
         uses: docker/build-push-action@v5
         with:
-          context: ./Implem.Pleasanter/Dockerfile
+          context: .
+          file: ./Implem.Pleasanter/Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
           tags: ${{ steps.meta1.outputs.tags }}
@@ -52,7 +53,8 @@ jobs:
       - name: Build and push (CodeDefiner)
         uses: docker/build-push-action@v5
         with:
-          context: ./Implem.CodeDefiner/Dockerfile
+          context: .
+          file: ./Implem.CodeDefiner/Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
           tags: ${{ steps.meta2.outputs.tags }}
