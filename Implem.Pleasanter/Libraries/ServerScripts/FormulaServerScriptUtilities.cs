@@ -742,7 +742,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     {
                         throw 'Invalid Parameter';
                     }
-	                var index = secondString.indexOf(firstString, start - 1);
+	                var index = secondString.toString().indexOf(firstString.toString(), start - 1);
                     if (index < 0)
                     {
                         throw 'Not Found';
@@ -765,7 +765,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     {
                         throw 'Invalid Parameter';
                     }
-		            return firstString.substring(0, length);
+		            return firstString.toString().substring(0, length);
 	            }";
         }
 
@@ -778,7 +778,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     {
                         throw 'Invalid Parameter';
                     }
-		            return firstString.length;
+		            return firstString.toString().length;
 	            }";
         }
 
@@ -791,7 +791,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     {
                         throw 'Invalid Parameter';
                     }
-		            return firstString.toLowerCase();
+		            return firstString.toString().toLowerCase();
 	            }";
         }
 
@@ -810,7 +810,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     {
                         throw 'Invalid Parameter';
                     }
-		            return firstString.substring(start - 1, start - 1 + length);
+		            return firstString.toString().substring(start - 1, start - 1 + length);
 	            }";
         }
 
@@ -828,7 +828,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     {
                         throw 'Invalid Parameter';
                     }
-		            return firstString.substring(firstString.length - length);
+		            return firstString.toString().substring(firstString.toString().length - length);
 	            }";
         }
 
@@ -843,8 +843,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     }
                     if (index == undefined)
                     {
-                        var reg = new RegExp(secondString, 'g');
-                        return firstString.replace(reg, thirdString);
+                        var reg = new RegExp(secondString.toString(), 'g');
+                        return firstString.toString().replace(reg, thirdString.toString());
                     }
                     else if (isNaN(index))
                     {
@@ -856,8 +856,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         throw 'Invalid Parameter';
                     }
                     var i = 0;
-                    var reg = new RegExp(secondString, 'g');
-                    return firstString.replace(reg, match => ++i == index ? thirdString : match);
+                    var reg = new RegExp(secondString.toString(), 'g');
+                    return firstString.toString().replace(reg, match => ++i == index ? thirdString.toString() : match);
 	            }";
         }
 
@@ -870,7 +870,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     {
                         throw 'Invalid Parameter';
                     }
-		            return firstString.trim();
+		            return firstString.toString().trim();
 	            }";
         }
 
@@ -883,7 +883,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     {
                         throw 'Invalid Parameter';
                     }
-		            return firstString.toUpperCase();
+		            return firstString.toString().toUpperCase();
 	            }";
         }
 
