@@ -3703,6 +3703,7 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         itemJoin: false);
             var where = Rds.GroupsWhere()
+                .TenantId(context.TenantId)
                 .GroupId_In(
                     value: selected.Select(o => o.ToInt()).ToList(),
                     negative: negative,
@@ -3742,6 +3743,7 @@ namespace Implem.Pleasanter.Models
                     Rds.DeleteGroups(
                         factory: context,
                         where: Rds.GroupsWhere()
+                            .TenantId(context.TenantId)
                             .GroupId_In(sub: sub)),
                     Rds.RowCount(),
                     StatusUtilities.UpdateStatus(
@@ -3896,6 +3898,9 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         itemJoin: false);
             var where = Rds.GroupsWhere()
+                .TenantId(
+                    value: context.TenantId,
+                    tableName: "Groups_Deleted")
                 .GroupId_In(
                     value: selected.Select(o => o.ToInt()).ToList(),
                     tableName: "Groups_Deleted",
@@ -3939,13 +3944,10 @@ namespace Implem.Pleasanter.Models
                         factory: context,
                         where: Rds.PermissionsWhere()
                             .GroupId_In(sub: sub)),
-                    Rds.UpdateGroups(
-                        tableType: Sqls.TableTypes.Deleted,
-                        where: Rds.GroupsWhere()
-                            .GroupId_In(sub: sub)),
                     Rds.RestoreGroups(
                         factory: context,
                         where: Rds.GroupsWhere()
+                            .TenantId(context.TenantId)
                             .GroupId_In(sub: sub)),
                     Rds.RowCount(),
                     StatusUtilities.UpdateStatus(
@@ -4029,6 +4031,9 @@ namespace Implem.Pleasanter.Models
                     break;
             }
             where = where ?? Rds.GroupsWhere()
+                .TenantId(
+                    value: context.TenantId,
+                    tableName: "Groups" + tableName)
                 .GroupId_In(
                     value: selected.Select(o => o.ToInt()).ToList(),
                     tableName: "Groups" + tableName,
@@ -4082,6 +4087,7 @@ namespace Implem.Pleasanter.Models
                     Rds.PhysicalDeleteGroups(
                         tableType: tableType,
                         where: Rds.GroupsWhere()
+                            .TenantId(context.TenantId)
                             .GroupId_In(sub: sub)),
                     Rds.RowCount()
                 }).Count.ToInt();
