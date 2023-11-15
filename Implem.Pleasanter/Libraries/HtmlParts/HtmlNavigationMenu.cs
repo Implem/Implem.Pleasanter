@@ -351,6 +351,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             var canManageTrashBox = CanManageTrashBox(
                 context: context,
                 ss: ss);
+            var canManageGroupTrashBox = CanManageGroupTrashBox(
+                context: context,
+                ss: ss);
             var canManageDeptTrashBox = CanManageDeptTrashBox(
                 context: context,
                 ss: ss);
@@ -394,6 +397,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     return canManageRegistrations;
                 case "SettingsMenu_TrashBox":
                     return canManageTrashBox;
+                case "SettingsMenu_GroupTrashBox":
+                    return canManageGroupTrashBox;
                 case "SettingsMenu_DeptTrashBox":
                     return canManageDeptTrashBox;
                 case "SettingsMenu_UserTrashBox":
@@ -624,6 +629,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 && (context.Id != 0 || context.HasPrivilege);
         }
 
+        private static bool CanManageGroupTrashBox(Context context, SiteSettings ss)
+        {
+            return (Parameters.Deleted.Restore || Parameters.Deleted.PhysicalDelete)
+                && context.Controller == "groups"
+                && Permissions.CanEditGroup(context: context)
+                && !ss.Locked();
+        }
+
         private static bool CanManageDeptTrashBox(Context context, SiteSettings ss)
         {
             return (Parameters.Deleted.Restore || Parameters.Deleted.PhysicalDelete)
@@ -638,7 +651,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 && Permissions.CanManageUser(context: context)
                 && !ss.Locked();
         }
-
+        
         private static HtmlBuilder ResponsiveMenu(this HtmlBuilder hb, Context context)
         {
             return Parameters.Mobile.Responsive
