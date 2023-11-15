@@ -1518,7 +1518,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             return @"
                 function $ASC(text)
                 {
-                    return text.replace(/[Ａ-Ｚａ-ｚ０-９]/g, function (s) {
+                    return text.toString().replace(/[Ａ-Ｚａ-ｚ０-９]/g, function (s) {
                         return String.fromCharCode(s.charCodeAt(0) - 0xfee0);
                     });
                 }";
@@ -1535,7 +1535,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             return @"
                 function $JIS(text)
                 {
-                    return text.replace(/[A-Za-z0-9]/g, function (s) {
+                    return text.toString().replace(/[A-Za-z0-9]/g, function (s) {
                         return String.fromCharCode(s.charCodeAt(0) + 0xfee0);
                     });
                 }";
@@ -1552,11 +1552,21 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             return @"
                 function $VALUE(text)
                 {
-                    if (text == undefined || text === '' || isNaN(Number(text)))
+                    if (text == undefined || text === '')
                     {
                         throw 'Invalid Parameter';
                     }
-                    return Number(text);
+                    let timeRegex = /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/;
+                    if(timeRegex.test(text)) {
+                        let hour = Number(text.substring(0, 2)),
+                        minute = Number(text.substring(3, 5));
+                        return ROUND((hour + minute/60) / 24, 1);
+                    } else {
+                        if (isNaN(Number(text))) {
+                            throw 'Invalid Parameter';
+                        }
+                        return Number(text);
+                    }
                 }";
         }
     }
