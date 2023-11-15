@@ -1153,6 +1153,12 @@ namespace Implem.Pleasanter.Models
             var where = Rds.DeptsWhere().DeptId(DeptId);
             statements.AddRange(new List<SqlStatement>
             {
+                Rds.DeleteBinaries(
+                    factory: context,
+                    where: Rds.BinariesWhere()
+                        .TenantId(context.TenantId)
+                        .ReferenceId(DeptId)
+                        .BinaryType(value: "TenantManagementImages")),
                 Rds.DeleteDepts(
                     factory: context,
                     where: where),

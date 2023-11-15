@@ -2692,5 +2692,444 @@ namespace Implem.Pleasanter.Models
                         errorData: errorData);
             }
         }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string BulkDelete(Context context, SiteSettings ss)
+        {
+            if (context.CanDelete(ss: ss))
+            {
+                var selector = new RecordSelector(context: context);
+                var count = 0;
+                if (selector.All == false && selector.Selected.Any() == false)
+                {
+                    return Messages.ResponseSelectTargets(context: context).ToJson();
+                }
+                if (selector.All)
+                {
+                    count = BulkDelete(
+                        context: context,
+                        ss: ss,
+                        selected: selector.Selected,
+                        negative: true);
+                }
+                else
+                {
+                    count = BulkDelete(
+                        context: context,
+                        ss: ss,
+                        selected: selector.Selected);
+                }
+                Summaries.Synchronize(context: context, ss: ss);
+                var data = new string[]
+                {
+                    ss.Title,
+                    count.ToString()
+                };
+                return GridRows(
+                    context: context,
+                    ss: ss,
+                    clearCheck: true,
+                    message: Messages.BulkDeleted(
+                        context: context,
+                        data: data));
+            }
+            else
+            {
+                return Messages.ResponseHasNotPermission(context: context).ToJson();
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static int BulkDelete(
+            Context context,
+            SiteSettings ss,
+            IEnumerable<long> selected,
+            bool negative = false)
+        {
+            var subWhere = Views.GetBySession(
+                context: context,
+                ss: ss)
+                    .Where(
+                        context: context,
+                        ss: ss,
+                        itemJoin: false);
+            var where = Rds.DeptsWhere()
+                .TenantId(context.TenantId)
+                .DeptId_In(
+                    value: selected.Select(o => o.ToInt()).ToList(),
+                    negative: negative,
+                    _using: selected.Any())
+                .DeptId_In(
+                    sub: Rds.SelectDepts(
+                        column: Rds.DeptsColumn().DeptId(),
+                        join: ss.Join(
+                            context: context,
+                            join: new IJoin[]
+                            {
+                                subWhere
+                            }),
+                        where: subWhere));
+            var sub = Rds.SelectDepts(
+                column: Rds.DeptsColumn().DeptId(),
+                where: where);
+            return Repository.ExecuteScalar_response(
+                context: context,
+                transactional: true,
+                statements: new SqlStatement[]
+                {
+                    Rds.DeleteBinaries(
+                        factory: context,
+                        where: Rds.BinariesWhere()
+                            .TenantId(context.TenantId)
+                            .ReferenceId_In(sub: sub)
+                            .BinaryType(value: "TenantManagementImages")),
+                    Rds.DeleteDepts(
+                        factory: context,
+                        where: Rds.DeptsWhere()
+                            .TenantId(context.TenantId)
+                            .DeptId_In(sub: sub)),
+                    Rds.RowCount(),
+                    StatusUtilities.UpdateStatus(
+                        tenantId: context.TenantId,
+                        type: StatusUtilities.Types.DeptsUpdated),
+                }).Count.ToInt();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static SqlWhereCollection BulkDeleteWhere(
+            Context context,
+            SiteSettings ss,
+            IEnumerable<long> selected,
+            bool negative)
+        {
+            return Views.GetBySession(context: context, ss: ss).Where(
+                context: context,
+                ss: ss,
+                where: Rds.DeptsWhere()
+                    .DeptId_In(
+                        value: selected.Select(o => o.ToInt()),
+                        negative: negative,
+                        _using: selected.Any()));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string TrashBox(Context context, SiteSettings ss)
+        {
+            var hb = new HtmlBuilder();
+            var view = Views.GetBySession(context: context, ss: ss);
+            var gridData = GetGridData(context: context, ss: ss, view: view);
+            var viewMode = ViewModes.GetSessionData(
+                context: context,
+                siteId: ss.SiteId);
+            var serverScriptModelRow = ss.GetServerScriptModelRow(
+                context: context,
+                view: view,
+                gridData: gridData);
+            return hb.ViewModeTemplate(
+                context: context,
+                ss: ss,
+                view: view,
+                viewMode: viewMode,
+                serverScriptModelRow: serverScriptModelRow,
+                viewModeBody: () => hb
+                    .TrashBoxCommands(context: context, ss: ss)
+                    .Grid(
+                        context: context,
+                        ss: ss,
+                        gridData: gridData,
+                        view: view,
+                        action: "TrashBoxGridRows",
+                        serverScriptModelRow: serverScriptModelRow));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string TrashBoxJson(Context context, SiteSettings ss)
+        {
+            var view = Views.GetBySession(
+                context: context,
+                ss: ss);
+            var gridData = GetGridData(
+                context: context,
+                ss: ss,
+                view: view);
+            var body = new HtmlBuilder()
+                .TrashBoxCommands(context: context, ss: ss)
+                .Grid(
+                    context: context,
+                    ss: ss,
+                    gridData: gridData,
+                    view: view,
+                    action: "TrashBoxGridRows");
+            return new ResponseCollection(context: context)
+                .ViewMode(
+                    context: context,
+                    ss: ss,
+                    view: view,
+                    invoke: "setGrid",
+                    body: body)
+                .ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string Restore(Context context, SiteSettings ss)
+        {
+            if (!Parameters.Deleted.Restore)
+            {
+                return Error.Types.InvalidRequest.MessageJson(context: context);
+            }
+            else if (Permissions.CanManageTenant(context: context))
+            {
+                var selector = new RecordSelector(context: context);
+                var count = 0;
+                if (selector.All)
+                {
+                    count = Restore(
+                        context: context,
+                        ss: ss,
+                        selected: selector.Selected,
+                        negative: true);
+                }
+                else
+                {
+                    if (selector.Selected.Any())
+                    {
+                        count = Restore(
+                            context: context,
+                            ss: ss,
+                            selected: selector.Selected);
+                    }
+                    else
+                    {
+                        return Messages.ResponseSelectTargets(context: context).ToJson();
+                    }
+                }
+                Summaries.Synchronize(context: context, ss: ss);
+                return GridRows(
+                    context: context,
+                    ss: ss,
+                    clearCheck: true,
+                    message: Messages.BulkRestored(
+                        context: context,
+                        data: count.ToString()));
+            }
+            else
+            {
+                return Messages.ResponseHasNotPermission(context: context).ToJson();
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static int Restore(
+            Context context, SiteSettings ss, List<long> selected, bool negative = false)
+        {
+            var subWhere = Views.GetBySession(
+                context: context,
+                ss: ss)
+                    .Where(
+                        context: context,
+                        ss: ss,
+                        itemJoin: false);
+            var where = Rds.DeptsWhere()
+                .TenantId(
+                    value: context.TenantId,
+                    tableName: "Depts_Deleted")
+                .DeptId_In(
+                    value: selected.Select(o => o.ToInt()).ToList(),
+                    tableName: "Depts_Deleted",
+                    negative: negative,
+                    _using: selected.Any())
+                .DeptId_In(
+                    tableName: "Depts_Deleted",
+                    sub: Rds.SelectDepts(
+                        tableType: Sqls.TableTypes.Deleted,
+                        column: Rds.DeptsColumn().DeptId(),
+                        join: ss.Join(
+                            context: context,
+                            join: new IJoin[]
+                            {
+                                subWhere
+                            }),
+                        where: subWhere));
+            var sub = Rds.SelectDepts(
+                tableType: Sqls.TableTypes.Deleted,
+                _as: "Depts_Deleted",
+                column: Rds.DeptsColumn()
+                    .DeptId(tableName: "Depts_Deleted"),
+                where: where);
+            var count = Repository.ExecuteScalar_response(
+                context: context,
+                connectionString: Parameters.Rds.OwnerConnectionString,
+                transactional: true,
+                statements: new SqlStatement[]
+                {
+                    Rds.RestoreBinaries(
+                        factory: context,
+                        where: Rds.BinariesWhere()
+                            .TenantId(context.TenantId)
+                            .ReferenceId_In(sub: sub)
+                            .BinaryType(value: "TenantManagementImages")),
+                    Rds.RestoreDepts(
+                        factory: context,
+                        where: Rds.DeptsWhere()
+                            .TenantId(context.TenantId)
+                            .DeptId_In(sub: sub)),
+                    Rds.RowCount(),
+                    StatusUtilities.UpdateStatus(
+                        tenantId: context.TenantId,
+                        type: StatusUtilities.Types.DeptsUpdated)
+                }).Count.ToInt();
+            return count;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string PhysicalBulkDelete(Context context, SiteSettings ss)
+        {
+            if (!Parameters.Deleted.PhysicalDelete)
+            {
+                return Error.Types.InvalidRequest.MessageJson(context: context);
+            }
+            if (Permissions.CanManageTenant(context: context))
+            {
+                var selector = new RecordSelector(context: context);
+                var count = 0;
+                if (selector.All)
+                {
+                    count = PhysicalBulkDelete(
+                        context: context,
+                        ss: ss,
+                        selected: selector.Selected,
+                        negative: true);
+                }
+                else
+                {
+                    if (selector.Selected.Any())
+                    {
+                        count = PhysicalBulkDelete(
+                            context: context,
+                            ss: ss,
+                            selected: selector.Selected);
+                    }
+                    else
+                    {
+                        return Messages.ResponseSelectTargets(context: context).ToJson();
+                    }
+                }
+                return GridRows(
+                    context: context,
+                    ss: ss,
+                    clearCheck: true,
+                    message: Messages.PhysicalBulkDeletedFromRecycleBin(
+                        context: context,
+                        data: count.ToString()));
+            }
+            else
+            {
+                return Messages.ResponseHasNotPermission(context: context).ToJson();
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static int PhysicalBulkDelete(
+            Context context,
+            SiteSettings ss,
+            List<long> selected = null,
+            SqlWhereCollection where = null,
+            SqlParamCollection param = null,
+            bool negative = false,
+            Sqls.TableTypes tableType = Sqls.TableTypes.Deleted)
+        {
+            var tableName = string.Empty;
+            switch (tableType)
+            {
+                case Sqls.TableTypes.History:
+                    tableName = "_History";
+                    break;
+                case Sqls.TableTypes.Deleted:
+                    tableName = "_Deleted";
+                    break;
+                default:
+                    break;
+            }
+            where = where ?? Rds.DeptsWhere()
+                .TenantId(
+                    value: context.TenantId,
+                    tableName: "Depts" + tableName)
+                .DeptId_In(
+                    value: selected.Select(o => o.ToInt()).ToList(),
+                    tableName: "Depts" + tableName,
+                    negative: negative,
+                    _using: selected.Any())
+                .DeptId_In(
+                    tableName: "Depts" + tableName,
+                    sub: Rds.SelectDepts(
+                        tableType: tableType,
+                        column: Rds.DeptsColumn().DeptId(),
+                        where: Views.GetBySession(
+                            context: context,
+                            ss: ss)
+                                .Where(
+                                    context: context,
+                                    ss: ss,
+                                    itemJoin: false)));
+            var sub = Rds.SelectDepts(
+                tableType: tableType,
+                _as: "Depts" + tableName,
+                column: Rds.DeptsColumn()
+                    .DeptId(tableName: "Depts" + tableName),
+                where: where,
+                param: param);
+            var dataRows = Rds.ExecuteTable(
+                context: context,
+                statements: Rds.SelectBinaries(
+                    tableType: tableType,
+                    column: Rds.BinariesColumn().Guid().BinaryType(),
+                    where: Rds.BinariesWhere().ReferenceId_In(sub: sub)))
+                        .AsEnumerable();
+            var count = Repository.ExecuteScalar_response(
+                context: context,
+                transactional: true,
+                statements: new SqlStatement[]
+                {
+                    Rds.PhysicalDeleteBinaries(
+                        tableType: tableType,
+                        where: Rds.BinariesWhere()
+                            .TenantId(context.TenantId)
+                            .ReferenceId_In(sub: sub)
+                            .BinaryType(value: "TenantManagementImages")),
+                    Rds.PhysicalDeleteGroupMembers(
+                        tableType: tableType,
+                        where: Rds.GroupMembersWhere()
+                            .DeptId_In(sub: sub)),
+                    Rds.PhysicalDeletePermissions(
+                        tableType: tableType,
+                        where: Rds.PermissionsWhere()
+                            .DeptId_In(sub: sub)),
+                    Rds.PhysicalDeleteDepts(
+                        tableType: tableType,
+                        where: Rds.DeptsWhere()
+                            .TenantId(context.TenantId)
+                            .DeptId_In(sub: sub)),
+                    Rds.RowCount()
+                }).Count.ToInt();
+            return count;
+        }
     }
 }
