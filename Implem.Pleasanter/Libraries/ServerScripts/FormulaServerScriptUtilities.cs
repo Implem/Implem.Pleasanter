@@ -1293,17 +1293,22 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             return @"
                 function $MIN(number1)
                 {
-                    if (number1 == undefined || arguments.length > 255)
+                    if (arguments.length == 0 || arguments.length > 255)
                     {
                         throw 'Invalid Parameter';
                     }
-                    let minValue = number1;
-                    for (let i = 1; i < arguments.length; i++)
-                    {
-                        if (arguments[i] !== null && arguments[i] !== '' && arguments[i] < minValue)
-                        {
+                    let minValue = arguments[0];
+                    for (let i = 1; i < arguments.length; i++) {
+                        if (
+                            arguments[i] !== null &&
+                            arguments[i] !== "" &&
+                            (minValue === undefined || arguments[i] < minValue)
+                        ) {
                             minValue = arguments[i];
                         }
+                    }
+                    if (minValue === undefined) {
+                        minValue = 0;
                     }
                     return !isNaN(Number(minValue)) ? minValue : 0;
                 }";
@@ -1320,17 +1325,22 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             return @"
                 function $MAX(number1)
                 {
-                    if (number1 == undefined || arguments.length > 255)
+                    if (arguments.length == 0 || arguments.length > 255)
                     {
                         throw 'Invalid Parameter';
                     }
-                    let maxValue = number1;
-                    for (let i = 1; i < arguments.length; i++)
-                    {
-                        if (arguments[i] !== null && arguments[i] !== '' && arguments[i] > maxValue)
-                        {
+                    let maxValue = arguments[0];
+                    for (let i = 1; i < arguments.length; i++) {
+                        if (
+                            arguments[i] !== null &&
+                            arguments[i] !== "" &&
+                            (maxValue === undefined || arguments[i] > maxValue)
+                        ) {
                             maxValue = arguments[i];
                         }
+                    }
+                    if (maxValue === undefined) {
+                        maxValue = 0;
                     }
                     return !isNaN(Number(maxValue)) ? maxValue : 0;
                 }";
