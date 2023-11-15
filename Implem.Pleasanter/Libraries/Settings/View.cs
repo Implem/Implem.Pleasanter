@@ -92,6 +92,10 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string CalendarViewType;
         public string CalendarGroupBy;
         public bool? CalendarShowStatus;
+        public Dictionary<string, DateTime?> CalendarDateHash;
+        public Dictionary<string, DateTime?> CalendarStartHash;
+        public Dictionary<string, DateTime?> CalendarEndHash;
+        public Dictionary<string, string> CalendarViewTypeHash;
         public string CrosstabGroupByX;
         public string CrosstabGroupByY;
         public string CrosstabColumns;
@@ -202,21 +206,45 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public DateTime GetCalendarDate()
         {
+            if (!CalendarSuffix.IsNullOrEmpty()
+                && CalendarDateHash?.Any() == true
+                && CalendarDateHash.ContainsKey($"CalendarDate{CalendarSuffix}"))
+            {
+                return CalendarDateHash[$"CalendarDate{CalendarSuffix}"] ?? DateTime.Now;
+            }
             return CalendarDate ?? DateTime.Now;
         }
 
         public DateTime? GetCalendarStart()
         {
+            if (!CalendarSuffix.IsNullOrEmpty()
+                && CalendarStartHash?.Any() == true
+                && CalendarStartHash.ContainsKey($"CalendarStart{CalendarSuffix}"))
+            {
+                return CalendarStartHash[$"CalendarStart{CalendarSuffix}"];
+            }
             return CalendarStart;
         }
 
         public DateTime? GetCalendarEnd()
         {
+            if (!CalendarSuffix.IsNullOrEmpty()
+                && CalendarEndHash?.Any() == true
+                && CalendarEndHash.ContainsKey($"CalendarEnd{CalendarSuffix}"))
+            {
+                return CalendarEndHash[$"CalendarEnd{CalendarSuffix}"];
+            }
             return CalendarEnd;
         }
 
         public string GetCalendarViewType()
         {
+            if (!CalendarSuffix.IsNullOrEmpty()
+                && CalendarViewTypeHash?.Any() == true
+                && CalendarViewTypeHash.ContainsKey($"CalendarViewType{CalendarSuffix}"))
+            {
+                return CalendarViewTypeHash[$"CalendarViewType{CalendarSuffix}"] ?? "dayGridMonth";
+            }
             return CalendarViewType ?? "dayGridMonth";
         }
 
@@ -893,24 +921,28 @@ namespace Implem.Pleasanter.Libraries.Settings
                         var dashboardPart = ss.DashboardParts.FirstOrDefault();
 
                         CalendarSiteId = dashboardPart.SiteId;
-                        CalendarSuffix = $"_{dashboardPart.Id.ToString()}";
+                        CalendarSuffix = $"_{dashboardPart.Id}";
                         CalendarTimePeriod = dashboardPart.CalendarTimePeriod;
                         CalendarFromTo = dashboardPart.CalendarFromTo;
                         CalendarType = dashboardPart.CalendarType.ToString();
                         CalendarShowStatus = dashboardPart.CalendarShowStatus;
                         CalendarGroupBy = dashboardPart.CalendarGroupBy;
-                        CalendarDate = context.Forms.Keys.Contains($"CalendarDate{CalendarSuffix}")
-                            ? context.Forms.DateTime($"CalendarDate{CalendarSuffix}")
-                            : DateTime.Now;
-                        CalendarStart = context.Forms.Keys.Contains($"CalendarStart{CalendarSuffix}")
-                            ? context.Forms.DateTime($"CalendarStart{CalendarSuffix}")
-                            : null;
-                        CalendarEnd = context.Forms.Keys.Contains($"CalendarEnd{CalendarSuffix}")
-                            ? context.Forms.DateTime($"CalendarEnd{CalendarSuffix}")
-                            : null;
-                        CalendarViewType = context.Forms.Keys.Contains($"CalendarViewType{CalendarSuffix}")
-                            ? context.Forms.Data($"CalendarViewType{CalendarSuffix}")
-                            : "dayGridMonth";
+                        if (context.Forms.Keys.Contains($"CalendarDate{CalendarSuffix}"))
+                        {
+                            AddCalendarDateHash(value: context.Forms.DateTime($"CalendarDate{CalendarSuffix}"), key: $"CalendarDate{CalendarSuffix}");
+                        }
+                        if (context.Forms.Keys.Contains($"CalendarStart{CalendarSuffix}"))
+                        {
+                            AddCalendarStartHash(value: context.Forms.DateTime($"CalendarStart{CalendarSuffix}"), key: $"CalendarStart{CalendarSuffix}");
+                        }
+                        if (context.Forms.Keys.Contains($"CalendarEnd{CalendarSuffix}"))
+                        {
+                            AddCalendarEndHash(value: context.Forms.DateTime($"CalendarEnd{CalendarSuffix}"), key: $"CalendarEnd{CalendarSuffix}");
+                        }
+                        if (context.Forms.Keys.Contains($"CalendarViewType{CalendarSuffix}"))
+                        {
+                            AddCalendarViewTypeHash(value: context.Forms.Data($"CalendarViewType{CalendarSuffix}"), key: $"CalendarViewType{CalendarSuffix}");
+                        }
                     }
                     break;
             }
@@ -1162,6 +1194,42 @@ namespace Implem.Pleasanter.Libraries.Settings
                     ColumnSorterHash = ColumnSorterHash.ToDictionary(o => o.Key, o => o.Value);
                 }
             }
+        }
+
+        private void AddCalendarDateHash(DateTime? value, string key)
+        {
+            if (CalendarDateHash == null)
+            {
+                CalendarDateHash = new Dictionary<string, DateTime?>();
+            }
+            CalendarDateHash.AddOrUpdate(key: key, value: value);
+        }
+
+        private void AddCalendarStartHash(DateTime? value, string key)
+        {
+            if (CalendarStartHash == null)
+            {
+                CalendarStartHash = new Dictionary<string, DateTime?>();
+            }
+            CalendarStartHash.AddOrUpdate(key: key, value: value);
+        }
+
+        private void AddCalendarEndHash(DateTime? value, string key)
+        {
+            if (CalendarEndHash == null)
+            {
+                CalendarEndHash = new Dictionary<string, DateTime?>();
+            }
+            CalendarEndHash.AddOrUpdate(key: key, value: value);
+        }
+
+        private void AddCalendarViewTypeHash(string value, string key)
+        {
+            if (CalendarViewTypeHash == null)
+            {
+                CalendarViewTypeHash = new Dictionary<string, string>();
+            }
+            CalendarViewTypeHash.AddOrUpdate(key: key, value: value);
         }
 
         private void SetSorters(Context context, SiteSettings ss, string prefix = "")
@@ -1529,6 +1597,22 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (CalendarShowStatus == true)
             {
                 view.CalendarShowStatus = CalendarShowStatus;
+            }
+            if (CalendarDateHash?.Any() == true)
+            {
+                view.CalendarDateHash = CalendarDateHash;
+            }
+            if (CalendarStartHash?.Any() == true)
+            {
+                view.CalendarStartHash = CalendarStartHash;
+            }
+            if (CalendarEndHash?.Any() == true)
+            {
+                view.CalendarEndHash = CalendarEndHash;
+            }
+            if (CalendarViewTypeHash?.Any() == true)
+            {
+                view.CalendarViewTypeHash = CalendarViewTypeHash;
             }
             if (!CrosstabGroupByX.IsNullOrEmpty())
             {

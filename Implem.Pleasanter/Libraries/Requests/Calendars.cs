@@ -5,6 +5,7 @@ using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using System;
 using SixLabors.ImageSharp;
+using System.Linq;
 
 namespace Implem.Pleasanter.Libraries.Requests
 {
@@ -47,12 +48,11 @@ namespace Implem.Pleasanter.Libraries.Requests
                             ? (DateTime)view.CalendarStart
                             : begin;
                     }
-                    if(ss.DashboardParts.Count != 0)
+                    if (ss.DashboardParts?.Any() == true
+                        && view.CalendarStartHash?.Any() == true
+                        && view.CalendarStartHash.ContainsKey($"CalendarStart{view.CalendarSuffix}"))
                     {
-                        if (!context.Forms.Data($"CalendarStart_{ss.DashboardParts[0].Id}").IsNullOrEmpty())
-                        {
-                            begin = (DateTime)view.CalendarStart;
-                        }
+                        begin = (DateTime)view.CalendarStartHash[$"CalendarStart{view.CalendarSuffix}"];
                     }
                     return begin.ToUniversal(context: context);
                 default:
@@ -70,12 +70,11 @@ namespace Implem.Pleasanter.Libraries.Requests
             string calendarType = view.GetCalendarType(ss: ss);
             if (calendarType == "FullCalendar")
             {
-                if (ss.DashboardParts.Count != 0)
+                if (ss.DashboardParts?.Any() == true
+                    && view.CalendarEndHash?.Any() == true
+                    && view.CalendarEndHash.ContainsKey($"CalendarEnd{view.CalendarSuffix}"))
                 {
-                    if (!context.Forms.Data($"CalendarEnd_{ss.DashboardParts[0].Id}").IsNullOrEmpty())
-                    {
-                        return context.Forms.DateTime($"CalendarEnd_{ss.DashboardParts[0].Id}");
-                    }
+                    return (DateTime)view.CalendarEndHash[$"CalendarEnd{view.CalendarSuffix}"];
                 }
                 return !string.IsNullOrEmpty(view.CalendarEnd.ToString())
                     ? (DateTime)view.CalendarEnd
