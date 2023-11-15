@@ -1560,7 +1560,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     if(timeRegex.test(text)) {
                         let hour = Number(text.substring(0, 2)),
                         minute = Number(text.substring(3, 5));
-                        return ROUND((hour + minute/60) / 24, 1);
+                        return  Number(((hour + minutes/60) / 24).toFixed(1));
                     } else {
                         if (isNaN(Number(text))) {
                             throw 'Invalid Parameter';
