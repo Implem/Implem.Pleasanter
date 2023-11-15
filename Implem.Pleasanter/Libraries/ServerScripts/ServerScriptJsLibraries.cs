@@ -2,7 +2,7 @@
 {
     public class ServerScriptJsLibraries
     {
-        public static string ReplacementJsonStringify()
+        public static string Scripts()
         {
             return  @"
                 let $p = {

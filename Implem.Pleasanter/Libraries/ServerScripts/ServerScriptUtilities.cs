@@ -1074,7 +1074,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     {
                         engine.ContinuationCallback = model.ContinuationCallback;
                         engine.AddHostType(typeof(Newtonsoft.Json.JsonConvert));
-                        engine.Execute(ServerScriptJsLibraries.ReplacementJsonStringify());
+                        engine.Execute(ServerScriptJsLibraries.Scripts());
                         engine.AddHostObject("context", model.Context);
                         engine.AddHostObject("grid", model.Grid);
                         engine.AddHostObject("model", model.Model);
