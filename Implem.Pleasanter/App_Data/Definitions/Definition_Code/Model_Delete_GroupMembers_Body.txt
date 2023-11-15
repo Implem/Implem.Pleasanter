@@ -1,3 +1,10 @@
-﻿Rds.PhysicalDeleteGroupMembers(
+﻿Rds.DeleteBinaries(
+    factory: context,
+    where: Rds.BinariesWhere()
+        .TenantId(context.TenantId)
+        .ReferenceId(GroupId)
+        .BinaryType(value: "TenantManagementImages")),
+Rds.DeleteGroupMembers(
+    factory: context,
     where: Rds.GroupMembersWhere()
         .GroupId(GroupId)),

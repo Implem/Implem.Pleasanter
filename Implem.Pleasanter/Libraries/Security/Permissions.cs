@@ -566,7 +566,7 @@ namespace Implem.Pleasanter.Libraries.Security
             switch (context.Controller)
             {
                 case "tenants":
-                    return CanManageTenant(context: context);
+                    return false;
                 case "syslogs":
                     return false;
                 case "depts":
