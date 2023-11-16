@@ -227,7 +227,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public DateTime? GetCalendarEnd()
         {
             if (!CalendarSuffix.IsNullOrEmpty()
-                && CalendarEndHash.TryGetValue($"CalendarEnd{CalendarSuffix}", out var calendarEnd) == true)
+                && CalendarEndHash?.TryGetValue($"CalendarEnd{CalendarSuffix}", out var calendarEnd) == true)
             {
                 return calendarEnd;
             }
@@ -237,7 +237,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string GetCalendarViewType()
         {
             if (!CalendarSuffix.IsNullOrEmpty()
-                && CalendarViewTypeHash.TryGetValue($"CalendarViewType{CalendarSuffix}", out var calendarViewType) == true)
+                && CalendarViewTypeHash?.TryGetValue($"CalendarViewType{CalendarSuffix}", out var calendarViewType) == true)
             {
                 return calendarViewType ?? "dayGridMonth";
             }
