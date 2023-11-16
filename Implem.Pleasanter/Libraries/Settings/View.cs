@@ -207,10 +207,9 @@ namespace Implem.Pleasanter.Libraries.Settings
         public DateTime GetCalendarDate()
         {
             if (!CalendarSuffix.IsNullOrEmpty()
-                && CalendarDateHash?.Any() == true
-                && CalendarDateHash.ContainsKey($"CalendarDate{CalendarSuffix}"))
+                && CalendarDateHash?.TryGetValue($"CalendarDate{CalendarSuffix}", out var calendarDate) == true)
             {
-                return CalendarDateHash[$"CalendarDate{CalendarSuffix}"] ?? DateTime.Now;
+                return calendarDate ?? DateTime.Now;
             }
             return CalendarDate ?? DateTime.Now;
         }
@@ -218,10 +217,9 @@ namespace Implem.Pleasanter.Libraries.Settings
         public DateTime? GetCalendarStart()
         {
             if (!CalendarSuffix.IsNullOrEmpty()
-                && CalendarStartHash?.Any() == true
-                && CalendarStartHash.ContainsKey($"CalendarStart{CalendarSuffix}"))
+                && CalendarStartHash?.TryGetValue($"CalendarStart{CalendarSuffix}", out var calendarStart) == true)
             {
-                return CalendarStartHash[$"CalendarStart{CalendarSuffix}"];
+                return calendarStart;
             }
             return CalendarStart;
         }
@@ -229,10 +227,9 @@ namespace Implem.Pleasanter.Libraries.Settings
         public DateTime? GetCalendarEnd()
         {
             if (!CalendarSuffix.IsNullOrEmpty()
-                && CalendarEndHash?.Any() == true
-                && CalendarEndHash.ContainsKey($"CalendarEnd{CalendarSuffix}"))
+                && CalendarEndHash.TryGetValue($"CalendarEnd{CalendarSuffix}", out var calendarEnd) == true)
             {
-                return CalendarEndHash[$"CalendarEnd{CalendarSuffix}"];
+                return calendarEnd;
             }
             return CalendarEnd;
         }
@@ -240,10 +237,9 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string GetCalendarViewType()
         {
             if (!CalendarSuffix.IsNullOrEmpty()
-                && CalendarViewTypeHash?.Any() == true
-                && CalendarViewTypeHash.ContainsKey($"CalendarViewType{CalendarSuffix}"))
+                && CalendarViewTypeHash.TryGetValue($"CalendarViewType{CalendarSuffix}", out var calendarViewType) == true)
             {
-                return CalendarViewTypeHash[$"CalendarViewType{CalendarSuffix}"] ?? "dayGridMonth";
+                return calendarViewType ?? "dayGridMonth";
             }
             return CalendarViewType ?? "dayGridMonth";
         }
