@@ -2758,6 +2758,7 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         itemJoin: false);
             var where = Rds.DeptsWhere()
+                .TenantId(context.TenantId)
                 .DeptId_In(
                     value: selected.Select(o => o.ToInt()).ToList(),
                     negative: negative,
@@ -2789,6 +2790,7 @@ namespace Implem.Pleasanter.Models
                     Rds.DeleteDepts(
                         factory: context,
                         where: Rds.DeptsWhere()
+                            .TenantId(context.TenantId)
                             .DeptId_In(sub: sub)),
                     Rds.RowCount(),
                     StatusUtilities.UpdateStatus(
@@ -2942,6 +2944,9 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         itemJoin: false);
             var where = Rds.DeptsWhere()
+                .TenantId(
+                    value: context.TenantId,
+                    tableName: "Depts_Deleted")
                 .DeptId_In(
                     value: selected.Select(o => o.ToInt()).ToList(),
                     tableName: "Depts_Deleted",
@@ -2980,6 +2985,7 @@ namespace Implem.Pleasanter.Models
                     Rds.RestoreDepts(
                         factory: context,
                         where: Rds.DeptsWhere()
+                            .TenantId(context.TenantId)
                             .DeptId_In(sub: sub)),
                     Rds.RowCount(),
                     StatusUtilities.UpdateStatus(
@@ -3063,6 +3069,9 @@ namespace Implem.Pleasanter.Models
                     break;
             }
             where = where ?? Rds.DeptsWhere()
+                .TenantId(
+                    value: context.TenantId,
+                    tableName: "Depts" + tableName)
                 .DeptId_In(
                     value: selected.Select(o => o.ToInt()).ToList(),
                     tableName: "Depts" + tableName,
@@ -3116,6 +3125,7 @@ namespace Implem.Pleasanter.Models
                     Rds.PhysicalDeleteDepts(
                         tableType: tableType,
                         where: Rds.DeptsWhere()
+                            .TenantId(context.TenantId)
                             .DeptId_In(sub: sub)),
                     Rds.RowCount()
                 }).Count.ToInt();

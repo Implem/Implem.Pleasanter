@@ -5243,6 +5243,9 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         itemJoin: false);
             var where = Rds.UsersWhere()
+                .TenantId(
+                    value: context.TenantId,
+                    tableName: "Users_Deleted")
                 .UserId_In(
                     value: selected.Select(o => o.ToInt()).ToList(),
                     tableName: "Users_Deleted",
@@ -5291,13 +5294,10 @@ namespace Implem.Pleasanter.Models
                         where: Rds.MailAddressesWhere()
                             .OwnerId_In(sub: sub)
                             .OwnerType("Users")),
-                    Rds.UpdateUsers(
-                        tableType: Sqls.TableTypes.Deleted,
-                        where: Rds.UsersWhere()
-                            .UserId_In(sub: sub)),
                     Rds.RestoreUsers(
                         factory: context,
                         where: Rds.UsersWhere()
+                            .TenantId(context.TenantId)
                             .UserId_In(sub: sub)),
                     Rds.RowCount(),
                     StatusUtilities.UpdateStatus(
@@ -5381,6 +5381,9 @@ namespace Implem.Pleasanter.Models
                     break;
             }
             where = where ?? Rds.UsersWhere()
+                .TenantId(
+                    value: context.TenantId,
+                    tableName: "Users" + tableName)
                 .UserId_In(
                     value: selected.Select(o => o.ToInt()).ToList(),
                     tableName: "Users" + tableName,
@@ -5439,6 +5442,7 @@ namespace Implem.Pleasanter.Models
                     Rds.PhysicalDeleteUsers(
                         tableType: tableType,
                         where: Rds.UsersWhere()
+                            .TenantId(context.TenantId)
                             .UserId_In(sub: sub)),
                     Rds.RowCount()
                 }).Count.ToInt();
