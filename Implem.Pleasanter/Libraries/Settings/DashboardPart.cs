@@ -45,6 +45,13 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string Content { get; set; }
         public string HtmlContent { get; set; }
         public TimeLineDisplayType? TimeLineDisplayType { get; set; }
+        public CalendarType? CalendarType { get; set; }
+        public string CalendarSites { get; set; }
+        public List<string> CalendarSitesData { get; set; }
+        public string CalendarGroupBy { get; set; }
+        public string CalendarTimePeriod { get; set; }
+        public string CalendarFromTo { get; set; }
+        public bool CalendarShowStatus { get; set; }
         public long SiteId { get; set; }
         public string ExtendedCss { get; set; }
         public List<int> Depts { get; set; }
@@ -61,6 +68,9 @@ namespace Implem.Pleasanter.Libraries.Settings
         public DashboardPart GetRecordingData(Context context)
         {
             var dashboardPart = new DashboardPart();
+            var ss = SiteSettingsUtilities.Get(
+                context: context,
+                siteId: SiteId);
             //共通
             dashboardPart.Id = Id;
             dashboardPart.Title = Title;
@@ -99,9 +109,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                     dashboardPart.TimeLineBody = TimeLineBody;
                     dashboardPart.TimeLineItemCount = TimeLineItemCount;
                     dashboardPart.SiteId = SiteId;
-                    var ss = SiteSettingsUtilities.Get(
-                        context: context,
-                        siteId: SiteId);
                     if (ss != null)
                     {
                         View = View.GetRecordingData(
@@ -118,6 +125,23 @@ namespace Implem.Pleasanter.Libraries.Settings
                     break;
                 case DashboardPartType.CustomHtml:
                     dashboardPart.HtmlContent = HtmlContent;
+                    break;
+                case DashboardPartType.Calendar:
+                    dashboardPart.CalendarSites = CalendarSites;
+                    dashboardPart.CalendarSitesData = CalendarSitesData;
+                    dashboardPart.CalendarType = CalendarType;
+                    dashboardPart.CalendarGroupBy = CalendarGroupBy;
+                    dashboardPart.CalendarTimePeriod = CalendarTimePeriod;
+                    dashboardPart.CalendarFromTo = CalendarFromTo;
+                    dashboardPart.SiteId = SiteId;
+                    if (ss != null)
+                    {
+                        View = View.GetRecordingData(
+                            context: context,
+                            ss: ss);
+                    }
+                    dashboardPart.View = View;
+                    if (CalendarShowStatus == true) dashboardPart.CalendarShowStatus = true;
                     break;
             }
             return dashboardPart;
@@ -138,6 +162,13 @@ namespace Implem.Pleasanter.Libraries.Settings
             string content,
             string htmlContent,
             TimeLineDisplayType timeLineDisplayType,
+            CalendarType calendarType,
+            string calendarSites,
+            List<string> calendarSitesData,
+            string calendarGroupBy,
+            string calendarTimePeriod,
+            string calendarFromTo,
+            bool calendarShowStatus,
             string extendedCss,
             List<Permission> permissions)
         {
@@ -160,6 +191,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                 content: content,
                 htmlContent: htmlContent,
                 timeLineDisplayType: timeLineDisplayType,
+                calendarType: calendarType,
+                calendarSites: calendarSites,
+                calendarSitesData: calendarSitesData,
+                calendarGroupBy: calendarGroupBy,
+                calendarTimePeriod: calendarTimePeriod,
+                calendarFromTo: calendarFromTo,
+                calendarShowStatus: calendarShowStatus,
                 extendedCss: extendedCss,
                 permissions: permissions);
         }
@@ -182,6 +220,13 @@ namespace Implem.Pleasanter.Libraries.Settings
             string content,
             string htmlContent,
             TimeLineDisplayType timeLineDisplayType,
+            CalendarType calendarType,
+            string calendarSites,
+            List<string> calendarSitesData,
+            string calendarGroupBy,
+            string calendarTimePeriod,
+            string calendarFromTo,
+            bool calendarShowStatus,
             string extendedCss,
             List<Permission> permissions)
         {
@@ -201,10 +246,18 @@ namespace Implem.Pleasanter.Libraries.Settings
             Content = content;
             HtmlContent = htmlContent;
             TimeLineDisplayType = timeLineDisplayType;
+            CalendarType = calendarType;
+            CalendarSites = calendarSites;
+            CalendarSitesData = calendarSitesData;
+            CalendarGroupBy = calendarGroupBy;
+            CalendarTimePeriod = calendarTimePeriod;
+            CalendarFromTo = calendarFromTo;
+            CalendarShowStatus = calendarShowStatus;
             ExtendedCss = extendedCss;
             SetSitesData();
             SetPermissions(permissions);
             SetBaseSiteData(context: context);
+
             return this;
         }
 
@@ -212,6 +265,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             SetQuickAccessSitesData();
             SetTimeLineSitesData();
+            SetCalendarSitesData();
         }
 
         /// <summary>
@@ -221,17 +275,30 @@ namespace Implem.Pleasanter.Libraries.Settings
         { 
             var currentSs = GetBaseSiteSettings(
                 context: context,
-                timeLineSites: TimeLineSitesData);
+                sites: GetSiteTypeData());
             SiteId = currentSs?.SiteId ?? 0;
             View = SiteModel.GetDashboardPartView(
                 context: context,
                 ss: currentSs,
                 view: View);
         }
-                
+
+        private List<string> GetSiteTypeData()
+        {
+            switch (Type)
+            {
+                case DashboardPartType.TimeLine:
+                    return TimeLineSitesData;
+                case DashboardPartType.Calendar:
+                    return CalendarSitesData;
+                default:
+                    return null;
+            }
+        }
+
         private void SetQuickAccessSitesData()
         {
-            if(QuickAccessSites == null)
+            if (QuickAccessSites == null)
             {
                 QuickAccessSitesData = new List<QuickAccessSite>();
                 return;
@@ -264,25 +331,39 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .ToList();
         }
 
-        private static SiteSettings GetBaseSiteSettings(Context context, List<string> timeLineSites)
+        private void SetCalendarSitesData()
         {
-            return GetDashboardPartTables(context: context, sites: timeLineSites)
-                .Select(id => SiteSettingsUtilities.Get(context: context, siteId: id))
-                .FirstOrDefault(ss => ss != null);
-        }
-
-        public static SiteSettings GetBaseSiteSettings(Context context, string timeLineSitesString)
-        {
-            if (timeLineSitesString.IsNullOrEmpty())
+            if (CalendarSites == null)
             {
-                return null;
+                CalendarSitesData = new List<string>();
+                return;
             }
-            var timeLineSites = timeLineSitesString
+            CalendarSitesData = CalendarSites
                 .Split(",")
                 .Select(o => o.Trim())
                 .Where(o => !o.IsNullOrEmpty())
                 .ToList();
-            return GetDashboardPartTables(context: context, sites: timeLineSites)
+        }
+
+        private static SiteSettings GetBaseSiteSettings(Context context, List<string> sites)
+        {
+            return GetDashboardPartTables(context: context, sites: sites)
+                .Select(id => SiteSettingsUtilities.Get(context: context, siteId: id))
+                .FirstOrDefault(ss => ss != null);
+        }
+
+        public static SiteSettings GetBaseSiteSettings(Context context, string sitesString)
+        {
+            if (sitesString.IsNullOrEmpty())
+            {
+                return null;
+            }
+            var sites = sitesString
+                .Split(",")
+                .Select(o => o.Trim())
+                .Where(o => !o.IsNullOrEmpty())
+                .ToList();
+            return GetDashboardPartTables(context: context, sites: sites)
                 .Select(id => SiteSettingsUtilities.Get(context: context, siteId: id))
                 .FirstOrDefault(ss => ss != null);
         }
@@ -440,6 +521,8 @@ namespace Implem.Pleasanter.Libraries.Settings
 
                 case DashboardPartType.CustomHtml:
                     return Displays.DashboardCustomHtml(context: context);
+                case DashboardPartType.Calendar:
+                    return Displays.Calendar(context: context);
                 default:
                     return Displays.QuickAccess(context: context);
             }
@@ -473,6 +556,18 @@ namespace Implem.Pleasanter.Libraries.Settings
             else
             {
                 TimeLineSites = TimeLineSitesData.Join(",");
+            }
+        }
+
+        public void SetCalendarSites()
+        {
+            if (CalendarSitesData == null)
+            {
+                CalendarSites = string.Empty;
+            }
+            else
+            {
+                CalendarSites = CalendarSitesData.Join(",");
             }
         }
     }
