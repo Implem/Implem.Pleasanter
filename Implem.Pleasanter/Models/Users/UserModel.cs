@@ -2998,7 +2998,7 @@ namespace Implem.Pleasanter.Models
             return new ErrorData(type: Error.Types.None);
         }
 
-        public ErrorData Restore(Context context, SiteSettings ss, int userId)
+        public ErrorData Restore(Context context, SiteSettings ss,int userId)
         {
             UserId = userId;
             Repository.ExecuteNonQuery(
@@ -3018,7 +3018,7 @@ namespace Implem.Pleasanter.Models
         }
 
         public ErrorData PhysicalDelete(
-            Context context, SiteSettings ss, Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
+            Context context, SiteSettings ss,Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
         {
             Repository.ExecuteNonQuery(
                 context: context,
@@ -3089,8 +3089,7 @@ namespace Implem.Pleasanter.Models
                     case "Users_SecretKey": SecretKey = value.ToString(); break;
                     case "Users_EnableSecretKey": EnableSecretKey = value.ToBool(); break;
                     case "Users_Timestamp": Timestamp = value.ToString(); break;
-                    case "Comments":
-                        Comments.Prepend(
+                    case "Comments": Comments.Prepend(
                         context: context,
                         ss: ss,
                         body: value); break;
@@ -4933,7 +4932,6 @@ namespace Implem.Pleasanter.Models
         {
             OtpNet.Totp totp = new OtpNet.Totp(OtpNet.Base32Encoding.ToBytes(SecretKey), totpSize: 6);
             var beforeTime = countTolerances * -30;
-
             return countTolerances >= Parameters.Security.SecondaryAuthentication.CountTolerances
                 ? false
                 : totp.VerifyTotp(DateTime.UtcNow.AddSeconds((double)beforeTime),
