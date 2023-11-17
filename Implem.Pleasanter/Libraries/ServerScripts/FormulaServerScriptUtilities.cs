@@ -1,4 +1,5 @@
 ﻿using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.Extensions;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
@@ -78,13 +79,23 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     context: context,
                     ss: ss,
                     columnName: nameof(model.CreatedTime),
-                    value: model.CreatedTime?.Value,
+                    value: model.CreatedTime?.Value.ToControl(
+                        context: context,
+                        ss: ss,
+                        column: ss.GetColumn(
+                            context: context,
+                            columnName: nameof(model.CreatedTime))),
                     mine: mine),
                 ReadNameValue(
                     context: context,
                     ss: ss,
                     columnName: nameof(model.UpdatedTime),
-                    value: model.UpdatedTime?.Value,
+                    value: model.UpdatedTime?.Value.ToControl(
+                        context: context,
+                        ss: ss,
+                        column: ss.GetColumn(
+                            context: context,
+                            columnName: nameof(model.UpdatedTime))),
                     mine: mine)
             };
             values.AddRange(model
@@ -115,7 +126,12 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     context: context,
                     ss: ss,
                     columnName: element.Key,
-                    value: element.Value.ToString("yyyy/MM/dd HH:mm:ss"),
+                    value: element.Value.ToControl(
+                        context: context,
+                        ss: ss,
+                        column: ss.GetColumn(
+                            context: context,
+                            columnName: element.Key)),
                     mine: mine)));
             values.AddRange(model
                 .DescriptionHash
@@ -159,13 +175,29 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     context: context,
                     ss: ss,
                     columnName: nameof(IssueModel.StartTime),
-                    value: issueModel.StartTime,
+                    value: issueModel.StartTime.ToControl(
+                        context: context,
+                        ss: ss,
+                        column: ss.GetColumn(
+                            context: context,
+                            columnName: nameof(IssueModel.StartTime))),
                     mine: mine));
                 values.Add(ReadNameValue(
                     context: context,
                     ss: ss,
                     columnName: nameof(IssueModel.CompletionTime),
-                    value: issueModel.CompletionTime.Value,
+                    value: issueModel.CompletionTime.Value
+                        .AddDifferenceOfDates(
+                            format: ss.GetColumn(
+                                context: context,
+                                columnName: nameof(IssueModel.CompletionTime))?.EditorFormat,
+                            minus: true)
+                        .ToControl(
+                                context: context,
+                                ss: ss,
+                                column: ss.GetColumn(
+                                    context: context,
+                                    columnName: nameof(IssueModel.CompletionTime))),
                     mine: mine));
                 values.Add(ReadNameValue(
                     context: context,
