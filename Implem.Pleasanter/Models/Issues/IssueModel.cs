@@ -3563,15 +3563,19 @@ namespace Implem.Pleasanter.Models
                             break;
                     }
                 });
-            Repository.ExecuteNonQuery(
-                context: context,
-                statements: Rds.UpdateIssues(
-                    param: param,
-                    where: Rds.IssuesWhereDefault(
-                        context: context,
-                        issueModel: this),
-                    addUpdatedTimeParam: false,
-                    addUpdatorParam: false));
+            var paramFilter = param.Where(p => p.Value != null).ToList();
+            if (paramFilter.Count > 0)
+            {
+                Repository.ExecuteNonQuery(
+                    context: context,
+                    statements: Rds.UpdateIssues(
+                        param: param,
+                        where: Rds.IssuesWhereDefault(
+                            context: context,
+                            issueModel: this),
+                        addUpdatedTimeParam: false,
+                        addUpdatorParam: false));
+            }
         }
 
         public void SetByFormula(Context context, SiteSettings ss)
@@ -3635,6 +3639,7 @@ namespace Implem.Pleasanter.Models
                 else if (formulaSet.CalculationMethod == FormulaSet.CalculationMethods.Script.ToString())
                 {
                     var columns = System.Text.RegularExpressions.Regex.Matches(formulaSet.FormulaScript, @"\[([^]]*)\]");
+                    object value = null;
                     foreach (var column in columns)
                     {
                         var columnParam = column.ToString()[1..^1];
@@ -3647,53 +3652,70 @@ namespace Implem.Pleasanter.Models
                         .Replace("\"true\"", "true", StringComparison.InvariantCultureIgnoreCase)
                         .Replace("false", "false", StringComparison.InvariantCultureIgnoreCase)
                         .Replace("\"false\"", "false", StringComparison.InvariantCultureIgnoreCase);
-                    var value = FormulaServerScriptUtilities.Execute(
-                        context: context,
-                        ss: ss,
-                        itemModel: this,
-                        formulaScript: formulaSet.FormulaScript);
-                    switch (columnName)
+                    try
                     {
-                        case "SiteId": SiteId = value.ToLong(); break;
-                        case "UpdatedTime": UpdatedTime.Value = value.ToDateTime(); break;
-                        case "IssueId": IssueId = value.ToLong(); break;
-                        case "Ver": Ver = value.ToInt(); break;
-                        case "Title": Title.Value = value.ToString(); break;
-                        case "Body": Body = value.ToString(); break;
-                        case "TitleBody": TitleBody.Value = value.ToString(); break;
-                        case "StartTime": StartTime = value.ToDateTime(); break;
-                        case "CompletionTime": CompletionTime.Value = value.ToDateTime(); break;
-                        case "WorkValue": WorkValue.Value = value.ToDecimal(); break;
-                        case "ProgressRate": ProgressRate.Value = value.ToDecimal(); break;
-                        case "RemainingWorkValue": RemainingWorkValue.Value = value.ToDecimal(); break;
-                        case "Status": Status.Value = value.ToInt(); break;
-                        case "Manager": Manager.Id = value.ToInt(); break;
-                        case "Owner": Owner.Id = value.ToInt(); break;
-                        case "Locked": Locked = value.ToBool(); break;
-                        case "SiteTitle": SiteTitle.SiteId = value.ToLong(); break;
-                        case "Comments": Comments = Comments.Prepend(context, ss, value.ToString()); break;
-                        case "Creator": Creator.Id = value.ToInt(); break;
-                        case "Updator": Updator.Id = value.ToInt(); break;
-                        case "CreatedTime": CreatedTime.Value = value.ToDateTime(); break;
-                        case "VerUp": VerUp = value.ToBool(); break;
-                        case "Timestamp": Timestamp = value.ToString(); break;
-                        default:
-                            switch (Def.ExtendedColumnTypes.Get(columnName))
-                            {
-                                case "Class": SetClass(columnName, value.ToString()); break;
-                                case "Num": SetNum(columnName, new Num(value.ToDecimal())); break;
-                                case "Date": SetDate(columnName, value.ToDateTime().ToUniversal(context)); break;
-                                case "Description": SetDescription(columnName, value.ToString()); break;
-                                case "Check": SetCheck(columnName, value.ToBool()); break;
-                                case "Attachments": SetAttachments( columnName, value.ToString().Deserialize<Attachments>()); break;
-                            }
-                            break;
+                        value = FormulaServerScriptUtilities.Execute(
+                            context: context,
+                            ss: ss,
+                            itemModel: this,
+                            formulaScript: formulaSet.FormulaScript);
+                        switch (columnName)
+                        {
+                            case "SiteId": SiteId = value.ToLong(); break;
+                            case "UpdatedTime": UpdatedTime.Value = value.ToDateTime(); break;
+                            case "IssueId": IssueId = value.ToLong(); break;
+                            case "Ver": Ver = value.ToInt(); break;
+                            case "Title": Title.Value = value.ToString(); break;
+                            case "Body": Body = value.ToString(); break;
+                            case "TitleBody": TitleBody.Value = value.ToString(); break;
+                            case "StartTime": StartTime = value.ToDateTime(); break;
+                            case "CompletionTime": CompletionTime.Value = value.ToDateTime(); break;
+                            case "WorkValue": WorkValue.Value = value.ToDecimal(); break;
+                            case "ProgressRate": ProgressRate.Value = value.ToDecimal(); break;
+                            case "RemainingWorkValue": RemainingWorkValue.Value = value.ToDecimal(); break;
+                            case "Status": Status.Value = value.ToInt(); break;
+                            case "Manager": Manager.Id = value.ToInt(); break;
+                            case "Owner": Owner.Id = value.ToInt(); break;
+                            case "Locked": Locked = value.ToBool(); break;
+                            case "SiteTitle": SiteTitle.SiteId = value.ToLong(); break;
+                            case "Comments": Comments = Comments.Prepend(context, ss, value.ToString()); break;
+                            case "Creator": Creator.Id = value.ToInt(); break;
+                            case "Updator": Updator.Id = value.ToInt(); break;
+                            case "CreatedTime": CreatedTime.Value = value.ToDateTime(); break;
+                            case "VerUp": VerUp = value.ToBool(); break;
+                            case "Timestamp": Timestamp = value.ToString(); break;
+                            default:
+                                switch (Def.ExtendedColumnTypes.Get(columnName))
+                                {
+                                    case "Class": SetClass(columnName, value.ToString()); break;
+                                    case "Num": SetNum(columnName, new Num(value.ToDecimal())); break;
+                                    case "Date": SetDate(columnName, value.ToDateTime().ToUniversal(context)); break;
+                                    case "Description": SetDescription(columnName, value.ToString()); break;
+                                    case "Check": SetCheck(columnName, value.ToBool()); break;
+                                    case "Attachments": SetAttachments(columnName, value.ToString().Deserialize<Attachments>()); break;
+                                }
+                                break;
+                        }
+                        if (ss.OutputFormulaLogs == true)
+                        {
+                            context.LogBuilder?.AppendLine($"formulaSet: {formulaSet.GetRecordingData().ToJson()}");
+                            context.LogBuilder?.AppendLine($"formulaSource: {this.ToJson()}");
+                            context.LogBuilder?.AppendLine($"formulaResult: {{\"{columnName}\":{value}}}");
+                        }
                     }
-                    if (ss.OutputFormulaLogs == true)
+                    catch (Exception exception)
                     {
-                        context.LogBuilder?.AppendLine($"formulaSet: {formulaSet.GetRecordingData().ToJson()}");
-                        context.LogBuilder?.AppendLine($"formulaSource: {this.ToJson()}");
-                        context.LogBuilder?.AppendLine($"formulaResult: {{\"{columnName}\":{value}}}");
+                        // Check formual setting display error;
+                        if (formulaSet.IsDisplayError)
+                        {
+                            throw new Exception($"Formla error {exception.Message}");
+                        }
+                        new SysLogModel(
+                            context: context,
+                            method: nameof(SetByFormula),
+                            message: $"Formla error {exception.Message}",
+                            errStackTrace: exception.StackTrace,
+                            sysLogType: SysLogModel.SysLogTypes.Execption);
                     }
                 }
             });

@@ -6469,6 +6469,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string IsDisplayError(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "FormulaIsDisplayError",
+                data: data);
+        }
+
         public static string NotContainKeyColumn(
             Context context,
             params string[] data)

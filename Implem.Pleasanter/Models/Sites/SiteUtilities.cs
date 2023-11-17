@@ -8187,6 +8187,11 @@ namespace Implem.Pleasanter.Models
                         controlCss: " always-send",
                         labelText: Displays.NotUseDisplayName(context: context),
                         _checked: formulaSet.NotUseDisplayName == true)
+                    .FieldCheckBox(
+                        controlId: "IsDisplayError",
+                        controlCss: " always-send",
+                        labelText: Displays.IsDisplayError(context: context),
+                        _checked: formulaSet.IsDisplayError == true)
                     .FieldDropDown(
                         context: context,
                         controlId: "FormulaCondition",

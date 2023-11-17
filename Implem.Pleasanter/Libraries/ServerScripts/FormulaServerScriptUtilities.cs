@@ -748,16 +748,20 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             return @"
                 function $CONCAT(firstString)
                 {
-                    if (firstString == undefined)
+                    if (arguments.length === 0)
                     {
                         throw 'Invalid Parameter';
                     }
-		            for (var i = 1; i < arguments.length; i++)
-		            {
-			            firstString = firstString.toString() + arguments[i].toString();
-		            }
-		            return firstString;
-	            }";
+                    let result = firstString === undefined ? '' : firstString;
+                    for (var i = 1; i < arguments.length; i++)
+                    {
+                        if(arguments[i] !== undefined && arguments[i] !== '')
+                        {
+                            result = result.toString() + arguments[i].toString();
+                        }
+                    }
+                    return result;
+                }";
         }
 
         private static string GetFindScript()

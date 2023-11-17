@@ -13,6 +13,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             int? condition,
             string formula,
             bool notUseDisplayName,
+            bool isDisplayError,
             string outOfCondition)
         {
             if (ss.FormulaColumn(target, calculationMethod) == null)
@@ -29,7 +30,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                 Condition = ss.Views?.Get(condition) != null
                     ? condition
                     : null,
-                NotUseDisplayName = notUseDisplayName
+                NotUseDisplayName = notUseDisplayName,
+                IsDisplayError = isDisplayError
             };
             IEnumerable<string> formulaParts = null;
             if (string.IsNullOrEmpty(calculationMethod) || calculationMethod == FormulaSet.CalculationMethods.Default.ToString())
@@ -72,6 +74,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             int? condition,
             string formula,
             bool notUseDisplayName,
+            bool isDisplayError,
             string outOfCondition)
         {
             var formulaSet = ss.Formulas.FirstOrDefault(o => o.Id == id);
@@ -89,6 +92,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ? condition
                 : null;
             formulaSet.NotUseDisplayName = notUseDisplayName;
+            formulaSet.IsDisplayError = isDisplayError;
             IEnumerable<string> formulaParts = null;
             if (string.IsNullOrEmpty(calculationMethod) || calculationMethod == FormulaSet.CalculationMethods.Default.ToString())
             {
