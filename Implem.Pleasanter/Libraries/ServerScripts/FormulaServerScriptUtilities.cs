@@ -1298,16 +1298,17 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         throw 'Invalid Parameter';
                     }
                     let minValue = arguments[0];
-                    for (let i = 1; i < arguments.length; i++) {
-                        if (
-                            arguments[i] !== null &&
-                            arguments[i] !== "" &&
-                            (minValue === undefined || arguments[i] < minValue)
-                        ) {
+                    for (let i = 1; i < arguments.length; i++)
+                    {
+                        if (arguments[i] !== null
+                            && arguments[i] !== ''
+                            && (minValue === undefined || arguments[i] < minValue))
+                        {
                             minValue = arguments[i];
                         }
                     }
-                    if (minValue === undefined) {
+                    if (minValue === undefined)
+                    {
                         minValue = 0;
                     }
                     return !isNaN(Number(minValue)) ? minValue : 0;
@@ -1330,16 +1331,17 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         throw 'Invalid Parameter';
                     }
                     let maxValue = arguments[0];
-                    for (let i = 1; i < arguments.length; i++) {
-                        if (
-                            arguments[i] !== null &&
-                            arguments[i] !== "" &&
-                            (maxValue === undefined || arguments[i] > maxValue)
-                        ) {
+                    for (let i = 1; i < arguments.length; i++)
+                    {
+                        if (arguments[i] !== null
+                            && arguments[i] !== ''
+                            && (maxValue === undefined || arguments[i] > maxValue))
+                        {
                             maxValue = arguments[i];
                         }
                     }
-                    if (maxValue === undefined) {
+                    if (maxValue === undefined)
+                    {
                         maxValue = 0;
                     }
                     return !isNaN(Number(maxValue)) ? maxValue : 0;
@@ -1567,12 +1569,16 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         throw 'Invalid Parameter';
                     }
                     let timeRegex = /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/;
-                    if(timeRegex.test(text)) {
+                    if (timeRegex.test(text))
+                    {
                         let hour = Number(text.substring(0, 2)),
                         minute = Number(text.substring(3, 5));
-                        return  Number(((hour + minutes/60) / 24).toFixed(1));
-                    } else {
-                        if (isNaN(Number(text))) {
+                        return Number(((hour + minutes/60) / 24).toFixed(1));
+                    }
+                    else
+                    {
+                        if (isNaN(Number(text)))
+                        {
                             throw 'Invalid Parameter';
                         }
                         return Number(text);
