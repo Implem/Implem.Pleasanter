@@ -1072,8 +1072,13 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             return @"
                 function $REPLACE(firstString, start, length, secondString)
                 {
-                    if (firstString == undefined || secondString == undefined
-                        || isNaN(start) || isNaN(length))
+                    if (arguments.length !== 4)
+                    {
+                        throw 'Invalid Parameter';
+                    }
+                    start = (start === undefined) ? 0 : start;
+                    length = (length === undefined) ? 0 : length;
+                    if (isNaN(start) || isNaN(length))
                     {
                         throw 'Invalid Parameter';
                     }
@@ -1082,6 +1087,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     if (start < 1 || length < 0)
                     {
                         throw 'Invalid Parameter';
+                    }
+                    if(firstString === undefined || firstString === '') {
+                        return secondString;
                     }
                     return firstString.toString().substring(0, start - 1)
                         + secondString.toString()
