@@ -3400,6 +3400,14 @@ textarea:focus {
     width: 100%;
 }
 
+.dashboard-part-refresh {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    border: none;
+    opacity: 0;
+}
+
 .gs-20 > .grid-stack-item {
     width: 5%;
     min-width: 5%;

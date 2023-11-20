@@ -3236,6 +3236,7 @@ textarea:focus {
 }
 
 .grid-stack-item-content {
+    padding-top: 40px;
     background-color: whitesmoke;
 }
 
@@ -3398,6 +3399,14 @@ textarea:focus {
     text-decoration: none;
     color: inherit;
     width: 100%;
+}
+
+.dashboard-part-refresh {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    border: none;
+    opacity: 0;
 }
 
 .gs-20 > .grid-stack-item {

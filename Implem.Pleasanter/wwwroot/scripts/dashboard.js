@@ -31,3 +31,32 @@ $p.addDashboardPartAccessControl = function () {
 $p.deleteDashboardPartAccessControl = function () {
     $('#CurrentDashboardPartAccessControl li.ui-selected').appendTo('#SourceDashboardPartAccessControl');
 }
+
+$(document).ready(function () {
+    function doAjax() {
+        console.log("this is function'doAjax'");
+    }
+
+    $('[id^="DashboardPart_"]').each(function (index, value) {
+        $('[id^="DashboardPart_"]').css('padding-top', '40px');
+        var buttonElement = $('<button />')
+            .attr('id', 'DashboardRefresh' + value.id.substring(value.id.indexOf('_')))
+            .attr('type', 'button').on('click', doAjax)
+            .addClass('dashboard-part-refresh')
+            .append($('<span />')
+                .addClass('material-symbols-outlined')
+                .text('refresh'));
+        $(value).prepend(buttonElement);
+    })
+
+    $(document).on('mouseenter', '[id^="DashboardPart"]', function () {
+        var partId = $(this).attr('id').substring($(this).attr('id').indexOf('_'));
+        $("#DashboardRefresh" + partId).css('opacity', '1');
+    });
+
+    $(document).on('mouseleave', '[id^="DashboardPart"]', function () {
+        var partId = $(this).attr('id').substring($(this).attr('id').indexOf('_'));
+        $("#DashboardRefresh" + partId).css('opacity', '0');
+    });
+
+})
