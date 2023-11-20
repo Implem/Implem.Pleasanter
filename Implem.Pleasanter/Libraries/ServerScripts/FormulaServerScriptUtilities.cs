@@ -1281,8 +1281,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     }
                     else
                     {
-                        date = Number(date);
-                        date = new Date(1900, 0, date > 59 ? date - 1 : date);
+                        if(Number(date) === 0 || Number(date) === 1) {
+                            date = Number(date) + 7;
+                        }
+                        date = new Date(1900, 0, Number(date -1));
                     }
                     if (isNaN(date.getTime()) || date.getFullYear() < 1900 || date.getFullYear() > 9999)
                     {
