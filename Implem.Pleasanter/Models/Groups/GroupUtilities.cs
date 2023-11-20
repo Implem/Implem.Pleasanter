@@ -1,4 +1,5 @@
-﻿using Implem.DefinitionAccessor;
+﻿using DocumentFormat.OpenXml.Validation;
+using Implem.DefinitionAccessor;
 using Implem.Libraries.Classes;
 using Implem.Libraries.DataSources.Interfaces;
 using Implem.Libraries.DataSources.SqlServer;
@@ -3145,7 +3146,32 @@ namespace Implem.Pleasanter.Models
             var searchText = context.Forms.Data("SearchMemberText");
             if (!searchText.IsNullOrEmpty())
             {
-                var currentMembers = context.Forms.List("CurrentMembersAll");
+                var addedMembers = context.Forms.List("AddedGroupMembers");
+                var addedUsers = addedMembers?
+                    .Where(o => o.StartsWith("User,"))
+                    .Select(o => o.Split_2nd().ToInt());
+                var addedDepts = addedMembers?
+                    .Where(o => o.StartsWith("Dept,"))
+                    .Select(o => o.Split_2nd().ToInt());
+                var deletedMembers = context.Forms.List("DeletedGroupMembers");
+                var deletedUsers = deletedMembers?
+                    .Where(o => o.StartsWith("User,"))
+                    .Select(o => o.Split_2nd().ToInt());
+                var deletedDepts = deletedMembers?
+                    .Where(o => o.StartsWith("Dept,"))
+                    .Select(o => o.Split_2nd().ToInt());
+                var currentDeptsWhere = Rds.GroupMembersWhere()
+                        .GroupId(context.Id)
+                        .DeptId_In(
+                            value: deletedDepts,
+                            negative: true,
+                            _using: deletedDepts?.Any() == true);
+                var currentUsersWhere = Rds.GroupMembersWhere()
+                        .GroupId(context.Id)
+                        .UserId_In(
+                            value: deletedUsers,
+                            negative: true,
+                            _using: deletedUsers?.Any() == true);
                 Repository.ExecuteTable(
                     context: context,
                     statements: new SqlStatement[]
@@ -3160,10 +3186,15 @@ namespace Implem.Pleasanter.Models
                             where: Rds.DeptsWhere()
                                 .TenantId(context.TenantId)
                                 .DeptId_In(
-                                    currentMembers?
-                                        .Where(o => o.StartsWith("Dept,"))
-                                        .Select(o => o.Split_2nd().ToInt()),
+                                    sub: Rds.SelectGroupMembers(
+                                        column: Rds.GroupMembersColumn()
+                                            .DeptId(),
+                                        where: currentDeptsWhere),
                                     negative: true)
+                                .DeptId_In(
+                                    value: addedDepts,
+                                    negative: true,
+                                    _using: addedDepts?.Any() == true)
                                 .SqlWhereLike(
                                     tableName: "Depts",
                                     name: "SearchText",
@@ -3190,10 +3221,15 @@ namespace Implem.Pleasanter.Models
                             where: Rds.UsersWhere()
                                 .TenantId(context.TenantId)
                                 .UserId_In(
-                                    currentMembers?
-                                        .Where(o => o.StartsWith("User,"))
-                                        .Select(o => o.Split_2nd().ToInt()),
+                                    sub: Rds.SelectGroupMembers(
+                                        column: Rds.GroupMembersColumn()
+                                            .UserId(),
+                                        where: currentUsersWhere),
                                     negative: true)
+                                .UserId_In(
+                                    value: addedUsers,
+                                    negative: true,
+                                    _using: addedUsers?.Any() == true)
                                 .SqlWhereLike(
                                     tableName: "Users",
                                     name: "SearchText",
