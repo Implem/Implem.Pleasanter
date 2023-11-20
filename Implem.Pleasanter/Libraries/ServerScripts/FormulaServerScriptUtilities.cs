@@ -1611,6 +1611,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     }
                     else
                     {
+                        text = text.toString().replace(/[$,]/g, '');
                         if (isNaN(Number(text)))
                         {
                             throw 'Invalid Parameter';
