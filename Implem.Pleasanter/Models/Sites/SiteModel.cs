@@ -4224,6 +4224,7 @@ namespace Implem.Pleasanter.Models
                 context.Forms.Int("FormulaCondition"),
                 context.Forms.Data("Formula"),
                 context.Forms.Bool("NotUseDisplayName"),
+                context.Forms.Bool("IsDisplayError"),
                 outOfCondition != string.Empty
                     ? outOfCondition
                     : null);
@@ -4254,6 +4255,7 @@ namespace Implem.Pleasanter.Models
                 context.Forms.Int("FormulaCondition"),
                 context.Forms.Data("Formula"),
                 context.Forms.Bool("NotUseDisplayName"),
+                context.Forms.Bool("IsDisplayError"),
                 outOfCondition != string.Empty
                     ? outOfCondition
                     : null);

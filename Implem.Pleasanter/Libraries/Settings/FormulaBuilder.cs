@@ -1,5 +1,6 @@
 ﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.General;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 namespace Implem.Pleasanter.Libraries.Settings
@@ -13,6 +14,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             int? condition,
             string formula,
             bool notUseDisplayName,
+            bool isDisplayError,
             string outOfCondition)
         {
             if (ss.FormulaColumn(target, calculationMethod) == null)
@@ -29,7 +31,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                 Condition = ss.Views?.Get(condition) != null
                     ? condition
                     : null,
-                NotUseDisplayName = notUseDisplayName
+                NotUseDisplayName = notUseDisplayName,
+                IsDisplayError = isDisplayError
             };
             IEnumerable<string> formulaParts = null;
             if (string.IsNullOrEmpty(calculationMethod) || calculationMethod == FormulaSet.CalculationMethods.Default.ToString())
@@ -43,6 +46,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             else
             {
                 formulaSet.FormulaScript = formula;
+                formulaSet = UpdateColumnDisplayText(
+                    ss: ss,
+                    formulaSet: formulaSet);
             }
             var outOfConditionParts = Parts(outOfCondition);
             if (!outOfCondition.IsNullOrEmpty() && !outOfConditionParts.Any())
@@ -72,6 +78,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             int? condition,
             string formula,
             bool notUseDisplayName,
+            bool isDisplayError,
             string outOfCondition)
         {
             var formulaSet = ss.Formulas.FirstOrDefault(o => o.Id == id);
@@ -89,6 +96,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ? condition
                 : null;
             formulaSet.NotUseDisplayName = notUseDisplayName;
+            formulaSet.IsDisplayError = isDisplayError;
             IEnumerable<string> formulaParts = null;
             if (string.IsNullOrEmpty(calculationMethod) || calculationMethod == FormulaSet.CalculationMethods.Default.ToString())
             {
@@ -101,6 +109,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             else
             {
                 formulaSet.FormulaScript = formula;
+                formulaSet = UpdateColumnDisplayText(
+                    ss: ss,
+                    formulaSet: formulaSet);
             }
             var outOfConditionParts = Parts(outOfCondition);
             if (!outOfCondition.IsNullOrEmpty() && !outOfConditionParts.Any())
@@ -228,6 +239,57 @@ namespace Implem.Pleasanter.Libraries.Settings
                 stack.First().Add(current);
                 return Error.Types.None;
             }
+        }
+
+        public static string ParseFormulaScript(SiteSettings ss, string formulaScript, string calculationMethod)
+        {
+            var columns = System.Text.RegularExpressions.Regex.Matches(formulaScript, @"\[([^]]*)\]");
+            foreach (var column in columns)
+            {
+                var columnParam = column.ToString()[1..^1];
+                if (ss.FormulaColumn(columnParam, calculationMethod) != null)
+                {
+                    formulaScript = formulaScript.Replace(column.ToString(), $"model.{columnParam}");
+                }
+            }
+            var columnList = ss.FormulaColumnList();
+            foreach (var column in columnList)
+            {
+                formulaScript = System.Text.RegularExpressions.Regex.Replace(
+                    input: formulaScript,
+                    pattern: column.LabelText + $"(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)",
+                    replacement: $"model.{column.ColumnName}");
+            }
+            return formulaScript.Replace("true", "true", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("\"true\"", "true", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("false", "false", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("\"false\"", "false", StringComparison.InvariantCultureIgnoreCase);
+        }
+
+        public static FormulaSet UpdateColumnDisplayText(SiteSettings ss, FormulaSet formulaSet)
+        {
+            var columnList = ss.FormulaColumnList();
+            var formulaDictionary = new Dictionary<string, string>();
+            var oldMapping = Jsons.Deserialize<Dictionary<string, string>>(formulaSet.FormulaMapping);
+            foreach (var column in columnList)
+            {
+                if (oldMapping != null && oldMapping.ContainsKey(column.ColumnName))
+                {
+                    formulaSet.FormulaScript = System.Text.RegularExpressions.Regex.Replace(
+                        input: formulaSet.FormulaScript,
+                        pattern: oldMapping.Get(column.ColumnName) + $"(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)",
+                        replacement: column.LabelText);
+                }
+                var isMatched = System.Text.RegularExpressions.Regex.IsMatch(
+                    input: formulaSet.FormulaScript,
+                    pattern: column.LabelText + $"(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
+                if (isMatched)
+                {
+                    formulaDictionary.Add(column.ColumnName, column.LabelText);
+                }
+            }
+            formulaSet.FormulaMapping = formulaDictionary.ToJson();
+            return formulaSet;
         }
     }
 }

@@ -8107,8 +8107,29 @@ namespace Implem.Pleasanter.Models
             {
                 hb.TBody(action: () =>
                 {
+                    var columnList = ss.FormulaColumnList();
                     ss.Formulas?.ForEach(formulaSet =>
                     {
+                        if (formulaSet.CalculationMethod == FormulaSet.CalculationMethods.Script.ToString())
+                        {
+                            if (!formulaSet.NotUseDisplayName)
+                            {
+                                var columns = System.Text.RegularExpressions.Regex.Matches(formulaSet.FormulaScript, @"\[([^]]*)\]");
+                                foreach (var column in columns)
+                                {
+                                    var columnParam = column.ToString()[1..^1];
+                                    if (ss.FormulaColumn(columnParam, formulaSet.CalculationMethod) != null)
+                                    {
+                                        formulaSet.FormulaScript = formulaSet.FormulaScript.Replace(
+                                            oldValue: column.ToString(),
+                                            newValue: columnList.SingleOrDefault(o => o.ColumnName == columnParam).LabelText);
+                                    }
+                                }
+                            }
+                            formulaSet = FormulaBuilder.UpdateColumnDisplayText(
+                                ss: ss,
+                                formulaSet: formulaSet);
+                        }
                         hb.Tr(
                             css: "grid-row",
                             attributes: new HtmlAttributes()
@@ -8125,7 +8146,8 @@ namespace Implem.Pleasanter.Models
                                         context: context,
                                         columnName: formulaSet.Target)?.LabelText))
                                 .Td(action: () => hb
-                                    .Text(text: formulaSet.CalculationMethod == FormulaSet.CalculationMethods.Default.ToString()
+                                    .Text(text: (formulaSet.CalculationMethod == FormulaSet.CalculationMethods.Default.ToString()
+                                        || string.IsNullOrEmpty(formulaSet.CalculationMethod))
                                         ? formulaSet.Formula?.ToString(ss: ss, notUseDisplayName: formulaSet.NotUseDisplayName)
                                         : formulaSet.FormulaScript))
                                 .Td(action: () => hb
@@ -8178,15 +8200,24 @@ namespace Implem.Pleasanter.Models
                         controlCss: " always-send",
                         fieldCss: "field-wide",
                         labelText: Displays.Formulas(context: context),
-                        text: formulaSet.CalculationMethod == FormulaSet.CalculationMethods.Default.ToString()
+                        text: (formulaSet.CalculationMethod == FormulaSet.CalculationMethods.Default.ToString()
+                            || string.IsNullOrEmpty(formulaSet.CalculationMethod))
                             ? formulaSet.Formula?.ToString(ss, notUseDisplayName: formulaSet.NotUseDisplayName)
-                            : formulaSet.FormulaScript,
+                            : FormulaBuilder.UpdateColumnDisplayText(
+                                ss: ss,
+                                formulaSet: formulaSet)
+                            .FormulaScript,
                         validateRequired: true)
                     .FieldCheckBox(
                         controlId: "NotUseDisplayName",
                         controlCss: " always-send",
                         labelText: Displays.NotUseDisplayName(context: context),
                         _checked: formulaSet.NotUseDisplayName == true)
+                    .FieldCheckBox(
+                        controlId: "IsDisplayError",
+                        controlCss: " always-send",
+                        labelText: Displays.IsDisplayError(context: context),
+                        _checked: formulaSet.IsDisplayError == true)
                     .FieldDropDown(
                         context: context,
                         controlId: "FormulaCondition",

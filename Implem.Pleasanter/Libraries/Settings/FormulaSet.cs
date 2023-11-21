@@ -9,8 +9,10 @@ namespace Implem.Pleasanter.Libraries.Settings
         public int? Condition;
         public Formula Formula;
         public bool NotUseDisplayName;
+        public bool IsDisplayError;
         public Formula OutOfCondition;
         public string FormulaScript;
+        public string FormulaMapping;
 
         public enum CalculationMethods
         {
@@ -27,8 +29,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             formulaSet.Condition = Condition;
             formulaSet.Formula = Formula;
             formulaSet.NotUseDisplayName = NotUseDisplayName;
+            formulaSet.IsDisplayError = IsDisplayError;
             formulaSet.OutOfCondition = OutOfCondition;
             formulaSet.FormulaScript = FormulaScript;
+            formulaSet.FormulaMapping = FormulaMapping;
             return formulaSet;
         }
     }
