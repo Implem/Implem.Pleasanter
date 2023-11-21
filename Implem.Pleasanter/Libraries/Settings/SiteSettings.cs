@@ -2267,16 +2267,31 @@ namespace Implem.Pleasanter.Libraries.Settings
                     .Where(o => o.ColumnName == name || o.LabelText == name)
                     .Where(o => o.ControlType != "Attachments")
                     .Where(o => !o.NotUpdate || o.Name == "RemainingWorkValue")
+                    .Where(o => !o.Id_Ver)
+                    .Where(o => !o.Joined)
                     .Where(o => o.Name != "SiteId"
-                        && o.Name != "IssueId"
-                        && o.Name != "ResultId"
-                        && o.Name != "Ver"
                         && o.Name != "Comments"
                         && o.Name != "Creator"
                         && o.Name != "Updator"
                         && o.Name != "CreatedTime"
                         && o.Name != "UpdatedTime"))
                 .FirstOrDefault();
+        }
+
+        public List<Column> FormulaColumnList()
+        {
+            return Columns
+                    .Where(o => o.ControlType != "Attachments")
+                    .Where(o => !o.NotUpdate || o.Name == "RemainingWorkValue")
+                    .Where(o => !o.Id_Ver)
+                    .Where(o => !o.Joined)
+                    .Where(o => o.Name != "SiteId"
+                        && o.Name != "Comments"
+                        && o.Name != "Creator"
+                        && o.Name != "Updator"
+                        && o.Name != "CreatedTime"
+                        && o.Name != "UpdatedTime")
+                .ToList();
         }
 
         public List<Column> GetGridColumns(
@@ -3123,10 +3138,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                     : Columns
                         .Where(o => o.ControlType != "Attachments")
                         .Where(o => !o.NotUpdate || o.Name == "RemainingWorkValue")
+                        .Where(o => !o.Id_Ver)
+                        .Where(o => !o.Joined)
                         .Where(o => o.Name != "SiteId"
-                            && o.Name != "IssueId"
-                            && o.Name != "ResultId"
-                            && o.Name != "Ver"
                             && o.Name != "Comments"
                             && o.Name != "Creator"
                             && o.Name != "Updator"

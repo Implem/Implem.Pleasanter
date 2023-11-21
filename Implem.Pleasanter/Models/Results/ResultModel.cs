@@ -3305,61 +3305,69 @@ namespace Implem.Pleasanter.Models
                 }
                 else if (formulaSet.CalculationMethod == FormulaSet.CalculationMethods.Script.ToString())
                 {
-                    var columns = System.Text.RegularExpressions.Regex.Matches(formulaSet.FormulaScript, @"\[([^]]*)\]");
-                    foreach (var column in columns)
+                    formulaSet.FormulaScript = FormulaBuilder.ParseFormulaScript(
+                        ss: ss,
+                        formulaScript: formulaSet.FormulaScript,
+                        calculationMethod: formulaSet.CalculationMethod);
+                    try
                     {
-                        var columnParam = column.ToString()[1..^1];
-                        if (ss.FormulaColumn(columnParam, formulaSet.CalculationMethod) != null)
+                        var value = FormulaServerScriptUtilities.Execute(
+                            context: context,
+                            ss: ss,
+                            itemModel: this,
+                            formulaScript: formulaSet.FormulaScript);
+                        switch (columnName)
                         {
-                            formulaSet.FormulaScript = formulaSet.FormulaScript.Replace(column.ToString(), $"model.{columnParam}");
+                            case "SiteId": SiteId = value.ToLong(); break;
+                            case "UpdatedTime": UpdatedTime.Value = value.ToDateTime(); break;
+                            case "ResultId": ResultId = value.ToLong(); break;
+                            case "Ver": Ver = value.ToInt(); break;
+                            case "Title": Title.Value = value.ToString(); break;
+                            case "Body": Body = value.ToString(); break;
+                            case "TitleBody": TitleBody.Value = value.ToString(); break;
+                            case "Status": Status.Value = value.ToInt(); break;
+                            case "Manager": Manager.Id = value.ToInt(); break;
+                            case "Owner": Owner.Id = value.ToInt(); break;
+                            case "Locked": Locked = value.ToBool(); break;
+                            case "SiteTitle": SiteTitle.SiteId = value.ToLong(); break;
+                            case "Comments": Comments = Comments.Prepend(context, ss, value.ToString()); break;
+                            case "Creator": Creator.Id = value.ToInt(); break;
+                            case "Updator": Updator.Id = value.ToInt(); break;
+                            case "CreatedTime": CreatedTime.Value = value.ToDateTime(); break;
+                            case "VerUp": VerUp = value.ToBool(); break;
+                            case "Timestamp": Timestamp = value.ToString(); break;
+                            default:
+                                switch (Def.ExtendedColumnTypes.Get(columnName))
+                                {
+                                    case "Class": SetClass(columnName, value.ToString()); break;
+                                    case "Num": SetNum(columnName, new Num(value.ToDecimal())); break;
+                                    case "Date": SetDate(columnName, value.ToDateTime().ToUniversal(context)); break;
+                                    case "Description": SetDescription(columnName, value.ToString()); break;
+                                    case "Check": SetCheck(columnName, value.ToBool()); break;
+                                    case "Attachments": SetAttachments(columnName, value.ToString().Deserialize<Attachments>()); break;
+                                }
+                                break;
+                        }
+                        if (ss.OutputFormulaLogs == true)
+                        {
+                            context.LogBuilder?.AppendLine($"formulaSet: {formulaSet.GetRecordingData().ToJson()}");
+                            context.LogBuilder?.AppendLine($"formulaSource: {this.ToJson()}");
+                            context.LogBuilder?.AppendLine($"formulaResult: {{\"{columnName}\":{value}}}");
                         }
                     }
-                    formulaSet.FormulaScript = formulaSet.FormulaScript.Replace("true", "true", StringComparison.InvariantCultureIgnoreCase)
-                        .Replace("\"true\"", "true", StringComparison.InvariantCultureIgnoreCase)
-                        .Replace("false", "false", StringComparison.InvariantCultureIgnoreCase)
-                        .Replace("\"false\"", "false", StringComparison.InvariantCultureIgnoreCase);
-                    var value = FormulaServerScriptUtilities.Execute(
-                        context: context,
-                        ss: ss,
-                        itemModel: this,
-                        formulaScript: formulaSet.FormulaScript);
-                    switch (columnName)
+                    catch (Exception exception)
                     {
-                        case "SiteId": SiteId = value.ToLong(); break;
-                        case "UpdatedTime": UpdatedTime.Value = value.ToDateTime(); break;
-                        case "ResultId": ResultId = value.ToLong(); break;
-                        case "Ver": Ver = value.ToInt(); break;
-                        case "Title": Title.Value = value.ToString(); break;
-                        case "Body": Body = value.ToString(); break;
-                        case "TitleBody": TitleBody.Value = value.ToString(); break;
-                        case "Status": Status.Value = value.ToInt(); break;
-                        case "Manager": Manager.Id = value.ToInt(); break;
-                        case "Owner": Owner.Id = value.ToInt(); break;
-                        case "Locked": Locked = value.ToBool(); break;
-                        case "SiteTitle": SiteTitle.SiteId = value.ToLong(); break;
-                        case "Comments": Comments = Comments.Prepend(context, ss, value.ToString()); break;
-                        case "Creator": Creator.Id = value.ToInt(); break;
-                        case "Updator": Updator.Id = value.ToInt(); break;
-                        case "CreatedTime": CreatedTime.Value = value.ToDateTime(); break;
-                        case "VerUp": VerUp = value.ToBool(); break;
-                        case "Timestamp": Timestamp = value.ToString(); break;
-                        default:
-                            switch (Def.ExtendedColumnTypes.Get(columnName))
-                            {
-                                case "Class": SetClass(columnName, value.ToString()); break;
-                                case "Num": SetNum(columnName, new Num(value.ToDecimal())); break;
-                                case "Date": SetDate(columnName, value.ToDateTime().ToUniversal(context)); break;
-                                case "Description": SetDescription(columnName, value.ToString()); break;
-                                case "Check": SetCheck(columnName, value.ToBool()); break;
-                                case "Attachments": SetAttachments(columnName, value.ToString().Deserialize<Attachments>()); break;
-                            }
-                            break;
-                    }
-                    if (ss.OutputFormulaLogs == true)
-                    {
-                        context.LogBuilder?.AppendLine($"formulaSet: {formulaSet.GetRecordingData().ToJson()}");
-                        context.LogBuilder?.AppendLine($"formulaSource: {this.ToJson()}");
-                        context.LogBuilder?.AppendLine($"formulaResult: {{\"{columnName}\":{value}}}");
+                        // Check formual setting display error;
+                        if (formulaSet.IsDisplayError)
+                        {
+                            throw new Exception($"Formula error {exception.Message}");
+                        }
+                        new SysLogModel(
+                            context: context,
+                            method: nameof(SetByFormula),
+                            message: $"Formula error {exception.Message}",
+                            errStackTrace: exception.StackTrace,
+                            sysLogType: SysLogModel.SysLogTypes.Execption);
                     }
                 }
             });

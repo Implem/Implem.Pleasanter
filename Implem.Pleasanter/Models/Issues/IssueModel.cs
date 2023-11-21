@@ -3638,23 +3638,13 @@ namespace Implem.Pleasanter.Models
                 }
                 else if (formulaSet.CalculationMethod == FormulaSet.CalculationMethods.Script.ToString())
                 {
-                    var columns = System.Text.RegularExpressions.Regex.Matches(formulaSet.FormulaScript, @"\[([^]]*)\]");
-                    object value = null;
-                    foreach (var column in columns)
-                    {
-                        var columnParam = column.ToString()[1..^1];
-                        if (ss.FormulaColumn(columnParam, formulaSet.CalculationMethod) != null)
-                        {
-                            formulaSet.FormulaScript = formulaSet.FormulaScript.Replace(column.ToString(), $"model.{columnParam}");
-                        }
-                    }
-                    formulaSet.FormulaScript = formulaSet.FormulaScript.Replace("true", "true", StringComparison.InvariantCultureIgnoreCase)
-                        .Replace("\"true\"", "true", StringComparison.InvariantCultureIgnoreCase)
-                        .Replace("false", "false", StringComparison.InvariantCultureIgnoreCase)
-                        .Replace("\"false\"", "false", StringComparison.InvariantCultureIgnoreCase);
+                    formulaSet.FormulaScript = FormulaBuilder.ParseFormulaScript(
+                        ss: ss,
+                        formulaScript: formulaSet.FormulaScript,
+                        calculationMethod: formulaSet.CalculationMethod);
                     try
                     {
-                        value = FormulaServerScriptUtilities.Execute(
+                        var value = FormulaServerScriptUtilities.Execute(
                             context: context,
                             ss: ss,
                             itemModel: this,
@@ -3708,12 +3698,12 @@ namespace Implem.Pleasanter.Models
                         // Check formual setting display error;
                         if (formulaSet.IsDisplayError)
                         {
-                            throw new Exception($"Formla error {exception.Message}");
+                            throw new Exception($"Formula error {exception.Message}");
                         }
                         new SysLogModel(
                             context: context,
                             method: nameof(SetByFormula),
-                            message: $"Formla error {exception.Message}",
+                            message: $"Formula error {exception.Message}",
                             errStackTrace: exception.StackTrace,
                             sysLogType: SysLogModel.SysLogTypes.Execption);
                     }
