@@ -928,32 +928,36 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             return @"
                 function $AND(firstClause)
                 {
-                    if (firstClause == undefined)
-                    {
+                    
+                    if (arguments.length == 0) {
                         throw 'Invalid Parameter';
                     }
-                    if (!isNaN(firstClause))
-                    {
-                        firstClause = (firstClause != 0);
+                    for (let i = 1; i < arguments.length; i++) {
+                        if (arguments[i] === undefined || arguments[i].toString().trim() === '') {
+                            continue;
+                        }
+                        arguments[i] =
+                            arguments[i] == '0' || arguments[i] == 'false'
+                                ? false
+                                : arguments[i];
+                        if (typeof arguments[i] === 'boolean' || !isNaN(arguments[i])) {
+                            if (arguments[i] === false) {
+                                return false;
+                            }
+                            firstClause = true;
+                        }
                     }
-                    else if (typeof firstClause != 'boolean')
-                    {
+                    firstClause =
+                        firstClause == '0' || firstClause == 'false'
+                            ? false
+                            : firstClause == 'true'
+                            ? true
+                            : firstClause;
+                    if (firstClause === undefined || firstClause === '' || isNaN(firstClause)) {
                         throw 'Invalid Parameter';
                     }
-                    for (var i = 1; i < arguments.length; i++)
-		            {
-			            if (!isNaN(arguments[i]))
-			            {
-				            arguments[i] = (arguments[i] != 0);
-			            }
-			            else if (typeof arguments[i] != 'boolean')
-			            {
-				            throw 'Invalid Parameter';
-			            }
-			            firstClause = firstClause && arguments[i];
-		            }
-		            return firstClause;
-	            }";
+                    return Boolean(firstClause);
+                }";
         }
 
         private static string GetIfScript()
