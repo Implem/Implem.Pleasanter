@@ -1104,20 +1104,21 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetSearchScript()
         {
             return @"
-                function $SEARCH(firstString, secondString, start = 1)
+                function $SEARCH(findText, withinText, start = 1)
                 {
-                    if (firstString == undefined || secondString == undefined || isNaN(start))
-                    {
+                    if(arguments.length === 0 ) {
                         throw 'Invalid Parameter';
+                    }
+                    if (findText == undefined && withinText == undefined && start == 1)
+                    {
+                        return 1;
                     }
                     start = Number(start);
-                    if (start < 1 || start > secondString.length)
-                    {
+                    if (start < 1 || start > withinText.toString().length) {
                         throw 'Invalid Parameter';
                     }
-                    var index = secondString.toLowerCase().indexOf(firstString.toLowerCase(), start - 1);
-                    if (index < 0)
-                    {
+                    let index = withinText.toString().toLowerCase().indexOf(findText.toString().toLowerCase(), start - 1);
+                    if (index < 0) {
                         throw 'Not Found';
                     }
                     return index + 1;
@@ -1129,32 +1130,32 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             return @"
                 function $IFS(firstClause, retValue1)
                 {
-                    if (firstClause == undefined || retValue1 == undefined)
+                    if (arguments.length === 0 || arguments.length % 2 !== 0) {
+                        throw 'Invalid Parameter';
+                    }            
+                    for (let i = 0; i < arguments.length; i = i + 2)
                     {
+                        logicalTest = arguments[i],
+                        valueIfTrue = arguments[i+1];
+                        if (logicalTest === '')
+                        {
+                            throw 'Invalid Parameter';
+                        }
+                        logicalTest = (logicalTest === 'false') ? false : (logicalTest === 'true') ? true : logicalTest;
+                        if (!isNaN(logicalTest) || typeof logicalTest === 'boolean')
+                        {       
+                            if(Boolean(logicalTest)) {
+                                return valueIfTrue === undefined ? 0 : valueIfTrue;
+                            }        
+                            logicalTest = Boolean(logicalTest);
+                        }
+                    }
+                    if((logicalTest === undefined && logicalTest === undefined) || logicalTest === false) {
                         throw 'Invalid Parameter';
                     }
-                    if (!isNaN(firstClause))
-                    {
-                        firstClause = (firstClause != 0);
+                    if(logicalTest && (valueIfTrue === undefined)) {
+                        return 0;
                     }
-                    else if (typeof firstClause != 'boolean')
-                    {
-                        throw 'Invalid Parameter';
-                    }
-                    var retValue = firstClause ? retValue1 : '';
-                    for (var i = 2; i < arguments.length; i = i + 2)
-		            {
-			            if (!isNaN(arguments[i]))
-			            {
-				            arguments[i] = (arguments[i] != 0);
-			            }
-			            else if (typeof arguments[i] != 'boolean')
-			            {
-				            throw 'Invalid Parameter';
-			            }
-			            retValue = arguments[i] ? (arguments[i + 1] == undefined ? '' : arguments[i + 1]) : retValue;
-		            }
-		            return retValue;
 	            }";
         }
 
@@ -1175,39 +1176,69 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     return Math.trunc(number) % 2 == 0;
 	            }";
         }
-
+        /// <summary>
+        /// Value refers to a number.
+        /// </summary>
+        /// <remarks>
+        /// Syntax: ISNUMBER(value)
+        /// </remarks>
         private static string GetIsNumberScript()
         {
             return @"
-                function $ISNUMBER(number)
+                function $ISNUMBER(value)
                 {
-                    if (number == undefined)
+                    if (arguments.length === 0)
                     {
                         throw 'Invalid Parameter';
                     }
-                    if (typeof number === 'string' || number instanceof String)
+                    if(!isNaN(value) && typeof value !== 'string') 
                     {
-                        return false;
+                         return true; 
                     }
-                    return !isNaN(number);
+                    if(typeof value == 'string') 
+                    {
+                        if(value == '') 
+                        {
+                             return false; 
+                        }
+                        if(/^(\d{4})(\/|-)(\d{1,2})(\/|-)(\d{1,2})$/.test(value.substring(0,10).trim())) 
+                        {
+                             return true; 
+                        }
+                    }
+                    return false;
 	            }";
         }
 
+        /// <summary>
+        /// Returns TRUE if number is odd, or FALSE if number is even.
+        /// </summary>
+        /// <remarks>
+        /// If number is nonnumeric, ISODD will throw Invalid Parametererror Exception.
+        /// Syntax: ISODD(number)
+        /// </remarks>
         private static string GetIsOddScript()
         {
             return @"
                 function $ISODD(number)
                 {
-                    if (number == undefined)
+                    if (arguments.length === 0 || number === '')
                     {
                         throw 'Invalid Parameter';
                     }
-                    if (isNaN(number))
+                    if (number === undefined)
                     {
-                        return $DAYS(number, '1/2/2000') % 2 == 0;
+                        return false;
+                    }
+                    if (isNaN(number) && typeof number === 'string')
+                    {
+                        if(/^(\d{4})(\/|-)(\d{1,2})(\/|-)(\d{1,2})$/.test(number.substring(0,10).trim())) { 
+                            return $DAYS(number, '1/2/2000') % 2 === 0;
+                        }
+                        throw 'Invalid Parameter';
                     }
                     number = Number(number);
-                    return Math.trunc(number) % 2 == 0;
+                    return Math.trunc(number) % 2 !== 0;
 	            }";
         }
 
@@ -1216,9 +1247,23 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             return @"
                 function $ISTEXT(text)
                 {
-                    if (text == undefined)
+                    if (arguments.length === 0)
                     {
                         throw 'Invalid Parameter';
+                    }     
+                    if (text === undefined)
+                    {
+                        return false;
+                    }
+                    if(typeof text === 'string' || text instanceof String) {
+                        if(/^(\d{4})(\/|-)(\d{1,2})(\/|-)(\d{1,2})$/.test(text.substring(0,10).trim())) {
+                            return false;
+                        }
+                        return true;
+                    }
+                    if (text === undefined)
+                    {
+                        return false;
                     }
                     return typeof text === 'string' || text instanceof String;
 	            }";
@@ -1237,21 +1282,33 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
 	            }";
         }
 
+        /// <summary>
+        /// Returns number rounded up to the nearest odd integer.
+        /// </summary>
+        /// <remarks>
+        /// Syntax: ODD(number)
+        /// </remarks>
         private static string GetOddScript()
         {
             return @"
                 function $ODD(number)
                 {
-                    if (number == undefined)
+                    if (arguments.length === 0)
                     {
                         throw 'Invalid Parameter';
-                    }
-                    if (isNaN(number))
+                    } 
+                    if (number === undefined || number === 0)
                     {
-                        var result = DAYS(number, '1/2/2000');
+                        return 1;
                     }
-                    var result = Math.ceil(Number(number));
-                    return result % 2 == 0 ? result + (result > 0 ? 1 : -1) : result;
+                    if (isNaN(number) && typeof number === 'string')
+                    {
+                        if(/^(\d{4})(\/|-)(\d{1,2})(\/|-)(\d{1,2})$/.test(number.substring(0,10).trim())) {
+                            number = $DAYS(number, '01/01/1900');
+                        }
+                    }
+                    let result = Math.ceil(Number(number));
+                    return (result % 2 === 0) ? result + (result > 0 ? 1 : -1) : result;
 	            }";
         }
 
@@ -1619,7 +1676,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     {
                         let hour = Number(text.substring(0, 2)),
                         minute = Number(text.substring(3, 5));
-                        return Number(((hour + minutes/60) / 24).toFixed(1));
+                        return Number(((hour + minute/60) / 24).toFixed(1));
                     }
                     else
                     {
