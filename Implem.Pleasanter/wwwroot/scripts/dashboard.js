@@ -40,11 +40,11 @@ $(document).ready(function () {
         var data = {
             dashboardPartId: $('#DashboardPart' + partId).attr('data-id')
         }
-        $p.ajax('DashboardPart', 'get', data, null, true);
+        //$p.ajax('DashboardPart', 'get', data, null, true);
     }
 
     $('[id^="DashboardPart_"]').each(function (index, value) {
-        $('[id^="DashboardPart_"]').css('padding-top', '40px');
+        //$('[id^="DashboardPart_"]').css('padding-top', '40px');
 
         var buttonElement = $('<button />')
             .attr('id', 'DashboardRefresh' + value.id.substring(value.id.indexOf('_')))

@@ -3401,11 +3401,19 @@ textarea:focus {
 }
 
 .dashboard-part-refresh {
-    position: absolute;
-    right: 20px;
-    top: 20px;
+    position: sticky;
+    top: -15px;
+    left: -15px;
     border: none;
+    color: #636363;
+    background-color: transparent;
     opacity: 0;
+    align-self: flex-start;
+    margin-top: -15px;
+    margin-left: -15px;
+    padding-top: 0;
+    padding-left: 0;
+    z-index: 5;
 }
 
 @keyframes custom-spin {
@@ -3425,6 +3433,7 @@ textarea:focus {
     transform: translate(-50%,-50%);
     font-size: 50px;
     line-height: 0px;
+    color: #636363;
     display: inline-block;
     animation: custom-spin 1s linear infinite;
 }
