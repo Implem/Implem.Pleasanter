@@ -33,15 +33,22 @@ $p.deleteDashboardPartAccessControl = function () {
 }
 
 $(document).ready(function () {
-    function doAjax() {
-        console.log("this is function'doAjax'");
+    function refreshDashboardPart() {
+        var partId = $(this).attr('id').substring($(this).attr('id').indexOf('_'));
+        var roadElement = $('<span />').addClass('material-symbols-outlined dashboard-part-road').text('progress_activity');
+        $('[id="DashboardPart' + partId + '"]').html(roadElement);
+        var data = {
+            dashboardPartId: $('#DashboardPart' + partId).attr('data-id')
+        }
+        $p.ajax('DashboardPart', 'get', data, null, true);
     }
 
     $('[id^="DashboardPart_"]').each(function (index, value) {
         $('[id^="DashboardPart_"]').css('padding-top', '40px');
+
         var buttonElement = $('<button />')
             .attr('id', 'DashboardRefresh' + value.id.substring(value.id.indexOf('_')))
-            .attr('type', 'button').on('click', doAjax)
+            .attr('type', 'button').on('click', refreshDashboardPart)
             .addClass('dashboard-part-refresh')
             .append($('<span />')
                 .addClass('material-symbols-outlined')
@@ -49,13 +56,13 @@ $(document).ready(function () {
         $(value).prepend(buttonElement);
     })
 
-    $(document).on('mouseenter', '[id^="DashboardPart"]', function () {
-        var partId = $(this).attr('id').substring($(this).attr('id').indexOf('_'));
+    $(document).on('mouseenter', '.grid-stack-item-content', function () {
+        var partId = $(this).children().attr('id').substring($(this).children().attr('id').indexOf('_'));
         $("#DashboardRefresh" + partId).css('opacity', '1');
     });
 
-    $(document).on('mouseleave', '[id^="DashboardPart"]', function () {
-        var partId = $(this).attr('id').substring($(this).attr('id').indexOf('_'));
+    $(document).on('mouseleave', '.grid-stack-item-content', function () {
+        var partId = $(this).children().attr('id').substring($(this).children().attr('id').indexOf('_'));
         $("#DashboardRefresh" + partId).css('opacity', '0');
     });
 

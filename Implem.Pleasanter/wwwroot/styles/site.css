@@ -3408,6 +3408,27 @@ textarea:focus {
     opacity: 0;
 }
 
+@keyframes custom-spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.dashboard-part-road {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    font-size: 50px;
+    line-height: 0px;
+    display: inline-block;
+    animation: custom-spin 1s linear infinite;
+}
+
 .gs-20 > .grid-stack-item {
     width: 5%;
     min-width: 5%;
