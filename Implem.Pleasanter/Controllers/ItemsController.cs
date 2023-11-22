@@ -13,6 +13,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Web.Helpers;
+
 namespace Implem.Pleasanter.Controllers
 {
     [Authorize]
@@ -38,6 +40,26 @@ namespace Implem.Pleasanter.Controllers
                 var json = new ItemModel(context: context, referenceId: id).IndexJson(context: context);
                 log.Finish(context: context, responseSize: json.Length);
                 return Content(json);
+            }
+        }
+
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult DashboardPart(long id, string dashboardPartId)
+        {
+            var context = new Context();
+            if (!context.Ajax)
+            {
+                var log = new SysLogModel(context: context);
+                var html = new ItemModel(context: context, referenceId: id).DashboardPartJson(context: context, dashboardPartId: dashboardPartId);
+                log.Finish(context: context, responseSize: html.Length);
+                return Content(html);
+            }
+            else
+            {
+                var log = new SysLogModel(context: context);
+                var html = new ItemModel(context: context, referenceId: id).DashboardPartJson(context: context, dashboardPartId: dashboardPartId);
+                log.Finish(context: context, responseSize: html.Length);
+                return Content(html);
             }
         }
 

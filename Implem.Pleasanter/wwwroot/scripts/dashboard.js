@@ -40,7 +40,7 @@ $(document).ready(function () {
         var data = {
             dashboardPartId: $('#DashboardPart' + partId).attr('data-id')
         }
-        //$p.ajax('DashboardPart', 'get', data, null, true);
+        $p.ajax('DashboardPart', 'get', data, null, true);
     }
 
     $('[id^="DashboardPart_"]').each(function (index, value) {

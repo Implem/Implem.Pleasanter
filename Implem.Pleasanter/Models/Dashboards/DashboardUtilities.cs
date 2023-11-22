@@ -197,6 +197,52 @@ namespace Implem.Pleasanter.Models
                 .ToJson();
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string DashboardPartJson(Context context, SiteSettings ss, string dashboardPartId)
+        {
+            var dashboardPartLayout = ss.DashboardParts
+                .Where(dashboardPart => dashboardPart.Id == dashboardPartId.ToInt())
+                .Select(dashboardPart =>
+                {
+                    dashboardPart.SetSitesData();
+                    switch (dashboardPart.Type)
+                    {
+                        case DashboardPartType.QuickAccess:
+                            return QuickAccessLayout(
+                                context: context,
+                                dashboardPart: dashboardPart).Content;
+                        case DashboardPartType.TimeLine:
+                            return TimeLineLayout(
+                                context: context,
+                                ss: ss,
+                                dashboardPart: dashboardPart).Content;
+                        case DashboardPartType.Custom:
+                            return CustomHtmlLayouyt(
+                                context: context,
+                                dashboardPart: dashboardPart).Content;
+                        case DashboardPartType.CustomHtml:
+                            return CustomHtmlLayouyt(
+                                context: context,
+                                dashboardPart).Content;
+                        case DashboardPartType.Calendar:
+                            return CalendarLayout(
+                                context: context,
+                                ss: ss,
+                                dashboardPart: dashboardPart).Content;
+                        default:
+                            return null;
+                    }
+                });
+            return new ResponseCollection(context: context)
+                .Html(
+                    target: $"#DashboardPart_{dashboardPartId}",
+                    value: dashboardPartLayout)
+                .Invoke("setCalendar", dashboardPartId.ToString())
+                .ToJson();
+        }
+
         private static GridData GetGridData(
             Context context, SiteSettings ss, View view, int offset = 0)
         {
