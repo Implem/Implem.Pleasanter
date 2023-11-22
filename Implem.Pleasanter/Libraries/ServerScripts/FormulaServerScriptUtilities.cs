@@ -1104,20 +1104,21 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetSearchScript()
         {
             return @"
-                function $SEARCH(firstString, secondString, start = 1)
+                function $SEARCH(findText, withinText, start = 1)
                 {
-                    if (firstString == undefined || secondString == undefined || isNaN(start))
-                    {
+                    if(arguments.length === 0 ) {
                         throw 'Invalid Parameter';
+                    }
+                    if (findText == undefined && withinText == undefined && start == 1)
+                    {
+                        return 1;
                     }
                     start = Number(start);
-                    if (start < 1 || start > secondString.length)
-                    {
+                    if (start < 1 || start > withinText.toString().length) {
                         throw 'Invalid Parameter';
                     }
-                    var index = secondString.toLowerCase().indexOf(firstString.toLowerCase(), start - 1);
-                    if (index < 0)
-                    {
+                    let index = withinText.toString().toLowerCase().indexOf(findText.toString().toLowerCase(), start - 1);
+                    if (index < 0) {
                         throw 'Not Found';
                     }
                     return index + 1;
@@ -1129,32 +1130,32 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             return @"
                 function $IFS(firstClause, retValue1)
                 {
-                    if (firstClause == undefined || retValue1 == undefined)
+                    if (arguments.length === 0 || arguments.length % 2 !== 0) {
+                        throw 'Invalid Parameter';
+                    }            
+                    for (let i = 0; i < arguments.length; i = i + 2)
                     {
+                        logicalTest = arguments[i],
+                        valueIfTrue = arguments[i+1];
+                        if (logicalTest === '')
+                        {
+                            throw 'Invalid Parameter';
+                        }
+                        logicalTest = (logicalTest === 'false') ? false : (logicalTest === 'true') ? true : logicalTest;
+                        if (!isNaN(logicalTest) || typeof logicalTest === 'boolean')
+                        {       
+                            if(Boolean(logicalTest)) {
+                                return valueIfTrue === undefined ? 0 : valueIfTrue;
+                            }        
+                            logicalTest = Boolean(logicalTest);
+                        }
+                    }
+                    if((logicalTest === undefined && logicalTest === undefined) || logicalTest === false) {
                         throw 'Invalid Parameter';
                     }
-                    if (!isNaN(firstClause))
-                    {
-                        firstClause = (firstClause != 0);
+                    if(logicalTest && (valueIfTrue === undefined)) {
+                        return 0;
                     }
-                    else if (typeof firstClause != 'boolean')
-                    {
-                        throw 'Invalid Parameter';
-                    }
-                    var retValue = firstClause ? retValue1 : '';
-                    for (var i = 2; i < arguments.length; i = i + 2)
-		            {
-			            if (!isNaN(arguments[i]))
-			            {
-				            arguments[i] = (arguments[i] != 0);
-			            }
-			            else if (typeof arguments[i] != 'boolean')
-			            {
-				            throw 'Invalid Parameter';
-			            }
-			            retValue = arguments[i] ? (arguments[i + 1] == undefined ? '' : arguments[i + 1]) : retValue;
-		            }
-		            return retValue;
 	            }";
         }
 
@@ -1619,7 +1620,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     {
                         let hour = Number(text.substring(0, 2)),
                         minute = Number(text.substring(3, 5));
-                        return Number(((hour + minutes/60) / 24).toFixed(1));
+                        return Number(((hour + minute/60) / 24).toFixed(1));
                     }
                     else
                     {
