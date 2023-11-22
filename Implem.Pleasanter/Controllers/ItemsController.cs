@@ -46,21 +46,11 @@ namespace Implem.Pleasanter.Controllers
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult DashboardPart(long id, string dashboardPartId)
         {
-            var context = new Context();
-            if (!context.Ajax)
-            {
-                var log = new SysLogModel(context: context);
-                var html = new ItemModel(context: context, referenceId: id).DashboardPartJson(context: context, dashboardPartId: dashboardPartId);
-                log.Finish(context: context, responseSize: html.Length);
-                return Content(html);
-            }
-            else
-            {
-                var log = new SysLogModel(context: context);
-                var html = new ItemModel(context: context, referenceId: id).DashboardPartJson(context: context, dashboardPartId: dashboardPartId);
-                log.Finish(context: context, responseSize: html.Length);
-                return Content(html);
-            }
+            var context = new Context(); 
+            var log = new SysLogModel(context: context);
+            var json = new ItemModel(context: context, referenceId: id).DashboardPartJson(context: context, dashboardPartId: dashboardPartId);
+            log.Finish(context: context, responseSize: json.Length);
+            return Content(json);
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
