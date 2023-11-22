@@ -9,6 +9,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
     public class FullCalendarElement
     {
         public long id;
+        public long siteId;
         public string title;
         public string time;
         public DateTime start;
@@ -20,6 +21,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
 
         public FullCalendarElement(
             long Id,
+            long SiteId,
             string Title,
             string Time,
             DateTime from,
@@ -29,6 +31,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             string statusHtml)
         {
             id = Id;
+            siteId = SiteId;
             title = Title;
             time = Time;
             start = from;
