@@ -4939,14 +4939,6 @@ namespace Implem.Pleasanter.Models
                     OtpNet.VerificationWindow.RfcSpecifiedNetworkDelay)
                     ? true
                     : VerifyGoogleAuthentication(secondaryAuthenticationCode, countTolerances + 1);
-            /*
-            return totp.VerifyTotp(secondaryAuthenticationCode,
-                out _,
-                OtpNet.VerificationWindow.RfcSpecifiedNetworkDelay) ||
-                totp.VerifyTotp(DateTime.UtcNow.AddSeconds(-30),
-                secondaryAuthenticationCode, out _,
-                OtpNet.VerificationWindow.RfcSpecifiedNetworkDelay);
-            */
         }
 
         /// <summary>
