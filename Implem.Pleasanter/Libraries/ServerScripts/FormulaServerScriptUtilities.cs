@@ -758,7 +758,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         throw 'Invalid Parameter';
                     }
                     return date.getSeconds();
-                }";
+                }"
+            ;
         }
 
         /// <summary>
@@ -848,7 +849,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetFindScript()
         {
             return @"
-                function FIND(findText, withinText, startNum = 1)
+                function $FIND(firstString, secondString, start = 1)
                 {
                     if (findText == undefined || withinText == undefined || isNaN(startNum))
                     {
@@ -995,10 +996,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     {
                         throw 'Invalid Parameter';
                     }
-                    if (instanceNum == undefined)
+                    if (index == undefined)
                     {
-                        var reg = new RegExp(oldText.toString(), 'g');
-                        return text.toString().replace(reg, newtext.toString());
+                        var reg = new RegExp(secondString.toString(), 'g');
+                        return firstString.toString().replace(reg, thirdString.toString());
                     }
                     else if (isNaN(instanceNum))
                     {
@@ -1010,9 +1011,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         throw 'Invalid Parameter';
                     }
                     var i = 0;
-                    var reg = new RegExp(oldText.toString(), 'g');
-                    return text.toString().replace(reg, match => ++i == instanceNum ? newtext.toString() : match);
-                }";
+                    var reg = new RegExp(secondString.toString(), 'g');
+                    return firstString.toString().replace(reg, match => ++i == index ? thirdString.toString() : match);
+	            }";
         }
 
         /// <summary>
