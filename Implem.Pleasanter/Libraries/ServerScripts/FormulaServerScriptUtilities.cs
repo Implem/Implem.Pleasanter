@@ -977,7 +977,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     {
                         throw 'Invalid Parameter';
                     }
-                    return text.toString().substring(text.toString().numChars - numChars);
+                    return text.toString().substring(text.toString().length - numChars);
                 }";
         }
 
