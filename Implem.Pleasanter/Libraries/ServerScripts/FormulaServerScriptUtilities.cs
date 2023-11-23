@@ -352,6 +352,12 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 .Replace("$or(", "$OR(", StringComparison.InvariantCultureIgnoreCase);
         }
 
+        /// <summary>
+        /// Returns a serial number representing the specified date
+        /// </summary>
+        /// <remarks>
+        /// Syntax: $DATE(year, month, day)
+        /// </remarks>
         private static string GetDateScript()
         {
             return @"
@@ -379,6 +385,12 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 }";
         }
 
+        /// <summary>
+        /// Calculates the number of days, months, or years between two dates.
+        /// </summary>
+        /// <remarks>
+        /// Syntax: $DATEDIF(firstDate, secondDate, unit)
+        /// </remarks>
         private static string GetDateDifScript()
         {
             return @"
@@ -463,6 +475,13 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 }";
         }
 
+        /// <summary>
+        /// Returns the day of a date, represented by a date, serial number.
+        /// The day is given as an integer ranging from 1 to 31.
+        /// </summary>
+        /// <remarks>
+        /// Syntax: $DAY(date)
+        /// </remarks>
         private static string GetDayScript()
         {
             return @"
@@ -489,6 +508,12 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 }";
         }
 
+        /// <summary>
+        /// Returns the number of days between two dates.
+        /// </summary>
+        /// <remarks>
+        /// Syntax: $DAYS(firstDate, secondDate)
+        /// </remarks>
         private static string GetDaysScript()
         {
             return @"
@@ -538,6 +563,13 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 }";
         }
 
+        /// <summary>
+        /// Returns the hour of a time value.
+        /// The hour is given as an integer, ranging from 0 to 23.
+        /// </summary>
+        /// <remarks>
+        /// Syntax: $HOUR(date)
+        /// </remarks>
         private static string GetHourScript()
         {
             return @"
@@ -576,6 +608,12 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 }";
         }
 
+        /// <summary>
+        /// Returns the minutes of a time value. The minute is given as an integer, ranging from 0 to 59.
+        /// </summary>
+        /// <remarks>
+        /// Syntax: $MINUTE(date)
+        /// </remarks>
         private static string GetMinuteScript()
         {
             return @"
@@ -624,6 +662,13 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 }";
         }
 
+        /// <summary>
+        /// Returns the month of a date represented by a serial number.
+        /// The month is given as an integer, ranging from 1 (January) to 12 (December).
+        /// </summary>
+        /// <remarks>
+        /// Syntax: $MONTH(date)
+        /// </remarks>
         private static string GetMonthScript()
         {
             return @"
@@ -647,17 +692,24 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         throw 'Invalid Parameter';
                     }
                     return date.getMonth() + 1;
-	            }";
+                }"
+            ;
         }
 
+        /// <summary>
+        /// Returns the serial number of the current date and time
+        /// </summary>
+        /// <remarks>
+        /// Syntax: $NOW()
+        /// </remarks>
         private static string GetNowScript(Context context)
         {
             return @"
                 function $NOW()
                 {
-		            var d = new Date();
+                    var d = new Date();
                     d.setMinutes(d.getMinutes() + d.getTimezoneOffset() + " + context.TimeZoneInfo.BaseUtcOffset.Hours * 60 + @");
-		            return d.getFullYear()
+                    return d.getFullYear()
                         + '/' + ('0' + (d.getMonth() + 1)).slice(-2)
                         + '/' + ('0' + d.getDate()).slice(-2)
                         + ' ' + ('0' + d.getHours()).slice(-2)
@@ -666,12 +718,18 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 }";
         }
 
+        /// <summary>
+        /// Returns the seconds of a time value. The second is given as an integer in the range 0 (zero) to 59.
+        /// </summary>
+        /// <remarks>
+        /// Syntax: $SECOND(date)
+        /// </remarks>
         private static string GetSecondScript()
         {
             return @"
                 function $SECOND(date)
                 {
-		            if (date == undefined)
+                    if (date == undefined)
                     {
                         throw 'Invalid Parameter';
                     }
@@ -701,22 +759,35 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         throw 'Invalid Parameter';
                     }
                     return date.getSeconds();
-                }";
+                }"
+            ;
         }
 
+        /// <summary>
+        /// Returns the serial number of the current date.
+        /// </summary>
+        /// <remarks>
+        /// Syntax: $TODAY()
+        /// </remarks>
         private static string GetTodayScript(Context context)
         {
             return @"
                 function $TODAY()
                 {
-		            var d = new Date();
+                    var d = new Date();
                     d.setMinutes(d.getMinutes() + d.getTimezoneOffset() + " + context.TimeZoneInfo.BaseUtcOffset.Hours * 60 + @");
-		            return d.getFullYear()
+                    return d.getFullYear()
                         + '/' + ('0' + (d.getMonth() + 1)).slice(-2)
                         + '/' + ('0' + d.getDate()).slice(-2);
                 }";
         }
 
+        /// <summary>
+        /// Returns the year corresponding to a date. The year is returned as an integer in the range 1900-9999.
+        /// </summary>
+        /// <remarks>
+        /// Syntax: $YEAR(date)
+        /// </remarks>
         private static string GetYearScript()
         {
             return @"
@@ -740,9 +811,15 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         throw 'Invalid Parameter';
                     }
                     return date.getFullYear();
-	            }";
+                }";
         }
 
+        /// <summary>
+        /// Combines the text from multiple ranges and/or strings.
+        /// </summary>
+        /// <remarks>
+        /// Syntax: $CONCAT(firstString1, [firstString2],…)
+        /// </remarks>
         private static string GetConcatScript()
         {
             return @"
@@ -764,165 +841,226 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 }";
         }
 
+        /// <summary>
+        /// Finds the first occurrence of a string within another string. Uppercase and lowercase letters are case sensitive
+        /// </summary>
+        /// <remarks>
+        /// Syntax: $FIND(firstString, secondString, start = 1)
+        /// </remarks>
         private static string GetFindScript()
         {
             return @"
-                function $FIND(firstString, secondString, start = 1)
+                function FIND(findText, withinText, startNum = 1)
                 {
-                    if (firstString == undefined || secondString == undefined || isNaN(start))
+                    if (findText == undefined || withinText == undefined || isNaN(startNum))
                     {
                         throw 'Invalid Parameter';
                     }
-                    start = Number(start);
-                    if (start < 1)
+                    startNum = Number(startNum);
+                    if (startNum < 1)
                     {
                         throw 'Invalid Parameter';
                     }
-	                var index = secondString.toString().indexOf(firstString.toString(), start - 1);
+                    var index = withinText.toString().indexOf(findText.toString(), startNum - 1);
                     if (index < 0)
                     {
                         throw 'Not Found';
                     }
-		            return index + 1;
-	            }";
+                    return index + 1;
+                }";
         }
 
+        /// <summary>
+        /// LEFT returns the first character or characters in a text string, based on the number of characters you specify.
+        /// </summary>
+        /// <remarks>
+        /// Syntax: $LEFT(text, numChars)
+        /// </remarks>
         private static string GetLeftScript()
         {
             return @"
-                function $LEFT(firstString, length = 1)
+                function $LEFT(text, numChars = 1)
                 {
-                    if (firstString == undefined || isNaN(length))
+                    if (text == undefined || isNaN(numChars))
                     {
                         throw 'Invalid Parameter';
                     }
-                    length = Number(length);
-                    if (length < 0)
+                    numChars = Number(numChars);
+                    if (numChars < 0)
                     {
                         throw 'Invalid Parameter';
                     }
-		            return firstString.toString().substring(0, length);
-	            }";
+                    return text.toString().substring(0, numChars);
+                }";
         }
 
+        /// <summary>
+        /// LEN returns the number of characters in a text string.
+        /// </summary>
+        /// <remarks>
+        /// Syntax: $LEN(text)
+        /// </remarks>
         private static string GetLenScript()
         {
             return @"
-                function $LEN(firstString)
+                function $LEN(text)
                 {
-                    if (firstString == undefined)
+                    if (text == undefined)
                     {
                         throw 'Invalid Parameter';
                     }
-		            return firstString.toString().length;
-	            }";
+                    return text.toString().length;
+                }";
         }
 
+        /// <summary>
+        /// Converts all uppercase letters in a text string to lowercase.
+        /// </summary>
+        /// <remarks>
+        /// Syntax: $LOWER(text)
+        /// </remarks>
         private static string GetLowerScript()
         {
             return @"
-                function $LOWER(firstString)
+                function $LOWER(text)
                 {
-                    if (firstString == undefined)
+                    if (text == undefined)
                     {
                         throw 'Invalid Parameter';
                     }
-		            return firstString.toString().toLowerCase();
-	            }";
+                    return text.toString().toLowerCase();
+                }";
         }
 
+        /// <summary>
+        /// MID returns a specific number of characters from a text string, starting at the position you specify, based on the number of characters you specify.
+        /// </summary>
+        /// <remarks>
+        /// Syntax: $MID(text, startNum, numChars)
+        /// </remarks>
         private static string GetMidScript()
         {
             return @"
-                function $MID(firstString, start, length)
+                function $MID(text, startNum, numChars)
                 {
-                    if (firstString == undefined || isNaN(start) || isNaN(length))
+                    if (text == undefined || isNaN(startNum) || isNaN(numChars))
                     {
                         throw 'Invalid Parameter';
                     }
-                    start = Number(start);
-                    length = Number(length);
-                    if (start < 1 || length < 0)
+                    startNum = Number(startNum);
+                    numChars = Number(numChars);
+                    if (startNum < 1 || numChars < 0)
                     {
                         throw 'Invalid Parameter';
                     }
-		            return firstString.toString().substring(start - 1, start - 1 + length);
-	            }";
+                    return text.toString().substring(startNum - 1, startNum - 1 + numChars);
+                }";
         }
 
+
+        /// <summary>
+        /// RIGHT returns the last character or characters in a text string, based on the number of characters you specify.
+        /// </summary>
+        /// <remarks>
+        /// Syntax: $RIGHT(text,[numChars])
+        /// </remarks>
         private static string GetRightScript()
         {
             return @"
-                function $RIGHT(firstString, length = 1)
+                function $RIGHT(text, numChars = 1)
                 {
-                    if (firstString == undefined || isNaN(length))
+                    if (text == undefined || isNaN(numChars))
                     {
                         throw 'Invalid Parameter';
                     }
-                    length = Number(length);
-                    if (length < 0)
+                    numChars = Number(numChars);
+                    if (numChars < 0)
                     {
                         throw 'Invalid Parameter';
                     }
-		            return firstString.toString().substring(firstString.toString().length - length);
-	            }";
+                    return text.toString().substring(text.toString().numChars - numChars);
+                }";
         }
 
+        /// <summary>
+        /// Substitutes newtext for oldText in a text string. 
+        /// </summary>
+        /// <remarks>
+        /// Syntax: $SUBSTITUTE(text, oldText, newtext, [instanceNum])
+        /// </remarks>
         private static string GetSubstituteScript()
         {
             return @"
-                function $SUBSTITUTE(firstString, secondString, thirdString, index)
+                function $SUBSTITUTE(text, oldText, newtext, instanceNum)
                 {
-                    if (firstString == undefined || secondString == undefined || thirdString == undefined)
+                    if (text == undefined || oldText == undefined || newtext == undefined)
                     {
                         throw 'Invalid Parameter';
                     }
-                    if (index == undefined)
+                    if (instanceNum == undefined)
                     {
-                        var reg = new RegExp(secondString.toString(), 'g');
-                        return firstString.toString().replace(reg, thirdString.toString());
+                        var reg = new RegExp(oldText.toString(), 'g');
+                        return text.toString().replace(reg, newtext.toString());
                     }
-                    else if (isNaN(index))
+                    else if (isNaN(instanceNum))
                     {
                         throw 'Invalid Parameter';
                     }
-                    index = Number(index);
-                    if (index < 1)
+                    instanceNum = Number(instanceNum);
+                    if (instanceNum < 1)
                     {
                         throw 'Invalid Parameter';
                     }
                     var i = 0;
-                    var reg = new RegExp(secondString.toString(), 'g');
-                    return firstString.toString().replace(reg, match => ++i == index ? thirdString.toString() : match);
-	            }";
+                    var reg = new RegExp(oldText.toString(), 'g');
+                    return text.toString().replace(reg, match => ++i == instanceNum ? newtext.toString() : match);
+                }";
         }
 
+        /// <summary>
+        /// Removes all spaces from text except for single spaces between words.
+        /// </summary>
+        /// <remarks>
+        /// Syntax: $TRIM(text)
+        /// </remarks>
         private static string GetTrimScript()
         {
             return @"
-                function $TRIM(firstString)
+                function $TRIM(text)
                 {
-                    if (firstString == undefined)
+                    if (text == undefined)
                     {
                         throw 'Invalid Parameter';
                     }
-		            return firstString.toString().trim();
-	            }";
+                    return text.toString().trim();
+                }";
         }
 
+        /// <summary>
+        /// Converts text to uppercase.
+        /// </summary>
+        /// <remarks>
+        /// Syntax: $UPPER(text)
+        /// </remarks>
         private static string GetUpperScript()
         {
             return @"
-                function $UPPER(firstString)
+                function $UPPER(text)
                 {
-                    if (firstString == undefined)
+                    if (text == undefined)
                     {
                         throw 'Invalid Parameter';
                     }
-		            return firstString.toString().toUpperCase();
-	            }";
+                    return text.toString().toUpperCase();
+                }";
         }
 
+        /// <summary>
+        /// Use the AND function, one of the logical functions, to determine if all conditions in a test are TRUE.
+        /// </summary>
+        /// <remarks>
+        /// Syntax: $AND(firstClause, [secondClause], ...)
+        /// </remarks>
         private static string GetAndScript()
         {
             return @"
@@ -960,79 +1098,99 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 }";
         }
 
+        /// <summary>
+        /// Returns the specified value depending on the result of a logical expression(TRUE or FALSE)
+        /// </summary>
+        /// <remarks>
+        /// Syntax: $IF(expression, valueIfTrue, valueIfFalse)
+        /// </remarks>
         private static string GetIfScript()
         {
             return @"
-                function $IF(firstClause, retValue1, retValue2 = false)
+                function $IF(expression, valueIfTrue, valueIfFalse = false)
                 {
-                    if (firstClause == undefined || retValue1 == undefined)
+                    if (expression == undefined || valueIfTrue == undefined)
                     {
                         throw 'Invalid Parameter';
                     }
-                    if (!isNaN(firstClause))
+                    if (!isNaN(expression))
                     {
-                        firstClause = (firstClause != 0);
+                        expression = (expression != 0);
                     }
-                    else if (typeof firstClause != 'boolean')
+                    else if (typeof expression != 'boolean')
                     {
                         throw 'Invalid Parameter';
                     }
-		            return firstClause ? retValue1 : retValue2;
-	            }";
+                    return expression ? valueIfTrue : valueIfFalse;
+                }";
         }
 
+
+        /// <summary>
+        /// Returns TRUE if the argument is FALSE, otherwise returns FALSE
+        /// </summary>
+        /// <remarks>
+        /// Syntax: $NOT(expression)
+        /// </remarks>
         private static string GetNotScript()
         {
             return @"
-                function $NOT(firstClause)
+                function $NOT(expression)
                 {
-                    if (firstClause == undefined)
+                    if (expression == undefined)
                     {
                         throw 'Invalid Parameter';
                     }
-                    if (!isNaN(firstClause))
+                    if (!isNaN(expression))
                     {
-                        firstClause = (firstClause != 0);
+                        expression = (expression != 0);
                     }
-                    else if (typeof firstClause != 'boolean')
+                    else if (typeof expression != 'boolean')
                     {
                         throw 'Invalid Parameter';
                     }
-		            return !firstClause;
-	            }";
+                    return !expression;
+                }";
         }
 
+
+        /// <summary>
+        /// Returns TRUE if either argument is TRUE. Returns FALSE if all arguments are FALSE
+        /// </summary>
+        /// <remarks>
+        /// Syntax: $OR(expression, [expression2], ...))
+        /// </remarks>
         private static string GetOrScript()
         {
             return @"
-                function $OR(firstClause)
+                function $OR(expression)
                 {
-                    if (firstClause == undefined)
+                    if (expression == undefined)
                     {
                         throw 'Invalid Parameter';
                     }
-                    if (!isNaN(firstClause))
+                    if (!isNaN(expression))
                     {
-                        firstClause = (firstClause != 0);
+                        expression = (expression != 0);
                     }
-                    else if (typeof firstClause != 'boolean')
+                    else if (typeof expression != 'boolean')
                     {
                         throw 'Invalid Parameter';
                     }
                     for (var i = 1; i < arguments.length; i++)
-		            {
-			            if (!isNaN(arguments[i]))
-			            {
-				            arguments[i] = (arguments[i] != 0);
-			            }
-			            else if (typeof arguments[i] != 'boolean')
-			            {
-				            throw 'Invalid Parameter';
-			            }
-			            firstClause = firstClause || arguments[i];
-		            }
-		            return firstClause;
-	            }";
+                    {
+                        if (!isNaN(arguments[i]))
+                        {
+                            arguments[i] = (arguments[i] != 0);
+                        }
+                        else if (typeof arguments[i] != 'boolean')
+                        {
+                            throw 'Invalid Parameter';
+                        }
+                        expression = expression || arguments[i];
+                    }
+                    return expression;
+                }";
         }
     }
 }
