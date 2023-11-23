@@ -1176,39 +1176,69 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     return Math.trunc(number) % 2 == 0;
 	            }";
         }
-
+        /// <summary>
+        /// Value refers to a number.
+        /// </summary>
+        /// <remarks>
+        /// Syntax: ISNUMBER(value)
+        /// </remarks>
         private static string GetIsNumberScript()
         {
             return @"
-                function $ISNUMBER(number)
+                function $ISNUMBER(value)
                 {
-                    if (number == undefined)
+                    if (arguments.length === 0)
                     {
                         throw 'Invalid Parameter';
                     }
-                    if (typeof number === 'string' || number instanceof String)
+                    if(!isNaN(value) && typeof value !== 'string') 
                     {
-                        return false;
+                         return true; 
                     }
-                    return !isNaN(number);
+                    if(typeof value == 'string') 
+                    {
+                        if(value == '') 
+                        {
+                             return false; 
+                        }
+                        if(/^(\d{4})(\/|-)(\d{1,2})(\/|-)(\d{1,2})$/.test(value.substring(0,10).trim())) 
+                        {
+                             return true; 
+                        }
+                    }
+                    return false;
 	            }";
         }
 
+        /// <summary>
+        /// Returns TRUE if number is odd, or FALSE if number is even.
+        /// </summary>
+        /// <remarks>
+        /// If number is nonnumeric, ISODD will throw Invalid Parametererror Exception.
+        /// Syntax: ISODD(number)
+        /// </remarks>
         private static string GetIsOddScript()
         {
             return @"
                 function $ISODD(number)
                 {
-                    if (number == undefined)
+                    if (arguments.length === 0 || number === '')
                     {
                         throw 'Invalid Parameter';
                     }
-                    if (isNaN(number))
+                    if (number === undefined)
                     {
-                        return $DAYS(number, '1/2/2000') % 2 == 0;
+                        return false;
+                    }
+                    if (isNaN(number) && typeof number === 'string')
+                    {
+                        if(/^(\d{4})(\/|-)(\d{1,2})(\/|-)(\d{1,2})$/.test(number.substring(0,10).trim())) { 
+                            return $DAYS(number, '1/2/2000') % 2 === 0;
+                        }
+                        throw 'Invalid Parameter';
                     }
                     number = Number(number);
-                    return Math.trunc(number) % 2 == 0;
+                    return Math.trunc(number) % 2 !== 0;
 	            }";
         }
 
@@ -1217,9 +1247,23 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             return @"
                 function $ISTEXT(text)
                 {
-                    if (text == undefined)
+                    if (arguments.length === 0)
                     {
                         throw 'Invalid Parameter';
+                    }     
+                    if (text === undefined)
+                    {
+                        return false;
+                    }
+                    if(typeof text === 'string' || text instanceof String) {
+                        if(/^(\d{4})(\/|-)(\d{1,2})(\/|-)(\d{1,2})$/.test(text.substring(0,10).trim())) {
+                            return false;
+                        }
+                        return true;
+                    }
+                    if (text === undefined)
+                    {
+                        return false;
                     }
                     return typeof text === 'string' || text instanceof String;
 	            }";
@@ -1238,21 +1282,33 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
 	            }";
         }
 
+        /// <summary>
+        /// Returns number rounded up to the nearest odd integer.
+        /// </summary>
+        /// <remarks>
+        /// Syntax: ODD(number)
+        /// </remarks>
         private static string GetOddScript()
         {
             return @"
                 function $ODD(number)
                 {
-                    if (number == undefined)
+                    if (arguments.length === 0)
                     {
                         throw 'Invalid Parameter';
-                    }
-                    if (isNaN(number))
+                    } 
+                    if (number === undefined || number === 0)
                     {
-                        var result = DAYS(number, '1/2/2000');
+                        return 1;
                     }
-                    var result = Math.ceil(Number(number));
-                    return result % 2 == 0 ? result + (result > 0 ? 1 : -1) : result;
+                    if (isNaN(number) && typeof number === 'string')
+                    {
+                        if(/^(\d{4})(\/|-)(\d{1,2})(\/|-)(\d{1,2})$/.test(number.substring(0,10).trim())) {
+                            number = $DAYS(number, '01/01/1900');
+                        }
+                    }
+                    let result = Math.ceil(Number(number));
+                    return (result % 2 === 0) ? result + (result > 0 ? 1 : -1) : result;
 	            }";
         }
 
