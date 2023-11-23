@@ -844,12 +844,12 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         /// Finds the first occurrence of a string within another string. Uppercase and lowercase letters are case sensitive
         /// </summary>
         /// <remarks>
-        /// Syntax: $FIND(firstString, secondString, start = 1)
+        /// Syntax: $FIND(findText, withinText, start = 1)
         /// </remarks>
         private static string GetFindScript()
         {
             return @"
-                function $FIND(firstString, secondString, start = 1)
+                function $FIND(findText, withinText, startNum = 1)
                 {
                     if (findText == undefined || withinText == undefined || isNaN(startNum))
                     {
@@ -996,10 +996,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     {
                         throw 'Invalid Parameter';
                     }
-                    if (index == undefined)
+                    let reg = new RegExp(oldText.toString(), 'g');
+                    if (instanceNum == undefined)
                     {
-                        var reg = new RegExp(secondString.toString(), 'g');
-                        return firstString.toString().replace(reg, thirdString.toString());
+                        return text.toString().replace(reg, newtext.toString());
                     }
                     else if (isNaN(instanceNum))
                     {
@@ -1010,10 +1010,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     {
                         throw 'Invalid Parameter';
                     }
-                    var i = 0;
-                    var reg = new RegExp(secondString.toString(), 'g');
-                    return firstString.toString().replace(reg, match => ++i == index ? thirdString.toString() : match);
-	            }";
+                    let i = 0;
+                    return text.toString().replace(reg, match => ++i == instanceNum ? newtext.toString() : match);
+                }";
         }
 
         /// <summary>
