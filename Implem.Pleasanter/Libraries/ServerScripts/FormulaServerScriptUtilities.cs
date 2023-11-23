@@ -1071,36 +1071,51 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
 	            }";
         }
 
+        /// <summary>
+        /// Replaces part of a text string, based on the number of characters you specify, with a different text string.
+        /// </summary>
+        /// <remarks>
+        /// Syntax: REPLACE(oldText, startNum, numChars, newText)
+        /// </remarks>
         private static string GetReplaceScript()
         {
             return @"
-                function $REPLACE(firstString, start, length, secondString)
+                function $REPLACE(oldText, startNum, numChars, newText)
                 {
                     if (arguments.length !== 4)
                     {
                         throw 'Invalid Parameter';
                     }
-                    start = (start === undefined) ? 0 : start;
-                    length = (length === undefined) ? 0 : length;
-                    if (isNaN(start) || isNaN(length))
+                    startNum = (startNum === undefined) ? 0 : startNum;
+                    numChars = (numChars === undefined) ? 0 : numChars;
+                    if (isNaN(startNum) || isNaN(numChars))
                     {
                         throw 'Invalid Parameter';
                     }
-                    start = Number(start);
-                    length = Number(length);
-                    if (start < 1 || length < 0)
+                    startNum = Number(startNum);
+                    numChars = Number(numChars);
+                    if (startNum < 1 || numChars < 0)
                     {
                         throw 'Invalid Parameter';
                     }
-                    if(firstString === undefined || firstString === '') {
-                        return secondString;
+                    if(oldText === undefined || oldText === '') {
+                        return newText === undefined ? '' : newText;
                     }
-                    return firstString.toString().substring(0, start - 1)
-                        + secondString.toString()
-                        + firstString.toString().substring(start - 1 + length);
-	            }";
+                    if(oldText === undefined || newText === undefined) {
+                        return '';
+                    }
+                    return oldText.toString().substring(0, startNum - 1)
+                        + newText.toString()
+                        + oldText.toString().substring(startNum - 1 + numChars);
+                }";
         }
 
+        /// <summary>
+        /// Returns the character number of the first occurrence of a string. Uppercase and lowercase letters are not sensitive
+        /// </summary>
+        /// <remarks>
+        /// Syntax: SEARCH(findText, withinText, [startNum])
+        /// </remarks>
         private static string GetSearchScript()
         {
             return @"
@@ -1125,6 +1140,13 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
 	            }";
         }
 
+
+        /// <summary>
+        /// Checks if one or more conditions are met and returns the value corresponding to the first true condition
+        /// </summary>
+        /// <remarks>
+        /// Syntax: IFS(firstClause, retValue1, [logicalClause2, retValue2, logicalClause3, retValue3])
+        /// </remarks>
         private static string GetIfsScript()
         {
             return @"
@@ -1159,6 +1181,12 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
 	            }";
         }
 
+        /// <summary>
+        /// Returns TRUE if number is even, or FALSE if number is odd.
+        /// </summary>
+        /// <remarks>
+        /// Syntax: ISEVEN(number)
+        /// </remarks>
         private static string GetIsEvenScript()
         {
             return @"
@@ -1242,6 +1270,12 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
 	            }";
         }
 
+        /// <summary>
+        /// Returns TRUE if the cell content is a string
+        /// </summary>
+        /// <remarks>
+        /// Syntax: ISTEXT(text)
+        /// </remarks>
         private static string GetIsTextScript()
         {
             return @"
@@ -1269,6 +1303,12 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
 	            }";
         }
 
+        /// <summary>
+        /// Returns the remainder after number is divided by divisor. The result has the same sign as divisor
+        /// </summary>
+        /// <remarks>
+        /// Syntax: MOD(number, divisor)
+        /// </remarks>
         private static string GetModScript()
         {
             return @"
@@ -1312,6 +1352,12 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
 	            }";
         }
 
+        /// <summary>
+        /// Returns the average (arithmetic mean) of the arguments. 
+        /// </summary>
+        /// <remarks>
+        /// Syntax: AVERAGE(number1, [number2], ...)
+        /// </remarks>
         private static string GetAverageScript()
         {
             return @"
@@ -1335,6 +1381,13 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
 	            }";
         }
 
+        /// <summary>
+        /// Returns the day of the week corresponding to a date.
+        /// The day is given as an integer, ranging from 1 (Sunday) to 7 (Saturday), by default.
+        /// </summary>
+        /// <remarks>
+        /// Syntax: WEEKDAY(date, [returnType])
+        /// </remarks>
         private static string GetWeekdayScript()
         {
             return @"
