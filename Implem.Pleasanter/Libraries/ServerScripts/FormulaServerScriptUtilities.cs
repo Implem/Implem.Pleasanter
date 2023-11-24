@@ -997,7 +997,6 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 }";
         }
 
-
         /// <summary>
         /// RIGHT returns the last character or characters in a text string, based on the number of characters you specify.
         /// </summary>
@@ -1121,7 +1120,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                             if (arguments[i] === false) {
                                 return false;
                             }
-                            firstClause = true;
+                            firstClause =  Boolean(firstClause);
                         }
                     }
                     firstClause =
@@ -1164,7 +1163,6 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 }";
         }
 
-
         /// <summary>
         /// Returns TRUE if the argument is FALSE, otherwise returns FALSE
         /// </summary>
@@ -1191,7 +1189,6 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     return !expression;
                 }";
         }
-
 
         /// <summary>
         /// Returns TRUE if either argument is TRUE. Returns FALSE if all arguments are FALSE
