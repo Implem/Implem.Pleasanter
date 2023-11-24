@@ -3,6 +3,7 @@ using Implem.Pleasanter.Libraries.Extensions;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
+using Microsoft.ClearScript;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
@@ -319,7 +320,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     + GetIfScript()
                     + GetNotScript()
                     + GetOrScript();
-                return engine.Evaluate(functionScripts + formulaScript);
+                var value = engine.Evaluate(functionScripts + formulaScript);
+                return value == Undefined.Value ? string.Empty : value;
             }
         }
 
@@ -758,8 +760,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         throw 'Invalid Parameter';
                     }
                     return date.getSeconds();
-                }"
-            ;
+                }";
         }
 
         /// <summary>

@@ -3306,6 +3306,10 @@ namespace Implem.Pleasanter.Models
                 }
                 else if (formulaSet.CalculationMethod == FormulaSet.CalculationMethods.Script.ToString())
                 {
+                    SetExtendedColumnDefaultValue(
+                        ss: ss,
+                        formulaScript: formulaSet.FormulaScript,
+                        calculationMethod: formulaSet.CalculationMethod);
                     formulaSet.FormulaScript = FormulaBuilder.ParseFormulaScript(
                         ss: ss,
                         formulaScript: formulaSet.FormulaScript,
