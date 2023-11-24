@@ -692,8 +692,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         throw 'Invalid Parameter';
                     }
                     return date.getMonth() + 1;
-                }"
-            ;
+                }";
         }
 
         /// <summary>
@@ -759,8 +758,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         throw 'Invalid Parameter';
                     }
                     return date.getSeconds();
-                }"
-            ;
+                }";
         }
 
         /// <summary>

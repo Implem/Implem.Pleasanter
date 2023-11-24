@@ -3586,7 +3586,8 @@ namespace Implem.Pleasanter.Models
             ss.Formulas?.ForEach(formulaSet =>
             {
                 var columnName = formulaSet.Target;
-                if (string.IsNullOrEmpty(formulaSet.CalculationMethod) || formulaSet.CalculationMethod == FormulaSet.CalculationMethods.Default.ToString())
+                if (string.IsNullOrEmpty(formulaSet.CalculationMethod)
+                    || formulaSet.CalculationMethod == FormulaSet.CalculationMethods.Default.ToString())
                 {
                     var formula = formulaSet.Formula;
                     var view = ss.Views?.Get(formulaSet.Condition);
