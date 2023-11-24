@@ -3586,7 +3586,8 @@ namespace Implem.Pleasanter.Models
             ss.Formulas?.ForEach(formulaSet =>
             {
                 var columnName = formulaSet.Target;
-                if (string.IsNullOrEmpty(formulaSet.CalculationMethod) || formulaSet.CalculationMethod == FormulaSet.CalculationMethods.Default.ToString())
+                if (string.IsNullOrEmpty(formulaSet.CalculationMethod)
+                    || formulaSet.CalculationMethod == FormulaSet.CalculationMethods.Default.ToString())
                 {
                     var formula = formulaSet.Formula;
                     var view = ss.Views?.Get(formulaSet.Condition);
@@ -3638,6 +3639,10 @@ namespace Implem.Pleasanter.Models
                 }
                 else if (formulaSet.CalculationMethod == FormulaSet.CalculationMethods.Script.ToString())
                 {
+                    SetExtendedColumnDefaultValue(
+                        ss: ss,
+                        formulaScript: formulaSet.FormulaScript,
+                        calculationMethod: formulaSet.CalculationMethod);
                     formulaSet.FormulaScript = FormulaBuilder.ParseFormulaScript(
                         ss: ss,
                         formulaScript: formulaSet.FormulaScript,
