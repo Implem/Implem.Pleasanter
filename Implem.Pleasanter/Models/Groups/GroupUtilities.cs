@@ -1,5 +1,4 @@
-﻿using DocumentFormat.OpenXml.Validation;
-using Implem.DefinitionAccessor;
+﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Classes;
 using Implem.Libraries.DataSources.Interfaces;
 using Implem.Libraries.DataSources.SqlServer;
@@ -928,7 +927,7 @@ namespace Implem.Pleasanter.Models
                     ? Displays.Groups(context: context) + " - " + Displays.New(context: context)
                     : groupModel.Title.MessageDisplay(context: context),
                 script: groupModel.MethodType != BaseModel.MethodTypes.New
-                    ? "$p.setPaging('CurrentMembers');"
+                    ? "$p.setPaging('CurrentMembers'); $p.setPaging('SelectableMembers');"
                     : null,
                 action: () => hb
                     .Editor(
@@ -2921,14 +2920,18 @@ namespace Implem.Pleasanter.Models
         {
             var pageSize = Parameters.General.DropDownSearchPageSize;
             var offset = context.Forms.Int("CurrentMembersOffset") + pageSize;
-            var currentMembers = CurrentMembers(context: context, groupId: groupId, offset: offset, pageSize: pageSize);
+            var currentMembers = CurrentMembers(
+                context: context,
+                groupId: groupId,
+                offset: offset,
+                pageSize: pageSize);
             var nextOffset = (currentMembers.Count < pageSize)
                 ? -1
                 : offset;
             return new ResponseCollection(context: context)
                 .Append(
-                    "#CurrentMembers",
-                    new HtmlBuilder()
+                    target: "#CurrentMembers",
+                    value: new HtmlBuilder()
                         .SelectableItems(
                             listItemCollection: currentMembers))
                 .Val(target: "#CurrentMembersOffset", value: nextOffset)
@@ -3097,12 +3100,48 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string SelectableMembersJson(Context context)
         {
-            return new ResponseCollection(context: context).Html(
-                "#SelectableMembers",
-                new HtmlBuilder().SelectableItems(
-                    listItemCollection: SelectableMembers(
-                        context: context)))
-                            .ToJson();
+            var searchText = context.Forms.Data("SearchMemberText");
+            var pageSize = Parameters.General.DropDownSearchPageSize;
+            if(context.Forms.Data("ControlId") != "SelectableMembers")
+            {
+                return new ResponseCollection(context: context)
+                    .Invoke(
+                        methodName: "clearScrollTop",
+                        args: "SelectableMembersWrapper")
+                    .Html(
+                        "#SelectableMembers",
+                        new HtmlBuilder().SelectableItems(
+                            listItemCollection: SelectableMembers(
+                                context: context,
+                                searchText: searchText,
+                                offset: 0,
+                                pageSize: pageSize)))
+                    .Val(
+                        target: "#SelectableMembersOffset",
+                        value: 0)
+                    .ToJson();
+            }
+            else
+            {
+                var offset = context.Forms.Int("SelectableMembersOffset") + pageSize;
+                var selectableMembers = SelectableMembers(
+                    context: context,
+                    searchText: searchText,
+                    offset: offset,
+                    pageSize: pageSize);
+                var nextOffset = (selectableMembers.Count < pageSize)
+                    ? -1
+                    : offset;
+                return new ResponseCollection(context: context)
+                    .Append(
+                        target: "#SelectableMembers",
+                        value: new HtmlBuilder().SelectableItems(
+                            listItemCollection: selectableMembers))
+                    .Val(
+                        target: "#SelectableMembersOffset",
+                        value: nextOffset)
+                    .ToJson();
+            }
         }
 
         /// <summary>
@@ -3114,10 +3153,13 @@ namespace Implem.Pleasanter.Models
             return hb.FieldSelectable(
                 controlId: "SelectableMembers",
                 fieldCss: "field-vertical",
+                controlCss: " always-send send-all",
                 controlContainerCss: "container-selectable",
                 controlWrapperCss: " h300",
                 labelText: Displays.SelectableMembers(context: context),
                 listItemCollection: SelectableMembers(context: context),
+                action: "SelectableMembers",
+                method: "Post",
                 commandOptionPositionIsTop: true,
                 commandOptionAction: () => hb
                     .Div(css: "command-left", action: () => hb
@@ -3134,16 +3176,23 @@ namespace Implem.Pleasanter.Models
                             controlCss: " always-send auto-postback w100",
                             placeholder: Displays.Search(context: context),
                             action: "SelectableMembers",
-                            method: "post")));
+                            method: "post")))
+                .Hidden(
+                    controlId: "SelectableMembersOffset",
+                    css: "always-send",
+                    value: "0");
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static Dictionary<string, ControlData> SelectableMembers(Context context)
+        private static Dictionary<string, ControlData> SelectableMembers(
+            Context context,
+            string searchText = null,
+            int offset = 0,
+            int pageSize = 0)
         {
             var data = new Dictionary<string, ControlData>();
-            var searchText = context.Forms.Data("SearchMemberText");
             if (!searchText.IsNullOrEmpty())
             {
                 var addedMembers = context.Forms.List("AddedGroupMembers");
@@ -3160,101 +3209,40 @@ namespace Implem.Pleasanter.Models
                 var deletedDepts = deletedMembers?
                     .Where(o => o.StartsWith("Dept,"))
                     .Select(o => o.Split_2nd().ToInt());
-                var currentDeptsWhere = Rds.GroupMembersWhere()
-                        .GroupId(context.Id)
-                        .DeptId_In(
-                            value: deletedDepts,
-                            negative: true,
-                            _using: deletedDepts?.Any() == true);
-                var currentUsersWhere = Rds.GroupMembersWhere()
-                        .GroupId(context.Id)
-                        .UserId_In(
-                            value: deletedUsers,
-                            negative: true,
-                            _using: deletedUsers?.Any() == true);
+                var memberDeptsNotIn = deletedDepts?.Any() == true
+                    ? $"and \"GroupMembers\".\"DeptId\" not in ( {deletedDepts.Join()} )"
+                    : "";
+                var deptsNotIn = addedDepts?.Any() == true
+                    ? $"and \"Depts\".\"DeptId\" not in ( {addedDepts.Join()} )"
+                    : "";
+                var memberUsersNotIn = deletedUsers?.Any() == true
+                    ? $"and \"GroupMembers\".\"UserId\" not in ( {deletedUsers.Join()} )"
+                    : "";
+                var usersNotIn = addedUsers?.Any() == true
+                    ? $"and \"Users\".\"UserId\" not in ( {addedUsers.Join()} ) "
+                    : "";
+                var commandText = Def.Sql.SelectSelectableMembers.Params(
+                    memberDeptsNotIn,
+                    deptsNotIn,
+                    memberUsersNotIn,
+                    usersNotIn);
+                var parameters = new SqlParamCollection {
+                    { "GroupId", context.Id },
+                    { "TenantId", context.TenantId },
+                    { "SearchText", searchText },
+                    { "Offset", offset },
+                    { "PageSize", pageSize }
+                };
                 Repository.ExecuteTable(
                     context: context,
-                    statements: new SqlStatement[]
-                    {
-                        Rds.SelectDepts(
-                            column: Rds.DeptsColumn()
-                                .DeptId()
-                                .DeptCode()
-                                .Add("0 as \"UserId\"")
-                                .Add("'' as \"UserCode\"")
-                                .Add("0 as \"IsUser\""),
-                            where: Rds.DeptsWhere()
-                                .TenantId(context.TenantId)
-                                .DeptId_In(
-                                    sub: Rds.SelectGroupMembers(
-                                        column: Rds.GroupMembersColumn()
-                                            .DeptId(),
-                                        where: currentDeptsWhere),
-                                    negative: true)
-                                .DeptId_In(
-                                    value: addedDepts,
-                                    negative: true,
-                                    _using: addedDepts?.Any() == true)
-                                .SqlWhereLike(
-                                    tableName: "Depts",
-                                    name: "SearchText",
-                                    searchText: searchText,
-                                    clauseCollection: new List<string>()
-                                    {
-                                        Rds.Depts_DeptCode_WhereLike(factory: context),
-                                        Rds.Depts_DeptName_WhereLike(factory: context)
-                                    })
-                                .Depts_Disabled(false)),
-                        Rds.SelectUsers(
-                            unionType: Sqls.UnionTypes.Union,
-                            column: Rds.UsersColumn()
-                                .Add("0 as \"DeptId\"")
-                                .Add("'' as \"DeptCode\"")
-                                .UserId()
-                                .UserCode()
-                                .Add("1 as \"IsUser\""),
-                            join: Rds.UsersJoin()
-                                .Add(new SqlJoin(
-                                    tableBracket: "\"Depts\"",
-                                    joinType: SqlJoin.JoinTypes.LeftOuter,
-                                    joinExpression: "\"Users\".\"DeptId\"=\"Depts\".\"DeptId\"")),
-                            where: Rds.UsersWhere()
-                                .TenantId(context.TenantId)
-                                .UserId_In(
-                                    sub: Rds.SelectGroupMembers(
-                                        column: Rds.GroupMembersColumn()
-                                            .UserId(),
-                                        where: currentUsersWhere),
-                                    negative: true)
-                                .UserId_In(
-                                    value: addedUsers,
-                                    negative: true,
-                                    _using: addedUsers?.Any() == true)
-                                .SqlWhereLike(
-                                    tableName: "Users",
-                                    name: "SearchText",
-                                    searchText: searchText,
-                                    clauseCollection: new List<string>()
-                                    {
-                                        Rds.Users_LoginId_WhereLike(factory: context),
-                                        Rds.Users_Name_WhereLike(factory: context),
-                                        Rds.Users_UserCode_WhereLike(factory: context),
-                                        Rds.Users_Body_WhereLike(factory: context),
-                                        Rds.Depts_DeptCode_WhereLike(factory: context),
-                                        Rds.Depts_DeptName_WhereLike(factory: context),
-                                        Rds.Depts_Body_WhereLike(factory: context)
-                                    })
-                                .Users_Disabled(false))
-                    })
-                        .AsEnumerable()
-                        .OrderBy(dataRow => dataRow.Bool("IsUser"))
-                        .ThenBy(dataRow => dataRow.String("DeptCode"))
-                        .ThenBy(dataRow => dataRow.Int("DeptId"))
-                        .ThenBy(dataRow => dataRow.String("UserCode"))
-                        .ForEach(dataRow =>
-                            data.AddMember(
-                                context: context,
-                                dataRow: dataRow));
+                    statements: new SqlStatement(
+                        commandText: commandText,
+                        param: parameters))
+                    .AsEnumerable()
+                    .ForEach(dataRow =>
+                        data.AddMember(
+                            context: context,
+                            dataRow: dataRow));
             }
             return data;
         }

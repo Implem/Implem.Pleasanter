@@ -19,7 +19,7 @@
             ? '(' + $p.display(type) + ')'
             : ''));
         //変更リストに登録
-        let key = value.substr(0, value.lastIndexOf(','));
+        let key = value.substr(0, value.lastIndexOf(',') + 1);
         if (modifiedMembers.findIndex(item => item.startsWith(key)) !== -1) {
             //変更済みリストに存在する場合リストから削除
             modifiedMembers = modifiedMembers.filter(item => !item.startsWith(key));
@@ -41,13 +41,16 @@ $p.moveGroupMembers = function ($selected, additionSelector, deletionSelector, d
     $selected.each(function (index, element) {
         let value = element
             .getAttribute("data-value");
-        let key = value.substr(0, value.lastIndexOf(','));
+        let key = value.substr(0, value.lastIndexOf(',') + 1);
         if (deletionArray.findIndex(item => item.startsWith(key)) !== -1) {
+            //deletionArray: 対象の要素が存在していたら削除
             deletionArray = deletionArray.filter(item => !item.startsWith(key));
         } else {
+            //additionArray: 対象の要素が存在していない場合追加
             additionArray.push(value);
         }
         if (deletion2Array !== null) {
+            //deletion2Array: 対象の要素が存在していたら削除
             if (deletion2Array.findIndex(item => item.startsWith(key)) !== -1) {
                 deletion2Array = deletion2Array.filter(item => !item.startsWith(key));
             }
@@ -69,7 +72,6 @@ $p.addToCurrentMembers = function ($control) {
         $selected,
         '#AddedGroupMembers',
         '#DeletedGroupMembers');
-    $p.send($control);
 }
 
 $p.deleteFromCurrentMembers = function ($control) {

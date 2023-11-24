@@ -19,6 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
@@ -1097,38 +1098,18 @@ namespace Implem.Pleasanter.Models
             }
             updateMembers?.ForEach(data =>
             {
-                if (Repository.ExecuteScalar_bool(
+                Repository.ExecuteNonQuery(
                     context: context,
-                    statements: Rds.SelectGroupMembers(
-                        column: Rds.GroupMembersColumn().GroupMembersCount(),
-                        where: Rds.GroupMembersWhere()
-                            .GroupId(GroupId)
-                            .DeptId(data.DeptId)
-                            .UserId(data.UserId))))
-                {
-                    Repository.ExecuteNonQuery(
-                        context: context,
-                        transactional: true,
-                        statements: Rds.UpdateGroupMembers(
-                            where: Rds.GroupMembersWhere()
-                                .GroupId(GroupId)
-                                .DeptId(data.DeptId)
-                                .UserId(data.UserId),
-                            param: Rds.GroupMembersParam()
-                                .Admin(data.Admin)));
-                }
-                else
-                {
-                    Repository.ExecuteNonQuery(
-                        context: context,
-                        transactional: true,
-                        statements: Rds.InsertGroupMembers(
-                            param: Rds.GroupMembersParam()
-                            .GroupId(GroupId)
-                            .DeptId(data.DeptId)
-                            .UserId(data.UserId)
-                            .Admin(data.Admin)));
-                }
+                    transactional: true,
+                    statements: new SqlStatement(
+                        commandText: Def.Sql.UpsertGroupMember,
+                        param: new SqlParamCollection
+                            {
+                                { "GroupId", GroupId },
+                                { "UserId", data.UserId },
+                                { "DeptId", data.DeptId },
+                                { "Admin", data.Admin }
+                            }));
             });
         }
 

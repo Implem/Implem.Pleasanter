@@ -45,3 +45,7 @@ $p.setPaging = function (controlId, offsetId) {
         }
     });
 }
+
+$p.clearScrollTop = function (controlId) {
+    document.getElementById(controlId).scrollTop = 0;
+}

@@ -13448,6 +13448,8 @@ namespace Implem.DefinitionAccessor
         public string CreateUserForPostgres;
         public string ChangeDatabaseOwnerForPostgres;
         public string GrantDatabaseForPostgres;
+        public string UpsertGroupMember;
+        public string SelectSelectableMembers;
     }
 
     /// <summary>
