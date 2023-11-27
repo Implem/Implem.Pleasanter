@@ -2269,12 +2269,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                     .Where(o => !o.NotUpdate || o.Name == "RemainingWorkValue")
                     .Where(o => !o.Id_Ver)
                     .Where(o => !o.Joined)
+                    .Where(o => !o.OtherColumn())
                     .Where(o => o.Name != "SiteId"
-                        && o.Name != "Comments"
-                        && o.Name != "Creator"
-                        && o.Name != "Updator"
-                        && o.Name != "CreatedTime"
-                        && o.Name != "UpdatedTime"))
+                        && o.Name != "Comments"))
                 .FirstOrDefault();
         }
 
@@ -2285,12 +2282,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                     .Where(o => !o.NotUpdate || o.Name == "RemainingWorkValue")
                     .Where(o => !o.Id_Ver)
                     .Where(o => !o.Joined)
+                    .Where(o => !o.OtherColumn())
                     .Where(o => o.Name != "SiteId"
-                        && o.Name != "Comments"
-                        && o.Name != "Creator"
-                        && o.Name != "Updator"
-                        && o.Name != "CreatedTime"
-                        && o.Name != "UpdatedTime")
+                        && o.Name != "Comments")
                 .ToList();
         }
 
@@ -3137,15 +3131,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .Where(o => !o.Joined)
                     : Columns
                         .Where(o => o.ControlType != "Attachments")
-                        .Where(o => !o.NotUpdate || o.Name == "RemainingWorkValue")
+                        .Where(o => !o.NotUpdate)
                         .Where(o => !o.Id_Ver)
                         .Where(o => !o.Joined)
+                        .Where(o => !o.OtherColumn())
                         .Where(o => o.Name != "SiteId"
-                            && o.Name != "Comments"
-                            && o.Name != "Creator"
-                            && o.Name != "Updator"
-                            && o.Name != "CreatedTime"
-                            && o.Name != "UpdatedTime"))
+                            && o.Name != "Comments"))
                 .OrderBy(o => o.No)
                 .ToDictionary(o => o.ColumnName, o => new ControlData(o.LabelText));
         }

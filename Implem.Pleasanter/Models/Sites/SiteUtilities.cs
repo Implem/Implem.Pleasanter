@@ -8217,7 +8217,11 @@ namespace Implem.Pleasanter.Models
                         controlId: "IsDisplayError",
                         controlCss: " always-send",
                         labelText: Displays.IsDisplayError(context: context),
-                        _checked: formulaSet.IsDisplayError == true)
+                        _checked: formulaSet.IsDisplayError == true,
+                        fieldCss: (formulaSet.CalculationMethod == FormulaSet.CalculationMethods.Default.ToString()
+                            || formulaSet.CalculationMethod == null)
+                            ? " hidden formula-display-error-check"
+                            : " formula-display-error-check")
                     .FieldDropDown(
                         context: context,
                         controlId: "FormulaCondition",
