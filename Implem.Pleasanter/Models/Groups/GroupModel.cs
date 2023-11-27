@@ -1291,12 +1291,19 @@ namespace Implem.Pleasanter.Models
             var where = Rds.GroupsWhere().GroupId(GroupId);
             statements.AddRange(new List<SqlStatement>
             {
+                Rds.DeleteBinaries(
+                    factory: context,
+                    where: Rds.BinariesWhere()
+                        .TenantId(context.TenantId)
+                        .ReferenceId(GroupId)
+                        .BinaryType(value: "TenantManagementImages")),
+                Rds.DeleteGroupMembers(
+                    factory: context,
+                    where: Rds.GroupMembersWhere()
+                        .GroupId(GroupId)),
                 Rds.DeleteGroups(
                     factory: context,
                     where: where),
-                Rds.PhysicalDeleteGroupMembers(
-                    where: Rds.GroupMembersWhere()
-                        .GroupId(GroupId)),
                 StatusUtilities.UpdateStatus(
                     tenantId: context.TenantId,
                     type: StatusUtilities.Types.GroupsUpdated),

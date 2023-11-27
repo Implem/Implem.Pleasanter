@@ -7268,7 +7268,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-            private void CopyServerScripts(Context context, ResponseCollection res)
+        private void CopyServerScripts(Context context, ResponseCollection res)
         {
             var selected = context.Forms.IntList("EditServerScript");
             if (selected?.Any() != true)
