@@ -28,10 +28,10 @@ from(
         -- and "Depts"."DeptId" not in ( {0} ) 
         and 
         (
-            ("Depts"."DeptCode" like '%' + @SearchText + '%') 
-            or ("Depts"."DeptName" like '%' + @SearchText + '%')
+            ("Depts"."DeptCode" ilike '%' || @SearchText || '%') 
+            or ("Depts"."DeptName" ilike '%' || @SearchText || '%')
         ) 
-        and ("Depts"."Disabled" = 0)  
+        and ("Depts"."Disabled" = 'false')  
 
     union 
         select 0 as "DeptId"
@@ -63,19 +63,20 @@ from(
         {3}
         -- and "Users"."UserId" not in ( {0} ) 
         and (
-            ("Users"."LoginId" like '%' + @SearchText + '%') 
-            or ("Users"."Name" like '%' + @SearchText + '%') 
-            or ("Users"."UserCode" like '%' + @SearchText + '%') 
-            or ("Users"."Body" like '%' + @SearchText + '%') 
-            or ("Depts"."DeptCode" like '%' + @SearchText + '%') 
-            or ("Depts"."DeptName" like '%' + @SearchText + '%') 
-            or ("Depts"."Body" like '%' + @SearchText + '%')
+            ("Users"."LoginId" ilike '%' || @SearchText || '%') 
+            or ("Users"."Name" ilike '%' || @SearchText || '%') 
+            or ("Users"."UserCode" ilike '%' || @SearchText || '%') 
+            or ("Users"."Body" ilike '%' || @SearchText || '%') 
+            or ("Depts"."DeptCode" ilike '%' || @SearchText || '%') 
+            or ("Depts"."DeptName" ilike '%' || @SearchText || '%') 
+            or ("Depts"."Body" ilike '%' || @SearchText || '%')
         ) 
-        and "Users"."Disabled"= 0
+        and "Users"."Disabled"= 'false'
 ) as "items"
 order by
     "items"."IsUser" asc
     ,"items"."DeptCode" asc
     ,"items"."DeptId" asc
     , "items"."UserCode" asc
+    , "items"."UserId" asc
 limit @PageSize offset @Offset;

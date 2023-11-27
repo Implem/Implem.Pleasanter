@@ -13,11 +13,12 @@ values
     ,@DeptId
     ,@UserId
     ,@Admin
-    ,@_U
-    ,@_U
+    ,@ipU
+    ,@ipU
 )
-on confrict
-(   "GroupId"
+on conflict
+(
+    "GroupId"
     ,"DeptId"
     ,"UserId"
 )
@@ -27,5 +28,5 @@ set
     ,"DeptId" = @DeptId
     ,"UserId" = @UserId
     ,"Admin" = @Admin
-    ,"Updator" = @_U
+    ,"Updator" = @ipU
 ;
