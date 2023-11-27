@@ -1,0 +1,33 @@
+﻿{
+    "Id": "AsynchronousReload",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Asynchronous Reload"
+        },
+        {
+            "Language": "zh",
+            "Body": "异步重载"
+        },
+        {
+            "Language": "ja",
+            "Body": "非同期で再読込"
+        },
+        {
+            "Language": "de",
+            "Body": "Asynchrones Neuladen"
+        },
+        {
+            "Language": "ko",
+            "Body": "비동기식 재로드"
+        },
+        {
+            "Language": "es",
+            "Body": "Recarga asincrónica"
+        },
+        {
+            "Language": "vn",
+            "Body": "Tải lại không đồng bộ"
+        }
+    ]
+}

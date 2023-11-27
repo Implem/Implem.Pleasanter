@@ -28,6 +28,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public int Id { get; set; }
         public string Title { get; set; }
         public bool? ShowTitle { get; set; }
+        public bool? AsynchronousReload { get; set; }
         public DashboardPartType Type { get; set; }
         public int X { get; set; }
         public int Y { get; set; }
@@ -81,6 +82,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             dashboardPart.Width = Width;
             dashboardPart.Height = Height;
             dashboardPart.ExtendedCss = ExtendedCss;
+            if (AsynchronousReload == true) dashboardPart.AsynchronousReload = true;
             if (Depts?.Any() == true)
             {
                 dashboardPart.Depts = Depts;
@@ -170,6 +172,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             string calendarFromTo,
             bool calendarShowStatus,
             string extendedCss,
+            bool asynchronousReload,
             List<Permission> permissions)
         {
             var dashboardPart = new DashboardPart() { Id = id };
@@ -199,6 +202,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 calendarFromTo: calendarFromTo,
                 calendarShowStatus: calendarShowStatus,
                 extendedCss: extendedCss,
+                asynchronousReload: asynchronousReload,
                 permissions: permissions);
         }
 
@@ -228,6 +232,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             string calendarFromTo,
             bool calendarShowStatus,
             string extendedCss,
+            bool asynchronousReload,
             List<Permission> permissions)
         {
             Title = title;
@@ -254,6 +259,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             CalendarFromTo = calendarFromTo;
             CalendarShowStatus = calendarShowStatus;
             ExtendedCss = extendedCss;
+            AsynchronousReload = asynchronousReload;
             SetSitesData();
             SetPermissions(permissions);
             SetBaseSiteData(context: context);

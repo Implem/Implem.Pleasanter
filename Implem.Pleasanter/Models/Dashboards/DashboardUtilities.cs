@@ -87,6 +87,10 @@ namespace Implem.Pleasanter.Models
                 .Select(dashboardPart =>
             {
                 dashboardPart.SetSitesData();
+                if(dashboardPart.AsynchronousReload == true)
+                {
+                    return AsynchronousReloadLayout(dashboardPart: dashboardPart);
+                }
                 switch (dashboardPart.Type)
                 {
                     case DashboardPartType.QuickAccess:
@@ -240,6 +244,7 @@ namespace Implem.Pleasanter.Models
                     target: $"#DashboardPart_{dashboardPartId}",
                     value: dashboardPartLayout)
                 .Invoke("setCalendar", dashboardPartId.ToString())
+                .Invoke("setDashboardRefresh", dashboardPartId.ToString())
                 .ToJson();
         }
 
@@ -2137,6 +2142,7 @@ namespace Implem.Pleasanter.Models
                             target: $"#DashboardPart_{dashboardPart.Id}",
                             value: issues)
                         .Invoke("setCalendar",dashboardPart.Id.ToString())
+                        .Invoke("setDashboardRefresh", dashboardPart.Id.ToString())
                         .ToJson();
                 case "Results":
                     var results = hb.Div(
@@ -2158,6 +2164,7 @@ namespace Implem.Pleasanter.Models
                             target: $"#DashboardPart_{dashboardPart.Id}",
                             value: results)
                         .Invoke("setCalendar", dashboardPart.Id.ToString())
+                        .Invoke("setDashboardRefresh", dashboardPart.Id.ToString())
                         .ToJson();
                 default:
                     return Messages.ResponseNotFound(context: context).ToJson();
@@ -2227,6 +2234,7 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 data: issueModel.Title.MessageDisplay(context: context)))
                         .Invoke("setCalendar", dashboardPart.Id.ToString())
+                        .Invoke("setDashboardRefresh", dashboardPart.Id.ToString())
                         .ToJson();
                 case "Results":
                     var results = ResultUtilities.UpdateByCalendar(context: context, ss: currentSs);
@@ -2272,10 +2280,32 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 data: resultModel.Title.MessageDisplay(context: context)))
                         .Invoke("setCalendar", dashboardPart.Id.ToString())
+                        .Invoke("setDashboardRefresh", dashboardPart.Id.ToString())
                         .ToJson();
                 default:
                     return Messages.ResponseNotFound(context: context).ToJson();
             }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static DashboardPartLayout AsynchronousReloadLayout(DashboardPart dashboardPart)
+        {
+            var hb = new HtmlBuilder();
+            var AsynchronousReload = hb.Div(
+                id: $"DashboardPart_{dashboardPart.Id}",
+                attributes: new HtmlAttributes().DataId(dashboardPart.Id.ToString()),
+                css: "dashboard-calendar-container " + dashboardPart.ExtendedCss).ToString();
+            return new DashboardPartLayout()
+            {
+                Id = dashboardPart.Id,
+                X = dashboardPart.X,
+                Y = dashboardPart.Y,
+                W = dashboardPart.Width,
+                H = dashboardPart.Height,
+                Content = AsynchronousReload
+            };
         }
     }
 }

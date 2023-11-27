@@ -1169,6 +1169,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string AsynchronousReload(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AsynchronousReload",
+                data: data);
+        }
+
         public static string BadFormat(
             Context context,
             params string[] data)
