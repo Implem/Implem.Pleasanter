@@ -1,40 +1,11 @@
 ﻿if (updateGroupMembers)
 {
-    var groupMembers = groupApiModel != null
-        ? GroupMembers
-        : context.Forms.List("CurrentMembersAll");
-    if (groupMembers != null)
+    if (groupApiModel != null)
     {
-        Repository.ExecuteNonQuery(
-        context: context,
-        transactional: true,
-        statements: Rds.PhysicalDeleteGroupMembers(
-            where: Rds.GroupMembersWhere()
-                .GroupId(GroupId)));
-    }            
-    groupMembers?.ForEach(data =>
+        RenewGroupMembers(context, GroupMembers);
+    }
+    else
     {
-        if (data.StartsWith("Dept,"))
-        {
-            Repository.ExecuteNonQuery(
-                context: context,
-                transactional: true,
-                statements: Rds.InsertGroupMembers(
-                    param: Rds.GroupMembersParam()
-                        .GroupId(GroupId)
-                        .DeptId(data.Split_2nd().ToInt())
-                        .Admin(data.Split_3rd().ToBool())));
-        }
-        if (data.StartsWith("User,"))
-        {
-            Repository.ExecuteNonQuery(
-                context: context,
-                transactional: true,
-                statements: Rds.InsertGroupMembers(
-                    param: Rds.GroupMembersParam()
-                        .GroupId(GroupId)
-                        .UserId(data.Split_2nd().ToInt())
-                        .Admin(data.Split_3rd().ToBool())));
-        }
-    });
+        UpdateGroupMembers(context);
+    }
 }

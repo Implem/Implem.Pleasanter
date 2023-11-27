@@ -19,9 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
-using System.Data.SqlClient;
 using System.Linq;
-using System.Text;
 using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
 namespace Implem.Pleasanter.Models
 {
@@ -1078,6 +1076,74 @@ namespace Implem.Pleasanter.Models
             return new ErrorData(type: Error.Types.None);
         }
 
+        public List<SqlStatement> UpdateStatements(
+            Context context,
+            SiteSettings ss,
+            string dataTableName = null,
+            SqlParamCollection param = null,
+            bool otherInitValue = false,
+            List<SqlStatement> additionalStatements = null,
+            bool checkConflict = true,
+            bool verUp = false)
+        {
+            var timestamp = Timestamp.ToDateTime();
+            var statements = new List<SqlStatement>();
+            var where = Rds.GroupsWhereDefault(
+                context: context,
+                groupModel: this)
+                    .UpdatedTime(timestamp, _using: timestamp.InRange() && checkConflict);
+            if (verUp)
+            {
+                statements.Add(Rds.GroupsCopyToStatement(
+                    where: where,
+                    tableType: Sqls.TableTypes.History,
+                    ColumnNames()));
+                Ver++;
+            }
+            statements.AddRange(UpdateStatements(
+                context: context,
+                ss: ss,
+                dataTableName: dataTableName,
+                where: where,
+                param: param,
+                otherInitValue: otherInitValue));
+            if (additionalStatements?.Any() == true)
+            {
+                statements.AddRange(additionalStatements);
+            }
+            return statements;
+        }
+
+        private List<SqlStatement> UpdateStatements(
+            Context context,
+            SiteSettings ss,
+            string dataTableName = null,
+            SqlWhereCollection where = null,
+            SqlParamCollection param = null,
+            bool otherInitValue = false)
+        {
+            return new List<SqlStatement>
+            {
+                Rds.UpdateGroups(
+                    dataTableName: dataTableName,
+                    where: where,
+                    param: param ?? Rds.GroupsParamDefault(
+                        context: context,
+                        ss: ss,
+                        groupModel: this,
+                        otherInitValue: otherInitValue)),
+                new SqlStatement(Def.Sql.IfConflicted.Params(GroupId))
+                {
+                    DataTableName = dataTableName,
+                    IfConflicted = true,
+                    Id = GroupId
+                },
+                StatusUtilities.UpdateStatus(
+                    tenantId: context.TenantId,
+                    type: StatusUtilities.Types.GroupsUpdated),
+            };
+        }
+
         private void UpdateGroupMembers(Context context)
         {
             var deletedMembers = ParseGroupMembers(members: context.Forms.List("DeletedGroupMembers"));
@@ -1181,75 +1247,6 @@ namespace Implem.Pleasanter.Models
                                 .Admin(data.Split_3rd().ToBool())));
                 }
             });
-        }
-
-
-        public List<SqlStatement> UpdateStatements(
-            Context context,
-            SiteSettings ss,
-            string dataTableName = null,
-            SqlParamCollection param = null,
-            bool otherInitValue = false,
-            List<SqlStatement> additionalStatements = null,
-            bool checkConflict = true,
-            bool verUp = false)
-        {
-            var timestamp = Timestamp.ToDateTime();
-            var statements = new List<SqlStatement>();
-            var where = Rds.GroupsWhereDefault(
-                context: context,
-                groupModel: this)
-                    .UpdatedTime(timestamp, _using: timestamp.InRange() && checkConflict);
-            if (verUp)
-            {
-                statements.Add(Rds.GroupsCopyToStatement(
-                    where: where,
-                    tableType: Sqls.TableTypes.History,
-                    ColumnNames()));
-                Ver++;
-            }
-            statements.AddRange(UpdateStatements(
-                context: context,
-                ss: ss,
-                dataTableName: dataTableName,
-                where: where,
-                param: param,
-                otherInitValue: otherInitValue));
-            if (additionalStatements?.Any() == true)
-            {
-                statements.AddRange(additionalStatements);
-            }
-            return statements;
-        }
-
-        private List<SqlStatement> UpdateStatements(
-            Context context,
-            SiteSettings ss,
-            string dataTableName = null,
-            SqlWhereCollection where = null,
-            SqlParamCollection param = null,
-            bool otherInitValue = false)
-        {
-            return new List<SqlStatement>
-            {
-                Rds.UpdateGroups(
-                    dataTableName: dataTableName,
-                    where: where,
-                    param: param ?? Rds.GroupsParamDefault(
-                        context: context,
-                        ss: ss,
-                        groupModel: this,
-                        otherInitValue: otherInitValue)),
-                new SqlStatement(Def.Sql.IfConflicted.Params(GroupId))
-                {
-                    DataTableName = dataTableName,
-                    IfConflicted = true,
-                    Id = GroupId
-                },
-                StatusUtilities.UpdateStatus(
-                    tenantId: context.TenantId,
-                    type: StatusUtilities.Types.GroupsUpdated),
-            };
         }
 
         public ErrorData UpdateOrCreate(
