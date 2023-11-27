@@ -3428,11 +3428,9 @@ textarea:focus {
 
 .dashboard-part-road {
     position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%,-50%);
+    left: calc(50% - 25px);
+    top: calc(50% - 25px);
     font-size: 50px;
-    line-height: 0px;
     color: #636363;
     display: inline-block;
     animation: custom-spin 1s linear infinite;
