@@ -87,10 +87,10 @@ namespace Implem.Pleasanter.Models
                 .Select(dashboardPart =>
             {
                 dashboardPart.SetSitesData();
-                if(dashboardPart.AsynchronousReload == true)
-                {
-                    return AsynchronousReloadLayout(dashboardPart: dashboardPart);
-                }
+                //if(dashboardPart.AsynchronousReload == true)
+                //{
+                //    return AsynchronousReloadLayout(dashboardPart: dashboardPart);
+                //}
                 switch (dashboardPart.Type)
                 {
                     case DashboardPartType.QuickAccess:
