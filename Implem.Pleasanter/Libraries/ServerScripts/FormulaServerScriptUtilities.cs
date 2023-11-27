@@ -8,6 +8,8 @@ using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
+using System.Text.RegularExpressions;
+
 namespace Implem.Pleasanter.Libraries.ServerScripts
 {
     public static class FormulaServerScriptUtilities
@@ -407,7 +409,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             {
                 return doubleValue.ToString(format);
             }
-            return DateTime.Parse(value.ToString()).ToString(format);
+            return DateTime.Parse(value.ToString()).ToString(format
+                .Replace("Y", "y")
+                .Replace("D", "d")
+                .Replace("AM/PM", "tt", StringComparison.OrdinalIgnoreCase));
         }
 
         /// <summary>
