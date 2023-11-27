@@ -295,6 +295,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             using (var engine = new ScriptEngine(debug: false))
             {
                 engine.AddHostObject("model", Model);
+                engine.AddHostType(typeof(FormulaServerScriptUtilities));
                 var functionScripts = GetDateScript()
                     + GetDateDifScript()
                     + GetDayScript()
@@ -339,7 +340,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     + GetTruncScript()
                     + GetAscScript()
                     + GetJisScript()
-                    + GetValueScript();
+                    + GetValueScript()
+                    + GetTextScript();
                 var value = engine.Evaluate(functionScripts + formulaScript);
                 return value == Undefined.Value ? string.Empty : value;
             }
@@ -391,7 +393,21 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 .Replace("$trunc(", "$TRUNC(", StringComparison.InvariantCultureIgnoreCase)
                 .Replace("$asc(", "$ASC(", StringComparison.InvariantCultureIgnoreCase)
                 .Replace("$jis(", "$JIS(", StringComparison.InvariantCultureIgnoreCase)
-                .Replace("$value(", "$VALUE(", StringComparison.InvariantCultureIgnoreCase);
+                .Replace("$value(", "$VALUE(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("$text(", "$TEXT(", StringComparison.InvariantCultureIgnoreCase);
+        }
+
+        public static string GetText(object value, string format)
+        {
+            if (long.TryParse(value.ToString(), out long longValue))
+            {
+                return longValue.ToString(format);
+            }
+            if (double.TryParse(value.ToString(), out double doubleValue))
+            {
+                return doubleValue.ToString(format);
+            }
+            return DateTime.Parse(value.ToString()).ToString(format);
         }
 
         /// <summary>
@@ -1898,6 +1914,21 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         }
                         return Number(text);
                     }
+                }";
+        }
+
+        /// <summary>
+        /// Converts numbers to text by applying formatting to it with format codes.
+        /// </summary>
+        /// <remarks>
+        /// Syntax: TEXT(value, format)
+        /// </remarks>
+        private static string GetTextScript()
+        {
+            return @"
+                function $TEXT(value, format)
+                {
+                    return FormulaServerScriptUtilities.GetText(value, format);
                 }";
         }
     }
