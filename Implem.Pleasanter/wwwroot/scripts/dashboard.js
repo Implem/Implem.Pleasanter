@@ -19,7 +19,7 @@ $p.updateDashboardPartLayouts = function () {
     $p.send($("#UpdateDashboardPartLayouts"));
 };
 
-$(document).on('click', '.dashboard-timeline-item', function() {
+$(document).on('click', '.dashboard-timeline-item', function () {
     $p.transition($(this).attr('data-url'));
 });
 
@@ -32,7 +32,7 @@ $p.deleteDashboardPartAccessControl = function () {
     $('#CurrentDashboardPartAccessControl li.ui-selected').appendTo('#SourceDashboardPartAccessControl');
 }
 
-$(document).ready(function () {
+$p.setDashboardRefresh = function () {
     function refreshDashboardPart() {
         var partId = $(this).attr('id').substring($(this).attr('id').indexOf('_'));
         var roadElement = $('<span />').addClass('material-symbols-outlined dashboard-part-road').text('progress_activity');
@@ -40,12 +40,9 @@ $(document).ready(function () {
         var data = {
             dashboardPartId: $('#DashboardPart' + partId).attr('data-id')
         }
-        $p.ajax('DashboardPart', 'get', data, null, true);
     }
 
     $('[id^="DashboardPart_"]').each(function (index, value) {
-        //$('[id^="DashboardPart_"]').css('padding-top', '40px');
-
         var buttonElement = $('<button />')
             .attr('id', 'DashboardRefresh' + value.id.substring(value.id.indexOf('_')))
             .attr('type', 'button').on('click', refreshDashboardPart)
@@ -66,4 +63,4 @@ $(document).ready(function () {
         $("#DashboardRefresh" + partId).css('opacity', '0');
     });
 
-})
+}
