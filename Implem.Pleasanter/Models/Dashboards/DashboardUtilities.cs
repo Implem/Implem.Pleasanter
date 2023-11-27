@@ -223,13 +223,13 @@ namespace Implem.Pleasanter.Models
                                 ss: ss,
                                 dashboardPart: dashboardPart).Content;
                         case DashboardPartType.Custom:
-                            return CustomHtmlLayouyt(
+                            return CustomLayouyt(
                                 context: context,
                                 dashboardPart: dashboardPart).Content;
                         case DashboardPartType.CustomHtml:
                             return CustomHtmlLayouyt(
                                 context: context,
-                                dashboardPart).Content;
+                                dashboardPart: dashboardPart).Content;
                         case DashboardPartType.Calendar:
                             return CalendarLayout(
                                 context: context,
