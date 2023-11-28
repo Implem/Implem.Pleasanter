@@ -2060,7 +2060,6 @@ namespace Implem.Pleasanter.Models
                         }
                         hb.Raw(text: calendarHtml);
                     }).ToString();
-            var json =  hb.Raw(text: calendarHtml);
             return new DashboardPartLayout()
             {
                 Id = dashboardPart.Id,
