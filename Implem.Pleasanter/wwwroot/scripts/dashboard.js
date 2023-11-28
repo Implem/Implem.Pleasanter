@@ -33,12 +33,15 @@ $p.deleteDashboardPartAccessControl = function () {
 }
 
 $p.setDashboardRefresh = function (suffix) {
-    function refreshDashboardPart() {
-        var partId = $(this).attr('id').substring($(this).attr('id').indexOf('_'));
+    function refreshDashboardPart(async) {
+        var partId = async;
+        if (!(async > 0)) {
+            partId = $(this).attr('id').substring($(this).attr('id').indexOf('_') + 1);
+        }
         var roadElement = $('<span />').addClass('material-symbols-outlined dashboard-part-road').text('progress_activity');
-        $('[id="DashboardPart' + partId + '"]').html(roadElement);
+        $('[id="DashboardPart_' + partId + '"]').html(roadElement);
         var data = {
-            dashboardPartId: $('#DashboardPart' + partId).attr('data-id')
+            dashboardPartId: partId
         }
         $p.ajax('DashboardPart', 'get', data, null, true);
     }
@@ -57,6 +60,11 @@ $p.setDashboardRefresh = function (suffix) {
                 .addClass('material-symbols-outlined')
                 .text('refresh'));
         $(value).prepend(buttonElement);
+    })
+
+    $('[id^="DashboardAsync_"]').each(function (index, value) {
+        var async = value.id.substring(value.id.indexOf('_') + 1);
+        refreshDashboardPart(async);
     })
 
     $(document).on('mouseenter', '.grid-stack-item-content', function () {
