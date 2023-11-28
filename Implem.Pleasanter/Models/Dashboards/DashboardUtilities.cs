@@ -87,10 +87,10 @@ namespace Implem.Pleasanter.Models
                 .Select(dashboardPart =>
             {
                 dashboardPart.SetSitesData();
-                //if(dashboardPart.AsynchronousReload == true)
-                //{
-                //    return AsynchronousReloadLayout(dashboardPart: dashboardPart);
-                //}
+                if (dashboardPart.AsynchronousReload.HasValue && dashboardPart.AsynchronousReload == true)
+                {
+                    return AsynchronousReloadLayout(dashboardPart: dashboardPart);
+                }
                 switch (dashboardPart.Type)
                 {
                     case DashboardPartType.QuickAccess:
@@ -2296,7 +2296,17 @@ namespace Implem.Pleasanter.Models
             var AsynchronousReload = hb.Div(
                 id: $"DashboardPart_{dashboardPart.Id}",
                 attributes: new HtmlAttributes().DataId(dashboardPart.Id.ToString()),
-                css: "dashboard-calendar-container " + dashboardPart.ExtendedCss).ToString();
+                css: "dashboard-calendar-container " + dashboardPart.ExtendedCss,
+                action: () =>
+                {
+                    if (dashboardPart.ShowTitle == true)
+                    {
+                        hb.Div(
+                            css: "dashboard-part-title",
+                            action: () => hb.Text(dashboardPart.Title));
+                    }
+                    hb.Hidden(controlId: $"DashboardAsync_{dashboardPart.Id}");
+                }).ToString();
             return new DashboardPartLayout()
             {
                 Id = dashboardPart.Id,
