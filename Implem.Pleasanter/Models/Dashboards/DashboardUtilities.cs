@@ -238,11 +238,11 @@ namespace Implem.Pleasanter.Models
                         default:
                             return null;
                     }
-                });
+                }).ToList();
             return new ResponseCollection(context: context)
-                .Html(
+                .ReplaceAll(
                     target: $"#DashboardPart_{dashboardPartId}",
-                    value: dashboardPartLayout)
+                    value: dashboardPartLayout.FirstOrDefault())
                 .Invoke("setCalendar", dashboardPartId.ToString())
                 .Invoke("setDashboardRefresh", dashboardPartId.ToString())
                 .ToJson();
@@ -2060,6 +2060,7 @@ namespace Implem.Pleasanter.Models
                         }
                         hb.Raw(text: calendarHtml);
                     }).ToString();
+            var json =  hb.Raw(text: calendarHtml);
             return new DashboardPartLayout()
             {
                 Id = dashboardPart.Id,
@@ -2138,7 +2139,7 @@ namespace Implem.Pleasanter.Models
                             hb.Raw(text: IssueUtilities.CalendarJson(context: context, ss: currentSs));
                         }).ToString();
                     return new ResponseCollection(context: context)
-                        .Html(
+                        .ReplaceAll(
                             target: $"#DashboardPart_{dashboardPart.Id}",
                             value: issues)
                         .Invoke("setCalendar",dashboardPart.Id.ToString())
@@ -2160,7 +2161,7 @@ namespace Implem.Pleasanter.Models
                             hb.Raw(text: ResultUtilities.CalendarJson(context: context, ss: currentSs));
                         }).ToString();
                     return new ResponseCollection(context: context)
-                        .Html(
+                        .ReplaceAll(
                             target: $"#DashboardPart_{dashboardPart.Id}",
                             value: results)
                         .Invoke("setCalendar", dashboardPart.Id.ToString())
@@ -2225,7 +2226,7 @@ namespace Implem.Pleasanter.Models
                         issueId: context.Forms.Long("EventId"),
                         formData: context.Forms);
                     return new ResponseCollection(context: context)
-                        .Html(
+                        .ReplaceAll(
                             target: $"#DashboardPart_{dashboardPart.Id}",
                             value: issueCalendar)
                         .Message(context.ErrorData.Type != Error.Types.None
@@ -2271,7 +2272,7 @@ namespace Implem.Pleasanter.Models
                         resultId: context.Forms.Long("EventId"),
                         formData: context.Forms);
                     return new ResponseCollection(context: context)
-                        .Html(
+                        .ReplaceAll(
                             target: $"#DashboardPart_{dashboardPart.Id}",
                             value: resultCalendar)
                         .Message(context.ErrorData.Type != Error.Types.None
