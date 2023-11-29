@@ -166,14 +166,6 @@
             }
         }
     }
-    while (count > 0) {
-        console.log(count);
-        document.getElementById("graph" + count).style.cssFloat = 'none';
-        document.getElementById("graph" + count).style.height = '400px';
-        document.getElementById("graph" + count).style.width = '400px';
-        document.getElementById("graph" + count).style.paddingTop = '400px';
-        count--;
-    }
 };
 
 
