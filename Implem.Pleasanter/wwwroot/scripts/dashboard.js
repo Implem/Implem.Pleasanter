@@ -33,10 +33,10 @@ $p.deleteDashboardPartAccessControl = function () {
 }
 
 $p.setDashboardRefresh = function (suffix) {
-    function refreshDashboardPart(async) {
+    function refreshDashboardPart(async,_this) {
         var partId = async;
-        if (!(async > 0)) {
-            partId = $(this).attr('id').substring($(this).attr('id').indexOf('_') + 1);
+        if (async === 'undefined') {
+            partId = _this.attr('id').substring(_this.attr('id').indexOf('_') + 1);
         }
         var roadElement = $('<span />').addClass('material-symbols-outlined dashboard-part-road').text('progress_activity');
         $('[id="DashboardPart_' + partId + '"]').html(roadElement);
@@ -54,7 +54,7 @@ $p.setDashboardRefresh = function (suffix) {
     $(ElementArr).each(function (index, value) {
         var buttonElement = $('<button />')
             .attr('id', 'DashboardRefresh' + value.id.substring(value.id.indexOf('_')))
-            .attr('type', 'button').on('click', refreshDashboardPart)
+            .attr('type', 'button').on('click', function () { refreshDashboardPart('undefined',$(this)) })
             .addClass('dashboard-part-refresh')
             .append($('<span />')
                 .addClass('material-symbols-outlined')
@@ -64,7 +64,7 @@ $p.setDashboardRefresh = function (suffix) {
 
     $('[id^="DashboardAsync_"]').each(function (index, value) {
         var async = value.id.substring(value.id.indexOf('_') + 1);
-        refreshDashboardPart(async);
+        refreshDashboardPart(async, 'undefined');
     })
 
     $(document).on('mouseenter', '.grid-stack-item-content', function () {
