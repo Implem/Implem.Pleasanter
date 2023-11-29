@@ -33,7 +33,7 @@ $p.deleteDashboardPartAccessControl = function () {
 }
 
 $p.setDashboardRefresh = function (suffix) {
-    function refreshDashboardPart(async,_this) {
+    function refreshDashboardPart(async, _this) {
         var partId = async;
         if (async === 'undefined') {
             partId = _this.attr('id').substring(_this.attr('id').indexOf('_') + 1);
@@ -54,7 +54,7 @@ $p.setDashboardRefresh = function (suffix) {
     $(ElementArr).each(function (index, value) {
         var buttonElement = $('<button />')
             .attr('id', 'DashboardRefresh' + value.id.substring(value.id.indexOf('_')))
-            .attr('type', 'button').on('click', function () { refreshDashboardPart('undefined',$(this)) })
+            .attr('type', 'button').on('click', function () { refreshDashboardPart('undefined', $(this)) })
             .addClass('dashboard-part-refresh')
             .append($('<span />')
                 .addClass('material-symbols-outlined')
