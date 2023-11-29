@@ -809,6 +809,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string AsynchronousReload(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AsynchronousReload",
+                data: data);
+        }
+
         public static string Attachments(
             Context context,
             params string[] data)
@@ -1166,16 +1176,6 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "AwayFromZero",
-                data: data);
-        }
-
-        public static string AsynchronousReload(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "AsynchronousReload",
                 data: data);
         }
 
