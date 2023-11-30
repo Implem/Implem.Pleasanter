@@ -28,8 +28,8 @@ from(
         -- and "Depts"."DeptId" not in ( {0} ) 
         and 
         (
-            ("Depts"."DeptCode" like '%' + @SearchText + '%') 
-            or ("Depts"."DeptName" like '%' + @SearchText + '%')
+            ("Depts"."DeptCode" like @SearchText) 
+            or ("Depts"."DeptName" like @SearchText)
         ) 
         and ("Depts"."Disabled" = 0)  
 
@@ -63,13 +63,13 @@ from(
         {3}
         -- and "Users"."UserId" not in ( {0} ) 
         and (
-            ("Users"."LoginId" like '%' + @SearchText + '%') 
-            or ("Users"."Name" like '%' + @SearchText + '%') 
-            or ("Users"."UserCode" like '%' + @SearchText + '%') 
-            or ("Users"."Body" like '%' + @SearchText + '%') 
-            or ("Depts"."DeptCode" like '%' + @SearchText + '%') 
-            or ("Depts"."DeptName" like '%' + @SearchText + '%') 
-            or ("Depts"."Body" like '%' + @SearchText + '%')
+            ("Users"."LoginId" like @SearchText) 
+            or ("Users"."Name" like @SearchText) 
+            or ("Users"."UserCode" like @SearchText) 
+            or ("Users"."Body" like @SearchText) 
+            or ("Depts"."DeptCode" like @SearchText) 
+            or ("Depts"."DeptName" like @SearchText) 
+            or ("Depts"."Body" like @SearchText)
         ) 
         and "Users"."Disabled"= 0
 ) as "items"

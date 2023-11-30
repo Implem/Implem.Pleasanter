@@ -28,8 +28,8 @@ from(
         -- and "Depts"."DeptId" not in ( {0} ) 
         and 
         (
-            ("Depts"."DeptCode" ilike '%' || @SearchText || '%') 
-            or ("Depts"."DeptName" ilike '%' || @SearchText || '%')
+            ("Depts"."DeptCode" ilike @SearchText) 
+            or ("Depts"."DeptName" ilike @SearchText)
         ) 
         and ("Depts"."Disabled" = 'false')  
 
@@ -63,13 +63,13 @@ from(
         {3}
         -- and "Users"."UserId" not in ( {0} ) 
         and (
-            ("Users"."LoginId" ilike '%' || @SearchText || '%') 
-            or ("Users"."Name" ilike '%' || @SearchText || '%') 
-            or ("Users"."UserCode" ilike '%' || @SearchText || '%') 
-            or ("Users"."Body" ilike '%' || @SearchText || '%') 
-            or ("Depts"."DeptCode" ilike '%' || @SearchText || '%') 
-            or ("Depts"."DeptName" ilike '%' || @SearchText || '%') 
-            or ("Depts"."Body" ilike '%' || @SearchText || '%')
+            ("Users"."LoginId" ilike @SearchText) 
+            or ("Users"."Name" ilike @SearchText) 
+            or ("Users"."UserCode" ilike @SearchText) 
+            or ("Users"."Body" ilike @SearchText) 
+            or ("Depts"."DeptCode" ilike @SearchText) 
+            or ("Depts"."DeptName" ilike @SearchText) 
+            or ("Depts"."Body" ilike @SearchText)
         ) 
         and "Users"."Disabled"= 'false'
 ) as "items"

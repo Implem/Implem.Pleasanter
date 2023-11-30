@@ -3211,16 +3211,16 @@ namespace Implem.Pleasanter.Models
                     .Select(o => o.Split_2nd().ToInt());
                 var memberDeptsNotIn = deletedDepts?.Any() == true
                     ? $"and \"GroupMembers\".\"DeptId\" not in ( {deletedDepts.Join()} )"
-                    : "";
+                    : string.Empty;
                 var deptsNotIn = addedDepts?.Any() == true
                     ? $"and \"Depts\".\"DeptId\" not in ( {addedDepts.Join()} )"
-                    : "";
+                    : string.Empty;
                 var memberUsersNotIn = deletedUsers?.Any() == true
                     ? $"and \"GroupMembers\".\"UserId\" not in ( {deletedUsers.Join()} )"
-                    : "";
+                    : string.Empty;
                 var usersNotIn = addedUsers?.Any() == true
                     ? $"and \"Users\".\"UserId\" not in ( {addedUsers.Join()} ) "
-                    : "";
+                    : string.Empty;
                 var commandText = Def.Sql.SelectSelectableMembers.Params(
                     memberDeptsNotIn,
                     deptsNotIn,
@@ -3229,7 +3229,7 @@ namespace Implem.Pleasanter.Models
                 var parameters = new SqlParamCollection {
                     { "GroupId", context.Id },
                     { "TenantId", context.TenantId },
-                    { "SearchText", searchText },
+                    { "SearchText", $"%{searchText}%" },
                     { "Offset", offset },
                     { "PageSize", pageSize }
                 };
