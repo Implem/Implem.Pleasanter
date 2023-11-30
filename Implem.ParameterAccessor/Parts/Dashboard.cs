@@ -5,6 +5,6 @@
         public int TimeLineItemCount;
         public int TimeLineItemCountMin;
         public int TimeLineItemCountMax;
-        public bool DashboardPartAsynchronousReloadDefault;
+        public bool AsynchronousReloadDefault;
     }
 }

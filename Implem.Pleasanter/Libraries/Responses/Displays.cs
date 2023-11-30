@@ -3059,6 +3059,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string DisableAsynchronousLoading(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "DisableAsynchronousLoading",
+                data: data);
+        }
+
         public static string Disabled(
             Context context,
             params string[] data)
@@ -8956,16 +8966,6 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Synchronize",
-                data: data);
-        }
-
-        public static string SynchronousReload(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "SynchronousReload",
                 data: data);
         }
 

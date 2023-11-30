@@ -15074,10 +15074,10 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss)
                 .FieldCheckBox(
-                    controlId: "DashboardPartAsynchronousReloadDefault",
+                    controlId: "AsynchronousReloadDefault",
                     fieldCss: "field-auto-thin",
                     labelText: Displays.AsynchronousReload(context: context),
-                    _checked: ss.DashboardPartAsynchronousReloadDefault ?? false));
+                    _checked: ss.AsynchronousReloadDefault ?? false));
         }
 
         /// <summary>
@@ -15669,10 +15669,10 @@ namespace Implem.Pleasanter.Models
                         labelText: Displays.ShowStatus(context: context),
                         _checked: dashboardPart.CalendarShowStatus == true)
                     .FieldCheckBox(
-                        controlId: "DashboardPartSynchronousReload",
+                        controlId: "DisableAsynchronousLoading",
                         controlCss: " always-send",
-                        labelText: Displays.SynchronousReload(context: context),
-                        _checked: dashboardPart.SynchronousReload == true)
+                        labelText: Displays.DisableAsynchronousLoading(context: context),
+                        _checked: dashboardPart.DisableAsynchronousLoading == true)
                     .FieldTextBox(
                         controlId: "DashboardPartExtendedCss",
                         controlCss: " always-send",

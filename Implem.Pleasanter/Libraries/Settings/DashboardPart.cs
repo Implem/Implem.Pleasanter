@@ -28,7 +28,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public int Id { get; set; }
         public string Title { get; set; }
         public bool? ShowTitle { get; set; }
-        public bool? SynchronousReload { get; set; }
+        public bool DisableAsynchronousLoading { get; set; }
         public DashboardPartType Type { get; set; }
         public int X { get; set; }
         public int Y { get; set; }
@@ -82,7 +82,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             dashboardPart.Width = Width;
             dashboardPart.Height = Height;
             dashboardPart.ExtendedCss = ExtendedCss;
-            if (SynchronousReload == true) dashboardPart.SynchronousReload = true;
+            if (DisableAsynchronousLoading == true) dashboardPart.DisableAsynchronousLoading = true;
             if (Depts?.Any() == true)
             {
                 dashboardPart.Depts = Depts;
@@ -172,7 +172,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             string calendarFromTo,
             bool calendarShowStatus,
             string extendedCss,
-            bool synchronousReload,
+            bool disableAsynchronousLoading,
             List<Permission> permissions)
         {
             var dashboardPart = new DashboardPart() { Id = id };
@@ -202,7 +202,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 calendarFromTo: calendarFromTo,
                 calendarShowStatus: calendarShowStatus,
                 extendedCss: extendedCss,
-                synchronousReload: synchronousReload,
+                disableAsynchronousLoading: disableAsynchronousLoading,
                 permissions: permissions);
         }
 
@@ -232,7 +232,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             string calendarFromTo,
             bool calendarShowStatus,
             string extendedCss,
-            bool synchronousReload,
+            bool disableAsynchronousLoading,
             List<Permission> permissions)
         {
             Title = title;
@@ -259,7 +259,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             CalendarFromTo = calendarFromTo;
             CalendarShowStatus = calendarShowStatus;
             ExtendedCss = extendedCss;
-            SynchronousReload = synchronousReload;
+            DisableAsynchronousLoading = disableAsynchronousLoading;
             SetSitesData();
             SetPermissions(permissions);
             SetBaseSiteData(context: context);
