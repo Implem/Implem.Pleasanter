@@ -87,7 +87,7 @@ namespace Implem.Pleasanter.Models
                 .Select(dashboardPart =>
             {
                 dashboardPart.SetSitesData();
-                if (dashboardPart.AsynchronousReload.HasValue && dashboardPart.AsynchronousReload == true)
+                if (ss.DashboardPartAsynchronousReloadDefault == true && dashboardPart.SynchronousReload.HasValue && dashboardPart.SynchronousReload == false)
                 {
                     return AsynchronousReloadLayout(dashboardPart: dashboardPart);
                 }

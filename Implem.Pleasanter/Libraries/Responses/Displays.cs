@@ -8959,6 +8959,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string SynchronousReload(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SynchronousReload",
+                data: data);
+        }
+
         public static string SysLogAdmin(
             Context context,
             params string[] data)

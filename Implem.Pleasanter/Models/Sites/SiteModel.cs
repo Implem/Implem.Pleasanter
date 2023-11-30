@@ -7751,6 +7751,7 @@ namespace Implem.Pleasanter.Models
             if (controlId == "NewDashboardPart")
             {
                 var dashboardPart = new DashboardPart();
+                dashboardPart.SynchronousReload = true;
                 OpenDashboardPartDialog(
                     context: context,
                     res: res,
@@ -7805,7 +7806,7 @@ namespace Implem.Pleasanter.Models
                 calendarShowStatus: context.Forms.Bool("CalendarShowStatus"),
                 calendarType: context.Forms.Data("DashboardPartCalendarType").ToEnum<CalendarType>(),
                 extendedCss: context.Forms.Data("DashboardPartExtendedCss"),
-                asynchronousReload: context.Forms.Bool("DashboardPartAsynchronousReload"),
+                synchronousReload: context.Forms.Bool("DashboardPartAsynchronousReload"),
                 permissions: DashboardPartPermissions(context: context));
             SiteSettings.DashboardParts.Add(dashboardPart);
             res
@@ -7870,7 +7871,7 @@ namespace Implem.Pleasanter.Models
                 calendarShowStatus: context.Forms.Bool("CalendarShowStatus"),
                 calendarType: context.Forms.Data("DashboardPartCalendarType").ToEnum<CalendarType>(),
                 extendedCss: context.Forms.Data("DashboardPartExtendedCss"),
-                asynchronousReload: context.Forms.Bool("DashboardPartAsynchronousReload"),
+                synchronousReload: context.Forms.Bool("DashboardPartSynchronousReload"),
                 permissions: DashboardPartPermissions(context: context));
             res
                 .Html("#EditDashboardPart", new HtmlBuilder()
