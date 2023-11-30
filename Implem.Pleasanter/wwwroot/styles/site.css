@@ -3347,6 +3347,8 @@ textarea:focus {
     color: #333333;
     font-weight: bold;
     margin-bottom: 10px;
+    display: inline-block;
+    vertical-align: middle;
 }
 
 .dashboard-part-nav {
@@ -3401,16 +3403,13 @@ textarea:focus {
 }
 
 .dashboard-part-refresh {
-    position: sticky;
-    top: -15px;
-    left: -15px;
+    position: absolute;
+    top: 8px;
+    left: 8px;
     border: none;
     color: #636363;
     background-color: transparent;
     opacity: 0;
-    align-self: flex-start;
-    margin-top: -15px;
-    margin-left: -15px;
     padding-top: 0;
     padding-left: 0;
     z-index: 5;

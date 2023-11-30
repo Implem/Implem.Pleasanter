@@ -32,23 +32,35 @@ $p.deleteDashboardPartAccessControl = function () {
     $('#CurrentDashboardPartAccessControl li.ui-selected').appendTo('#SourceDashboardPartAccessControl');
 }
 
+function refreshDashboardPart(partId) {
+    var roadElement = $('<span />').addClass('material-symbols-outlined dashboard-part-road').text('progress_activity');
+    $('[id="DashboardPart_' + partId + '"]').html(roadElement);
+    var data = {
+        dashboardPartId: partId
+    }
+    $p.ajax('DashboardPart', 'get', data, null, true);
+}
 $p.setDashboardRefresh = function (suffix) {
-    function refreshDashboardPart(partId) {
-        var roadElement = $('<span />').addClass('material-symbols-outlined dashboard-part-road').text('progress_activity');
-        $('[id="DashboardPart_' + partId + '"]').html(roadElement);
-        var data = {
-            dashboardPartId: partId
-        }
-        $p.ajax('DashboardPart', 'get', data, null, true);
-    }
-
-    var ElementArr = $('[id^="DashboardPart_"]').get();
-    if (suffix) {
-        ElementArr = $('[id="DashboardPart_' + suffix + '"]').get();
-    }
-
-    $(ElementArr).each(function (index, value) {
+    $('[id^="DashboardAsync_"]').each(function (index, value) {
         var partId = value.id.substring(value.id.indexOf('_') + 1);
+        refreshDashboardPart(partId);
+    })
+}
+
+$(document).on('mouseenter', '.grid-stack-item:not(.grid-stack-placeholder)', function () {
+    var partId = $(this).find('[id^="DashboardPart_"]').attr('id').substring($(this).find('[id^="DashboardPart_"]').attr('id').indexOf('_'));
+    $("#DashboardRefresh" + partId).css('opacity', '1');
+});
+
+$(document).on('mouseleave', '.grid-stack-item:not(.grid-stack-placeholder)', function () {
+    var partId = $(this).find('[id^="DashboardPart_"]').attr('id').substring($(this).find('[id^="DashboardPart_"]').attr('id').indexOf('_'));
+    $("#DashboardRefresh" + partId).css('opacity', '0');
+});
+
+$(function () {
+    var partElement = $(".grid-stack-item-content").get()
+    $($(partElement)).each(function (index, value) {
+        var partId = $(this).children().attr('id').substring($(this).children().attr('id').indexOf('_') + 1);
         var buttonElement = $('<button />')
             .attr('id', 'DashboardRefresh_' + partId)
             .attr('type', 'button').on('click', function () { refreshDashboardPart(partId) })
@@ -56,21 +68,6 @@ $p.setDashboardRefresh = function (suffix) {
             .append($('<span />')
                 .addClass('material-symbols-outlined')
                 .text('refresh'));
-        $(value).prepend(buttonElement);
+        $(this).parent('.grid-stack-item').append(buttonElement);
     })
-
-    $('[id^="DashboardAsync_"]').each(function (index, value) {
-        var partId = value.id.substring(value.id.indexOf('_') + 1);
-        refreshDashboardPart(partId);
-    })
-
-    $(document).on('mouseenter', '.grid-stack-item-content', function () {
-        var partId = $(this).children().attr('id').substring($(this).children().attr('id').indexOf('_'));
-        $("#DashboardRefresh" + partId).css('opacity', '1');
-    });
-
-    $(document).on('mouseleave', '.grid-stack-item-content', function () {
-        var partId = $(this).children().attr('id').substring($(this).children().attr('id').indexOf('_'));
-        $("#DashboardRefresh" + partId).css('opacity', '0');
-    });
-}
+});
