@@ -3031,7 +3031,8 @@ namespace Implem.Pleasanter.Models
                     column: Rds.GroupMembersColumn()
                         .DeptId()
                         .UserId()
-                        .Admin(),
+                        .Admin()
+                        .Add("case when \"DeptId\"=0 then 1 else 0 end as IsUser"),
                     where: Rds.GroupMembersWhere()
                         .GroupId(groupId)
                         .Add(or: Rds.GroupMembersWhere()
@@ -3040,6 +3041,7 @@ namespace Implem.Pleasanter.Models
                             .Sub(sub: Rds.ExistsUsers(where: Rds.UsersWhere()
                                 .UserId(raw: "\"GroupMembers\".\"UserId\"")))),
                     orderBy: Rds.GroupMembersOrderBy()
+                        .Add("IsUser")
                         .DeptId()
                         .UserId()))
                             .AsEnumerable();
