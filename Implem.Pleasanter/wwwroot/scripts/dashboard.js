@@ -34,13 +34,15 @@ $p.deleteDashboardPartAccessControl = function () {
 
 function refreshDashboardPart(partId) {
     var roadElement = $('<span />').addClass('material-symbols-outlined dashboard-part-road').text('progress_activity');
-    $('[id="DashboardPart_' + partId + '"]').html(roadElement);
+    var $control = $('[id="DashboardPart_' + partId + '"]');
+    $control.html(roadElement);
     var data = {
         dashboardPartId: partId
     }
-    $p.ajax('DashboardPart', 'get', data, null, true);
+    $p.ajax('DashboardPart', 'get', data, $control, true);
 }
-$p.setDashboardRefresh = function (suffix) {
+
+$p.setDashboardAsync = function (suffix) {
     $('[id^="DashboardAsync_"]').each(function (index, value) {
         var partId = value.id.substring(value.id.indexOf('_') + 1);
         refreshDashboardPart(partId);
