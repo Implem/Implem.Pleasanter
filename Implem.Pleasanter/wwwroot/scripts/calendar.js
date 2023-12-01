@@ -1,9 +1,5 @@
 ﻿const newRecord = function (calendarSuffix) {
     return function (info) {
-        var endDate = new Date(info.end);
-        if (($('#CalendarEditorFormat' + calendarSuffix).val() === 'Ymd') && ($('#CalendarViewType').val() === 'dayGridMonth')) {
-            endDate.setDate(endDate.getDate() - 1);
-        }
         var form = document.createElement("form");
         form.setAttribute("action", $('#ApplicationPath').val() + 'items/' + $('#CalendarSiteData' + calendarSuffix).val() + '/new');
         form.setAttribute("method", "post");
@@ -17,7 +13,7 @@
         var end = document.createElement("input");
         end.setAttribute("type", "hidden");
         end.setAttribute("name", $('#CalendarReferenceType' + calendarSuffix).val() + "_CompletionTime");
-        end.setAttribute("value", endDate.toLocaleString());
+        end.setAttribute("value", info.end.toLocaleString());
         form.appendChild(end);
         var fromTo = $('#CalendarFromTo' + calendarSuffix).val().split('-');
         const match = /^Date/;
@@ -62,11 +58,7 @@ const updateRecord = function (calendarSuffix) {
         if (info.event.end === null) {
             data[prefix + fromTo[1]] = info.event.start.toLocaleString();
         } else {
-            var endDate = new Date(info.event.end);
-            if ($('#CalendarEditorFormat' + calendarSuffix).val() === 'Ymd') {
-                endDate.setDate(endDate.getDate() - 1);
-            }
-            data[prefix + fromTo[1]] = endDate.toLocaleString();
+            data[prefix + fromTo[1]] = info.event.end.toLocaleString();
         }
         $p.saveScroll();
         $p.send($('#FullCalendarBody' + calendarSuffix));
@@ -102,16 +94,12 @@ const getEventsDatas = function (calendarSuffix) {
             let eventData = JSON.parse($('#CalendarJson' + calendarSuffix).val())[0]['items'];
             successCallback(
                 eventData.map((item) => {
-                    var endDate = new Date(item.end);
-                    if ($('#CalendarEditorFormat' + calendarSuffix).val() === 'Ymd') {
-                        endDate.setDate(endDate.getDate() + 1);
-                    }
                     if (item.StatusHtml) {
                         return {
                             id: item.id,
                             title: item.title,
                             start: item.start,
-                            end: endDate,
+                            end: item.end,
                             StatusHtml: item.StatusHtml,
                             siteId: item.siteId
                         }
@@ -121,7 +109,7 @@ const getEventsDatas = function (calendarSuffix) {
                             id: item.id,
                             title: item.title,
                             start: item.start,
-                            end: endDate,
+                            end: item.end,
                             siteId: item.siteId
                         }
                     }
