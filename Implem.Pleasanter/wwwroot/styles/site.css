@@ -3347,8 +3347,6 @@ textarea:focus {
     color: #333333;
     font-weight: bold;
     margin-bottom: 10px;
-    display: inline-block;
-    vertical-align: middle;
 }
 
 .dashboard-part-nav {
