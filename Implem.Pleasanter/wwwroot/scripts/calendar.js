@@ -1,7 +1,7 @@
 ﻿const newRecord = function (calendarSuffix) {
     return function (info) {
         var endDate = new Date(info.end);
-        if ($('#CalendarEditorFormat' + calendarSuffix).val() === 'Ymd') {
+        if (($('#CalendarEditorFormat' + calendarSuffix).val() === 'Ymd') && ($('#CalendarViewType').val() === 'dayGridMonth')) {
             endDate.setDate(endDate.getDate() - 1);
         }
         var form = document.createElement("form");
