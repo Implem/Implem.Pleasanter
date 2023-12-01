@@ -1,13 +1,13 @@
 ﻿{
-    "Id": "AsynchronousReload",
+    "Id": "AsynchronousLoading",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Asynchronous Reload"
+            "Body": "Asynchronous Loading"
         },
         {
             "Language": "zh",
-            "Body": "异步重载"
+            "Body": "异步加载"
         },
         {
             "Language": "ja",
@@ -15,19 +15,19 @@
         },
         {
             "Language": "de",
-            "Body": "Asynchrones Neuladen"
+            "Body": "Asynchrones Laden"
         },
         {
             "Language": "ko",
-            "Body": "비동기식 재로드"
+            "Body": "비동기 로딩"
         },
         {
             "Language": "es",
-            "Body": "Recarga asincrónica"
+            "Body": "Carga asincrónica"
         },
         {
             "Language": "vn",
-            "Body": "Tải lại không đồng bộ"
+            "Body": "Tải không đồng bộ"
         }
     ]
 }

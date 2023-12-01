@@ -87,7 +87,7 @@ namespace Implem.Pleasanter.Models
                 .Select(dashboardPart =>
             {
                 dashboardPart.SetSitesData();
-                if (ss.AsynchronousReloadDefault == true && dashboardPart.DisableAsynchronousLoading == false)
+                if (ss.AsynchronousLoadingDefault == true && dashboardPart.DisableAsynchronousLoading == false)
                 {
                     return AsynchronousLoadingLayout(dashboardPart: dashboardPart);
                 }
@@ -1335,7 +1335,10 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static string DashboardPartJson(Context context, SiteSettings ss, string dashboardPartId)
+        public static string DashboardPartJson(
+            Context context,
+            SiteSettings ss,
+            string dashboardPartId)
         {
             var dashboardPartLayout = ss.DashboardParts
                 .Where(dashboardPart => dashboardPart.Id == dashboardPartId.ToInt())
@@ -1375,7 +1378,6 @@ namespace Implem.Pleasanter.Models
                     target: $"#DashboardPart_{dashboardPartId}",
                     value: dashboardPartLayout.FirstOrDefault())
                 .Invoke("setCalendar", dashboardPartId.ToString())
-                .Invoke("setDashboardRefresh", dashboardPartId.ToString())
                 .ToJson();
         }
 
@@ -2142,7 +2144,6 @@ namespace Implem.Pleasanter.Models
                             target: $"#DashboardPart_{dashboardPart.Id}",
                             value: issues)
                         .Invoke("setCalendar",dashboardPart.Id.ToString())
-                        .Invoke("setDashboardRefresh", dashboardPart.Id.ToString())
                         .ToJson();
                 case "Results":
                     var results = hb.Div(
@@ -2164,7 +2165,6 @@ namespace Implem.Pleasanter.Models
                             target: $"#DashboardPart_{dashboardPart.Id}",
                             value: results)
                         .Invoke("setCalendar", dashboardPart.Id.ToString())
-                        .Invoke("setDashboardRefresh", dashboardPart.Id.ToString())
                         .ToJson();
                 default:
                     return Messages.ResponseNotFound(context: context).ToJson();
@@ -2234,7 +2234,6 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 data: issueModel.Title.MessageDisplay(context: context)))
                         .Invoke("setCalendar", dashboardPart.Id.ToString())
-                        .Invoke("setDashboardRefresh", dashboardPart.Id.ToString())
                         .ToJson();
                 case "Results":
                     var results = ResultUtilities.UpdateByCalendar(context: context, ss: currentSs);
@@ -2280,7 +2279,6 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 data: resultModel.Title.MessageDisplay(context: context)))
                         .Invoke("setCalendar", dashboardPart.Id.ToString())
-                        .Invoke("setDashboardRefresh", dashboardPart.Id.ToString())
                         .ToJson();
                 default:
                     return Messages.ResponseNotFound(context: context).ToJson();
@@ -2293,7 +2291,7 @@ namespace Implem.Pleasanter.Models
         private static DashboardPartLayout AsynchronousLoadingLayout(DashboardPart dashboardPart)
         {
             var hb = new HtmlBuilder();
-            var AsynchronousReload = hb.Div(
+            var AsynchronousLoading = hb.Div(
                 id: $"DashboardPart_{dashboardPart.Id}",
                 attributes: new HtmlAttributes().DataId(dashboardPart.Id.ToString()),
                 css: "dashboard-calendar-container " + dashboardPart.ExtendedCss,
@@ -2314,7 +2312,7 @@ namespace Implem.Pleasanter.Models
                 Y = dashboardPart.Y,
                 W = dashboardPart.Width,
                 H = dashboardPart.Height,
-                Content = AsynchronousReload
+                Content = AsynchronousLoading
             };
         }
     }

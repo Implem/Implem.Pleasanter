@@ -809,13 +809,13 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
-        public static string AsynchronousReload(
+        public static string AsynchronousLoading(
             Context context,
             params string[] data)
         {
             return Get(
                 context: context,
-                id: "AsynchronousReload",
+                id: "AsynchronousLoading",
                 data: data);
         }
 

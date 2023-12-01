@@ -15074,10 +15074,10 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss)
                 .FieldCheckBox(
-                    controlId: "AsynchronousReloadDefault",
+                    controlId: "AsynchronousLoadingDefault",
                     fieldCss: "field-auto-thin",
-                    labelText: Displays.AsynchronousReload(context: context),
-                    _checked: ss.AsynchronousReloadDefault ?? false));
+                    labelText: Displays.AsynchronousLoading(context: context),
+                    _checked: ss.AsynchronousLoadingDefault ?? false));
         }
 
         /// <summary>
