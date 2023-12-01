@@ -1663,6 +1663,13 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         baseModel: groupModel,
                         tableName: "Groups"))
+                    .ReloadCurrentMembers(
+                        context: context,
+                        groupId: groupModel.GroupId)
+                    .ResetSelectableMembers()
+                    .Val(target: "#AddedGroupMembers", value: "[]")
+                    .Val(target: "#DeletedGroupMembers", value: "[]")
+                    .Val(target: "#ModifiedGroupMembers", value: "[]")
                     .SetMemory("formChanged", false)
                     .Message(Messages.Updated(
                         context: context,
@@ -2936,6 +2943,48 @@ namespace Implem.Pleasanter.Models
                             listItemCollection: currentMembers))
                 .Val(target: "#CurrentMembersOffset", value: nextOffset)
                 .ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static ResponseCollection ReloadCurrentMembers(
+            this ResponseCollection self,
+            Context context,
+            int groupId)
+        {
+            var currentMembers = CurrentMembers(
+                context: context,
+                groupId: groupId,
+                offset: 0,
+                pageSize: Parameters.General.DropDownSearchPageSize);
+            return self
+                .Html(
+                    target: "#CurrentMembers",
+                    value: new HtmlBuilder()
+                        .SelectableItems(
+                            listItemCollection: currentMembers))
+                .Val(
+                    target: "#CurrentMembersOffset",
+                    value: 0);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static ResponseCollection ResetSelectableMembers(this ResponseCollection self)
+        {
+            return self
+                .Html(
+                    "#SelectableMembers",
+                    new HtmlBuilder().SelectableItems(
+                        listItemCollection: new Dictionary<string, ControlData>()))
+                .Val(
+                    target: "#SelectableMembersOffset",
+                    value: 0)
+                .Val(
+                    target: "#SearchMemberText",
+                    value: string.Empty);
         }
 
         /// <summary>
