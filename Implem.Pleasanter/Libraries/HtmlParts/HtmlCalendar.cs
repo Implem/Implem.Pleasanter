@@ -226,7 +226,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     value: ss.ReferenceType)
                 .Hidden(
                     controlId: $"CalendarEditorFormat{suffix}",
-                    value: ss.ColumnHash["CompletionTime"]?.EditorFormat)
+                    value: ss.ColumnHash.ContainsKey("CompletionTime")
+                        ? ss.ColumnHash["CompletionTime"].EditorFormat
+                        : "")
                 .Hidden(
                     controlId: $"CalendarSiteData{suffix}",
                     value: !siteId.Equals(0)
