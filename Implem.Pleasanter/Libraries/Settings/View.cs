@@ -485,6 +485,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                     AddAnalyPart(context: context);
                     break;
                 default:
+                    if (context.Forms.ControlId().StartsWith("DeleteAnalyPart_"))
+                    {
+                        DeleteAnalyPart(context: context);
+                    }
                     foreach (var controlId in context.Forms.Keys)
                     {
                         switch (ControlIdWithOutPrefix(
@@ -3481,6 +3485,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                 AnalyPartSettings = new List<AnalyPartSetting>();
             }
             AnalyPartSettings.Add(analyPartSetting);
+        }
+
+        public void DeleteAnalyPart(Context context)
+        {
+            var controlId = context.Forms.ControlId();
+            AnalyPartSettings.RemoveAll(o => o.Id == controlId.Split_2nd('_').ToInt());
         }
     }
 }

@@ -1,6 +1,4 @@
 ﻿$p.drawAnaly = function () {
-    var json = JSON.parse($('#AnalyJson').val());
-
     // データが空でない場合にグラフを描画
     var pieChartWidth = 300;
     var pieChartHeight = 300;
@@ -11,7 +9,7 @@
     var screenHeight = window.innerHeight; // 画面の幅
     var conditionIllegalFlag = false;
 
-    for (let pieChart of json) {
+    for (let pieChart of JSON.parse($('#AnalyJson').val())) {
         var pieChartElements = pieChart.Elements;
         var pieChartSetting = pieChart.Setting;
         count = count + 1;
@@ -36,11 +34,25 @@
             }
         }
 
+        var g = svg
+            .append('g')
+            .attr('id', 'DeleteAnalyPart_' + pieChartSetting.Id)
+            .attr('data-method', 'post')
+            .attr(
+                'transform',
+                'translate(' + newX + ',' + newY / 2 + ')');
+        g
+            .append('text')
+            .attr('fill', 'black')
+            .attr('font-size', '15px')
+            .attr('text-anchor', 'middle')
+            .attr('dx', -130)
+            .attr('dy', -130)
+            .attr('class','delete-analy')
+            .attr('onclick', '$p.send($(\'#DeleteAnalyPart_' + pieChartSetting.Id + '\'));')
+            .text('delete');
         if (pieChartElements.length === 0) {
             // X軸とY軸を決めている
-            var g = svg
-                .append('g')
-                .attr('transform', 'translate(' + newX + ',' + newY / 2 + ')');
             g.append('text')
                 .attr('fill', 'black')
                 .attr('font-size', '15px')
@@ -58,12 +70,7 @@
             }
             if (conditionIllegalFlag === true) {
                 // X軸とY軸を決めている
-                var g = svg
-                    .append('g')
-                    .attr(
-                        'transform',
-                        'translate(' + newX + ',' + newY / 2 + ')'
-                    );
+
                 g.append('text')
                     .attr('fill', 'black')
                     .attr('font-size', '15px')
@@ -72,13 +79,6 @@
                     .text('Invalid request has been sent.');
             } else {
                 // X軸とY軸を決めている
-                var g = svg
-                    .append('g')
-                    .attr('id', 'graph' + count)
-                    .attr(
-                        'transform',
-                        'translate(' + newX + ',' + newY / 2 + ')'
-                    );
                 g.append('text')
                     .attr('fill', 'black')
                     .attr('font-size', '25px')
@@ -126,16 +126,19 @@
                     .sort(null);
 
                 var pieGroup = g
-                    .selectAll('.pie') // gのすべてのpie要素を選択
+                     // gのすべてのpie要素を選択
+                    .selectAll('.pie')
                     .data(pie(pieChartElements))
                     .enter()
                     .append('g')
-                    .attr('class', 'pie'); // idをpieに変更
+                     // idをpieに変更
+                    .attr('class', 'pie');
 
                 var arc = d3.arc().outerRadius(radius).innerRadius(75);
 
                 pieGroup
-                    .append('path') // pieGroupにpathを追加
+                    // pieGroupにpathを追加
+                    .append('path')
                     .attr('d', arc)
                     .attr('fill', function (d) {
                         return color(d.index);
@@ -149,7 +152,8 @@
                     .innerRadius(radius - 40);
 
                 pieGroup
-                    .append('text') // pieGroupにtextを追加
+                    // pieGroupにtextを追加
+                    .append('text')
                     .attr('fill', 'black')
                     .attr('transform', function (d) {
                         return 'translate(' + text.centroid(d) + ')';
