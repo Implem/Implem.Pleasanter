@@ -42,7 +42,7 @@ function refreshDashboardPart(partId) {
     $p.ajax('DashboardPart', 'get', data, $control, true);
 }
 
-$p.setDashboardAsync = function (suffix) {
+$p.setDashboardAsync = function () {
     $('[id^="DashboardAsync_"]').each(function (index, value) {
         var partId = value.id.substring(value.id.indexOf('_') + 1);
         refreshDashboardPart(partId);
