@@ -87,7 +87,8 @@ namespace Implem.Pleasanter.Models
                 .Select(dashboardPart =>
             {
                 dashboardPart.SetSitesData();
-                if (ss.AsynchronousLoadingDefault == true && dashboardPart.DisableAsynchronousLoading == false)
+                if (ss.AsynchronousLoadingDefault == true
+                    && dashboardPart.DisableAsynchronousLoading == false)
                 {
                     return AsynchronousLoadingLayout(dashboardPart: dashboardPart);
                 }
