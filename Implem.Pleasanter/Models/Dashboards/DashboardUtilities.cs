@@ -106,6 +106,11 @@ namespace Implem.Pleasanter.Models
                         return CustomHtmlLayouyt(
                             context: context,
                             dashboardPart: dashboardPart);
+                    case DashboardPartType.Calendar:
+                        return CalendarLayout(
+                            context: context,
+                            ss: ss,
+                            dashboardPart: dashboardPart);
                     default:
                         return new DashboardPartLayout();
                 };
@@ -1975,6 +1980,256 @@ namespace Implem.Pleasanter.Models
                         Updator = model.Updator
                     };
                 });
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static DashboardPartLayout CalendarLayout(
+            Context context,
+            SiteSettings ss,
+            DashboardPart dashboardPart)
+        {
+            var hb = new HtmlBuilder();
+            var calendarHtml = GetCalendarRecords(
+                context: context,
+                dashboardPart: dashboardPart);
+            var calendar = hb
+                .Div(
+                    id: $"DashboardPart_{dashboardPart.Id}",
+                    attributes: new HtmlAttributes().DataId(dashboardPart.Id.ToString()),
+                    css: "dashboard-calendar-container " + dashboardPart.ExtendedCss,
+                    action: () =>
+                    {
+                        if (dashboardPart.ShowTitle == true)
+                        {
+                            hb.Div(
+                                css: "dashboard-part-title",
+                                action: () => hb.Text(dashboardPart.Title));
+                        }
+                        hb.Raw(text: calendarHtml);
+                    }).ToString();
+            return new DashboardPartLayout()
+            {
+                Id = dashboardPart.Id,
+                X = dashboardPart.X,
+                Y = dashboardPart.Y,
+                W = dashboardPart.Width,
+                H = dashboardPart.Height,
+                Content = calendar
+            };
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static string GetCalendarRecords(
+            Context context,
+            DashboardPart dashboardPart)
+        {
+            //基準となるサイトからSiteSettingsを取得
+            var ss = SiteSettingsUtilities.Get(
+                context: context,
+                siteId: dashboardPart.SiteId);
+            //対象サイトをサイト統合の仕組みで登録
+            ss.IntegratedSites = dashboardPart.CalendarSitesData;
+            ss.SetSiteIntegration(context: context);
+            ss.SetDashboardParts(dashboardPart: dashboardPart);
+            if (ss.ReferenceType == "Issues")
+            {
+                return IssueUtilities.Calendar(context: context, ss: ss);
+            }
+            else if (ss.ReferenceType == "Results")
+            {
+                return ResultUtilities.Calendar(context: context, ss: ss);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string CalendarJson(Context context, SiteSettings ss)
+        {
+            var matchingKey = context.Forms.Keys.FirstOrDefault(x => x.StartsWith("CalendarSuffix_"));
+            DashboardPart dashboardPart = ss.DashboardParts.FirstOrDefault(x => x.Id == context.Forms.Data(matchingKey).ToInt());
+            if (dashboardPart == null && context.Forms.ControlId().StartsWith("CalendarDate_"))
+            {
+                var suffix = context.Forms.ControlId().Replace("CalendarDate_", "");
+                dashboardPart = ss.DashboardParts.FirstOrDefault(x => x.Id == suffix.ToInt());
+            }
+            var currentSs = SiteSettingsUtilities.Get(
+                context: context,
+                siteId: dashboardPart.SiteId);
+            //対象サイトをサイト統合の仕組みで登録
+            currentSs.IntegratedSites = dashboardPart.CalendarSitesData;
+            currentSs.SetSiteIntegration(context: context);
+            currentSs.SetDashboardParts(dashboardPart: dashboardPart);
+            var hb = new HtmlBuilder();
+            switch (currentSs.ReferenceType)
+            {
+                case "Issues":
+                    var issues = hb.Div(
+                        id: $"DashboardPart_{dashboardPart.Id}",
+                        attributes: new HtmlAttributes().DataId(dashboardPart.Id.ToString()),
+                        css: "dashboard-calendar-container " + dashboardPart.ExtendedCss,
+                        action: () =>
+                        {
+                            if (dashboardPart.ShowTitle == true)
+                            {
+                                hb.Div(
+                                    css: "dashboard-part-title",
+                                    action: () => hb.Text(dashboardPart.Title));
+                            }
+                            hb.Raw(text: IssueUtilities.CalendarJson(context: context, ss: currentSs));
+                        }).ToString();
+                    return new ResponseCollection(context: context)
+                        .Html(
+                            target: $"#DashboardPart_{dashboardPart.Id}",
+                            value: issues)
+                        .Invoke("setCalendar",dashboardPart.Id.ToString())
+                        .ToJson();
+                case "Results":
+                    var results = hb.Div(
+                        id: $"DashboardPart_{dashboardPart.Id}",
+                        attributes: new HtmlAttributes().DataId(dashboardPart.Id.ToString()),
+                        css: "dashboard-calendar-container " + dashboardPart.ExtendedCss,
+                        action: () =>
+                        {
+                            if (dashboardPart.ShowTitle == true)
+                            {
+                                hb.Div(
+                                    css: "dashboard-part-title",
+                                    action: () => hb.Text(dashboardPart.Title));
+                            }
+                            hb.Raw(text: ResultUtilities.CalendarJson(context: context, ss: currentSs));
+                        }).ToString();
+                    return new ResponseCollection(context: context)
+                        .Html(
+                            target: $"#DashboardPart_{dashboardPart.Id}",
+                            value: results)
+                        .Invoke("setCalendar", dashboardPart.Id.ToString())
+                        .ToJson();
+                default:
+                    return Messages.ResponseNotFound(context: context).ToJson();
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string UpdateByCalendar(
+            Context context,
+            SiteSettings ss)
+        {
+            var matchingKey = context.Forms.Keys.FirstOrDefault(x => x.StartsWith("CalendarSuffix_"));
+            DashboardPart dashboardPart = ss.DashboardParts.FirstOrDefault(x => x.Id == context.Forms.Data(matchingKey).ToInt());
+            var currentSs = SiteSettingsUtilities.Get(
+                context: context,
+                siteId: context.Forms.Long("SiteId"));
+            //対象サイトをサイト統合の仕組みで登録
+            currentSs.IntegratedSites = dashboardPart.CalendarSitesData;
+            currentSs.SetSiteIntegration(context: context);
+            currentSs.SetDashboardParts(dashboardPart: dashboardPart);
+            var hb = new HtmlBuilder();
+            switch (currentSs.ReferenceType)
+            {
+                case "Issues":
+                    var issues = IssueUtilities.UpdateByCalendar(context: context, ss: currentSs);
+                    var issueCalendar = hb.Div(
+                        id: $"DashboardPart_{dashboardPart.Id}",
+                        attributes: new HtmlAttributes().DataId(dashboardPart.Id.ToString()),
+                        css: "dashboard-calendar-container " + dashboardPart.ExtendedCss,
+                        action: () =>
+                        {
+                            if (dashboardPart.ShowTitle == true)
+                            {
+                                hb.Div(
+                                    css: "dashboard-part-title",
+                                    action: () => hb.Text(dashboardPart.Title));
+                            }
+                            hb.Raw(text: issues);
+                        }).ToString();
+                    List<Dictionary<string, string>> issuesJson = Jsons.Deserialize<List<Dictionary<string, string>>>(issues);
+                    if (issuesJson != null)
+                    {
+                        Dictionary<string, string> messageElement = issuesJson.Find(item => item.ContainsValue("Message"));
+                        if (messageElement != null)
+                        {
+                            Dictionary<string, string> messageValue = Jsons.Deserialize<Dictionary<string, string>>(messageElement["Value"]);
+                            return new ResponseCollection(context: context)
+                                .Message(message: new Message(messageValue["Id"], messageValue["Text"], messageValue["Css"]))
+                                .Invoke("setCalendar", dashboardPart.Id.ToString())
+                                .ToJson();
+                        }
+                    }
+                    var issueModel = new IssueModel(
+                        context: context,
+                        ss: currentSs,
+                        issueId: context.Forms.Long("EventId"),
+                        formData: context.Forms);
+                    return new ResponseCollection(context: context)
+                        .Html(
+                            target: $"#DashboardPart_{dashboardPart.Id}",
+                            value: issueCalendar)
+                        .Message(context.ErrorData.Type != Error.Types.None
+                            ? context.ErrorData.Message(context: context)
+                            : Messages.Updated(
+                                context: context,
+                                data: issueModel.Title.MessageDisplay(context: context)))
+                        .Invoke("setCalendar", dashboardPart.Id.ToString())
+                        .ToJson();
+                case "Results":
+                    var results = ResultUtilities.UpdateByCalendar(context: context, ss: currentSs);
+                    var resultCalendar = hb.Div(
+                        id: $"DashboardPart_{dashboardPart.Id}",
+                        attributes: new HtmlAttributes().DataId(dashboardPart.Id.ToString()),
+                        css: "dashboard-calendar-container " + dashboardPart.ExtendedCss,
+                        action: () =>
+                        {
+                            if (dashboardPart.ShowTitle == true)
+                            {
+                                hb.Div(
+                                    css: "dashboard-part-title",
+                                    action: () => hb.Text(dashboardPart.Title));
+                            }
+                            hb.Raw(text: results);
+                        }).ToString();
+                    List<Dictionary<string, string>> resultsJson = Jsons.Deserialize<List<Dictionary<string, string>>>(results);
+                    if (resultsJson != null)
+                    {
+                        Dictionary<string, string> messageElement = resultsJson.Find(item => item.ContainsValue("Message"));
+                        if (messageElement != null)
+                        {
+                            Dictionary<string, string> messageValue = Jsons.Deserialize<Dictionary<string, string>>(messageElement["Value"]);
+                            return new ResponseCollection(context: context)
+                                .Message(message: new Message(messageValue["Id"], messageValue["Text"], messageValue["Css"]))
+                                .Invoke("setCalendar", dashboardPart.Id.ToString())
+                                .ToJson();
+                        }
+                    }
+                    var resultModel = new ResultModel(
+                        context: context,
+                        ss: currentSs,
+                        resultId: context.Forms.Long("EventId"),
+                        formData: context.Forms);
+                    return new ResponseCollection(context: context)
+                        .Html(
+                            target: $"#DashboardPart_{dashboardPart.Id}",
+                            value: resultCalendar)
+                        .Message(context.ErrorData.Type != Error.Types.None
+                            ? context.ErrorData.Message(context: context)
+                            : Messages.Updated(
+                                context: context,
+                                data: resultModel.Title.MessageDisplay(context: context)))
+                        .Invoke("setCalendar", dashboardPart.Id.ToString())
+                        .ToJson();
+                default:
+                    return Messages.ResponseNotFound(context: context).ToJson();
+            }
         }
     }
 }

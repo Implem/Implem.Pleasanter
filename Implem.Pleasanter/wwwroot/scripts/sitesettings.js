@@ -269,18 +269,35 @@ $p.openDashboardPartTimeLineSitesDialog = function ($control) {
     $p.openSiteSettingsDialog($control, '#DashboardPartTimeLineSitesDialog');
 }
 
+$p.openDashboardPartCalendarSitesDialog = function ($control) {
+    $p.data.TimeLineSitesForm = {};
+    $p.openSiteSettingsDialog($control, '#DashboardPartCalendarSitesDialog');
+}
+
 $p.updateDashboardPartTimeLineSites = function ($control) {
     $p.send($control);
 }
 
 $p.confirmTimeLineSites = function (value) {
     var args = JSON.parse(value);
-    var result = confirm('基準となるサイトが変更されるため、「フィルタ」および「ソータ」をリセットします。');
+    var result = confirm($p.display('ResetTimeLineView'));
     if (result) {
         $('#DashboardPartTimeLineSitesValue').text(args.timeLineSites);
         $p.set($('#DashboardPartTimeLineSites'), args.timeLineSites);
         $p.set($('#DashboardPartBaseSiteId'), args.baseSiteId);
         $p.send($("#ClearDashboardView"));
         $p.closeDialog($("#DashboardPartTimeLineSitesDialog"));
+    }
+}
+
+$p.confirmCalendarSites = function (value) {
+    var args = JSON.parse(value);
+    var result = confirm($p.display('ResetCalendarView'));
+    if (result) {
+        $('#DashboardPartCalendarSitesValue').text(args.calendarSites);
+        $p.set($('#DashboardPartCalendarSites'), args.calendarSites);
+        $p.set($('#DashboardPartBaseSiteId'), args.baseSiteId);
+        $p.send($("#ClearDashboardView"));
+        $p.closeDialog($("#DashboardPartCalendarSitesDialog"));
     }
 }
