@@ -15077,7 +15077,7 @@ namespace Implem.Pleasanter.Models
                     controlId: "AsynchronousLoadingDefault",
                     fieldCss: "field-auto-thin",
                     labelText: Displays.AsynchronousLoading(context: context),
-                    _checked: ss.AsynchronousLoadingDefault ?? false));
+                    _checked: ss.DashboardPartsAsynchronousLoading ?? false));
         }
 
         /// <summary>

@@ -193,7 +193,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? AllowStandardExport;
         public SettingList<Style> Styles;
         public bool? Responsive;
-        public bool? AsynchronousLoadingDefault;
+        public bool? DashboardPartsAsynchronousLoading;
         public SettingList<Script> Scripts;
         public SettingList<Html> Htmls;
         public SettingList<ServerScript> ServerScripts;
@@ -356,7 +356,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             AllowStandardExport = AllowStandardExport ?? Parameters.General.AllowStandardExport;
             if (Styles == null) Styles = new SettingList<Style>();
             if (Responsive == null) Responsive = Parameters.Mobile.SiteSettingsResponsive;
-            if (AsynchronousLoadingDefault == null) AsynchronousLoadingDefault = Parameters.Dashboard.AsynchronousLoadingDefault;
+            if (DashboardPartsAsynchronousLoading == null) DashboardPartsAsynchronousLoading = Parameters.Dashboard.AsynchronousLoadingDefault;
             if (Scripts == null) Scripts = new SettingList<Script>();
             if (Htmls == null) Htmls = new SettingList<Html>();
             if (ServerScripts == null) ServerScripts = new SettingList<ServerScript>();
@@ -1088,9 +1088,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 ss.Responsive = Responsive;
             }
-            if (AsynchronousLoadingDefault != Parameters.Dashboard.AsynchronousLoadingDefault)
+            if (DashboardPartsAsynchronousLoading != Parameters.Dashboard.AsynchronousLoadingDefault)
             {
-                ss.AsynchronousLoadingDefault = AsynchronousLoadingDefault;
+                ss.DashboardPartsAsynchronousLoading = DashboardPartsAsynchronousLoading;
             }
             Scripts?.ForEach(script =>
             {
@@ -3643,7 +3643,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "FirstDayOfWeek": FirstDayOfWeek = value.ToInt(); break;
                 case "FirstMonth": FirstMonth = value.ToInt(); break;
                 case "Responsive": Responsive = value.ToBool(); break;
-                case "AsynchronousLoadingDefault": AsynchronousLoadingDefault = value.ToBool(); break;
+                case "AsynchronousLoadingDefault": DashboardPartsAsynchronousLoading = value.ToBool(); break;
                 case "AutoVerUpType": AutoVerUpType = (Versions.AutoVerUpTypes)value.ToInt(); break;
                 case "AllowCopy": AllowCopy = value.ToBool(); break;
                 case "AllowReferenceCopy": AllowReferenceCopy = value.ToBool(); break;
