@@ -1,6 +1,7 @@
 ﻿{
     "Id": "Seconds",
     "Type": 110,
+    "ClientScript": true,
     "Languages": [
         {
             "Body": "Seconds"

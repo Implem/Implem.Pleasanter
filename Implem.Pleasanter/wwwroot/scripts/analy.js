@@ -2,45 +2,44 @@
     // データが空でない場合にグラフを描画
     var pieChartWidth = 300;
     var pieChartHeight = 300;
-    var count = 0; // 処理の回数
     var newX = 200;
     var newY = pieChartHeight;
     var screenWidth = window.innerWidth;
     var screenHeight = window.innerHeight; // 画面の幅
     var conditionIllegalFlag = false;
 
+    var svg = d3
+        .select('#Analy')
+        .attr('width', screenWidth)
+        .attr('height', screenHeight);
     for (let pieChart of JSON.parse($('#AnalyJson').val())) {
-        var pieChartElements = pieChart.Elements;
-        var pieChartSetting = pieChart.Setting;
-        count = count + 1;
         var radius = Math.min(pieChartWidth, pieChartHeight) / 2 - 10;
-        var svg = d3
-            .select('#Analy')
-            .attr('width', screenWidth)
-            .attr('height', screenHeight);
 
         // 2回目以降の処理から+400ずつ
-        if (count !== 1) {
-            newX = newX + 300;
-            if (screenWidth >= newX) {
-            } else {
-                newX = 200;
-                newY = newY + 600;
-            }
-            if (screenHeight >= newY) {
-            } else {
-                alert('データがいっぱいです。ログインしなおしてください。');
-                return;
-            }
-        }
+        // if (pieChart.Setting.Id !== 1) {
+        //     newX = newX + 300;
+        //     if (screenWidth >= newX) {
+        //     } else {
+        //         newX = 200;
+        //         newY = newY + 600;
+        //     }
+        //     if (screenHeight >= newY) {
+        //     } else {
+        //         alert('データがいっぱいです。ログインしなおしてください。');
+        //         return;
+        //     }
+        // }
 
         var g = svg
             .append('g')
-            .attr('id', 'DeleteAnalyPart_' + pieChartSetting.Id)
+            .attr('id', 'DeleteAnalyPart_' + pieChart.Setting.Id)
             .attr('data-method', 'post')
             .attr(
                 'transform',
-                'translate(' + newX + ',' + newY / 2 + ')');
+                'translate(' + newX + ',' + newY / 2 + ')')
+            .style('width', 100)
+            .style('height', 100)
+            .style('float', 'left');
         g
             .append('text')
             .attr('fill', 'black')
@@ -48,10 +47,11 @@
             .attr('text-anchor', 'middle')
             .attr('dx', -130)
             .attr('dy', -130)
-            .attr('class','delete-analy')
-            .attr('onclick', '$p.send($(\'#DeleteAnalyPart_' + pieChartSetting.Id + '\'));')
+            .attr('class', 'delete-analy')
+            .attr('onclick', '$p.send($(\'#DeleteAnalyPart_' + pieChart.Setting.Id + '\'));')
             .text('delete');
-        if (pieChartElements.length === 0) {
+
+        if (pieChart.Elements.length === 0) {
             // X軸とY軸を決めている
             g.append('text')
                 .attr('fill', 'black')
@@ -60,7 +60,7 @@
                 .attr('dy', 0)
                 .text('There is no applicable data.');
         } else {
-            for (let element of pieChartElements) {
+            for (let element of pieChart.Elements) {
                 if (element.Value === 0) {
                     conditionIllegalFlag = true;
                 } else {
@@ -70,7 +70,6 @@
             }
             if (conditionIllegalFlag === true) {
                 // X軸とY軸を決めている
-
                 g.append('text')
                     .attr('fill', 'black')
                     .attr('font-size', '15px')
@@ -84,29 +83,47 @@
                     .attr('font-size', '25px')
                     .attr('text-anchor', 'middle')
                     .attr('dy', -20)
-                    .text(pieChartSetting.AggregationType);
+                    .text($p.display(pieChart.Setting.AggregationType));
                 g.append('text')
                     .attr('fill', 'black')
                     .attr('font-size', '15px')
                     .attr('text-anchor', 'middle')
                     .attr('dy', 0)
                     .text(
-                        pieChartSetting.TimePeriodValue +
+                        $p.display(pieChart.Setting.TimePeriodValue) +
                         '' +
-                        pieChartSetting.TimePeriod
-                    );
+                        $p.display(pieChart.Setting.TimePeriod)
+                );        
                 g.append('text')
                     .attr('fill', 'black')
                     .attr('font-size', '15px')
                     .attr('text-anchor', 'middle')
                     .attr('dy', 20)
-                    .text(pieChartSetting.AggregationTarget);
+                    .text(function (d) {
+                        if (pieChart.Setting.AggregationTarget === 'RemainingWorkValue') {
+                            return '残作業量';
+                        } else if (pieChart.Setting.AggregationTarget.slice(0, 3) === 'Num') {
+                            return '数値' + pieChart.Setting.AggregationTarget.slice(3, 4);
+                        } else {
+                            return $p.display(pieChart.Setting.AggregationTarget);
+                        }
+                    });
                 g.append('text')
                     .attr('fill', 'black')
                     .attr('font-size', '15px')
                     .attr('text-anchor', 'middle')
                     .attr('dy', 40)
-                    .text(pieChartSetting.GroupBy);
+                    .text(function (d) {
+                        if (pieChart.Setting.GroupBy === 'Owner') {
+                            return '担当者';
+                        } else if (pieChart.Setting.GroupBy === 'Creator') {
+                            return '作成者'
+                        } else if (pieChart.Setting.GroupBy === 'Updator') {
+                            return '更新者'
+                        } else {
+                            return $p.display(pieChart.Setting.GroupBy);
+                        }
+                    })
 
                 var color = d3
                     .scaleOrdinal()
@@ -126,12 +143,12 @@
                     .sort(null);
 
                 var pieGroup = g
-                     // gのすべてのpie要素を選択
+                    // gのすべてのpie要素を選択
                     .selectAll('.pie')
-                    .data(pie(pieChartElements))
+                    .data(pie(pieChart.Elements))
                     .enter()
                     .append('g')
-                     // idをpieに変更
+                    // idをpieに変更
                     .attr('class', 'pie');
 
                 var arc = d3.arc().outerRadius(radius).innerRadius(75);

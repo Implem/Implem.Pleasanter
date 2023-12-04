@@ -1,6 +1,7 @@
-{
+﻿{
     "Id": "Num",
     "Type": 110,
+    "ClientScript": true,
     "Languages": [
         {
             "Body": "Numeric value"
