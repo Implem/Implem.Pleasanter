@@ -1,0 +1,33 @@
+﻿{
+    "Id": "Schedule",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Schedule"
+        },
+        {
+            "Language": "zh",
+            "Body": "日程"
+        },
+        {
+            "Language": "ja",
+            "Body": "スケジュール"
+        },
+        {
+            "Language": "de",
+            "Body": "Zeitplan"
+        },
+        {
+            "Language": "ko",
+            "Body": "스케줄"
+        },
+        {
+            "Language": "es",
+            "Body": "cronograma"
+        },
+        {
+            "Language": "vn",
+            "Body": "lịch trình"
+        }
+    ]
+}

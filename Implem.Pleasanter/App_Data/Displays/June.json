@@ -1,0 +1,33 @@
+{
+    "Id": "June",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "June"
+        },
+        {
+            "Language": "ja",
+            "Body": "6月"
+        },
+        {
+            "Language": "zh",
+            "Body": "6月"
+        },
+        {
+            "Language": "ko",
+            "Body": "6월"
+        },
+        {
+            "Language": "vi",
+            "Body": "Tháng sáu"
+        },
+        {
+            "Language": "es",
+            "Body": "Junio"
+        },
+        {
+            "Language": "de",
+            "Body": "Juni"
+        }
+    ]
+}

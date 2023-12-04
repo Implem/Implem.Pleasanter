@@ -1205,9 +1205,16 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             long id,
             string apiRequestBody)
         {
-            var createdContext = new Context(apiRequestBody: MergedApiRequestBody(
-                context: context,
-                apiRequestBody: apiRequestBody));
+            var createdContext = context.BackgroundServerScript
+                ? new Context(
+                    userId: context.UserId,
+                    deptId: context.DeptId,
+                    tenantId: context.TenantId,
+                    request: false,
+                    setAuthenticated: true)
+                : new Context(apiRequestBody: MergedApiRequestBody(
+                    context: context,
+                    apiRequestBody: apiRequestBody));
             createdContext.LogBuilder = context.LogBuilder;
             createdContext.UserData = context.UserData;
             createdContext.Messages = context.Messages;
@@ -1217,6 +1224,11 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             createdContext.ApiRequestBody = apiRequestBody;
             createdContext.PermissionHash = Permissions.Get(context: createdContext);
             createdContext.ServerScriptDepth = context.ServerScriptDepth + 1;
+            if (context.BackgroundServerScript)
+            {
+                createdContext.BackgroundServerScript = context.BackgroundServerScript;
+                createdContext.SetPermissions();
+            }
             return createdContext;
         }
 

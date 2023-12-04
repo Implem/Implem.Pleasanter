@@ -62,6 +62,7 @@
 <!--Model_OnUpdated_SetSiteMenu-->
 <!--Model_OnUpdated_ServerScript-->
 <!--Model_OnUpdated_SetStatusControls-->
+<!--Model_OnUpdated_BackgroundServerScript-->
 
     return new ErrorData(type: Error.Types.None);
 }

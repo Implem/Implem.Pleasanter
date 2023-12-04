@@ -26,11 +26,17 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Primitives;
+using Quartz.AspNetCore;
+using Quartz;
 using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Quartz.Impl;
+using System.Collections.Specialized;
+using Implem.Pleasanter.Libraries.Settings;
+
 namespace Implem.Pleasanter.NetCore
 {
     public class Startup
@@ -171,11 +177,9 @@ namespace Implem.Pleasanter.NetCore
             {
                 services.AddHostedService<ReminderBackgroundService>();
             }
-            if (Parameters.BackgroundService.TimerEnabled(
-                deploymentEnvironment: Parameters.Service.DeploymentEnvironment))
-            {
-                services.AddHostedService<TimerBackgroundService>();
-            }
+            services.AddHostedService<CustomQuartzHostedService>();
+            new TimerBackground().Init();
+            BackgroundServerScriptUtilities.InitSchedule();
             var blobContainerUri = Parameters.Security.AspNetCoreDataProtection?.BlobContainerUri;
             var keyIdentifier = Parameters.Security.AspNetCoreDataProtection?.KeyIdentifier;
             if (!blobContainerUri.IsNullOrEmpty()
@@ -416,6 +420,32 @@ namespace Implem.Pleasanter.NetCore
             SiteInfo.Reflesh(context: context);
             log.Finish(context: context);
         }
+        /*
+        private async Task<IScheduler> GetScheduler()
+        {
+            var properties = new NameValueCollection
+            {
+                { "quartz.scheduler.instanceName", "QuartzWithCore" },
+                { "quartz.scheduler.instanceId", "QuartzWithCore" },
+                { "quartz.jobStore.type", "Quartz.Impl.AdoJobStore.JobStoreTX, Quartz" },
+                { "quartz.jobStore.useProperties", "true" },
+                { "quartz.jobStore.dataSource", "default" },
+                { "quartz.jobStore.tablePrefix", "QRTZ_" },
+                {
+                    "quartz.dataSource.default.connectionString",
+                    "Server=dev\\SQLEXPRESS;Database=Tyson;Trusted_Connection=true;"
+                },
+                { "quartz.dataSource.default.provider", "SqlServer" },
+                { "quartz.threadPool.threadCount", "1" },
+                { "quartz.serializer.type", "json" },
+            };
+            var schedulerFactory = new StdSchedulerFactory(properties);
+            var schedulerFactory = new StdSchedulerFactory();
+            var scheduler = await schedulerFactory.GetScheduler();
+            //await scheduler.Start();                                                                                  
+            return scheduler;
+        }
+        */
     }
 
     public class SessionMiddleware
