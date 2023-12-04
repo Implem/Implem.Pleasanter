@@ -49,6 +49,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                             : begin;
                     }
                     if (ss.DashboardParts?.Any() == true
+                        && ss.DashboardParts.FirstOrDefault().CalendarType.ToString() == "FullCalendar"
                         && view.CalendarStartHash?.Any() == true
                         && view.CalendarStartHash.ContainsKey($"CalendarStart{view.CalendarSuffix}"))
                     {
