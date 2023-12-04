@@ -342,7 +342,12 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     + GetAscScript()
                     + GetJisScript()
                     + GetValueScript()
-                    + GetTextScript();
+                    + GetTextScript()
+                    + GetAbsScript()
+                    + GetPowerScript()
+                    + GetRandScript()
+                    + GetSqrtScript()
+                    + GetEOMonthScript();
                 var value = engine.Evaluate(functionScripts + formulaScript);
                 return value == Undefined.Value ? string.Empty : value;
             }
@@ -395,7 +400,12 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 .Replace("$asc(", "$ASC(", StringComparison.InvariantCultureIgnoreCase)
                 .Replace("$jis(", "$JIS(", StringComparison.InvariantCultureIgnoreCase)
                 .Replace("$value(", "$VALUE(", StringComparison.InvariantCultureIgnoreCase)
-                .Replace("$text(", "$TEXT(", StringComparison.InvariantCultureIgnoreCase);
+                .Replace("$text(", "$TEXT(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("$abs(", "$ABS(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("$power(", "$POWER(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("$rand(", "$RAND(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("$sqrt(", "$SQRT(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("$eomonth(", "$EOMONTH(", StringComparison.InvariantCultureIgnoreCase);
         }
 
         public static string GetText(object value, string format)
@@ -411,7 +421,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             return DateTime.Parse(value.ToString()).ToString(format
                 .Replace("Y", "y")
                 .Replace("D", "d")
-                .Replace("AM/PM", "tt", StringComparison.OrdinalIgnoreCase));
+                .Replace("AM/PM", "tt", StringComparison.InvariantCultureIgnoreCase));
         }
 
         /// <summary>
@@ -1933,6 +1943,115 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 function $TEXT(value, format)
                 {
                     return FormulaServerScriptUtilities.GetText(value, format);
+                }";
+        }
+
+        /// <summary>
+        /// Returns the absolute value of a number.
+        /// </summary>
+        /// <remarks>
+        /// Syntax: $ABS(number)
+        /// </remarks>
+        private static string GetAbsScript()
+        {
+            return @"
+                function $ABS(number)
+                {
+                    if (arguments.length === 0 || number === '' || number === undefined || isNaN(Number(number)))
+                    {
+                        throw 'Invalid Parameter';
+                    }
+                    return Math.abs(Number(number));
+	            }";
+        }
+
+        /// <summary>
+        /// Returns the result of a number raised to a power.
+        /// </summary>
+        /// <remarks>
+        /// Syntax: $POWER(number, power)
+        /// </remarks>
+        private static string GetPowerScript()
+        {
+            return @"
+                function $POWER(number, power)
+                {
+                    if (arguments.length === 0
+                        || number === '' || number === undefined || isNaN(Number(number))
+                        || power === '' || power === undefined || isNaN(Number(power)))
+                    {
+                        throw 'Invalid Parameter';
+                    }
+                    return Math.pow(Number(number), Number(power));
+	            }";
+        }
+
+        /// <summary>
+        /// Returns an evenly distributed random real number greater than or equal to 0 and less than 1.
+        /// </summary>
+        /// <remarks>
+        /// Syntax: $RAND()
+        /// </remarks>
+        private static string GetRandScript()
+        {
+            return @"
+                function $RAND()
+                {
+                    return Math.random();
+	            }";
+        }
+
+        /// <summary>
+        /// Returns a positive square root.
+        /// </summary>
+        /// <remarks>
+        /// Syntax: $SQRT(number)
+        /// </remarks>
+        private static string GetSqrtScript()
+        {
+            return @"
+                function $SQRT(number)
+                {
+                    if (arguments.length === 0 || number === '' || number === undefined || isNaN(Number(number)) || Number(number) < 0)
+                    {
+                        throw 'Invalid Parameter';
+                    }
+                    return Math.sqrt(Number(number));
+	            }";
+        }
+
+        /// <summary>
+        /// Returns the serial number for the last day of the month that is the indicated number of months before or after start_date.
+        /// </summary>
+        /// <remarks>
+        /// Syntax: $EOMONTH(start_date, months)
+        /// </remarks>
+        private static string GetEOMonthScript()
+        {
+            return @"
+                function $EOMONTH(start_date, months)
+                {
+                    if (arguments.length === 0 || months === '' || months === undefined || isNaN(Number(months)) || start_date == undefined)
+                    {
+                        throw 'Invalid Parameter';
+                    }
+                    if (isNaN(start_date))
+                    {
+                        start_date = new Date(Date.parse(start_date));
+                    }
+                    else
+                    {
+                        start_date = Number(start_date);
+                        start_date = new Date(1900, 0, start_date > 59 ? start_date - 1 : start_date);
+                    }
+                    if (isNaN(start_date.getTime()) || start_date.getFullYear() < 1900 || start_date.getFullYear() > 9999)
+                    {
+                        throw 'Invalid Parameter';
+                    }
+                    var d = new Date(start_date.getFullYear(), start_date.getMonth() + Number(months) + 1, 0);
+                    return d.getFullYear()
+                        + '/' + ('0' + (d.getMonth() + 1)).slice(-2)
+                        + '/' + ('0' + d.getDate()).slice(-2);
                 }";
         }
     }
