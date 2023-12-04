@@ -365,13 +365,22 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             return @"
                 function $DATE(year, month, day)
                 {
+                    if (arguments.length != 3) {
+                        throw 'Invalid Parameter';
+                    }
+                    year = (year === undefined || year === '' || year === '0') ? 0 : year;
+                    month = (month === undefined || month === '' || month === '0') ? 0 : month;
+                    day = (day === undefined || day === '' || day === '0') ? 0 : day;
                     if (isNaN(year) || isNaN(month) || isNaN(day))
                     {
-                        throw 'Invalid Parameter';
+                        throw '#NUM!';
                     }
                     year = Number(year);
                     month = Number(month);
                     day = Number(day);
+                    if(year === 0 && month === 1 && day === 0) {
+                        return '1900/01/00';
+                    }    
                     if (year >= 0 && year < 1900)
                     {
                         year = 1900 + year;
@@ -379,7 +388,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     var date = new Date(year, month - 1, day);
                     if (isNaN(date.getTime()) || date.getFullYear() < 1900 || date.getFullYear() > 9999)
                     {
-                        throw 'Invalid Parameter';
+                        throw '#NUM!';
                     }
                     return date.getFullYear()
                         + '/' + ('0' + (date.getMonth() + 1)).slice(-2)
@@ -391,88 +400,101 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         /// Calculates the number of days, months, or years between two dates.
         /// </summary>
         /// <remarks>
-        /// Syntax: $DATEDIF(firstDate, secondDate, unit)
+        /// Syntax: $DATEDIF(startDate, endDate, unit)
         /// </remarks>
         private static string GetDateDifScript()
         {
             return @"
-                function $DATEDIF(firstDate, secondDate, unit)
+                function $DATEDIF(startDate, endDate, unit)
                 {
-                    if (firstDate == undefined || secondDate == undefined || unit == undefined)
-                    {
+                    if (arguments.length != 3) {
                         throw 'Invalid Parameter';
                     }
-                    if (isNaN(firstDate))
+                    startDate = (startDate === undefined  || startDate === '' || startDate === '0') ? 0 : startDate;
+                    endDate = (endDate === undefined || endDate === '' || endDate === '0') ? 0 : endDate;
+                    unit = (unit === undefined  || unit === '' ) ? 0 : unit.toString().toUpperCase();
+                    let originStartDate = startDate,
+                        originEndDate = endDate;
+                    if (startDate === 0 && endDate === 0)
                     {
-                        firstDate = new Date(Date.parse(firstDate));
+                        if(['Y', 'M', 'D', 'MD', 'YM', 'YD'].includes(unit) ) 
+                        {
+                            return 0;
+                        }
+                        throw '#NUM!';
+                    }
+                    if (isNaN(startDate))
+                    {
+                        startDate = new Date(Date.parse(startDate));
                     }
                     else
                     {
-                        firstDate = Number(firstDate);
-                        firstDate = new Date(1900, 0, firstDate > 59 ? firstDate - 1 : firstDate);
+                        startDate = Number(startDate);
+                        startDate = new Date(1900, 0, startDate > 59 ? startDate - 1 : startDate);
                     }
-                    if (isNaN(firstDate.getTime()) || firstDate.getFullYear() < 1900 || firstDate.getFullYear() > 9999)
+                    if (originStartDate !== 0 && (isNaN(startDate.getTime()) || startDate.getFullYear() < 1900 || startDate.getFullYear() > 9999))
                     {
-                        throw 'Invalid Parameter';
+                        throw '#VALUE!';
                     }
-                    if (isNaN(secondDate))
+                    if (isNaN(endDate))
                     {
-                        secondDate = new Date(Date.parse(secondDate));
+                        endDate = new Date(Date.parse(endDate));
                     }
                     else
                     {
-                        secondDate = Number(secondDate);
-                        secondDate = new Date(1900, 0, secondDate > 59 ? secondDate - 1 : secondDate);
+                        endDate = Number(endDate);
+                        endDate = new Date(1900, 0, endDate > 59 ? endDate - 1 : endDate);
                     }
-                    if (isNaN(secondDate.getTime()) || secondDate.getFullYear() < 1900 || secondDate.getFullYear() > 9999 || firstDate.getTime() > secondDate.getTime())
+                    if (originEndDate !== 0 && (isNaN(endDate.getTime()) || endDate.getFullYear() < 1900 || endDate.getFullYear() > 9999)
+                        || startDate.getTime() > endDate.getTime())
                     {
-                        throw 'Invalid Parameter';
+                        throw '#VALUE!';
                     }
                     switch(unit)
                     {
                         case 'Y':
-                            return secondDate.getFullYear() - firstDate.getFullYear();
+                            return endDate.getFullYear() - startDate.getFullYear();
                         case 'M':
-                            return secondDate.getMonth() - firstDate.getMonth() + 12 * (secondDate.getFullYear() - firstDate.getFullYear());
+                            return endDate.getMonth() - startDate.getMonth() + 12 * (endDate.getFullYear() - startDate.getFullYear());
                         case 'D':
-                            firstDate = firstDate.getTime();
-                            secondDate = secondDate.getTime();
-                            var diff = (secondDate - firstDate) / (1000 * 3600 * 24);
-                            return ((firstDate <= secondDate && secondDate <= -2203915325000)
-                                || (secondDate >= firstDate && firstDate >= -2203915324000))
+                            startDate = startDate.getTime();
+                            endDate = endDate.getTime();
+                            var diff = (endDate - startDate) / (1000 * 3600 * 24);
+                            return ((startDate <= endDate && endDate <= -2203915325000)
+                                || (endDate >= startDate && startDate >= -2203915324000))
                                 ? diff
-                                : (firstDate < secondDate ? diff - 1 : diff);
+                                : (startDate < endDate ? diff - 1 : diff);
                         case 'MD':
-                            return secondDate.getDate() - firstDate.getDate()
-                                + (secondDate.getDate() >= firstDate.getDate() ? 0 : new Date(secondDate.setDate(0)).getDate());
+                            return endDate.getDate() - startDate.getDate()
+                                + (endDate.getDate() >= startDate.getDate() ? 0 : new Date(endDate.setDate(0)).getDate());
                         case 'YM':
-                            return secondDate.getMonth() - firstDate.getMonth()
-                                + (secondDate.getMonth() >= firstDate.getMonth() ? 0 : 12);
+                            return endDate.getMonth() - startDate.getMonth()
+                                + (endDate.getMonth() >= startDate.getMonth() ? 0 : 12);
                         case 'YD':
-                            if ((secondDate.getMonth() == firstDate.getMonth() && secondDate.getDate() >= firstDate.getDate())
-                                || (secondDate.getMonth() > firstDate.getMonth()))
+                            if ((endDate.getMonth() == startDate.getMonth() && endDate.getDate() >= startDate.getDate())
+                                || (endDate.getMonth() > startDate.getMonth()))
                             {
-                                if (secondDate.getFullYear() > firstDate.getFullYear())
+                                if (endDate.getFullYear() > startDate.getFullYear())
                                 {
-                                    secondDate.setYear(firstDate.getFullYear());
+                                    endDate.setYear(startDate.getFullYear());
                                 }
                             }
                             else
                             {
-                                if (secondDate.getFullYear() - firstDate.getFullYear() > 1)
+                                if (endDate.getFullYear() - startDate.getFullYear() > 1)
                                 {
-                                    secondDate.setYear(firstDate.getFullYear() + 1);
+                                    endDate.setYear(startDate.getFullYear() + 1);
                                 }
                             }
-                            firstDate = firstDate.getTime();
-                            secondDate = secondDate.getTime();
-                            var diff = (secondDate - firstDate) / (1000 * 3600 * 24);
-                            return ((firstDate <= secondDate && secondDate <= -2203915325000)
-                                || (secondDate >= firstDate && firstDate >= -2203915324000))
+                            startDate = startDate.getTime();
+                            endDate = endDate.getTime();
+                            var diff = (endDate - startDate) / (1000 * 3600 * 24);
+                            return ((startDate <= endDate && endDate <= -2203915325000)
+                                || (endDate >= startDate && startDate >= -2203915324000))
                                 ? diff
-                                : (firstDate < secondDate ? diff - 1 : diff);
+                                : (startDate < endDate ? diff - 1 : diff);
                         default:
-                            throw 'Invalid Parameter';
+                            throw '#NUM!';
                     }
                 }";
         }
@@ -489,9 +511,12 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             return @"
                 function $DAY(date)
                 {
-                    if (date == undefined)
-                    {
+                    if (arguments.length == 0) {
                         throw 'Invalid Parameter';
+                    }
+                    if (date === undefined || date == '' || date == 0)
+                    {
+                        return 0;
                     }
                     if (isNaN(date))
                     {
@@ -504,7 +529,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     }
                     if (isNaN(date.getTime()) || date.getFullYear() < 1900 || date.getFullYear() > 9999)
                     {
-                        throw 'Invalid Parameter';
+                        throw '#VALUE!';
                     }
                     return date.getDate();
                 }";
@@ -514,54 +539,59 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         /// Returns the number of days between two dates.
         /// </summary>
         /// <remarks>
-        /// Syntax: $DAYS(firstDate, secondDate)
+        /// Syntax: $DAYS(startDate, endDate)
         /// </remarks>
         private static string GetDaysScript()
         {
             return @"
-                function $DAYS(firstDate, secondDate)
+                function $DAYS(startDate, endDate)
                 {
-                    if (firstDate == undefined || secondDate == undefined)
+                    startDate = (startDate === undefined || startDate === '' || startDate === '0') ? 0 : startDate;
+                    endDate = (endDate === undefined || endDate === '' || startDate === '0') ? 0 : endDate;
+                    let originStartDate  = startDate,
+                        originEndDate = endDate;    
+                    if (startDate === 0 && endDate === 0)
                     {
-                        throw 'Invalid Parameter';
+                        return 0;
                     }
-                    if (isNaN(firstDate))
+                    if (isNaN(startDate))
                     {
-                        firstDate = new Date(Date.parse(firstDate));
-                    }
-                    else
-                    {
-                        firstDate = Number(firstDate);
-                        firstDate = new Date(1900, 0, firstDate > 59 ? firstDate - 1 : firstDate);
-                    }
-                    if (isNaN(firstDate.getTime()) || firstDate.getFullYear() < 1900 || firstDate.getFullYear() > 9999)
-                    {
-                        throw 'Invalid Parameter';
-                    }
-                    if (isNaN(secondDate))
-                    {
-                        secondDate = new Date(Date.parse(secondDate));
+                        startDate = new Date(Date.parse(startDate));
                     }
                     else
                     {
-                        secondDate = Number(secondDate);
-                        secondDate = new Date(1900, 0, secondDate > 59 ? secondDate - 1 : secondDate);
+                        startDate = Number(startDate);
+                        startDate = new Date(1900, 0, startDate > 59 ? startDate - 1 : startDate);
                     }
-                    if (isNaN(secondDate.getTime()) || secondDate.getFullYear() < 1900 || secondDate.getFullYear() > 9999)
+                    if (originStartDate !== 0 && (isNaN(startDate.getTime()) || startDate.getFullYear() < 1900 || startDate.getFullYear() > 9999))
                     {
-                        throw 'Invalid Parameter';
+                        throw '#VALUE!';
                     }
-                    firstDate = firstDate.getTime();
-                    secondDate = secondDate.getTime();
-                    var diff = (firstDate - secondDate) / (1000 * 3600 * 24);
-                    return ((secondDate <= firstDate && firstDate <= -2203915325000)
-                        || (firstDate >= secondDate && secondDate >= -2203915324000))
-                        || ((firstDate <= secondDate && secondDate <= -2203915325000)
-                        || (secondDate >= firstDate && firstDate >= -2203915324000))
+                    if (isNaN(endDate))
+                    {
+                        endDate = new Date(Date.parse(endDate));
+                    }
+                    else
+                    {
+                        endDate = Number(endDate);
+                        endDate = new Date(1900, 0, endDate > 59 ? endDate - 1 : endDate);
+                    }
+                    if (originEndDate !== 0 && (isNaN(endDate.getTime()) || endDate.getFullYear() < 1900 || endDate.getFullYear() > 9999))
+                    {
+                        throw '#VALUE!';
+                    }
+                    startDate = startDate.getTime();
+                    endDate = endDate.getTime();
+                    let diff = (startDate - endDate) / (1000 * 3600 * 24),
+                        result = ((endDate <= startDate && startDate <= -2203915325000)
+                        || (startDate >= endDate && endDate >= -2203915324000))
+                        || ((startDate <= endDate && endDate <= -2203915325000)
+                        || (endDate >= startDate && startDate >= -2203915324000))
                         ? diff
-                        : (firstDate > secondDate
+                        : (startDate > endDate
                             ? diff + 1
-                            : (firstDate < secondDate ? diff - 1 : diff));
+                            : (startDate < endDate ? diff - 1 : diff));
+                    return Math.trunc(result) ;
                 }";
         }
 
@@ -577,9 +607,11 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             return @"
                 function $HOUR(date)
                 {
-                    if (date == undefined)
-                    {
+                    if (arguments.length == 0) {
                         throw 'Invalid Parameter';
+                    }
+                    if(date === undefined || date === '' || date === '0') {
+                        return 0;
                     }
                     if (isNaN(date))
                     {
@@ -604,7 +636,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     }
                     if (isNaN(date.getTime()) || date.getFullYear() < 1900 || date.getFullYear() > 9999)
                     {
-                        throw 'Invalid Parameter';
+                        throw '#NUM!';
                     }
                     return date.getHours();
                 }";
@@ -621,9 +653,11 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             return @"
                 function $MINUTE(date)
                 {
-                    if (date == undefined)
-                    {
+                   if (arguments.length == 0) {
                         throw 'Invalid Parameter';
+                    } 
+                    if(date === undefined || date === '' || date == '0') {
+                        return 0;
                     }
                     if (isNaN(date))
                     {
@@ -637,7 +671,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                                 var times = originDate.split(':');
                                 if (Number(times[0]) > 23 || Number(times[2]) > 59)
                                 {
-                                    throw 'Invalid Parameter';
+                                    throw '#VALUE!';
                                 }
                                 return Number(times[1]) % 60;
                             }
@@ -658,7 +692,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     }
                     if (isNaN(date.getTime()) || date.getFullYear() < 1900 || date.getFullYear() > 9999)
                     {
-                        throw 'Invalid Parameter';
+                        throw '#VALUE!';
                     }
                     return date.getMinutes();
                 }";
@@ -676,9 +710,11 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             return @"
                 function $MONTH(date)
                 {
-                    if (date == undefined)
-                    {
+                    if (arguments.length == 0) {
                         throw 'Invalid Parameter';
+                    }
+                    if(date === undefined || date === '' || date == '0') {
+                        return 1;
                     }
                     if (isNaN(date))
                     {
@@ -691,7 +727,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     }
                     if (isNaN(date.getTime()) || date.getFullYear() < 1900 || date.getFullYear() > 9999)
                     {
-                        throw 'Invalid Parameter';
+                        throw '#VALUE!';
                     }
                     return date.getMonth() + 1;
                 }";
@@ -730,9 +766,11 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             return @"
                 function $SECOND(date)
                 {
-                    if (date == undefined)
-                    {
+                    if (arguments.length == 0) {
                         throw 'Invalid Parameter';
+                    }
+                    if(date === undefined || date === '' || date == '0') {
+                        return 0;
                     }
                     if (isNaN(date))
                     {
@@ -757,7 +795,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     }
                     if (isNaN(date.getTime()) || date.getFullYear() < 1900 || date.getFullYear() > 9999)
                     {
-                        throw 'Invalid Parameter';
+                        throw '#VALUE!';
                     }
                     return date.getSeconds();
                 }";
@@ -793,9 +831,11 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             return @"
                 function $YEAR(date)
                 {
-                    if (date == undefined)
-                    {
+                    if (arguments.length == 0) {
                         throw 'Invalid Parameter';
+                    }
+                    if(date === undefined || date === '' || date == '0') {
+                        return 1900;
                     }
                     if (isNaN(date))
                     {
@@ -808,7 +848,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     }
                     if (isNaN(date.getTime()) || date.getFullYear() < 1900 || date.getFullYear() > 9999)
                     {
-                        throw 'Invalid Parameter';
+                        throw '#VALUE!';
                     }
                     return date.getFullYear();
                 }";
@@ -850,21 +890,24 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetFindScript()
         {
             return @"
-                function $FIND(findText, withinText, startNum = 1)
+                function $FIND(findText, withinText, startNum)
                 {
-                    if (findText == undefined || withinText == undefined || isNaN(startNum))
-                    {
+                    if (arguments.length !== 3) {
                         throw 'Invalid Parameter';
                     }
+                    if(isNaN(startNum) || Number(startNum) < 1) {
+                        throw '#VALUE!';
+                    }
+                    findText = (findText == undefined) ? '' : findText;
+                    withinText = (withinText == undefined ) ? '' : withinText; 
                     startNum = Number(startNum);
-                    if (startNum < 1)
-                    {
-                        throw 'Invalid Parameter';
+                    if(findText === '' && withinText === '' && startNum > 1) {
+                        throw '#VALUE!';
                     }
                     var index = withinText.toString().indexOf(findText.toString(), startNum - 1);
                     if (index < 0)
                     {
-                        throw 'Not Found';
+                        throw '#VALUE!';
                     }
                     return index + 1;
                 }";
@@ -881,15 +924,14 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             return @"
                 function $LEFT(text, numChars = 1)
                 {
-                    if (text == undefined || isNaN(numChars))
-                    {
+                    if (arguments.length !== 2) {
                         throw 'Invalid Parameter';
+                    }
+                    text = (text == undefined) ? '' : text;
+                    if(isNaN(numChars) || Number(numChars) < 0) {
+                        throw '#VALUE!';
                     }
                     numChars = Number(numChars);
-                    if (numChars < 0)
-                    {
-                        throw 'Invalid Parameter';
-                    }
                     return text.toString().substring(0, numChars);
                 }";
         }
@@ -905,10 +947,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             return @"
                 function $LEN(text)
                 {
-                    if (text == undefined)
-                    {
+                    if (arguments.length !== 1) {
                         throw 'Invalid Parameter';
                     }
+                    text = (text == undefined) ? '' : text;
                     return text.toString().length;
                 }";
         }
