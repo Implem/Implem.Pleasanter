@@ -337,26 +337,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         )
                         .Hidden(
                             controlId: $"CalendarJson{suffix}",
-                            value: choices == null
-                                ? Json(
-                                    context: context,
-                                    ss: ss,
-                                    from: fromColumn,
-                                    to: toColumn,
-                                    dataRows: dataRows,
-                                    changedItemId: changedItemId,
-                                    showStatus: showStatus,
-                                    calendarType: calendarType)
-                                : GroupingJson(
-                                    context: context,
-                                    ss: ss,
-                                    from: fromColumn,
-                                    to: toColumn,
-                                    groupBy: groupBy,
-                                    dataRows: dataRows,
-                                    changedItemId: changedItemId,
-                                    showStatus: showStatus,
-                                    calendarType: calendarType))
+                            value: Json(
+                                context: context,
+                                ss: ss,
+                                from: fromColumn,
+                                to: toColumn,
+                                dataRows: dataRows,
+                                changedItemId: changedItemId,
+                                showStatus: showStatus,
+                                calendarType: calendarType))
                     : hb;
             }
         }
