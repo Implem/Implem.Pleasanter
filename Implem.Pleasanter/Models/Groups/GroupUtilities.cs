@@ -1663,6 +1663,9 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         baseModel: groupModel,
                         tableName: "Groups"))
+                    .Invoke(
+                        methodName: "clearScrollTop",
+                        args: "CurrentMembersWrapper")
                     .ReloadCurrentMembers(
                         context: context,
                         groupId: groupModel.GroupId)
