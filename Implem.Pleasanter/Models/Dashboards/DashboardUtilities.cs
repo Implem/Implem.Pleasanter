@@ -1342,7 +1342,10 @@ namespace Implem.Pleasanter.Models
             string dashboardPartId)
         {
             var dashboardPartLayout = ss.DashboardParts
-                .Where(dashboardPart => dashboardPart.Id == dashboardPartId.ToInt())
+                .Where(dashboardPart => dashboardPart.Id == dashboardPartId.ToInt()
+                    && dashboardPart.Accessable(
+                        context: context,
+                        ss: ss))
                 .Select(dashboardPart =>
                 {
                     dashboardPart.SetSitesData();
