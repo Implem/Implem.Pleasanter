@@ -4,6 +4,7 @@ using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
+using Implem.Pleasanter.Libraries.Extensions;
 using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Security;
@@ -98,7 +99,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         }
 
         public static IEnumerable<(string Name, object Value)> Values(
-            Context context, SiteSettings ss, BaseItemModel model)
+            Context context, SiteSettings ss, BaseItemModel model, bool isFormulaServerScript = false)
         {
             var mine = model?.Mine(context: context);
             var values = new List<(string, object)>
@@ -146,13 +147,27 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     context: context,
                     ss: ss,
                     columnName: nameof(model.CreatedTime),
-                    value: model.CreatedTime?.Value,
+                    value: isFormulaServerScript
+                        ? model.CreatedTime?.Value.ToControl(
+                            context: context,
+                            ss: ss,
+                            column: ss.GetColumn(
+                                context: context,
+                                columnName: nameof(model.CreatedTime)))
+                        : model.CreatedTime?.Value,
                     mine: mine),
                 ReadNameValue(
                     context: context,
                     ss: ss,
                     columnName: nameof(model.UpdatedTime),
-                    value: model.UpdatedTime?.Value,
+                    value: isFormulaServerScript
+                        ? model.UpdatedTime?.Value.ToControl(
+                            context: context,
+                            ss: ss,
+                            column: ss.GetColumn(
+                                context: context,
+                                columnName: nameof(model.UpdatedTime)))
+                        : model.UpdatedTime?.Value,
                     mine: mine)
             };
             values.AddRange(model
@@ -183,7 +198,14 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     context: context,
                     ss: ss,
                     columnName: element.Key,
-                    value: element.Value,
+                    value: isFormulaServerScript
+                        ? element.Value.ToControl(
+                            context: context,
+                            ss: ss,
+                            column: ss.GetColumn(
+                                context: context,
+                                columnName: element.Key))
+                        : element.Value,
                     mine: mine)));
             values.AddRange(model
                 .DescriptionHash
@@ -227,13 +249,33 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     context: context,
                     ss: ss,
                     columnName: nameof(IssueModel.StartTime),
-                    value: issueModel.StartTime,
+                    value: isFormulaServerScript
+                        ? issueModel.StartTime.ToControl(
+                            context: context,
+                            ss: ss,
+                            column: ss.GetColumn(
+                                context: context,
+                                columnName: nameof(IssueModel.StartTime)))
+                        : issueModel.StartTime,
                     mine: mine));
                 values.Add(ReadNameValue(
                     context: context,
                     ss: ss,
                     columnName: nameof(IssueModel.CompletionTime),
-                    value: issueModel.CompletionTime.Value,
+                    value: isFormulaServerScript
+                        ? issueModel.CompletionTime.Value
+                            .AddDifferenceOfDates(
+                                format: ss.GetColumn(
+                                    context: context,
+                                    columnName: nameof(IssueModel.CompletionTime))?.EditorFormat,
+                                minus: true)
+                            .ToControl(
+                                    context: context,
+                                    ss: ss,
+                                    column: ss.GetColumn(
+                                        context: context,
+                                        columnName: nameof(IssueModel.CompletionTime)))
+                        : issueModel.CompletionTime.Value,
                     mine: mine));
                 values.Add(ReadNameValue(
                     context: context,

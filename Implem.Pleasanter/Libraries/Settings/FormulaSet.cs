@@ -8,7 +8,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string Target;
         public int? Condition;
         public Formula Formula;
-        public bool NotUseDisplayName;
+        public bool? NotUseDisplayName;
         public bool IsDisplayError;
         public Formula OutOfCondition;
         public string FormulaScript;
