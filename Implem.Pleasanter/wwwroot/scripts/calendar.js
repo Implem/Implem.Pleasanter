@@ -34,7 +34,7 @@
             input.setAttribute('value', $('#Token').val());
             form.appendChild(input);
         }
-      　form.submit();
+        form.submit();
     }
 }
 const updateRecord = function (calendarSuffix) {
