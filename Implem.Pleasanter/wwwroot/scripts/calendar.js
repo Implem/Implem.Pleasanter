@@ -419,6 +419,17 @@ function setFullCalendar(calendarSuffix, calendarEl) {
         eventDrop: updateRecord(calendarSuffix),
         eventResize: updateRecord(calendarSuffix),
         eventDidMount: function (info) {
+            var eventElement = $(info.el);
+            var endDate = new Date(info.event.end);
+            if ($('#CalendarEditorFormat' + calendarSuffix).val() === 'Ymd') {
+                endDate.setDate(endDate.getDate() - 1);
+            }
+            eventElement.attr('title', htmlEncode(info.event.title) + ' -- ' +
+                $p.dateTimeString(new Date(info.event.start)) +
+                (info.event.end !== undefined && info.event.end !== info.event.start
+                    ? ' - ' + $p.dateTimeString(new Date(endDate))
+                    : ''))
+                + htmlEncode(info.event.title);
             if (info.event.extendedProps.StatusHtml) {
                 if (info.view.type === 'listMonth') {
                     var eventElement = $(info.el).find('.fc-list-event-graphic');
