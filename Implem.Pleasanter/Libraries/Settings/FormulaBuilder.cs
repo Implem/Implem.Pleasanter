@@ -244,15 +244,15 @@ namespace Implem.Pleasanter.Libraries.Settings
         public static string ParseFormulaScript(SiteSettings ss, string formulaScript, string calculationMethod)
         {
             var columns = System.Text.RegularExpressions.Regex.Matches(formulaScript, @"\[([^]]*)\]");
+            var columnList = ss.FormulaColumnList();
             foreach (var column in columns)
             {
                 var columnParam = column.ToString()[1..^1];
-                if (ss.FormulaColumn(columnParam, calculationMethod) != null)
+                if (columnList.Any(o => o.ColumnName == columnParam))
                 {
                     formulaScript = formulaScript.Replace(column.ToString(), $"model.{columnParam}");
                 }
             }
-            var columnList = ss.FormulaColumnList();
             foreach (var column in columnList)
             {
                 formulaScript = System.Text.RegularExpressions.Regex.Replace(

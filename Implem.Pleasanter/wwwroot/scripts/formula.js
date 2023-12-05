@@ -13,5 +13,4 @@
         ControlId: $control.attr('id')
     };
     $p.ajax(url, 'post', data, $control);
-    history.pushState(null, null, url);
 }
