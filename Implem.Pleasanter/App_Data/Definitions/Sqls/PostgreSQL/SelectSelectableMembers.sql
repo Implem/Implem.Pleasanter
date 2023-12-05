@@ -9,7 +9,7 @@ from(
         ,0 as "IsUser" 
     from "Depts" as "Depts"
     where 
-        ("Depts"."TenantId"=@TenantId) 
+        "Depts"."TenantId"=@TenantId
         -- グループメンバーに含まれる組織は含めない
         and "Depts"."DeptId" not in 
         (
@@ -28,10 +28,10 @@ from(
         -- and "Depts"."DeptId" not in ( {0} ) 
         and 
         (
-            ("Depts"."DeptCode" ilike @SearchText) 
-            or ("Depts"."DeptName" ilike @SearchText)
+            "Depts"."DeptCode" ilike @SearchText
+            or "Depts"."DeptName" ilike @SearchText
         ) 
-        and ("Depts"."Disabled" = 'false')  
+        and "Depts"."Disabled" = 'false'
 
     union 
         select 0 as "DeptId"
@@ -63,13 +63,13 @@ from(
         {3}
         -- and "Users"."UserId" not in ( {0} ) 
         and (
-            ("Users"."LoginId" ilike @SearchText) 
-            or ("Users"."Name" ilike @SearchText) 
-            or ("Users"."UserCode" ilike @SearchText) 
-            or ("Users"."Body" ilike @SearchText) 
-            or ("Depts"."DeptCode" ilike @SearchText) 
-            or ("Depts"."DeptName" ilike @SearchText) 
-            or ("Depts"."Body" ilike @SearchText)
+            "Users"."LoginId" ilike @SearchText
+            or "Users"."Name" ilike @SearchText
+            or "Users"."UserCode" ilike @SearchText
+            or "Users"."Body" ilike @SearchText
+            or "Depts"."DeptCode" ilike @SearchText 
+            or "Depts"."DeptName" ilike @SearchText
+            or "Depts"."Body" ilike @SearchText
         ) 
         and "Users"."Disabled"= 'false'
 ) as "items"

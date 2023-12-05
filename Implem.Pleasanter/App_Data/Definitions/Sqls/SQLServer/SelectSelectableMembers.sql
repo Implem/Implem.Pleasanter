@@ -9,7 +9,7 @@ from(
         ,0 as "IsUser" 
     from "Depts" as "Depts"
     where 
-        ("Depts"."TenantId"=@TenantId) 
+        "Depts"."TenantId"=@TenantId
         -- グループメンバーに含まれる組織は含めない
         and "Depts"."DeptId" not in 
         (
@@ -18,7 +18,7 @@ from(
             from 
                 "GroupMembers" as "GroupMembers"
             where 
-                ("GroupMembers"."GroupId"=@GroupId) 
+                "GroupMembers"."GroupId"=@GroupId
                 -- 削除メンバーを除く
                 {0}
                 -- and "GroupMembers"."DeptId" not in ( {0} )
@@ -28,10 +28,10 @@ from(
         -- and "Depts"."DeptId" not in ( {0} ) 
         and 
         (
-            ("Depts"."DeptCode" like @SearchText) 
-            or ("Depts"."DeptName" like @SearchText)
+            "Depts"."DeptCode" like @SearchText
+            or "Depts"."DeptName" like @SearchText
         ) 
-        and ("Depts"."Disabled" = 0)  
+        and "Depts"."Disabled" = 0
 
     union 
         select 0 as "DeptId"
@@ -63,13 +63,13 @@ from(
         {3}
         -- and "Users"."UserId" not in ( {0} ) 
         and (
-            ("Users"."LoginId" like @SearchText) 
-            or ("Users"."Name" like @SearchText) 
-            or ("Users"."UserCode" like @SearchText) 
-            or ("Users"."Body" like @SearchText) 
-            or ("Depts"."DeptCode" like @SearchText) 
-            or ("Depts"."DeptName" like @SearchText) 
-            or ("Depts"."Body" like @SearchText)
+            "Users"."LoginId" like @SearchText
+            or "Users"."Name" like @SearchText
+            or "Users"."UserCode" like @SearchText
+            or "Users"."Body" like @SearchText 
+            or "Depts"."DeptCode" like @SearchText 
+            or "Depts"."DeptName" like @SearchText
+            or "Depts"."Body" like @SearchText
         ) 
         and "Users"."Disabled"= 0
 ) as "items"

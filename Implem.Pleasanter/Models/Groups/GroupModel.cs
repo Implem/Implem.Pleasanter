@@ -1188,7 +1188,7 @@ namespace Implem.Pleasanter.Models
                 var item = addedMembers.FirstOrDefault(added =>
                     added.DeptId == modified.DeptId
                     && added.UserId == modified.UserId);
-                if(item != default)
+                if (item != default)
                 {
                     addedMembers.Remove(item);    
                 }

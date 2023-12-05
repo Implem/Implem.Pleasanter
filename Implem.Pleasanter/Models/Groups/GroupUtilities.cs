@@ -1663,16 +1663,16 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         baseModel: groupModel,
                         tableName: "Groups"))
-                    .Invoke(
-                        methodName: "clearScrollTop",
-                        args: "CurrentMembersWrapper")
-                    .ReloadCurrentMembers(
-                        context: context,
-                        groupId: groupModel.GroupId)
-                    .ResetSelectableMembers()
-                    .Val(target: "#AddedGroupMembers", value: "[]")
-                    .Val(target: "#DeletedGroupMembers", value: "[]")
-                    .Val(target: "#ModifiedGroupMembers", value: "[]")
+                .Invoke(
+                    methodName: "clearScrollTop",
+                    args: "CurrentMembersWrapper")
+                .ReloadCurrentMembers(
+                    context: context,
+                    groupId: groupModel.GroupId)
+                .ResetSelectableMembers()
+                .Val(target: "#AddedGroupMembers", value: "[]")
+                .Val(target: "#DeletedGroupMembers", value: "[]")
+                .Val(target: "#ModifiedGroupMembers", value: "[]")
                     .SetMemory("formChanged", false)
                     .Message(Messages.Updated(
                         context: context,
@@ -2928,6 +2928,15 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string CurrentMembersJson(Context context, int groupId)
         {
+            var invalid = GroupValidators.OnGet(
+                context: context,
+                ss: SiteSettingsUtilities.GroupsSiteSettings(context: context));
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return invalid.MessageJson(context: context);
+            }
             var pageSize = Parameters.General.DropDownSearchPageSize;
             var offset = context.Forms.Int("CurrentMembersOffset") + pageSize;
             var currentMembers = CurrentMembers(
@@ -3152,9 +3161,18 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string SelectableMembersJson(Context context)
         {
+            var invalid = GroupValidators.OnGet(
+                context: context,
+                ss: SiteSettingsUtilities.GroupsSiteSettings(context: context));
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return invalid.MessageJson(context: context);
+            }
             var searchText = context.Forms.Data("SearchMemberText");
             var pageSize = Parameters.General.DropDownSearchPageSize;
-            if(context.Forms.Data("ControlId") != "SelectableMembers")
+            if (context.Forms.Data("ControlId") != "SelectableMembers")
             {
                 return new ResponseCollection(context: context)
                     .Invoke(

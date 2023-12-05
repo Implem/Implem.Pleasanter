@@ -846,6 +846,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_RedirectAfterDeleteItem": Code.Model_Utilities_RedirectAfterDeleteItem = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_RedirectAfterDeleteItem, definitionRow, CodeXls); break;
                     case "Model_Utilities_RedirectAfterDeleteNotItem": Code.Model_Utilities_RedirectAfterDeleteNotItem = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_RedirectAfterDeleteNotItem, definitionRow, CodeXls); break;
                     case "Model_Utilities_ReplaceLine": Code.Model_Utilities_ReplaceLine = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ReplaceLine, definitionRow, CodeXls); break;
+                    case "Model_Utilities_Response_ResetGroupMembers": Code.Model_Utilities_Response_ResetGroupMembers = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Response_ResetGroupMembers, definitionRow, CodeXls); break;
                     case "Model_Utilities_ResponseBreadcrumb_Tenants": Code.Model_Utilities_ResponseBreadcrumb_Tenants = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ResponseBreadcrumb_Tenants, definitionRow, CodeXls); break;
                     case "Model_Utilities_ResponseByUpdate_FieldResponse": Code.Model_Utilities_ResponseByUpdate_FieldResponse = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ResponseByUpdate_FieldResponse, definitionRow, CodeXls); break;
                     case "Model_Utilities_ResponseByUpdate_SiteSettings": Code.Model_Utilities_ResponseByUpdate_SiteSettings = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ResponseByUpdate_SiteSettings, definitionRow, CodeXls); break;
@@ -7297,6 +7298,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_RedirectAfterDeleteItem;
         public string Model_Utilities_RedirectAfterDeleteNotItem;
         public string Model_Utilities_ReplaceLine;
+        public string Model_Utilities_Response_ResetGroupMembers;
         public string Model_Utilities_ResponseBreadcrumb_Tenants;
         public string Model_Utilities_ResponseByUpdate_FieldResponse;
         public string Model_Utilities_ResponseByUpdate_SiteSettings;
@@ -8099,6 +8101,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_RedirectAfterDeleteItem = new CodeDefinition();
         public CodeDefinition Model_Utilities_RedirectAfterDeleteNotItem = new CodeDefinition();
         public CodeDefinition Model_Utilities_ReplaceLine = new CodeDefinition();
+        public CodeDefinition Model_Utilities_Response_ResetGroupMembers = new CodeDefinition();
         public CodeDefinition Model_Utilities_ResponseBreadcrumb_Tenants = new CodeDefinition();
         public CodeDefinition Model_Utilities_ResponseByUpdate_FieldResponse = new CodeDefinition();
         public CodeDefinition Model_Utilities_ResponseByUpdate_SiteSettings = new CodeDefinition();
