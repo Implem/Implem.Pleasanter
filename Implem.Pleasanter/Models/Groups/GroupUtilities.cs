@@ -3161,15 +3161,6 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string SelectableMembersJson(Context context)
         {
-            var invalid = GroupValidators.OnGet(
-                context: context,
-                ss: SiteSettingsUtilities.GroupsSiteSettings(context: context));
-            switch (invalid.Type)
-            {
-                case Error.Types.None: break;
-                default:
-                    return invalid.MessageJson(context: context);
-            }
             var searchText = context.Forms.Data("SearchMemberText");
             var pageSize = Parameters.General.DropDownSearchPageSize;
             if (context.Forms.Data("ControlId") != "SelectableMembers")
