@@ -1,6 +1,6 @@
 ﻿{
     "ServerScript": true,
-    "BackgroundServerScript": true,
+    "BackgroundServerScript": false,
     "DisableServerScriptHttpClient": false,
     "ServerScriptTimeOut": 10000,
     "ServerScriptTimeOutChangeable": false,

@@ -420,32 +420,6 @@ namespace Implem.Pleasanter.NetCore
             SiteInfo.Reflesh(context: context);
             log.Finish(context: context);
         }
-        /*
-        private async Task<IScheduler> GetScheduler()
-        {
-            var properties = new NameValueCollection
-            {
-                { "quartz.scheduler.instanceName", "QuartzWithCore" },
-                { "quartz.scheduler.instanceId", "QuartzWithCore" },
-                { "quartz.jobStore.type", "Quartz.Impl.AdoJobStore.JobStoreTX, Quartz" },
-                { "quartz.jobStore.useProperties", "true" },
-                { "quartz.jobStore.dataSource", "default" },
-                { "quartz.jobStore.tablePrefix", "QRTZ_" },
-                {
-                    "quartz.dataSource.default.connectionString",
-                    "Server=dev\\SQLEXPRESS;Database=Tyson;Trusted_Connection=true;"
-                },
-                { "quartz.dataSource.default.provider", "SqlServer" },
-                { "quartz.threadPool.threadCount", "1" },
-                { "quartz.serializer.type", "json" },
-            };
-            var schedulerFactory = new StdSchedulerFactory(properties);
-            var schedulerFactory = new StdSchedulerFactory();
-            var scheduler = await schedulerFactory.GetScheduler();
-            //await scheduler.Start();                                                                                  
-            return scheduler;
-        }
-        */
     }
 
     public class SessionMiddleware
