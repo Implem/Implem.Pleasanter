@@ -40,7 +40,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             var data = ServerScriptUtilities.Values(
                 context: context,
                 ss: ss,
-                model: itemModel);
+                model: itemModel,
+                isFormulaServerScript: true);
             var Model = new ExpandoObject();
             data?.ForEach(datam => ((IDictionary<string, object>)Model)[datam.Name] = datam.Value);
             formulaScript = ParseIgnoreCase(formulaScript);
