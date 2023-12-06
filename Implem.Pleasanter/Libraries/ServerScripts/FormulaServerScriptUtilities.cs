@@ -608,15 +608,19 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 {
                     if (arguments.length > 3 || arguments.length < 2) {
                         throw 'Invalid Parameter';
-                    } 
+                    }
                     if(isNaN(startNum) || Number(startNum) < 1) {
                         throw '#VALUE!';
                     }
                     findText = (findText == undefined) ? '' : findText;
-                    withinText = (withinText == undefined ) ? '' : withinText;
+                    withinText = (withinText == undefined ) ? '' : withinText; 
                     startNum = Number(startNum);
-                    if(findText === '' && withinText === '' && startNum > 1) {
-                        throw '#VALUE!';
+                    if(findText === '' && (withinText.toString().length + 1) >= startNum) {
+                        return startNum;
+                    }
+                    if((findText === '' && withinText === '' && startNum > 1)
+                        || (findText === '' && (withinText.toString().length + 1) < startNum)) {
+                            throw '#VALUE!';
                     }
                     var index = withinText.toString().indexOf(findText.toString(), startNum - 1);
                     if (index < 0)
@@ -1190,21 +1194,17 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
 	            }";
         }
 
-        /// <summary>
-        /// Returns the day of the week corresponding to a date.
-        /// The day is given as an integer, ranging from 1 (Sunday) to 7 (Saturday), by default.
-        /// </summary>
-        /// <remarks>
-        /// Syntax: WEEKDAY(date, [returnType])
-        /// </remarks>
         private static string GetWeekdayScript()
         {
             return @"
                 function $WEEKDAY(date, returnType = 1)
                 {
-                    if (date == undefined)
-                    {
+                    if (arguments.length < 1) {
                         throw 'Invalid Parameter';
+                    }
+                    date = (date == undefined) ? 0 : date;
+                    if(date == '' && (returnType == '' || Number(returnType) == 0)) {
+                        throw '#NUM!';
                     }
                     if (isNaN(date))
                     {
@@ -1219,8 +1219,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     }
                     if (isNaN(date.getTime()) || date.getFullYear() < 1900 || date.getFullYear() > 9999)
                     {
-                        throw 'Invalid Parameter';
+                        throw '#NUM!';
                     }
+                    returnType = Number(returnType)
                     switch (returnType)
                     {
                         case 1:
@@ -1242,7 +1243,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         case 16:
                             return (date.getDay() + 2) % 7 == 0 ? 7 : (date.getDay() + 2) % 7;
                         default:
-                            throw 'Invalid Parameter';
+                            throw '#NUM!';
                     }
                 }";
         }
@@ -1472,36 +1473,289 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 }";
         }
 
-        /// <summary>
-        /// Converts full-width alphanumeric kana characters (2 bytes) to half-width alphanumeric kana characters (1 byte)
-        /// </summary>
-        /// <remarks>
-        /// Syntax: ASC(text)
-        /// </remarks>
         private static string GetAscScript()
         {
             return @"
                 function $ASC(text)
                 {
-                    return text.toString().replace(/[Ａ-Ｚａ-ｚ０-９]/g, function (s) {
-                        return String.fromCharCode(s.charCodeAt(0) - 0xfee0);
-                    });
+                    if (arguments.length !== 1) {
+                        throw 'Invalid Parameter';
+                    }
+                    if(text === undefined) {
+                        return '';
+                    }
+                    let kanaMap = {
+                        'ガ': 'ｶﾞ',
+                        'ギ': 'ｷﾞ',
+                        'グ': 'ｸﾞ',
+                        'ゲ': 'ｹﾞ',
+                        'ゴ': 'ｺﾞ',
+                        'ザ': 'ｻﾞ',
+                        'ジ': 'ｼﾞ',
+                        'ズ': 'ｽﾞ',
+                        'ゼ': 'ｾﾞ',
+                        'ゾ': 'ｿﾞ',
+                        'ダ': 'ﾀﾞ',
+                        'ヂ': 'ﾁﾞ',
+                        'ヅ': 'ﾂﾞ',
+                        'デ': 'ﾃﾞ',
+                        'ド': 'ﾄﾞ',
+                        'バ': 'ﾊﾞ',
+                        'ビ': 'ﾋﾞ',
+                        'ブ': 'ﾌﾞ',
+                        'ベ': 'ﾍﾞ',
+                        'ボ': 'ﾎﾞ',
+                        'パ': 'ﾊﾟ',
+                        'ピ': 'ﾋﾟ',
+                        'プ': 'ﾌﾟ',
+                        'ペ': 'ﾍﾟ',
+                        'ポ': 'ﾎﾟ',
+                        'ヴ': 'ｳﾞ',
+                        'ヷ': 'ﾜﾞ',
+                        'ヺ': 'ｦﾞ',
+                        'ア': 'ｱ',
+                        'イ': 'ｲ',
+                        'ウ': 'ｳ',
+                        'エ': 'ｴ',
+                        'オ': 'ｵ',
+                        'カ': 'ｶ',
+                        'キ': 'ｷ',
+                        'ク': 'ｸ',
+                        'ケ': 'ｹ',
+                        'コ': 'ｺ',
+                        'サ': 'ｻ',
+                        'シ': 'ｼ',
+                        'ス': 'ｽ',
+                        'セ': 'ｾ',
+                        'ソ': 'ｿ',
+                        'タ': 'ﾀ',
+                        'チ': 'ﾁ',
+                        'ツ': 'ﾂ',
+                        'テ': 'ﾃ',
+                        'ト': 'ﾄ',
+                        'ナ': 'ﾅ',
+                        'ニ': 'ﾆ',
+                        'ヌ': 'ﾇ',
+                        'ネ': 'ﾈ',
+                        'ノ': 'ﾉ',
+                        'ハ': 'ﾊ',
+                        'ヒ': 'ﾋ',
+                        'フ': 'ﾌ',
+                        'ヘ': 'ﾍ',
+                        'ホ': 'ﾎ',
+                        'マ': 'ﾏ',
+                        'ミ': 'ﾐ',
+                        'ム': 'ﾑ',
+                        'メ': 'ﾒ',
+                        'モ': 'ﾓ',
+                        'ヤ': 'ﾔ',
+                        'ユ': 'ﾕ',
+                        'ヨ': 'ﾖ',
+                        'ラ': 'ﾗ',
+                        'リ': 'ﾘ',
+                        'ル': 'ﾙ',
+                        'レ': 'ﾚ',
+                        'ロ': 'ﾛ',
+                        'ワ': 'ﾜ',
+                        'ヲ': 'ｦ',
+                        'ン': 'ﾝ',
+                        'ァ': 'ｧ',
+                        'ィ': 'ｨ',
+                        'ゥ': 'ｩ',
+                        'ェ': 'ｪ',
+                        'ォ': 'ｫ',
+                        'ッ': 'ｯ',
+                        'ャ': 'ｬ',
+                        'ュ': 'ｭ',
+                        'ョ': 'ｮ',
+                        '！': '!',
+                        '”': String.fromCharCode(34),
+                        '＃': '#', 
+                        '＄': '$', 
+                        '％': '%', 
+                        '＆': '&', 
+                        '’': String.fromCharCode(39),
+                        '（': '(', 
+                        '）': ')', 
+                        '＊': '*', 
+                        '＋': '+', 
+                        '，': ',', 
+                        '－': '-', 
+                        '．': '.', 
+                        '／': '/', 
+                        '：': ':', 
+                        '；': ';', 
+                        '＜': '<', 
+                        '＝': '=', 
+                        '＞': '>', 
+                        '？': '?', 
+                        '＠': '@', 
+                        '［': '[', 
+                        '￥': '￥', 
+                        '］': ']', 
+                        '＾': '^', 
+                        '＿': '_', 
+                        '‘': '`', 
+                        '｛': '{', 
+                        '｜': '|', 
+                        '｝': '}', 
+                        '～': '~'
+                    };
+                    let reg = new RegExp(`(${Object.keys(kanaMap).join('|')})`, 'g');
+                    return text
+                        .replace(reg, function (match) {
+                            return kanaMap[match];
+                        })
+                        .replace(/[Ａ-Ｚａ-ｚ０-９]/g, function (s) {
+                            return String.fromCharCode(s.charCodeAt(0) - 0xfee0);
+                        });
                 }";
         }
 
-        /// <summary>
-        /// Converts half-width alphanumeric kana characters (1 byte) to full-width alphanumeric kana characters (2 bytes)
-        /// </summary>
-        /// <remarks>
-        /// Syntax: JIS(text)
-        /// </remarks>
         private static string GetJisScript()
         {
             return @"
                 function $JIS(text)
                 {
-                    return text.toString().replace(/[A-Za-z0-9]/g, function (s) {
-                        return String.fromCharCode(s.charCodeAt(0) + 0xfee0);
+                    if (arguments.length !== 1) {
+                        throw 'Invalid Parameter';
+                    }
+                    if(text === undefined) {
+                        return '';
+                    }
+                    let halfKanaMap = {
+                        'ｶﾞ': 'ガ',
+                        'ｷﾞ': 'ギ',
+                        'ｸﾞ': 'グ',
+                        'ｹﾞ': 'ゲ',
+                        'ｺﾞ': 'ゴ',
+                        'ｻﾞ': 'ザ',
+                        'ｼﾞ': 'ジ',
+                        'ｽﾞ': 'ズ',
+                        'ｾﾞ': 'ゼ',
+                        'ｿﾞ': 'ゾ',
+                        'ﾀﾞ': 'ダ',
+                        'ﾁﾞ': 'ヂ',
+                        'ﾂﾞ': 'ヅ',
+                        'ﾃﾞ': 'デ',
+                        'ﾄﾞ': 'ド',
+                        'ﾊﾞ': 'バ',
+                        'ﾋﾞ': 'ビ',
+                        'ﾌﾞ': 'ブ',
+                        'ﾍﾞ': 'ベ',
+                        'ﾎﾞ': 'ボ',
+                        'ﾊﾟ': 'パ',
+                        'ﾋﾟ': 'ピ',
+                        'ﾌﾟ': 'プ',
+                        'ﾍﾟ': 'ペ',
+                        'ﾎﾟ': 'ポ',
+                        'ｳﾞ': 'ヴ',
+                        'ﾜﾞ': 'ヷ',
+                        'ｦﾞ': 'ヺ',
+                        'ｱ': 'ア',
+                        'ｲ': 'イ',
+                        'ｳ': 'ウ',
+                        'ｴ': 'エ',
+                        'ｵ': 'オ',
+                        'ｶ': 'カ',
+                        'ｷ': 'キ',
+                        'ｸ': 'ク',
+                        'ｹ': 'ケ',
+                        'ｺ': 'コ',
+                        'ｻ': 'サ',
+                        'ｼ': 'シ',
+                        'ｽ': 'ス',
+                        'ｾ': 'セ',
+                        'ｿ': 'ソ',
+                        'ﾀ': 'タ',
+                        'ﾁ': 'チ',
+                        'ﾂ': 'ツ',
+                        'ﾃ': 'テ',
+                        'ﾄ': 'ト',
+                        'ﾅ': 'ナ',
+                        'ﾆ': 'ニ',
+                        'ﾇ': 'ヌ',
+                        'ﾈ': 'ネ',
+                        'ﾉ': 'ノ',
+                        'ﾊ': 'ハ',
+                        'ﾋ': 'ヒ',
+                        'ﾌ': 'フ',
+                        'ﾍ': 'ヘ',
+                        'ﾎ': 'ホ',
+                        'ﾏ': 'マ',
+                        'ﾐ': 'ミ',
+                        'ﾑ': 'ム',
+                        'ﾒ': 'メ',
+                        'ﾓ': 'モ',
+                        'ﾔ': 'ヤ',
+                        'ﾕ': 'ユ',
+                        'ﾖ': 'ヨ',
+                        'ﾗ': 'ラ',
+                        'ﾘ': 'リ',
+                        'ﾙ': 'ル',
+                        'ﾚ': 'レ',
+                        'ﾛ': 'ロ',
+                        'ﾜ': 'ワ',
+                        'ｦ': 'ヲ',
+                        'ﾝ': 'ン',
+                        'ｧ': 'ァ',
+                        'ｨ': 'ィ',
+                        'ｩ': 'ゥ',
+                        'ｪ': 'ェ',
+                        'ｫ': 'ォ',
+                        'ｯ': 'ッ',
+                        'ｬ': 'ャ',
+                        'ｭ': 'ュ',
+                        'ｮ': 'ョ',
+                    };    
+                    let specialCharMaping = {
+                        '!': '！',
+                        '#': '＃',
+                        '$': '＄',
+                        '%': '％',
+                        '&': '＆',
+                        '\'': '’',
+                        '(': '（',
+                        ')': '）',
+                        '*': '＊',
+                        '+': '＋',
+                        ',': '，',
+                        '-': '－',
+                        '.': '．',
+                        '/': '／',
+                        ':': '：',
+                        ';': '；',
+                        '<': '＜',
+                        '=': '＝',
+                        '>': '＞',
+                        '?': '？',
+                        '@': '＠',
+                        '[': '［',
+                        '\\': '￥',
+                        ']': '］',
+                        '^': '＾',
+                        '_': '＿',
+                        '`': '‘',
+                        '{': '｛',
+                        '|': '｜',
+                        '}': '｝',
+                        '~': '～'
+                    };
+                    specialCharMaping[String.fromCharCode(34)] = '”';
+                    let specialCharRegexPattern = new RegExp(`[${Object.keys(specialCharMaping).join('')}]`, 'g');
+                    let kanaMapRegxPattern = new RegExp(`(${Object.keys(halfKanaMap).join('|')})`, 'g');
+                    return text
+                        .toString()
+                        .replace(kanaMapRegxPattern, function (matKana) {
+                                return halfKanaMap[matKana];
+                        })
+                        .replace (/ﾞ/g, '゛')
+                        .replace (/ﾟ/g, '゜')
+                        .replace(specialCharRegexPattern, function (matchSpc) {
+                            return specialCharMaping[matchSpc];
+                        })   
+                        .replace(/[A-Za-z0-9]/g, function (s) {
+                            return String.fromCharCode(s.charCodeAt(0) + 0xfee0);
                     });
                 }";
         }
