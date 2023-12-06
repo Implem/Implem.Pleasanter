@@ -924,25 +924,27 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             return @"
                 function $SEARCH(findText, withinText, start = 1)
                 {
-                    if(arguments.length === 0 ) {
+                    if (arguments.length < 2 || arguments.length > 3)
+                    {
                         throw 'Invalid Parameter';
                     }
-                    if (findText == undefined && withinText == undefined && start == 1)
+                    if (start == '' || isNaN(start))
                     {
-                        return 1;
+                        throw '#VALUE!';
                     }
                     start = Number(start);
-                    if (start < 1 || start > withinText.toString().length) {
-                        throw 'Invalid Parameter';
+                    if (start < 1 || start > withinText.toString().length)
+                    {
+                        throw '#VALUE!';
                     }
                     let index = withinText.toString().toLowerCase().indexOf(findText.toString().toLowerCase(), start - 1);
-                    if (index < 0) {
+                    if (index < 0)
+                    {
                         throw 'Not Found';
                     }
                     return index + 1;
 	            }";
         }
-
 
         /// <summary>
         /// Checks if one or more conditions are met and returns the value corresponding to the first true condition
@@ -1007,6 +1009,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     return Math.trunc(number) % 2 == 0;
 	            }";
         }
+
         /// <summary>
         /// Value refers to a number.
         /// </summary>
