@@ -1450,7 +1450,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     if (arguments.length !== 1) {
                         throw 'Invalid Parameter';
                     }
-                    if(text === undefined) {
+                    if(text === undefined || text === '') {
                         return '';
                     }
                     let kanaMap = {
@@ -1484,7 +1484,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     if (arguments.length !== 1) {
                         throw 'Invalid Parameter';
                     }
-                    if(text === undefined) {
+                    if(text === undefined || text === '') {
                         return '';
                     }
                     let halfKanaMap = {
