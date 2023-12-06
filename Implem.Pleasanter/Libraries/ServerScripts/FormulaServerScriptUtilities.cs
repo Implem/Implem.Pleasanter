@@ -1149,12 +1149,21 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     {
                         if (arguments[i] !== '' && arguments[i] !== undefined)
                         {
-                            try {
-                                sum += $VALUE(arguments[i]);
+                            if(!isNaN(Number(arguments[i])) && typeof arguments[i] !== 'boolean') {
+                                sum += Number(arguments[i]);
                                 averageCount++;
-                            } 
-                            catch {
-                                //No thing to do
+                            }
+                            else if(typeof arguments[i] !== 'boolean') {
+                                continue;
+                            }
+                            else {
+                                try {
+                                    sum += $VALUE(arguments[i]);
+                                    averageCount++;
+                                } 
+                                catch {
+                                    //No thing to do
+                                }
                             }
                         }
                     }
