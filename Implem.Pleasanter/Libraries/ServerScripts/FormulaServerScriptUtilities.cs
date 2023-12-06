@@ -1166,21 +1166,24 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             return @"
                 function $AVERAGE(number1)
                 {
-                    if (number1 == undefined || isNaN(number1))
+                    if (arguments.length == 0 || arguments.length > 255)
                     {
                         throw 'Invalid Parameter';
                     }
-                    number1 = Number(number1);
-                    var total = number1;
-		            for (var i = 1; i < arguments.length; i++)
-		            {
-                        if (arguments[i] == undefined || isNaN(arguments[i]))
+                    let sum = 0, total = 0;
+                    for (let i = 0; i < arguments.length; i++)
+                    {
+                        if (arguments[i] !== '' && !isNaN(arguments[i]))
                         {
-                            throw 'Invalid Parameter';
+                            sum += Number(arguments[i]);
+                            total++;
                         }
-			            total += Number(arguments[i]);
-		            }
-		            return total / arguments.length;
+                    }
+                    if (total == 0)
+                    {
+                        throw '#DIV/0!';
+                    }
+                    return sum / total;
 	            }";
         }
 
