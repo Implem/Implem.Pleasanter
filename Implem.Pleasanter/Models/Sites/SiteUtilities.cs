@@ -8088,6 +8088,8 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                             .Text(text: Displays.Id(context: context)))
                     .Th(action: () => hb
+                            .Text(text: Displays.CalculationMethod(context: context)))
+                    .Th(action: () => hb
                             .Text(text: Displays.Target(context: context)))
                     .Th(action: () => hb
                             .Text(text: Displays.Formulas(context: context)))
@@ -8151,6 +8153,10 @@ namespace Implem.Pleasanter.Models
                                         _checked: selected?.Contains(formulaSet.Id) == true))
                                 .Td(action: () => hb
                                     .Text(text: formulaSet.Id.ToString()))
+                                .Td(action: () => hb
+                                    .Text(text: Displays.FormulaCalculationMethod(
+                                        context: context,
+                                        id: formulaSet.CalculationMethod)))
                                 .Td(action: () => hb
                                     .Text(text: ss.GetColumn(
                                         context: context,
