@@ -304,6 +304,9 @@ function addItem(group, hash, element, current, calendarSuffix, sub, rank, yearl
                 ? 'changed'
                 : ''));
     }
+    console.log(element.To !== element.From)
+    console.log(element.To)
+    console.log(element.From)
     item.append($('<div />')
         .addClass('title')
         .css('width', function () {
@@ -438,7 +441,7 @@ function setFullCalendar(calendarSuffix, calendarEl) {
             }
             eventElement.attr('title', htmlEncode(info.event.title) + ' -- ' +
                 $p.dateTimeString(new Date(info.event.start)) +
-                (info.event.end !== null && info.event.end !== info.event.start
+                (info.event.end !== null && endDate.toLocaleString() !== info.event.start.toLocaleString()
                     ? ' - ' + $p.dateTimeString(new Date(endDate))
                     : ''))
                 + htmlEncode(info.event.title);
