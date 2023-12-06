@@ -426,7 +426,7 @@ function setFullCalendar(calendarSuffix, calendarEl) {
             }
             eventElement.attr('title', htmlEncode(info.event.title) + ' -- ' +
                 $p.dateTimeString(new Date(info.event.start)) +
-                (info.event.end !== undefined && info.event.end !== info.event.start
+                (info.event.end !== null && info.event.end !== info.event.start
                     ? ' - ' + $p.dateTimeString(new Date(endDate))
                     : ''))
                 + htmlEncode(info.event.title);
