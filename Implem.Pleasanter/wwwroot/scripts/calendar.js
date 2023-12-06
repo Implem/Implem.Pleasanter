@@ -304,9 +304,6 @@ function addItem(group, hash, element, current, calendarSuffix, sub, rank, yearl
                 ? 'changed'
                 : ''));
     }
-    console.log(element.To !== element.From)
-    console.log(element.To)
-    console.log(element.From)
     item.append($('<div />')
         .addClass('title')
         .css('width', function () {
