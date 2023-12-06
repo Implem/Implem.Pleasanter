@@ -1153,7 +1153,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                                 sum += Number(arguments[i]);
                                 averageCount++;
                             }
-                            else if(typeof arguments[i] !== 'boolean') {
+                            else if(typeof arguments[i] === 'boolean') {
                                 continue;
                             }
                             else {
