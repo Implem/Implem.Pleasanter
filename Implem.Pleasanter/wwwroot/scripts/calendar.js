@@ -449,7 +449,12 @@ function setFullCalendar(calendarSuffix, calendarEl) {
             }
         },
         initialView: $('#CalendarViewType' + calendarSuffix).val(),
-        lazyFetching: false
+        lazyFetching: false,
+        eventTimeFormat: {
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false
+        }
     });
     $p.fullCalendar.render();
     $('.fc-scrollgrid').addClass('no-drag');
