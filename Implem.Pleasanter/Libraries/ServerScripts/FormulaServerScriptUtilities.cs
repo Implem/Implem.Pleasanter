@@ -1113,12 +1113,6 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
 	            }";
         }
 
-        /// <summary>
-        /// Returns number rounded up to the nearest odd integer.
-        /// </summary>
-        /// <remarks>
-        /// Syntax: ODD(number)
-        /// </remarks>
         private static string GetOddScript()
         {
             return @"
@@ -1133,22 +1127,14 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         return 1;
                     }
                     if (isNaN(number) && typeof number === 'string')
-                    {
-                        if(/^(\d{4})(\/|-)(\d{1,2})(\/|-)(\d{1,2})$/.test(number.substring(0,10).trim())) {
-                            number = $DAYS(number, '01/01/1900');
-                        }
+                    {   
+                            number = $DAYS(number, '01/01/1900') + 1;
                     }
                     let result = Math.ceil(Number(number));
                     return (result % 2 === 0) ? result + (result > 0 ? 1 : -1) : result;
 	            }";
         }
 
-        /// <summary>
-        /// Returns the average (arithmetic mean) of the arguments. 
-        /// </summary>
-        /// <remarks>
-        /// Syntax: AVERAGE(number1, [number2], ...)
-        /// </remarks>
         private static string GetAverageScript()
         {
             return @"
@@ -1228,13 +1214,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     }
                 }";
         }
-
-        /// <summary>
-        /// Returns the smallest number in a set of values.
-        /// </summary>
-        /// <remarks>
-        /// Syntax: MIN(number1, [number2], ...)
-        /// </remarks>
+        
         private static string GetMinScript()
         {
             return @"
@@ -1256,12 +1236,6 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 }";
         }
 
-        /// <summary>
-        /// Returns the largest value in a set of values.<br/>
-        /// </summary>
-        /// <remarks>
-        /// Syntax: MAX(number1, [number2], ...)
-        /// </remarks>
         private static string GetMaxScript()
         {
             return @"
@@ -1741,23 +1715,19 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 }";
         }
 
-        /// <summary>
-        /// Converts numbers entered as strings to numbers
-        /// </summary>
-        /// <remarks>
-        /// Syntax: VALUE(text)
-        /// </remarks>
         private static string GetValueScript()
         {
             return @"
                 function $VALUE(text)
                 {
-                    if (text == undefined || text === '')
-                    {
+                    if (arguments.length !== 1) {
                         throw 'Invalid Parameter';
                     }
+                    if (text == undefined || text === '') {
+                        return 0;
+                    }
                     let timeRegex = /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/;
-                    if (timeRegex.test(text))
+                    if (timeRegex.test(text.toString().substr(0,8)))
                     {
                         let hour = Number(text.substring(0, 2)),
                         minute = Number(text.substring(3, 5));
@@ -1765,10 +1735,15 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     }
                     else
                     {
-                        text = text.toString().replace(/[$,]/g, '');
+                        text = text
+                            .toString()
+                            .replace(/[$,]/g, '')
+                            .replace(/[０-９]/g, function (s) {
+                                return String.fromCharCode(s.charCodeAt(0) - 0xfee0);
+                        });
                         if (isNaN(Number(text)))
                         {
-                            throw 'Invalid Parameter';
+                            return $DAYS(text, '1900/01/01') + 1;
                         }
                         return Number(text);
                     }
