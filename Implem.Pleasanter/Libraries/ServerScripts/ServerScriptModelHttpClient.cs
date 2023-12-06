@@ -77,6 +77,27 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             }
         }
 
+        public string Patch()
+        {
+            try
+            {
+                var content = new StringContent(
+                    content: Content,
+                    encoding: System.Text.Encoding.GetEncoding(Encoding),
+                    mediaType: MediaType);
+                var request = CreateHttpRequest(HttpMethod.Patch, content);
+                var response = _httpClient.SendAsync(request).Result;
+                StatusCode = (int)response.StatusCode;
+                IsSuccess = response.IsSuccessStatusCode;
+                var responseContent = response.Content.ReadAsStringAsync().Result;
+                return responseContent;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         public string Delete()
         {
             try
