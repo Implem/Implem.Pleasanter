@@ -2285,6 +2285,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Where(o => !o.OtherColumn())
                 .Where(o => o.Name != "SiteId"
                     && o.Name != "Comments")
+                .OrderByDescending(o => o.LabelText.Length)
                 .ToList();
         }
 

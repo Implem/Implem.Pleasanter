@@ -28,7 +28,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             formulaSet.Target = Target;
             formulaSet.Condition = Condition;
             formulaSet.Formula = Formula;
-            formulaSet.NotUseDisplayName = NotUseDisplayName;
+            if (NotUseDisplayName == true)
+            {
+                formulaSet.NotUseDisplayName = NotUseDisplayName;
+            }
             formulaSet.IsDisplayError = IsDisplayError;
             formulaSet.OutOfCondition = OutOfCondition;
             formulaSet.FormulaScript = FormulaScript;
