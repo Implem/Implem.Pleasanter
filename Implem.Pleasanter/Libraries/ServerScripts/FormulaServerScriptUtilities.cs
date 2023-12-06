@@ -991,21 +991,15 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
 	            }";
         }
 
-        /// <summary>
-        /// Returns TRUE if number is even, or FALSE if number is odd.
-        /// </summary>
-        /// <remarks>
-        /// Syntax: ISEVEN(number)
-        /// </remarks>
         private static string GetIsEvenScript()
         {
             return @"
                 function $ISEVEN(number)
                 {
-                    if (number == undefined)
-                    {
+                    if (arguments.length !== 1) {
                         throw 'Invalid Parameter';
                     }
+                    number = ( number == undefined  ||  number === '') ? 0 : number;
                     if (isNaN(number))
                     {
                         return $DAYS(number, '1/1/2000') % 2 == 0;
@@ -1049,32 +1043,18 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
 	            }";
         }
 
-        /// <summary>
-        /// Returns TRUE if number is odd, or FALSE if number is even.
-        /// </summary>
-        /// <remarks>
-        /// If number is nonnumeric, ISODD will throw Invalid Parametererror Exception.
-        /// Syntax: ISODD(number)
-        /// </remarks>
         private static string GetIsOddScript()
         {
             return @"
                 function $ISODD(number)
                 {
-                    if (arguments.length === 0 || number === '')
-                    {
+                    if (arguments.length !== 1) {
                         throw 'Invalid Parameter';
                     }
-                    if (number === undefined)
-                    {
-                        return false;
-                    }
+                    number = ( number == undefined  ||  number === '') ? 0 : number;
                     if (isNaN(number) && typeof number === 'string')
                     {
-                        if(/^(\d{4})(\/|-)(\d{1,2})(\/|-)(\d{1,2})$/.test(number.substring(0,10).trim())) { 
-                            return $DAYS(number, '1/2/2000') % 2 === 0;
-                        }
-                        throw 'Invalid Parameter';
+                        return $DAYS(number, '1/2/2000') % 2 === 0;
                     }
                     number = Number(number);
                     return Math.trunc(number) % 2 !== 0;
