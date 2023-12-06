@@ -8112,7 +8112,17 @@ namespace Implem.Pleasanter.Models
                     {
                         if (formulaSet.CalculationMethod == FormulaSet.CalculationMethods.Script.ToString())
                         {
-                            if (!formulaSet.NotUseDisplayName)
+                            if (formulaSet.NotUseDisplayName == true)
+                            {
+                                foreach (var column in columnList)
+                                {
+                                    formulaSet.FormulaScript = System.Text.RegularExpressions.Regex.Replace(
+                                        input: formulaSet.FormulaScript,
+                                        pattern: "(?<!\\$)" + column.LabelText + $"(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)",
+                                        replacement: $"[{column.ColumnName}]");
+                                }
+                            }
+                            else
                             {
                                 var columns = System.Text.RegularExpressions.Regex.Matches(formulaSet.FormulaScript, @"\[([^]]*)\]");
                                 foreach (var column in columns)
@@ -8202,11 +8212,11 @@ namespace Implem.Pleasanter.Models
                         labelText: Displays.Formulas(context: context),
                         text: (formulaSet.CalculationMethod == FormulaSet.CalculationMethods.Default.ToString()
                             || string.IsNullOrEmpty(formulaSet.CalculationMethod))
-                            ? formulaSet.Formula?.ToString(ss, notUseDisplayName: formulaSet.NotUseDisplayName)
-                            : FormulaBuilder.UpdateColumnDisplayText(
-                                ss: ss,
-                                formulaSet: formulaSet)
-                            .FormulaScript,
+                                ? formulaSet.Formula?.ToString(ss, notUseDisplayName: formulaSet.NotUseDisplayName)
+                                : FormulaBuilder.UpdateColumnDisplayText(
+                                    ss: ss,
+                                    formulaSet: formulaSet)
+                                .FormulaScript,
                         validateRequired: true)
                     .FieldCheckBox(
                         controlId: "NotUseDisplayName",
@@ -8220,8 +8230,8 @@ namespace Implem.Pleasanter.Models
                         _checked: formulaSet.IsDisplayError == true,
                         fieldCss: (formulaSet.CalculationMethod == FormulaSet.CalculationMethods.Default.ToString()
                             || formulaSet.CalculationMethod == null)
-                            ? " hidden formula-display-error-check"
-                            : " formula-display-error-check")
+                                ? " hidden formula-display-error-check"
+                                : " formula-display-error-check")
                     .FieldDropDown(
                         context: context,
                         controlId: "FormulaCondition",

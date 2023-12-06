@@ -2266,7 +2266,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 : Columns
                     .Where(o => o.ColumnName == name || o.LabelText == name)
                     .Where(o => o.ControlType != "Attachments")
-                    .Where(o => !o.NotUpdate || o.Name == "RemainingWorkValue")
+                    .Where(o => !o.NotUpdate)
                     .Where(o => !o.Id_Ver)
                     .Where(o => !o.Joined)
                     .Where(o => !o.OtherColumn())
@@ -2278,13 +2278,14 @@ namespace Implem.Pleasanter.Libraries.Settings
         public List<Column> FormulaColumnList()
         {
             return Columns
-                    .Where(o => o.ControlType != "Attachments")
-                    .Where(o => !o.NotUpdate || o.Name == "RemainingWorkValue")
-                    .Where(o => !o.Id_Ver)
-                    .Where(o => !o.Joined)
-                    .Where(o => !o.OtherColumn())
-                    .Where(o => o.Name != "SiteId"
-                        && o.Name != "Comments")
+                .Where(o => o.ControlType != "Attachments")
+                .Where(o => !o.NotUpdate)
+                .Where(o => !o.Id_Ver)
+                .Where(o => !o.Joined)
+                .Where(o => !o.OtherColumn())
+                .Where(o => o.Name != "SiteId"
+                    && o.Name != "Comments")
+                .OrderByDescending(o => o.LabelText.Length)
                 .ToList();
         }
 
