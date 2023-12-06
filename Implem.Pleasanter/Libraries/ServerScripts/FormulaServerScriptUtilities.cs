@@ -1138,26 +1138,31 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetAverageScript()
         {
             return @"
-                function $AVERAGE(number1)
+                function $AVERAGE()
                 {
                     if (arguments.length == 0 || arguments.length > 255)
                     {
                         throw 'Invalid Parameter';
                     }
-                    let sum = 0, total = 0;
+                    let sum = 0, averageCount = 0;
                     for (let i = 0; i < arguments.length; i++)
                     {
-                        if (arguments[i] !== '' && !isNaN(arguments[i]))
+                        if (arguments[i] !== '' && arguments[i] !== undefined)
                         {
-                            sum += Number(arguments[i]);
-                            total++;
+                            try {
+                                sum += $VALUE(arguments[i]);
+                                averageCount++;
+                            } 
+                            catch {
+                                //No thing to do
+                            }
                         }
                     }
-                    if (total == 0)
+                    if (averageCount === 0)
                     {
                         throw '#DIV/0!';
                     }
-                    return sum / total;
+                    return sum / averageCount;
 	            }";
         }
 
