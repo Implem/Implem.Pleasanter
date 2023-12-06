@@ -666,6 +666,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 case "index":
                     return false;
+                case "dashboardpart":
+                    return false;
                 default:
                     return true;
             }
