@@ -1256,21 +1256,15 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     {
                         throw 'Invalid Parameter';
                     }
-                    let minValue = arguments[0];
-                    for (let i = 1; i < arguments.length; i++)
+                    let minValue = Number.POSITIVE_INFINITY;
+                    for (let i = 0; i < arguments.length; i++)
                     {
-                        if (arguments[i] !== null
-                            && arguments[i] !== ''
-                            && (minValue === undefined || arguments[i] < minValue))
+                        if (arguments[i] !== '' && !isNaN(arguments[i]) && Number(arguments[i]) < minValue)
                         {
-                            minValue = arguments[i];
+                            minValue = Number(arguments[i]);
                         }
                     }
-                    if (minValue === undefined)
-                    {
-                        minValue = 0;
-                    }
-                    return !isNaN(Number(minValue)) ? minValue : 0;
+                    return minValue == Number.POSITIVE_INFINITY ? 0 : minValue;
                 }";
         }
 
@@ -1289,21 +1283,15 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     {
                         throw 'Invalid Parameter';
                     }
-                    let maxValue = arguments[0];
-                    for (let i = 1; i < arguments.length; i++)
+                    let maxValue = Number.NEGATIVE_INFINITY;
+                    for (let i = 0; i < arguments.length; i++)
                     {
-                        if (arguments[i] !== null
-                            && arguments[i] !== ''
-                            && (maxValue === undefined || arguments[i] > maxValue))
+                        if (arguments[i] !== '' && !isNaN(arguments[i]) && Number(arguments[i]) > maxValue)
                         {
-                            maxValue = arguments[i];
+                            maxValue = Number(arguments[i]);
                         }
                     }
-                    if (maxValue === undefined)
-                    {
-                        maxValue = 0;
-                    }
-                    return !isNaN(Number(maxValue)) ? maxValue : 0;
+                    return maxValue == Number.NEGATIVE_INFINITY ? 0 : maxValue;
                 }";
         }
 
