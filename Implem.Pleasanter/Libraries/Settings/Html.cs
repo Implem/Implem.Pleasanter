@@ -10,13 +10,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             HeadTop = 1000,
             HeadBottom = 1010,
             BodyScriptTop = 9000,
-            BodyScriptBottom = 9010,
-
-            // Setting for siteSetting by Api
-            Headtop = PositionTypes.HeadTop,
-            Headbottom = PositionTypes.HeadBottom,
-            Bodyscripttop = PositionTypes.BodyScriptTop,
-            Bodyscriptbottom = PositionTypes.BodyScriptBottom
+            BodyScriptBottom = 9010
         }
 
         public int Id { get; set; }
@@ -38,48 +32,9 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public Html()
         {
-                
+
         }
 
-        public Html(
-            int id,
-            string title,
-            PositionTypes positionType,
-            bool all,
-            bool _new,
-            bool edit,
-            bool index,
-            bool calendar,
-            bool crosstab,
-            bool gantt,
-            bool burnDown,
-            bool timeSeries,
-            bool kamban,
-            bool imageLib,
-            bool disabled,
-            string body)
-        {
-            Id = id;
-            Title = title;
-            PositionType = positionType;
-            All = all;
-            New = _new;
-            Edit = edit;
-            Index = index;
-            Calendar = calendar;
-            Crosstab = crosstab;
-            Gantt = gantt;
-            BurnDown = burnDown;
-            TimeSeries = timeSeries;
-            Kamban = kamban;
-            ImageLib = imageLib;
-            Disabled = disabled;
-            Body = body;
-        }
-
-        /// <summary>
-        /// Create new Html by api
-        /// </summary>
         public Html(
             int? id,
             string title,

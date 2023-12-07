@@ -10,14 +10,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             IsNotDelete = 0
         }
 
-        public static List<string> HtmlPositionTypes { get; } = new List<string>
-        {
-            "Headtop",
-            "Headbottom",
-            "Bodyscripttop",
-            "Bodyscriptbottom"
-        };
-
         public static List<string> ServerScriptRefTypes { get; } = new List<string>
         {
             "Results",

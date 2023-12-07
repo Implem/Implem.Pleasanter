@@ -2332,7 +2332,8 @@ namespace Implem.Pleasanter.Models
                            beforeOpeningPage: ssApiSetting.ServerScriptBeforeOpeningPage,
                            beforeOpeningRow: ssApiSetting.ServerScriptBeforeOpeningRow,
                            shared: ssApiSetting.ServerScriptShared,
-                           body: ssApiSetting.Body));
+                           body: ssApiSetting.Body,
+                           timeOut: null));
                     }
                 }
             });

@@ -3,6 +3,7 @@ using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models.ApiSiteSettings;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -93,7 +94,7 @@ namespace Implem.Pleasanter.Models
                 {
                     // HtmlPositionType is required and valid value
                     if (string.IsNullOrEmpty(apiSiteSetting.HtmlPositionType)
-                        || !ApiSiteSetting.HtmlPositionTypes.Contains(apiSiteSetting.HtmlPositionType))
+                        || !Enum.IsDefined(typeof(Html.PositionTypes), apiSiteSetting.HtmlPositionType))
                     {
                         return new ErrorData(type: Error.Types.NotFound);
                     }

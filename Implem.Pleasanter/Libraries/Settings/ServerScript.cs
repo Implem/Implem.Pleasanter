@@ -1,4 +1,4 @@
-using Implem.DefinitionAccessor;
+﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Interfaces;
 using System;
@@ -33,51 +33,6 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         public ServerScript(
-            int id,
-            string title,
-            string name,
-            bool whenloadingSiteSettings,
-            bool whenViewProcessing,
-            bool whenloadingRecord,
-            bool beforeFormula,
-            bool afterFormula,
-            bool beforeCreate,
-            bool afterCreate,
-            bool beforeUpdate,
-            bool afterUpdate,
-            bool beforeDelete,
-            bool afterDelete,
-            bool beforeOpeningPage,
-            bool beforeOpeningRow,
-            bool shared,
-            string body,
-            int? timeOut)
-        {
-            Id = id;
-            Title = title;
-            Name = name;
-            WhenloadingSiteSettings = whenloadingSiteSettings;
-            WhenViewProcessing = whenViewProcessing;
-            WhenloadingRecord = whenloadingRecord;
-            BeforeFormula = beforeFormula;
-            AfterFormula = afterFormula;
-            BeforeCreate = beforeCreate;
-            AfterCreate = afterCreate;
-            BeforeUpdate = beforeUpdate;
-            AfterUpdate = afterUpdate;
-            BeforeDelete = beforeDelete;
-            AfterDelete = afterDelete;
-            BeforeOpeningPage = beforeOpeningPage;
-            BeforeOpeningRow = beforeOpeningRow;
-            Shared = shared;
-            Body = body;
-            TimeOut = timeOut;
-        }
-
-        /// <summary>
-        /// Create new  ServerScript by api
-        /// </summary>
-        public ServerScript(
             int? id,
             string title,
             string name,
@@ -95,7 +50,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool? beforeOpeningPage,
             bool? beforeOpeningRow,
             string body,
-            bool? shared)
+            bool? shared,
+            int? timeOut)
         {
             Id = id.ToInt();
             Title = title;
@@ -115,6 +71,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             BeforeOpeningRow = beforeOpeningRow;
             Body = body;
             Shared = shared;
+            TimeOut = timeOut;
         }
 
         public void Update(
