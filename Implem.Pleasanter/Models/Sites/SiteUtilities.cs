@@ -8112,7 +8112,7 @@ namespace Implem.Pleasanter.Models
                     var columnList = ss.FormulaColumnList();
                     ss.Formulas?.ForEach(formulaSet =>
                     {
-                        if (formulaSet.CalculationMethod == FormulaSet.CalculationMethods.Script.ToString())
+                        if (formulaSet.CalculationMethod == FormulaSet.CalculationMethods.Extended.ToString())
                         {
                             if (formulaSet.NotUseDisplayName == true)
                             {

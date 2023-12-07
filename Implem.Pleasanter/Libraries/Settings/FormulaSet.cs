@@ -17,7 +17,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public enum CalculationMethods
         {
             Default,
-            Script
+            Extended
         }
 
         public FormulaSet GetRecordingData()
