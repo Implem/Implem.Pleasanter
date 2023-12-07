@@ -760,6 +760,7 @@ namespace Implem.Pleasanter.Models
                     case "update":
                     case "copy":
                     case "delete":
+                    case "updatesitesettings":
                         return;
                 }
             }
