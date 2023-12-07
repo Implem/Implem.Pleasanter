@@ -3932,23 +3932,23 @@ namespace Implem.Pleasanter.Models
                                 isAuthenticationByMail: isAuthenticationByMail)
                             ? Messages
                                 .ResponseSecondaryAuthentication(
-                                        context: context,
-                                        target: "#LoginMessage")
+                                    context: context,
+                                    target: "#LoginMessage")
                                 .Focus("#SecondaryAuthenticationCode")
                                 .ToJson()
                             : PasswordExpired()
                                 ? OpenChangePasswordAtLoginDialog(context: context)
                                 : !EnableSecretKey && !isAuthenticationByMail
                                     ? setEnableSecretKeyandAllow(
-                                            context: context,
-                                            returnUrl: returnUrl,
-                                            createPersistentCookie: context.Forms.Bool("Users_RememberMe"),
-                                            noHttpContext: noHttpContext)
+                                        context: context,
+                                        returnUrl: returnUrl,
+                                        createPersistentCookie: context.Forms.Bool("Users_RememberMe"),
+                                        noHttpContext: noHttpContext)
                                     : Allow(
-                                            context: context,
-                                            returnUrl: returnUrl,
-                                            createPersistentCookie: context.Forms.Bool("Users_RememberMe"),
-                                            noHttpContext: noHttpContext);
+                                        context: context,
+                                        returnUrl: returnUrl,
+                                        createPersistentCookie: context.Forms.Bool("Users_RememberMe"),
+                                        noHttpContext: noHttpContext);
                 }
                 else if (PasswordExpired())
                 {
