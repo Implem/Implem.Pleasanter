@@ -1467,6 +1467,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     };
                     let reg = new RegExp(`(${Object.keys(kanaMap).join('|')})`, 'g');
                     return text
+                        .toString()
                         .replace(reg, function (match) {
                             return kanaMap[match];
                         })
