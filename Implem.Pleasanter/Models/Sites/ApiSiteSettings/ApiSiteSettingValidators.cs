@@ -28,7 +28,7 @@ namespace Implem.Pleasanter.Models
                 baseApiValidator = ApiSiteSettingValidators.OnSiteSettingByApi(
                     apiSiteSettingBaseProperties: baseApiProperties,
                     ss: ss,
-                    siteSettingType: ApiSiteSetting.SITE_SETTING_TYPE_SERVER_SCRIPT);
+                    siteSettingType: "ServerScripts");
                 if (baseApiValidator.Type != Error.Types.None) { return baseApiValidator; }
             }
             // Validate Scripts
@@ -39,7 +39,7 @@ namespace Implem.Pleasanter.Models
                 baseApiValidator = ApiSiteSettingValidators.OnSiteSettingByApi(
                     apiSiteSettingBaseProperties: baseApiProperties,
                     ss: ss,
-                    ApiSiteSetting.SITE_SETTING_TYPE_SCRIPT);
+                    siteSettingType: "Scripts");
                 if (baseApiValidator.Type != Error.Types.None) { return baseApiValidator; }
             }
             // Validate Htmls
@@ -50,7 +50,7 @@ namespace Implem.Pleasanter.Models
                 baseApiValidator = ApiSiteSettingValidators.OnSiteSettingByApi(
                     apiSiteSettingBaseProperties: baseApiProperties,
                     ss: ss,
-                    ApiSiteSetting.SITE_SETTING_TYPE_HTML);
+                    siteSettingType: "Htmls");
                 if (baseApiValidator.Type != Error.Types.None) { return baseApiValidator; }
             }
             // Validate Styles
@@ -61,7 +61,7 @@ namespace Implem.Pleasanter.Models
                 baseApiValidator = ApiSiteSettingValidators.OnSiteSettingByApi(
                     apiSiteSettingBaseProperties: baseApiProperties,
                     ss: ss,
-                    ApiSiteSetting.SITE_SETTING_TYPE_SCRIPT);
+                    siteSettingType: "Scripts");
                 if (baseApiValidator.Type != Error.Types.None) { return baseApiValidator; }
             }
             return new ErrorData(type: Error.Types.None);
@@ -89,7 +89,7 @@ namespace Implem.Pleasanter.Models
                 }
                 // Validate HtmlPositionType value in case change Htmls setting
                 if (apiSiteSetting.Delete.ToInt() != ApiSiteSetting.DeleteFlag.IsDelete.ToInt()
-                    && siteSettingType == ApiSiteSetting.SITE_SETTING_TYPE_HTML)
+                    && siteSettingType == "Htmls")
                 {
                     // HtmlPositionType is required and valid value
                     if (string.IsNullOrEmpty(apiSiteSetting.HtmlPositionType)
