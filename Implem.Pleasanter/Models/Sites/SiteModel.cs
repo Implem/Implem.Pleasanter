@@ -2274,7 +2274,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public void ChangeServerScriptByApi(
+        public void UpsertServerScriptByApi(
             SiteSettings siteSetting,
             List<ServerScriptApiSettingModel> serverScriptsApiSiteSetting)
         {
@@ -2346,7 +2346,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public void ChangeScriptByApi(
+        public void UpsertScriptByApi(
             SiteSettings siteSetting,
             List<ScriptApiSettingModel> scriptsApiSiteSetting)
         {
@@ -2412,7 +2412,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public void ChangeStyleByApi(
+        public void UpsertStyleByApi(
             SiteSettings siteSetting,
             List<StyleApiSettingModel> styleApiSiteSetting)
         {
@@ -2475,7 +2475,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public void ChangeHtmlByApi(
+        public void UpsertHtmlByApi(
             SiteSettings siteSetting,
             List<HtmlApiSettingModel> htmlsApiSiteSetting)
         {

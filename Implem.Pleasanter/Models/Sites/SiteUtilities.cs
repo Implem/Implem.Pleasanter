@@ -2328,8 +2328,7 @@ namespace Implem.Pleasanter.Models
         public static ContentResultInheritance UpdateSiteSettingsByApi(
             Context context,
             SiteSettings ss,
-            SiteModel siteModel
-            )
+            SiteModel siteModel)
         {
             if (!Mime.ValidateOnApi(contentType: context.ContentType))
             {
@@ -2383,7 +2382,7 @@ namespace Implem.Pleasanter.Models
             }
             var siteSettingsApiModel = context.RequestDataString.Deserialize<SiteSettingsApiModel>();
             // Validate SiteSetting Request
-            ErrorData apiSiteSettingValidator = ApiSiteSettingValidators.OnChageSiteSettingByApi(
+            var apiSiteSettingValidator = ApiSiteSettingValidators.OnChageSiteSettingByApi(
                 referenceType: siteModel.ReferenceType,
                 ss: ss,
                 siteSettingsModel: siteSettingsApiModel);
@@ -2396,31 +2395,31 @@ namespace Implem.Pleasanter.Models
                       errorData: apiSiteSettingValidator);
             }
             // Change ServerScripts setting
-            if (ApiSiteSetting.ServerScriptRefType.Contains(siteModel.ReferenceType)
+            if (ApiSiteSetting.ServerScriptRefTypes.Contains(siteModel.ReferenceType)
                 && siteSettingsApiModel.ServerScripts != null)
             {
-                siteModel.ChangeServerScriptByApi(
+                siteModel.UpsertServerScriptByApi(
                     siteSetting: ss,
                     serverScriptsApiSiteSetting: siteSettingsApiModel.ServerScripts);
             }
             // Change Scripts setting
             if (siteSettingsApiModel.Scripts != null)
             {
-                siteModel.ChangeScriptByApi(
+                siteModel.UpsertScriptByApi(
                     siteSetting: ss,
                     scriptsApiSiteSetting: siteSettingsApiModel.Scripts);
             }
             // Change Styles setting
             if (siteSettingsApiModel.Styles != null)
             {
-                siteModel.ChangeStyleByApi(
+                siteModel.UpsertStyleByApi(
                     siteSetting: ss,
                     styleApiSiteSetting: siteSettingsApiModel.Styles);
             }
             // Change Htmls setting
             if (siteSettingsApiModel.Htmls != null)
             {
-                siteModel.ChangeHtmlByApi(
+                siteModel.UpsertHtmlByApi(
                     siteSetting: ss,
                     htmlsApiSiteSetting: siteSettingsApiModel.Htmls);
             }

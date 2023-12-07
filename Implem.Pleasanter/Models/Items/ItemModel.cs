@@ -2086,8 +2086,7 @@ namespace Implem.Pleasanter.Models
         {
             SetSite(
                 context: context,
-                initSiteSettings: true
-                );
+                initSiteSettings: true);
             if (!Site.WithinApiLimits(context: context))
             {
                 return ApiResults.Get(ApiResponses.OverLimitApi(
@@ -2114,7 +2113,6 @@ namespace Implem.Pleasanter.Models
                     return ApiResults.Get(ApiResponses.NotFound(context: context));
             }
         }
-
 
         public bool UpsertByServerScript(Context context, object model)
         {

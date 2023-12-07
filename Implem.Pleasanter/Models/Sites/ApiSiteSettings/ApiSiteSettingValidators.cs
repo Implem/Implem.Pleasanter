@@ -21,10 +21,10 @@ namespace Implem.Pleasanter.Models
             }
             ErrorData baseApiValidator;
             // Check ReferenceType and validate ServerScripts
-            if (ApiSiteSetting.ServerScriptRefType.Contains(referenceType) && siteSettingsModel.ServerScripts != null)
+            if (ApiSiteSetting.ServerScriptRefTypes.Contains(referenceType) && siteSettingsModel.ServerScripts != null)
             {
-                List<ServerScriptApiSettingModel> apiServerScripts = siteSettingsModel.ServerScripts;
-                List<ISiteSettingBaseProperties> baseApiProperties = apiServerScripts.Cast<ISiteSettingBaseProperties>().ToList();
+                var apiServerScripts = siteSettingsModel.ServerScripts;
+                var baseApiProperties = apiServerScripts.Cast<ISiteSettingBaseProperties>().ToList();
                 baseApiValidator = ApiSiteSettingValidators.OnSiteSettingByApi(
                     apiSiteSettingBaseProperties: baseApiProperties,
                     ss: ss,
@@ -34,8 +34,8 @@ namespace Implem.Pleasanter.Models
             // Validate Scripts
             if (siteSettingsModel.Scripts != null)
             {
-                List<ScriptApiSettingModel> apiScripts = siteSettingsModel.Scripts;
-                List<ISiteSettingBaseProperties> baseApiProperties = apiScripts.Cast<ISiteSettingBaseProperties>().ToList();
+                var  apiScripts = siteSettingsModel.Scripts;
+                var baseApiProperties = apiScripts.Cast<ISiteSettingBaseProperties>().ToList();
                 baseApiValidator = ApiSiteSettingValidators.OnSiteSettingByApi(
                     apiSiteSettingBaseProperties: baseApiProperties,
                     ss: ss,
@@ -45,8 +45,8 @@ namespace Implem.Pleasanter.Models
             // Validate Htmls
             if (siteSettingsModel.Htmls != null)
             {
-                List<HtmlApiSettingModel> apiHtmls = siteSettingsModel.Htmls;
-                List<ISiteSettingBaseProperties> baseApiProperties = apiHtmls.Cast<ISiteSettingBaseProperties>().ToList();
+                var apiHtmls = siteSettingsModel.Htmls;
+                var baseApiProperties = apiHtmls.Cast<ISiteSettingBaseProperties>().ToList();
                 baseApiValidator = ApiSiteSettingValidators.OnSiteSettingByApi(
                     apiSiteSettingBaseProperties: baseApiProperties,
                     ss: ss,
@@ -56,8 +56,8 @@ namespace Implem.Pleasanter.Models
             // Validate Styles
             if (siteSettingsModel.Styles != null)
             {
-                List<StyleApiSettingModel> apiStyles = siteSettingsModel.Styles;
-                List<ISiteSettingBaseProperties> baseApiProperties = apiStyles.Cast<ISiteSettingBaseProperties>().ToList();
+                var apiStyles = siteSettingsModel.Styles;
+                var baseApiProperties = apiStyles.Cast<ISiteSettingBaseProperties>().ToList();
                 baseApiValidator = ApiSiteSettingValidators.OnSiteSettingByApi(
                     apiSiteSettingBaseProperties: baseApiProperties,
                     ss: ss,
@@ -76,7 +76,7 @@ namespace Implem.Pleasanter.Models
             {
                 return new ErrorData(type: Error.Types.None);
             }
-            foreach (ISiteSettingBaseProperties apiSiteSetting in apiSiteSettingBaseProperties)
+            foreach (var apiSiteSetting in apiSiteSettingBaseProperties)
             {
                 // Validate always required Id
                 if (apiSiteSetting.Id == null) return new ErrorData(type: Error.Types.NotFound);

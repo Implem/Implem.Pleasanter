@@ -18,7 +18,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             "Bodyscriptbottom"
         };
 
-        public static List<string> ServerScriptRefType { get; } = new List<string>
+        public static List<string> ServerScriptRefTypes { get; } = new List<string>
         {
             "Results",
             "Issues"
