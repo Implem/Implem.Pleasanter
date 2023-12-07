@@ -561,7 +561,8 @@ namespace Implem.Pleasanter.Models
                         .A(
                             href: "#FieldSetServerScript",
                             text: Displays.ServerScript(context: context)),
-                    _using: context.ContractSettings.ServerScript != false
+                    _using: context.HasPrivilege != false
+                                && context.ContractSettings.ServerScript != false
                                 && Parameters.Script.ServerScript != false
                                 && Parameters.Script.BackgroundServerScript != false));
         }
