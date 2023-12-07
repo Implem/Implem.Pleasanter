@@ -8801,37 +8801,5 @@ namespace Implem.Pleasanter.Models
             }
             return line;
         }
-
-        public static string FormulaCalculationMethodChanged(Context context, SiteSettings ss)
-        {
-            if (!context.CanUpdate(ss: ss))
-            {
-                return Messages.ResponseHasNotPermission(context: context).ToJson();
-            }
-            return new ResponseCollection(context: context)
-                .Html(
-                    "#FormulaTarget",
-                    new HtmlBuilder().FormulaCalculationMethod(
-                        context: context,
-                        ss: ss,
-                        target: context.Forms.Data("CalculationMethod")))
-                .ClearFormData()
-                .ToJson();
-        }
-
-        private static HtmlBuilder FormulaCalculationMethod(
-            this HtmlBuilder hb,
-            Context context,
-            SiteSettings ss,
-            string target)
-        {
-            hb.FieldDropDown(
-                context: context,
-                controlId: "FormulaTarget",
-                controlCss: " always-send",
-                labelText: Displays.Target(context: context),
-                optionCollection: ss.FormulaTargetSelectableOptions(target));
-            return hb;
-        }
     }
 }

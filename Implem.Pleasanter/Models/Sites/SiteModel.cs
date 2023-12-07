@@ -2482,6 +2482,11 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         res: res);
                     break;
+                case "FormulaCalculationMethod":
+                    ChangeFormulaCalculationMethod(
+                        context: context,
+                        res: res);
+                    break;
                 case "MoveUpProcesses":
                 case "MoveDownProcesses":
                     SetProcessesOrder(
@@ -8181,6 +8186,25 @@ namespace Implem.Pleasanter.Models
                         .SiteId(SiteId)
                         .Id(reminder.Id))));
             return statements;
+        }
+
+        private void ChangeFormulaCalculationMethod(Context context, ResponseCollection res)
+        {
+            if (!context.CanUpdate(ss: SiteSettings))
+            {
+                res.Message(Messages.HasNotPermission(context: context)).ToJson();
+            }
+            else
+            {
+                res.Html(
+                    "#FormulaTarget",
+                    new HtmlBuilder().FormulaCalculationMethod(
+                        context: context,
+                        ss: SiteSettings,
+                        target: context.Forms.Data("CalculationMethod")))
+                .ClearFormData()
+                .ToJson();
+            }
         }
     }
 }

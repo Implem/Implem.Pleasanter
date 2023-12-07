@@ -16179,5 +16179,20 @@ namespace Implem.Pleasanter.Models
                     id: ss.SiteId))
                 .ToJson();
         }
+
+        public static HtmlBuilder FormulaCalculationMethod(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            string target)
+        {
+            hb.FieldDropDown(
+                context: context,
+                controlId: "FormulaTarget",
+                controlCss: " always-send",
+                labelText: Displays.Target(context: context),
+                optionCollection: ss.FormulaTargetSelectableOptions(target));
+            return hb;
+        }
     }
 }
