@@ -225,6 +225,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     controlId: $"CalendarReferenceType{suffix}",
                     value: ss.ReferenceType)
                 .Hidden(
+                    controlId: $"CalendarEditorFormat{suffix}",
+                    value: ss.ColumnHash.ContainsKey("CompletionTime")
+                        ? ss.ColumnHash["CompletionTime"].EditorFormat
+                        : "")
+                .Hidden(
                     controlId: $"CalendarSiteData{suffix}",
                     value: !siteId.Equals(0)
                         ? siteId.ToString()
@@ -332,26 +337,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         )
                         .Hidden(
                             controlId: $"CalendarJson{suffix}",
-                            value: choices == null
-                                ? Json(
-                                    context: context,
-                                    ss: ss,
-                                    from: fromColumn,
-                                    to: toColumn,
-                                    dataRows: dataRows,
-                                    changedItemId: changedItemId,
-                                    showStatus: showStatus,
-                                    calendarType: calendarType)
-                                : GroupingJson(
-                                    context: context,
-                                    ss: ss,
-                                    from: fromColumn,
-                                    to: toColumn,
-                                    groupBy: groupBy,
-                                    dataRows: dataRows,
-                                    changedItemId: changedItemId,
-                                    showStatus: showStatus,
-                                    calendarType: calendarType))
+                            value: Json(
+                                context: context,
+                                ss: ss,
+                                from: fromColumn,
+                                to: toColumn,
+                                dataRows: dataRows,
+                                changedItemId: changedItemId,
+                                showStatus: showStatus,
+                                calendarType: calendarType))
                     : hb;
             }
         }
