@@ -348,9 +348,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             {
                 if (isCheck)
                 {
-                    hb.Span(
-                        css: label != string.Empty ? "bold ui-icon ui-icon-check" : "bold ui-icon ui-icon-radio-off");
-                }
+                    hb
+                        .Span(
+                            css: label != string.Empty ? "bold ui-icon ui-icon-check" : "bold ui-icon ui-icon-cancel");
+        }
                 else
                 {
                     if (label != string.Empty)
