@@ -1532,6 +1532,18 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     if (text == undefined || text === '') {
                         return 0;
                     }
+                    if (!isNaN(Number(text)) && typeof text !== 'boolean') {
+                        return Number(text);
+                    }
+                    text = text
+                            .toString()
+                            .replace (/／/g, '/')
+                            .replace (/：/g, ':')
+                            .replace (/－/g, '-')
+                            .replace (/　/g, ' ')
+                            .replace(/[０-９]/g, function (s) {
+                                return String.fromCharCode(s.charCodeAt(0) - 0xfee0);
+                        });
                     let timeRegex = /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/;
                     if (timeRegex.test(text.toString().substr(0,8)))
                     {
@@ -1541,16 +1553,19 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     }
                     else
                     {
-                        text = text
-                            .toString()
-                            .replace(/[$,]/g, '')
-                            .replace(/[０-９]/g, function (s) {
-                                return String.fromCharCode(s.charCodeAt(0) - 0xfee0);
-                        });
                         if (isNaN(Number(text)))
                         {
-                            return $DAYS(text, '1900/01/01') + 1;
+                            let hourCalc = 0,
+                                timeStr = text.substr(11,8);
+                            if (timeRegex.test(timeStr.toString().substr(0,8)))
+                            {
+                                let hour = Number(timeStr.substring(0, 2)),
+                                minute = Number(timeStr.substring(3, 5));
+                                hourCalc = Number(((hour + minute/60) / 24).toFixed(1));
+                            }
+                            return $DAYS(text, '1900/01/01') + 1 + hourCalc;
                         }
+                        text = text.replace(/[$,]/g, '');
                         return Number(text);
                     }
                 }";
