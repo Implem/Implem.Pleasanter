@@ -2064,7 +2064,8 @@ namespace Implem.Pleasanter.Models
             if (context.ContractSettings.ServerScript == false
                 || Parameters.Script.ServerScript == false) return hb;
             return hb
-                .Div(action: () => hb // legendでTable部分が閉じないので、divを一段深くする
+                // legendでTable部分が閉じないので、divを一段深くする
+                .Div(action: () => hb
                     .Div(id: "ServerScriptsSchedulesEditor", css: "command-left", action: () => hb
                         .Button(
                             controlId: "MoveUpServerScriptSchedules",
