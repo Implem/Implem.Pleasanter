@@ -52,6 +52,15 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string CalendarTimePeriod { get; set; }
         public string CalendarFromTo { get; set; }
         public bool CalendarShowStatus { get; set; }
+        public string KambanGroupByX { get; set; }
+        public string KambanGroupByY { get; set; }
+        public string KambanAggregateType { get; set; }
+        public string KambanValue { get; set; }
+        public string KambanColumns { get; set; }
+        public bool KambanAggregationView { get; set; }
+        public bool KambanShowStatus { get; set; }
+
+
         public long SiteId { get; set; }
         public string ExtendedCss { get; set; }
         public List<int> Depts { get; set; }

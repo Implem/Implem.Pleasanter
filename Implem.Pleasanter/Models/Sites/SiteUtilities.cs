@@ -15422,6 +15422,10 @@ namespace Implem.Pleasanter.Models
                             {
                                 DashboardPartType.Calendar.ToInt().ToString(),
                                 Displays.Calendar(context: context)
+                            },
+                            {
+                                DashboardPartType.Kamban.ToInt().ToString(),
+                                Displays.Kamban(context: context)
                             }
                         },
                         selectedValue: dashboardPart.Type.ToInt().ToString(),
