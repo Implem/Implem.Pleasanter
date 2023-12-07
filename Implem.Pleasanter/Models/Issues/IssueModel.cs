@@ -3473,19 +3473,79 @@ namespace Implem.Pleasanter.Models
                 .Where(o => selected == null || selected.Contains(o.Id))
                 .ForEach(formulaSet =>
                 {
-                    switch (formulaSet.Target)
+                    if (string.IsNullOrEmpty(formulaSet.CalculationMethod)
+                        || formulaSet.CalculationMethod == FormulaSet.CalculationMethods.Default.ToString())
                     {
-                        case "WorkValue": param.WorkValue(WorkValue.Value); break;
-                        case "ProgressRate": param.ProgressRate(ProgressRate.Value); break;
-                        default:
-                            if (Def.ExtendedColumnTypes.ContainsKey(formulaSet.Target ?? string.Empty))
-                            {
-                                param.Add(
-                                    columnBracket: $"\"{formulaSet.Target}\"",
-                                    name: formulaSet.Target,
-                                    value: GetNum(formulaSet.Target).Value);
-                            }
-                            break;
+                        switch (formulaSet.Target)
+                        {
+                            case "WorkValue": param.WorkValue(WorkValue.Value); break;
+                            case "ProgressRate": param.ProgressRate(ProgressRate.Value); break;
+                            default:
+                                if (Def.ExtendedColumnTypes.ContainsKey(formulaSet.Target ?? string.Empty))
+                                {
+                                    param.Add(
+                                        columnBracket: $"\"{formulaSet.Target}\"",
+                                        name: formulaSet.Target,
+                                        value: GetNum(formulaSet.Target).Value);
+                                }
+                                break;
+                        }
+                    }
+                    else if (formulaSet.CalculationMethod == FormulaSet.CalculationMethods.Extended.ToString())
+                    {
+                        switch (formulaSet.Target)
+                        {
+                            case "Title": param.Title(Title.Value); break;
+                            case "Body": param.Body(Body); break;
+                            case "StartTime": param.StartTime(StartTime); break;
+                            case "CompletionTime": param.CompletionTime(CompletionTime.Value); break;
+                            case "WorkValue": param.WorkValue(WorkValue.Value); break;
+                            case "ProgressRate": param.ProgressRate(ProgressRate.Value); break;
+                            case "Status": param.Status(Status.Value); break;
+                            case "Manager": param.Manager(Manager.Id); break;
+                            case "Owner": param.Owner(Owner.Id); break;
+                            case "Locked": param.Locked(Locked); break;
+                            case "Comments": param.Comments(Comments.ToString()); break;
+                            default:
+                                if (Def.ExtendedColumnTypes.ContainsKey(formulaSet.Target ?? string.Empty))
+                                {
+                                    switch (Def.ExtendedColumnTypes.Get(formulaSet.Target))
+                                    {
+                                        case "Class":
+                                            param.Add(
+                                                columnBracket: $"\"{formulaSet.Target}\"",
+                                                name: formulaSet.Target,
+                                                value: GetClass(formulaSet.Target));
+                                            break;
+                                        case "Num":
+                                            param.Add(
+                                                columnBracket: $"\"{formulaSet.Target}\"",
+                                                name: formulaSet.Target,
+                                                value: GetNum(formulaSet.Target).Value);
+                                            break;
+                                        case "Date":
+                                            param.Add(
+                                                columnBracket: $"\"{formulaSet.Target}\"",
+                                                name: formulaSet.Target,
+                                                value: GetDate(formulaSet.Target));
+                                            break;
+                                        case "Description":
+                                            param.Add(
+                                                columnBracket: $"\"{formulaSet.Target}\"",
+                                                name: formulaSet.Target,
+                                                value: GetDescription(formulaSet.Target));
+                                            break;
+                                        case "Check":
+                                            param.Add(
+                                                columnBracket: $"\"{formulaSet.Target}\"",
+                                                name: formulaSet.Target,
+                                                value: GetCheck(formulaSet.Target));
+                                            break;
+                                    }
+                                    break;
+                                }
+                                break;
+                        }
                     }
                 });
             var paramFilter = param.Where(p => p.Value != null).ToList();
