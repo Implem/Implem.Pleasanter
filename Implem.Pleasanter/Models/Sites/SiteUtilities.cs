@@ -2359,27 +2359,6 @@ namespace Implem.Pleasanter.Models
                   context: context,
                   errorData: invalid);
             }
-            if (siteModel.InheritPermission > 0)
-            {
-                ss.InheritPermission = siteModel.InheritPermission;
-            }
-            if (siteModel.RecordPermissions?.Count > 0
-                && Parameters.Permissions.CheckManagePermission)
-            {
-                if (!new PermissionCollection(
-                    context: context,
-                    referenceId: siteModel.SiteId,
-                    permissions: siteModel.RecordPermissions)
-                        .Any(permission =>
-                            permission.PermissionType.HasFlag(
-                                Permissions.Types.ManagePermission
-                                | Permissions.Types.ManageSite)))
-                {
-                    return ApiResults.Error(
-                      context: context,
-                      errorData: invalid);
-                }
-            }
             var siteSettingsApiModel = context.RequestDataString.Deserialize<SiteSettingsApiModel>();
             // Validate SiteSetting Request
             var apiSiteSettingValidator = ApiSiteSettingValidators.OnChageSiteSettingByApi(
