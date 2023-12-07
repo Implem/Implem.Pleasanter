@@ -9,7 +9,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public int? Condition;
         public Formula Formula;
         public bool? NotUseDisplayName;
-        public bool IsDisplayError;
+        public bool? IsDisplayError;
         public Formula OutOfCondition;
         public string FormulaScript;
         public string FormulaMapping;
@@ -32,7 +32,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 formulaSet.NotUseDisplayName = NotUseDisplayName;
             }
-            formulaSet.IsDisplayError = IsDisplayError;
+            if (IsDisplayError == true)
+            {
+                formulaSet.IsDisplayError = IsDisplayError;
+            }
             formulaSet.OutOfCondition = OutOfCondition;
             formulaSet.FormulaScript = FormulaScript;
             formulaSet.FormulaMapping = FormulaMapping;

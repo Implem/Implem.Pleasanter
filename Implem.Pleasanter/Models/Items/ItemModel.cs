@@ -3326,27 +3326,6 @@ namespace Implem.Pleasanter.Models
                 || Updator_Updated(context: context);
         }
 
-        public string FormulaCalculationMethodChanged(Context context)
-        {
-            SetSite(
-                context: context,
-                initSiteSettings: true,
-                setSiteIntegration: true);
-            switch (Site.ReferenceType)
-            {
-                case "Issues":
-                    return IssueUtilities.FormulaCalculationMethodChanged(
-                        context: context,
-                        ss: Site.SiteSettings);
-                case "Results":
-                    return ResultUtilities.FormulaCalculationMethodChanged(
-                        context: context,
-                        ss: Site.SiteSettings);
-                default:
-                    return Messages.ResponseNotFound(context: context).ToJson();
-            }
-        }
-
         /// <summary>
         /// Fixed:
         /// </summary>
