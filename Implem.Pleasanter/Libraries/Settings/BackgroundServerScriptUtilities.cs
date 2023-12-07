@@ -80,8 +80,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                     scheduler.AddJob(job, replace: true, storeNonDurableWhileAwaitingScheduling: true).Wait();
                     foreach (var schedule in script.backgoundSchedules)
                     {
-                        var trigger = GetTrigger(schedule).ForJob(job).Build();
-                        if (trigger != null) scheduler.ScheduleJob(trigger).Wait();
+                        var trigger = GetTrigger(schedule)?
+                            .UsingJobData("scheduleId", schedule.Id)
+                            .ForJob(job)
+                            .Build();
+                        if (trigger?.GetFireTimeAfter(DateTimeOffset.UtcNow) != null) scheduler.ScheduleJob(trigger).Wait();
                     }
                 });
         }

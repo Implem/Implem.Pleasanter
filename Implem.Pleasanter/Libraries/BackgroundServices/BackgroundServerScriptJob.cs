@@ -23,10 +23,11 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
         {
             // バックグランドサーバスクリプト用のQuartzから呼び出されるメソッド
             if (Parameters.Script.ServerScript != true || Parameters.Script.BackgroundServerScript != true) return;
-            var dataMap = jobContext.JobDetail.JobDataMap;
+            var dataMap = jobContext.MergedJobDataMap;
             var tenatId = dataMap.GetInt("tenantId");
             var scriptId = dataMap.GetInt("scriptId");
             var userId = dataMap.GetInt("userId");
+            var scheduleId = dataMap.GetInt("scheduleId");
             var paramScripts = dataMap.GetString("scripts")?.Deserialize<BackgroundServerScripts>();
             await Task.Run(() =>
             {
@@ -53,13 +54,18 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
                         {
                             new SysLogModel(
                                 context: sqlContext,
-                                method: nameof(BackgroundServerScriptJob),
-                                message: $"BackgroundServerScriptJob Execute() Skip TenantId={tenatId},ScriptId={scriptId},UserId={userId}",
+                                method: nameof(BackgroundServerScriptJob) + ":" + nameof(Execute),
+                                message: $"Skip BGServerScript TenantId={tenatId},ScriptId={scriptId},ScheduleId={scheduleId},UserId={userId}",
                                 sysLogType: SysLogModel.SysLogTypes.Info);
                             return;
                         }
                         scripts.Add(targetScript);
                         targetScript.SetDebug();
+                        var log = new SysLogModel(
+                            context: sqlContext,
+                            method: nameof(BackgroundServerScriptJob) + ":" + nameof(Execute),
+                            message: $"Exec BGServerScript TenantId={tenatId},ScriptId={scriptId},ScheduleId={scheduleId},UserId={userId}",
+                            sysLogType: SysLogModel.SysLogTypes.Info);
                         var ServerScriptModelRow = ServerScriptUtilities.Execute(
                             context: sqlContext,
                             ss: ss,
@@ -69,6 +75,7 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
                             scripts: scripts.ToArray(),
                             condition: "BackgroundServerScript",
                             debug: paramScripts != null && targetScript.Debug);
+                        log.Finish(context: sqlContext);
                     }
                 }
                 catch (Exception ex)
