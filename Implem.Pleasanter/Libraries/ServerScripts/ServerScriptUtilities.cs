@@ -148,12 +148,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     ss: ss,
                     columnName: nameof(model.CreatedTime),
                     value: isFormulaServerScript
-                        ? model.CreatedTime?.Value.ToControl(
-                            context: context,
-                            ss: ss,
-                            column: ss.GetColumn(
-                                context: context,
-                                columnName: nameof(model.CreatedTime)))
+                        ? model.CreatedTime?.Value.ToClientTimeZone(context)
                         : model.CreatedTime?.Value,
                     mine: mine),
                 ReadNameValue(
@@ -161,12 +156,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     ss: ss,
                     columnName: nameof(model.UpdatedTime),
                     value: isFormulaServerScript
-                        ? model.UpdatedTime?.Value.ToControl(
-                            context: context,
-                            ss: ss,
-                            column: ss.GetColumn(
-                                context: context,
-                                columnName: nameof(model.UpdatedTime)))
+                        ? model.UpdatedTime?.Value.ToClientTimeZone(context)
                         : model.UpdatedTime?.Value,
                     mine: mine)
             };
@@ -199,12 +189,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     ss: ss,
                     columnName: element.Key,
                     value: isFormulaServerScript
-                        ? element.Value.ToControl(
-                            context: context,
-                            ss: ss,
-                            column: ss.GetColumn(
-                                context: context,
-                                columnName: element.Key))
+                        ? element.Value.ToClientTimeZone(context)
                         : element.Value,
                     mine: mine)));
             values.AddRange(model
@@ -250,12 +235,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     ss: ss,
                     columnName: nameof(IssueModel.StartTime),
                     value: isFormulaServerScript
-                        ? issueModel.StartTime.ToControl(
-                            context: context,
-                            ss: ss,
-                            column: ss.GetColumn(
-                                context: context,
-                                columnName: nameof(IssueModel.StartTime)))
+                        ? issueModel.StartTime.ToClientTimeZone(context)
                         : issueModel.StartTime,
                     mine: mine));
                 values.Add(ReadNameValue(
@@ -269,12 +249,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                                     context: context,
                                     columnName: nameof(IssueModel.CompletionTime))?.EditorFormat,
                                 minus: true)
-                            .ToControl(
-                                    context: context,
-                                    ss: ss,
-                                    column: ss.GetColumn(
-                                        context: context,
-                                        columnName: nameof(IssueModel.CompletionTime)))
+                            .ToClientTimeZone(context)
                         : issueModel.CompletionTime.Value,
                     mine: mine));
                 values.Add(ReadNameValue(
@@ -354,6 +329,11 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     mine: mine));
             }
             return values.ToArray();
+        }
+
+        public static string ToClientTimeZone(this DateTime self, Context context)
+        {
+            return self.ToLocal(context).ToString("yyyy/MM/dd HH:mm:ss");
         }
 
         public static IEnumerable<(string Name, object Value)> SavedValues(
