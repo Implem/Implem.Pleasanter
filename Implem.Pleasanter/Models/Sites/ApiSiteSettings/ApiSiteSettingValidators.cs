@@ -8,19 +8,8 @@ using System.Linq;
 
 namespace Implem.Pleasanter.Models
 {
-    /// <summary>
-    /// UpdateSiteSettingByApi Validator
-    /// </summary>
     public static class ApiSiteSettingValidators
     {
-        /// <summary>
-        /// UpdateSiteSettingByApi Validator
-        /// </summary>
-        /// <param name="context">Request Context</param>
-        /// <param name="referenceType">Site Reference Type</param>
-        /// <param name="ss">SiteSettings</param>
-        /// <param name="siteSettingsModel">Api Site Setting Data</param>
-        /// <returns></returns>
         public static ErrorData OnChageSiteSettingByApi(
             string referenceType,
             SiteSettings ss,
@@ -78,13 +67,6 @@ namespace Implem.Pleasanter.Models
             return new ErrorData(type: Error.Types.None);
         }
 
-        /// <summary>
-        /// Validate common attributes of ServerScript, Script, Style, Htmls
-        /// </summary>
-        /// <param name="apiSiteSettingBaseProperties">Contains validate properties</param>
-        /// <param name="ss" ></param>
-        /// <returns> <c>ErrorData </c> object. Incase ErrorData.Type equal Error.Types.None meaning passed
-        /// </returns>
         public static ErrorData OnSiteSettingByApi(
             List<ISiteSettingBaseProperties> apiSiteSettingBaseProperties,
             SiteSettings ss,

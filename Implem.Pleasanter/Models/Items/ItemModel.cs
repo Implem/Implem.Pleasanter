@@ -2082,12 +2082,6 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        /// <summary>
-        /// Create, Update, Delete ServersCripts, Scripts, Htmls, Style by API
-        /// </summary>
-        /// <param name="context"> Request context </param>
-        /// <param name="referenceType"> Site reference type </param>
-        /// <returns>Api response result</returns>
         public ContentResultInheritance UpdateSiteSettingsByApi(Context context, string referenceType = null)
         {
             SetSite(

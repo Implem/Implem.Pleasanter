@@ -2,9 +2,6 @@
 
 namespace Implem.Pleasanter.Libraries.Settings
 {
-    /// <summary>
-    /// SiteSetting By Api Master Config
-    /// </summary>
     public class ApiSiteSetting
     {
         public enum DeleteFlag : int
@@ -26,9 +23,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             "Bodyscriptbottom"
         };
 
-        /// <summary>
-        /// ReferenceType contains ServerScript setting
-        /// </summary>
         public static List<string> ServerScriptRefType { get; } = new List<string>
         {
             "Results",

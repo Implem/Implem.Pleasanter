@@ -4,9 +4,6 @@ using System.Collections.Generic;
 
 namespace Implem.Pleasanter.Models.ApiSiteSettings
 {
-    /// <summary>
-    /// Get ServerScripts, Scripts, Styles, Htmls from SiteSetting by api.
-    /// </summary>
     [Serializable]
     public class SiteSettingsApiModel
     {

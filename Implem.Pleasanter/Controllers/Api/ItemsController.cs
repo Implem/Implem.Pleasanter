@@ -296,11 +296,6 @@ namespace Implem.Pleasanter.Controllers.Api
             }
         }
 
-        /// <summary>
-        /// SiteSettings update: ServerScripts, Scripts, Htmls, Styles
-        /// </summary>
-        /// <param name="id">SiteId</param>
-        /// <returns>Api json response</returns>
         [HttpPost("{id}/updatesitesettings")]
         public ContentResult UpdateSiteSettings(long id)
         {
@@ -317,7 +312,7 @@ namespace Implem.Pleasanter.Controllers.Api
                 ? new ItemModel(context: context, referenceId: id).UpdateSiteSettingsByApi(context: context)
                 : ApiResults.Unauthorized(context: context);
             log.Finish(context: context, responseSize: result.Content.Length);
-            return result.ToHttpResponse(request: Request);       
+            return result.ToHttpResponse(request: Request);
         }
     }
 }

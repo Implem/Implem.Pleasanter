@@ -2323,12 +2323,8 @@ namespace Implem.Pleasanter.Models
         }
 
         /// <summary>
-        /// Change SiteSetting ServerScripts, Scripts, Styles, Htmls
+        /// Fixed:
         /// </summary>
-        /// <param name="context">Request context</param>
-        /// <param name="ss">Current SiteSetting</param>
-        /// <param name="siteModel">Current Site Model</param>
-        /// <returns>Changed results</returns>
         public static ContentResultInheritance UpdateSiteSettingsByApi(
             Context context,
             SiteSettings ss,

@@ -2272,10 +2272,8 @@ namespace Implem.Pleasanter.Models
         }
 
         /// <summary>
-        /// SiteSetting Update: Change ServerScript (Update, Create, Delete)
+        /// Fixed:
         /// </summary>
-        /// <param name="siteSetting">Currnet SiteSetting</param>
-        /// <param name="scriptsApiSiteSetting">ServerScripts of SiteSetting get from Api</param>
         public void ChangeServerScriptByApi(
             SiteSettings siteSetting,
             List<ServerScriptApiSettingModel> serverScriptsApiSiteSetting)
@@ -2346,10 +2344,8 @@ namespace Implem.Pleasanter.Models
         }
 
         /// <summary>
-        /// SiteSetting Update: Change Scripts (Update, Create, Delete)
+        /// Fixed:
         /// </summary>
-        /// <param name="siteSetting">Currnet SiteSetting</param>
-        /// <param name="scriptsApiSiteSetting">Scripts of SiteSetting get from Api</param>
         public void ChangeScriptByApi(
             SiteSettings siteSetting,
             List<ScriptApiSettingModel> scriptsApiSiteSetting)
@@ -2414,10 +2410,8 @@ namespace Implem.Pleasanter.Models
         }
 
         /// <summary>
-        /// SiteSetting Update: Change Styles (Update, Create, Delete)
+        /// Fixed:
         /// </summary>
-        /// <param name="siteSetting">Currnet SiteSetting</param>
-        /// <param name="styleApiSiteSetting">Styles of SiteSetting get from Api</param>
         public void ChangeStyleByApi(
             SiteSettings siteSetting,
             List<StyleApiSettingModel> styleApiSiteSetting)
@@ -2481,11 +2475,6 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        /// <summary>
-        /// SiteSetting Update: Change Htmls (Update, Create, Delete)
-        /// </summary>
-        /// <param name="siteSetting">Currnet SiteSetting</param>
-        /// <param name="htmlsApiSiteSetting">Htmls of SiteSetting get from Api</param>
         public void ChangeHtmlByApi(
             SiteSettings siteSetting,
             List<HtmlApiSettingModel> htmlsApiSiteSetting)
@@ -2503,7 +2492,7 @@ namespace Implem.Pleasanter.Models
                 {
                     if (currentHtml != null)
                     {
-                        // Update html site setting                        
+                        // Update html site setting
                         currentHtml.UpdateByApi(
                             title: htmlApiSiteSetting.Title,
                             positionType: htmlApiSiteSetting.HtmlPositionType.ToEnum<Html.PositionTypes>(),

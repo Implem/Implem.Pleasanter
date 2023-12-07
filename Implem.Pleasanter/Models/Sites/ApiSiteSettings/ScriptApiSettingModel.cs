@@ -5,9 +5,6 @@ using System.Collections.Generic;
 
 namespace Implem.Pleasanter.Models.ApiSiteSettings
 {
-    /// <summary>
-    /// <c>SciptApiSettingModel</c> contains properties ServerScript of UpdateSiteSetingByApi
-    /// </summary>    
     [Serializable]
     public class ScriptApiSettingModel :ISiteSettingBaseProperties
     {
