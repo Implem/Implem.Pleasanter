@@ -93,19 +93,18 @@
                         $p.display(pieChart.Setting.TimePeriodValue) +
                         '' +
                         $p.display(pieChart.Setting.TimePeriod)
-                );        
+                    );
                 g.append('text')
                     .attr('fill', 'black')
                     .attr('font-size', '15px')
                     .attr('text-anchor', 'middle')
                     .attr('dy', 20)
                     .text(function (d) {
-                        if (pieChart.Setting.AggregationTarget === 'RemainingWorkValue') {
-                            return '残作業量';
-                        } else if (pieChart.Setting.AggregationTarget.slice(0, 3) === 'Num') {
-                            return '数値' + pieChart.Setting.AggregationTarget.slice(3, 4);
-                        } else {
-                            return $p.display(pieChart.Setting.AggregationTarget);
+                        for (let columnNames of JSON.parse($('#Columns').val())) {
+                            if (columnNames.ColumnName === pieChart.Setting.AggregationTarget) {
+                                return columnNames.LabelText;
+                                break;
+                            }
                         }
                     });
                 g.append('text')
@@ -114,14 +113,15 @@
                     .attr('text-anchor', 'middle')
                     .attr('dy', 40)
                     .text(function (d) {
-                        if (pieChart.Setting.GroupBy === 'Owner') {
-                            return '担当者';
-                        } else if (pieChart.Setting.GroupBy === 'Creator') {
-                            return '作成者'
-                        } else if (pieChart.Setting.GroupBy === 'Updator') {
-                            return '更新者'
+                        if (pieChart.Setting.GroupBy === 'Creator') {
+                            return '作成者';
                         } else {
-                            return $p.display(pieChart.Setting.GroupBy);
+                            for (let columnNames of JSON.parse($('#Columns').val())) {
+                                if (columnNames.ColumnName === pieChart.Setting.GroupBy) {
+                                    return columnNames.LabelText;
+                                    break;
+                                }
+                            }
                         }
                     })
 

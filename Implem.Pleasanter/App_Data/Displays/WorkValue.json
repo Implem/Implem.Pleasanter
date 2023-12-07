@@ -1,7 +1,6 @@
 ﻿{
     "Id": "WorkValue",
     "Type": 110,
-    "ClientScript": true,
     "Languages": [
         {
             "Body": "Work volume"
