@@ -26,8 +26,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 || column?.GetEditorReadOnly() == true
                 || columnPermissionType != Permissions.ColumnPermissionTypes.Update;
             var css = column.TextAlign == SiteSettings.TextAlignTypes.Right
-                ? " right-align "
-                : string.Empty;
+                ? " right-align"
+                : column.TextAlign == SiteSettings.TextAlignTypes.Center
+                    ? " center-align"
+                    : string.Empty;
             return hb
                 .TextArea(
                     context: context,

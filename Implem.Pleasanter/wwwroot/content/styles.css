@@ -2386,6 +2386,11 @@ _::-webkit-full-page-media, _:future, :root .field-normal .control-checkbox + la
     text-align-last: right;
 }
 
+.center-align {
+    text-align: center;
+    text-align-last: center;
+}
+
 .tooltip {
     display: none;
     position: absolute;

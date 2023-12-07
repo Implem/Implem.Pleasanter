@@ -524,7 +524,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     hb.Td(
                                         css: column.TextAlign == SiteSettings.TextAlignTypes.Right
                                             ? " right-align"
-                                            : string.Empty,
+                                            : column.TextAlign == SiteSettings.TextAlignTypes.Center
+                                                ? " center-align"
+                                                : string.Empty,
                                         action: () => hb.Field(
                                             context: context,
                                             column: column,
@@ -588,7 +590,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     hb.Td(
                                         css: column.TextAlign == SiteSettings.TextAlignTypes.Right
                                             ? " right-align"
-                                            : string.Empty,
+                                            : column.TextAlign == SiteSettings.TextAlignTypes.Center
+                                                ? " center-align"
+                                                : string.Empty,
                                         action: () => hb.Field(
                                             context: context,
                                             column: column,

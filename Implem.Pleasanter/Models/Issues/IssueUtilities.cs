@@ -2680,7 +2680,9 @@ namespace Implem.Pleasanter.Models
                                                     fieldCss: column.FieldCss
                                                         + (column.TextAlign == SiteSettings.TextAlignTypes.Right
                                                             ? " right-align"
-                                                            : string.Empty),
+                                                            : column.TextAlign == SiteSettings.TextAlignTypes.Center
+                                                                ? " center-align"
+                                                                : string.Empty),
                                                     fieldDescription: column.Description,
                                                     labelText: column.LabelText,
                                                     value: issueModel.GetAttachments(columnName: column.Name).ToJson(),

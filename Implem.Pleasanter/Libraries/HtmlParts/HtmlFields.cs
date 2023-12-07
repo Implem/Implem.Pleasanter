@@ -163,7 +163,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     : string.Empty)
                 + (column.TextAlign == SiteSettings.TextAlignTypes.Right
                     ? " right-align"
-                    : string.Empty)
+                    : column.TextAlign == SiteSettings.TextAlignTypes.Center
+                        ? " center-align"
+                        : string.Empty)
                 + (!extendedFieldCss.IsNullOrEmpty()
                     ? " " + extendedFieldCss
                     : string.Empty);
@@ -190,8 +192,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     : string.Empty)
                 + (column.TextAlign == SiteSettings.TextAlignTypes.Right
                     ? " right-align"
-                    : string.Empty)
-                + (!extendedControlCss.IsNullOrEmpty()
+                    : column.TextAlign == SiteSettings.TextAlignTypes.Center
+                        ? " center-align"
+                        : string.Empty)
+            + (!extendedControlCss.IsNullOrEmpty()
                     ? " " + extendedControlCss
                     : string.Empty);
         }
