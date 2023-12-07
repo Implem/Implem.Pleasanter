@@ -8,7 +8,6 @@
     });
     $(document).on('click', '#Aggregations .data.link', function () {
         var $control = $($(this).attr('data-selector'));
-        console.log($(this).attr('data-value'));
         if ($control.length === 1) {
             if ($(this).attr('data-selector').match("Check")) {
                 $p.set($control, $(this).attr('data-value') === "True")
