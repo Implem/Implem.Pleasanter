@@ -1,7 +1,7 @@
 ﻿const newRecord = function (calendarSuffix) {
     return function (info) {
         var endDate = new Date(info.end);
-        if (($('#CalendarEditorFormat' + calendarSuffix).val() === 'Ymd') && ($('#CalendarViewType').val() === 'dayGridMonth')) {
+        if (($('#CalendarEditorFormat' + calendarSuffix).val() === 'Ymd') && endDateFormat(endDate)) {
             endDate.setDate(endDate.getDate() - 1);
         }
         var form = document.createElement("form");
@@ -40,6 +40,12 @@
         }
         form.submit();
     }
+}
+
+function endDateFormat(endDate) {
+    return endDate.getHours() === 0
+        && endDate.getMinutes() === 0
+        && endDate.getSeconds() === 0;
 }
 const updateRecord = function (calendarSuffix) {
     return function (info, successCallback, failureCallback) {
