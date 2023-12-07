@@ -43,10 +43,9 @@
 }
 
 function endDateFormat(endDate) {
-    if (('0' + endDate.getHours()).slice(-2) === '00' && ('0' + endDate.getMinutes()).slice(-2) === '00' && ('0' + endDate.getSeconds()).slice(-2) === '00') {
-        return true;
-    }
-    return false;
+    return endDate.getHours() === 0
+        && endDate.getMinutes() === 0
+        && endDate.getSeconds() === 0;
 }
 const updateRecord = function (calendarSuffix) {
     return function (info, successCallback, failureCallback) {
