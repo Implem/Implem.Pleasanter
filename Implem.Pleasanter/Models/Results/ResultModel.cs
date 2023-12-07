@@ -3328,7 +3328,7 @@ namespace Implem.Pleasanter.Models
                     catch (Exception exception)
                     {
                         // Check formual setting display error;
-                        if (formulaSet.IsDisplayError)
+                        if (formulaSet.IsDisplayError == true)
                         {
                             throw new Exception($"Formula error {exception.Message}");
                         }
