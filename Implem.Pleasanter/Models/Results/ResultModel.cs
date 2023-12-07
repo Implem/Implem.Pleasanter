@@ -3233,7 +3233,7 @@ namespace Implem.Pleasanter.Models
                         context.LogBuilder?.AppendLine($"formulaResult: {{\"{columnName}\":{value}}}");
                     }
                 }
-                else if (formulaSet.CalculationMethod == FormulaSet.CalculationMethods.Script.ToString())
+                else if (formulaSet.CalculationMethod == FormulaSet.CalculationMethods.Extended.ToString())
                 {
                     SetExtendedColumnDefaultValue(
                         ss: ss,
