@@ -13,8 +13,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
-using static Implem.Pleasanter.Libraries.DataSources.Rds;
-
 namespace Implem.Pleasanter.Libraries.BackgroundServices
 {
     public class BackgroundServerScriptJob : ExecutionTimerBase
