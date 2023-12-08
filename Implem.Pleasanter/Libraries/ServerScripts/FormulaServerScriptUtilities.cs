@@ -1,5 +1,4 @@
 ﻿using Implem.Libraries.Utilities;
-using Implem.Pleasanter.Libraries.Extensions;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
@@ -7,30 +6,10 @@ using Microsoft.ClearScript;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
-using System.Linq;
 namespace Implem.Pleasanter.Libraries.ServerScripts
 {
     public static class FormulaServerScriptUtilities
     {
-        private static (string, object) ReadNameValue(string columnName, object value)
-        {
-            return (columnName, value);
-        }
-
-        private static (string, object) ReadNameValue(
-            Context context, SiteSettings ss, string columnName, object value, List<string> mine)
-        {
-            return (
-                columnName,
-                ss?.ColumnHash.Get(columnName)?.CanRead(
-                    context: context,
-                    ss: ss,
-                    mine: mine,
-                    noCache: true) == true
-                        ? value
-                        : null);
-        }
-
         public static object Execute(
             Context context,
             SiteSettings ss,
@@ -234,9 +213,16 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     switch(unit)
                     {
                         case 'Y':
-                            return endDate.getFullYear() - startDate.getFullYear();
+                            return endDate.getFullYear() - startDate.getFullYear()
+                                - (endDate.getMonth() > startDate.getMonth()
+                                    ? 0
+                                    : endDate.getMonth() < startDate.getMonth()
+                                        ? 1
+                                        : endDate.getDate() >= startDate.getDate() ? 0 : 1);
                         case 'M':
-                            return endDate.getMonth() - startDate.getMonth() + 12 * (endDate.getFullYear() - startDate.getFullYear());
+                            return endDate.getMonth() - startDate.getMonth()
+                                + 12 * (endDate.getFullYear() - startDate.getFullYear())
+                                - (endDate.getDate() >= startDate.getDate() ? 0 : 1);
                         case 'D':
                             startDate = startDate.getTime();
                             endDate = endDate.getTime();
@@ -250,7 +236,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                                 + (endDate.getDate() >= startDate.getDate() ? 0 : new Date(endDate.setDate(0)).getDate());
                         case 'YM':
                             return endDate.getMonth() - startDate.getMonth()
-                                + (endDate.getMonth() >= startDate.getMonth() ? 0 : 12);
+                                + (endDate.getMonth() >= startDate.getMonth() ? 0 : 12)
+                                - (endDate.getDate() >= startDate.getDate() ? 0 : 1);
                         case 'YD':
                             if ((endDate.getMonth() == startDate.getMonth() && endDate.getDate() >= startDate.getDate())
                                 || (endDate.getMonth() > startDate.getMonth()))
