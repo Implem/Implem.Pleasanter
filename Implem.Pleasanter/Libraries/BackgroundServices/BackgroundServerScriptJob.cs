@@ -96,7 +96,7 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
                 context: sqlContext,
                 statements: Rds.SelectTenants(
                     tableType: Sqls.TableTypes.Normal,
-                    column: TenantsColumn().TenantSettings(),
+                    column: Rds.TenantsColumn(),
                     where: Rds.TenantsWhere().TenantId(tenatId)))
                         .AsEnumerable()
                         .FirstOrDefault();
