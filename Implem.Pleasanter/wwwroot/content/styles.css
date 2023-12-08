@@ -3430,6 +3430,39 @@ textarea:focus {
     width: 100%;
 }
 
+.dashboard-part-refresh {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    border: none;
+    color: #636363;
+    background-color: transparent;
+    opacity: 0;
+    padding-top: 0;
+    padding-left: 0;
+    z-index: 5;
+}
+
+@keyframes custom-spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.dashboard-part-road {
+    position: absolute;
+    left: calc(50% - 25px);
+    top: calc(50% - 25px);
+    font-size: 50px;
+    color: #636363;
+    display: inline-block;
+    animation: custom-spin 1s linear infinite;
+}
+
 .gs-20 > .grid-stack-item {
     width: 5%;
     min-width: 5%;
