@@ -1564,7 +1564,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     if(typeof text == 'boolean') {
                         throw '#VALUE!';
                     }
-                    if (text == undefined || text === '') {
+                    if (text == undefined || text === '' || text == '1899/12/30 00:00:00') {
                         return 0;
                     }
 
