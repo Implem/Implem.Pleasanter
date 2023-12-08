@@ -34,7 +34,7 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
                 var sqlContext = CreateContext(tenantId: tenatId, userId: userId);
                 try
                 {
-                    var ss = GetSitemSettings(context: sqlContext);
+                    var ss = SiteSettingsUtilities.TenantsSiteSettings(context: sqlContext);
                     // 管理画面の即時実行時はパラメータにスクリプトが入る。それ以外はDBから取得
                     var inScripts = paramScripts ?? GetScriptsFromDB(
                         tenatId: tenatId,
@@ -120,12 +120,6 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
             context.SetTenantProperties(force: true);
             context.BackgroundServerScript = true;
             return context;
-        }
-
-        private static SiteSettings GetSitemSettings(
-            Requests.Context context)
-        {
-            return SiteSettingsUtilities.TenantsSiteSettings(context: context);
         }
     }
 }
