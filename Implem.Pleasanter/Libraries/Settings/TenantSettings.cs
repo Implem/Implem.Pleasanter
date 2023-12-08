@@ -9,7 +9,9 @@ namespace Implem.Pleasanter.Libraries.Settings
     {
         public BackgroundServerScripts BackgroundServerScripts { get; set; }
 
-        public TenantSettings() { }
+        public TenantSettings()
+        {
+        }
 
         public TenantSettings(Context context)
         {
