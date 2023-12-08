@@ -7803,7 +7803,7 @@ namespace Implem.Pleasanter.Models
                 calendarTimePeriod: context.Forms.Data("DashboardPartCalendarTimePeriod"),
                 calendarFromTo: context.Forms.Data("DashboardPartCalendarFromTo"),
                 calendarShowStatus: context.Forms.Bool("CalendarShowStatus"),
-                calendarType: context.Forms.Data("DashboardPartCalendarType").ToEnum<CalendarType>(),
+                calendarType: context.Forms.Data("DashboardPartCalendarType").ToEnum<SiteSettings.CalendarTypes>(),
                 extendedCss: context.Forms.Data("DashboardPartExtendedCss"),
                 disableAsynchronousLoading: context.Forms.Bool("DisableAsynchronousLoading"),
                 permissions: DashboardPartPermissions(context: context));
@@ -7868,7 +7868,7 @@ namespace Implem.Pleasanter.Models
                 calendarTimePeriod: context.Forms.Data("DashboardPartCalendarTimePeriod"),
                 calendarFromTo: context.Forms.Data("DashboardPartCalendarFromTo"),
                 calendarShowStatus: context.Forms.Bool("CalendarShowStatus"),
-                calendarType: context.Forms.Data("DashboardPartCalendarType").ToEnum<CalendarType>(),
+                calendarType: context.Forms.Data("DashboardPartCalendarType").ToEnum<SiteSettings.CalendarTypes>(),
                 extendedCss: context.Forms.Data("DashboardPartExtendedCss"),
                 disableAsynchronousLoading: context.Forms.Bool("DisableAsynchronousLoading"),
                 permissions: DashboardPartPermissions(context: context));
@@ -8189,7 +8189,8 @@ namespace Implem.Pleasanter.Models
                         .OptionCollection(
                             context: context,
                             optionCollection: currentSs.CalendarGroupByOptions(context: context)?.ToDictionary(
-                            o => o.Key, o => new ControlData(o.Value))))
+                            o => o.Key, o => new ControlData(o.Value)),
+                            insertBlank: true))
                 .Html(
                     target: "#DashboardPartCalendarFromTo",
                     value: new HtmlBuilder()
