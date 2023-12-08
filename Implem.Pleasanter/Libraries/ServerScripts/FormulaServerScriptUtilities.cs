@@ -1555,45 +1555,56 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     if (arguments.length !== 1) {
                         throw 'Invalid Parameter';
                     }
+                    if(typeof text == 'boolean') {
+                        throw '#VALUE!';
+                    }
                     if (text == undefined || text === '') {
                         return 0;
                     }
+
                     if (!isNaN(Number(text)) && typeof text !== 'boolean') {
                         return Number(text);
-                    }
+                    } 
                     text = text
                             .toString()
                             .replace (/／/g, '/')
                             .replace (/：/g, ':')
                             .replace (/－/g, '-')
                             .replace (/　/g, ' ')
+                            .replace (/．/g, '.')
+                            .replace (/＄/g, '$')
                             .replace(/[０-９]/g, function (s) {
                                 return String.fromCharCode(s.charCodeAt(0) - 0xfee0);
-                        });
-                    let timeRegex = /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/;
-                    if (timeRegex.test(text.toString().substr(0,8)))
-                    {
-                        let hour = Number(text.substring(0, 2)),
-                        minute = Number(text.substring(3, 5));
-                        return Number(((hour + minute/60) / 24).toFixed(1));
-                    }
-                    else
-                    {
-                        if (isNaN(Number(text)))
-                        {
-                            let hourCalc = 0,
-                                timeStr = text.substr(11,8);
-                            if (timeRegex.test(timeStr.toString().substr(0,8)))
-                            {
-                                let hour = Number(timeStr.substring(0, 2)),
-                                minute = Number(timeStr.substring(3, 5));
-                                hourCalc = Number(((hour + minute/60) / 24).toFixed(1));
-                            }
-                            return $DAYS(text, '1900/01/01') + 1 + hourCalc;
-                        }
-                        text = text.replace(/[$,]/g, '');
+                            })
+                            .replace(/[$,]/g, '');
+                    if (!isNaN(Number(text))) {
                         return Number(text);
                     }
+                    let dateObject = new Date(text);
+                    if (isNaN(dateObject.getTime())) {
+                        let timeRegex = /^(0?[0-9]|1[0-9]|2[0-3])((:[0-5][0-9])|:[0-9])?((:[0-5][0-9])|:[0-9])?(\s?[ap]m)?$/i,
+                            match = text.match(timeRegex);
+                        if (!match) {
+                            throw '#VALUE!';
+                        }
+                        let hours = parseInt(match[1], 10),
+                            minutes = parseInt(match[2] === undefined ? 0 : match[2].replace(':', ''), 10),
+                            seconds =  parseInt(match[4] === undefined ? 0 : match[4].replace(':', ''), 10),
+                            meridiem = match[6] === undefined ? 0 :  match[6].trim();
+                        if (meridiem && meridiem.toLowerCase() === 'pm') {
+                                hours += 12;
+                        }
+                        if (hours < 0 || hours > 23 || minutes < 0 || minutes > 59 || seconds < 0 || seconds > 59) {
+                            throw '#VALUE!';
+                        }        
+                        return Number(((hours + minutes/60 + (seconds/3600)) / 24).toFixed(10));      
+                    }
+                    let date = `${dateObject.getDate()}/${dateObject.getMonth() + 1}/${dateObject.getFullYear()}`,  
+                        hours = dateObject.getHours(),
+                        minutes = dateObject.getMinutes(),
+                        seconds = dateObject.getSeconds(),
+                        hourCalc = Number(((hours + minutes/60 + (seconds/3600)) / 24).toFixed(10));
+                    return $DAYS(date, '1900/01/01') + 1 + hourCalc;
                 }";
         }
     }
