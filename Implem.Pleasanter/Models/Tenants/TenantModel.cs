@@ -1570,6 +1570,11 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void AddServerScript(Context context, ResponseCollection res, string controlId)
         {
+            if (!context.HasPrivilege)
+            {
+                res.Message(Error.Types.HasNotPermission.Message(context: context));
+                return;
+            }
             var script = GetBackgroundServerScriptFromForm(context);
             var invalid = BackgroundServerScriptValidators.OnCreating(
                 context: context,
