@@ -1266,7 +1266,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     if (arguments.length !== 2) {
                         throw 'Invalid Parameter';
                     }
-                    number = (number === undefined || typeof number === 'boolean' ) ? '' 
+                    number = (number === undefined || number === '') ? 0
                             : (typeof number === 'boolean' && number) ? 1 
                             : (typeof number === 'boolean' && !number) ? 0 
                             : isNaN(Number(number)) ?  $VALUE(number)
@@ -1280,7 +1280,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     {
                         throw '#VALUE!';
                     }
-                    if (number === '' && numDigits === 0) {
+                    if (number == 0 && !isNaN(Number(numDigits))) {
                         return 0;
                     }
                     number = Number(number);
@@ -1324,7 +1324,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     if (arguments.length !== 2) {
                         throw 'Invalid Parameter';
                     }
-                    number = (number === undefined || typeof number === 'boolean' ) ? '' 
+                    number = (number === undefined || number === '') ? 0
                             : (typeof number === 'boolean' && number) ? 1 
                             : (typeof number === 'boolean' && !number) ? 0 
                             : isNaN(Number(number)) ?  $VALUE(number)
@@ -1338,7 +1338,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     {
                         throw '#VALUE!';
                     }
-                    if (number === '' && numDigits === 0) {
+                    if (number == 0 && !isNaN(Number(numDigits))) {
                         return 0;
                     }
                     number = Number(number);
@@ -1382,7 +1382,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     if (arguments.length !== 2) {
                         throw 'Invalid Parameter';
                     }
-                    number = (number === undefined || typeof number === 'boolean' ) ? '' 
+                    number =  (number === undefined || number === '') ? 0
                             : (typeof number === 'boolean' && number) ? 1 
                             : (typeof number === 'boolean' && !number) ? 0 
                             : isNaN(Number(number)) ?  $VALUE(number)
@@ -1396,7 +1396,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     {
                         throw '#VALUE!';
                     }
-                    if (number === '' && numDigits === 0) {
+                    if (number == 0 && !isNaN(Number(numDigits))) {
                         return 0;
                     }
                     number = Number(number);
@@ -1432,29 +1432,35 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 }";
         }
 
-        /// <summary>
-        /// Truncates a number to an integer by removing the fractional part of the number.
-        /// </summary>
-        /// <remarks>
-        /// Syntax: TRUNC(number, [numDigits])
-        /// </remarks>
         private static string GetTruncScript()
         {
             return @"
                 function $TRUNC(number, numDigits)
                 {
-                    if (numDigits == undefined)
-                    {
-                        numDigits = 0;
-                    }
-                    if (number == undefined ||
-                        number === '' ||
-                        numDigits === '' ||
-                        isNaN(Number(number)) ||
-                        isNaN(Number(numDigits)))
-                    {
+                    if (arguments.length > 2 || arguments.length  < 1) {
                         throw 'Invalid Parameter';
                     }
+                    number = (number === undefined || number === '') ? 0
+                            : (typeof number === 'boolean' && number) ? 1 
+                            : (typeof number === 'boolean' && !number) ? 0 
+                            : isNaN(Number(number)) ?  $VALUE(number)
+                            : number;
+                    numDigits = (numDigits === undefined || numDigits === '') ? 0 
+                        : (typeof numDigits === 'boolean' && numDigits) ? 1 
+                        : (typeof numDigits === 'boolean' && !numDigits) ? 0 
+                        : isNaN(Number(numDigits)) ?  $VALUE(numDigits)
+                        : numDigits;    
+                    if (isNaN(Number(number)) || isNaN(Number(numDigits)))
+                    {
+                        throw '#VALUE!';
+                    }
+                    if (number === 0 && !isNaN(Number(numDigits))) {
+                        return 0;
+                    }
+    
+                    number = Number(number);
+                    numDigits = Number(numDigits);
+                    numDigits = numDigits > 30 ? 30 : numDigits;
                     if (numDigits >= 0)
                     {
                         let multiplier = Math.pow(10, numDigits);
