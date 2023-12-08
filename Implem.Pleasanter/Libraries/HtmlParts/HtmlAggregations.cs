@@ -185,7 +185,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 groupBy: groupBy,
                                 key: data.Key,
                                 linkedLabelHash: linkedLabelHash),
-                            isCheck: groupBy.ColumnName.Contains("Check"),
+                            isCheck: aggregation.GroupBy.Contains("Check"),
                             attributes: new HtmlAttributes()
                                 .Attributes(ss, aggregation, groupBy, data.Key)));
                 });
