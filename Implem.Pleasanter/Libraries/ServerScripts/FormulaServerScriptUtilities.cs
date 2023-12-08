@@ -1258,21 +1258,34 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 }";
         }
 
-        /// <summary>
-        /// Rounds a number to a specified number of digits.
-        /// </summary>
-        /// <remarks>
-        /// Syntax: ROUND(number,numDigits)
-        /// </remarks>
         private static string GetRoundScript()
         {
             return @"
                 function $ROUND(number, numDigits)
                 {
-                    if (number === '' || numDigits === '' || isNaN(Number(number)) || isNaN(Number(numDigits)))
-                    {
+                    if (arguments.length !== 2) {
                         throw 'Invalid Parameter';
                     }
+                    number = (number === undefined || typeof number === 'boolean' ) ? '' 
+                            : (typeof number === 'boolean' && number) ? 1 
+                            : (typeof number === 'boolean' && !number) ? 0 
+                            : isNaN(Number(number)) ?  $VALUE(number)
+                            : number;
+                    numDigits = (numDigits === undefined || numDigits === '') ? 0 
+                        : (typeof numDigits === 'boolean' && numDigits) ? 1 
+                        : (typeof numDigits === 'boolean' && !numDigits) ? 0 
+                        : isNaN(Number(numDigits)) ?  $VALUE(numDigits)
+                        : numDigits;
+                    if (isNaN(Number(number)) || isNaN(Number(numDigits)))
+                    {
+                        throw '#VALUE!';
+                    }
+                    if (number === '' && numDigits === 0) {
+                        return 0;
+                    }
+                    number = Number(number);
+                    numDigits = Number(numDigits);
+                    numDigits = numDigits > 30 ? 30 : numDigits;
                     let negative = 1,
                     result;
                     if (number < 0)
@@ -1299,25 +1312,38 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         let divider = Math.pow(10, -numDigits);
                         result = Math.round(number / divider) * divider * negative;
                     }
-                    return result == 0 ? 0 : result;
+                    return Number(result);
                 }";
         }
 
-        /// <summary>
-        /// Rounds a number up, away from 0 (zero).
-        /// </summary>
-        /// <remarks>
-        /// Syntax: ROUNDUP(number,numDigits)
-        /// </remarks>
         private static string GetRoundUpScript()
         {
             return @"
                 function $ROUNDUP(number, numDigits)
                 {
-                    if (number === '' || numDigits === '' || isNaN(Number(number)) || isNaN(Number(numDigits)))
-                    {
+                    if (arguments.length !== 2) {
                         throw 'Invalid Parameter';
                     }
+                    number = (number === undefined || typeof number === 'boolean' ) ? '' 
+                            : (typeof number === 'boolean' && number) ? 1 
+                            : (typeof number === 'boolean' && !number) ? 0 
+                            : isNaN(Number(number)) ?  $VALUE(number)
+                            : number;
+                    numDigits = (numDigits === undefined || numDigits === '') ? 0 
+                        : (typeof numDigits === 'boolean' && numDigits) ? 1 
+                        : (typeof numDigits === 'boolean' && !numDigits) ? 0 
+                        : isNaN(Number(numDigits)) ?  $VALUE(numDigits)
+                        : numDigits;
+                    if (isNaN(Number(number)) || isNaN(Number(numDigits)))
+                    {
+                        throw '#VALUE!';
+                    }
+                    if (number === '' && numDigits === 0) {
+                        return 0;
+                    }
+                    number = Number(number);
+                    numDigits = Number(numDigits);
+                    numDigits = numDigits > 30 ? 30 : numDigits;
                     let negative = 1,
                     result;
                     if (number < 0)
@@ -1344,25 +1370,38 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         let divider = Math.pow(10, -numDigits);
                         result = Math.ceil(number / divider) * divider * negative;
                     }
-                    return result == 0 ? 0 : result;
+                    return Number(result);
                 }";
         }
 
-        /// <summary>
-        /// Rounds a number down, toward zero.
-        /// </summary>
-        /// <remarks>
-        /// Syntax: ROUNDDOWN(number,numDigits)
-        /// </remarks>
         private static string GetRoundDownScript()
         {
             return @"
                 function $ROUNDDOWN(number, numDigits)
                 {
-                    if (number === '' || numDigits === '' || isNaN(Number(number)) || isNaN(Number(numDigits)))
-                    {
+                    if (arguments.length !== 2) {
                         throw 'Invalid Parameter';
                     }
+                    number = (number === undefined || typeof number === 'boolean' ) ? '' 
+                            : (typeof number === 'boolean' && number) ? 1 
+                            : (typeof number === 'boolean' && !number) ? 0 
+                            : isNaN(Number(number)) ?  $VALUE(number)
+                            : number;
+                    numDigits = (numDigits === undefined || numDigits === '') ? 0 
+                        : (typeof numDigits === 'boolean' && numDigits) ? 1 
+                        : (typeof numDigits === 'boolean' && !numDigits) ? 0 
+                        : isNaN(Number(numDigits)) ?  $VALUE(numDigits)
+                        : numDigits;
+                    if (isNaN(Number(number)) || isNaN(Number(numDigits)))
+                    {
+                        throw '#VALUE!';
+                    }
+                    if (number === '' && numDigits === 0) {
+                        return 0;
+                    }
+                    number = Number(number);
+                    numDigits = Number(numDigits);
+                    numDigits = numDigits > 30 ? 30 : numDigits;
                     let negative = 1,
                     result;
                     if (number < 0)
@@ -1389,7 +1428,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         let divider = Math.pow(10, -numDigits);
                         result = Math.floor(number / divider) * divider * negative;
                     }
-                    return result == 0 ? 0 : result;
+                    return Number(result);
                 }";
         }
 
