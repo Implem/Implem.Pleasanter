@@ -78,11 +78,11 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
                         log.Finish(context: sqlContext);
                     }
                 }
-                catch (Exception ex)
+                catch (Exception e)
                 {
                     new SysLogModel(
                         context: sqlContext,
-                        e: ex);
+                        e: e);
                 }
             }, jobContext.CancellationToken);
         }
