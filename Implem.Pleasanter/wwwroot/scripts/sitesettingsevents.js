@@ -223,13 +223,24 @@
         $('#DashboardPartContentField').toggle(selected === '2');
         //selected==3: CustomHtmlのみ表示
         $('#DashboardPartHtmlContentField').toggle(selected === '3');
-        //selected==4: Calendarのみ表示
+        //selected==4: Calendarのみ表示 DashboardPartKambanSitesField
         $('#DashboardPartCalendarSitesField').toggle(selected === '4');
         $('#DashboardPartCalendarTypeField').toggle(selected === '4');
         $('#DashboardPartCalendarGroupByField').toggle(selected === '4');
         $('#DashboardPartCalendarTimePeriodField').toggle(selected === '4');
         $('#DashboardPartCalendarFromToField').toggle(selected === '4');
         $('#DashboardPartCalendarShowStatusField').toggle(selected === '4');
+        //selected==5: Kambanのみ表示 
+        $('#DashboardPartKambanSitesField').toggle(selected === '5');
+        $('#DashboardPartKambanGroupByXField').toggle(selected === '5');
+        $('#DashboardPartKambanGroupByYField').toggle(selected === '5');
+        $('#DashboardPartKambanAggregateTypeField').toggle(selected === '5');
+        $('#DashboardPartKambanValueField').toggle(selected === '5');
+        $('#DashboardPartKambanColumnsField').toggle(selected === '5');
+        $('#DashboardPartKambanAggregationViewField').toggle(selected === '5');
+        $('#DashboardPartKambanShowStatusField').toggle(selected === '5');
+
+
         //selected==1||selected==4: TimeLineとCalendarのみ表示
         $('#DashboardPartViewFiltersTabControl').toggle(selected === '1' || selected === '4');
     });

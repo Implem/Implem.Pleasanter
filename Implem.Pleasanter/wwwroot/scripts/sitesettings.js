@@ -274,6 +274,11 @@ $p.openDashboardPartCalendarSitesDialog = function ($control) {
     $p.openSiteSettingsDialog($control, '#DashboardPartCalendarSitesDialog');
 }
 
+$p.openDashboardPartKambanSitesDialog = function ($control) {
+    $p.data.KambanSitesForm = {};
+    $p.openSiteSettingsDialog($control, '#DashboardPartKambanSitesDialog');
+}
+
 $p.updateDashboardPartTimeLineSites = function ($control) {
     $p.send($control);
 }
@@ -299,5 +304,17 @@ $p.confirmCalendarSites = function (value) {
         $p.set($('#DashboardPartBaseSiteId'), args.baseSiteId);
         $p.send($("#ClearDashboardView"));
         $p.closeDialog($("#DashboardPartCalendarSitesDialog"));
+    }
+}
+
+$p.confirmKambanSites = function (value) {
+    var args = JSON.parse(value);
+    var result = confirm($p.display('ResetKambanView'));
+    if (result) {
+        $('#DashboardPartKambanSitesValue').text(args.calendarSites);
+        $p.set($('#DashboardPartKambanSites'), args.calendarSites);
+        $p.set($('#DashboardPartBaseSiteId'), args.baseSiteId);
+        $p.send($("#ClearDashboardView"));
+        $p.closeDialog($("#DashboardPartKambanSitesDialog"));
     }
 }

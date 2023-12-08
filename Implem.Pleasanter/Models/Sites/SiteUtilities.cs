@@ -4455,6 +4455,11 @@ namespace Implem.Pleasanter.Models
                         .Title(Displays.SiteId(context: context)))
                 .Div(
                     attributes: new HtmlAttributes()
+                        .Id("DashboardPartKambanSitesDialog")
+                        .Class("dialog")
+                        .Title(Displays.SiteId(context: context)))
+                .Div(
+                    attributes: new HtmlAttributes()
                         .Id("ServerScriptDialog")
                         .Class("dialog")
                         .Title(Displays.ServerScript(context: context)),
@@ -15667,6 +15672,114 @@ namespace Implem.Pleasanter.Models
                         fieldCss: hiddenCss(dashboardPart.Type != DashboardPartType.Calendar),
                         labelText: Displays.ShowStatus(context: context),
                         _checked: dashboardPart.CalendarShowStatus == true)
+                    .Div(
+                        id: "DashboardPartKambanSitesField",
+                        css: "both" + hiddenCss(dashboardPart.Type != DashboardPartType.Kamban),
+                        action: () =>
+                        {
+                            var kambanSites = dashboardPart.KambanSites;
+                            var baseSiteId = DashboardPart.GetBaseSiteSettings(
+                                context: context,
+                                sitesString: kambanSites)
+                                    ?.SiteId;
+                            hb
+                                .FieldText(
+                                    controlId: "DashboardPartKambanSitesValue",
+                                    labelText: Displays.SiteId(context: context),
+                                    text: kambanSites)
+                                .Hidden(
+                                    controlId: "DashboardPartKambanSites",
+                                    alwaysSend: true,
+                                    value: kambanSites)
+                                .Hidden(
+                                    controlId: "DashboardPartKambanBaseSiteId",
+                                    alwaysSend: true,
+                                    value: baseSiteId == null
+                                        ? null
+                                        : baseSiteId.ToString())
+                                .Button(
+                                        controlId: "EditKambanSites",
+                                        text: Displays.Edit(context: context),
+                                        controlCss: "button-icon",
+                                        onClick: "$p.openDashboardPartKambanSitesDialog($(this));",
+                                        icon: "ui-icon-pencil",
+                                        action: "SetSiteSettings",
+                                        method: "post");
+                        })
+                    .FieldDropDown(
+                        context: context,
+                        controlId: "DashboardPartKambanGroupByX",
+                        fieldId: "DashboardPartKambanGroupByXField",
+                        fieldCss: "both field-normal" + hiddenCss(dashboardPart.Type != DashboardPartType.Kamban),
+                        controlCss: " always-send",
+                        labelText: Displays.GroupByX(context: context),
+                        optionCollection: ss.KambanGroupByOptions(context: context),
+                        selectedValue: !dashboardPart.KambanGroupByX.IsNullOrEmpty()
+                            ? dashboardPart.KambanGroupByX
+                            : "Status")
+                    .FieldDropDown(
+                        context: context,
+                        controlId: "DashboardPartKambanGroupByY",
+                        fieldId: "DashboardPartKambanGroupByYField",
+                        fieldCss: hiddenCss(dashboardPart.Type != DashboardPartType.Kamban),
+                        controlCss: " always-send",
+                        labelText: Displays.GroupByY(context: context),
+                        optionCollection: ss.KambanGroupByOptions(
+                            context: context,
+                addNothing: true),
+                        selectedValue: !dashboardPart.KambanGroupByX.IsNullOrEmpty()
+                            ? dashboardPart.KambanGroupByY
+                            : "Owner")
+                    .FieldDropDown(
+                        context: context,
+                        controlId: "DashboardPartKambanAggregateType",
+                        fieldId: "DashboardPartKambanAggregateTypeField",
+                        fieldCss: hiddenCss(dashboardPart.Type != DashboardPartType.Kamban),
+                        controlCss: " always-send",
+                        labelText: Displays.AggregationType(context: context),
+                        optionCollection: ss.KambanAggregationTypeOptions(context: context),
+                        selectedValue: !dashboardPart.KambanAggregateType.IsNullOrEmpty()
+                            ? dashboardPart.KambanAggregateType
+                            : "Total")
+                    .FieldDropDown(
+                        context: context,
+                        controlId: "DashboardPartKambanValue",
+                        fieldId: "DashboardPartKambanValueField",
+                        fieldCss: hiddenCss(dashboardPart.Type != DashboardPartType.Kamban),
+                        controlCss: " always-send",
+                        labelText: Displays.AggregationTarget(context: context),
+                        optionCollection: ss.KambanValueOptions(context: context),
+                        selectedValue: !dashboardPart.KambanValue.IsNullOrEmpty()
+                            ? dashboardPart.KambanValue
+                            : "RemainingWorkValue")
+                    .FieldDropDown(
+                        context: context,
+                        controlId: "DashboardPartKambanColumns",
+                        fieldId: "DashboardPartKambanColumnsField",
+                        fieldCss: hiddenCss(dashboardPart.Type != DashboardPartType.Kamban),
+                        controlCss: " always-send",
+                        labelText: Displays.MaxColumns(context: context),
+                        optionCollection: Enumerable.Range(
+                            Parameters.General.KambanMinColumns,
+                            Parameters.General.KambanMaxColumns - Parameters.General.KambanMinColumns + 1)
+                                .ToDictionary(o => o.ToString(), o => o.ToString()),
+                        selectedValue: !dashboardPart.KambanColumns.IsNullOrEmpty()
+                            ? dashboardPart.KambanColumns
+                            : "10")
+                    .FieldCheckBox(
+                        controlId: "DashboardPartKambanAggregationView",
+                        fieldId: "DashboardPartKambanAggregationViewField",
+                        fieldCss: hiddenCss(dashboardPart.Type != DashboardPartType.Kamban),
+                        controlCss: " always-send",
+                        labelText: Displays.AggregationView(context: context),
+                        _checked: dashboardPart.KambanAggregationView == true)
+                    .FieldCheckBox(
+                        controlId: "DashboardPartKambanShowStatus",
+                        fieldId: "DashboardPartKambanShowStatusField",
+                        fieldCss: hiddenCss(dashboardPart.Type != DashboardPartType.Kamban),
+                        controlCss: " always-send",
+                        labelText: Displays.ShowStatus(context: context),
+                        _checked: dashboardPart.KambanShowStatus == true)
                     .FieldTextBox(
                         controlId: "DashboardPartExtendedCss",
                         controlCss: " always-send",
