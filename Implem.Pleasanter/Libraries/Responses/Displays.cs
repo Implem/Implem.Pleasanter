@@ -809,6 +809,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string AsynchronousLoading(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AsynchronousLoading",
+                data: data);
+        }
+
         public static string Attachments(
             Context context,
             params string[] data)
@@ -3056,6 +3066,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "DirectUrlCopied",
+                data: data);
+        }
+
+        public static string DisableAsynchronousLoading(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "DisableAsynchronousLoading",
                 data: data);
         }
 

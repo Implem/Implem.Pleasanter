@@ -1,0 +1,33 @@
+﻿{
+    "Id": "AsynchronousLoading",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Asynchronous loading"
+        },
+        {
+            "Language": "zh",
+            "Body": "异步加载"
+        },
+        {
+            "Language": "ja",
+            "Body": "非同期読み込み"
+        },
+        {
+            "Language": "de",
+            "Body": "Asynchrones Laden"
+        },
+        {
+            "Language": "ko",
+            "Body": "비동기 로딩"
+        },
+        {
+            "Language": "es",
+            "Body": "Carga asincrónica"
+        },
+        {
+            "Language": "vn",
+            "Body": "Tải không đồng bộ"
+        }
+    ]
+}

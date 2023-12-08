@@ -15076,7 +15076,12 @@ namespace Implem.Pleasanter.Models
                         confirm: Displays.ConfirmDelete(context: context)))
                 .EditDashboardPart(
                     context: context,
-                    ss: ss));
+                    ss: ss)
+                .FieldCheckBox(
+                    controlId: "AsynchronousLoadingDefault",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.AsynchronousLoading(context: context),
+                    _checked: ss.DashboardPartsAsynchronousLoading ?? false));
         }
 
         /// <summary>
@@ -15667,6 +15672,11 @@ namespace Implem.Pleasanter.Models
                         fieldCss: hiddenCss(dashboardPart.Type != DashboardPartType.Calendar),
                         labelText: Displays.ShowStatus(context: context),
                         _checked: dashboardPart.CalendarShowStatus == true)
+                    .FieldCheckBox(
+                        controlId: "DisableAsynchronousLoading",
+                        controlCss: " always-send",
+                        labelText: Displays.DisableAsynchronousLoading(context: context),
+                        _checked: dashboardPart.DisableAsynchronousLoading == true)
                     .FieldTextBox(
                         controlId: "DashboardPartExtendedCss",
                         controlCss: " always-send",

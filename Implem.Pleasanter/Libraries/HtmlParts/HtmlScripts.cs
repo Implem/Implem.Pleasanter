@@ -112,6 +112,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Script(script: "$p.setCalendar();",
                         _using: ss.ReferenceType == "Dashboards" &&
                              ss.DashboardParts?.Any(part=>part.Type == DashboardPartType.Calendar) == true)
+                    .Script(script: "$p.setDashboardAsync();",
+                        _using: ss.ReferenceType == "Dashboards")
                     .OnEditorLoad(context: context);
             }
             else
