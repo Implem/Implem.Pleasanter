@@ -3299,6 +3299,9 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         formulaScript: formulaSet.FormulaScript,
                         calculationMethod: formulaSet.CalculationMethod);
+                    formulaSet = FormulaBuilder.UpdateColumnDisplayText(
+                        ss: ss,
+                        formulaSet: formulaSet);
                     formulaSet.FormulaScript = FormulaBuilder.ParseFormulaScript(
                         ss: ss,
                         formulaScript: formulaSet.FormulaScript,
