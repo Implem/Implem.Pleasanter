@@ -7,9 +7,7 @@ using System.Threading.Tasks;
 
 namespace Implem.Pleasanter.Libraries.BackgroundServices
 {
-    /**
-     * Quartz管理クラス
-     */
+    // Quartz管理クラス
     public class CustomQuartzHostedService : IHostedService
     {
         private static readonly IScheduler scheduler;
