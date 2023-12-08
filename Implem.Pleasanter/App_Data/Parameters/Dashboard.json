@@ -1,5 +1,6 @@
 ﻿{
     "TimeLineItemCount": 20,
     "TimeLineItemCountMin": 1,
-    "TimeLineItemCountMax": 200
+    "TimeLineItemCountMax": 200,
+    "AsynchronousLoadingDefault": false
 }
