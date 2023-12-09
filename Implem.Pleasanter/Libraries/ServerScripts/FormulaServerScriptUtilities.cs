@@ -938,42 +938,40 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
 	            }";
         }
 
-        /// <summary>
-        /// Checks if one or more conditions are met and returns the value corresponding to the first true condition
-        /// </summary>
-        /// <remarks>
-        /// Syntax: IFS(firstClause, retValue1, [logicalClause2, retValue2, logicalClause3, retValue3])
-        /// </remarks>
         private static string GetIfsScript()
         {
             return @"
-                function $IFS(firstClause, retValue1)
+                function $IFS(logicalTest, valueIfTrue)
                 {
                     if (arguments.length === 0 || arguments.length % 2 !== 0) {
                         throw 'Invalid Parameter';
-                    }            
+                    }  
                     for (let i = 0; i < arguments.length; i = i + 2)
                     {
-                        logicalTest = arguments[i],
-                        valueIfTrue = arguments[i+1];
-                        if (logicalTest === '')
-                        {
-                            throw 'Invalid Parameter';
-                        }
-                        logicalTest = (logicalTest === 'false') ? false : (logicalTest === 'true') ? true : logicalTest;
+                        logicalTest = (arguments[i] === '' || arguments[i] === undefined ) ? false : arguments[i] 
+                        logicalTest = (logicalTest === 'false' || logicalTest == '0') ? false : (logicalTest === 'true') ? true : logicalTest;
+                        valueIfTrue = (arguments[i+1] === '' || arguments[i+1] === undefined ) ? 0 : arguments[i+1];
                         if (!isNaN(logicalTest) || typeof logicalTest === 'boolean')
                         {       
                             if(Boolean(logicalTest)) {
-                                return valueIfTrue === undefined ? 0 : valueIfTrue;
-                            }        
+                                try {
+                                    return $VALUE(valueIfTrue) 
+                                } catch (error) {
+                                    return valueIfTrue;
+                                }
+                            }
                             logicalTest = Boolean(logicalTest);
                         }
+                        else if(Boolean($VALUE(logicalTest))) {
+                            try {
+                                return $VALUE(valueIfTrue)
+                            } catch (error) {
+                                return valueIfTrue;
+                            }
+                        }
                     }
-                    if((logicalTest === undefined && logicalTest === undefined) || logicalTest === false) {
-                        throw 'Invalid Parameter';
-                    }
-                    if(logicalTest && (valueIfTrue === undefined)) {
-                        return 0;
+                    if(logicalTest === false) {
+                        throw '#N/A';
                     }
 	            }";
         }
@@ -996,12 +994,6 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
 	            }";
         }
 
-        /// <summary>
-        /// Value refers to a number.
-        /// </summary>
-        /// <remarks>
-        /// Syntax: ISNUMBER(value)
-        /// </remarks>
         private static string GetIsNumberScript()
         {
             return @"
@@ -1011,22 +1003,19 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     {
                         throw 'Invalid Parameter';
                     }
-                    if(!isNaN(value) && typeof value !== 'string') 
+                    if(value === '' || value === undefined || typeof value === 'boolean') 
                     {
-                         return true; 
+                        return false;
                     }
-                    if(typeof value == 'string') 
+                    if(typeof value === 'number')
                     {
-                        if(value == '') 
-                        {
-                             return false; 
-                        }
-                        if(/^(\d{4})(\/|-)(\d{1,2})(\/|-)(\d{1,2})$/.test(value.substring(0,10).trim())) 
-                        {
-                             return true; 
-                        }
+                        return true;
                     }
-                    return false;
+                    try {
+                        return  Boolean($VALUE(value)) || true;
+                    } catch (error) {
+                        return false
+                    }
 	            }";
         }
 
@@ -1048,54 +1037,50 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
 	            }";
         }
 
-        /// <summary>
-        /// Returns TRUE if the cell content is a string
-        /// </summary>
-        /// <remarks>
-        /// Syntax: ISTEXT(text)
-        /// </remarks>
         private static string GetIsTextScript()
         {
             return @"
                 function $ISTEXT(text)
                 {
-                    if (arguments.length === 0)
-                    {
+                    if (arguments.length === 0) {
                         throw 'Invalid Parameter';
-                    }     
-                    if (text === undefined)
+                    }
+                    if (text === '' || text === undefined || typeof text === 'boolean' || typeof text === 'number') 
                     {
                         return false;
                     }
-                    if(typeof text === 'string' || text instanceof String) {
-                        if(/^(\d{4})(\/|-)(\d{1,2})(\/|-)(\d{1,2})$/.test(text.substring(0,10).trim())) {
-                            return false;
-                        }
+                    if (typeof text === 'string' && !isNaN(text)) {
                         return true;
                     }
-                    if (text === undefined)
-                    {
-                        return false;
+                    try {
+                        return Boolean($VALUE(text)) && false;
+                    } catch (error) {
+                        return true;
                     }
-                    return typeof text === 'string' || text instanceof String;
 	            }";
         }
 
-        /// <summary>
-        /// Returns the remainder after number is divided by divisor. The result has the same sign as divisor
-        /// </summary>
-        /// <remarks>
-        /// Syntax: MOD(number, divisor)
-        /// </remarks>
         private static string GetModScript()
         {
             return @"
                 function $MOD(number, divisor)
                 {
-                    if (number == undefined || divisor == undefined || isNaN(number) || isNaN(divisor))
-                    {
+                    if (arguments.length !== 2) {
                         throw 'Invalid Parameter';
                     }
+                    divisor = (divisor === undefined || divisor === '') ? 0
+                        : (typeof divisor === 'boolean' && divisor) ? 1 
+                        : (typeof divisor === 'boolean' && !divisor) ? 0
+                        : divisor;
+                    if(divisor == 0 || divisor == undefined) {
+                        throw '#DIV/0!';
+                    }
+                    number = (number === undefined || number === '') ? 0
+                        : (typeof number === 'boolean' && number) ? 1 
+                        : (typeof number === 'boolean' && !number) ? 0
+                        : number;
+                    number = $VALUE(number);
+                    divisor = $VALUE(divisor);
                     return Math.abs(number) % divisor * (divisor > 0 ? 1 : -1);
 	            }";
         }
@@ -1109,13 +1094,13 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     {
                         throw 'Invalid Parameter';
                     } 
-                    if (number === undefined || number === 0)
-                    {
+                    number = (number === undefined || number === '' || typeof number === 'boolean') ? 1 : number;
+                    if(number === 1) {
                         return 1;
                     }
                     if (isNaN(number) && typeof number === 'string')
                     {   
-                            number = $DAYS(number, '01/01/1900') + 1;
+                        number = $VALUE(number);
                     }
                     let result = Math.ceil(Number(number));
                     return (result % 2 === 0) ? result + (result > 0 ? 1 : -1) : result;
@@ -1564,10 +1549,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     if(typeof text == 'boolean') {
                         throw '#VALUE!';
                     }
-                    if (text == undefined || text === '' || text == '1899/12/30 00:00:00') {
+                    if (text == undefined || text === '') {
                         return 0;
                     }
-
                     if (!isNaN(Number(text)) && typeof text !== 'boolean') {
                         return Number(text);
                     } 
@@ -1585,27 +1569,32 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                             .replace(/[$,]/g, '');
                     if (!isNaN(Number(text))) {
                         return Number(text);
+                    }    
+                    let timeRegex = /^(0?[0-9]|1[0-9]|2[0-4])(:\d{1,4})?(:\d{1,4})?(\s?[ap]m)?$/i,
+                    timeMatch = text.match(timeRegex);
+                    if (timeMatch) {
+                        let hours = parseInt(timeMatch[1], 10),
+                        minutes = timeMatch[2] !== undefined ? parseInt(timeMatch[2].replace(':', '')) : timeMatch[2],
+                        seconds =  timeMatch[3] !== undefined ? parseInt(timeMatch[3].replace(':', '')) : timeMatch[3],
+                        meridiem = timeMatch[4] === undefined ? 0 :  timeMatch[4].trim();        
+                        if (meridiem && meridiem.toLowerCase() === 'pm') {
+                                hours += 12;
+                        }          
+                        if((minutes !== undefined && seconds !== undefined)
+                            && (hours < 0 || hours > 25 || minutes < 0 || minutes > 59 || seconds < 0 || seconds > 59)
+                            || (minutes === undefined && (hours < 0 || hours > 24))) 
+                        {
+                            throw '#VALUE!';
+                        }
+                        minutes = (minutes == undefined) ? 0 : minutes;
+                        seconds = (seconds == undefined) ? 0 : seconds;
+                        return Number(((hours + minutes/60 + (seconds/3600)) / 24).toFixed(10));    
                     }
                     let dateObject = new Date(text);
                     if (isNaN(dateObject.getTime())) {
-                        let timeRegex = /^(0?[0-9]|1[0-9]|2[0-3])((:[0-5][0-9])|:[0-9])?((:[0-5][0-9])|:[0-9])?(\s?[ap]m)?$/i,
-                            match = text.match(timeRegex);
-                        if (!match) {
-                            throw '#VALUE!';
-                        }
-                        let hours = parseInt(match[1], 10),
-                            minutes = parseInt(match[2] === undefined ? 0 : match[2].replace(':', ''), 10),
-                            seconds =  parseInt(match[4] === undefined ? 0 : match[4].replace(':', ''), 10),
-                            meridiem = match[6] === undefined ? 0 :  match[6].trim();
-                        if (meridiem && meridiem.toLowerCase() === 'pm') {
-                                hours += 12;
-                        }
-                        if (hours < 0 || hours > 23 || minutes < 0 || minutes > 59 || seconds < 0 || seconds > 59) {
-                            throw '#VALUE!';
-                        }        
-                        return Number(((hours + minutes/60 + (seconds/3600)) / 24).toFixed(10));      
+                        throw '#VALUE!';
                     }
-                    let date = `${dateObject.getDate()}/${dateObject.getMonth() + 1}/${dateObject.getFullYear()}`,  
+                    let date = `${dateObject.getFullYear()}/${dateObject.getMonth() + 1}/${dateObject.getDate()}`,
                         hours = dateObject.getHours(),
                         minutes = dateObject.getMinutes(),
                         seconds = dateObject.getSeconds(),
