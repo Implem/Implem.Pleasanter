@@ -879,12 +879,6 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 }";
         }
 
-        /// <summary>
-        /// Replaces part of a text string, based on the number of characters you specify, with a different text string.
-        /// </summary>
-        /// <remarks>
-        /// Syntax: REPLACE(oldText, startNum, numChars, newText)
-        /// </remarks>
         private static string GetReplaceScript()
         {
             return @"
@@ -918,12 +912,6 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 }";
         }
 
-        /// <summary>
-        /// Returns the character number of the first occurrence of a string. Uppercase and lowercase letters are not sensitive
-        /// </summary>
-        /// <remarks>
-        /// Syntax: SEARCH(findText, withinText, [startNum])
-        /// </remarks>
         private static string GetSearchScript()
         {
             return @"
