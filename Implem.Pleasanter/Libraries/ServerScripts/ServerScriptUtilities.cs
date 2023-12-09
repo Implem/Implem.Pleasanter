@@ -333,7 +333,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
 
         public static string ToClientTimeZone(this DateTime self, Context context)
         {
-            return self.ToLocal(context).ToString("yyyy/MM/dd HH:mm:ss");
+            return self.InRange()
+                ? self.ToLocal(context).ToString("yyyy/MM/dd HH:mm:ss")
+                : string.Empty;
         }
 
         public static IEnumerable<(string Name, object Value)> SavedValues(
