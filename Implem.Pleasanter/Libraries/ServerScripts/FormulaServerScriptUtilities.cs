@@ -798,16 +798,29 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     if (arguments.length > 3 || arguments.length < 2) {
                         throw 'Invalid Parameter';
                     }
-                    expression = (expression == undefined) ? '' : expression;
-                    valueIfTrue = (valueIfTrue == undefined) ? '' : valueIfTrue;
+                    expression = (expression === undefined || expression === '') ? false  : expression;
+                    valueIfTrue = (valueIfTrue === undefined ||  valueIfTrue === '') ? 0 : valueIfTrue;
+                    valueIfFalse = (valueIfFalse === '') ? 0 : valueIfFalse;
+                    if(typeof valueIfTrue === 'string' && valueIfTrue.length === 2 
+                        && valueIfTrue.substring(0,1).charCodeAt() === 34 && valueIfTrue.substring(1,2).charCodeAt() == 34) 
+                    {
+                        valueIfTrue = '';
+                    }
+                    if(typeof valueIfFalse === 'string' && valueIfFalse.length === 2
+                        && valueIfFalse.substring(0,1).charCodeAt() === 34 && valueIfFalse.substring(1,2).charCodeAt() == 34)
+                    {
+                        valueIfFalse = '';
+                    }    
+                    if (typeof expression === 'boolean')
+                    {
+                        return expression ? valueIfTrue : valueIfFalse;
+                    }
                     if (!isNaN(expression))
                     {
                         expression = (expression != 0);
+                        return expression ? valueIfTrue : valueIfFalse;
                     }
-                    else if (typeof expression != 'boolean')
-                    {
-                        throw '#VALUE!';
-                    }
+                    expression = ($VALUE(expression) != 0);
                     return expression ? valueIfTrue : valueIfFalse;
                 }";
         }
