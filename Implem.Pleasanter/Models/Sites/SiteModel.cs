@@ -7743,6 +7743,15 @@ namespace Implem.Pleasanter.Models
                 dashboardCalendarSites: context.Forms.Data("DashboardPartCalendarSites")));
         }
 
+        private void OpenDashboardPartKambanSitesDialog(Context context, ResponseCollection res)
+        {
+            res.Html("#DashboardPartKambanSitesDialog", SiteUtilities.DashboardPartKambanSitesDialog(
+                context: context,
+                ss: SiteSettings,
+                dashboardPartId: context.Forms.Int("DashboardPartId"),
+                dashboardKambanSites: context.Forms.Data("DashboardPartKambanSites")));
+        }
+
         /// <summary>
         /// Fixed:
         /// </summary>
@@ -7804,8 +7813,19 @@ namespace Implem.Pleasanter.Models
                 calendarFromTo: context.Forms.Data("DashboardPartCalendarFromTo"),
                 calendarShowStatus: context.Forms.Bool("CalendarShowStatus"),
                 calendarType: context.Forms.Data("DashboardPartCalendarType").ToEnum<CalendarType>(),
+                //);
+                //以下追加
+                kambanSites: context.Forms.Data("DashboardPartKambanSites"),
+                kambanGroupByX: context.Forms.Data("DashboardPartKambanGroupByX"),
+                kambanGroupByY: context.Forms.Data("DashboardPartKambanGroupByY"),
+                kambanAggregateType: context.Forms.Data("DashboardPartKambanAggregateType"),
+                kambanValue: context.Forms.Data("DashboardPartKambanValue"),
+                kambanColumns: context.Forms.Data("DashboardPartKambanColumns"),
+                kambanAggregationView: context.Forms.Bool("DashboardParKambanAggregationView"),
+                kambanShowStatus: context.Forms.Bool("DashboardPartKambanShowStatus"),
                 extendedCss: context.Forms.Data("DashboardPartExtendedCss"),
                 permissions: DashboardPartPermissions(context: context));
+
             SiteSettings.DashboardParts.Add(dashboardPart);
             res
                 .ReplaceAll("#EditDashboardPart", new HtmlBuilder()
@@ -7868,6 +7888,18 @@ namespace Implem.Pleasanter.Models
                 calendarFromTo: context.Forms.Data("DashboardPartCalendarFromTo"),
                 calendarShowStatus: context.Forms.Bool("CalendarShowStatus"),
                 calendarType: context.Forms.Data("DashboardPartCalendarType").ToEnum<CalendarType>(),
+
+                //);
+                //以下追加
+                kambanSites: context.Forms.Data("DashboardPartkambanSites"),
+                kambanGroupByX: context.Forms.Data("DashboardPartkambanGroupByX"),
+                kambanGroupByY: context.Forms.Data("DashboardPartkambanGroupByY"),
+                kambanAggregateType: context.Forms.Data("DashboardPartkambanAggregateType"),
+                kambanValue: context.Forms.Data("DashboardPartkambanValue"),
+                kambanColumns: context.Forms.Data("DashboardPartkambanColumns"),
+                kambanAggregationView: context.Forms.Bool("DashboardParkambanAggregationView"),
+                kambanShowStatus: context.Forms.Bool("DashboardPartkambanShowStatus"),
+
                 extendedCss: context.Forms.Data("DashboardPartExtendedCss"),
                 permissions: DashboardPartPermissions(context: context));
             res

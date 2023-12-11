@@ -154,6 +154,25 @@ namespace Implem.Pleasanter.Libraries.Settings
                     dashboardPart.View = View;
                     if (CalendarShowStatus == true) dashboardPart.CalendarShowStatus = true;
                     break;
+                case DashboardPartType.Kamban:
+                    dashboardPart.KambanSites = KambanSites;
+                    dashboardPart.KambanSitesData = KambanSitesData;
+                    dashboardPart.KambanGroupByX = KambanGroupByX;
+                    dashboardPart.KambanGroupByY = KambanGroupByY;
+                    dashboardPart.KambanAggregateType = KambanAggregateType;
+                    dashboardPart.KambanValue = KambanValue;
+                    dashboardPart.KambanColumns = KambanColumns;
+                    dashboardPart.KambanAggregationView = KambanAggregationView;
+                    dashboardPart.KambanShowStatus = KambanShowStatus;
+                    dashboardPart.SiteId = SiteId;
+                    if (ss != null)
+                    {
+                        View = View.GetRecordingData(
+                            context: context,
+                            ss: ss);
+                    }
+                    dashboardPart.View = View;
+                    break;
             }
             return dashboardPart;
         }
@@ -180,6 +199,14 @@ namespace Implem.Pleasanter.Libraries.Settings
             string calendarTimePeriod,
             string calendarFromTo,
             bool calendarShowStatus,
+            string kambanSites,
+            string kambanGroupByX,
+            string kambanGroupByY,
+            string kambanAggregateType,
+            string kambanValue,
+            string kambanColumns,
+            bool kambanAggregationView,
+            bool kambanShowStatus,
             string extendedCss,
             List<Permission> permissions)
         {
@@ -209,6 +236,14 @@ namespace Implem.Pleasanter.Libraries.Settings
                 calendarTimePeriod: calendarTimePeriod,
                 calendarFromTo: calendarFromTo,
                 calendarShowStatus: calendarShowStatus,
+                kambanSites : kambanSites,
+                kambanGroupByX : kambanGroupByX,
+                kambanGroupByY : kambanGroupByY,
+                kambanAggregateType : kambanAggregateType,
+                kambanValue: kambanValue,
+                kambanColumns: kambanColumns,
+                kambanAggregationView: kambanAggregationView,
+                kambanShowStatus: kambanShowStatus,
                 extendedCss: extendedCss,
                 permissions: permissions);
         }
@@ -238,6 +273,14 @@ namespace Implem.Pleasanter.Libraries.Settings
             string calendarTimePeriod,
             string calendarFromTo,
             bool calendarShowStatus,
+            string kambanSites,
+            string kambanGroupByX,
+            string kambanGroupByY,
+            string kambanAggregateType,
+            string kambanValue,
+            string kambanColumns,
+            bool kambanAggregationView,
+            bool kambanShowStatus,
             string extendedCss,
             List<Permission> permissions)
         {
@@ -264,6 +307,14 @@ namespace Implem.Pleasanter.Libraries.Settings
             CalendarTimePeriod = calendarTimePeriod;
             CalendarFromTo = calendarFromTo;
             CalendarShowStatus = calendarShowStatus;
+            KambanSites = kambanSites;
+            KambanGroupByX = kambanGroupByX;
+            KambanGroupByY = kambanGroupByY;
+            KambanAggregateType = kambanAggregateType;
+            KambanValue = kambanValue;
+            KambanColumns = kambanColumns;
+            KambanAggregationView = kambanAggregationView;
+            KambanShowStatus = kambanShowStatus;
             ExtendedCss = extendedCss;
             SetSitesData();
             SetPermissions(permissions);
