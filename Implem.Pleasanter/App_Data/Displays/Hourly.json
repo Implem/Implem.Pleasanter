@@ -1,0 +1,33 @@
+{
+    "Id": "Hourly",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "hourly"
+        },
+        {
+            "Language": "zh",
+            "Body": "每小时"
+        },
+        {
+            "Language": "ja",
+            "Body": "毎時"
+        },
+        {
+            "Language": "de",
+            "Body": "stündlich"
+        },
+        {
+            "Language": "ko",
+            "Body": "매시간"
+        },
+        {
+            "Language": "es",
+            "Body": "cada hora"
+        },
+        {
+            "Language": "vi",
+            "Body": "hàng giờ"
+        }
+    ]
+}

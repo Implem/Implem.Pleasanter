@@ -1,0 +1,33 @@
+{
+    "id": "HourMinute",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "time"
+        },
+        {
+            "Language": "ja",
+            "Body": "時刻"
+        },
+        {
+            "Language": "zh-CN",
+            "Body": "时间"
+        },
+        {
+            "Language": "de",
+            "Body": "Zeit"
+        },
+        {
+            "Language": "ko",
+            "Body": "시간"
+        },
+        {
+            "Language": "es",
+            "Body": "tiempo"
+        },
+        {
+            "Language": "vi",
+            "Body": "thời gian"
+        }
+    ]
+}

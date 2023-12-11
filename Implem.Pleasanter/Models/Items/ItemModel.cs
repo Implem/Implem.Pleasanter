@@ -558,6 +558,19 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public string DashboardPartJson(Context context,string dashboardPartId)
+        {
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true,
+                setAllChoices: true);
+            return DashboardUtilities.DashboardPartJson(
+                context: context,
+                ss: Site.SiteSettings,
+                dashboardPartId: dashboardPartId);
+        }
+
         public string Gantt(Context context)
         {
             SetSite(

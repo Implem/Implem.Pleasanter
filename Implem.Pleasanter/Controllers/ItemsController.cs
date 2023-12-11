@@ -42,6 +42,16 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult DashboardPart(long id, string dashboardPartId)
+        {
+            var context = new Context(); 
+            var log = new SysLogModel(context: context);
+            var json = new ItemModel(context: context, referenceId: id).DashboardPartJson(context: context, dashboardPartId: dashboardPartId);
+            log.Finish(context: context, responseSize: json.Length);
+            return Content(json);
+        }
+
+        [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult Pdf(long id, int reportId = 0, bool download = false)
         {
             var context = new Context();

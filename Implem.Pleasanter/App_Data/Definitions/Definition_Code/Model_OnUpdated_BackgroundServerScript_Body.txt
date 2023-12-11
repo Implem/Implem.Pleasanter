@@ -1,0 +1,3 @@
+﻿SetByAfterUpdateBackgroundServerScript(
+    context: context,
+    ss: ss);

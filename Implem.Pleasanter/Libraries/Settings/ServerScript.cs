@@ -27,6 +27,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public int? TimeOut;
         [NonSerialized]
         public bool Debug;
+        public bool? Background;
 
         public ServerScript()
         {
@@ -72,6 +73,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             Body = body;
             Shared = shared;
             TimeOut = timeOut;
+            Background = background;
         }
 
         public void Update(
@@ -91,6 +93,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool beforeOpeningPage,
             bool beforeOpeningRow,
             bool shared,
+            bool background,
             string body,
             int? timeOut)
         {
@@ -110,6 +113,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             BeforeOpeningPage = beforeOpeningPage;
             BeforeOpeningRow = beforeOpeningRow;
             Shared = shared;
+            Background= background;
             Body = body;
             TimeOut = timeOut;
         }
@@ -172,6 +176,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (BeforeOpeningPage == true) script.BeforeOpeningPage = true;
             if (BeforeOpeningRow == true) script.BeforeOpeningRow = true;
             if (Shared == true) script.Shared = true;
+            if (Background == true) script.Background = true;
             script.Body = Body;
             if (TimeOut != Parameters.Script.ServerScriptTimeOut && Parameters.Script.ServerScriptTimeOutChangeable)
             {

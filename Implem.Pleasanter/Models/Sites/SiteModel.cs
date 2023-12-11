@@ -7439,6 +7439,7 @@ namespace Implem.Pleasanter.Models
                 beforeOpeningPage: context.Forms.Bool("ServerScriptBeforeOpeningPage"),
                 beforeOpeningRow: context.Forms.Bool("ServerScriptBeforeOpeningRow"),
                 shared: context.Forms.Bool("ServerScriptShared"),
+                background: false,
                 body: context.Forms.Data("ServerScriptBody"),
                 timeOut: GetServerScriptTimeOutValue(context: context));
             var invalid = ServerScriptValidators.OnCreating(
@@ -7469,6 +7470,7 @@ namespace Implem.Pleasanter.Models
                 beforeOpeningPage: script.BeforeOpeningPage ?? default,
                 beforeOpeningRow: script.BeforeOpeningRow ?? default,
                 shared: script.Shared ?? default,
+                background: script.Background ?? default,
                 body: script.Body,
                 timeOut: script.TimeOut));
             res
@@ -7502,6 +7504,7 @@ namespace Implem.Pleasanter.Models
                 beforeOpeningPage: context.Forms.Bool("ServerScriptBeforeOpeningPage"),
                 beforeOpeningRow: context.Forms.Bool("ServerScriptBeforeOpeningRow"),
                 shared: context.Forms.Bool("ServerScriptShared"),
+                background: false,
                 body: context.Forms.Data("ServerScriptBody"),
                 timeOut: GetServerScriptTimeOutValue(context: context));
             var invalid = ServerScriptValidators.OnUpdating(
@@ -7533,6 +7536,7 @@ namespace Implem.Pleasanter.Models
                     beforeOpeningPage: script.BeforeOpeningPage ?? default,
                     beforeOpeningRow: script.BeforeOpeningRow ?? default,
                     shared: script.Shared ?? default,
+                    background: script.Background ?? default,
                     body: script.Body,
                     timeOut: script.TimeOut);
             res
@@ -8077,6 +8081,7 @@ namespace Implem.Pleasanter.Models
                 calendarShowStatus: context.Forms.Bool("CalendarShowStatus"),
                 calendarType: context.Forms.Data("DashboardPartCalendarType").ToEnum<CalendarType>(),
                 extendedCss: context.Forms.Data("DashboardPartExtendedCss"),
+                disableAsynchronousLoading: context.Forms.Bool("DisableAsynchronousLoading"),
                 permissions: DashboardPartPermissions(context: context));
             SiteSettings.DashboardParts.Add(dashboardPart);
             res
@@ -8141,6 +8146,7 @@ namespace Implem.Pleasanter.Models
                 calendarShowStatus: context.Forms.Bool("CalendarShowStatus"),
                 calendarType: context.Forms.Data("DashboardPartCalendarType").ToEnum<CalendarType>(),
                 extendedCss: context.Forms.Data("DashboardPartExtendedCss"),
+                disableAsynchronousLoading: context.Forms.Bool("DisableAsynchronousLoading"),
                 permissions: DashboardPartPermissions(context: context));
             res
                 .Html("#EditDashboardPart", new HtmlBuilder()
