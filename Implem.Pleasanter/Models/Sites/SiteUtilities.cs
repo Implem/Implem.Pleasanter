@@ -15685,22 +15685,22 @@ namespace Implem.Pleasanter.Models
                         optionCollection: new Dictionary<string, string>
                         {
                             {
-                                CalendarType.Standard.ToInt().ToString(),
+                                SiteSettings.CalendarTypes.Standard.ToInt().ToString(),
                                 Displays.Standard(context: context)
                             },
                             {
-                                CalendarType.FullCalendar.ToInt().ToString(),
+                                SiteSettings.CalendarTypes.FullCalendar.ToInt().ToString(),
                                 Displays.FullCalendar(context: context)
                             }
                         },
-                        selectedValue: dashboardPart.CalendarType.ToInt().ToString(),
+                        selectedValue: dashboardPart.CalendarType?.ToInt().ToString() ?? Parameters.General.DefaultCalendarType.ToString(),
                         insertBlank: false)
                     .FieldDropDown(
                         context: context,
                         controlId: "DashboardPartCalendarGroupBy",
                         fieldId: "DashboardPartCalendarGroupByField",
                         controlCss: " always-send",
-                        fieldCss: hiddenCss(dashboardPart.Type != DashboardPartType.Calendar || dashboardPart.CalendarType == CalendarType.FullCalendar),
+                        fieldCss: hiddenCss(dashboardPart.Type != DashboardPartType.Calendar || dashboardPart.CalendarType == SiteSettings.CalendarTypes.FullCalendar),
                         labelText: Displays.GroupBy(context: context),
                         optionCollection: ss.CalendarGroupByOptions(context: context),
                         selectedValue: dashboardPart.CalendarGroupBy?.ToString(),
@@ -15710,7 +15710,7 @@ namespace Implem.Pleasanter.Models
                         controlId: "DashboardPartCalendarTimePeriod",
                         fieldId: "DashboardPartCalendarTimePeriodField",
                         controlCss: " always-send",
-                        fieldCss: hiddenCss(dashboardPart.Type != DashboardPartType.Calendar || dashboardPart.CalendarType == CalendarType.FullCalendar),
+                        fieldCss: hiddenCss(dashboardPart.Type != DashboardPartType.Calendar || dashboardPart.CalendarType == SiteSettings.CalendarTypes.FullCalendar),
                         labelText: Displays.Period(context: context),
                         optionCollection: ss.CalendarTimePeriodOptions(context: context),
                         selectedValue: !dashboardPart.CalendarTimePeriod.IsNullOrEmpty()
