@@ -541,6 +541,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_OnDeletedNotifications": Code.Model_OnDeletedNotifications = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnDeletedNotifications, definitionRow, CodeXls); break;
                     case "Model_OnDeleting_ServerScript": Code.Model_OnDeleting_ServerScript = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnDeleting_ServerScript, definitionRow, CodeXls); break;
                     case "Model_OnDeletingExtendedSqls": Code.Model_OnDeletingExtendedSqls = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnDeletingExtendedSqls, definitionRow, CodeXls); break;
+                    case "Model_OnUpdated_BackgroundServerScript": Code.Model_OnUpdated_BackgroundServerScript = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnUpdated_BackgroundServerScript, definitionRow, CodeXls); break;
                     case "Model_OnUpdated_Depts": Code.Model_OnUpdated_Depts = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnUpdated_Depts, definitionRow, CodeXls); break;
                     case "Model_OnUpdated_GroupMembers": Code.Model_OnUpdated_GroupMembers = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnUpdated_GroupMembers, definitionRow, CodeXls); break;
                     case "Model_OnUpdated_Groups": Code.Model_OnUpdated_Groups = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnUpdated_Groups, definitionRow, CodeXls); break;
@@ -1867,6 +1868,7 @@ namespace Implem.DefinitionAccessor
                     case "Tenants_LogoType": Column.Tenants_LogoType = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_LogoType, definitionRow, ColumnXls); break;
                     case "Tenants_TenantId": Column.Tenants_TenantId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_TenantId, definitionRow, ColumnXls); break;
                     case "Tenants_TenantName": Column.Tenants_TenantName = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_TenantName, definitionRow, ColumnXls); break;
+                    case "Tenants_TenantSettings": Column.Tenants_TenantSettings = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_TenantSettings, definitionRow, ColumnXls); break;
                     case "Tenants_Title": Column.Tenants_Title = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_Title, definitionRow, ColumnXls); break;
                     case "Tenants_TopDashboards": Column.Tenants_TopDashboards = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_TopDashboards, definitionRow, ColumnXls); break;
                     case "Tenants_TopScript": Column.Tenants_TopScript = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_TopScript, definitionRow, ColumnXls); break;
@@ -6993,6 +6995,7 @@ namespace Implem.DefinitionAccessor
         public string Model_OnDeletedNotifications;
         public string Model_OnDeleting_ServerScript;
         public string Model_OnDeletingExtendedSqls;
+        public string Model_OnUpdated_BackgroundServerScript;
         public string Model_OnUpdated_Depts;
         public string Model_OnUpdated_GroupMembers;
         public string Model_OnUpdated_Groups;
@@ -7796,6 +7799,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_OnDeletedNotifications = new CodeDefinition();
         public CodeDefinition Model_OnDeleting_ServerScript = new CodeDefinition();
         public CodeDefinition Model_OnDeletingExtendedSqls = new CodeDefinition();
+        public CodeDefinition Model_OnUpdated_BackgroundServerScript = new CodeDefinition();
         public CodeDefinition Model_OnUpdated_Depts = new CodeDefinition();
         public CodeDefinition Model_OnUpdated_GroupMembers = new CodeDefinition();
         public CodeDefinition Model_OnUpdated_Groups = new CodeDefinition();
@@ -9149,6 +9153,7 @@ namespace Implem.DefinitionAccessor
         public string Tenants_LogoType;
         public string Tenants_TenantId;
         public string Tenants_TenantName;
+        public string Tenants_TenantSettings;
         public string Tenants_Title;
         public string Tenants_TopDashboards;
         public string Tenants_TopScript;
@@ -9707,6 +9712,7 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Tenants_LogoType = new ColumnDefinition();
         public ColumnDefinition Tenants_TenantId = new ColumnDefinition();
         public ColumnDefinition Tenants_TenantName = new ColumnDefinition();
+        public ColumnDefinition Tenants_TenantSettings = new ColumnDefinition();
         public ColumnDefinition Tenants_Title = new ColumnDefinition();
         public ColumnDefinition Tenants_TopDashboards = new ColumnDefinition();
         public ColumnDefinition Tenants_TopScript = new ColumnDefinition();

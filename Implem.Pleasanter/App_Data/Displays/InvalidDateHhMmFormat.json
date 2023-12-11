@@ -1,0 +1,34 @@
+﻿{
+    "id": "InvalidDateHhMmFormat",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "Enter in the format 00:00(24hours)."
+        },
+        {
+            "Language": "zh",
+            "Body": "输入格式为 00:00(24小时)。"
+        },
+        {
+            "Language": "ja",
+            "Body": "00:00(24時間)の形式で入力"
+        },
+        {
+            "Language": "de",
+            "Body": "Geben Sie das Format 00:00(24Stunden)ein."
+        },
+        {
+            "Language": "ko",
+            "Body": "00:00(24시간)형식으로 입력하세요."
+        },
+        {
+            "Language": "es",
+            "Body": "Ingrese en el formato 00:00(24horas)."
+        },
+        {
+            "Language": "vi",
+            "Body": "Nhập ở định dạng 00:00(24 giờ)."
+        }
+    ]
+}
+	
