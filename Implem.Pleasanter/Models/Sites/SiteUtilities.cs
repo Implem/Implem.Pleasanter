@@ -2324,6 +2324,107 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public static ContentResultInheritance UpdateSiteSettingsByApi(
+            Context context,
+            SiteSettings ss,
+            SiteModel siteModel)
+        {
+            if (!Mime.ValidateOnApi(contentType: context.ContentType))
+            {
+                return ApiResults.BadRequest(context: context);
+            }
+            var api = context.RequestDataString.Deserialize<Api>();
+            if (api == null)
+            {
+                return ApiResults.Error(
+                 context: context,
+                 errorData: new ErrorData(type: Error.Types.InvalidJsonData));
+            }
+            var invalid = SiteValidators.OnUpdating(
+               context: context,
+               ss: ss,
+               siteModel: siteModel);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return ApiResults.Error(
+                      context: context,
+                      errorData: invalid);
+            }
+            if (siteModel.AccessStatus != Databases.AccessStatuses.Selected)
+            {
+                return ApiResults.Error(
+                  context: context,
+                  errorData: invalid);
+            }
+            var siteSettingsApiModel = context.RequestDataString.Deserialize<ApiSiteSettings.SiteSettingsApiModel>();
+            // Validate SiteSetting Request
+            var apiSiteSettingValidator = ApiSiteSettingValidators.OnChageSiteSettingByApi(
+                referenceType: siteModel.ReferenceType,
+                ss: ss,
+                siteSettingsModel: siteSettingsApiModel);
+            switch (apiSiteSettingValidator.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return ApiResults.Error(
+                      context: context,
+                      errorData: apiSiteSettingValidator);
+            }
+            // Change ServerScripts setting
+            if (ApiSiteSetting.ServerScriptRefTypes.Contains(siteModel.ReferenceType)
+                && siteSettingsApiModel.ServerScripts != null)
+            {
+                siteModel.UpsertServerScriptByApi(
+                    siteSetting: ss,
+                    serverScriptsApiSiteSetting: siteSettingsApiModel.ServerScripts);
+            }
+            // Change Scripts setting
+            if (siteSettingsApiModel.Scripts != null)
+            {
+                siteModel.UpsertScriptByApi(
+                    siteSetting: ss,
+                    scriptsApiSiteSetting: siteSettingsApiModel.Scripts);
+            }
+            // Change Styles setting
+            if (siteSettingsApiModel.Styles != null)
+            {
+                siteModel.UpsertStyleByApi(
+                    siteSetting: ss,
+                    styleApiSiteSetting: siteSettingsApiModel.Styles);
+            }
+            // Change Htmls setting
+            if (siteSettingsApiModel.Htmls != null)
+            {
+                siteModel.UpsertHtmlByApi(
+                    siteSetting: ss,
+                    htmlsApiSiteSetting: siteSettingsApiModel.Htmls);
+            }
+            // Save all changes
+            var errorData = siteModel.Update(
+               context: context,
+               ss: ss);
+            switch (errorData.Type)
+            {
+                case Error.Types.None:
+                    return ApiResults.Success(
+                        id: siteModel.SiteId,
+                        limitPerDate: context.ContractSettings.ApiLimit(),
+                        limitRemaining: context.ContractSettings.ApiLimit() - ss.ApiCount,
+                        message: Displays.Updated(
+                            context: context,
+                            data: siteModel.Title.MessageDisplay(context: context)));
+                default:
+                    return ApiResults.Error(
+                      context: context,
+                      errorData: errorData);
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static string Templates(Context context, long parentId, long inheritPermission)
         {
             var siteModel = new SiteModel(
