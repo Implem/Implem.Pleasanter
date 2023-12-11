@@ -1,8 +1,10 @@
 ﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Interfaces;
+using System;
 
 namespace Implem.Pleasanter.Libraries.Settings
 {
+    [Serializable]
     public class ValidateInput : ISettingListItem
     {
         public int Id { get; set; }

@@ -11,6 +11,7 @@ using System.Linq;
 
 namespace Implem.Pleasanter.Libraries.Settings
 {
+    [Serializable]
     public class DataChange : ISettingListItem
     {
         [JsonConverter(typeof(StringEnumConverter))]
