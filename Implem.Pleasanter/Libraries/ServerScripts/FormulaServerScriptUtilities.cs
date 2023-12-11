@@ -1004,37 +1004,15 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     {
                         throw 'Invalid Parameter';
                     }
-                    if(value === '' || value === undefined ||  value === '0'|| typeof value === 'boolean') 
+                    if(value === '' || value === undefined || typeof value === 'boolean') 
                     {
                         return false;
                     }
-                    if(typeof value === 'number')
+                    if(typeof value === 'number' || !isNaN(value))
                     {
                         return true;
-                    }    
-                    let timeRegex = /^(0?[0-9]|1[0-9]|2[0-4])(:\d{1,4})?(:\d{1,4})?(\s?[ap]m)?$/i,
-                    timeMatch = value.match(timeRegex);
-                    if (timeMatch) {
-                        let hours = parseInt(timeMatch[1], 10),
-                        minutes = timeMatch[2] !== undefined ? parseInt(timeMatch[2].replace(':', '')) : timeMatch[2],
-                        seconds =  timeMatch[3] !== undefined ? parseInt(timeMatch[3].replace(':', '')) : timeMatch[3],
-                        meridiem = timeMatch[4] === undefined ? 0 :  timeMatch[4].trim();
-                        if (meridiem && meridiem.toLowerCase() === 'pm') {
-                                hours += 12;
-                        }          
-                        if((minutes !== undefined && seconds !== undefined)
-                            && (hours < 0 || hours > 25 || minutes < 0 || minutes > 59 || seconds < 0 || seconds > 59)
-                            || (minutes === undefined && (hours < 0 || hours > 24))) 
-                        {
-                            return false;
-                        }        
-                        return true;
                     }
-                    let dateObject = new Date(value);
-                    if (isNaN(dateObject.getTime()) || dateObject.getFullYear() < 1899 ||  dateObject.getFullYear() > 9999) {
-                        return false;
-                    }
-                    return true;
+                    return false;
 	            }";
         }
 
@@ -1064,36 +1042,16 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     if (arguments.length === 0) {
                         throw 'Invalid Parameter';
                     }
-                    if (text === '' || text === undefined || typeof text === 'boolean' || typeof text === 'number') 
+                    if (text === ''
+                        || text === undefined 
+                        || typeof text === 'boolean' 
+                        || typeof text === 'number' 
+                        || !isNaN(text)
+                        || !isNaN((new Date(text)).getTime())) 
                     {
                         return false;
                     }
-                    if (typeof text === 'string' && !isNaN(text)) {
-                        return true;
-                    }
-                    let timeRegex = /^(0?[0-9]|1[0-9]|2[0-4])(:\d{1,4})?(:\d{1,4})?(\s?[ap]m)?$/i,
-                    timeMatch = text.match(timeRegex);
-                    if (timeMatch) {
-                        let hours = parseInt(timeMatch[1], 10),
-                        minutes = timeMatch[2] !== undefined ? parseInt(timeMatch[2].replace(':', '')) : timeMatch[2],
-                        seconds =  timeMatch[3] !== undefined ? parseInt(timeMatch[3].replace(':', '')) : timeMatch[3],
-                        meridiem = timeMatch[4] === undefined ? 0 :  timeMatch[4].trim();
-                        if (meridiem && meridiem.toLowerCase() === 'pm') {
-                                hours += 12;
-                        }
-                        if((minutes !== undefined && seconds !== undefined)
-                            && (hours < 0 || hours > 25 || minutes < 0 || minutes > 59 || seconds < 0 || seconds > 59)
-                            || (minutes === undefined && (hours < 0 || hours > 24))) 
-                        {
-                            return true;
-                        }
-                        return false;
-                    }
-                    let dateObject = new Date(text);
-                    if (isNaN(dateObject.getTime()) || dateObject.getFullYear() < 1899 ||  dateObject.getFullYear() > 9999) {
-                        return true;
-                    }
-                    return false;
+                    return true;
 	            }";
         }
 
@@ -1594,49 +1552,14 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     } 
                     text = text
                             .toString()
-                            .replace (/／/g, '/')
-                            .replace (/：/g, ':')
-                            .replace (/－/g, '-')
-                            .replace (/　/g, ' ')
-                            .replace (/．/g, '.')
-                            .replace (/＄/g, '$')
                             .replace(/[０-９]/g, function (s) {
                                 return String.fromCharCode(s.charCodeAt(0) - 0xfee0);
                             })
                             .replace(/[$,]/g, '');
                     if (!isNaN(Number(text))) {
                         return Number(text);
-                    }    
-                    let timeRegex = /^(0?[0-9]|1[0-9]|2[0-4])(:\d{1,4})?(:\d{1,4})?(\s?[ap]m)?$/i,
-                    timeMatch = text.match(timeRegex);
-                    if (timeMatch) {
-                        let hours = parseInt(timeMatch[1], 10),
-                        minutes = timeMatch[2] !== undefined ? parseInt(timeMatch[2].replace(':', '')) : timeMatch[2],
-                        seconds =  timeMatch[3] !== undefined ? parseInt(timeMatch[3].replace(':', '')) : timeMatch[3],
-                        meridiem = timeMatch[4] === undefined ? 0 :  timeMatch[4].trim();        
-                        if (meridiem && meridiem.toLowerCase() === 'pm') {
-                                hours += 12;
-                        }          
-                        if((minutes !== undefined && seconds !== undefined)
-                            && (hours < 0 || hours > 25 || minutes < 0 || minutes > 59 || seconds < 0 || seconds > 59)
-                            || (minutes === undefined && (hours < 0 || hours > 24))) 
-                        {
-                            throw '#VALUE!';
-                        }
-                        minutes = (minutes == undefined) ? 0 : minutes;
-                        seconds = (seconds == undefined) ? 0 : seconds;
-                        return Number(((hours + minutes/60 + (seconds/3600)) / 24).toFixed(10));    
                     }
-                    let dateObject = new Date(text);
-                    if (isNaN(dateObject.getTime())) {
-                        throw '#VALUE!';
-                    }
-                    let date = `${dateObject.getFullYear()}/${dateObject.getMonth() + 1}/${dateObject.getDate()}`,
-                        hours = dateObject.getHours(),
-                        minutes = dateObject.getMinutes(),
-                        seconds = dateObject.getSeconds(),
-                        hourCalc = Number(((hours + minutes/60 + (seconds/3600)) / 24).toFixed(10));
-                    return $DAYS(date, '1900/01/01') + 1 + hourCalc;
+                    throw '#VALUE!';
                 }";
         }
     }
