@@ -2482,6 +2482,11 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         res: res);
                     break;
+                case "FormulaCalculationMethod":
+                    ChangeFormulaCalculationMethod(
+                        context: context,
+                        res: res);
+                    break;
                 case "MoveUpProcesses":
                 case "MoveDownProcesses":
                     SetProcessesOrder(
@@ -4237,9 +4242,12 @@ namespace Implem.Pleasanter.Models
         {
             var outOfCondition = context.Forms.Data("FormulaOutOfCondition").Trim();
             var error = SiteSettings.AddFormula(
+                context.Forms.Data("FormulaCalculationMethod"),
                 context.Forms.Data("FormulaTarget"),
                 context.Forms.Int("FormulaCondition"),
                 context.Forms.Data("Formula"),
+                context.Forms.Bool("NotUseDisplayName"),
+                context.Forms.Bool("IsDisplayError"),
                 outOfCondition != string.Empty
                     ? outOfCondition
                     : null);
@@ -4265,9 +4273,12 @@ namespace Implem.Pleasanter.Models
             var outOfCondition = context.Forms.Data("FormulaOutOfCondition").Trim();
             var error = SiteSettings.UpdateFormula(
                 id,
+                context.Forms.Data("FormulaCalculationMethod"),
                 context.Forms.Data("FormulaTarget"),
                 context.Forms.Int("FormulaCondition"),
                 context.Forms.Data("Formula"),
+                context.Forms.Bool("NotUseDisplayName"),
+                context.Forms.Bool("IsDisplayError"),
                 outOfCondition != string.Empty
                     ? outOfCondition
                     : null);
@@ -8356,6 +8367,26 @@ namespace Implem.Pleasanter.Models
                         .SiteId(SiteId)
                         .Id(reminder.Id))));
             return statements;
+        }
+
+        private void ChangeFormulaCalculationMethod(Context context, ResponseCollection res)
+        {
+            if (!context.CanUpdate(ss: SiteSettings))
+            {
+                res.Message(Messages.HasNotPermission(context: context)).ToJson();
+            }
+            else
+            {
+                res
+                    .Html(
+                        "#FormulaTarget",
+                        new HtmlBuilder().FormulaCalculationMethod(
+                            context: context,
+                            ss: SiteSettings,
+                            target: context.Forms.Data("CalculationMethod")))
+                    .ClearFormData()
+                    .ToJson();
+            }
         }
     }
 }

@@ -1,0 +1,33 @@
+﻿{
+    "Id": "Extended",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Extended"
+        },
+        {
+            "Language": "zh",
+            "Body": "扩展"
+        },
+        {
+            "Language": "ja",
+            "Body": "拡張"
+        },
+        {
+            "Language": "de",
+            "Body": "Erweitert"
+        },
+        {
+            "Language": "ko",
+            "Body": "펼친"
+        },
+        {
+            "Language": "es",
+            "Body": "Extendida"
+        },
+        {
+            "Language": "vn",
+            "Body": "Mở rộng"
+        }
+    ]
+}
