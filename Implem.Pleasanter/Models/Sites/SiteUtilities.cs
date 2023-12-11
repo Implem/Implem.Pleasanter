@@ -8093,6 +8093,8 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                             .Text(text: Displays.Id(context: context)))
                     .Th(action: () => hb
+                            .Text(text: Displays.CalculationMethod(context: context)))
+                    .Th(action: () => hb
                             .Text(text: Displays.Target(context: context)))
                     .Th(action: () => hb
                             .Text(text: Displays.Formulas(context: context)))
@@ -8112,8 +8114,39 @@ namespace Implem.Pleasanter.Models
             {
                 hb.TBody(action: () =>
                 {
+                    var columnList = ss.FormulaColumnList();
                     ss.Formulas?.ForEach(formulaSet =>
                     {
+                        if (formulaSet.CalculationMethod == FormulaSet.CalculationMethods.Extended.ToString())
+                        {
+                            if (formulaSet.NotUseDisplayName == true)
+                            {
+                                foreach (var column in columnList)
+                                {
+                                    formulaSet.FormulaScript = System.Text.RegularExpressions.Regex.Replace(
+                                        input: formulaSet.FormulaScript,
+                                        pattern: "(?<!\\$)" + column.LabelText + $"(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)",
+                                        replacement: $"[{column.ColumnName}]");
+                                }
+                            }
+                            else
+                            {
+                                var columns = System.Text.RegularExpressions.Regex.Matches(formulaSet.FormulaScript, @"\[([^]]*)\]");
+                                foreach (var column in columns)
+                                {
+                                    var columnParam = column.ToString()[1..^1];
+                                    if (ss.FormulaColumn(columnParam, formulaSet.CalculationMethod) != null)
+                                    {
+                                        formulaSet.FormulaScript = formulaSet.FormulaScript.Replace(
+                                            oldValue: column.ToString(),
+                                            newValue: columnList.SingleOrDefault(o => o.ColumnName == columnParam).LabelText);
+                                    }
+                                }
+                            }
+                            formulaSet = FormulaBuilder.UpdateColumnDisplayText(
+                                ss: ss,
+                                formulaSet: formulaSet);
+                        }
                         hb.Tr(
                             css: "grid-row",
                             attributes: new HtmlAttributes()
@@ -8126,11 +8159,18 @@ namespace Implem.Pleasanter.Models
                                 .Td(action: () => hb
                                     .Text(text: formulaSet.Id.ToString()))
                                 .Td(action: () => hb
+                                    .Text(text: Displays.Get(
+                                        context: context,
+                                        id: formulaSet.CalculationMethod)))
+                                .Td(action: () => hb
                                     .Text(text: ss.GetColumn(
                                         context: context,
                                         columnName: formulaSet.Target)?.LabelText))
                                 .Td(action: () => hb
-                                    .Text(text: formulaSet.Formula?.ToString(ss)))
+                                    .Text(text: (formulaSet.CalculationMethod == FormulaSet.CalculationMethods.Default.ToString()
+                                        || string.IsNullOrEmpty(formulaSet.CalculationMethod))
+                                            ? formulaSet.Formula?.ToString(ss: ss, notUseDisplayName: formulaSet.NotUseDisplayName)
+                                            : formulaSet.FormulaScript))
                                 .Td(action: () => hb
                                     .Text(text: ss.Views?.Get(formulaSet.Condition)?.Name))
                                 .Td(action: () => hb
@@ -8163,18 +8203,46 @@ namespace Implem.Pleasanter.Models
                         _using: controlId == "EditFormula")
                     .FieldDropDown(
                         context: context,
+                        controlId: "FormulaCalculationMethod",
+                        controlCss: " always-send",
+                        labelText: Displays.CalculationMethod(context: context),
+                        optionCollection: ss.FormulaCalculationMethodSelectableOptions(context: context),
+                        selectedValue: formulaSet.CalculationMethod,
+                        onChange: "$p.changeCalculationMethod($(this));")
+                    .FieldDropDown(
+                        context: context,
                         controlId: "FormulaTarget",
                         controlCss: " always-send",
                         labelText: Displays.Target(context: context),
-                        optionCollection: ss.FormulaTargetSelectableOptions(),
+                        optionCollection: ss.FormulaTargetSelectableOptions(formulaSet.CalculationMethod),
                         selectedValue: formulaSet.Target?.ToString())
                     .FieldTextBox(
                         controlId: "Formula",
                         controlCss: " always-send",
                         fieldCss: "field-wide",
                         labelText: Displays.Formulas(context: context),
-                        text: formulaSet.Formula?.ToString(ss),
+                        text: (formulaSet.CalculationMethod == FormulaSet.CalculationMethods.Default.ToString()
+                            || string.IsNullOrEmpty(formulaSet.CalculationMethod))
+                                ? formulaSet.Formula?.ToString(ss, notUseDisplayName: formulaSet.NotUseDisplayName)
+                                : FormulaBuilder.UpdateColumnDisplayText(
+                                    ss: ss,
+                                    formulaSet: formulaSet)
+                                .FormulaScript,
                         validateRequired: true)
+                    .FieldCheckBox(
+                        controlId: "NotUseDisplayName",
+                        controlCss: " always-send",
+                        labelText: Displays.NotUseDisplayName(context: context),
+                        _checked: formulaSet.NotUseDisplayName == true)
+                    .FieldCheckBox(
+                        controlId: "IsDisplayError",
+                        controlCss: " always-send",
+                        labelText: Displays.FormulaIsDisplayError(context: context),
+                        _checked: formulaSet.IsDisplayError == true,
+                        fieldCss: (formulaSet.CalculationMethod == FormulaSet.CalculationMethods.Default.ToString()
+                            || formulaSet.CalculationMethod == null)
+                                ? " hidden formula-display-error-check"
+                                : " formula-display-error-check")
                     .FieldDropDown(
                         context: context,
                         controlId: "FormulaCondition",
@@ -15072,7 +15140,12 @@ namespace Implem.Pleasanter.Models
                         confirm: Displays.ConfirmDelete(context: context)))
                 .EditDashboardPart(
                     context: context,
-                    ss: ss));
+                    ss: ss)
+                .FieldCheckBox(
+                    controlId: "AsynchronousLoadingDefault",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.AsynchronousLoading(context: context),
+                    _checked: ss.DashboardPartsAsynchronousLoading ?? false));
         }
 
         /// <summary>
@@ -15612,22 +15685,22 @@ namespace Implem.Pleasanter.Models
                         optionCollection: new Dictionary<string, string>
                         {
                             {
-                                CalendarType.Standard.ToInt().ToString(),
+                                SiteSettings.CalendarTypes.Standard.ToInt().ToString(),
                                 Displays.Standard(context: context)
                             },
                             {
-                                CalendarType.FullCalendar.ToInt().ToString(),
+                                SiteSettings.CalendarTypes.FullCalendar.ToInt().ToString(),
                                 Displays.FullCalendar(context: context)
                             }
                         },
-                        selectedValue: dashboardPart.CalendarType.ToInt().ToString(),
+                        selectedValue: dashboardPart.CalendarType?.ToInt().ToString() ?? Parameters.General.DefaultCalendarType.ToString(),
                         insertBlank: false)
                     .FieldDropDown(
                         context: context,
                         controlId: "DashboardPartCalendarGroupBy",
                         fieldId: "DashboardPartCalendarGroupByField",
                         controlCss: " always-send",
-                        fieldCss: hiddenCss(dashboardPart.Type != DashboardPartType.Calendar || dashboardPart.CalendarType == CalendarType.FullCalendar),
+                        fieldCss: hiddenCss(dashboardPart.Type != DashboardPartType.Calendar || dashboardPart.CalendarType == SiteSettings.CalendarTypes.FullCalendar),
                         labelText: Displays.GroupBy(context: context),
                         optionCollection: ss.CalendarGroupByOptions(context: context),
                         selectedValue: dashboardPart.CalendarGroupBy?.ToString(),
@@ -15637,7 +15710,7 @@ namespace Implem.Pleasanter.Models
                         controlId: "DashboardPartCalendarTimePeriod",
                         fieldId: "DashboardPartCalendarTimePeriodField",
                         controlCss: " always-send",
-                        fieldCss: hiddenCss(dashboardPart.Type != DashboardPartType.Calendar || dashboardPart.CalendarType == CalendarType.FullCalendar),
+                        fieldCss: hiddenCss(dashboardPart.Type != DashboardPartType.Calendar || dashboardPart.CalendarType == SiteSettings.CalendarTypes.FullCalendar),
                         labelText: Displays.Period(context: context),
                         optionCollection: ss.CalendarTimePeriodOptions(context: context),
                         selectedValue: !dashboardPart.CalendarTimePeriod.IsNullOrEmpty()
@@ -15663,6 +15736,11 @@ namespace Implem.Pleasanter.Models
                         fieldCss: hiddenCss(dashboardPart.Type != DashboardPartType.Calendar),
                         labelText: Displays.ShowStatus(context: context),
                         _checked: dashboardPart.CalendarShowStatus == true)
+                    .FieldCheckBox(
+                        controlId: "DisableAsynchronousLoading",
+                        controlCss: " always-send",
+                        labelText: Displays.DisableAsynchronousLoading(context: context),
+                        _checked: dashboardPart.DisableAsynchronousLoading == true)
                     .FieldTextBox(
                         controlId: "DashboardPartExtendedCss",
                         controlCss: " always-send",
@@ -16273,6 +16351,24 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     id: ss.SiteId))
                 .ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder FormulaCalculationMethod(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            string target)
+        {
+            hb.FieldDropDown(
+                context: context,
+                controlId: "FormulaTarget",
+                controlCss: " always-send",
+                labelText: Displays.Target(context: context),
+                optionCollection: ss.FormulaTargetSelectableOptions(target));
+            return hb;
         }
     }
 }

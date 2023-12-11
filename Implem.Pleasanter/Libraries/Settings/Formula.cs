@@ -109,7 +109,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     Children.Last().RawValue != null));
         }
 
-        public string ToString(SiteSettings ss, bool child = false)
+        public string ToString(SiteSettings ss, bool child = false, bool? notUseDisplayName = false)
         {
             var formula = string.Empty;
             switch (OperatorType)
@@ -121,7 +121,14 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
             if (ColumnName != null)
             {
-                formula += ss.FormulaColumn(ColumnName)?.LabelText;
+                if (notUseDisplayName == true)
+                {
+                    formula += ss.FormulaColumn(ColumnName)?.Name;
+                }
+                else
+                {
+                    formula += ss.FormulaColumn(ColumnName)?.LabelText;
+                }
             }
             if (RawValue != null)
             {
@@ -131,19 +138,20 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 if (Children.Count == 1 || !child)
                 {
-                    formula += ChildrenToString(ss);
+                    formula += ChildrenToString(ss, notUseDisplayName);
                 }
                 else
                 {
-                    formula += "(" + ChildrenToString(ss) + ")";
+                    formula += "(" + ChildrenToString(ss, notUseDisplayName) + ")";
                 }
             }
+
             return formula;
         }
 
-        private string ChildrenToString(SiteSettings ss)
+        private string ChildrenToString(SiteSettings ss, bool? notUseDisplayName = false)
         {
-            return Children.Select(o => o.ToString(ss, child: true)).Join(string.Empty);
+            return Children.Select(o => o.ToString(ss, child: true, notUseDisplayName)).Join(string.Empty);
         }
     }
 }

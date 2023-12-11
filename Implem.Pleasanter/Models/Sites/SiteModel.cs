@@ -1470,6 +1470,27 @@ namespace Implem.Pleasanter.Models
             Dictionary<string, string> formData)
         {
             var ss = new SiteSettings();
+            SetByFormData(
+                context: context,
+                ss: ss,
+                formData: formData);
+            if (context.QueryStrings.ContainsKey("ver"))
+            {
+                Ver = context.QueryStrings.Int("ver");
+            }
+            SetSiteSettings(context: context);
+            if (context.Action == "deletecomment")
+            {
+                DeleteCommentId = formData.Get("ControlId")?
+                    .Split(',')
+                    ._2nd()
+                    .ToInt() ?? 0;
+                Comments.RemoveAll(o => o.CommentId == DeleteCommentId);
+            }
+        }
+
+        private void SetByFormData(Context context, SiteSettings ss, Dictionary<string, string> formData)
+        {
             formData.ForEach(data =>
             {
                 var key = data.Key;
@@ -1570,19 +1591,6 @@ namespace Implem.Pleasanter.Models
                         break;
                 }
             });
-            if (context.QueryStrings.ContainsKey("ver"))
-            {
-                Ver = context.QueryStrings.Int("ver");
-            }
-            SetSiteSettings(context: context);
-            if (context.Action == "deletecomment")
-            {
-                DeleteCommentId = formData.Get("ControlId")?
-                    .Split(',')
-                    ._2nd()
-                    .ToInt() ?? 0;
-                Comments.RemoveAll(o => o.CommentId == DeleteCommentId);
-            }
         }
 
         public void SetByModel(SiteModel siteModel)
@@ -2479,6 +2487,11 @@ namespace Implem.Pleasanter.Models
                     break;
                 case "DeleteFormulas":
                     DeleteFormulas(
+                        context: context,
+                        res: res);
+                    break;
+                case "FormulaCalculationMethod":
+                    ChangeFormulaCalculationMethod(
                         context: context,
                         res: res);
                     break;
@@ -4237,9 +4250,12 @@ namespace Implem.Pleasanter.Models
         {
             var outOfCondition = context.Forms.Data("FormulaOutOfCondition").Trim();
             var error = SiteSettings.AddFormula(
+                context.Forms.Data("FormulaCalculationMethod"),
                 context.Forms.Data("FormulaTarget"),
                 context.Forms.Int("FormulaCondition"),
                 context.Forms.Data("Formula"),
+                context.Forms.Bool("NotUseDisplayName"),
+                context.Forms.Bool("IsDisplayError"),
                 outOfCondition != string.Empty
                     ? outOfCondition
                     : null);
@@ -4265,9 +4281,12 @@ namespace Implem.Pleasanter.Models
             var outOfCondition = context.Forms.Data("FormulaOutOfCondition").Trim();
             var error = SiteSettings.UpdateFormula(
                 id,
+                context.Forms.Data("FormulaCalculationMethod"),
                 context.Forms.Data("FormulaTarget"),
                 context.Forms.Int("FormulaCondition"),
                 context.Forms.Data("Formula"),
+                context.Forms.Bool("NotUseDisplayName"),
+                context.Forms.Bool("IsDisplayError"),
                 outOfCondition != string.Empty
                     ? outOfCondition
                     : null);
@@ -7167,6 +7186,7 @@ namespace Implem.Pleasanter.Models
                 beforeOpeningPage: context.Forms.Bool("ServerScriptBeforeOpeningPage"),
                 beforeOpeningRow: context.Forms.Bool("ServerScriptBeforeOpeningRow"),
                 shared: context.Forms.Bool("ServerScriptShared"),
+                background: false,
                 body: context.Forms.Data("ServerScriptBody"),
                 timeOut: GetServerScriptTimeOutValue(context: context));
             var invalid = ServerScriptValidators.OnCreating(
@@ -7197,6 +7217,7 @@ namespace Implem.Pleasanter.Models
                 beforeOpeningPage: script.BeforeOpeningPage ?? default,
                 beforeOpeningRow: script.BeforeOpeningRow ?? default,
                 shared: script.Shared ?? default,
+                background: script.Background ?? default,
                 body: script.Body,
                 timeOut: script.TimeOut));
             res
@@ -7230,6 +7251,7 @@ namespace Implem.Pleasanter.Models
                 beforeOpeningPage: context.Forms.Bool("ServerScriptBeforeOpeningPage"),
                 beforeOpeningRow: context.Forms.Bool("ServerScriptBeforeOpeningRow"),
                 shared: context.Forms.Bool("ServerScriptShared"),
+                background: false,
                 body: context.Forms.Data("ServerScriptBody"),
                 timeOut: GetServerScriptTimeOutValue(context: context));
             var invalid = ServerScriptValidators.OnUpdating(
@@ -7261,6 +7283,7 @@ namespace Implem.Pleasanter.Models
                     beforeOpeningPage: script.BeforeOpeningPage ?? default,
                     beforeOpeningRow: script.BeforeOpeningRow ?? default,
                     shared: script.Shared ?? default,
+                    background: script.Background ?? default,
                     body: script.Body,
                     timeOut: script.TimeOut);
             res
@@ -7803,8 +7826,9 @@ namespace Implem.Pleasanter.Models
                 calendarTimePeriod: context.Forms.Data("DashboardPartCalendarTimePeriod"),
                 calendarFromTo: context.Forms.Data("DashboardPartCalendarFromTo"),
                 calendarShowStatus: context.Forms.Bool("CalendarShowStatus"),
-                calendarType: context.Forms.Data("DashboardPartCalendarType").ToEnum<CalendarType>(),
+                calendarType: context.Forms.Data("DashboardPartCalendarType").ToEnum<SiteSettings.CalendarTypes>(),
                 extendedCss: context.Forms.Data("DashboardPartExtendedCss"),
+                disableAsynchronousLoading: context.Forms.Bool("DisableAsynchronousLoading"),
                 permissions: DashboardPartPermissions(context: context));
             SiteSettings.DashboardParts.Add(dashboardPart);
             res
@@ -7867,8 +7891,9 @@ namespace Implem.Pleasanter.Models
                 calendarTimePeriod: context.Forms.Data("DashboardPartCalendarTimePeriod"),
                 calendarFromTo: context.Forms.Data("DashboardPartCalendarFromTo"),
                 calendarShowStatus: context.Forms.Bool("CalendarShowStatus"),
-                calendarType: context.Forms.Data("DashboardPartCalendarType").ToEnum<CalendarType>(),
+                calendarType: context.Forms.Data("DashboardPartCalendarType").ToEnum<SiteSettings.CalendarTypes>(),
                 extendedCss: context.Forms.Data("DashboardPartExtendedCss"),
+                disableAsynchronousLoading: context.Forms.Bool("DisableAsynchronousLoading"),
                 permissions: DashboardPartPermissions(context: context));
             res
                 .Html("#EditDashboardPart", new HtmlBuilder()
@@ -8187,7 +8212,8 @@ namespace Implem.Pleasanter.Models
                         .OptionCollection(
                             context: context,
                             optionCollection: currentSs.CalendarGroupByOptions(context: context)?.ToDictionary(
-                            o => o.Key, o => new ControlData(o.Value))))
+                            o => o.Key, o => new ControlData(o.Value)),
+                            insertBlank: true))
                 .Html(
                     target: "#DashboardPartCalendarFromTo",
                     value: new HtmlBuilder()
@@ -8350,6 +8376,29 @@ namespace Implem.Pleasanter.Models
                         .SiteId(SiteId)
                         .Id(reminder.Id))));
             return statements;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void ChangeFormulaCalculationMethod(Context context, ResponseCollection res)
+        {
+            if (!context.CanUpdate(ss: SiteSettings))
+            {
+                res.Message(Messages.HasNotPermission(context: context)).ToJson();
+            }
+            else
+            {
+                res
+                    .Html(
+                        "#FormulaTarget",
+                        new HtmlBuilder().FormulaCalculationMethod(
+                            context: context,
+                            ss: SiteSettings,
+                            target: context.Forms.Data("CalculationMethod")))
+                    .ClearFormData()
+                    .ToJson();
+            }
         }
     }
 }

@@ -1,0 +1,33 @@
+﻿{
+    "Id": "FormulaIsDisplayError",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Display error"
+        },
+        {
+            "Language": "zh",
+            "Body": "显示错误信息"
+        },
+        {
+            "Language": "ja",
+            "Body": "エラーを表示する"
+        },
+        {
+            "Language": "de",
+            "Body": "Fehlermeldungen anzeigen"
+        },
+        {
+            "Language": "ko",
+            "Body": "오류 메시지 표시"
+        },
+        {
+            "Language": "es",
+            "Body": "Mostrar mensajes de error"
+        },
+        {
+            "Language": "vn",
+            "Body": "Hiển thị thông báo lỗi"
+        }
+    ]
+}
