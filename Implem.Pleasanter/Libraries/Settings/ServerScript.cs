@@ -52,6 +52,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool? beforeOpeningRow,
             string body,
             bool? shared,
+            bool? background,
             int? timeOut)
         {
             Id = id.ToInt();
