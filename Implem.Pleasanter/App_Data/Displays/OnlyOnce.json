@@ -1,0 +1,34 @@
+{
+    "id": "OnlyOnce",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "only once"
+        },
+        {
+            "Language": "zh-CN",
+            "Body": "只有一次"
+        },
+        {
+            "Language": "ja",
+            "Body": "1回だけ"
+        },
+        {
+            "Language": "de",
+            "Body": "nur einmal"
+        },
+        {
+            "Language": "ko",
+            "Body": "한 번만"
+        },
+        {
+            "Language": "es",
+            "Body": "sólo una vez"
+        },
+        {
+            "Language": "vi",
+            "Body": "chỉ một lần"
+        }
+    ]
+}
+

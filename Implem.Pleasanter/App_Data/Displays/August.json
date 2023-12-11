@@ -1,0 +1,33 @@
+{
+    "Id": "August",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "August"
+        },
+        {
+            "Language": "ja",
+            "Body": "8月"
+        },
+        {
+            "Language": "zh",
+            "Body": "8月"
+        },
+        {
+            "Language": "ko",
+            "Body": "8월"
+        },
+        {
+            "Language": "vi",
+            "Body": "Tháng tám"
+        },
+        {
+            "Language": "es",
+            "Body": "Agosto"
+        },
+        {
+            "Language": "de",
+            "Body": "August"
+        }
+    ]
+}

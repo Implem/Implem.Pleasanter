@@ -767,6 +767,10 @@ th.calendar-header {
     margin: 5px 0px 0px 0px;
 }
 
+.fc .fc-scrollgrid-section-sticky > * {
+    z-index: 2;
+}
+
 #Crosstab .crosstab-row {
     border-bottom: dotted 1px silver;
 }

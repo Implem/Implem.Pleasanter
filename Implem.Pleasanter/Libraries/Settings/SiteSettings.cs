@@ -2264,14 +2264,38 @@ namespace Implem.Pleasanter.Libraries.Settings
                 o.ColumnName == columnName && o.HistoryColumn);
         }
 
-        public Column FormulaColumn(string name)
+        public Column FormulaColumn(string name, string calculationMethod = null)
+        {
+            return (string.IsNullOrEmpty(calculationMethod) || calculationMethod == FormulaSet.CalculationMethods.Default.ToString()
+                ? Columns
+                    .Where(o => o.ColumnName == name || o.LabelText == name)
+                    .Where(o => o.TypeName == "decimal")
+                    .Where(o => !o.NotUpdate)
+                    .Where(o => !o.Joined)
+                : Columns
+                    .Where(o => o.ColumnName == name || o.LabelText == name)
+                    .Where(o => o.ControlType != "Attachments")
+                    .Where(o => !o.NotUpdate)
+                    .Where(o => !o.Id_Ver)
+                    .Where(o => !o.Joined)
+                    .Where(o => !o.OtherColumn())
+                    .Where(o => o.Name != "SiteId"
+                        && o.Name != "Comments"))
+                .FirstOrDefault();
+        }
+
+        public List<Column> FormulaColumnList()
         {
             return Columns
-                .Where(o => o.ColumnName == name || o.LabelText == name)
-                .Where(o => o.TypeName == "decimal")
+                .Where(o => o.ControlType != "Attachments")
                 .Where(o => !o.NotUpdate)
+                .Where(o => !o.Id_Ver)
                 .Where(o => !o.Joined)
-                .FirstOrDefault();
+                .Where(o => !o.OtherColumn())
+                .Where(o => o.Name != "SiteId"
+                    && o.Name != "Comments")
+                .OrderByDescending(o => o.LabelText.Length)
+                .ToList();
         }
 
         public List<Column> GetGridColumns(
@@ -2460,10 +2484,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Where(c => c.NoDuplication != true)
                 .Where(c => c.ColumnName != "Comments")
                 .Where(column => !Formulas.Any(formulaSet =>
-                    formulaSet.Target == column.ColumnName
-                    || ContainsFormulaColumn(
-                        columnName: column.ColumnName,
-                        children: formulaSet.Formula.Children)))
+                    (string.IsNullOrEmpty(formulaSet.CalculationMethod)
+                        || formulaSet.CalculationMethod == FormulaSet.CalculationMethods.Default.ToString())
+                    && (formulaSet.Target == column.ColumnName
+                        || ContainsFormulaColumn(
+                            columnName: column.ColumnName,
+                            children: formulaSet.Formula.Children))))
                 .Where(column => column.AllowBulkUpdate == true)
                 .Where(column => column.CanUpdate(
                     context: context,
@@ -3105,12 +3131,22 @@ namespace Implem.Pleasanter.Libraries.Settings
                     o => new ControlData(text: o.Text));
         }
 
-        public Dictionary<string, ControlData> FormulaTargetSelectableOptions()
+        public Dictionary<string, ControlData> FormulaTargetSelectableOptions(string calculationMethod)
         {
-            return Columns
-                .Where(o => o.TypeName == "decimal")
-                .Where(o => !o.NotUpdate)
-                .Where(o => !o.Joined)
+            return (string.IsNullOrEmpty(calculationMethod)
+                || calculationMethod == FormulaSet.CalculationMethods.Default.ToString()
+                    ? Columns
+                        .Where(o => o.TypeName == "decimal")
+                        .Where(o => !o.NotUpdate)
+                        .Where(o => !o.Joined)
+                    : Columns
+                        .Where(o => o.ControlType != "Attachments")
+                        .Where(o => !o.NotUpdate)
+                        .Where(o => !o.Id_Ver)
+                        .Where(o => !o.Joined)
+                        .Where(o => !o.OtherColumn())
+                        .Where(o => o.Name != "SiteId"
+                            && o.Name != "Comments"))
                 .OrderBy(o => o.No)
                 .ToDictionary(o => o.ColumnName, o => new ControlData(o.LabelText));
         }
@@ -3123,6 +3159,21 @@ namespace Implem.Pleasanter.Libraries.Settings
         public Dictionary<string, ControlData> ViewSelectableOptions()
         {
             return Views?.ToDictionary(o => o.Id.ToString(), o => new ControlData(o.Name));
+        }
+
+        public Dictionary<string, ControlData> FormulaCalculationMethodSelectableOptions(Context context)
+        {
+            return Enum.GetValues(typeof(FormulaSet.CalculationMethods))
+               .Cast<FormulaSet.CalculationMethods>()
+               .ToDictionary(
+                    o => o.ToString(),
+                    o => new ControlData(
+                        text: Displays.Get(
+                            context: context,
+                            id: Enum.GetName(typeof(FormulaSet.CalculationMethods), o)),
+                        attributes: new Dictionary<string, string>() { { "data-action", "SetSiteSettings" } }
+                    )
+                );
         }
 
         public Dictionary<string, ControlData> MonitorChangesSelectableOptions(
