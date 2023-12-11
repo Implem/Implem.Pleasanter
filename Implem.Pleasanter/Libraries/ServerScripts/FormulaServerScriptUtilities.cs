@@ -51,7 +51,27 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     + GetAndScript()
                     + GetIfScript()
                     + GetNotScript()
-                    + GetOrScript();
+                    + GetOrScript()
+                    + GetWeekdayScript()
+                    + GetReplaceScript()
+                    + GetSearchScript()
+                    + GetIfsScript()
+                    + GetIsEvenScript()
+                    + GetIsNumberScript()
+                    + GetIsOddScript()
+                    + GetIsTextScript()
+                    + GetModScript()
+                    + GetOddScript()
+                    + GetAverageScript()
+                    + GetMinScript()
+                    + GetMaxScript()
+                    + GetRoundScript()
+                    + GetRoundUpScript()
+                    + GetRoundDownScript()
+                    + GetTruncScript()
+                    + GetAscScript()
+                    + GetJisScript()
+                    + GetValueScript();
                 var value = engine.Evaluate(functionScripts + formulaScript);
                 return value == Undefined.Value ? string.Empty : value;
             }
@@ -83,7 +103,27 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 .Replace("$and(", "$AND(", StringComparison.InvariantCultureIgnoreCase)
                 .Replace("$if(", "$IF(", StringComparison.InvariantCultureIgnoreCase)
                 .Replace("$not(", "$NOT(", StringComparison.InvariantCultureIgnoreCase)
-                .Replace("$or(", "$OR(", StringComparison.InvariantCultureIgnoreCase);
+                .Replace("$or(", "$OR(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("$weekday(", "$WEEKDAY(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("$replace(", "$REPLACE(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("$search(", "$SEARCH(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("$ifs(", "$IFS(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("$iseven(", "$ISEVEN(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("$isnumber(", "$ISNUMBER(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("$isodd(", "$ISODD(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("$istext(", "$ISTEXT(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("$mod(", "$MOD(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("$odd(", "$ODD(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("$average(", "$AVERAGE(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("$min(", "$MIN(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("$max(", "$MAX(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("$round(", "$ROUND(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("$roundup(", "$ROUNDUP(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("$rounddown(", "$ROUNDDOWN(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("$trunc(", "$TRUNC(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("$asc(", "$ASC(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("$jis(", "$JIS(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("$value(", "$VALUE(", StringComparison.InvariantCultureIgnoreCase);
         }
 
         private static string GetDateScript()
@@ -556,15 +596,19 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 {
                     if (arguments.length > 3 || arguments.length < 2) {
                         throw 'Invalid Parameter';
-                    } 
+                    }
                     if(isNaN(startNum) || Number(startNum) < 1) {
                         throw '#VALUE!';
                     }
                     findText = (findText == undefined) ? '' : findText;
-                    withinText = (withinText == undefined ) ? '' : withinText;
+                    withinText = (withinText == undefined ) ? '' : withinText; 
                     startNum = Number(startNum);
-                    if(findText === '' && withinText === '' && startNum > 1) {
-                        throw '#VALUE!';
+                    if(findText === '' && (withinText.toString().length + 1) >= startNum) {
+                        return startNum;
+                    }
+                    if((findText === '' && withinText === '' && startNum > 1)
+                        || (findText === '' && (withinText.toString().length + 1) < startNum)) {
+                            throw '#VALUE!';
                     }
                     var index = withinText.toString().indexOf(findText.toString(), startNum - 1);
                     if (index < 0)
@@ -754,16 +798,29 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     if (arguments.length > 3 || arguments.length < 2) {
                         throw 'Invalid Parameter';
                     }
-                    expression = (expression == undefined) ? '' : expression;
-                    valueIfTrue = (valueIfTrue == undefined) ? '' : valueIfTrue;
+                    expression = (expression === undefined || expression === '') ? false  : expression;
+                    valueIfTrue = (valueIfTrue === undefined ||  valueIfTrue === '') ? 0 : valueIfTrue;
+                    valueIfFalse = (valueIfFalse === '') ? 0 : valueIfFalse;
+                    if(typeof valueIfTrue === 'string' && valueIfTrue.length === 2 
+                        && valueIfTrue.substring(0,1).charCodeAt() === 34 && valueIfTrue.substring(1,2).charCodeAt() == 34) 
+                    {
+                        valueIfTrue = '';
+                    }
+                    if(typeof valueIfFalse === 'string' && valueIfFalse.length === 2
+                        && valueIfFalse.substring(0,1).charCodeAt() === 34 && valueIfFalse.substring(1,2).charCodeAt() == 34)
+                    {
+                        valueIfFalse = '';
+                    }    
+                    if (typeof expression === 'boolean')
+                    {
+                        return expression ? valueIfTrue : valueIfFalse;
+                    }
                     if (!isNaN(expression))
                     {
                         expression = (expression != 0);
+                        return expression ? valueIfTrue : valueIfFalse;
                     }
-                    else if (typeof expression != 'boolean')
-                    {
-                        throw '#VALUE!';
-                    }
+                    expression = ($VALUE(expression) != 0);
                     return expression ? valueIfTrue : valueIfFalse;
                 }";
         }
@@ -819,6 +876,690 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         throw '#VALUE!';
                     }
                     return Boolean(expression);
+                }";
+        }
+
+        private static string GetReplaceScript()
+        {
+            return @"
+                function $REPLACE(oldText, startNum, numChars, newText)
+                {
+                    if (arguments.length !== 4)
+                    {
+                        throw 'Invalid Parameter';
+                    }
+                    startNum = (startNum === undefined) ? 0 : startNum;
+                    numChars = (numChars === undefined) ? 0 : numChars;
+                    if (isNaN(startNum) || isNaN(numChars))
+                    {
+                        throw 'Invalid Parameter';
+                    }
+                    startNum = Number(startNum);
+                    numChars = Number(numChars);
+                    if (startNum < 1 || numChars < 0)
+                    {
+                        throw 'Invalid Parameter';
+                    }
+                    if(oldText === undefined || oldText === '') {
+                        return newText === undefined ? '' : newText;
+                    }
+                    if(oldText === undefined || newText === undefined) {
+                        return '';
+                    }
+                    return oldText.toString().substring(0, startNum - 1)
+                        + newText.toString()
+                        + oldText.toString().substring(startNum - 1 + numChars);
+                }";
+        }
+
+        private static string GetSearchScript()
+        {
+            return @"
+                function $SEARCH(findText, withinText, start = 1)
+                {
+                    if (arguments.length < 2 || arguments.length > 3)
+                    {
+                        throw 'Invalid Parameter';
+                    }
+                    if (start == '' || isNaN(start))
+                    {
+                        throw '#VALUE!';
+                    }
+                    start = Number(start);
+                    if (start < 1 || start > withinText.toString().length)
+                    {
+                        throw '#VALUE!';
+                    }
+                    let index = withinText.toString().toLowerCase().indexOf(findText.toString().toLowerCase(), start - 1);
+                    if (index < 0)
+                    {
+                        throw 'Not Found';
+                    }
+                    return index + 1;
+	            }";
+        }
+
+        private static string GetIfsScript()
+        {
+            return @"
+                function $IFS(logicalTest, valueIfTrue)
+                {
+                    if (arguments.length === 0 || arguments.length % 2 !== 0) {
+                        throw 'Invalid Parameter';
+                    }  
+                    for (let i = 0; i < arguments.length; i = i + 2)
+                    {
+                        logicalTest = (arguments[i] === '' || arguments[i] === undefined ) ? false : arguments[i] 
+                        logicalTest = (logicalTest === 'false' || logicalTest == '0') ? false : (logicalTest === 'true') ? true : logicalTest;
+                        valueIfTrue = (arguments[i+1] === '' || arguments[i+1] === undefined ) ? 0 : arguments[i+1];
+                        if (!isNaN(logicalTest) || typeof logicalTest === 'boolean')
+                        {       
+                            if(Boolean(logicalTest)) {
+                                try {
+                                    return $VALUE(valueIfTrue) 
+                                } catch (error) {
+                                    return valueIfTrue;
+                                }
+                            }
+                            logicalTest = Boolean(logicalTest);
+                        }
+                        else if(Boolean($VALUE(logicalTest))) {
+                            try {
+                                return $VALUE(valueIfTrue)
+                            } catch (error) {
+                                return valueIfTrue;
+                            }
+                        }
+                    }
+                    if(logicalTest === false) {
+                        throw '#N/A';
+                    }
+	            }";
+        }
+
+        private static string GetIsEvenScript()
+        {
+            return @"
+                function $ISEVEN(number)
+                {
+                    if (arguments.length !== 1) {
+                        throw 'Invalid Parameter';
+                    }
+                    number = ( number == undefined  ||  number === '') ? 0 : number;
+                    if (isNaN(number))
+                    {
+                        return $DAYS(number, '1/1/2000') % 2 == 0;
+                    }
+                    number = Number(number);
+                    return Math.trunc(number) % 2 == 0;
+	            }";
+        }
+
+        private static string GetIsNumberScript()
+        {
+            return @"
+                function $ISNUMBER(value)
+                {
+                    if (arguments.length === 0)
+                    {
+                        throw 'Invalid Parameter';
+                    }
+                    if(value === '' || value === undefined || typeof value === 'boolean') 
+                    {
+                        return false;
+                    }
+                    if(typeof value === 'number' || !isNaN(value))
+                    {
+                        return true;
+                    }
+                    return false;
+	            }";
+        }
+
+        private static string GetIsOddScript()
+        {
+            return @"
+                function $ISODD(number)
+                {
+                    if (arguments.length !== 1) {
+                        throw 'Invalid Parameter';
+                    }
+                    number = ( number == undefined  ||  number === '') ? 0 : number;
+                    if (isNaN(number) && typeof number === 'string')
+                    {
+                        return $DAYS(number, '1/2/2000') % 2 === 0;
+                    }
+                    number = Number(number);
+                    return Math.trunc(number) % 2 !== 0;
+	            }";
+        }
+
+        private static string GetIsTextScript()
+        {
+            return @"
+                function $ISTEXT(text)
+                {
+                    if (arguments.length === 0) {
+                        throw 'Invalid Parameter';
+                    }
+                    if (text === ''
+                        || text === undefined 
+                        || typeof text === 'boolean' 
+                        || typeof text === 'number' 
+                        || !isNaN(text)
+                        || !isNaN((new Date(text)).getTime())) 
+                    {
+                        return false;
+                    }
+                    return true;
+	            }";
+        }
+
+        private static string GetModScript()
+        {
+            return @"
+                function $MOD(number, divisor)
+                {
+                    if (arguments.length !== 2) {
+                        throw 'Invalid Parameter';
+                    }
+                    divisor = (divisor === undefined || divisor === '') ? 0
+                        : (typeof divisor === 'boolean' && divisor) ? 1 
+                        : (typeof divisor === 'boolean' && !divisor) ? 0
+                        : divisor;
+                    if(divisor == 0 || divisor == undefined) {
+                        throw '#DIV/0!';
+                    }
+                    number = (number === undefined || number === '') ? 0
+                        : (typeof number === 'boolean' && number) ? 1 
+                        : (typeof number === 'boolean' && !number) ? 0
+                        : number;
+                    number = $VALUE(number);
+                    divisor = $VALUE(divisor);
+                    return Math.abs(number) % divisor * (divisor > 0 ? 1 : -1);
+	            }";
+        }
+
+        private static string GetOddScript()
+        {
+            return @"
+                function $ODD(number)
+                {
+                    if (arguments.length === 0)
+                    {
+                        throw 'Invalid Parameter';
+                    } 
+                    number = (number === undefined || number === '' || typeof number === 'boolean') ? 1 : number;
+                    if(number === 1) {
+                        return 1;
+                    }
+                    if (isNaN(number) && typeof number === 'string')
+                    {   
+                        number = $VALUE(number);
+                    }
+                    let result = Math.ceil(Number(number));
+                    return (result % 2 === 0) ? result + (result > 0 ? 1 : -1) : result;
+	            }";
+        }
+
+        private static string GetAverageScript()
+        {
+            return @"
+                function $AVERAGE()
+                {
+                    if (arguments.length == 0 || arguments.length > 255)
+                    {
+                        throw 'Invalid Parameter';
+                    }
+                    let sum = 0, averageCount = 0;
+                    for (let i = 0; i < arguments.length; i++)
+                    {
+                        if (arguments[i] !== '' && arguments[i] !== undefined)
+                        {
+                            if(!isNaN(Number(arguments[i])) && typeof arguments[i] !== 'boolean') {
+                                sum += Number(arguments[i]);
+                                averageCount++;
+                            }
+                            else if(typeof arguments[i] === 'boolean') {
+                                continue;
+                            }
+                            else {
+                                try {
+                                    sum += $VALUE(arguments[i]);
+                                    averageCount++;
+                                } 
+                                catch {
+                                    //No thing to do
+                                }
+                            }
+                        }
+                    }
+                    if (averageCount === 0)
+                    {
+                        throw '#DIV/0!';
+                    }
+                    return sum / averageCount;
+	            }";
+        }
+
+        private static string GetWeekdayScript()
+        {
+            return @"
+                function $WEEKDAY(date, returnType = 1)
+                {
+                    if (arguments.length < 1) {
+                        throw 'Invalid Parameter';
+                    }
+                    date = (date == undefined) ? 0 : date;
+                    if(date == '' && (returnType == '' || Number(returnType) == 0)) {
+                        throw '#NUM!';
+                    }
+                    if (isNaN(date))
+                    {
+                        date = new Date(Date.parse(date));
+                    }
+                    else
+                    {
+                        if(Number(date) === 0 || Number(date) === 1) {
+                            date = Number(date) + 7;
+                        }
+                        date = new Date(1900, 0, Number(date -1));
+                    }
+                    if (isNaN(date.getTime()) || date.getFullYear() < 1900 || date.getFullYear() > 9999)
+                    {
+                        throw '#NUM!';
+                    }
+                    returnType = Number(returnType)
+                    switch (returnType)
+                    {
+                        case 1:
+                        case 17:
+                            return date.getDay() + 1;
+                        case 2:
+                        case 11:
+                            return date.getDay() == 0 ? 7 : date.getDay();
+                        case 3:
+                            return date.getDay() == 0 ? 6 : date.getDay() - 1;
+                        case 12:
+                            return (date.getDay() + 6) % 7 == 0 ? 7 : (date.getDay() + 6) % 7;
+                        case 13:
+                            return (date.getDay() + 5) % 7 == 0 ? 7 : (date.getDay() + 5) % 7;
+                        case 14:
+                            return (date.getDay() + 4) % 7 == 0 ? 7 : (date.getDay() + 4) % 7;
+                        case 15:
+                            return (date.getDay() + 3) % 7 == 0 ? 7 : (date.getDay() + 3) % 7;
+                        case 16:
+                            return (date.getDay() + 2) % 7 == 0 ? 7 : (date.getDay() + 2) % 7;
+                        default:
+                            throw '#NUM!';
+                    }
+                }";
+        }
+        
+        private static string GetMinScript()
+        {
+            return @"
+                function $MIN(number1)
+                {
+                    if (arguments.length == 0 || arguments.length > 255)
+                    {
+                        throw 'Invalid Parameter';
+                    }
+                    let minValue = Number.POSITIVE_INFINITY;
+                    for (let i = 0; i < arguments.length; i++)
+                    {
+                        if (arguments[i] !== '' && !isNaN(arguments[i]) && Number(arguments[i]) < minValue)
+                        {
+                            minValue = Number(arguments[i]);
+                        }
+                    }
+                    return minValue == Number.POSITIVE_INFINITY ? 0 : minValue;
+                }";
+        }
+
+        private static string GetMaxScript()
+        {
+            return @"
+                function $MAX(number1)
+                {
+                    if (arguments.length == 0 || arguments.length > 255)
+                    {
+                        throw 'Invalid Parameter';
+                    }
+                    let maxValue = Number.NEGATIVE_INFINITY;
+                    for (let i = 0; i < arguments.length; i++)
+                    {
+                        if (arguments[i] !== '' && !isNaN(arguments[i]) && Number(arguments[i]) > maxValue)
+                        {
+                            maxValue = Number(arguments[i]);
+                        }
+                    }
+                    return maxValue == Number.NEGATIVE_INFINITY ? 0 : maxValue;
+                }";
+        }
+
+        private static string GetRoundScript()
+        {
+            return @"
+                function $ROUND(number, numDigits)
+                {
+                    if (arguments.length !== 2) {
+                        throw 'Invalid Parameter';
+                    }
+                    number = (number === undefined || number === '') ? 0
+                            : (typeof number === 'boolean' && number) ? 1 
+                            : (typeof number === 'boolean' && !number) ? 0 
+                            : isNaN(Number(number)) ?  $VALUE(number)
+                            : number;
+                    numDigits = (numDigits === undefined || numDigits === '') ? 0 
+                        : (typeof numDigits === 'boolean' && numDigits) ? 1 
+                        : (typeof numDigits === 'boolean' && !numDigits) ? 0 
+                        : isNaN(Number(numDigits)) ?  $VALUE(numDigits)
+                        : numDigits;
+                    if (isNaN(Number(number)) || isNaN(Number(numDigits)))
+                    {
+                        throw '#VALUE!';
+                    }
+                    if (number == 0 && !isNaN(Number(numDigits))) {
+                        return 0;
+                    }
+                    number = Number(number);
+                    numDigits = Number(numDigits);
+                    numDigits = numDigits > 30 ? 30 : numDigits;
+                    let negative = 1,
+                    result;
+                    if (number < 0)
+                    {
+                        negative = -1;
+                        number = number * -1;
+                    }
+                    if (numDigits === 0)
+                    {
+                        result = Math.round(number) * negative;
+                    }
+                    else if (numDigits > 0)
+                    {
+                        let multiplier = Math.pow(10, numDigits),
+                            n = parseFloat(
+                                (number * multiplier).toFixed(numDigits + 1)
+                            );
+                        result =
+                            (Math.round(n) / multiplier).toFixed(numDigits) *
+                            negative;
+                    }
+                    else if (numDigits < 0)
+                    {
+                        let divider = Math.pow(10, -numDigits);
+                        result = Math.round(number / divider) * divider * negative;
+                    }
+                    return Number(result);
+                }";
+        }
+
+        private static string GetRoundUpScript()
+        {
+            return @"
+                function $ROUNDUP(number, numDigits)
+                {
+                    if (arguments.length !== 2) {
+                        throw 'Invalid Parameter';
+                    }
+                    number = (number === undefined || number === '') ? 0
+                            : (typeof number === 'boolean' && number) ? 1 
+                            : (typeof number === 'boolean' && !number) ? 0 
+                            : isNaN(Number(number)) ?  $VALUE(number)
+                            : number;
+                    numDigits = (numDigits === undefined || numDigits === '') ? 0 
+                        : (typeof numDigits === 'boolean' && numDigits) ? 1 
+                        : (typeof numDigits === 'boolean' && !numDigits) ? 0 
+                        : isNaN(Number(numDigits)) ?  $VALUE(numDigits)
+                        : numDigits;
+                    if (isNaN(Number(number)) || isNaN(Number(numDigits)))
+                    {
+                        throw '#VALUE!';
+                    }
+                    if (number == 0 && !isNaN(Number(numDigits))) {
+                        return 0;
+                    }
+                    number = Number(number);
+                    numDigits = Number(numDigits);
+                    numDigits = numDigits > 30 ? 30 : numDigits;
+                    let negative = 1,
+                    result;
+                    if (number < 0)
+                    {
+                        negative = -1;
+                        number = number * -1;
+                    }
+                    if (numDigits === 0)
+                    {
+                        result = Math.ceil(number) * negative;
+                    }
+                    else if (numDigits > 0)
+                    {
+                        let multiplier = Math.pow(10, numDigits),
+                            n = parseFloat(
+                                (number * multiplier).toFixed(numDigits + 1)
+                            );
+                        result =
+                            (Math.ceil(n) / multiplier).toFixed(numDigits) *
+                            negative;
+                    }
+                    else if (numDigits < 0)
+                    {
+                        let divider = Math.pow(10, -numDigits);
+                        result = Math.ceil(number / divider) * divider * negative;
+                    }
+                    return Number(result);
+                }";
+        }
+
+        private static string GetRoundDownScript()
+        {
+            return @"
+                function $ROUNDDOWN(number, numDigits)
+                {
+                    if (arguments.length !== 2) {
+                        throw 'Invalid Parameter';
+                    }
+                    number =  (number === undefined || number === '') ? 0
+                            : (typeof number === 'boolean' && number) ? 1 
+                            : (typeof number === 'boolean' && !number) ? 0 
+                            : isNaN(Number(number)) ?  $VALUE(number)
+                            : number;
+                    numDigits = (numDigits === undefined || numDigits === '') ? 0 
+                        : (typeof numDigits === 'boolean' && numDigits) ? 1 
+                        : (typeof numDigits === 'boolean' && !numDigits) ? 0 
+                        : isNaN(Number(numDigits)) ?  $VALUE(numDigits)
+                        : numDigits;
+                    if (isNaN(Number(number)) || isNaN(Number(numDigits)))
+                    {
+                        throw '#VALUE!';
+                    }
+                    if (number == 0 && !isNaN(Number(numDigits))) {
+                        return 0;
+                    }
+                    number = Number(number);
+                    numDigits = Number(numDigits);
+                    numDigits = numDigits > 30 ? 30 : numDigits;
+                    let negative = 1,
+                    result;
+                    if (number < 0)
+                    {
+                        negative = -1;
+                        number = number * -1;
+                    }
+                    if (numDigits === 0)
+                    {
+                        result = Math.floor(number) * negative;
+                    }
+                    else if (numDigits > 0)
+                    {
+                        let multiplier = Math.pow(10, numDigits),
+                            n = parseFloat(
+                                (number * multiplier).toFixed(numDigits + 1)
+                            );
+                        result =
+                            (Math.floor(n) / multiplier).toFixed(numDigits) *
+                            negative;
+                    }
+                    else if (numDigits < 0)
+                    {
+                        let divider = Math.pow(10, -numDigits);
+                        result = Math.floor(number / divider) * divider * negative;
+                    }
+                    return Number(result);
+                }";
+        }
+
+        private static string GetTruncScript()
+        {
+            return @"
+                function $TRUNC(number, numDigits)
+                {
+                    if (arguments.length > 2 || arguments.length  < 1) {
+                        throw 'Invalid Parameter';
+                    }
+                    number = (number === undefined || number === '') ? 0
+                            : (typeof number === 'boolean' && number) ? 1 
+                            : (typeof number === 'boolean' && !number) ? 0 
+                            : isNaN(Number(number)) ?  $VALUE(number)
+                            : number;
+                    numDigits = (numDigits === undefined || numDigits === '') ? 0 
+                        : (typeof numDigits === 'boolean' && numDigits) ? 1 
+                        : (typeof numDigits === 'boolean' && !numDigits) ? 0 
+                        : isNaN(Number(numDigits)) ?  $VALUE(numDigits)
+                        : numDigits;    
+                    if (isNaN(Number(number)) || isNaN(Number(numDigits)))
+                    {
+                        throw '#VALUE!';
+                    }
+                    if (number === 0 && !isNaN(Number(numDigits))) {
+                        return 0;
+                    }
+    
+                    number = Number(number);
+                    numDigits = Number(numDigits);
+                    numDigits = numDigits > 30 ? 30 : numDigits;
+                    if (numDigits >= 0)
+                    {
+                        let multiplier = Math.pow(10, numDigits);
+                        return Math.trunc(number * multiplier) / multiplier;
+                    }
+                    else if (numDigits < 0)
+                    {
+                        let divider = Math.pow(10, -numDigits);
+                        return Math.trunc(number / divider) * divider;
+                    }
+                }";
+        }
+
+        private static string GetAscScript()
+        {
+            return @"
+                function $ASC(text)
+                {
+                    if (arguments.length !== 1) {
+                        throw 'Invalid Parameter';
+                    }
+                    if(text === undefined || text === '') {
+                        return '';
+                    }
+                    let kanaMap = {
+                        'ガ': 'ｶﾞ', 'ギ': 'ｷﾞ', 'グ': 'ｸﾞ', 'ゲ': 'ｹﾞ', 'ゴ': 'ｺﾞ', 'ザ': 'ｻﾞ', 'ジ': 'ｼﾞ', 'ズ': 'ｽﾞ', 'ゼ': 'ｾﾞ', 'ゾ': 'ｿﾞ', 'ダ': 'ﾀﾞ', 
+                        'ヂ': 'ﾁﾞ', 'ヅ': 'ﾂﾞ', 'デ': 'ﾃﾞ', 'ド': 'ﾄﾞ', 'バ': 'ﾊﾞ', 'ビ': 'ﾋﾞ', 'ブ': 'ﾌﾞ', 'ベ': 'ﾍﾞ', 'ボ': 'ﾎﾞ', 'パ': 'ﾊﾟ', 'ピ': 'ﾋﾟ', 
+                        'プ': 'ﾌﾟ', 'ペ': 'ﾍﾟ', 'ポ': 'ﾎﾟ', 'ヴ': 'ｳﾞ', 'ヷ': 'ﾜﾞ', 'ヺ': 'ｦﾞ', 'ア': 'ｱ', 'イ': 'ｲ', 'ウ': 'ｳ', 'エ': 'ｴ', 'オ': 'ｵ', 
+                        'カ': 'ｶ', 'キ': 'ｷ', 'ク': 'ｸ', 'ケ': 'ｹ', 'コ': 'ｺ', 'サ': 'ｻ', 'シ': 'ｼ', 'ス': 'ｽ', 'セ': 'ｾ', 'ソ': 'ｿ', 'タ': 'ﾀ', 'チ': 'ﾁ', 
+                        'ツ': 'ﾂ', 'テ': 'ﾃ', 'ト': 'ﾄ', 'ナ': 'ﾅ', 'ニ': 'ﾆ', 'ヌ': 'ﾇ', 'ネ': 'ﾈ', 'ノ': 'ﾉ', 'ハ': 'ﾊ', 'ヒ': 'ﾋ', 'フ': 'ﾌ', 'ヘ': 'ﾍ', 
+                        'ホ': 'ﾎ', 'マ': 'ﾏ', 'ミ': 'ﾐ', 'ム': 'ﾑ', 'メ': 'ﾒ', 'モ': 'ﾓ', 'ヤ': 'ﾔ', 'ユ': 'ﾕ', 'ヨ': 'ﾖ', 'ラ': 'ﾗ', 'リ': 'ﾘ', 'ル': 'ﾙ', 
+                        'レ': 'ﾚ', 'ロ': 'ﾛ', 'ワ': 'ﾜ', 'ヲ': 'ｦ', 'ン': 'ﾝ', 'ァ': 'ｧ', 'ィ': 'ｨ', 'ゥ': 'ｩ', 'ェ': 'ｪ', 'ォ': 'ｫ', 'ッ': 'ｯ', 'ャ': 'ｬ', 
+                        'ュ': 'ｭ', 'ョ': 'ｮ', '！': '!', '”': String.fromCharCode(34), '＃': '#', '＄': '$', '％': '%', '＆': '&', '’': String.fromCharCode(39),
+                        '（': '(', '）': ')', '＊': '*', '＋': '+', '，': ',', '－': '-', '．': '.', '／': '/', '：': ':', '；': ';', '＜': '<', '＝': '=', 
+                        '＞': '>', '？': '?', '＠': '@', '［': '[', '￥': '￥', '］': ']', '＾': '^', '＿': '_', '‘': '`', '｛': '{', '｜': '|', '｝': '}', '～': '~' 
+                    };
+                    let reg = new RegExp(`(${Object.keys(kanaMap).join('|')})`, 'g');
+                    return text
+                        .toString()
+                        .replace(reg, function (match) {
+                            return kanaMap[match];
+                        })
+                        .replace(/[Ａ-Ｚａ-ｚ０-９]/g, function (s) {
+                            return String.fromCharCode(s.charCodeAt(0) - 0xfee0);
+                        });
+                }";
+        }
+
+        private static string GetJisScript()
+        {
+            return @"
+                function $JIS(text)
+                {
+                    if (arguments.length !== 1) {
+                        throw 'Invalid Parameter';
+                    }
+                    if(text === undefined || text === '') {
+                        return '';
+                    }
+                    let halfKanaMap = {
+                        'ｶﾞ': 'ガ', 'ｷﾞ': 'ギ', 'ｸﾞ': 'グ', 'ｹﾞ': 'ゲ', 'ｺﾞ': 'ゴ', 'ｻﾞ': 'ザ', 'ｼﾞ': 'ジ', 'ｽﾞ': 'ズ', 'ｾﾞ': 'ゼ', 'ｿﾞ': 'ゾ', 'ﾀﾞ': 'ダ', 'ﾁﾞ': 'ヂ', 
+                        'ﾂﾞ': 'ヅ', 'ﾃﾞ': 'デ', 'ﾄﾞ': 'ド', 'ﾊﾞ': 'バ', 'ﾋﾞ': 'ビ', 'ﾌﾞ': 'ブ', 'ﾍﾞ': 'ベ', 'ﾎﾞ': 'ボ', 'ﾊﾟ': 'パ', 'ﾋﾟ': 'ピ', 'ﾌﾟ': 'プ', 
+                        'ﾍﾟ': 'ペ', 'ﾎﾟ': 'ポ', 'ｳﾞ': 'ヴ', 'ﾜﾞ': 'ヷ', 'ｦﾞ': 'ヺ', 'ｱ': 'ア', 'ｲ': 'イ', 'ｳ': 'ウ', 'ｴ': 'エ', 'ｵ': 'オ', 'ｶ': 'カ', 'ｷ': 'キ', 
+                        'ｸ': 'ク', 'ｹ': 'ケ', 'ｺ': 'コ', 'ｻ': 'サ', 'ｼ': 'シ', 'ｽ': 'ス', 'ｾ': 'セ', 'ｿ': 'ソ', 'ﾀ': 'タ', 'ﾁ': 'チ', 'ﾂ': 'ツ', 'ﾃ': 'テ', 'ﾄ': 'ト',
+                        'ﾅ': 'ナ', 'ﾆ': 'ニ', 'ﾇ': 'ヌ', 'ﾈ': 'ネ', 'ﾉ': 'ノ', 'ﾊ': 'ハ', 'ﾋ': 'ヒ', 'ﾌ': 'フ', 'ﾍ': 'ヘ', 'ﾎ': 'ホ', 'ﾏ': 'マ', 'ﾐ': 'ミ', 'ﾑ': 'ム', 
+                        'ﾒ': 'メ', 'ﾓ': 'モ', 'ﾔ': 'ヤ', 'ﾕ': 'ユ', 'ﾖ': 'ヨ', 'ﾗ': 'ラ', 'ﾘ': 'リ', 'ﾙ': 'ル', 'ﾚ': 'レ', 'ﾛ': 'ロ', 'ﾜ': 'ワ', 'ｦ': 'ヲ', 'ﾝ': 'ン', 
+                        'ｧ': 'ァ', 'ｨ': 'ィ', 'ｩ': 'ゥ', 'ｪ': 'ェ', 'ｫ': 'ォ', 'ｯ': 'ッ', 'ｬ': 'ャ', 'ｭ': 'ュ', 'ｮ': 'ョ', 
+                    };    
+                    let specialCharMaping = {
+                        '!': '！', '#': '＃', '$': '＄', '%': '％', '&': '＆', '\'': '’', '(': '（', ')': '）', '*': '＊', '+': '＋', ',': '，', '-': '－', 
+                        '.': '．', '/': '／', ':': '：', ';': '；', '<': '＜', '=': '＝', '>': '＞', '?': '？', '@': '＠', '[': '［', '\\': '￥', ']': '］',
+                        '^': '＾', '_': '＿', '`': '‘', '{': '｛', '|': '｜', '}': '｝', '~': '～' 
+                    };
+                    specialCharMaping[String.fromCharCode(34)] = '”';
+                    let specialCharRegexPattern = new RegExp(`[${Object.keys(specialCharMaping).join('')}]`, 'g');
+                    let kanaMapRegxPattern = new RegExp(`(${Object.keys(halfKanaMap).join('|')})`, 'g');
+                    return text
+                        .toString()
+                        .replace(kanaMapRegxPattern, function (matKana) {
+                                return halfKanaMap[matKana];
+                        })
+                        .replace (/ﾞ/g, '゛')
+                        .replace (/ﾟ/g, '゜')
+                        .replace(specialCharRegexPattern, function (matchSpc) {
+                            return specialCharMaping[matchSpc];
+                        })   
+                        .replace(/[A-Za-z0-9]/g, function (s) {
+                            return String.fromCharCode(s.charCodeAt(0) + 0xfee0);
+                    });
+                }";
+        }
+
+        private static string GetValueScript()
+        {
+            return @"
+                function $VALUE(text)
+                {
+                    if (arguments.length !== 1) {
+                        throw 'Invalid Parameter';
+                    }
+                    if(typeof text == 'boolean') {
+                        throw '#VALUE!';
+                    }
+                    if (text == undefined || text === '') {
+                        return 0;
+                    }
+                    if (!isNaN(Number(text)) && typeof text !== 'boolean') {
+                        return Number(text);
+                    } 
+                    text = text
+                            .toString()
+                            .replace(/[０-９]/g, function (s) {
+                                return String.fromCharCode(s.charCodeAt(0) - 0xfee0);
+                            })
+                            .replace(/[$,]/g, '');
+                    if (!isNaN(Number(text))) {
+                        return Number(text);
+                    }
+                    throw '#VALUE!';
                 }";
         }
     }
