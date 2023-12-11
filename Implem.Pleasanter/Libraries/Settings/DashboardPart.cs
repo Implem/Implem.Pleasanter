@@ -52,6 +52,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string CalendarTimePeriod { get; set; }
         public string CalendarFromTo { get; set; }
         public bool CalendarShowStatus { get; set; }
+        public string IndexSites { get; set; }
+        public List<string> IndexSitesData { get; set; }
         public long SiteId { get; set; }
         public string ExtendedCss { get; set; }
         public List<int> Depts { get; set; }
@@ -143,6 +145,17 @@ namespace Implem.Pleasanter.Libraries.Settings
                     dashboardPart.View = View;
                     if (CalendarShowStatus == true) dashboardPart.CalendarShowStatus = true;
                     break;
+                case DashboardPartType.Index:
+                    dashboardPart.IndexSites = IndexSites;
+                    dashboardPart.SiteId = SiteId;
+                    if (ss != null)
+                    {
+                        View = View.GetRecordingData(
+                            context: context,
+                            ss: ss);
+                    }
+                    dashboardPart.View = View;
+                    break;
             }
             return dashboardPart;
         }
@@ -169,6 +182,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             string calendarTimePeriod,
             string calendarFromTo,
             bool calendarShowStatus,
+            string indexSites,
             string extendedCss,
             List<Permission> permissions)
         {
@@ -198,6 +212,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 calendarTimePeriod: calendarTimePeriod,
                 calendarFromTo: calendarFromTo,
                 calendarShowStatus: calendarShowStatus,
+                indexSites: indexSites,
                 extendedCss: extendedCss,
                 permissions: permissions);
         }
@@ -227,6 +242,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             string calendarTimePeriod,
             string calendarFromTo,
             bool calendarShowStatus,
+            string indexSites,
             string extendedCss,
             List<Permission> permissions)
         {
@@ -253,6 +269,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             CalendarTimePeriod = calendarTimePeriod;
             CalendarFromTo = calendarFromTo;
             CalendarShowStatus = calendarShowStatus;
+            IndexSites = indexSites;
             ExtendedCss = extendedCss;
             SetSitesData();
             SetPermissions(permissions);
@@ -266,6 +283,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             SetQuickAccessSitesData();
             SetTimeLineSitesData();
             SetCalendarSitesData();
+            SetIndexSitesData();
         }
 
         /// <summary>
@@ -291,6 +309,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                     return TimeLineSitesData;
                 case DashboardPartType.Calendar:
                     return CalendarSitesData;
+                case DashboardPartType.Index:
+                    return IndexSitesData;
                 default:
                     return null;
             }
@@ -345,6 +365,19 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .ToList();
         }
 
+        private void SetIndexSitesData()
+        {
+            if (IndexSites == null)
+            {
+                IndexSitesData = new List<string>();
+                return;
+            }
+            IndexSitesData = IndexSites
+                .Split(",")
+                .Select(o => o.Trim())
+                .Where(o => !o.IsNullOrEmpty())
+                .ToList();
+        }
         private static SiteSettings GetBaseSiteSettings(Context context, List<string> sites)
         {
             return GetDashboardPartTables(context: context, sites: sites)
@@ -523,6 +556,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                     return Displays.DashboardCustomHtml(context: context);
                 case DashboardPartType.Calendar:
                     return Displays.Calendar(context: context);
+                case DashboardPartType.Index:
+                    return Displays.Index(context: context);
                 default:
                     return Displays.QuickAccess(context: context);
             }
@@ -568,6 +603,18 @@ namespace Implem.Pleasanter.Libraries.Settings
             else
             {
                 CalendarSites = CalendarSitesData.Join(",");
+            }
+        }
+
+        public void SetIndexSites()
+        {
+            if (IndexSitesData == null)
+            {
+                IndexSites = string.Empty;
+            }
+            else
+            {
+                IndexSites = IndexSitesData.Join(",");
             }
         }
     }

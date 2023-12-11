@@ -4455,6 +4455,11 @@ namespace Implem.Pleasanter.Models
                         .Title(Displays.SiteId(context: context)))
                 .Div(
                     attributes: new HtmlAttributes()
+                        .Id("DashboardPartIndexSitesDialog")
+                        .Class("dialog")
+                        .Title(Displays.SiteId(context: context)))
+                .Div(
+                    attributes: new HtmlAttributes()
                         .Id("ServerScriptDialog")
                         .Class("dialog")
                         .Title(Displays.ServerScript(context: context)),
@@ -15267,6 +15272,56 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public static HtmlBuilder DashboardPartIndexSitesDialog(
+            Context context,
+            SiteSettings ss,
+            int dashboardPartId,
+            string dashboardIndexSites)
+        {
+            var hb = new HtmlBuilder();
+            return hb.Form(
+                attributes: new HtmlAttributes()
+                    .Id("DashboardPartIndexSitesEditForm")
+                    .Action(Locations.ItemAction(
+                        context: context,
+                        id: ss.SiteId)),
+                action: () => hb
+                    .FieldTextBox(
+                        controlId: "DashboardPartIndexSitesEdit",
+                        fieldCss: "field-wide",
+                        controlCss: " always-send",
+                        labelText: Displays.SiteId(context: context),
+                        text: dashboardIndexSites,
+                        validateRequired: true)
+                    .Hidden(
+                        controlId: "DashboardPartId",
+                        alwaysSend: true,
+                        value: dashboardPartId.ToString())
+                    .Hidden(
+                        controlId: "SavedDashboardPartIndexSites",
+                        alwaysSend: true,
+                        value: dashboardIndexSites)
+                    .Hidden(
+                        controlId: "ClearDashboardIndexView",
+                        action: "SetSiteSettings",
+                        method: "post")
+                    .P(
+                        id: "DashboardPartIndexSitesMessage",
+                        css: "message-dialog")
+                    .Div(css: "command-center", action: () => hb
+                        .Button(
+                            controlId: "UpdateDashboardPartIndexSites",
+                            text: Displays.OK(context: context),
+                            controlCss: "button-icon validate",
+                            icon: "ui-icon-pencil",
+                            onClick: "$p.send($(this));",
+                            action: "SetSiteSettings",
+                            method: "post")));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static HtmlBuilder DashboardPartDialog(
             Context context,
             SiteSettings ss,
@@ -15275,11 +15330,14 @@ namespace Implem.Pleasanter.Models
         {
             var filterVisible = false;
             var sorterVisible = false;
-            if((dashboardPart.Type == DashboardPartType.TimeLine) || (dashboardPart.Type == DashboardPartType.Calendar))
+            if((dashboardPart.Type == DashboardPartType.TimeLine)
+                || (dashboardPart.Type == DashboardPartType.Calendar)
+                || (dashboardPart.Type == DashboardPartType.Index))
             {
                 filterVisible = true;
             }
-            if(dashboardPart.Type == DashboardPartType.TimeLine)
+            if(dashboardPart.Type == DashboardPartType.TimeLine
+                || dashboardPart.Type == DashboardPartType.Index)
             {
                 sorterVisible = true;
             }
@@ -15422,6 +15480,10 @@ namespace Implem.Pleasanter.Models
                             {
                                 DashboardPartType.Calendar.ToInt().ToString(),
                                 Displays.Calendar(context: context)
+                            },
+                            {
+                                DashboardPartType.Index.ToInt().ToString(),
+                                Displays.Index(context: context)
                             }
                         },
                         selectedValue: dashboardPart.Type.ToInt().ToString(),
@@ -15663,6 +15725,40 @@ namespace Implem.Pleasanter.Models
                         fieldCss: hiddenCss(dashboardPart.Type != DashboardPartType.Calendar),
                         labelText: Displays.ShowStatus(context: context),
                         _checked: dashboardPart.CalendarShowStatus == true)
+                    .Div(
+                        id: "DashboardPartIndexSitesField",
+                        css: "both" + hiddenCss(dashboardPart.Type != DashboardPartType.Index),
+                        action: () =>
+                        {
+                            var IndexSites = dashboardPart.IndexSites;
+                            var baseSiteId = DashboardPart.GetBaseSiteSettings(
+                                context: context,
+                                sitesString: IndexSites)
+                                    ?.SiteId;
+                            hb
+                                .FieldText(
+                                    controlId: "DashboardPartIndexSitesValue",
+                                    labelText: Displays.SiteId(context: context),
+                                    text: IndexSites)
+                                .Hidden(
+                                    controlId: "DashboardPartIndexSites",
+                                    alwaysSend: true,
+                                    value: IndexSites)
+                                .Hidden(
+                                    controlId: "DashboardPartIndexBaseSiteId",
+                                    alwaysSend: true,
+                                    value: baseSiteId == null
+                                        ? null
+                                        : baseSiteId.ToString())
+                                .Button(
+                                        controlId: "EditIndexSites",
+                                        text: Displays.Edit(context: context),
+                                        controlCss: "button-icon",
+                                        onClick: "$p.openDashboardPartIndexSitesDialog($(this));",
+                                        icon: "ui-icon-pencil",
+                                        action: "SetSiteSettings",
+                                        method: "post");
+                        })
                     .FieldTextBox(
                         controlId: "DashboardPartExtendedCss",
                         controlCss: " always-send",

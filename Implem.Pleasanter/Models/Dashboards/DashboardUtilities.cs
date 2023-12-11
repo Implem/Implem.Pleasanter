@@ -111,6 +111,11 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             dashboardPart: dashboardPart);
+                    case DashboardPartType.Index:
+                        return IndexLayout(
+                            context: context,
+                            ss: ss,
+                            dashboardPart: dashboardPart);
                     default:
                         return new DashboardPartLayout();
                 };
@@ -2230,6 +2235,14 @@ namespace Implem.Pleasanter.Models
                 default:
                     return Messages.ResponseNotFound(context: context).ToJson();
             }
+        }
+
+        private static DashboardPartLayout IndexLayout(
+            Context context,
+            SiteSettings ss,
+            DashboardPart dashboardPart)
+        {
+            return null;
         }
     }
 }

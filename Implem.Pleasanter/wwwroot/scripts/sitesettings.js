@@ -274,6 +274,11 @@ $p.openDashboardPartCalendarSitesDialog = function ($control) {
     $p.openSiteSettingsDialog($control, '#DashboardPartCalendarSitesDialog');
 }
 
+$p.openDashboardPartIndexSitesDialog = function ($control) {
+    $p.data.TimeLineSitesForm = {};
+    $p.openSiteSettingsDialog($control, '#DashbaordPartIndexSitesDialog');
+}
+
 $p.updateDashboardPartTimeLineSites = function ($control) {
     $p.send($control);
 }
@@ -299,5 +304,17 @@ $p.confirmCalendarSites = function (value) {
         $p.set($('#DashboardPartBaseSiteId'), args.baseSiteId);
         $p.send($("#ClearDashboardView"));
         $p.closeDialog($("#DashboardPartCalendarSitesDialog"));
+    }
+}
+
+$p.confirmIndexSites = function (value) {
+    var args = JSON.parse(value);
+    var result = confirm($p.display('ResetIndexView'));
+    if (result) {
+        $('#DashboardPartIndexSitesValue').text(args.indexSites);
+        $p.set($('#DashboardPartIndexSites'), args.indexSites);
+        $p.set($('#DashboardPartBaseSiteId'), args.baseSiteId);
+        $p.send($("#ClearDashboardView"));
+        $p.closeDialog($("#DashboardPartIndexSitesDialog"));
     }
 }

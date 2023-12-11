@@ -213,7 +213,6 @@
         $('#DashboardPartQuickAccessSitesField').toggle(selected === '0');
         $('#DashboardPartQuickAccessLayoutField').toggle(selected === '0');
         //selected==1: TimeLine のみ表示
-        $('#DashboardPartViewSortersTabControl').toggle(selected === '1');
         $('#DashboardPartTimeLineSitesField').toggle(selected === '1');
         $('#DashboardPartTimeLineTitleField').toggle(selected === '1');
         $('#DashboardPartTimeLineBodyField').toggle(selected === '1');
@@ -230,8 +229,14 @@
         $('#DashboardPartCalendarTimePeriodField').toggle(selected === '4');
         $('#DashboardPartCalendarFromToField').toggle(selected === '4');
         $('#DashboardPartCalendarShowStatusField').toggle(selected === '4');
-        //selected==1||selected==4: TimeLineとCalendarのみ表示
-        $('#DashboardPartViewFiltersTabControl').toggle(selected === '1' || selected === '4');
+        //selected==6: Indexのみ表示
+        $('#DashboardPartIndexSitesFIeld').toggle(selected === '6');
+        //selected==1||selected==4||selected==6: TimeLineとCalendarとIndexのみ表示
+        $('#DashboardPartViewFiltersTabControl').toggle(selected === '1'
+            || selected === '4'
+            || selected === '6');
+        //selected==1||selected==6: TimeLineとIndexのみ表示
+        $('#DashboardPartViewSortersTabControl').toggle(selected === '1' || selected === '6');
     });
 
     $(document).on('change','#DashboardPartCalendarType',function () {
