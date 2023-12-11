@@ -148,7 +148,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     ss: ss,
                     columnName: nameof(model.CreatedTime),
                     value: isFormulaServerScript
-                        ? model.CreatedTime?.Value.ToClientTimeZone(context)
+                        ? model.CreatedTime?.Value.ToClientTimeZone(context: context)
                         : model.CreatedTime?.Value,
                     mine: mine),
                 ReadNameValue(
@@ -156,7 +156,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     ss: ss,
                     columnName: nameof(model.UpdatedTime),
                     value: isFormulaServerScript
-                        ? model.UpdatedTime?.Value.ToClientTimeZone(context)
+                        ? model.UpdatedTime?.Value.ToClientTimeZone(context: context)
                         : model.UpdatedTime?.Value,
                     mine: mine)
             };
@@ -189,7 +189,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     ss: ss,
                     columnName: element.Key,
                     value: isFormulaServerScript
-                        ? element.Value.ToClientTimeZone(context)
+                        ? element.Value.ToClientTimeZone(context: context)
                         : element.Value,
                     mine: mine)));
             values.AddRange(model
@@ -235,7 +235,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     ss: ss,
                     columnName: nameof(IssueModel.StartTime),
                     value: isFormulaServerScript
-                        ? issueModel.StartTime.ToClientTimeZone(context)
+                        ? issueModel.StartTime.ToClientTimeZone(context: context)
                         : issueModel.StartTime,
                     mine: mine));
                 values.Add(ReadNameValue(
@@ -249,7 +249,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                                     context: context,
                                     columnName: nameof(IssueModel.CompletionTime))?.EditorFormat,
                                 minus: true)
-                            .ToClientTimeZone(context)
+                            .ToClientTimeZone(context: context)
                         : issueModel.CompletionTime.Value,
                     mine: mine));
                 values.Add(ReadNameValue(
@@ -331,7 +331,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             return values.ToArray();
         }
 
-        public static string ToClientTimeZone(this DateTime self, Context context)
+        private static string ToClientTimeZone(this DateTime self, Context context)
         {
             return self.InRange()
                 ? self.ToLocal(context).ToString("yyyy/MM/dd HH:mm:ss")

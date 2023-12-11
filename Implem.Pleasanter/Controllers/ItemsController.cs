@@ -1213,17 +1213,5 @@ namespace Implem.Pleasanter.Controllers
                 responseSize: json.Length);
             return json;
         }
-
-        [HttpPost]
-        public string FormulaCalculationMethodChanged(long id)
-        {
-            var context = new Context();
-            var log = new SysLogModel(context: context);
-            var json = SiteUtilities.SetSiteSettings(
-                context: context,
-                siteId: id);
-            log.Finish(context: context, responseSize: json.Length);
-            return json;
-        }
     }
 }

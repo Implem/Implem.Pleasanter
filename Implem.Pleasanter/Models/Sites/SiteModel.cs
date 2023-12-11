@@ -8196,14 +8196,15 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                res.Html(
-                    "#FormulaTarget",
-                    new HtmlBuilder().FormulaCalculationMethod(
-                        context: context,
-                        ss: SiteSettings,
-                        target: context.Forms.Data("CalculationMethod")))
-                .ClearFormData()
-                .ToJson();
+                res
+                    .Html(
+                        "#FormulaTarget",
+                        new HtmlBuilder().FormulaCalculationMethod(
+                            context: context,
+                            ss: SiteSettings,
+                            target: context.Forms.Data("CalculationMethod")))
+                    .ClearFormData()
+                    .ToJson();
             }
         }
     }
