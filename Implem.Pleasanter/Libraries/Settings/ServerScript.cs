@@ -1,4 +1,5 @@
 ﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Interfaces;
 using System;
 namespace Implem.Pleasanter.Libraries.Settings
@@ -33,28 +34,28 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         public ServerScript(
-            int id,
+            int? id,
             string title,
             string name,
-            bool whenloadingSiteSettings,
-            bool whenViewProcessing,
-            bool whenloadingRecord,
-            bool beforeFormula,
-            bool afterFormula,
-            bool beforeCreate,
-            bool afterCreate,
-            bool beforeUpdate,
-            bool afterUpdate,
-            bool beforeDelete,
-            bool afterDelete,
-            bool beforeOpeningPage,
-            bool beforeOpeningRow,
-            bool shared,
-            bool background,
+            bool? whenloadingSiteSettings,
+            bool? whenViewProcessing,
+            bool? whenloadingRecord,
+            bool? beforeFormula,
+            bool? afterFormula,
+            bool? beforeCreate,
+            bool? afterCreate,
+            bool? beforeUpdate,
+            bool? afterUpdate,
+            bool? beforeDelete,
+            bool? afterDelete,
+            bool? beforeOpeningPage,
+            bool? beforeOpeningRow,
             string body,
+            bool? shared,
+            bool? background,
             int? timeOut)
         {
-            Id = id;
+            Id = id.ToInt();
             Title = title;
             Name = name;
             WhenloadingSiteSettings = whenloadingSiteSettings;
@@ -70,8 +71,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             AfterDelete = afterDelete;
             BeforeOpeningPage = beforeOpeningPage;
             BeforeOpeningRow = beforeOpeningRow;
-            Shared = shared;
             Body = body;
+            Shared = shared;
             TimeOut = timeOut;
             Background = background;
         }
@@ -79,43 +80,43 @@ namespace Implem.Pleasanter.Libraries.Settings
         public void Update(
             string title,
             string name,
-            bool whenloadingSiteSettings,
-            bool whenViewProcessing,
-            bool whenloadingRecord,
-            bool beforeFormula,
-            bool afterFormula,
-            bool beforeCreate,
-            bool afterCreate,
-            bool beforeUpdate,
-            bool afterUpdate,
-            bool beforeDelete,
-            bool afterDelete,
-            bool beforeOpeningPage,
-            bool beforeOpeningRow,
-            bool shared,
-            bool background,
+            bool? whenloadingSiteSettings,
+            bool? whenViewProcessing,
+            bool? whenloadingRecord,
+            bool? beforeFormula,
+            bool? afterFormula,
+            bool? beforeCreate,
+            bool? afterCreate,
+            bool? beforeUpdate,
+            bool? afterUpdate,
+            bool? beforeDelete,
+            bool? afterDelete,
+            bool? beforeOpeningPage,
+            bool? beforeOpeningRow,
+            bool? shared,
+            bool? background,
             string body,
             int? timeOut)
         {
             Title = title;
-            Name = name;
-            WhenloadingSiteSettings = whenloadingSiteSettings;
-            WhenViewProcessing = whenViewProcessing;
-            WhenloadingRecord = whenloadingRecord;
-            BeforeFormula = beforeFormula;
-            AfterFormula = afterFormula;
-            BeforeCreate = beforeCreate;
-            AfterCreate = afterCreate;
-            BeforeUpdate = beforeUpdate;
-            AfterUpdate = afterUpdate;
-            BeforeDelete = beforeDelete;
-            AfterDelete = afterDelete;
-            BeforeOpeningPage = beforeOpeningPage;
-            BeforeOpeningRow = beforeOpeningRow;
-            Shared = shared;
-            Background= background;
-            Body = body;
-            TimeOut = timeOut;
+            if (Name != null) Name = name;
+            if (whenloadingSiteSettings != null) WhenloadingSiteSettings = whenloadingSiteSettings;
+            if (whenViewProcessing != null) WhenViewProcessing = whenViewProcessing;
+            if (whenloadingRecord != null) WhenloadingRecord = whenloadingRecord;
+            if (beforeFormula != null) BeforeFormula = beforeFormula;
+            if (afterFormula != null) AfterFormula = afterFormula;
+            if (beforeCreate != null) BeforeCreate = beforeCreate;
+            if (afterCreate != null) AfterCreate = afterCreate;
+            if (beforeUpdate != null) BeforeUpdate = beforeUpdate;
+            if (afterUpdate != null) AfterUpdate = afterUpdate;
+            if (beforeDelete != null) BeforeDelete = beforeDelete;
+            if (afterDelete != null) AfterDelete = afterDelete;
+            if (beforeOpeningPage != null) BeforeOpeningPage = beforeOpeningPage;
+            if (beforeOpeningRow != null) BeforeOpeningRow = beforeOpeningRow;
+            if (shared != null) Shared = shared;
+            if (background != null) Background = background;
+            if (body != null) Body = body;
+            if (timeOut != null) TimeOut = timeOut;
         }
 
         public ServerScript GetRecordingData()

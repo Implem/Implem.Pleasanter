@@ -17,6 +17,7 @@ using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Libraries.Web;
+using Implem.Pleasanter.Models.ApiSiteSettings;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -2318,6 +2319,107 @@ namespace Implem.Pleasanter.Models
                 // バージョン指定が無い場合、最新バージョンを指定された場合は
                 // 最新のSiteModelで処理
                 return siteModel.SetSiteSettings(context: context);
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static ContentResultInheritance UpdateSiteSettingsByApi(
+            Context context,
+            SiteSettings ss,
+            SiteModel siteModel)
+        {
+            if (!Mime.ValidateOnApi(contentType: context.ContentType))
+            {
+                return ApiResults.BadRequest(context: context);
+            }
+            var api = context.RequestDataString.Deserialize<Api>();
+            if (api == null)
+            {
+                return ApiResults.Error(
+                 context: context,
+                 errorData: new ErrorData(type: Error.Types.InvalidJsonData));
+            }
+            var invalid = SiteValidators.OnUpdating(
+               context: context,
+               ss: ss,
+               siteModel: siteModel);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return ApiResults.Error(
+                      context: context,
+                      errorData: invalid);
+            }
+            if (siteModel.AccessStatus != Databases.AccessStatuses.Selected)
+            {
+                return ApiResults.Error(
+                  context: context,
+                  errorData: invalid);
+            }
+            var siteSettingsApiModel = context.RequestDataString.Deserialize<SiteSettingsApiModel>();
+            // Validate SiteSetting Request
+            var apiSiteSettingValidator = ApiSiteSettingValidators.OnChageSiteSettingByApi(
+                referenceType: siteModel.ReferenceType,
+                ss: ss,
+                siteSettingsModel: siteSettingsApiModel);
+            switch (apiSiteSettingValidator.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return ApiResults.Error(
+                      context: context,
+                      errorData: apiSiteSettingValidator);
+            }
+            // Change ServerScripts setting
+            if (ApiSiteSetting.ServerScriptRefTypes.Contains(siteModel.ReferenceType)
+                && siteSettingsApiModel.ServerScripts != null)
+            {
+                siteModel.UpsertServerScriptByApi(
+                    siteSetting: ss,
+                    serverScriptsApiSiteSetting: siteSettingsApiModel.ServerScripts);
+            }
+            // Change Scripts setting
+            if (siteSettingsApiModel.Scripts != null)
+            {
+                siteModel.UpsertScriptByApi(
+                    siteSetting: ss,
+                    scriptsApiSiteSetting: siteSettingsApiModel.Scripts);
+            }
+            // Change Styles setting
+            if (siteSettingsApiModel.Styles != null)
+            {
+                siteModel.UpsertStyleByApi(
+                    siteSetting: ss,
+                    styleApiSiteSetting: siteSettingsApiModel.Styles);
+            }
+            // Change Htmls setting
+            if (siteSettingsApiModel.Htmls != null)
+            {
+                siteModel.UpsertHtmlByApi(
+                    siteSetting: ss,
+                    htmlsApiSiteSetting: siteSettingsApiModel.Htmls);
+            }
+            // Save all changes
+            var errorData = siteModel.Update(
+               context: context,
+               ss: ss);
+            switch (errorData.Type)
+            {
+                case Error.Types.None:
+                    return ApiResults.Success(
+                        id: siteModel.SiteId,
+                        limitPerDate: context.ContractSettings.ApiLimit(),
+                        limitRemaining: context.ContractSettings.ApiLimit() - ss.ApiCount,
+                        message: Displays.Updated(
+                            context: context,
+                            data: siteModel.Title.MessageDisplay(context: context)));
+                default:
+                    return ApiResults.Error(
+                      context: context,
+                      errorData: errorData);
             }
         }
 
