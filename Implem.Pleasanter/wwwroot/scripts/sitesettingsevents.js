@@ -226,6 +226,8 @@
         //selected==4: Calendarのみ表示
         $('#DashboardPartCalendarSitesField').toggle(selected === '4');
         $('#DashboardPartCalendarTypeField').toggle(selected === '4');
+        $('#DashboardPartCalendarGroupByField').toggle($("#DashboardPartCalendarType").val() === '1');
+        $('#DashboardPartCalendarTimePeriodField').toggle($("#DashboardPartCalendarType").val() === '1');
         $('#DashboardPartCalendarFromToField').toggle(selected === '4');
         $('#DashboardPartCalendarShowStatusField').toggle(selected === '4');
         //selected==1||selected==4: TimeLineとCalendarのみ表示
