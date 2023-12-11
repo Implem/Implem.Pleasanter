@@ -1,0 +1,33 @@
+﻿{
+    "Id": "DisableAsynchronousLoading",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Disable asynchronous loading"
+        },
+        {
+            "Language": "zh",
+            "Body": "禁用异步加载"
+        },
+        {
+            "Language": "ja",
+            "Body": "非同期読み込みしない"
+        },
+        {
+            "Language": "de",
+            "Body": "Deaktivieren Sie das asynchrone Laden"
+        },
+        {
+            "Language": "ko",
+            "Body": "비동기 로딩 비활성화"
+        },
+        {
+            "Language": "es",
+            "Body": "desactivar la carga asincrónica"
+        },
+        {
+            "Language": "vn",
+            "Body": "vô hiệu hóa tải không đồng bộ"
+        }
+    ]
+}

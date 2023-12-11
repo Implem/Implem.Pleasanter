@@ -7809,6 +7809,7 @@ namespace Implem.Pleasanter.Models
                 calendarShowStatus: context.Forms.Bool("CalendarShowStatus"),
                 calendarType: context.Forms.Data("DashboardPartCalendarType").ToEnum<CalendarType>(),
                 extendedCss: context.Forms.Data("DashboardPartExtendedCss"),
+                disableAsynchronousLoading: context.Forms.Bool("DisableAsynchronousLoading"),
                 permissions: DashboardPartPermissions(context: context));
             SiteSettings.DashboardParts.Add(dashboardPart);
             res
@@ -7873,6 +7874,7 @@ namespace Implem.Pleasanter.Models
                 calendarShowStatus: context.Forms.Bool("CalendarShowStatus"),
                 calendarType: context.Forms.Data("DashboardPartCalendarType").ToEnum<CalendarType>(),
                 extendedCss: context.Forms.Data("DashboardPartExtendedCss"),
+                disableAsynchronousLoading: context.Forms.Bool("DisableAsynchronousLoading"),
                 permissions: DashboardPartPermissions(context: context));
             res
                 .Html("#EditDashboardPart", new HtmlBuilder()

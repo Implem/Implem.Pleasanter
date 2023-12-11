@@ -151,3 +151,4 @@ private List<SqlStatement> UpdateStatements(
 
 <!--Model_UpdateAttachmentsStatementsMethod-->
 <!--Model_UpdateRelatedRecordsMethod-->
+<!--Model_UpdateGroupMembersMethod-->
