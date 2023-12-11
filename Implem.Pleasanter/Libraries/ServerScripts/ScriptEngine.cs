@@ -47,5 +47,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         {
             v8ScriptEngine?.Execute(code);
         }
+
+        public object Evaluate(string code)
+        {
+            return v8ScriptEngine?.Evaluate(code);
+        }
     }
 }

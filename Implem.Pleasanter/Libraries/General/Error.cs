@@ -44,9 +44,11 @@ namespace Implem.Pleasanter.Libraries.General
             IncorrectFileFormat,
             IncorrectServerScript,
             IncorrectSiteDeleting,
+            IncorrectUser,
             InputMailAddress,
             InternalServerError,
             InvalidCsvData,
+            InvalidDateHhMmFormat,
             InvalidFormula,
             InvalidIpAddress,
             InvalidJsonData,
@@ -80,6 +82,8 @@ namespace Implem.Pleasanter.Libraries.General
             PasswordNotChanged,
             PasswordPolicyViolation,
             PermissionNotSelfChange,
+            PleaseInputData,
+            PleaseUncheck,
             ReminderErrorContent,
             ReminderErrorTitle,
             RequireMailAddresses,
@@ -258,6 +262,10 @@ namespace Implem.Pleasanter.Libraries.General
                     return Messages.IncorrectSiteDeleting(
                         context: context,
                         data: data);
+                case Types.IncorrectUser:
+                    return Messages.IncorrectUser(
+                        context: context,
+                        data: data);
                 case Types.InputMailAddress:
                     return Messages.InputMailAddress(
                         context: context,
@@ -268,6 +276,10 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.InvalidCsvData:
                     return Messages.InvalidCsvData(
+                        context: context,
+                        data: data);
+                case Types.InvalidDateHhMmFormat:
+                    return Messages.InvalidDateHhMmFormat(
                         context: context,
                         data: data);
                 case Types.InvalidFormula:
@@ -400,6 +412,14 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.PermissionNotSelfChange:
                     return Messages.PermissionNotSelfChange(
+                        context: context,
+                        data: data);
+                case Types.PleaseInputData:
+                    return Messages.PleaseInputData(
+                        context: context,
+                        data: data);
+                case Types.PleaseUncheck:
+                    return Messages.PleaseUncheck(
                         context: context,
                         data: data);
                 case Types.ReminderErrorContent:

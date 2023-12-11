@@ -47,6 +47,7 @@ namespace Implem.Pleasanter.App_Start
                 "~/scripts/filterevents.js",
                 "~/scripts/focus.js",
                 "~/scripts/focusevents.js",
+                "~/scripts/formula.js",
                 "~/scripts/gantt.js",
                 "~/scripts/ganttevents.js",
                 "~/scripts/grid.js",
