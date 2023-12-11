@@ -3162,7 +3162,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         text: Displays.FormulaCalculationMethod(
                             context: context,
                             id: Enum.GetName(typeof(FormulaSet.CalculationMethods), o)),
-                        attributes: new Dictionary<string, string>() { { "data-action", "FormulaCalculationMethodChanged"} }
+                        attributes: new Dictionary<string, string>() { { "data-action", "SetSiteSettings" } }
                     )
                 );
         }
