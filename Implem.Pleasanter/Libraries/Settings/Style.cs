@@ -90,38 +90,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (body != null) Body = body;
         }
 
-        public void UpdateByApi(
-           string title,
-           bool? all,
-           bool? _new,
-           bool? edit,
-           bool? index,
-           bool? calendar,
-           bool? crosstab,
-           bool? gantt,
-           bool? burnDown,
-           bool? timeSeries,
-           bool? kamban,
-           bool? imageLib,
-           bool? disabled,
-           string body)
-        {
-            Title = title;
-            if (all != null) All = all;
-            if (_new != null) New = _new;
-            if (edit != null) Edit = edit;
-            if (index != null) Index = index;
-            if (calendar != null) Calendar = calendar;
-            if (crosstab != null) Crosstab = crosstab;
-            if (gantt != null) Gantt = gantt;
-            if (burnDown != null) BurnDown = burnDown;
-            if (timeSeries != null) TimeSeries = timeSeries;
-            if (kamban != null) Kamban = kamban;
-            if (imageLib != null) ImageLib = imageLib;
-            if (disabled != null) Disabled = disabled;
-            if (body != null) Body = body;
-        }
-
         public Style GetRecordingData()
         {
             var style = new Style();
