@@ -213,7 +213,6 @@
         $('#DashboardPartQuickAccessSitesField').toggle(selected === '0');
         $('#DashboardPartQuickAccessLayoutField').toggle(selected === '0');
         //selected==1: TimeLine のみ表示
-        $('#DashboardPartViewFiltersTabControl').toggle(selected === '1');
         $('#DashboardPartViewSortersTabControl').toggle(selected === '1');
         $('#DashboardPartTimeLineSitesField').toggle(selected === '1');
         $('#DashboardPartTimeLineTitleField').toggle(selected === '1');
@@ -224,5 +223,21 @@
         $('#DashboardPartContentField').toggle(selected === '2');
         //selected==3: CustomHtmlのみ表示
         $('#DashboardPartHtmlContentField').toggle(selected === '3');
+        //selected==4: Calendarのみ表示
+        $('#DashboardPartCalendarSitesField').toggle(selected === '4');
+        $('#DashboardPartCalendarTypeField').toggle(selected === '4');
+        $('#DashboardPartCalendarGroupByField').toggle($("#DashboardPartCalendarType").val() === '1');
+        $('#DashboardPartCalendarTimePeriodField').toggle($("#DashboardPartCalendarType").val() === '1');
+        $('#DashboardPartCalendarFromToField').toggle(selected === '4');
+        $('#DashboardPartCalendarShowStatusField').toggle(selected === '4');
+        //selected==1||selected==4: TimeLineとCalendarのみ表示
+        $('#DashboardPartViewFiltersTabControl').toggle(selected === '1' || selected === '4');
+    });
+
+    $(document).on('change','#DashboardPartCalendarType',function () {
+        
+        $('#DashboardPartCalendarGroupByField').toggle($("#DashboardPartCalendarType").val() === '1');
+        $('#DashboardPartCalendarTimePeriodField').toggle($("#DashboardPartCalendarType").val() === '1');
+
     });
 });

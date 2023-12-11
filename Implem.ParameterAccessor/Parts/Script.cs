@@ -3,6 +3,7 @@
     public class Script
     {
         public bool ServerScript;
+        public bool BackgroundServerScript;
         public bool DisableServerScriptHttpClient;
         public long ServerScriptTimeOut;
         public bool ServerScriptTimeOutChangeable;

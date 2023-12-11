@@ -1,0 +1,33 @@
+{
+    "Id": "December",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "December"
+        },
+        {
+            "Language": "ja",
+            "Body": "12月"
+        },
+        {
+            "Language": "zh",
+            "Body": "12月"
+        },
+        {
+            "Language": "ko",
+            "Body": "12월"
+        },
+        {
+            "Language": "vi",
+            "Body": "Tháng 12"
+        },
+        {
+            "Language": "es",
+            "Body": "Diciembre"
+        },
+        {
+            "Language": "de",
+            "Body": "Dezember"
+        }
+    ]
+}

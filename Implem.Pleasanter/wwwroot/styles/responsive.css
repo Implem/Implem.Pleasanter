@@ -1349,7 +1349,7 @@ overflow: hidden;
 }
 
 @media screen and (max-width: 1024px) and (min-width: 0px) {
-  #Editor #EditorTabsContainer .field-normal, #Editor #EditorTabsContainer .field-wide, #Editor #EditorTabsContainer .field-markdown {
+  #Editor #EditorTabsContainer .field-normal:not(.hidden), #Editor #EditorTabsContainer .field-wide:not(.hidden), #Editor #EditorTabsContainer .field-markdown:not(.hidden) {
     display: inline-block;
     margin-top: 8px;
     padding-bottom: 0;

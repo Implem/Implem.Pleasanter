@@ -26,11 +26,17 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Primitives;
+using Quartz.AspNetCore;
+using Quartz;
 using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Quartz.Impl;
+using System.Collections.Specialized;
+using Implem.Pleasanter.Libraries.Settings;
+
 namespace Implem.Pleasanter.NetCore
 {
     public class Startup
@@ -171,11 +177,9 @@ namespace Implem.Pleasanter.NetCore
             {
                 services.AddHostedService<ReminderBackgroundService>();
             }
-            if (Parameters.BackgroundService.TimerEnabled(
-                deploymentEnvironment: Parameters.Service.DeploymentEnvironment))
-            {
-                services.AddHostedService<TimerBackgroundService>();
-            }
+            services.AddHostedService<CustomQuartzHostedService>();
+            new TimerBackground().Init();
+            BackgroundServerScriptUtilities.InitSchedule();
             var blobContainerUri = Parameters.Security.AspNetCoreDataProtection?.BlobContainerUri;
             var keyIdentifier = Parameters.Security.AspNetCoreDataProtection?.KeyIdentifier;
             if (!blobContainerUri.IsNullOrEmpty()
