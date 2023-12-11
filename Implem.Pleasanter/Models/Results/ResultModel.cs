@@ -2447,81 +2447,10 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             Dictionary<string, string> formData)
         {
-            formData.ForEach(data =>
-            {
-                var key = data.Key;
-                var value = data.Value ?? string.Empty;
-                switch (key)
-                {
-                    case "Results_Title": Title = new Title(ResultId, value); break;
-                    case "Results_Body": Body = value.ToString(); break;
-                    case "Results_Status": Status = new Status(value.ToInt());; break;
-                    case "Results_Manager": Manager = SiteInfo.User(context: context, userId: value.ToInt()); break;
-                    case "Results_Owner": Owner = SiteInfo.User(context: context, userId: value.ToInt()); break;
-                    case "Results_Locked": Locked = value.ToBool(); break;
-                    case "Results_Timestamp": Timestamp = value.ToString(); break;
-                    case "Comments": Comments.Prepend(
-                        context: context,
-                        ss: ss,
-                        body: value); break;
-                    case "VerUp": VerUp = value.ToBool(); break;
-                    case "CurrentPermissionsAll":
-                        RecordPermissions = context.Forms.List("CurrentPermissionsAll");
-                        break;
-                    default:
-                        if (key.RegexExists("Comment[0-9]+"))
-                        {
-                            Comments.Update(
-                                context: context,
-                                ss: ss,
-                                commentId: key.Substring("Comment".Length).ToInt(),
-                                body: value);
-                        }
-                        else
-                        {
-                            var column = ss.GetColumn(
-                                context: context,
-                                columnName: key.Split_2nd('_'));
-                            switch (Def.ExtendedColumnTypes.Get(column?.ColumnName ?? string.Empty))
-                            {
-                                case "Class":
-                                    SetClass(
-                                        columnName: column.ColumnName,
-                                        value: value);
-                                    break;
-                                case "Num":
-                                    SetNum(
-                                        columnName: column.ColumnName,
-                                        value: new Num(
-                                            context: context,
-                                            column: column,
-                                            value: value));
-                                    break;
-                                case "Date":
-                                    SetDate(
-                                        columnName: column.ColumnName,
-                                        value: value.ToDateTime().ToUniversal(context: context));
-                                    break;
-                                case "Description":
-                                    SetDescription(
-                                        columnName: column.ColumnName,
-                                        value: value);
-                                    break;
-                                case "Check":
-                                    SetCheck(
-                                        columnName: column.ColumnName,
-                                        value: value.ToBool());
-                                    break;
-                                case "Attachments":
-                                    SetAttachments(
-                                        columnName: column.ColumnName,
-                                        value: value.Deserialize<Attachments>());
-                                    break;
-                            }
-                        }
-                        break;
-                }
-            });
+            SetByFormData(
+                context: context,
+                ss: ss,
+                formData: formData);
             if (context.QueryStrings.ContainsKey("ver"))
             {
                 Ver = context.QueryStrings.Int("ver");
@@ -3230,28 +3159,88 @@ namespace Implem.Pleasanter.Models
                 .Where(o => selected == null || selected.Contains(o.Id))
                 .ForEach(formulaSet =>
                 {
-                    switch (formulaSet.Target)
+                    if (string.IsNullOrEmpty(formulaSet.CalculationMethod)
+                        || formulaSet.CalculationMethod == FormulaSet.CalculationMethods.Default.ToString())
                     {
-                        default:
-                            if (Def.ExtendedColumnTypes.ContainsKey(formulaSet.Target ?? string.Empty))
-                            {
-                                param.Add(
-                                    columnBracket: $"\"{formulaSet.Target}\"",
-                                    name: formulaSet.Target,
-                                    value: GetNum(formulaSet.Target).Value);
-                            }
-                            break;
+                        switch (formulaSet.Target)
+                        {
+                            default:
+                                if (Def.ExtendedColumnTypes.ContainsKey(formulaSet.Target ?? string.Empty))
+                                {
+                                    param.Add(
+                                        columnBracket: $"\"{formulaSet.Target}\"",
+                                        name: formulaSet.Target,
+                                        value: GetNum(formulaSet.Target).Value);
+                                }
+                                break;
+                        }
+                    }
+                    else if (formulaSet.CalculationMethod == FormulaSet.CalculationMethods.Extended.ToString())
+                    {
+                        switch (formulaSet.Target)
+                        {
+                            case "Title": param.Title(Title.Value); break;
+                            case "Body": param.Body(Body); break;
+                            case "Status": param.Status(Status.Value); break;
+                            case "Manager": param.Manager(Manager.Id); break;
+                            case "Owner": param.Owner(Owner.Id); break;
+                            case "Locked": param.Locked(Locked); break;
+                            case "Comments": param.Comments(Comments.ToString()); break;
+                            default:
+                                if (Def.ExtendedColumnTypes.ContainsKey(formulaSet.Target ?? string.Empty))
+                                {
+                                    switch (Def.ExtendedColumnTypes.Get(formulaSet.Target))
+                                    {
+                                        case "Class":
+                                            param.Add(
+                                                columnBracket: $"\"{formulaSet.Target}\"",
+                                                name: formulaSet.Target,
+                                                value: GetClass(formulaSet.Target));
+                                            break;
+                                        case "Num":
+                                            param.Add(
+                                                columnBracket: $"\"{formulaSet.Target}\"",
+                                                name: formulaSet.Target,
+                                                value: GetNum(formulaSet.Target).Value);
+                                            break;
+                                        case "Date":
+                                            param.Add(
+                                                columnBracket: $"\"{formulaSet.Target}\"",
+                                                name: formulaSet.Target,
+                                                value: GetDate(formulaSet.Target));
+                                            break;
+                                        case "Description":
+                                            param.Add(
+                                                columnBracket: $"\"{formulaSet.Target}\"",
+                                                name: formulaSet.Target,
+                                                value: GetDescription(formulaSet.Target));
+                                            break;
+                                        case "Check":
+                                            param.Add(
+                                                columnBracket: $"\"{formulaSet.Target}\"",
+                                                name: formulaSet.Target,
+                                                value: GetCheck(formulaSet.Target));
+                                            break;
+                                    }
+                                    break;
+                                }
+                                break;
+                        }
                     }
                 });
-            Repository.ExecuteNonQuery(
-                context: context,
-                statements: Rds.UpdateResults(
-                    param: param,
-                    where: Rds.ResultsWhereDefault(
-                        context: context,
-                        resultModel: this),
-                    addUpdatedTimeParam: false,
-                    addUpdatorParam: false));
+            var paramFilter = param.Where(p => p.Value != null).ToList();
+            if (paramFilter.Count > 0)
+            {
+                Repository.ExecuteNonQuery(
+                    context: context,
+                    statements: Rds.UpdateResults(
+                        param: param,
+                        where: Rds.ResultsWhereDefault(
+                            context: context,
+                            resultModel: this),
+                        addUpdatedTimeParam: false,
+                        addUpdatorParam: false));
+            }
         }
 
         public void SetByFormula(Context context, SiteSettings ss)
@@ -3262,43 +3251,97 @@ namespace Implem.Pleasanter.Models
             ss.Formulas?.ForEach(formulaSet =>
             {
                 var columnName = formulaSet.Target;
-                var formula = formulaSet.Formula;
-                var view = ss.Views?.Get(formulaSet.Condition);
-                if (view != null && !Matched(context: context, ss: ss, view: view))
+                if (string.IsNullOrEmpty(formulaSet.CalculationMethod)
+                    || formulaSet.CalculationMethod == FormulaSet.CalculationMethods.Default.ToString())
                 {
-                    if (formulaSet.OutOfCondition != null)
+                    var formula = formulaSet.Formula;
+                    var view = ss.Views?.Get(formulaSet.Condition);
+                    if (view != null && !Matched(context: context, ss: ss, view: view))
                     {
-                        formula = formulaSet.OutOfCondition;
+                        if (formulaSet.OutOfCondition != null)
+                        {
+                            formula = formulaSet.OutOfCondition;
+                        }
+                        else
+                        {
+                            return;
+                        }
                     }
-                    else
+                    var data = new Dictionary<string, decimal>
                     {
-                        return;
+                    };
+                    data.AddRange(NumHash.ToDictionary(
+                        o => o.Key,
+                        o => o.Value?.Value?.ToDecimal() ?? 0));
+                    var value = formula?.GetResult(
+                        data: data,
+                        column: ss.GetColumn(
+                            context: context,
+                            columnName: columnName)) ?? 0;
+                    switch (columnName)
+                    {
+                        default:
+                            SetNum(
+                                columnName: columnName,
+                                value: new Num(value));
+                            break;
+                    }
+                    if (ss.OutputFormulaLogs == true)
+                    {
+                        context.LogBuilder?.AppendLine($"formulaSet: {formulaSet.GetRecordingData().ToJson()}");
+                        context.LogBuilder?.AppendLine($"formulaSource: {data.ToJson()}");
+                        context.LogBuilder?.AppendLine($"formulaResult: {{\"{columnName}\":{value}}}");
                     }
                 }
-                var data = new Dictionary<string, decimal>
+                else if (formulaSet.CalculationMethod == FormulaSet.CalculationMethods.Extended.ToString())
                 {
-                };
-                data.AddRange(NumHash.ToDictionary(
-                    o => o.Key,
-                    o => o.Value?.Value?.ToDecimal() ?? 0));
-                var value = formula?.GetResult(
-                    data: data,
-                    column: ss.GetColumn(
-                        context: context,
-                        columnName: columnName)) ?? 0;
-                switch (columnName)
-                {
-                    default:
-                        SetNum(
-                            columnName: columnName,
-                            value: new Num(value));
-                        break;
-                }
-                if (ss.OutputFormulaLogs == true)
-                {
-                    context.LogBuilder?.AppendLine($"formulaSet: {formulaSet.GetRecordingData().ToJson()}");
-                    context.LogBuilder?.AppendLine($"formulaSource: {data.ToJson()}");
-                    context.LogBuilder?.AppendLine($"formulaResult: {{\"{columnName}\":{value}}}");
+                    SetExtendedColumnDefaultValue(
+                        ss: ss,
+                        formulaScript: formulaSet.FormulaScript,
+                        calculationMethod: formulaSet.CalculationMethod);
+                    formulaSet = FormulaBuilder.UpdateColumnDisplayText(
+                        ss: ss,
+                        formulaSet: formulaSet);
+                    formulaSet.FormulaScript = FormulaBuilder.ParseFormulaScript(
+                        ss: ss,
+                        formulaScript: formulaSet.FormulaScript,
+                        calculationMethod: formulaSet.CalculationMethod);
+                    try
+                    {
+                        var value = FormulaServerScriptUtilities.Execute(
+                            context: context,
+                            ss: ss,
+                            itemModel: this,
+                            formulaScript: formulaSet.FormulaScript);
+                        var formData = new Dictionary<string, string>
+                        {
+                            { $"Results_{columnName}", value.ToString() }
+                        };
+                        SetByFormData(
+                            context: context,
+                            ss: ss,
+                            formData: formData);
+                        if (ss.OutputFormulaLogs == true)
+                        {
+                            context.LogBuilder?.AppendLine($"formulaSet: {formulaSet.GetRecordingData().ToJson()}");
+                            context.LogBuilder?.AppendLine($"formulaSource: {this.ToJson()}");
+                            context.LogBuilder?.AppendLine($"formulaResult: {{\"{columnName}\":{value}}}");
+                        }
+                    }
+                    catch (Exception exception)
+                    {
+                        // Check formual setting display error;
+                        if (formulaSet.IsDisplayError == true)
+                        {
+                            throw new Exception($"Formula error {exception.Message}");
+                        }
+                        new SysLogModel(
+                            context: context,
+                            method: nameof(SetByFormula),
+                            message: $"Formula error {exception.Message}",
+                            errStackTrace: exception.StackTrace,
+                            sysLogType: SysLogModel.SysLogTypes.Execption);
+                    }
                 }
             });
             SetByAfterFormulaServerScript(
@@ -4049,6 +4092,86 @@ namespace Implem.Pleasanter.Models
         public string IdSuffix()
         {
             return $"_{SiteId}_{(ResultId == 0 ? -1 : ResultId)}";
+        }
+
+        private void SetByFormData(Context context, SiteSettings ss, Dictionary<string, string> formData)
+        {
+            formData.ForEach(data =>
+            {
+                var key = data.Key;
+                var value = data.Value ?? string.Empty;
+                switch (key)
+                {
+                    case "Results_Title": Title = new Title(ResultId, value); break;
+                    case "Results_Body": Body = value.ToString(); break;
+                    case "Results_Status": Status = new Status(value.ToInt()); ; break;
+                    case "Results_Manager": Manager = SiteInfo.User(context: context, userId: value.ToInt()); break;
+                    case "Results_Owner": Owner = SiteInfo.User(context: context, userId: value.ToInt()); break;
+                    case "Results_Locked": Locked = value.ToBool(); break;
+                    case "Results_Timestamp": Timestamp = value.ToString(); break;
+                    case "Comments":
+                        Comments.Prepend(
+                        context: context,
+                        ss: ss,
+                        body: value); break;
+                    case "VerUp": VerUp = value.ToBool(); break;
+                    case "CurrentPermissionsAll":
+                        RecordPermissions = context.Forms.List("CurrentPermissionsAll");
+                        break;
+                    default:
+                        if (key.RegexExists("Comment[0-9]+"))
+                        {
+                            Comments.Update(
+                                context: context,
+                                ss: ss,
+                                commentId: key.Substring("Comment".Length).ToInt(),
+                                body: value);
+                        }
+                        else
+                        {
+                            var column = ss.GetColumn(
+                                context: context,
+                                columnName: key.Split_2nd('_'));
+                            switch (Def.ExtendedColumnTypes.Get(column?.ColumnName ?? string.Empty))
+                            {
+                                case "Class":
+                                    SetClass(
+                                        columnName: column.ColumnName,
+                                        value: value);
+                                    break;
+                                case "Num":
+                                    SetNum(
+                                        columnName: column.ColumnName,
+                                        value: new Num(
+                                            context: context,
+                                            column: column,
+                                            value: value));
+                                    break;
+                                case "Date":
+                                    SetDate(
+                                        columnName: column.ColumnName,
+                                        value: value.ToDateTime().ToUniversal(context: context));
+                                    break;
+                                case "Description":
+                                    SetDescription(
+                                        columnName: column.ColumnName,
+                                        value: value);
+                                    break;
+                                case "Check":
+                                    SetCheck(
+                                        columnName: column.ColumnName,
+                                        value: value.ToBool());
+                                    break;
+                                case "Attachments":
+                                    SetAttachments(
+                                        columnName: column.ColumnName,
+                                        value: value.Deserialize<Attachments>());
+                                    break;
+                            }
+                        }
+                        break;
+                }
+            });
         }
     }
 }
