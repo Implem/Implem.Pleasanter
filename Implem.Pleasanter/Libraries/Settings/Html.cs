@@ -74,53 +74,19 @@ namespace Implem.Pleasanter.Libraries.Settings
         public void Update(
            string title,
            PositionTypes positionType,
-           bool all,
-           bool _new,
-           bool edit,
-           bool index,
-           bool calendar,
-           bool crosstab,
-           bool gantt,
-           bool burnDown,
-           bool timeSeries,
-           bool kamban,
-           bool imageLib,
-           bool disabled,
+           bool? all,
+           bool? _new,
+           bool? edit,
+           bool? index,
+           bool? calendar,
+           bool? crosstab,
+           bool? gantt,
+           bool? burnDown,
+           bool? timeSeries,
+           bool? kamban,
+           bool? imageLib,
+           bool? disabled,
            string body)
-        {
-            Title = title;
-            PositionType = positionType;
-            All = all;
-            New = _new;
-            Edit = edit;
-            Index = index;
-            Calendar = calendar;
-            Crosstab = crosstab;
-            Gantt = gantt;
-            BurnDown = burnDown;
-            TimeSeries = timeSeries;
-            Kamban = kamban;
-            ImageLib = imageLib;
-            Disabled = disabled;
-            Body = body;
-        }
-
-        public void UpdateByApi(
-            string title,
-            PositionTypes positionType,
-            bool? all,
-            bool? _new,
-            bool? edit,
-            bool? index,
-            bool? calendar,
-            bool? crosstab,
-            bool? gantt,
-            bool? burnDown,
-            bool? timeSeries,
-            bool? kamban,
-            bool? imageLib,
-            bool? disabled,
-            string body)
         {
             Title = title;
             PositionType = positionType;

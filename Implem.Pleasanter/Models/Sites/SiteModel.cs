@@ -2292,7 +2292,7 @@ namespace Implem.Pleasanter.Models
                     if (currentServerScript != null)
                     {
                         // Update ServerScript site setting
-                        currentServerScript.UpdateByApi(
+                        currentServerScript.Update(
                            title: ssApiSetting.Title,
                            name: ssApiSetting.Name,
                            whenloadingSiteSettings: ssApiSetting.ServerScriptWhenloadingSiteSettings,
@@ -2309,7 +2309,9 @@ namespace Implem.Pleasanter.Models
                            beforeOpeningPage: ssApiSetting.ServerScriptBeforeOpeningPage,
                            beforeOpeningRow: ssApiSetting.ServerScriptBeforeOpeningRow,
                            shared: ssApiSetting.ServerScriptShared,
-                           body: ssApiSetting.Body);
+                           background: default,
+                           body: ssApiSetting.Body,
+                           timeOut: default);
                     }
                     else
                     {
@@ -2366,7 +2368,7 @@ namespace Implem.Pleasanter.Models
                     if (currentScript != null)
                     {
                         // Update Script site setting
-                        currentScript.UpdateByApi(
+                        currentScript.Update(
                             title: scApiSiteSetting.Title,
                             all: scApiSiteSetting.ScriptAll,
                             _new: scApiSiteSetting.ScriptNew,
@@ -2432,7 +2434,7 @@ namespace Implem.Pleasanter.Models
                     if (currentStyle != null)
                     {
                         // Update Style site setting
-                        currentStyle.UpdateByApi(
+                        currentStyle.Update(
                             title: stApiSiteSetting.Title,
                             all: stApiSiteSetting.StyleAll,
                             _new: stApiSiteSetting.StyleNew,
@@ -2495,7 +2497,7 @@ namespace Implem.Pleasanter.Models
                     if (currentHtml != null)
                     {
                         // Update html site setting
-                        currentHtml.UpdateByApi(
+                        currentHtml.Update(
                             title: htmlApiSiteSetting.Title,
                             positionType: htmlApiSiteSetting.HtmlPositionType.ToEnum<Html.PositionTypes>(),
                             all: htmlApiSiteSetting.HtmlAll,

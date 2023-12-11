@@ -80,48 +80,6 @@ namespace Implem.Pleasanter.Libraries.Settings
         public void Update(
             string title,
             string name,
-            bool whenloadingSiteSettings,
-            bool whenViewProcessing,
-            bool whenloadingRecord,
-            bool beforeFormula,
-            bool afterFormula,
-            bool beforeCreate,
-            bool afterCreate,
-            bool beforeUpdate,
-            bool afterUpdate,
-            bool beforeDelete,
-            bool afterDelete,
-            bool beforeOpeningPage,
-            bool beforeOpeningRow,
-            bool shared,
-            bool background,
-            string body,
-            int? timeOut)
-        {
-            Title = title;
-            Name = name;
-            WhenloadingSiteSettings = whenloadingSiteSettings;
-            WhenViewProcessing = whenViewProcessing;
-            WhenloadingRecord = whenloadingRecord;
-            BeforeFormula = beforeFormula;
-            AfterFormula = afterFormula;
-            BeforeCreate = beforeCreate;
-            AfterCreate = afterCreate;
-            BeforeUpdate = beforeUpdate;
-            AfterUpdate = afterUpdate;
-            BeforeDelete = beforeDelete;
-            AfterDelete = afterDelete;
-            BeforeOpeningPage = beforeOpeningPage;
-            BeforeOpeningRow = beforeOpeningRow;
-            Shared = shared;
-            Background= background;
-            Body = body;
-            TimeOut = timeOut;
-        }
-
-        public void UpdateByApi(
-            string title,
-            string name,
             bool? whenloadingSiteSettings,
             bool? whenViewProcessing,
             bool? whenloadingRecord,
@@ -136,10 +94,12 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool? beforeOpeningPage,
             bool? beforeOpeningRow,
             bool? shared,
-            string body)
+            bool? background,
+            string body,
+            int? timeOut)
         {
             Title = title;
-            Name = name;
+            if (Name != null) Name = name;
             if (whenloadingSiteSettings != null) WhenloadingSiteSettings = whenloadingSiteSettings;
             if (whenViewProcessing != null) WhenViewProcessing = whenViewProcessing;
             if (whenloadingRecord != null) WhenloadingRecord = whenloadingRecord;
@@ -154,7 +114,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (beforeOpeningPage != null) BeforeOpeningPage = beforeOpeningPage;
             if (beforeOpeningRow != null) BeforeOpeningRow = beforeOpeningRow;
             if (shared != null) Shared = shared;
+            if (background != null) Background = background;
             if (body != null) Body = body;
+            if (timeOut != null) TimeOut = timeOut;
         }
 
         public ServerScript GetRecordingData()
