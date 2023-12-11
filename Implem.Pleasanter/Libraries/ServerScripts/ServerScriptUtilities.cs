@@ -18,6 +18,7 @@ using System.Linq;
 using static Implem.Pleasanter.Libraries.Security.Permissions;
 using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
 using Types = Implem.Libraries.Utilities.Types;
+
 namespace Implem.Pleasanter.Libraries.ServerScripts
 {
     public static class ServerScriptUtilities
@@ -1096,6 +1097,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     try
                     {
                         engine.ContinuationCallback = model.ContinuationCallback;
+                        engine.AddHostType(typeof(Newtonsoft.Json.JsonConvert));
+                        engine.Execute(ServerScriptJsLibraries.Scripts());
                         engine.AddHostObject("context", model.Context);
                         engine.AddHostObject("grid", model.Grid);
                         engine.AddHostObject("model", model.Model);
@@ -1141,7 +1144,13 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         {
             if (scripts.Any(o => o.TimeOut == 0))
             {
-                return DateTime.MaxValue;
+                // ServerScriptTimeOutChangeable=falseの場合に管理画面入力で
+                // TimeOutに0が入る為に、それを回避するコードを追加した
+                return Parameters.Script.ServerScriptTimeOutChangeable
+                    ? DateTime.MaxValue
+                    : Parameters.Script.ServerScriptTimeOut == 0
+                        ? DateTime.MaxValue
+                        : DateTime.Now.AddMilliseconds(Parameters.Script.ServerScriptTimeOut);
             }
             else
             {
@@ -1220,9 +1229,16 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             long id,
             string apiRequestBody)
         {
-            var createdContext = new Context(apiRequestBody: MergedApiRequestBody(
-                context: context,
-                apiRequestBody: apiRequestBody));
+            var createdContext = context.BackgroundServerScript
+                ? new Context(
+                    userId: context.UserId,
+                    deptId: context.DeptId,
+                    tenantId: context.TenantId,
+                    request: false,
+                    setAuthenticated: true)
+                : new Context(apiRequestBody: MergedApiRequestBody(
+                    context: context,
+                    apiRequestBody: apiRequestBody));
             createdContext.LogBuilder = context.LogBuilder;
             createdContext.UserData = context.UserData;
             createdContext.Messages = context.Messages;
@@ -1232,6 +1248,11 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             createdContext.ApiRequestBody = apiRequestBody;
             createdContext.PermissionHash = Permissions.Get(context: createdContext);
             createdContext.ServerScriptDepth = context.ServerScriptDepth + 1;
+            if (context.BackgroundServerScript)
+            {
+                createdContext.BackgroundServerScript = context.BackgroundServerScript;
+                createdContext.SetPermissions();
+            }
             return createdContext;
         }
 

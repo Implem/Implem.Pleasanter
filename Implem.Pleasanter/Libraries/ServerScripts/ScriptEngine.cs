@@ -28,6 +28,11 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             v8ScriptEngine = new V8ScriptEngine(flags);
         }
 
+        public void AddHostType(Type type)
+        {
+            v8ScriptEngine?.AddHostType(type);
+        }
+
         public void AddHostObject(string itemName, object target)
         {
             v8ScriptEngine?.AddHostObject(itemName, target);

@@ -1,0 +1,10 @@
+﻿.Invoke(
+    methodName: "clearScrollTop",
+    args: "CurrentMembersWrapper")
+.ReloadCurrentMembers(
+    context: context,
+    groupId: groupModel.GroupId)
+.ResetSelectableMembers()
+.Val(target: "#AddedGroupMembers", value: "[]")
+.Val(target: "#DeletedGroupMembers", value: "[]")
+.Val(target: "#ModifiedGroupMembers", value: "[]")

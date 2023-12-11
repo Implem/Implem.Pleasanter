@@ -5,7 +5,7 @@
             if ($control.val() === '' && $control.hasClass('allow-blank')) {
                 $control.val('');
             } else if ($control.val() === '' ||
-                $control.val().match(/[^0-9\.]/g) ||
+                $control.val().match(/[^-|^0-9\.]/g) ||
                 parseInt($control.val()) < parseInt($control.attr('data-min'))) {
                 $control.val($control.attr('data-min'));
             } else if (parseInt($control.val()) > parseInt($control.attr('data-max'))) {

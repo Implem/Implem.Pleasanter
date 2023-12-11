@@ -1,0 +1,33 @@
+{
+    "Id": "September",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "September"
+        },
+        {
+            "Language": "ja",
+            "Body": "9月"
+        },
+        {
+            "Language": "zh",
+            "Body": "9月"
+        },
+        {
+            "Language": "ko",
+            "Body": "9월"
+        },
+        {
+            "Language": "vi",
+            "Body": "Tháng 9"
+        },
+        {
+            "Language": "es",
+            "Body": "Septiembre"
+        },
+        {
+            "Language": "de",
+            "Body": "September"
+        }
+    ]
+}

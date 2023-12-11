@@ -483,9 +483,16 @@ namespace Implem.Pleasanter.Models
                 initSiteSettings: true,
                 setSiteIntegration: true,
                 setAllChoices: true);
-            ViewModes.Set(context: context, siteId: Site.SiteId);
+            if (Site.ReferenceType != "Dashboards")
+            {
+                ViewModes.Set(context: context, siteId: Site.SiteId);
+            }
             switch (Site.ReferenceType)
             {
+                case "Dashboards":
+                    return DashboardUtilities.CalendarJson(
+                        context: context,
+                        ss: Site.SiteSettings);
                 case "Issues":
                     return IssueUtilities.CalendarJson(
                         context: context,
@@ -549,6 +556,19 @@ namespace Implem.Pleasanter.Models
                 default:
                     return Messages.ResponseNotFound(context: context).ToJson();
             }
+        }
+
+        public string DashboardPartJson(Context context,string dashboardPartId)
+        {
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true,
+                setAllChoices: true);
+            return DashboardUtilities.DashboardPartJson(
+                context: context,
+                ss: Site.SiteSettings,
+                dashboardPartId: dashboardPartId);
         }
 
         public string Gantt(Context context)
@@ -2745,6 +2765,10 @@ namespace Implem.Pleasanter.Models
                 setAllChoices: true);
             switch (Site.ReferenceType)
             {
+                case "Dashboards":
+                    return DashboardUtilities.UpdateByCalendar(
+                        context: context,
+                        ss: Site.SiteSettings);
                 case "Issues":
                     return IssueUtilities.UpdateByCalendar(
                         context: context,

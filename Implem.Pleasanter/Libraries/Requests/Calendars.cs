@@ -5,12 +5,18 @@ using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using System;
 using SixLabors.ImageSharp;
+using System.Linq;
 
 namespace Implem.Pleasanter.Libraries.Requests
 {
     public static class Calendars
     {
-        public static DateTime BeginDate(Context context, SiteSettings ss, DateTime date, string timePeriod, View view)
+        public static DateTime BeginDate(
+            Context context,
+            SiteSettings ss,
+            DateTime date,
+            string timePeriod,
+            View view)
         {
             date = date.ToLocal(context: context).Date;
             var first = new DateTime(date.Year, date.Month, 1);
@@ -22,7 +28,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                 case "Monthly":
                 case "Weekly":
                     DateTime begin;
-                    
+                    string calendarType = view.GetCalendarType(ss: ss);
                     if ((int)first.DayOfWeek < Parameters.General.FirstDayOfWeek)
                     {
                         begin = first.AddDays(
@@ -37,22 +43,41 @@ namespace Implem.Pleasanter.Libraries.Requests
                     {
                         begin = begin.AddDays(((date - begin).Days / 7) *7);
                     }
-                    if (ss.CalendarType.ToString() == "FullCalendar") {
+                    if (calendarType == "FullCalendar") {
                         begin = !string.IsNullOrEmpty(view.CalendarStart.ToString())
                             ? (DateTime)view.CalendarStart
                             : begin;
                     }
+                    if (ss.DashboardParts?.Any() == true
+                        && ss.DashboardParts.FirstOrDefault().CalendarType.ToString() == "FullCalendar"
+                        && view.CalendarStartHash?.Any() == true
+                        && view.CalendarStartHash.ContainsKey($"CalendarStart{view.CalendarSuffix}"))
+                    {
+                        begin = (DateTime)view.CalendarStartHash[$"CalendarStart{view.CalendarSuffix}"];
+                    }
                     return begin.ToUniversal(context: context);
-
                 default:
                     return DateTime.MinValue;
             }
         }
 
-        public static DateTime EndDate(Context context, SiteSettings ss, DateTime date, string timePeriod, View view)
+        public static DateTime EndDate(
+            Context context,
+            SiteSettings ss,
+            DateTime date,
+            string timePeriod,
+            View view)
         {
-            if (ss.CalendarType.ToString() == "FullCalendar")
+            string calendarType = view.GetCalendarType(ss: ss);
+            if (calendarType == "FullCalendar")
             {
+                if (ss.DashboardParts?.Any() == true
+                    && ss.DashboardParts.FirstOrDefault().CalendarType.ToString() == "FullCalendar"
+                    && view.CalendarEndHash?.Any() == true
+                    && view.CalendarEndHash.ContainsKey($"CalendarEnd{view.CalendarSuffix}"))
+                {
+                    return (DateTime)view.CalendarEndHash[$"CalendarEnd{view.CalendarSuffix}"];
+                }
                 return !string.IsNullOrEmpty(view.CalendarEnd.ToString())
                     ? (DateTime)view.CalendarEnd
                     : BeginDate(

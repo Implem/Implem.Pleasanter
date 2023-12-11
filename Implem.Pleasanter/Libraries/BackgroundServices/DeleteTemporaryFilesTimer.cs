@@ -1,6 +1,7 @@
 ﻿using Implem.DefinitionAccessor;
+using Quartz;
+using System;
 using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Implem.Pleasanter.Libraries.BackgroundServices
@@ -10,7 +11,16 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
     /// </summary>
     public class DeleteTemporaryFilesTimer : ExecutionTimerBase
     {
-        override public async Task ExecuteAsync(CancellationToken stoppingToken)
+        public class Param : IExecutionTimerBaseParam
+        {
+            public static readonly JobKey jobKey = new JobKey("DeleteTemporaryFilesTimer", "ExecutionTimerBase");
+            public Type JobType => typeof(DeleteTemporaryFilesTimer);
+            public IEnumerable<string> TimeList => Parameters.BackgroundService.DeleteTemporaryFilesTime;
+            public bool Enabled => Parameters.BackgroundService.DeleteTemporaryFiles;
+            public JobKey JobKey => jobKey;
+        }
+
+        public override async Task Execute(IJobExecutionContext context)
         {
             await Task.Run(() =>
             {
@@ -20,17 +30,12 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
                     message: "Delete Temporary Files.");
                 Initializer.DeleteTemporaryFiles();
                 log.Finish(context: context);
-            }, stoppingToken);
+            }, context.CancellationToken);
         }
 
-        override public IList<string> GetTimeList()
+        internal static IExecutionTimerBaseParam GetParam()
         {
-            return Parameters.BackgroundService.DeleteTemporaryFilesTime;
-        }
-
-        public override bool Enabled()
-        {
-            return Parameters.BackgroundService.DeleteTemporaryFiles;
+            return new Param();
         }
     }
 }

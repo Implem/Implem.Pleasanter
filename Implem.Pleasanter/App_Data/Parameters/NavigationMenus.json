@@ -148,6 +148,18 @@
                 "LinkParams": [ "Items", "{SiteId}", "TrashBox" ]
             },
             {
+                "MenuId": "SettingsMenu_GroupTrashBox",
+                "Name": "TrashBox",
+                "Icon": "ui-icon ui-icon-trash",
+                "LinkParams": [ "Groups", "TrashBox" ]
+            },
+            {
+                "MenuId": "SettingsMenu_DeptTrashBox",
+                "Name": "TrashBox",
+                "Icon": "ui-icon ui-icon-trash",
+                "LinkParams": [ "Depts", "TrashBox" ]
+            },
+            {
                 "MenuId": "SettingsMenu_UserTrashBox",
                 "Name": "TrashBox",
                 "Icon": "ui-icon ui-icon-trash",

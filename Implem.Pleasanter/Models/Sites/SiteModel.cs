@@ -3115,9 +3115,12 @@ namespace Implem.Pleasanter.Models
                         res: res);
                     break;
                 case "AddDashboardPartViewFilter":
+                    var BaseSiteId = !context.Forms.Data("DashboardPartBaseSiteId").IsNullOrEmpty()
+                        ? context.Forms.Long("DashboardPartBaseSiteId")
+                        : context.Forms.Long("DashboardPartCalendarBaseSiteId");
                     var ss = SiteSettingsUtilities.Get(
                         context: context,
-                        siteId: context.Forms.Long("DashboardPartBaseSiteId"));
+                        siteId: BaseSiteId);
                     AddViewFilter(
                         context: context,
                         res: res,
@@ -3134,8 +3137,23 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         res: res);
                     break;
+                case "EditCalendarSites":
+                    OpenDashboardPartCalendarSitesDialog(
+                        context: context,
+                        res: res);
+                    break;
+                case "UpdateDashboardPartCalendarSites":
+                    UpdateDashboardPartCalendarSites(
+                        context: context,
+                        res: res);
+                    break;
                 case "ClearDashboardView":
                     ClearDashboardView(
+                        context: context,
+                        res: res);
+                    break;
+                case "ClearDashboardCalendarView":
+                    ClearDashboardCalendarView(
                         context: context,
                         res: res);
                     break;
@@ -7160,8 +7178,9 @@ namespace Implem.Pleasanter.Models
                 beforeOpeningPage: context.Forms.Bool("ServerScriptBeforeOpeningPage"),
                 beforeOpeningRow: context.Forms.Bool("ServerScriptBeforeOpeningRow"),
                 shared: context.Forms.Bool("ServerScriptShared"),
+                background: false,
                 body: context.Forms.Data("ServerScriptBody"),
-                timeOut: context.Forms.Int("ServerScriptTimeOut"));
+                timeOut: GetServerScriptTimeOutValue(context: context));
             var invalid = ServerScriptValidators.OnCreating(
                 context: context,
                 serverScript: script);
@@ -7190,8 +7209,9 @@ namespace Implem.Pleasanter.Models
                 beforeOpeningPage: script.BeforeOpeningPage ?? default,
                 beforeOpeningRow: script.BeforeOpeningRow ?? default,
                 shared: script.Shared ?? default,
+                background: script.Background ?? default,
                 body: script.Body,
-                timeOut: context.Forms.Int("ServerScriptTimeOut")));
+                timeOut: script.TimeOut));
             res
                 .ReplaceAll("#EditServerScript", new HtmlBuilder()
                     .EditServerScript(
@@ -7223,8 +7243,9 @@ namespace Implem.Pleasanter.Models
                 beforeOpeningPage: context.Forms.Bool("ServerScriptBeforeOpeningPage"),
                 beforeOpeningRow: context.Forms.Bool("ServerScriptBeforeOpeningRow"),
                 shared: context.Forms.Bool("ServerScriptShared"),
+                background: false,
                 body: context.Forms.Data("ServerScriptBody"),
-                timeOut: context.Forms.Int("ServerScriptTimeOut"));
+                timeOut: GetServerScriptTimeOutValue(context: context));
             var invalid = ServerScriptValidators.OnUpdating(
                 context: context,
                 serverScript: script);
@@ -7254,6 +7275,7 @@ namespace Implem.Pleasanter.Models
                     beforeOpeningPage: script.BeforeOpeningPage ?? default,
                     beforeOpeningRow: script.BeforeOpeningRow ?? default,
                     shared: script.Shared ?? default,
+                    background: script.Background ?? default,
                     body: script.Body,
                     timeOut: script.TimeOut);
             res
@@ -7262,6 +7284,18 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: SiteSettings))
                 .CloseDialog();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private int? GetServerScriptTimeOutValue(Context context)
+        {
+            int timeOut;
+            return int.TryParse(context.Forms.Data("ServerScriptTimeOut"), out timeOut)
+                && timeOut <= Parameters.Script.ServerScriptTimeOutMax && timeOut >= Parameters.Script.ServerScriptTimeOutMin
+                    ? timeOut
+                    : null;
         }
 
         /// <summary>
@@ -7715,6 +7749,18 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        private void OpenDashboardPartCalendarSitesDialog(Context context, ResponseCollection res)
+        {
+            res.Html("#DashboardPartCalendarSitesDialog", SiteUtilities.DashboardPartCalendarSitesDialog(
+                context: context,
+                ss: SiteSettings,
+                dashboardPartId: context.Forms.Int("DashboardPartId"),
+                dashboardCalendarSites: context.Forms.Data("DashboardPartCalendarSites")));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private void OpenDashboardPartDialog(Context context, ResponseCollection res, string controlId)
         {
             if (controlId == "NewDashboardPart")
@@ -7766,7 +7812,15 @@ namespace Implem.Pleasanter.Models
                 content: context.Forms.Data("DashboardPartContent"),
                 htmlContent: context.Forms.Data("DashboardPartHtmlContent"),
                 timeLineDisplayType: context.Forms.Data("DashboardPartTimeLineDisplayType").ToEnum<TimeLineDisplayType>(),
+                calendarSites: context.Forms.Data("DashboardPartCalendarSites"),
+                calendarSitesData: context.Forms.Data("DashboardPartCalendarSites").Split(',').ToList(),
+                calendarGroupBy: context.Forms.Data("DashboardPartCalendarGroupBy"),
+                calendarTimePeriod: context.Forms.Data("DashboardPartCalendarTimePeriod"),
+                calendarFromTo: context.Forms.Data("DashboardPartCalendarFromTo"),
+                calendarShowStatus: context.Forms.Bool("CalendarShowStatus"),
+                calendarType: context.Forms.Data("DashboardPartCalendarType").ToEnum<CalendarType>(),
                 extendedCss: context.Forms.Data("DashboardPartExtendedCss"),
+                disableAsynchronousLoading: context.Forms.Bool("DisableAsynchronousLoading"),
                 permissions: DashboardPartPermissions(context: context));
             SiteSettings.DashboardParts.Add(dashboardPart);
             res
@@ -7823,7 +7877,15 @@ namespace Implem.Pleasanter.Models
                 content: context.Forms.Data("DashboardPartContent"),
                 htmlContent: context.Forms.Data("DashboardPartHtmlContent"),
                 timeLineDisplayType: context.Forms.Data("DashboardPartTimeLineDisplayType").ToEnum<TimeLineDisplayType>(),
+                calendarSites: context.Forms.Data("DashboardPartCalendarSites"),
+                calendarSitesData: context.Forms.Data("DashboardPartCalendarSites").Split(',').ToList(),
+                calendarGroupBy: context.Forms.Data("DashboardPartCalendarGroupBy"),
+                calendarTimePeriod: context.Forms.Data("DashboardPartCalendarTimePeriod"),
+                calendarFromTo: context.Forms.Data("DashboardPartCalendarFromTo"),
+                calendarShowStatus: context.Forms.Bool("CalendarShowStatus"),
+                calendarType: context.Forms.Data("DashboardPartCalendarType").ToEnum<CalendarType>(),
                 extendedCss: context.Forms.Data("DashboardPartExtendedCss"),
+                disableAsynchronousLoading: context.Forms.Bool("DisableAsynchronousLoading"),
                 permissions: DashboardPartPermissions(context: context));
             res
                 .Html("#EditDashboardPart", new HtmlBuilder()
@@ -7942,10 +8004,10 @@ namespace Implem.Pleasanter.Models
             var timeLineSites = context.Forms.Data("DashboardPartTimeLineSitesEdit");
             var savedSs = DashboardPart.GetBaseSiteSettings(
                 context: context,
-                timeLineSitesString: savedTimeLineSites);
+                sitesString: savedTimeLineSites);
             var currentSs = DashboardPart.GetBaseSiteSettings(
-                    context: context,
-                    timeLineSitesString: timeLineSites);
+                context: context,
+                sitesString: timeLineSites);
             if (currentSs == null || currentSs.SiteId == 0)
             {
                 res.Message(
@@ -7983,6 +8045,76 @@ namespace Implem.Pleasanter.Models
                         args: new
                         {
                             timeLineSites,
+                            baseSiteId = currentSs.SiteId
+                        }.ToJson());
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void UpdateDashboardPartCalendarSites(Context context, ResponseCollection res)
+        {
+            var savedCalendarSites = context.Forms.Data("SavedDashboardPartCalendarSites");
+            var calendarSites = context.Forms.Data("DashboardPartCalendarSitesEdit");
+            var savedSs = DashboardPart.GetBaseSiteSettings(
+                context: context,
+                sitesString: savedCalendarSites);
+            var currentSs = DashboardPart.GetBaseSiteSettings(
+                context: context,
+                sitesString: calendarSites);
+            if (currentSs == null || currentSs.SiteId == 0)
+            {
+                res.Message(
+                    message: new Message(
+                        id: "InvalidCalendarSites",
+                        text: Displays.InvalidTimeLineSites(context: context),
+                        css: "alert-error"),
+                    target: "#DashboardPartCalendarSitesMessage");
+            }
+            else if (savedSs == null || savedSs?.SiteId == 0 || savedSs?.SiteId == currentSs?.SiteId)
+            {
+                res
+                    .Set(
+                        target: "#DashboardPartCalendarSites",
+                        value: calendarSites)
+                    .Set(
+                        target: "#DashboardPartCalendarBaseSiteId",
+                        value: currentSs.SiteId)
+                    .Add(
+                        method: "SetValue",
+                        target: "#DashboardPartCalendarSitesValue",
+                        value: calendarSites)
+                    .CloseDialog(
+                        target: "#DashboardPartCalendarSitesDialog");
+                if (savedSs == null || savedSs?.SiteId == 0)
+                {
+                    ClearDashboardCalendarView(context: context, res: res);
+                }
+            }
+            else
+            {
+                res
+                    .Html(
+                        target: "#DashboardPartCalendarGroupBy",
+                        value: new HtmlBuilder()
+                            .OptionCollection(
+                                context: context,
+                                optionCollection: currentSs.CalendarGroupByOptions(context: context)?.ToDictionary(
+                                o => o.Key, o => new ControlData(o.Value)),
+                                insertBlank: true))
+                    .Html(
+                        target: "#DashboardPartCalendarFromTo",
+                        value: new HtmlBuilder()
+                            .OptionCollection(
+                                context: context,
+                                optionCollection: currentSs.CalendarColumnOptions(context: context)?.ToDictionary(
+                                o => o.Key, o => new ControlData(o.Value))))
+                    .Invoke(
+                        methodName: "confirmCalendarSites",
+                        args: new
+                        {
+                            calendarSites,
                             baseSiteId = currentSs.SiteId
                         }.ToJson());
             }
@@ -8031,6 +8163,55 @@ namespace Implem.Pleasanter.Models
                             prefix: "DashboardPart",
                             usekeepSorterState: false,
                             currentTableOnly: true));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void ClearDashboardCalendarView(Context context, ResponseCollection res)
+        {
+            var currentSs = DashboardPart.GetBaseSiteSettings(
+                context: context,
+                context.Forms.Data("DashboardPartCalendarSitesEdit"));
+            if (currentSs == null)
+            {
+                res.Message(
+                   new Message(
+                       "InvalidCalendarSites",
+                       Displays.InvalidTimeLineSites(context: context),
+                       "alert-error"));
+                return;
+            }
+            var dashboardPart = SiteSettings.DashboardParts?
+                .FirstOrDefault(o => o.Id == context.Forms.Int("DashboardPartId"));
+            if (dashboardPart != null)
+            {
+                dashboardPart.View = new View();
+            }
+            res
+                .Html(
+                    "#DashboardPartViewFiltersTabContainer",
+                    new HtmlBuilder()
+                        .ViewFiltersTab(
+                            context: context,
+                            ss: currentSs,
+                            view: new View(),
+                            prefix: "DashboardPart",
+                            currentTableOnly: true))
+                .Html(
+                    target: "#DashboardPartCalendarGroupBy",
+                    value: new HtmlBuilder()
+                        .OptionCollection(
+                            context: context,
+                            optionCollection: currentSs.CalendarGroupByOptions(context: context)?.ToDictionary(
+                            o => o.Key, o => new ControlData(o.Value))))
+                .Html(
+                    target: "#DashboardPartCalendarFromTo",
+                    value: new HtmlBuilder()
+                        .OptionCollection(
+                            context: context,
+                            optionCollection: currentSs.CalendarColumnOptions(context: context)?.ToDictionary(
+                            o => o.Key, o => new ControlData(o.Value))));
         }
 
         /// <summary>
