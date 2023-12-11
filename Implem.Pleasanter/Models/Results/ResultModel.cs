@@ -2507,6 +2507,85 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        private void SetByFormData(Context context, SiteSettings ss, Dictionary<string, string> formData)
+        {
+            formData.ForEach(data =>
+            {
+                var key = data.Key;
+                var value = data.Value ?? string.Empty;
+                switch (key)
+                {
+                    case "Results_Title": Title = new Title(ResultId, value); break;
+                    case "Results_Body": Body = value.ToString(); break;
+                    case "Results_Status": Status = new Status(value.ToInt());; break;
+                    case "Results_Manager": Manager = SiteInfo.User(context: context, userId: value.ToInt()); break;
+                    case "Results_Owner": Owner = SiteInfo.User(context: context, userId: value.ToInt()); break;
+                    case "Results_Locked": Locked = value.ToBool(); break;
+                    case "Results_Timestamp": Timestamp = value.ToString(); break;
+                    case "Comments": Comments.Prepend(
+                        context: context,
+                        ss: ss,
+                        body: value); break;
+                    case "VerUp": VerUp = value.ToBool(); break;
+                    case "CurrentPermissionsAll":
+                        RecordPermissions = context.Forms.List("CurrentPermissionsAll");
+                        break;
+                    default:
+                        if (key.RegexExists("Comment[0-9]+"))
+                        {
+                            Comments.Update(
+                                context: context,
+                                ss: ss,
+                                commentId: key.Substring("Comment".Length).ToInt(),
+                                body: value);
+                        }
+                        else
+                        {
+                            var column = ss.GetColumn(
+                                context: context,
+                                columnName: key.Split_2nd('_'));
+                            switch (Def.ExtendedColumnTypes.Get(column?.ColumnName ?? string.Empty))
+                            {
+                                case "Class":
+                                    SetClass(
+                                        columnName: column.ColumnName,
+                                        value: value);
+                                    break;
+                                case "Num":
+                                    SetNum(
+                                        columnName: column.ColumnName,
+                                        value: new Num(
+                                            context: context,
+                                            column: column,
+                                            value: value));
+                                    break;
+                                case "Date":
+                                    SetDate(
+                                        columnName: column.ColumnName,
+                                        value: value.ToDateTime().ToUniversal(context: context));
+                                    break;
+                                case "Description":
+                                    SetDescription(
+                                        columnName: column.ColumnName,
+                                        value: value);
+                                    break;
+                                case "Check":
+                                    SetCheck(
+                                        columnName: column.ColumnName,
+                                        value: value.ToBool());
+                                    break;
+                                case "Attachments":
+                                    SetAttachments(
+                                        columnName: column.ColumnName,
+                                        value: value.Deserialize<Attachments>());
+                                    break;
+                            }
+                        }
+                        break;
+                }
+            });
+        }
+
         public void SetByCsvRow(
             Context context,
             SiteSettings ss,
@@ -3185,7 +3264,7 @@ namespace Implem.Pleasanter.Models
                             case "Manager": param.Manager(Manager.Id); break;
                             case "Owner": param.Owner(Owner.Id); break;
                             case "Locked": param.Locked(Locked); break;
-                            case "Comments": param.Comments(Comments.ToString()); break;
+                                case "Comments": param.Comments(Comments.ToString()); break;
                             default:
                                 if (Def.ExtendedColumnTypes.ContainsKey(formulaSet.Target ?? string.Empty))
                                 {
@@ -4092,86 +4171,6 @@ namespace Implem.Pleasanter.Models
         public string IdSuffix()
         {
             return $"_{SiteId}_{(ResultId == 0 ? -1 : ResultId)}";
-        }
-
-        private void SetByFormData(Context context, SiteSettings ss, Dictionary<string, string> formData)
-        {
-            formData.ForEach(data =>
-            {
-                var key = data.Key;
-                var value = data.Value ?? string.Empty;
-                switch (key)
-                {
-                    case "Results_Title": Title = new Title(ResultId, value); break;
-                    case "Results_Body": Body = value.ToString(); break;
-                    case "Results_Status": Status = new Status(value.ToInt()); ; break;
-                    case "Results_Manager": Manager = SiteInfo.User(context: context, userId: value.ToInt()); break;
-                    case "Results_Owner": Owner = SiteInfo.User(context: context, userId: value.ToInt()); break;
-                    case "Results_Locked": Locked = value.ToBool(); break;
-                    case "Results_Timestamp": Timestamp = value.ToString(); break;
-                    case "Comments":
-                        Comments.Prepend(
-                        context: context,
-                        ss: ss,
-                        body: value); break;
-                    case "VerUp": VerUp = value.ToBool(); break;
-                    case "CurrentPermissionsAll":
-                        RecordPermissions = context.Forms.List("CurrentPermissionsAll");
-                        break;
-                    default:
-                        if (key.RegexExists("Comment[0-9]+"))
-                        {
-                            Comments.Update(
-                                context: context,
-                                ss: ss,
-                                commentId: key.Substring("Comment".Length).ToInt(),
-                                body: value);
-                        }
-                        else
-                        {
-                            var column = ss.GetColumn(
-                                context: context,
-                                columnName: key.Split_2nd('_'));
-                            switch (Def.ExtendedColumnTypes.Get(column?.ColumnName ?? string.Empty))
-                            {
-                                case "Class":
-                                    SetClass(
-                                        columnName: column.ColumnName,
-                                        value: value);
-                                    break;
-                                case "Num":
-                                    SetNum(
-                                        columnName: column.ColumnName,
-                                        value: new Num(
-                                            context: context,
-                                            column: column,
-                                            value: value));
-                                    break;
-                                case "Date":
-                                    SetDate(
-                                        columnName: column.ColumnName,
-                                        value: value.ToDateTime().ToUniversal(context: context));
-                                    break;
-                                case "Description":
-                                    SetDescription(
-                                        columnName: column.ColumnName,
-                                        value: value);
-                                    break;
-                                case "Check":
-                                    SetCheck(
-                                        columnName: column.ColumnName,
-                                        value: value.ToBool());
-                                    break;
-                                case "Attachments":
-                                    SetAttachments(
-                                        columnName: column.ColumnName,
-                                        value: value.Deserialize<Attachments>());
-                                    break;
-                            }
-                        }
-                        break;
-                }
-            });
         }
     }
 }

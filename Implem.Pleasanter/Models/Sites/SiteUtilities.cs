@@ -8159,7 +8159,7 @@ namespace Implem.Pleasanter.Models
                                 .Td(action: () => hb
                                     .Text(text: formulaSet.Id.ToString()))
                                 .Td(action: () => hb
-                                    .Text(text: Displays.FormulaCalculationMethod(
+                                    .Text(text: Displays.Get(
                                         context: context,
                                         id: formulaSet.CalculationMethod)))
                                 .Td(action: () => hb
@@ -8169,8 +8169,8 @@ namespace Implem.Pleasanter.Models
                                 .Td(action: () => hb
                                     .Text(text: (formulaSet.CalculationMethod == FormulaSet.CalculationMethods.Default.ToString()
                                         || string.IsNullOrEmpty(formulaSet.CalculationMethod))
-                                        ? formulaSet.Formula?.ToString(ss: ss, notUseDisplayName: formulaSet.NotUseDisplayName)
-                                        : formulaSet.FormulaScript))
+                                            ? formulaSet.Formula?.ToString(ss: ss, notUseDisplayName: formulaSet.NotUseDisplayName)
+                                            : formulaSet.FormulaScript))
                                 .Td(action: () => hb
                                     .Text(text: ss.Views?.Get(formulaSet.Condition)?.Name))
                                 .Td(action: () => hb
@@ -8237,7 +8237,7 @@ namespace Implem.Pleasanter.Models
                     .FieldCheckBox(
                         controlId: "IsDisplayError",
                         controlCss: " always-send",
-                        labelText: Displays.IsDisplayError(context: context),
+                        labelText: Displays.FormulaIsDisplayError(context: context),
                         _checked: formulaSet.IsDisplayError == true,
                         fieldCss: (formulaSet.CalculationMethod == FormulaSet.CalculationMethods.Default.ToString()
                             || formulaSet.CalculationMethod == null)
@@ -16353,6 +16353,9 @@ namespace Implem.Pleasanter.Models
                 .ToJson();
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static HtmlBuilder FormulaCalculationMethod(
             this HtmlBuilder hb,
             Context context,

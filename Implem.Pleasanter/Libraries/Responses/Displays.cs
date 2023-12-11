@@ -3689,6 +3689,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Extended(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Extended",
+                data: data);
+        }
+
         public static string ExtendedCellCss(
             Context context,
             params string[] data)
@@ -3966,6 +3976,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Format",
+                data: data);
+        }
+
+        public static string FormulaIsDisplayError(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "FormulaIsDisplayError",
                 data: data);
         }
 
@@ -6649,26 +6669,6 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
-        public static string NotUseDisplayName(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "NotUseDisplayName",
-                data: data);
-        }
-
-        public static string IsDisplayError(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "FormulaIsDisplayError",
-                data: data);
-        }
-
         public static string NotContainKeyColumn(
             Context context,
             params string[] data)
@@ -6836,6 +6836,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "NotShowZeroRows",
+                data: data);
+        }
+
+        public static string NotUseDisplayName(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "NotUseDisplayName",
                 data: data);
         }
 
@@ -24066,17 +24076,6 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Wikis",
-                data: data);
-        }
-
-        public static string FormulaCalculationMethod(
-            Context context,
-            string id,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: id,
                 data: data);
         }
     }

@@ -706,6 +706,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_UpdateExecute_User": Code.Model_UpdateExecute_User = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateExecute_User, definitionRow, CodeXls); break;
                     case "Model_UpdateFormulaColumns": Code.Model_UpdateFormulaColumns = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateFormulaColumns, definitionRow, CodeXls); break;
                     case "Model_UpdateFormulaColumns_ColumnCases": Code.Model_UpdateFormulaColumns_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateFormulaColumns_ColumnCases, definitionRow, CodeXls); break;
+                    case "Model_UpdateFormulaExtendedColumns_ColumnCases": Code.Model_UpdateFormulaExtendedColumns_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateFormulaExtendedColumns_ColumnCases, definitionRow, CodeXls); break;
                     case "Model_UpdateGroupMembersMethod": Code.Model_UpdateGroupMembersMethod = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateGroupMembersMethod, definitionRow, CodeXls); break;
                     case "Model_UpdateInitSiteSettings": Code.Model_UpdateInitSiteSettings = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateInitSiteSettings, definitionRow, CodeXls); break;
                     case "Model_UpdateOrCreate": Code.Model_UpdateOrCreate = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateOrCreate, definitionRow, CodeXls); break;
@@ -7160,6 +7161,7 @@ namespace Implem.DefinitionAccessor
         public string Model_UpdateExecute_User;
         public string Model_UpdateFormulaColumns;
         public string Model_UpdateFormulaColumns_ColumnCases;
+        public string Model_UpdateFormulaExtendedColumns_ColumnCases;
         public string Model_UpdateGroupMembersMethod;
         public string Model_UpdateInitSiteSettings;
         public string Model_UpdateOrCreate;
@@ -7964,6 +7966,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_UpdateExecute_User = new CodeDefinition();
         public CodeDefinition Model_UpdateFormulaColumns = new CodeDefinition();
         public CodeDefinition Model_UpdateFormulaColumns_ColumnCases = new CodeDefinition();
+        public CodeDefinition Model_UpdateFormulaExtendedColumns_ColumnCases = new CodeDefinition();
         public CodeDefinition Model_UpdateGroupMembersMethod = new CodeDefinition();
         public CodeDefinition Model_UpdateInitSiteSettings = new CodeDefinition();
         public CodeDefinition Model_UpdateOrCreate = new CodeDefinition();

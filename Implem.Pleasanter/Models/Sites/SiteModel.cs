@@ -1470,6 +1470,27 @@ namespace Implem.Pleasanter.Models
             Dictionary<string, string> formData)
         {
             var ss = new SiteSettings();
+            SetByFormData(
+                context: context,
+                ss: ss,
+                formData: formData);
+            if (context.QueryStrings.ContainsKey("ver"))
+            {
+                Ver = context.QueryStrings.Int("ver");
+            }
+            SetSiteSettings(context: context);
+            if (context.Action == "deletecomment")
+            {
+                DeleteCommentId = formData.Get("ControlId")?
+                    .Split(',')
+                    ._2nd()
+                    .ToInt() ?? 0;
+                Comments.RemoveAll(o => o.CommentId == DeleteCommentId);
+            }
+        }
+
+        private void SetByFormData(Context context, SiteSettings ss, Dictionary<string, string> formData)
+        {
             formData.ForEach(data =>
             {
                 var key = data.Key;
@@ -1570,19 +1591,6 @@ namespace Implem.Pleasanter.Models
                         break;
                 }
             });
-            if (context.QueryStrings.ContainsKey("ver"))
-            {
-                Ver = context.QueryStrings.Int("ver");
-            }
-            SetSiteSettings(context: context);
-            if (context.Action == "deletecomment")
-            {
-                DeleteCommentId = formData.Get("ControlId")?
-                    .Split(',')
-                    ._2nd()
-                    .ToInt() ?? 0;
-                Comments.RemoveAll(o => o.CommentId == DeleteCommentId);
-            }
         }
 
         public void SetByModel(SiteModel siteModel)
@@ -8370,6 +8378,9 @@ namespace Implem.Pleasanter.Models
             return statements;
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private void ChangeFormulaCalculationMethod(Context context, ResponseCollection res)
         {
             if (!context.CanUpdate(ss: SiteSettings))

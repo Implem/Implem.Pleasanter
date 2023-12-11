@@ -3167,7 +3167,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                .ToDictionary(
                     o => o.ToString(),
                     o => new ControlData(
-                        text: Displays.FormulaCalculationMethod(
+                        text: Displays.Get(
                             context: context,
                             id: Enum.GetName(typeof(FormulaSet.CalculationMethods), o)),
                         attributes: new Dictionary<string, string>() { { "data-action", "SetSiteSettings" } }
