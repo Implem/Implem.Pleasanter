@@ -1479,6 +1479,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string CalculationMethod(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "CalculationMethod",
+                data: data);
+        }
+
         public static string Calendar(
             Context context,
             params string[] data)
@@ -3679,6 +3689,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Extended(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Extended",
+                data: data);
+        }
+
         public static string ExtendedCellCss(
             Context context,
             params string[] data)
@@ -3956,6 +3976,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Format",
+                data: data);
+        }
+
+        public static string FormulaIsDisplayError(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "FormulaIsDisplayError",
                 data: data);
         }
 
@@ -6806,6 +6836,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "NotShowZeroRows",
+                data: data);
+        }
+
+        public static string NotUseDisplayName(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "NotUseDisplayName",
                 data: data);
         }
 

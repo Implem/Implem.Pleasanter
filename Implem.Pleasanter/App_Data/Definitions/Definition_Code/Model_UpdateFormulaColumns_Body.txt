@@ -7,29 +7,86 @@
         .Where(o => selected == null || selected.Contains(o.Id))
         .ForEach(formulaSet =>
         {
-            switch (formulaSet.Target)
+            if (string.IsNullOrEmpty(formulaSet.CalculationMethod)
+                || formulaSet.CalculationMethod == FormulaSet.CalculationMethods.Default.ToString())
             {
+                switch (formulaSet.Target)
+                {
 
 <!--Model_UpdateFormulaColumns_ColumnCases-->
 
-                default:
-                    if (Def.ExtendedColumnTypes.ContainsKey(formulaSet.Target ?? string.Empty))
-                    {
-                        param.Add(
-                            columnBracket: $"\"{formulaSet.Target}\"",
-                            name: formulaSet.Target,
-                            value: GetNum(formulaSet.Target).Value);
-                    }
-                    break;
+                    default:
+                        if (Def.ExtendedColumnTypes.ContainsKey(formulaSet.Target ?? string.Empty))
+                        {
+                            param.Add(
+                                columnBracket: $"\"{formulaSet.Target}\"",
+                                name: formulaSet.Target,
+                                value: GetNum(formulaSet.Target).Value);
+                        }
+                        break;
+                }
+            }
+            else if (formulaSet.CalculationMethod == FormulaSet.CalculationMethods.Extended.ToString())
+            {
+                switch (formulaSet.Target)
+                {
+
+<!--Model_UpdateFormulaExtendedColumns_ColumnCases-->
+
+                        case "Comments": param.Comments(Comments.ToString()); break;
+                    default:
+                        if (Def.ExtendedColumnTypes.ContainsKey(formulaSet.Target ?? string.Empty))
+                        {
+                            switch (Def.ExtendedColumnTypes.Get(formulaSet.Target))
+                            {
+                                case "Class":
+                                    param.Add(
+                                        columnBracket: $"\"{formulaSet.Target}\"",
+                                        name: formulaSet.Target,
+                                        value: GetClass(formulaSet.Target));
+                                    break;
+                                case "Num":
+                                    param.Add(
+                                        columnBracket: $"\"{formulaSet.Target}\"",
+                                        name: formulaSet.Target,
+                                        value: GetNum(formulaSet.Target).Value);
+                                    break;
+                                case "Date":
+                                    param.Add(
+                                        columnBracket: $"\"{formulaSet.Target}\"",
+                                        name: formulaSet.Target,
+                                        value: GetDate(formulaSet.Target));
+                                    break;
+                                case "Description":
+                                    param.Add(
+                                        columnBracket: $"\"{formulaSet.Target}\"",
+                                        name: formulaSet.Target,
+                                        value: GetDescription(formulaSet.Target));
+                                    break;
+                                case "Check":
+                                    param.Add(
+                                        columnBracket: $"\"{formulaSet.Target}\"",
+                                        name: formulaSet.Target,
+                                        value: GetCheck(formulaSet.Target));
+                                    break;
+                            }
+                            break;
+                        }
+                        break;
+                }
             }
         });
-    Repository.ExecuteNonQuery(
-        context: context,
-        statements: Rds.Update#TableName#(
-            param: param,
-            where: Rds.#TableName#WhereDefault(
-                context: context,
-                #modelName#Model: this),
-            addUpdatedTimeParam: false,
-            addUpdatorParam: false));
+    var paramFilter = param.Where(p => p.Value != null).ToList();
+    if (paramFilter.Count > 0)
+    {
+        Repository.ExecuteNonQuery(
+            context: context,
+            statements: Rds.Update#TableName#(
+                param: param,
+                where: Rds.#TableName#WhereDefault(
+                    context: context,
+                    #modelName#Model: this),
+                addUpdatedTimeParam: false,
+                addUpdatorParam: false));
+    }
 }
