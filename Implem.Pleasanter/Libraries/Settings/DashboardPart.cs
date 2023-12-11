@@ -46,7 +46,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string Content { get; set; }
         public string HtmlContent { get; set; }
         public TimeLineDisplayType? TimeLineDisplayType { get; set; }
-        public CalendarType? CalendarType { get; set; }
+        public SiteSettings.CalendarTypes? CalendarType { get; set; }
         public string CalendarSites { get; set; }
         public List<string> CalendarSitesData { get; set; }
         public string CalendarGroupBy { get; set; }
@@ -164,7 +164,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             string content,
             string htmlContent,
             TimeLineDisplayType timeLineDisplayType,
-            CalendarType calendarType,
+            SiteSettings.CalendarTypes calendarType,
             string calendarSites,
             List<string> calendarSitesData,
             string calendarGroupBy,
@@ -224,7 +224,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             string content,
             string htmlContent,
             TimeLineDisplayType timeLineDisplayType,
-            CalendarType calendarType,
+            SiteSettings.CalendarTypes calendarType,
             string calendarSites,
             List<string> calendarSitesData,
             string calendarGroupBy,

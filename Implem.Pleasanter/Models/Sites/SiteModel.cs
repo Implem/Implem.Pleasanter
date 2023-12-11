@@ -15,7 +15,9 @@ using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.ServerScripts;
 using Implem.Pleasanter.Libraries.Settings;
+using Implem.Pleasanter.Models.ApiSiteSettings;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
@@ -1470,6 +1472,27 @@ namespace Implem.Pleasanter.Models
             Dictionary<string, string> formData)
         {
             var ss = new SiteSettings();
+            SetByFormData(
+                context: context,
+                ss: ss,
+                formData: formData);
+            if (context.QueryStrings.ContainsKey("ver"))
+            {
+                Ver = context.QueryStrings.Int("ver");
+            }
+            SetSiteSettings(context: context);
+            if (context.Action == "deletecomment")
+            {
+                DeleteCommentId = formData.Get("ControlId")?
+                    .Split(',')
+                    ._2nd()
+                    .ToInt() ?? 0;
+                Comments.RemoveAll(o => o.CommentId == DeleteCommentId);
+            }
+        }
+
+        private void SetByFormData(Context context, SiteSettings ss, Dictionary<string, string> formData)
+        {
             formData.ForEach(data =>
             {
                 var key = data.Key;
@@ -1570,19 +1593,6 @@ namespace Implem.Pleasanter.Models
                         break;
                 }
             });
-            if (context.QueryStrings.ContainsKey("ver"))
-            {
-                Ver = context.QueryStrings.Int("ver");
-            }
-            SetSiteSettings(context: context);
-            if (context.Action == "deletecomment")
-            {
-                DeleteCommentId = formData.Get("ControlId")?
-                    .Split(',')
-                    ._2nd()
-                    .ToInt() ?? 0;
-                Comments.RemoveAll(o => o.CommentId == DeleteCommentId);
-            }
         }
 
         public void SetByModel(SiteModel siteModel)
@@ -2272,6 +2282,279 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public void UpsertServerScriptByApi(
+            SiteSettings siteSetting,
+            List<ServerScriptApiSettingModel> serverScriptsApiSiteSetting)
+        {
+            List<int> deleteSelected = new List<int>();
+            serverScriptsApiSiteSetting.ForEach(ssApiSetting =>
+            {
+                var currentServerScript = siteSetting.ServerScripts?.
+                     FirstOrDefault(o => o.Id == ssApiSetting.Id.ToInt());
+                if (ssApiSetting.Delete.ToInt() == ApiSiteSetting.DeleteFlag.IsDelete.ToInt())
+                {
+                    deleteSelected.Add(ssApiSetting.Id.ToInt());
+                }
+                else
+                {
+                    if (currentServerScript != null)
+                    {
+                        // Update ServerScript site setting
+                        currentServerScript.Update(
+                           title: ssApiSetting.Title,
+                           name: ssApiSetting.Name,
+                           whenloadingSiteSettings: ssApiSetting.ServerScriptWhenloadingSiteSettings,
+                           whenViewProcessing: ssApiSetting.ServerScriptWhenViewProcessing,
+                           whenloadingRecord: ssApiSetting.ServerScriptWhenloadingRecord,
+                           beforeFormula: ssApiSetting.ServerScriptBeforeFormula,
+                           afterFormula: ssApiSetting.ServerScriptAfterFormula,
+                           beforeCreate: ssApiSetting.ServerScriptBeforeCreate,
+                           afterCreate: ssApiSetting.ServerScriptAfterCreate,
+                           beforeUpdate: ssApiSetting.ServerScriptBeforeUpdate,
+                           afterUpdate: ssApiSetting.ServerScriptAfterUpdate,
+                           beforeDelete: ssApiSetting.ServerScriptBeforeDelete,
+                           afterDelete: ssApiSetting.ServerScriptAfterDelete,
+                           beforeOpeningPage: ssApiSetting.ServerScriptBeforeOpeningPage,
+                           beforeOpeningRow: ssApiSetting.ServerScriptBeforeOpeningRow,
+                           shared: ssApiSetting.ServerScriptShared,
+                           background: default,
+                           body: ssApiSetting.Body,
+                           timeOut: default);
+                    }
+                    else
+                    {
+                        // Create new ServerScript site setting
+                        SiteSettings.ServerScripts.Add(new ServerScript(
+                           id: ssApiSetting.Id,
+                           title: ssApiSetting.Title,
+                           name: ssApiSetting.Name,
+                           whenloadingSiteSettings: ssApiSetting.ServerScriptWhenloadingSiteSettings,
+                           whenViewProcessing: ssApiSetting.ServerScriptWhenViewProcessing,
+                           whenloadingRecord: ssApiSetting.ServerScriptWhenloadingRecord,
+                           beforeFormula: ssApiSetting.ServerScriptBeforeFormula,
+                           afterFormula: ssApiSetting.ServerScriptAfterFormula,
+                           beforeCreate: ssApiSetting.ServerScriptBeforeCreate,
+                           afterCreate: ssApiSetting.ServerScriptAfterCreate,
+                           beforeUpdate: ssApiSetting.ServerScriptBeforeUpdate,
+                           afterUpdate: ssApiSetting.ServerScriptAfterUpdate,
+                           beforeDelete: ssApiSetting.ServerScriptBeforeDelete,
+                           afterDelete: ssApiSetting.ServerScriptAfterDelete,
+                           beforeOpeningPage: ssApiSetting.ServerScriptBeforeOpeningPage,
+                           beforeOpeningRow: ssApiSetting.ServerScriptBeforeOpeningRow,
+                           shared: ssApiSetting.ServerScriptShared,
+                           body: ssApiSetting.Body,
+                           background: default,
+                           timeOut: default));
+                    }
+                }
+            });
+            // Check has deleted
+            if (deleteSelected.Count() != 0)
+            {
+                siteSetting.ServerScripts.Delete(deleteSelected);
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public void UpsertScriptByApi(
+            SiteSettings siteSetting,
+            List<ScriptApiSettingModel> scriptsApiSiteSetting)
+        {
+            List<int> deleteSelected = new List<int>();
+            scriptsApiSiteSetting.ForEach(scApiSiteSetting =>
+            {
+                var currentScript = siteSetting.Scripts?.
+                     FirstOrDefault(o => o.Id == scApiSiteSetting.Id.ToInt());
+                if (scApiSiteSetting.Delete.ToInt() == ApiSiteSetting.DeleteFlag.IsDelete.ToInt())
+                {
+                    deleteSelected.Add(scApiSiteSetting.Id.ToInt());
+                }
+                else
+                {
+                    if (currentScript != null)
+                    {
+                        // Update Script site setting
+                        currentScript.Update(
+                            title: scApiSiteSetting.Title,
+                            all: scApiSiteSetting.ScriptAll,
+                            _new: scApiSiteSetting.ScriptNew,
+                            edit: scApiSiteSetting.ScriptEdit,
+                            index: scApiSiteSetting.ScriptIndex,
+                            calendar: scApiSiteSetting.ScriptCalendar,
+                            crosstab: scApiSiteSetting.ScriptCrosstab,
+                            gantt: scApiSiteSetting.ScriptGantt,
+                            burnDown: scApiSiteSetting.ScriptBurnDown,
+                            timeSeries: scApiSiteSetting.ScriptTimeSeries,
+                            kamban: scApiSiteSetting.ScriptKamban,
+                            imageLib: scApiSiteSetting.ScriptImageLib,
+                            disabled: scApiSiteSetting.Disabled,
+                            body: scApiSiteSetting.Body);
+                    }
+                    else
+                    {
+                        // Create new Script site setting
+                        SiteSettings.Scripts.Add(new Script(
+                            id: scApiSiteSetting.Id,
+                            title: scApiSiteSetting.Title,
+                            all: scApiSiteSetting.ScriptAll,
+                            _new: scApiSiteSetting.ScriptNew,
+                            edit: scApiSiteSetting.ScriptEdit,
+                            index: scApiSiteSetting.ScriptIndex,
+                            calendar: scApiSiteSetting.ScriptCalendar,
+                            crosstab: scApiSiteSetting.ScriptCrosstab,
+                            gantt: scApiSiteSetting.ScriptGantt,
+                            burnDown: scApiSiteSetting.ScriptBurnDown,
+                            timeSeries: scApiSiteSetting.ScriptTimeSeries,
+                            kamban: scApiSiteSetting.ScriptKamban,
+                            imageLib: scApiSiteSetting.ScriptImageLib,
+                            disabled: scApiSiteSetting.Disabled,
+                            body: scApiSiteSetting.Body));
+                    }
+                }
+            });
+            // Check has deleted
+            if (deleteSelected.Count() != 0)
+            {
+                siteSetting.Scripts.Delete(deleteSelected);
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public void UpsertStyleByApi(
+            SiteSettings siteSetting,
+            List<StyleApiSettingModel> styleApiSiteSetting)
+        {
+            List<int> deleteSelected = new List<int>();
+            styleApiSiteSetting.ForEach(stApiSiteSetting =>
+            {
+                var currentStyle = siteSetting.Styles?.
+                     FirstOrDefault(o => o.Id == stApiSiteSetting.Id.ToInt());
+                if (stApiSiteSetting.Delete.ToInt() == ApiSiteSetting.DeleteFlag.IsDelete.ToInt())
+                {
+                    deleteSelected.Add(stApiSiteSetting.Id.ToInt());
+                }
+                else
+                {
+                    if (currentStyle != null)
+                    {
+                        // Update Style site setting
+                        currentStyle.Update(
+                            title: stApiSiteSetting.Title,
+                            all: stApiSiteSetting.StyleAll,
+                            _new: stApiSiteSetting.StyleNew,
+                            edit: stApiSiteSetting.StyleEdit,
+                            index: stApiSiteSetting.StyleIndex,
+                            calendar: stApiSiteSetting.StyleCalendar,
+                            crosstab: stApiSiteSetting.StyleCrosstab,
+                            gantt: stApiSiteSetting.StyleGantt,
+                            burnDown: stApiSiteSetting.StyleBurnDown,
+                            timeSeries: stApiSiteSetting.StyleTimeSeries,
+                            kamban: stApiSiteSetting.StyleKamban,
+                            imageLib: stApiSiteSetting.StyleImageLib,
+                            disabled: stApiSiteSetting.Disabled,
+                            body: stApiSiteSetting.Body);
+                    }
+                    else
+                    {
+                        // Add new Style site setting
+                        SiteSettings.Styles.Add(new Style(
+                            id: stApiSiteSetting.Id,
+                            title: stApiSiteSetting.Title,
+                            all: stApiSiteSetting.StyleAll,
+                            _new: stApiSiteSetting.StyleNew,
+                            edit: stApiSiteSetting.StyleEdit,
+                            index: stApiSiteSetting.StyleIndex,
+                            calendar: stApiSiteSetting.StyleCalendar,
+                            crosstab: stApiSiteSetting.StyleCrosstab,
+                            gantt: stApiSiteSetting.StyleGantt,
+                            burnDown: stApiSiteSetting.StyleBurnDown,
+                            timeSeries: stApiSiteSetting.StyleTimeSeries,
+                            kamban: stApiSiteSetting.StyleKamban,
+                            imageLib: stApiSiteSetting.StyleImageLib,
+                            disabled: stApiSiteSetting.Disabled,
+                            body: stApiSiteSetting.Body));
+                    }
+                }
+            });
+            // Check has deleted
+            if (deleteSelected.Count() != 0)
+            {
+                siteSetting.Styles.Delete(deleteSelected);
+            }
+        }
+
+        public void UpsertHtmlByApi(
+            SiteSettings siteSetting,
+            List<HtmlApiSettingModel> htmlsApiSiteSetting)
+        {
+            List<int> deleteSelected = new List<int>();
+            htmlsApiSiteSetting.ForEach(htmlApiSiteSetting =>
+            {
+                var currentHtml = siteSetting.Htmls?.
+                     FirstOrDefault(o => o.Id == htmlApiSiteSetting.Id.ToInt());
+                if (htmlApiSiteSetting.Delete.ToInt() == ApiSiteSetting.DeleteFlag.IsDelete.ToInt())
+                {
+                    deleteSelected.Add(htmlApiSiteSetting.Id.ToInt());
+                }
+                else
+                {
+                    if (currentHtml != null)
+                    {
+                        // Update html site setting
+                        currentHtml.Update(
+                            title: htmlApiSiteSetting.Title,
+                            positionType: htmlApiSiteSetting.HtmlPositionType.ToEnum<Html.PositionTypes>(),
+                            all: htmlApiSiteSetting.HtmlAll,
+                            _new: htmlApiSiteSetting.HtmlNew,
+                            edit: htmlApiSiteSetting.HtmlEdit,
+                            index: htmlApiSiteSetting.HtmlIndex,
+                            calendar: htmlApiSiteSetting.HtmlCalendar,
+                            crosstab: htmlApiSiteSetting.HtmlCrosstab,
+                            gantt: htmlApiSiteSetting.HtmlGantt,
+                            burnDown: htmlApiSiteSetting.HtmlBurnDown,
+                            timeSeries: htmlApiSiteSetting.HtmlTimeSeries,
+                            kamban: htmlApiSiteSetting.HtmlKamban,
+                            imageLib: htmlApiSiteSetting.HtmlImageLib,
+                            disabled: htmlApiSiteSetting.Disabled,
+                            body: htmlApiSiteSetting.Body);
+                    }
+                    else
+                    {
+                        // Add new html site setting
+                        SiteSettings.Htmls.Add(new Html(
+                            id: htmlApiSiteSetting.Id,
+                            title: htmlApiSiteSetting.Title,
+                            positionType: htmlApiSiteSetting.HtmlPositionType.ToEnum<Html.PositionTypes>(),
+                            all: htmlApiSiteSetting.HtmlAll,
+                            _new: htmlApiSiteSetting.HtmlNew,
+                            edit: htmlApiSiteSetting.HtmlEdit,
+                            index: htmlApiSiteSetting.HtmlIndex,
+                            calendar: htmlApiSiteSetting.HtmlCalendar,
+                            crosstab: htmlApiSiteSetting.HtmlCrosstab,
+                            gantt: htmlApiSiteSetting.HtmlGantt,
+                            burnDown: htmlApiSiteSetting.HtmlBurnDown,
+                            timeSeries: htmlApiSiteSetting.HtmlTimeSeries,
+                            kamban: htmlApiSiteSetting.HtmlKamban,
+                            imageLib: htmlApiSiteSetting.HtmlImageLib,
+                            disabled: htmlApiSiteSetting.Disabled,
+                            body: htmlApiSiteSetting.Body));
+                    }
+                }
+            });
+            // Check has deleted
+            if (deleteSelected.Count() != 0)
+            {
+                siteSetting.Htmls.Delete(deleteSelected);
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private void SetSiteSettings(Context context, ResponseCollection res)
         {
             var controlId = context.Forms.ControlId();
@@ -2479,6 +2762,11 @@ namespace Implem.Pleasanter.Models
                     break;
                 case "DeleteFormulas":
                     DeleteFormulas(
+                        context: context,
+                        res: res);
+                    break;
+                case "FormulaCalculationMethod":
+                    ChangeFormulaCalculationMethod(
                         context: context,
                         res: res);
                     break;
@@ -4237,9 +4525,12 @@ namespace Implem.Pleasanter.Models
         {
             var outOfCondition = context.Forms.Data("FormulaOutOfCondition").Trim();
             var error = SiteSettings.AddFormula(
+                context.Forms.Data("FormulaCalculationMethod"),
                 context.Forms.Data("FormulaTarget"),
                 context.Forms.Int("FormulaCondition"),
                 context.Forms.Data("Formula"),
+                context.Forms.Bool("NotUseDisplayName"),
+                context.Forms.Bool("IsDisplayError"),
                 outOfCondition != string.Empty
                     ? outOfCondition
                     : null);
@@ -4265,9 +4556,12 @@ namespace Implem.Pleasanter.Models
             var outOfCondition = context.Forms.Data("FormulaOutOfCondition").Trim();
             var error = SiteSettings.UpdateFormula(
                 id,
+                context.Forms.Data("FormulaCalculationMethod"),
                 context.Forms.Data("FormulaTarget"),
                 context.Forms.Int("FormulaCondition"),
                 context.Forms.Data("Formula"),
+                context.Forms.Bool("NotUseDisplayName"),
+                context.Forms.Bool("IsDisplayError"),
                 outOfCondition != string.Empty
                     ? outOfCondition
                     : null);
@@ -7167,6 +7461,7 @@ namespace Implem.Pleasanter.Models
                 beforeOpeningPage: context.Forms.Bool("ServerScriptBeforeOpeningPage"),
                 beforeOpeningRow: context.Forms.Bool("ServerScriptBeforeOpeningRow"),
                 shared: context.Forms.Bool("ServerScriptShared"),
+                background: false,
                 body: context.Forms.Data("ServerScriptBody"),
                 timeOut: GetServerScriptTimeOutValue(context: context));
             var invalid = ServerScriptValidators.OnCreating(
@@ -7197,6 +7492,7 @@ namespace Implem.Pleasanter.Models
                 beforeOpeningPage: script.BeforeOpeningPage ?? default,
                 beforeOpeningRow: script.BeforeOpeningRow ?? default,
                 shared: script.Shared ?? default,
+                background: script.Background ?? default,
                 body: script.Body,
                 timeOut: script.TimeOut));
             res
@@ -7230,6 +7526,7 @@ namespace Implem.Pleasanter.Models
                 beforeOpeningPage: context.Forms.Bool("ServerScriptBeforeOpeningPage"),
                 beforeOpeningRow: context.Forms.Bool("ServerScriptBeforeOpeningRow"),
                 shared: context.Forms.Bool("ServerScriptShared"),
+                background: false,
                 body: context.Forms.Data("ServerScriptBody"),
                 timeOut: GetServerScriptTimeOutValue(context: context));
             var invalid = ServerScriptValidators.OnUpdating(
@@ -7261,6 +7558,7 @@ namespace Implem.Pleasanter.Models
                     beforeOpeningPage: script.BeforeOpeningPage ?? default,
                     beforeOpeningRow: script.BeforeOpeningRow ?? default,
                     shared: script.Shared ?? default,
+                    background: script.Background ?? default,
                     body: script.Body,
                     timeOut: script.TimeOut);
             res
@@ -7803,7 +8101,7 @@ namespace Implem.Pleasanter.Models
                 calendarTimePeriod: context.Forms.Data("DashboardPartCalendarTimePeriod"),
                 calendarFromTo: context.Forms.Data("DashboardPartCalendarFromTo"),
                 calendarShowStatus: context.Forms.Bool("CalendarShowStatus"),
-                calendarType: context.Forms.Data("DashboardPartCalendarType").ToEnum<CalendarType>(),
+                calendarType: context.Forms.Data("DashboardPartCalendarType").ToEnum<SiteSettings.CalendarTypes>(),
                 extendedCss: context.Forms.Data("DashboardPartExtendedCss"),
                 disableAsynchronousLoading: context.Forms.Bool("DisableAsynchronousLoading"),
                 permissions: DashboardPartPermissions(context: context));
@@ -7868,7 +8166,7 @@ namespace Implem.Pleasanter.Models
                 calendarTimePeriod: context.Forms.Data("DashboardPartCalendarTimePeriod"),
                 calendarFromTo: context.Forms.Data("DashboardPartCalendarFromTo"),
                 calendarShowStatus: context.Forms.Bool("CalendarShowStatus"),
-                calendarType: context.Forms.Data("DashboardPartCalendarType").ToEnum<CalendarType>(),
+                calendarType: context.Forms.Data("DashboardPartCalendarType").ToEnum<SiteSettings.CalendarTypes>(),
                 extendedCss: context.Forms.Data("DashboardPartExtendedCss"),
                 disableAsynchronousLoading: context.Forms.Bool("DisableAsynchronousLoading"),
                 permissions: DashboardPartPermissions(context: context));
@@ -8189,7 +8487,8 @@ namespace Implem.Pleasanter.Models
                         .OptionCollection(
                             context: context,
                             optionCollection: currentSs.CalendarGroupByOptions(context: context)?.ToDictionary(
-                            o => o.Key, o => new ControlData(o.Value))))
+                            o => o.Key, o => new ControlData(o.Value)),
+                            insertBlank: true))
                 .Html(
                     target: "#DashboardPartCalendarFromTo",
                     value: new HtmlBuilder()
@@ -8352,6 +8651,29 @@ namespace Implem.Pleasanter.Models
                         .SiteId(SiteId)
                         .Id(reminder.Id))));
             return statements;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void ChangeFormulaCalculationMethod(Context context, ResponseCollection res)
+        {
+            if (!context.CanUpdate(ss: SiteSettings))
+            {
+                res.Message(Messages.HasNotPermission(context: context)).ToJson();
+            }
+            else
+            {
+                res
+                    .Html(
+                        "#FormulaTarget",
+                        new HtmlBuilder().FormulaCalculationMethod(
+                            context: context,
+                            ss: SiteSettings,
+                            target: context.Forms.Data("CalculationMethod")))
+                    .ClearFormData()
+                    .ToJson();
+            }
         }
     }
 }

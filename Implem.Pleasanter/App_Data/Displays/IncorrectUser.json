@@ -1,0 +1,33 @@
+﻿{
+    "Id": "IncorrectUser",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "Incorrect user.[{0}]"
+        },
+        {
+            "Language": "zh",
+            "Body": "用户不正确。[{0}]"
+        },
+        {
+            "Language": "ja",
+            "Body": "ユーザが正しくありません。[{0}]"
+        },
+        {
+            "Language": "de",
+            "Body": "Falscher Benutzer.[{0}]"
+        },
+        {
+            "Language": "ko",
+            "Body": "잘못된 사용자입니다.[{0}]"
+        },
+        {
+            "Language": "es",
+            "Body": "Usuario incorrecto.[{0}]"
+        },
+        {
+            "Language": "vn",
+            "Body": "Người dùng không chính xác.[{0}]"
+        }
+    ]
+}

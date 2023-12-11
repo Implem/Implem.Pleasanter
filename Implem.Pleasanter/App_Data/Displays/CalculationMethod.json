@@ -1,0 +1,33 @@
+﻿{
+    "Id": "CalculationMethod",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Calculation method"
+        },
+        {
+            "Language": "zh",
+            "Body": "计算方法"
+        },
+        {
+            "Language": "ja",
+            "Body": "計算方法"
+        },
+        {
+            "Language": "de",
+            "Body": "Rechenmethode"
+        },
+        {
+            "Language": "ko",
+            "Body": "계산방법"
+        },
+        {
+            "Language": "es",
+            "Body": "Método de cálculo"
+        },
+        {
+            "Language": "vn",
+            "Body": "Phương thức tính toán"
+        }
+    ]
+}

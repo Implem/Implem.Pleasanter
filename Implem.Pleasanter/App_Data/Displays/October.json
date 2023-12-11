@@ -1,0 +1,33 @@
+{
+    "Id": "October",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "October"
+        },
+        {
+            "Language": "ja",
+            "Body": "10月"
+        },
+        {
+            "Language": "zh",
+            "Body": "10月"
+        },
+        {
+            "Language": "ko",
+            "Body": "10월"
+        },
+        {
+            "Language": "vi",
+            "Body": "Tháng Mười"
+        },
+        {
+            "Language": "es",
+            "Body": "Octubre"
+        },
+        {
+            "Language": "de",
+            "Body": "Oktober"
+        }
+    ]
+}
