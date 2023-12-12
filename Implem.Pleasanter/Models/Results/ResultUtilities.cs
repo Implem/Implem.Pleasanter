@@ -2951,7 +2951,7 @@ namespace Implem.Pleasanter.Models
             }
             if (copyFrom > 0)
             {
-                resultModel.Comments.Clear();
+                resultModel.Comments.RemoveAll(o => !o.Created);
             }
             var processes = ss.Processes
                 ?.Where(process => process.IsTarget(context: context))
