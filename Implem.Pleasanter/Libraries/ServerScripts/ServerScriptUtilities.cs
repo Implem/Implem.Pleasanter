@@ -1068,6 +1068,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             {
                 return null;
             }
+            scripts = scripts.Prepend(new ServerScript()
+            {
+                Body = ServerScriptJsLibraries.Scripts()
+            }).ToArray();
             itemModel = itemModel ?? new BaseItemModel();
             ServerScriptModelRow scriptValues = null;
             using (var model = new ServerScriptModel(
@@ -1098,7 +1102,6 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     {
                         engine.ContinuationCallback = model.ContinuationCallback;
                         engine.AddHostType(typeof(Newtonsoft.Json.JsonConvert));
-                        engine.Execute(ServerScriptJsLibraries.Scripts());
                         engine.AddHostObject("context", model.Context);
                         engine.AddHostObject("grid", model.Grid);
                         engine.AddHostObject("model", model.Model);

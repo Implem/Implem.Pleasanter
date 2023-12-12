@@ -1,6 +1,4 @@
-﻿using Implem.Pleasanter.Controllers;
-using Implem.Pleasanter.Interfaces;
-using Quartz;
+﻿using Implem.Pleasanter.Interfaces;
 using System;
 
 namespace Implem.Pleasanter.Libraries.Settings
@@ -8,14 +6,12 @@ namespace Implem.Pleasanter.Libraries.Settings
     [Serializable()]
     public class BackgroundSchedule : ISettingListItem
     {
-        /*
-         * ScheduleTypeは下記の値
-            hourly,
-            daily,
-            weekly,
-            monthly,
-            onlyonce,
-         */
+        // ScheduleTypeは下記の値
+        //   hourly,
+        //   daily,
+        //   weekly,
+        //   monthly,
+        //   onlyonce,
 
         public int Id { get; set; }
         public string Name;
