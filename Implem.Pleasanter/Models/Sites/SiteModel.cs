@@ -7828,8 +7828,6 @@ namespace Implem.Pleasanter.Models
                 calendarFromTo: context.Forms.Data("DashboardPartCalendarFromTo"),
                 calendarShowStatus: context.Forms.Bool("CalendarShowStatus"),
                 calendarType: context.Forms.Data("DashboardPartCalendarType").ToEnum<CalendarType>(),
-                //);
-                //以下追加
                 kambanSites: context.Forms.Data("DashboardPartKambanSites"),
                 kambanSitesData: context.Forms.Data("DashboardPartKambanSites").Split(',').ToList(),
                 kambanGroupByX: context.Forms.Data("DashboardPartKambanGroupByX"),
@@ -7841,7 +7839,6 @@ namespace Implem.Pleasanter.Models
                 kambanShowStatus: context.Forms.Bool("DashboardPartKambanShowStatus"),
                 extendedCss: context.Forms.Data("DashboardPartExtendedCss"),
                 permissions: DashboardPartPermissions(context: context));
-
             SiteSettings.DashboardParts.Add(dashboardPart);
             res
                 .ReplaceAll("#EditDashboardPart", new HtmlBuilder()
@@ -7904,9 +7901,6 @@ namespace Implem.Pleasanter.Models
                 calendarFromTo: context.Forms.Data("DashboardPartCalendarFromTo"),
                 calendarShowStatus: context.Forms.Bool("CalendarShowStatus"),
                 calendarType: context.Forms.Data("DashboardPartCalendarType").ToEnum<CalendarType>(),
-
-                //);
-                //以下追加
                 kambanSites: context.Forms.Data("DashboardPartKambanSites"),
                 kambanSitesData: context.Forms.Data("DashboardPartKambanSites").Split(',').ToList(),
                 kambanGroupByX: context.Forms.Data("DashboardPartKambanGroupByX"),
@@ -7916,7 +7910,6 @@ namespace Implem.Pleasanter.Models
                 kambanColumns: context.Forms.Data("DashboardPartKambanColumns"),
                 kambanAggregationView: context.Forms.Bool("DashboardPartKambanAggregationView"),
                 kambanShowStatus: context.Forms.Bool("DashboardPartKambanShowStatus"),
-
                 extendedCss: context.Forms.Data("DashboardPartExtendedCss"),
                 permissions: DashboardPartPermissions(context: context));
             res
