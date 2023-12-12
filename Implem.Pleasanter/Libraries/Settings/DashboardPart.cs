@@ -200,6 +200,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             string calendarFromTo,
             bool calendarShowStatus,
             string kambanSites,
+            List<string> kambanSitesData,
             string kambanGroupByX,
             string kambanGroupByY,
             string kambanAggregateType,
@@ -237,6 +238,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 calendarFromTo: calendarFromTo,
                 calendarShowStatus: calendarShowStatus,
                 kambanSites : kambanSites,
+                kambanSitesData: kambanSitesData,
                 kambanGroupByX : kambanGroupByX,
                 kambanGroupByY : kambanGroupByY,
                 kambanAggregateType : kambanAggregateType,
@@ -274,6 +276,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             string calendarFromTo,
             bool calendarShowStatus,
             string kambanSites,
+            List<string> kambanSitesData,
             string kambanGroupByX,
             string kambanGroupByY,
             string kambanAggregateType,
@@ -308,6 +311,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             CalendarFromTo = calendarFromTo;
             CalendarShowStatus = calendarShowStatus;
             KambanSites = kambanSites;
+            KambanSitesData = kambanSitesData;
             KambanGroupByX = kambanGroupByX;
             KambanGroupByY = kambanGroupByY;
             KambanAggregateType = kambanAggregateType;
