@@ -17,7 +17,6 @@ using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Libraries.Web;
-using Implem.Pleasanter.Models.ApiSiteSettings;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -2359,7 +2358,7 @@ namespace Implem.Pleasanter.Models
                   context: context,
                   errorData: invalid);
             }
-            var siteSettingsApiModel = context.RequestDataString.Deserialize<SiteSettingsApiModel>();
+            var siteSettingsApiModel = context.RequestDataString.Deserialize<ApiSiteSettings.SiteSettingsApiModel>();
             // Validate SiteSetting Request
             var apiSiteSettingValidator = ApiSiteSettingValidators.OnChageSiteSettingByApi(
                 referenceType: siteModel.ReferenceType,
