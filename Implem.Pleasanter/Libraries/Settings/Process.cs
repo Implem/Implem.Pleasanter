@@ -12,6 +12,17 @@ namespace Implem.Pleasanter.Libraries.Settings
     [Serializable()]
     public class Process : ISettingListItem
     {
+        public enum Status
+        {
+            Any = -1,
+            New = 100,
+            Preparation = 150,
+            Inprogress = 200,
+            Review = 300,
+            Close = 900,
+            Reject = 910
+        }
+
         public enum ScreenTypes
         {
             New = 10,

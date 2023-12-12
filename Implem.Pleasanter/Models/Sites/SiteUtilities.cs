@@ -2401,6 +2401,14 @@ namespace Implem.Pleasanter.Models
                     siteSetting: ss,
                     htmlsApiSiteSetting: siteSettingsApiModel.Htmls);
             }
+            // Change Processes setting
+            if (siteSettingsApiModel.Processes != null)
+            {
+                siteModel.UpsertProcessByApi(
+                    siteSetting: ss,
+                    processesApiSiteSetting: siteSettingsApiModel.Processes,
+                    context: context);
+            }
             // Save all changes
             var errorData = siteModel.Update(
                context: context,

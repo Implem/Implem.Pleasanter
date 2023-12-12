@@ -2553,6 +2553,99 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public void UpsertProcessByApi(
+            SiteSettings siteSetting,
+            List<ApiSiteSettings.ProcessApiSettingModel> processesApiSiteSetting,
+            Context context)
+        {
+            List<int> deleteSelected = new List<int>();
+            processesApiSiteSetting.ForEach(processApiSiteSetting =>
+            {
+
+                SiteSettings.Processes.Add(new Process(
+                    id: processApiSiteSetting.Id,
+                    name: processApiSiteSetting.Name,
+                    displayName: processApiSiteSetting.DisplayName,
+                    screenType: processApiSiteSetting.ScreenTypes.ToEnum<Process.ScreenTypes>(),
+                    currentStatus: (int)Enum.Parse<Process.Status>(processApiSiteSetting.CurrentStatus),
+                    changedStatus: (int)Enum.Parse<Process.Status>(processApiSiteSetting.ChangedStatus),
+                    description: processApiSiteSetting.Description,
+                    tooltip: processApiSiteSetting.Description,
+                    confirmationMessage: processApiSiteSetting.Description,
+                    successMessage: processApiSiteSetting.Description,
+                    onClick: processApiSiteSetting.Description,
+                    executionType: processApiSiteSetting.ExecutionType.ToEnum<Process.ExecutionTypes>(),
+                    actionType: processApiSiteSetting.ActionTypes.ToEnum<Process.ActionTypes>(),
+                    allowBulkProcessing: processApiSiteSetting.AllowBulkProcessing,
+                    validationType: processApiSiteSetting.ValidationType.ToEnum<Process.ValidationTypes>(),
+                    validateInputs: processApiSiteSetting.ValidateInputs,
+                    permissions: ProcessPermissions(context: context),
+                    view: processApiSiteSetting.View,
+                    errorMessage: processApiSiteSetting.ErrorMessage,
+                    dataChanges: processApiSiteSetting.DataChanges,
+                    autoNumbering: processApiSiteSetting.AutoNumbering,
+                    notifications: processApiSiteSetting.Notifications
+
+                    ));
+
+                //var currentHtml = siteSetting.Htmls?.
+                //     FirstOrDefault(o => o.Id == htmlApiSiteSetting.Id.ToInt());
+                //if (htmlApiSiteSetting.Delete.ToInt() == ApiSiteSetting.DeleteFlag.IsDelete.ToInt())
+                //{
+                //    deleteSelected.Add(htmlApiSiteSetting.Id.ToInt());
+                //}
+                //else
+                //{
+                //    if (currentHtml != null)
+                //    {
+                //        // Update html site setting
+                //        currentHtml.Update(
+                //            title: htmlApiSiteSetting.Title,
+                //            positionType: htmlApiSiteSetting.HtmlPositionType.ToEnum<Html.PositionTypes>(),
+                //            all: htmlApiSiteSetting.HtmlAll,
+                //            _new: htmlApiSiteSetting.HtmlNew,
+                //            edit: htmlApiSiteSetting.HtmlEdit,
+                //            index: htmlApiSiteSetting.HtmlIndex,
+                //            calendar: htmlApiSiteSetting.HtmlCalendar,
+                //            crosstab: htmlApiSiteSetting.HtmlCrosstab,
+                //            gantt: htmlApiSiteSetting.HtmlGantt,
+                //            burnDown: htmlApiSiteSetting.HtmlBurnDown,
+                //            timeSeries: htmlApiSiteSetting.HtmlTimeSeries,
+                //            kamban: htmlApiSiteSetting.HtmlKamban,
+                //            imageLib: htmlApiSiteSetting.HtmlImageLib,
+                //            disabled: htmlApiSiteSetting.Disabled,
+                //            body: htmlApiSiteSetting.Body);
+                //    }
+                //    else
+                //    {
+                //        // Add new html site setting
+                //        SiteSettings.Htmls.Add(new Html(
+                //            id: htmlApiSiteSetting.Id,
+                //            title: htmlApiSiteSetting.Title,
+                //            positionType: htmlApiSiteSetting.HtmlPositionType.ToEnum<Html.PositionTypes>(),
+                //            all: htmlApiSiteSetting.HtmlAll,
+                //            _new: htmlApiSiteSetting.HtmlNew,
+                //            edit: htmlApiSiteSetting.HtmlEdit,
+                //            index: htmlApiSiteSetting.HtmlIndex,
+                //            calendar: htmlApiSiteSetting.HtmlCalendar,
+                //            crosstab: htmlApiSiteSetting.HtmlCrosstab,
+                //            gantt: htmlApiSiteSetting.HtmlGantt,
+                //            burnDown: htmlApiSiteSetting.HtmlBurnDown,
+                //            timeSeries: htmlApiSiteSetting.HtmlTimeSeries,
+                //            kamban: htmlApiSiteSetting.HtmlKamban,
+                //            imageLib: htmlApiSiteSetting.HtmlImageLib,
+                //            disabled: htmlApiSiteSetting.Disabled,
+                //            body: htmlApiSiteSetting.Body));
+                //    }
+                //}
+            });
+            // Check has deleted
+            if (deleteSelected.Count() != 0)
+            {
+                siteSetting.Htmls.Delete(deleteSelected);
+            }
+        }
+
         /// <summary>
         /// Fixed:
         /// </summary>
