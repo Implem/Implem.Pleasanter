@@ -241,7 +241,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         }
                         break;
                     case ReminderTypes.Slack:
-                        if (Parameters.Reminder.Slack)
+                        if (Parameters.Reminder.Slack && !body.IsNullOrEmpty())
                         {
                             new Slack(
                                 _context: context,
@@ -251,7 +251,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         }
                         break;
                     case ReminderTypes.ChatWork:
-                        if (Parameters.Reminder.ChatWork)
+                        if (Parameters.Reminder.ChatWork && !body.IsNullOrEmpty())
                         {
                             new ChatWork(
                                 _context: context,
@@ -263,7 +263,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         break;
                     case ReminderTypes.Line:
                     case ReminderTypes.LineGroup:
-                        if (Parameters.Reminder.Line)
+                        if (Parameters.Reminder.Line && !body.IsNullOrEmpty())
                         {
                             new Line(
                                 _context: context,
@@ -274,7 +274,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         }
                         break;
                     case ReminderTypes.Teams:
-                        if (Parameters.Reminder.Teams)
+                        if (Parameters.Reminder.Teams && !body.IsNullOrEmpty())
                         {
                             new Teams(
                                 _context: context,
@@ -283,7 +283,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         }
                         break;
                     case ReminderTypes.RocketChat:
-                        if (Parameters.Reminder.RocketChat)
+                        if (Parameters.Reminder.RocketChat && !body.IsNullOrEmpty())
                         {
                             new RocketChat(
                                 _context: context,
@@ -293,7 +293,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         }
                         break;
                     case ReminderTypes.InCircle:
-                        if (Parameters.Reminder.InCircle)
+                        if (Parameters.Reminder.InCircle && !body.IsNullOrEmpty())
                         {
                             new InCircle(
                                 _context: context,
@@ -493,7 +493,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     });
                 sb.Append("\n");
             });
-            if (!timeGroups.Any())
+            if (!timeGroups.Any() && NotSendIfNotApplicable != true)
             {
                 sb.Append(Displays.NoTargetRecord(context: context), "\r\n");
             }
