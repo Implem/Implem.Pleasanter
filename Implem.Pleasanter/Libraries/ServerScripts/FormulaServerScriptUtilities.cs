@@ -1541,22 +1541,18 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     if (arguments.length !== 1) {
                         throw 'Invalid Parameter';
                     }
-                    if(typeof text == 'boolean') {
+                    if(typeof text === 'boolean' || text === undefined || text === '') {
                         throw '#VALUE!';
-                    }
-                    if (text == undefined || text === '') {
-                        return 0;
-                    }
-                    if (!isNaN(Number(text)) && typeof text !== 'boolean') {
+                    }    
+                    if (!isNaN(text)) {
                         return Number(text);
                     } 
                     text = text
                             .toString()
                             .replace(/[０-９]/g, function (s) {
                                 return String.fromCharCode(s.charCodeAt(0) - 0xfee0);
-                            })
-                            .replace(/[$,]/g, '');
-                    if (!isNaN(Number(text))) {
+                            });
+                    if (!isNaN(text)) {
                         return Number(text);
                     }
                     throw '#VALUE!';

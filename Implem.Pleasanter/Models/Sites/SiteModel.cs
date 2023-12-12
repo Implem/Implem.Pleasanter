@@ -15,9 +15,7 @@ using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.ServerScripts;
 using Implem.Pleasanter.Libraries.Settings;
-using Implem.Pleasanter.Models.ApiSiteSettings;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
@@ -2284,13 +2282,13 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public void UpsertServerScriptByApi(
             SiteSettings siteSetting,
-            List<ServerScriptApiSettingModel> serverScriptsApiSiteSetting)
+            List<ApiSiteSettings.ServerScriptApiSettingModel> serverScriptsApiSiteSetting)
         {
             List<int> deleteSelected = new List<int>();
             serverScriptsApiSiteSetting.ForEach(ssApiSetting =>
             {
-                var currentServerScript = siteSetting.ServerScripts?.
-                     FirstOrDefault(o => o.Id == ssApiSetting.Id.ToInt());
+                var currentServerScript = siteSetting.ServerScripts?.FirstOrDefault(o =>
+                    o.Id == ssApiSetting.Id.ToInt());
                 if (ssApiSetting.Delete.ToInt() == ApiSiteSetting.DeleteFlag.IsDelete.ToInt())
                 {
                     deleteSelected.Add(ssApiSetting.Id.ToInt());
@@ -2301,50 +2299,50 @@ namespace Implem.Pleasanter.Models
                     {
                         // Update ServerScript site setting
                         currentServerScript.Update(
-                           title: ssApiSetting.Title,
-                           name: ssApiSetting.Name,
-                           whenloadingSiteSettings: ssApiSetting.ServerScriptWhenloadingSiteSettings,
-                           whenViewProcessing: ssApiSetting.ServerScriptWhenViewProcessing,
-                           whenloadingRecord: ssApiSetting.ServerScriptWhenloadingRecord,
-                           beforeFormula: ssApiSetting.ServerScriptBeforeFormula,
-                           afterFormula: ssApiSetting.ServerScriptAfterFormula,
-                           beforeCreate: ssApiSetting.ServerScriptBeforeCreate,
-                           afterCreate: ssApiSetting.ServerScriptAfterCreate,
-                           beforeUpdate: ssApiSetting.ServerScriptBeforeUpdate,
-                           afterUpdate: ssApiSetting.ServerScriptAfterUpdate,
-                           beforeDelete: ssApiSetting.ServerScriptBeforeDelete,
-                           afterDelete: ssApiSetting.ServerScriptAfterDelete,
-                           beforeOpeningPage: ssApiSetting.ServerScriptBeforeOpeningPage,
-                           beforeOpeningRow: ssApiSetting.ServerScriptBeforeOpeningRow,
-                           shared: ssApiSetting.ServerScriptShared,
-                           background: default,
-                           body: ssApiSetting.Body,
-                           timeOut: default);
+                            title: ssApiSetting.Title,
+                            name: ssApiSetting.Name,
+                            whenloadingSiteSettings: ssApiSetting.ServerScriptWhenloadingSiteSettings,
+                            whenViewProcessing: ssApiSetting.ServerScriptWhenViewProcessing,
+                            whenloadingRecord: ssApiSetting.ServerScriptWhenloadingRecord,
+                            beforeFormula: ssApiSetting.ServerScriptBeforeFormula,
+                            afterFormula: ssApiSetting.ServerScriptAfterFormula,
+                            beforeCreate: ssApiSetting.ServerScriptBeforeCreate,
+                            afterCreate: ssApiSetting.ServerScriptAfterCreate,
+                            beforeUpdate: ssApiSetting.ServerScriptBeforeUpdate,
+                            afterUpdate: ssApiSetting.ServerScriptAfterUpdate,
+                            beforeDelete: ssApiSetting.ServerScriptBeforeDelete,
+                            afterDelete: ssApiSetting.ServerScriptAfterDelete,
+                            beforeOpeningPage: ssApiSetting.ServerScriptBeforeOpeningPage,
+                            beforeOpeningRow: ssApiSetting.ServerScriptBeforeOpeningRow,
+                            shared: ssApiSetting.ServerScriptShared,
+                            background: default,
+                            body: ssApiSetting.Body,
+                            timeOut: default);
                     }
                     else
                     {
                         // Create new ServerScript site setting
                         SiteSettings.ServerScripts.Add(new ServerScript(
-                           id: ssApiSetting.Id,
-                           title: ssApiSetting.Title,
-                           name: ssApiSetting.Name,
-                           whenloadingSiteSettings: ssApiSetting.ServerScriptWhenloadingSiteSettings,
-                           whenViewProcessing: ssApiSetting.ServerScriptWhenViewProcessing,
-                           whenloadingRecord: ssApiSetting.ServerScriptWhenloadingRecord,
-                           beforeFormula: ssApiSetting.ServerScriptBeforeFormula,
-                           afterFormula: ssApiSetting.ServerScriptAfterFormula,
-                           beforeCreate: ssApiSetting.ServerScriptBeforeCreate,
-                           afterCreate: ssApiSetting.ServerScriptAfterCreate,
-                           beforeUpdate: ssApiSetting.ServerScriptBeforeUpdate,
-                           afterUpdate: ssApiSetting.ServerScriptAfterUpdate,
-                           beforeDelete: ssApiSetting.ServerScriptBeforeDelete,
-                           afterDelete: ssApiSetting.ServerScriptAfterDelete,
-                           beforeOpeningPage: ssApiSetting.ServerScriptBeforeOpeningPage,
-                           beforeOpeningRow: ssApiSetting.ServerScriptBeforeOpeningRow,
-                           shared: ssApiSetting.ServerScriptShared,
-                           body: ssApiSetting.Body,
-                           background: default,
-                           timeOut: default));
+                            id: ssApiSetting.Id,
+                            title: ssApiSetting.Title,
+                            name: ssApiSetting.Name,
+                            whenloadingSiteSettings: ssApiSetting.ServerScriptWhenloadingSiteSettings,
+                            whenViewProcessing: ssApiSetting.ServerScriptWhenViewProcessing,
+                            whenloadingRecord: ssApiSetting.ServerScriptWhenloadingRecord,
+                            beforeFormula: ssApiSetting.ServerScriptBeforeFormula,
+                            afterFormula: ssApiSetting.ServerScriptAfterFormula,
+                            beforeCreate: ssApiSetting.ServerScriptBeforeCreate,
+                            afterCreate: ssApiSetting.ServerScriptAfterCreate,
+                            beforeUpdate: ssApiSetting.ServerScriptBeforeUpdate,
+                            afterUpdate: ssApiSetting.ServerScriptAfterUpdate,
+                            beforeDelete: ssApiSetting.ServerScriptBeforeDelete,
+                            afterDelete: ssApiSetting.ServerScriptAfterDelete,
+                            beforeOpeningPage: ssApiSetting.ServerScriptBeforeOpeningPage,
+                            beforeOpeningRow: ssApiSetting.ServerScriptBeforeOpeningRow,
+                            shared: ssApiSetting.ServerScriptShared,
+                            body: ssApiSetting.Body,
+                            background: default,
+                            timeOut: default));
                     }
                 }
             });
@@ -2360,7 +2358,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public void UpsertScriptByApi(
             SiteSettings siteSetting,
-            List<ScriptApiSettingModel> scriptsApiSiteSetting)
+            List<ApiSiteSettings.ScriptApiSettingModel> scriptsApiSiteSetting)
         {
             List<int> deleteSelected = new List<int>();
             scriptsApiSiteSetting.ForEach(scApiSiteSetting =>
@@ -2426,7 +2424,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public void UpsertStyleByApi(
             SiteSettings siteSetting,
-            List<StyleApiSettingModel> styleApiSiteSetting)
+            List<ApiSiteSettings.StyleApiSettingModel> styleApiSiteSetting)
         {
             List<int> deleteSelected = new List<int>();
             styleApiSiteSetting.ForEach(stApiSiteSetting =>
@@ -2487,9 +2485,12 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public void UpsertHtmlByApi(
             SiteSettings siteSetting,
-            List<HtmlApiSettingModel> htmlsApiSiteSetting)
+            List<ApiSiteSettings.HtmlApiSettingModel> htmlsApiSiteSetting)
         {
             List<int> deleteSelected = new List<int>();
             htmlsApiSiteSetting.ForEach(htmlApiSiteSetting =>
