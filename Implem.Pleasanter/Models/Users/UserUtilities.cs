@@ -5178,26 +5178,40 @@ namespace Implem.Pleasanter.Models
             {
                 var selector = new RecordSelector(context: context);
                 var count = 0;
-                if (selector.All)
+                try
                 {
-                    count = Restore(
-                        context: context,
-                        ss: ss,
-                        selected: selector.Selected,
-                        negative: true);
-                }
-                else
-                {
-                    if (selector.Selected.Any())
+                    if (selector.All)
                     {
                         count = Restore(
                             context: context,
                             ss: ss,
-                            selected: selector.Selected);
+                            selected: selector.Selected,
+                            negative: true);
                     }
                     else
                     {
-                        return Messages.ResponseSelectTargets(context: context).ToJson();
+                        if (selector.Selected.Any())
+                        {
+                            count = Restore(
+                                context: context,
+                                ss: ss,
+                                selected: selector.Selected);
+                        }
+                        else
+                        {
+                            return Messages.ResponseSelectTargets(context: context).ToJson();
+                        }
+                    }
+                }
+                catch (System.Data.Common.DbException e)
+                {
+                    if (context.SqlErrors.ErrorCode(e) == context.SqlErrors.ErrorCodeDuplicateKey)
+                    {
+                        return new ErrorData(type: Error.Types.LoginIdAlreadyUse).MessageJson(context: context);
+                    }
+                    else
+                    {
+                        throw;
                     }
                 }
                 Summaries.Synchronize(context: context, ss: ss);
@@ -5229,6 +5243,9 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         itemJoin: false);
             var where = Rds.UsersWhere()
+                .TenantId(
+                    value: context.TenantId,
+                    tableName: "Users_Deleted")
                 .UserId_In(
                     value: selected.Select(o => o.ToInt()).ToList(),
                     tableName: "Users_Deleted",
@@ -5277,13 +5294,10 @@ namespace Implem.Pleasanter.Models
                         where: Rds.MailAddressesWhere()
                             .OwnerId_In(sub: sub)
                             .OwnerType("Users")),
-                    Rds.UpdateUsers(
-                        tableType: Sqls.TableTypes.Deleted,
-                        where: Rds.UsersWhere()
-                            .UserId_In(sub: sub)),
                     Rds.RestoreUsers(
                         factory: context,
                         where: Rds.UsersWhere()
+                            .TenantId(context.TenantId)
                             .UserId_In(sub: sub)),
                     Rds.RowCount(),
                     StatusUtilities.UpdateStatus(
@@ -5367,6 +5381,9 @@ namespace Implem.Pleasanter.Models
                     break;
             }
             where = where ?? Rds.UsersWhere()
+                .TenantId(
+                    value: context.TenantId,
+                    tableName: "Users" + tableName)
                 .UserId_In(
                     value: selected.Select(o => o.ToInt()).ToList(),
                     tableName: "Users" + tableName,
@@ -5425,6 +5442,7 @@ namespace Implem.Pleasanter.Models
                     Rds.PhysicalDeleteUsers(
                         tableType: tableType,
                         where: Rds.UsersWhere()
+                            .TenantId(context.TenantId)
                             .UserId_In(sub: sub)),
                     Rds.RowCount()
                 }).Count.ToInt();

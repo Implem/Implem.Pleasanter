@@ -31,7 +31,7 @@ $p.dateTimeString = function (date) {
     if (date === undefined) date = new Date();
     return $p.shortDateString(date) +
         (date.getHours() + date.getMinutes() !== 0
-            ? ' ' + date.getHours() + ':' + date.getMinutes()
+            ? ' ' + ('0' + date.getHours()).slice(-2) + ':' + ('0' + date.getMinutes()).slice(-2)
             : '');
 }
 

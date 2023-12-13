@@ -760,6 +760,7 @@ namespace Implem.Pleasanter.Models
                     case "update":
                     case "copy":
                     case "delete":
+                    case "updatesitesettings":
                         return;
                 }
             }
@@ -1096,6 +1097,12 @@ namespace Implem.Pleasanter.Models
                         case "Check":
                             SetCheck(columnParam, GetCheck(columnParam));
                             break;
+                        case "Class":
+                            SetClass(columnParam, GetClass(columnParam));
+                            break;
+                        case "Description":
+                            SetDescription(columnParam, GetDescription(columnParam));
+                            break;
                     }
                 }
             }
@@ -1117,6 +1124,12 @@ namespace Implem.Pleasanter.Models
                             break;
                         case "Check":
                             SetCheck(column, GetCheck(column));
+                            break;
+                        case "Class":
+                            SetClass(column, GetClass(column));
+                            break;
+                        case "Description":
+                            SetDescription(column, GetDescription(column));
                             break;
                     }
                 }

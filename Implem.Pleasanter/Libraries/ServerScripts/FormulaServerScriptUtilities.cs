@@ -1,5 +1,4 @@
 ﻿using Implem.Libraries.Utilities;
-using Implem.Pleasanter.Libraries.Extensions;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
@@ -7,289 +6,21 @@ using Microsoft.ClearScript;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
-using System.Linq;
-
 namespace Implem.Pleasanter.Libraries.ServerScripts
 {
     public static class FormulaServerScriptUtilities
     {
-        private static (string, object) ReadNameValue(string columnName, object value)
-        {
-            return (columnName, value);
-        }
-
-        private static (string, object) ReadNameValue(
-            Context context, SiteSettings ss, string columnName, object value, List<string> mine)
-        {
-            return (
-                columnName,
-                ss?.ColumnHash.Get(columnName)?.CanRead(
-                    context: context,
-                    ss: ss,
-                    mine: mine,
-                    noCache: true) == true
-                        ? value
-                        : null);
-        }
-
-        public static IEnumerable<(string Name, object Value)> Values(
-            Context context, SiteSettings ss, BaseItemModel model)
-        {
-            var mine = model?.Mine(context: context);
-            var values = new List<(string, object)>
-            {
-                ReadNameValue(
-                    columnName: nameof(model.ReadOnly),
-                    value: model.ReadOnly),
-                ReadNameValue(
-                    context: context,
-                    ss: ss,
-                    columnName: nameof(model.SiteId),
-                    value: model.SiteId,
-                    mine: mine),
-                ReadNameValue(
-                    context: context,
-                    ss: ss,
-                    columnName: nameof(model.Title),
-                    value: model.Title?.Value,
-                    mine: mine),
-                ReadNameValue(
-                    context: context,
-                    ss: ss,
-                    columnName: nameof(model.Body),
-                    value: model.Body,
-                    mine: mine),
-                ReadNameValue(
-                    context: context,
-                    ss: ss,
-                    columnName: nameof(model.Ver),
-                    value: model.Ver,
-                    mine: mine),
-                ReadNameValue(
-                    context: context,
-                    ss: ss,
-                    columnName: nameof(model.Creator),
-                    value: model.Creator.Id,
-                    mine: mine),
-                ReadNameValue(
-                    context: context,
-                    ss: ss,
-                    columnName: nameof(model.Updator),
-                    value: model.Updator.Id,
-                    mine: mine),
-                ReadNameValue(
-                    context: context,
-                    ss: ss,
-                    columnName: nameof(model.CreatedTime),
-                    value: model.CreatedTime?.Value.ToControl(
-                        context: context,
-                        ss: ss,
-                        column: ss.GetColumn(
-                            context: context,
-                            columnName: nameof(model.CreatedTime))),
-                    mine: mine),
-                ReadNameValue(
-                    context: context,
-                    ss: ss,
-                    columnName: nameof(model.UpdatedTime),
-                    value: model.UpdatedTime?.Value.ToControl(
-                        context: context,
-                        ss: ss,
-                        column: ss.GetColumn(
-                            context: context,
-                            columnName: nameof(model.UpdatedTime))),
-                    mine: mine)
-            };
-            values.AddRange(model
-                .ClassHash
-                .Select(element => ReadNameValue(
-                    context: context,
-                    ss: ss,
-                    columnName: element.Key,
-                    value: element.Value,
-                    mine: mine)));
-            values.AddRange(model
-                .NumHash
-                .Select(element => ReadNameValue(
-                    context: context,
-                    ss: ss,
-                    columnName: element.Key,
-                    value: element.Value.Value
-                        ?? (ss?.GetColumn(
-                            context: context,
-                            columnName: element.Key)
-                                ?.Nullable == true
-                                    ? (decimal?)null
-                                    : 0),
-                    mine: mine)));
-            values.AddRange(model
-                .DateHash
-                .Select(element => ReadNameValue(
-                    context: context,
-                    ss: ss,
-                    columnName: element.Key,
-                    value: element.Value.ToControl(
-                        context: context,
-                        ss: ss,
-                        column: ss.GetColumn(
-                            context: context,
-                            columnName: element.Key)),
-                    mine: mine)));
-            values.AddRange(model
-                .DescriptionHash
-                .Select(element => ReadNameValue(
-                    context: context,
-                    ss: ss,
-                    columnName: element.Key,
-                    value: element.Value,
-                    mine: mine)));
-            values.AddRange(model
-                .CheckHash
-                .Select(element => ReadNameValue(
-                    context: context,
-                    ss: ss,
-                    columnName: element.Key,
-                    value: element.Value,
-                    mine: mine)));
-            values.AddRange(model
-                .AttachmentsHash
-                .Select(element => ReadNameValue(
-                    context: context,
-                    ss: ss,
-                    columnName: element.Key,
-                    value: element.Value.ToJson(),
-                    mine: mine)));
-            values.Add(ReadNameValue(
-                context: context,
-                ss: ss,
-                columnName: "Comments",
-                value: model.Comments?.ToJson(),
-                mine: mine));
-            if (model is IssueModel issueModel)
-            {
-                values.Add(ReadNameValue(
-                    context: context,
-                    ss: ss,
-                    columnName: nameof(IssueModel.IssueId),
-                    value: issueModel.IssueId,
-                    mine: mine));
-                values.Add(ReadNameValue(
-                    context: context,
-                    ss: ss,
-                    columnName: nameof(IssueModel.StartTime),
-                    value: issueModel.StartTime.ToControl(
-                        context: context,
-                        ss: ss,
-                        column: ss.GetColumn(
-                            context: context,
-                            columnName: nameof(IssueModel.StartTime))),
-                    mine: mine));
-                values.Add(ReadNameValue(
-                    context: context,
-                    ss: ss,
-                    columnName: nameof(IssueModel.CompletionTime),
-                    value: issueModel.CompletionTime.Value
-                        .AddDifferenceOfDates(
-                            format: ss.GetColumn(
-                                context: context,
-                                columnName: nameof(IssueModel.CompletionTime))?.EditorFormat,
-                            minus: true)
-                        .ToControl(
-                                context: context,
-                                ss: ss,
-                                column: ss.GetColumn(
-                                    context: context,
-                                    columnName: nameof(IssueModel.CompletionTime))),
-                    mine: mine));
-                values.Add(ReadNameValue(
-                    context: context,
-                    ss: ss,
-                    columnName: nameof(IssueModel.WorkValue),
-                    value: issueModel.WorkValue.Value,
-                    mine: mine));
-                values.Add(ReadNameValue(
-                    context: context,
-                    ss: ss,
-                    columnName: nameof(IssueModel.ProgressRate),
-                    value: issueModel.ProgressRate.Value,
-                    mine: mine));
-                values.Add(ReadNameValue(
-                    context: context,
-                    ss: ss,
-                    columnName: nameof(IssueModel.RemainingWorkValue),
-                    value: issueModel.RemainingWorkValue.Value,
-                    mine: mine));
-                values.Add(ReadNameValue(
-                    context: context,
-                    ss: ss,
-                    columnName: nameof(IssueModel.Status),
-                    value: issueModel.Status?.Value,
-                    mine: mine));
-                values.Add(ReadNameValue(
-                    context: context,
-                    ss: ss,
-                    columnName: nameof(IssueModel.Manager),
-                    value: issueModel.Manager.Id,
-                    mine: mine));
-                values.Add(ReadNameValue(
-                    context: context,
-                    ss: ss,
-                    columnName: nameof(IssueModel.Owner),
-                    value: issueModel.Owner.Id,
-                    mine: mine));
-                values.Add(ReadNameValue(
-                    context: context,
-                    ss: ss,
-                    columnName: nameof(IssueModel.Locked),
-                    value: issueModel.Locked,
-                    mine: mine));
-            }
-            if (model is ResultModel resultModel)
-            {
-                values.Add(ReadNameValue(
-                    context: context,
-                    ss: ss,
-                    columnName: nameof(ResultModel.ResultId),
-                    value: resultModel.ResultId,
-                    mine: mine));
-                values.Add(ReadNameValue(
-                    context: context,
-                    ss: ss,
-                    columnName: nameof(ResultModel.Status),
-                    value: resultModel.Status?.Value,
-                    mine: mine));
-                values.Add(ReadNameValue(
-                    context: context,
-                    ss: ss,
-                    columnName: nameof(ResultModel.Manager),
-                    value: resultModel.Manager.Id,
-                    mine: mine));
-                values.Add(ReadNameValue(
-                    context: context,
-                    ss: ss,
-                    columnName: nameof(ResultModel.Owner),
-                    value: resultModel.Owner.Id,
-                    mine: mine));
-                values.Add(ReadNameValue(
-                    context: context,
-                    ss: ss,
-                    columnName: nameof(ResultModel.Locked),
-                    value: resultModel.Locked,
-                    mine: mine));
-            }
-            return values.ToArray();
-        }
-
         public static object Execute(
             Context context,
             SiteSettings ss,
             BaseItemModel itemModel,
             string formulaScript)
         {
-            var data = Values(
+            var data = ServerScriptUtilities.Values(
                 context: context,
                 ss: ss,
-                model: itemModel);
+                model: itemModel,
+                isFormulaServerScript: true);
             var Model = new ExpandoObject();
             data?.ForEach(datam => ((IDictionary<string, object>)Model)[datam.Name] = datam.Value);
             formulaScript = ParseIgnoreCase(formulaScript);
@@ -424,24 +155,27 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 .Replace("AM/PM", "tt", StringComparison.InvariantCultureIgnoreCase));
         }
 
-        /// <summary>
-        /// Returns a serial number representing the specified date
-        /// </summary>
-        /// <remarks>
-        /// Syntax: $DATE(year, month, day)
-        /// </remarks>
         private static string GetDateScript()
         {
             return @"
                 function $DATE(year, month, day)
                 {
+                    if (arguments.length != 3) {
+                        throw 'Invalid Parameter';
+                    }
+                    year = (year === undefined || year === '' || year === '0') ? 0 : year;
+                    month = (month === undefined || month === '' || month === '0') ? 0 : month;
+                    day = (day === undefined || day === '' || day === '0') ? 0 : day;
                     if (isNaN(year) || isNaN(month) || isNaN(day))
                     {
-                        throw 'Invalid Parameter';
+                        throw '#NUM!';
                     }
                     year = Number(year);
                     month = Number(month);
                     day = Number(day);
+                    if(year === 0 && month === 1 && day === 0) {
+                        return '1900/01/00';
+                    }    
                     if (year >= 0 && year < 1900)
                     {
                         year = 1900 + year;
@@ -449,7 +183,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     var date = new Date(year, month - 1, day);
                     if (isNaN(date.getTime()) || date.getFullYear() < 1900 || date.getFullYear() > 9999)
                     {
-                        throw 'Invalid Parameter';
+                        throw '#NUM!';
                     }
                     return date.getFullYear()
                         + '/' + ('0' + (date.getMonth() + 1)).slice(-2)
@@ -457,111 +191,122 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 }";
         }
 
-        /// <summary>
-        /// Calculates the number of days, months, or years between two dates.
-        /// </summary>
-        /// <remarks>
-        /// Syntax: $DATEDIF(firstDate, secondDate, unit)
-        /// </remarks>
         private static string GetDateDifScript()
         {
             return @"
-                function $DATEDIF(firstDate, secondDate, unit)
+                function $DATEDIF(startDate, endDate, unit)
                 {
-                    if (firstDate == undefined || secondDate == undefined || unit == undefined)
-                    {
+                    if (arguments.length != 3) {
                         throw 'Invalid Parameter';
                     }
-                    if (isNaN(firstDate))
+                    startDate = (startDate === undefined  || startDate === '' || startDate === '0') ? 0 : startDate;
+                    endDate = (endDate === undefined || endDate === '' || endDate === '0') ? 0 : endDate;
+                    unit = (unit === undefined  || unit === '' ) ? 0 : unit.toString().toUpperCase();
+                    let originStartDate = startDate,
+                        originEndDate = endDate;
+                    if (startDate === 0 && endDate === 0)
                     {
-                        firstDate = new Date(Date.parse(firstDate));
+                        if(['Y', 'M', 'D', 'MD', 'YM', 'YD'].includes(unit) ) 
+                        {
+                            return 0;
+                        }
+                        throw '#NUM!';
+                    }
+                    if (isNaN(startDate))
+                    {
+                        startDate = new Date(Date.parse(startDate));
                     }
                     else
                     {
-                        firstDate = Number(firstDate);
-                        firstDate = new Date(1900, 0, firstDate > 59 ? firstDate - 1 : firstDate);
+                        startDate = Number(startDate);
+                        startDate = new Date(1900, 0, startDate > 59 ? startDate - 1 : startDate);
                     }
-                    if (isNaN(firstDate.getTime()) || firstDate.getFullYear() < 1900 || firstDate.getFullYear() > 9999)
+                    if (originStartDate !== 0 && (isNaN(startDate.getTime()) || startDate.getFullYear() < 1900 || startDate.getFullYear() > 9999))
                     {
-                        throw 'Invalid Parameter';
+                        throw '#VALUE!';
                     }
-                    if (isNaN(secondDate))
+                    if (isNaN(endDate))
                     {
-                        secondDate = new Date(Date.parse(secondDate));
+                        endDate = new Date(Date.parse(endDate));
                     }
                     else
                     {
-                        secondDate = Number(secondDate);
-                        secondDate = new Date(1900, 0, secondDate > 59 ? secondDate - 1 : secondDate);
+                        endDate = Number(endDate);
+                        endDate = new Date(1900, 0, endDate > 59 ? endDate - 1 : endDate);
                     }
-                    if (isNaN(secondDate.getTime()) || secondDate.getFullYear() < 1900 || secondDate.getFullYear() > 9999 || firstDate.getTime() > secondDate.getTime())
+                    if (originEndDate !== 0 && (isNaN(endDate.getTime()) || endDate.getFullYear() < 1900 || endDate.getFullYear() > 9999)
+                        || startDate.getTime() > endDate.getTime())
                     {
-                        throw 'Invalid Parameter';
+                        throw '#VALUE!';
                     }
                     switch(unit)
                     {
                         case 'Y':
-                            return secondDate.getFullYear() - firstDate.getFullYear();
+                            return endDate.getFullYear() - startDate.getFullYear()
+                                - (endDate.getMonth() > startDate.getMonth()
+                                    ? 0
+                                    : endDate.getMonth() < startDate.getMonth()
+                                        ? 1
+                                        : endDate.getDate() >= startDate.getDate() ? 0 : 1);
                         case 'M':
-                            return secondDate.getMonth() - firstDate.getMonth() + 12 * (secondDate.getFullYear() - firstDate.getFullYear());
+                            return endDate.getMonth() - startDate.getMonth()
+                                + 12 * (endDate.getFullYear() - startDate.getFullYear())
+                                - (endDate.getDate() >= startDate.getDate() ? 0 : 1);
                         case 'D':
-                            firstDate = firstDate.getTime();
-                            secondDate = secondDate.getTime();
-                            var diff = (secondDate - firstDate) / (1000 * 3600 * 24);
-                            return ((firstDate <= secondDate && secondDate <= -2203915325000)
-                                || (secondDate >= firstDate && firstDate >= -2203915324000))
+                            startDate = startDate.getTime();
+                            endDate = endDate.getTime();
+                            var diff = (endDate - startDate) / (1000 * 3600 * 24);
+                            return ((startDate <= endDate && endDate <= -2203915325000)
+                                || (endDate >= startDate && startDate >= -2203915324000))
                                 ? diff
-                                : (firstDate < secondDate ? diff - 1 : diff);
+                                : (startDate < endDate ? diff - 1 : diff);
                         case 'MD':
-                            return secondDate.getDate() - firstDate.getDate()
-                                + (secondDate.getDate() >= firstDate.getDate() ? 0 : new Date(secondDate.setDate(0)).getDate());
+                            return endDate.getDate() - startDate.getDate()
+                                + (endDate.getDate() >= startDate.getDate() ? 0 : new Date(endDate.setDate(0)).getDate());
                         case 'YM':
-                            return secondDate.getMonth() - firstDate.getMonth()
-                                + (secondDate.getMonth() >= firstDate.getMonth() ? 0 : 12);
+                            return endDate.getMonth() - startDate.getMonth()
+                                + (endDate.getMonth() >= startDate.getMonth() ? 0 : 12)
+                                - (endDate.getDate() >= startDate.getDate() ? 0 : 1);
                         case 'YD':
-                            if ((secondDate.getMonth() == firstDate.getMonth() && secondDate.getDate() >= firstDate.getDate())
-                                || (secondDate.getMonth() > firstDate.getMonth()))
+                            if ((endDate.getMonth() == startDate.getMonth() && endDate.getDate() >= startDate.getDate())
+                                || (endDate.getMonth() > startDate.getMonth()))
                             {
-                                if (secondDate.getFullYear() > firstDate.getFullYear())
+                                if (endDate.getFullYear() > startDate.getFullYear())
                                 {
-                                    secondDate.setYear(firstDate.getFullYear());
+                                    endDate.setYear(startDate.getFullYear());
                                 }
                             }
                             else
                             {
-                                if (secondDate.getFullYear() - firstDate.getFullYear() > 1)
+                                if (endDate.getFullYear() - startDate.getFullYear() > 1)
                                 {
-                                    secondDate.setYear(firstDate.getFullYear() + 1);
+                                    endDate.setYear(startDate.getFullYear() + 1);
                                 }
                             }
-                            firstDate = firstDate.getTime();
-                            secondDate = secondDate.getTime();
-                            var diff = (secondDate - firstDate) / (1000 * 3600 * 24);
-                            return ((firstDate <= secondDate && secondDate <= -2203915325000)
-                                || (secondDate >= firstDate && firstDate >= -2203915324000))
+                            startDate = startDate.getTime();
+                            endDate = endDate.getTime();
+                            var diff = (endDate - startDate) / (1000 * 3600 * 24);
+                            return ((startDate <= endDate && endDate <= -2203915325000)
+                                || (endDate >= startDate && startDate >= -2203915324000))
                                 ? diff
-                                : (firstDate < secondDate ? diff - 1 : diff);
+                                : (startDate < endDate ? diff - 1 : diff);
                         default:
-                            throw 'Invalid Parameter';
+                            throw '#NUM!';
                     }
                 }";
         }
 
-        /// <summary>
-        /// Returns the day of a date, represented by a date, serial number.
-        /// The day is given as an integer ranging from 1 to 31.
-        /// </summary>
-        /// <remarks>
-        /// Syntax: $DAY(date)
-        /// </remarks>
         private static string GetDayScript()
         {
             return @"
                 function $DAY(date)
                 {
-                    if (date == undefined)
-                    {
+                    if (arguments.length === 0) {
                         throw 'Invalid Parameter';
+                    }
+                    if (date === undefined || date == '' || date == 0)
+                    {
+                        return 0;
                     }
                     if (isNaN(date))
                     {
@@ -574,82 +319,79 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     }
                     if (isNaN(date.getTime()) || date.getFullYear() < 1900 || date.getFullYear() > 9999)
                     {
-                        throw 'Invalid Parameter';
+                        throw '#VALUE!';
                     }
                     return date.getDate();
                 }";
         }
 
-        /// <summary>
-        /// Returns the number of days between two dates.
-        /// </summary>
-        /// <remarks>
-        /// Syntax: $DAYS(firstDate, secondDate)
-        /// </remarks>
         private static string GetDaysScript()
         {
             return @"
-                function $DAYS(firstDate, secondDate)
+                function $DAYS(startDate, endDate)
                 {
-                    if (firstDate == undefined || secondDate == undefined)
-                    {
+                   if (arguments.length !== 2) {
                         throw 'Invalid Parameter';
                     }
-                    if (isNaN(firstDate))
+                    startDate = (startDate === undefined || startDate === '' || startDate === '0') ? 0 : startDate;
+                    endDate = (endDate === undefined || endDate === '' || startDate === '0') ? 0 : endDate;
+                    let originStartDate  = startDate,
+                        originEndDate = endDate;    
+                    if (startDate === 0 && endDate === 0)
                     {
-                        firstDate = new Date(Date.parse(firstDate));
+                        return 0;
+                    }
+                    if (isNaN(startDate))
+                    {
+                        startDate = new Date(Date.parse(startDate));
                     }
                     else
                     {
-                        firstDate = Number(firstDate);
-                        firstDate = new Date(1900, 0, firstDate > 59 ? firstDate - 1 : firstDate);
+                        startDate = Number(startDate);
+                        startDate = new Date(1900, 0, startDate > 59 ? startDate - 1 : startDate);
                     }
-                    if (isNaN(firstDate.getTime()) || firstDate.getFullYear() < 1900 || firstDate.getFullYear() > 9999)
+                    if (originStartDate !== 0 && (isNaN(startDate.getTime()) || startDate.getFullYear() < 1900 || startDate.getFullYear() > 9999))
                     {
-                        throw 'Invalid Parameter';
+                        throw '#VALUE!';
                     }
-                    if (isNaN(secondDate))
+                    if (isNaN(endDate))
                     {
-                        secondDate = new Date(Date.parse(secondDate));
+                        endDate = new Date(Date.parse(endDate));
                     }
                     else
                     {
-                        secondDate = Number(secondDate);
-                        secondDate = new Date(1900, 0, secondDate > 59 ? secondDate - 1 : secondDate);
+                        endDate = Number(endDate);
+                        endDate = new Date(1900, 0, endDate > 59 ? endDate - 1 : endDate);
                     }
-                    if (isNaN(secondDate.getTime()) || secondDate.getFullYear() < 1900 || secondDate.getFullYear() > 9999)
+                    if (originEndDate !== 0 && (isNaN(endDate.getTime()) || endDate.getFullYear() < 1900 || endDate.getFullYear() > 9999))
                     {
-                        throw 'Invalid Parameter';
+                        throw '#VALUE!';
                     }
-                    firstDate = firstDate.getTime();
-                    secondDate = secondDate.getTime();
-                    var diff = (firstDate - secondDate) / (1000 * 3600 * 24);
-                    return ((secondDate <= firstDate && firstDate <= -2203915325000)
-                        || (firstDate >= secondDate && secondDate >= -2203915324000))
-                        || ((firstDate <= secondDate && secondDate <= -2203915325000)
-                        || (secondDate >= firstDate && firstDate >= -2203915324000))
+                    startDate = startDate.getTime();
+                    endDate = endDate.getTime();
+                    let diff = (startDate - endDate) / (1000 * 3600 * 24),
+                        result = ((endDate <= startDate && startDate <= -2203915325000)
+                        || (startDate >= endDate && endDate >= -2203915324000))
+                        || ((startDate <= endDate && endDate <= -2203915325000)
+                        || (endDate >= startDate && startDate >= -2203915324000))
                         ? diff
-                        : (firstDate > secondDate
+                        : (startDate > endDate
                             ? diff + 1
-                            : (firstDate < secondDate ? diff - 1 : diff));
+                            : (startDate < endDate ? diff - 1 : diff));
+                    return Math.trunc(result) ;
                 }";
         }
 
-        /// <summary>
-        /// Returns the hour of a time value.
-        /// The hour is given as an integer, ranging from 0 to 23.
-        /// </summary>
-        /// <remarks>
-        /// Syntax: $HOUR(date)
-        /// </remarks>
         private static string GetHourScript()
         {
             return @"
                 function $HOUR(date)
                 {
-                    if (date == undefined)
-                    {
+                    if (arguments.length === 0) {
                         throw 'Invalid Parameter';
+                    }
+                    if(date === undefined || date === '' || date === '0') {
+                        return 0;
                     }
                     if (isNaN(date))
                     {
@@ -674,26 +416,22 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     }
                     if (isNaN(date.getTime()) || date.getFullYear() < 1900 || date.getFullYear() > 9999)
                     {
-                        throw 'Invalid Parameter';
+                        throw '#NUM!';
                     }
                     return date.getHours();
                 }";
         }
 
-        /// <summary>
-        /// Returns the minutes of a time value. The minute is given as an integer, ranging from 0 to 59.
-        /// </summary>
-        /// <remarks>
-        /// Syntax: $MINUTE(date)
-        /// </remarks>
         private static string GetMinuteScript()
         {
             return @"
                 function $MINUTE(date)
                 {
-                    if (date == undefined)
-                    {
+                   if (arguments.length === 0) {
                         throw 'Invalid Parameter';
+                    } 
+                    if(date === undefined || date === '' || date == '0') {
+                        return 0;
                     }
                     if (isNaN(date))
                     {
@@ -707,7 +445,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                                 var times = originDate.split(':');
                                 if (Number(times[0]) > 23 || Number(times[2]) > 59)
                                 {
-                                    throw 'Invalid Parameter';
+                                    throw '#VALUE!';
                                 }
                                 return Number(times[1]) % 60;
                             }
@@ -728,27 +466,22 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     }
                     if (isNaN(date.getTime()) || date.getFullYear() < 1900 || date.getFullYear() > 9999)
                     {
-                        throw 'Invalid Parameter';
+                        throw '#VALUE!';
                     }
                     return date.getMinutes();
                 }";
         }
 
-        /// <summary>
-        /// Returns the month of a date represented by a serial number.
-        /// The month is given as an integer, ranging from 1 (January) to 12 (December).
-        /// </summary>
-        /// <remarks>
-        /// Syntax: $MONTH(date)
-        /// </remarks>
         private static string GetMonthScript()
         {
             return @"
                 function $MONTH(date)
                 {
-                    if (date == undefined)
-                    {
+                    if (arguments.length === 0) {
                         throw 'Invalid Parameter';
+                    }
+                    if(date === undefined || date === '' || date == '0') {
+                        return 1;
                     }
                     if (isNaN(date))
                     {
@@ -761,18 +494,12 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     }
                     if (isNaN(date.getTime()) || date.getFullYear() < 1900 || date.getFullYear() > 9999)
                     {
-                        throw 'Invalid Parameter';
+                        throw '#VALUE!';
                     }
                     return date.getMonth() + 1;
                 }";
         }
 
-        /// <summary>
-        /// Returns the serial number of the current date and time
-        /// </summary>
-        /// <remarks>
-        /// Syntax: $NOW()
-        /// </remarks>
         private static string GetNowScript(Context context)
         {
             return @"
@@ -789,20 +516,16 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 }";
         }
 
-        /// <summary>
-        /// Returns the seconds of a time value. The second is given as an integer in the range 0 (zero) to 59.
-        /// </summary>
-        /// <remarks>
-        /// Syntax: $SECOND(date)
-        /// </remarks>
         private static string GetSecondScript()
         {
             return @"
                 function $SECOND(date)
                 {
-                    if (date == undefined)
-                    {
+                    if (arguments.length === 0) {
                         throw 'Invalid Parameter';
+                    }
+                    if(date === undefined || date === '' || date == '0') {
+                        return 0;
                     }
                     if (isNaN(date))
                     {
@@ -827,18 +550,12 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     }
                     if (isNaN(date.getTime()) || date.getFullYear() < 1900 || date.getFullYear() > 9999)
                     {
-                        throw 'Invalid Parameter';
+                        throw '#VALUE!';
                     }
                     return date.getSeconds();
                 }";
         }
 
-        /// <summary>
-        /// Returns the serial number of the current date.
-        /// </summary>
-        /// <remarks>
-        /// Syntax: $TODAY()
-        /// </remarks>
         private static string GetTodayScript(Context context)
         {
             return @"
@@ -852,20 +569,16 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 }";
         }
 
-        /// <summary>
-        /// Returns the year corresponding to a date. The year is returned as an integer in the range 1900-9999.
-        /// </summary>
-        /// <remarks>
-        /// Syntax: $YEAR(date)
-        /// </remarks>
         private static string GetYearScript()
         {
             return @"
                 function $YEAR(date)
                 {
-                    if (date == undefined)
-                    {
+                    if (arguments.length === 0) {
                         throw 'Invalid Parameter';
+                    }
+                    if(date === undefined || date === '' || date == '0') {
+                        return 1900;
                     }
                     if (isNaN(date))
                     {
@@ -878,18 +591,12 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     }
                     if (isNaN(date.getTime()) || date.getFullYear() < 1900 || date.getFullYear() > 9999)
                     {
-                        throw 'Invalid Parameter';
+                        throw '#VALUE!';
                     }
                     return date.getFullYear();
                 }";
         }
 
-        /// <summary>
-        /// Combines the text from multiple ranges and/or strings.
-        /// </summary>
-        /// <remarks>
-        /// Syntax: $CONCAT(firstString1, [firstString2],…)
-        /// </remarks>
         private static string GetConcatScript()
         {
             return @"
@@ -911,234 +618,180 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 }";
         }
 
-        /// <summary>
-        /// Finds the first occurrence of a string within another string. Uppercase and lowercase letters are case sensitive
-        /// </summary>
-        /// <remarks>
-        /// Syntax: $FIND(findText, withinText, start = 1)
-        /// </remarks>
         private static string GetFindScript()
         {
             return @"
                 function $FIND(findText, withinText, startNum = 1)
                 {
-                    if (findText == undefined || withinText == undefined || isNaN(startNum))
-                    {
+                    if (arguments.length > 3 || arguments.length < 2) {
                         throw 'Invalid Parameter';
                     }
+                    if(isNaN(startNum) || Number(startNum) < 1) {
+                        throw '#VALUE!';
+                    }
+                    findText = (findText == undefined) ? '' : findText;
+                    withinText = (withinText == undefined ) ? '' : withinText; 
                     startNum = Number(startNum);
-                    if (startNum < 1)
-                    {
-                        throw 'Invalid Parameter';
+                    if(findText === '' && (withinText.toString().length + 1) >= startNum) {
+                        return startNum;
+                    }
+                    if((findText === '' && withinText === '' && startNum > 1)
+                        || (findText === '' && (withinText.toString().length + 1) < startNum)) {
+                            throw '#VALUE!';
                     }
                     var index = withinText.toString().indexOf(findText.toString(), startNum - 1);
                     if (index < 0)
                     {
-                        throw 'Not Found';
+                        throw '#VALUE!';
                     }
                     return index + 1;
                 }";
         }
 
-        /// <summary>
-        /// LEFT returns the first character or characters in a text string, based on the number of characters you specify.
-        /// </summary>
-        /// <remarks>
-        /// Syntax: $LEFT(text, numChars)
-        /// </remarks>
         private static string GetLeftScript()
         {
             return @"
                 function $LEFT(text, numChars = 1)
                 {
-                    if (text == undefined || isNaN(numChars))
-                    {
+                    if (arguments.length > 2 || arguments.length < 1) {
                         throw 'Invalid Parameter';
                     }
                     numChars = Number(numChars);
-                    if (numChars < 0)
-                    {
-                        throw 'Invalid Parameter';
-                    }
                     return text.toString().substring(0, numChars);
                 }";
         }
 
-        /// <summary>
-        /// LEN returns the number of characters in a text string.
-        /// </summary>
-        /// <remarks>
-        /// Syntax: $LEN(text)
-        /// </remarks>
         private static string GetLenScript()
         {
             return @"
                 function $LEN(text)
                 {
-                    if (text == undefined)
-                    {
+                    if (arguments.length !== 1) {
                         throw 'Invalid Parameter';
                     }
+                    text = (text == undefined) ? '' : text;
                     return text.toString().length;
                 }";
         }
 
-        /// <summary>
-        /// Converts all uppercase letters in a text string to lowercase.
-        /// </summary>
-        /// <remarks>
-        /// Syntax: $LOWER(text)
-        /// </remarks>
         private static string GetLowerScript()
         {
             return @"
                 function $LOWER(text)
                 {
-                    if (text == undefined)
-                    {
+                    if (arguments.length !== 1) {
                         throw 'Invalid Parameter';
                     }
+                    text = (text == undefined) ? '' : text;
                     return text.toString().toLowerCase();
                 }";
         }
 
-        /// <summary>
-        /// MID returns a specific number of characters from a text string, starting at the position you specify, based on the number of characters you specify.
-        /// </summary>
-        /// <remarks>
-        /// Syntax: $MID(text, startNum, numChars)
-        /// </remarks>
         private static string GetMidScript()
         {
             return @"
                 function $MID(text, startNum, numChars)
                 {
-                    if (text == undefined || isNaN(startNum) || isNaN(numChars))
-                    {
+                    if (arguments.length !== 3) {
                         throw 'Invalid Parameter';
+                    }
+                    text = (text == undefined) ? '' : text;
+                    if (isNaN(startNum) || isNaN(numChars))
+                    {
+                        throw '#VALUE!';
                     }
                     startNum = Number(startNum);
                     numChars = Number(numChars);
                     if (startNum < 1 || numChars < 0)
                     {
-                        throw 'Invalid Parameter';
+                        throw '#VALUE!';
                     }
                     return text.toString().substring(startNum - 1, startNum - 1 + numChars);
                 }";
         }
 
-        /// <summary>
-        /// RIGHT returns the last character or characters in a text string, based on the number of characters you specify.
-        /// </summary>
-        /// <remarks>
-        /// Syntax: $RIGHT(text,[numChars])
-        /// </remarks>
         private static string GetRightScript()
         {
             return @"
                 function $RIGHT(text, numChars = 1)
                 {
-                    if (text == undefined || isNaN(numChars))
-                    {
+                    if (arguments.length > 2 || arguments.length < 1) {
                         throw 'Invalid Parameter';
-                    }
+                    }    
+                    text = (text == undefined) ? '' : text;
+                    if (isNaN(numChars) || Number(numChars) < 0)
+                    {
+                        throw '#VALUE!';
+                    }    
                     numChars = Number(numChars);
-                    if (numChars < 0)
-                    {
-                        throw 'Invalid Parameter';
-                    }
                     return text.toString().substring(text.toString().length - numChars);
                 }";
         }
 
-        /// <summary>
-        /// Substitutes newtext for oldText in a text string. 
-        /// </summary>
-        /// <remarks>
-        /// Syntax: $SUBSTITUTE(text, oldText, newtext, [instanceNum])
-        /// </remarks>
         private static string GetSubstituteScript()
         {
             return @"
                 function $SUBSTITUTE(text, oldText, newtext, instanceNum)
                 {
-                    if (text == undefined || oldText == undefined || newtext == undefined)
-                    {
+                    if (arguments.length > 4 || arguments.length < 3) {
                         throw 'Invalid Parameter';
+                    }     
+                    if (Number(instanceNum) < 1)
+                    {
+                        throw '#VALUE!';
                     }
+                    text = (text == undefined) ? '' : text;
+                    oldText = (oldText == undefined) ? '' : oldText;
+                    newtext = (newtext == undefined) ? '' : newtext;
                     let reg = new RegExp(oldText.toString(), 'g');
-                    if (instanceNum == undefined)
+                    if (instanceNum == undefined && arguments.length == 3)
                     {
                         return text.toString().replace(reg, newtext.toString());
                     }
-                    else if (isNaN(instanceNum))
-                    {
-                        throw 'Invalid Parameter';
-                    }
                     instanceNum = Number(instanceNum);
-                    if (instanceNum < 1)
-                    {
-                        throw 'Invalid Parameter';
-                    }
                     let i = 0;
                     return text.toString().replace(reg, match => ++i == instanceNum ? newtext.toString() : match);
                 }";
         }
 
-        /// <summary>
-        /// Removes all spaces from text except for single spaces between words.
-        /// </summary>
-        /// <remarks>
-        /// Syntax: $TRIM(text)
-        /// </remarks>
         private static string GetTrimScript()
         {
             return @"
                 function $TRIM(text)
                 {
-                    if (text == undefined)
-                    {
+                    if (arguments.length !== 1) {
                         throw 'Invalid Parameter';
                     }
+                    text = (text == undefined) ? '' : text;
                     return text.toString().trim();
                 }";
         }
 
-        /// <summary>
-        /// Converts text to uppercase.
-        /// </summary>
-        /// <remarks>
-        /// Syntax: $UPPER(text)
-        /// </remarks>
         private static string GetUpperScript()
         {
             return @"
                 function $UPPER(text)
                 {
-                    if (text == undefined)
-                    {
+                    if (arguments.length !== 1) {
                         throw 'Invalid Parameter';
                     }
+                    text = (text == undefined) ? '' : text;
                     return text.toString().toUpperCase();
                 }";
         }
 
-        /// <summary>
-        /// Use the AND function, one of the logical functions, to determine if all conditions in a test are TRUE.
-        /// </summary>
-        /// <remarks>
-        /// Syntax: $AND(firstClause, [secondClause], ...)
-        /// </remarks>
         private static string GetAndScript()
         {
             return @"
                 function $AND(firstClause)
                 {
-                    
                     if (arguments.length == 0) {
                         throw 'Invalid Parameter';
                     }
-                    for (let i = 1; i < arguments.length; i++) {
+                    if(firstClause == 0 || firstClause === 'false') {
+                        return false;
+                    }
+                    for (let i = 1; i < arguments.length; i++) {        
                         if (arguments[i] === undefined || arguments[i].toString().trim() === '') {
                             continue;
                         }
@@ -1150,7 +803,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                             if (arguments[i] === false) {
                                 return false;
                             }
-                            firstClause =  Boolean(firstClause);
+                            firstClause =  Boolean(arguments[i]);
                         }
                     }
                     firstClause =
@@ -1160,111 +813,101 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                             ? true
                             : firstClause;
                     if (firstClause === undefined || firstClause === '' || isNaN(firstClause)) {
-                        throw 'Invalid Parameter';
+                        throw '#VALUE!';
                     }
                     return Boolean(firstClause);
                 }";
         }
 
-        /// <summary>
-        /// Returns the specified value depending on the result of a logical expression(TRUE or FALSE)
-        /// </summary>
-        /// <remarks>
-        /// Syntax: $IF(expression, valueIfTrue, valueIfFalse)
-        /// </remarks>
         private static string GetIfScript()
         {
             return @"
                 function $IF(expression, valueIfTrue, valueIfFalse = false)
                 {
-                    if (expression == undefined || valueIfTrue == undefined)
-                    {
+                    if (arguments.length > 3 || arguments.length < 2) {
                         throw 'Invalid Parameter';
+                    }
+                    expression = (expression === undefined || expression === '') ? false  : expression;
+                    valueIfTrue = (valueIfTrue === undefined ||  valueIfTrue === '') ? 0 : valueIfTrue;
+                    valueIfFalse = (valueIfFalse === '') ? 0 : valueIfFalse;
+                    if(typeof valueIfTrue === 'string' && valueIfTrue.length === 2 
+                        && valueIfTrue.substring(0,1).charCodeAt() === 34 && valueIfTrue.substring(1,2).charCodeAt() == 34) 
+                    {
+                        valueIfTrue = '';
+                    }
+                    if(typeof valueIfFalse === 'string' && valueIfFalse.length === 2
+                        && valueIfFalse.substring(0,1).charCodeAt() === 34 && valueIfFalse.substring(1,2).charCodeAt() == 34)
+                    {
+                        valueIfFalse = '';
+                    }    
+                    if (typeof expression === 'boolean')
+                    {
+                        return expression ? valueIfTrue : valueIfFalse;
                     }
                     if (!isNaN(expression))
                     {
                         expression = (expression != 0);
+                        return expression ? valueIfTrue : valueIfFalse;
                     }
-                    else if (typeof expression != 'boolean')
-                    {
-                        throw 'Invalid Parameter';
-                    }
+                    expression = ($VALUE(expression) != 0);
                     return expression ? valueIfTrue : valueIfFalse;
                 }";
         }
 
-        /// <summary>
-        /// Returns TRUE if the argument is FALSE, otherwise returns FALSE
-        /// </summary>
-        /// <remarks>
-        /// Syntax: $NOT(expression)
-        /// </remarks>
         private static string GetNotScript()
         {
             return @"
                 function $NOT(expression)
                 {
-                    if (expression == undefined)
-                    {
+                    if (arguments.length === 0) {
                         throw 'Invalid Parameter';
                     }
+                    expression = (expression == undefined) ? '' : expression;
                     if (!isNaN(expression))
                     {
                         expression = (expression != 0);
                     }
                     else if (typeof expression != 'boolean')
                     {
-                        throw 'Invalid Parameter';
+                        throw '#VALUE!';
                     }
                     return !expression;
                 }";
         }
 
-        /// <summary>
-        /// Returns TRUE if either argument is TRUE. Returns FALSE if all arguments are FALSE
-        /// </summary>
-        /// <remarks>
-        /// Syntax: $OR(expression, [expression2], ...))
-        /// </remarks>
         private static string GetOrScript()
         {
             return @"
                 function $OR(expression)
                 {
-                    if (expression == undefined)
-                    {
+                    if (arguments.length === 0) {
                         throw 'Invalid Parameter';
                     }
-                    if (!isNaN(expression))
-                    {
-                        expression = (expression != 0);
-                    }
-                    else if (typeof expression != 'boolean')
-                    {
-                        throw 'Invalid Parameter';
-                    }
-                    for (var i = 1; i < arguments.length; i++)
-                    {
-                        if (!isNaN(arguments[i]))
-                        {
-                            arguments[i] = (arguments[i] != 0);
+                    for (let i = 1; i < arguments.length; i++) {        
+                        if (arguments[i] === undefined || arguments[i].toString().trim() === '') {
+                            continue;
                         }
-                        else if (typeof arguments[i] != 'boolean')
-                        {
-                            throw 'Invalid Parameter';
+                        arguments[i] = arguments[i] === 'true'  ? true : arguments[i];
+                        if (typeof arguments[i] === 'boolean' || !isNaN(arguments[i])) { 
+                            if (arguments[i] === true || Boolean(Number(arguments[i]))) {
+                                return true;
+                            }            
+                            expression =  false;
                         }
-                        expression = expression || arguments[i];
                     }
-                    return expression;
+                    expression =
+                        (!isNaN(expression) && Boolean(Number(expression))) || expression === 'true'
+                            ? true
+                            : expression == 'false' || expression == '0'
+                            ? false
+                            : expression;
+                    if (expression === undefined || expression === '' || isNaN(expression)) {
+                        throw '#VALUE!';
+                    }
+                    return Boolean(expression);
                 }";
         }
 
-        /// <summary>
-        /// Replaces part of a text string, based on the number of characters you specify, with a different text string.
-        /// </summary>
-        /// <remarks>
-        /// Syntax: REPLACE(oldText, startNum, numChars, newText)
-        /// </remarks>
         private static string GetReplaceScript()
         {
             return @"
@@ -1298,92 +941,80 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 }";
         }
 
-        /// <summary>
-        /// Returns the character number of the first occurrence of a string. Uppercase and lowercase letters are not sensitive
-        /// </summary>
-        /// <remarks>
-        /// Syntax: SEARCH(findText, withinText, [startNum])
-        /// </remarks>
         private static string GetSearchScript()
         {
             return @"
                 function $SEARCH(findText, withinText, start = 1)
                 {
-                    if(arguments.length === 0 ) {
+                    if (arguments.length < 2 || arguments.length > 3)
+                    {
                         throw 'Invalid Parameter';
                     }
-                    if (findText == undefined && withinText == undefined && start == 1)
+                    if (start == '' || isNaN(start))
                     {
-                        return 1;
+                        throw '#VALUE!';
                     }
                     start = Number(start);
-                    if (start < 1 || start > withinText.toString().length) {
-                        throw 'Invalid Parameter';
+                    if (start < 1 || start > withinText.toString().length)
+                    {
+                        throw '#VALUE!';
                     }
                     let index = withinText.toString().toLowerCase().indexOf(findText.toString().toLowerCase(), start - 1);
-                    if (index < 0) {
+                    if (index < 0)
+                    {
                         throw 'Not Found';
                     }
                     return index + 1;
 	            }";
         }
 
-
-        /// <summary>
-        /// Checks if one or more conditions are met and returns the value corresponding to the first true condition
-        /// </summary>
-        /// <remarks>
-        /// Syntax: IFS(firstClause, retValue1, [logicalClause2, retValue2, logicalClause3, retValue3])
-        /// </remarks>
         private static string GetIfsScript()
         {
             return @"
-                function $IFS(firstClause, retValue1)
+                function $IFS(logicalTest, valueIfTrue)
                 {
                     if (arguments.length === 0 || arguments.length % 2 !== 0) {
                         throw 'Invalid Parameter';
-                    }            
+                    }  
                     for (let i = 0; i < arguments.length; i = i + 2)
                     {
-                        logicalTest = arguments[i],
-                        valueIfTrue = arguments[i+1];
-                        if (logicalTest === '')
-                        {
-                            throw 'Invalid Parameter';
-                        }
-                        logicalTest = (logicalTest === 'false') ? false : (logicalTest === 'true') ? true : logicalTest;
+                        logicalTest = (arguments[i] === '' || arguments[i] === undefined ) ? false : arguments[i] 
+                        logicalTest = (logicalTest === 'false' || logicalTest == '0') ? false : (logicalTest === 'true') ? true : logicalTest;
+                        valueIfTrue = (arguments[i+1] === '' || arguments[i+1] === undefined ) ? 0 : arguments[i+1];
                         if (!isNaN(logicalTest) || typeof logicalTest === 'boolean')
                         {       
                             if(Boolean(logicalTest)) {
-                                return valueIfTrue === undefined ? 0 : valueIfTrue;
-                            }        
+                                try {
+                                    return $VALUE(valueIfTrue) 
+                                } catch (error) {
+                                    return valueIfTrue;
+                                }
+                            }
                             logicalTest = Boolean(logicalTest);
                         }
+                        else if(Boolean($VALUE(logicalTest))) {
+                            try {
+                                return $VALUE(valueIfTrue)
+                            } catch (error) {
+                                return valueIfTrue;
+                            }
+                        }
                     }
-                    if((logicalTest === undefined && logicalTest === undefined) || logicalTest === false) {
-                        throw 'Invalid Parameter';
-                    }
-                    if(logicalTest && (valueIfTrue === undefined)) {
-                        return 0;
+                    if(logicalTest === false) {
+                        throw '#N/A';
                     }
 	            }";
         }
 
-        /// <summary>
-        /// Returns TRUE if number is even, or FALSE if number is odd.
-        /// </summary>
-        /// <remarks>
-        /// Syntax: ISEVEN(number)
-        /// </remarks>
         private static string GetIsEvenScript()
         {
             return @"
                 function $ISEVEN(number)
                 {
-                    if (number == undefined)
-                    {
+                    if (arguments.length !== 1) {
                         throw 'Invalid Parameter';
                     }
+                    number = ( number == undefined  ||  number === '') ? 0 : number;
                     if (isNaN(number))
                     {
                         return $DAYS(number, '1/1/2000') % 2 == 0;
@@ -1392,12 +1023,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     return Math.trunc(number) % 2 == 0;
 	            }";
         }
-        /// <summary>
-        /// Value refers to a number.
-        /// </summary>
-        /// <remarks>
-        /// Syntax: ISNUMBER(value)
-        /// </remarks>
+
         private static string GetIsNumberScript()
         {
             return @"
@@ -1407,115 +1033,82 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     {
                         throw 'Invalid Parameter';
                     }
-                    if(!isNaN(value) && typeof value !== 'string') 
+                    if(value === '' || value === undefined || typeof value === 'boolean') 
                     {
-                         return true; 
+                        return false;
                     }
-                    if(typeof value == 'string') 
+                    if(typeof value === 'number' || !isNaN(value))
                     {
-                        if(value == '') 
-                        {
-                             return false; 
-                        }
-                        if(/^(\d{4})(\/|-)(\d{1,2})(\/|-)(\d{1,2})$/.test(value.substring(0,10).trim())) 
-                        {
-                             return true; 
-                        }
+                        return true;
                     }
                     return false;
 	            }";
         }
 
-        /// <summary>
-        /// Returns TRUE if number is odd, or FALSE if number is even.
-        /// </summary>
-        /// <remarks>
-        /// If number is nonnumeric, ISODD will throw Invalid Parametererror Exception.
-        /// Syntax: ISODD(number)
-        /// </remarks>
         private static string GetIsOddScript()
         {
             return @"
                 function $ISODD(number)
                 {
-                    if (arguments.length === 0 || number === '')
-                    {
+                    if (arguments.length !== 1) {
                         throw 'Invalid Parameter';
                     }
-                    if (number === undefined)
-                    {
-                        return false;
-                    }
+                    number = ( number == undefined  ||  number === '') ? 0 : number;
                     if (isNaN(number) && typeof number === 'string')
                     {
-                        if(/^(\d{4})(\/|-)(\d{1,2})(\/|-)(\d{1,2})$/.test(number.substring(0,10).trim())) { 
-                            return $DAYS(number, '1/2/2000') % 2 === 0;
-                        }
-                        throw 'Invalid Parameter';
+                        return $DAYS(number, '1/2/2000') % 2 === 0;
                     }
                     number = Number(number);
                     return Math.trunc(number) % 2 !== 0;
 	            }";
         }
 
-        /// <summary>
-        /// Returns TRUE if the cell content is a string
-        /// </summary>
-        /// <remarks>
-        /// Syntax: ISTEXT(text)
-        /// </remarks>
         private static string GetIsTextScript()
         {
             return @"
                 function $ISTEXT(text)
                 {
-                    if (arguments.length === 0)
-                    {
+                    if (arguments.length === 0) {
                         throw 'Invalid Parameter';
-                    }     
-                    if (text === undefined)
+                    }
+                    if (text === ''
+                        || text === undefined 
+                        || typeof text === 'boolean' 
+                        || typeof text === 'number' 
+                        || !isNaN(text)
+                        || !isNaN((new Date(text)).getTime())) 
                     {
                         return false;
                     }
-                    if(typeof text === 'string' || text instanceof String) {
-                        if(/^(\d{4})(\/|-)(\d{1,2})(\/|-)(\d{1,2})$/.test(text.substring(0,10).trim())) {
-                            return false;
-                        }
-                        return true;
-                    }
-                    if (text === undefined)
-                    {
-                        return false;
-                    }
-                    return typeof text === 'string' || text instanceof String;
+                    return true;
 	            }";
         }
 
-        /// <summary>
-        /// Returns the remainder after number is divided by divisor. The result has the same sign as divisor
-        /// </summary>
-        /// <remarks>
-        /// Syntax: MOD(number, divisor)
-        /// </remarks>
         private static string GetModScript()
         {
             return @"
                 function $MOD(number, divisor)
                 {
-                    if (number == undefined || divisor == undefined || isNaN(number) || isNaN(divisor))
-                    {
+                    if (arguments.length !== 2) {
                         throw 'Invalid Parameter';
                     }
+                    divisor = (divisor === undefined || divisor === '') ? 0
+                        : (typeof divisor === 'boolean' && divisor) ? 1 
+                        : (typeof divisor === 'boolean' && !divisor) ? 0
+                        : divisor;
+                    if(divisor == 0 || divisor == undefined) {
+                        throw '#DIV/0!';
+                    }
+                    number = (number === undefined || number === '') ? 0
+                        : (typeof number === 'boolean' && number) ? 1 
+                        : (typeof number === 'boolean' && !number) ? 0
+                        : number;
+                    number = $VALUE(number);
+                    divisor = $VALUE(divisor);
                     return Math.abs(number) % divisor * (divisor > 0 ? 1 : -1);
 	            }";
         }
 
-        /// <summary>
-        /// Returns number rounded up to the nearest odd integer.
-        /// </summary>
-        /// <remarks>
-        /// Syntax: ODD(number)
-        /// </remarks>
         private static string GetOddScript()
         {
             return @"
@@ -1525,65 +1118,70 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     {
                         throw 'Invalid Parameter';
                     } 
-                    if (number === undefined || number === 0)
-                    {
+                    number = (number === undefined || number === '' || typeof number === 'boolean') ? 1 : number;
+                    if(number === 1) {
                         return 1;
                     }
                     if (isNaN(number) && typeof number === 'string')
-                    {
-                        if(/^(\d{4})(\/|-)(\d{1,2})(\/|-)(\d{1,2})$/.test(number.substring(0,10).trim())) {
-                            number = $DAYS(number, '01/01/1900');
-                        }
+                    {   
+                        number = $VALUE(number);
                     }
                     let result = Math.ceil(Number(number));
                     return (result % 2 === 0) ? result + (result > 0 ? 1 : -1) : result;
 	            }";
         }
 
-        /// <summary>
-        /// Returns the average (arithmetic mean) of the arguments. 
-        /// </summary>
-        /// <remarks>
-        /// Syntax: AVERAGE(number1, [number2], ...)
-        /// </remarks>
         private static string GetAverageScript()
         {
             return @"
-                function $AVERAGE(number1)
+                function $AVERAGE()
                 {
-                    if (number1 == undefined || isNaN(number1))
+                    if (arguments.length == 0 || arguments.length > 255)
                     {
                         throw 'Invalid Parameter';
                     }
-                    number1 = Number(number1);
-                    var total = number1;
-		            for (var i = 1; i < arguments.length; i++)
-		            {
-                        if (arguments[i] == undefined || isNaN(arguments[i]))
+                    let sum = 0, averageCount = 0;
+                    for (let i = 0; i < arguments.length; i++)
+                    {
+                        if (arguments[i] !== '' && arguments[i] !== undefined)
                         {
-                            throw 'Invalid Parameter';
+                            if(!isNaN(Number(arguments[i])) && typeof arguments[i] !== 'boolean') {
+                                sum += Number(arguments[i]);
+                                averageCount++;
+                            }
+                            else if(typeof arguments[i] === 'boolean') {
+                                continue;
+                            }
+                            else {
+                                try {
+                                    sum += $VALUE(arguments[i]);
+                                    averageCount++;
+                                } 
+                                catch {
+                                    //No thing to do
+                                }
+                            }
                         }
-			            total += Number(arguments[i]);
-		            }
-		            return total / arguments.length;
+                    }
+                    if (averageCount === 0)
+                    {
+                        throw '#DIV/0!';
+                    }
+                    return sum / averageCount;
 	            }";
         }
 
-        /// <summary>
-        /// Returns the day of the week corresponding to a date.
-        /// The day is given as an integer, ranging from 1 (Sunday) to 7 (Saturday), by default.
-        /// </summary>
-        /// <remarks>
-        /// Syntax: WEEKDAY(date, [returnType])
-        /// </remarks>
         private static string GetWeekdayScript()
         {
             return @"
                 function $WEEKDAY(date, returnType = 1)
                 {
-                    if (date == undefined)
-                    {
+                    if (arguments.length < 1) {
                         throw 'Invalid Parameter';
+                    }
+                    date = (date == undefined) ? 0 : date;
+                    if(date == '' && (returnType == '' || Number(returnType) == 0)) {
+                        throw '#NUM!';
                     }
                     if (isNaN(date))
                     {
@@ -1598,8 +1196,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     }
                     if (isNaN(date.getTime()) || date.getFullYear() < 1900 || date.getFullYear() > 9999)
                     {
-                        throw 'Invalid Parameter';
+                        throw '#NUM!';
                     }
+                    returnType = Number(returnType)
                     switch (returnType)
                     {
                         case 1:
@@ -1621,17 +1220,11 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         case 16:
                             return (date.getDay() + 2) % 7 == 0 ? 7 : (date.getDay() + 2) % 7;
                         default:
-                            throw 'Invalid Parameter';
+                            throw '#NUM!';
                     }
                 }";
         }
-
-        /// <summary>
-        /// Returns the smallest number in a set of values.
-        /// </summary>
-        /// <remarks>
-        /// Syntax: MIN(number1, [number2], ...)
-        /// </remarks>
+        
         private static string GetMinScript()
         {
             return @"
@@ -1641,30 +1234,18 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     {
                         throw 'Invalid Parameter';
                     }
-                    let minValue = arguments[0];
-                    for (let i = 1; i < arguments.length; i++)
+                    let minValue = Number.POSITIVE_INFINITY;
+                    for (let i = 0; i < arguments.length; i++)
                     {
-                        if (arguments[i] !== null
-                            && arguments[i] !== ''
-                            && (minValue === undefined || arguments[i] < minValue))
+                        if (arguments[i] !== '' && !isNaN(arguments[i]) && Number(arguments[i]) < minValue)
                         {
-                            minValue = arguments[i];
+                            minValue = Number(arguments[i]);
                         }
                     }
-                    if (minValue === undefined)
-                    {
-                        minValue = 0;
-                    }
-                    return !isNaN(Number(minValue)) ? minValue : 0;
+                    return minValue == Number.POSITIVE_INFINITY ? 0 : minValue;
                 }";
         }
 
-        /// <summary>
-        /// Returns the largest value in a set of values.<br/>
-        /// </summary>
-        /// <remarks>
-        /// Syntax: MAX(number1, [number2], ...)
-        /// </remarks>
         private static string GetMaxScript()
         {
             return @"
@@ -1674,39 +1255,46 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     {
                         throw 'Invalid Parameter';
                     }
-                    let maxValue = arguments[0];
-                    for (let i = 1; i < arguments.length; i++)
+                    let maxValue = Number.NEGATIVE_INFINITY;
+                    for (let i = 0; i < arguments.length; i++)
                     {
-                        if (arguments[i] !== null
-                            && arguments[i] !== ''
-                            && (maxValue === undefined || arguments[i] > maxValue))
+                        if (arguments[i] !== '' && !isNaN(arguments[i]) && Number(arguments[i]) > maxValue)
                         {
-                            maxValue = arguments[i];
+                            maxValue = Number(arguments[i]);
                         }
                     }
-                    if (maxValue === undefined)
-                    {
-                        maxValue = 0;
-                    }
-                    return !isNaN(Number(maxValue)) ? maxValue : 0;
+                    return maxValue == Number.NEGATIVE_INFINITY ? 0 : maxValue;
                 }";
         }
 
-        /// <summary>
-        /// Rounds a number to a specified number of digits.
-        /// </summary>
-        /// <remarks>
-        /// Syntax: ROUND(number,numDigits)
-        /// </remarks>
         private static string GetRoundScript()
         {
             return @"
                 function $ROUND(number, numDigits)
                 {
-                    if (number === '' || numDigits === '' || isNaN(Number(number)) || isNaN(Number(numDigits)))
-                    {
+                    if (arguments.length !== 2) {
                         throw 'Invalid Parameter';
                     }
+                    number = (number === undefined || number === '') ? 0
+                            : (typeof number === 'boolean' && number) ? 1 
+                            : (typeof number === 'boolean' && !number) ? 0 
+                            : isNaN(Number(number)) ?  $VALUE(number)
+                            : number;
+                    numDigits = (numDigits === undefined || numDigits === '') ? 0 
+                        : (typeof numDigits === 'boolean' && numDigits) ? 1 
+                        : (typeof numDigits === 'boolean' && !numDigits) ? 0 
+                        : isNaN(Number(numDigits)) ?  $VALUE(numDigits)
+                        : numDigits;
+                    if (isNaN(Number(number)) || isNaN(Number(numDigits)))
+                    {
+                        throw '#VALUE!';
+                    }
+                    if (number == 0 && !isNaN(Number(numDigits))) {
+                        return 0;
+                    }
+                    number = Number(number);
+                    numDigits = Number(numDigits);
+                    numDigits = numDigits > 30 ? 30 : numDigits;
                     let negative = 1,
                     result;
                     if (number < 0)
@@ -1733,25 +1321,38 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         let divider = Math.pow(10, -numDigits);
                         result = Math.round(number / divider) * divider * negative;
                     }
-                    return result == 0 ? 0 : result;
+                    return Number(result);
                 }";
         }
 
-        /// <summary>
-        /// Rounds a number up, away from 0 (zero).
-        /// </summary>
-        /// <remarks>
-        /// Syntax: ROUNDUP(number,numDigits)
-        /// </remarks>
         private static string GetRoundUpScript()
         {
             return @"
                 function $ROUNDUP(number, numDigits)
                 {
-                    if (number === '' || numDigits === '' || isNaN(Number(number)) || isNaN(Number(numDigits)))
-                    {
+                    if (arguments.length !== 2) {
                         throw 'Invalid Parameter';
                     }
+                    number = (number === undefined || number === '') ? 0
+                            : (typeof number === 'boolean' && number) ? 1 
+                            : (typeof number === 'boolean' && !number) ? 0 
+                            : isNaN(Number(number)) ?  $VALUE(number)
+                            : number;
+                    numDigits = (numDigits === undefined || numDigits === '') ? 0 
+                        : (typeof numDigits === 'boolean' && numDigits) ? 1 
+                        : (typeof numDigits === 'boolean' && !numDigits) ? 0 
+                        : isNaN(Number(numDigits)) ?  $VALUE(numDigits)
+                        : numDigits;
+                    if (isNaN(Number(number)) || isNaN(Number(numDigits)))
+                    {
+                        throw '#VALUE!';
+                    }
+                    if (number == 0 && !isNaN(Number(numDigits))) {
+                        return 0;
+                    }
+                    number = Number(number);
+                    numDigits = Number(numDigits);
+                    numDigits = numDigits > 30 ? 30 : numDigits;
                     let negative = 1,
                     result;
                     if (number < 0)
@@ -1778,25 +1379,38 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         let divider = Math.pow(10, -numDigits);
                         result = Math.ceil(number / divider) * divider * negative;
                     }
-                    return result == 0 ? 0 : result;
+                    return Number(result);
                 }";
         }
 
-        /// <summary>
-        /// Rounds a number down, toward zero.
-        /// </summary>
-        /// <remarks>
-        /// Syntax: ROUNDDOWN(number,numDigits)
-        /// </remarks>
         private static string GetRoundDownScript()
         {
             return @"
                 function $ROUNDDOWN(number, numDigits)
                 {
-                    if (number === '' || numDigits === '' || isNaN(Number(number)) || isNaN(Number(numDigits)))
-                    {
+                    if (arguments.length !== 2) {
                         throw 'Invalid Parameter';
                     }
+                    number =  (number === undefined || number === '') ? 0
+                            : (typeof number === 'boolean' && number) ? 1 
+                            : (typeof number === 'boolean' && !number) ? 0 
+                            : isNaN(Number(number)) ?  $VALUE(number)
+                            : number;
+                    numDigits = (numDigits === undefined || numDigits === '') ? 0 
+                        : (typeof numDigits === 'boolean' && numDigits) ? 1 
+                        : (typeof numDigits === 'boolean' && !numDigits) ? 0 
+                        : isNaN(Number(numDigits)) ?  $VALUE(numDigits)
+                        : numDigits;
+                    if (isNaN(Number(number)) || isNaN(Number(numDigits)))
+                    {
+                        throw '#VALUE!';
+                    }
+                    if (number == 0 && !isNaN(Number(numDigits))) {
+                        return 0;
+                    }
+                    number = Number(number);
+                    numDigits = Number(numDigits);
+                    numDigits = numDigits > 30 ? 30 : numDigits;
                     let negative = 1,
                     result;
                     if (number < 0)
@@ -1823,33 +1437,39 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         let divider = Math.pow(10, -numDigits);
                         result = Math.floor(number / divider) * divider * negative;
                     }
-                    return result == 0 ? 0 : result;
+                    return Number(result);
                 }";
         }
 
-        /// <summary>
-        /// Truncates a number to an integer by removing the fractional part of the number.
-        /// </summary>
-        /// <remarks>
-        /// Syntax: TRUNC(number, [numDigits])
-        /// </remarks>
         private static string GetTruncScript()
         {
             return @"
                 function $TRUNC(number, numDigits)
                 {
-                    if (numDigits == undefined)
-                    {
-                        numDigits = 0;
-                    }
-                    if (number == undefined ||
-                        number === '' ||
-                        numDigits === '' ||
-                        isNaN(Number(number)) ||
-                        isNaN(Number(numDigits)))
-                    {
+                    if (arguments.length > 2 || arguments.length  < 1) {
                         throw 'Invalid Parameter';
                     }
+                    number = (number === undefined || number === '') ? 0
+                            : (typeof number === 'boolean' && number) ? 1 
+                            : (typeof number === 'boolean' && !number) ? 0 
+                            : isNaN(Number(number)) ?  $VALUE(number)
+                            : number;
+                    numDigits = (numDigits === undefined || numDigits === '') ? 0 
+                        : (typeof numDigits === 'boolean' && numDigits) ? 1 
+                        : (typeof numDigits === 'boolean' && !numDigits) ? 0 
+                        : isNaN(Number(numDigits)) ?  $VALUE(numDigits)
+                        : numDigits;    
+                    if (isNaN(Number(number)) || isNaN(Number(numDigits)))
+                    {
+                        throw '#VALUE!';
+                    }
+                    if (number === 0 && !isNaN(Number(numDigits))) {
+                        return 0;
+                    }
+    
+                    number = Number(number);
+                    numDigits = Number(numDigits);
+                    numDigits = numDigits > 30 ? 30 : numDigits;
                     if (numDigits >= 0)
                     {
                         let multiplier = Math.pow(10, numDigits);
@@ -1863,71 +1483,108 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 }";
         }
 
-        /// <summary>
-        /// Converts full-width alphanumeric kana characters (2 bytes) to half-width alphanumeric kana characters (1 byte)
-        /// </summary>
-        /// <remarks>
-        /// Syntax: ASC(text)
-        /// </remarks>
         private static string GetAscScript()
         {
             return @"
                 function $ASC(text)
                 {
-                    return text.toString().replace(/[Ａ-Ｚａ-ｚ０-９]/g, function (s) {
-                        return String.fromCharCode(s.charCodeAt(0) - 0xfee0);
-                    });
+                    if (arguments.length !== 1) {
+                        throw 'Invalid Parameter';
+                    }
+                    if(text === undefined || text === '') {
+                        return '';
+                    }
+                    let kanaMap = {
+                        'ガ': 'ｶﾞ', 'ギ': 'ｷﾞ', 'グ': 'ｸﾞ', 'ゲ': 'ｹﾞ', 'ゴ': 'ｺﾞ', 'ザ': 'ｻﾞ', 'ジ': 'ｼﾞ', 'ズ': 'ｽﾞ', 'ゼ': 'ｾﾞ', 'ゾ': 'ｿﾞ', 'ダ': 'ﾀﾞ', 
+                        'ヂ': 'ﾁﾞ', 'ヅ': 'ﾂﾞ', 'デ': 'ﾃﾞ', 'ド': 'ﾄﾞ', 'バ': 'ﾊﾞ', 'ビ': 'ﾋﾞ', 'ブ': 'ﾌﾞ', 'ベ': 'ﾍﾞ', 'ボ': 'ﾎﾞ', 'パ': 'ﾊﾟ', 'ピ': 'ﾋﾟ', 
+                        'プ': 'ﾌﾟ', 'ペ': 'ﾍﾟ', 'ポ': 'ﾎﾟ', 'ヴ': 'ｳﾞ', 'ヷ': 'ﾜﾞ', 'ヺ': 'ｦﾞ', 'ア': 'ｱ', 'イ': 'ｲ', 'ウ': 'ｳ', 'エ': 'ｴ', 'オ': 'ｵ', 
+                        'カ': 'ｶ', 'キ': 'ｷ', 'ク': 'ｸ', 'ケ': 'ｹ', 'コ': 'ｺ', 'サ': 'ｻ', 'シ': 'ｼ', 'ス': 'ｽ', 'セ': 'ｾ', 'ソ': 'ｿ', 'タ': 'ﾀ', 'チ': 'ﾁ', 
+                        'ツ': 'ﾂ', 'テ': 'ﾃ', 'ト': 'ﾄ', 'ナ': 'ﾅ', 'ニ': 'ﾆ', 'ヌ': 'ﾇ', 'ネ': 'ﾈ', 'ノ': 'ﾉ', 'ハ': 'ﾊ', 'ヒ': 'ﾋ', 'フ': 'ﾌ', 'ヘ': 'ﾍ', 
+                        'ホ': 'ﾎ', 'マ': 'ﾏ', 'ミ': 'ﾐ', 'ム': 'ﾑ', 'メ': 'ﾒ', 'モ': 'ﾓ', 'ヤ': 'ﾔ', 'ユ': 'ﾕ', 'ヨ': 'ﾖ', 'ラ': 'ﾗ', 'リ': 'ﾘ', 'ル': 'ﾙ', 
+                        'レ': 'ﾚ', 'ロ': 'ﾛ', 'ワ': 'ﾜ', 'ヲ': 'ｦ', 'ン': 'ﾝ', 'ァ': 'ｧ', 'ィ': 'ｨ', 'ゥ': 'ｩ', 'ェ': 'ｪ', 'ォ': 'ｫ', 'ッ': 'ｯ', 'ャ': 'ｬ', 
+                        'ュ': 'ｭ', 'ョ': 'ｮ', '！': '!', '”': String.fromCharCode(34), '＃': '#', '＄': '$', '％': '%', '＆': '&', '’': String.fromCharCode(39),
+                        '（': '(', '）': ')', '＊': '*', '＋': '+', '，': ',', '－': '-', '．': '.', '／': '/', '：': ':', '；': ';', '＜': '<', '＝': '=', 
+                        '＞': '>', '？': '?', '＠': '@', '［': '[', '￥': '￥', '］': ']', '＾': '^', '＿': '_', '‘': '`', '｛': '{', '｜': '|', '｝': '}', '～': '~' 
+                    };
+                    let reg = new RegExp(`(${Object.keys(kanaMap).join('|')})`, 'g');
+                    return text
+                        .toString()
+                        .replace(reg, function (match) {
+                            return kanaMap[match];
+                        })
+                        .replace(/[Ａ-Ｚａ-ｚ０-９]/g, function (s) {
+                            return String.fromCharCode(s.charCodeAt(0) - 0xfee0);
+                        });
                 }";
         }
 
-        /// <summary>
-        /// Converts half-width alphanumeric kana characters (1 byte) to full-width alphanumeric kana characters (2 bytes)
-        /// </summary>
-        /// <remarks>
-        /// Syntax: JIS(text)
-        /// </remarks>
         private static string GetJisScript()
         {
             return @"
                 function $JIS(text)
                 {
-                    return text.toString().replace(/[A-Za-z0-9]/g, function (s) {
-                        return String.fromCharCode(s.charCodeAt(0) + 0xfee0);
+                    if (arguments.length !== 1) {
+                        throw 'Invalid Parameter';
+                    }
+                    if(text === undefined || text === '') {
+                        return '';
+                    }
+                    let halfKanaMap = {
+                        'ｶﾞ': 'ガ', 'ｷﾞ': 'ギ', 'ｸﾞ': 'グ', 'ｹﾞ': 'ゲ', 'ｺﾞ': 'ゴ', 'ｻﾞ': 'ザ', 'ｼﾞ': 'ジ', 'ｽﾞ': 'ズ', 'ｾﾞ': 'ゼ', 'ｿﾞ': 'ゾ', 'ﾀﾞ': 'ダ', 'ﾁﾞ': 'ヂ', 
+                        'ﾂﾞ': 'ヅ', 'ﾃﾞ': 'デ', 'ﾄﾞ': 'ド', 'ﾊﾞ': 'バ', 'ﾋﾞ': 'ビ', 'ﾌﾞ': 'ブ', 'ﾍﾞ': 'ベ', 'ﾎﾞ': 'ボ', 'ﾊﾟ': 'パ', 'ﾋﾟ': 'ピ', 'ﾌﾟ': 'プ', 
+                        'ﾍﾟ': 'ペ', 'ﾎﾟ': 'ポ', 'ｳﾞ': 'ヴ', 'ﾜﾞ': 'ヷ', 'ｦﾞ': 'ヺ', 'ｱ': 'ア', 'ｲ': 'イ', 'ｳ': 'ウ', 'ｴ': 'エ', 'ｵ': 'オ', 'ｶ': 'カ', 'ｷ': 'キ', 
+                        'ｸ': 'ク', 'ｹ': 'ケ', 'ｺ': 'コ', 'ｻ': 'サ', 'ｼ': 'シ', 'ｽ': 'ス', 'ｾ': 'セ', 'ｿ': 'ソ', 'ﾀ': 'タ', 'ﾁ': 'チ', 'ﾂ': 'ツ', 'ﾃ': 'テ', 'ﾄ': 'ト',
+                        'ﾅ': 'ナ', 'ﾆ': 'ニ', 'ﾇ': 'ヌ', 'ﾈ': 'ネ', 'ﾉ': 'ノ', 'ﾊ': 'ハ', 'ﾋ': 'ヒ', 'ﾌ': 'フ', 'ﾍ': 'ヘ', 'ﾎ': 'ホ', 'ﾏ': 'マ', 'ﾐ': 'ミ', 'ﾑ': 'ム', 
+                        'ﾒ': 'メ', 'ﾓ': 'モ', 'ﾔ': 'ヤ', 'ﾕ': 'ユ', 'ﾖ': 'ヨ', 'ﾗ': 'ラ', 'ﾘ': 'リ', 'ﾙ': 'ル', 'ﾚ': 'レ', 'ﾛ': 'ロ', 'ﾜ': 'ワ', 'ｦ': 'ヲ', 'ﾝ': 'ン', 
+                        'ｧ': 'ァ', 'ｨ': 'ィ', 'ｩ': 'ゥ', 'ｪ': 'ェ', 'ｫ': 'ォ', 'ｯ': 'ッ', 'ｬ': 'ャ', 'ｭ': 'ュ', 'ｮ': 'ョ', 
+                    };    
+                    let specialCharMaping = {
+                        '!': '！', '#': '＃', '$': '＄', '%': '％', '&': '＆', '\'': '’', '(': '（', ')': '）', '*': '＊', '+': '＋', ',': '，', '-': '－', 
+                        '.': '．', '/': '／', ':': '：', ';': '；', '<': '＜', '=': '＝', '>': '＞', '?': '？', '@': '＠', '[': '［', '\\': '￥', ']': '］',
+                        '^': '＾', '_': '＿', '`': '‘', '{': '｛', '|': '｜', '}': '｝', '~': '～' 
+                    };
+                    specialCharMaping[String.fromCharCode(34)] = '”';
+                    let specialCharRegexPattern = new RegExp(`[${Object.keys(specialCharMaping).join('')}]`, 'g');
+                    let kanaMapRegxPattern = new RegExp(`(${Object.keys(halfKanaMap).join('|')})`, 'g');
+                    return text
+                        .toString()
+                        .replace(kanaMapRegxPattern, function (matKana) {
+                                return halfKanaMap[matKana];
+                        })
+                        .replace (/ﾞ/g, '゛')
+                        .replace (/ﾟ/g, '゜')
+                        .replace(specialCharRegexPattern, function (matchSpc) {
+                            return specialCharMaping[matchSpc];
+                        })   
+                        .replace(/[A-Za-z0-9]/g, function (s) {
+                            return String.fromCharCode(s.charCodeAt(0) + 0xfee0);
                     });
                 }";
         }
 
-        /// <summary>
-        /// Converts numbers entered as strings to numbers
-        /// </summary>
-        /// <remarks>
-        /// Syntax: VALUE(text)
-        /// </remarks>
         private static string GetValueScript()
         {
             return @"
                 function $VALUE(text)
                 {
-                    if (text == undefined || text === '')
-                    {
+                    if (arguments.length !== 1) {
                         throw 'Invalid Parameter';
                     }
-                    let timeRegex = /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/;
-                    if (timeRegex.test(text))
-                    {
-                        let hour = Number(text.substring(0, 2)),
-                        minute = Number(text.substring(3, 5));
-                        return Number(((hour + minute/60) / 24).toFixed(1));
-                    }
-                    else
-                    {
-                        text = text.toString().replace(/[$,]/g, '');
-                        if (isNaN(Number(text)))
-                        {
-                            throw 'Invalid Parameter';
-                        }
+                    if(typeof text === 'boolean' || text === undefined || text === '') {
+                        throw '#VALUE!';
+                    }    
+                    if (!isNaN(text)) {
+                        return Number(text);
+                    } 
+                    text = text
+                            .toString()
+                            .replace(/[０-９]/g, function (s) {
+                                return String.fromCharCode(s.charCodeAt(0) - 0xfee0);
+                            });
+                    if (!isNaN(text)) {
                         return Number(text);
                     }
+                    throw '#VALUE!';
                 }";
         }
 

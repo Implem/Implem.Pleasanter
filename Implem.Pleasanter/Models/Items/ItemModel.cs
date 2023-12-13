@@ -483,9 +483,16 @@ namespace Implem.Pleasanter.Models
                 initSiteSettings: true,
                 setSiteIntegration: true,
                 setAllChoices: true);
-            ViewModes.Set(context: context, siteId: Site.SiteId);
+            if (Site.ReferenceType != "Dashboards")
+            {
+                ViewModes.Set(context: context, siteId: Site.SiteId);
+            }
             switch (Site.ReferenceType)
             {
+                case "Dashboards":
+                    return DashboardUtilities.CalendarJson(
+                        context: context,
+                        ss: Site.SiteSettings);
                 case "Issues":
                     return IssueUtilities.CalendarJson(
                         context: context,
@@ -549,6 +556,19 @@ namespace Implem.Pleasanter.Models
                 default:
                     return Messages.ResponseNotFound(context: context).ToJson();
             }
+        }
+
+        public string DashboardPartJson(Context context,string dashboardPartId)
+        {
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true,
+                setAllChoices: true);
+            return DashboardUtilities.DashboardPartJson(
+                context: context,
+                ss: Site.SiteSettings,
+                dashboardPartId: dashboardPartId);
         }
 
         public string Gantt(Context context)
@@ -2075,6 +2095,38 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public ContentResultInheritance UpdateSiteSettingsByApi(Context context, string referenceType = null)
+        {
+            SetSite(
+                context: context,
+                initSiteSettings: true);
+            if (!Site.WithinApiLimits(context: context))
+            {
+                return ApiResults.Get(ApiResponses.OverLimitApi(
+                    context: context,
+                    siteId: Site.SiteId,
+                    limitPerSite: context.ContractSettings.ApiLimit()));
+            }
+            if (Site.SiteId == 0)
+            {
+                return ApiResults.Get(ApiResponses.NotFound(context: context));
+            }
+            switch (referenceType ?? Site.ReferenceType)
+            {
+                case "Sites":
+                case "Issues":
+                case "Results":
+                case "Wikis":
+                case "Dashboards":
+                    return SiteUtilities.UpdateSiteSettingsByApi(
+                        context: context,
+                        ss: Site.SiteSettings,
+                        siteModel: Site);
+                default:
+                    return ApiResults.Get(ApiResponses.NotFound(context: context));
+            }
+        }
+
         public bool UpsertByServerScript(Context context, object model)
         {
             SetSite(context: context);
@@ -2745,6 +2797,10 @@ namespace Implem.Pleasanter.Models
                 setAllChoices: true);
             switch (Site.ReferenceType)
             {
+                case "Dashboards":
+                    return DashboardUtilities.UpdateByCalendar(
+                        context: context,
+                        ss: Site.SiteSettings);
                 case "Issues":
                     return IssueUtilities.UpdateByCalendar(
                         context: context,
@@ -3324,27 +3380,6 @@ namespace Implem.Pleasanter.Models
                 || Comments_Updated(context: context)
                 || Creator_Updated(context: context)
                 || Updator_Updated(context: context);
-        }
-
-        public string FormulaCalculationMethodChanged(Context context)
-        {
-            SetSite(
-                context: context,
-                initSiteSettings: true,
-                setSiteIntegration: true);
-            switch (Site.ReferenceType)
-            {
-                case "Issues":
-                    return IssueUtilities.FormulaCalculationMethodChanged(
-                        context: context,
-                        ss: Site.SiteSettings);
-                case "Results":
-                    return ResultUtilities.FormulaCalculationMethodChanged(
-                        context: context,
-                        ss: Site.SiteSettings);
-                default:
-                    return Messages.ResponseNotFound(context: context).ToJson();
-            }
         }
 
         /// <summary>

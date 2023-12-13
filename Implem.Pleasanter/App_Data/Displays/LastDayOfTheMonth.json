@@ -1,0 +1,33 @@
+{
+    "id": "LastDayOfTheMonth",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Last day of the month"
+        },
+        {
+            "Language": "zh",
+            "Body": "该月的最后一天"
+        },
+        {
+            "Language": "ja",
+            "Body": "月末日"
+        },
+        {
+            "Language": "de",
+            "Body": "Ultimo"
+        },
+        {
+            "Language": "ko",
+            "Body": "매월 마지막 날"
+        },
+        {
+            "Language": "es",
+            "Body": "Último día del mes"
+        },
+        {
+            "Language": "vi",
+            "Body": "Ngày cuối cùng của tháng"
+        }
+    ]
+}
