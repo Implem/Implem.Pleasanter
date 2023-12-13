@@ -8,6 +8,32 @@
 
 <!--Model_SetByForm_Sites-->
 
+    SetByFormData(
+        context: context,
+        ss: ss,
+        formData: formData);
+    if (context.QueryStrings.ContainsKey("ver"))
+    {
+        Ver = context.QueryStrings.Int("ver");
+    }
+
+<!--Model_SetLinking-->
+<!--Model_SetByForm_Site-->
+<!--Model_SetByForm_SetByFormula-->
+<!--Model_SetChoiceHash-->
+
+    if (context.Action == "deletecomment")
+    {
+        DeleteCommentId = formData.Get("ControlId")?
+            .Split(',')
+            ._2nd()
+            .ToInt() ?? 0;
+        Comments.RemoveAll(o => o.CommentId == DeleteCommentId);
+    }
+}
+
+private void SetByFormData(Context context, SiteSettings ss, Dictionary<string, string> formData)
+{
     formData.ForEach(data =>
     {
         var key = data.Key;
@@ -80,22 +106,4 @@
                 break;
         }
     });
-    if (context.QueryStrings.ContainsKey("ver"))
-    {
-        Ver = context.QueryStrings.Int("ver");
-    }
-
-<!--Model_SetLinking-->
-<!--Model_SetByForm_Site-->
-<!--Model_SetByForm_SetByFormula-->
-<!--Model_SetChoiceHash-->
-
-    if (context.Action == "deletecomment")
-    {
-        DeleteCommentId = formData.Get("ControlId")?
-            .Split(',')
-            ._2nd()
-            .ToInt() ?? 0;
-        Comments.RemoveAll(o => o.CommentId == DeleteCommentId);
-    }
 }

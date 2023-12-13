@@ -1,0 +1,33 @@
+{
+    "Id": "July",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "July"
+        },
+        {
+            "Language": "ja",
+            "Body": "7月"
+        },
+        {
+            "Language": "zh",
+            "Body": "7月"
+        },
+        {
+            "Language": "ko",
+            "Body": "7월"
+        },
+        {
+            "Language": "vi",
+            "Body": "Tháng bảy"
+        },
+        {
+            "Language": "es",
+            "Body": "Julio"
+        },
+        {
+            "Language": "de",
+            "Body": "Juli"
+        }
+    ]
+}

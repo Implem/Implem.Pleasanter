@@ -61,5 +61,38 @@ namespace Implem.Pleasanter.Controllers
             log.Finish(context: context, responseSize: json.Length);
             return json;
         }
+
+        [AcceptVerbs(HttpVerbs.Put, HttpVerbs.Post, HttpVerbs.Delete)]
+        public string SetBGServerScript(long tenantId)
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = TenantUtilities.SetBGServerScript(
+                context: context,
+                ss: SiteSettingsUtilities.TenantsSiteSettings(context: context),
+                tenantId: tenantId);
+            log.Finish(context: context, responseSize: json.Length);
+            return json;
+        }
+
+        [HttpPost]
+        public ActionResult SearchDropDown()
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = TenantUtilities.SearchDropDown(context: context);
+            log.Finish(context: context, responseSize: json.Length);
+            return Content(json);
+        }
+
+        [HttpPost]
+        public ActionResult SelectSearchDropDown()
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = TenantUtilities.SelectSearchDropDown(context: context);
+            log.Finish(context: context, responseSize: json.Length);
+            return Content(json);
+        }
     }
 }

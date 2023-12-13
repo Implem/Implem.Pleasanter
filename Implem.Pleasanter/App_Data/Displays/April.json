@@ -1,0 +1,33 @@
+{
+    "Id": "April",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "April"
+        },
+        {
+            "Language": "ja",
+            "Body": "4月"
+        },
+        {
+            "Language": "zh",
+            "Body": "4月"
+        },
+        {
+            "Language": "ko",
+            "Body": "4월"
+        },
+        {
+            "Language": "vi",
+            "Body": "Tháng tư"
+        },
+        {
+            "Language": "es",
+            "Body": "Abril"
+        },
+        {
+            "Language": "de",
+            "Body": "April"
+        }
+    ]
+}

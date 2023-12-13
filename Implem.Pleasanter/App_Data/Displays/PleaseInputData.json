@@ -1,0 +1,33 @@
+﻿{
+    "Id": "PleaseInputData",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "Please input data [{0}]"
+        },
+        {
+            "Language": "zh",
+            "Body": "请输入数据 [{0}]"
+        },
+        {
+            "Language": "ja",
+            "Body": "データを入力してください [{0}]"
+        },
+        {
+            "Language": "de",
+            "Body": "Bitte geben Sie Daten ein [{0}]"
+        },
+        {
+            "Language": "ko",
+            "Body": "데이터를 입력해주세요 [{0}]"
+        },
+        {
+            "Language": "es",
+            "Body": "Por favor ingrese datos [{0}]"
+        },
+        {
+            "Language": "vn",
+            "Body": "Vui lòng nhập dữ liệu [{0}]"
+        }
+    ]
+}

@@ -20,8 +20,8 @@ namespace Implem.CodeDefiner
 
         public static void Main(string[] args)
         {
-            Directory.CreateDirectory(".\\logs");
-            var logName = $".\\logs\\Implem.CodeDefiner_{DateTime.Now.ToString("yyyyMMdd_HHmmss")}.log";
+            Directory.CreateDirectory("logs");
+            var logName = Path.Combine("logs", $"Implem.CodeDefiner_{DateTime.Now.ToString("yyyyMMdd_HHmmss")}.log");
             Trace.Listeners.Add(new TextWriterTraceListener(logName));
             Trace.Listeners.Add(new TextWriterTraceListener(Console.Out));
             AppDomain.CurrentDomain.UnhandledException += (_, e) =>

@@ -1,0 +1,33 @@
+{
+    "Id": "November",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "November"
+        },
+        {
+            "Language": "ja",
+            "Body": "11月"
+        },
+        {
+            "Language": "zh",
+            "Body": "11月"
+        },
+        {
+            "Language": "ko",
+            "Body": "11월"
+        },
+        {
+            "Language": "vi",
+            "Body": "Tháng mười một"
+        },
+        {
+            "Language": "es",
+            "Body": "Noviembre"
+        },
+        {
+            "Language": "de",
+            "Body": "November"
+        }
+    ]
+}
