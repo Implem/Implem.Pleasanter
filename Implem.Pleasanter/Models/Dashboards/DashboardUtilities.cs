@@ -111,6 +111,11 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             dashboardPart: dashboardPart);
+                    case DashboardPartType.Kamban:
+                        return KambanLayout(
+                            context: context,
+                            ss: ss,
+                            dashboardPart: dashboardPart);
                     default:
                         return new DashboardPartLayout();
                 };
@@ -2229,6 +2234,71 @@ namespace Implem.Pleasanter.Models
                         .ToJson();
                 default:
                     return Messages.ResponseNotFound(context: context).ToJson();
+            }
+        }
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static DashboardPartLayout KambanLayout(
+            Context context,
+            SiteSettings ss,
+            DashboardPart dashboardPart)
+        {
+            var hb = new HtmlBuilder();
+            var kambanHtml = GetKambanRecords(
+                context: context,
+                dashboardPart: dashboardPart);
+            var calendar = hb
+                .Div(
+                    id: $"DashboardPart_{dashboardPart.Id}",
+                    attributes: new HtmlAttributes().DataId(dashboardPart.Id.ToString()),
+                    css: "dashboard-kamban-container " + dashboardPart.ExtendedCss,
+                    action: () =>
+                    {
+                        if (dashboardPart.ShowTitle == true)
+                        {
+                            hb.Div(
+                                css: "dashboard-part-title",
+                                action: () => hb.Text(dashboardPart.Title));
+                        }
+                        hb.Raw(text: kambanHtml);
+                    }).ToString();
+            return new DashboardPartLayout()
+            {
+                Id = dashboardPart.Id,
+                X = dashboardPart.X,
+                Y = dashboardPart.Y,
+                W = dashboardPart.Width,
+                H = dashboardPart.Height,
+                Content = calendar
+            };
+        }
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static string GetKambanRecords(
+            Context context,
+            DashboardPart dashboardPart)
+        {
+            //基準となるサイトからSiteSettingsを取得
+            var ss = SiteSettingsUtilities.Get(
+                context: context,
+                siteId: dashboardPart.SiteId);
+            //対象サイトをサイト統合の仕組みで登録
+            ss.IntegratedSites = dashboardPart.KambanSitesData;
+            ss.SetSiteIntegration(context: context);
+            ss.SetDashboardParts(dashboardPart: dashboardPart);
+            if (ss.ReferenceType == "Issues")
+            {
+                return IssueUtilities.Kamban(context: context, ss: ss);
+            }
+            else if (ss.ReferenceType == "Results")
+            {
+                return ResultUtilities.Kamban(context: context, ss: ss);
+            }
+            else
+            {
+                return null;
             }
         }
     }

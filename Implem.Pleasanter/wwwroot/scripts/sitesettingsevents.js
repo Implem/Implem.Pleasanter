@@ -223,7 +223,7 @@
         $('#DashboardPartContentField').toggle(selected === '2');
         //selected==3: CustomHtmlのみ表示
         $('#DashboardPartHtmlContentField').toggle(selected === '3');
-        //selected==4: Calendarのみ表示 DashboardPartKambanSitesField
+        //selected==4: Calendarのみ表示
         $('#DashboardPartCalendarSitesField').toggle(selected === '4');
         $('#DashboardPartCalendarTypeField').toggle(selected === '4');
         $('#DashboardPartCalendarGroupByField').toggle(selected === '4');
@@ -242,7 +242,7 @@
 
 
         //selected==1||selected==4: TimeLineとCalendarのみ表示
-        $('#DashboardPartViewFiltersTabControl').toggle(selected === '1' || selected === '4');
+        $('#DashboardPartViewFiltersTabControl').toggle(selected === '1' || selected === '4' || selected === '5');
     });
 
     $(document).on('change','#DashboardPartCalendarType',function () {

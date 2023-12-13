@@ -275,7 +275,7 @@ $p.openDashboardPartCalendarSitesDialog = function ($control) {
 }
 
 $p.openDashboardPartKambanSitesDialog = function ($control) {
-    $p.data.TimeLineSitesForm = {};
+    $p.data.KambanSitesForm = {};
     $p.openSiteSettingsDialog($control, '#DashboardPartKambanSitesDialog');
 }
 

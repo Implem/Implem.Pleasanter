@@ -7835,7 +7835,7 @@ namespace Implem.Pleasanter.Models
                 kambanAggregateType: context.Forms.Data("DashboardPartKambanAggregateType"),
                 kambanValue: context.Forms.Data("DashboardPartKambanValue"),
                 kambanColumns: context.Forms.Data("DashboardPartKambanColumns"),
-                kambanAggregationView: context.Forms.Bool("DashboardParKambanAggregationView"),
+                kambanAggregationView: context.Forms.Bool("DashboardPartKambanAggregationView"),
                 kambanShowStatus: context.Forms.Bool("DashboardPartKambanShowStatus"),
                 extendedCss: context.Forms.Data("DashboardPartExtendedCss"),
                 permissions: DashboardPartPermissions(context: context));

@@ -8119,19 +8119,31 @@ namespace Implem.Pleasanter.Models
             var serverScriptModelRow = ss.GetServerScriptModelRow(
                 context: context,
                 view: view);
-            return hb.ViewModeTemplate(
-                context: context,
-                ss: ss,
-                view: view,
-                viewMode: viewMode,
-                serverScriptModelRow: serverScriptModelRow,
-                viewModeBody: () => hb
-                    .Kamban(
-                        context: context,
-                        ss: ss,
-                        view: view,
-                        bodyOnly: false,
-                        inRange: inRange));
+            if (ss.DashboardParts?.Any() != true)
+            {
+                return hb.ViewModeTemplate(
+                    context: context,
+                    ss: ss,
+                    view: view,
+                    viewMode: viewMode,
+                    serverScriptModelRow: serverScriptModelRow,
+                    viewModeBody: () => hb
+                        .Kamban(
+                            context: context,
+                            ss: ss,
+                            view: view,
+                            bodyOnly: false,
+                            inRange: inRange));
+            }
+            else
+            {
+                return hb.Kamban(
+                    context: context,
+                    ss: ss,
+                    view: view,
+                    bodyOnly: false,
+                    inRange: inRange).ToString();
+            }
         }
 
         public static string KambanJson(
@@ -8241,6 +8253,7 @@ namespace Implem.Pleasanter.Models
                 groupByX: groupByX,
                 groupByY: groupByY,
                 value: value);
+            var suffix = view.GetKambanSuffix();
             return !bodyOnly
                 ? hb.Kamban(
                     context: context,
@@ -8254,7 +8267,8 @@ namespace Implem.Pleasanter.Models
                     aggregationView: aggregationView,
                     showStatus: showStatus,
                     data: data,
-                    inRange: inRange)
+                    inRange: inRange,
+                    suffix: suffix)
                 : hb.KambanBody(
                     context: context,
                     ss: ss,
