@@ -29,7 +29,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool inRange,
             string suffix)
         {
-            return hb.Div(id: "Kamban", css: "both", action: () =>
+            return hb.Div(id: $"Kamban{suffix}", css: "both", action: () =>
             {
                 hb
                     .FieldDropDown(
@@ -122,6 +122,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         aggregationView: aggregationView,
                         showStatus: showStatus,
                         data: data,
+                        suffix: suffix,
                         inRange: inRange);
             });
         }
@@ -139,6 +140,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool aggregationView,
             bool showStatus,
             IEnumerable<KambanElement> data,
+            string suffix,
             long changedItemId = 0,
             bool inRange = true)
         {
@@ -152,7 +154,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     limit: Parameters.General.KambanYLimit));
             return hb.Div(
                 attributes: new HtmlAttributes()
-                    .Id("KambanBody")
+                    .Id($"KambanBody{suffix}")
                     .DataAction("UpdateByKamban")
                     .DataMethod("post"),
                 action: () => groupByX?.EditChoices(

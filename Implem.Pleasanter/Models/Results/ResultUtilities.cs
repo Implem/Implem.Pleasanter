@@ -8121,20 +8121,20 @@ namespace Implem.Pleasanter.Models
                 view: view);
             if (ss.DashboardParts?.Any() != true)
             {
-                return hb.ViewModeTemplate(
-                    context: context,
-                    ss: ss,
-                    view: view,
-                    viewMode: viewMode,
-                    serverScriptModelRow: serverScriptModelRow,
-                    viewModeBody: () => hb
-                        .Kamban(
-                            context: context,
-                            ss: ss,
-                            view: view,
-                            bodyOnly: false,
-                            inRange: inRange));
-            }
+            return hb.ViewModeTemplate(
+                context: context,
+                ss: ss,
+                view: view,
+                viewMode: viewMode,
+                serverScriptModelRow: serverScriptModelRow,
+                viewModeBody: () => hb
+                    .Kamban(
+                        context: context,
+                        ss: ss,
+                        view: view,
+                        bodyOnly: false,
+                        inRange: inRange));
+        }
             else
             {
                 return hb.Kamban(
@@ -8281,6 +8281,7 @@ namespace Implem.Pleasanter.Models
                     aggregationView: aggregationView,
                     showStatus: showStatus,
                     data: data,
+                    suffix: suffix,
                     changedItemId: changedItemId,
                     inRange: inRange);
         }
