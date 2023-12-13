@@ -8186,14 +8186,13 @@ namespace Implem.Pleasanter.Models
             else
             {
                 res
-                    //.Html(
-                    //    target: "#DashboardPartKambanGroupBy",
-                    //    value: new HtmlBuilder()
-                    //        .OptionCollection(
-                    //            context: context,
-                    //            optionCollection: currentSs.KambanGroupByOptions(context: context)?.ToDictionary(
-                    //            o => o.Key, o => new ControlData(o.Value)),
-                    //            insertBlank: true))
+                    .Html(
+                        target: "#DashboardPartKambanValue",
+                        value: new HtmlBuilder()
+                            .OptionCollection(
+                                context: context,
+                                optionCollection: currentSs.KambanValueOptions(context: context)?.ToDictionary(
+                                o => o.Key, o => new ControlData(o.Value))))
                     .Invoke(
                         methodName: "confirmKambanSites",
                         args: new
@@ -8327,7 +8326,7 @@ namespace Implem.Pleasanter.Models
                             ss: currentSs,
                             view: new View(),
                             prefix: "DashboardPart",
-                            currentTableOnly: true));
+                            currentTableOnly: true))
                 //.Html(
                 //    target: "#DashboardPartKambanGroupBy",
                 //    value: new HtmlBuilder()
@@ -8335,13 +8334,13 @@ namespace Implem.Pleasanter.Models
                 //            context: context,
                 //            optionCollection: currentSs.KambanGroupByOptions(context: context)?.ToDictionary(
                 //            o => o.Key, o => new ControlData(o.Value))))
-                //.Html(
-                //    target: "#DashboardPartKambanFromTo",
-                //    value: new HtmlBuilder()
-                //        .OptionCollection(
-                //            context: context,
-                //            optionCollection: currentSs.KambanColumnOptions(context: context)?.ToDictionary(
-                //            o => o.Key, o => new ControlData(o.Value))));
+                .Html(
+                    target: "#DashboardPartKambanValue",
+                    value: new HtmlBuilder()
+                        .OptionCollection(
+                            context: context,
+                            optionCollection: currentSs.KambanValueOptions(context: context)?.ToDictionary(
+                            o => o.Key, o => new ControlData(o.Value))));
         }
 
         /// <summary>

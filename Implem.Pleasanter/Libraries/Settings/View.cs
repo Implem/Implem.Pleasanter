@@ -950,7 +950,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                     {
                         var dashboardPart = ss.DashboardParts.FirstOrDefault();
                         KambanSuffix = $"_{dashboardPart.Id}";
-
+                        KambanGroupByX = dashboardPart.KambanGroupByX;
+                        KambanGroupByY = dashboardPart.KambanGroupByY;
+                        KambanAggregateType = dashboardPart.KambanAggregateType;
+                        KambanValue = dashboardPart.KambanValue;
+                        KambanColumns = dashboardPart.KambanColumns.ToInt();
+                        KambanAggregationView = dashboardPart.KambanAggregationView;
+                        KambanShowStatus = dashboardPart.KambanShowStatus;
                     }
                     break;
             }
