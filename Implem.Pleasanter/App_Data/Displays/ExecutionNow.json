@@ -1,0 +1,33 @@
+﻿{
+    "Id": "ExecutionNow",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Execution now"
+        },
+        {
+            "Language": "zh",
+            "Body": "标题"
+        },
+        {
+            "Language": "ja",
+            "Body": "今すぐ実行"
+        },
+        {
+            "Language": "de",
+            "Body": "Ausführung jetzt"
+        },
+        {
+            "Language": "ko",
+            "Body": "지금 실행"
+        },
+        {
+            "Language": "es",
+            "Body": "ejecución ahora"
+        },
+        {
+            "Language": "vn",
+            "Body": "thực hiện ngay bây giờ"
+        }
+    ]
+}

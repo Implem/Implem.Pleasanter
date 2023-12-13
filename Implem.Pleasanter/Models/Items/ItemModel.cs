@@ -558,6 +558,19 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public string DashboardPartJson(Context context,string dashboardPartId)
+        {
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true,
+                setAllChoices: true);
+            return DashboardUtilities.DashboardPartJson(
+                context: context,
+                ss: Site.SiteSettings,
+                dashboardPartId: dashboardPartId);
+        }
+
         public string Gantt(Context context)
         {
             SetSite(
@@ -2077,6 +2090,38 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: Site.SiteSettings,
                         previousTitle: Title);
+                default:
+                    return ApiResults.Get(ApiResponses.NotFound(context: context));
+            }
+        }
+
+        public ContentResultInheritance UpdateSiteSettingsByApi(Context context, string referenceType = null)
+        {
+            SetSite(
+                context: context,
+                initSiteSettings: true);
+            if (!Site.WithinApiLimits(context: context))
+            {
+                return ApiResults.Get(ApiResponses.OverLimitApi(
+                    context: context,
+                    siteId: Site.SiteId,
+                    limitPerSite: context.ContractSettings.ApiLimit()));
+            }
+            if (Site.SiteId == 0)
+            {
+                return ApiResults.Get(ApiResponses.NotFound(context: context));
+            }
+            switch (referenceType ?? Site.ReferenceType)
+            {
+                case "Sites":
+                case "Issues":
+                case "Results":
+                case "Wikis":
+                case "Dashboards":
+                    return SiteUtilities.UpdateSiteSettingsByApi(
+                        context: context,
+                        ss: Site.SiteSettings,
+                        siteModel: Site);
                 default:
                     return ApiResults.Get(ApiResponses.NotFound(context: context));
             }

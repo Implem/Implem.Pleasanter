@@ -61,6 +61,7 @@
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Novell.Directory.Ldap.NETStandard" Version="3.6.0" />
+    <PackageReference Include="Quartz.AspNetCore" Version="3.7.0" />
     <PackageReference Include="Sendgrid" Version="9.28.1" />
     <PackageReference Include="SendGrid.SmtpApi" Version="1.4.6" />
     <PackageReference Include="SixLabors.ImageSharp" Version="3.0.2" />
@@ -103,6 +104,7 @@
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_ApiUpdatedMessage_Table.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_Create_SetCopyDefault.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_GetServerScriptModelRow.json" />
+    <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_Response_ResetGroupMembers.json" />
   </ItemGroup>
 
   <ItemGroup>

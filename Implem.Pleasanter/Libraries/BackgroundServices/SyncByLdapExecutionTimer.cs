@@ -1,7 +1,8 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Pleasanter.Models;
+using Quartz;
+using System;
 using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Implem.Pleasanter.Libraries.BackgroundServices
@@ -11,7 +12,15 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
     /// </summary>
     public class SyncByLdapExecutionTimer : ExecutionTimerBase
     {
-        override public async Task ExecuteAsync(CancellationToken stoppingToken)
+        public class Param : IExecutionTimerBaseParam
+        {
+            public static readonly JobKey jobKey = new JobKey("SyncByLdapExecutionTimer", "ExecutionTimerBase");
+            public Type JobType => typeof(SyncByLdapExecutionTimer);
+            public IEnumerable<string> TimeList => Parameters.BackgroundService.SyncByLdapTime;
+            public bool Enabled => Parameters.BackgroundService.SyncByLdap;
+            public JobKey JobKey => jobKey;
+        }
+        public override async Task Execute(IJobExecutionContext context)
         {
             await Task.Run(() =>
             {
@@ -23,17 +32,12 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
                 log.Finish(
                     context: context,
                     responseSize: json.Length);
-            }, stoppingToken);
+            }, context.CancellationToken);
         }
 
-        override public IList<string> GetTimeList()
+        internal static IExecutionTimerBaseParam GetParam()
         {
-            return Parameters.BackgroundService.SyncByLdapTime;
-        }
-
-        public override bool Enabled()
-        {
-            return Parameters.BackgroundService.SyncByLdap;
+            return new Param();
         }
     }
 }
