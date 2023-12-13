@@ -1,14 +1,24 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Pleasanter.Models;
+using Quartz;
+using System;
 using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Implem.Pleasanter.Libraries.BackgroundServices
 {
     public class DeleteSysLogsTimer : ExecutionTimerBase
     {
-        override public async Task ExecuteAsync(CancellationToken stoppingToken)
+        public class Param : IExecutionTimerBaseParam
+        {
+            public static readonly JobKey jobKey = new JobKey("DeleteSysLogsTimer", "ExecutionTimerBase");
+            public Type JobType => typeof(DeleteSysLogsTimer);
+            public IEnumerable<string> TimeList => Parameters.BackgroundService.DeleteSysLogsTime;
+            public bool Enabled => Parameters.BackgroundService.DeleteSysLogs;
+            public JobKey JobKey => jobKey;
+        }
+
+        public override async Task Execute(IJobExecutionContext context)
         {
             await Task.Run(() =>
             {
@@ -21,17 +31,12 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
                     SysLogUtilities.PhysicalDelete(context);
                 }
                 log.Finish(context: context);
-            }, stoppingToken);
+            }, context.CancellationToken);
         }
 
-        override public IList<string> GetTimeList()
+        internal static IExecutionTimerBaseParam GetParam()
         {
-            return Parameters.BackgroundService.DeleteSysLogsTime;
-        }
-
-        public override bool Enabled()
-        {
-            return Parameters.BackgroundService.DeleteSysLogs;
+            return new Param();
         }
     }
 }

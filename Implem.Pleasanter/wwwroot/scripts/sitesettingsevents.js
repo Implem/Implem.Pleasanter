@@ -211,7 +211,6 @@
         let selected = $control.val();        
         $('#DashboardPartQuickAccessSitesField').toggle(selected === '0');
         $('#DashboardPartQuickAccessLayoutField').toggle(selected === '0');
-        $('#DashboardPartViewFiltersTabControl').toggle(selected === '1');
         $('#DashboardPartViewSortersTabControl').toggle(selected === '1');
         $('#DashboardPartTimeLineSitesField').toggle(selected === '1');
         $('#DashboardPartTimeLineTitleField').toggle(selected === '1');
@@ -220,5 +219,19 @@
         $('#DashboardPartTimeLineItemCountField').toggle(selected === '1');
         $('#DashboardPartContentField').toggle(selected === '2');
         $('#DashboardPartHtmlContentField').toggle(selected === '3');
+        $('#DashboardPartCalendarSitesField').toggle(selected === '4');
+        $('#DashboardPartCalendarTypeField').toggle(selected === '4');
+        $('#DashboardPartCalendarGroupByField').toggle($("#DashboardPartCalendarType").val() === '1');
+        $('#DashboardPartCalendarTimePeriodField').toggle($("#DashboardPartCalendarType").val() === '1');
+        $('#DashboardPartCalendarFromToField').toggle(selected === '4');
+        $('#DashboardPartCalendarShowStatusField').toggle(selected === '4');
+        $('#DashboardPartViewFiltersTabControl').toggle(selected === '1' || selected === '4');
+    });
+
+    $(document).on('change','#DashboardPartCalendarType',function () {
+        
+        $('#DashboardPartCalendarGroupByField').toggle($("#DashboardPartCalendarType").val() === '1');
+        $('#DashboardPartCalendarTimePeriodField').toggle($("#DashboardPartCalendarType").val() === '1');
+
     });
 });

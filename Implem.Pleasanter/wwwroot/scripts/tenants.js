@@ -6,3 +6,9 @@
         data,
         $control);
 }
+
+$p.openServerScriptScheduleDialog = function ($control) {
+    $p.data.ServerScriptScheduleForm = {};
+    $p.openSiteSettingsDialog($control, '#ServerScriptScheduleDialog');
+    $('div.ui-multiselect-menu').css('z-index', 110);
+}

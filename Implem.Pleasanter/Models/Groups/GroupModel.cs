@@ -1060,43 +1060,14 @@ namespace Implem.Pleasanter.Models
             }
             if (updateGroupMembers)
             {
-                var groupMembers = groupApiModel != null
-                    ? GroupMembers
-                    : context.Forms.List("CurrentMembersAll");
-                if (groupMembers != null)
+                if (groupApiModel != null)
                 {
-                    Repository.ExecuteNonQuery(
-                    context: context,
-                    transactional: true,
-                    statements: Rds.PhysicalDeleteGroupMembers(
-                        where: Rds.GroupMembersWhere()
-                            .GroupId(GroupId)));
-                }            
-                groupMembers?.ForEach(data =>
+                    RenewGroupMembers(context, GroupMembers);
+                }
+                else
                 {
-                    if (data.StartsWith("Dept,"))
-                    {
-                        Repository.ExecuteNonQuery(
-                            context: context,
-                            transactional: true,
-                            statements: Rds.InsertGroupMembers(
-                                param: Rds.GroupMembersParam()
-                                    .GroupId(GroupId)
-                                    .DeptId(data.Split_2nd().ToInt())
-                                    .Admin(data.Split_3rd().ToBool())));
-                    }
-                    if (data.StartsWith("User,"))
-                    {
-                        Repository.ExecuteNonQuery(
-                            context: context,
-                            transactional: true,
-                            statements: Rds.InsertGroupMembers(
-                                param: Rds.GroupMembersParam()
-                                    .GroupId(GroupId)
-                                    .UserId(data.Split_2nd().ToInt())
-                                    .Admin(data.Split_3rd().ToBool())));
-                    }
-                });
+                    UpdateGroupMembers(context);
+                }
             }
             if (refleshSiteInfo)
             {
@@ -1171,6 +1142,111 @@ namespace Implem.Pleasanter.Models
                     tenantId: context.TenantId,
                     type: StatusUtilities.Types.GroupsUpdated),
             };
+        }
+
+        private void UpdateGroupMembers(Context context)
+        {
+            var deletedMembers = ParseGroupMembers(members: context.Forms.List("DeletedGroupMembers"));
+            var updateMembers = GetUpdateGroupMembers(context: context);
+            if (deletedMembers?.Any() == true)
+            {
+                var userIdIn = deletedMembers.Where(o => o.UserId != 0).Select(o => o.UserId);
+                var deptIdIn = deletedMembers.Where(o => o.DeptId != 0).Select(o => o.DeptId);
+                Repository.ExecuteNonQuery(
+                    context: context,
+                    transactional: true,
+                    statements: Rds.PhysicalDeleteGroupMembers(
+                        where: Rds.GroupMembersWhere()
+                            .GroupId(GroupId)
+                            .Or(Rds.GroupMembersWhere()
+                                .UserId_In(userIdIn, _using: userIdIn.Any())
+                                .DeptId_In(deptIdIn, _using: deptIdIn.Any()))));
+            }
+            updateMembers?.ForEach(data =>
+            {
+                Repository.ExecuteNonQuery(
+                    context: context,
+                    transactional: true,
+                    statements: new SqlStatement(
+                        commandText: Def.Sql.UpsertGroupMember,
+                        param: new SqlParamCollection
+                            {
+                                { "GroupId", GroupId },
+                                { "UserId", data.UserId },
+                                { "DeptId", data.DeptId },
+                                { "Admin", data.Admin }
+                            }));
+            });
+        }
+
+        public static IEnumerable<(int UserId, int DeptId, bool Admin)> GetUpdateGroupMembers(Context context)
+        {
+            var addedMembers = ParseGroupMembers(context.Forms.List("AddedGroupMembers")).ToList();
+            var modifiedMembers = ParseGroupMembers(context.Forms.List("ModifiedGroupMembers"));
+            modifiedMembers.ForEach(modified =>
+            {
+                var item = addedMembers.FirstOrDefault(added =>
+                    added.DeptId == modified.DeptId
+                    && added.UserId == modified.UserId);
+                if (item != default)
+                {
+                    addedMembers.Remove(item);    
+                }
+                addedMembers.Add(modified);
+            });
+            return addedMembers;
+        }
+
+        private static IEnumerable<(int UserId, int DeptId, bool Admin)> ParseGroupMembers(List<string> members)
+        {
+            return members?.Select(o =>
+            (
+                o.StartsWith("User,")
+                    ? o.Split_2nd().ToInt()
+                    : 0,
+                o.StartsWith("Dept,")
+                    ? o.Split_2nd().ToInt()
+                    : 0,
+                o.Split_3rd().ToBool()
+            ))?? Enumerable.Empty<(int UserId, int DeptId, bool Admin)>();
+        }
+
+        private void RenewGroupMembers(Context context, List<string> groupMembers)
+        {
+            if (groupMembers != null)
+            {
+                Repository.ExecuteNonQuery(
+                context: context,
+                transactional: true,
+                statements: Rds.PhysicalDeleteGroupMembers(
+                    where: Rds.GroupMembersWhere()
+                        .GroupId(GroupId)));
+            }
+            groupMembers?.ForEach(data =>
+            {
+                if (data.StartsWith("Dept,"))
+                {
+                    Repository.ExecuteNonQuery(
+                        context: context,
+                        transactional: true,
+                        statements: Rds.InsertGroupMembers(
+                            param: Rds.GroupMembersParam()
+                                .GroupId(GroupId)
+                                .DeptId(data.Split_2nd().ToInt())
+                                .Admin(data.Split_3rd().ToBool())));
+                }
+                if (data.StartsWith("User,"))
+                {
+                    Repository.ExecuteNonQuery(
+                        context: context,
+                        transactional: true,
+                        statements: Rds.InsertGroupMembers(
+                            param: Rds.GroupMembersParam()
+                                .GroupId(GroupId)
+                                .UserId(data.Split_2nd().ToInt())
+                                .Admin(data.Split_3rd().ToBool())));
+                }
+            });
         }
 
         public ErrorData UpdateOrCreate(
@@ -1272,6 +1348,26 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             Dictionary<string, string> formData)
         {
+            SetByFormData(
+                context: context,
+                ss: ss,
+                formData: formData);
+            if (context.QueryStrings.ContainsKey("ver"))
+            {
+                Ver = context.QueryStrings.Int("ver");
+            }
+            if (context.Action == "deletecomment")
+            {
+                DeleteCommentId = formData.Get("ControlId")?
+                    .Split(',')
+                    ._2nd()
+                    .ToInt() ?? 0;
+                Comments.RemoveAll(o => o.CommentId == DeleteCommentId);
+            }
+        }
+
+        private void SetByFormData(Context context, SiteSettings ss, Dictionary<string, string> formData)
+        {
             formData.ForEach(data =>
             {
                 var key = data.Key;
@@ -1342,18 +1438,6 @@ namespace Implem.Pleasanter.Models
                         break;
                 }
             });
-            if (context.QueryStrings.ContainsKey("ver"))
-            {
-                Ver = context.QueryStrings.Int("ver");
-            }
-            if (context.Action == "deletecomment")
-            {
-                DeleteCommentId = formData.Get("ControlId")?
-                    .Split(',')
-                    ._2nd()
-                    .ToInt() ?? 0;
-                Comments.RemoveAll(o => o.CommentId == DeleteCommentId);
-            }
         }
 
         public void SetByModel(GroupModel groupModel)

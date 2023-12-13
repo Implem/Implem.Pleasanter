@@ -1,19 +1,14 @@
 ﻿using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Models;
-using System.Collections.Generic;
+using Quartz;
 using System.Runtime.CompilerServices;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Implem.Pleasanter.Libraries.BackgroundServices
 {
-    abstract public class ExecutionTimerBase
+    abstract public class ExecutionTimerBase : IJob
     {
-        virtual public async Task ExecuteAsync(CancellationToken stoppingToken) { await Task.CompletedTask; }
-
-        abstract public IList<string> GetTimeList();
-
-        abstract public bool Enabled();
+        virtual public async Task Execute(IJobExecutionContext context) { await Task.CompletedTask; }
 
         protected Context CreateContext()
         {

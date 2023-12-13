@@ -2315,6 +2315,101 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public static ContentResultInheritance UpdateSiteSettingsByApi(
+            Context context,
+            SiteSettings ss,
+            SiteModel siteModel)
+        {
+            if (!Mime.ValidateOnApi(contentType: context.ContentType))
+            {
+                return ApiResults.BadRequest(context: context);
+            }
+            var api = context.RequestDataString.Deserialize<Api>();
+            if (api == null)
+            {
+                return ApiResults.Error(
+                 context: context,
+                 errorData: new ErrorData(type: Error.Types.InvalidJsonData));
+            }
+            var invalid = SiteValidators.OnUpdating(
+               context: context,
+               ss: ss,
+               siteModel: siteModel);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return ApiResults.Error(
+                      context: context,
+                      errorData: invalid);
+            }
+            if (siteModel.AccessStatus != Databases.AccessStatuses.Selected)
+            {
+                return ApiResults.Error(
+                  context: context,
+                  errorData: invalid);
+            }
+            var siteSettingsApiModel = context.RequestDataString.Deserialize<ApiSiteSettings.SiteSettingsApiModel>();
+            var apiSiteSettingValidator = ApiSiteSettingValidators.OnChageSiteSettingByApi(
+                referenceType: siteModel.ReferenceType,
+                ss: ss,
+                siteSettingsModel: siteSettingsApiModel);
+            switch (apiSiteSettingValidator.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return ApiResults.Error(
+                      context: context,
+                      errorData: apiSiteSettingValidator);
+            }
+            if (ApiSiteSetting.ServerScriptRefTypes.Contains(siteModel.ReferenceType)
+                && siteSettingsApiModel.ServerScripts != null)
+            {
+                siteModel.UpsertServerScriptByApi(
+                    siteSetting: ss,
+                    serverScriptsApiSiteSetting: siteSettingsApiModel.ServerScripts);
+            }
+            if (siteSettingsApiModel.Scripts != null)
+            {
+                siteModel.UpsertScriptByApi(
+                    siteSetting: ss,
+                    scriptsApiSiteSetting: siteSettingsApiModel.Scripts);
+            }
+            if (siteSettingsApiModel.Styles != null)
+            {
+                siteModel.UpsertStyleByApi(
+                    siteSetting: ss,
+                    styleApiSiteSetting: siteSettingsApiModel.Styles);
+            }
+            if (siteSettingsApiModel.Htmls != null)
+            {
+                siteModel.UpsertHtmlByApi(
+                    siteSetting: ss,
+                    htmlsApiSiteSetting: siteSettingsApiModel.Htmls);
+            }
+            var errorData = siteModel.Update(
+               context: context,
+               ss: ss);
+            switch (errorData.Type)
+            {
+                case Error.Types.None:
+                    return ApiResults.Success(
+                        id: siteModel.SiteId,
+                        limitPerDate: context.ContractSettings.ApiLimit(),
+                        limitRemaining: context.ContractSettings.ApiLimit() - ss.ApiCount,
+                        message: Displays.Updated(
+                            context: context,
+                            data: siteModel.Title.MessageDisplay(context: context)));
+                default:
+                    return ApiResults.Error(
+                      context: context,
+                      errorData: errorData);
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static string Templates(Context context, long parentId, long inheritPermission)
         {
             var siteModel = new SiteModel(
@@ -4437,6 +4532,11 @@ namespace Implem.Pleasanter.Models
                 .Div(
                     attributes: new HtmlAttributes()
                         .Id("DashboardPartTimeLineSitesDialog")
+                        .Class("dialog")
+                        .Title(Displays.SiteId(context: context)))
+                .Div(
+                    attributes: new HtmlAttributes()
+                        .Id("DashboardPartCalendarSitesDialog")
                         .Class("dialog")
                         .Title(Displays.SiteId(context: context)))
                 .Div(
@@ -8079,6 +8179,8 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                             .Text(text: Displays.Id(context: context)))
                     .Th(action: () => hb
+                            .Text(text: Displays.CalculationMethod(context: context)))
+                    .Th(action: () => hb
                             .Text(text: Displays.Target(context: context)))
                     .Th(action: () => hb
                             .Text(text: Displays.Formulas(context: context)))
@@ -8098,8 +8200,39 @@ namespace Implem.Pleasanter.Models
             {
                 hb.TBody(action: () =>
                 {
+                    var columnList = ss.FormulaColumnList();
                     ss.Formulas?.ForEach(formulaSet =>
                     {
+                        if (formulaSet.CalculationMethod == FormulaSet.CalculationMethods.Extended.ToString())
+                        {
+                            if (formulaSet.NotUseDisplayName == true)
+                            {
+                                foreach (var column in columnList)
+                                {
+                                    formulaSet.FormulaScript = System.Text.RegularExpressions.Regex.Replace(
+                                        input: formulaSet.FormulaScript,
+                                        pattern: "(?<!\\$)" + column.LabelText + $"(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)",
+                                        replacement: $"[{column.ColumnName}]");
+                                }
+                            }
+                            else
+                            {
+                                var columns = System.Text.RegularExpressions.Regex.Matches(formulaSet.FormulaScript, @"\[([^]]*)\]");
+                                foreach (var column in columns)
+                                {
+                                    var columnParam = column.ToString()[1..^1];
+                                    if (ss.FormulaColumn(columnParam, formulaSet.CalculationMethod) != null)
+                                    {
+                                        formulaSet.FormulaScript = formulaSet.FormulaScript.Replace(
+                                            oldValue: column.ToString(),
+                                            newValue: columnList.SingleOrDefault(o => o.ColumnName == columnParam).LabelText);
+                                    }
+                                }
+                            }
+                            formulaSet = FormulaBuilder.UpdateColumnDisplayText(
+                                ss: ss,
+                                formulaSet: formulaSet);
+                        }
                         hb.Tr(
                             css: "grid-row",
                             attributes: new HtmlAttributes()
@@ -8112,11 +8245,18 @@ namespace Implem.Pleasanter.Models
                                 .Td(action: () => hb
                                     .Text(text: formulaSet.Id.ToString()))
                                 .Td(action: () => hb
+                                    .Text(text: Displays.Get(
+                                        context: context,
+                                        id: formulaSet.CalculationMethod)))
+                                .Td(action: () => hb
                                     .Text(text: ss.GetColumn(
                                         context: context,
                                         columnName: formulaSet.Target)?.LabelText))
                                 .Td(action: () => hb
-                                    .Text(text: formulaSet.Formula?.ToString(ss)))
+                                    .Text(text: (formulaSet.CalculationMethod == FormulaSet.CalculationMethods.Default.ToString()
+                                        || string.IsNullOrEmpty(formulaSet.CalculationMethod))
+                                            ? formulaSet.Formula?.ToString(ss: ss, notUseDisplayName: formulaSet.NotUseDisplayName)
+                                            : formulaSet.FormulaScript))
                                 .Td(action: () => hb
                                     .Text(text: ss.Views?.Get(formulaSet.Condition)?.Name))
                                 .Td(action: () => hb
@@ -8149,18 +8289,46 @@ namespace Implem.Pleasanter.Models
                         _using: controlId == "EditFormula")
                     .FieldDropDown(
                         context: context,
+                        controlId: "FormulaCalculationMethod",
+                        controlCss: " always-send",
+                        labelText: Displays.CalculationMethod(context: context),
+                        optionCollection: ss.FormulaCalculationMethodSelectableOptions(context: context),
+                        selectedValue: formulaSet.CalculationMethod,
+                        onChange: "$p.changeCalculationMethod($(this));")
+                    .FieldDropDown(
+                        context: context,
                         controlId: "FormulaTarget",
                         controlCss: " always-send",
                         labelText: Displays.Target(context: context),
-                        optionCollection: ss.FormulaTargetSelectableOptions(),
+                        optionCollection: ss.FormulaTargetSelectableOptions(formulaSet.CalculationMethod),
                         selectedValue: formulaSet.Target?.ToString())
                     .FieldTextBox(
                         controlId: "Formula",
                         controlCss: " always-send",
                         fieldCss: "field-wide",
                         labelText: Displays.Formulas(context: context),
-                        text: formulaSet.Formula?.ToString(ss),
+                        text: (formulaSet.CalculationMethod == FormulaSet.CalculationMethods.Default.ToString()
+                            || string.IsNullOrEmpty(formulaSet.CalculationMethod))
+                                ? formulaSet.Formula?.ToString(ss, notUseDisplayName: formulaSet.NotUseDisplayName)
+                                : FormulaBuilder.UpdateColumnDisplayText(
+                                    ss: ss,
+                                    formulaSet: formulaSet)
+                                .FormulaScript,
                         validateRequired: true)
+                    .FieldCheckBox(
+                        controlId: "NotUseDisplayName",
+                        controlCss: " always-send",
+                        labelText: Displays.NotUseDisplayName(context: context),
+                        _checked: formulaSet.NotUseDisplayName == true)
+                    .FieldCheckBox(
+                        controlId: "IsDisplayError",
+                        controlCss: " always-send",
+                        labelText: Displays.FormulaIsDisplayError(context: context),
+                        _checked: formulaSet.IsDisplayError == true,
+                        fieldCss: (formulaSet.CalculationMethod == FormulaSet.CalculationMethods.Default.ToString()
+                            || formulaSet.CalculationMethod == null)
+                                ? " hidden formula-display-error-check"
+                                : " formula-display-error-check")
                     .FieldDropDown(
                         context: context,
                         controlId: "FormulaCondition",
@@ -15058,7 +15226,12 @@ namespace Implem.Pleasanter.Models
                         confirm: Displays.ConfirmDelete(context: context)))
                 .EditDashboardPart(
                     context: context,
-                    ss: ss));
+                    ss: ss)
+                .FieldCheckBox(
+                    controlId: "AsynchronousLoadingDefault",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.AsynchronousLoading(context: context),
+                    _checked: ss.DashboardPartsAsynchronousLoading ?? false));
         }
 
         /// <summary>
@@ -15203,13 +15376,72 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public static HtmlBuilder DashboardPartCalendarSitesDialog(
+            Context context,
+            SiteSettings ss,
+            int dashboardPartId,
+            string dashboardCalendarSites)
+        {
+            var hb = new HtmlBuilder();
+            return hb.Form(
+                attributes: new HtmlAttributes()
+                    .Id("DashboardPartCalendarSitesEditForm")
+                    .Action(Locations.ItemAction(
+                        context: context,
+                        id: ss.SiteId)),
+                action: () => hb
+                    .FieldTextBox(
+                        controlId: "DashboardPartCalendarSitesEdit",
+                        fieldCss: "field-wide",
+                        controlCss: " always-send",
+                        labelText: Displays.SiteId(context: context),
+                        text: dashboardCalendarSites,
+                        validateRequired: true)
+                    .Hidden(
+                        controlId: "DashboardPartId",
+                        alwaysSend: true,
+                        value: dashboardPartId.ToString())
+                    .Hidden(
+                        controlId: "SavedDashboardPartCalendarSites",
+                        alwaysSend: true,
+                        value: dashboardCalendarSites)
+                    .Hidden(
+                        controlId: "ClearDashboardCalendarView",
+                        action: "SetSiteSettings",
+                        method: "post")
+                    .P(
+                        id: "DashboardPartCalendarSitesMessage",
+                        css: "message-dialog")
+                    .Div(css: "command-center", action: () => hb
+                        .Button(
+                            controlId: "UpdateDashboardPartCalendarSites",
+                            text: Displays.OK(context: context),
+                            controlCss: "button-icon validate",
+                            icon: "ui-icon-pencil",
+                            onClick: "$p.send($(this));",
+                            action: "SetSiteSettings",
+                            method: "post")));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static HtmlBuilder DashboardPartDialog(
             Context context,
             SiteSettings ss,
             string controlId,
             DashboardPart dashboardPart)
         {
-            var filterVisible = dashboardPart.Type == DashboardPartType.TimeLine;
+            var filterVisible = false;
+            var sorterVisible = false;
+            if((dashboardPart.Type == DashboardPartType.TimeLine) || (dashboardPart.Type == DashboardPartType.Calendar))
+            {
+                filterVisible = true;
+            }
+            if(dashboardPart.Type == DashboardPartType.TimeLine)
+            {
+                sorterVisible = true;
+            }
             var hb = new HtmlBuilder();
             return hb.Form(
                 attributes: new HtmlAttributes()
@@ -15239,7 +15471,7 @@ namespace Implem.Pleasanter.Models
                                             text: Displays.Filters(context: context)))
                                 .Li(
                                     id: "DashboardPartViewSortersTabControl",
-                                    css: filterVisible ? "" : "hidden",
+                                    css: sorterVisible ? "" : "hidden",
                                     action: () => hb
                                         .A(
                                             href: "#DashboardPartViewSortersTabContainer",
@@ -15346,6 +15578,10 @@ namespace Implem.Pleasanter.Models
                                 DashboardPartType.CustomHtml.ToInt().ToString(),
                                 Displays.DashboardCustomHtml(context: context)
                             },
+                            {
+                                DashboardPartType.Calendar.ToInt().ToString(),
+                                Displays.Calendar(context: context)
+                            }
                         },
                         selectedValue: dashboardPart.Type.ToInt().ToString(),
                         insertBlank: false)
@@ -15386,7 +15622,7 @@ namespace Implem.Pleasanter.Models
                             var timeLineSites = dashboardPart.TimeLineSites;
                             var baseSiteId = DashboardPart.GetBaseSiteSettings(
                                 context: context,
-                                timeLineSitesString: timeLineSites)
+                                sitesString: timeLineSites)
                                     ?.SiteId;
                             hb
                                 .FieldText(
@@ -15491,6 +15727,106 @@ namespace Implem.Pleasanter.Models
                                 name: "DashboardPartHtmlContent",
                                 id: "DashboardPartHtmlContent",
                                 text: dashboardPart.HtmlContent))
+                    .Div(
+                        id: "DashboardPartCalendarSitesField",
+                        css: "both" + hiddenCss(dashboardPart.Type != DashboardPartType.Calendar),
+                        action: () =>
+                        {
+                            var calendarSites = dashboardPart.CalendarSites;
+                            var baseSiteId = DashboardPart.GetBaseSiteSettings(
+                                context: context,
+                                sitesString: calendarSites)
+                                    ?.SiteId;
+                            hb
+                                .FieldText(
+                                    controlId: "DashboardPartCalendarSitesValue",
+                                    labelText: Displays.SiteId(context: context),
+                                    text: calendarSites)
+                                .Hidden(
+                                    controlId: "DashboardPartCalendarSites",
+                                    alwaysSend: true,
+                                    value: calendarSites)
+                                .Hidden(
+                                    controlId: "DashboardPartCalendarBaseSiteId",
+                                    alwaysSend: true,
+                                    value: baseSiteId == null
+                                        ? null
+                                        : baseSiteId.ToString())
+                                .Button(
+                                        controlId: "EditCalendarSites",
+                                        text: Displays.Edit(context: context),
+                                        controlCss: "button-icon",
+                                        onClick: "$p.openDashboardPartCalendarSitesDialog($(this));",
+                                        icon: "ui-icon-pencil",
+                                        action: "SetSiteSettings",
+                                        method: "post");
+                        })
+                    .FieldDropDown(
+                        context: context,
+                        controlId: "DashboardPartCalendarType",
+                        fieldId: "DashboardPartCalendarTypeField",
+                        controlCss: " always-send",
+                        fieldCss: "both field-normal" + hiddenCss(dashboardPart.Type != DashboardPartType.Calendar),
+                        labelText: Displays.CalendarType(context: context),
+                        optionCollection: new Dictionary<string, string>
+                        {
+                            {
+                                SiteSettings.CalendarTypes.Standard.ToInt().ToString(),
+                                Displays.Standard(context: context)
+                            },
+                            {
+                                SiteSettings.CalendarTypes.FullCalendar.ToInt().ToString(),
+                                Displays.FullCalendar(context: context)
+                            }
+                        },
+                        selectedValue: dashboardPart.CalendarType?.ToInt().ToString() ?? Parameters.General.DefaultCalendarType.ToString(),
+                        insertBlank: false)
+                    .FieldDropDown(
+                        context: context,
+                        controlId: "DashboardPartCalendarGroupBy",
+                        fieldId: "DashboardPartCalendarGroupByField",
+                        controlCss: " always-send",
+                        fieldCss: hiddenCss(dashboardPart.Type != DashboardPartType.Calendar || dashboardPart.CalendarType == SiteSettings.CalendarTypes.FullCalendar),
+                        labelText: Displays.GroupBy(context: context),
+                        optionCollection: ss.CalendarGroupByOptions(context: context),
+                        selectedValue: dashboardPart.CalendarGroupBy?.ToString(),
+                        insertBlank: true)
+                    .FieldDropDown(
+                        context: context,
+                        controlId: "DashboardPartCalendarTimePeriod",
+                        fieldId: "DashboardPartCalendarTimePeriodField",
+                        controlCss: " always-send",
+                        fieldCss: hiddenCss(dashboardPart.Type != DashboardPartType.Calendar || dashboardPart.CalendarType == SiteSettings.CalendarTypes.FullCalendar),
+                        labelText: Displays.Period(context: context),
+                        optionCollection: ss.CalendarTimePeriodOptions(context: context),
+                        selectedValue: !dashboardPart.CalendarTimePeriod.IsNullOrEmpty()
+                            ? dashboardPart.CalendarTimePeriod.ToString()
+                            : "Monthly",
+                        insertBlank: false)
+                    .FieldDropDown(
+                        context: context,
+                        controlId: "DashboardPartCalendarFromTo",
+                        fieldId: "DashboardPartCalendarFromToField",
+                        controlCss: " always-send",
+                        fieldCss: hiddenCss(dashboardPart.Type != DashboardPartType.Calendar),
+                        labelText: Displays.Column(context: context),
+                        optionCollection: ss.CalendarColumnOptions(context: context),
+                        selectedValue: !dashboardPart.CalendarFromTo.IsNullOrEmpty()
+                            ? dashboardPart.CalendarFromTo.ToString()
+                            : "StartTime-CompletionTime",
+                        insertBlank: false)
+                    .FieldCheckBox(
+                        controlId: "CalendarShowStatus",
+                        fieldId: "DashboardPartCalendarShowStatusField",
+                        controlCss: " always-send",
+                        fieldCss: hiddenCss(dashboardPart.Type != DashboardPartType.Calendar),
+                        labelText: Displays.ShowStatus(context: context),
+                        _checked: dashboardPart.CalendarShowStatus == true)
+                    .FieldCheckBox(
+                        controlId: "DisableAsynchronousLoading",
+                        controlCss: " always-send",
+                        labelText: Displays.DisableAsynchronousLoading(context: context),
+                        _checked: dashboardPart.DisableAsynchronousLoading == true)
                     .FieldTextBox(
                         controlId: "DashboardPartExtendedCss",
                         controlCss: " always-send",
@@ -16101,6 +16437,24 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     id: ss.SiteId))
                 .ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder FormulaCalculationMethod(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            string target)
+        {
+            hb.FieldDropDown(
+                context: context,
+                controlId: "FormulaTarget",
+                controlCss: " always-send",
+                labelText: Displays.Target(context: context),
+                optionCollection: ss.FormulaTargetSelectableOptions(target));
+            return hb;
         }
     }
 }

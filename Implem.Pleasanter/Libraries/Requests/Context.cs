@@ -119,6 +119,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public IEnumerable<Claim> UserClaims { get; set; }
         public string IdentityType { get; set; }
         public bool Request { get; set; }
+        public bool BackgroundServerScript { get; set; }
 
         public Context(
             bool request = true,
@@ -474,9 +475,9 @@ namespace Implem.Pleasanter.Libraries.Requests
             }
         }
 
-        private void SetTenantProperties()
+        public void SetTenantProperties(bool force = false)
         {
-            if (HasRoute)
+            if (HasRoute || force)
             {
                 var dataRow = Repository.ExecuteTable(
                     context: this,

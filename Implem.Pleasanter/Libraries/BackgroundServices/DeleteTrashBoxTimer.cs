@@ -2,16 +2,24 @@
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Requests;
+using Quartz;
 using System;
 using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Implem.Pleasanter.Libraries.BackgroundServices
 {
     public class DeleteTrashBoxTimer : ExecutionTimerBase
     {
-        override public async Task ExecuteAsync(CancellationToken stoppingToken)
+        public class Param : IExecutionTimerBaseParam
+        {
+            public static readonly JobKey jobKey = new JobKey("DeleteTrashBoxTimer", "ExecutionTimerBase");
+            public Type JobType => typeof(DeleteTrashBoxTimer);
+            public IEnumerable<string> TimeList => Parameters.BackgroundService.DeleteTrashBoxTime;
+            public bool Enabled => Parameters.BackgroundService.DeleteTrashBox;
+            public JobKey JobKey => jobKey;
+        }
+        public override async Task Execute(IJobExecutionContext context)
         {
             await Task.Run(() =>
             {
@@ -21,17 +29,11 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
                     message: "Delete TrashBox.");
                 PhysicalDelete(context);
                 log.Finish(context: context);
-            }, stoppingToken);
+            }, context.CancellationToken);
         }
-
-        override public IList<string> GetTimeList()
+        internal static IExecutionTimerBaseParam GetParam()
         {
-            return Parameters.BackgroundService.DeleteTrashBoxTime;
-        }
-
-        public override bool Enabled()
-        {
-            return Parameters.BackgroundService.DeleteTrashBox;
+            return new Param();
         }
 
         private void PhysicalDelete(Context context)

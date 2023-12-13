@@ -4,6 +4,7 @@ using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
+using Implem.Pleasanter.Libraries.Extensions;
 using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Security;
@@ -99,7 +100,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         }
 
         public static IEnumerable<(string Name, object Value)> Values(
-            Context context, SiteSettings ss, BaseItemModel model)
+            Context context, SiteSettings ss, BaseItemModel model, bool isFormulaServerScript = false)
         {
             var mine = model?.Mine(context: context);
             var values = new List<(string, object)>
@@ -147,13 +148,17 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     context: context,
                     ss: ss,
                     columnName: nameof(model.CreatedTime),
-                    value: model.CreatedTime?.Value,
+                    value: isFormulaServerScript
+                        ? model.CreatedTime?.Value.ToClientTimeZone(context: context)
+                        : model.CreatedTime?.Value,
                     mine: mine),
                 ReadNameValue(
                     context: context,
                     ss: ss,
                     columnName: nameof(model.UpdatedTime),
-                    value: model.UpdatedTime?.Value,
+                    value: isFormulaServerScript
+                        ? model.UpdatedTime?.Value.ToClientTimeZone(context: context)
+                        : model.UpdatedTime?.Value,
                     mine: mine)
             };
             values.AddRange(model
@@ -184,7 +189,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     context: context,
                     ss: ss,
                     columnName: element.Key,
-                    value: element.Value,
+                    value: isFormulaServerScript
+                        ? element.Value.ToClientTimeZone(context: context)
+                        : element.Value,
                     mine: mine)));
             values.AddRange(model
                 .DescriptionHash
@@ -228,13 +235,23 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     context: context,
                     ss: ss,
                     columnName: nameof(IssueModel.StartTime),
-                    value: issueModel.StartTime,
+                    value: isFormulaServerScript
+                        ? issueModel.StartTime.ToClientTimeZone(context: context)
+                        : issueModel.StartTime,
                     mine: mine));
                 values.Add(ReadNameValue(
                     context: context,
                     ss: ss,
                     columnName: nameof(IssueModel.CompletionTime),
-                    value: issueModel.CompletionTime.Value,
+                    value: isFormulaServerScript
+                        ? issueModel.CompletionTime.Value
+                            .AddDifferenceOfDates(
+                                format: ss.GetColumn(
+                                    context: context,
+                                    columnName: nameof(IssueModel.CompletionTime))?.EditorFormat,
+                                minus: true)
+                            .ToClientTimeZone(context: context)
+                        : issueModel.CompletionTime.Value,
                     mine: mine));
                 values.Add(ReadNameValue(
                     context: context,
@@ -313,6 +330,13 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     mine: mine));
             }
             return values.ToArray();
+        }
+
+        private static string ToClientTimeZone(this DateTime self, Context context)
+        {
+            return self.InRange()
+                ? self.ToLocal(context).ToString("yyyy/MM/dd HH:mm:ss")
+                : string.Empty;
         }
 
         public static IEnumerable<(string Name, object Value)> SavedValues(
@@ -1041,6 +1065,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             {
                 return null;
             }
+            scripts = scripts.Prepend(new ServerScript()
+            {
+                Body = ServerScriptJsLibraries.Scripts()
+            }).ToArray();
             itemModel = itemModel ?? new BaseItemModel();
             ServerScriptModelRow scriptValues = null;
             using (var model = new ServerScriptModel(
@@ -1071,7 +1099,6 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     {
                         engine.ContinuationCallback = model.ContinuationCallback;
                         engine.AddHostType(typeof(Newtonsoft.Json.JsonConvert));
-                        engine.Execute(ServerScriptJsLibraries.Scripts());
                         engine.AddHostObject("context", model.Context);
                         engine.AddHostObject("grid", model.Grid);
                         engine.AddHostObject("model", model.Model);
@@ -1199,9 +1226,16 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             long id,
             string apiRequestBody)
         {
-            var createdContext = new Context(apiRequestBody: MergedApiRequestBody(
-                context: context,
-                apiRequestBody: apiRequestBody));
+            var createdContext = context.BackgroundServerScript
+                ? new Context(
+                    userId: context.UserId,
+                    deptId: context.DeptId,
+                    tenantId: context.TenantId,
+                    request: false,
+                    setAuthenticated: true)
+                : new Context(apiRequestBody: MergedApiRequestBody(
+                    context: context,
+                    apiRequestBody: apiRequestBody));
             createdContext.LogBuilder = context.LogBuilder;
             createdContext.UserData = context.UserData;
             createdContext.Messages = context.Messages;
@@ -1211,6 +1245,11 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             createdContext.ApiRequestBody = apiRequestBody;
             createdContext.PermissionHash = Permissions.Get(context: createdContext);
             createdContext.ServerScriptDepth = context.ServerScriptDepth + 1;
+            if (context.BackgroundServerScript)
+            {
+                createdContext.BackgroundServerScript = context.BackgroundServerScript;
+                createdContext.SetPermissions();
+            }
             return createdContext;
         }
 
