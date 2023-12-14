@@ -1675,11 +1675,37 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             return @"
                 function $SQRT(number)
                 {
-                    if (arguments.length === 0 || number === '' || number === undefined || isNaN(Number(number)) || Number(number) < 0)
+                    if (arguments.length === 0 || number === undefined)
                     {
                         throw 'Invalid Parameter';
                     }
-                    return Math.sqrt(Number(number));
+                    if (number.toLowerCase() === 'true')
+                    {
+                        number = true;
+                    }
+                    else if (number.toLowerCase() === 'false')
+                    {
+                        number = false;
+                    }
+                    if (isNaN(number))
+                    {
+                        if (isNaN(Date.parse(number)))
+                        {
+                            throw '#VALUE!';
+                        }
+                        else
+                        {
+                            return Math.sqrt($DAYS(number, '1900/01/01') + 1);
+                        }
+                    }
+                    else
+                    {
+                        if (Number(number) < 0)
+                        {
+                            throw '#NUM!';
+                        }
+                        return Math.sqrt(Number(number));
+                    }
 	            }";
         }
 
