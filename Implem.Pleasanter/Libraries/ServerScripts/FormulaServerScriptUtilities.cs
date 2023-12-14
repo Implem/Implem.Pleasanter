@@ -78,7 +78,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     + GetPowerScript()
                     + GetRandScript()
                     + GetSqrtScript()
-                    + GetEOMonthScript();
+                    + GetEOMonthScript()
+                    + GetIsBlankScript()
+                    + GetIsErrorScript()
+                    + GetIfErrorScript();
                 var value = engine.Evaluate(functionScripts + formulaScript);
                 return value == Undefined.Value ? string.Empty : value;
             }
@@ -136,11 +139,18 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 .Replace("$power(", "$POWER(", StringComparison.InvariantCultureIgnoreCase)
                 .Replace("$rand(", "$RAND(", StringComparison.InvariantCultureIgnoreCase)
                 .Replace("$sqrt(", "$SQRT(", StringComparison.InvariantCultureIgnoreCase)
-                .Replace("$eomonth(", "$EOMONTH(", StringComparison.InvariantCultureIgnoreCase);
+                .Replace("$eomonth(", "$EOMONTH(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("$isblank(", "$ISBLANK(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("$iserror(", "$ISERROR(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("$iferror(", "$IFERROR(", StringComparison.InvariantCultureIgnoreCase);
         }
 
         public static string GetText(object value, string format)
         {
+            if (string.IsNullOrEmpty(format))
+            {
+                return string.Empty;
+            }
             if (long.TryParse(value.ToString(), out long longValue))
             {
                 return longValue.ToString(format);
@@ -253,8 +263,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                                 + 12 * (endDate.getFullYear() - startDate.getFullYear())
                                 - (endDate.getDate() >= startDate.getDate() ? 0 : 1);
                         case 'D':
-                            startDate = startDate.getTime();
-                            endDate = endDate.getTime();
+                            startDate = startDate.getTime() - (startDate.getTimezoneOffset() == -402 ? -24124000 : startDate.getTimezoneOffset() * 60 * 1000);
+                            endDate = endDate.getTime() - (endDate.getTimezoneOffset() == -402 ? -24124000 : endDate.getTimezoneOffset() * 60 * 1000);
                             var diff = (endDate - startDate) / (1000 * 3600 * 24);
                             return ((startDate <= endDate && endDate <= -2203915325000)
                                 || (endDate >= startDate && startDate >= -2203915324000))
@@ -283,8 +293,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                                     endDate.setYear(startDate.getFullYear() + 1);
                                 }
                             }
-                            startDate = startDate.getTime();
-                            endDate = endDate.getTime();
+                            startDate = startDate.getTime() - (startDate.getTimezoneOffset() == -402 ? -24124000 : startDate.getTimezoneOffset() * 60 * 1000);
+                            endDate = endDate.getTime() - (endDate.getTimezoneOffset() == -402 ? -24124000 : endDate.getTimezoneOffset() * 60 * 1000);
                             var diff = (endDate - startDate) / (1000 * 3600 * 24);
                             return ((startDate <= endDate && endDate <= -2203915325000)
                                 || (endDate >= startDate && startDate >= -2203915324000))
@@ -367,8 +377,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     {
                         throw '#VALUE!';
                     }
-                    startDate = startDate.getTime();
-                    endDate = endDate.getTime();
+                    startDate = startDate.getTime() - (startDate.getTimezoneOffset() == -402 ? -24124000 : startDate.getTimezoneOffset() * 60 * 1000);
+                    endDate = endDate.getTime() - (endDate.getTimezoneOffset() == -402 ? -24124000 : endDate.getTimezoneOffset() * 60 * 1000);
                     let diff = (startDate - endDate) / (1000 * 3600 * 24),
                         result = ((endDate <= startDate && startDate <= -2203915325000)
                         || (startDate >= endDate && endDate >= -2203915324000))
@@ -1588,46 +1598,54 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 }";
         }
 
-        /// <summary>
-        /// Converts numbers to text by applying formatting to it with format codes.
-        /// </summary>
-        /// <remarks>
-        /// Syntax: TEXT(value, format)
-        /// </remarks>
         private static string GetTextScript()
         {
             return @"
                 function $TEXT(value, format)
                 {
+                    if (value == '')
+                    {
+                        value = 0;
+                    }
                     return FormulaServerScriptUtilities.GetText(value, format);
                 }";
         }
 
-        /// <summary>
-        /// Returns the absolute value of a number.
-        /// </summary>
-        /// <remarks>
-        /// Syntax: $ABS(number)
-        /// </remarks>
         private static string GetAbsScript()
         {
             return @"
                 function $ABS(number)
                 {
-                    if (arguments.length === 0 || number === '' || number === undefined || isNaN(Number(number)))
+                    if (arguments.length === 0 || number === undefined)
                     {
                         throw 'Invalid Parameter';
                     }
-                    return Math.abs(Number(number));
+                    if (number.toLowerCase() === 'true')
+                    {
+                        number = true;
+                    }
+                    else if (number.toLowerCase() === 'false')
+                    {
+                        number = false;
+                    }
+                    if (isNaN(number))
+                    {
+                        if (isNaN(Date.parse(number)))
+                        {
+                            throw '#VALUE!';
+                        }
+                        else
+                        {
+                            return Math.abs($DAYS(number, '1900/01/01') + 1);
+                        }
+                    }
+                    else
+                    {
+                        return Math.abs(Number(number));
+                    }
 	            }";
         }
 
-        /// <summary>
-        /// Returns the result of a number raised to a power.
-        /// </summary>
-        /// <remarks>
-        /// Syntax: $POWER(number, power)
-        /// </remarks>
         private static string GetPowerScript()
         {
             return @"
@@ -1643,12 +1661,6 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
 	            }";
         }
 
-        /// <summary>
-        /// Returns an evenly distributed random real number greater than or equal to 0 and less than 1.
-        /// </summary>
-        /// <remarks>
-        /// Syntax: $RAND()
-        /// </remarks>
         private static string GetRandScript()
         {
             return @"
@@ -1658,12 +1670,6 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
 	            }";
         }
 
-        /// <summary>
-        /// Returns a positive square root.
-        /// </summary>
-        /// <remarks>
-        /// Syntax: $SQRT(number)
-        /// </remarks>
         private static string GetSqrtScript()
         {
             return @"
@@ -1677,12 +1683,6 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
 	            }";
         }
 
-        /// <summary>
-        /// Returns the serial number for the last day of the month that is the indicated number of months before or after start_date.
-        /// </summary>
-        /// <remarks>
-        /// Syntax: $EOMONTH(start_date, months)
-        /// </remarks>
         private static string GetEOMonthScript()
         {
             return @"
@@ -1709,6 +1709,51 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     return d.getFullYear()
                         + '/' + ('0' + (d.getMonth() + 1)).slice(-2)
                         + '/' + ('0' + d.getDate()).slice(-2);
+                }";
+        }
+
+        private static string GetIsBlankScript()
+        {
+            return @"
+                function $ISBLANK(value)
+                {
+                    if (arguments.length != 1) {
+                        throw 'Invalid Parameter';
+                    }
+                    return value === undefined;
+                }";
+        }
+
+        private static string GetIsErrorScript()
+        {
+            return @"
+                function $ISERROR(value)
+                {
+                    if (arguments.length != 1) {
+                        throw 'Invalid Parameter';
+                    }
+                    return value == '#N/A'
+                        || value == '#VALUE!'
+                        || value == '#REF!'
+                        || value == '#DIV/0!'
+                        || value == '#NUM!'
+                        || value == '#NAME?'
+                        || value == '#NULL!'
+                        || value == 'Invalid Parameter';
+                }";
+        }
+
+        private static string GetIfErrorScript()
+        {
+            return @"
+                function $IFERROR(value, value_if_error)
+                {
+                    if (arguments.length != 2) {
+                        throw 'Invalid Parameter';
+                    }
+                    return value === undefined
+                        ? 0
+                        : ($ISERROR(value) ? value_if_error : value);
                 }";
         }
     }
