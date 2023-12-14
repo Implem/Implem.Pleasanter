@@ -58,7 +58,7 @@
                 .attr('font-size', '15px')
                 .attr('text-anchor', 'middle')
                 .attr('dy', 0)
-                .text('There is no applicable data.');
+                .text($p.display('NoData'));
         } else {
             for (let element of pieChart.Elements) {
                 if (element.Value === 0) {
@@ -75,7 +75,7 @@
                     .attr('font-size', '15px')
                     .attr('text-anchor', 'middle')
                     .attr('dy', 0)
-                    .text('Invalid request has been sent.');
+                    .text($p.display('InvalidRequest'));
             } else {
                 // X軸とY軸を決めている
                 g.append('text')
@@ -181,7 +181,7 @@
                     .text(function (d) {
                         if (d.data.Value === 0) return;
                         if (d.data.GroupTitle === '? ')
-                            return '(Not set),' + d.data.Value;
+                            return $p.display('NotSet') + ',' + d.data.Value;
                         return d.data.GroupTitle + ',' + d.data.Value;
                     });
             }
