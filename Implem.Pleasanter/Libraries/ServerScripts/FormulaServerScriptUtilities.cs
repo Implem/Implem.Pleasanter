@@ -1759,18 +1759,44 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             return @"
                 function $EOMONTH(start_date, months)
                 {
-                    if (arguments.length === 0 || months === '' || months === undefined || isNaN(Number(months)) || start_date == undefined)
+                    if (arguments.length != 2 || months === undefined || start_date === undefined)
                     {
                         throw 'Invalid Parameter';
                     }
+                    if (start_date == '')
+                    {
+                        start_date = 1;
+                    }
                     if (isNaN(start_date))
                     {
-                        start_date = new Date(Date.parse(start_date));
+                        if (isNaN(Date.parse(start_date)))
+                        {
+                            throw '#VALUE!';
+                        }
+                        else
+                        {
+                            start_date = new Date(Date.parse(start_date));
+                        }
                     }
                     else
                     {
                         start_date = Number(start_date);
                         start_date = new Date(1900, 0, start_date > 59 ? start_date - 1 : start_date);
+                    }
+                    if (isNaN(months))
+                    {
+                        if (isNaN(Date.parse(months)))
+                        {
+                            throw '#VALUE!';
+                        }
+                        else
+                        {
+                            months = $DAYS(months, '1900/01/01') + 1;
+                        }
+                    }
+                    else
+                    {
+                        months = Number(months);
                     }
                     if (isNaN(start_date.getTime()) || start_date.getFullYear() < 1900 || start_date.getFullYear() > 9999)
                     {
