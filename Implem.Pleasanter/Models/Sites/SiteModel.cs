@@ -2580,7 +2580,9 @@ namespace Implem.Pleasanter.Models
                     allowBulkProcessing: processApiSiteSetting.AllowBulkProcessing,
                     validationType: processApiSiteSetting.ValidationType.ToEnum<Process.ValidationTypes>(),
                     validateInputs: processApiSiteSetting.ValidateInputs,
-                    permissions: ProcessPermissions(context: context),
+                    permissions: ParsePermissions(
+                        processApiSiteSetting: processApiSiteSetting,
+                        ss: siteSetting),
                     view: processApiSiteSetting.View,
                     errorMessage: processApiSiteSetting.ErrorMessage,
                     dataChanges: processApiSiteSetting.DataChanges,
@@ -8844,6 +8846,42 @@ namespace Implem.Pleasanter.Models
                     .ClearFormData()
                     .ToJson();
             }
+        }
+
+        private List<Permission> ParsePermissions(ApiSiteSettings.ProcessApiSettingModel processApiSiteSetting, SiteSettings ss)
+        {
+            var permissions = new List<Permission>();
+            if (processApiSiteSetting.Users != null)
+            {
+                foreach (var id in processApiSiteSetting.Users)
+                {
+                    permissions.Add(new Permission(
+                        ss: ss,
+                        name: "User",
+                        id: id));
+                }
+            }
+            if (processApiSiteSetting.Groups != null)
+            {
+                foreach (var id in processApiSiteSetting.Groups)
+                {
+                    permissions.Add(new Permission(
+                        ss: ss,
+                        name: "Group",
+                        id: id));
+                }
+            }
+            if (processApiSiteSetting.Depts != null)
+            {
+                foreach (var id in processApiSiteSetting.Depts)
+                {
+                    permissions.Add(new Permission(
+                        ss: ss,
+                        name: "Dept",
+                        id: id));
+                }
+            }
+            return permissions;
         }
     }
 }
