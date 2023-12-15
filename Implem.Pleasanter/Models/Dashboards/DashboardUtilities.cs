@@ -2301,5 +2301,119 @@ namespace Implem.Pleasanter.Models
                 return null;
             }
         }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string UpdateByKamban(
+            Context context,
+            SiteSettings ss)
+        {
+            var matchingKey = context.Forms.Keys.FirstOrDefault(x => x.StartsWith("KambanSuffix_"));
+            DashboardPart dashboardPart = ss.DashboardParts.FirstOrDefault(x => x.Id == context.Forms.Data(matchingKey).ToInt());
+            var currentSs = SiteSettingsUtilities.Get(
+                context: context,
+                siteId: context.Forms.Long("SiteId"));
+            //対象サイトをサイト統合の仕組みで登録
+            currentSs.IntegratedSites = dashboardPart.KambanSitesData;
+            currentSs.SetSiteIntegration(context: context);
+            currentSs.SetDashboardParts(dashboardPart: dashboardPart);
+            var hb = new HtmlBuilder();
+            switch (currentSs.ReferenceType)
+            {
+                case "Issues":
+                    var issues = IssueUtilities.UpdateByKamban(context: context, ss: currentSs);
+                    var issueKamban = hb.Div(
+                        id: $"DashboardPart_{dashboardPart.Id}",
+                        attributes: new HtmlAttributes().DataId(dashboardPart.Id.ToString()),
+                        css: "dashboard-kamban-container " + dashboardPart.ExtendedCss,
+                        action: () =>
+                        {
+                            if (dashboardPart.ShowTitle == true)
+                            {
+                                hb.Div(
+                                    css: "dashboard-part-title",
+                                    action: () => hb.Text(dashboardPart.Title));
+                            }
+                            hb.Raw(text: issues);
+                        }).ToString();
+                    List<Dictionary<string, string>> issuesJson = Jsons.Deserialize<List<Dictionary<string, string>>>(issues);
+                    if (issuesJson != null)
+                    {
+                        Dictionary<string, string> messageElement = issuesJson.Find(item => item.ContainsValue("Message"));
+                        if (messageElement != null)
+                        {
+                            Dictionary<string, string> messageValue = Jsons.Deserialize<Dictionary<string, string>>(messageElement["Value"]);
+                            return new ResponseCollection(context: context)
+                                .Message(message: new Message(messageValue["Id"], messageValue["Text"], messageValue["Css"]))
+                                .Invoke("setKamban", dashboardPart.Id.ToString())
+                                .ToJson();
+                        }
+                    }
+                    var issueModel = new IssueModel(
+                        context: context,
+                        ss: currentSs,
+                        issueId: context.Forms.Long("KambanId"),
+                        formData: context.Forms);
+                    return new ResponseCollection(context: context)
+                        .Html(
+                            target: $"#DashboardPart_{dashboardPart.Id}",
+                            value: issueKamban)
+                        .Message(context.ErrorData.Type != Error.Types.None
+                            ? context.ErrorData.Message(context: context)
+                            : Messages.Updated(
+                                context: context,
+                                data: issueModel.Title.MessageDisplay(context: context)))
+                        .Invoke("setKamban", dashboardPart.Id.ToString())
+                        .ToJson();
+                case "Results":
+                    var results = ResultUtilities.UpdateByKamban(context: context, ss: currentSs);
+                    var resultKamban = hb.Div(
+                        id: $"DashboardPart_{dashboardPart.Id}",
+                        attributes: new HtmlAttributes().DataId(dashboardPart.Id.ToString()),
+                        css: "dashboard-kamban-container " + dashboardPart.ExtendedCss,
+                        action: () =>
+                        {
+                            if (dashboardPart.ShowTitle == true)
+                            {
+                                hb.Div(
+                                    css: "dashboard-part-title",
+                                    action: () => hb.Text(dashboardPart.Title));
+                            }
+                            hb.Raw(text: results);
+                        }).ToString();
+                    List<Dictionary<string, string>> resultsJson = Jsons.Deserialize<List<Dictionary<string, string>>>(results);
+                    if (resultsJson != null)
+                    {
+                        Dictionary<string, string> messageElement = resultsJson.Find(item => item.ContainsValue("Message"));
+                        if (messageElement != null)
+                        {
+                            Dictionary<string, string> messageValue = Jsons.Deserialize<Dictionary<string, string>>(messageElement["Value"]);
+                            return new ResponseCollection(context: context)
+                                .Message(message: new Message(messageValue["Id"], messageValue["Text"], messageValue["Css"]))
+                                .Invoke("setKamban", dashboardPart.Id.ToString())
+                                .ToJson();
+                        }
+                    }
+                    var resultModel = new ResultModel(
+                        context: context,
+                        ss: currentSs,
+                        resultId: context.Forms.Long("KambanId"),
+                        formData: context.Forms);
+                    return new ResponseCollection(context: context)
+                        .Html(
+                            target: $"#DashboardPart_{dashboardPart.Id}",
+                            value: resultKamban)
+                        .Message(context.ErrorData.Type != Error.Types.None
+                            ? context.ErrorData.Message(context: context)
+                            : Messages.Updated(
+                                context: context,
+                                data: resultModel.Title.MessageDisplay(context: context)))
+                        .Invoke("setKamban", dashboardPart.Id.ToString())
+                        .ToJson();
+                default:
+                    return Messages.ResponseNotFound(context: context).ToJson();
+            }
+        }
     }
 }

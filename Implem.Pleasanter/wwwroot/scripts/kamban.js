@@ -13,9 +13,11 @@
         hoverClass: 'hover',
         tolerance: 'intersect',
         drop: function (e, ui) {
+            $p.clearData();
             var control = ui.draggable;
-            var kambanSuffix = control.parents('[id^="Kamban_"]')[0].id.substring(control.parents('[id^="Kamban_"]')[0].id.indexOf('_'));
+            var kambanSuffix = control.parents('[id^="Kamban"]')[0].id.substring(control.parents('[id^="Kamban"]')[0].id.indexOf('_'));
             kambanSuffix = kambanSuffix.indexOf('_') === -1 ? '' : kambanSuffix;
+            console.log(kambanSuffix)
             var data = $p.getData($('.main-form'));
             var tableNamePrefix = $('#TableName').val() + '_';
             var dataX = $(this).attr('data-x');
@@ -26,8 +28,9 @@
             }
             if (dataY !== undefined) {
                 data[tableNamePrefix + $('#KambanGroupByY' + kambanSuffix).val()] = dataY;
-
             }
+            $p.set($('#KambanSuffix' + kambanSuffix), $('#KambanSuffix' + kambanSuffix).val());
+
             $p.send($('#KambanBody' + kambanSuffix));
         }
     });

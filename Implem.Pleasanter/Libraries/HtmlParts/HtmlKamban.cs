@@ -175,7 +175,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Hidden(
                         controlId: $"KambanSuffix{suffix}",
                         value: !suffix.IsNullOrEmpty()
-                            ? suffix
+                            ? suffix.Replace("_", "")
                             : "",
                         _using: !suffix.IsNullOrEmpty())
                     .Hidden(
