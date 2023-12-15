@@ -26,7 +26,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                 Id = ss.Formulas?.Any() == true
                     ? ss.Formulas.Max(o => o.Id) + 1
                     : 1,
-                CalculationMethod = calculationMethod,
+                CalculationMethod = string.IsNullOrEmpty(calculationMethod)
+                    ? FormulaSet.CalculationMethods.Default.ToString()
+                    : calculationMethod,
                 Target = target,
                 Condition = ss.Views?.Get(condition) != null
                     ? condition
@@ -90,7 +92,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 return Error.Types.InvalidFormula;
             }
-            formulaSet.CalculationMethod = calculationMethod;
+            formulaSet.CalculationMethod = string.IsNullOrEmpty(calculationMethod)
+                ? FormulaSet.CalculationMethods.Default.ToString()
+                : calculationMethod;
             formulaSet.Target = target;
             formulaSet.Condition = ss.Views?.Get(condition) != null
                 ? condition
