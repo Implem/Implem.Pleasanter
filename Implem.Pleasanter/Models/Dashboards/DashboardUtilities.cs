@@ -87,6 +87,11 @@ namespace Implem.Pleasanter.Models
                 .Select(dashboardPart =>
             {
                 dashboardPart.SetSitesData();
+                if (ss.DashboardPartsAsynchronousLoading == true
+                    && dashboardPart.DisableAsynchronousLoading == false)
+                {
+                    return AsynchronousLoadingLayout(dashboardPart: dashboardPart);
+                }
                 switch (dashboardPart.Type)
                 {
                     case DashboardPartType.QuickAccess:
@@ -1336,6 +1341,59 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public static string DashboardPartJson(
+            Context context,
+            SiteSettings ss,
+            string dashboardPartId)
+        {
+            var dashboardPartLayout = ss.DashboardParts
+                .Where(dashboardPart => dashboardPart
+                    .Accessable(
+                        context: context,
+                        ss: ss)
+                    && dashboardPart.Id == dashboardPartId.ToInt())
+                .Select(dashboardPart =>
+                {
+                    dashboardPart.SetSitesData();
+                    switch (dashboardPart.Type)
+                    {
+                        case DashboardPartType.QuickAccess:
+                            return QuickAccessLayout(
+                                context: context,
+                                dashboardPart: dashboardPart).Content;
+                        case DashboardPartType.TimeLine:
+                            return TimeLineLayout(
+                                context: context,
+                                ss: ss,
+                                dashboardPart: dashboardPart).Content;
+                        case DashboardPartType.Custom:
+                            return CustomLayouyt(
+                                context: context,
+                                dashboardPart: dashboardPart).Content;
+                        case DashboardPartType.CustomHtml:
+                            return CustomHtmlLayouyt(
+                                context: context,
+                                dashboardPart: dashboardPart).Content;
+                        case DashboardPartType.Calendar:
+                            return CalendarLayout(
+                                context: context,
+                                ss: ss,
+                                dashboardPart: dashboardPart).Content;
+                        default:
+                            return null;
+                    }
+                }).ToList();
+            return new ResponseCollection(context: context)
+                .ReplaceAll(
+                    target: $"#DashboardPart_{dashboardPartId}",
+                    value: dashboardPartLayout.FirstOrDefault())
+                .Invoke("setCalendar", dashboardPartId.ToString())
+                .ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static string ReplaceLineByDashboardModel(
             this DashboardModel dashboardModel,
             Context context,
@@ -2092,7 +2150,7 @@ namespace Implem.Pleasanter.Models
                             hb.Raw(text: IssueUtilities.CalendarJson(context: context, ss: currentSs));
                         }).ToString();
                     return new ResponseCollection(context: context)
-                        .Html(
+                        .ReplaceAll(
                             target: $"#DashboardPart_{dashboardPart.Id}",
                             value: issues)
                         .Invoke("setCalendar",dashboardPart.Id.ToString())
@@ -2113,7 +2171,7 @@ namespace Implem.Pleasanter.Models
                             hb.Raw(text: ResultUtilities.CalendarJson(context: context, ss: currentSs));
                         }).ToString();
                     return new ResponseCollection(context: context)
-                        .Html(
+                        .ReplaceAll(
                             target: $"#DashboardPart_{dashboardPart.Id}",
                             value: results)
                         .Invoke("setCalendar", dashboardPart.Id.ToString())
@@ -2177,7 +2235,7 @@ namespace Implem.Pleasanter.Models
                         issueId: context.Forms.Long("EventId"),
                         formData: context.Forms);
                     return new ResponseCollection(context: context)
-                        .Html(
+                        .ReplaceAll(
                             target: $"#DashboardPart_{dashboardPart.Id}",
                             value: issueCalendar)
                         .Message(context.ErrorData.Type != Error.Types.None
@@ -2222,7 +2280,7 @@ namespace Implem.Pleasanter.Models
                         resultId: context.Forms.Long("EventId"),
                         formData: context.Forms);
                     return new ResponseCollection(context: context)
-                        .Html(
+                        .ReplaceAll(
                             target: $"#DashboardPart_{dashboardPart.Id}",
                             value: resultCalendar)
                         .Message(context.ErrorData.Type != Error.Types.None
@@ -2235,6 +2293,37 @@ namespace Implem.Pleasanter.Models
                 default:
                     return Messages.ResponseNotFound(context: context).ToJson();
             }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static DashboardPartLayout AsynchronousLoadingLayout(DashboardPart dashboardPart)
+        {
+            var hb = new HtmlBuilder();
+            var AsynchronousLoading = hb.Div(
+                id: $"DashboardPart_{dashboardPart.Id}",
+                attributes: new HtmlAttributes().DataId(dashboardPart.Id.ToString()),
+                css: "dashboard-calendar-container " + dashboardPart.ExtendedCss,
+                action: () =>
+                {
+                    if (dashboardPart.ShowTitle == true)
+                    {
+                        hb.Div(
+                            css: "dashboard-part-title",
+                            action: () => hb.Text(dashboardPart.Title));
+                    }
+                    hb.Hidden(controlId: $"DashboardAsync_{dashboardPart.Id}");
+                }).ToString();
+            return new DashboardPartLayout()
+            {
+                Id = dashboardPart.Id,
+                X = dashboardPart.X,
+                Y = dashboardPart.Y,
+                W = dashboardPart.Width,
+                H = dashboardPart.Height,
+                Content = AsynchronousLoading
+            };
         }
         /// <summary>
         /// Fixed:

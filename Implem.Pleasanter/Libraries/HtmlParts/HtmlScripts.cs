@@ -115,6 +115,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Script(script: "$p.setKamban();",
                         _using: ss.ReferenceType == "Dashboards" &&
                              ss.DashboardParts?.Any(part => part.Type == DashboardPartType.Kamban) == true)
+                    .Script(script: "$p.setDashboardAsync();",
+                        _using: ss.ReferenceType == "Dashboards")
                     .OnEditorLoad(context: context);
             }
             else

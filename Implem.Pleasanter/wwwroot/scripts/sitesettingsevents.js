@@ -226,8 +226,8 @@
         //selected==4: Calendarのみ表示
         $('#DashboardPartCalendarSitesField').toggle(selected === '4');
         $('#DashboardPartCalendarTypeField').toggle(selected === '4');
-        $('#DashboardPartCalendarGroupByField').toggle(selected === '4');
-        $('#DashboardPartCalendarTimePeriodField').toggle(selected === '4');
+        $('#DashboardPartCalendarGroupByField').toggle($("#DashboardPartCalendarType").val() === '1');
+        $('#DashboardPartCalendarTimePeriodField').toggle($("#DashboardPartCalendarType").val() === '1');
         $('#DashboardPartCalendarFromToField').toggle(selected === '4');
         $('#DashboardPartCalendarShowStatusField').toggle(selected === '4');
         //selected==5: Kambanのみ表示 
@@ -245,8 +245,8 @@
 
     $(document).on('change','#DashboardPartCalendarType',function () {
         
-        $('#DashboardPartCalendarGroupByField').toggle($("#DashboardPartCalendarType").val() === '0');
-        $('#DashboardPartCalendarTimePeriodField').toggle($("#DashboardPartCalendarType").val() === '0');
+        $('#DashboardPartCalendarGroupByField').toggle($("#DashboardPartCalendarType").val() === '1');
+        $('#DashboardPartCalendarTimePeriodField').toggle($("#DashboardPartCalendarType").val() === '1');
 
     });
     $(document).on('change', '#DashboardPartKambanAggregateType', function () {

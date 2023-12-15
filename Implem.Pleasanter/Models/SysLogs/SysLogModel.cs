@@ -2528,6 +2528,26 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             Dictionary<string, string> formData)
         {
+            SetByFormData(
+                context: context,
+                ss: ss,
+                formData: formData);
+            if (context.QueryStrings.ContainsKey("ver"))
+            {
+                Ver = context.QueryStrings.Int("ver");
+            }
+            if (context.Action == "deletecomment")
+            {
+                DeleteCommentId = formData.Get("ControlId")?
+                    .Split(',')
+                    ._2nd()
+                    .ToInt() ?? 0;
+                Comments.RemoveAll(o => o.CommentId == DeleteCommentId);
+            }
+        }
+
+        private void SetByFormData(Context context, SiteSettings ss, Dictionary<string, string> formData)
+        {
             formData.ForEach(data =>
             {
                 var key = data.Key;
@@ -2630,18 +2650,6 @@ namespace Implem.Pleasanter.Models
                         break;
                 }
             });
-            if (context.QueryStrings.ContainsKey("ver"))
-            {
-                Ver = context.QueryStrings.Int("ver");
-            }
-            if (context.Action == "deletecomment")
-            {
-                DeleteCommentId = formData.Get("ControlId")?
-                    .Split(',')
-                    ._2nd()
-                    .ToInt() ?? 0;
-                Comments.RemoveAll(o => o.CommentId == DeleteCommentId);
-            }
         }
 
         public void SetByApi(Context context, SiteSettings ss, SysLogApiModel data)

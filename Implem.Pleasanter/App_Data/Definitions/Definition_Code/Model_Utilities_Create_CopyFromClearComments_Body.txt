@@ -1,4 +1,4 @@
 ﻿if (copyFrom > 0)
 {
-    #modelName#Model.Comments.Clear();
+    #modelName#Model.Comments.RemoveAll(o => !o.Created);
 }

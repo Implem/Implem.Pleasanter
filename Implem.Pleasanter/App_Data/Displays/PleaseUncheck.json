@@ -1,0 +1,33 @@
+﻿{
+    "Id": "PleaseUncheck",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "Please uncheck [{0}]"
+        },
+        {
+            "Language": "zh",
+            "Body": "请取消选中 [{0}]"
+        },
+        {
+            "Language": "ja",
+            "Body": "チェックを外してください [{0}]"
+        },
+        {
+            "Language": "de",
+            "Body": "Bitte deaktivieren Sie das Kontrollkästchen [{0}]"
+        },
+        {
+            "Language": "ko",
+            "Body": "선택을 취소하세요 [{0}]"
+        },
+        {
+            "Language": "es",
+            "Body": "Por favor desmarque [{0}]"
+        },
+        {
+            "Language": "vn",
+            "Body": "Vui lòng bỏ chọn [{0}]"
+        }
+    ]
+}
