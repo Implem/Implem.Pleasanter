@@ -2242,7 +2242,59 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             DashboardPart dashboardPart)
         {
-            return null;
+            var hb = new HtmlBuilder();
+            var indexHtml = GetIndexRecords(
+                context: context,
+                dashboardPart: dashboardPart);
+            var index = hb
+                .Div(
+                    id: $"DashboartPart_{dashboardPart.Id}",
+                    attributes: new HtmlAttributes().DataId(dashboardPart.Id.ToString()),
+                    css: "dashboard-index-container " + dashboardPart.ExtendedCss,
+                    action: () =>
+                    {
+                        if (dashboardPart.ShowTitle == true)
+                        {
+                            hb.Div(
+                                css: "dashboard-part-title",
+                                action: () => hb.Text(dashboardPart.Title));
+                        }
+                        hb.Raw(text: indexHtml);
+                    }).ToString();
+            return new DashboardPartLayout()
+            {
+                Id = dashboardPart.Id,
+                X = dashboardPart.X,
+                Y = dashboardPart.Y,
+                W = dashboardPart.Width,
+                H = dashboardPart.Height,
+                Content = index
+            };
+        }
+
+        private static string GetIndexRecords(
+            Context context,
+            DashboardPart dashboardPart)
+        {
+            var ss = SiteSettingsUtilities.Get(
+                context: context,
+                siteId: dashboardPart.SiteId);
+            //対象サイトをサイト統合の仕組みで登録
+            ss.IntegratedSites = dashboardPart.IndexSitesData;
+            ss.SetSiteIntegration(context: context);
+            ss.SetDashboardParts(dashboardPart: dashboardPart);
+            if (ss.ReferenceType == "Issues")
+            {
+                return IssueUtilities.Index(context: context, ss: ss);
+            }
+            else if (ss.ReferenceType == "Results")
+            {
+                return ResultUtilities.Index(context: context, ss: ss);
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

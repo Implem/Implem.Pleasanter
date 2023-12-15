@@ -4939,8 +4939,14 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder GridColumns(
-            this HtmlBuilder hb, Context context, SiteSettings ss)
+        public static HtmlBuilder GridColumns(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            View view = null,
+            string prefix = "",
+            bool currentTableOnly = false,
+            Action action = null)
         {
             return hb.FieldSet(
                 css: " enclosed-thin",
@@ -15330,16 +15336,21 @@ namespace Implem.Pleasanter.Models
         {
             var filterVisible = false;
             var sorterVisible = false;
-            if((dashboardPart.Type == DashboardPartType.TimeLine)
-                || (dashboardPart.Type == DashboardPartType.Calendar)
-                || (dashboardPart.Type == DashboardPartType.Index))
+            var indexVisible = false;
+            switch (dashboardPart.Type)
             {
-                filterVisible = true;
-            }
-            if(dashboardPart.Type == DashboardPartType.TimeLine
-                || dashboardPart.Type == DashboardPartType.Index)
-            {
-                sorterVisible = true;
+                case DashboardPartType.TimeLine:
+                    filterVisible = true;
+                    sorterVisible = true;
+                    break;
+                case DashboardPartType.Calendar:
+                    filterVisible = true;
+                    break;
+                case DashboardPartType.Index:
+                    indexVisible = true;
+                    filterVisible = true;
+                    sorterVisible = true;
+                    break;
             }
             var hb = new HtmlBuilder();
             return hb.Form(
@@ -15361,6 +15372,13 @@ namespace Implem.Pleasanter.Models
                                     .A(
                                         href: "#DashboardPartGeneralTabContainer",
                                         text: Displays.General(context: context)))
+                                .Li(
+                                    id: "DashboardPartViewIndexTabControl",
+                                    css: indexVisible ? "" : "hidden",
+                                    action: () => hb
+                                        .A(
+                                            href: "#DashboardPartViewIndexTabContainer",
+                                            text: Displays.Index(context: context)))
                                 .Li(
                                     id: "DashboardPartViewFiltersTabControl",
                                     css: filterVisible ? "" : "hidden",
@@ -15384,6 +15402,9 @@ namespace Implem.Pleasanter.Models
                             ss: ss,
                             dashboardPart: dashboardPart,
                             controlId: controlId)
+                        .DashboardPartViewIndexTab(
+                            context: context,
+                            dashboardPart: dashboardPart)
                         .DashboardPartViewFiltersTab(
                             context: context,
                             dashboardPart: dashboardPart)
@@ -15730,20 +15751,20 @@ namespace Implem.Pleasanter.Models
                         css: "both" + hiddenCss(dashboardPart.Type != DashboardPartType.Index),
                         action: () =>
                         {
-                            var IndexSites = dashboardPart.IndexSites;
+                            var indexSites = dashboardPart.IndexSites;
                             var baseSiteId = DashboardPart.GetBaseSiteSettings(
                                 context: context,
-                                sitesString: IndexSites)
+                                sitesString: indexSites)
                                     ?.SiteId;
                             hb
                                 .FieldText(
                                     controlId: "DashboardPartIndexSitesValue",
                                     labelText: Displays.SiteId(context: context),
-                                    text: IndexSites)
+                                    text: indexSites)
                                 .Hidden(
                                     controlId: "DashboardPartIndexSites",
                                     alwaysSend: true,
-                                    value: IndexSites)
+                                    value: indexSites)
                                 .Hidden(
                                     controlId: "DashboardPartIndexBaseSiteId",
                                     alwaysSend: true,
@@ -15761,9 +15782,39 @@ namespace Implem.Pleasanter.Models
                         })
                     .FieldTextBox(
                         controlId: "DashboardPartExtendedCss",
-                        controlCss: " always-send",
+                        controlCss: " always-send both",
                         labelText: "CSS",
                         text: dashboardPart.ExtendedCss));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder DashboardPartViewIndexTab(
+            this HtmlBuilder hb,
+            Context context,
+            DashboardPart dashboardPart,
+            bool clearView = false,
+            bool _using = true)
+        {
+            if (_using == false) return hb;
+            var view = clearView
+                ? new View()
+                : (dashboardPart.View ?? new View());
+            var currentSs = SiteSettingsUtilities.Get(
+                context: context,
+                dashboardPart.SiteId);
+            if (currentSs == null)
+            {
+                return hb.FieldSet(id: "DashboardPartViewIndexTabContainer");
+            }
+            return hb.FieldSet(id: "DashboardPartViewIndexTabContainer",
+                action: () => hb.GridColumns(
+                    context: context,
+                    ss: currentSs,
+                    view: view,
+                    prefix: "DashboardPart",
+                    currentTableOnly: true));
         }
 
         /// <summary>

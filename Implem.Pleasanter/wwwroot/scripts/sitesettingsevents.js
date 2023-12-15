@@ -230,7 +230,8 @@
         $('#DashboardPartCalendarFromToField').toggle(selected === '4');
         $('#DashboardPartCalendarShowStatusField').toggle(selected === '4');
         //selected==6: Indexのみ表示
-        $('#DashboardPartIndexSitesFIeld').toggle(selected === '6');
+        $('#DashboardPartIndexSitesField').toggle(selected === '6');
+        $('#DashboardPartViewIndexTabControl').toggle(selected === '6');
         //selected==1||selected==4||selected==6: TimeLineとCalendarとIndexのみ表示
         $('#DashboardPartViewFiltersTabControl').toggle(selected === '1'
             || selected === '4'

@@ -3143,7 +3143,15 @@ namespace Implem.Pleasanter.Models
                         res: res);
                     break;
                 case "EditIndexSites":
-                    
+                    OpenDashboardPartIndexSitesDialog(
+                        context: context,
+                        res: res);
+                    break;
+                case "UpdateDashboardPartIndexSites":
+                    UpdateDashboardPartIndexSites(
+                        context: context,
+                        res: res);
+                    break;
                 case "ClearDashboardView":
                     ClearDashboardView(
                         context: context,
@@ -3151,6 +3159,11 @@ namespace Implem.Pleasanter.Models
                     break;
                 case "ClearDashboardCalendarView":
                     ClearDashboardCalendarView(
+                        context: context,
+                        res: res);
+                    break;
+                case "ClearDashboardIndexView":
+                    ClearDashboardIndexView(
                         context: context,
                         res: res);
                     break;
@@ -8274,12 +8287,12 @@ namespace Implem.Pleasanter.Models
         {
             var currentSs = DashboardPart.GetBaseSiteSettings(
                 context: context,
-                context.Forms.Data("DashboardPartTimeLineSitesEdit"));
+                context.Forms.Data("DashboardPartIndexSitesEdit"));
             if (currentSs == null)
             {
                 res.Message(
                    new Message(
-                       "InvalidTimeLineSites",
+                       "InvalidIndexSites",
                        Displays.InvalidTimeLineSites(context: context),
                        "alert-error"));
                 return;
@@ -8291,6 +8304,15 @@ namespace Implem.Pleasanter.Models
                 dashboardPart.View = new View();
             }
             res
+                .Html(
+                    "#DashboardPartViewIndexTabContainer",
+                    new HtmlBuilder()
+                        .GridColumns(
+                            context: context,
+                            ss: currentSs,
+                            view: new View(),
+                            prefix: "DashboardPart",
+                            currentTableOnly: true))
                 .Html(
                     "#DashboardPartViewFiltersTabContainer",
                     new HtmlBuilder()

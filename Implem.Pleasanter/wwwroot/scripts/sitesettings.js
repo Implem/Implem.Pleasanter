@@ -276,7 +276,7 @@ $p.openDashboardPartCalendarSitesDialog = function ($control) {
 
 $p.openDashboardPartIndexSitesDialog = function ($control) {
     $p.data.TimeLineSitesForm = {};
-    $p.openSiteSettingsDialog($control, '#DashbaordPartIndexSitesDialog');
+    $p.openSiteSettingsDialog($control, '#DashboardPartIndexSitesDialog');
 }
 
 $p.updateDashboardPartTimeLineSites = function ($control) {

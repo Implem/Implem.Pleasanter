@@ -44,7 +44,9 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 view: view,
                 gridData: gridData);
-            return hb.ViewModeTemplate(
+            if (ss.DashboardParts?.Any() != true)
+            {
+                return hb.ViewModeTemplate(
                 context: context,
                 ss: ss,
                 view: view,
@@ -56,6 +58,17 @@ namespace Implem.Pleasanter.Models
                    ss: ss,
                    view: view,
                    serverScriptModelRow: serverScriptModelRow));
+            }
+            else
+            {
+                return hb.Grid(
+                    context: context,
+                    ss: ss,
+                    gridData: gridData,
+                    view: view,
+                    serverScriptModelRow: serverScriptModelRow).ToString();
+            }
+            
         }
 
         private static string ViewModeTemplate(
