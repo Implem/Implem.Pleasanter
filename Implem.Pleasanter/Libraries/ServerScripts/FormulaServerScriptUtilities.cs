@@ -1620,11 +1620,11 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     {
                         throw 'Invalid Parameter';
                     }
-                    if (number.toLowerCase() === 'true')
+                    if (number.toString().toLowerCase() === 'true')
                     {
                         number = true;
                     }
-                    else if (number.toLowerCase() === 'false')
+                    else if (number.toString().toLowerCase() === 'false')
                     {
                         number = false;
                     }
@@ -1651,11 +1651,47 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             return @"
                 function $POWER(number, power)
                 {
-                    if (arguments.length === 0
-                        || number === '' || number === undefined || isNaN(Number(number))
-                        || power === '' || power === undefined || isNaN(Number(power)))
+                    if (arguments.length != 2 || number === undefined || power === undefined)
                     {
                         throw 'Invalid Parameter';
+                    }
+                    if (number.toString().toLowerCase() === 'true')
+                    {
+                        number = true;
+                    }
+                    else if (number.toString().toLowerCase() === 'false')
+                    {
+                        number = false;
+                    }
+                    if (isNaN(number))
+                    {
+                        if (isNaN(Date.parse(number)))
+                        {
+                            throw '#VALUE!';
+                        }
+                        else
+                        {
+                            number = $DAYS(number, '1900/01/01') + 1;
+                        }
+                    }
+                    if (power.toString().toLowerCase() === 'true')
+                    {
+                        power = true;
+                    }
+                    else if (power.toString().toLowerCase() === 'false')
+                    {
+                        power = false;
+                    }
+                    if (isNaN(power))
+                    {
+                        if (isNaN(Date.parse(power)))
+                        {
+                            throw '#VALUE!';
+                        }
+                        else
+                        {
+                            power = $DAYS(power, '1900/01/01') + 1;
+                        }
                     }
                     return Math.pow(Number(number), Number(power));
 	            }";
@@ -1679,11 +1715,11 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     {
                         throw 'Invalid Parameter';
                     }
-                    if (number.toLowerCase() === 'true')
+                    if (number.toString().toLowerCase() === 'true')
                     {
                         number = true;
                     }
-                    else if (number.toLowerCase() === 'false')
+                    else if (number.toString().toLowerCase() === 'false')
                     {
                         number = false;
                     }
