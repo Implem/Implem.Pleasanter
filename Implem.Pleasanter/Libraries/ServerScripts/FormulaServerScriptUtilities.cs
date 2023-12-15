@@ -902,7 +902,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                             if (arguments[i] === true || Boolean(Number(arguments[i]))) {
                                 return true;
                             }            
-                            expression =  false;
+                            expression = Boolean(arguments[0]);
                         }
                     }
                     expression =
