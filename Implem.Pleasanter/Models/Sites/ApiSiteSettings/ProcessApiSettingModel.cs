@@ -30,6 +30,7 @@ namespace Implem.Pleasanter.Models.ApiSiteSettings
         public string ErrorMessage { get; set; }
         public SettingList<DataChange> DataChanges { get; set; }
         public AutoNumbering AutoNumbering { get; set; }
+        public ApiSiteSettingPermission Permission { get; set; }
         public SettingList<Notification> Notifications { get; set; }
         [NonSerialized]
         public bool? MatchConditions;

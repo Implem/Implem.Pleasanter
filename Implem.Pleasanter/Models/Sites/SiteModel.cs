@@ -2581,7 +2581,7 @@ namespace Implem.Pleasanter.Models
                     validationType: processApiSiteSetting.ValidationType.ToEnum<Process.ValidationTypes>(),
                     validateInputs: processApiSiteSetting.ValidateInputs,
                     permissions: ParsePermissions(
-                        processApiSiteSetting: processApiSiteSetting,
+                        apiSettingPermission: processApiSiteSetting.Permission,
                         ss: siteSetting),
                     view: processApiSiteSetting.View,
                     errorMessage: processApiSiteSetting.ErrorMessage,
@@ -8848,12 +8848,18 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        private List<Permission> ParsePermissions(ApiSiteSettings.ProcessApiSettingModel processApiSiteSetting, SiteSettings ss)
+        private List<Permission> ParsePermissions(ApiSiteSettingPermission apiSettingPermission, SiteSettings ss)
         {
+
             var permissions = new List<Permission>();
-            if (processApiSiteSetting.Users != null)
+
+            if (apiSettingPermission == null) {
+                return permissions;
+            }
+
+            if (apiSettingPermission.Users != null)
             {
-                foreach (var id in processApiSiteSetting.Users)
+                foreach (var id in apiSettingPermission.Users)
                 {
                     permissions.Add(new Permission(
                         ss: ss,
@@ -8861,9 +8867,9 @@ namespace Implem.Pleasanter.Models
                         id: id));
                 }
             }
-            if (processApiSiteSetting.Groups != null)
+            if (apiSettingPermission.Groups != null)
             {
-                foreach (var id in processApiSiteSetting.Groups)
+                foreach (var id in apiSettingPermission.Groups)
                 {
                     permissions.Add(new Permission(
                         ss: ss,
@@ -8871,9 +8877,9 @@ namespace Implem.Pleasanter.Models
                         id: id));
                 }
             }
-            if (processApiSiteSetting.Depts != null)
+            if (apiSettingPermission.Depts != null)
             {
-                foreach (var id in processApiSiteSetting.Depts)
+                foreach (var id in apiSettingPermission.Depts)
                 {
                     permissions.Add(new Permission(
                         ss: ss,

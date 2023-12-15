@@ -62,7 +62,7 @@ namespace Implem.Pleasanter.Models
                 baseApiValidator = ApiSiteSettingValidators.OnSiteSettingByApi(
                     apiSiteSettingBaseProperties: baseApiProperties,
                     ss: ss,
-                    siteSettingType: "Scripts");
+                    siteSettingType: "Styles");
                 if (baseApiValidator.Type != Error.Types.None) { return baseApiValidator; }
             }
             return new ErrorData(type: Error.Types.None);
@@ -100,6 +100,20 @@ namespace Implem.Pleasanter.Models
                     }
                 }
             }
+            return new ErrorData(type: Error.Types.None);
+        }
+
+        public static ErrorData ProcessesValidtor(
+                  List<ProcessApiSettingModel> processes,
+                  SiteSettings ss)
+        {
+            return new ErrorData(type: Error.Types.None);
+        }
+
+        public static ErrorData StatusControlsValidtor(
+          List<StatusControl> statusControls,
+          SiteSettings ss)
+        {
             return new ErrorData(type: Error.Types.None);
         }
     }
