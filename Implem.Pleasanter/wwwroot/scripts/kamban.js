@@ -1,6 +1,7 @@
 ﻿$p.setKamban = function () {
+    $('.kamban').addClass('no-drag');
     $('#KambanValueField').toggle($('#KambanAggregateType').val() !== 'Count');
-    $('#KambanBody .kamban-item').draggable({
+    $('.kambanbody .kamban-item').draggable({
         revert: 'invalid',
         start: function () {
             $(this).parent().droppable({
@@ -8,25 +9,29 @@
             });
         }
     });
-    $('#KambanBody .kamban-container').droppable({
+    $('.kambanbody .kamban-container').droppable({
         hoverClass: 'hover',
         tolerance: 'intersect',
         drop: function (e, ui) {
+            var control = ui.draggable;
+            var kambanSuffix = control.parents('[id^="Kamban_"]')[0].id.substring(control.parents('[id^="Kamban_"]')[0].id.indexOf('_'));
+            kambanSuffix = kambanSuffix.indexOf('_') === -1 ? '' : kambanSuffix;
             var data = $p.getData($('.main-form'));
             var tableNamePrefix = $('#TableName').val() + '_';
             var dataX = $(this).attr('data-x');
             var dataY = $(this).attr('data-y');
-            data["KambanId"] = $(ui.draggable).attr('data-id');
+            data["KambanId"] = $(control).attr('data-id');
             if (dataX !== undefined) {
-                data[tableNamePrefix + $('#KambanGroupByX').val()] = dataX;
+                data[tableNamePrefix + $('#KambanGroupByX' + kambanSuffix).val()] = dataX;
             }
             if (dataY !== undefined) {
-                data[tableNamePrefix + $('#KambanGroupByY').val()] = dataY;
+                data[tableNamePrefix + $('#KambanGroupByY' + kambanSuffix).val()] = dataY;
+
             }
-            $p.send($('#KambanBody'));
+            $p.send($('#KambanBody' + kambanSuffix));
         }
     });
-    $('#KambanBody .kamban-item').each(function () {
+    $('[id^="KambanBody_"] .kamban-item').each(function () {
         let offsetX, offsetY;
         $(this).on('touchstart', function (e) {
             const touch = e.touches[0];
@@ -41,7 +46,7 @@
             const rectDraggable = this.getBoundingClientRect();
             $(this).css('z-index', 2);
             // Change background color when moving
-            $('#KambanBody .kamban-container').each(function () {
+            $('.kambanbody .kamban-container').each(function () {
                 const rectDroppable = this.getBoundingClientRect();
                 if (
                     rectDraggable.left >= rectDroppable.left &&
@@ -60,7 +65,7 @@
             const rectDraggable = this.getBoundingClientRect();
             const id = $(this).attr('data-id');
             let isDroppableIntoKambanContainer = false;
-            $('#KambanBody .kamban-container').each(function () {
+            $('.kambanbody .kamban-container').each(function () {
                 const rectDroppable = this.getBoundingClientRect();
                 if (
                     rectDraggable.left >= rectDroppable.left &&

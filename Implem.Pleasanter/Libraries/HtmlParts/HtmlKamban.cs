@@ -29,7 +29,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool inRange,
             string suffix)
         {
-            return hb.Div(id: $"Kamban{suffix}", css: "both", action: () =>
+            return hb.Div(id: $"Kamban{suffix}", css: "both kamban", action: () =>
             {
                 hb
                     .FieldDropDown(
@@ -104,12 +104,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         _checked: showStatus,
                         method: "post",
                         _using: suffix.IsNullOrEmpty())
-                    .Hidden(
-                    controlId: $"KambanSuffix{suffix}",
-                    value: !suffix.IsNullOrEmpty()
-                        ? suffix.Replace("_", "")
-                        : "",
-                    _using: !suffix.IsNullOrEmpty())
                     .KambanBody(
                         context: context,
                         ss: ss,
@@ -155,6 +149,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return hb.Div(
                 attributes: new HtmlAttributes()
                     .Id($"KambanBody{suffix}")
+                    .Class("kambanbody")
                     .DataAction("UpdateByKamban")
                     .DataMethod("post"),
                 action: () => groupByX?.EditChoices(
@@ -176,7 +171,21 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 aggregationView: aggregationView,
                                 showStatus: showStatus,
                                 data: data,
-                                changedItemId: changedItemId)));
+                                changedItemId: changedItemId)
+                    .Hidden(
+                        controlId: $"KambanSuffix{suffix}",
+                        value: !suffix.IsNullOrEmpty()
+                            ? suffix
+                            : "",
+                        _using: !suffix.IsNullOrEmpty())
+                    .Hidden(
+                        controlId: $"KambanGroupByX{suffix}",
+                        value: groupByX?.ColumnName,
+                        _using: !suffix.IsNullOrEmpty())
+                    .Hidden(
+                        controlId: $"KambanGroupByY{suffix}",
+                        value: groupByY?.ColumnName,
+                        _using: !suffix.IsNullOrEmpty())));
         }
 
         private static Dictionary<string, ControlData> CorrectedChoices(
