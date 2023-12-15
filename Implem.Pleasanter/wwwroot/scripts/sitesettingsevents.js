@@ -239,8 +239,6 @@
         $('#DashboardPartKambanColumnsField').toggle(selected === '5');
         $('#DashboardPartKambanAggregationViewField').toggle(selected === '5');
         $('#DashboardPartKambanShowStatusField').toggle(selected === '5');
-
-
         //selected==1||selected==4: TimeLineとCalendarのみ表示
         $('#DashboardPartViewFiltersTabControl').toggle(selected === '1' || selected === '4' || selected === '5');
     });
@@ -249,6 +247,11 @@
         
         $('#DashboardPartCalendarGroupByField').toggle($("#DashboardPartCalendarType").val() === '0');
         $('#DashboardPartCalendarTimePeriodField').toggle($("#DashboardPartCalendarType").val() === '0');
+
+    });
+    $(document).on('change', '#DashboardPartKambanAggregateType', function () {
+
+        $('#DashboardPartKambanValueField').toggle($('#DashboardPartKambanAggregateType').val() !== 'Count');
 
     });
 });
