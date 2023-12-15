@@ -982,23 +982,23 @@ th.calendar-header {
         fill: black;
     }
 
-#KambanBody .kamban-row {
+.kambanbody .kamban-row {
     border-bottom: dotted 1px silver;
 }
 
-#KambanBody .kamban-container > div {
+.kambanbody .kamban-container > div {
     min-height: 30px;
 }
 
-#KambanBody .kamban-container.hover {
+.kambanbody .kamban-container.hover {
     background-color: whitesmoke;
 }
 
-#KambanBody .kamban-container .kamban-item:last-child {
+.kambanbody .kamban-container .kamban-item:last-child {
     margin: 3px 3px 30px 3px;
 }
 
-#KambanBody .kamban-item {
+.kambanbody .kamban-item {
     margin: 3px;
     padding: 4px 16px 4px 5px;
     background-color: lightgoldenrodyellow;
@@ -1008,24 +1008,24 @@ th.calendar-header {
     border-radius: 5px;
 }
 
-    #KambanBody .kamban-item:hover {
+    .kambanbody .kamban-item:hover {
         background-color: white;
         border: solid 1px orange;
     }
 
-    #KambanBody .kamban-item.changed {
+    .kambanbody .kamban-item.changed {
         font-weight: bold;
         background-color: yellow;
         border: solid 1px orange;
     }
 
-    #KambanBody .kamban-item .ui-icon {
+    .kambanbody .kamban-item .ui-icon {
         position: absolute;
         top: 0px;
         right: 0px;
     }
 
-    #KambanBody .kamban-item > span {
+    .kambanbody .kamban-item > span {
         margin-right: 3px;
     }
 
