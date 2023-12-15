@@ -814,7 +814,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                     && (context.ContractSettings.Export == false
                         || !context.CanExport(ss: currentSs)))
                 {
-                    return null;
+                    site.IncludeData = false;
                 }
             }
             return new SitePackage(
