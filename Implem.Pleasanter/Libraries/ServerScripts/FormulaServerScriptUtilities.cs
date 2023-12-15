@@ -1693,7 +1693,16 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                             power = $DAYS(power, '1900/01/01') + 1;
                         }
                     }
-                    return Math.pow(Number(number), Number(power));
+                    if ((Number(number) == 0 || !number) && (Number(power) == 0 || !power))
+                    {
+                        throw '#NUM!';
+                    }
+                    var result = Math.pow(Number(number), Number(power));
+                    if (result == Number.POSITIVE_INFINITY || result == Number.NEGATIVE_INFINITY)
+                    {
+                        throw '#NUM!';
+                    }
+                    return result;
 	            }";
         }
 
