@@ -21,6 +21,8 @@ using System.Data;
 using System.Data.Common;
 using System.Linq;
 using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
+using static Implem.Pleasanter.Libraries.Settings.StatusControl;
+
 namespace Implem.Pleasanter.Models
 {
     [Serializable]
@@ -2561,7 +2563,6 @@ namespace Implem.Pleasanter.Models
             List<int> deleteSelected = new List<int>();
             processesApiSiteSetting.ForEach(processApiSiteSetting =>
             {
-
                 SiteSettings.Processes.Add(new Process(
                     id: processApiSiteSetting.Id,
                     name: processApiSiteSetting.Name,
@@ -2570,10 +2571,10 @@ namespace Implem.Pleasanter.Models
                     currentStatus: (int)Enum.Parse<Process.Status>(processApiSiteSetting.CurrentStatus),
                     changedStatus: (int)Enum.Parse<Process.Status>(processApiSiteSetting.ChangedStatus),
                     description: processApiSiteSetting.Description,
-                    tooltip: processApiSiteSetting.Description,
-                    confirmationMessage: processApiSiteSetting.Description,
-                    successMessage: processApiSiteSetting.Description,
-                    onClick: processApiSiteSetting.Description,
+                    tooltip: processApiSiteSetting.Tooltip,
+                    confirmationMessage: processApiSiteSetting.ConfirmationMessage,
+                    successMessage: processApiSiteSetting.SuccessMessage,
+                    onClick: processApiSiteSetting.OnClick,
                     executionType: processApiSiteSetting.ExecutionType.ToEnum<Process.ExecutionTypes>(),
                     actionType: processApiSiteSetting.ActionTypes.ToEnum<Process.ActionTypes>(),
                     allowBulkProcessing: processApiSiteSetting.AllowBulkProcessing,
@@ -2584,9 +2585,7 @@ namespace Implem.Pleasanter.Models
                     errorMessage: processApiSiteSetting.ErrorMessage,
                     dataChanges: processApiSiteSetting.DataChanges,
                     autoNumbering: processApiSiteSetting.AutoNumbering,
-                    notifications: processApiSiteSetting.Notifications
-
-                    ));
+                    notifications: processApiSiteSetting.Notifications));
 
                 //var currentHtml = siteSetting.Htmls?.
                 //     FirstOrDefault(o => o.Id == htmlApiSiteSetting.Id.ToInt());
@@ -2642,7 +2641,84 @@ namespace Implem.Pleasanter.Models
             // Check has deleted
             if (deleteSelected.Count() != 0)
             {
-                siteSetting.Htmls.Delete(deleteSelected);
+                siteSetting.Processes.Delete(deleteSelected);
+            }
+        }
+
+        public void UpsertStatusControlByApi(
+            SiteSettings siteSetting,
+            List<ApiSiteSettings.StatusControlApiSettingModel> statusControlApiSiteSetting,
+            Context context)
+        {
+            List<int> deleteSelected = new List<int>();
+            statusControlApiSiteSetting.ForEach(statusControlApiSiteSetting =>
+            {
+                //var columnHash = JsonConvert.DeserializeObject<Dictionary<string, StatusControl.ControlConstraintsTypes>>(statusControlApiSiteSetting.ColumnHash);
+                SiteSettings.StatusControls.Add(new StatusControl(
+                    id: statusControlApiSiteSetting.Id,
+                    name: statusControlApiSiteSetting.Name,
+                    description: statusControlApiSiteSetting.Description,
+                    status: (int)Enum.Parse<Process.Status>(statusControlApiSiteSetting.Status),
+                    readOnly: statusControlApiSiteSetting.ReadOnly,
+                    view: statusControlApiSiteSetting.View,
+                    columnHash: statusControlApiSiteSetting.ColumnHash,
+                    permissions: ProcessPermissions(context: context)));
+
+                //var currentHtml = siteSetting.Htmls?.
+                //     FirstOrDefault(o => o.Id == htmlApiSiteSetting.Id.ToInt());
+                //if (htmlApiSiteSetting.Delete.ToInt() == ApiSiteSetting.DeleteFlag.IsDelete.ToInt())
+                //{
+                //    deleteSelected.Add(htmlApiSiteSetting.Id.ToInt());
+                //}
+                //else
+                //{
+                //    if (currentHtml != null)
+                //    {
+                //        // Update html site setting
+                //        currentHtml.Update(
+                //            title: htmlApiSiteSetting.Title,
+                //            positionType: htmlApiSiteSetting.HtmlPositionType.ToEnum<Html.PositionTypes>(),
+                //            all: htmlApiSiteSetting.HtmlAll,
+                //            _new: htmlApiSiteSetting.HtmlNew,
+                //            edit: htmlApiSiteSetting.HtmlEdit,
+                //            index: htmlApiSiteSetting.HtmlIndex,
+                //            calendar: htmlApiSiteSetting.HtmlCalendar,
+                //            crosstab: htmlApiSiteSetting.HtmlCrosstab,
+                //            gantt: htmlApiSiteSetting.HtmlGantt,
+                //            burnDown: htmlApiSiteSetting.HtmlBurnDown,
+                //            timeSeries: htmlApiSiteSetting.HtmlTimeSeries,
+                //            kamban: htmlApiSiteSetting.HtmlKamban,
+                //            imageLib: htmlApiSiteSetting.HtmlImageLib,
+                //            disabled: htmlApiSiteSetting.Disabled,
+                //            body: htmlApiSiteSetting.Body);
+                //    }
+                //    else
+                //    {
+                //        // Add new html site setting
+                //        SiteSettings.Htmls.Add(new Html(
+                //            id: htmlApiSiteSetting.Id,
+                //            title: htmlApiSiteSetting.Title,
+                //            positionType: htmlApiSiteSetting.HtmlPositionType.ToEnum<Html.PositionTypes>(),
+                //            all: htmlApiSiteSetting.HtmlAll,
+                //            _new: htmlApiSiteSetting.HtmlNew,
+                //            edit: htmlApiSiteSetting.HtmlEdit,
+                //            index: htmlApiSiteSetting.HtmlIndex,
+                //            calendar: htmlApiSiteSetting.HtmlCalendar,
+                //            crosstab: htmlApiSiteSetting.HtmlCrosstab,
+                //            gantt: htmlApiSiteSetting.HtmlGantt,
+                //            burnDown: htmlApiSiteSetting.HtmlBurnDown,
+                //            timeSeries: htmlApiSiteSetting.HtmlTimeSeries,
+                //            kamban: htmlApiSiteSetting.HtmlKamban,
+                //            imageLib: htmlApiSiteSetting.HtmlImageLib,
+                //            disabled: htmlApiSiteSetting.Disabled,
+                //            body: htmlApiSiteSetting.Body));
+                //    }
+                //}
+            });
+            // Check has deleted
+            if (deleteSelected.Count() != 0)
+            {
+                siteSetting.StatusControls.Delete(deleteSelected);
             }
         }
 

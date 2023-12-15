@@ -2409,6 +2409,14 @@ namespace Implem.Pleasanter.Models
                     processesApiSiteSetting: siteSettingsApiModel.Processes,
                     context: context);
             }
+            // Change StatusControl setting
+            if (siteSettingsApiModel.StatusControls != null)
+            {
+                siteModel.UpsertStatusControlByApi(
+                    siteSetting: ss,
+                    statusControlApiSiteSetting: siteSettingsApiModel.StatusControls,
+                    context: context);
+            }
             // Save all changes
             var errorData = siteModel.Update(
                context: context,

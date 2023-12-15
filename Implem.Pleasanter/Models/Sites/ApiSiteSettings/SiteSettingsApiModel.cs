@@ -12,6 +12,7 @@ namespace Implem.Pleasanter.Models.ApiSiteSettings
         public List<StyleApiSettingModel> Styles { get; set; }
         public List<HtmlApiSettingModel> Htmls { get; set; }
         public List<ProcessApiSettingModel> Processes { get; set; }
+        public List<StatusControlApiSettingModel> StatusControls { get; set; }
         public SiteSettingsApiModel()
         {
         }
