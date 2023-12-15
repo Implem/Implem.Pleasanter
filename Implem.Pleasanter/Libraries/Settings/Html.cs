@@ -1,4 +1,5 @@
-﻿using Implem.Pleasanter.Interfaces;
+﻿using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Interfaces;
 
 namespace Implem.Pleasanter.Libraries.Settings
 {
@@ -9,7 +10,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             HeadTop = 1000,
             HeadBottom = 1010,
             BodyScriptTop = 9000,
-            BodyScriptBottom = 9010,
+            BodyScriptBottom = 9010
         }
 
         public int Id { get; set; }
@@ -31,28 +32,28 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public Html()
         {
-                
+
         }
 
         public Html(
-            int id,
+            int? id,
             string title,
             PositionTypes positionType,
-            bool all,
-            bool _new,
-            bool edit,
-            bool index,
-            bool calendar,
-            bool crosstab,
-            bool gantt,
-            bool burnDown,
-            bool timeSeries,
-            bool kamban,
-            bool imageLib,
-            bool disabled,
+            bool? all,
+            bool? _new,
+            bool? edit,
+            bool? index,
+            bool? calendar,
+            bool? crosstab,
+            bool? gantt,
+            bool? burnDown,
+            bool? timeSeries,
+            bool? kamban,
+            bool? imageLib,
+            bool? disabled,
             string body)
         {
-            Id = id;
+            Id = id.ToInt();
             Title = title;
             PositionType = positionType;
             All = all;
@@ -73,35 +74,35 @@ namespace Implem.Pleasanter.Libraries.Settings
         public void Update(
            string title,
            PositionTypes positionType,
-           bool all,
-           bool _new,
-           bool edit,
-           bool index,
-           bool calendar,
-           bool crosstab,
-           bool gantt,
-           bool burnDown,
-           bool timeSeries,
-           bool kamban,
-           bool imageLib,
-           bool disabled,
+           bool? all,
+           bool? _new,
+           bool? edit,
+           bool? index,
+           bool? calendar,
+           bool? crosstab,
+           bool? gantt,
+           bool? burnDown,
+           bool? timeSeries,
+           bool? kamban,
+           bool? imageLib,
+           bool? disabled,
            string body)
         {
             Title = title;
             PositionType = positionType;
-            All = all;
-            New = _new;
-            Edit = edit;
-            Index = index;
-            Calendar = calendar;
-            Crosstab = crosstab;
-            Gantt = gantt;
-            BurnDown = burnDown;
-            TimeSeries = timeSeries;
-            Kamban = kamban;
-            ImageLib = imageLib;
-            Disabled = disabled;
-            Body = body;
+            if (all != null) All = all;
+            if (_new != null) New = _new;
+            if (edit != null) Edit = edit;
+            if (index != null) Index = index;
+            if (calendar != null) Calendar = calendar;
+            if (crosstab != null) Crosstab = crosstab;
+            if (gantt != null) Gantt = gantt;
+            if (burnDown != null) BurnDown = burnDown;
+            if (timeSeries != null) TimeSeries = timeSeries;
+            if (kamban != null) Kamban = kamban;
+            if (imageLib != null) ImageLib = imageLib;
+            if (disabled != null) Disabled = disabled;
+            if (body != null) Body = body;
         }
 
         public Html GetRecordingData()
