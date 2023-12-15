@@ -2363,7 +2363,8 @@ namespace Implem.Pleasanter.Models
             var apiSiteSettingValidator = ApiSiteSettingValidators.OnChageSiteSettingByApi(
                 referenceType: siteModel.ReferenceType,
                 ss: ss,
-                siteSettingsModel: siteSettingsApiModel);
+                siteSettingsModel: siteSettingsApiModel,
+                context: context);
             switch (apiSiteSettingValidator.Type)
             {
                 case Error.Types.None: break;

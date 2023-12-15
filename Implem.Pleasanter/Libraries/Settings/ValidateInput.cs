@@ -15,6 +15,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string RegexValidationMessage { get; set; }
         public decimal? Min { get; set; }
         public decimal? Max { get; set; }
+        public int? Delete{ get; set; }
 
         public ValidateInput()
         {

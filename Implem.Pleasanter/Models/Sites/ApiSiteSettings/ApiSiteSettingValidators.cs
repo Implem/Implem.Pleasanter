@@ -6,6 +6,7 @@ using Implem.Pleasanter.Models.ApiSiteSettings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace Implem.Pleasanter.Models
 {
@@ -14,7 +15,8 @@ namespace Implem.Pleasanter.Models
         public static ErrorData OnChageSiteSettingByApi(
             string referenceType,
             SiteSettings ss,
-            SiteSettingsApiModel siteSettingsModel)
+            SiteSettingsApiModel siteSettingsModel,
+            Context context)
         {
             if (siteSettingsModel == null)
             {
@@ -65,6 +67,16 @@ namespace Implem.Pleasanter.Models
                     siteSettingType: "Styles");
                 if (baseApiValidator.Type != Error.Types.None) { return baseApiValidator; }
             }
+            // Validate Processes
+            if (siteSettingsModel.Processes != null)
+            {
+                var apiProcesses = siteSettingsModel.Processes;
+                baseApiValidator = ApiSiteSettingValidators.ProcessesValidator(
+                    processes: apiProcesses,
+                    ss: ss,
+                    context: context);
+                if (baseApiValidator.Type != Error.Types.None) { return baseApiValidator; }
+            }
             return new ErrorData(type: Error.Types.None);
         }
 
@@ -81,7 +93,6 @@ namespace Implem.Pleasanter.Models
             {
                 // Validate always required Id
                 if (apiSiteSetting.Id == null) return new ErrorData(type: Error.Types.NotFound);
-                var scriptModel = ss.Scripts?.FirstOrDefault(o => o.Id == apiSiteSetting.Id.ToInt());
                 // Validate Title is required in case update, create
                 if (apiSiteSetting.Delete.ToInt() != ApiSiteSetting.DeleteFlag.IsDelete.ToInt()
                      && string.IsNullOrEmpty(apiSiteSetting.Title))
@@ -103,11 +114,121 @@ namespace Implem.Pleasanter.Models
             return new ErrorData(type: Error.Types.None);
         }
 
-        public static ErrorData ProcessesValidtor(
+        public static ErrorData ProcessesValidator(
                   List<ProcessApiSettingModel> processes,
-                  SiteSettings ss)
+                  SiteSettings ss,
+                  Context context)
         {
-            return new ErrorData(type: Error.Types.None);
+            var valid = new ErrorData(type: Error.Types.None);
+            processes.ForEach(process =>
+            {
+                Type objectType = process.GetType();
+                PropertyInfo[] properties = objectType.GetProperties();
+                foreach (var property in properties)
+                {
+                    var value = property.GetValue(process);
+                    switch (property.Name)
+                    {
+                        case "Id":
+                            if (value.ToInt() == 0)
+                            {
+                                valid = new ErrorData(type: Error.Types.NotFound);
+                                return;
+                            }
+                            break;
+                        case "Delete":
+                            if (value != null && value.ToInt() != ApiSiteSetting.DeleteFlag.IsDelete.ToInt())
+                            {
+                                valid = new ErrorData(type: Error.Types.NotFound);
+                                return;
+                            }
+                            else if (value.ToInt() == ApiSiteSetting.DeleteFlag.IsDelete.ToInt())
+                            {
+                                return;
+                            }
+                            break;
+                        case "ScreenType":
+                            if (value != null && !Enum.IsDefined(typeof(Process.ScreenTypes), value))
+                            {
+                                valid = new ErrorData(type: Error.Types.NotFound);
+                                return;
+                            }
+                            break;
+                        case "CurrentStatus":
+                        case "ChangedStatus":
+                            if (value != null && !Enum.IsDefined(typeof(Process.Status), value))
+                            {
+                                valid = new ErrorData(type: Error.Types.NotFound);
+                                return;
+                            }
+                            break;
+                        case "ExecutionType":
+                            if (value != null && !Enum.IsDefined(typeof(Process.ExecutionTypes), value))
+                            {
+                                valid = new ErrorData(type: Error.Types.NotFound);
+                                return;
+                            }
+                            break;
+                        case "ValidationType":
+                            if (value != null && !Enum.IsDefined(typeof(Process.ValidationTypes), value))
+                            {
+                                valid = new ErrorData(type: Error.Types.NotFound);
+                                return;
+                            }
+                            break;
+                        case "ValidateInputs":
+                            if (process.ValidateInputs != null)
+                            {
+                                foreach (var validateInput in process.ValidateInputs)
+                                {
+                                    if (validateInput.Id.ToInt() == 0
+                                        || (validateInput.Delete != null && validateInput.Delete.ToInt() != ApiSiteSetting.DeleteFlag.IsDelete.ToInt()))
+                                    {
+                                        valid = new ErrorData(type: Error.Types.NotFound);
+                                        return;
+                                    }
+                                }
+                            }
+                            break;
+                        case "DataChanges":
+                            if (process.DataChanges != null)
+                            {
+                                foreach (var dataChange in process.DataChanges)
+                                {
+                                    if (dataChange.Id.ToInt() == 0
+                                        || (dataChange.Delete != null && dataChange.Delete.ToInt() != ApiSiteSetting.DeleteFlag.IsDelete.ToInt())
+                                        || !Enum.IsDefined(typeof(DataChange.Types), dataChange.Type))
+                                    {
+                                        valid = new ErrorData(type: Error.Types.NotFound);
+                                        return;
+                                    }
+                                }
+                            }
+                            break;
+                        case "Notifications":
+                            if (process.Notifications != null)
+                            {
+                                foreach (var notification in process.Notifications)
+                                {
+                                    if (notification.Id.ToInt() == 0
+                                        || (notification.Delete != null && notification.Delete.ToInt() != ApiSiteSetting.DeleteFlag.IsDelete.ToInt())
+                                        || string.IsNullOrEmpty(notification.Subject)
+                                        || string.IsNullOrEmpty(notification.Address)
+                                        || string.IsNullOrEmpty(notification.Body))
+                                    {
+                                        valid = new ErrorData(type: Error.Types.NotFound);
+                                        return;
+                                    }
+                                }
+                            }
+                            break;
+                    }
+                }
+                //if (valid.Type != Error.Types.None) {
+                //    return valid;
+                //}
+            });
+            return valid;
         }
 
         public static ErrorData StatusControlsValidtor(

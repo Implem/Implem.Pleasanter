@@ -31,6 +31,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string ColumnName { get; set; }
         public string BaseDateTime { get; set; }
         public string Value { get; set; }
+        public int? Delete { get; set; }
 
         public DataChange()
         {

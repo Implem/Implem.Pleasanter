@@ -10,7 +10,7 @@ namespace Implem.Pleasanter.Models.ApiSiteSettings
         public int Id { get; set; }
         public string Name { get; set; }
         public string DisplayName { get; set; }
-        public string ScreenTypes { get; set; }
+        public string ScreenType { get; set; }
         public string CurrentStatus { get; set; }
         public string ChangedStatus { get; set; }
         public string Description { get; set; }
@@ -34,6 +34,7 @@ namespace Implem.Pleasanter.Models.ApiSiteSettings
         public SettingList<Notification> Notifications { get; set; }
         [NonSerialized]
         public bool? MatchConditions;
+        public int? Delete;
 
         public ProcessApiSettingModel()
         {

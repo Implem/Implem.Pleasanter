@@ -132,8 +132,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             string name,
             string displayName,
             ScreenTypes? screenType,
-            int currentStatus,
-            int changedStatus,
+            int? currentStatus,
+            int? changedStatus,
             string description,
             string tooltip,
             string confirmationMessage,
@@ -153,25 +153,82 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             Name = name;
             DisplayName = displayName;
-            ScreenType = screenType;
-            CurrentStatus = currentStatus;
-            ChangedStatus = changedStatus;
-            Description = description;
-            Tooltip = tooltip;
-            ConfirmationMessage = confirmationMessage;
-            SuccessMessage = successMessage;
-            OnClick = onClick;
-            ExecutionType = executionType;
-            ActionType = actionType;
-            AllowBulkProcessing = allowBulkProcessing;
-            ValidationType = validationType;
-            ValidateInputs = validateInputs;
-            SetPermissions(permissions: permissions);
-            View = view;
-            ErrorMessage = errorMessage;
-            DataChanges = dataChanges;
-            AutoNumbering = autoNumbering;
-            Notifications = notifications;
+            if (screenType != null)
+            {
+                ScreenType = screenType;
+            }
+            if (currentStatus != null)
+            {
+                CurrentStatus = (int)currentStatus;
+            }
+            if (changedStatus != null)
+            {
+                ChangedStatus = (int)changedStatus;
+            }
+            if (description != null)
+            {
+                Description = description;
+            }
+            if (tooltip != null)
+            {
+                Tooltip = tooltip;
+            }
+            if (confirmationMessage != null)
+            {
+                ConfirmationMessage = confirmationMessage;
+            }
+            if (successMessage != null)
+            {
+                SuccessMessage = successMessage;
+            }
+            if (onClick != null)
+            {
+                OnClick = onClick;
+            }
+            if (executionType != null)
+            {
+                ExecutionType = executionType;
+            }
+            if (actionType != null)
+            {
+                ActionType = actionType;
+            }
+            if (allowBulkProcessing != null)
+            {
+                AllowBulkProcessing = allowBulkProcessing;
+            }
+            if (validationType != null)
+            {
+                ValidationType = validationType;
+            }
+            if (validateInputs != null)
+            {
+                ValidateInputs = validateInputs;
+            }
+            if (permissions != null)
+            {
+                SetPermissions(permissions: permissions);
+            }
+            if (view != null)
+            {
+                View = view;
+            }
+            if (errorMessage != null)
+            {
+                ErrorMessage = errorMessage;
+            }
+            if (dataChanges != null)
+            {
+                DataChanges = dataChanges;
+            }
+            if (autoNumbering != null)
+            {
+                AutoNumbering = autoNumbering;
+            }
+            if (notifications != null)
+            {
+                Notifications = notifications;
+            }
         }
 
         private void SetPermissions(List<Permission> permissions)
