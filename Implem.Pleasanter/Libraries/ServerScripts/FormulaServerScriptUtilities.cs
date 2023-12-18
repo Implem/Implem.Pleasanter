@@ -1603,9 +1603,20 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             return @"
                 function $TEXT(value, format)
                 {
-                    if (value == '')
+                    if (arguments.length != 2 || value === undefined || format === undefined)
                     {
-                        value = 0;
+                        return 'Invalid Parameter';
+                    }
+                    if ((value.toString().toLowerCase() === 'true' || value.toString().toLowerCase() === 'false')
+                        && (format == '' || !isNaN(format)))
+                    {
+                        return value;
+                    }
+                    if (format.toString().toLowerCase() === 'true'
+                        || format.toString().toLowerCase() === 'false'
+                        || !isNaN(Date.parse(format)))
+                    {
+                        return '#VALUE!';
                     }
                     return FormulaServerScriptUtilities.GetText(value, format);
                 }";
