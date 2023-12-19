@@ -15967,7 +15967,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         controlId: "DashboardPartKambanValue",
                         fieldId: "DashboardPartKambanValueField",
-                        fieldCss: hiddenCss(dashboardPart.Type != DashboardPartType.Kamban),
+                        fieldCss: hiddenCss(dashboardPart.Type != DashboardPartType.Kamban || dashboardPart.KambanAggregateType == "Count"),
                         controlCss: " always-send",
                         labelText: Displays.AggregationTarget(context: context),
                         optionCollection: ss.KambanValueOptions(context: context),
