@@ -2435,7 +2435,7 @@ namespace Implem.Pleasanter.Models
                             Dictionary<string, string> messageValue = Jsons.Deserialize<Dictionary<string, string>>(messageElement["Value"]);
                             return new ResponseCollection(context: context)
                                 .Message(message: new Message(messageValue["Id"], messageValue["Text"], messageValue["Css"]))
-                                .Invoke("setKamban", dashboardPart.Id.ToString())
+                                .Invoke("setKamban")
                                 .ToJson();
                         }
                     }
@@ -2445,7 +2445,7 @@ namespace Implem.Pleasanter.Models
                         issueId: context.Forms.Long("KambanId"),
                         formData: context.Forms);
                     return new ResponseCollection(context: context)
-                        .Html(
+                        .ReplaceAll(
                             target: $"#DashboardPart_{dashboardPart.Id}",
                             value: issueKamban)
                         .Message(context.ErrorData.Type != Error.Types.None
@@ -2453,7 +2453,7 @@ namespace Implem.Pleasanter.Models
                             : Messages.Updated(
                                 context: context,
                                 data: issueModel.Title.MessageDisplay(context: context)))
-                        .Invoke("setKamban", dashboardPart.Id.ToString())
+                        .Invoke("setKamban")
                         .ToJson();
                 case "Results":
                     var results = ResultUtilities.UpdateByKamban(context: context, ss: currentSs);

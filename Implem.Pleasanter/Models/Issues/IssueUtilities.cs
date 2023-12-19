@@ -8928,53 +8928,68 @@ namespace Implem.Pleasanter.Models
             {
                 res.Message(context.ErrorData.Message(context: context));
             }
-            if (InRange(
+            if (ss.DashboardParts?.Any() != true)
+            {
+                if (InRange(
                 context: context,
                 ss: ss,
                 view: view,
                 limit: Parameters.General.KambanLimit))
-            {
-                var body = new HtmlBuilder().Kamban(
-                    context: context,
-                    ss: ss,
-                    view: view,
-                    bodyOnly: bodyOnly,
-                    changedItemId: updated
-                        ? context.Forms.Long("KambanId")
-                        : 0);
-                return res
-                    .ViewMode(
+                {
+                    var body = new HtmlBuilder().Kamban(
                         context: context,
                         ss: ss,
                         view: view,
-                        invoke: "setKamban",
                         bodyOnly: bodyOnly,
-                        bodySelector: "#KambanBody",
-                        body: body)
-                    .Events("on_kamban_load")
-                    .ToJson();
+                        changedItemId: updated
+                            ? context.Forms.Long("KambanId")
+                            : 0);
+                    return res
+                        .ViewMode(
+                            context: context,
+                            ss: ss,
+                            view: view,
+                            invoke: "setKamban",
+                            bodyOnly: bodyOnly,
+                            bodySelector: "#KambanBody",
+                            body: body)
+                        .Events("on_kamban_load")
+                        .ToJson();
+                }
+                else
+                {
+                    var body = new HtmlBuilder().Kamban(
+                        context: context,
+                        ss: ss,
+                        view: view,
+                        bodyOnly: bodyOnly,
+                        inRange: false);
+                    return res
+                        .ViewMode(
+                            context: context,
+                            ss: ss,
+                            view: view,
+                            message: Messages.TooManyCases(
+                                context: context,
+                                data: Parameters.General.KambanLimit.ToString()),
+                            bodyOnly: bodyOnly,
+                            bodySelector: "#KambanBody",
+                            body: body)
+                        .Events("on_kamban_load")
+                        .ToJson();
+                }
             }
             else
             {
                 var body = new HtmlBuilder().Kamban(
-                    context: context,
-                    ss: ss,
-                    view: view,
-                    bodyOnly: bodyOnly,
-                    inRange: false);
-                return res
-                    .ViewMode(
                         context: context,
                         ss: ss,
                         view: view,
-                        message: Messages.TooManyCases(
-                            context: context,
-                            data: Parameters.General.KambanLimit.ToString()),
                         bodyOnly: bodyOnly,
-                        bodySelector: "#KambanBody",
-                        body: body)
-                    .Events("on_kamban_load")
-                    .ToJson();
+                        changedItemId: updated
+                            ? context.Forms.Long("KambanId")
+                            : 0);
+                return body.ToString();
             }
         }
 
@@ -9062,6 +9077,7 @@ namespace Implem.Pleasanter.Models
         {
             var column = Rds.IssuesColumn()
                 .IssueId()
+                .SiteId()
                 .Status()
                 .ItemTitle(ss.ReferenceType)
                 .Add(
@@ -9096,6 +9112,7 @@ namespace Implem.Pleasanter.Models
                         .Select(o => new Libraries.ViewModes.KambanElement()
                         {
                             Id = o.Long("IssueId"),
+                            SiteId = o.Long("SiteId"),
                             Title = o.String("ItemTitle"),
                             Status = new Status(o.Int("Status")),
                             GroupX = groupByX?.ConvertIfUserColumn(o),
