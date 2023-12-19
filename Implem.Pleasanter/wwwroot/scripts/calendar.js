@@ -105,36 +105,37 @@ const getEventsDatas = function (calendarSuffix) {
             $p.send($control);
         } else {
             $('#IsInit' + calendarSuffix).val('False');
-            let eventData = JSON.parse($('#CalendarJson' + calendarSuffix).val())[0]['items'];
-            successCallback(
-                eventData.map((item) => {
-                    var endDate = new Date(item.end);
-                    if ($('#CalendarEditorFormat' + calendarSuffix).val() === 'Ymd') {
-                        endDate.setDate(endDate.getDate() + 1);
-                    }
-                    if (item.StatusHtml) {
-                        return {
-                            id: item.id,
-                            title: item.title,
-                            start: item.start,
-                            end: endDate,
-                            StatusHtml: item.StatusHtml,
-                            siteId: item.siteId
+            if (JSON.parse($('#CalendarJson' + calendarSuffix).val()).length !== 0) {
+                let eventData = JSON.parse($('#CalendarJson' + calendarSuffix).val())[0]['items'];
+                successCallback(
+                    eventData.map((item) => {
+                        var endDate = new Date(item.end);
+                        if ($('#CalendarEditorFormat' + calendarSuffix).val() === 'Ymd') {
+                            endDate.setDate(endDate.getDate() + 1);
                         }
-                    }
-                    else {
-                        return {
-                            id: item.id,
-                            title: item.title,
-                            start: item.start,
-                            end: endDate,
-                            siteId: item.siteId
+                        if (item.StatusHtml) {
+                            return {
+                                id: item.id,
+                                title: item.title,
+                                start: item.start,
+                                end: endDate,
+                                StatusHtml: item.StatusHtml,
+                                siteId: item.siteId
+                            }
                         }
-                    }
-                }))
+                        else {
+                            return {
+                                id: item.id,
+                                title: item.title,
+                                start: item.start,
+                                end: endDate,
+                                siteId: item.siteId
+                            }
+                        }
+                    }))
+            }
         }
     }
-
 }
 function setCalendarGroup(group, data, calendarSuffix) {
     var hash = {};
