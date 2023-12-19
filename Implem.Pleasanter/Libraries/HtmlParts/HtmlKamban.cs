@@ -179,6 +179,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             : "",
                         _using: !suffix.IsNullOrEmpty())
                     .Hidden(
+                        controlId: $"KambanReferenceType{suffix}",
+                        value: ss.ReferenceType)
+                    .Hidden(
                         controlId: $"KambanGroupByX{suffix}",
                         value: groupByX?.ColumnName,
                         _using: !suffix.IsNullOrEmpty())
@@ -424,7 +427,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return hb.Div(
                 attributes: new HtmlAttributes()
                     .Class("kamban-item" + ItemChanged(data.Id, changedItemId))
-                    .DataId(data.Id.ToString()),
+                    .DataId(data.Id.ToString())
+                    .DataSiteId(data.SiteId.ToString()),
                 action: () => hb
                     .Span(css: "ui-icon ui-icon-pencil")
                     .ElementStatus(

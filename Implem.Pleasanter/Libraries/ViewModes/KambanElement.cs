@@ -5,6 +5,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
     public class KambanElement
     {
         public long Id;
+        public long SiteId;
         public string Title;
         public DateTime StartTime;
         public CompletionTime CompletionTime;
