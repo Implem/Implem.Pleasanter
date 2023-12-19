@@ -1379,6 +1379,11 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 ss: ss,
                                 dashboardPart: dashboardPart).Content;
+                        case DashboardPartType.Kamban:
+                            return KambanLayout(
+                                context: context,
+                                ss: ss,
+                                dashboardPart: dashboardPart).Content;
                         default:
                             return null;
                     }
@@ -1388,6 +1393,7 @@ namespace Implem.Pleasanter.Models
                     target: $"#DashboardPart_{dashboardPartId}",
                     value: dashboardPartLayout.FirstOrDefault())
                 .Invoke("setCalendar", dashboardPartId.ToString())
+                .Invoke("setKamban")
                 .ToJson();
         }
 
@@ -2337,7 +2343,7 @@ namespace Implem.Pleasanter.Models
             var kambanHtml = GetKambanRecords(
                 context: context,
                 dashboardPart: dashboardPart);
-            var calendar = hb
+            var kamban = hb
                 .Div(
                     id: $"DashboardPart_{dashboardPart.Id}",
                     attributes: new HtmlAttributes().DataId(dashboardPart.Id.ToString()),
@@ -2359,7 +2365,7 @@ namespace Implem.Pleasanter.Models
                 Y = dashboardPart.Y,
                 W = dashboardPart.Width,
                 H = dashboardPart.Height,
-                Content = calendar
+                Content = kamban
             };
         }
         /// <summary>
