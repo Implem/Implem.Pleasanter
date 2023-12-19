@@ -1814,6 +1814,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         return 'Invalid Parameter';
                     }
                     var d = new Date(start_date.getFullYear(), start_date.getMonth() + Number(months) + 1, 0);
+                    if (isNaN(d.getTime()) || d.getFullYear() < 1900 || d.getFullYear() > 9999)
+                    {
+                        return '#NUM!';
+                    }
                     return d.getFullYear()
                         + '/' + ('0' + (d.getMonth() + 1)).slice(-2)
                         + '/' + ('0' + d.getDate()).slice(-2);
