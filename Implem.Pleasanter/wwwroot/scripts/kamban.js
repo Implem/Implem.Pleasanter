@@ -17,9 +17,8 @@
             var control = ui.draggable;
             var kambanSuffix = control.parents('[id^="Kamban"]')[0].id.substring(control.parents('[id^="Kamban"]')[0].id.indexOf('_'));
             kambanSuffix = kambanSuffix.indexOf('_') === -1 ? '' : kambanSuffix;
-            console.log(kambanSuffix)
             var data = $p.getData($('.main-form'));
-            var tableNamePrefix = $('#TableName').val() + '_';
+            var tableNamePrefix = $('#KambanReferenceType' + kambanSuffix).val() + '_';
             var dataX = $(this).attr('data-x');
             var dataY = $(this).attr('data-y');
             data["KambanId"] = $(control).attr('data-id');
@@ -30,7 +29,7 @@
                 data[tableNamePrefix + $('#KambanGroupByY' + kambanSuffix).val()] = dataY;
             }
             $p.set($('#KambanSuffix' + kambanSuffix), $('#KambanSuffix' + kambanSuffix).val());
-
+            data.SiteId = control.attr('data-siteid');
             $p.send($('#KambanBody' + kambanSuffix));
         }
     });
