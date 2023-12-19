@@ -14,6 +14,9 @@ namespace Implem.Pleasanter.Models.ApiSiteSettings
         public bool? ReadOnly { get; set; }
         public Dictionary<string, StatusControl.ControlConstraintsTypes> ColumnHash { get; set; }
         public View View { get; set; }
+        public ApiSiteSettingPermission Permission { get; set; }
+        public int? Delete { get; set; }
+
         public StatusControlApiSettingModel()
         {
         }

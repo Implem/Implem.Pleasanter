@@ -151,8 +151,14 @@ namespace Implem.Pleasanter.Libraries.Settings
             AutoNumbering autoNumbering,
             SettingList<Notification> notifications)
         {
-            Name = name;
-            DisplayName = displayName;
+            if (name != null)
+            {
+                Name = name;
+            }
+            if (displayName != null)
+            {
+                DisplayName = displayName;
+            }
             if (screenType != null)
             {
                 ScreenType = screenType;

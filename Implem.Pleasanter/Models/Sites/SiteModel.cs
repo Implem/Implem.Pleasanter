@@ -2570,79 +2570,75 @@ namespace Implem.Pleasanter.Models
                 {
                     deleteSelected.Add(processApiSiteSetting.Id.ToInt());
                 }
+                else if (currentProcess != null)
+                {
+                    currentProcess.Update(
+                        name: processApiSiteSetting.Name,
+                        displayName: processApiSiteSetting.DisplayName,
+                        screenType: processApiSiteSetting.ScreenType?.ToEnum<Process.ScreenTypes>(),
+                        currentStatus: processApiSiteSetting.CurrentStatus != null ? (int)Enum.Parse<Process.Status>(processApiSiteSetting.CurrentStatus) : null,
+                        changedStatus: processApiSiteSetting.ChangedStatus != null ? (int)Enum.Parse<Process.Status>(processApiSiteSetting.ChangedStatus) : null,
+                        description: processApiSiteSetting.Description,
+                        tooltip: processApiSiteSetting.Tooltip,
+                        confirmationMessage: processApiSiteSetting.ConfirmationMessage,
+                        successMessage: processApiSiteSetting.SuccessMessage,
+                        onClick: processApiSiteSetting.OnClick,
+                        executionType: processApiSiteSetting.ExecutionType?.ToEnum<Process.ExecutionTypes>(),
+                        actionType: processApiSiteSetting.ActionTypes?.ToEnum<Process.ActionTypes>(),
+                        allowBulkProcessing: processApiSiteSetting.AllowBulkProcessing,
+                        validationType: processApiSiteSetting.ValidationType?.ToEnum<Process.ValidationTypes>(),
+                        validateInputs: ParseValidateInputs(
+                            validateInputs: processApiSiteSetting.ValidateInputs,
+                            process: currentProcess),
+                        permissions: processApiSiteSetting.Permission != null ? ParsePermissions(
+                            apiSettingPermission: processApiSiteSetting.Permission,
+                            ss: siteSetting,
+                            target: currentProcess) : null,
+                        view: processApiSiteSetting.View,
+                        errorMessage: processApiSiteSetting.ErrorMessage,
+                        dataChanges: ParseDataChanges(
+                            dataChanges: processApiSiteSetting.DataChanges,
+                            process: currentProcess),
+                        autoNumbering: processApiSiteSetting.AutoNumbering,
+                        notifications: ParseNotifications(
+                            notifications: processApiSiteSetting.Notifications,
+                            process: currentProcess));
+                }
                 else
                 {
-                    if (currentProcess != null)
-                    {
-                        currentProcess.Update(
-                            name: processApiSiteSetting.Name,
-                            displayName: processApiSiteSetting.DisplayName,
-                            screenType: processApiSiteSetting.ScreenType?.ToEnum<Process.ScreenTypes>(),
-                            currentStatus: processApiSiteSetting.CurrentStatus != null ? (int)Enum.Parse<Process.Status>(processApiSiteSetting.CurrentStatus) : null,
-                            changedStatus: processApiSiteSetting.ChangedStatus != null ? (int)Enum.Parse<Process.Status>(processApiSiteSetting.ChangedStatus) : null,
-                            description: processApiSiteSetting.Description,
-                            tooltip: processApiSiteSetting.Tooltip,
-                            confirmationMessage: processApiSiteSetting.ConfirmationMessage,
-                            successMessage: processApiSiteSetting.SuccessMessage,
-                            onClick: processApiSiteSetting.OnClick,
-                            executionType: processApiSiteSetting.ExecutionType?.ToEnum<Process.ExecutionTypes>(),
-                            actionType: processApiSiteSetting.ActionTypes?.ToEnum<Process.ActionTypes>(),
-                            allowBulkProcessing: processApiSiteSetting.AllowBulkProcessing,
-                            validationType: processApiSiteSetting.ValidationType?.ToEnum<Process.ValidationTypes>(),
-                            validateInputs: ParseValidateInputs(
-                                validateInputs: processApiSiteSetting.ValidateInputs,
-                                process: currentProcess),
-                            permissions: ParsePermissions(
-                                apiSettingPermission: processApiSiteSetting.Permission,
-                                ss: siteSetting),
-                            view: processApiSiteSetting.View,
-                            errorMessage: processApiSiteSetting.ErrorMessage,
-                            dataChanges: ParseDataChanges(
-                                dataChanges: processApiSiteSetting.DataChanges,
-                                process: currentProcess),
-                            autoNumbering: processApiSiteSetting.AutoNumbering,
-                            notifications: ParseNotifications(
-                                notifications: processApiSiteSetting.Notifications,
-                                process: currentProcess));
-                    }
-                    else
-                    {
-                        // Add new html site setting
-                        SiteSettings.Processes.Add(new Process(
-                            id: processApiSiteSetting.Id,
-                            name: processApiSiteSetting.Name,
-                            displayName: processApiSiteSetting.DisplayName,
-                            screenType: processApiSiteSetting.ScreenType.ToEnum<Process.ScreenTypes>(),
-                            currentStatus: processApiSiteSetting.CurrentStatus != null ? (int)Enum.Parse<Process.Status>(processApiSiteSetting.CurrentStatus) : default,
-                            changedStatus: processApiSiteSetting.ChangedStatus != null ? (int)Enum.Parse<Process.Status>(processApiSiteSetting.ChangedStatus) : default,
-                            description: processApiSiteSetting.Description,
-                            tooltip: processApiSiteSetting.Tooltip,
-                            confirmationMessage: processApiSiteSetting.ConfirmationMessage,
-                            successMessage: processApiSiteSetting.SuccessMessage,
-                            onClick: processApiSiteSetting.OnClick,
-                            executionType: processApiSiteSetting.ExecutionType.ToEnum<Process.ExecutionTypes>(),
-                            actionType: processApiSiteSetting.ActionTypes.ToEnum<Process.ActionTypes>(),
-                            allowBulkProcessing: processApiSiteSetting.AllowBulkProcessing,
-                            validationType: processApiSiteSetting.ValidationType.ToEnum<Process.ValidationTypes>(),
-                             validateInputs: ParseValidateInputs(
-                                validateInputs: processApiSiteSetting.ValidateInputs,
-                                process: currentProcess),
-                            permissions: ParsePermissions(
-                                apiSettingPermission: processApiSiteSetting.Permission,
-                                ss: siteSetting),
-                            view: processApiSiteSetting.View,
-                            errorMessage: processApiSiteSetting.ErrorMessage,
-                            dataChanges: ParseDataChanges(
-                                dataChanges: processApiSiteSetting.DataChanges,
-                                process: currentProcess),
-                            autoNumbering: processApiSiteSetting.AutoNumbering,
-                            notifications: ParseNotifications(
-                                notifications: processApiSiteSetting.Notifications,
-                                process: currentProcess)));
-                    }
+                    SiteSettings.Processes.Add(new Process(
+                        id: processApiSiteSetting.Id,
+                        name: processApiSiteSetting.Name,
+                        displayName: processApiSiteSetting.DisplayName,
+                        screenType: processApiSiteSetting.ScreenType.ToEnum<Process.ScreenTypes>(),
+                        currentStatus: processApiSiteSetting.CurrentStatus != null ? (int)Enum.Parse<Process.Status>(processApiSiteSetting.CurrentStatus) : default,
+                        changedStatus: processApiSiteSetting.ChangedStatus != null ? (int)Enum.Parse<Process.Status>(processApiSiteSetting.ChangedStatus) : default,
+                        description: processApiSiteSetting.Description,
+                        tooltip: processApiSiteSetting.Tooltip,
+                        confirmationMessage: processApiSiteSetting.ConfirmationMessage,
+                        successMessage: processApiSiteSetting.SuccessMessage,
+                        onClick: processApiSiteSetting.OnClick,
+                        executionType: processApiSiteSetting.ExecutionType.ToEnum<Process.ExecutionTypes>(),
+                        actionType: processApiSiteSetting.ActionTypes.ToEnum<Process.ActionTypes>(),
+                        allowBulkProcessing: processApiSiteSetting.AllowBulkProcessing,
+                        validationType: processApiSiteSetting.ValidationType.ToEnum<Process.ValidationTypes>(),
+                         validateInputs: ParseValidateInputs(
+                            validateInputs: processApiSiteSetting.ValidateInputs,
+                            process: currentProcess),
+                        permissions: ParsePermissions(
+                            apiSettingPermission: processApiSiteSetting.Permission,
+                            ss: siteSetting),
+                        view: processApiSiteSetting.View,
+                        errorMessage: processApiSiteSetting.ErrorMessage,
+                        dataChanges: ParseDataChanges(
+                            dataChanges: processApiSiteSetting.DataChanges,
+                            process: currentProcess),
+                        autoNumbering: processApiSiteSetting.AutoNumbering,
+                        notifications: ParseNotifications(
+                            notifications: processApiSiteSetting.Notifications,
+                            process: currentProcess)));
                 }
             });
-            // Check has deleted
             if (deleteSelected.Count() != 0)
             {
                 siteSetting.Processes.Delete(deleteSelected);
@@ -2651,74 +2647,48 @@ namespace Implem.Pleasanter.Models
 
         public void UpsertStatusControlByApi(
             SiteSettings siteSetting,
-            List<ApiSiteSettings.StatusControlApiSettingModel> statusControlApiSiteSetting,
+            List<ApiSiteSettings.StatusControlApiSettingModel> statusControlSettings,
             Context context)
         {
             List<int> deleteSelected = new List<int>();
-            statusControlApiSiteSetting.ForEach(statusControlApiSiteSetting =>
+            statusControlSettings.ForEach(statusControlSetting =>
             {
-                //var columnHash = JsonConvert.DeserializeObject<Dictionary<string, StatusControl.ControlConstraintsTypes>>(statusControlApiSiteSetting.ColumnHash);
-                SiteSettings.StatusControls.Add(new StatusControl(
-                    id: statusControlApiSiteSetting.Id,
-                    name: statusControlApiSiteSetting.Name,
-                    description: statusControlApiSiteSetting.Description,
-                    status: (int)Enum.Parse<Process.Status>(statusControlApiSiteSetting.Status),
-                    readOnly: statusControlApiSiteSetting.ReadOnly,
-                    view: statusControlApiSiteSetting.View,
-                    columnHash: statusControlApiSiteSetting.ColumnHash,
-                    permissions: ProcessPermissions(context: context)));
-                //var currentHtml = siteSetting.Htmls?.
-                //     FirstOrDefault(o => o.Id == htmlApiSiteSetting.Id.ToInt());
-                //if (htmlApiSiteSetting.Delete.ToInt() == ApiSiteSetting.DeleteFlag.IsDelete.ToInt())
-                //{
-                //    deleteSelected.Add(htmlApiSiteSetting.Id.ToInt());
-                //}
-                //else
-                //{
-                //    if (currentHtml != null)
-                //    {
-                //        // Update html site setting
-                //        currentHtml.Update(
-                //            title: htmlApiSiteSetting.Title,
-                //            positionType: htmlApiSiteSetting.HtmlPositionType.ToEnum<Html.PositionTypes>(),
-                //            all: htmlApiSiteSetting.HtmlAll,
-                //            _new: htmlApiSiteSetting.HtmlNew,
-                //            edit: htmlApiSiteSetting.HtmlEdit,
-                //            index: htmlApiSiteSetting.HtmlIndex,
-                //            calendar: htmlApiSiteSetting.HtmlCalendar,
-                //            crosstab: htmlApiSiteSetting.HtmlCrosstab,
-                //            gantt: htmlApiSiteSetting.HtmlGantt,
-                //            burnDown: htmlApiSiteSetting.HtmlBurnDown,
-                //            timeSeries: htmlApiSiteSetting.HtmlTimeSeries,
-                //            kamban: htmlApiSiteSetting.HtmlKamban,
-                //            imageLib: htmlApiSiteSetting.HtmlImageLib,
-                //            disabled: htmlApiSiteSetting.Disabled,
-                //            body: htmlApiSiteSetting.Body);
-                //    }
-                //    else
-                //    {
-                //        // Add new html site setting
-                //        SiteSettings.Htmls.Add(new Html(
-                //            id: htmlApiSiteSetting.Id,
-                //            title: htmlApiSiteSetting.Title,
-                //            positionType: htmlApiSiteSetting.HtmlPositionType.ToEnum<Html.PositionTypes>(),
-                //            all: htmlApiSiteSetting.HtmlAll,
-                //            _new: htmlApiSiteSetting.HtmlNew,
-                //            edit: htmlApiSiteSetting.HtmlEdit,
-                //            index: htmlApiSiteSetting.HtmlIndex,
-                //            calendar: htmlApiSiteSetting.HtmlCalendar,
-                //            crosstab: htmlApiSiteSetting.HtmlCrosstab,
-                //            gantt: htmlApiSiteSetting.HtmlGantt,
-                //            burnDown: htmlApiSiteSetting.HtmlBurnDown,
-                //            timeSeries: htmlApiSiteSetting.HtmlTimeSeries,
-                //            kamban: htmlApiSiteSetting.HtmlKamban,
-                //            imageLib: htmlApiSiteSetting.HtmlImageLib,
-                //            disabled: htmlApiSiteSetting.Disabled,
-                //            body: htmlApiSiteSetting.Body));
-                //    }
-                //}
+                var statusControl = siteSetting.StatusControls?.
+                     FirstOrDefault(o => o.Id == statusControlSetting.Id.ToInt());
+                if (statusControlSetting.Delete.ToInt() == ApiSiteSetting.DeleteFlag.IsDelete.ToInt())
+                {
+                    deleteSelected.Add(statusControlSetting.Id.ToInt());
+                }
+                else if (statusControl != null)
+                {
+                    statusControl.Update(
+                     name: statusControlSetting.Name,
+                     description: statusControlSetting.Description,
+                     status: statusControlSetting.Status != null ? (int)Enum.Parse<Process.Status>(statusControlSetting.Status) : null,
+                     readOnly: statusControlSetting.ReadOnly,
+                     view: statusControlSetting.View,
+                     columnHash: statusControlSetting.ColumnHash,
+                     permissions: statusControlSetting.Permission != null ? ParsePermissions(
+                            apiSettingPermission: statusControlSetting.Permission,
+                            ss: siteSetting,
+                            target: statusControl) : null);
+                }
+                else
+                {
+                    SiteSettings.StatusControls.Add(new StatusControl(
+                     id: statusControlSetting.Id,
+                     name: statusControlSetting.Name,
+                     description: statusControlSetting.Description,
+                     status: (int)Enum.Parse<Process.Status>(statusControlSetting.Status),
+                     readOnly: statusControlSetting.ReadOnly,
+                     view: statusControlSetting.View,
+                     columnHash: statusControlSetting.ColumnHash,
+                     permissions: ParsePermissions(
+                            apiSettingPermission: statusControlSetting.Permission,
+                            ss: siteSetting)));
+                }
+
             });
-            // Check has deleted
             if (deleteSelected.Count() != 0)
             {
                 siteSetting.StatusControls.Delete(deleteSelected);
@@ -8849,47 +8819,81 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        private List<Permission> ParsePermissions(ApiSiteSettingPermission apiSettingPermission, SiteSettings ss)
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private List<Permission> ParsePermissions(ApiSiteSettingPermission apiSettingPermission, SiteSettings ss, object target = null)
         {
-
             var permissions = new List<Permission>();
-
             if (apiSettingPermission == null) {
-                return null;
+                return permissions;
             }
-            if (apiSettingPermission.Users != null)
-            {
-                foreach (var id in apiSettingPermission.Users)
-                {
-                    permissions.Add(new Permission(
-                        ss: ss,
-                        name: "User",
-                        id: id));
-                }
-            }
-            if (apiSettingPermission.Groups != null)
-            {
-                foreach (var id in apiSettingPermission.Groups)
-                {
-                    permissions.Add(new Permission(
-                        ss: ss,
-                        name: "Group",
-                        id: id));
-                }
-            }
-            if (apiSettingPermission.Depts != null)
-            {
-                foreach (var id in apiSettingPermission.Depts)
-                {
-                    permissions.Add(new Permission(
+            apiSettingPermission.Users?.ForEach(id => permissions.Add(new Permission(
+                    ss: ss,
+                    name: "User",
+                    id: id)));
+            apiSettingPermission.Groups?.ForEach(id => permissions.Add(new Permission(
+                    ss: ss,
+                    name: "Group",
+                    id: id)));
+            apiSettingPermission.Depts?.ForEach(id => permissions.Add(new Permission(
                         ss: ss,
                         name: "Dept",
-                        id: id));
-                }
+                        id: id)));
+            switch (target)
+            {
+                case Process process when target.GetType().Name == nameof(Process):
+                    if (process.Users != null && apiSettingPermission.Users == null) {
+                        process.Users.ForEach(id => permissions.Add(new Permission(
+                            ss: ss,
+                            name: "User",
+                            id: id)));
+                    }
+                    if (process.Depts != null && apiSettingPermission.Depts == null)
+                    {
+                        process.Depts.ForEach(id => permissions.Add(new Permission(
+                            ss: ss,
+                            name: "Dept",
+                            id: id)));
+                    }
+                    if (process.Groups != null && apiSettingPermission.Groups == null)
+                    {
+                        process.Groups.ForEach(id => permissions.Add(new Permission(
+                            ss: ss,
+                            name: "Group",
+                            id: id)));
+                    }
+                    break;
+                case StatusControl statusControll when target.GetType().Name == nameof(StatusControl):
+                    if (statusControll.Users != null && apiSettingPermission.Users == null)
+                    {
+                        statusControll.Users.ForEach(id => permissions.Add(new Permission(
+                            ss: ss,
+                            name: "User",
+                            id: id)));
+                    }
+                    if (statusControll.Depts != null && apiSettingPermission.Depts == null)
+                    {
+                        statusControll.Depts.ForEach(id => permissions.Add(new Permission(
+                            ss: ss,
+                            name: "Dept",
+                            id: id)));
+                    }
+                    if (statusControll.Groups != null && apiSettingPermission.Groups == null)
+                    {
+                        statusControll.Groups.ForEach(id => permissions.Add(new Permission(
+                            ss: ss,
+                            name: "Group",
+                            id: id)));
+                    }
+                    break;
             }
             return permissions;
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private SettingList<ValidateInput> ParseValidateInputs(SettingList<ValidateInput> validateInputs, Process process)
         {
             var data = new SettingList<ValidateInput>();
@@ -8902,9 +8906,9 @@ namespace Implem.Pleasanter.Models
                     data.Add(o);
                 }
             });
-            if (process.ValidateInputs != null) {
+            if (process?.ValidateInputs != null) {
                 var requestIds = validateInputs.Select(o => o.Id).ToArray();
-                process.ValidateInputs.ForEach(o =>  {
+                process.ValidateInputs.ForEach(o => {
                     if (!requestIds.Contains(o.Id))
                     {
                         data.Add(o);
@@ -8914,6 +8918,9 @@ namespace Implem.Pleasanter.Models
             return data;
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private SettingList<DataChange> ParseDataChanges(SettingList<DataChange> dataChanges, Process process)
         {
             var data = new SettingList<DataChange>();
@@ -8927,7 +8934,7 @@ namespace Implem.Pleasanter.Models
                     data.Add(o);
                 }
             });
-            if (process.DataChanges != null)
+            if (process?.DataChanges != null)
             {
                 var requestIds = dataChanges.Select(o => o.Id).ToArray();
                 process.DataChanges.ForEach(o => {
@@ -8940,6 +8947,9 @@ namespace Implem.Pleasanter.Models
             return data;
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private SettingList<Notification> ParseNotifications(SettingList<Notification> notifications, Process process)
         {
             var data = new SettingList<Notification>();
@@ -8950,10 +8960,10 @@ namespace Implem.Pleasanter.Models
             notifications.ForEach(o => {
                 if (o.Delete != 1)
                 {
-                    notifications.Add(o);
+                    data.Add(o);
                 }
             });
-            if (process.Notifications != null)
+            if (process?.Notifications != null)
             {
                 var requestIds = notifications.Select(o => o.Id).ToArray();
                 process.Notifications.ForEach(o => {

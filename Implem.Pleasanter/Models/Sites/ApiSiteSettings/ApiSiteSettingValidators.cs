@@ -23,7 +23,6 @@ namespace Implem.Pleasanter.Models
                 return new ErrorData(type: Error.Types.NotFound);
             }
             ErrorData baseApiValidator;
-            // Check ReferenceType and validate ServerScripts
             if (ApiSiteSetting.ServerScriptRefTypes.Contains(referenceType) && siteSettingsModel.ServerScripts != null)
             {
                 var apiServerScripts = siteSettingsModel.ServerScripts;
@@ -34,7 +33,6 @@ namespace Implem.Pleasanter.Models
                     siteSettingType: "ServerScripts");
                 if (baseApiValidator.Type != Error.Types.None) { return baseApiValidator; }
             }
-            // Validate Scripts
             if (siteSettingsModel.Scripts != null)
             {
                 var  apiScripts = siteSettingsModel.Scripts;
@@ -45,7 +43,6 @@ namespace Implem.Pleasanter.Models
                     siteSettingType: "Scripts");
                 if (baseApiValidator.Type != Error.Types.None) { return baseApiValidator; }
             }
-            // Validate Htmls
             if (siteSettingsModel.Htmls != null)
             {
                 var apiHtmls = siteSettingsModel.Htmls;
@@ -56,7 +53,6 @@ namespace Implem.Pleasanter.Models
                     siteSettingType: "Htmls");
                 if (baseApiValidator.Type != Error.Types.None) { return baseApiValidator; }
             }
-            // Validate Styles
             if (siteSettingsModel.Styles != null)
             {
                 var apiStyles = siteSettingsModel.Styles;
@@ -67,16 +63,22 @@ namespace Implem.Pleasanter.Models
                     siteSettingType: "Styles");
                 if (baseApiValidator.Type != Error.Types.None) { return baseApiValidator; }
             }
-            // Validate Processes
             if (siteSettingsModel.Processes != null)
             {
-                var apiProcesses = siteSettingsModel.Processes;
                 baseApiValidator = ApiSiteSettingValidators.ProcessesValidator(
-                    processes: apiProcesses,
+                    processes: siteSettingsModel.Processes,
                     ss: ss,
                     context: context);
                 if (baseApiValidator.Type != Error.Types.None) { return baseApiValidator; }
             }
+            if (siteSettingsModel.StatusControls != null)
+            {
+                baseApiValidator = ApiSiteSettingValidators.StatusControlValidator(
+                    statusControls: siteSettingsModel.StatusControls,
+                    ss: ss,
+                    context: context);
+                if (baseApiValidator.Type != Error.Types.None) { return baseApiValidator; }
+            }            
             return new ErrorData(type: Error.Types.None);
         }
 
@@ -91,19 +93,15 @@ namespace Implem.Pleasanter.Models
             }
             foreach (var apiSiteSetting in apiSiteSettingBaseProperties)
             {
-                // Validate always required Id
                 if (apiSiteSetting.Id == null) return new ErrorData(type: Error.Types.NotFound);
-                // Validate Title is required in case update, create
                 if (apiSiteSetting.Delete.ToInt() != ApiSiteSetting.DeleteFlag.IsDelete.ToInt()
                      && string.IsNullOrEmpty(apiSiteSetting.Title))
                 {
                     return new ErrorData(type: Error.Types.NotFound);
                 }
-                // Validate HtmlPositionType value in case change Htmls setting
                 if (apiSiteSetting.Delete.ToInt() != ApiSiteSetting.DeleteFlag.IsDelete.ToInt()
                     && siteSettingType == "Htmls")
                 {
-                    // HtmlPositionType is required and valid value
                     if (string.IsNullOrEmpty(apiSiteSetting.HtmlPositionType)
                         || !Enum.IsDefined(typeof(Html.PositionTypes), apiSiteSetting.HtmlPositionType))
                     {
@@ -131,6 +129,13 @@ namespace Implem.Pleasanter.Models
                     {
                         case "Id":
                             if (value.ToInt() == 0)
+                            {
+                                valid = new ErrorData(type: Error.Types.NotFound);
+                                return;
+                            }
+                            break;
+                        case "Name":
+                            if (process.Delete != ApiSiteSetting.DeleteFlag.IsDelete.ToInt() && string.IsNullOrEmpty((string)value))
                             {
                                 valid = new ErrorData(type: Error.Types.NotFound);
                                 return;
@@ -224,9 +229,59 @@ namespace Implem.Pleasanter.Models
                             break;
                     }
                 }
-                //if (valid.Type != Error.Types.None) {
-                //    return valid;
-                //}
+            });
+            return valid;
+        }
+
+        public static ErrorData StatusControlValidator(
+                  List<StatusControlApiSettingModel> statusControls,
+                  SiteSettings ss,
+                  Context context)
+        {
+            var valid = new ErrorData(type: Error.Types.None);
+            statusControls.ForEach(statusControl =>
+            {
+                Type objectType = statusControl.GetType();
+                PropertyInfo[] properties = objectType.GetProperties();
+                foreach (var property in properties)
+                {
+                    var value = property.GetValue(statusControl);
+                    switch (property.Name)
+                    {
+                        case "Id":
+                            if (value.ToInt() == 0)
+                            {
+                                valid = new ErrorData(type: Error.Types.NotFound);
+                                return;
+                            }
+                            break;
+                        case "Name":
+                            if (statusControl.Delete != ApiSiteSetting.DeleteFlag.IsDelete.ToInt() && string.IsNullOrEmpty((string)value))
+                            {
+                                valid = new ErrorData(type: Error.Types.NotFound);
+                                return;
+                            }
+                            break;
+                        case "Delete":
+                            if (value != null && value.ToInt() != ApiSiteSetting.DeleteFlag.IsDelete.ToInt())
+                            {
+                                valid = new ErrorData(type: Error.Types.NotFound);
+                                return;
+                            }
+                            else if (value.ToInt() == ApiSiteSetting.DeleteFlag.IsDelete.ToInt())
+                            {
+                                return;
+                            }
+                            break;
+                        case "Status":
+                            if (value != null && !Enum.IsDefined(typeof(Process.Status), value))
+                            {
+                                valid = new ErrorData(type: Error.Types.NotFound);
+                                return;
+                            }
+                            break;
+                    }
+                }
             });
             return valid;
         }

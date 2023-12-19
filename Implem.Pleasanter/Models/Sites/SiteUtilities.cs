@@ -2359,7 +2359,6 @@ namespace Implem.Pleasanter.Models
                   errorData: invalid);
             }
             var siteSettingsApiModel = context.RequestDataString.Deserialize<ApiSiteSettings.SiteSettingsApiModel>();
-            // Validate SiteSetting Request
             var apiSiteSettingValidator = ApiSiteSettingValidators.OnChageSiteSettingByApi(
                 referenceType: siteModel.ReferenceType,
                 ss: ss,
@@ -2373,7 +2372,6 @@ namespace Implem.Pleasanter.Models
                       context: context,
                       errorData: apiSiteSettingValidator);
             }
-            // Change ServerScripts setting
             if (ApiSiteSetting.ServerScriptRefTypes.Contains(siteModel.ReferenceType)
                 && siteSettingsApiModel.ServerScripts != null)
             {
@@ -2381,28 +2379,24 @@ namespace Implem.Pleasanter.Models
                     siteSetting: ss,
                     serverScriptsApiSiteSetting: siteSettingsApiModel.ServerScripts);
             }
-            // Change Scripts setting
             if (siteSettingsApiModel.Scripts != null)
             {
                 siteModel.UpsertScriptByApi(
                     siteSetting: ss,
                     scriptsApiSiteSetting: siteSettingsApiModel.Scripts);
             }
-            // Change Styles setting
             if (siteSettingsApiModel.Styles != null)
             {
                 siteModel.UpsertStyleByApi(
                     siteSetting: ss,
                     styleApiSiteSetting: siteSettingsApiModel.Styles);
             }
-            // Change Htmls setting
             if (siteSettingsApiModel.Htmls != null)
             {
                 siteModel.UpsertHtmlByApi(
                     siteSetting: ss,
                     htmlsApiSiteSetting: siteSettingsApiModel.Htmls);
             }
-            // Change Processes setting
             if (siteSettingsApiModel.Processes != null)
             {
                 siteModel.UpsertProcessByApi(
@@ -2410,15 +2404,13 @@ namespace Implem.Pleasanter.Models
                     processesApiSiteSetting: siteSettingsApiModel.Processes,
                     context: context);
             }
-            // Change StatusControl setting
             if (siteSettingsApiModel.StatusControls != null)
             {
                 siteModel.UpsertStatusControlByApi(
                     siteSetting: ss,
-                    statusControlApiSiteSetting: siteSettingsApiModel.StatusControls,
+                    statusControlSettings: siteSettingsApiModel.StatusControls,
                     context: context);
             }
-            // Save all changes
             var errorData = siteModel.Update(
                context: context,
                ss: ss);
