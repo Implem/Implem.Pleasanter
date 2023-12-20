@@ -8599,6 +8599,9 @@ namespace Implem.Pleasanter.Models
                             o => o.Key, o => new ControlData(o.Value))));
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private void ClearDashboardKambanView(Context context, ResponseCollection res)
         {
             var currentSs = DashboardPart.GetBaseSiteSettings(
@@ -8629,13 +8632,6 @@ namespace Implem.Pleasanter.Models
                             view: new View(),
                             prefix: "DashboardPart",
                             currentTableOnly: true))
-                //.Html(
-                //    target: "#DashboardPartKambanGroupBy",
-                //    value: new HtmlBuilder()
-                //        .OptionCollection(
-                //            context: context,
-                //            optionCollection: currentSs.KambanGroupByOptions(context: context)?.ToDictionary(
-                //            o => o.Key, o => new ControlData(o.Value))))
                 .Html(
                     target: "#DashboardPartKambanValue",
                     value: new HtmlBuilder()
