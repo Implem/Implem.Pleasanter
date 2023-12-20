@@ -1778,6 +1778,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     {
                         start_date = 1;
                     }
+                    var datePart = start_date.split(' ')[0].toString().split('/');
                     if (isNaN(start_date))
                     {
                         if (isNaN(Date.parse(start_date)))
@@ -1812,6 +1813,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     if (isNaN(start_date.getTime()) || start_date.getFullYear() < 1900 || start_date.getFullYear() > 9999)
                     {
                         return 'Invalid Parameter';
+                    }
+                    if (datePart.length == 3 && datePart[2] != start_date.getDate())
+                    {
+                        return '#VALUE!';
                     }
                     var d = new Date(start_date.getFullYear(), start_date.getMonth() + Number(months) + 1, 0);
                     if (isNaN(d.getTime()) || d.getFullYear() < 1900 || d.getFullYear() > 9999)
