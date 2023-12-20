@@ -1393,7 +1393,7 @@ namespace Implem.Pleasanter.Models
                     target: $"#DashboardPart_{dashboardPartId}",
                     value: dashboardPartLayout.FirstOrDefault())
                 .Invoke("setCalendar", dashboardPartId.ToString())
-                .Invoke("setKamban")
+                .Invoke("setKamban", dashboardPartId.ToString())
                 .ToJson();
         }
 
@@ -2459,7 +2459,7 @@ namespace Implem.Pleasanter.Models
                             : Messages.Updated(
                                 context: context,
                                 data: issueModel.Title.MessageDisplay(context: context)))
-                        .Invoke("setKamban")
+                        .Invoke("setKamban", dashboardPart.Id.ToString())
                         .ToJson();
                 case "Results":
                     var results = ResultUtilities.UpdateByKamban(context: context, ss: currentSs);

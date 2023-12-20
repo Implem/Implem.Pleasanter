@@ -1,39 +1,46 @@
-﻿$p.setKamban = function () {
+﻿$p.setKamban = function (suffix) {
+    var suffixElArr = $('#MainForm').find('div[id^="KambanBody_"].kambanbody').get();
+    if (suffix) {
+        suffixElArr = $('#MainForm').find('div[id="KambanBody_' + suffix + '"].kambanbody').get();
+    }
     $('.kambanbody').addClass('no-drag');
     $('#KambanValueField').toggle($('#KambanAggregateType').val() !== 'Count');
-    $('.kambanbody .kamban-item').draggable({
-        revert: 'invalid',
-        start: function () {
-            $(this).parent().droppable({
-                disabled: true
-            });
-        }
-    });
-    $('.kambanbody .kamban-container').droppable({
-        hoverClass: 'hover',
-        tolerance: 'intersect',
-        drop: function (e, ui) {
-            $p.clearData();
-            var control = ui.draggable;
-            var kambanSuffix = control.parents('[id^="Kamban"]')[0].id.substring(control.parents('[id^="Kamban"]')[0].id.indexOf('_'));
-            kambanSuffix = kambanSuffix.indexOf('_') === -1 ? '' : kambanSuffix;
-            var data = $p.getData($('.main-form'));
-            var tableNamePrefix = $('#KambanReferenceType' + kambanSuffix).val() + '_';
-            var dataX = $(this).attr('data-x');
-            var dataY = $(this).attr('data-y');
-            data["KambanId"] = $(control).attr('data-id');
-            if (dataX !== undefined) {
-                data[tableNamePrefix + $('#KambanGroupByX' + kambanSuffix).val()] = dataX;
+    $(suffixElArr).each(function (index, value) {
+        var kambanSuffix = value.id.substring(value.id.indexOf('_'));
+        kambanSuffix = kambanSuffix.indexOf('_') === -1 ? '' : kambanSuffix;
+        $('#KambanBody' + kambanSuffix + ' .ui-widget-header').first().addClass('dashboard-kamben-header');
+        $('#KambanBody' + kambanSuffix + ' .kamban-item').draggable({
+            revert: 'invalid',
+            start: function () {
+                $(this).parent().droppable({
+                    disabled: true
+                });
             }
-            if (dataY !== undefined) {
-                data[tableNamePrefix + $('#KambanGroupByY' + kambanSuffix).val()] = dataY;
+        });
+        $('#KambanBody' + kambanSuffix + ' .kamban-container').droppable({
+            hoverClass: 'hover',
+            tolerance: 'intersect',
+            drop: function (e, ui) {
+                $p.clearData();
+                var control = ui.draggable;
+                var data = $p.getData($('.main-form'));
+                var tableNamePrefix = $('#KambanReferenceType' + kambanSuffix).val() + '_';
+                var dataX = $(this).attr('data-x');
+                var dataY = $(this).attr('data-y');
+                data["KambanId"] = $(control).attr('data-id');
+                if (dataX !== undefined) {
+                    data[tableNamePrefix + $('#KambanGroupByX' + kambanSuffix).val()] = dataX;
+                }
+                if (dataY !== undefined) {
+                    data[tableNamePrefix + $('#KambanGroupByY' + kambanSuffix).val()] = dataY;
+                }
+                if (kambanSuffix !== '') {
+                    data.SiteId = control.attr('data-siteid');
+                }
+                $p.set($('#KambanSuffix' + kambanSuffix), $('#KambanSuffix' + kambanSuffix).val());
+                $p.send($('#KambanBody' + kambanSuffix));
             }
-            if (kambanSuffix !== '') {
-                data.SiteId = control.attr('data-siteid'); 
-            }
-            $p.set($('#KambanSuffix' + kambanSuffix), $('#KambanSuffix' + kambanSuffix).val());
-            $p.send($('#KambanBody' + kambanSuffix));
-        }
+        })
     });
     $('[id^="KambanBody_"] .kamban-item').each(function () {
         let offsetX, offsetY;
