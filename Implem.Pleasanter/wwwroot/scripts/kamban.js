@@ -1,5 +1,5 @@
 ﻿$p.setKamban = function () {
-    $('.kamban').addClass('no-drag');
+    $('.kambanbody').addClass('no-drag');
     $('#KambanValueField').toggle($('#KambanAggregateType').val() !== 'Count');
     $('.kambanbody .kamban-item').draggable({
         revert: 'invalid',
@@ -28,8 +28,10 @@
             if (dataY !== undefined) {
                 data[tableNamePrefix + $('#KambanGroupByY' + kambanSuffix).val()] = dataY;
             }
+            if (kambanSuffix !== '') {
+                data.SiteId = control.attr('data-siteid'); 
+            }
             $p.set($('#KambanSuffix' + kambanSuffix), $('#KambanSuffix' + kambanSuffix).val());
-            data.SiteId = control.attr('data-siteid');
             $p.send($('#KambanBody' + kambanSuffix));
         }
     });
