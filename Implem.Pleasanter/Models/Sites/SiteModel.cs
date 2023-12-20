@@ -8130,6 +8130,7 @@ namespace Implem.Pleasanter.Models
                 calendarFromTo: context.Forms.Data("DashboardPartCalendarFromTo"),
                 calendarShowStatus: context.Forms.Bool("CalendarShowStatus"),
                 calendarType: context.Forms.Data("DashboardPartCalendarType").ToEnum<SiteSettings.CalendarTypes>(),
+                indexSites: context.Forms.Data("DashboardPartIndexSites"),
                 extendedCss: context.Forms.Data("DashboardPartExtendedCss"),
                 disableAsynchronousLoading: context.Forms.Bool("DisableAsynchronousLoading"),
                 permissions: DashboardPartPermissions(context: context));
@@ -8195,6 +8196,7 @@ namespace Implem.Pleasanter.Models
                 calendarFromTo: context.Forms.Data("DashboardPartCalendarFromTo"),
                 calendarShowStatus: context.Forms.Bool("CalendarShowStatus"),
                 calendarType: context.Forms.Data("DashboardPartCalendarType").ToEnum<SiteSettings.CalendarTypes>(),
+                indexSites: context.Forms.Data("DashboardPartIndexSites"),
                 extendedCss: context.Forms.Data("DashboardPartExtendedCss"),
                 disableAsynchronousLoading: context.Forms.Bool("DisableAsynchronousLoading"),
                 permissions: DashboardPartPermissions(context: context));
