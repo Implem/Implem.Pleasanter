@@ -26,6 +26,15 @@ namespace Implem.Pleasanter.Libraries.Settings
             InputDept
         }
 
+        public enum Periods
+        {
+            Days,
+            Months,
+            Years,
+            Hours,
+            Minutes,
+            Seconds
+        }
         public int Id { get; set; }
         public Types Type { get; set; }
         public string ColumnName { get; set; }

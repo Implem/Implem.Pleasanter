@@ -19,7 +19,7 @@ namespace Implem.Pleasanter.Models.ApiSiteSettings
         public string SuccessMessage { get; set; }
         public string OnClick { get; set; }
         public string ExecutionType { get; set; }
-        public string ActionTypes { get; set; }
+        public string ActionType { get; set; }
         public bool? AllowBulkProcessing { get; set; }
         public string ValidationType { get; set; }
         public SettingList<ValidateInput> ValidateInputs { get; set; }

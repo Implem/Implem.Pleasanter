@@ -159,6 +159,13 @@ namespace Implem.Pleasanter.Models
                                 return;
                             }
                             break;
+                        case "ActionType":
+                            if (value != null && !Enum.IsDefined(typeof(Process.ActionTypes), value))
+                            {
+                                valid = new ErrorData(type: Error.Types.NotFound);
+                                return;
+                            }
+                            break;
                         case "CurrentStatus":
                         case "ChangedStatus":
                             if (value != null && !Enum.IsDefined(typeof(Process.Status), value))
@@ -181,13 +188,25 @@ namespace Implem.Pleasanter.Models
                                 return;
                             }
                             break;
+                        case "AutoNumbering":
+                            if (value != null && !Enum.IsDefined(typeof(Column.AutoNumberingResetTypes), process.AutoNumbering.ResetType))
+                            {
+                                valid = new ErrorData(type: Error.Types.NotFound);
+                                return;
+                            }
+                            break;
                         case "ValidateInputs":
                             if (process.ValidateInputs != null)
                             {
                                 foreach (var validateInput in process.ValidateInputs)
                                 {
+                                    if (validateInput.Delete.ToInt() == ApiSiteSetting.DeleteFlag.IsDelete.ToInt())
+                                    {
+                                        continue;
+                                    }
                                     if (validateInput.Id.ToInt() == 0
-                                        || (validateInput.Delete != null && validateInput.Delete.ToInt() != ApiSiteSetting.DeleteFlag.IsDelete.ToInt()))
+                                        || (validateInput.Delete != null && validateInput.Delete.ToInt() != ApiSiteSetting.DeleteFlag.IsDelete.ToInt())
+                                        || string.IsNullOrEmpty(validateInput.ColumnName))
                                     {
                                         valid = new ErrorData(type: Error.Types.NotFound);
                                         return;
@@ -200,9 +219,20 @@ namespace Implem.Pleasanter.Models
                             {
                                 foreach (var dataChange in process.DataChanges)
                                 {
+                                    if (dataChange.Delete.ToInt() == ApiSiteSetting.DeleteFlag.IsDelete.ToInt())
+                                    {
+                                        continue;
+                                    }
                                     if (dataChange.Id.ToInt() == 0
                                         || (dataChange.Delete != null && dataChange.Delete.ToInt() != ApiSiteSetting.DeleteFlag.IsDelete.ToInt())
-                                        || !Enum.IsDefined(typeof(DataChange.Types), dataChange.Type))
+                                        || string.IsNullOrEmpty(dataChange.Type.ToString())
+                                        || string.IsNullOrEmpty(dataChange.ColumnName))
+                                    {
+                                        valid = new ErrorData(type: Error.Types.NotFound);
+                                        return;
+                                    }
+                                    if ((dataChange.Type.ToString() == "InputDate" || dataChange.Type.ToString() == "InputDateTime")
+                                        && (string.IsNullOrEmpty(dataChange.Value) || !Enum.IsDefined(typeof(DataChange.Periods), dataChange.Value?.Split_2nd())))
                                     {
                                         valid = new ErrorData(type: Error.Types.NotFound);
                                         return;
@@ -215,6 +245,10 @@ namespace Implem.Pleasanter.Models
                             {
                                 foreach (var notification in process.Notifications)
                                 {
+                                    if (notification.Delete.ToInt() == ApiSiteSetting.DeleteFlag.IsDelete.ToInt())
+                                    {
+                                        continue;
+                                    }
                                     if (notification.Id.ToInt() == 0
                                         || (notification.Delete != null && notification.Delete.ToInt() != ApiSiteSetting.DeleteFlag.IsDelete.ToInt())
                                         || string.IsNullOrEmpty(notification.Subject)
