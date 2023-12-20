@@ -74,28 +74,51 @@ namespace Implem.Pleasanter.Libraries.Models
             string parentClass = "",
             List<long> parentIds = null)
         {
-            var column = SearchDropDownColumn(
-                context: context,
-                ss: ss,
-                controlId: controlId,
-                referenceId: referenceId,
-                searchText: string.Empty,
-                parentClass: parentClass,
-                parentIds: parentIds);
-            var nextOffset = Paging.NextOffset(
-                offset: 0,
-                totalCount: column.TotalCount,
-                pageSize: Parameters.General.DropDownSearchPageSize);
-            return new ResponseCollection(context: context)
-                .Html(
-                    "#DropDownSearchDialogBody",
-                    new HtmlBuilder().DropDownSearchDialogBody(
+            if (controlId == "InheritPermission")
+            {
+                var nextOffset = Paging.NextOffset(
+                    offset: 0,
+                    totalCount: PermissionUtilities.CountInheritTargets(
                         context: context,
-                        column: column,
-                        filter: filter))
-                .Val("#DropDownSearchResultsOffset", nextOffset)
-                .ClearFormData("DropDownSearchResults")
-                .ToJson();
+                        ss: ss),
+                    pageSize: Parameters.General.DropDownSearchPageSize);
+                return new ResponseCollection(context: context)
+                    .Html(
+                        "#DropDownSearchDialogBody",
+                        new HtmlBuilder().DropDownSearchDialogBodyInheritPermission(
+                            context: context,
+                            ss: ss,
+                            offset: 0,
+                            pageSize: Parameters.General.DropDownSearchPageSize))
+                    .Val("#DropDownSearchResultsOffset", nextOffset)
+                    .ClearFormData("DropDownSearchResults")
+                    .ToJson();
+            }
+            else
+            {
+                var column = SearchDropDownColumn(
+                    context: context,
+                    ss: ss,
+                    controlId: controlId,
+                    referenceId: referenceId,
+                    searchText: string.Empty,
+                    parentClass: parentClass,
+                    parentIds: parentIds);
+                var nextOffset = Paging.NextOffset(
+                    offset: 0,
+                    totalCount: column.TotalCount,
+                    pageSize: Parameters.General.DropDownSearchPageSize);
+                return new ResponseCollection(context: context)
+                    .Html(
+                        "#DropDownSearchDialogBody",
+                        new HtmlBuilder().DropDownSearchDialogBody(
+                            context: context,
+                            column: column,
+                            filter: filter))
+                    .Val("#DropDownSearchResultsOffset", nextOffset)
+                    .ClearFormData("DropDownSearchResults")
+                    .ToJson();
+            }
         }
 
         private static string SearchDropDownSelectable(
@@ -108,37 +131,64 @@ namespace Implem.Pleasanter.Libraries.Models
             string parentClass = "",
             List<long> parentIds = null)
         {
-            var column = SearchDropDownColumn(
-                context: context,
-                ss: ss,
-                controlId: controlId,
-                referenceId: referenceId,
-                searchText: searchText,
-                parentClass: parentClass,
-                parentIds: parentIds);
-            var nextOffset = Paging.NextOffset(
-                offset: 0,
-                totalCount: column.TotalCount,
-                pageSize: Parameters.General.DropDownSearchPageSize);
-            var selectedValues = (column?.MultipleSelections == true || filter)
-                ? context.Forms.List("DropDownSearchResultsAll")
-                : new List<string>();
-            return new ResponseCollection(context: context)
-                .Html(
-                    (column?.MultipleSelections == true || filter)
-                        ? "#DropDownSearchSourceResults"
-                        : "#DropDownSearchResults",
-                    new HtmlBuilder().SelectableItems(
-                        listItemCollection: column?.EditChoices(
-                            context: context,
-                            addNotSet: true,
-                            own: filter)
-                                .Where(o => !selectedValues.Contains(o.Key))
-                                .ToDictionary(o => o.Key, o => o.Value),
-                        alwaysDataValue: true))
-                .Val("#DropDownSearchResultsOffset", nextOffset)
-                .ClearFormData("DropDownSearchResults")
-                .ToJson();
+            if (controlId == "InheritPermission")
+            {
+                var nextOffset = Paging.NextOffset(
+                    offset: 0,
+                    totalCount: PermissionUtilities.CountInheritTargets(
+                        context: context,
+                        ss: ss,
+                        searchText: searchText),
+                    pageSize: Parameters.General.DropDownSearchPageSize);
+                return new ResponseCollection(context: context)
+                    .Html(
+                        "#DropDownSearchResults",
+                        new HtmlBuilder().SelectableItems(
+                            listItemCollection: PermissionUtilities.InheritTargets(
+                                context: context,
+                                ss: ss,
+                                offset: 0,
+                                pageSize: Parameters.General.DropDownSearchPageSize,
+                                searchText: searchText),
+                            alwaysDataValue: true))
+                    .Val("#DropDownSearchResultsOffset", nextOffset)
+                    .ClearFormData("DropDownSearchResults")
+                    .ToJson();
+            }
+            else
+            {
+                var column = SearchDropDownColumn(
+                    context: context,
+                    ss: ss,
+                    controlId: controlId,
+                    referenceId: referenceId,
+                    searchText: searchText,
+                    parentClass: parentClass,
+                    parentIds: parentIds);
+                var nextOffset = Paging.NextOffset(
+                    offset: 0,
+                    totalCount: column.TotalCount,
+                    pageSize: Parameters.General.DropDownSearchPageSize);
+                var selectedValues = (column?.MultipleSelections == true || filter)
+                    ? context.Forms.List("DropDownSearchResultsAll")
+                    : new List<string>();
+                return new ResponseCollection(context: context)
+                    .Html(
+                        (column?.MultipleSelections == true || filter)
+                            ? "#DropDownSearchSourceResults"
+                            : "#DropDownSearchResults",
+                        new HtmlBuilder().SelectableItems(
+                            listItemCollection: column?.EditChoices(
+                                context: context,
+                                addNotSet: true,
+                                own: filter)
+                                    .Where(o => !selectedValues.Contains(o.Key))
+                                    .ToDictionary(o => o.Key, o => o.Value),
+                            alwaysDataValue: true))
+                    .Val("#DropDownSearchResultsOffset", nextOffset)
+                    .ClearFormData("DropDownSearchResults")
+                    .ToJson();
+            }
         }
 
         private static string AppendSearchDropDownSelectable(
@@ -151,35 +201,59 @@ namespace Implem.Pleasanter.Libraries.Models
             string parentClass = "",
             List<long> parentIds = null)
         {
-            var offset = context.Forms.Int("DropDownSearchResultsOffset");
-            var column = SearchDropDownColumn(
-                context: context,
-                ss: ss,
-                controlId: controlId,
-                referenceId: referenceId,
-                searchText: searchText,
-                offset: offset,
-                parentClass: parentClass,
-                parentIds: parentIds);
-            var nextOffset = Paging.NextOffset(
-                offset: offset,
-                totalCount: column.TotalCount,
-                pageSize: Parameters.General.DropDownSearchPageSize);
-            var selectedValues = column?.MultipleSelections == true
-                ? context.Forms.List("DropDownSearchResultsAll")
-                : new List<string>();
-            return new ResponseCollection(context: context)
-                .Append(
-                    "#" + context.Forms.ControlId(),
-                    new HtmlBuilder().SelectableItems(
-                        listItemCollection: column?.EditChoices(
-                            context: context,
-                            addNotSet: offset == 0,
-                            own: filter)
-                                .Where(o => !selectedValues.Contains(o.Key))
-                                .ToDictionary(o => o.Key, o => o.Value)))
-                .Val("#DropDownSearchResultsOffset", nextOffset)
-                .ToJson();
+
+            if (controlId == "InheritPermission")
+            {
+                var offset = context.Forms.Int("DropDownSearchResultsOffset");
+                var nextOffset = Paging.NextOffset(
+                    offset: offset,
+                    totalCount: PermissionUtilities.CountInheritTargets(context, ss, searchText),
+                    pageSize: Parameters.General.DropDownSearchPageSize);
+                return new ResponseCollection(context: context)
+                    .Append(
+                        "#" + context.Forms.ControlId(),
+                        new HtmlBuilder().SelectableItems(
+                            listItemCollection: PermissionUtilities.InheritTargets(
+                                context: context,
+                                ss: ss,
+                                offset: offset,
+                                pageSize: Parameters.General.DropDownSearchPageSize,
+                                searchText: searchText)))
+                    .Val("#DropDownSearchResultsOffset", nextOffset)
+                    .ToJson();
+            }
+            else
+            {
+                var offset = context.Forms.Int("DropDownSearchResultsOffset");
+                var column = SearchDropDownColumn(
+                    context: context,
+                    ss: ss,
+                    controlId: controlId,
+                    referenceId: referenceId,
+                    searchText: searchText,
+                    offset: offset,
+                    parentClass: parentClass,
+                    parentIds: parentIds);
+                var nextOffset = Paging.NextOffset(
+                    offset: offset,
+                    totalCount: column.TotalCount,
+                    pageSize: Parameters.General.DropDownSearchPageSize);
+                var selectedValues = column?.MultipleSelections == true
+                    ? context.Forms.List("DropDownSearchResultsAll")
+                    : new List<string>();
+                return new ResponseCollection(context: context)
+                    .Append(
+                        "#" + context.Forms.ControlId(),
+                        new HtmlBuilder().SelectableItems(
+                            listItemCollection: column?.EditChoices(
+                                context: context,
+                                addNotSet: offset == 0,
+                                own: filter)
+                                    .Where(o => !selectedValues.Contains(o.Key))
+                                    .ToDictionary(o => o.Key, o => o.Value)))
+                    .Val("#DropDownSearchResultsOffset", nextOffset)
+                    .ToJson();
+            }
         }
 
         public static string RelatingDropDown(
@@ -298,6 +372,16 @@ namespace Implem.Pleasanter.Libraries.Models
                 return new ResponseCollection(context: context)
                     .Message(Messages.SelectOne(context: context))
                     .ToJson();
+            }
+            else if (controlId == "InheritPermission")
+            {
+                return SelectSearchInheritPermissionDropDownResponse(
+                    context: context,
+                    ss: ss,
+                    controlId: controlId,
+                    selected: selected,
+                    filter: filter,
+                    multiple: multiple);
             }
             else
             {
@@ -481,6 +565,38 @@ namespace Implem.Pleasanter.Libraries.Models
                             insertBlank: !filter))
                     .Invoke("setDropDownSearch")
                     .Trigger("#" + controlId, "change")
+                    .ToJson()
+                : new ResponseCollection(context: context)
+                    .Message(Messages.NotFound(context: context))
+                    .ToJson();
+        }
+
+        private static string SelectSearchInheritPermissionDropDownResponse(
+            Context context,
+            SiteSettings ss,
+            string controlId,
+            List<string> selected,
+            bool filter,
+            bool multiple)
+        {
+            var optionCollection = PermissionUtilities.InheritTargets(
+                context: context,
+                ss: ss);
+            return optionCollection?.Any() == true || !selected.Any()
+                ? new ResponseCollection(context: context)
+                    .CloseDialog("#DropDownSearchDialog")
+                    .Html("[id=\"" + controlId + "\"]", new HtmlBuilder()
+                        .OptionCollection(
+                            context: context,
+                            optionCollection: optionCollection,
+                            selectedValue: SelectSearchDropDownSelectedValue(
+                                context: context,
+                                selected: selected,
+                                filter: filter,
+                                multiple: multiple),
+                            multiple: multiple,
+                            insertBlank: !filter))
+                    .Invoke("setDropDownSearch")
                     .ToJson()
                 : new ResponseCollection(context: context)
                     .Message(Messages.NotFound(context: context))

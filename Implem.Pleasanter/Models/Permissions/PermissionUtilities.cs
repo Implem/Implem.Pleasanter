@@ -164,7 +164,7 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     controlId: "InheritPermission",
                     fieldCss: "field-auto-thin",
-                    controlCss: " auto-postback",
+                    controlCss: " auto-postback search",
                     labelText: Displays.InheritPermission(context: context),
                     optionCollection: InheritTargets(
                         context: context,
@@ -178,13 +178,20 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static Dictionary<string, ControlData> InheritTargets(
-            Context context, SiteSettings ss)
+        public static Dictionary<string, ControlData> InheritTargets(
+            Context context, SiteSettings ss, int offset = 0, int pageSize = 0, string searchText = "")
         {
-            return new Dictionary<string, ControlData>
+            Dictionary<string, ControlData> result = new Dictionary<string, ControlData>();
+            if (offset == 0)
             {
-                { ss.SiteId.ToString(), new ControlData(Displays.NotInheritPermission(context: context)) },
-            }.AddRange(InheritTargetsDataRows(context: context, ss: ss)
+                result.Add(ss.SiteId.ToString(), new ControlData(Displays.NotInheritPermission(context: context)));
+            }
+            return result.AddRange(InheritTargetsDataRows(
+                context: context,
+                ss: ss,
+                offset: offset,
+                pageSize: pageSize,
+                searchText: searchText)
                 .ToDictionary(
                     o => o["SiteId"].ToString(),
                     o => new ControlData($"[{o["SiteId"]}] {o["Title"]}")));
@@ -194,11 +201,13 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         public static EnumerableRowCollection<DataRow> InheritTargetsDataRows(
-            Context context, SiteSettings ss)
+            Context context, SiteSettings ss, int offset = 0, int pageSize = 0, string searchText = "")
         {
             return Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectSites(
+                    offset: offset,
+                    pageSize: pageSize,
                     column: Rds.SitesColumn()
                         .SiteId()
                         .Title(),
@@ -209,11 +218,49 @@ namespace Implem.Pleasanter.Models
                         .InheritPermission(raw: "\"Sites\".\"SiteId\"")
                         .Add(
                             raw: Def.Sql.CanReadSites,
-                            _using: !context.HasPrivilege),
+                            _using: !context.HasPrivilege)
+                        .SqlWhereLike(
+                        tableName: "Sites",
+                        name: "SearchText",
+                        searchText: searchText,
+                        clauseCollection: new List<string>()
+                        {
+                            Rds.Sites_Title_WhereLike(factory: context),
+                            Rds.Sites_SiteId_WhereLike(factory: context)
+                        }),
                     orderBy: Rds.SitesOrderBy()
                         .Title()
                         .SiteId()))
                             .AsEnumerable();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static int CountInheritTargets(
+            Context context, SiteSettings ss, string searchText = "")
+        {
+            return Repository.ExecuteScalar_int(
+                context: context,
+                statements: Rds.SelectSites(
+                    column: Rds.SitesColumn().SitesCount(),
+                    join: Rds.SitesJoinDefault(),
+                    where: Rds.SitesWhere()
+                        .TenantId(context.TenantId)
+                        .SiteId(ss.SiteId, _operator: "<>")
+                        .InheritPermission(raw: "\"Sites\".\"SiteId\"")
+                        .Add(
+                            raw: Def.Sql.CanReadSites,
+                            _using: !context.HasPrivilege)
+                        .SqlWhereLike(
+                        tableName: "Sites",
+                        name: "SearchText",
+                        searchText: searchText,
+                        clauseCollection: new List<string>()
+                        {
+                            Rds.Sites_Title_WhereLike(factory: context),
+                            Rds.Sites_SiteId_WhereLike(factory: context)
+                        })));
         }
 
         /// <summary>
