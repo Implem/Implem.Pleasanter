@@ -220,14 +220,14 @@ namespace Implem.Pleasanter.Models
                             raw: Def.Sql.CanReadSites,
                             _using: !context.HasPrivilege)
                         .SqlWhereLike(
-                        tableName: "Sites",
-                        name: "SearchText",
-                        searchText: searchText,
-                        clauseCollection: new List<string>()
-                        {
-                            Rds.Sites_Title_WhereLike(factory: context),
-                            Rds.Sites_SiteId_WhereLike(factory: context)
-                        }),
+                            tableName: "Sites",
+                            name: "SearchText",
+                            searchText: searchText,
+                            clauseCollection: new List<string>()
+                            {
+                                Rds.Sites_Title_WhereLike(factory: context),
+                                Rds.Sites_SiteId_WhereLike(factory: context)
+                            }),
                     orderBy: Rds.SitesOrderBy()
                         .Title()
                         .SiteId()))
@@ -253,14 +253,14 @@ namespace Implem.Pleasanter.Models
                             raw: Def.Sql.CanReadSites,
                             _using: !context.HasPrivilege)
                         .SqlWhereLike(
-                        tableName: "Sites",
-                        name: "SearchText",
-                        searchText: searchText,
-                        clauseCollection: new List<string>()
-                        {
-                            Rds.Sites_Title_WhereLike(factory: context),
-                            Rds.Sites_SiteId_WhereLike(factory: context)
-                        })));
+                            tableName: "Sites",
+                            name: "SearchText",
+                            searchText: searchText,
+                            clauseCollection: new List<string>()
+                            {
+                                Rds.Sites_Title_WhereLike(factory: context),
+                                Rds.Sites_SiteId_WhereLike(factory: context)
+                            })));
         }
 
         /// <summary>
