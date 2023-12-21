@@ -271,7 +271,7 @@ namespace Implem.Pleasanter.Libraries.Models
             }
             else
             {
-                return AppendCommonSearchDropDownSelectable(
+                return AppendSearchCommonDropDownSelectable(
                     context: context,
                     ss: ss,
                     controlId: controlId,
@@ -307,7 +307,7 @@ namespace Implem.Pleasanter.Libraries.Models
                 .ToJson();
         }
 
-        private static string AppendCommonSearchDropDownSelectable(
+        private static string AppendSearchCommonDropDownSelectable(
             Context context, SiteSettings ss,
             string controlId,
             long referenceId,
