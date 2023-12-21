@@ -162,6 +162,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             return DateTime.Parse(value.ToString()).ToString(format
                 .Replace("Y", "y")
                 .Replace("D", "d")
+                .Replace("H", "h")
                 .Replace("AM/PM", "tt", StringComparison.InvariantCultureIgnoreCase));
         }
 
