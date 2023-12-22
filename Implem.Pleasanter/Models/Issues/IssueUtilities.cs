@@ -8954,7 +8954,8 @@ namespace Implem.Pleasanter.Models
                             invoke: "setKamban",
                             bodyOnly: bodyOnly,
                             bodySelector: "#KambanBody",
-                            body: body)
+                            body: body,
+                            replaceAllBody: true)
                         .Events("on_kamban_load")
                         .ToJson();
                 }
