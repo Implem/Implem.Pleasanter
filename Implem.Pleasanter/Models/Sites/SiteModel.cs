@@ -20,8 +20,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Linq;
-using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
-using static Implem.Pleasanter.Libraries.Settings.StatusControl;
+
 
 namespace Implem.Pleasanter.Models
 {
@@ -2563,7 +2562,17 @@ namespace Implem.Pleasanter.Models
             List<int> deleteSelected = new List<int>();
             processesApiSiteSetting.ForEach(processApiSiteSetting =>
             {
-                
+                //var userList = new GridData(
+                //        context: context,
+                //        ss: siteSetting,
+                //        join: Rds.UsersJoinDefault(),
+                //        where: Rds.UsersWhere().TenantId(context.TenantId),
+                //        view: GetVie(
+                //            context: context,
+                //            ss: ss,
+                //            useUsersView: useUsersView);
+                //        );
+
                 var currentProcess = siteSetting.Processes?.
                      FirstOrDefault(o => o.Id == processApiSiteSetting.Id.ToInt());
                 if (processApiSiteSetting.Delete.ToInt() == ApiSiteSetting.DeleteFlag.IsDelete.ToInt())

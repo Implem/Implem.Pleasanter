@@ -200,7 +200,7 @@ namespace Implem.Pleasanter.Models
                             {
                                 foreach (var validateInput in process.ValidateInputs)
                                 {
-                                    if (validateInput.Delete.ToInt() == ApiSiteSetting.DeleteFlag.IsDelete.ToInt())
+                                    if (validateInput.Id.ToInt() != 0 && validateInput.Delete.ToInt() == ApiSiteSetting.DeleteFlag.IsDelete.ToInt())
                                     {
                                         continue;
                                     }
@@ -219,7 +219,7 @@ namespace Implem.Pleasanter.Models
                             {
                                 foreach (var dataChange in process.DataChanges)
                                 {
-                                    if (dataChange.Delete.ToInt() == ApiSiteSetting.DeleteFlag.IsDelete.ToInt())
+                                    if (dataChange.Id.ToInt() != 0 && dataChange.Delete.ToInt() == ApiSiteSetting.DeleteFlag.IsDelete.ToInt())
                                     {
                                         continue;
                                     }
@@ -245,11 +245,12 @@ namespace Implem.Pleasanter.Models
                             {
                                 foreach (var notification in process.Notifications)
                                 {
-                                    if (notification.Delete.ToInt() == ApiSiteSetting.DeleteFlag.IsDelete.ToInt())
+                                    if (notification.Id.ToInt() != 0 && notification.Delete.ToInt() == ApiSiteSetting.DeleteFlag.IsDelete.ToInt())
                                     {
                                         continue;
                                     }
                                     if (notification.Id.ToInt() == 0
+                                        || !Enum.IsDefined(typeof(Notification.Types), notification.Type)
                                         || (notification.Delete != null && notification.Delete.ToInt() != ApiSiteSetting.DeleteFlag.IsDelete.ToInt())
                                         || string.IsNullOrEmpty(notification.Subject)
                                         || string.IsNullOrEmpty(notification.Address)
@@ -259,6 +260,35 @@ namespace Implem.Pleasanter.Models
                                         return;
                                     }
                                 }
+                            }
+                            break;
+                        case "Permission":
+                            if (process.Permission?.Users != null
+                                && process.Permission.Users.Count() != UserUtilities.CountByIds(
+                                    context: context,
+                                    ss: ss,
+                                    ids: process.Permission.Users))
+                            {
+                                valid = new ErrorData(type: Error.Types.NotFound);
+                                return;
+                            }
+                            if (process.Permission?.Groups != null
+                                && process.Permission.Groups.Count() != GroupUtilities.CountByIds(
+                                    context: context,
+                                    ss: ss,
+                                    ids: process.Permission.Groups))
+                            {
+                                valid = new ErrorData(type: Error.Types.NotFound);
+                                return;
+                            }
+                            if (process.Permission?.Depts != null
+                               && process.Permission.Depts.Count() != DeptUtilities.CountByIds(
+                                   context: context,
+                                   ss: ss,
+                                   ids: process.Permission.Depts))
+                            {
+                                valid = new ErrorData(type: Error.Types.NotFound);
+                                return;
                             }
                             break;
                     }
@@ -309,6 +339,35 @@ namespace Implem.Pleasanter.Models
                             break;
                         case "Status":
                             if (value != null && !Enum.IsDefined(typeof(Process.Status), value))
+                            {
+                                valid = new ErrorData(type: Error.Types.NotFound);
+                                return;
+                            }
+                            break;
+                        case "Permission":
+                            if (statusControl.Permission?.Users != null
+                                && statusControl.Permission.Users.Count() != UserUtilities.CountByIds(
+                                    context: context,
+                                    ss: ss,
+                                    ids: statusControl.Permission.Users))
+                            {
+                                valid = new ErrorData(type: Error.Types.NotFound);
+                                return;
+                            }
+                            if (statusControl.Permission?.Groups != null
+                                && statusControl.Permission.Groups.Count() != GroupUtilities.CountByIds(
+                                    context: context,
+                                    ss: ss,
+                                    ids: statusControl.Permission.Groups))
+                            {
+                                valid = new ErrorData(type: Error.Types.NotFound);
+                                return;
+                            }
+                            if (statusControl.Permission?.Depts != null
+                               && statusControl.Permission.Depts.Count() != DeptUtilities.CountByIds(
+                                   context: context,
+                                   ss: ss,
+                                   ids: statusControl.Permission.Depts))
                             {
                                 valid = new ErrorData(type: Error.Types.NotFound);
                                 return;
