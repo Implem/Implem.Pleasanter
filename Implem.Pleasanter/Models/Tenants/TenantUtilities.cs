@@ -2570,7 +2570,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 siteId: context.SiteId,
                 searchIndexes: searchIndexes?.ToList());
-            if(!selected.All(o => column.ChoiceHash.ContainsKey(o)))
+            if (!selected.All(o => column.ChoiceHash.ContainsKey(o)))
             {
                 selected
                     .Select(userId => SiteInfo.User(
