@@ -172,23 +172,23 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 showStatus: showStatus,
                                 data: data,
                                 changedItemId: changedItemId)
-                    .Hidden(
-                        controlId: $"KambanSuffix{suffix}",
-                        value: !suffix.IsNullOrEmpty()
-                            ? suffix.Replace("_", "")
-                            : "",
-                        _using: !suffix.IsNullOrEmpty())
-                    .Hidden(
-                        controlId: $"KambanReferenceType{suffix}",
-                        value: ss.ReferenceType)
-                    .Hidden(
-                        controlId: $"KambanGroupByX{suffix}",
-                        value: groupByX?.ColumnName,
-                        _using: !suffix.IsNullOrEmpty())
-                    .Hidden(
-                        controlId: $"KambanGroupByY{suffix}",
-                        value: groupByY?.ColumnName,
-                        _using: !suffix.IsNullOrEmpty())));
+                            .Hidden(
+                                controlId: $"KambanSuffix{suffix}",
+                                value: !suffix.IsNullOrEmpty()
+                                    ? suffix.Replace("_", "")
+                                    : "",
+                                _using: !suffix.IsNullOrEmpty())
+                            .Hidden(
+                                controlId: $"KambanReferenceType{suffix}",
+                                value: ss.ReferenceType)
+                            .Hidden(
+                                controlId: $"KambanGroupByX{suffix}",
+                                value: groupByX?.ColumnName,
+                                _using: !suffix.IsNullOrEmpty())
+                            .Hidden(
+                                controlId: $"KambanGroupByY{suffix}",
+                                value: groupByY?.ColumnName,
+                                _using: !suffix.IsNullOrEmpty())));
         }
 
         private static Dictionary<string, ControlData> CorrectedChoices(
