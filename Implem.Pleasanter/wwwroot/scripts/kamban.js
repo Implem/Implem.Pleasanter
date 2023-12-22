@@ -1,5 +1,5 @@
 ﻿$p.setKamban = function (suffix) {
-    var suffixElArr = $('#MainForm').find('div[id^="KambanBody_"].kambanbody').get();
+    var suffixElArr = $('#MainForm').find('div[id^="KambanBody"].kambanbody').get();
     if (suffix) {
         suffixElArr = $('#MainForm').find('div[id="KambanBody_' + suffix + '"].kambanbody').get();
     }
@@ -10,6 +10,7 @@
         kambanSuffix = kambanSuffix.indexOf('_') === -1 ? '' : kambanSuffix;
         $('#KambanBody' + kambanSuffix + ' .ui-widget-header').first().addClass('dashboard-kamban-header');
         $('#KambanBody' + kambanSuffix + ' .kamban-item').draggable({
+            containment: '#DashboardPart' + kambanSuffix,
             revert: 'invalid',
             start: function () {
                 $(this).parent().droppable({
