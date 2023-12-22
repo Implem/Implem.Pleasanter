@@ -8887,19 +8887,19 @@ namespace Implem.Pleasanter.Models
                 view: view);
             if (ss.DashboardParts?.Any() != true)
             {
-            return hb.ViewModeTemplate(
-                context: context,
-                ss: ss,
-                view: view,
-                viewMode: viewMode,
-                serverScriptModelRow: serverScriptModelRow,
-                viewModeBody: () => hb
-                    .Kamban(
-                        context: context,
-                        ss: ss,
-                        view: view,
-                        bodyOnly: false,
-                        inRange: inRange));
+                return hb.ViewModeTemplate(
+                    context: context,
+                    ss: ss,
+                    view: view,
+                    viewMode: viewMode,
+                    serverScriptModelRow: serverScriptModelRow,
+                    viewModeBody: () => hb
+                        .Kamban(
+                            context: context,
+                            ss: ss,
+                            view: view,
+                            bodyOnly: false,
+                            inRange: inRange));
         }
             else
             {
@@ -8922,7 +8922,9 @@ namespace Implem.Pleasanter.Models
                 return Messages.ResponseHasNotPermission(context: context).ToJson();
             }
             var view = Views.GetBySession(context: context, ss: ss);
-            var bodyOnly = context.Forms.ControlId().StartsWith("Kamban");
+            var bodyOnly = ss.DashboardParts?.Any() == true
+                ? false
+                : context.Forms.ControlId().StartsWith("Kamban");
             var res = new ResponseCollection(context: context);
             if (context.ErrorData.Type != Error.Types.None)
             {

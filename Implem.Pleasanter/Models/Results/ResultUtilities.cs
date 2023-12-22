@@ -8121,19 +8121,19 @@ namespace Implem.Pleasanter.Models
                 view: view);
             if (ss.DashboardParts?.Any() != true)
             {
-            return hb.ViewModeTemplate(
-                context: context,
-                ss: ss,
-                view: view,
-                viewMode: viewMode,
-                serverScriptModelRow: serverScriptModelRow,
-                viewModeBody: () => hb
-                    .Kamban(
-                        context: context,
-                        ss: ss,
-                        view: view,
-                        bodyOnly: false,
-                        inRange: inRange));
+                return hb.ViewModeTemplate(
+                    context: context,
+                    ss: ss,
+                    view: view,
+                    viewMode: viewMode,
+                    serverScriptModelRow: serverScriptModelRow,
+                    viewModeBody: () => hb
+                        .Kamban(
+                            context: context,
+                            ss: ss,
+                            view: view,
+                            bodyOnly: false,
+                            inRange: inRange));
         }
             else
             {
@@ -8156,59 +8156,76 @@ namespace Implem.Pleasanter.Models
                 return Messages.ResponseHasNotPermission(context: context).ToJson();
             }
             var view = Views.GetBySession(context: context, ss: ss);
-            var bodyOnly = context.Forms.ControlId().StartsWith("Kamban");
+            var bodyOnly = ss.DashboardParts?.Any() == true
+                ? false
+                : context.Forms.ControlId().StartsWith("Kamban");
             var res = new ResponseCollection(context: context);
             if (context.ErrorData.Type != Error.Types.None)
             {
                 res.Message(context.ErrorData.Message(context: context));
             }
-            if (InRange(
+            if (ss.DashboardParts?.Any() != true)
+            {
+                if (InRange(
                 context: context,
                 ss: ss,
                 view: view,
                 limit: Parameters.General.KambanLimit))
-            {
-                var body = new HtmlBuilder().Kamban(
-                    context: context,
-                    ss: ss,
-                    view: view,
-                    bodyOnly: bodyOnly,
-                    changedItemId: updated
-                        ? context.Forms.Long("KambanId")
-                        : 0);
-                return res
-                    .ViewMode(
+                {
+                    var body = new HtmlBuilder().Kamban(
                         context: context,
                         ss: ss,
                         view: view,
-                        invoke: "setKamban",
                         bodyOnly: bodyOnly,
-                        bodySelector: "#KambanBody",
-                        body: body)
-                    .Events("on_kamban_load")
-                    .ToJson();
+                        changedItemId: updated
+                            ? context.Forms.Long("KambanId")
+                            : 0);
+                    return res
+                        .ViewMode(
+                            context: context,
+                            ss: ss,
+                            view: view,
+                            invoke: "setKamban",
+                            bodyOnly: bodyOnly,
+                            bodySelector: "#KambanBody",
+                            body: body)
+                        .Events("on_kamban_load")
+                        .ToJson();
+                }
+                else
+                {
+                    var body = new HtmlBuilder().Kamban(
+                        context: context,
+                        ss: ss,
+                        view: view,
+                        bodyOnly: bodyOnly,
+                        inRange: false);
+                    return res
+                        .ViewMode(
+                            context: context,
+                            ss: ss,
+                            view: view,
+                            message: Messages.TooManyCases(
+                                context: context,
+                                data: Parameters.General.KambanLimit.ToString()),
+                            bodyOnly: bodyOnly,
+                            bodySelector: "#KambanBody",
+                            body: body)
+                        .Events("on_kamban_load")
+                        .ToJson();
+                }
             }
             else
             {
                 var body = new HtmlBuilder().Kamban(
-                    context: context,
-                    ss: ss,
-                    view: view,
-                    bodyOnly: bodyOnly,
-                    inRange: false);
-                return res
-                    .ViewMode(
                         context: context,
                         ss: ss,
                         view: view,
-                        message: Messages.TooManyCases(
-                            context: context,
-                            data: Parameters.General.KambanLimit.ToString()),
                         bodyOnly: bodyOnly,
-                        bodySelector: "#KambanBody",
-                        body: body)
-                    .Events("on_kamban_load")
-                    .ToJson();
+                        changedItemId: updated
+                            ? context.Forms.Long("KambanId")
+                            : 0);
+                return body.ToString();
             }
         }
 
@@ -8296,6 +8313,7 @@ namespace Implem.Pleasanter.Models
         {
             var column = Rds.ResultsColumn()
                 .ResultId()
+                .SiteId()
                 .Status()
                 .ItemTitle(ss.ReferenceType)
                 .Add(
@@ -8330,6 +8348,7 @@ namespace Implem.Pleasanter.Models
                         .Select(o => new Libraries.ViewModes.KambanElement()
                         {
                             Id = o.Long("ResultId"),
+                            SiteId = o.Long("SiteId"),
                             Title = o.String("ItemTitle"),
                             Status = new Status(o.Int("Status")),
                             GroupX = groupByX?.ConvertIfUserColumn(o),
