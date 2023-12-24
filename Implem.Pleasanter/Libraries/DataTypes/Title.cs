@@ -92,6 +92,9 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                     getLinkedTitle: getLinkedTitle))
                 .Where(o => !o.IsNullOrEmpty())
                 .Join(ss.TitleSeparator);
+            displayValue = displayValue.Length > ss.ColumnHash["Title"].Max.ToInt()
+                ? displayValue.Substring(0, ss.ColumnHash["Title"].Max.ToInt())
+                : displayValue;
             DisplayValue = GetNoTitle(
                 context: context,
                 displayValue: displayValue);
