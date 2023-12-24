@@ -82,6 +82,10 @@ namespace Implem.Pleasanter.Libraries.Models
                 searchText: string.Empty,
                 parentClass: parentClass,
                 parentIds: parentIds);
+            if (!parentClass.IsNullOrEmpty() && (parentIds?.Any() ?? false) == false)
+            {
+                column.ChoiceHash.Clear();
+            }
             var nextOffset = Paging.NextOffset(
                 offset: 0,
                 totalCount: column.TotalCount,
