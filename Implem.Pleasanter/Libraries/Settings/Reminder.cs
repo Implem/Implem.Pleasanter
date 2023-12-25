@@ -198,9 +198,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                         test: test)
                     : null;
                 var dataRows = dataTable.AsEnumerable().ToList();
-                var sendFlag = dataRows.Count == 0
-                    ? NotSendIfNotApplicable != true
-                    : true;
+                var notSend = dataRows.Count == 0
+                    ? NotSendIfNotApplicable ?? false
+                    : false;
                 var body = reminderType != ReminderTypes.Mail
                     ? GetBody(
                         context: context,
@@ -245,7 +245,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         }
                         break;
                     case ReminderTypes.Slack:
-                        if (Parameters.Reminder.Slack && sendFlag)
+                        if (Parameters.Reminder.Slack && !notSend)
                         {
                             new Slack(
                                 _context: context,
@@ -255,7 +255,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         }
                         break;
                     case ReminderTypes.ChatWork:
-                        if (Parameters.Reminder.ChatWork && sendFlag)
+                        if (Parameters.Reminder.ChatWork && !notSend)
                         {
                             new ChatWork(
                                 _context: context,
@@ -267,7 +267,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         break;
                     case ReminderTypes.Line:
                     case ReminderTypes.LineGroup:
-                        if (Parameters.Reminder.Line && sendFlag)
+                        if (Parameters.Reminder.Line && !notSend)
                         {
                             new Line(
                                 _context: context,
@@ -278,7 +278,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         }
                         break;
                     case ReminderTypes.Teams:
-                        if (Parameters.Reminder.Teams && sendFlag)
+                        if (Parameters.Reminder.Teams && !notSend)
                         {
                             new Teams(
                                 _context: context,
@@ -287,7 +287,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         }
                         break;
                     case ReminderTypes.RocketChat:
-                        if (Parameters.Reminder.RocketChat && sendFlag)
+                        if (Parameters.Reminder.RocketChat && !notSend)
                         {
                             new RocketChat(
                                 _context: context,
@@ -297,7 +297,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         }
                         break;
                     case ReminderTypes.InCircle:
-                        if (Parameters.Reminder.InCircle && sendFlag)
+                        if (Parameters.Reminder.InCircle && !notSend)
                         {
                             new InCircle(
                                 _context: context,
