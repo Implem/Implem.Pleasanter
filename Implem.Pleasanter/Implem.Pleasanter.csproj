@@ -36,7 +36,6 @@
     <PackageReference Include="Azure.Extensions.AspNetCore.DataProtection.Keys" Version="1.2.2" />
     <PackageReference Include="Azure.Identity" Version="1.10.4" />
     <PackageReference Include="BuildBundlerMinifier" Version="3.2.449" />
-    <PackageReference Include="DocumentFormat.OpenXml" Version="2.20.0" />
     <PackageReference Include="MailKit" Version="4.3.0" />
     <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.3.0">
       <NoWarn>NU1701</NoWarn>
