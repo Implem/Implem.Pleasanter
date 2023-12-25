@@ -1,5 +1,4 @@
-﻿using DocumentFormat.OpenXml.Vml.Spreadsheet;
-using Implem.Pleasanter.Models.Shared;
+﻿using Implem.Pleasanter.Models.Shared;
 using System;
 using System.Collections.Generic;
 
