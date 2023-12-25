@@ -1705,7 +1705,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                             power = $DAYS(power, '1900/01/01') + 1;
                         }
                     }
-                    if (((Number(number) == 0 || !number) && (Number(power) == 0 || !power)) || Number(number) < 0)
+                    if (((Number(number) == 0 || !number) && (Number(power) == 0 || !power)) || (Number(number) < 0 && Number(power) % 1 !== 0))
                     {
                         return '#NUM!';
                     }
