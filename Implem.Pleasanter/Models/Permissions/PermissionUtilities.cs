@@ -179,7 +179,11 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         public static Dictionary<string, ControlData> InheritTargets(
-            Context context, SiteSettings ss, int offset = 0, int pageSize = 0, string searchText = "")
+            Context context,
+            SiteSettings ss,
+            int offset = 0,
+            int pageSize = 0,
+            string searchText = "")
         {
             Dictionary<string, ControlData> result = new Dictionary<string, ControlData>();
             if (offset == 0)
@@ -192,16 +196,20 @@ namespace Implem.Pleasanter.Models
                 offset: offset,
                 pageSize: pageSize,
                 searchText: searchText)
-                .ToDictionary(
-                    o => o["SiteId"].ToString(),
-                    o => new ControlData($"[{o["SiteId"]}] {o["Title"]}")));
+                    .ToDictionary(
+                        o => o["SiteId"].ToString(),
+                        o => new ControlData($"[{o["SiteId"]}] {o["Title"]}")));
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
         public static EnumerableRowCollection<DataRow> InheritTargetsDataRows(
-            Context context, SiteSettings ss, int offset = 0, int pageSize = 0, string searchText = "")
+            Context context,
+            SiteSettings ss,
+            int offset = 0,
+            int pageSize = 0,
+            string searchText = "")
         {
             return Repository.ExecuteTable(
                 context: context,

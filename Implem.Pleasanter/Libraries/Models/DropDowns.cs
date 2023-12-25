@@ -74,22 +74,21 @@ namespace Implem.Pleasanter.Libraries.Models
             string parentClass = "",
             List<long> parentIds = null)
         {
-            if (controlId == "InheritPermission")
+            switch (controlId)
             {
-                return SearchInheritPermissionDropDown(
-                    context: context,
-                    ss: ss);
-            }
-            else
-            {
-                return SearchCommonDropDown(
-                    context: context,
-                    ss: ss,
-                    controlId: controlId,
-                    referenceId: referenceId,
-                    filter: filter,
-                    parentClass: parentClass,
-                    parentIds: parentIds);
+                case "InheritPermission":
+                    return SearchInheritPermissionDropDown(
+                        context: context,
+                        ss: ss);
+                default:
+                    return SearchCommonDropDown(
+                        context: context,
+                        ss: ss,
+                        controlId: controlId,
+                        referenceId: referenceId,
+                        filter: filter,
+                        parentClass: parentClass,
+                        parentIds: parentIds);
             }
         }
 
@@ -159,24 +158,23 @@ namespace Implem.Pleasanter.Libraries.Models
             string parentClass = "",
             List<long> parentIds = null)
         {
-            if (controlId == "InheritPermission")
+            switch (controlId)
             {
-                return SearchInheritPermissionDropDownSelectable(
-                    context: context,
-                    ss: ss,
-                    searchText: searchText);
-            }
-            else
-            {
-                return SearchCommonDropDownSelectable(
-                    context: context,
-                    ss: ss,
-                    controlId: controlId,
-                    referenceId: referenceId,
-                    searchText: searchText,
-                    filter: filter,
-                    parentClass: parentClass,
-                    parentIds: parentIds);
+                case "InheritPermission":
+                    return SearchInheritPermissionDropDownSelectable(
+                        context: context,
+                        ss: ss,
+                        searchText: searchText);
+                default:
+                    return SearchCommonDropDownSelectable(
+                        context: context,
+                        ss: ss,
+                        controlId: controlId,
+                        referenceId: referenceId,
+                        searchText: searchText,
+                        filter: filter,
+                        parentClass: parentClass,
+                        parentIds: parentIds);
             }
         }
 
@@ -261,25 +259,23 @@ namespace Implem.Pleasanter.Libraries.Models
             string parentClass = "",
             List<long> parentIds = null)
         {
-
-            if (controlId == "InheritPermission")
+            switch (controlId)
             {
-                return AppendSearchInheritPermissionDropDownSelectable(
-                    context: context,
-                    ss: ss,
-                    searchText: searchText);
-            }
-            else
-            {
-                return AppendSearchCommonDropDownSelectable(
-                    context: context,
-                    ss: ss,
-                    controlId: controlId,
-                    referenceId: referenceId,
-                    searchText: searchText,
-                    filter: filter,
-                    parentClass: parentClass,
-                    parentIds: parentIds);
+                case "InheritPermission":
+                    return AppendSearchInheritPermissionDropDownSelectable(
+                        context: context,
+                        ss: ss,
+                        searchText: searchText);
+                default:
+                    return AppendSearchCommonDropDownSelectable(
+                        context: context,
+                        ss: ss,
+                        controlId: controlId,
+                        referenceId: referenceId,
+                        searchText: searchText,
+                        filter: filter,
+                        parentClass: parentClass,
+                        parentIds: parentIds);
             }
         }
 
@@ -464,25 +460,27 @@ namespace Implem.Pleasanter.Libraries.Models
                     .Message(Messages.SelectOne(context: context))
                     .ToJson();
             }
-            else if (controlId == "InheritPermission")
-            {
-                return SelectSearchInheritPermissionDropDownResponse(
-                    context: context,
-                    ss: ss,
-                    controlId: controlId,
-                    selected: selected,
-                    filter: filter,
-                    multiple: multiple);
-            }
             else
             {
-                return SelectSearchDropDownResponse(
-                    context: context,
-                    controlId: controlId,
-                    column: column,
-                    selected: selected,
-                    filter: filter,
-                    multiple: multiple);
+                switch (controlId)
+                {
+                    case "InheritPermission":
+                        return SelectSearchInheritPermissionDropDownResponse(
+                            context: context,
+                            ss: ss,
+                            controlId: controlId,
+                            selected: selected,
+                            filter: filter,
+                            multiple: multiple);
+                    default:
+                        return SelectSearchDropDownResponse(
+                            context: context,
+                            controlId: controlId,
+                            column: column,
+                            selected: selected,
+                            filter: filter,
+                            multiple: multiple);
+                }
             }
         }
 

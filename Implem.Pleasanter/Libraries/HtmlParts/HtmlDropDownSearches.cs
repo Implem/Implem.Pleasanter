@@ -183,10 +183,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             int pageSize)
         {
             var listItemCollection = PermissionUtilities.InheritTargets(
-                        context: context,
-                        ss: ss,
-                        offset: offset,
-                        pageSize: pageSize);
+                context: context,
+                ss: ss,
+                offset: offset,
+                pageSize: pageSize);
 
             return hb.FieldSelectable(
                 controlId: "DropDownSearchResults",
