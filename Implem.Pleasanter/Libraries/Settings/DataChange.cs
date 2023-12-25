@@ -36,7 +36,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             Seconds
         }
         public int Id { get; set; }
-        public Types Type { get; set; }
+        public Types? Type { get; set; }
         public string ColumnName { get; set; }
         public string BaseDateTime { get; set; }
         public string Value { get; set; }

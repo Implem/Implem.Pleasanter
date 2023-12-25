@@ -133,9 +133,13 @@ namespace Implem.Pleasanter.Models
                                 valid = new ErrorData(type: Error.Types.NotFound);
                                 return;
                             }
+                            else if (process.Delete == ApiSiteSetting.DeleteFlag.IsDelete.ToInt())
+                            {
+                                return;
+                            }
                             break;
                         case "Name":
-                            if (process.Delete != ApiSiteSetting.DeleteFlag.IsDelete.ToInt() && string.IsNullOrEmpty((string)value))
+                            if (string.IsNullOrEmpty((string)value))
                             {
                                 valid = new ErrorData(type: Error.Types.NotFound);
                                 return;
@@ -145,10 +149,6 @@ namespace Implem.Pleasanter.Models
                             if (value != null && value.ToInt() != ApiSiteSetting.DeleteFlag.IsDelete.ToInt())
                             {
                                 valid = new ErrorData(type: Error.Types.NotFound);
-                                return;
-                            }
-                            else if (value.ToInt() == ApiSiteSetting.DeleteFlag.IsDelete.ToInt())
-                            {
                                 return;
                             }
                             break;
@@ -183,13 +183,6 @@ namespace Implem.Pleasanter.Models
                             break;
                         case "ValidationType":
                             if (value != null && !Enum.IsDefined(typeof(Process.ValidationTypes), value))
-                            {
-                                valid = new ErrorData(type: Error.Types.NotFound);
-                                return;
-                            }
-                            break;
-                        case "AutoNumbering":
-                            if (value != null && !Enum.IsDefined(typeof(Column.AutoNumberingResetTypes), process.AutoNumbering.ResetType))
                             {
                                 valid = new ErrorData(type: Error.Types.NotFound);
                                 return;
@@ -231,8 +224,11 @@ namespace Implem.Pleasanter.Models
                                         valid = new ErrorData(type: Error.Types.NotFound);
                                         return;
                                     }
-                                    if ((dataChange.Type.ToString() == "InputDate" || dataChange.Type.ToString() == "InputDateTime")
-                                        && (string.IsNullOrEmpty(dataChange.Value) || !Enum.IsDefined(typeof(DataChange.Periods), dataChange.Value?.Split_2nd())))
+                                    if (!Enum.IsDefined(typeof(DataChange.Types), dataChange.Type) 
+                                        || ((dataChange.Type.ToString() == "InputDate" || dataChange.Type.ToString() == "InputDateTime")
+                                            && (string.IsNullOrEmpty(dataChange.Value)
+                                                || !decimal.TryParse(dataChange.Value?.Split_1st(), out decimal result)
+                                                || !Enum.IsDefined(typeof(DataChange.Periods), dataChange.Value?.Split_2nd()))))
                                     {
                                         valid = new ErrorData(type: Error.Types.NotFound);
                                         return;

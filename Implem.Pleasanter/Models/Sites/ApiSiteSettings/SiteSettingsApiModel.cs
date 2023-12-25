@@ -1,5 +1,4 @@
-﻿using Implem.Pleasanter.Models.Shared;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace Implem.Pleasanter.Models.ApiSiteSettings
