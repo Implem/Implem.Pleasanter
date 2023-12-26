@@ -1859,7 +1859,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         || value == '#NUM!'
                         || value == '#NAME?'
                         || value == '#NULL!'
-                        || value == 'Invalid Parameter';
+                        || value == 'Invalid Parameter'
+                        || !Number.isFinite(value);
                 }";
         }
 
