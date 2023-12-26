@@ -315,7 +315,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     if (arguments.length === 0) {
                         return 'Invalid Parameter';
                     }
-                    if (date === undefined || date == '' || date == 0)
+                    if (date === undefined || date === '' || date == 0)
                     {
                         return 0;
                     }
@@ -961,7 +961,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     {
                         return 'Invalid Parameter';
                     }
-                    if (start == '' || isNaN(start))
+                    if (start === '' || isNaN(start))
                     {
                         return '#VALUE!';
                     }
@@ -1191,7 +1191,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         return 'Invalid Parameter';
                     }
                     date = (date == undefined) ? 0 : date;
-                    if(date == '' && (returnType == '' || Number(returnType) == 0)) {
+                    if(date === '' && (returnType === '' || Number(returnType) == 0)) {
                         return '#NUM!';
                     }
                     if (isNaN(date))
@@ -1609,7 +1609,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         return 'Invalid Parameter';
                     }
                     if ((value.toString().toLowerCase() === 'true' || value.toString().toLowerCase() === 'false')
-                        && (format == '' || !isNaN(format)))
+                        && (format === '' || !isNaN(format)))
                     {
                         return value;
                     }
@@ -1775,7 +1775,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     {
                         return 'Invalid Parameter';
                     }
-                    if (start_date == '')
+                    if (start_date === '')
                     {
                         start_date = 1;
                     }
@@ -1839,7 +1839,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     {
                         return 'Invalid Parameter';
                     }
-                    return value === undefined || value == '';
+                    return value === undefined || value === '';
                 }";
         }
 
@@ -1872,10 +1872,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     {
                         return 'Invalid Parameter';
                     }
-                    return value === undefined || value == ''
+                    return value === undefined || value === ''
                         ? 0
                         : ($ISERROR(value)
-                            ? (value_if_error == '' ? 0 : value_if_error)
+                            ? (value_if_error === '' ? 0 : value_if_error)
                             : value);
                 }";
         }
