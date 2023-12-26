@@ -98,7 +98,7 @@ namespace Implem.Pleasanter.Libraries.Models
         {
             var nextOffset = Paging.NextOffset(
                 offset: 0,
-                totalCount: PermissionUtilities.InheritTargets(context, ss).totalCount,
+                totalCount: PermissionUtilities.InheritTargets(context, ss).TotalCount,
                 pageSize: Parameters.General.DropDownSearchPageSize);
             return new ResponseCollection(context: context)
                 .Html(
@@ -185,7 +185,7 @@ namespace Implem.Pleasanter.Libraries.Models
             SiteSettings ss,
             string searchText)
         {
-            var (dictionary, totalCount) = PermissionUtilities.InheritTargets(
+            var (optionCollection, totalCount) = PermissionUtilities.InheritTargets(
                 context: context,
                 ss: ss,
                 offset: 0,
@@ -199,7 +199,7 @@ namespace Implem.Pleasanter.Libraries.Models
                 .Html(
                     "#DropDownSearchResults",
                     new HtmlBuilder().SelectableItems(
-                        listItemCollection: dictionary,
+                        listItemCollection: optionCollection,
                         alwaysDataValue: true))
                 .Val("#DropDownSearchResultsOffset", nextOffset)
                 .ClearFormData("DropDownSearchResults")
@@ -285,7 +285,7 @@ namespace Implem.Pleasanter.Libraries.Models
             string searchText)
         {
             var offset = context.Forms.Int("DropDownSearchResultsOffset");
-            var (dictionary, totalCount) = PermissionUtilities.InheritTargets(
+            var (optionCollection, totalCount) = PermissionUtilities.InheritTargets(
                 context: context,
                 ss: ss,
                 offset: offset,
@@ -298,7 +298,7 @@ namespace Implem.Pleasanter.Libraries.Models
             return new ResponseCollection(context: context)
                 .Append(
                     "#" + context.Forms.ControlId(),
-                    new HtmlBuilder().SelectableItems(dictionary))
+                    new HtmlBuilder().SelectableItems(optionCollection))
                 .Val("#DropDownSearchResultsOffset", nextOffset)
                 .ToJson();
         }
@@ -670,7 +670,7 @@ namespace Implem.Pleasanter.Libraries.Models
         {
             var optionCollection = PermissionUtilities.InheritTargets(
                 context: context,
-                ss: ss).dictionary;
+                ss: ss).OptionCollection;
             return optionCollection?.Any() == true || !selected.Any()
                 ? new ResponseCollection(context: context)
                     .CloseDialog("#DropDownSearchDialog")

@@ -186,7 +186,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 context: context,
                 ss: ss,
                 offset: offset,
-                pageSize: pageSize).dictionary;
+                pageSize: pageSize).OptionCollection;
 
             return hb.FieldSelectable(
                 controlId: "DropDownSearchResults",

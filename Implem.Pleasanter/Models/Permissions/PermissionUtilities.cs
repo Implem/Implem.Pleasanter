@@ -168,7 +168,7 @@ namespace Implem.Pleasanter.Models
                     labelText: Displays.InheritPermission(context: context),
                     optionCollection: InheritTargets(
                         context: context,
-                        ss: siteModel.SiteSettings).dictionary,
+                        ss: siteModel.SiteSettings).OptionCollection,
                     selectedValue: siteModel.InheritPermission.ToString(),
                     action: "SetPermissions",
                     method: "post")
@@ -178,7 +178,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static (Dictionary<string, ControlData> dictionary, int totalCount) InheritTargets(
+        public static (Dictionary<string, ControlData> OptionCollection, int TotalCount) InheritTargets(
             Context context,
             SiteSettings ss,
             int offset = 0,
@@ -206,7 +206,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static (EnumerableRowCollection<DataRow> dataRows, int totalCount) InheritTargetsDataRows(
+        public static (EnumerableRowCollection<DataRow> DataRows, int TotalCount) InheritTargetsDataRows(
             Context context,
             SiteSettings ss,
             int offset = 0,
