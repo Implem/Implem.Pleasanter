@@ -1,5 +1,7 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Models;
 using Quartz;
 using System;
 using System.Threading.Tasks;
@@ -26,28 +28,39 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
 
         private async Task AddTimer(IExecutionTimerBaseParam timer)
         {
-            if (!timer.Enabled) return;
-            var scheduler = CustomQuartzHostedService.Scheduler;
-            var job = JobBuilder.Create(timer.JobType)
-                .WithIdentity(timer.JobKey)
-                .Build();
-            await scheduler.AddJob(job, true);
-            var timeZone = TimeZoneInfo.FindSystemTimeZoneById(
-                !Parameters.Service.TimeZoneDefault.IsNullOrEmpty()
-                    ? Parameters.Service.TimeZoneDefault
-                    : TimeZoneInfo.Utc.Id);
-            foreach (var hhmm in timer.TimeList)
+            try
             {
-                if (DateTime.TryParse($"2020-01-01T{hhmm}:00.00", out var date))
+                if (!timer.Enabled) return;
+                var scheduler = CustomQuartzHostedService.Scheduler;
+                var job = JobBuilder.Create(timer.JobType)
+                    .WithIdentity(timer.JobKey)
+                    .StoreDurably()
+                    .Build();
+                await scheduler.AddJob(job, true);
+                var timeZone = TimeZoneInfo.FindSystemTimeZoneById(
+                    !Parameters.Service.TimeZoneDefault.IsNullOrEmpty()
+                        ? Parameters.Service.TimeZoneDefault
+                        : TimeZoneInfo.Utc.Id);
+                foreach (var hhmm in timer.TimeList)
                 {
-                    var trigger = TriggerBuilder.Create()
-                        .ForJob(timer.JobKey)
-                        .WithCronSchedule(
-                            $"0 {date.Minute} {date.Hour} * * ? *",
-                            (s) => s.InTimeZone(timeZone))
-                        .Build();
-                    await scheduler.ScheduleJob(trigger);
+                    if (DateTime.TryParse($"2020-01-01T{hhmm}:00.00", out var date))
+                    {
+                        var trigger = TriggerBuilder.Create()
+                            .ForJob(timer.JobKey)
+                            .WithCronSchedule(
+                                $"0 {date.Minute} {date.Hour} * * ? *",
+                                (s) => s.InTimeZone(timeZone))
+                            .Build();
+                        await scheduler.ScheduleJob(trigger);
+                    }
                 }
+            }
+            catch (Exception e)
+            {
+                new SysLogModel(
+                    context: new Context(request: false),
+                    e: e,
+                    extendedErrorMessage: $" / Fail {timer.JobKey.Group}");
             }
         }
     }
