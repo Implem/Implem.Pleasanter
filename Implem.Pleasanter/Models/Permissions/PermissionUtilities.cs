@@ -168,7 +168,7 @@ namespace Implem.Pleasanter.Models
                     labelText: Displays.InheritPermission(context: context),
                     optionCollection: InheritTargets(
                         context: context,
-                        ss: siteModel.SiteSettings),
+                        ss: siteModel.SiteSettings).dictionary,
                     selectedValue: siteModel.InheritPermission.ToString(),
                     action: "SetPermissions",
                     method: "post")
@@ -178,97 +178,81 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static Dictionary<string, ControlData> InheritTargets(
+        public static (Dictionary<string, ControlData> dictionary, int totalCount) InheritTargets(
             Context context,
             SiteSettings ss,
             int offset = 0,
             int pageSize = 0,
             string searchText = "")
         {
-            Dictionary<string, ControlData> result = new Dictionary<string, ControlData>();
+            Dictionary<string, ControlData> dictionary = new Dictionary<string, ControlData>();
             if (offset == 0)
             {
-                result.Add(ss.SiteId.ToString(), new ControlData(Displays.NotInheritPermission(context: context)));
+                dictionary.Add(ss.SiteId.ToString(), new ControlData(Displays.NotInheritPermission(context: context)));
             }
-            return result.AddRange(InheritTargetsDataRows(
+            var (dataRows, totalCount) = InheritTargetsDataRows(
                 context: context,
                 ss: ss,
                 offset: offset,
                 pageSize: pageSize,
-                searchText: searchText)
-                    .ToDictionary(
-                        o => o["SiteId"].ToString(),
-                        o => new ControlData($"[{o["SiteId"]}] {o["Title"]}")));
+                searchText: searchText);
+            dictionary.AddRange(
+                dataRows.ToDictionary(
+                    o => o["SiteId"].ToString(),
+                    o => new ControlData($"[{o["SiteId"]}] {o["Title"]}")));
+            return (dictionary, totalCount);
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static EnumerableRowCollection<DataRow> InheritTargetsDataRows(
+        public static (EnumerableRowCollection<DataRow> dataRows, int totalCount) InheritTargetsDataRows(
             Context context,
             SiteSettings ss,
             int offset = 0,
             int pageSize = 0,
             string searchText = "")
         {
-            return Repository.ExecuteTable(
-                context: context,
-                statements: Rds.SelectSites(
+            var where = Rds.SitesWhere()
+                        .TenantId(context.TenantId)
+                        .SiteId(ss.SiteId, _operator: "<>")
+                        .InheritPermission(raw: "\"Sites\".\"SiteId\"")
+                        .Add(
+                            raw: Def.Sql.CanReadSites,
+                            _using: !context.HasPrivilege)
+                        .SqlWhereLike(
+                            tableName: "Sites",
+                            name: "SearchText",
+                            searchText: searchText,
+                            clauseCollection: new List<string>()
+                            {
+                                Rds.Sites_Title_WhereLike(factory: context),
+                                Rds.Sites_SiteId_WhereLike(factory: context)
+                            });
+            var statements = new List<SqlStatement>()
+            {
+                Rds.SelectSites(
                     offset: offset,
                     pageSize: pageSize,
+                    dataTableName: "Main",
                     column: Rds.SitesColumn()
                         .SiteId()
                         .Title(),
                     join: Rds.SitesJoinDefault(),
-                    where: Rds.SitesWhere()
-                        .TenantId(context.TenantId)
-                        .SiteId(ss.SiteId, _operator: "<>")
-                        .InheritPermission(raw: "\"Sites\".\"SiteId\"")
-                        .Add(
-                            raw: Def.Sql.CanReadSites,
-                            _using: !context.HasPrivilege)
-                        .SqlWhereLike(
-                            tableName: "Sites",
-                            name: "SearchText",
-                            searchText: searchText,
-                            clauseCollection: new List<string>()
-                            {
-                                Rds.Sites_Title_WhereLike(factory: context),
-                                Rds.Sites_SiteId_WhereLike(factory: context)
-                            }),
+                    where: where,
                     orderBy: Rds.SitesOrderBy()
                         .Title()
-                        .SiteId()))
-                            .AsEnumerable();
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public static int CountInheritTargets(
-            Context context, SiteSettings ss, string searchText = "")
-        {
-            return Repository.ExecuteScalar_int(
-                context: context,
-                statements: Rds.SelectSites(
-                    column: Rds.SitesColumn().SitesCount(),
+                        .SiteId()),
+                Rds.SelectCount(
+                    tableName: "Sites",
                     join: Rds.SitesJoinDefault(),
-                    where: Rds.SitesWhere()
-                        .TenantId(context.TenantId)
-                        .SiteId(ss.SiteId, _operator: "<>")
-                        .InheritPermission(raw: "\"Sites\".\"SiteId\"")
-                        .Add(
-                            raw: Def.Sql.CanReadSites,
-                            _using: !context.HasPrivilege)
-                        .SqlWhereLike(
-                            tableName: "Sites",
-                            name: "SearchText",
-                            searchText: searchText,
-                            clauseCollection: new List<string>()
-                            {
-                                Rds.Sites_Title_WhereLike(factory: context),
-                                Rds.Sites_SiteId_WhereLike(factory: context)
-                            })));
+                    where: where)
+            };
+            var dataSet = Repository.ExecuteDataSet(
+                context: context,
+                statements: statements.ToArray());
+            var totalCount = Rds.Count(dataSet);
+            return (dataSet.Tables["Main"].AsEnumerable(), totalCount);
         }
 
         /// <summary>

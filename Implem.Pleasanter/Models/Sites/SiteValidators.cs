@@ -418,7 +418,7 @@ namespace Implem.Pleasanter.Models
             {
                 if (!PermissionUtilities.InheritTargetsDataRows(
                     context: context,
-                    ss: ss).Any(o =>
+                    ss: ss).dataRows.Any(o =>
                         o.Long("SiteId") == context.Forms.Long("InheritPermission")))
                 {
                     return new ErrorData(type: Error.Types.CanNotInherit);
