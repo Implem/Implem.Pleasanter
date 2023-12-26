@@ -14063,7 +14063,7 @@ namespace Implem.Pleasanter.Models
                         labelText: Displays.Script(context: context),
                         text: script.Body)
                     .FieldCheckBox(
-                        fieldId: "ScriptDisabled",
+                        fieldId: "ScriptDisabledField",
                         controlId: "ScriptDisabled",
                         controlCss: " always-send",
                         labelText: Displays.Disabled(context: context),
