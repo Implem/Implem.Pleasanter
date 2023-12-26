@@ -43,12 +43,16 @@
             }
         })
     });
-    $('[id^="KambanBody_"] .kamban-item').each(function () {
-        let offsetX, offsetY;
+    $(suffixElArr).each(function (index, value) {
+        $(this).find('.kamban-item').each(function () {
+        let offsetX, offsetY,kambanSuffix,siteId;
         $(this).on('touchstart', function (e) {
+            kambanSuffix = $(this).parents('[id^=Kamban]').attr('id').substring($(this).parents('[id^=Kamban]').attr('id').indexOf('_'));
+            kambanSuffix = kambanSuffix.indexOf('_') === -1 ? '' : kambanSuffix;
             const touch = e.touches[0];
             offsetX = touch.clientX;
             offsetY = touch.clientY;
+            siteId = $(this).attr('data-siteid');
         });
         $(this).on('touchmove', function (e) {
             e.preventDefault();
@@ -77,7 +81,7 @@
             const rectDraggable = this.getBoundingClientRect();
             const id = $(this).attr('data-id');
             let isDroppableIntoKambanContainer = false;
-            $('.kambanbody .kamban-container').each(function () {
+            $('#KambanBody' + kambanSuffix + ' .kamban-container').each(function () {
                 const rectDroppable = this.getBoundingClientRect();
                 if (
                     rectDraggable.left >= rectDroppable.left &&
@@ -86,17 +90,21 @@
                     rectDraggable.top <= rectDroppable.bottom
                 ) {
                     var data = $p.getData($('.main-form'));
-                    var tableNamePrefix = $('#TableName').val() + '_';
+                    var tableNamePrefix = $('#KambanReferenceType' + kambanSuffix).val() + '_';
                     var dataX = $(this).attr('data-x');
                     var dataY = $(this).attr('data-y');
                     data["KambanId"] = id;
                     if (dataX !== undefined) {
-                        data[tableNamePrefix + $('#KambanGroupByX').val()] = dataX;
+                        data[tableNamePrefix + $('#KambanGroupByX' + kambanSuffix).val()] = dataX;
                     }
                     if (dataY !== undefined) {
-                        data[tableNamePrefix + $('#KambanGroupByY').val()] = dataY;
+                        data[tableNamePrefix + $('#KambanGroupByY' + kambanSuffix).val()] = dataY;
                     }
-                    $p.send($('#KambanBody'));
+                    if (kambanSuffix !== '') {
+                        data.SiteId = siteId;
+                    }
+                    $p.set($('#KambanSuffix' + kambanSuffix), $('#KambanSuffix' + kambanSuffix).val());
+                    $p.send($('#KambanBody' + kambanSuffix));
                     isDroppableIntoKambanContainer = true;
                 }
             });
@@ -106,4 +114,6 @@
             }
         });
     });
+
+    })
 }
