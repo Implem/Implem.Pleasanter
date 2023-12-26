@@ -214,21 +214,21 @@ namespace Implem.Pleasanter.Models
             string searchText = "")
         {
             var where = Rds.SitesWhere()
-                        .TenantId(context.TenantId)
-                        .SiteId(ss.SiteId, _operator: "<>")
-                        .InheritPermission(raw: "\"Sites\".\"SiteId\"")
-                        .Add(
-                            raw: Def.Sql.CanReadSites,
-                            _using: !context.HasPrivilege)
-                        .SqlWhereLike(
-                            tableName: "Sites",
-                            name: "SearchText",
-                            searchText: searchText,
-                            clauseCollection: new List<string>()
-                            {
-                                Rds.Sites_Title_WhereLike(factory: context),
-                                Rds.Sites_SiteId_WhereLike(factory: context)
-                            });
+                .TenantId(context.TenantId)
+                .SiteId(ss.SiteId, _operator: "<>")
+                .InheritPermission(raw: "\"Sites\".\"SiteId\"")
+                .Add(
+                    raw: Def.Sql.CanReadSites,
+                    _using: !context.HasPrivilege)
+                .SqlWhereLike(
+                    tableName: "Sites",
+                    name: "SearchText",
+                    searchText: searchText,
+                    clauseCollection: new List<string>()
+                    {
+                        Rds.Sites_Title_WhereLike(factory: context),
+                        Rds.Sites_SiteId_WhereLike(factory: context)
+                    });
             var statements = new List<SqlStatement>()
             {
                 Rds.SelectSites(
