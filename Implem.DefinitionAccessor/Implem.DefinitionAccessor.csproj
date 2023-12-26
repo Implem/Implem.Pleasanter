@@ -3,9 +3,9 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <Copyright>Copyright © Implem Inc 2014 - 2023</Copyright>
-    <AssemblyVersion>1.3.50.1</AssemblyVersion>
-    <FileVersion>1.3.50.1</FileVersion>
-    <Version>1.3.50.1</Version>
+    <AssemblyVersion>1.3.50.2</AssemblyVersion>
+    <FileVersion>1.3.50.2</FileVersion>
+    <Version>1.3.50.2</Version>
     <Nullable>disable</Nullable>
   </PropertyGroup>
   
