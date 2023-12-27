@@ -8,7 +8,7 @@
     $(suffixElArr).each(function (index, value) {
         var kambanSuffix = value.id.substring(value.id.indexOf('_'));
         kambanSuffix = kambanSuffix.indexOf('_') === -1 ? '' : kambanSuffix;
-        $('#KambanBody' + kambanSuffix + ' .ui-widget-header').first().addClass('dashboard-kamban-header');
+        $('#KambanBody' + kambanSuffix + ' .ui-widget-header').addClass('dashboard-kamban-header');
         $('#KambanBody' + kambanSuffix + ' .kamban-item').draggable({
             containment: '#DashboardPart' + kambanSuffix,
             revert: 'invalid',
