@@ -198,9 +198,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                         test: test)
                     : null;
                 var dataRows = dataTable.AsEnumerable().ToList();
-                var notSend = dataRows.Count == 0
-                    ? NotSendIfNotApplicable ?? false
-                    : false;
+                var notSend = dataRows.Any()
+                    ? false
+                    : NotSendIfNotApplicable == true;
                 var body = reminderType != ReminderTypes.Mail
                     ? GetBody(
                         context: context,
