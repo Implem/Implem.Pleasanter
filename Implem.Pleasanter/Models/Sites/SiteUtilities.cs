@@ -5040,14 +5040,8 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static HtmlBuilder GridColumns(
-            this HtmlBuilder hb,
-            Context context,
-            SiteSettings ss,
-            View view = null,
-            string prefix = "",
-            bool currentTableOnly = false,
-            Action action = null)
+        private static HtmlBuilder GridColumns(
+            this HtmlBuilder hb, Context context, SiteSettings ss)
         {
             return hb.FieldSet(
                 css: " enclosed-thin",
@@ -10567,21 +10561,23 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder ViewGridTab(
+        public static HtmlBuilder ViewGridTab(
             this HtmlBuilder hb,
             Context context,
             SiteSettings ss,
             View view,
-            Dictionary<string, string> displayTypeOptionCollection,
-            Dictionary<string, string> commandDisplayTypeOptionCollection)
+            string prefix = "",
+            Action action = null,
+            Dictionary<string, string> displayTypeOptionCollection = null,
+            Dictionary<string, string> commandDisplayTypeOptionCollection = null)
         {
-            return hb.FieldSet(id: "ViewGridTab", action: () => hb
+            return hb.FieldSet(id: $"{prefix}ViewGridTab", action: () => hb
                 .FieldSet(
                     css: " enclosed-thin",
                     legendText: Displays.ListSettings(context: context),
                     action: () => hb
                         .FieldSelectable(
-                            controlId: "ViewGridColumns",
+                            controlId: $"{prefix}ViewGridColumns",
                             fieldCss: "field-vertical",
                             controlContainerCss: "container-selectable",
                             controlWrapperCss: " h350",
@@ -10610,10 +10606,10 @@ namespace Implem.Pleasanter.Models
                                         controlId: "ToDisableViewGridColumns",
                                         controlCss: "button-icon",
                                         text: Displays.ToDisable(context: context),
-                                        onClick: "$p.moveColumns(event, $(this),'ViewGrid',false,true);",
+                                        onClick: $"$p.moveColumns(event, $(this),'{prefix}ViewGrid',false,true);",
                                         icon: "ui-icon-circle-triangle-e")))
                         .FieldSelectable(
-                            controlId: "ViewGridSourceColumns",
+                            controlId: $"{prefix}ViewGridSourceColumns",
                             fieldCss: "field-vertical",
                             controlContainerCss: "container-selectable",
                             controlWrapperCss: " h350",
@@ -10633,7 +10629,7 @@ namespace Implem.Pleasanter.Models
                                         icon: "ui-icon-circle-triangle-w")
                                     .FieldDropDown(
                                         context: context,
-                                        controlId: "ViewGridJoin",
+                                        controlId: $"{prefix}ViewGridJoin",
                                         fieldCss: "w150",
                                         controlCss: " auto-postback always-send",
                                         optionCollection: ss.JoinOptions(),
@@ -10657,7 +10653,8 @@ namespace Implem.Pleasanter.Models
                             fieldCss: "field-auto-thin",
                             labelText: Displays.AggregationsDisplayType(context: context),
                             optionCollection: displayTypeOptionCollection,
-                            selectedValue: view.AggregationsDisplayType?.ToInt().ToString()))
+                            selectedValue: view.AggregationsDisplayType?.ToInt().ToString()),
+                    _using: prefix.IsNullOrEmpty())
                 .FieldSet(
                     css: " enclosed-thin",
                     legendText: Displays.CommandButtonsSettings(context: context),
@@ -10703,7 +10700,8 @@ namespace Implem.Pleasanter.Models
                             fieldCss: "field-auto-thin",
                             labelText: Displays.EditMode(context: context),
                             optionCollection: commandDisplayTypeOptionCollection,
-                            selectedValue: view.EditOnGridCommand?.ToInt().ToString())));
+                            selectedValue: view.EditOnGridCommand?.ToInt().ToString()),
+                    _using: prefix.IsNullOrEmpty()));
         }
 
         /// <summary>
@@ -15956,12 +15954,12 @@ namespace Implem.Pleasanter.Models
                         })
                     .FieldCheckBox(
                         controlId: "DisableAsynchronousLoading",
-                        controlCss: " always-send",
+                        controlCss: " always-send both",
                         labelText: Displays.DisableAsynchronousLoading(context: context),
                         _checked: dashboardPart.DisableAsynchronousLoading == true)
                     .FieldTextBox(
                         controlId: "DashboardPartExtendedCss",
-                        controlCss: " always-send both",
+                        controlCss: " always-send",
                         labelText: "CSS",
                         text: dashboardPart.ExtendedCss));
         }
@@ -15988,12 +15986,11 @@ namespace Implem.Pleasanter.Models
                 return hb.FieldSet(id: "DashboardPartViewIndexTabContainer");
             }
             return hb.FieldSet(id: "DashboardPartViewIndexTabContainer",
-                action: () => hb.GridColumns(
+                action: () => hb.ViewGridTab(
                     context: context,
                     ss: currentSs,
                     view: view,
-                    prefix: "DashboardPart",
-                    currentTableOnly: true));
+                    prefix: "DashboardPart"));
         }
 
         /// <summary>

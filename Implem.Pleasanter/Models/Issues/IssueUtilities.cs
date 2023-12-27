@@ -30,9 +30,11 @@ namespace Implem.Pleasanter.Models
         public static string Index(Context context, SiteSettings ss)
         {
             var hb = new HtmlBuilder();
-            var view = Views.GetBySession(
-                context: context,
-                ss: ss);
+            var view = ss.DashboardParts.Any()
+                ? ss.DashboardParts.FirstOrDefault().View
+                : Views.GetBySession(
+                    context: context,
+                    ss: ss);
             var gridData = GetGridData(
                 context: context,
                 ss: ss,

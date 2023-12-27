@@ -8130,6 +8130,7 @@ namespace Implem.Pleasanter.Models
                 calendarFromTo: context.Forms.Data("DashboardPartCalendarFromTo"),
                 calendarShowStatus: context.Forms.Bool("CalendarShowStatus"),
                 calendarType: context.Forms.Data("DashboardPartCalendarType").ToEnum<SiteSettings.CalendarTypes>(),
+                indexSites: context.Forms.Data("DashboardPartIndexSites"),
                 extendedCss: context.Forms.Data("DashboardPartExtendedCss"),
                 disableAsynchronousLoading: context.Forms.Bool("DisableAsynchronousLoading"),
                 permissions: DashboardPartPermissions(context: context));
@@ -8195,6 +8196,7 @@ namespace Implem.Pleasanter.Models
                 calendarFromTo: context.Forms.Data("DashboardPartCalendarFromTo"),
                 calendarShowStatus: context.Forms.Bool("CalendarShowStatus"),
                 calendarType: context.Forms.Data("DashboardPartCalendarType").ToEnum<SiteSettings.CalendarTypes>(),
+                indexSites: context.Forms.Data("DashboardPartIndexSites"),
                 extendedCss: context.Forms.Data("DashboardPartExtendedCss"),
                 disableAsynchronousLoading: context.Forms.Bool("DisableAsynchronousLoading"),
                 permissions: DashboardPartPermissions(context: context));
@@ -8607,12 +8609,11 @@ namespace Implem.Pleasanter.Models
                 .Html(
                     "#DashboardPartViewIndexTabContainer",
                     new HtmlBuilder()
-                        .GridColumns(
+                        .ViewGridTab(
                             context: context,
                             ss: currentSs,
                             view: new View(),
-                            prefix: "DashboardPart",
-                            currentTableOnly: true))
+                            prefix: "DashboardPart"))
                 .Html(
                     "#DashboardPartViewFiltersTabContainer",
                     new HtmlBuilder()
