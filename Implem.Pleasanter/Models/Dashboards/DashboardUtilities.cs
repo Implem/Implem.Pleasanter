@@ -2378,7 +2378,8 @@ namespace Implem.Pleasanter.Models
             //基準となるサイトからSiteSettingsを取得
             var ss = SiteSettingsUtilities.Get(
                 context: context,
-                siteId: dashboardPart.SiteId);
+                siteId: dashboardPart.SiteId,
+                setAllChoices: true);
             //対象サイトをサイト統合の仕組みで登録
             ss.IntegratedSites = dashboardPart.KambanSitesData;
             ss.SetSiteIntegration(context: context);
