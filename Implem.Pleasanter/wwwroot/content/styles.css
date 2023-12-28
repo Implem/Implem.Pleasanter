@@ -1036,7 +1036,7 @@ th.calendar-header {
 
 .dashboard-kamban-header {
     position: sticky;
-    top: 0;
+    top: -20px;
     z-index: 1;
 }
     .dashboard-kamban-header > th {
