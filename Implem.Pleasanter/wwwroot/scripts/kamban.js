@@ -16,6 +16,12 @@
                 $(this).parent().droppable({
                     disabled: true
                 });
+            },
+            helper: function () {
+                return $('<div />')
+                    .addClass('dragging')
+                    .append($('<div />')
+                        .append($(this).text()));
             }
         });
         $('#KambanBody' + kambanSuffix + ' .kamban-container').droppable({

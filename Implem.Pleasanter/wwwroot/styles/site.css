@@ -1034,6 +1034,14 @@ th.calendar-header {
         margin-right: 3px;
     }
 
+    .kambanbody .dragging {
+        height: 25px;
+        padding: 5px;
+        background-color: lightgoldenrodyellow;
+        border-radius: 3px;
+        z-index: 50;
+    }
+
 .dashboard-kamban-header {
     position: sticky;
     top: -20px;

@@ -2442,7 +2442,7 @@ namespace Implem.Pleasanter.Models
                             Dictionary<string, string> messageValue = Jsons.Deserialize<Dictionary<string, string>>(messageElement["Value"]);
                             return new ResponseCollection(context: context)
                                 .Message(message: new Message(messageValue["Id"], messageValue["Text"], messageValue["Css"]))
-                                .Invoke("setKamban")
+                                .Invoke("setKamban", dashboardPart.Id.ToString())
                                 .ToJson();
                         }
                     }
