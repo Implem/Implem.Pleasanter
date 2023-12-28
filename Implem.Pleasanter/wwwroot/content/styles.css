@@ -1010,6 +1010,7 @@ th.calendar-header {
     position: relative;
     cursor: pointer;
     border-radius: 5px;
+    overflow: hidden;
 }
 
     .kambanbody .kamban-item:hover {
@@ -1033,22 +1034,25 @@ th.calendar-header {
         margin-right: 3px;
     }
 
-.dashboard-kamban-header{
+.dashboard-kamban-header {
     position: sticky;
     top: 0;
     z-index: 1;
 }
+    .dashboard-kamban-header > th {
+        overflow-x: hidden;
+    }
 
-#ImageLib .item {
-    width: 250px;
-    height: 250px;
-    float: left;
-    margin: 10px 10px 0px 0px;
-    padding: 10px;
-    border: solid 1px silver;
-    position: relative;
-    overflow: hidden;
-}
+    #ImageLib .item {
+        width: 250px;
+        height: 250px;
+        float: left;
+        margin: 10px 10px 0px 0px;
+        padding: 10px;
+        border: solid 1px silver;
+        position: relative;
+        overflow: hidden;
+    }
 
     #ImageLib .item .image {
         width: 100%;
