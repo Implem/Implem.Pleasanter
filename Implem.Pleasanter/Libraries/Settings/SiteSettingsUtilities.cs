@@ -372,6 +372,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.SetLinks(context: context);
             ss.SetChoiceHash(context: context, withLink: false);
             ss.PermissionType = Permissions.Admins(context: context);
+            ss.UseFilterButton = true;
+            ss.AlwaysRequestSearchCondition = true;
             ss.TableType = tableTypes;
             return ss;
         }

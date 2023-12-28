@@ -4,9 +4,9 @@
     string name = "SearchText",
     bool forward = false)
 {
-    return factory.Sqls.IntegerColumnLike(tableName, "#ColumnName#") + 
-        (forward
+    return factory.Sqls.IntegerColumnLike(tableName, "#ColumnName#")
+        + (forward
             ? string.Empty
-            : factory.Sqls.WhereLikeTemplateForward) +
-        $"@{name}{factory.Sqls.WhereLikeTemplate})";
+            : factory.Sqls.WhereLikeTemplateForward)
+        + $"@{name}{factory.Sqls.WhereLikeTemplate})";
 }
