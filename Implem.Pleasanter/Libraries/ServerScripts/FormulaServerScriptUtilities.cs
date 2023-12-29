@@ -1625,7 +1625,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     var reg = new RegExp('^0+$', 'g');
                     if (reg.test(format))
                     {
-                        return FormulaServerScriptUtilities.GetText(value, '#' + format);
+                        return FormulaServerScriptUtilities.GetText(value, '#' + format, context);
                     }
                     if (format.toString().toLowerCase() === 'true'
                         || format.toString().toLowerCase() === 'false'
