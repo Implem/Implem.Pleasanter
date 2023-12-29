@@ -1670,7 +1670,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             return @"
                 function $POWER(number, power)
                 {
-                    if (arguments.length != 2 || number === undefined || power === undefined)
+                    if (arguments.length != 2 || number === undefined || power === undefined || number === '' || power === '')
                     {
                         return 'Invalid Parameter';
                     }
