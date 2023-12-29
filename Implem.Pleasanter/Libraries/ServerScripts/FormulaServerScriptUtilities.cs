@@ -27,6 +27,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             using (var engine = new ScriptEngine(debug: false))
             {
                 engine.AddHostObject("model", Model);
+                engine.AddHostObject("context", context);
                 engine.AddHostType(typeof(FormulaServerScriptUtilities));
                 var functionScripts = GetDateScript()
                     + GetDateDifScript()
@@ -81,7 +82,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     + GetEOMonthScript()
                     + GetIsBlankScript()
                     + GetIsErrorScript()
-                    + GetIfErrorScript();
+                    + GetIfErrorScript()
+                    + GetDateTimeScript();
                 var value = engine.Evaluate(functionScripts + formulaScript);
                 return value == Undefined.Value ? string.Empty : value;
             }
@@ -142,10 +144,11 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 .Replace("$eomonth(", "$EOMONTH(", StringComparison.InvariantCultureIgnoreCase)
                 .Replace("$isblank(", "$ISBLANK(", StringComparison.InvariantCultureIgnoreCase)
                 .Replace("$iserror(", "$ISERROR(", StringComparison.InvariantCultureIgnoreCase)
-                .Replace("$iferror(", "$IFERROR(", StringComparison.InvariantCultureIgnoreCase);
+                .Replace("$iferror(", "$IFERROR(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("$datetime(", "$DATETIME(", StringComparison.InvariantCultureIgnoreCase);
         }
 
-        public static string GetText(object value, string format)
+        public static string GetText(object value, string format, Context context)
         {
             if (string.IsNullOrEmpty(format))
             {
@@ -153,17 +156,23 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             }
             if (long.TryParse(value.ToString(), out long longValue))
             {
-                return longValue.ToString(format);
+                return longValue.ToString(
+                    format: format,
+                    provider: context.CultureInfoCurrency(context.Language));
             }
             if (double.TryParse(value.ToString(), out double doubleValue))
             {
-                return doubleValue.ToString(format);
+                return doubleValue.ToString(
+                    format: format,
+                    provider: context.CultureInfoCurrency(context.Language));
             }
-            return DateTime.Parse(value.ToString()).ToString(format
-                .Replace("Y", "y")
-                .Replace("D", "d")
-                .Replace("H", "h")
-                .Replace("AM/PM", "tt", StringComparison.InvariantCultureIgnoreCase));
+            return DateTime.Parse(value.ToString()).ToString(
+                format: format
+                    .Replace("Y", "y")
+                    .Replace("D", "d")
+                    .Replace("H", "h")
+                    .Replace("AM/PM", "tt"),
+                provider: context.CultureInfoCurrency(context.Language));
         }
 
         private static string GetDateScript()
@@ -1624,7 +1633,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     {
                         return '#VALUE!';
                     }
-                    return FormulaServerScriptUtilities.GetText(value, format);
+                    return FormulaServerScriptUtilities.GetText(value, format, context);
                 }";
         }
 
@@ -1854,6 +1863,53 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         : ($ISERROR(value)
                             ? (value_if_error === '' ? 0 : value_if_error)
                             : value);
+                }";
+        }
+
+        private static string GetDateTimeScript()
+        {
+            return @"
+                function $DATETIME(year, month, day, hour, minute, second)
+                {
+                    if (arguments.length != 6)
+                    {
+                        return 'Invalid Parameter';
+                    }
+                    year = (year === undefined || year === '' || year === '0') ? 0 : year;
+                    month = (month === undefined || month === '' || month === '0') ? 0 : month;
+                    day = (day === undefined || day === '' || day === '0') ? 0 : day;
+                    hour = (hour === undefined || hour === '' || hour === '0') ? 0 : hour;
+                    minute = (minute === undefined || minute === '' || minute === '0') ? 0 : minute;
+                    second = (second === undefined || second === '' || second === '0') ? 0 : second;
+                    if (isNaN(year) || isNaN(month) || isNaN(day) || isNaN(hour) || isNaN(minute) || isNaN(second))
+                    {
+                        return '#NUM!';
+                    }
+                    year = Number(year);
+                    month = Number(month);
+                    day = Number(day);
+                    hour = Number(hour);
+                    minute = Number(minute);
+                    second = Number(second);
+                    if (year === 0 && month === 1 && day === 0 && hour === 0 && minute === 0 && second === 0)
+                    {
+                        return '1900/01/00 00:00:00';
+                    }    
+                    if (year >= 0 && year < 1900)
+                    {
+                        year = 1900 + year;
+                    }
+                    var date = new Date(year, month - 1, day, hour, minute, second);
+                    if (isNaN(date.getTime()) || date.getFullYear() < 1900 || date.getFullYear() > 9999)
+                    {
+                        return '#NUM!';
+                    }
+                    return date.getFullYear()
+                        + '/' + ('0' + (date.getMonth() + 1)).slice(-2)
+                        + '/' + ('0' + date.getDate()).slice(-2)
+                        + ' ' + ('0' + (date.getHours())).slice(-2)
+                        + ':' + ('0' + (date.getMinutes())).slice(-2)
+                        + ':' + ('0' + date.getSeconds()).slice(-2);
                 }";
         }
     }
