@@ -1642,7 +1642,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             return @"
                 function $ABS(number)
                 {
-                    if (arguments.length === 0 || number === undefined)
+                    if (arguments.length === 0 || number === undefined || number === '')
                     {
                         return 'Invalid Parameter';
                     }
@@ -1725,7 +1725,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             return @"
                 function $SQRT(number)
                 {
-                    if (arguments.length === 0 || number === undefined)
+                    if (arguments.length === 0 || number === undefined || number === '')
                     {
                         return 'Invalid Parameter';
                     }
