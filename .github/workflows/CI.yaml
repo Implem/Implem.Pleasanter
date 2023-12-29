@@ -6,8 +6,8 @@ env:
   AZURE_WEBAPP_NAME: pleasanter
   AZURE_WEBAPP_PACKAGE_PATH: Implem.Pleasanter/publish
   CONFIGURATION: Release
-  DOTNET_CORE_VERSION: 6.0.x
-  DOTNET_CORE_DIR: net6.0
+  DOTNET_CORE_VERSION: 8.x
+  DOTNET_CORE_DIR: net8.0
   WORKING_DIRECTORY: Implem.Pleasanter
   WORKING_DIR_CODEDEFINER: Implem.CodeDefiner
   WORKING_DIR_TESTAUTOMATION: Implem.TestAutomation
@@ -36,7 +36,7 @@ jobs:
                 title: "Build and Test Started"
                 color: "info"
             - name: Setup .NET Core SDK ${{ env.DOTNET_CORE_VERSION }}
-              uses: actions/setup-dotnet@v2
+              uses: actions/setup-dotnet@v3
               with:
                 dotnet-version: ${{ env.DOTNET_CORE_VERSION }}
             - name: build on docker-compose
