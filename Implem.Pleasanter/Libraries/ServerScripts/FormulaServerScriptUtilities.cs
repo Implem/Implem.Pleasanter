@@ -1613,6 +1613,11 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     {
                         return value;
                     }
+                    var reg = new RegExp('^0+$', 'g');
+                    if (reg.test(format))
+                    {
+                        return FormulaServerScriptUtilities.GetText(value, '#' + format);
+                    }
                     if (format.toString().toLowerCase() === 'true'
                         || format.toString().toLowerCase() === 'false'
                         || !isNaN(Date.parse(format)))
@@ -1642,14 +1647,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     }
                     if (isNaN(number))
                     {
-                        if (isNaN(Date.parse(number)))
-                        {
-                            return '#VALUE!';
-                        }
-                        else
-                        {
-                            return Math.abs($DAYS(number, '1900/01/01') + 1);
-                        }
+                        return '#VALUE!';
                     }
                     else
                     {
@@ -1677,14 +1675,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     }
                     if (isNaN(number))
                     {
-                        if (isNaN(Date.parse(number)))
-                        {
-                            return '#VALUE!';
-                        }
-                        else
-                        {
-                            number = $DAYS(number, '1900/01/01') + 1;
-                        }
+                        return '#VALUE!';
                     }
                     if (power.toString().toLowerCase() === 'true')
                     {
@@ -1696,14 +1687,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     }
                     if (isNaN(power))
                     {
-                        if (isNaN(Date.parse(power)))
-                        {
-                            return '#VALUE!';
-                        }
-                        else
-                        {
-                            power = $DAYS(power, '1900/01/01') + 1;
-                        }
+                        return '#VALUE!';
                     }
                     if (((Number(number) == 0 || !number) && (Number(power) == 0 || !power)) || (Number(number) < 0 && Number(power) % 1 !== 0))
                     {
@@ -1746,14 +1730,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     }
                     if (isNaN(number))
                     {
-                        if (isNaN(Date.parse(number)))
-                        {
-                            return '#VALUE!';
-                        }
-                        else
-                        {
-                            return Math.sqrt($DAYS(number, '1900/01/01') + 1);
-                        }
+                        return '#VALUE!';
                     }
                     else
                     {
@@ -1793,8 +1770,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     }
                     else
                     {
-                        start_date = Number(start_date);
-                        start_date = new Date(1900, 0, start_date > 59 ? start_date - 1 : start_date);
+                        return '#VALUE!';
                     }
                     if (isNaN(months))
                     {
