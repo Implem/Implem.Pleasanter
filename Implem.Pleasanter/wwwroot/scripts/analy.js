@@ -158,15 +158,8 @@
                     })
 
                 // 円グラフの各要素に対して色を設定
-                var color = d3
-                    .scaleOrdinal()
-                    .range([
-                        '#DC3912',
-                        '#3366CC',
-                        '#109618',
-                        '#FF9900',
-                        '#990099',
-                    ]);
+                if (pieChart.Elements.length <= 10) var color = d3.scaleOrdinal(d3.schemeCategory10);
+                if (pieChart.Elements.length > 10) var color = d3.scaleSequential(d3.interpolateRainbow).domain([0, 20]);
 
                 // 円グラフの各要素に対してラベルを設定
                 var pie = d3
