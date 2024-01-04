@@ -11,8 +11,8 @@ namespace Implem.Pleasanter.Models.ApiSiteSettings
         public string Name { get; set; }
         public string DisplayName { get; set; }
         public string ScreenType { get; set; }
-        public string CurrentStatus { get; set; }
-        public string ChangedStatus { get; set; }
+        public int? CurrentStatus { get; set; }
+        public int? ChangedStatus { get; set; }
         public string Description { get; set; }
         public string Tooltip { get; set; }
         public string ConfirmationMessage { get; set; }

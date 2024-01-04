@@ -166,14 +166,6 @@ namespace Implem.Pleasanter.Models
                                 return;
                             }
                             break;
-                        case "CurrentStatus":
-                        case "ChangedStatus":
-                            if (value != null && !Enum.IsDefined(typeof(Process.Status), value))
-                            {
-                                valid = new ErrorData(type: Error.Types.NotFound);
-                                return;
-                            }
-                            break;
                         case "ExecutionType":
                             if (value != null && !Enum.IsDefined(typeof(Process.ExecutionTypes), value))
                             {
@@ -330,13 +322,6 @@ namespace Implem.Pleasanter.Models
                             }
                             else if (value.ToInt() == ApiSiteSetting.DeleteFlag.IsDelete.ToInt())
                             {
-                                return;
-                            }
-                            break;
-                        case "Status":
-                            if (value != null && !Enum.IsDefined(typeof(Process.Status), value))
-                            {
-                                valid = new ErrorData(type: Error.Types.NotFound);
                                 return;
                             }
                             break;
