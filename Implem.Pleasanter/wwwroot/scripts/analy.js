@@ -1,11 +1,16 @@
 ﻿$p.drawAnaly = function () {
-    // データが空でない場合にグラフを描画
+    // 各変数の初期化
     const pieChartWidth = 300;
     const pieChartHeight = 300;
     const newX = 200;
     const newY = pieChartHeight;
     var conditionIllegalFlag = false;
     const radius = Math.min(pieChartWidth, pieChartHeight) / 2 - 10;
+
+    // id=Analyを取得
+    const deleteElement = document.getElementById('Analy');
+    // id=Analyを削除
+    deleteElement.remove();
 
     // サーバから返却されたデータをもとに反復処理
     for (let pieChart of JSON.parse($('#AnalyJson').val())) {
@@ -51,7 +56,7 @@
                 .attr('font-size', '15px')
                 .attr('text-anchor', 'middle')
                 .attr('dy', 0)
-                .text($p.display('There is no applicable data.'));
+                .text($p.display('NoData'));
 
             // データが抽出できた場合
         } else {
@@ -78,7 +83,7 @@
                     .attr('font-size', '15px')
                     .attr('text-anchor', 'middle')
                     .attr('dy', 0)
-                    .text($p.display('Invalid request has been sent.'));
+                    .text($p.display('InvalidRequest'));
 
                 // 要求が正しかった場合
             } else {
@@ -198,7 +203,7 @@
                     .text(function (d) {
                         if (d.data.Value === 0) return;
                         if (d.data.GroupTitle === '? ')
-                            return $p.display('(Not set)') + ',' + d.data.Value;
+                            return $p.display('NotSet') + ',' + d.data.Value;
                         return d.data.GroupTitle + ',' + d.data.Value;
                     });
             }
