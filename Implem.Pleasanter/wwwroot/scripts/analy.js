@@ -37,16 +37,31 @@
             .style('float', 'left');
 
         // Gタグに対して削除ボタンを追加
-        g
-            .append('text')
-            .attr('fill', 'black')
-            .attr('font-size', '15px')
-            .attr('text-anchor', 'middle')
-            .attr('dx', -130)
-            .attr('dy', -130)
-            .attr('class', 'delete-analy')
+        var deleteChartIcon = svg
+            .append('g')
+            .attr('id', 'DeleteChartIcon')
+            .attr('transform', 'translate(300, 0)')
+            .attr('style', 'cursor: pointer;')
+
+        deleteChartIcon
+            .append('line')
+            .attr('x1', '10')
+            .attr('y1', '10')
+            .attr('x2', '30')
+            .attr('y2', '30')
             .attr('onclick', '$p.send($(\'#DeleteAnalyPart_' + pieChart.Setting.Id + '\'));')
-            .text($p.display('Delete'));
+            .attr('stroke', 'orange')
+            .attr('stroke-width', '5');
+
+        deleteChartIcon
+            .append('line')
+            .attr('x1', '30')
+            .attr('y1', '10')
+            .attr('x2', '10')
+            .attr('y2', '30')
+            .attr('onclick', '$p.send($(\'#DeleteAnalyPart_' + pieChart.Setting.Id + '\'));')
+            .attr('stroke', 'orange')
+            .attr('stroke-width', '5');
 
         // データが抽出できない場合
         if (pieChart.Elements.length === 0) {
@@ -168,7 +183,6 @@
                     .data(pie(pieChart.Elements))
                     .enter()
                     .append('g')
-                    // idをpieに変更
                     .attr('class', 'pie');
 
                 // 円グラフの半径を設定
