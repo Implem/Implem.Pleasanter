@@ -2409,7 +2409,8 @@ namespace Implem.Pleasanter.Models
             DashboardPart dashboardPart = ss.DashboardParts.FirstOrDefault(x => x.Id == context.Forms.Data(matchingKey).ToInt());
             var currentSs = SiteSettingsUtilities.Get(
                 context: context,
-                siteId: context.Forms.Long("SiteId"));
+                siteId: context.Forms.Long("SiteId"),
+                setAllChoices: true);
             //対象サイトをサイト統合の仕組みで登録
             currentSs.IntegratedSites = dashboardPart.KambanSitesData;
             currentSs.SetSiteIntegration(context: context);
