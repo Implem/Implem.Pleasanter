@@ -3342,7 +3342,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 { "dayGridMonth", Displays.Month(context: context) },
                 { "timeGridWeek", Displays.Week(context: context) },
-                { "timeGridDay", Displays.Daily(context: context) },
+                { "timeGridDay", Displays.Day(context: context) },
                 { "listMonth", Displays.List(context: context) }
             };
         }
