@@ -10,7 +10,7 @@ namespace Implem.Pleasanter.Models.ApiSiteSettings
         public int Id { get; set; }
         public string Name { get; set; }
         public string DisplayName { get; set; }
-        public string ScreenType { get; set; }
+        public int? ScreenType { get; set; }
         public int? CurrentStatus { get; set; }
         public int? ChangedStatus { get; set; }
         public string Description { get; set; }
@@ -18,10 +18,10 @@ namespace Implem.Pleasanter.Models.ApiSiteSettings
         public string ConfirmationMessage { get; set; }
         public string SuccessMessage { get; set; }
         public string OnClick { get; set; }
-        public string ExecutionType { get; set; }
-        public string ActionType { get; set; }
+        public int? ExecutionType { get; set; }
+        public int? ActionType { get; set; }
         public bool? AllowBulkProcessing { get; set; }
-        public string ValidationType { get; set; }
+        public int? ValidationType { get; set; }
         public SettingList<ValidateInput> ValidateInputs { get; set; }
         public List<int> Depts { get; set; }
         public List<int> Groups { get; set; }
