@@ -5836,8 +5836,7 @@ namespace Implem.Pleasanter.Models
                                         },
                                         addSelectedValue: false,
                                         action: "SetSiteSettings",
-                                        method: "post"))
-                                .Div(css: "command-center", action: () => hb
+                                        method: "post")
                                     .Button(
                                         controlId: "ToEnableEditorColumns",
                                         text: Displays.ToEnable(context: context),
@@ -5845,28 +5844,7 @@ namespace Implem.Pleasanter.Models
                                         onClick: "$p.enableColumns(event, $(this),'Editor', 'EditorSourceColumnsType');",
                                         icon: "ui-icon-circle-triangle-w",
                                         action: "SetSiteSettings",
-                                        method: "post")
-                                    .FieldDropDown(
-                                        context: context,
-                                        controlId: "",
-                                        fieldCss: "w100",
-                                        controlCss: " auto-postback always-send",
-                                        optionCollection: optionCollection,
-                                        addSelectedValue: false,
-                                        action: "",
-                                        method: "post"))
-                                .Div(css: "command-center", action: () => hb
-                                    .TextBox(
-                                        controlId: "",
-                                        controlCss: " auto-postback w100",
-                                        placeholder: Displays.Search(context: context),
-                                        action: "",
-                                        method: "post")
-                                    .Button(
-                                        text: Displays.Search(context: context),
-                                        controlCss: "button-icon",
-                                        onClick: "$p.send($('#'));",
-                                        icon: "ui-icon-search")))
+                                        method: "post")))
                         .Div(
                             css: "both",
                             action: () => hb
