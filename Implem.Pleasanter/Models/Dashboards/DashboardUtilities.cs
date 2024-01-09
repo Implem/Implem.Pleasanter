@@ -119,7 +119,6 @@ namespace Implem.Pleasanter.Models
                     case DashboardPartType.Index:
                         return IndexLayout(
                             context: context,
-                            ss: ss,
                             dashboardPart: dashboardPart);
                     default:
                         return new DashboardPartLayout();
@@ -1379,6 +1378,10 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 ss: ss,
                                 dashboardPart: dashboardPart).Content;
+                        case DashboardPartType.Index:
+                            return IndexLayout(
+                                context: context,
+                                dashboardPart: dashboardPart).Content;
                         default:
                             return null;
                     }
@@ -2328,7 +2331,6 @@ namespace Implem.Pleasanter.Models
 
         private static DashboardPartLayout IndexLayout(
             Context context,
-            SiteSettings ss,
             DashboardPart dashboardPart)
         {
             var hb = new HtmlBuilder();
@@ -2337,7 +2339,7 @@ namespace Implem.Pleasanter.Models
                 dashboardPart: dashboardPart);
             var index = hb
                 .Div(
-                    id: $"DashboartPart_{dashboardPart.Id}",
+                    id: $"DashboardPart_{dashboardPart.Id}",
                     attributes: new HtmlAttributes().DataId(dashboardPart.Id.ToString()),
                     css: "dashboard-index-container " + dashboardPart.ExtendedCss,
                     action: () =>
