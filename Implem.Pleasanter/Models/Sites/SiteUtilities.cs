@@ -5844,7 +5844,8 @@ namespace Implem.Pleasanter.Models
                                         onClick: "$p.enableColumns(event, $(this),'Editor', 'EditorSourceColumnsType');",
                                         icon: "ui-icon-circle-triangle-w",
                                         action: "SetSiteSettings",
-                                        method: "post")))
+                                        method: "post")),
+                                setSearchColumnButton: true)
                         .Div(
                             css: "both",
                             action: () => hb
