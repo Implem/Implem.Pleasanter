@@ -311,10 +311,10 @@ $p.confirmKambanSites = function (value) {
     var args = JSON.parse(value);
     var result = confirm($p.display('ResetKambanView'));
     if (result) {
-        $('#DashboardPartKambanSitesValue').text(args.calendarSites);
-        $p.set($('#DashboardPartKambanSites'), args.calendarSites);
+        $('#DashboardPartKambanSitesValue').text(args.kambanSites);
+        $p.set($('#DashboardPartKambanSites'), args.kambanSites);
         $p.set($('#DashboardPartBaseSiteId'), args.baseSiteId);
-        $p.send($("#ClearDashboardView"));
+        $p.send($("#ClearDashboardKambanView"));
         $p.closeDialog($("#DashboardPartKambanSitesDialog"));
     }
 }
