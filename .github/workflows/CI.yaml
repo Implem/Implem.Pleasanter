@@ -2,6 +2,7 @@
 on:
   schedule:
     - cron: '0 13 * * *'   # UTC (= 22:00 JST)
+  workflow_dispatch:  
 env:
   AZURE_WEBAPP_NAME: pleasanter
   AZURE_WEBAPP_PACKAGE_PATH: Implem.Pleasanter/publish
