@@ -8926,6 +8926,7 @@ namespace Implem.Pleasanter.Models
                 ? false
                 : context.Forms.ControlId().StartsWith("Kamban");
             var res = new ResponseCollection(context: context);
+            var suffix = view.GetKambanSuffix();
             if (context.ErrorData.Type != Error.Types.None)
             {
                 res.Message(context.ErrorData.Message(context: context));
@@ -8946,7 +8947,6 @@ namespace Implem.Pleasanter.Models
                         changedItemId: updated
                             ? context.Forms.Long("KambanId")
                             : 0);
-                    var suffix = view.GetKambanSuffix();
                     return res
                         .ViewMode(
                             context: context,
@@ -8977,7 +8977,7 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 data: Parameters.General.KambanLimit.ToString()),
                             bodyOnly: bodyOnly,
-                            bodySelector: "#KambanBody",
+                            bodySelector: $"#KambanBody{suffix}",
                             body: body,
                             replaceAllBody: true)
                         .Events("on_kamban_load")
