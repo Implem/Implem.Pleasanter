@@ -8119,6 +8119,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string ResetKambanView(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ResetKambanView",
+                data: data);
+        }
+
         public static string ResetOrder(
             Context context,
             params string[] data)

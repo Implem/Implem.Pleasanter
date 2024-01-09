@@ -2331,6 +2331,7 @@ namespace Implem.Pleasanter.Models
                 Content = AsynchronousLoading
             };
         }
+
         /// <summary>
         /// Fixed:
         /// </summary>
@@ -2368,6 +2369,7 @@ namespace Implem.Pleasanter.Models
                 Content = kamban
             };
         }
+
         /// <summary>
         /// Fixed:
         /// </summary>
