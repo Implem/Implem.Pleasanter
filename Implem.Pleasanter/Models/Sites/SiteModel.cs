@@ -8057,6 +8057,9 @@ namespace Implem.Pleasanter.Models
                 dashboardCalendarSites: context.Forms.Data("DashboardPartCalendarSites")));
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private void OpenDashboardPartKambanSitesDialog(Context context, ResponseCollection res)
         {
             res.Html("#DashboardPartKambanSitesDialog", SiteUtilities.DashboardPartKambanSitesDialog(
@@ -8445,6 +8448,10 @@ namespace Implem.Pleasanter.Models
                         }.ToJson());
             }
         }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private void UpdateDashboardPartKambanSites(Context context, ResponseCollection res)
         {
             var savedKambanSites = context.Forms.Data("SavedDashboardPartKambanSites");

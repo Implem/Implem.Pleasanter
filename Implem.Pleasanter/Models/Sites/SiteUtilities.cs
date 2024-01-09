@@ -15443,6 +15443,9 @@ namespace Implem.Pleasanter.Models
                             method: "post")));
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static HtmlBuilder DashboardPartKambanSitesDialog(
         Context context,
         SiteSettings ss,

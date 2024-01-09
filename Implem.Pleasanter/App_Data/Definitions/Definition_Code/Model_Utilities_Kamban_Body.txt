@@ -27,19 +27,31 @@
     var serverScriptModelRow = ss.GetServerScriptModelRow(
         context: context,
         view: view);
-    return hb.ViewModeTemplate(
-        context: context,
-        ss: ss,
-        view: view,
-        viewMode: viewMode,
-        serverScriptModelRow: serverScriptModelRow,
-        viewModeBody: () => hb
-            .Kamban(
-                context: context,
-                ss: ss,
-                view: view,
-                bodyOnly: false,
-                inRange: inRange));
+    if (ss.DashboardParts?.Any() != true)
+    {
+        return hb.ViewModeTemplate(
+            context: context,
+            ss: ss,
+            view: view,
+            viewMode: viewMode,
+            serverScriptModelRow: serverScriptModelRow,
+            viewModeBody: () => hb
+                .Kamban(
+                    context: context,
+                    ss: ss,
+                    view: view,
+                    bodyOnly: false,
+                    inRange: inRange));
+    }
+    else
+    {
+        return hb.Kamban(
+            context: context,
+            ss: ss,
+            view: view,
+            bodyOnly: false,
+            inRange: inRange).ToString();
+    }
 }
 
 public static string KambanJson(
@@ -52,59 +64,79 @@ public static string KambanJson(
         return Messages.ResponseHasNotPermission(context: context).ToJson();
     }
     var view = Views.GetBySession(context: context, ss: ss);
-    var bodyOnly = context.Forms.ControlId().StartsWith("Kamban");
+     var bodyOnly = ss.DashboardParts?.Any() == true
+        ? false
+        : context.Forms.ControlId().StartsWith("Kamban");
     var res = new ResponseCollection(context: context);
+    var suffix = view.GetKambanSuffix();
     if (context.ErrorData.Type != Error.Types.None)
     {
         res.Message(context.ErrorData.Message(context: context));
     }
-    if (InRange(
-        context: context,
-        ss: ss,
-        view: view,
-        limit: Parameters.General.KambanLimit))
+    if (ss.DashboardParts?.Any() != true)
     {
-        var body = new HtmlBuilder().Kamban(
+        if (InRange(
             context: context,
             ss: ss,
             view: view,
-            bodyOnly: bodyOnly,
-            changedItemId: updated
-                ? context.Forms.Long("KambanId")
-                : 0);
-        return res
-            .ViewMode(
+            limit: Parameters.General.KambanLimit))
+        {
+            var body = new HtmlBuilder().Kamban(
                 context: context,
                 ss: ss,
                 view: view,
-                invoke: "setKamban",
                 bodyOnly: bodyOnly,
-                bodySelector: "#KambanBody",
-                body: body)
-            .Events("on_kamban_load")
-            .ToJson();
+                changedItemId: updated
+                    ? context.Forms.Long("KambanId")
+                    : 0);
+            return res
+                .ViewMode(
+                    context: context,
+                    ss: ss,
+                    view: view,
+                    invoke: "setKamban",
+                    bodyOnly: bodyOnly,
+                    bodySelector: $"#KambanBody{suffix}",
+                    body: body,
+                    replaceAllBody: true)
+                .Events("on_kamban_load")
+                .ToJson();
+        }
+        else
+        {
+            var body = new HtmlBuilder().Kamban(
+                context: context,
+                ss: ss,
+                view: view,
+                bodyOnly: bodyOnly,
+                inRange: false);
+            return res
+                .ViewMode(
+                    context: context,
+                    ss: ss,
+                    view: view,
+                    message: Messages.TooManyCases(
+                        context: context,
+                        data: Parameters.General.KambanLimit.ToString()),
+                    bodyOnly: bodyOnly,
+                    bodySelector: $"#KambanBody{suffix}",
+                    body: body,
+                    replaceAllBody: true)
+                .Events("on_kamban_load")
+                .ToJson();
+        }
     }
     else
     {
         var body = new HtmlBuilder().Kamban(
-            context: context,
-            ss: ss,
-            view: view,
-            bodyOnly: bodyOnly,
-            inRange: false);
-        return res
-            .ViewMode(
                 context: context,
                 ss: ss,
                 view: view,
-                message: Messages.TooManyCases(
-                    context: context,
-                    data: Parameters.General.KambanLimit.ToString()),
                 bodyOnly: bodyOnly,
-                bodySelector: "#KambanBody",
-                body: body)
-            .Events("on_kamban_load")
-            .ToJson();
+                changedItemId: updated
+                    ? context.Forms.Long("KambanId")
+                    : 0);
+        return body.ToString();
     }
 }
 
@@ -149,6 +181,7 @@ private static HtmlBuilder Kamban(
         groupByX: groupByX,
         groupByY: groupByY,
         value: value);
+    var suffix = view.GetKambanSuffix();
     return !bodyOnly
         ? hb.Kamban(
             context: context,
@@ -162,7 +195,8 @@ private static HtmlBuilder Kamban(
             aggregationView: aggregationView,
             showStatus: showStatus,
             data: data,
-            inRange: inRange)
+            inRange: inRange,
+            suffix: suffix)
         : hb.KambanBody(
             context: context,
             ss: ss,
@@ -175,6 +209,7 @@ private static HtmlBuilder Kamban(
             aggregationView: aggregationView,
             showStatus: showStatus,
             data: data,
+            suffix: suffix,
             changedItemId: changedItemId,
             inRange: inRange);
 }
@@ -189,6 +224,7 @@ private static IEnumerable<Libraries.ViewModes.KambanElement> KambanData(
 {
     var column = Rds.#TableName#Column()
         .#ModelName#Id()
+        .SiteId()
         .Status()
         .ItemTitle(ss.ReferenceType)
         .Add(
@@ -223,6 +259,7 @@ private static IEnumerable<Libraries.ViewModes.KambanElement> KambanData(
                 .Select(o => new Libraries.ViewModes.KambanElement()
                 {
                     Id = o.Long("#ModelName#Id"),
+                    SiteId = o.Long("SiteId"),
                     Title = o.String("ItemTitle"),
                     Status = new Status(o.Int("Status")),
                     GroupX = groupByX?.ConvertIfUserColumn(o),
