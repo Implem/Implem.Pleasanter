@@ -1833,7 +1833,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string extendedHtmlBetweenLabelAndControl = null,
             string extendedHtmlAfterControl = null,
             Action commandOptionAction = null,
-            bool setSearchColumnButton = false,
+            bool setSearchOptionButton = false,
+            string searchOptionFunction = null,
             bool _using = true)
         {
             if (!_using) return hb;
@@ -1891,7 +1892,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             alwaysDataValue: alwaysDataValue,
                             action: action,
                             method: method,
-                            setSearchColumnButton: setSearchColumnButton);
+                            setSearchOptionButton: setSearchOptionButton,
+                            searchOptionFunction: searchOptionFunction);
                     });
             }
         }

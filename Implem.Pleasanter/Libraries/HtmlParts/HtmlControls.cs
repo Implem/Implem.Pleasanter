@@ -782,7 +782,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool alwaysDataValue = false,
             string action = null,
             string method = null,
-            bool setSearchColumnButton = false,
+            bool setSearchOptionButton = false,
+            string searchOptionFunction = null,
             bool _using = true)
         {
             return _using
@@ -790,7 +791,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     id: controlId + "Wrapper",
                     css: Css.Class("wrapper", controlWrapperCss),
                     action: () => hb
-                        .SearchColumnButton(setSearchColumnButton)
+                        .SearchOptionButton(
+                            setSearchOptionButton: setSearchOptionButton,
+                            searchOptionFunction: searchOptionFunction)
                         .Selectable(
                             controlId: controlId,
                             controlCss: Css.Class("control-selectable", controlCss),
@@ -802,15 +805,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 : hb;
         }
 
-        public static HtmlBuilder SearchColumnButton(
+        public static HtmlBuilder SearchOptionButton(
             this HtmlBuilder hb,
-            bool setSearchColumnButton = false)
+            bool setSearchOptionButton = false,
+            string searchOptionFunction = null)
         {
-            return setSearchColumnButton
+            return setSearchOptionButton
                 ? hb.Div(
                     attributes: new HtmlAttributes()
                         .Class("ui-icon ui-icon-search")
-                        .OnClick(""))
+                        .OnClick(searchOptionFunction))
                 : hb;
         }
 

@@ -5723,7 +5723,6 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder EditorSettingsEditor(
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
-            var optionCollection = new Dictionary<string, ControlData>();
             return hb.FieldSet(id: "EditorSettingsEditor", action: () => hb
                 .FieldSet(
                     css: " enclosed",
@@ -5845,7 +5844,8 @@ namespace Implem.Pleasanter.Models
                                         icon: "ui-icon-circle-triangle-w",
                                         action: "SetSiteSettings",
                                         method: "post")),
-                                setSearchColumnButton: true)
+                                setSearchOptionButton: true,
+                                searchOptionFunction: "$p.openSearchEditorColumnDialog()")
                         .Div(
                             css: "both",
                             action: () => hb
