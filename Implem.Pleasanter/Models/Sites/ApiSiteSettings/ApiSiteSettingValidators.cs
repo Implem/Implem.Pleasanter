@@ -93,7 +93,9 @@ namespace Implem.Pleasanter.Models
             }
             foreach (var apiSiteSetting in apiSiteSettingBaseProperties)
             {
-                if (apiSiteSetting.Id == null) return new ErrorData(type: Error.Types.NotFound);
+                if (apiSiteSetting.Id == null) {
+                    return new ErrorData(type: Error.Types.NotFound);
+                }
                 if (apiSiteSetting.Delete.ToInt() != ApiSiteSetting.DeleteFlag.IsDelete.ToInt()
                      && string.IsNullOrEmpty(apiSiteSetting.Title))
                 {

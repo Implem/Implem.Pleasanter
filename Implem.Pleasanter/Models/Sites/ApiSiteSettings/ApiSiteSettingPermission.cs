@@ -9,6 +9,7 @@ namespace Implem.Pleasanter.Models
         public List<int> Depts { get; set; }
         public List<int> Groups { get; set; }
         public List<int> Users { get; set; }
+
         public ApiSiteSettingPermission()
         {
         }

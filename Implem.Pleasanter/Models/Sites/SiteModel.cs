@@ -21,7 +21,6 @@ using System.Data;
 using System.Data.Common;
 using System.Linq;
 
-
 namespace Implem.Pleasanter.Models
 {
     [Serializable]
@@ -2620,7 +2619,7 @@ namespace Implem.Pleasanter.Models
                         actionType: processApiSiteSetting.ActionType?.ToString().ToEnum<Process.ActionTypes>(),
                         allowBulkProcessing: processApiSiteSetting.AllowBulkProcessing,
                         validationType: processApiSiteSetting.ValidationType?.ToString().ToEnum<Process.ValidationTypes>(),
-                         validateInputs: ParseValidateInputs(
+                        validateInputs: ParseValidateInputs(
                             validateInputs: processApiSiteSetting.ValidateInputs,
                             process: currentProcess),
                         permissions: ParsePermissions(
@@ -2667,9 +2666,9 @@ namespace Implem.Pleasanter.Models
                      view: statusControlSetting.View,
                      columnHash: statusControlSetting.ColumnHash,
                      permissions: statusControlSetting.Permission != null ? ParsePermissions(
-                            apiSettingPermission: statusControlSetting.Permission,
-                            ss: siteSetting,
-                            target: statusControl) : null);
+                         apiSettingPermission: statusControlSetting.Permission,
+                         ss: siteSetting,
+                         target: statusControl) : null);
                 }
                 else
                 {
@@ -2682,10 +2681,9 @@ namespace Implem.Pleasanter.Models
                      view: statusControlSetting.View,
                      columnHash: statusControlSetting.ColumnHash,
                      permissions: ParsePermissions(
-                            apiSettingPermission: statusControlSetting.Permission,
-                            ss: siteSetting)));
+                         apiSettingPermission: statusControlSetting.Permission,
+                         ss: siteSetting)));
                 }
-
             });
             if (deleteSelected.Count() != 0)
             {
@@ -8827,17 +8825,17 @@ namespace Implem.Pleasanter.Models
                 return permissions;
             }
             apiSettingPermission.Users?.ForEach(id => permissions.Add(new Permission(
-                    ss: ss,
-                    name: "User",
-                    id: id)));
+                ss: ss,
+                name: "User",
+                id: id)));
             apiSettingPermission.Groups?.ForEach(id => permissions.Add(new Permission(
-                    ss: ss,
-                    name: "Group",
-                    id: id)));
+                ss: ss,
+                name: "Group",
+                id: id)));
             apiSettingPermission.Depts?.ForEach(id => permissions.Add(new Permission(
-                        ss: ss,
-                        name: "Dept",
-                        id: id)));
+                ss: ss,
+                name: "Dept",
+                id: id)));
             switch (target)
             {
                 case Process process when target.GetType().Name == nameof(Process):
