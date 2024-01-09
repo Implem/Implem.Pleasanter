@@ -8448,13 +8448,13 @@ namespace Implem.Pleasanter.Models
         private void UpdateDashboardPartKambanSites(Context context, ResponseCollection res)
         {
             var savedKambanSites = context.Forms.Data("SavedDashboardPartKambanSites");
-            var calendarSites = context.Forms.Data("DashboardPartKambanSitesEdit");
+            var kambanSites = context.Forms.Data("DashboardPartKambanSitesEdit");
             var savedSs = DashboardPart.GetBaseSiteSettings(
                 context: context,
                 sitesString: savedKambanSites);
             var currentSs = DashboardPart.GetBaseSiteSettings(
                 context: context,
-                sitesString: calendarSites);
+                sitesString: kambanSites);
             if (currentSs == null || currentSs.SiteId == 0)
             {
                 res.Message(
@@ -8469,14 +8469,14 @@ namespace Implem.Pleasanter.Models
                 res
                     .Set(
                         target: "#DashboardPartKambanSites",
-                        value: calendarSites)
+                        value: kambanSites)
                     .Set(
                         target: "#DashboardPartKambanBaseSiteId",
                         value: currentSs.SiteId)
                     .Add(
                         method: "SetValue",
                         target: "#DashboardPartKambanSitesValue",
-                        value: calendarSites)
+                        value: kambanSites)
                     .CloseDialog(
                         target: "#DashboardPartKambanSitesDialog");
                 if (savedSs == null || savedSs?.SiteId == 0)
@@ -8487,18 +8487,11 @@ namespace Implem.Pleasanter.Models
             else
             {
                 res
-                    .Html(
-                        target: "#DashboardPartKambanValue",
-                        value: new HtmlBuilder()
-                            .OptionCollection(
-                                context: context,
-                                optionCollection: currentSs.KambanValueOptions(context: context)?.ToDictionary(
-                                o => o.Key, o => new ControlData(o.Value))))
                     .Invoke(
                         methodName: "confirmKambanSites",
                         args: new
                         {
-                            calendarSites,
+                            kambanSites,
                             baseSiteId = currentSs.SiteId
                         }.ToJson());
             }
@@ -8638,7 +8631,8 @@ namespace Implem.Pleasanter.Models
                         .OptionCollection(
                             context: context,
                             optionCollection: currentSs.KambanValueOptions(context: context)?.ToDictionary(
-                            o => o.Key, o => new ControlData(o.Value))));
+                            o => o.Key, o => new ControlData(o.Value)),
+                            selectedValue: "RemainingWorkValue"));
         }
 
         /// <summary>
