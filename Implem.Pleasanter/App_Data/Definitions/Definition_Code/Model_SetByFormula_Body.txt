@@ -68,10 +68,10 @@
                 formulaScript: formulaSet.FormulaScript,
                 calculationMethod: formulaSet.CalculationMethod);
             var value = FormulaServerScriptUtilities.Execute(
-                        context: context,
-                        ss: ss,
-                        itemModel: this,
-                        formulaScript: formulaSet.FormulaScript);
+                context: context,
+                ss: ss,
+                itemModel: this,
+                formulaScript: formulaSet.FormulaScript);
             switch (value)
             {
                 case "#N/A":
