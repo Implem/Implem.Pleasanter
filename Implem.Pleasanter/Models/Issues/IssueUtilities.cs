@@ -8946,6 +8946,7 @@ namespace Implem.Pleasanter.Models
                         changedItemId: updated
                             ? context.Forms.Long("KambanId")
                             : 0);
+                    var suffix = view.GetKambanSuffix();
                     return res
                         .ViewMode(
                             context: context,
@@ -8953,7 +8954,7 @@ namespace Implem.Pleasanter.Models
                             view: view,
                             invoke: "setKamban",
                             bodyOnly: bodyOnly,
-                            bodySelector: "#KambanBody",
+                            bodySelector: $"#KambanBody{suffix}",
                             body: body,
                             replaceAllBody: true)
                         .Events("on_kamban_load")
@@ -8977,7 +8978,8 @@ namespace Implem.Pleasanter.Models
                                 data: Parameters.General.KambanLimit.ToString()),
                             bodyOnly: bodyOnly,
                             bodySelector: "#KambanBody",
-                            body: body)
+                            body: body,
+                            replaceAllBody: true)
                         .Events("on_kamban_load")
                         .ToJson();
                 }
@@ -9092,9 +9094,13 @@ namespace Implem.Pleasanter.Models
                 .Add(
                     context: context,
                     column: value);
-            var where = view.Where(
+            var where = ss.DashboardParts?.Any() == true
+                        ? ss.DashboardParts[0].View.Where(context: context, ss: ss)
+                        : new SqlWhereCollection();
+            where = view.Where(
                 context: context,
-                ss: ss);
+                ss: ss,
+                where: where);
             var param = view.Param(
                 context: context,
                 ss: ss);

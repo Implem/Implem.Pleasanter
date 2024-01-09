@@ -31,13 +31,13 @@ namespace Implem.Pleasanter.Libraries.Responses
                         ? "#ViewModeContainer"
                         : bodySelector,
                     value: body,
-                    _using: !replaceAllBody)
+                    _using: !replaceAllBody || !bodyOnly)
                 .ReplaceAll(
                     target: !bodyOnly
                         ? "#ViewModeContainer"
                         : bodySelector,
                     value: body,
-                    _using: replaceAllBody)
+                    _using: replaceAllBody && bodyOnly)
                 .View(
                     context: context,
                     ss: ss,
