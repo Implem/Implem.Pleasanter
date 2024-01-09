@@ -8900,7 +8900,7 @@ namespace Implem.Pleasanter.Models
                             view: view,
                             bodyOnly: false,
                             inRange: inRange));
-        }
+            }
             else
             {
                 return hb.Kamban(
@@ -8922,7 +8922,7 @@ namespace Implem.Pleasanter.Models
                 return Messages.ResponseHasNotPermission(context: context).ToJson();
             }
             var view = Views.GetBySession(context: context, ss: ss);
-            var bodyOnly = ss.DashboardParts?.Any() == true
+             var bodyOnly = ss.DashboardParts?.Any() == true
                 ? false
                 : context.Forms.ControlId().StartsWith("Kamban");
             var res = new ResponseCollection(context: context);
@@ -8934,10 +8934,10 @@ namespace Implem.Pleasanter.Models
             if (ss.DashboardParts?.Any() != true)
             {
                 if (InRange(
-                context: context,
-                ss: ss,
-                view: view,
-                limit: Parameters.General.KambanLimit))
+                    context: context,
+                    ss: ss,
+                    view: view,
+                    limit: Parameters.General.KambanLimit))
                 {
                     var body = new HtmlBuilder().Kamban(
                         context: context,

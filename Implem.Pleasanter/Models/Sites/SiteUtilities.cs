@@ -15451,47 +15451,47 @@ namespace Implem.Pleasanter.Models
         SiteSettings ss,
         int dashboardPartId,
         string dashboardKambanSites)
-            {
-                var hb = new HtmlBuilder();
-                return hb.Form(
-                    attributes: new HtmlAttributes()
-                        .Id("DashboardPartKambanSitesEditForm")
-                        .Action(Locations.ItemAction(
-                            context: context,
-                            id: ss.SiteId)),
-                    action: () => hb
-                        .FieldTextBox(
-                            controlId: "DashboardPartKambanSitesEdit",
-                            fieldCss: "field-wide",
-                            controlCss: " always-send",
-                            labelText: Displays.SiteId(context: context),
-                            text: dashboardKambanSites,
-                            validateRequired: true)
-                        .Hidden(
-                            controlId: "DashboardPartId",
-                            alwaysSend: true,
-                            value: dashboardPartId.ToString())
-                        .Hidden(
-                            controlId: "SavedDashboardPartKambanSites",
-                            alwaysSend: true,
-                            value: dashboardKambanSites)
-                        .Hidden(
-                            controlId: "ClearDashboardKambanView",
+        {
+            var hb = new HtmlBuilder();
+            return hb.Form(
+                attributes: new HtmlAttributes()
+                    .Id("DashboardPartKambanSitesEditForm")
+                    .Action(Locations.ItemAction(
+                        context: context,
+                        id: ss.SiteId)),
+                action: () => hb
+                    .FieldTextBox(
+                        controlId: "DashboardPartKambanSitesEdit",
+                        fieldCss: "field-wide",
+                        controlCss: " always-send",
+                        labelText: Displays.SiteId(context: context),
+                        text: dashboardKambanSites,
+                        validateRequired: true)
+                    .Hidden(
+                        controlId: "DashboardPartId",
+                        alwaysSend: true,
+                        value: dashboardPartId.ToString())
+                    .Hidden(
+                        controlId: "SavedDashboardPartKambanSites",
+                        alwaysSend: true,
+                        value: dashboardKambanSites)
+                    .Hidden(
+                        controlId: "ClearDashboardKambanView",
+                        action: "SetSiteSettings",
+                        method: "post")
+                    .P(
+                        id: "DashboardPartKambanSitesMessage",
+                        css: "message-dialog")
+                    .Div(css: "command-center", action: () => hb
+                        .Button(
+                            controlId: "UpdateDashboardPartKambanSites",
+                            text: Displays.OK(context: context),
+                            controlCss: "button-icon validate",
+                            icon: "ui-icon-pencil",
+                            onClick: "$p.send($(this));",
                             action: "SetSiteSettings",
-                            method: "post")
-                        .P(
-                            id: "DashboardPartKambanSitesMessage",
-                            css: "message-dialog")
-                        .Div(css: "command-center", action: () => hb
-                            .Button(
-                                controlId: "UpdateDashboardPartKambanSites",
-                                text: Displays.OK(context: context),
-                                controlCss: "button-icon validate",
-                                icon: "ui-icon-pencil",
-                                onClick: "$p.send($(this));",
-                                action: "SetSiteSettings",
-                                method: "post")));
-            }
+                            method: "post")));
+        }
 
         /// <summary>
         /// Fixed:
