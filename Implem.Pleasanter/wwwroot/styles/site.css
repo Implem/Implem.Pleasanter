@@ -3400,6 +3400,22 @@ textarea:focus {
     width: 100%;
 }
 
+#AnalyPartTimePeriodValueField {
+    width: 230px;
+}
+
+#AnalyPartTimePeriodField {
+    width: 110px;
+}
+
+    #AnalyPartTimePeriodField .field-label {
+        display: none;
+    }
+
+    #AnalyPartTimePeriodField div.container-normal {
+        margin-left: 0px;
+    }
+
 .gs-20 > .grid-stack-item {
     width: 5%;
     min-width: 5%;

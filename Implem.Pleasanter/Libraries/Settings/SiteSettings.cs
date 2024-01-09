@@ -3225,6 +3225,19 @@ namespace Implem.Pleasanter.Libraries.Settings
             };
         }
 
+        public Dictionary<string, string> AnalyPeriodOptions(Context context)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "DaysAgoNoArgs", Displays.DaysAgoNoArgs(context: context) },
+                { "MonthsAgoNoArgs", Displays.MonthsAgoNoArgs(context: context) },
+                { "YearsAgoNoArgs", Displays.YearsAgoNoArgs(context: context) },
+                { "HoursAgoNoArgs", Displays.HoursAgoNoArgs(context: context) },
+                { "MinutesAgoNoArgs", Displays.MinutesAgoNoArgs(context: context) },
+                { "SecondsAgoNoArgs", Displays.SecondsAgoNoArgs(context: context) }
+            };
+        }
+
         public Dictionary<string, ControlData> AggregationDestination(Context context)
         {
             return Aggregations?

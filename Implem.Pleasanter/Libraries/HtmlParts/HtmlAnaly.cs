@@ -48,7 +48,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     Id = 0,
                     GroupBy = ss.AnalyGroupByOptions(context: context).FirstOrDefault().Key,
                     TimePeriodValue = 0,
-                    TimePeriod = "Days",
+                    TimePeriod = "DaysAgoNoArgs",
                     AggregationType = "Count"
                 };
             return hb.Form(
@@ -72,6 +72,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         optionCollection: ss.AnalyGroupByOptions(context: context),
                         selectedValue: analyPart.GroupBy)
                     .FieldSpinner(
+                        fieldId: "AnalyPartTimePeriodValueField",
                         controlId: "AnalyPartTimePeriodValue",
                         fieldCss: "field-normal",
                         controlCss: " always-send",
@@ -88,7 +89,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         fieldCss: "field-normal",
                         controlCss: " always-send",
                         labelText: Displays.Period(context: context),
-                        optionCollection: ss.PeriodOptions(context: context),
+                        optionCollection: ss.AnalyPeriodOptions(context: context),
                         selectedValue: analyPart.TimePeriod)
                     .FieldDropDown(
                         context: context,

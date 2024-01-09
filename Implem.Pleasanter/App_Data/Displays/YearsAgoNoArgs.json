@@ -1,0 +1,34 @@
+﻿{
+    "Id": "YearsAgoNoArgs",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "years ago"
+        },
+        {
+            "Language": "zh",
+            "Body": "几年前"
+        },
+        {
+            "Language": "ja",
+            "Body": "年前"
+        },
+        {
+            "Language": "de",
+            "Body": "Jahre zuvor"
+        },
+        {
+            "Language": "ko",
+            "Body": "여러 해 전에"
+        },
+        {
+            "Language": "es",
+            "Body": "hace años que"
+        },
+        {
+            "Language": "vn",
+            "Body": "nhiều năm trước"
+        }
+    ]
+}

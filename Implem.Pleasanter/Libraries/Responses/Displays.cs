@@ -2749,6 +2749,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string DaysAgoNoArgs(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "DaysAgoNoArgs",
+                data: data);
+        }
+
         public static string DecimalPlaces(
             Context context,
             params string[] data)
@@ -4406,6 +4416,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "HoursAgo",
+                data: data);
+        }
+
+        public static string HoursAgoNoArgs(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "HoursAgoNoArgs",
                 data: data);
         }
 
@@ -6109,6 +6129,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string MinutesAgoNoArgs(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "MinutesAgoNoArgs",
+                data: data);
+        }
+
         public static string MinutesStep(
             Context context,
             params string[] data)
@@ -6196,6 +6226,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "MonthsAgo",
+                data: data);
+        }
+
+        public static string MonthsAgoNoArgs(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "MonthsAgoNoArgs",
                 data: data);
         }
 
@@ -8219,6 +8259,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string SecondsAgoNoArgs(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SecondsAgoNoArgs",
+                data: data);
+        }
+
         public static string Section(
             Context context,
             params string[] data)
@@ -10186,6 +10236,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "YearsAgo",
+                data: data);
+        }
+
+        public static string YearsAgoNoArgs(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "YearsAgoNoArgs",
                 data: data);
         }
 
