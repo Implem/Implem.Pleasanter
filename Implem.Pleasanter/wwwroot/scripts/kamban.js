@@ -10,7 +10,6 @@
         kambanSuffix = kambanSuffix.indexOf('_') === -1 ? '' : kambanSuffix;
         $('#KambanBody' + kambanSuffix + ' .ui-widget-header').addClass('dashboard-kamban-header');
         $('#KambanBody' + kambanSuffix + ' .kamban-item').draggable({
-            containment: '#DashboardPart' + kambanSuffix,
             revert: 'invalid',
             start: function () {
                 $(this).parent().droppable({
@@ -21,7 +20,7 @@
                 return $('<div />')
                     .addClass('dragging')
                     .append($('<div />')
-                        .append($(this).text()));
+                        .append($(this).text())).width($(this).width());
             }
         });
         $('#KambanBody' + kambanSuffix + ' .kamban-container').droppable({
