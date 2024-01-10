@@ -29,7 +29,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool checkRow = true,
             bool checkAll = false,
             string action = "GridRows",
-            ServerScriptModelRow serverScriptModelRow = null)
+            ServerScriptModelRow serverScriptModelRow = null,
+            string suffix = "")
         {
             return hb.Tr(
                 css: "ui-widget-header",
@@ -56,7 +57,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     {
                         hb.Th(action: () => hb
                             .CheckBox(
-                                controlId: "GridCheckAll",
+                                controlId: $"GridCheckAll{suffix}",
                                 _checked: checkAll));
                     }
                     columns.ForEach(column =>
@@ -80,7 +81,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 action: () => hb
                                     .Div(
                                         attributes: new HtmlAttributes()
-                                            .DataId("ViewSorters__" + column.ColumnName)
+                                            .DataId("ViewSorters__" + column.ColumnName + $"{suffix}")
                                             .Add("data-order-type", OrderBy(
                                                 view, column.ColumnName))
                                             .DataAction(action)
