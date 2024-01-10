@@ -249,6 +249,11 @@ $p.openRelatingColumnDialog = function ($control) {
     $p.openSiteSettingsDialog($control, '#RelatingColumnDialog');
 }
 
+$p.openSearchEditorColumnDialog = function ($control) {
+    $p.data.SearchEditorColumnForm = {};
+    $p.openSiteSettingsDialog($control, '#RelatingColumnDialog');
+}
+
 $p.setRelatingColumn = function ($control) {
     $p.setData($('#EditRelatingColumns'), $p.getData($control));
     $p.send($control);

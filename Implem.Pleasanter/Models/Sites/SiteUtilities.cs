@@ -5844,8 +5844,8 @@ namespace Implem.Pleasanter.Models
                                         icon: "ui-icon-circle-triangle-w",
                                         action: "SetSiteSettings",
                                         method: "post")),
-                                setSearchOptionButton: true,
-                                searchOptionFunction: "$p.openSearchEditorColumnDialog()")
+                            setSearchOptionButton: true,
+                            searchOptionFunction: "$p.openSearchEditorColumnDialog($(this));")
                         .Div(
                             css: "both",
                             action: () => hb

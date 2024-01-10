@@ -791,9 +791,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     id: controlId + "Wrapper",
                     css: Css.Class("wrapper", controlWrapperCss),
                     action: () => hb
-                        .SearchOptionButton(
-                            setSearchOptionButton: setSearchOptionButton,
-                            searchOptionFunction: searchOptionFunction)
                         .Selectable(
                             controlId: controlId,
                             controlCss: Css.Class("control-selectable", controlCss),
@@ -802,6 +799,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             alwaysDataValue: alwaysDataValue,
                             action: action,
                             method: method))
+                    .SearchOptionButton(
+                        setSearchOptionButton: setSearchOptionButton,
+                        searchOptionFunction: searchOptionFunction)
                 : hb;
         }
 
@@ -814,7 +814,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 ? hb.Div(
                     attributes: new HtmlAttributes()
                         .Class("ui-icon ui-icon-search")
-                        .OnClick(searchOptionFunction))
+                        .OnClick(searchOptionFunction)
+                        .Action("SetSiteSettings")
+                        .DataMethod("post"))
                 : hb;
         }
 
