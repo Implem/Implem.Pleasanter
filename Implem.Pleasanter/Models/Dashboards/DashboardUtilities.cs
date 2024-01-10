@@ -2329,6 +2329,9 @@ namespace Implem.Pleasanter.Models
             };
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private static DashboardPartLayout IndexLayout(
             Context context,
             DashboardPart dashboardPart)
@@ -2363,6 +2366,9 @@ namespace Implem.Pleasanter.Models
             };
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private static string GetIndexRecords(
             Context context,
             DashboardPart dashboardPart)
