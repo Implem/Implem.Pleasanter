@@ -1834,6 +1834,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string extendedHtmlAfterControl = null,
             Action commandOptionAction = null,
             bool setSearchOptionButton = false,
+            string searchOptionId = null,
             string searchOptionFunction = null,
             bool _using = true)
         {
@@ -1893,6 +1894,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             action: action,
                             method: method,
                             setSearchOptionButton: setSearchOptionButton,
+                            searchOptionId: searchOptionId,
                             searchOptionFunction: searchOptionFunction);
                     });
             }

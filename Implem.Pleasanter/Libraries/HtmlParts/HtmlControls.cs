@@ -783,6 +783,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string action = null,
             string method = null,
             bool setSearchOptionButton = false,
+            string searchOptionId = null,
             string searchOptionFunction = null,
             bool _using = true)
         {
@@ -801,6 +802,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             method: method))
                     .SearchOptionButton(
                         setSearchOptionButton: setSearchOptionButton,
+                        searchOptionId: searchOptionId,
                         searchOptionFunction: searchOptionFunction)
                 : hb;
         }
@@ -808,14 +810,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder SearchOptionButton(
             this HtmlBuilder hb,
             bool setSearchOptionButton = false,
+            string searchOptionId = null,
             string searchOptionFunction = null)
         {
             return setSearchOptionButton
                 ? hb.Div(
                     attributes: new HtmlAttributes()
+                        .Id(searchOptionId)
                         .Class("ui-icon ui-icon-search")
                         .OnClick(searchOptionFunction)
-                        .Action("SetSiteSettings")
+                        .DataAction("SetSiteSettings")
                         .DataMethod("post"))
                 : hb;
         }

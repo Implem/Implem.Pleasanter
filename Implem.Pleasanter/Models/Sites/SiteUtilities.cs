@@ -5845,6 +5845,7 @@ namespace Implem.Pleasanter.Models
                                         action: "SetSiteSettings",
                                         method: "post")),
                             setSearchOptionButton: true,
+                            searchOptionId: "SearchEditorColumnDialog",
                             searchOptionFunction: "$p.openSearchEditorColumnDialog($(this));")
                         .Div(
                             css: "both",
@@ -15397,6 +15398,13 @@ namespace Implem.Pleasanter.Models
                             onClick: "$p.updateDashboardPartTimeLineSites($(this));",
                             action: "SetSiteSettings",
                             method: "post")));
+        }
+
+        public static HtmlBuilder SearchEditorColumnDialog(
+            Context context)
+        {
+            var hb = new HtmlBuilder();
+            return hb;
         }
 
         /// <summary>

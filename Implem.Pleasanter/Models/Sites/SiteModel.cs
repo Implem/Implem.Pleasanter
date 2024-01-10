@@ -3449,6 +3449,11 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         res: res);
                     break;
+                case "SearchEditorColumnDialog":
+                    OpenSearchEditorColumnDialog(
+                        context: context,
+                        res: res);
+                    break;
                 default:
                     if (controlId.Contains("_NumericRange"))
                     {
@@ -4067,6 +4072,14 @@ namespace Implem.Pleasanter.Models
                 ss: SiteSettings,
                 controlId: context.Forms.ControlId(),
                 tab: tab));
+        }
+
+        private void OpenSearchEditorColumnDialog(
+            Context context,
+            ResponseCollection res)
+        {
+            res.Html("#SearchEditorColumnDialog", SiteUtilities.SearchEditorColumnDialog(
+                context: context));
         }
 
         /// <summary>
