@@ -4460,6 +4460,10 @@ namespace Implem.Pleasanter.Models
                     .Class("dialog")
                     .Title(Displays.AdvancedSetting(context: context)))
                 .Div(attributes: new HtmlAttributes()
+                    .Id("SearchEditorColumnDialog")
+                    .Class("dialog")
+                    .Title(Displays.Search(context: context)))
+                .Div(attributes: new HtmlAttributes()
                     .Id("TabDialog")
                     .Class("dialog")
                     .Title(Displays.Tab(context: context)))
@@ -15400,13 +15404,6 @@ namespace Implem.Pleasanter.Models
                             method: "post")));
         }
 
-        public static HtmlBuilder SearchEditorColumnDialog(
-            Context context)
-        {
-            var hb = new HtmlBuilder();
-            return hb;
-        }
-
         /// <summary>
         /// Fixed:
         /// </summary>
@@ -16489,6 +16486,30 @@ namespace Implem.Pleasanter.Models
                 labelText: Displays.Target(context: context),
                 optionCollection: ss.FormulaTargetSelectableOptions(target));
             return hb;
+        }
+
+        public static HtmlBuilder SearchEditorColumnDialog(
+            Context context,
+            SiteSettings ss)
+        {
+            var hb = new HtmlBuilder();
+            return hb.Form(
+                attributes: new HtmlAttributes()
+                    .Id("SearchEditorColumnForm"),
+                action: () => hb
+                    .FieldTextBox(
+                        controlId: "SearchEditorColumnText",
+                        labelText: Displays.Search(context: context))
+                    .P(css: "message-dialog")
+                    .Div(css: "command-center", action: () => hb
+                        .Button(
+                            text: Displays.Search(context: context),
+                            controlCss: "button-icon",
+                            onClick: "$p.send($(this));",
+                            icon: "ui-icon-trash",
+                            action: "Delete",
+                            method: "delete",
+                            confirm: "ConfirmDelete")));
         }
     }
 }

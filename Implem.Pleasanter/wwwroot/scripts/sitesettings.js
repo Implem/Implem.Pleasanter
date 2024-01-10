@@ -249,11 +249,6 @@ $p.openRelatingColumnDialog = function ($control) {
     $p.openSiteSettingsDialog($control, '#RelatingColumnDialog');
 }
 
-$p.openSearchEditorColumnDialog = function ($control) {
-    $p.data.SearchEditorColumnForm = {};
-    $p.openSiteSettingsDialog($control, '#SearchEditorColumnDialog');
-}
-
 $p.setRelatingColumn = function ($control) {
     $p.setData($('#EditRelatingColumns'), $p.getData($control));
     $p.send($control);
@@ -305,4 +300,9 @@ $p.confirmCalendarSites = function (value) {
         $p.send($("#ClearDashboardView"));
         $p.closeDialog($("#DashboardPartCalendarSitesDialog"));
     }
+}
+
+$p.openSearchEditorColumnDialog = function ($control) {
+    $p.data.SearchEditorColumnForm = {};
+    $p.openSiteSettingsDialog($control, '#SearchEditorColumnDialog');
 }

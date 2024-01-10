@@ -4074,14 +4074,6 @@ namespace Implem.Pleasanter.Models
                 tab: tab));
         }
 
-        private void OpenSearchEditorColumnDialog(
-            Context context,
-            ResponseCollection res)
-        {
-            res.Html("#SearchEditorColumnDialog", SiteUtilities.SearchEditorColumnDialog(
-                context: context));
-        }
-
         /// <summary>
         /// Fixed:
         /// </summary>
@@ -8688,6 +8680,15 @@ namespace Implem.Pleasanter.Models
                     .ClearFormData()
                     .ToJson();
             }
+        }
+
+        private void OpenSearchEditorColumnDialog(
+            Context context,
+            ResponseCollection res)
+        {
+            res.Html("#SearchEditorColumnDialog", SiteUtilities.SearchEditorColumnDialog(
+                context: context,
+                ss: SiteSettings));
         }
     }
 }
