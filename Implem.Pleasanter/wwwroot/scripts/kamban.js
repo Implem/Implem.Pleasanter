@@ -20,7 +20,7 @@
                 return $('<div />')
                     .addClass('dragging')
                     .append($('<div />')
-                        .append($(this).text())).width($(this).width());
+                        .append($(this).text())).width($(this).width() + 10).height($(this).height() + 10);
             }
         });
         $('#KambanBody' + kambanSuffix + ' .kamban-container').droppable({

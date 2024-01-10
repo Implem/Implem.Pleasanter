@@ -990,12 +990,16 @@ th.calendar-header {
     border-bottom: dotted 1px silver;
 }
 
+.kambanbody .kamban-container{
+    background-color: white;
+}
+
 .kambanbody .kamban-container > div {
     min-height: 30px;
 }
 
 .kambanbody .kamban-container.hover {
-    background-color: #e5e5e5;
+    background-color: whitesmoke;
 }
 
 .kambanbody .kamban-container .kamban-item:last-child {
@@ -1035,7 +1039,6 @@ th.calendar-header {
     }
 
     .kambanbody .dragging {
-        height: 25px;
         padding: 5px;
         background-color: lightgoldenrodyellow;
         border-radius: 3px;
