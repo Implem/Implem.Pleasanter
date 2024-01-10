@@ -27,7 +27,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool showStatus,
             IEnumerable<KambanElement> data,
             bool inRange,
-            string suffix)
+            string suffix,
+            long changedItemId = 0)
         {
             return hb.Div(id: $"Kamban{suffix}", css: "both kamban", action: () =>
             {
@@ -117,6 +118,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         showStatus: showStatus,
                         data: data,
                         suffix: suffix,
+                        changedItemId: changedItemId,
                         inRange: inRange);
             });
         }
