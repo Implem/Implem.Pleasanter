@@ -3399,9 +3399,19 @@ namespace Implem.Pleasanter.Models
                         res: res);
                     break;
                 case "AddDashboardPartViewFilter":
-                    var BaseSiteId = !context.Forms.Data("DashboardPartBaseSiteId").IsNullOrEmpty()
-                        ? context.Forms.Long("DashboardPartBaseSiteId")
-                        : context.Forms.Long("DashboardPartCalendarBaseSiteId");
+                    long BaseSiteId = 0;
+                    if (!context.Forms.Data("DashboardPartCalendarBaseSiteId").IsNullOrEmpty())
+                    {
+                        BaseSiteId = context.Forms.Long("DashboardPartCalendarBaseSiteId");
+                    }
+                    else if (!context.Forms.Data("DashboardPartKambanBaseSiteId").IsNullOrEmpty())
+                    {
+                        BaseSiteId = context.Forms.Long("DashboardPartKambanBaseSiteId");
+                    }
+                    else
+                    {
+                        BaseSiteId = context.Forms.Long("DashboardPartBaseSiteId");
+                    }
                     var ss = SiteSettingsUtilities.Get(
                         context: context,
                         siteId: BaseSiteId);
