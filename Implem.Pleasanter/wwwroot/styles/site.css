@@ -995,7 +995,7 @@ th.calendar-header {
 }
 
 .kambanbody .kamban-container.hover {
-    background-color: whitesmoke;
+    background-color: #e5e5e5;
 }
 
 .kambanbody .kamban-container .kamban-item:last-child {
