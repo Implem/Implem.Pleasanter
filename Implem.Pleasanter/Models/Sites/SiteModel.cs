@@ -8639,7 +8639,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             optionCollection: currentSs.KambanValueOptions(context: context)?.ToDictionary(
                             o => o.Key, o => new ControlData(o.Value)),
-                            selectedValue: "RemainingWorkValue"));
+                            selectedValue: currentSs.ReferenceType == "Issues" ? "RemainingWorkValue" : "NumA"));
         }
 
         /// <summary>

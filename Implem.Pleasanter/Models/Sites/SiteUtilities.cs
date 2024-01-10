@@ -15977,7 +15977,7 @@ namespace Implem.Pleasanter.Models
                         optionCollection: ss.KambanValueOptions(context: context),
                         selectedValue: !dashboardPart.KambanValue.IsNullOrEmpty()
                             ? dashboardPart.KambanValue
-                            : "RemainingWorkValue")
+                            : ss.ReferenceType == "Issues" ? "RemainingWorkValue" : "NumA")
                     .FieldDropDown(
                         context: context,
                         controlId: "DashboardPartKambanColumns",
