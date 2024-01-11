@@ -304,5 +304,5 @@ $p.confirmCalendarSites = function (value) {
 
 $p.openSearchEditorColumnDialog = function ($control) {
     $p.data.SearchEditorColumnForm = {};
-    $p.openSiteSettingsDialog($control, '#SearchEditorColumnDialog');
+    $p.openSiteSettingsDialog($control, '#SearchEditorColumnDialog', '420px');
 }

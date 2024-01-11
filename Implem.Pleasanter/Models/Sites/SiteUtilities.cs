@@ -5849,7 +5849,7 @@ namespace Implem.Pleasanter.Models
                                         action: "SetSiteSettings",
                                         method: "post")),
                             setSearchOptionButton: true,
-                            searchOptionId: "SearchEditorColumnDialog",
+                            searchOptionId: "OpenSearchEditorColumnDialog",
                             searchOptionFunction: "$p.openSearchEditorColumnDialog($(this));")
                         .Div(
                             css: "both",
