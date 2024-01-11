@@ -124,20 +124,6 @@ namespace Implem.Libraries.Classes
             data.ForEach(o => Add(o.Key, o.Value));
         }
 
-        protected XlsRow(
-            SerializationInfo serializationInfo,
-            StreamingContext streamingContext)
-            : base(serializationInfo, streamingContext)
-        {
-        }
-
-        public override void GetObjectData(
-            SerializationInfo serializationInfo,
-            StreamingContext streamingContext)
-        {
-            base.GetObjectData(serializationInfo, streamingContext);
-        }
-
         public string this[int index]
         {
             get
