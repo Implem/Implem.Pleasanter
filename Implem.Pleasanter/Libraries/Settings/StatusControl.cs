@@ -25,13 +25,14 @@ namespace Implem.Pleasanter.Libraries.Settings
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public int Status { get; set; }
+        public int? Status { get; set; }
         public bool? ReadOnly { get; set; }
         public Dictionary<string, ControlConstraintsTypes> ColumnHash { get; set; }
         public View View { get; set; }
         public List<int> Depts { get; set; }
         public List<int> Groups { get; set; }
         public List<int> Users { get; set; }
+        public int? Delete {  get; set; }
 
         public StatusControl()
         {
@@ -41,7 +42,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             int id,
             string name,
             string description,
-            int status,
+            int? status,
             bool? readOnly,
             Dictionary<string, ControlConstraintsTypes> columnHash,
             View view,
@@ -60,19 +61,40 @@ namespace Implem.Pleasanter.Libraries.Settings
         public void Update(
             string name,
             string description,
-            int status,
+            int? status,
             bool? readOnly,
             Dictionary<string, ControlConstraintsTypes> columnHash,
             View view,
             List<Permission> permissions)
         {
-            Name = name;
-            Status = status;
-            ReadOnly = readOnly;
-            ColumnHash = columnHash;
-            Description = description;
-            View = view;
-            SetPermissions(permissions: permissions);
+            if (name != null)
+            {
+                Name = name;
+            }
+            if (status != null)
+            {
+                Status = status;
+            }
+            if (readOnly != null)
+            {
+                ReadOnly = readOnly;
+            }
+            if (columnHash != null)
+            {
+                ColumnHash = columnHash;
+            }
+            if (description != null)
+            {
+                Description = description;
+            }
+            if (view != null)
+            {
+                View = view;
+            }
+            if (permissions != null)
+            {
+                SetPermissions(permissions: permissions);
+            }
         }
 
         private void SetPermissions(List<Permission> permissions)
