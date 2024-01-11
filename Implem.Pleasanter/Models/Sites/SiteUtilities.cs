@@ -16495,21 +16495,84 @@ namespace Implem.Pleasanter.Models
             var hb = new HtmlBuilder();
             return hb.Form(
                 attributes: new HtmlAttributes()
-                    .Id("SearchEditorColumnForm"),
+                    .Id("SearchEditorColumnForm")
+                    .Action(Locations.ItemAction(
+                        context: context,
+                        id: ss.SiteId)),
                 action: () => hb
-                    .FieldTextBox(
-                        controlId: "SearchEditorColumnText",
-                        labelText: Displays.Search(context: context))
-                    .P(css: "message-dialog")
-                    .Div(css: "command-center", action: () => hb
-                        .Button(
-                            text: Displays.Search(context: context),
-                            controlCss: "button-icon",
-                            onClick: "$p.send($(this));",
-                            icon: "ui-icon-trash",
-                            action: "Delete",
-                            method: "delete",
-                            confirm: "ConfirmDelete")));
+                    .FieldSet(
+                        css: " enclosed",
+                        legendText: Displays.UseSearchFilter(context: context),
+                        action: () => hb
+                            .FieldDropDown(
+                                context: context,
+                                controlId: "SelectEditorColumnsType",
+                                controlCss: " auto-postback always-send",
+                                optionCollection: new Dictionary<string, ControlData>
+                                {
+                                    {
+                                        "",
+                                        new ControlData(
+                                            text: "")
+                                    },
+                                    {
+                                        "All",
+                                        new ControlData(
+                                            text: Displays.All(context: context))
+                                    },
+                                    {
+                                        "Class",
+                                        new ControlData(
+                                            text: Displays.Class(context: context))
+                                    },
+                                    {
+                                        "Num",
+                                        new ControlData(
+                                            text: Displays.Num(context: context))
+                                    },
+                                    {
+                                        "Date",
+                                        new ControlData(
+                                            text: Displays.Date(context: context))
+                                    },
+                                    {
+                                        "Description",
+                                        new ControlData(
+                                            text: Displays.Description(context: context))
+                                    },
+                                    {
+                                        "Check",
+                                        new ControlData(
+                                            text: Displays.Check(context: context))
+                                    },
+                                    {
+                                        "Attachments",
+                                        new ControlData(
+                                            text: Displays.Attachments(context: context))
+                                    },
+                                    {
+                                        "Others",
+                                        new ControlData(
+                                            text: Displays.Others(context: context))
+                                    }
+                                },
+                                addSelectedValue: false,
+                                action: "SetSiteSettings",
+                                method: "post"))
+                    .FieldSet(
+                        css: " enclosed",
+                        legendText: Displays.Name(context: context),
+                        action: () => hb
+                            .FieldTextBox(
+                                controlId: "SearchEditorColumnText")
+                            .Button(
+                                text: Displays.Search(context: context),
+                                controlCss: "button-icon",
+                                onClick: "$p.send($(this));",
+                                icon: "ui-icon-trash",
+                                action: "Delete",
+                                method: "delete",
+                                confirm: "ConfirmDelete")));
         }
     }
 }

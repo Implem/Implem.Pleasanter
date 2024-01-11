@@ -3449,7 +3449,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         res: res);
                     break;
-                case "SearchEditorColumnDialog":
+                case "OpenSearchEditorColumnDialog":
                     OpenSearchEditorColumnDialog(
                         context: context,
                         res: res);
@@ -8688,7 +8688,8 @@ namespace Implem.Pleasanter.Models
         {
             res.Html("#SearchEditorColumnDialog", SiteUtilities.SearchEditorColumnDialog(
                 context: context,
-                ss: SiteSettings));
+                ss: SiteSettings))
+                .ToJson();
         }
     }
 }
