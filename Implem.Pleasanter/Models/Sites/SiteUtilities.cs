@@ -11226,7 +11226,16 @@ namespace Implem.Pleasanter.Models
                                 fieldCss: "field-auto-thin",
                                 labelText: Displays.Period(context: context),
                                 optionCollection: ss.CalendarTimePeriodOptions(context: context),
-                                selectedValue: view.GetCalendarTimePeriod(ss: ss))
+                                selectedValue: view.GetCalendarTimePeriod(ss: ss),
+                                _using: ss.CalendarType == SiteSettings.CalendarTypes.Standard)
+                            .FieldDropDown(
+                                context: context,
+                                controlId: "CalendarViewType",
+                                fieldCss: "field-auto-thin",
+                                labelText: Displays.Period(context: context),
+                                optionCollection: ss.CalendarViewTypeOptions(context: context),
+                                selectedValue: view.GetCalendarViewType(),
+                                _using: ss.CalendarType == SiteSettings.CalendarTypes.FullCalendar)
                             .FieldDropDown(
                                 context: context,
                                 controlId: "CalendarFromTo",
@@ -14072,7 +14081,7 @@ namespace Implem.Pleasanter.Models
                         labelText: Displays.Script(context: context),
                         text: script.Body)
                     .FieldCheckBox(
-                        fieldId: "ScriptDisabled",
+                        fieldId: "ScriptDisabledField",
                         controlId: "ScriptDisabled",
                         controlCss: " always-send",
                         labelText: Displays.Disabled(context: context),

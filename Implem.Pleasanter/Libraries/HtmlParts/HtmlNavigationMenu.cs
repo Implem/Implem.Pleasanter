@@ -397,7 +397,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 case "SettingsMenu_Registrations":
                     return canManageRegistrations;
                 case "SettingsMenu_TrashBox":
-                    return canManageTrashBox;
+                    return canManageTrashBox
+                        && ss.ReferenceType != "Wikis";
                 case "SettingsMenu_GroupTrashBox":
                     return canManageGroupTrashBox;
                 case "SettingsMenu_DeptTrashBox":
@@ -412,11 +413,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         && ss.IsSite(context: context)
                         && ss.ReferenceType == "Sites"
                         || (context.Controller == "items"
+                            && context.Action == "index"
                             && ss.SiteId == 0
                             && context.UserSettings?.AllowCreationAtTopSite(context: context) == true);
                 case "SettingsMenu_ExportSitePackage":
                     return Parameters.SitePackage.Export
                         && canManageSite
+                        && context.Action == "index"
                         && ss.IsSite(context: context);
                 case "AccountMenu_ShowStartGuide":
                     return context.UserSettings?.ShowStartGuideAvailable(context: context) == true;

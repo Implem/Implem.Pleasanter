@@ -74,6 +74,54 @@ namespace Implem.Pleasanter.Libraries.Models
             string parentClass = "",
             List<long> parentIds = null)
         {
+            switch (controlId)
+            {
+                case "InheritPermission":
+                    return SearchInheritPermissionDropDown(
+                        context: context,
+                        ss: ss);
+                default:
+                    return SearchCommonDropDown(
+                        context: context,
+                        ss: ss,
+                        controlId: controlId,
+                        referenceId: referenceId,
+                        filter: filter,
+                        parentClass: parentClass,
+                        parentIds: parentIds);
+            }
+        }
+
+        private static string SearchInheritPermissionDropDown(
+            Context context,
+            SiteSettings ss)
+        {
+            var nextOffset = Paging.NextOffset(
+                offset: 0,
+                totalCount: PermissionUtilities.InheritTargets(context, ss).TotalCount,
+                pageSize: Parameters.General.DropDownSearchPageSize);
+            return new ResponseCollection(context: context)
+                .Html(
+                    "#DropDownSearchDialogBody",
+                    new HtmlBuilder().DropDownSearchDialogBodyInheritPermission(
+                        context: context,
+                        ss: ss,
+                        offset: 0,
+                        pageSize: Parameters.General.DropDownSearchPageSize))
+                .Val("#DropDownSearchResultsOffset", nextOffset)
+                .ClearFormData("DropDownSearchResults")
+                .ToJson();
+        }
+
+        private static string SearchCommonDropDown(
+            Context context,
+            SiteSettings ss,
+            string controlId,
+            long referenceId,
+            bool filter,
+            string parentClass,
+            List<long> parentIds)
+        {
             var column = SearchDropDownColumn(
                 context: context,
                 ss: ss,
@@ -82,6 +130,10 @@ namespace Implem.Pleasanter.Libraries.Models
                 searchText: string.Empty,
                 parentClass: parentClass,
                 parentIds: parentIds);
+            if (!parentClass.IsNullOrEmpty() && (parentIds?.Any() ?? false) == false)
+            {
+                column.ChoiceHash.Clear();
+            }
             var nextOffset = Paging.NextOffset(
                 offset: 0,
                 totalCount: column.TotalCount,
@@ -107,6 +159,62 @@ namespace Implem.Pleasanter.Libraries.Models
             bool filter,
             string parentClass = "",
             List<long> parentIds = null)
+        {
+            switch (controlId)
+            {
+                case "InheritPermission":
+                    return SearchInheritPermissionDropDownSelectable(
+                        context: context,
+                        ss: ss,
+                        searchText: searchText);
+                default:
+                    return SearchCommonDropDownSelectable(
+                        context: context,
+                        ss: ss,
+                        controlId: controlId,
+                        referenceId: referenceId,
+                        searchText: searchText,
+                        filter: filter,
+                        parentClass: parentClass,
+                        parentIds: parentIds);
+            }
+        }
+
+        private static string SearchInheritPermissionDropDownSelectable(
+            Context context,
+            SiteSettings ss,
+            string searchText)
+        {
+            var (optionCollection, totalCount) = PermissionUtilities.InheritTargets(
+                context: context,
+                ss: ss,
+                offset: 0,
+                pageSize: Parameters.General.DropDownSearchPageSize,
+                searchText: searchText);
+            var nextOffset = Paging.NextOffset(
+                offset: 0,
+                totalCount: totalCount,
+                pageSize: Parameters.General.DropDownSearchPageSize);
+            return new ResponseCollection(context: context)
+                .Html(
+                    "#DropDownSearchResults",
+                    new HtmlBuilder().SelectableItems(
+                        listItemCollection: optionCollection,
+                        alwaysDataValue: true))
+                .Val("#DropDownSearchResultsOffset", nextOffset)
+                .ClearFormData("DropDownSearchResults")
+                .ToJson();
+        }
+
+        private static string SearchCommonDropDownSelectable(
+            Context context,
+            SiteSettings ss,
+            string controlId,
+            long referenceId,
+            string searchText,
+            bool filter,
+            string parentClass,
+            List<long> parentIds)
         {
             var column = SearchDropDownColumn(
                 context: context,
@@ -150,6 +258,59 @@ namespace Implem.Pleasanter.Libraries.Models
             bool filter,
             string parentClass = "",
             List<long> parentIds = null)
+        {
+            switch (controlId)
+            {
+                case "InheritPermission":
+                    return AppendSearchInheritPermissionDropDownSelectable(
+                        context: context,
+                        ss: ss,
+                        searchText: searchText);
+                default:
+                    return AppendSearchCommonDropDownSelectable(
+                        context: context,
+                        ss: ss,
+                        controlId: controlId,
+                        referenceId: referenceId,
+                        searchText: searchText,
+                        filter: filter,
+                        parentClass: parentClass,
+                        parentIds: parentIds);
+            }
+        }
+
+        private static string AppendSearchInheritPermissionDropDownSelectable(
+            Context context,
+            SiteSettings ss,
+            string searchText)
+        {
+            var offset = context.Forms.Int("DropDownSearchResultsOffset");
+            var (optionCollection, totalCount) = PermissionUtilities.InheritTargets(
+                context: context,
+                ss: ss,
+                offset: offset,
+                pageSize: Parameters.General.DropDownSearchPageSize,
+                searchText: searchText);
+            var nextOffset = Paging.NextOffset(
+                offset: offset,
+                totalCount: totalCount,
+                pageSize: Parameters.General.DropDownSearchPageSize);
+            return new ResponseCollection(context: context)
+                .Append(
+                    "#" + context.Forms.ControlId(),
+                    new HtmlBuilder().SelectableItems(optionCollection))
+                .Val("#DropDownSearchResultsOffset", nextOffset)
+                .ToJson();
+        }
+
+        private static string AppendSearchCommonDropDownSelectable(
+            Context context, SiteSettings ss,
+            string controlId,
+            long referenceId,
+            string searchText,
+            bool filter,
+            string parentClass,
+            List<long> parentIds)
         {
             var offset = context.Forms.Int("DropDownSearchResultsOffset");
             var column = SearchDropDownColumn(
@@ -301,13 +462,25 @@ namespace Implem.Pleasanter.Libraries.Models
             }
             else
             {
-                return SelectSearchDropDownResponse(
-                    context: context,
-                    controlId: controlId,
-                    column: column,
-                    selected: selected,
-                    filter: filter,
-                    multiple: multiple);
+                switch (controlId)
+                {
+                    case "InheritPermission":
+                        return SelectSearchInheritPermissionDropDownResponse(
+                            context: context,
+                            ss: ss,
+                            controlId: controlId,
+                            selected: selected,
+                            filter: filter,
+                            multiple: multiple);
+                    default:
+                        return SelectSearchDropDownResponse(
+                            context: context,
+                            controlId: controlId,
+                            column: column,
+                            selected: selected,
+                            filter: filter,
+                            multiple: multiple);
+                }
             }
         }
 
@@ -481,6 +654,38 @@ namespace Implem.Pleasanter.Libraries.Models
                             insertBlank: !filter))
                     .Invoke("setDropDownSearch")
                     .Trigger("#" + controlId, "change")
+                    .ToJson()
+                : new ResponseCollection(context: context)
+                    .Message(Messages.NotFound(context: context))
+                    .ToJson();
+        }
+
+        private static string SelectSearchInheritPermissionDropDownResponse(
+            Context context,
+            SiteSettings ss,
+            string controlId,
+            List<string> selected,
+            bool filter,
+            bool multiple)
+        {
+            var optionCollection = PermissionUtilities.InheritTargets(
+                context: context,
+                ss: ss).OptionCollection;
+            return optionCollection?.Any() == true || !selected.Any()
+                ? new ResponseCollection(context: context)
+                    .CloseDialog("#DropDownSearchDialog")
+                    .Html("[id=\"" + controlId + "\"]", new HtmlBuilder()
+                        .OptionCollection(
+                            context: context,
+                            optionCollection: optionCollection,
+                            selectedValue: SelectSearchDropDownSelectedValue(
+                                context: context,
+                                selected: selected,
+                                filter: filter,
+                                multiple: multiple),
+                            multiple: multiple,
+                            insertBlank: !filter))
+                    .Invoke("setDropDownSearch")
                     .ToJson()
                 : new ResponseCollection(context: context)
                     .Message(Messages.NotFound(context: context))
