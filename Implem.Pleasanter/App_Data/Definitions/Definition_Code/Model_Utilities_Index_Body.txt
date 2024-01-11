@@ -1,9 +1,10 @@
 ﻿public static string Index(Context context, SiteSettings ss)
 {
     var hb = new HtmlBuilder();
-    var view = Views.GetBySession(
-        context: context,
-        ss: ss);
+
+<!--Model_Utilities_View-->
+<!--Model_Utilities_DashboardView-->
+
     var gridData = GetGridData(
         context: context,
         ss: ss,
@@ -15,18 +16,8 @@
         context: context,
         view: view,
         gridData: gridData);
-    return hb.ViewModeTemplate(
-        context: context,
-        ss: ss,
-        view: view,
-        viewMode: viewMode,
-        serverScriptModelRow: serverScriptModelRow,
-        viewModeBody: () => hb.Grid(
-           context: context,
-           gridData: gridData,
-           ss: ss,
-           view: view,
-           serverScriptModelRow: serverScriptModelRow));
+<!--Model_Utilities_Return-->
+<!--Model_Utilities_DashboardReturn-->
 }
 
 private static string ViewModeTemplate(

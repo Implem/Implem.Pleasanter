@@ -30,9 +30,11 @@ namespace Implem.Pleasanter.Models
         public static string Index(Context context, SiteSettings ss)
         {
             var hb = new HtmlBuilder();
-            var view = Views.GetBySession(
-                context: context,
-                ss: ss);
+            var view = ss.DashboardParts.Any()
+                ? ss.DashboardParts.FirstOrDefault().View
+                : Views.GetBySession(
+                    context: context,
+                    ss: ss);
             var gridData = GetGridData(
                 context: context,
                 ss: ss,
@@ -44,18 +46,30 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 view: view,
                 gridData: gridData);
-            return hb.ViewModeTemplate(
+            if (ss.DashboardParts?.Any() != true)
+            {
+                return hb.ViewModeTemplate(
                 context: context,
                 ss: ss,
                 view: view,
                 viewMode: viewMode,
                 serverScriptModelRow: serverScriptModelRow,
                 viewModeBody: () => hb.Grid(
-                   context: context,
-                   gridData: gridData,
-                   ss: ss,
-                   view: view,
-                   serverScriptModelRow: serverScriptModelRow));
+                    context: context,
+                    gridData: gridData,
+                    ss: ss,
+                    view: view,
+                    serverScriptModelRow: serverScriptModelRow));
+            }
+            else
+            {
+                return hb.Grid(
+                    context: context,
+                    ss: ss,
+                    gridData: gridData,
+                    view: view,
+                    serverScriptModelRow: serverScriptModelRow).ToString();
+            }
         }
 
         private static string ViewModeTemplate(

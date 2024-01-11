@@ -55,11 +55,11 @@ namespace Implem.Pleasanter.Models
                 viewMode: viewMode,
                 serverScriptModelRow: serverScriptModelRow,
                 viewModeBody: () => hb.Grid(
-                   context: context,
-                   gridData: gridData,
-                   ss: ss,
-                   view: view,
-                   serverScriptModelRow: serverScriptModelRow));
+                    context: context,
+                    gridData: gridData,
+                    ss: ss,
+                    view: view,
+                    serverScriptModelRow: serverScriptModelRow));
             }
             else
             {
@@ -70,7 +70,6 @@ namespace Implem.Pleasanter.Models
                     view: view,
                     serverScriptModelRow: serverScriptModelRow).ToString();
             }
-            
         }
 
         private static string ViewModeTemplate(
