@@ -255,7 +255,9 @@ $p.setRelatingColumn = function ($control) {
 }
 
 $p.openDashboardPartDialog = function ($control) {
-    $p.data.DashboardForm = {};
+    //Form名が間違っていたので、Formがクリアされず残ってしまっていた。
+    //（基準サイトIDが同じ別のViewが表示されてしまう問題）
+    $p.data.DashboardPartForm = {};
     $p.openSiteSettingsDialog($control, '#DashboardPartDialog');
 }
 
@@ -270,7 +272,7 @@ $p.openDashboardPartTimeLineSitesDialog = function ($control) {
 }
 
 $p.openDashboardPartCalendarSitesDialog = function ($control) {
-    $p.data.TimeLineSitesForm = {};
+    $p.data.CalendarSitesForm = {};
     $p.openSiteSettingsDialog($control, '#DashboardPartCalendarSitesDialog');
 }
 
@@ -291,6 +293,9 @@ $p.confirmTimeLineSites = function (value) {
         $p.set($('#DashboardPartTimeLineSites'), args.timeLineSites);
         $p.set($('#DashboardPartBaseSiteId'), args.baseSiteId);
         $p.send($("#ClearDashboardView"));
+        //DashboardPartViewFilterXX,DashboardPartViewSorterXXのFormデータもクリアする
+        //(クリア後、「変更」でViewが復活してしまう問題)
+        $p.clearData('DashboardPartView', 'DashboardPartForm', 'startsWith');
         $p.closeDialog($("#DashboardPartTimeLineSitesDialog"));
     }
 }
@@ -302,7 +307,10 @@ $p.confirmCalendarSites = function (value) {
         $('#DashboardPartCalendarSitesValue').text(args.calendarSites);
         $p.set($('#DashboardPartCalendarSites'), args.calendarSites);
         $p.set($('#DashboardPartBaseSiteId'), args.baseSiteId);
-        $p.send($("#ClearDashboardView"));
+        $p.send($("#ClearDashboardCalendarView"));
+        //DashboardPartViewFilterXX,DashboardPartViewSorterXXのFormデータもクリアする
+        //(クリア後、「変更」でViewが復活してしまう問題)
+        $p.clearData('DashboardPartView', 'DashboardPartForm', 'startsWith');
         $p.closeDialog($("#DashboardPartCalendarSitesDialog"));
     }
 }
@@ -315,6 +323,9 @@ $p.confirmKambanSites = function (value) {
         $p.set($('#DashboardPartKambanSites'), args.kambanSites);
         $p.set($('#DashboardPartBaseSiteId'), args.baseSiteId);
         $p.send($("#ClearDashboardKambanView"));
+        //DashboardPartViewFilterXX,DashboardPartViewSorterXXのFormデータもクリアする
+        //(クリア後、「変更」でViewが復活してしまう問題)
+        $p.clearData('DashboardPartView', 'DashboardPartForm', 'startsWith');
         $p.closeDialog($("#DashboardPartKambanSitesDialog"));
     }
 }
