@@ -8288,7 +8288,8 @@ namespace Implem.Pleasanter.Models
                     showStatus: showStatus,
                     data: data,
                     inRange: inRange,
-                    suffix: suffix)
+                    suffix: suffix,
+                    changedItemId: changedItemId)
                 : hb.KambanBody(
                     context: context,
                     ss: ss,
