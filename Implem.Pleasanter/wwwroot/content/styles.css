@@ -2550,8 +2550,8 @@ _::-webkit-full-page-media, _:future, :root .field-normal .control-checkbox + la
 
 .dashboard-grid-header {
     position: sticky;
-    top: 0;
-    z-index: 1;
+    top: -20px;
+    z-index: 3;
 }
 
 .links {
