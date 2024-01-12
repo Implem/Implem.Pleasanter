@@ -1282,7 +1282,7 @@ namespace Implem.Pleasanter.Models
             switch (Site.ReferenceType)
             {
                 case "Dashboards":
-                    return DashboardUtilities.GridRows(
+                    return DashboardUtilities.DashboardIndexGridRows(
                         context: context,
                         ss: Site.SiteSettings,
                         offset: context.Forms.Int("GridOffset"));

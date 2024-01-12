@@ -407,6 +407,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_CrosstabJsonCases": Code.Model_CrosstabJsonCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CrosstabJsonCases, definitionRow, CodeXls); break;
                     case "Model_CsvData": Code.Model_CsvData = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CsvData, definitionRow, CodeXls); break;
                     case "Model_CsvDataCases": Code.Model_CsvDataCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CsvDataCases, definitionRow, CodeXls); break;
+                    case "Model_DashboardGridRowsCases": Code.Model_DashboardGridRowsCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_DashboardGridRowsCases, definitionRow, CodeXls); break;
                     case "Model_DashboardsCopyAndInit": Code.Model_DashboardsCopyAndInit = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_DashboardsCopyAndInit, definitionRow, CodeXls); break;
                     case "Model_Delete": Code.Model_Delete = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Delete, definitionRow, CodeXls); break;
                     case "Model_Delete_GroupMembers": Code.Model_Delete_GroupMembers = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Delete_GroupMembers, definitionRow, CodeXls); break;
@@ -768,6 +769,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_CreateParams_Sites": Code.Model_Utilities_CreateParams_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CreateParams_Sites, definitionRow, CodeXls); break;
                     case "Model_Utilities_Crosstab": Code.Model_Utilities_Crosstab = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Crosstab, definitionRow, CodeXls); break;
                     case "Model_Utilities_DashboardColumns": Code.Model_Utilities_DashboardColumns = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_DashboardColumns, definitionRow, CodeXls); break;
+                    case "Model_Utilities_DashboardHeaderCss": Code.Model_Utilities_DashboardHeaderCss = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_DashboardHeaderCss, definitionRow, CodeXls); break;
                     case "Model_Utilities_DashboardReturn": Code.Model_Utilities_DashboardReturn = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_DashboardReturn, definitionRow, CodeXls); break;
                     case "Model_Utilities_Delete": Code.Model_Utilities_Delete = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Delete, definitionRow, CodeXls); break;
                     case "Model_Utilities_DeleteByApi": Code.Model_Utilities_DeleteByApi = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_DeleteByApi, definitionRow, CodeXls); break;
@@ -6866,6 +6868,7 @@ namespace Implem.DefinitionAccessor
         public string Model_CrosstabJsonCases;
         public string Model_CsvData;
         public string Model_CsvDataCases;
+        public string Model_DashboardGridRowsCases;
         public string Model_DashboardsCopyAndInit;
         public string Model_Delete;
         public string Model_Delete_GroupMembers;
@@ -7227,6 +7230,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_CreateParams_Sites;
         public string Model_Utilities_Crosstab;
         public string Model_Utilities_DashboardColumns;
+        public string Model_Utilities_DashboardHeaderCss;
         public string Model_Utilities_DashboardReturn;
         public string Model_Utilities_Delete;
         public string Model_Utilities_DeleteByApi;
@@ -7675,6 +7679,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_CrosstabJsonCases = new CodeDefinition();
         public CodeDefinition Model_CsvData = new CodeDefinition();
         public CodeDefinition Model_CsvDataCases = new CodeDefinition();
+        public CodeDefinition Model_DashboardGridRowsCases = new CodeDefinition();
         public CodeDefinition Model_DashboardsCopyAndInit = new CodeDefinition();
         public CodeDefinition Model_Delete = new CodeDefinition();
         public CodeDefinition Model_Delete_GroupMembers = new CodeDefinition();
@@ -8036,6 +8041,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_CreateParams_Sites = new CodeDefinition();
         public CodeDefinition Model_Utilities_Crosstab = new CodeDefinition();
         public CodeDefinition Model_Utilities_DashboardColumns = new CodeDefinition();
+        public CodeDefinition Model_Utilities_DashboardHeaderCss = new CodeDefinition();
         public CodeDefinition Model_Utilities_DashboardReturn = new CodeDefinition();
         public CodeDefinition Model_Utilities_Delete = new CodeDefinition();
         public CodeDefinition Model_Utilities_DeleteByApi = new CodeDefinition();

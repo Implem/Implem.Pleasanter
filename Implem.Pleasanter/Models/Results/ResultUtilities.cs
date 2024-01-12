@@ -446,10 +446,7 @@ namespace Implem.Pleasanter.Models
                 ss: ss);
             return hb
                 .THead(
-                    id: !suffix.IsNullOrEmpty()
-                        ? $"DashboardGridHeader{suffix}"
-                        : "",
-                    css: !suffix.IsNullOrEmpty()
+                    css: ss.DashboardParts.Any()
                         ? "dashboard-grid-header"
                         : "",
                     _using: offset == 0,
