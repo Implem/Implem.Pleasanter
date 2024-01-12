@@ -518,9 +518,9 @@ namespace Implem.Pleasanter.NetCore
         }
         public Task Invoke(HttpContext context)
         {
-            context.Response.Headers.Add("X-Frame-Options", new StringValues("SAMEORIGIN"));
-            context.Response.Headers.Add("X-Xss-Protection", new StringValues("1; mode=block"));
-            context.Response.Headers.Add("X-Content-Type-Options", new StringValues("nosniff"));
+            context.Response.Headers.Append("X-Frame-Options", new StringValues("SAMEORIGIN"));
+            context.Response.Headers.Append("X-Xss-Protection", new StringValues("1; mode=block"));
+            context.Response.Headers.Append("X-Content-Type-Options", new StringValues("nosniff"));
             if (Parameters.Security.SecureCacheControl != null)
             {
                 if (Parameters.Security.SecureCacheControl.NoCache
@@ -539,7 +539,7 @@ namespace Implem.Pleasanter.NetCore
                 }
                 if (Parameters.Security.SecureCacheControl.PragmaNoCache)
                 {
-                    context.Response.Headers.Add("Pragma", new StringValues("no-cache"));
+                    context.Response.Headers.Append("Pragma", new StringValues("no-cache"));
                 }
             }
             return _next(context);

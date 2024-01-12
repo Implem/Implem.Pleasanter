@@ -1,7 +1,11 @@
-﻿using Implem.Pleasanter.Libraries.Html;
+﻿using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
+using Implem.Pleasanter.Models;
+using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
@@ -169,6 +173,42 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 onClick: "$p.send($('#DropDownSearchText'));",
                                 icon: "ui-icon-search")));
             }
+        }
+
+        public static HtmlBuilder DropDownSearchDialogBodyInheritPermission(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            int offset,
+            int pageSize)
+        {
+            var listItemCollection = PermissionUtilities.InheritTargets(
+                context: context,
+                ss: ss,
+                offset: offset,
+                pageSize: pageSize).OptionCollection;
+
+            return hb.FieldSelectable(
+                controlId: "DropDownSearchResults",
+                fieldCss: "field-vertical w600",
+                controlContainerCss: "container-selectable",
+                controlWrapperCss: " h300",
+                listItemCollection: listItemCollection,
+                commandOptionPositionIsTop: true,
+                action: "SearchDropDown",
+                method: "post",
+                commandOptionAction: () => hb
+                    .Div(css: "command-left", action: () => hb
+                        .TextBox(
+                            controlId: "DropDownSearchText",
+                            controlCss: " auto-postback always-send w200",
+                            action: "SearchDropDown",
+                            method: "post")
+                        .Button(
+                            text: Displays.Search(context: context),
+                            controlCss: "button-icon",
+                            onClick: "$p.send($('#DropDownSearchText'));",
+                            icon: "ui-icon-search")));
         }
     }
 }

@@ -21,6 +21,7 @@
     "Required": "1",
     "SearchIndexPriority": "1",
     "ItemId": "10",
+    "Like": "1",
     "ControlCss": " not-send",
     "ControlType": "Id",
     "EditorReadOnly": "1",
