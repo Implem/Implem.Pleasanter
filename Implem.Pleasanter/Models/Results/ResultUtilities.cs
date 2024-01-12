@@ -8156,7 +8156,7 @@ namespace Implem.Pleasanter.Models
                 return Messages.ResponseHasNotPermission(context: context).ToJson();
             }
             var view = Views.GetBySession(context: context, ss: ss);
-             var bodyOnly = ss.DashboardParts?.Any() == true
+            var bodyOnly = ss.DashboardParts?.Any() == true
                 ? false
                 : context.Forms.ControlId().StartsWith("Kamban");
             var res = new ResponseCollection(context: context);
@@ -8330,8 +8330,8 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     column: value);
             var where = ss.DashboardParts?.Any() == true
-                        ? ss.DashboardParts[0].View.Where(context: context, ss: ss)
-                        : new SqlWhereCollection();
+                ? ss.DashboardParts[0].View.Where(context: context, ss: ss)
+                : new SqlWhereCollection();
             where = view.Where(
                 context: context,
                 ss: ss,

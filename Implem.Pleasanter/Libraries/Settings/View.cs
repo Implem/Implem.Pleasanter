@@ -946,7 +946,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                             AddCalendarViewTypeHash(value: context.Forms.Data($"CalendarViewType{CalendarSuffix}"), key: $"CalendarViewType{CalendarSuffix}");
                         }
                     }
-                    if (ss.DashboardParts?.Count.Equals(1) == true && ss.DashboardParts.First().Type.ToString() == DashboardPartType.Kamban.ToString())
+                    if (ss.DashboardParts?.FirstOrDefault()?.Type == DashboardPartType.Kamban)
                     {
                         var dashboardPart = ss.DashboardParts.FirstOrDefault();
                         KambanSuffix = $"_{dashboardPart.Id}";

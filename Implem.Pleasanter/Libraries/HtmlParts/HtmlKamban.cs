@@ -190,7 +190,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .Hidden(
                                 controlId: $"KambanGroupByY{suffix}",
                                 value: groupByY?.ColumnName,
-                                _using: !suffix.IsNullOrEmpty())));
+                                _using: !suffix.IsNullOrEmpty())
+                        )
+            );
         }
 
         private static Dictionary<string, ControlData> CorrectedChoices(
