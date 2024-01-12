@@ -16529,21 +16529,21 @@ namespace Implem.Pleasanter.Models
                             .Div(css: "command-left", action: () => hb
                                 .Button(
                                     text: Displays.Basic(context: context),
-                                    controlCss: "button-icon",
+                                    controlCss: "button-icon w150",
                                     onClick: "$p.send($(this));",
                                     icon: "ui-icon-search",
                                     action: "SetSiteSettings",
                                     method: "post")
                                 .Button(
                                     text: Displays.Class(context: context),
-                                    controlCss: "button-icon",
+                                    controlCss: "button-icon w150",
                                     onClick: "$p.send($(this));",
                                     icon: "ui-icon-search",
                                     action: "SetSiteSettings",
                                     method: "post")
                                 .Button(
                                     text: Displays.Num(context: context),
-                                    controlCss: "button-icon",
+                                    controlCss: "button-icon w150",
                                     onClick: "$p.send($(this));",
                                     icon: "ui-icon-search",
                                     action: "SetSiteSettings",
@@ -16551,21 +16551,21 @@ namespace Implem.Pleasanter.Models
                             .Div(css: "command-left", action: () => hb
                                 .Button(
                                     text: Displays.Date(context: context),
-                                    controlCss: "button-icon",
+                                    controlCss: "button-icon w150",
                                     onClick: "$p.send($(this));",
                                     icon: "ui-icon-search",
                                     action: "SetSiteSettings",
                                     method: "post")
                                 .Button(
                                     text: Displays.Description(context: context),
-                                    controlCss: "button-icon",
+                                    controlCss: "button-icon w150",
                                     onClick: "$p.send($(this));",
                                     icon: "ui-icon-search",
                                     action: "SetSiteSettings",
                                     method: "post")
                                 .Button(
                                     text: Displays.Check(context: context),
-                                    controlCss: "button-icon",
+                                    controlCss: "button-icon w150",
                                     onClick: "$p.send($(this));",
                                     icon: "ui-icon-search",
                                     action: "SetSiteSettings",
@@ -16573,7 +16573,7 @@ namespace Implem.Pleasanter.Models
                             .Div(css: "command-left", action: () => hb
                                 .Button(
                                     text: Displays.Attachments(context: context),
-                                    controlCss: "button-icon",
+                                    controlCss: "button-icon w150",
                                     onClick: "$p.send($(this));",
                                     icon: "ui-icon-search",
                                     action: "SetSiteSettings",
