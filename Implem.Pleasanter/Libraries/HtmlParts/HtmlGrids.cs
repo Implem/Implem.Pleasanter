@@ -109,7 +109,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
            Context context,
            SiteSettings ss,
            View view,
-           IEnumerable<Column> columns)
+           IEnumerable<Column> columns,
+           string suffix = "")
         {
             return hb.Div(id: "GridHeaderMenus", action: () =>
                 columns.ForEach(column => hb
@@ -117,7 +118,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         id: "GridHeaderMenu__" + column.ColumnName,
                         attributes: new HtmlAttributes()
                             .Class("menu menu-sort")
-                            .Add("data-target", $"[data-id='ViewSorters__{column.ColumnName}']")
+                            .Add("data-target", $"[data-id='ViewSorters__{column.ColumnName}{suffix}']")
                             .Add("style", "display: none; position: absolute;"),
                         action: () => hb
                             .Li(

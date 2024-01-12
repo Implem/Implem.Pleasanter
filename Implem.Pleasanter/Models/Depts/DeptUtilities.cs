@@ -256,7 +256,8 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     view: view,
-                    columns: columns)
+                    columns: columns,
+                    suffix: suffix)
                 .Hidden(
                     controlId: "GridOffset",
                     value: ss.GridNextOffset(
