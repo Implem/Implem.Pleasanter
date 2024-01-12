@@ -2359,11 +2359,11 @@ namespace Implem.Pleasanter.Models
                   errorData: invalid);
             }
             var siteSettingsApiModel = context.RequestDataString.Deserialize<ApiSiteSettings.SiteSettingsApiModel>();
-            // Validate SiteSetting Request
             var apiSiteSettingValidator = ApiSiteSettingValidators.OnChageSiteSettingByApi(
                 referenceType: siteModel.ReferenceType,
                 ss: ss,
-                siteSettingsModel: siteSettingsApiModel);
+                siteSettingsModel: siteSettingsApiModel,
+                context: context);
             switch (apiSiteSettingValidator.Type)
             {
                 case Error.Types.None: break;
@@ -2372,7 +2372,6 @@ namespace Implem.Pleasanter.Models
                       context: context,
                       errorData: apiSiteSettingValidator);
             }
-            // Change ServerScripts setting
             if (ApiSiteSetting.ServerScriptRefTypes.Contains(siteModel.ReferenceType)
                 && siteSettingsApiModel.ServerScripts != null)
             {
@@ -2380,28 +2379,38 @@ namespace Implem.Pleasanter.Models
                     siteSetting: ss,
                     serverScriptsApiSiteSetting: siteSettingsApiModel.ServerScripts);
             }
-            // Change Scripts setting
             if (siteSettingsApiModel.Scripts != null)
             {
                 siteModel.UpsertScriptByApi(
                     siteSetting: ss,
                     scriptsApiSiteSetting: siteSettingsApiModel.Scripts);
             }
-            // Change Styles setting
             if (siteSettingsApiModel.Styles != null)
             {
                 siteModel.UpsertStyleByApi(
                     siteSetting: ss,
                     styleApiSiteSetting: siteSettingsApiModel.Styles);
             }
-            // Change Htmls setting
             if (siteSettingsApiModel.Htmls != null)
             {
                 siteModel.UpsertHtmlByApi(
                     siteSetting: ss,
                     htmlsApiSiteSetting: siteSettingsApiModel.Htmls);
             }
-            // Save all changes
+            if (siteSettingsApiModel.Processes != null)
+            {
+                siteModel.UpsertProcessByApi(
+                    siteSetting: ss,
+                    processesApiSiteSetting: siteSettingsApiModel.Processes,
+                    context: context);
+            }
+            if (siteSettingsApiModel.StatusControls != null)
+            {
+                siteModel.UpsertStatusControlByApi(
+                    siteSetting: ss,
+                    statusControlSettings: siteSettingsApiModel.StatusControls,
+                    context: context);
+            }
             var errorData = siteModel.Update(
                context: context,
                ss: ss);
