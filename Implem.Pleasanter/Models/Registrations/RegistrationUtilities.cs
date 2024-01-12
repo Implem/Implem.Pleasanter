@@ -354,6 +354,12 @@ namespace Implem.Pleasanter.Models
                 : context.Forms.Bool("GridCheckAll");
             return hb
                 .THead(
+                    id: !suffix.IsNullOrEmpty()
+                        ? $"DashboardGridHeader{suffix}"
+                        : "",
+                    css: !suffix.IsNullOrEmpty()
+                        ? "dashboard-grid-header"
+                        : "",
                     _using: offset == 0,
                     action: () => hb
                         .GridHeader(

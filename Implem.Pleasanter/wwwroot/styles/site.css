@@ -2548,6 +2548,12 @@ _::-webkit-full-page-media, _:future, :root .field-normal .control-checkbox + la
         padding: 8px 0px 0px 10px;
     }
 
+.dashboard-grid-header {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
 .links {
     padding: 0px 10px;
 }
