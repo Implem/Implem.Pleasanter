@@ -16502,66 +16502,7 @@ namespace Implem.Pleasanter.Models
                 action: () => hb
                     .FieldSet(
                         css: " enclosed",
-                        legendText: Displays.UseSearchFilter(context: context),
-                        action: () => hb
-                            .FieldDropDown(
-                                context: context,
-                                controlId: "SelectEditorColumnsType",
-                                controlCss: " auto-postback always-send",
-                                optionCollection: new Dictionary<string, ControlData>
-                                {
-                                    {
-                                        "",
-                                        new ControlData(
-                                            text: "")
-                                    },
-                                    {
-                                        "All",
-                                        new ControlData(
-                                            text: Displays.All(context: context))
-                                    },
-                                    {
-                                        "Class",
-                                        new ControlData(
-                                            text: Displays.Class(context: context))
-                                    },
-                                    {
-                                        "Num",
-                                        new ControlData(
-                                            text: Displays.Num(context: context))
-                                    },
-                                    {
-                                        "Date",
-                                        new ControlData(
-                                            text: Displays.Date(context: context))
-                                    },
-                                    {
-                                        "Description",
-                                        new ControlData(
-                                            text: Displays.Description(context: context))
-                                    },
-                                    {
-                                        "Check",
-                                        new ControlData(
-                                            text: Displays.Check(context: context))
-                                    },
-                                    {
-                                        "Attachments",
-                                        new ControlData(
-                                            text: Displays.Attachments(context: context))
-                                    },
-                                    {
-                                        "Others",
-                                        new ControlData(
-                                            text: Displays.Others(context: context))
-                                    }
-                                },
-                                addSelectedValue: false,
-                                action: "SetSiteSettings",
-                                method: "post"))
-                    .FieldSet(
-                        css: " enclosed",
-                        legendText: Displays.Name(context: context),
+                        legendText: Displays.Search(context: context),
                         action: () => hb
                             .FieldTextBox(
                                 controlId: "SearchEditorColumnText")
@@ -16569,10 +16510,74 @@ namespace Implem.Pleasanter.Models
                                 text: Displays.Search(context: context),
                                 controlCss: "button-icon",
                                 onClick: "$p.send($(this));",
-                                icon: "ui-icon-trash",
-                                action: "Delete",
-                                method: "delete",
-                                confirm: "ConfirmDelete")));
+                                icon: "ui-icon-search",
+                                action: "SetSiteSettings",
+                                method: "post"))
+                    .FieldSet(
+                        css: " enclosed",
+                        legendText: Displays.UseSearchFilter(context: context),
+                        action: () => hb
+                            .Div(css: "command-left", action: () => hb
+                                .Button(
+                                    text: Displays.Basic(context: context),
+                                    controlCss: "button-icon",
+                                    onClick: "$p.send($(this));",
+                                    icon: "ui-icon-search",
+                                    action: "SetSiteSettings",
+                                    method: "post")
+                                .Button(
+                                    text: Displays.Class(context: context),
+                                    controlCss: "button-icon",
+                                    onClick: "$p.send($(this));",
+                                    icon: "ui-icon-search",
+                                    action: "SetSiteSettings",
+                                    method: "post")
+                                .Button(
+                                    text: Displays.Num(context: context),
+                                    controlCss: "button-icon",
+                                    onClick: "$p.send($(this));",
+                                    icon: "ui-icon-search",
+                                    action: "SetSiteSettings",
+                                    method: "post"))
+                            .Div(css: "command-left", action: () => hb
+                                .Button(
+                                    text: Displays.Date(context: context),
+                                    controlCss: "button-icon",
+                                    onClick: "$p.send($(this));",
+                                    icon: "ui-icon-search",
+                                    action: "SetSiteSettings",
+                                    method: "post")
+                                .Button(
+                                    text: Displays.Description(context: context),
+                                    controlCss: "button-icon",
+                                    onClick: "$p.send($(this));",
+                                    icon: "ui-icon-search",
+                                    action: "SetSiteSettings",
+                                    method: "post")
+                                .Button(
+                                    text: Displays.Check(context: context),
+                                    controlCss: "button-icon",
+                                    onClick: "$p.send($(this));",
+                                    icon: "ui-icon-search",
+                                    action: "SetSiteSettings",
+                                    method: "post"))
+                            .Div(css: "command-left", action: () => hb
+                                .Button(
+                                    text: Displays.Attachments(context: context),
+                                    controlCss: "button-icon",
+                                    onClick: "$p.send($(this));",
+                                    icon: "ui-icon-search",
+                                    action: "SetSiteSettings",
+                                    method: "post")))
+                    .Div(css: "command-center", action: () => hb
+                        .Button(
+                            controlId: "ResetEditorColumn",
+                            text: Displays.Reset(context: context),
+                            controlCss: "button-icon validate",
+                            onClick: "$p.resetEditorColumn($(this));",
+                            icon: "ui-icon-gear",
+                            action: "SetSiteSettings",
+                            method: "post")));
         }
     }
 }
