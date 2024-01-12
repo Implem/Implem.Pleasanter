@@ -2409,6 +2409,10 @@ namespace Implem.Pleasanter.Models
         {
             var matchingKey = context.Forms.Keys.FirstOrDefault(x => x.StartsWith("KambanSuffix_"));
             DashboardPart dashboardPart = ss.DashboardParts.FirstOrDefault(x => x.Id == context.Forms.Data(matchingKey).ToInt());
+            if (context.Forms.Long("SiteId") != dashboardPart.SiteId)
+            {
+                return Messages.ResponseNotBaseSite(context: context).ToJson();
+            }
             var currentSs = SiteSettingsUtilities.Get(
                 context: context,
                 siteId: context.Forms.Long("SiteId"),
