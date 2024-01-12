@@ -110,6 +110,7 @@
                     }
                     $p.set($('#KambanSuffix' + kambanSuffix), $('#KambanSuffix' + kambanSuffix).val());
                     $p.send($('#KambanBody' + kambanSuffix));
+                    $p.clearData('KambanSuffix' + kambanSuffix);
                     isDroppableIntoKambanContainer = true;
                 }
             });
