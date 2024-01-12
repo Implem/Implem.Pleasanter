@@ -7,7 +7,7 @@
     var newX = 300;
     var newY = pieChartHeight;
     var conditionIllegalFlag = false;
-    const radius = Math.min(480, 390) / 2;
+    const radius = Math.min(350, 320) / 2;
     var colorLabelMemorys = [];
 
     // id=Analyを削除
@@ -40,7 +40,7 @@
             .attr('id', 'deleteChartIcon_' + pieChart.Setting.Id)
             .attr('class', 'ui-icon ui-icon-closethick')
             .attr('onclick', '$p.send($(\'#DeleteAnalyPart_' + pieChart.Setting.Id + '\'));')
-            .style('margin-right', '50%')
+            .style('margin-right', '25%')
             .style('visibility', 'hidden')
             .style('cursor', 'pointer')
             .style('float', 'right');
@@ -48,8 +48,8 @@
         var svg = div
             .append('svg')
             .attr('id', 'ChartSvg_' + pieChart.Setting.Id)
-            .style('width', '600')
-            .style('height', '500')
+            .style('width', '430')
+            .style('height', '330')
             .style('float', 'left');
 
         // Gタグを設定
@@ -59,7 +59,7 @@
             .attr('data-method', 'post')
             .attr(
                 'transform',
-                'translate(270,195)');
+                'translate(215,160)');
 
 
         // データが抽出できない場合
@@ -105,7 +105,7 @@
                     .attr('fill', 'black')
                     .attr('font-size', '25px')
                     .attr('text-anchor', 'middle')
-                    .attr('dy', -30)
+                    .attr('dy', -20)
                     .text($p.display(pieChart.Setting.AggregationType));
 
                 // 条件「値」と「期間」を画面に表示
@@ -125,7 +125,7 @@
                     .attr('fill', 'black')
                     .attr('font-size', '15px')
                     .attr('text-anchor', 'middle')
-                    .attr('dy', 30)
+                    .attr('dy', 20)
                     .text(function (d) {
                         for (var columnNames of JSON.parse($('#Columns').val())) {
                             if (columnNames.ColumnName === pieChart.Setting.AggregationTarget) {
@@ -139,7 +139,7 @@
                     .attr('fill', 'black')
                     .attr('font-size', '15px')
                     .attr('text-anchor', 'middle')
-                    .attr('dy', 60)
+                    .attr('dy', 40)
                     .text(function (d) {
                         if (pieChart.Setting.GroupBy === 'Creator') {
                             return '作成者';
@@ -175,7 +175,7 @@
                     .attr('class', 'pie');
 
                 // 円グラフの半径を設定
-                var arc = d3.arc().outerRadius(radius).innerRadius(80);
+                var arc = d3.arc().outerRadius(radius).innerRadius(75);
 
                 if (colorLabelMemorys.length === 0) {
                     drawSingleAnalyChart();
@@ -187,7 +187,7 @@
                 // 円グラフの各要素に設定するラベル位置を設定
                 var text = d3
                     .arc()
-                    .outerRadius(radius - 40)
+                    .outerRadius(radius - 30)
                     .innerRadius(radius - 40);
 
                 // 円グラフの各要素に対して条件「項目」に設定された値と条件「集計種別」で修正されたデータを設定
@@ -197,8 +197,8 @@
                     .attr('transform', function (d) {
                         return 'translate(' + text.centroid(d) + ')';
                     })
-                    .attr('dy', '20px')
-                    .attr('font-size', '20px')
+                    .attr('dy', '5px')
+                    .attr('font-size', '13px')
                     .attr('text-anchor', 'middle')
                     .text(function (d) {
                         if (d.data.Value === 0) return;
