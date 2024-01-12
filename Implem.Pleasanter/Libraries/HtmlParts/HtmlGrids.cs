@@ -57,7 +57,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     {
                         hb.Th(action: () => hb
                             .CheckBox(
-                                controlId: "GridCheckAll",
+                                controlId: $"GridCheckAll{suffix}",
                                 _checked: checkAll));
                     }
                     columns.ForEach(column =>
