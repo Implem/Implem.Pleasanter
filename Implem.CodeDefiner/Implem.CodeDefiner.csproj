@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <Copyright>Copyright © Implem Inc 2014 - 2023</Copyright>
     <Description>This program does the automatic code creation and merging of existing code based on the definition. Also it will make the configuration change of sql server database.</Description>
     <AssemblyVersion>1.3.50.2</AssemblyVersion>
