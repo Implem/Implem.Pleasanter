@@ -1,4 +1,5 @@
-﻿using Microsoft.ClearScript.V8;
+﻿using Microsoft.ClearScript;
+using Microsoft.ClearScript.V8;
 using System;
 namespace Implem.Pleasanter.Libraries.ServerScripts
 {
@@ -22,7 +23,6 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             if (debug)
             {
                 flags |= V8ScriptEngineFlags.EnableDebugging
-                | V8ScriptEngineFlags.AwaitDebuggerAndPauseOnStart
                 | V8ScriptEngineFlags.EnableRemoteDebugging;
             }
             v8ScriptEngine = new V8ScriptEngine(flags);
@@ -43,9 +43,14 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             v8ScriptEngine?.Dispose();
         }
 
-        public void Execute(string code)
+        public void Execute(string code, bool debug)
         {
-            v8ScriptEngine?.Execute(code);
+            v8ScriptEngine?.Execute(
+                new DocumentInfo()
+                {
+                    Flags = debug ? DocumentFlags.AwaitDebuggerAndPause : DocumentFlags.None
+                },
+                code);
         }
 
         public object Evaluate(string code)
