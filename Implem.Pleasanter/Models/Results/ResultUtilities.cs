@@ -30,11 +30,9 @@ namespace Implem.Pleasanter.Models
         public static string Index(Context context, SiteSettings ss)
         {
             var hb = new HtmlBuilder();
-            var view = ss.DashboardParts.Any()
-                ? ss.DashboardParts.FirstOrDefault().View
-                : Views.GetBySession(
-                    context: context,
-                    ss: ss);
+            var view = Views.GetBySession(
+                context: context,
+                ss: ss);
             var gridData = GetGridData(
                 context: context,
                 ss: ss,
@@ -46,6 +44,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 view: view,
                 gridData: gridData);
+            var suffix = view.GetIndexSuffix();
             if (ss.DashboardParts?.Any() != true)
             {
                 return hb.ViewModeTemplate(
@@ -68,7 +67,8 @@ namespace Implem.Pleasanter.Models
                     ss: ss,
                     gridData: gridData,
                     view: view,
-                    serverScriptModelRow: serverScriptModelRow).ToString();
+                    serverScriptModelRow: serverScriptModelRow,
+                    suffix: suffix).ToString();
             }
         }
 
@@ -241,11 +241,14 @@ namespace Implem.Pleasanter.Models
             GridData gridData,
             View view,
             string action = "GridRows",
-            ServerScriptModelRow serverScriptModelRow = null)
+            ServerScriptModelRow serverScriptModelRow = null,
+            string suffix = "")
         {
             var columns = ss.GetGridColumns(
                 context: context,
-                view: view,
+                view: ss.DashboardParts.Any()
+                    ? ss.DashboardParts.FirstOrDefault().View
+                    : view,
                 checkPermission: true);
             return hb
                 .Table(
@@ -264,7 +267,8 @@ namespace Implem.Pleasanter.Models
                             view: view,
                             editRow: context.Forms.Bool("EditOnGrid"),
                             serverScriptModelRow: serverScriptModelRow,
-                            action: action))
+                            action: action,
+                            suffix: suffix))
                 .GridHeaderMenus(
                     context: context,
                     ss: ss,
@@ -427,7 +431,8 @@ namespace Implem.Pleasanter.Models
             int offset = 0,
             bool clearCheck = false,
             string action = "GridRows",
-            ServerScriptModelRow serverScriptModelRow = null)
+            ServerScriptModelRow serverScriptModelRow = null,
+            string suffix = "")
         {
             var checkRow = ss.CheckRow(
                 context: context,
@@ -451,7 +456,8 @@ namespace Implem.Pleasanter.Models
                             checkRow: checkRow,
                             checkAll: checkAll,
                             action: action,
-                            serverScriptModelRow: serverScriptModelRow))
+                            serverScriptModelRow: serverScriptModelRow,
+                            suffix: suffix))
                 .TBody(action: () => hb
                     .GridNewRows(
                         context: context,

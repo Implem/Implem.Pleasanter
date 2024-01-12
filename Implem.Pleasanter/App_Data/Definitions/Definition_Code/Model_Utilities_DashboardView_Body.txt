@@ -1,5 +1,0 @@
-﻿var view = ss.DashboardParts.Any()
-    ? ss.DashboardParts.FirstOrDefault().View
-    : Views.GetBySession(
-        context: context,
-        ss: ss);

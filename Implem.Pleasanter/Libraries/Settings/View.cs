@@ -96,6 +96,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public Dictionary<string, DateTime?> CalendarStartHash;
         public Dictionary<string, DateTime?> CalendarEndHash;
         public Dictionary<string, string> CalendarViewTypeHash;
+        public string IndexSuffix;
         public string CrosstabGroupByX;
         public string CrosstabGroupByY;
         public string CrosstabColumns;
@@ -268,6 +269,11 @@ namespace Implem.Pleasanter.Libraries.Settings
             return !CalendarGroupBy.IsNullOrEmpty()
                 ? CalendarGroupBy
                 : string.Empty;
+        }
+
+        public string GetIndexSuffix()
+        {
+            return IndexSuffix;
         }
 
         public string GetCrosstabGroupByX(Context context, SiteSettings ss)
@@ -940,7 +946,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                             AddCalendarViewTypeHash(value: context.Forms.Data($"CalendarViewType{CalendarSuffix}"), key: $"CalendarViewType{CalendarSuffix}");
                         }
                     }
-                    break;
+                    if (ss.DashboardParts?.Count.Equals(1) == true && ss.DashboardParts.First().Type.ToString() == "Index")
+                    {
+                        var dashboardPart = ss.DashboardParts.FirstOrDefault();
+
+                        IndexSuffix = $"_{dashboardPart.Id}";
+                    }
+                        break;
             }
         }
 

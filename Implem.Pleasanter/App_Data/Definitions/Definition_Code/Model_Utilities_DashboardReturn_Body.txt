@@ -20,5 +20,6 @@ else
         ss: ss,
         gridData: gridData,
         view: view,
-        serverScriptModelRow: serverScriptModelRow).ToString();
+        serverScriptModelRow: serverScriptModelRow,
+        suffix: suffix).ToString();
 }

@@ -1,3 +1,0 @@
-﻿var view = Views.GetBySession(
-    context: context,
-    ss: ss);

@@ -1,10 +1,9 @@
 ﻿public static string Index(Context context, SiteSettings ss)
 {
     var hb = new HtmlBuilder();
-
-<!--Model_Utilities_View-->
-<!--Model_Utilities_DashboardView-->
-
+    var view = Views.GetBySession(
+        context: context,
+        ss: ss);
     var gridData = GetGridData(
         context: context,
         ss: ss,
@@ -16,6 +15,7 @@
         context: context,
         view: view,
         gridData: gridData);
+    var suffix = view.GetIndexSuffix();
 <!--Model_Utilities_Return-->
 <!--Model_Utilities_DashboardReturn-->
 }
@@ -177,12 +177,11 @@ private static HtmlBuilder Grid(
     GridData gridData,
     View view,
     string action = "GridRows",
-    ServerScriptModelRow serverScriptModelRow = null)
+    ServerScriptModelRow serverScriptModelRow = null,
+    string suffix = "")
 {
-    var columns = ss.GetGridColumns(
-        context: context,
-        view: view,
-        checkPermission: true);
+<!--Model_Utilities_Columns-->
+<!--Model_Utilities_DashboardColumns-->
     return hb
         .Table(
             attributes: new HtmlAttributes()
@@ -202,7 +201,8 @@ private static HtmlBuilder Grid(
 <!--Model_Utilities_SetEditRowParameterByContext-->
 
                     serverScriptModelRow: serverScriptModelRow,
-                    action: action))
+                    action: action,
+                    suffix: suffix))
         .GridHeaderMenus(
             context: context,
             ss: ss,
@@ -323,7 +323,8 @@ private static HtmlBuilder GridRows(
     int offset = 0,
     bool clearCheck = false,
     string action = "GridRows",
-    ServerScriptModelRow serverScriptModelRow = null)
+    ServerScriptModelRow serverScriptModelRow = null,
+    string suffix = "")
 {
     var checkRow = ss.CheckRow(
         context: context,
@@ -350,7 +351,8 @@ private static HtmlBuilder GridRows(
                     checkRow: checkRow,
                     checkAll: checkAll,
                     action: action,
-                    serverScriptModelRow: serverScriptModelRow))
+                    serverScriptModelRow: serverScriptModelRow,
+                    suffix: suffix))
         .TBody(action: () => hb
 
 <!--Model_Utilities_ExecGridNewRows-->

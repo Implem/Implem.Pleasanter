@@ -743,6 +743,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_CancelNewRow": Code.Model_Utilities_CancelNewRow = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CancelNewRow, definitionRow, CodeXls); break;
                     case "Model_Utilities_ClearItemDataResponse": Code.Model_Utilities_ClearItemDataResponse = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ClearItemDataResponse, definitionRow, CodeXls); break;
                     case "Model_Utilities_ClearOriginalId": Code.Model_Utilities_ClearOriginalId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ClearOriginalId, definitionRow, CodeXls); break;
+                    case "Model_Utilities_Columns": Code.Model_Utilities_Columns = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Columns, definitionRow, CodeXls); break;
                     case "Model_Utilities_Copy": Code.Model_Utilities_Copy = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Copy, definitionRow, CodeXls); break;
                     case "Model_Utilities_Copy_Sites": Code.Model_Utilities_Copy_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Copy_Sites, definitionRow, CodeXls); break;
                     case "Model_Utilities_CopyResponse": Code.Model_Utilities_CopyResponse = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CopyResponse, definitionRow, CodeXls); break;
@@ -766,8 +767,8 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_CreateParams": Code.Model_Utilities_CreateParams = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CreateParams, definitionRow, CodeXls); break;
                     case "Model_Utilities_CreateParams_Sites": Code.Model_Utilities_CreateParams_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CreateParams_Sites, definitionRow, CodeXls); break;
                     case "Model_Utilities_Crosstab": Code.Model_Utilities_Crosstab = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Crosstab, definitionRow, CodeXls); break;
+                    case "Model_Utilities_DashboardColumns": Code.Model_Utilities_DashboardColumns = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_DashboardColumns, definitionRow, CodeXls); break;
                     case "Model_Utilities_DashboardReturn": Code.Model_Utilities_DashboardReturn = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_DashboardReturn, definitionRow, CodeXls); break;
-                    case "Model_Utilities_DashboardView": Code.Model_Utilities_DashboardView = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_DashboardView, definitionRow, CodeXls); break;
                     case "Model_Utilities_Delete": Code.Model_Utilities_Delete = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Delete, definitionRow, CodeXls); break;
                     case "Model_Utilities_DeleteByApi": Code.Model_Utilities_DeleteByApi = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_DeleteByApi, definitionRow, CodeXls); break;
                     case "Model_Utilities_DeleteHistory_Items": Code.Model_Utilities_DeleteHistory_Items = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_DeleteHistory_Items, definitionRow, CodeXls); break;
@@ -919,7 +920,6 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_UpdateParameters_Sites": Code.Model_Utilities_UpdateParameters_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_UpdateParameters_Sites, definitionRow, CodeXls); break;
                     case "Model_Utilities_UpsertByApi": Code.Model_Utilities_UpsertByApi = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_UpsertByApi, definitionRow, CodeXls); break;
                     case "Model_Utilities_UpsertByServerScript": Code.Model_Utilities_UpsertByServerScript = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_UpsertByServerScript, definitionRow, CodeXls); break;
-                    case "Model_Utilities_View": Code.Model_Utilities_View = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_View, definitionRow, CodeXls); break;
                     case "Model_Utilities_ViewSelectorField": Code.Model_Utilities_ViewSelectorField = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ViewSelectorField, definitionRow, CodeXls); break;
                     case "Model_Utilities_ViewSelectorFieldWithShowHistory": Code.Model_Utilities_ViewSelectorFieldWithShowHistory = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ViewSelectorFieldWithShowHistory, definitionRow, CodeXls); break;
                     case "Model_Utilities_WhereTenantId": Code.Model_Utilities_WhereTenantId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_WhereTenantId, definitionRow, CodeXls); break;
@@ -7202,6 +7202,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_CancelNewRow;
         public string Model_Utilities_ClearItemDataResponse;
         public string Model_Utilities_ClearOriginalId;
+        public string Model_Utilities_Columns;
         public string Model_Utilities_Copy;
         public string Model_Utilities_Copy_Sites;
         public string Model_Utilities_CopyResponse;
@@ -7225,8 +7226,8 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_CreateParams;
         public string Model_Utilities_CreateParams_Sites;
         public string Model_Utilities_Crosstab;
+        public string Model_Utilities_DashboardColumns;
         public string Model_Utilities_DashboardReturn;
-        public string Model_Utilities_DashboardView;
         public string Model_Utilities_Delete;
         public string Model_Utilities_DeleteByApi;
         public string Model_Utilities_DeleteHistory_Items;
@@ -7378,7 +7379,6 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_UpdateParameters_Sites;
         public string Model_Utilities_UpsertByApi;
         public string Model_Utilities_UpsertByServerScript;
-        public string Model_Utilities_View;
         public string Model_Utilities_ViewSelectorField;
         public string Model_Utilities_ViewSelectorFieldWithShowHistory;
         public string Model_Utilities_WhereTenantId;
@@ -8011,6 +8011,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_CancelNewRow = new CodeDefinition();
         public CodeDefinition Model_Utilities_ClearItemDataResponse = new CodeDefinition();
         public CodeDefinition Model_Utilities_ClearOriginalId = new CodeDefinition();
+        public CodeDefinition Model_Utilities_Columns = new CodeDefinition();
         public CodeDefinition Model_Utilities_Copy = new CodeDefinition();
         public CodeDefinition Model_Utilities_Copy_Sites = new CodeDefinition();
         public CodeDefinition Model_Utilities_CopyResponse = new CodeDefinition();
@@ -8034,8 +8035,8 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_CreateParams = new CodeDefinition();
         public CodeDefinition Model_Utilities_CreateParams_Sites = new CodeDefinition();
         public CodeDefinition Model_Utilities_Crosstab = new CodeDefinition();
+        public CodeDefinition Model_Utilities_DashboardColumns = new CodeDefinition();
         public CodeDefinition Model_Utilities_DashboardReturn = new CodeDefinition();
-        public CodeDefinition Model_Utilities_DashboardView = new CodeDefinition();
         public CodeDefinition Model_Utilities_Delete = new CodeDefinition();
         public CodeDefinition Model_Utilities_DeleteByApi = new CodeDefinition();
         public CodeDefinition Model_Utilities_DeleteHistory_Items = new CodeDefinition();
@@ -8187,7 +8188,6 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_UpdateParameters_Sites = new CodeDefinition();
         public CodeDefinition Model_Utilities_UpsertByApi = new CodeDefinition();
         public CodeDefinition Model_Utilities_UpsertByServerScript = new CodeDefinition();
-        public CodeDefinition Model_Utilities_View = new CodeDefinition();
         public CodeDefinition Model_Utilities_ViewSelectorField = new CodeDefinition();
         public CodeDefinition Model_Utilities_ViewSelectorFieldWithShowHistory = new CodeDefinition();
         public CodeDefinition Model_Utilities_WhereTenantId = new CodeDefinition();

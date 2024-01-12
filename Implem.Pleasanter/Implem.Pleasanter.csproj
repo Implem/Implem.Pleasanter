@@ -102,13 +102,13 @@
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_ApiCreatedMessage_Table.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_ApiUpdatedMessage.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_ApiUpdatedMessage_Table.json" />
+    <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_Columns.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_Create_SetCopyDefault.json" />
+    <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_DashboardColumns.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_DashboardReturn.json" />
-    <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_DashboardView.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_GetServerScriptModelRow.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_Response_ResetGroupMembers.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_Return.json" />
-    <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_View.json" />
   </ItemGroup>
 
   <ItemGroup>
