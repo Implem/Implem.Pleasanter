@@ -1014,6 +1014,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-error");
         }
 
+        public static Message NotBaseSite(Context context, params string[] data)
+        {
+            return Get(
+                id: "NotBaseSite",
+                text: Displays.NotBaseSite(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
         public static Message NotContainKeyColumn(Context context, params string[] data)
         {
             return Get(
@@ -2687,6 +2697,17 @@ namespace Implem.Pleasanter.Libraries.Responses
             return ResponseMessage(
                 context: context,
                 message: NoLinks(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseNotBaseSite(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: NotBaseSite(
                     context: context,
                     data: data),
                 target: target);

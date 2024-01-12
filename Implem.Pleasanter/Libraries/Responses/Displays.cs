@@ -6669,6 +6669,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string NotBaseSite(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "NotBaseSite",
+                data: data);
+        }
+
         public static string NotContainKeyColumn(
             Context context,
             params string[] data)
