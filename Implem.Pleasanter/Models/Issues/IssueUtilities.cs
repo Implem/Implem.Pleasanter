@@ -364,114 +364,114 @@ namespace Implem.Pleasanter.Models
             if (suffix.IsNullOrEmpty())
             {
                 return new ResponseCollection(context: context)
-                .WindowScrollTop(_using: windowScrollTop)
-                .Remove(".grid tr", _using: offset == 0)
-                .ClearFormData("GridOffset")
-                .ClearFormData("GridCheckAll", _using: clearCheck)
-                .ClearFormData("GridUnCheckedItems", _using: clearCheck)
-                .ClearFormData("GridCheckedItems", _using: clearCheck)
-                .ClearFormData("OriginalId", _using: newOnGrid)
-                .CloseDialog(_using: offset == 0)
-                .ReplaceAll("#CopyDirectUrlToClipboard", new HtmlBuilder()
-                    .CopyDirectUrlToClipboard(
-                        context: context,
-                        view: view))
-                .ReplaceAll(
-                    "#Aggregations",
-                    new HtmlBuilder().Aggregations(
-                        context: context,
-                        ss: ss,
-                        view: view),
-                    _using: offset == 0)
-                .ReplaceAll(
-                    "#ViewFilters",
-                    new HtmlBuilder()
-                        .ViewFilters(
+                    .WindowScrollTop(_using: windowScrollTop)
+                    .Remove(".grid tr", _using: offset == 0)
+                    .ClearFormData("GridOffset")
+                    .ClearFormData("GridCheckAll", _using: clearCheck)
+                    .ClearFormData("GridUnCheckedItems", _using: clearCheck)
+                    .ClearFormData("GridCheckedItems", _using: clearCheck)
+                    .ClearFormData("OriginalId", _using: newOnGrid)
+                    .CloseDialog(_using: offset == 0)
+                    .ReplaceAll("#CopyDirectUrlToClipboard", new HtmlBuilder()
+                        .CopyDirectUrlToClipboard(
+                            context: context,
+                            view: view))
+                    .ReplaceAll(
+                        "#Aggregations",
+                        new HtmlBuilder().Aggregations(
                             context: context,
                             ss: ss,
                             view: view),
-                    _using: context.Forms.ControlId().StartsWith("ViewFiltersOnGridHeader__"))
-                .Append("#Grid", new HtmlBuilder().GridRows(
-                    context: context,
-                    ss: ss,
-                    gridData: gridData,
-                    columns: columns,
-                    view: view,
-                    issueModel: issueModel,
-                    editRow: editRow,
-                    newRowId: newRowId,
-                    offset: offset,
-                    clearCheck: clearCheck,
-                    action: action))
-                .Val("#NewRowId", newRowId, _using: newOnGrid)
-                .CopyRowFormData(
-                    context: context,
-                    ss: ss,
-                    issueModel: issueModel,
-                    columns: columns,
-                    newOnGrid: newOnGrid,
-                    newRowId: newRowId,
-                    originalId: originalId)
-                .Val("#GridOffset", ss.GridNextOffset(
-                    offset,
-                    gridData.DataRows.Count(),
-                    gridData.TotalCount))
-                .Val("#GridRowIds", gridData.DataRows.Select(g => g.Long("IssueId")).ToJson())
-                .Val("#GridColumns", columns.Select(o => o.ColumnName).ToJson())
-                .Paging("#Grid")
-                .Message(message)
-                .Messages(context.Messages)
-                .ToJson();
+                        _using: offset == 0)
+                    .ReplaceAll(
+                        "#ViewFilters",
+                        new HtmlBuilder()
+                            .ViewFilters(
+                                context: context,
+                                ss: ss,
+                                view: view),
+                        _using: context.Forms.ControlId().StartsWith("ViewFiltersOnGridHeader__"))
+                    .Append("#Grid", new HtmlBuilder().GridRows(
+                        context: context,
+                        ss: ss,
+                        gridData: gridData,
+                        columns: columns,
+                        view: view,
+                                issueModel: issueModel,
+                                editRow: editRow,
+                                newRowId: newRowId,
+                        offset: offset,
+                        clearCheck: clearCheck,
+                        action: action))
+                    .Val("#NewRowId", newRowId, _using: newOnGrid)
+                    .CopyRowFormData(
+                        context: context,
+                        ss: ss,
+                        issueModel: issueModel,
+                        columns: columns,
+                        newOnGrid: newOnGrid,
+                        newRowId: newRowId,
+                        originalId: originalId)
+                    .Val("#GridOffset", ss.GridNextOffset(
+                        offset,
+                        gridData.DataRows.Count(),
+                        gridData.TotalCount))
+                    .Val("#GridRowIds", gridData.DataRows.Select(g => g.Long("IssueId")).ToJson())
+                    .Val("#GridColumns", columns.Select(o => o.ColumnName).ToJson())
+                    .Paging("#Grid")
+                    .Message(message)
+                    .Messages(context.Messages)
+                    .ToJson();
             }
             else
             {
                 var hb = new HtmlBuilder();
-                return hb
-                .Table(
-                    attributes: new HtmlAttributes()
-                        .Id($"Grid{suffix}")
-                        .Class(ss.GridCss(context: context))
-                        .DataValue("back", _using: ss?.IntegratedSites?.Any() == true)
-                        .DataAction(action)
-                        .DataMethod("post"),
-                    action: () => hb
-                        .GridRows(
-                            context: context,
-                            ss: ss,
-                            gridData: gridData,
-                            columns: columns,
-                            view: view,
-                            issueModel: issueModel,
-                            editRow: editRow,
-                            newRowId: newRowId,
-                            offset: offset,
-                            clearCheck: clearCheck,
-                            action: action,
-                            suffix: suffix))
-                .GridHeaderMenus(
-                    context: context,
-                    ss: ss,
-                    view: view,
-                    columns: columns,
-                    suffix: suffix)
-                .Hidden(
-                    controlId: "GridOffset",
-                    value: ss.GridNextOffset(
-                        0,
-                        gridData.DataRows.Count(),
-                        gridData.TotalCount)
-                            .ToString())
-                .Hidden(
-                    controlId: "GridRowIds",
-                    value: gridData.DataRows.Select(g => g.Long("IssueId")).ToJson())
-                .Hidden(
-                    controlId: "GridColumns",
-                    value: columns.Select(o => o.ColumnName).ToJson())
-                .Button(
-                    controlId: "ViewSorters_Reset",
-                    controlCss: "hidden",
-                    action: action,
-                    method: "post").ToString();
+                    return hb
+                    .Table(
+                        attributes: new HtmlAttributes()
+                            .Id($"Grid{suffix}")
+                            .Class(ss.GridCss(context: context))
+                            .DataValue("back", _using: ss?.IntegratedSites?.Any() == true)
+                            .DataAction(action)
+                            .DataMethod("post"),
+                        action: () => hb
+                            .GridRows(
+                                context: context,
+                                ss: ss,
+                                gridData: gridData,
+                                columns: columns,
+                                view: view,
+                                issueModel: issueModel,
+                                editRow: editRow,
+                                newRowId: newRowId,
+                                offset: offset,
+                                clearCheck: clearCheck,
+                                action: action,
+                                suffix: suffix))
+                    .GridHeaderMenus(
+                        context: context,
+                        ss: ss,
+                        view: view,
+                        columns: columns,
+                        suffix: suffix)
+                    .Hidden(
+                        controlId: "GridOffset",
+                        value: ss.GridNextOffset(
+                            0,
+                            gridData.DataRows.Count(),
+                            gridData.TotalCount)
+                                .ToString())
+                    .Hidden(
+                        controlId: "GridRowIds",
+                        value: gridData.DataRows.Select(g => g.Long("IssueId")).ToJson())
+                    .Hidden(
+                        controlId: "GridColumns",
+                        value: columns.Select(o => o.ColumnName).ToJson())
+                    .Button(
+                        controlId: "ViewSorters_Reset",
+                        controlCss: "hidden",
+                        action: action,
+                        method: "post").ToString();
             }
         }
 

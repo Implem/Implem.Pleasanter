@@ -180,8 +180,10 @@ private static HtmlBuilder Grid(
     ServerScriptModelRow serverScriptModelRow = null,
     string suffix = "")
 {
+
 <!--Model_Utilities_Columns-->
 <!--Model_Utilities_DashboardColumns-->
+
     return hb
         .Table(
             attributes: new HtmlAttributes()
@@ -236,7 +238,8 @@ public static string GridRows(
     bool windowScrollTop = false,
     bool clearCheck = false,
     string action = "GridRows",
-    Message message = null)
+    Message message = null,
+    string suffix = "")
 {
     var view = Views.GetBySession(context: context, ss: ss);
     var gridData = GetGridData(
@@ -246,69 +249,11 @@ public static string GridRows(
         offset: offset);
 
 <!--Model_Utilities_GetServerScriptModelRow-->
-
-    var columns = ss.GetGridColumns(
-        context: context,
-        view: view,
-        checkPermission: true);
-
+<!--Model_Utilities_Columns-->
+<!--Model_Utilities_DashboardColumns-->
 <!--Model_Utilities_GridNewRowParameters-->
-
-    return new ResponseCollection(context: context)
-        .WindowScrollTop(_using: windowScrollTop)
-        .Remove(".grid tr", _using: offset == 0)
-        .ClearFormData("GridOffset")
-        .ClearFormData("GridCheckAll", _using: clearCheck)
-        .ClearFormData("GridUnCheckedItems", _using: clearCheck)
-        .ClearFormData("GridCheckedItems", _using: clearCheck)
-
-<!--Model_Utilities_ClearOriginalId-->
-
-        .CloseDialog(_using: offset == 0)
-        .ReplaceAll("#CopyDirectUrlToClipboard", new HtmlBuilder()
-            .CopyDirectUrlToClipboard(
-                context: context,
-                view: view))
-        .ReplaceAll(
-            "#Aggregations",
-            new HtmlBuilder().Aggregations(
-                context: context,
-                ss: ss,
-                view: view),
-            _using: offset == 0)
-        .ReplaceAll(
-            "#ViewFilters",
-            new HtmlBuilder()
-                .ViewFilters(
-                    context: context,
-                    ss: ss,
-                    view: view),
-            _using: context.Forms.ControlId().StartsWith("ViewFiltersOnGridHeader__"))
-        .Append("#Grid", new HtmlBuilder().GridRows(
-            context: context,
-            ss: ss,
-            gridData: gridData,
-            columns: columns,
-            view: view,
-
-<!--Model_Utilities_SetNewRowParameters-->
-
-            offset: offset,
-            clearCheck: clearCheck,
-            action: action))
-
-<!--Model_Utilities_NewRowVal-->
-
-        .Val("#GridOffset", ss.GridNextOffset(
-            offset,
-            gridData.DataRows.Count(),
-            gridData.TotalCount))
-        .Val("#GridRowIds", gridData.DataRows.Select(g => g.Long("#ModelName#Id")).ToJson())
-        .Val("#GridColumns", columns.Select(o => o.ColumnName).ToJson())
-        .Paging("#Grid")
-        .Message(message)
-        .Messages(context.Messages)
-        .ToJson();
+<!--Model_Utilities_GridRowsReturn-->
+<!--Model_Utilities_DashboardGridRowsReturn-->
 }
 
 private static HtmlBuilder GridRows(

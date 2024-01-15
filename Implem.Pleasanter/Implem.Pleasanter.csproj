@@ -106,9 +106,11 @@
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_Columns.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_Create_SetCopyDefault.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_DashboardColumns.json" />
+    <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_DashboardGridRowsReturn.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_DashboardHeaderCss.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_DashboardReturn.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_GetServerScriptModelRow.json" />
+    <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_GridRowsReturn.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_Response_ResetGroupMembers.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_Return.json" />
   </ItemGroup>

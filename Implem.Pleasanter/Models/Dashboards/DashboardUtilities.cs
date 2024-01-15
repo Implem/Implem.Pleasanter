@@ -282,7 +282,8 @@ namespace Implem.Pleasanter.Models
             bool windowScrollTop = false,
             bool clearCheck = false,
             string action = "GridRows",
-            Message message = null)
+            Message message = null,
+            string suffix = "")
         {
             var view = Views.GetBySession(context: context, ss: ss);
             var gridData = GetGridData(
