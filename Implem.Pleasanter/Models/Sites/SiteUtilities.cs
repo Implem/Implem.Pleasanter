@@ -10601,13 +10601,13 @@ namespace Implem.Pleasanter.Models
                                         controlId: "MoveUpViewGridColumns",
                                         controlCss: "button-icon",
                                         text: Displays.MoveUp(context: context),
-                                        onClick: "$p.moveColumns(event, $(this),'ViewGrid',false,true);",
+                                        onClick: $"$p.moveColumns(event, $(this),'{prefix}ViewGrid',false,true);",
                                         icon: "ui-icon-circle-triangle-n")
                                     .Button(
                                         controlId: "MoveDownViewGridColumns",
                                         controlCss: "button-icon",
                                         text: Displays.MoveDown(context: context),
-                                        onClick: "$p.moveColumns(event, $(this),'ViewGrid',false,true);",
+                                        onClick: $"$p.moveColumns(event, $(this),'{prefix}ViewGrid',false,true);",
                                         icon: "ui-icon-circle-triangle-s")
                                     .Button(
                                         controlId: "ToDisableViewGridColumns",
