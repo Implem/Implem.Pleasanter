@@ -10631,7 +10631,7 @@ namespace Implem.Pleasanter.Models
                                         controlId: "ToEnableViewGridColumns",
                                         text: Displays.ToEnable(context: context),
                                         controlCss: "button-icon",
-                                        onClick: "$p.moveColumns(event, $(this),'ViewGrid',false,true);",
+                                        onClick: $"$p.moveColumns(event, $(this),'{prefix}ViewGrid',false,true);",
                                         icon: "ui-icon-circle-triangle-w")
                                     .FieldDropDown(
                                         context: context,

@@ -2404,9 +2404,8 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             int offset = 0)
         {
-            var matchingKey = context.Forms.Keys.FirstOrDefault(x => x.StartsWith("IndexSuffix"));
-            var suffix = context.Forms.Data(matchingKey);
-            DashboardPart dashboardPart = ss.DashboardParts.FirstOrDefault(x => x.Id == context.Forms.Data(matchingKey).Replace("_", "").ToInt());
+            var suffix = context.Forms.Data("IndexSuffix");
+            DashboardPart dashboardPart = ss.DashboardParts.FirstOrDefault(x => x.Id == suffix.Replace("_", "").ToInt());
             var currentSs = SiteSettingsUtilities.Get(
                 context: context,
                 siteId: dashboardPart.SiteId);

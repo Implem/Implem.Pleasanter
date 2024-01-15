@@ -255,7 +255,7 @@ $p.setRelatingColumn = function ($control) {
 }
 
 $p.openDashboardPartDialog = function ($control) {
-    $p.data.DashboardForm = {};
+    $p.data.DashboardPartForm = {};
     $p.openSiteSettingsDialog($control, '#DashboardPartDialog');
 }
 
@@ -315,6 +315,7 @@ $p.confirmIndexSites = function (value) {
         $p.set($('#DashboardPartIndexSites'), args.indexSites);
         $p.set($('#DashboardPartBaseSiteId'), args.baseSiteId);
         $p.send($("#ClearDashboardView"));
+        $p.clearData('DashboardPartView', 'DashboardPartForm', 'startsWith');
         $p.closeDialog($("#DashboardPartIndexSitesDialog"));
     }
 }
