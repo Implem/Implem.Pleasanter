@@ -16583,8 +16583,8 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlId: "ShowTargetColumnDefault",
                             text: Displays.Reset(context: context),
-                            controlCss: "button-icon validate",
-                            onClick: "$p.resetEditorColumn($(this));",
+                            controlCss: "button-icon",
+                            onClick: "$p.send($(this));",
                             icon: "ui-icon-gear",
                             action: "SetSiteSettings",
                             method: "post")

@@ -3593,44 +3593,55 @@ namespace Implem.Pleasanter.Models
                         res: res);
                     break;
                 case "ShowTargetColumnKeyWord":
+                    ShowTargetColumnKeyWord(
+                        context: context,
+                        res: res);
+                    break;
                 case "ShowTargetColumnBasic":
+                    ShowTargetColumnBasic(
+                        context: context,
+                        res: res);
+                    break;
                 case "ShowTargetColumnClass":
-                    ShowTargetEditorColumnByTypeString(
+                    ShowTargetColumnByTypeString(
                         context: context,
                         res: res,
                         typeString: "Class");
                     break;
                 case "ShowTargetColumnNum":
-                    ShowTargetEditorColumnByTypeString(
+                    ShowTargetColumnByTypeString(
                         context: context,
                         res: res,
                         typeString: "Num");
                     break;
                 case "ShowTargetColumnDate":
-                    ShowTargetEditorColumnByTypeString(
+                    ShowTargetColumnByTypeString(
                         context: context,
                         res: res,
                         typeString: "Date");
                     break;
                 case "ShowTargetColumnDescription":
-                    ShowTargetEditorColumnByTypeString(
+                    ShowTargetColumnByTypeString(
                         context: context,
                         res: res,
                         typeString: "Description");
                     break;
                 case "ShowTargetColumnCheck":
-                    ShowTargetEditorColumnByTypeString(
+                    ShowTargetColumnByTypeString(
                         context: context,
                         res: res,
                         typeString: "Check");
                     break;
                 case "ShowTargetColumnAttachments":
-                    ShowTargetEditorColumnByTypeString(
+                    ShowTargetColumnByTypeString(
                         context: context,
                         res: res,
                         typeString: "Attachments");
                     break;
                 case "ShowTargetColumnDefault":
+                    ShowTargetColumnDefault(
+                        context: context,
+                        res: res);
                     break;
                 default:
                     if (controlId.Contains("_NumericRange"))
@@ -4156,14 +4167,41 @@ namespace Implem.Pleasanter.Models
                 ss: SiteSettings);
         }
 
-        private void ShowTargetEditorColumnDefault(Context context, ResponseCollection res)
+        private void ShowTargetColumnKeyWord(
+            Context context,
+            ResponseCollection res)
         {
             res.CloseDialog();
         }
 
-        private void ShowTargetEditorColumnByTypeString(Context context, ResponseCollection res, string typeString)
+        private void ShowTargetColumnBasic(
+            Context context,
+            ResponseCollection res)
         {
             res.CloseDialog();
+        }
+
+        private void ShowTargetColumnByTypeString(
+            Context context,
+            ResponseCollection res,
+            string typeString)
+        {
+            res.CloseDialog();
+        }
+
+        private void ShowTargetColumnDefault(
+            Context context,
+            ResponseCollection res)
+        {
+            res.Html(
+                "#EditorSourceColumns",
+                new HtmlBuilder().SelectableItems(
+                    listItemCollection: SiteSettings
+                        .EditorSelectableOptions(
+                            context: context,
+                            enabled: false)))
+            .SetData("#EditorSourceColumns")
+            .CloseDialog();
         }
 
         /// <summary>
@@ -9030,6 +9068,7 @@ namespace Implem.Pleasanter.Models
             Context context,
             ResponseCollection res)
         {
+            AddOrUpdateEditorColumnHash(context: context);
             res.Html("#SearchEditorColumnDialog", SiteUtilities.SearchEditorColumnDialog(
                 context: context,
                 ss: SiteSettings))
