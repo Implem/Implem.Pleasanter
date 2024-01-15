@@ -53,6 +53,17 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string CalendarTimePeriod { get; set; }
         public string CalendarFromTo { get; set; }
         public bool CalendarShowStatus { get; set; }
+        public string KambanSites { get; set; }
+        public List<string> KambanSitesData { get; set; }
+        public string KambanGroupByX { get; set; }
+        public string KambanGroupByY { get; set; }
+        public string KambanAggregateType { get; set; }
+        public string KambanValue { get; set; }
+        public string KambanColumns { get; set; }
+        public bool KambanAggregationView { get; set; }
+        public bool KambanShowStatus { get; set; }
+
+
         public long SiteId { get; set; }
         public string ExtendedCss { get; set; }
         public List<int> Depts { get; set; }
@@ -145,6 +156,25 @@ namespace Implem.Pleasanter.Libraries.Settings
                     dashboardPart.View = View;
                     if (CalendarShowStatus == true) dashboardPart.CalendarShowStatus = true;
                     break;
+                case DashboardPartType.Kamban:
+                    dashboardPart.KambanSites = KambanSites;
+                    dashboardPart.KambanSitesData = KambanSitesData;
+                    dashboardPart.KambanGroupByX = KambanGroupByX;
+                    dashboardPart.KambanGroupByY = KambanGroupByY;
+                    dashboardPart.KambanAggregateType = KambanAggregateType;
+                    dashboardPart.KambanValue = KambanValue;
+                    dashboardPart.KambanColumns = KambanColumns;
+                    dashboardPart.KambanAggregationView = KambanAggregationView;
+                    dashboardPart.KambanShowStatus = KambanShowStatus;
+                    dashboardPart.SiteId = SiteId;
+                    if (ss != null)
+                    {
+                        View = View.GetRecordingData(
+                            context: context,
+                            ss: ss);
+                    }
+                    dashboardPart.View = View;
+                    break;
             }
             return dashboardPart;
         }
@@ -171,6 +201,15 @@ namespace Implem.Pleasanter.Libraries.Settings
             string calendarTimePeriod,
             string calendarFromTo,
             bool calendarShowStatus,
+            string kambanSites,
+            List<string> kambanSitesData,
+            string kambanGroupByX,
+            string kambanGroupByY,
+            string kambanAggregateType,
+            string kambanValue,
+            string kambanColumns,
+            bool kambanAggregationView,
+            bool kambanShowStatus,
             string extendedCss,
             bool disableAsynchronousLoading,
             List<Permission> permissions)
@@ -201,6 +240,15 @@ namespace Implem.Pleasanter.Libraries.Settings
                 calendarTimePeriod: calendarTimePeriod,
                 calendarFromTo: calendarFromTo,
                 calendarShowStatus: calendarShowStatus,
+                kambanSites : kambanSites,
+                kambanSitesData: kambanSitesData,
+                kambanGroupByX : kambanGroupByX,
+                kambanGroupByY : kambanGroupByY,
+                kambanAggregateType : kambanAggregateType,
+                kambanValue: kambanValue,
+                kambanColumns: kambanColumns,
+                kambanAggregationView: kambanAggregationView,
+                kambanShowStatus: kambanShowStatus,
                 extendedCss: extendedCss,
                 disableAsynchronousLoading: disableAsynchronousLoading,
                 permissions: permissions);
@@ -231,6 +279,15 @@ namespace Implem.Pleasanter.Libraries.Settings
             string calendarTimePeriod,
             string calendarFromTo,
             bool calendarShowStatus,
+            string kambanSites,
+            List<string> kambanSitesData,
+            string kambanGroupByX,
+            string kambanGroupByY,
+            string kambanAggregateType,
+            string kambanValue,
+            string kambanColumns,
+            bool kambanAggregationView,
+            bool kambanShowStatus,
             string extendedCss,
             bool disableAsynchronousLoading,
             List<Permission> permissions)
@@ -258,6 +315,15 @@ namespace Implem.Pleasanter.Libraries.Settings
             CalendarTimePeriod = calendarTimePeriod;
             CalendarFromTo = calendarFromTo;
             CalendarShowStatus = calendarShowStatus;
+            KambanSites = kambanSites;
+            KambanSitesData = kambanSitesData;
+            KambanGroupByX = kambanGroupByX;
+            KambanGroupByY = kambanGroupByY;
+            KambanAggregateType = kambanAggregateType;
+            KambanValue = kambanValue;
+            KambanColumns = kambanColumns;
+            KambanAggregationView = kambanAggregationView;
+            KambanShowStatus = kambanShowStatus;
             ExtendedCss = extendedCss;
             DisableAsynchronousLoading = disableAsynchronousLoading;
             SetSitesData();
@@ -272,6 +338,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             SetQuickAccessSitesData();
             SetTimeLineSitesData();
             SetCalendarSitesData();
+            SetKambanSitesData();
         }
 
         /// <summary>
@@ -297,6 +364,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                     return TimeLineSitesData;
                 case DashboardPartType.Calendar:
                     return CalendarSitesData;
+                case DashboardPartType.Kamban:
+                    return KambanSitesData;
                 default:
                     return null;
             }
@@ -345,6 +414,20 @@ namespace Implem.Pleasanter.Libraries.Settings
                 return;
             }
             CalendarSitesData = CalendarSites
+                .Split(",")
+                .Select(o => o.Trim())
+                .Where(o => !o.IsNullOrEmpty())
+                .ToList();
+        }
+
+        private void SetKambanSitesData()
+        {
+            if (KambanSites == null)
+            {
+                KambanSitesData = new List<string>();
+                return;
+            }
+            KambanSitesData = KambanSites
                 .Split(",")
                 .Select(o => o.Trim())
                 .Where(o => !o.IsNullOrEmpty())
@@ -529,6 +612,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                     return Displays.DashboardCustomHtml(context: context);
                 case DashboardPartType.Calendar:
                     return Displays.Calendar(context: context);
+                case DashboardPartType.Kamban:
+                    return Displays.Kamban(context: context);
                 default:
                     return Displays.QuickAccess(context: context);
             }
@@ -574,6 +659,17 @@ namespace Implem.Pleasanter.Libraries.Settings
             else
             {
                 CalendarSites = CalendarSitesData.Join(",");
+            }
+        }
+        public void SetKambanSites()
+        {
+            if (KambanSitesData == null)
+            {
+                KambanSites = string.Empty;
+            }
+            else
+            {
+                KambanSites = KambanSitesData.Join(",");
             }
         }
     }
