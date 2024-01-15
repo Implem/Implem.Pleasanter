@@ -363,12 +363,6 @@ namespace Implem.Pleasanter.Models
                 : context.Forms.Bool("GridCheckAll");
             return hb
                 .THead(
-                    id: !suffix.IsNullOrEmpty()
-                        ? $"DashboardGridHeader{suffix}"
-                        : "",
-                    css: !suffix.IsNullOrEmpty()
-                        ? "dashboard-grid-header"
-                        : "",
                     _using: offset == 0,
                     action: () => hb
                         .GridHeader(
@@ -2391,17 +2385,82 @@ namespace Implem.Pleasanter.Models
             ss.IntegratedSites = dashboardPart.IndexSitesData;
             ss.SetSiteIntegration(context: context);
             ss.SetDashboardParts(dashboardPart: dashboardPart);
-            if (ss.ReferenceType == "Issues")
+            switch (ss.ReferenceType)
             {
-                return IssueUtilities.Index(context: context, ss: ss);
+                case "Issues":
+                    return IssueUtilities.Index(context: context, ss: ss);
+                case "Results":
+                    return ResultUtilities.Index(context: context, ss: ss);
+                default:
+                    return null;
             }
-            else if (ss.ReferenceType == "Results")
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string DashboardIndexGridRows(
+            Context context,
+            SiteSettings ss,
+            int offset = 0)
+        {
+            var matchingKey = context.Forms.Keys.FirstOrDefault(x => x.StartsWith("IndexSuffix"));
+            var suffix = context.Forms.Data(matchingKey);
+            DashboardPart dashboardPart = ss.DashboardParts.FirstOrDefault(x => x.Id == context.Forms.Data(matchingKey).Replace("_", "").ToInt());
+            var currentSs = SiteSettingsUtilities.Get(
+                context: context,
+                siteId: dashboardPart.SiteId);
+            //対象サイトをサイト統合の仕組みで登録
+            currentSs.IntegratedSites = dashboardPart.IndexSitesData;
+            currentSs.SetSiteIntegration(context: context);
+            currentSs.SetDashboardParts(dashboardPart: dashboardPart);
+            var hb = new HtmlBuilder();
+            switch (currentSs.ReferenceType)
             {
-                return ResultUtilities.Index(context: context, ss: ss);
-            }
-            else
-            {
-                return null;
+                case "Issues":
+                    var issues = IssueUtilities.GridRows(context: context, ss: currentSs, offset: offset, suffix: suffix);
+                    var issueIndex = hb.Div(
+                        id: $"DashboardPart_{dashboardPart.Id}",
+                        attributes: new HtmlAttributes().DataId(dashboardPart.Id.ToString()),
+                        css: "dashboard-index-container " + dashboardPart.ExtendedCss,
+                        action: () =>
+                        {
+                            if (dashboardPart.ShowTitle == true)
+                            {
+                                hb.Div(
+                                    css: "dashboard-part-title",
+                                    action: () => hb.Text(dashboardPart.Title));
+                            }
+                            hb.Raw(text: issues);
+                        }).ToString();
+                    return new ResponseCollection(context: context)
+                        .ReplaceAll(
+                            target: $"#DashboardPart_{dashboardPart.Id}",
+                            value: issueIndex)
+                        .ToJson();
+                case "Results":
+                    var results = ResultUtilities.GridRows(context: context, ss: currentSs, offset: offset);
+                    var resultIndex = hb.Div(
+                        id: $"DashboardPart_{dashboardPart.Id}",
+                        attributes: new HtmlAttributes().DataId(dashboardPart.Id.ToString()),
+                        css: "dashboard-index-container " + dashboardPart.ExtendedCss,
+                        action: () =>
+                        {
+                            if (dashboardPart.ShowTitle == true)
+                            {
+                                hb.Div(
+                                    css: "dashboard-part-title",
+                                    action: () => hb.Text(dashboardPart.Title));
+                            }
+                            hb.Raw(text: results);
+                        }).ToString();
+                    return new ResponseCollection(context: context)
+                        .ReplaceAll(
+                            target: $"#DashboardPart_{dashboardPart.Id}",
+                            value: resultIndex)
+                        .ToJson();
+                default:
+                    return null;
             }
         }
     }

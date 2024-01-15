@@ -302,7 +302,8 @@ namespace Implem.Pleasanter.Models
             bool windowScrollTop = false,
             bool clearCheck = false,
             string action = "GridRows",
-            Message message = null)
+            Message message = null,
+            string suffix = "")
         {
             var view = Views.GetBySession(context: context, ss: ss);
             var gridData = GetGridData(
@@ -316,7 +317,9 @@ namespace Implem.Pleasanter.Models
                 gridData: gridData);
             var columns = ss.GetGridColumns(
                 context: context,
-                view: view,
+                view: ss.DashboardParts.Any()
+                    ? ss.DashboardParts.FirstOrDefault().View
+                    : view,
                 checkPermission: true);
             var newOnGrid = context.Action == "newongrid"
                 || context.Action == "copyrow";
@@ -358,7 +361,9 @@ namespace Implem.Pleasanter.Models
                         view: view);
                 }
             }
-            return new ResponseCollection(context: context)
+            if (suffix.IsNullOrEmpty())
+            {
+                return new ResponseCollection(context: context)
                 .WindowScrollTop(_using: windowScrollTop)
                 .Remove(".grid tr", _using: offset == 0)
                 .ClearFormData("GridOffset")
@@ -417,6 +422,57 @@ namespace Implem.Pleasanter.Models
                 .Message(message)
                 .Messages(context.Messages)
                 .ToJson();
+            }
+            else
+            {
+                var hb = new HtmlBuilder();
+                return hb
+                .Table(
+                    attributes: new HtmlAttributes()
+                        .Id($"Grid{suffix}")
+                        .Class(ss.GridCss(context: context))
+                        .DataValue("back", _using: ss?.IntegratedSites?.Any() == true)
+                        .DataAction(action)
+                        .DataMethod("post"),
+                    action: () => hb
+                        .GridRows(
+                            context: context,
+                            ss: ss,
+                            gridData: gridData,
+                            columns: columns,
+                            view: view,
+                            issueModel: issueModel,
+                            editRow: editRow,
+                            newRowId: newRowId,
+                            offset: offset,
+                            clearCheck: clearCheck,
+                            action: action,
+                            suffix: suffix))
+                .GridHeaderMenus(
+                    context: context,
+                    ss: ss,
+                    view: view,
+                    columns: columns,
+                    suffix: suffix)
+                .Hidden(
+                    controlId: "GridOffset",
+                    value: ss.GridNextOffset(
+                        0,
+                        gridData.DataRows.Count(),
+                        gridData.TotalCount)
+                            .ToString())
+                .Hidden(
+                    controlId: "GridRowIds",
+                    value: gridData.DataRows.Select(g => g.Long("IssueId")).ToJson())
+                .Hidden(
+                    controlId: "GridColumns",
+                    value: columns.Select(o => o.ColumnName).ToJson())
+                .Button(
+                    controlId: "ViewSorters_Reset",
+                    controlCss: "hidden",
+                    action: action,
+                    method: "post").ToString();
+            }
         }
 
         private static HtmlBuilder GridRows(

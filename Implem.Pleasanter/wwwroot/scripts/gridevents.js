@@ -151,7 +151,7 @@ $(function () {
         }
     });
     $(document).on('click', '.menu-sort > li.sort', function (e) {
-        sort($($(this).parent().attr('data-target')), $(this).attr('data-order-type'));
+        sort($($(this).parent().attr('data-target')), $(this).attr('data-order-type'), $(this).attr('data-suffix'));
         e.stopPropagation();
     });
     $(document).on('click', '.menu-sort > li.reset', function (e) {
@@ -173,14 +173,24 @@ $(function () {
         e.stopPropagation();
     });
 
-    function sort($control, type) {
+    function sort($control, type, suffix) {
         var $grid = $control.closest('.grid');
+        gridId = $grid.attr('id');
         var data = $p.getData($control);
+        tableId = $grid.attr('id');
+        if (tableId.match(/_(\d+)$/))
+        {
+            tableId = tableId.slice(0, tableId.lastIndexOf('_'));
+        }
+        $grid.attr('id', tableId);
         data[$control.attr('data-id')] = type;
         data.Direction = $grid.attr('data-name');
-        data.TableId = $grid.attr('id');
+        data.TableId = tableId;
         data.TableSiteId = $grid.attr('data-id');
+        console.log(suffix);
+        data.IndexSuffix = suffix;
         $p.send($grid);
+        $grid.attr('id', gridId);
         delete data[$control.attr('id')];
     }
 });

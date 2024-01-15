@@ -77,11 +77,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             hb.Th(
                                 css: column.CellCss(css: "sortable"),
                                 attributes: new HtmlAttributes()
-                                    .DataName(column.ColumnName),
+                                    .DataName(column.ColumnName + suffix),
                                 action: () => hb
                                     .Div(
+                                        id: "ViewSorters__" + column.ColumnName + suffix,
                                         attributes: new HtmlAttributes()
-                                            .DataId("ViewSorters__" + column.ColumnName + suffix)
+                                            .DataId("ViewSorters__" + column.ColumnName)
                                             .Add("data-order-type", OrderBy(
                                                 view, column.ColumnName))
                                             .DataAction(action)
@@ -115,10 +116,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return hb.Div(id: "GridHeaderMenus", action: () =>
                 columns.ForEach(column => hb
                     .Ul(
-                        id: "GridHeaderMenu__" + column.ColumnName,
+                        id: "GridHeaderMenu__" + column.ColumnName + suffix,
                         attributes: new HtmlAttributes()
                             .Class("menu menu-sort")
-                            .Add("data-target", $"[data-id='ViewSorters__{column.ColumnName}{suffix}']")
+                            .Add("data-target", $"[id='ViewSorters__{column.ColumnName}{suffix}']")
                             .Add("style", "display: none; position: absolute;"),
                         action: () => hb
                             .Li(
@@ -133,7 +134,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .Li(
                                 attributes: new HtmlAttributes()
                                     .Class("sort")
-                                    .Add("data-order-type", "asc"),
+                                    .Add("data-order-type", "asc")
+                                    .Add("data-suffix", suffix),
                                 action: () => hb
                                     .Div(action: () => hb
                                         .Span(attributes: new HtmlAttributes().Class("ui-icon ui-icon-triangle-1-n"))
@@ -142,7 +144,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .Li(
                                 attributes: new HtmlAttributes()
                                     .Class("sort")
-                                    .Add("data-order-type", "desc"),
+                                    .Add("data-order-type", "desc")
+                                    .Add("data-suffix", suffix),
                                 action: () => hb
                                     .Div(action: () => hb
                                         .Span(attributes: new HtmlAttributes().Class("ui-icon ui-icon-triangle-1-s"))
@@ -151,7 +154,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .Li(
                                 attributes: new HtmlAttributes()
                                     .Class("sort")
-                                    .Add("data-order-type", "release"),
+                                    .Add("data-order-type", "release")
+                                    .Add("data-suffix", suffix),
                                 action: () => hb
                                     .Div(action: () => hb
                                         .Span(attributes: new HtmlAttributes().Class("ui-icon ui-icon-close"))
@@ -159,7 +163,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 )
                             .Li(
                                 attributes: new HtmlAttributes()
-                                    .Class("reset"),
+                                    .Class("reset")
+                                    .Add("data-suffix", suffix),
                                 action: () => hb
                                     .Div(action: () => hb
                                         .Span(attributes: new HtmlAttributes().Class("ui-icon ui-icon-power"))
