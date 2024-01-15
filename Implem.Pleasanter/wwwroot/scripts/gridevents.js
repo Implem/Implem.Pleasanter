@@ -187,7 +187,6 @@ $(function () {
         data.Direction = $grid.attr('data-name');
         data.TableId = tableId;
         data.TableSiteId = $grid.attr('data-id');
-        console.log(suffix);
         data.IndexSuffix = suffix;
         $p.send($grid);
         $grid.attr('id', gridId);
