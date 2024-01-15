@@ -2409,10 +2409,6 @@ namespace Implem.Pleasanter.Models
         {
             var matchingKey = context.Forms.Keys.FirstOrDefault(x => x.StartsWith("KambanSuffix_"));
             DashboardPart dashboardPart = ss.DashboardParts.FirstOrDefault(x => x.Id == context.Forms.Data(matchingKey).ToInt());
-            if (context.Forms.Long("SiteId") != dashboardPart.SiteId)
-            {
-                return Messages.ResponseNotBaseSite(context: context).ToJson();
-            }
             var currentSs = SiteSettingsUtilities.Get(
                 context: context,
                 siteId: context.Forms.Long("SiteId"),
@@ -2421,6 +2417,11 @@ namespace Implem.Pleasanter.Models
             currentSs.IntegratedSites = dashboardPart.KambanSitesData;
             currentSs.SetSiteIntegration(context: context);
             currentSs.SetDashboardParts(dashboardPart: dashboardPart);
+            //複数サイト表示時はドラッグによる更新不可
+            if( currentSs.AllowedIntegratedSites?.Count > 1)
+            {
+                return Messages.ResponseCannotMoveMultipleSitesData(context: context).ToJson();
+            }
             var hb = new HtmlBuilder();
             switch (currentSs.ReferenceType)
             {

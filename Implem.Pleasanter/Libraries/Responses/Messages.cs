@@ -304,6 +304,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-error");
         }
 
+        public static Message CannotMoveMultipleSitesData(Context context, params string[] data)
+        {
+            return Get(
+                id: "CannotMoveMultipleSitesData",
+                text: Displays.CannotMoveMultipleSitesData(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
         public static Message CanNotPerformed(Context context, params string[] data)
         {
             return Get(
@@ -1009,16 +1019,6 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 id: "NoLinks",
                 text: Displays.NoLinks(
-                    context: context,
-                    data: data),
-                css: "alert-error");
-        }
-
-        public static Message NotBaseSite(Context context, params string[] data)
-        {
-            return Get(
-                id: "NotBaseSite",
-                text: Displays.NotBaseSite(
                     context: context,
                     data: data),
                 css: "alert-error");
@@ -1921,6 +1921,17 @@ namespace Implem.Pleasanter.Libraries.Responses
                 target: target);
         }
 
+        public static ResponseCollection ResponseCannotMoveMultipleSitesData(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: CannotMoveMultipleSitesData(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
         public static ResponseCollection ResponseCanNotPerformed(
             Context context, string target = null, params string[] data)
         {
@@ -2697,17 +2708,6 @@ namespace Implem.Pleasanter.Libraries.Responses
             return ResponseMessage(
                 context: context,
                 message: NoLinks(
-                    context: context,
-                    data: data),
-                target: target);
-        }
-
-        public static ResponseCollection ResponseNotBaseSite(
-            Context context, string target = null, params string[] data)
-        {
-            return ResponseMessage(
-                context: context,
-                message: NotBaseSite(
                     context: context,
                     data: data),
                 target: target);

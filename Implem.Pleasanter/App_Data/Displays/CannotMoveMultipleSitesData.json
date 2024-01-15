@@ -1,0 +1,33 @@
+﻿{
+    "Id": "CannotMoveMultipleSitesData",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "Unable to navigate as it is displaying records from multiple sites."
+        },
+        {
+            "Language": "zh",
+            "Body": "由于显示了多个站点的记录，因此无法导航。"
+        },
+        {
+            "Language": "ja",
+            "Body": "複数のサイトのレコードを表示しているため、移動できません。"
+        },
+        {
+            "Language": "de",
+            "Body": "Aufgrund der Anzeige von Datensätzen von mehreren Websites kann nicht navigiert werden."
+        },
+        {
+            "Language": "ko",
+            "Body": "여러 사이트의 레코드를 표시하고 있어 이동할 수 없습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "No se puede navegar ya que muestra registros de varios sitios."
+        },
+        {
+            "Language": "vn",
+            "Body": "Không thể di chuyển vì đang hiển thị bản ghi từ nhiều trang web."
+        }
+    ]
+}
