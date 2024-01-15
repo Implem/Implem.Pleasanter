@@ -16514,8 +16514,9 @@ namespace Implem.Pleasanter.Models
                         legendText: Displays.Search(context: context),
                         action: () => hb
                             .FieldTextBox(
-                                controlId: "SearchEditorColumnText")
+                                controlId: "TargetColumnKeyWord")
                             .Button(
+                                controlId: "ShowTargetColumnKeyWord",
                                 text: Displays.Search(context: context),
                                 controlCss: "button-icon",
                                 onClick: "$p.send($(this));",
@@ -16528,65 +16529,70 @@ namespace Implem.Pleasanter.Models
                         action: () => hb
                             .Div(css: "command-left", action: () => hb
                                 .Button(
+                                    controlId: "ShowTargetColumnBasic",
                                     text: Displays.Basic(context: context),
                                     controlCss: "button-icon w150",
                                     onClick: "$p.send($(this));",
-                                    icon: "ui-icon-search",
                                     action: "SetSiteSettings",
                                     method: "post")
                                 .Button(
+                                    controlId: "ShowTargetColumnClass",
                                     text: Displays.Class(context: context),
                                     controlCss: "button-icon w150",
                                     onClick: "$p.send($(this));",
-                                    icon: "ui-icon-search",
                                     action: "SetSiteSettings",
                                     method: "post")
                                 .Button(
+                                    controlId: "ShowTargetColumnNum",
                                     text: Displays.Num(context: context),
                                     controlCss: "button-icon w150",
                                     onClick: "$p.send($(this));",
-                                    icon: "ui-icon-search",
                                     action: "SetSiteSettings",
                                     method: "post"))
                             .Div(css: "command-left", action: () => hb
                                 .Button(
+                                    controlId: "ShowTargetColumnDate",
                                     text: Displays.Date(context: context),
                                     controlCss: "button-icon w150",
                                     onClick: "$p.send($(this));",
-                                    icon: "ui-icon-search",
                                     action: "SetSiteSettings",
                                     method: "post")
                                 .Button(
+                                    controlId: "ShowTargetColumnDescription",
                                     text: Displays.Description(context: context),
                                     controlCss: "button-icon w150",
                                     onClick: "$p.send($(this));",
-                                    icon: "ui-icon-search",
                                     action: "SetSiteSettings",
                                     method: "post")
                                 .Button(
+                                    controlId: "ShowTargetColumnCheck",
                                     text: Displays.Check(context: context),
                                     controlCss: "button-icon w150",
                                     onClick: "$p.send($(this));",
-                                    icon: "ui-icon-search",
                                     action: "SetSiteSettings",
                                     method: "post"))
                             .Div(css: "command-left", action: () => hb
                                 .Button(
+                                    controlId: "ShowTargetColumnAttachments",
                                     text: Displays.Attachments(context: context),
                                     controlCss: "button-icon w150",
                                     onClick: "$p.send($(this));",
-                                    icon: "ui-icon-search",
                                     action: "SetSiteSettings",
                                     method: "post")))
                     .Div(css: "command-center", action: () => hb
                         .Button(
-                            controlId: "ResetEditorColumn",
+                            controlId: "ShowTargetColumnDefault",
                             text: Displays.Reset(context: context),
                             controlCss: "button-icon validate",
                             onClick: "$p.resetEditorColumn($(this));",
                             icon: "ui-icon-gear",
                             action: "SetSiteSettings",
-                            method: "post")));
+                            method: "post")
+                        .Button(
+                            text: Displays.Cancel(context: context),
+                            controlCss: "button-icon",
+                            onClick: "$p.closeDialog($(this));",
+                            icon: "ui-icon-cancel")));
         }
     }
 }

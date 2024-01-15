@@ -3592,6 +3592,46 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         res: res);
                     break;
+                case "ShowTargetColumnKeyWord":
+                case "ShowTargetColumnBasic":
+                case "ShowTargetColumnClass":
+                    ShowTargetEditorColumnByTypeString(
+                        context: context,
+                        res: res,
+                        typeString: "Class");
+                    break;
+                case "ShowTargetColumnNum":
+                    ShowTargetEditorColumnByTypeString(
+                        context: context,
+                        res: res,
+                        typeString: "Num");
+                    break;
+                case "ShowTargetColumnDate":
+                    ShowTargetEditorColumnByTypeString(
+                        context: context,
+                        res: res,
+                        typeString: "Date");
+                    break;
+                case "ShowTargetColumnDescription":
+                    ShowTargetEditorColumnByTypeString(
+                        context: context,
+                        res: res,
+                        typeString: "Description");
+                    break;
+                case "ShowTargetColumnCheck":
+                    ShowTargetEditorColumnByTypeString(
+                        context: context,
+                        res: res,
+                        typeString: "Check");
+                    break;
+                case "ShowTargetColumnAttachments":
+                    ShowTargetEditorColumnByTypeString(
+                        context: context,
+                        res: res,
+                        typeString: "Attachments");
+                    break;
+                case "ShowTargetColumnDefault":
+                    break;
                 default:
                     if (controlId.Contains("_NumericRange"))
                     {
@@ -4114,6 +4154,16 @@ namespace Implem.Pleasanter.Models
             res.EditorSourceColumnsResponses(
                 context: context,
                 ss: SiteSettings);
+        }
+
+        private void ShowTargetEditorColumnDefault(Context context, ResponseCollection res)
+        {
+            res.CloseDialog();
+        }
+
+        private void ShowTargetEditorColumnByTypeString(Context context, ResponseCollection res, string typeString)
+        {
+            res.CloseDialog();
         }
 
         /// <summary>
