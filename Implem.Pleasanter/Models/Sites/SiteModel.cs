@@ -9271,11 +9271,22 @@ namespace Implem.Pleasanter.Models
             Context context,
             ResponseCollection res)
         {
-            AddOrUpdateEditorColumnHash(context: context);
-            res.Html("#SearchEditorColumnDialog", SiteUtilities.SearchEditorColumnDialog(
-                context: context,
-                ss: SiteSettings))
-                .ToJson();
+            switch (context.Forms.Data("EditorSourceColumnsType"))
+            {
+                case "Links":
+                case "Others":
+                    res.Message(Messages.CanNotPerformed(context: context))
+                        .Html("#SearchEditorColumnDialog", new HtmlBuilder())
+                        .ToJson();
+                    break;
+                case "Columns":
+                    AddOrUpdateEditorColumnHash(context: context);
+                    res.Html("#SearchEditorColumnDialog", SiteUtilities.SearchEditorColumnDialog(
+                        context: context,
+                        ss: SiteSettings))
+                        .ToJson();
+                    break;
+            }
         }
     }
 }
