@@ -772,7 +772,6 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_DashboardCheckRow": Code.Model_Utilities_DashboardCheckRow = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_DashboardCheckRow, definitionRow, CodeXls); break;
                     case "Model_Utilities_DashboardColumns": Code.Model_Utilities_DashboardColumns = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_DashboardColumns, definitionRow, CodeXls); break;
                     case "Model_Utilities_DashboardGridData": Code.Model_Utilities_DashboardGridData = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_DashboardGridData, definitionRow, CodeXls); break;
-                    case "Model_Utilities_DashboardGridRowsData": Code.Model_Utilities_DashboardGridRowsData = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_DashboardGridRowsData, definitionRow, CodeXls); break;
                     case "Model_Utilities_DashboardGridRowsReturn": Code.Model_Utilities_DashboardGridRowsReturn = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_DashboardGridRowsReturn, definitionRow, CodeXls); break;
                     case "Model_Utilities_DashboardHeaderCss": Code.Model_Utilities_DashboardHeaderCss = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_DashboardHeaderCss, definitionRow, CodeXls); break;
                     case "Model_Utilities_DashboardReturn": Code.Model_Utilities_DashboardReturn = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_DashboardReturn, definitionRow, CodeXls); break;
@@ -811,7 +810,6 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_GridNewRows": Code.Model_Utilities_GridNewRows = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_GridNewRows, definitionRow, CodeXls); break;
                     case "Model_Utilities_GridRows_OnClick": Code.Model_Utilities_GridRows_OnClick = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_GridRows_OnClick, definitionRow, CodeXls); break;
                     case "Model_Utilities_GridRows_OnClickItem": Code.Model_Utilities_GridRows_OnClickItem = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_GridRows_OnClickItem, definitionRow, CodeXls); break;
-                    case "Model_Utilities_GridRowsData": Code.Model_Utilities_GridRowsData = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_GridRowsData, definitionRow, CodeXls); break;
                     case "Model_Utilities_GridRowsReturn": Code.Model_Utilities_GridRowsReturn = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_GridRowsReturn, definitionRow, CodeXls); break;
                     case "Model_Utilities_Histories": Code.Model_Utilities_Histories = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Histories, definitionRow, CodeXls); break;
                     case "Model_Utilities_Histories_Join": Code.Model_Utilities_Histories_Join = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Histories_Join, definitionRow, CodeXls); break;
@@ -7241,7 +7239,6 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_DashboardCheckRow;
         public string Model_Utilities_DashboardColumns;
         public string Model_Utilities_DashboardGridData;
-        public string Model_Utilities_DashboardGridRowsData;
         public string Model_Utilities_DashboardGridRowsReturn;
         public string Model_Utilities_DashboardHeaderCss;
         public string Model_Utilities_DashboardReturn;
@@ -7280,7 +7277,6 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_GridNewRows;
         public string Model_Utilities_GridRows_OnClick;
         public string Model_Utilities_GridRows_OnClickItem;
-        public string Model_Utilities_GridRowsData;
         public string Model_Utilities_GridRowsReturn;
         public string Model_Utilities_Histories;
         public string Model_Utilities_Histories_Join;
@@ -8060,7 +8056,6 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_DashboardCheckRow = new CodeDefinition();
         public CodeDefinition Model_Utilities_DashboardColumns = new CodeDefinition();
         public CodeDefinition Model_Utilities_DashboardGridData = new CodeDefinition();
-        public CodeDefinition Model_Utilities_DashboardGridRowsData = new CodeDefinition();
         public CodeDefinition Model_Utilities_DashboardGridRowsReturn = new CodeDefinition();
         public CodeDefinition Model_Utilities_DashboardHeaderCss = new CodeDefinition();
         public CodeDefinition Model_Utilities_DashboardReturn = new CodeDefinition();
@@ -8099,7 +8094,6 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_GridNewRows = new CodeDefinition();
         public CodeDefinition Model_Utilities_GridRows_OnClick = new CodeDefinition();
         public CodeDefinition Model_Utilities_GridRows_OnClickItem = new CodeDefinition();
-        public CodeDefinition Model_Utilities_GridRowsData = new CodeDefinition();
         public CodeDefinition Model_Utilities_GridRowsReturn = new CodeDefinition();
         public CodeDefinition Model_Utilities_Histories = new CodeDefinition();
         public CodeDefinition Model_Utilities_Histories_Join = new CodeDefinition();

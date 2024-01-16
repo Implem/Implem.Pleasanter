@@ -311,9 +311,7 @@ namespace Implem.Pleasanter.Models
             var gridData = GetGridData(
                 context: context,
                 ss: ss,
-                view: ss.DashboardParts.Any()
-                    ? ss.DashboardParts.FirstOrDefault().View
-                    : view,
+                view: view,
                 offset: offset);
             var serverScriptModelRow = ss.GetServerScriptModelRow(
                 context: context,
