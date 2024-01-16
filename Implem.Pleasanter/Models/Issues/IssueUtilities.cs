@@ -278,7 +278,7 @@ namespace Implem.Pleasanter.Models
                     columns: columns,
                     suffix: suffix)
                 .Hidden(
-                    controlId: "GridOffset",
+                    controlId: $"GridOffset{suffix}",
                     value: ss.GridNextOffset(
                         0,
                         gridData.DataRows.Count(),
