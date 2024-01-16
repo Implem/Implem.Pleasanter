@@ -314,7 +314,7 @@ $p.confirmIndexSites = function (value) {
         $('#DashboardPartIndexSitesValue').text(args.indexSites);
         $p.set($('#DashboardPartIndexSites'), args.indexSites);
         $p.set($('#DashboardPartBaseSiteId'), args.baseSiteId);
-        $p.send($("#ClearDashboardView"));
+        $p.send($("#ClearDashboardIndexView"));
         $p.clearData('DashboardPartView', 'DashboardPartForm', 'startsWith');
         $p.closeDialog($("#DashboardPartIndexSitesDialog"));
     }
