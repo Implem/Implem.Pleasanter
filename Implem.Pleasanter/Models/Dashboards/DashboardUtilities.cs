@@ -116,6 +116,11 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             dashboardPart: dashboardPart);
+                    case DashboardPartType.Kamban:
+                        return KambanLayout(
+                            context: context,
+                            ss: ss,
+                            dashboardPart: dashboardPart);
                     default:
                         return new DashboardPartLayout();
                 };
@@ -1374,6 +1379,11 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 ss: ss,
                                 dashboardPart: dashboardPart).Content;
+                        case DashboardPartType.Kamban:
+                            return KambanLayout(
+                                context: context,
+                                ss: ss,
+                                dashboardPart: dashboardPart).Content;
                         default:
                             return null;
                     }
@@ -1383,6 +1393,7 @@ namespace Implem.Pleasanter.Models
                     target: $"#DashboardPart_{dashboardPartId}",
                     value: dashboardPartLayout.FirstOrDefault())
                 .Invoke("setCalendar", dashboardPartId.ToString())
+                .Invoke("setKamban", dashboardPartId.ToString())
                 .ToJson();
         }
 
@@ -2319,6 +2330,194 @@ namespace Implem.Pleasanter.Models
                 H = dashboardPart.Height,
                 Content = AsynchronousLoading
             };
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static DashboardPartLayout KambanLayout(
+            Context context,
+            SiteSettings ss,
+            DashboardPart dashboardPart)
+        {
+            var hb = new HtmlBuilder();
+            var kambanHtml = GetKambanRecords(
+                context: context,
+                dashboardPart: dashboardPart);
+            var kamban = hb
+                .Div(
+                    id: $"DashboardPart_{dashboardPart.Id}",
+                    attributes: new HtmlAttributes().DataId(dashboardPart.Id.ToString()),
+                    css: "dashboard-kamban-container " + dashboardPart.ExtendedCss,
+                    action: () =>
+                    {
+                        if (dashboardPart.ShowTitle == true)
+                        {
+                            hb.Div(
+                                css: "dashboard-part-title",
+                                action: () => hb.Text(dashboardPart.Title));
+                        }
+                        hb.Raw(text: kambanHtml);
+                    }).ToString();
+            return new DashboardPartLayout()
+            {
+                Id = dashboardPart.Id,
+                X = dashboardPart.X,
+                Y = dashboardPart.Y,
+                W = dashboardPart.Width,
+                H = dashboardPart.Height,
+                Content = kamban
+            };
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static string GetKambanRecords(
+            Context context,
+            DashboardPart dashboardPart)
+        {
+            //基準となるサイトからSiteSettingsを取得
+            var ss = SiteSettingsUtilities.Get(
+                context: context,
+                siteId: dashboardPart.SiteId,
+                setAllChoices: true);
+            //対象サイトをサイト統合の仕組みで登録
+            ss.IntegratedSites = dashboardPart.KambanSitesData;
+            ss.SetSiteIntegration(context: context);
+            ss.SetDashboardParts(dashboardPart: dashboardPart);
+            if (ss.ReferenceType == "Issues")
+            {
+                return IssueUtilities.Kamban(context: context, ss: ss);
+            }
+            else if (ss.ReferenceType == "Results")
+            {
+                return ResultUtilities.Kamban(context: context, ss: ss);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string UpdateByKamban(
+            Context context,
+            SiteSettings ss)
+        {
+            var matchingKey = context.Forms.Keys.FirstOrDefault(x => x.StartsWith("KambanSuffix_"));
+            DashboardPart dashboardPart = ss.DashboardParts.FirstOrDefault(x => x.Id == context.Forms.Data(matchingKey).ToInt());
+            var currentSs = SiteSettingsUtilities.Get(
+                context: context,
+                siteId: context.Forms.Long("SiteId"),
+                setAllChoices: true);
+            //対象サイトをサイト統合の仕組みで登録
+            currentSs.IntegratedSites = dashboardPart.KambanSitesData;
+            currentSs.SetSiteIntegration(context: context);
+            currentSs.SetDashboardParts(dashboardPart: dashboardPart);
+            //複数サイト表示時はドラッグによる更新不可
+            if( currentSs.AllowedIntegratedSites?.Count > 1)
+            {
+                return Messages.ResponseCannotMoveMultipleSitesData(context: context).ToJson();
+            }
+            var hb = new HtmlBuilder();
+            switch (currentSs.ReferenceType)
+            {
+                case "Issues":
+                    var issues = IssueUtilities.UpdateByKamban(context: context, ss: currentSs);
+                    var issueKamban = hb.Div(
+                        id: $"DashboardPart_{dashboardPart.Id}",
+                        attributes: new HtmlAttributes().DataId(dashboardPart.Id.ToString()),
+                        css: "dashboard-kamban-container " + dashboardPart.ExtendedCss,
+                        action: () =>
+                        {
+                            if (dashboardPart.ShowTitle == true)
+                            {
+                                hb.Div(
+                                    css: "dashboard-part-title",
+                                    action: () => hb.Text(dashboardPart.Title));
+                            }
+                            hb.Raw(text: issues);
+                        }).ToString();
+                    List<Dictionary<string, string>> issuesJson = Jsons.Deserialize<List<Dictionary<string, string>>>(issues);
+                    if (issuesJson != null)
+                    {
+                        Dictionary<string, string> messageElement = issuesJson.Find(item => item.ContainsValue("Message"));
+                        if (messageElement != null)
+                        {
+                            Dictionary<string, string> messageValue = Jsons.Deserialize<Dictionary<string, string>>(messageElement["Value"]);
+                            return new ResponseCollection(context: context)
+                                .Message(message: new Message(messageValue["Id"], messageValue["Text"], messageValue["Css"]))
+                                .Invoke("setKamban", dashboardPart.Id.ToString())
+                                .ToJson();
+                        }
+                    }
+                    var issueModel = new IssueModel(
+                        context: context,
+                        ss: currentSs,
+                        issueId: context.Forms.Long("KambanId"),
+                        formData: context.Forms);
+                    return new ResponseCollection(context: context)
+                        .ReplaceAll(
+                            target: $"#DashboardPart_{dashboardPart.Id}",
+                            value: issueKamban)
+                        .Message(context.ErrorData.Type != Error.Types.None
+                            ? context.ErrorData.Message(context: context)
+                            : Messages.Updated(
+                                context: context,
+                                data: issueModel.Title.MessageDisplay(context: context)))
+                        .Invoke("setKamban", dashboardPart.Id.ToString())
+                        .ToJson();
+                case "Results":
+                    var results = ResultUtilities.UpdateByKamban(context: context, ss: currentSs);
+                    var resultKamban = hb.Div(
+                        id: $"DashboardPart_{dashboardPart.Id}",
+                        attributes: new HtmlAttributes().DataId(dashboardPart.Id.ToString()),
+                        css: "dashboard-kamban-container " + dashboardPart.ExtendedCss,
+                        action: () =>
+                        {
+                            if (dashboardPart.ShowTitle == true)
+                            {
+                                hb.Div(
+                                    css: "dashboard-part-title",
+                                    action: () => hb.Text(dashboardPart.Title));
+                            }
+                            hb.Raw(text: results);
+                        }).ToString();
+                    List<Dictionary<string, string>> resultsJson = Jsons.Deserialize<List<Dictionary<string, string>>>(results);
+                    if (resultsJson != null)
+                    {
+                        Dictionary<string, string> messageElement = resultsJson.Find(item => item.ContainsValue("Message"));
+                        if (messageElement != null)
+                        {
+                            Dictionary<string, string> messageValue = Jsons.Deserialize<Dictionary<string, string>>(messageElement["Value"]);
+                            return new ResponseCollection(context: context)
+                                .Message(message: new Message(messageValue["Id"], messageValue["Text"], messageValue["Css"]))
+                                .Invoke("setKamban", dashboardPart.Id.ToString())
+                                .ToJson();
+                        }
+                    }
+                    var resultModel = new ResultModel(
+                        context: context,
+                        ss: currentSs,
+                        resultId: context.Forms.Long("KambanId"),
+                        formData: context.Forms);
+                    return new ResponseCollection(context: context)
+                        .Html(
+                            target: $"#DashboardPart_{dashboardPart.Id}",
+                            value: resultKamban)
+                        .Message(context.ErrorData.Type != Error.Types.None
+                            ? context.ErrorData.Message(context: context)
+                            : Messages.Updated(
+                                context: context,
+                                data: resultModel.Title.MessageDisplay(context: context)))
+                        .Invoke("setKamban", dashboardPart.Id.ToString())
+                        .ToJson();
+                default:
+                    return Messages.ResponseNotFound(context: context).ToJson();
+            }
         }
     }
 }

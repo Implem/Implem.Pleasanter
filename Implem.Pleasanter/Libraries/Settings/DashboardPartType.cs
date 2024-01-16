@@ -6,6 +6,7 @@
         TimeLine = 1,
         Custom = 2,
         CustomHtml = 3,
-        Calendar = 4
+        Calendar = 4,
+        Kamban = 5
     }
 }

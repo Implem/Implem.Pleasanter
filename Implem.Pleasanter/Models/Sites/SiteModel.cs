@@ -3537,9 +3537,19 @@ namespace Implem.Pleasanter.Models
                         res: res);
                     break;
                 case "AddDashboardPartViewFilter":
-                    var BaseSiteId = !context.Forms.Data("DashboardPartBaseSiteId").IsNullOrEmpty()
-                        ? context.Forms.Long("DashboardPartBaseSiteId")
-                        : context.Forms.Long("DashboardPartCalendarBaseSiteId");
+                    long BaseSiteId = 0;
+                    if (!context.Forms.Data("DashboardPartCalendarBaseSiteId").IsNullOrEmpty())
+                    {
+                        BaseSiteId = context.Forms.Long("DashboardPartCalendarBaseSiteId");
+                    }
+                    else if (!context.Forms.Data("DashboardPartKambanBaseSiteId").IsNullOrEmpty())
+                    {
+                        BaseSiteId = context.Forms.Long("DashboardPartKambanBaseSiteId");
+                    }
+                    else
+                    {
+                        BaseSiteId = context.Forms.Long("DashboardPartBaseSiteId");
+                    }
                     var ss = SiteSettingsUtilities.Get(
                         context: context,
                         siteId: BaseSiteId);
@@ -3569,6 +3579,16 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         res: res);
                     break;
+                case "EditKambanSites":
+                    OpenDashboardPartKambanSitesDialog(
+                        context: context,
+                        res: res);
+                    break;
+                case "UpdateDashboardPartKambanSites":
+                    UpdateDashboardPartKambanSites(
+                        context: context,
+                        res: res);
+                    break;
                 case "ClearDashboardView":
                     ClearDashboardView(
                         context: context,
@@ -3576,6 +3596,11 @@ namespace Implem.Pleasanter.Models
                     break;
                 case "ClearDashboardCalendarView":
                     ClearDashboardCalendarView(
+                        context: context,
+                        res: res);
+                    break;
+                case "ClearDashboardKambanView":
+                    ClearDashboardKambanView(
                         context: context,
                         res: res);
                     break;
@@ -8326,6 +8351,18 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        private void OpenDashboardPartKambanSitesDialog(Context context, ResponseCollection res)
+        {
+            res.Html("#DashboardPartKambanSitesDialog", SiteUtilities.DashboardPartKambanSitesDialog(
+                context: context,
+                ss: SiteSettings,
+                dashboardPartId: context.Forms.Int("DashboardPartId"),
+                dashboardKambanSites: context.Forms.Data("DashboardPartKambanSites")));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private void OpenDashboardPartDialog(Context context, ResponseCollection res, string controlId)
         {
             if (controlId == "NewDashboardPart")
@@ -8384,6 +8421,15 @@ namespace Implem.Pleasanter.Models
                 calendarFromTo: context.Forms.Data("DashboardPartCalendarFromTo"),
                 calendarShowStatus: context.Forms.Bool("CalendarShowStatus"),
                 calendarType: context.Forms.Data("DashboardPartCalendarType").ToEnum<SiteSettings.CalendarTypes>(),
+                kambanSites: context.Forms.Data("DashboardPartKambanSites"),
+                kambanSitesData: context.Forms.Data("DashboardPartKambanSites").Split(',').ToList(),
+                kambanGroupByX: context.Forms.Data("DashboardPartKambanGroupByX"),
+                kambanGroupByY: context.Forms.Data("DashboardPartKambanGroupByY"),
+                kambanAggregateType: context.Forms.Data("DashboardPartKambanAggregateType"),
+                kambanValue: context.Forms.Data("DashboardPartKambanValue"),
+                kambanColumns: context.Forms.Data("DashboardPartKambanColumns"),
+                kambanAggregationView: context.Forms.Bool("DashboardPartKambanAggregationView"),
+                kambanShowStatus: context.Forms.Bool("DashboardPartKambanShowStatus"),
                 extendedCss: context.Forms.Data("DashboardPartExtendedCss"),
                 disableAsynchronousLoading: context.Forms.Bool("DisableAsynchronousLoading"),
                 permissions: DashboardPartPermissions(context: context));
@@ -8449,6 +8495,15 @@ namespace Implem.Pleasanter.Models
                 calendarFromTo: context.Forms.Data("DashboardPartCalendarFromTo"),
                 calendarShowStatus: context.Forms.Bool("CalendarShowStatus"),
                 calendarType: context.Forms.Data("DashboardPartCalendarType").ToEnum<SiteSettings.CalendarTypes>(),
+                kambanSites: context.Forms.Data("DashboardPartKambanSites"),
+                kambanSitesData: context.Forms.Data("DashboardPartKambanSites").Split(',').ToList(),
+                kambanGroupByX: context.Forms.Data("DashboardPartKambanGroupByX"),
+                kambanGroupByY: context.Forms.Data("DashboardPartKambanGroupByY"),
+                kambanAggregateType: context.Forms.Data("DashboardPartKambanAggregateType"),
+                kambanValue: context.Forms.Data("DashboardPartKambanValue"),
+                kambanColumns: context.Forms.Data("DashboardPartKambanColumns"),
+                kambanAggregationView: context.Forms.Bool("DashboardPartKambanAggregationView"),
+                kambanShowStatus: context.Forms.Bool("DashboardPartKambanShowStatus"),
                 extendedCss: context.Forms.Data("DashboardPartExtendedCss"),
                 disableAsynchronousLoading: context.Forms.Bool("DisableAsynchronousLoading"),
                 permissions: DashboardPartPermissions(context: context));
@@ -8688,6 +8743,61 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        private void UpdateDashboardPartKambanSites(Context context, ResponseCollection res)
+        {
+            var savedKambanSites = context.Forms.Data("SavedDashboardPartKambanSites");
+            var kambanSites = context.Forms.Data("DashboardPartKambanSitesEdit");
+            var savedSs = DashboardPart.GetBaseSiteSettings(
+                context: context,
+                sitesString: savedKambanSites);
+            var currentSs = DashboardPart.GetBaseSiteSettings(
+                context: context,
+                sitesString: kambanSites);
+            if (currentSs == null || currentSs.SiteId == 0)
+            {
+                res.Message(
+                    message: new Message(
+                        id: "InvalidKambanSites",
+                        text: Displays.InvalidTimeLineSites(context: context),
+                        css: "alert-error"),
+                    target: "#DashboardPartKambanSitesMessage");
+            }
+            else if (savedSs == null || savedSs?.SiteId == 0 || savedSs?.SiteId == currentSs?.SiteId)
+            {
+                res
+                    .Set(
+                        target: "#DashboardPartKambanSites",
+                        value: kambanSites)
+                    .Set(
+                        target: "#DashboardPartKambanBaseSiteId",
+                        value: currentSs.SiteId)
+                    .Add(
+                        method: "SetValue",
+                        target: "#DashboardPartKambanSitesValue",
+                        value: kambanSites)
+                    .CloseDialog(
+                        target: "#DashboardPartKambanSitesDialog");
+                if (savedSs == null || savedSs?.SiteId == 0)
+                {
+                    ClearDashboardKambanView(context: context, res: res);
+                }
+            }
+            else
+            {
+                res
+                    .Invoke(
+                        methodName: "confirmKambanSites",
+                        args: new
+                        {
+                            kambanSites,
+                            baseSiteId = currentSs.SiteId
+                        }.ToJson());
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private void ClearDashboardView(Context context, ResponseCollection res)
         {
             var currentSs = DashboardPart.GetBaseSiteSettings(
@@ -8778,6 +8888,49 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             optionCollection: currentSs.CalendarColumnOptions(context: context)?.ToDictionary(
                             o => o.Key, o => new ControlData(o.Value))));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void ClearDashboardKambanView(Context context, ResponseCollection res)
+        {
+            var currentSs = DashboardPart.GetBaseSiteSettings(
+                context: context,
+                context.Forms.Data("DashboardPartKambanSitesEdit"));
+            if (currentSs == null)
+            {
+                res.Message(
+                   new Message(
+                       "InvalidKambanSites",
+                       Displays.InvalidTimeLineSites(context: context),
+                       "alert-error"));
+                return;
+            }
+            var dashboardPart = SiteSettings.DashboardParts?
+                .FirstOrDefault(o => o.Id == context.Forms.Int("DashboardPartId"));
+            if (dashboardPart != null)
+            {
+                dashboardPart.View = new View();
+            }
+            res
+                .Html(
+                    "#DashboardPartViewFiltersTabContainer",
+                    new HtmlBuilder()
+                        .ViewFiltersTab(
+                            context: context,
+                            ss: currentSs,
+                            view: new View(),
+                            prefix: "DashboardPart",
+                            currentTableOnly: true))
+                .Html(
+                    target: "#DashboardPartKambanValue",
+                    value: new HtmlBuilder()
+                        .OptionCollection(
+                            context: context,
+                            optionCollection: currentSs.KambanValueOptions(context: context)?.ToDictionary(
+                            o => o.Key, o => new ControlData(o.Value)),
+                            selectedValue: currentSs.ReferenceType == "Issues" ? "RemainingWorkValue" : "NumA"));
         }
 
         /// <summary>
