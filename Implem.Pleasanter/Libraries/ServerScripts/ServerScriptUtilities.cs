@@ -1065,10 +1065,6 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             {
                 return null;
             }
-            scripts = scripts.Prepend(new ServerScript()
-            {
-                Body = ServerScriptJsLibraries.Scripts()
-            }).ToArray();
             itemModel = itemModel ?? new BaseItemModel();
             ServerScriptModelRow scriptValues = null;
             using (var model = new ServerScriptModel(
@@ -1120,7 +1116,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                             engine.AddHostObject("httpClient", model.HttpClient);
                         }
                         engine.AddHostObject("utilities", model.Utilities);
-                        engine.Execute(scripts.Select(o => o.Body).Join("\n"));
+                        engine.Execute(ServerScriptJsLibraries.Scripts(), debug: false);
+                        engine.Execute(scripts.Select(o => o.Body).Join("\n"), debug: debug);
                     }
                     finally
                     {

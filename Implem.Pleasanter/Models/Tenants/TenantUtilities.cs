@@ -2564,6 +2564,20 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 siteId: context.SiteId,
                 searchIndexes: searchIndexes?.ToList());
+            if (!selected.All(o => column.ChoiceHash.ContainsKey(o)))
+            {
+                selected
+                    .Select(userId => SiteInfo.User(
+                        context: context,
+                        userId: userId.ToInt()))
+                    .Where(o => !o.Anonymous())
+                    .ForEach(user =>
+                        column.ChoiceHash.AddIfNotConainsKey(
+                            user.Id.ToString(),
+                            new Choice(
+                                value: user.Id.ToString(),
+                                text: user.Name)));
+            }
             var optionCollection = column?.EditChoices(
                 context: context,
                 addNotSet: true,

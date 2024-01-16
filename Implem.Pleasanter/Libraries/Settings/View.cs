@@ -120,6 +120,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public int? KambanColumns;
         public bool? KambanAggregationView;
         public bool? KambanShowStatus;
+        public string KambanSuffix;
         public List<int> Depts;
         public List<int> Groups;
         public List<int> Users;
@@ -470,6 +471,11 @@ namespace Implem.Pleasanter.Libraries.Settings
         public int GetKambanColumns()
         {
             return KambanColumns ?? Parameters.General.KambanColumns;
+        }
+
+        public string GetKambanSuffix()
+        {
+            return KambanSuffix;
         }
 
         private ViewModeDefinition Definition(SiteSettings ss, string name)
@@ -937,6 +943,18 @@ namespace Implem.Pleasanter.Libraries.Settings
                         {
                             AddCalendarViewTypeHash(value: context.Forms.Data($"CalendarViewType{CalendarSuffix}"), key: $"CalendarViewType{CalendarSuffix}");
                         }
+                    }
+                    if (ss.DashboardParts?.FirstOrDefault()?.Type == DashboardPartType.Kamban)
+                    {
+                        var dashboardPart = ss.DashboardParts.FirstOrDefault();
+                        KambanSuffix = $"_{dashboardPart.Id}";
+                        KambanGroupByX = dashboardPart.KambanGroupByX;
+                        KambanGroupByY = dashboardPart.KambanGroupByY;
+                        KambanAggregateType = dashboardPart.KambanAggregateType;
+                        KambanValue = dashboardPart.KambanValue;
+                        KambanColumns = dashboardPart.KambanColumns.ToInt();
+                        KambanAggregationView = dashboardPart.KambanAggregationView;
+                        KambanShowStatus = dashboardPart.KambanShowStatus;
                     }
                     break;
             }

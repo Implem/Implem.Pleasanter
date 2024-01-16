@@ -1119,8 +1119,20 @@ namespace Implem.Pleasanter.Libraries.Requests
         {
             switch (language)
             {
+                case "en":
+                    return new CultureInfo("en-US");
+                case "zh":
+                    return new CultureInfo("zh-CN");
                 case "ja":
                     return new CultureInfo("ja-JP");
+                case "de":
+                    return new CultureInfo("de-DE");
+                case "ko":
+                    return new CultureInfo("ko-KR");
+                case "es":
+                    return new CultureInfo("es-ES");
+                case "vn":
+                    return new CultureInfo("vi-VN");
                 default:
                     return new CultureInfo(language);
             }

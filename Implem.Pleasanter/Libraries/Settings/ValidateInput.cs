@@ -1,8 +1,10 @@
 ﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Interfaces;
+using System;
 
 namespace Implem.Pleasanter.Libraries.Settings
 {
+    [Serializable]
     public class ValidateInput : ISettingListItem
     {
         public int Id { get; set; }
@@ -13,6 +15,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string RegexValidationMessage { get; set; }
         public decimal? Min { get; set; }
         public decimal? Max { get; set; }
+        public int? Delete{ get; set; }
 
         public ValidateInput()
         {

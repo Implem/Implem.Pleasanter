@@ -254,7 +254,7 @@ $p.setRelatingColumn = function ($control) {
 }
 
 $p.openDashboardPartDialog = function ($control) {
-    $p.data.DashboardForm = {};
+    $p.data.DashboardPartForm = {};
     $p.openSiteSettingsDialog($control, '#DashboardPartDialog');
 }
 
@@ -269,8 +269,13 @@ $p.openDashboardPartTimeLineSitesDialog = function ($control) {
 }
 
 $p.openDashboardPartCalendarSitesDialog = function ($control) {
-    $p.data.TimeLineSitesForm = {};
+    $p.data.CalendarSitesForm = {};
     $p.openSiteSettingsDialog($control, '#DashboardPartCalendarSitesDialog');
+}
+
+$p.openDashboardPartKambanSitesDialog = function ($control) {
+    $p.data.KambanSitesForm = {};
+    $p.openSiteSettingsDialog($control, '#DashboardPartKambanSitesDialog');
 }
 
 $p.updateDashboardPartTimeLineSites = function ($control) {
@@ -285,6 +290,7 @@ $p.confirmTimeLineSites = function (value) {
         $p.set($('#DashboardPartTimeLineSites'), args.timeLineSites);
         $p.set($('#DashboardPartBaseSiteId'), args.baseSiteId);
         $p.send($("#ClearDashboardView"));
+        $p.clearData('DashboardPartView', 'DashboardPartForm', 'startsWith');
         $p.closeDialog($("#DashboardPartTimeLineSitesDialog"));
     }
 }
@@ -296,7 +302,21 @@ $p.confirmCalendarSites = function (value) {
         $('#DashboardPartCalendarSitesValue').text(args.calendarSites);
         $p.set($('#DashboardPartCalendarSites'), args.calendarSites);
         $p.set($('#DashboardPartBaseSiteId'), args.baseSiteId);
-        $p.send($("#ClearDashboardView"));
+        $p.send($("#ClearDashboardCalendarView"));
+        $p.clearData('DashboardPartView', 'DashboardPartForm', 'startsWith');
         $p.closeDialog($("#DashboardPartCalendarSitesDialog"));
+    }
+}
+
+$p.confirmKambanSites = function (value) {
+    var args = JSON.parse(value);
+    var result = confirm($p.display('ResetKambanView'));
+    if (result) {
+        $('#DashboardPartKambanSitesValue').text(args.kambanSites);
+        $p.set($('#DashboardPartKambanSites'), args.kambanSites);
+        $p.set($('#DashboardPartBaseSiteId'), args.baseSiteId);
+        $p.send($("#ClearDashboardKambanView"));
+        $p.clearData('DashboardPartView', 'DashboardPartForm', 'startsWith');
+        $p.closeDialog($("#DashboardPartKambanSitesDialog"));
     }
 }
