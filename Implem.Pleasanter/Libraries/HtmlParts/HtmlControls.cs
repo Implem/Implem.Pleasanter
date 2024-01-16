@@ -817,7 +817,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 ? hb.Div(
                     attributes: new HtmlAttributes()
                         .Id(searchOptionId)
-                        .Class("ui-icon ui-icon-search")
+                        .Class("ui-icon ui-icon-search lower-search-ui")
                         .OnClick(searchOptionFunction)
                         .DataAction("SetSiteSettings")
                         .DataMethod("post"))

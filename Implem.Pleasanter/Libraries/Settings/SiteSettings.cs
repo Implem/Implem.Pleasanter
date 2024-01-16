@@ -2860,6 +2860,24 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .Select(o => o.ColumnName).ToList());
         }
 
+        public Dictionary<string, ControlData> EditorSelectableOptionsByColumnName(
+            Context context, string columnName)
+        {
+            // (2024/1/16実装途中メモ)
+            // 正規表現文字列を追加。（大文字・小文字のあいまい検索、複数キーワードによるAND検索）
+            return ColumnUtilities.SelectableOptions(
+                    context: context,
+                    ss: this,
+                    columns: ColumnDefinitionHash.EditorDefinitions(context: context)
+                        .Where(o => !GetEditorColumnNames().Contains(o.ColumnName))
+                        .Where(o => o.ColumnName.StartsWith(columnName)) // 正規表現による検索に対応させる
+                        .OrderBy(o => o.EditorColumn)
+                        .Select(o => o.ColumnName),
+                    order: ColumnDefinitionHash?.EditorDefinitions(context: context)?
+                        .OrderBy(o => o.EditorColumn)
+                        .Select(o => o.ColumnName).ToList());
+        }
+
         public Dictionary<string, ControlData> EditorSelectableOptions(
             Context context, bool enabled = true)
         {

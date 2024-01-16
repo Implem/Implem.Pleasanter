@@ -4171,6 +4171,7 @@ namespace Implem.Pleasanter.Models
             Context context,
             ResponseCollection res)
         {
+            var keyWord = context.Forms.Data("TargetColumnKeyWord");
             res.CloseDialog();
         }
 

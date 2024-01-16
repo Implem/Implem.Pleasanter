@@ -16519,7 +16519,7 @@ namespace Implem.Pleasanter.Models
                                 controlId: "ShowTargetColumnKeyWord",
                                 text: Displays.Search(context: context),
                                 controlCss: "button-icon",
-                                onClick: "$p.send($('#TargetColumnKeyWord'));",
+                                onClick: "$p.send($(this));",
                                 icon: "ui-icon-search",
                                 action: "SetSiteSettings",
                                 method: "post"))
