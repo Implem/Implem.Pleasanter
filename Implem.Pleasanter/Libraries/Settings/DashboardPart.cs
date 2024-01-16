@@ -149,6 +149,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     break;
                 case DashboardPartType.Index:
                     dashboardPart.IndexSites = IndexSites;
+                    dashboardPart.IndexSitesData = IndexSitesData;
                     dashboardPart.SiteId = SiteId;
                     if (ss != null)
                     {
@@ -185,6 +186,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             string calendarFromTo,
             bool calendarShowStatus,
             string indexSites,
+            List<string> indexSitesData,
             string extendedCss,
             bool disableAsynchronousLoading,
             List<Permission> permissions)
@@ -216,6 +218,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 calendarFromTo: calendarFromTo,
                 calendarShowStatus: calendarShowStatus,
                 indexSites: indexSites,
+                indexSitesData: indexSitesData,
                 extendedCss: extendedCss,
                 disableAsynchronousLoading: disableAsynchronousLoading,
                 permissions: permissions);
@@ -247,6 +250,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             string calendarFromTo,
             bool calendarShowStatus,
             string indexSites,
+            List<string> indexSitesData,
             string extendedCss,
             bool disableAsynchronousLoading,
             List<Permission> permissions)
@@ -275,6 +279,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             CalendarFromTo = calendarFromTo;
             CalendarShowStatus = calendarShowStatus;
             IndexSites = indexSites;
+            IndexSitesData = indexSitesData;
             ExtendedCss = extendedCss;
             DisableAsynchronousLoading = disableAsynchronousLoading;
             SetSitesData();
