@@ -170,7 +170,7 @@ $(function () {
     });
     $(document).on('click', 'th.sortable', function (e) {
         var $control = $(this).find('div');
-        sort($control, $control.attr('data-order-type'));
+        sort($control, $control.attr('data-order-type'), $control.attr('data-suffix'));
         e.stopPropagation();
     });
 

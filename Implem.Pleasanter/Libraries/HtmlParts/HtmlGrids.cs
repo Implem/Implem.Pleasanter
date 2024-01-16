@@ -85,6 +85,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                             .DataId("ViewSorters__" + column.ColumnName)
                                             .Add("data-order-type", OrderBy(
                                                 view, column.ColumnName))
+                                            .Add("data-suffix", suffix)
                                             .DataAction(action)
                                             .DataMethod("post"),
                                         action: () => hb
