@@ -9,6 +9,8 @@
     var conditionIllegalFlag = false;
     const radius = Math.min(550, 465) / 2;
     var colorLabelMemorys = [];
+    var colorIndex;
+    var colorIndexFlag;
 
     // id=Analyを削除
     document.getElementById('Analy').remove();
@@ -208,6 +210,7 @@
                     });
             }
         }
+        console.log(colorLabelMemorys);
     };
 
 
@@ -219,12 +222,7 @@
             .append('path')
             .attr('d', arc)
             .attr('fill', function (d) {
-                colorLabelMemorys.push({ labelName: d.data.GroupTitle, color: d.index, flag: false });
-                console.log('初期カラーを設定');
-                console.log(d.data.GroupTitle);
-                console.log(d.index);
-                console.log(color(d.index));
-                console.log(colorLabelMemorys);
+                colorLabelMemorys.push({ labelName: d.data.GroupTitle, color: d.index });
                 return color(d.index);
             })
             .attr('opacity', 0.85)
@@ -237,42 +235,29 @@
     function drawMultiAnalyChart() {
         console.log('複数円グラフ描画処理：start');
 
-        // メモリのラベル名とグラフのラベル名との比較処理
-        for (var element of pieChart.Elements) {
-            for (var colorLabelMemory of colorLabelMemorys) {
-                if (element.GroupTitle.toString() === colorLabelMemory.labelName.toString()) {
-                    colorLabelMemory.flag = true;
-                    break;
-                }
-            }
-        }
-
         // 円グラフの各要素の間にある余白を設定
         pieGroup
             .append('path')
             .attr('d', arc)
             .attr('fill', function (d) {
-                console.log('d.data.GroupTitle：' + d.data.GroupTitle);
-                console.log(colorLabelMemorys);
                 for (var colorLabelMemory of colorLabelMemorys) {
-                    console.log(colorLabelMemory.color);
-                    if (colorLabelMemory.labelName == d.data.GroupTitle && colorLabelMemory.flag == true) {
-                        console.log('メモリカラーを設定');
-                        console.log(d.data.GroupTitle);
-                        console.log(colorLabelMemory.labelName);
-                        console.log(colorLabelMemory.color);
-                        console.log(color(colorLabelMemory.color));
-                        return color(colorLabelMemory.color);
+                    colorIndexFlag = false;
+                    if (colorLabelMemory.labelName === d.data.GroupTitle) {
+                        colorIndex = colorLabelMemory.color;
+                        colorIndexFlag = true;
+                        break;
                     } else {
-                        colorLabelMemorys.push({ labelName: d.data.GroupTitle, color: d.index, flag: false });
-                        console.log('初期カラーを設定');
-                        console.log(d.data.GroupTitle);
-                        console.log(d.index);
-                        console.log(color(d.index));
-                        console.log(colorLabelMemorys);
-                        return color(d.index);
+                        colorIndex = d.index;
                     }
                 }
+                if (colorIndexFlag === false) colorLabelMemorys.push({ labelName: d.data.GroupTitle, color: d.index });
+                if (pieChart.Elements.length <= 10) {
+                    if (d3.schemeCategory10[colorIndex] === undefined) return d3.schemeCategory10[d.index];
+                    return d3.schemeCategory10[colorIndex];
+                } else {
+                    return color(colorIndex);
+                }
+
             })
             .attr('opacity', 0.85)
             .attr('stroke', 'white');
