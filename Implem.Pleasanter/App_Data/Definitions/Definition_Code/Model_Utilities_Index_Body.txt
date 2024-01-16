@@ -4,10 +4,10 @@
     var view = Views.GetBySession(
         context: context,
         ss: ss);
-    var gridData = GetGridData(
-        context: context,
-        ss: ss,
-        view: view);
+
+<!--Model_Utilities_GridData-->
+<!--Model_Utilities_DashboardGridData-->
+
     var viewMode = ViewModes.GetSessionData(
         context: context,
         siteId: ss.SiteId);
@@ -242,12 +242,9 @@ public static string GridRows(
     string suffix = "")
 {
     var view = Views.GetBySession(context: context, ss: ss);
-    var gridData = GetGridData(
-        context: context,
-        ss: ss,
-        view: view,
-        offset: offset);
 
+<!--Model_Utilities_GridRowsData-->
+<!--Model_Utilities_DashboardGridRowsData-->
 <!--Model_Utilities_GetServerScriptModelRow-->
 <!--Model_Utilities_Columns-->
 <!--Model_Utilities_DashboardColumns-->

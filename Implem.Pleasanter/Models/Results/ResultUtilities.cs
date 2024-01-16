@@ -36,7 +36,9 @@ namespace Implem.Pleasanter.Models
             var gridData = GetGridData(
                 context: context,
                 ss: ss,
-                view: view);
+                view: ss.DashboardParts.Any()
+                    ? ss.DashboardParts.FirstOrDefault().View
+                    : view);
             var viewMode = ViewModes.GetSessionData(
                 context: context,
                 siteId: ss.SiteId);
@@ -309,7 +311,9 @@ namespace Implem.Pleasanter.Models
             var gridData = GetGridData(
                 context: context,
                 ss: ss,
-                view: view,
+                view: ss.DashboardParts.Any()
+                    ? ss.DashboardParts.FirstOrDefault().View
+                    : view,
                 offset: offset);
             var serverScriptModelRow = ss.GetServerScriptModelRow(
                 context: context,
