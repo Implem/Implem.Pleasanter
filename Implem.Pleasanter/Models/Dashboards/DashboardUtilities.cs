@@ -2439,7 +2439,7 @@ namespace Implem.Pleasanter.Models
                             value: issueIndex)
                         .ToJson();
                 case "Results":
-                    var results = ResultUtilities.GridRows(context: context, ss: currentSs, offset: offset);
+                    var results = ResultUtilities.GridRows(context: context, ss: currentSs, offset: offset, suffix: suffix);
                     var resultIndex = hb.Div(
                         id: $"DashboardPart_{dashboardPart.Id}",
                         attributes: new HtmlAttributes().DataId(dashboardPart.Id.ToString()),
