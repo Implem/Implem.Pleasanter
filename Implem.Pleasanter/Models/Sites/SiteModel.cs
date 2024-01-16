@@ -9267,6 +9267,10 @@ namespace Implem.Pleasanter.Models
             }
             return data;
         }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private void OpenSearchEditorColumnDialog(
             Context context,
             ResponseCollection res)
@@ -9276,15 +9280,13 @@ namespace Implem.Pleasanter.Models
                 case "Links":
                 case "Others":
                     res.Message(Messages.CanNotPerformed(context: context))
-                        .Html("#SearchEditorColumnDialog", new HtmlBuilder())
-                        .ToJson();
+                        .Html("#SearchEditorColumnDialog", new HtmlBuilder());
                     break;
                 case "Columns":
                     AddOrUpdateEditorColumnHash(context: context);
                     res.Html("#SearchEditorColumnDialog", SiteUtilities.SearchEditorColumnDialog(
                         context: context,
-                        ss: SiteSettings))
-                        .ToJson();
+                        ss: SiteSettings));
                     break;
             }
         }

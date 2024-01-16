@@ -5865,6 +5865,12 @@ namespace Implem.Pleasanter.Models
                             setSearchOptionButton: true,
                             searchOptionId: "OpenSearchEditorColumnDialog",
                             searchOptionFunction: "$p.openSearchEditorColumnDialog($(this));")
+                        .Hidden(
+                            controlId: "SearchEditorColumnDialogSelection",
+                            css: "always-send")
+                        .Hidden(
+                            controlId: "SearchEditorColumnDialogKeyWord",
+                            css: "always-send")
                         .Div(
                             css: "both",
                             action: () => hb
@@ -16683,13 +16689,13 @@ namespace Implem.Pleasanter.Models
                         legendText: Displays.Search(context: context),
                         action: () => hb
                             .FieldTextBox(
-                                controlId: "TargetColumnKeyWord")
+                                controlId: "TargetColumnKeyWord",
+                                text: context.Forms.Data("SearchEditorColumnDialogKeyWord"))
                             .Button(
                                 controlId: "ShowTargetColumnKeyWord",
                                 text: Displays.Search(context: context),
                                 controlCss: "button-icon",
-                                onClick: "$p.send($(this));",
-                                icon: "ui-icon-search",
+                                onClick: "$p.selectSearchEditorColumn($(this), \"KeyWord\");",
                                 action: "SetSiteSettings",
                                 method: "post"))
                     .FieldSet(
@@ -16701,21 +16707,21 @@ namespace Implem.Pleasanter.Models
                                     controlId: "ShowTargetColumnBasic",
                                     text: Displays.Basic(context: context),
                                     controlCss: "button-icon w150",
-                                    onClick: "$p.send($(this));",
+                                    onClick: "$p.selectSearchEditorColumn($(this), \"Basic\");",
                                     action: "SetSiteSettings",
                                     method: "post")
                                 .Button(
                                     controlId: "ShowTargetColumnClass",
                                     text: Displays.Class(context: context),
                                     controlCss: "button-icon w150",
-                                    onClick: "$p.send($(this));",
+                                    onClick: "$p.selectSearchEditorColumn($(this), \"Class\");",
                                     action: "SetSiteSettings",
                                     method: "post")
                                 .Button(
                                     controlId: "ShowTargetColumnNum",
                                     text: Displays.Num(context: context),
                                     controlCss: "button-icon w150",
-                                    onClick: "$p.send($(this));",
+                                    onClick: "$p.selectSearchEditorColumn($(this), \"Num\");",
                                     action: "SetSiteSettings",
                                     method: "post"))
                             .Div(css: "command-left", action: () => hb
@@ -16723,21 +16729,21 @@ namespace Implem.Pleasanter.Models
                                     controlId: "ShowTargetColumnDate",
                                     text: Displays.Date(context: context),
                                     controlCss: "button-icon w150",
-                                    onClick: "$p.send($(this));",
+                                    onClick: "$p.selectSearchEditorColumn($(this), \"Date\");",
                                     action: "SetSiteSettings",
                                     method: "post")
                                 .Button(
                                     controlId: "ShowTargetColumnDescription",
                                     text: Displays.Description(context: context),
                                     controlCss: "button-icon w150",
-                                    onClick: "$p.send($(this));",
+                                    onClick: "$p.selectSearchEditorColumn($(this), \"Description\");",
                                     action: "SetSiteSettings",
                                     method: "post")
                                 .Button(
                                     controlId: "ShowTargetColumnCheck",
                                     text: Displays.Check(context: context),
                                     controlCss: "button-icon w150",
-                                    onClick: "$p.send($(this));",
+                                    onClick: "$p.selectSearchEditorColumn($(this), \"Check\");",
                                     action: "SetSiteSettings",
                                     method: "post"))
                             .Div(css: "command-left", action: () => hb
@@ -16745,7 +16751,7 @@ namespace Implem.Pleasanter.Models
                                     controlId: "ShowTargetColumnAttachments",
                                     text: Displays.Attachments(context: context),
                                     controlCss: "button-icon w150",
-                                    onClick: "$p.send($(this));",
+                                    onClick: "$p.selectSearchEditorColumn($(this), \"Attachments\");",
                                     action: "SetSiteSettings",
                                     method: "post")))
                     .Div(css: "command-center", action: () => hb
@@ -16753,7 +16759,7 @@ namespace Implem.Pleasanter.Models
                             controlId: "ShowTargetColumnDefault",
                             text: Displays.Reset(context: context),
                             controlCss: "button-icon",
-                            onClick: "$p.send($(this));",
+                            onClick: "$p.selectSearchEditorColumn($(this), \"\");",
                             icon: "ui-icon-gear",
                             action: "SetSiteSettings",
                             method: "post")

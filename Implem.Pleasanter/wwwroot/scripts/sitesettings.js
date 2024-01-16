@@ -325,3 +325,14 @@ $p.openSearchEditorColumnDialog = function ($control) {
     $p.data.SearchEditorColumnForm = {};
     $p.openSiteSettingsDialog($control, '#SearchEditorColumnDialog', '535px');
 }
+
+$p.selectSearchEditorColumn = function ($control, value) {
+    $('#SearchEditorColumnDialogSelection').val(value);
+    if (value == "KeyWord") {
+        $('#SearchEditorColumnDialogKeyWord').val($('#TargetColumnKeyWord').val());
+    } else {
+        $('#TargetColumnKeyWord').val("");
+        $('#SearchEditorColumnDialogKeyWord').val("");
+    }   
+    $p.send($control);
+}
