@@ -7,7 +7,7 @@
     var newX = 300;
     var newY = pieChartHeight;
     var conditionIllegalFlag = false;
-    const radius = Math.min(350, 320) / 2;
+    const radius = Math.min(550, 465) / 2;
     var colorLabelMemorys = [];
 
     // id=Analyを削除
@@ -48,8 +48,8 @@
         var svg = div
             .append('svg')
             .attr('id', 'ChartSvg_' + pieChart.Setting.Id)
-            .style('width', '430')
-            .style('height', '330')
+            .style('width', '550')
+            .style('height', '465')
             .style('float', 'left');
 
         // Gタグを設定
@@ -59,7 +59,7 @@
             .attr('data-method', 'post')
             .attr(
                 'transform',
-                'translate(215,160)');
+                'translate(275,232.5)');
 
 
         // データが抽出できない場合
@@ -105,7 +105,7 @@
                     .attr('fill', 'black')
                     .attr('font-size', '25px')
                     .attr('text-anchor', 'middle')
-                    .attr('dy', -20)
+                    .attr('dy', -25)
                     .text($p.display(pieChart.Setting.AggregationType));
 
                 // 条件「値」と「期間」を画面に表示
@@ -125,7 +125,7 @@
                     .attr('fill', 'black')
                     .attr('font-size', '15px')
                     .attr('text-anchor', 'middle')
-                    .attr('dy', 20)
+                    .attr('dy', 25)
                     .text(function (d) {
                         for (var columnNames of JSON.parse($('#Columns').val())) {
                             if (columnNames.ColumnName === pieChart.Setting.AggregationTarget) {
@@ -139,7 +139,7 @@
                     .attr('fill', 'black')
                     .attr('font-size', '15px')
                     .attr('text-anchor', 'middle')
-                    .attr('dy', 40)
+                    .attr('dy', 50)
                     .text(function (d) {
                         if (pieChart.Setting.GroupBy === 'Creator') {
                             return '作成者';
@@ -175,7 +175,7 @@
                     .attr('class', 'pie');
 
                 // 円グラフの半径を設定
-                var arc = d3.arc().outerRadius(radius).innerRadius(75);
+                var arc = d3.arc().outerRadius(radius).innerRadius(100);
 
                 if (colorLabelMemorys.length === 0) {
                     drawSingleAnalyChart();
@@ -187,7 +187,7 @@
                 // 円グラフの各要素に設定するラベル位置を設定
                 var text = d3
                     .arc()
-                    .outerRadius(radius - 30)
+                    .outerRadius(radius - 50)
                     .innerRadius(radius - 40);
 
                 // 円グラフの各要素に対して条件「項目」に設定された値と条件「集計種別」で修正されたデータを設定
@@ -263,6 +263,14 @@
                         console.log(colorLabelMemory.color);
                         console.log(color(colorLabelMemory.color));
                         return color(colorLabelMemory.color);
+                    } else {
+                        colorLabelMemorys.push({ labelName: d.data.GroupTitle, color: d.index, flag: false });
+                        console.log('初期カラーを設定');
+                        console.log(d.data.GroupTitle);
+                        console.log(d.index);
+                        console.log(color(d.index));
+                        console.log(colorLabelMemorys);
+                        return color(d.index);
                     }
                 }
             })
