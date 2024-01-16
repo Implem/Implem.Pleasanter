@@ -272,9 +272,10 @@ private static HtmlBuilder GridRows(
     ServerScriptModelRow serverScriptModelRow = null,
     string suffix = "")
 {
-    var checkRow = ss.CheckRow(
-        context: context,
-        gridColumns: view.GridColumns);
+
+<!--Model_Utilities_CheckRow-->
+<!--Model_Utilities_DashboardCheckRow-->
+
     var checkAll = clearCheck
         ? false
         : context.Forms.Bool("GridCheckAll");

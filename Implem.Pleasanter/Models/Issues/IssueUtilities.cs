@@ -491,9 +491,11 @@ namespace Implem.Pleasanter.Models
             ServerScriptModelRow serverScriptModelRow = null,
             string suffix = "")
         {
-            var checkRow = ss.CheckRow(
-                context: context,
-                gridColumns: view.GridColumns);
+            var checkRow = ss.DashboardParts.Any()
+                ? false
+                : ss.CheckRow(
+                    context: context,
+                    gridColumns: view.GridColumns);
             var checkAll = clearCheck
                 ? false
                 : context.Forms.Bool("GridCheckAll");

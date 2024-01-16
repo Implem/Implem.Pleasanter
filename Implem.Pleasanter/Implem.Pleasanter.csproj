@@ -103,8 +103,10 @@
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_ApiCreatedMessage_Table.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_ApiUpdatedMessage.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_ApiUpdatedMessage_Table.json" />
+    <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_CheckRow.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_Columns.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_Create_SetCopyDefault.json" />
+    <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_DashboardCheckRow.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_DashboardColumns.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_DashboardGridRowsReturn.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_DashboardHeaderCss.json" />

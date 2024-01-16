@@ -742,6 +742,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_BurnDown": Code.Model_Utilities_BurnDown = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_BurnDown, definitionRow, CodeXls); break;
                     case "Model_Utilities_Calendar": Code.Model_Utilities_Calendar = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Calendar, definitionRow, CodeXls); break;
                     case "Model_Utilities_CancelNewRow": Code.Model_Utilities_CancelNewRow = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CancelNewRow, definitionRow, CodeXls); break;
+                    case "Model_Utilities_CheckRow": Code.Model_Utilities_CheckRow = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CheckRow, definitionRow, CodeXls); break;
                     case "Model_Utilities_ClearItemDataResponse": Code.Model_Utilities_ClearItemDataResponse = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ClearItemDataResponse, definitionRow, CodeXls); break;
                     case "Model_Utilities_ClearOriginalId": Code.Model_Utilities_ClearOriginalId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ClearOriginalId, definitionRow, CodeXls); break;
                     case "Model_Utilities_Columns": Code.Model_Utilities_Columns = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Columns, definitionRow, CodeXls); break;
@@ -768,6 +769,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_CreateParams": Code.Model_Utilities_CreateParams = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CreateParams, definitionRow, CodeXls); break;
                     case "Model_Utilities_CreateParams_Sites": Code.Model_Utilities_CreateParams_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CreateParams_Sites, definitionRow, CodeXls); break;
                     case "Model_Utilities_Crosstab": Code.Model_Utilities_Crosstab = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Crosstab, definitionRow, CodeXls); break;
+                    case "Model_Utilities_DashboardCheckRow": Code.Model_Utilities_DashboardCheckRow = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_DashboardCheckRow, definitionRow, CodeXls); break;
                     case "Model_Utilities_DashboardColumns": Code.Model_Utilities_DashboardColumns = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_DashboardColumns, definitionRow, CodeXls); break;
                     case "Model_Utilities_DashboardGridRowsReturn": Code.Model_Utilities_DashboardGridRowsReturn = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_DashboardGridRowsReturn, definitionRow, CodeXls); break;
                     case "Model_Utilities_DashboardHeaderCss": Code.Model_Utilities_DashboardHeaderCss = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_DashboardHeaderCss, definitionRow, CodeXls); break;
@@ -7205,6 +7207,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_BurnDown;
         public string Model_Utilities_Calendar;
         public string Model_Utilities_CancelNewRow;
+        public string Model_Utilities_CheckRow;
         public string Model_Utilities_ClearItemDataResponse;
         public string Model_Utilities_ClearOriginalId;
         public string Model_Utilities_Columns;
@@ -7231,6 +7234,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_CreateParams;
         public string Model_Utilities_CreateParams_Sites;
         public string Model_Utilities_Crosstab;
+        public string Model_Utilities_DashboardCheckRow;
         public string Model_Utilities_DashboardColumns;
         public string Model_Utilities_DashboardGridRowsReturn;
         public string Model_Utilities_DashboardHeaderCss;
@@ -8018,6 +8022,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_BurnDown = new CodeDefinition();
         public CodeDefinition Model_Utilities_Calendar = new CodeDefinition();
         public CodeDefinition Model_Utilities_CancelNewRow = new CodeDefinition();
+        public CodeDefinition Model_Utilities_CheckRow = new CodeDefinition();
         public CodeDefinition Model_Utilities_ClearItemDataResponse = new CodeDefinition();
         public CodeDefinition Model_Utilities_ClearOriginalId = new CodeDefinition();
         public CodeDefinition Model_Utilities_Columns = new CodeDefinition();
@@ -8044,6 +8049,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_CreateParams = new CodeDefinition();
         public CodeDefinition Model_Utilities_CreateParams_Sites = new CodeDefinition();
         public CodeDefinition Model_Utilities_Crosstab = new CodeDefinition();
+        public CodeDefinition Model_Utilities_DashboardCheckRow = new CodeDefinition();
         public CodeDefinition Model_Utilities_DashboardColumns = new CodeDefinition();
         public CodeDefinition Model_Utilities_DashboardGridRowsReturn = new CodeDefinition();
         public CodeDefinition Model_Utilities_DashboardHeaderCss = new CodeDefinition();
