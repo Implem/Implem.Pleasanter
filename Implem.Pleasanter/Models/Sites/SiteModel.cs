@@ -4178,7 +4178,48 @@ namespace Implem.Pleasanter.Models
             Context context,
             ResponseCollection res)
         {
-            res.CloseDialog();
+            Dictionary<string, ControlData> all = SiteSettings
+                .EditorSelectableOptions(context: context, enabled: false);
+            var key = all
+                .Keys
+                .ToList()
+                .Except(SiteSettings
+                    .EditorSelectableOptionsByTypeString(
+                        context: context, typeString: "Class")
+                    .Concat(
+                        SiteSettings
+                                .EditorSelectableOptionsByTypeString(
+                                    context: context, typeString: "Num"))
+                    .Concat(
+                        SiteSettings
+                            .EditorSelectableOptionsByTypeString(
+                                context: context, typeString: "Date"))
+                    .Concat(
+                        SiteSettings
+                            .EditorSelectableOptionsByTypeString(
+                                context: context, typeString: "Description"))
+                    .Concat(
+                        SiteSettings
+                            .EditorSelectableOptionsByTypeString(
+                                    context: context, typeString: "Check"))
+                    .Concat(
+                        SiteSettings
+                            .EditorSelectableOptionsByTypeString(
+                                context: context, typeString: "Attachments"))
+                    .ToDictionary()
+                    .Keys
+                    .ToList())
+                .ToList();
+            Dictionary<string, ControlData> basic = new Dictionary<string, ControlData>();
+            foreach (string k in key)
+            {
+                basic.Add(k, all.Get(k));
+            }
+            res.Html(
+                "#EditorSourceColumns",
+                new HtmlBuilder().SelectableItems(listItemCollection: basic))
+            .SetData("#EditorSourceColumns")
+            .CloseDialog();
         }
 
         private void ShowTargetColumnByTypeString(
@@ -4186,7 +4227,15 @@ namespace Implem.Pleasanter.Models
             ResponseCollection res,
             string typeString)
         {
-            res.CloseDialog();
+            res.Html(
+                "#EditorSourceColumns",
+                new HtmlBuilder().SelectableItems(
+                    listItemCollection: SiteSettings
+                        .EditorSelectableOptionsByTypeString(
+                            context: context,
+                            typeString: typeString)))
+            .SetData("#EditorSourceColumns")
+            .CloseDialog();
         }
 
         private void ShowTargetColumnDefault(

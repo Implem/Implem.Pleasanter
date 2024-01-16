@@ -2844,6 +2844,22 @@ namespace Implem.Pleasanter.Libraries.Settings
             return hash;
         }
 
+        public Dictionary<string, ControlData> EditorSelectableOptionsByTypeString(
+            Context context, string typeString)
+        {
+            return ColumnUtilities.SelectableOptions(
+                    context: context,
+                    ss: this,
+                    columns: ColumnDefinitionHash.EditorDefinitions(context: context)
+                        .Where(o => !GetEditorColumnNames().Contains(o.ColumnName))
+                        .Where(o => o.ColumnName.StartsWith(typeString))
+                        .OrderBy(o => o.EditorColumn)
+                        .Select(o => o.ColumnName),
+                    order: ColumnDefinitionHash?.EditorDefinitions(context: context)?
+                        .OrderBy(o => o.EditorColumn)
+                        .Select(o => o.ColumnName).ToList());
+        }
+
         public Dictionary<string, ControlData> EditorSelectableOptions(
             Context context, bool enabled = true)
         {
