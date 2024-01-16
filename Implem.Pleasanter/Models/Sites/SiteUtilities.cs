@@ -7253,13 +7253,84 @@ namespace Implem.Pleasanter.Models
             switch (context.Forms.Data("EditorSourceColumnsType"))
             {
                 case "Columns":
-                    res.Html(
-                        "#EditorSourceColumns",
-                        new HtmlBuilder().SelectableItems(
-                            listItemCollection: ss
-                                .EditorSelectableOptions(
-                                    context: context,
-                                    enabled: false)));
+                    switch (context.Forms.Data("SearchEditorColumnDialogSelection"))
+                    {
+                        case "KeyWord":
+                            // あとでキーワードの処理を入れる
+                            res.Html(
+                                "#EditorSourceColumns",
+                                new HtmlBuilder().SelectableItems(
+                                    listItemCollection: ss
+                                        .EditorSelectableOptions(
+                                            context: context,
+                                            enabled: false)));
+                            break;
+                        case "Basic":
+                            Dictionary<string, ControlData> all = ss
+                                .EditorSelectableOptions(context: context, enabled: false);
+                            var key = all
+                                .Keys
+                                .ToList()
+                                .Except(ss
+                                    .EditorSelectableOptionsByTypeString(
+                                        context: context, typeString: "Class")
+                                    .Concat(
+                                        ss
+                                            .EditorSelectableOptionsByTypeString(
+                                                context: context, typeString: "Num"))
+                                    .Concat(
+                                        ss
+                                            .EditorSelectableOptionsByTypeString(
+                                                context: context, typeString: "Date"))
+                                    .Concat(
+                                        ss
+                                            .EditorSelectableOptionsByTypeString(
+                                                context: context, typeString: "Description"))
+                                    .Concat(
+                                        ss
+                                            .EditorSelectableOptionsByTypeString(
+                                                    context: context, typeString: "Check"))
+                                    .Concat(
+                                        ss
+                                            .EditorSelectableOptionsByTypeString(
+                                                context: context, typeString: "Attachments"))
+                                    .ToDictionary()
+                                    .Keys
+                                    .ToList())
+                                .ToList();
+                            Dictionary<string, ControlData> basic = new Dictionary<string, ControlData>();
+                            foreach (string k in key)
+                            {
+                                basic.Add(k, all.Get(k));
+                            }
+                            res.Html(
+                                "#EditorSourceColumns",
+                                new HtmlBuilder().SelectableItems(listItemCollection: basic));
+                            break;
+                        case "Class":
+                        case "Num":
+                        case "Date":
+                        case "Description":
+                        case "Check":
+                        case "Attachments":
+                            res.Html(
+                                "#EditorSourceColumns",
+                                new HtmlBuilder().SelectableItems(
+                                    listItemCollection: ss
+                                        .EditorSelectableOptionsByTypeString(
+                                            context: context,
+                                            typeString: context.Forms.Data("SearchEditorColumnDialogSelection"))));
+                            break;
+                        default:
+                            res.Html(
+                                "#EditorSourceColumns",
+                                new HtmlBuilder().SelectableItems(
+                                    listItemCollection: ss
+                                        .EditorSelectableOptions(
+                                            context: context,
+                                            enabled: false)));
+                            break;
+                    }
                     break;
                 case "Links":
                     res.Html(
@@ -16695,7 +16766,7 @@ namespace Implem.Pleasanter.Models
                                 controlId: "ShowTargetColumnKeyWord",
                                 text: Displays.Search(context: context),
                                 controlCss: "button-icon",
-                                onClick: "$p.selectSearchEditorColumn($(this), \"KeyWord\");",
+                                onClick: "$p.selectSearchEditorColumn($(this), 'KeyWord');",
                                 action: "SetSiteSettings",
                                 method: "post"))
                     .FieldSet(
@@ -16707,21 +16778,21 @@ namespace Implem.Pleasanter.Models
                                     controlId: "ShowTargetColumnBasic",
                                     text: Displays.Basic(context: context),
                                     controlCss: "button-icon w150",
-                                    onClick: "$p.selectSearchEditorColumn($(this), \"Basic\");",
+                                    onClick: "$p.selectSearchEditorColumn($(this), 'Basic');",
                                     action: "SetSiteSettings",
                                     method: "post")
                                 .Button(
                                     controlId: "ShowTargetColumnClass",
                                     text: Displays.Class(context: context),
                                     controlCss: "button-icon w150",
-                                    onClick: "$p.selectSearchEditorColumn($(this), \"Class\");",
+                                    onClick: "$p.selectSearchEditorColumn($(this), 'Class');",
                                     action: "SetSiteSettings",
                                     method: "post")
                                 .Button(
                                     controlId: "ShowTargetColumnNum",
                                     text: Displays.Num(context: context),
                                     controlCss: "button-icon w150",
-                                    onClick: "$p.selectSearchEditorColumn($(this), \"Num\");",
+                                    onClick: "$p.selectSearchEditorColumn($(this), 'Num');",
                                     action: "SetSiteSettings",
                                     method: "post"))
                             .Div(css: "command-left", action: () => hb
@@ -16729,21 +16800,21 @@ namespace Implem.Pleasanter.Models
                                     controlId: "ShowTargetColumnDate",
                                     text: Displays.Date(context: context),
                                     controlCss: "button-icon w150",
-                                    onClick: "$p.selectSearchEditorColumn($(this), \"Date\");",
+                                    onClick: "$p.selectSearchEditorColumn($(this), 'Date');",
                                     action: "SetSiteSettings",
                                     method: "post")
                                 .Button(
                                     controlId: "ShowTargetColumnDescription",
                                     text: Displays.Description(context: context),
                                     controlCss: "button-icon w150",
-                                    onClick: "$p.selectSearchEditorColumn($(this), \"Description\");",
+                                    onClick: "$p.selectSearchEditorColumn($(this), 'Description');",
                                     action: "SetSiteSettings",
                                     method: "post")
                                 .Button(
                                     controlId: "ShowTargetColumnCheck",
                                     text: Displays.Check(context: context),
                                     controlCss: "button-icon w150",
-                                    onClick: "$p.selectSearchEditorColumn($(this), \"Check\");",
+                                    onClick: "$p.selectSearchEditorColumn($(this), 'Check');",
                                     action: "SetSiteSettings",
                                     method: "post"))
                             .Div(css: "command-left", action: () => hb
@@ -16751,7 +16822,7 @@ namespace Implem.Pleasanter.Models
                                     controlId: "ShowTargetColumnAttachments",
                                     text: Displays.Attachments(context: context),
                                     controlCss: "button-icon w150",
-                                    onClick: "$p.selectSearchEditorColumn($(this), \"Attachments\");",
+                                    onClick: "$p.selectSearchEditorColumn($(this), 'Attachments');",
                                     action: "SetSiteSettings",
                                     method: "post")))
                     .Div(css: "command-center", action: () => hb
@@ -16759,7 +16830,7 @@ namespace Implem.Pleasanter.Models
                             controlId: "ShowTargetColumnDefault",
                             text: Displays.Reset(context: context),
                             controlCss: "button-icon",
-                            onClick: "$p.selectSearchEditorColumn($(this), \"\");",
+                            onClick: "$p.selectSearchEditorColumn($(this), '');",
                             icon: "ui-icon-gear",
                             action: "SetSiteSettings",
                             method: "post")
