@@ -653,7 +653,7 @@ pre {
     table-layout: fixed;
 }
 
-.CalendarBody thead th {
+div.Calendar > .CalendarBody > .grid > thead > tr > th {
     padding: 5px;
     text-align: center;
     border: solid 1px silver;
@@ -986,23 +986,27 @@ th.calendar-header {
         fill: black;
     }
 
-#KambanBody .kamban-row {
+.kambanbody .kamban-row {
     border-bottom: dotted 1px silver;
 }
 
-#KambanBody .kamban-container > div {
+.kambanbody .kamban-container{
+    background-color: white;
+}
+
+.kambanbody .kamban-container > div {
     min-height: 30px;
 }
 
-#KambanBody .kamban-container.hover {
+.kambanbody .kamban-container.hover {
     background-color: whitesmoke;
 }
 
-#KambanBody .kamban-container .kamban-item:last-child {
+.kambanbody .kamban-container .kamban-item:last-child {
     margin: 3px 3px 30px 3px;
 }
 
-#KambanBody .kamban-item {
+.kambanbody .kamban-item {
     margin: 3px;
     padding: 4px 16px 4px 5px;
     background-color: lightgoldenrodyellow;
@@ -1010,39 +1014,56 @@ th.calendar-header {
     position: relative;
     cursor: pointer;
     border-radius: 5px;
+    overflow: hidden;
 }
 
-    #KambanBody .kamban-item:hover {
+    .kambanbody .kamban-item:hover {
         background-color: white;
         border: solid 1px orange;
     }
 
-    #KambanBody .kamban-item.changed {
+    .kambanbody .kamban-item.changed {
         font-weight: bold;
         background-color: yellow;
         border: solid 1px orange;
     }
 
-    #KambanBody .kamban-item .ui-icon {
+    .kambanbody .kamban-item .ui-icon {
         position: absolute;
         top: 0px;
         right: 0px;
     }
 
-    #KambanBody .kamban-item > span {
+    .kambanbody .kamban-item > span {
         margin-right: 3px;
     }
 
-#ImageLib .item {
-    width: 250px;
-    height: 250px;
-    float: left;
-    margin: 10px 10px 0px 0px;
-    padding: 10px;
-    border: solid 1px silver;
-    position: relative;
-    overflow: hidden;
+    .kambanbody .dragging {
+        padding: 5px;
+        background-color: lightgoldenrodyellow;
+        border-radius: 3px;
+        z-index: 50;
+    }
+
+.dashboard-kamban-header {
+    position: sticky;
+    top: -20px;
+    z-index: 1;
 }
+    .dashboard-kamban-header > th {
+        overflow-x: hidden;
+    }
+
+    #ImageLib .item {
+        width: 250px;
+        height: 250px;
+        float: left;
+        margin: 10px 10px 0px 0px;
+        padding: 10px;
+        border: solid 1px silver;
+        position: relative;
+        overflow: hidden;
+    }
 
     #ImageLib .item .image {
         width: 100%;

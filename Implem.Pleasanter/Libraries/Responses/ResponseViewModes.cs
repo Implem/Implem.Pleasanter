@@ -22,14 +22,22 @@ namespace Implem.Pleasanter.Libraries.Responses
             bool bodyOnly = false,
             string bodySelector = null,
             ServerScriptModelRow serverScriptModelRow = null,
-            HtmlBuilder body = null)
+            HtmlBuilder body = null,
+            bool replaceAllBody = false)
         {
             return res
                 .Html(
                     target: !bodyOnly
                         ? "#ViewModeContainer"
                         : bodySelector,
-                    value: body)
+                    value: body,
+                    _using: !replaceAllBody || !bodyOnly)
+                .ReplaceAll(
+                    target: !bodyOnly
+                        ? "#ViewModeContainer"
+                        : bodySelector,
+                    value: body,
+                    _using: replaceAllBody && bodyOnly)
                 .View(
                     context: context,
                     ss: ss,
