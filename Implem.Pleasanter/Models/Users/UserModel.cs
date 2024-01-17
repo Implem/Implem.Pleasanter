@@ -4654,11 +4654,11 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         public string Allow(
-        Context context,
-        string returnUrl,
-        bool atLogin = false,
-        bool createPersistentCookie = false,
-        bool noHttpContext = false)
+            Context context,
+            string returnUrl,
+            bool atLogin = false,
+            bool createPersistentCookie = false,
+            bool noHttpContext = false)
         {
             context.LoginId = this.LoginId;
             string loginAfterUrl = AllowAfterUrl(
@@ -4696,7 +4696,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 createPersistentCookie: createPersistentCookie);
             return loginAfterUrl.IsNullOrEmpty()
-                        ? Locations.Top(context: context)
+                ? Locations.Top(context: context)
                 : loginAfterUrl;
         }
 
