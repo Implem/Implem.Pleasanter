@@ -158,19 +158,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                     dashboardPart.View = View;
                     if (CalendarShowStatus == true) dashboardPart.CalendarShowStatus = true;
                     break;
-                case DashboardPartType.Index:
-                    dashboardPart.IndexSites = IndexSites;
-                    dashboardPart.IndexSitesData = IndexSitesData;
-                    dashboardPart.SiteId = SiteId;
-                    if (ss != null)
-                    {
-                        View = View.GetRecordingData(
-                            context: context,
-                            ss: ss);
-                    }
-                    dashboardPart.View = View;
-                    break;
-            }
                 case DashboardPartType.Kamban:
                     dashboardPart.KambanSites = KambanSites;
                     dashboardPart.KambanSitesData = KambanSitesData;
@@ -181,6 +168,18 @@ namespace Implem.Pleasanter.Libraries.Settings
                     dashboardPart.KambanColumns = KambanColumns;
                     dashboardPart.KambanAggregationView = KambanAggregationView;
                     dashboardPart.KambanShowStatus = KambanShowStatus;
+                    dashboardPart.SiteId = SiteId;
+                    if (ss != null)
+                    {
+                        View = View.GetRecordingData(
+                            context: context,
+                            ss: ss);
+                    }
+                    dashboardPart.View = View;
+                    break;
+                case DashboardPartType.Index:
+                    dashboardPart.IndexSites = IndexSites;
+                    dashboardPart.IndexSitesData = IndexSitesData;
                     dashboardPart.SiteId = SiteId;
                     if (ss != null)
                     {

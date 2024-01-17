@@ -326,7 +326,6 @@ $p.confirmKambanSites = function (value) {
         $p.closeDialog($("#DashboardPartKambanSitesDialog"));
     }
 }
-}
 
 $p.confirmIndexSites = function (value) {
     var args = JSON.parse(value);

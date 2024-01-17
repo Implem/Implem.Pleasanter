@@ -15599,7 +15599,7 @@ namespace Implem.Pleasanter.Models
                 case DashboardPartType.Calendar:
                     filterVisible = true;
                     break;
-                case DashboardPartType.Kanban:
+                case DashboardPartType.Kamban:
                     filterVisible = true;
                     break;
                 case DashboardPartType.Index:

@@ -964,14 +964,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                         KambanAggregationView = dashboardPart.KambanAggregationView;
                         KambanShowStatus = dashboardPart.KambanShowStatus;
                     }
-                    break;
                     if (ss.DashboardParts?.Count.Equals(1) == true && ss.DashboardParts.First().Type.ToString() == "Index")
                     {
                         var dashboardPart = ss.DashboardParts.FirstOrDefault();
 
                         IndexSuffix = $"_{dashboardPart.Id}";
                     }
-                        break;
+                    break;
             }
         }
 
