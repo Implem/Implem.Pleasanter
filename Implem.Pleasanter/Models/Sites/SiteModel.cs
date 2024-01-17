@@ -3618,7 +3618,6 @@ namespace Implem.Pleasanter.Models
                         res: res);
                     break;
                 case "ShowTargetColumnKeyWord":
-                    var txt = context.Forms.Data("TargetColumnKeyWord");    // デフォルト設定しているが、キーボード入力をしなかった場合に文字列を読み取っていない。
                     ShowTargetColumnKeyWord(
                         context: context,
                         res: res,

@@ -328,11 +328,11 @@ $p.openSearchEditorColumnDialog = function ($control) {
 
 $p.selectSearchEditorColumn = function ($control, value) {
     $('#SearchEditorColumnDialogSelection').val(value);
-    if (value == "KeyWord") {
+    if (value == 'KeyWord') {
         $('#SearchEditorColumnDialogKeyWord').val($('#TargetColumnKeyWord').val());
     } else {
-        $('#TargetColumnKeyWord').val("");
-        $('#SearchEditorColumnDialogKeyWord').val("");
+        $('#TargetColumnKeyWord').val('');
+        $('#SearchEditorColumnDialogKeyWord').val('');
     }   
     $p.send($control);
 }

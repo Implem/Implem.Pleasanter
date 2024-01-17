@@ -16759,8 +16759,9 @@ namespace Implem.Pleasanter.Models
                         legendText: Displays.Search(context: context),
                         action: () => hb
                             .FieldTextBox(
+                                controlCss: "control-textbox always-send",
                                 controlId: "TargetColumnKeyWord",
-                                text: context.Forms.Data("SearchEditorColumnDialogKeyWord"))    // デフォルト設定している
+                                text: context.Forms.Data("SearchEditorColumnDialogKeyWord"))
                             .Button(
                                 controlId: "ShowTargetColumnKeyWord",
                                 text: Displays.Search(context: context),
