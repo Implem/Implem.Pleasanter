@@ -167,7 +167,7 @@ $(function () {
         $p.send($('#ViewSorters_Reset'));
         e.stopPropagation();
     });
-    $(document).on('click', 'th.sortable:not(.dashboard-index-container th.sortable)', function (e) {
+    $(document).on('click', 'th.sortable', function (e) {
         var $control = $(this).find('div');
         sort($control, $control.attr('data-order-type'));
         e.stopPropagation();
