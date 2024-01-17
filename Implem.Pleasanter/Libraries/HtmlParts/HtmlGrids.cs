@@ -75,9 +75,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         if (sort)
                         {
                             hb.Th(
-                                css: ss.DashboardParts.Any()
-                                    ? ""
-                                    : column.CellCss(css: "sortable"),
+                                css: column.CellCss(css: "sortable"),
                                 attributes: new HtmlAttributes()
                                     .DataName(column.ColumnName),
                                 action: () => hb
