@@ -28,6 +28,24 @@ $p.paging = function (selector) {
         }
     }
 }
+$p.dashboardPaging = function (selector, target) {
+    if ($('.ui-dialog:visible').length > 0) {
+        return;
+    }
+    var $control = $(selector);
+    var suffix = selector.substring(selector.indexOf('_'))
+    var $offset = $('#Grid' + 'Offset' + suffix);
+    if ($control.length) {
+        if ($(target).scrollTop() + $(target).height() >= $control.offset().top + $control.height()) {
+            if ($offset.val() !== '-1') {
+                $p.setData($offset);
+                $p.getData($control).IndexSuffix = suffix;
+                $offset.val('-1');
+                $p.send($control);
+            }
+        }
+    }
+}
 
 $p.setPaging = function (controlId, offsetId) {
     var wrapper = document.getElementById(controlId + 'Wrapper');
