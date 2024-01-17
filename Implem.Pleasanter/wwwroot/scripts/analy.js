@@ -2,12 +2,8 @@
     console.log('円グラフ描画処理：start');
 
     // 各変数の初期化
-    const pieChartWidth = 400;
-    const pieChartHeight = 400;
-    var newX = 300;
-    var newY = pieChartHeight;
     var conditionIllegalFlag = false;
-    const radius = Math.min(550, 465) / 2;
+    const radius = Math.min(549, 460) / 2;
     var colorLabelMemorys = [];
     var colorIndex;
     var colorIndexFlag;
@@ -42,7 +38,8 @@
             .attr('id', 'deleteChartIcon_' + pieChart.Setting.Id)
             .attr('class', 'ui-icon ui-icon-closethick')
             .attr('onclick', '$p.send($(\'#DeleteAnalyPart_' + pieChart.Setting.Id + '\'));')
-            .style('margin-right', '25%')
+            .style('margin-right', '5%')
+            .style('margin-top', '5%')
             .style('visibility', 'hidden')
             .style('cursor', 'pointer')
             .style('float', 'right');
@@ -51,8 +48,40 @@
             .append('svg')
             .attr('id', 'ChartSvg_' + pieChart.Setting.Id)
             .style('width', '550')
-            .style('height', '465')
-            .style('float', 'left');
+            .style('height', '465');
+
+        // svg
+        //     .append('line')
+        //     .attr('x1', '0')
+        //     .attr('y1', '0')
+        //     .attr('x2', '550')
+        //     .attr('y2', '0')
+        //     .attr('stroke', '#000000');
+
+        // svg
+        //     .append('line')
+        //     .attr('x1', '550')
+        //     .attr('y1', '0')
+        //     .attr('x2', '550')
+        //     .attr('y2', '465')
+        //     .attr('stroke', '#000000');
+
+        // svg
+        //     .append('line')
+        //     .attr('x1', '550')
+        //     .attr('y1', '465')
+        //     .attr('x2', '0')
+        //     .attr('y2', '465')
+        //     .attr('stroke', '#000000');
+
+        // svg
+        //     .append('line')
+        //     .attr('x1', '0')
+        //     .attr('y1', '465')
+        //     .attr('x2', '0')
+        //     .attr('y2', '0')
+        //     .attr('stroke', '#000000');
+
 
         // Gタグを設定
         var g = svg
@@ -61,8 +90,7 @@
             .attr('data-method', 'post')
             .attr(
                 'transform',
-                'translate(275,232.5)');
-
+                'translate(276,233.5)');
 
         // データが抽出できない場合
         if (pieChart.Elements.length === 0) {
