@@ -31,14 +31,15 @@ namespace Implem.Pleasanter.Models
         {
             var hb = new HtmlBuilder();
             var view = Views.GetBySession(
-                context: context,
-                ss: ss);
+                        context: context,
+                        ss: ss);
+            view.ColumnSorterHash = ss.DashboardParts.Any()
+                    ? ss.DashboardParts.FirstOrDefault().View.ColumnSorterHash
+                    : view.ColumnSorterHash;
             var gridData = GetGridData(
                 context: context,
                 ss: ss,
-                view: ss.DashboardParts.Any()
-                    ? ss.DashboardParts.FirstOrDefault().View
-                    : view);
+                view: view);
             var viewMode = ViewModes.GetSessionData(
                 context: context,
                 siteId: ss.SiteId);
