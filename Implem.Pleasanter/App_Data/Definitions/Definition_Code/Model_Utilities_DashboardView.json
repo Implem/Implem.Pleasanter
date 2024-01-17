@@ -1,5 +1,5 @@
 ﻿{
-    "Id": "Model_Utilities_DashboardGridData",
+    "Id": "Model_Utilities_DashboardView",
     "Indent": "3",
     "Include": "Issues,Results"
 }

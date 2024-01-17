@@ -3,4 +3,5 @@
     ss: ss,
     view: ss.DashboardParts.Any()
         ? ss.DashboardParts.FirstOrDefault().View
-        : view);
+        : view,
+    offset: offset);

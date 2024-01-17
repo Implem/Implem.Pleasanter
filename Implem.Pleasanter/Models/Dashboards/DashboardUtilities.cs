@@ -256,7 +256,7 @@ namespace Implem.Pleasanter.Models
                     columns: columns,
                     suffix: suffix)
                 .Hidden(
-                    controlId: "GridOffset",
+                    controlId: $"GridOffset{suffix}",
                     value: ss.GridNextOffset(
                         0,
                         gridData.DataRows.Count(),
@@ -285,7 +285,9 @@ namespace Implem.Pleasanter.Models
             Message message = null,
             string suffix = "")
         {
-            var view = Views.GetBySession(context: context, ss: ss);
+            var view = Views.GetBySession(
+                context: context,
+                ss: ss);
             var gridData = GetGridData(
                 context: context,
                 ss: ss,
@@ -2418,47 +2420,17 @@ namespace Implem.Pleasanter.Models
             switch (currentSs.ReferenceType)
             {
                 case "Issues":
-                    var issues = IssueUtilities.GridRows(context: context, ss: currentSs, offset: offset, suffix: suffix);
-                    var issueIndex = hb.Div(
-                        id: $"DashboardPart_{dashboardPart.Id}",
-                        attributes: new HtmlAttributes().DataId(dashboardPart.Id.ToString()),
-                        css: "dashboard-index-container " + dashboardPart.ExtendedCss,
-                        action: () =>
-                        {
-                            if (dashboardPart.ShowTitle == true)
-                            {
-                                hb.Div(
-                                    css: "dashboard-part-title",
-                                    action: () => hb.Text(dashboardPart.Title));
-                            }
-                            hb.Raw(text: issues);
-                        }).ToString();
-                    return new ResponseCollection(context: context)
-                        .ReplaceAll(
-                            target: $"#DashboardPart_{dashboardPart.Id}",
-                            value: issueIndex)
-                        .ToJson();
+                    return IssueUtilities.GridRows(
+                        context: context,
+                        ss: currentSs,
+                        offset: offset,
+                        suffix: suffix);
                 case "Results":
-                    var results = ResultUtilities.GridRows(context: context, ss: currentSs, offset: offset, suffix: suffix);
-                    var resultIndex = hb.Div(
-                        id: $"DashboardPart_{dashboardPart.Id}",
-                        attributes: new HtmlAttributes().DataId(dashboardPart.Id.ToString()),
-                        css: "dashboard-index-container " + dashboardPart.ExtendedCss,
-                        action: () =>
-                        {
-                            if (dashboardPart.ShowTitle == true)
-                            {
-                                hb.Div(
-                                    css: "dashboard-part-title",
-                                    action: () => hb.Text(dashboardPart.Title));
-                            }
-                            hb.Raw(text: results);
-                        }).ToString();
-                    return new ResponseCollection(context: context)
-                        .ReplaceAll(
-                            target: $"#DashboardPart_{dashboardPart.Id}",
-                            value: resultIndex)
-                        .ToJson();
+                    return ResultUtilities.GridRows(
+                        context: context,
+                        ss: currentSs,
+                        offset: offset,
+                        suffix: suffix);
                 default:
                     return null;
             }

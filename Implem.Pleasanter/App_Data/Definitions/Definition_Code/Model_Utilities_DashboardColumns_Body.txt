@@ -1,6 +1,0 @@
-﻿var columns = ss.GetGridColumns(
-    context: context,
-    view: ss.DashboardParts.Any()
-        ? ss.DashboardParts.FirstOrDefault().View
-        : view,
-    checkPermission: true);

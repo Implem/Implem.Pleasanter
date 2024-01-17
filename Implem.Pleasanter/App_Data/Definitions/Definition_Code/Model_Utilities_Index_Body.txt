@@ -1,13 +1,14 @@
 ﻿public static string Index(Context context, SiteSettings ss)
 {
     var hb = new HtmlBuilder();
-    var view = Views.GetBySession(
+
+<!--Model_Utilities_View-->
+<!--Model_Utilities_DashboardView-->
+
+    var gridData = GetGridData(
         context: context,
-        ss: ss);
-
-<!--Model_Utilities_GridData-->
-<!--Model_Utilities_DashboardGridData-->
-
+        ss: ss,
+        view: view);
     var viewMode = ViewModes.GetSessionData(
         context: context,
         siteId: ss.SiteId);
@@ -15,9 +16,11 @@
         context: context,
         view: view,
         gridData: gridData);
-    var suffix = view.GetIndexSuffix();
+    
+<!--Model_Utilities_DashboardSuffix-->
 <!--Model_Utilities_Return-->
 <!--Model_Utilities_DashboardReturn-->
+
 }
 
 private static string ViewModeTemplate(
@@ -180,10 +183,10 @@ private static HtmlBuilder Grid(
     ServerScriptModelRow serverScriptModelRow = null,
     string suffix = "")
 {
-
-<!--Model_Utilities_Columns-->
-<!--Model_Utilities_DashboardColumns-->
-
+    var columns = ss.GetGridColumns(
+        context: context,
+        view: view,
+        checkPermission: true);
     return hb
         .Table(
             attributes: new HtmlAttributes()
@@ -212,7 +215,7 @@ private static HtmlBuilder Grid(
             columns: columns,
             suffix: suffix)
         .Hidden(
-            controlId: "GridOffset",
+            controlId: $"GridOffset{suffix}",
             value: ss.GridNextOffset(
                 0,
                 gridData.DataRows.Count(),
@@ -241,18 +244,27 @@ public static string GridRows(
     Message message = null,
     string suffix = "")
 {
-    var view = Views.GetBySession(context: context, ss: ss);
+
+<!--Model_Utilities_View-->
+<!--Model_Utilities_DashboardView-->
+
     var gridData = GetGridData(
         context: context,
         ss: ss,
         view: view,
         offset: offset);
+
 <!--Model_Utilities_GetServerScriptModelRow-->
-<!--Model_Utilities_Columns-->
-<!--Model_Utilities_DashboardColumns-->
+
+    var columns = ss.GetGridColumns(
+        context: context,
+        view: view,
+        checkPermission: true);
+
 <!--Model_Utilities_GridNewRowParameters-->
 <!--Model_Utilities_GridRowsReturn-->
 <!--Model_Utilities_DashboardGridRowsReturn-->
+
 }
 
 private static HtmlBuilder GridRows(

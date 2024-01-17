@@ -1,4 +1,5 @@
 ﻿var gridData = GetGridData(
     context: context,
     ss: ss,
-    view: view);
+    view: view,
+    offset: offset);

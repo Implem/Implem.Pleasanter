@@ -1,4 +1,0 @@
-﻿var columns = ss.GetGridColumns(
-    context: context,
-    view: view,
-    checkPermission: true);

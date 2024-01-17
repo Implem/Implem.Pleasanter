@@ -44,7 +44,6 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 view: view,
                 gridData: gridData);
-            var suffix = view.GetIndexSuffix();
             return hb.ViewModeTemplate(
                 context: context,
                 ss: ss,
@@ -255,7 +254,7 @@ namespace Implem.Pleasanter.Models
                     columns: columns,
                     suffix: suffix)
                 .Hidden(
-                    controlId: "GridOffset",
+                    controlId: $"GridOffset{suffix}",
                     value: ss.GridNextOffset(
                         0,
                         gridData.DataRows.Count(),
@@ -284,7 +283,9 @@ namespace Implem.Pleasanter.Models
             Message message = null,
             string suffix = "")
         {
-            var view = Views.GetBySession(context: context, ss: ss);
+            var view = Views.GetBySession(
+                context: context,
+                ss: ss);
             var gridData = GetGridData(
                 context: context,
                 ss: ss,

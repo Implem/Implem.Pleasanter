@@ -57,7 +57,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     {
                         hb.Th(action: () => hb
                             .CheckBox(
-                                controlId: $"GridCheckAll{suffix}",
+                                controlId: "GridCheckAll",
                                 _checked: checkAll));
                     }
                     columns.ForEach(column =>
@@ -77,15 +77,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             hb.Th(
                                 css: column.CellCss(css: "sortable"),
                                 attributes: new HtmlAttributes()
-                                    .DataName(column.ColumnName + suffix),
+                                    .DataName(column.ColumnName),
                                 action: () => hb
                                     .Div(
-                                        id: "ViewSorters__" + column.ColumnName + suffix,
+                                        id: "ViewSorters__" + column.ColumnName,
                                         attributes: new HtmlAttributes()
                                             .DataId("ViewSorters__" + column.ColumnName)
                                             .Add("data-order-type", OrderBy(
                                                 view, column.ColumnName))
-                                            .Add("data-suffix", suffix)
                                             .DataAction(action)
                                             .DataMethod("post"),
                                         action: () => hb
@@ -112,15 +111,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
            SiteSettings ss,
            View view,
            IEnumerable<Column> columns,
-           string suffix = "")
+           string suffix)
         {
             return hb.Div(id: "GridHeaderMenus", action: () =>
                 columns.ForEach(column => hb
                     .Ul(
-                        id: "GridHeaderMenu__" + column.ColumnName + suffix,
+                        id: "GridHeaderMenu__" + column.ColumnName,
                         attributes: new HtmlAttributes()
                             .Class("menu menu-sort")
-                            .Add("data-target", $"[id='ViewSorters__{column.ColumnName}{suffix}']")
+                            .Add("data-target", $"[data-id='ViewSorters__{column.ColumnName}']")
                             .Add("style", "display: none; position: absolute;"),
                         action: () => hb
                             .Li(
@@ -135,8 +134,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .Li(
                                 attributes: new HtmlAttributes()
                                     .Class("sort")
-                                    .Add("data-order-type", "asc")
-                                    .Add("data-suffix", suffix),
+                                    .Add("data-order-type", "asc"),
                                 action: () => hb
                                     .Div(action: () => hb
                                         .Span(attributes: new HtmlAttributes().Class("ui-icon ui-icon-triangle-1-n"))
@@ -145,8 +143,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .Li(
                                 attributes: new HtmlAttributes()
                                     .Class("sort")
-                                    .Add("data-order-type", "desc")
-                                    .Add("data-suffix", suffix),
+                                    .Add("data-order-type", "desc"),
                                 action: () => hb
                                     .Div(action: () => hb
                                         .Span(attributes: new HtmlAttributes().Class("ui-icon ui-icon-triangle-1-s"))
@@ -155,8 +152,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .Li(
                                 attributes: new HtmlAttributes()
                                     .Class("sort")
-                                    .Add("data-order-type", "release")
-                                    .Add("data-suffix", suffix),
+                                    .Add("data-order-type", "release"),
                                 action: () => hb
                                     .Div(action: () => hb
                                         .Span(attributes: new HtmlAttributes().Class("ui-icon ui-icon-close"))
@@ -164,12 +160,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 )
                             .Li(
                                 attributes: new HtmlAttributes()
-                                    .Class("reset")
-                                    .Add("data-suffix", suffix),
+                                    .Class("reset"),
                                 action: () => hb
                                     .Div(action: () => hb
                                         .Span(attributes: new HtmlAttributes().Class("ui-icon ui-icon-power"))
-                                        .Text(text: Displays.ResetOrder(context)))))));
+                                        .Text(text: Displays.ResetOrder(context))))))
+                ,_using: suffix.IsNullOrEmpty());
         }
 
         public static HtmlBuilder ViewFiltersLabelMenus(
