@@ -1055,6 +1055,7 @@ namespace Implem.DefinitionAccessor
                     case "SiteSettings_GetModels_Items": Code.SiteSettings_GetModels_Items = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.SiteSettings_GetModels_Items, definitionRow, CodeXls); break;
                     case "SiteSettings_GetModels_Items_Choices": Code.SiteSettings_GetModels_Items_Choices = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.SiteSettings_GetModels_Items_Choices, definitionRow, CodeXls); break;
                     case "SiteSettings_GetModels_Items_SiteIntegration": Code.SiteSettings_GetModels_Items_SiteIntegration = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.SiteSettings_GetModels_Items_SiteIntegration, definitionRow, CodeXls); break;
+                    case "SiteSettings_GetModels_SysLogs_UseFilterButton": Code.SiteSettings_GetModels_SysLogs_UseFilterButton = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.SiteSettings_GetModels_SysLogs_UseFilterButton, definitionRow, CodeXls); break;
                     case "SiteSettings_GetModels_Users": Code.SiteSettings_GetModels_Users = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.SiteSettings_GetModels_Users, definitionRow, CodeXls); break;
                     case "Summaries": Code.Summaries = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Summaries, definitionRow, CodeXls); break;
                     case "Summaries_DataTablesCases": Code.Summaries_DataTablesCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Summaries_DataTablesCases, definitionRow, CodeXls); break;
@@ -7521,6 +7522,7 @@ namespace Implem.DefinitionAccessor
         public string SiteSettings_GetModels_Items;
         public string SiteSettings_GetModels_Items_Choices;
         public string SiteSettings_GetModels_Items_SiteIntegration;
+        public string SiteSettings_GetModels_SysLogs_UseFilterButton;
         public string SiteSettings_GetModels_Users;
         public string Summaries;
         public string Summaries_DataTablesCases;
@@ -8337,6 +8339,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition SiteSettings_GetModels_Items = new CodeDefinition();
         public CodeDefinition SiteSettings_GetModels_Items_Choices = new CodeDefinition();
         public CodeDefinition SiteSettings_GetModels_Items_SiteIntegration = new CodeDefinition();
+        public CodeDefinition SiteSettings_GetModels_SysLogs_UseFilterButton = new CodeDefinition();
         public CodeDefinition SiteSettings_GetModels_Users = new CodeDefinition();
         public CodeDefinition Summaries = new CodeDefinition();
         public CodeDefinition Summaries_DataTablesCases = new CodeDefinition();

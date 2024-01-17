@@ -44,6 +44,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? Disabled;
         [NonSerialized]
         public int Index;
+        public int? Delete;
 
         public enum Types : int
         {

@@ -7,6 +7,7 @@
         Custom = 2,
         CustomHtml = 3,
         Calendar = 4,
+        Kamban = 5,
         Index = 6
     }
 }

@@ -8,12 +8,6 @@ on:
       - synchronize
       - reopened
   workflow_dispatch:
-env:
-  AZURE_WEBAPP_NAME: pleasanter
-  AZURE_WEBAPP_PACKAGE_PATH: Implem.Pleasanter/publish
-  CONFIGURATION: Release
-  DOTNET_CORE_VERSION: 6.0.x
-  DOTNET_CORE_DIR: net6.0
 jobs:
     run_xunit_test:
         name: Run xUnit test

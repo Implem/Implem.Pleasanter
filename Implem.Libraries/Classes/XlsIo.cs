@@ -1,5 +1,4 @@
-﻿using DocumentFormat.OpenXml.Wordprocessing;
-using Implem.Libraries.Utilities;
+﻿using Implem.Libraries.Utilities;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -123,20 +122,6 @@ namespace Implem.Libraries.Classes
         public XlsRow(Dictionary<string, string> data)
         {
             data.ForEach(o => Add(o.Key, o.Value));
-        }
-
-        protected XlsRow(
-            SerializationInfo serializationInfo,
-            StreamingContext streamingContext)
-            : base(serializationInfo, streamingContext)
-        {
-        }
-
-        public override void GetObjectData(
-            SerializationInfo serializationInfo,
-            StreamingContext streamingContext)
-        {
-            base.GetObjectData(serializationInfo, streamingContext);
         }
 
         public string this[int index]

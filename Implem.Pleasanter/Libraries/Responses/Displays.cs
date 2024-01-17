@@ -1609,6 +1609,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string CannotMoveMultipleSitesData(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "CannotMoveMultipleSitesData",
+                data: data);
+        }
+
         public static string CanNotPerformed(
             Context context,
             params string[] data)
@@ -8116,6 +8126,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "ResetCalendarView",
+                data: data);
+        }
+
+        public static string ResetKambanView(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ResetKambanView",
                 data: data);
         }
 

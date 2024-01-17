@@ -229,12 +229,22 @@
         $('#DashboardPartCalendarTimePeriodField').toggle($("#DashboardPartCalendarType").val() === '1');
         $('#DashboardPartCalendarFromToField').toggle(selected === '4');
         $('#DashboardPartCalendarShowStatusField').toggle(selected === '4');
+        //selected==5: Kambanのみ表示 
+        $('#DashboardPartKambanSitesField').toggle(selected === '5');
+        $('#DashboardPartKambanGroupByXField').toggle(selected === '5');
+        $('#DashboardPartKambanGroupByYField').toggle(selected === '5');
+        $('#DashboardPartKambanAggregateTypeField').toggle(selected === '5');
+        $('#DashboardPartKambanValueField').toggle(selected === '5');
+        $('#DashboardPartKambanColumnsField').toggle(selected === '5');
+        $('#DashboardPartKambanAggregationViewField').toggle(selected === '5');
+        $('#DashboardPartKambanShowStatusField').toggle(selected === '5');
         //selected==6: Indexのみ表示
         $('#DashboardPartIndexSitesField').toggle(selected === '6');
         $('#DashboardPartViewIndexTabControl').toggle(selected === '6');
-        //selected==1||selected==4||selected==6: TimeLineとCalendarとIndexのみ表示
+        //selected==1||selected==4|| select==5 ||selected==6: TimeLineとCalendarとKambanとIndexのみ表示
         $('#DashboardPartViewFiltersTabControl').toggle(selected === '1'
             || selected === '4'
+            || selected === '5'
             || selected === '6');
         //selected==1||selected==6: TimeLineとIndexのみ表示
         $('#DashboardPartViewSortersTabControl').toggle(selected === '1' || selected === '6');
@@ -244,6 +254,11 @@
         
         $('#DashboardPartCalendarGroupByField').toggle($("#DashboardPartCalendarType").val() === '1');
         $('#DashboardPartCalendarTimePeriodField').toggle($("#DashboardPartCalendarType").val() === '1');
+
+    });
+    $(document).on('change', '#DashboardPartKambanAggregateType', function () {
+
+        $('#DashboardPartKambanValueField').toggle($('#DashboardPartKambanAggregateType').val() !== 'Count');
 
     });
 });
