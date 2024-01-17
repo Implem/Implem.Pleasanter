@@ -2896,21 +2896,47 @@ namespace Implem.Pleasanter.Libraries.Settings
                 = new Dictionary<string, ControlData>();
             Dictionary<string, ControlData> resultByLabelText
                 = new Dictionary<string, ControlData>();
-            Dictionary<string, ControlData> ByLabelTextDefault
+            Dictionary<string, ControlData> resultByLabelTextDefault
                 = new Dictionary<string, ControlData>();
             foreach(string k in array)
             {
-                resultByColumnName.AddRange(
-                    SearchEditorSelectableOptionsByColumnName(
+                Dictionary<string, ControlData> tmp1
+                    = SearchEditorSelectableOptionsByColumnName(
                         context: context,
-                        columnName: k)
-                    .ToDictionary());
+                        columnName: k);
+                if (resultByColumnName.Count == 0)
+                {
+                    resultByColumnName = tmp1;
+
+                }
+                else
+                {
+                    resultByColumnName = tmp1.Intersect(resultByColumnName)
+                        .ToDictionary();
+                }
+                Dictionary<string, ControlData> tmp2
+                    = SearchEditorSelectableOptionsByLabelText(
+                        context: context,
+                        labelText: k);
+                if (resultByLabelText.Count == 0)
+                {
+                    resultByLabelText = tmp2;
+
+                }
+                else
+                {
+                    resultByLabelText = tmp2.Intersect(resultByLabelText)
+                        .ToDictionary();
+                }
             }
-            return resultByColumnName
+            Dictionary<string, ControlData> result = resultByColumnName
                 .Concat(resultByLabelText)
-                .Concat(ByLabelTextDefault)
+                .Concat(resultByLabelTextDefault)
+                .GroupBy(o => o.Key)
                 .OrderBy(o => o.Key)
-                .ToDictionary();
+                .ToDictionary(o => o.Key, o => o.FirstOrDefault().Value);
+            // 順序を維持できない→あとで考える。
+            return result;
         }
 
         public Dictionary<string, ControlData> SearchEditorSelectableOptionsByColumnName(
@@ -2927,25 +2953,21 @@ namespace Implem.Pleasanter.Libraries.Settings
                     .Select(o => o.ColumnName));
         }
 
-        /**
-        public Dictionary<string, ControlData> EditorSelectableOptionsByLabelText(
+        public Dictionary<string, ControlData> SearchEditorSelectableOptionsByLabelText(
             Context context, string labelText)
         {
-            // (2024/1/16実装途中メモ)
-            // 正規表現文字列を追加。（大文字・小文字のあいまい検索、複数キーワードによるAND検索）
             return ColumnUtilities.SelectableOptions(
                 context: context,
                 ss: this,
                 columns: ColumnDefinitionHash.EditorDefinitions(context: context)
                     .Where(o => !GetEditorColumnNames().Contains(o.ColumnName))
-                    .Where(o => o.LabelText.StartsWith(labelText)) // 正規表現による検索に対応させる
-                    .OrderBy(o => o.EditorColumn)
-                    .Select(o => o.ColumnName),
-                order: ColumnDefinitionHash?.EditorDefinitions(context: context)?
-                    .OrderBy(o => o.EditorColumn)
-                    .Select(o => o.ColumnName).ToList());
+                    .Where(o => o.LabelText.Contains(
+                        value: labelText.Trim(),
+                        comparisonType: StringComparison.OrdinalIgnoreCase))
+                    .Select(o => o.ColumnName));
         }
 
+        /**
         public Dictionary<string, ControlData> EditorSelectableOptionsByLabelTextDefault(
             Context context, string labelTextDefault)
         {
