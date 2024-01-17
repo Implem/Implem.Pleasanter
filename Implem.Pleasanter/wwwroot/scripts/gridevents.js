@@ -161,7 +161,6 @@ $(function () {
         data.Direction = $grid.attr('data-name');
         data.TableId = $grid.attr('id');
         data.TableSiteId = $grid.attr('data-id');
-        data.IndexSuffix = $control.attr('data-suffix');
         $('[data-id^="ViewSorters_"]').each(function () {
             delete data[$(this).attr('data-id')];
         });

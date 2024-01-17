@@ -80,7 +80,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     .DataName(column.ColumnName),
                                 action: () => hb
                                     .Div(
-                                        id: "ViewSorters__" + column.ColumnName,
                                         attributes: new HtmlAttributes()
                                             .DataId("ViewSorters__" + column.ColumnName)
                                             .Add("data-order-type", OrderBy(
