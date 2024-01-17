@@ -3618,6 +3618,7 @@ namespace Implem.Pleasanter.Models
                         res: res);
                     break;
                 case "ShowTargetColumnKeyWord":
+                    var txt = context.Forms.Data("TargetColumnKeyWord");    // キーボード入力をしなかった場合に文字列を読み取っていない。
                     ShowTargetColumnKeyWord(
                         context: context,
                         res: res,
@@ -4221,23 +4222,23 @@ namespace Implem.Pleasanter.Models
                 .Except(SiteSettings
                     .EditorSelectableOptionsByTypeString(
                         context: context, typeString: "Class")
-                    .Concat(
+                    .Union(
                         SiteSettings
                                 .EditorSelectableOptionsByTypeString(
                                     context: context, typeString: "Num"))
-                    .Concat(
+                    .Union(
                         SiteSettings
                             .EditorSelectableOptionsByTypeString(
                                 context: context, typeString: "Date"))
-                    .Concat(
+                    .Union(
                         SiteSettings
                             .EditorSelectableOptionsByTypeString(
                                 context: context, typeString: "Description"))
-                    .Concat(
+                    .Union(
                         SiteSettings
                             .EditorSelectableOptionsByTypeString(
                                     context: context, typeString: "Check"))
-                    .Concat(
+                    .Union(
                         SiteSettings
                             .EditorSelectableOptionsByTypeString(
                                 context: context, typeString: "Attachments"))

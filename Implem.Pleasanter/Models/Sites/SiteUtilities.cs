@@ -7274,23 +7274,23 @@ namespace Implem.Pleasanter.Models
                                 .Except(ss
                                     .EditorSelectableOptionsByTypeString(
                                         context: context, typeString: "Class")
-                                    .Concat(
+                                    .Union(
                                         ss
                                             .EditorSelectableOptionsByTypeString(
                                                 context: context, typeString: "Num"))
-                                    .Concat(
+                                    .Union(
                                         ss
                                             .EditorSelectableOptionsByTypeString(
                                                 context: context, typeString: "Date"))
-                                    .Concat(
+                                    .Union(
                                         ss
                                             .EditorSelectableOptionsByTypeString(
                                                 context: context, typeString: "Description"))
-                                    .Concat(
+                                    .Union(
                                         ss
                                             .EditorSelectableOptionsByTypeString(
                                                     context: context, typeString: "Check"))
-                                    .Concat(
+                                    .Union(
                                         ss
                                             .EditorSelectableOptionsByTypeString(
                                                 context: context, typeString: "Attachments"))

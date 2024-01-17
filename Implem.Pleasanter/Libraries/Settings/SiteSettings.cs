@@ -2892,18 +2892,18 @@ namespace Implem.Pleasanter.Libraries.Settings
             Context context, string keyWord)
         {
             var array = keyWord.Replace("　", " ").Split(" ");
-            Dictionary<string, ControlData> resultByColumnName
-                = new Dictionary<string, ControlData>();
-            Dictionary<string, ControlData> resultByLabelText
-                = new Dictionary<string, ControlData>();
-            Dictionary<string, ControlData> resultByLabelTextDefault
-                = new Dictionary<string, ControlData>();
-            foreach(string k in array)
+            List<string> resultByColumnName
+                = new List<string>();
+            List<string> resultByLabelText
+                = new List<string>();
+            List<string> resultByLabelTextDefault
+                = new List<string>();
+            foreach (string k in array)
             {
-                Dictionary<string, ControlData> tmp1
+                List<string> tmp1
                     = SearchEditorSelectableOptionsByColumnName(
                         context: context,
-                        columnName: k);
+                        columnName: k.Trim()).Keys.ToList();
                 if (resultByColumnName.Count == 0)
                 {
                     resultByColumnName = tmp1;
@@ -2912,12 +2912,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                 else
                 {
                     resultByColumnName = tmp1.Intersect(resultByColumnName)
-                        .ToDictionary();
+                        .ToList();
                 }
-                Dictionary<string, ControlData> tmp2
+                List<string> tmp2
                     = SearchEditorSelectableOptionsByLabelText(
                         context: context,
-                        labelText: k);
+                        labelText: k.Trim()).Keys.ToList();
                 if (resultByLabelText.Count == 0)
                 {
                     resultByLabelText = tmp2;
@@ -2926,16 +2926,24 @@ namespace Implem.Pleasanter.Libraries.Settings
                 else
                 {
                     resultByLabelText = tmp2.Intersect(resultByLabelText)
-                        .ToDictionary();
+                        .ToList();
                 }
             }
-            Dictionary<string, ControlData> result = resultByColumnName
-                .Concat(resultByLabelText)
-                .Concat(resultByLabelTextDefault)
-                .GroupBy(o => o.Key)
-                .OrderBy(o => o.Key)
-                .ToDictionary(o => o.Key, o => o.FirstOrDefault().Value);
-            // 順序を維持できない→あとで考える。
+            List<string> resultKeys = resultByColumnName
+                .Union(resultByLabelText)
+                .Union(resultByLabelTextDefault)
+                .ToList();
+            Dictionary<string, ControlData> all
+                = this.EditorSelectableOptions(context: context, enabled: false);
+            Dictionary<string, ControlData> result
+                = new Dictionary<string, ControlData>();
+            foreach (KeyValuePair<string, ControlData> data in all)
+            {
+                if (resultKeys.Contains(data.Key))
+                {
+                    result.Add(data.Key, data.Value);
+                }
+            }
             return result;
         }
 
