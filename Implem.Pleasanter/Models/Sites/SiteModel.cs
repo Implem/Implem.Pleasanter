@@ -3620,7 +3620,8 @@ namespace Implem.Pleasanter.Models
                 case "ShowTargetColumnKeyWord":
                     ShowTargetColumnKeyWord(
                         context: context,
-                        res: res);
+                        res: res,
+                        keyWord: context.Forms.Data("TargetColumnKeyWord"));
                     break;
                 case "ShowTargetColumnBasic":
                     ShowTargetColumnBasic(
@@ -4194,10 +4195,18 @@ namespace Implem.Pleasanter.Models
 
         private void ShowTargetColumnKeyWord(
             Context context,
-            ResponseCollection res)
+            ResponseCollection res,
+            string keyWord)
         {
-            var keyWord = context.Forms.Data("TargetColumnKeyWord");
-            res.CloseDialog();
+            res.Html(
+                "#EditorSourceColumns",
+                new HtmlBuilder().SelectableItems(
+                    listItemCollection: SiteSettings
+                        .EditorSelectableOptionsByKeyWord(
+                            context: context,
+                            keyWord: keyWord)))
+            .SetData("#EditorSourceColumns")
+            .CloseDialog();
         }
 
         private void ShowTargetColumnBasic(

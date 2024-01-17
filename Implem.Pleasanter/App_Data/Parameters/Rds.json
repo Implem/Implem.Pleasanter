@@ -1,9 +1,9 @@
 ﻿{
     "Dbms": "SQLServer",
     "Provider": "Local",
-    "SaConnectionString": null,
-    "OwnerConnectionString": null,
-    "UserConnectionString": null,
+    "SaConnectionString": "Server=(local);Database=master;UID=sa;PWD=pleasanter;Connection Timeout=30;",
+    "OwnerConnectionString": "Server=(local);Database=#ServiceName#;UID=#ServiceName#_Owner;PWD=pleasanter1;Connection Timeout=30;",
+    "UserConnectionString": "Server=(local);Database=#ServiceName#;UID=#ServiceName#_User;PWD=pleasanter2;Connection Timeout=30;",
     "SqlCommandTimeOut": 0,
     "MinimumTime": 3,
     "DeadlockRetryCount": 4,
