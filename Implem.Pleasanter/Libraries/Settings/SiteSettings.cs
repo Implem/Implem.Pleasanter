@@ -2897,8 +2897,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             List<string> resultByLabelTextDefault = new List<string>();
             foreach (string k in array)
             {
-                // ColumnNameと、デフォルトカラム名（分類A等）検索処理OK。
-                // 変更後カラム名は現状、ColumnDefinitionHashに設定されていないため取得不可→対策する。
                 List<string> tmp1
                     = SearchEditorSelectableOptionsByColumnName(
                         context: context,
@@ -2913,27 +2911,43 @@ namespace Implem.Pleasanter.Libraries.Settings
                     resultByColumnName = tmp1.Intersect(resultByColumnName)
                         .ToList();
                 }
+
                 List<string> tmp2
+                    = SearchEditorSelectableOptionsByLabelTextDefault(
+                        context: context,
+                        labelTextDefault: k.Trim()).Keys.ToList();
+                if (resultByLabelTextDefault.Count == 0)
+                {
+                    resultByLabelTextDefault = tmp2;
+
+                }
+                else
+                {
+                    resultByLabelTextDefault = tmp2.Intersect(resultByLabelTextDefault)
+                        .ToList();
+                }
+
+                List<string> tmp3
                     = SearchEditorSelectableOptionsByLabelText(
                         context: context,
                         labelText: k.Trim()).Keys.ToList();
                 if (resultByLabelText.Count == 0)
                 {
-                    resultByLabelText = tmp2;
+                    resultByLabelText = tmp3;
 
                 }
                 else
                 {
-                    resultByLabelText = tmp2.Intersect(resultByLabelText)
+                    resultByLabelText = tmp3.Intersect(resultByLabelText)
                         .ToList();
                 }
             }
             List<string> resultKeys = resultByColumnName
-                .Union(resultByLabelText)
                 .Union(resultByLabelTextDefault)
+                .Union(resultByLabelText)
                 .ToList();
             Dictionary<string, ControlData> all
-                = this.EditorSelectableOptions(context: context, enabled: false);
+                = EditorSelectableOptions(context: context, enabled: false);
             Dictionary<string, ControlData> result
                 = new Dictionary<string, ControlData>();
             foreach (KeyValuePair<string, ControlData> data in all)
@@ -2946,7 +2960,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             return result;
         }
 
-        public Dictionary<string, ControlData> SearchEditorSelectableOptionsByColumnName(
+        private Dictionary<string, ControlData> SearchEditorSelectableOptionsByColumnName(
             Context context, string columnName)
         {
             return ColumnUtilities.SelectableOptions(
@@ -2960,8 +2974,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                     .Select(o => o.ColumnName));
         }
 
-        public Dictionary<string, ControlData> SearchEditorSelectableOptionsByLabelText(
-            Context context, string labelText)
+        private Dictionary<string, ControlData> SearchEditorSelectableOptionsByLabelTextDefault(
+            Context context, string labelTextDefault)
         {
             return ColumnUtilities.SelectableOptions(
                 context: context,
@@ -2969,9 +2983,19 @@ namespace Implem.Pleasanter.Libraries.Settings
                 columns: ColumnDefinitionHash.EditorDefinitions(context: context)
                     .Where(o => !GetEditorColumnNames().Contains(o.ColumnName))
                     .Where(o => o.LabelText.Contains(
-                        value: labelText.Trim(),
+                        value: labelTextDefault.Trim(),
                         comparisonType: StringComparison.OrdinalIgnoreCase))
                     .Select(o => o.ColumnName));
+        }
+
+        private Dictionary<string, ControlData> SearchEditorSelectableOptionsByLabelText(
+            Context context, string labelText)
+        {
+            return EditorSelectableOptions(context: context, enabled: false)
+                .Where(o => o.Value.Text.Contains(
+                    value: labelText.Trim(),
+                    comparisonType: StringComparison.OrdinalIgnoreCase))
+                .ToDictionary();
         }
 
         public Dictionary<string, ControlData> EditorSelectableOptions(
