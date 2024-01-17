@@ -2892,14 +2892,13 @@ namespace Implem.Pleasanter.Libraries.Settings
             Context context, string keyWord)
         {
             var array = keyWord.Replace("　", " ").Split(" ");
-            List<string> resultByColumnName
-                = new List<string>();
-            List<string> resultByLabelText
-                = new List<string>();
-            List<string> resultByLabelTextDefault
-                = new List<string>();
+            List<string> resultByColumnName = new List<string>();
+            List<string> resultByLabelText = new List<string>();
+            List<string> resultByLabelTextDefault = new List<string>();
             foreach (string k in array)
             {
+                // ColumnNameと、デフォルトカラム名（分類A等）検索処理OK。
+                // 変更後カラム名は現状、ColumnDefinitionHashに設定されていないため取得不可→対策する。
                 List<string> tmp1
                     = SearchEditorSelectableOptionsByColumnName(
                         context: context,
@@ -2974,26 +2973,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                         comparisonType: StringComparison.OrdinalIgnoreCase))
                     .Select(o => o.ColumnName));
         }
-
-        /**
-        public Dictionary<string, ControlData> EditorSelectableOptionsByLabelTextDefault(
-            Context context, string labelTextDefault)
-        {
-            // (2024/1/16実装途中メモ)
-            // 正規表現文字列を追加。（大文字・小文字のあいまい検索、複数キーワードによるAND検索）
-            return ColumnUtilities.SelectableOptions(
-                context: context,
-                ss: this,
-                columns: ColumnDefinitionHash.EditorDefinitions(context: context)
-                    .Where(o => !GetEditorColumnNames().Contains(o.ColumnName))
-                    .Where(o => o.LabelTextDefault.StartsWith(labelTextDefault)) // 正規表現による検索に対応させる
-                    .OrderBy(o => o.EditorColumn)
-                    .Select(o => o.ColumnName),
-                order: ColumnDefinitionHash?.EditorDefinitions(context: context)?
-                    .OrderBy(o => o.EditorColumn)
-                    .Select(o => o.ColumnName).ToList());
-        }
-        **/
 
         public Dictionary<string, ControlData> EditorSelectableOptions(
             Context context,

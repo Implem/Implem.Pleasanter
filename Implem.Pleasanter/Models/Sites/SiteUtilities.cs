@@ -7256,14 +7256,13 @@ namespace Implem.Pleasanter.Models
                     switch (context.Forms.Data("SearchEditorColumnDialogSelection"))
                     {
                         case "KeyWord":
-                            // あとでキーワードの処理を入れる
                             res.Html(
                                 "#EditorSourceColumns",
                                 new HtmlBuilder().SelectableItems(
                                     listItemCollection: ss
-                                        .EditorSelectableOptions(
+                                        .EditorSelectableOptionsByKeyWord(
                                             context: context,
-                                            enabled: false)));
+                                            keyWord: context.Forms.Data("SearchEditorColumnDialogKeyWord"))));
                             break;
                         case "Basic":
                             Dictionary<string, ControlData> all = ss
@@ -16761,7 +16760,7 @@ namespace Implem.Pleasanter.Models
                         action: () => hb
                             .FieldTextBox(
                                 controlId: "TargetColumnKeyWord",
-                                text: context.Forms.Data("SearchEditorColumnDialogKeyWord"))
+                                text: context.Forms.Data("SearchEditorColumnDialogKeyWord"))    // デフォルト設定している
                             .Button(
                                 controlId: "ShowTargetColumnKeyWord",
                                 text: Displays.Search(context: context),

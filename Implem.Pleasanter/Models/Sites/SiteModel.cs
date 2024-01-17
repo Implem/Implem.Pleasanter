@@ -3618,7 +3618,7 @@ namespace Implem.Pleasanter.Models
                         res: res);
                     break;
                 case "ShowTargetColumnKeyWord":
-                    var txt = context.Forms.Data("TargetColumnKeyWord");    // キーボード入力をしなかった場合に文字列を読み取っていない。
+                    var txt = context.Forms.Data("TargetColumnKeyWord");    // デフォルト設定しているが、キーボード入力をしなかった場合に文字列を読み取っていない。
                     ShowTargetColumnKeyWord(
                         context: context,
                         res: res,
@@ -9289,8 +9289,8 @@ namespace Implem.Pleasanter.Models
             {
                 case "Links":
                 case "Others":
-                    res.Message(Messages.CanNotPerformed(context: context))
-                        .Html("#SearchEditorColumnDialog", new HtmlBuilder());
+                    res.Html("#SearchEditorColumnDialog", new HtmlBuilder())
+                        .Message(Messages.CanNotPerformed(context: context));
                     break;
                 case "Columns":
                     AddOrUpdateEditorColumnHash(context: context);
