@@ -4258,7 +4258,7 @@ namespace Implem.Pleasanter.Models
                                                 context: context,
                                                 id: "LoginGuideBottom"))))
                                 .Div(id: "SecondaryAuthentications")
-                                .Div(id: "GoogleAuthenticatorRegister")))
+                                .Div(id: "TotpRegister")))
                     .Form(
                         attributes: new HtmlAttributes()
                             .Id("DemoForm")

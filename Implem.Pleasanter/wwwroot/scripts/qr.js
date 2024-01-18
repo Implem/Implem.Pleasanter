@@ -1,6 +1,6 @@
 ﻿$p.showQr = function () {
-    if ($('#GoogleAuthenticatorQRCode').length && !$('#qrCode').children().length) {
-        var uri = $('#GoogleAuthenticatorQRCode').data('url');
+    if ($('#TotpQRCode').length && !$('#qrCode').children().length) {
+        var uri = $('#TotpQRCode').data('url');
         new QRCode($('#qrCode').get(0) ,
             {
                 text: uri,

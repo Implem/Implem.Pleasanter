@@ -8,14 +8,14 @@
             DefaultEnable,
             DefaultDisable
         }
-        public enum SecondaryAuthenticationModeNotificationType
+        public enum SecondaryAuthenticationModeNotificationTypes
         {
             Mail,
-            GoogleAuthenticator
+            Totp
         }
 
         public SecondaryAuthenticationMode Mode;
-        public SecondaryAuthenticationModeNotificationType NotificationType;
+        public SecondaryAuthenticationModeNotificationTypes NotificationType;
         public double? CountTolerances;
         public bool NotificationMailBcc;
         public string AuthenticationCodeCharacterType;

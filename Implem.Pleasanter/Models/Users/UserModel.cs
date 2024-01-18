@@ -3929,11 +3929,11 @@ namespace Implem.Pleasanter.Models
                         .Data("SecondaryAuthenticationCode");
                     return string.IsNullOrEmpty(secondaryAuthenticationCode)
                         ? !EnableSecretKey
-                            ? OpenGoogleAuthenticatorRegisterCode(context: context)
+                            ? OpenTotpRegisterCode(context: context)
                             : OpenSecondaryAuthentication(
-                                    context: context,
-                                    returnUrl: returnUrl,
-                                    isAuthenticationByMail: isAuthenticationByMail)
+                                context: context,
+                                returnUrl: returnUrl,
+                                isAuthenticationByMail: isAuthenticationByMail)
                         : !SecondaryAuthentication(
                                 context: context,
                                 secondaryAuthenticationCode: secondaryAuthenticationCode,
@@ -4423,7 +4423,7 @@ namespace Implem.Pleasanter.Models
                 : Language;
             switch (Parameters.Security?.SecondaryAuthentication?.NotificationType)
             {
-                case ParameterAccessor.Parts.SecondaryAuthentication.SecondaryAuthenticationModeNotificationType.Mail:
+                case ParameterAccessor.Parts.SecondaryAuthentication.SecondaryAuthenticationModeNotificationTypes.Mail:
                     Repository.ExecuteTable(
                         context: context,
                         statements: Rds.SelectMailAddresses(
@@ -4462,7 +4462,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private string OpenSecondaryAuthentication(Context context, string returnUrl, bool isAuthenticationByMail)
         {
-            if (Parameters.Security?.SecondaryAuthentication?.NotificationType == ParameterAccessor.Parts.SecondaryAuthentication.SecondaryAuthenticationModeNotificationType.Mail)
+            if (Parameters.Security?.SecondaryAuthentication?.NotificationType == ParameterAccessor.Parts.SecondaryAuthentication.SecondaryAuthenticationModeNotificationTypes.Mail)
             {
                 isAuthenticationByMail = true;
             }
@@ -4536,15 +4536,15 @@ namespace Implem.Pleasanter.Models
                     target: "#BackUrl",
                     value: context.UrlReferrer,
                     _using: !context.UrlReferrer.IsNullOrEmpty());
-            return isAuthenticationByMail ?
-                rc.Focus("#SecondaryAuthenticationCode").ToJson() :
-                rc.Focus("#FirstTotpAuthenticationCode").ToJson();
+            return isAuthenticationByMail
+                ? rc.Focus("#SecondaryAuthenticationCode").ToJson()
+                : rc.Focus("#FirstTotpAuthenticationCode").ToJson();
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        private string OpenGoogleAuthenticatorRegisterCode(Context context)
+        private string OpenTotpRegisterCode(Context context)
         {
             UpdateSecretKey(context);
             var hb = new HtmlBuilder();
@@ -4554,20 +4554,20 @@ namespace Implem.Pleasanter.Models
                     name: "display",
                     value: "none")
                 .Html(
-                    target: "#GoogleAuthenticatorRegister",
+                    target: "#TotpRegister",
                     value: hb
                         .Div(
-                            id: "GoogleAuthenticatorRegisterGuideTop",
+                            id: "TotpRegisterGuideTop",
                             action: () => hb.Raw(HtmlHtmls.ExtendedHtmls(
                                 context: context,
-                                id: "GoogleAuthenticatorRegisterGuideTop")))
+                                id: "TotpRegisterGuideTop")))
                         .Div(
-                            id: "GoogleAuthenticatorQRCode",
+                            id: "TotpQRCode",
                             attributes: new HtmlAttributes().Add("data-url", "otpauth://totp/" + LoginId + "?secret=" + SecretKey + "&issuer=implemPlesanter"),
                             action: () => hb.Span(
                                 id: "qrCode"))
                         .Div(
-                            id: "GoogleAuthenticatorQRCodeText",
+                            id: "TotpQRCodeText",
                             action: () => hb.Span(
                                 id: "qrCodeText",
                                 action: () => hb.Text(AddHyphenSecretKey())))
@@ -4598,10 +4598,10 @@ namespace Implem.Pleasanter.Models
                                                     onClick: "$p.back();",
                                                     icon: "ui-icon-cancel")))
                         .Div(
-                            id: "GoogleAuthenticatorRegisterBottom",
+                            id: "TotpRegisterBottom",
                             action: () => hb.Raw(HtmlHtmls.ExtendedHtmls(
                                 context: context,
-                                id: "GoogleAuthenticatorRegisterBottom"))))
+                                id: "TotpRegisterBottom"))))
                 .Val(
                     target: "#BackUrl",
                     value: context.UrlReferrer,
@@ -4930,13 +4930,13 @@ namespace Implem.Pleasanter.Models
                 ? SecondaryAuthenticationCode == secondaryAuthenticationCode
                     && SecondaryAuthenticationCodeExpirationTime.Value.InRange()
                     && SecondaryAuthenticationCodeExpirationTime.Value > DateTime.Now
-                : VerifyGoogleAuthentication(secondaryAuthenticationCode);
+                : VerifyTotp(secondaryAuthenticationCode);
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        private bool VerifyGoogleAuthentication(string secondaryAuthenticationCode, double countTolerances = 0)
+        private bool VerifyTotp(string secondaryAuthenticationCode, double countTolerances = 0)
         {
             OtpNet.Totp totp = new OtpNet.Totp(OtpNet.Base32Encoding.ToBytes(SecretKey), totpSize: 6);
             var beforeTime = countTolerances * -30;
@@ -4945,8 +4945,8 @@ namespace Implem.Pleasanter.Models
                 : totp.VerifyTotp(DateTime.UtcNow.AddSeconds((double)beforeTime),
                     secondaryAuthenticationCode, out _,
                     OtpNet.VerificationWindow.RfcSpecifiedNetworkDelay)
-                    ? true
-                    : VerifyGoogleAuthentication(secondaryAuthenticationCode, countTolerances + 1);
+                        ? true
+                        : VerifyTotp(secondaryAuthenticationCode, countTolerances + 1);
         }
 
         /// <summary>
