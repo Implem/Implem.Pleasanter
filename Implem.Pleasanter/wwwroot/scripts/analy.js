@@ -111,7 +111,7 @@
                     .text(
                         $p.display(pieChart.Setting.TimePeriodValue) +
                         '' +
-                        $p.display(pieChart.Setting.TimePeriod)
+                        $p.display(pieChart.Setting.TimePeriod + 'AgoNoArgs')
                     );
                 // 条件「集計対象」を画面に表示
                 g.append('text')
