@@ -22,7 +22,7 @@ namespace Implem.Pleasanter.Models
         public long? ReferenceId { get; set; }
         public string ReferenceType { get; set; }
         public long? Status { get; set; }
-        public string Description { get; set; }
+        public new string Description { get; set; }
         public string RequestData { get; set; }
         public string HttpMethod { get; set; }
         public int? RequestSize { get; set; }

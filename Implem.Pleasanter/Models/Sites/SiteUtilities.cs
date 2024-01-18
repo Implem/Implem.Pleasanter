@@ -2359,11 +2359,11 @@ namespace Implem.Pleasanter.Models
                   errorData: invalid);
             }
             var siteSettingsApiModel = context.RequestDataString.Deserialize<ApiSiteSettings.SiteSettingsApiModel>();
-            // Validate SiteSetting Request
             var apiSiteSettingValidator = ApiSiteSettingValidators.OnChageSiteSettingByApi(
                 referenceType: siteModel.ReferenceType,
                 ss: ss,
-                siteSettingsModel: siteSettingsApiModel);
+                siteSettingsModel: siteSettingsApiModel,
+                context: context);
             switch (apiSiteSettingValidator.Type)
             {
                 case Error.Types.None: break;
@@ -2372,7 +2372,6 @@ namespace Implem.Pleasanter.Models
                       context: context,
                       errorData: apiSiteSettingValidator);
             }
-            // Change ServerScripts setting
             if (ApiSiteSetting.ServerScriptRefTypes.Contains(siteModel.ReferenceType)
                 && siteSettingsApiModel.ServerScripts != null)
             {
@@ -2380,28 +2379,38 @@ namespace Implem.Pleasanter.Models
                     siteSetting: ss,
                     serverScriptsApiSiteSetting: siteSettingsApiModel.ServerScripts);
             }
-            // Change Scripts setting
             if (siteSettingsApiModel.Scripts != null)
             {
                 siteModel.UpsertScriptByApi(
                     siteSetting: ss,
                     scriptsApiSiteSetting: siteSettingsApiModel.Scripts);
             }
-            // Change Styles setting
             if (siteSettingsApiModel.Styles != null)
             {
                 siteModel.UpsertStyleByApi(
                     siteSetting: ss,
                     styleApiSiteSetting: siteSettingsApiModel.Styles);
             }
-            // Change Htmls setting
             if (siteSettingsApiModel.Htmls != null)
             {
                 siteModel.UpsertHtmlByApi(
                     siteSetting: ss,
                     htmlsApiSiteSetting: siteSettingsApiModel.Htmls);
             }
-            // Save all changes
+            if (siteSettingsApiModel.Processes != null)
+            {
+                siteModel.UpsertProcessByApi(
+                    siteSetting: ss,
+                    processesApiSiteSetting: siteSettingsApiModel.Processes,
+                    context: context);
+            }
+            if (siteSettingsApiModel.StatusControls != null)
+            {
+                siteModel.UpsertStatusControlByApi(
+                    siteSetting: ss,
+                    statusControlSettings: siteSettingsApiModel.StatusControls,
+                    context: context);
+            }
             var errorData = siteModel.Update(
                context: context,
                ss: ss);
@@ -4552,6 +4561,11 @@ namespace Implem.Pleasanter.Models
                 .Div(
                     attributes: new HtmlAttributes()
                         .Id("DashboardPartCalendarSitesDialog")
+                        .Class("dialog")
+                        .Title(Displays.SiteId(context: context)))
+                .Div(
+                    attributes: new HtmlAttributes()
+                        .Id("DashboardPartKambanSitesDialog")
                         .Class("dialog")
                         .Title(Displays.SiteId(context: context)))
                 .Div(
@@ -11217,7 +11231,16 @@ namespace Implem.Pleasanter.Models
                                 fieldCss: "field-auto-thin",
                                 labelText: Displays.Period(context: context),
                                 optionCollection: ss.CalendarTimePeriodOptions(context: context),
-                                selectedValue: view.GetCalendarTimePeriod(ss: ss))
+                                selectedValue: view.GetCalendarTimePeriod(ss: ss),
+                                _using: ss.CalendarType == SiteSettings.CalendarTypes.Standard)
+                            .FieldDropDown(
+                                context: context,
+                                controlId: "CalendarViewType",
+                                fieldCss: "field-auto-thin",
+                                labelText: Displays.Period(context: context),
+                                optionCollection: ss.CalendarViewTypeOptions(context: context),
+                                selectedValue: view.GetCalendarViewType(),
+                                _using: ss.CalendarType == SiteSettings.CalendarTypes.FullCalendar)
                             .FieldDropDown(
                                 context: context,
                                 controlId: "CalendarFromTo",
@@ -15441,6 +15464,56 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public static HtmlBuilder DashboardPartKambanSitesDialog(
+        Context context,
+        SiteSettings ss,
+        int dashboardPartId,
+        string dashboardKambanSites)
+        {
+            var hb = new HtmlBuilder();
+            return hb.Form(
+                attributes: new HtmlAttributes()
+                    .Id("DashboardPartKambanSitesEditForm")
+                    .Action(Locations.ItemAction(
+                        context: context,
+                        id: ss.SiteId)),
+                action: () => hb
+                    .FieldTextBox(
+                        controlId: "DashboardPartKambanSitesEdit",
+                        fieldCss: "field-wide",
+                        controlCss: " always-send",
+                        labelText: Displays.SiteId(context: context),
+                        text: dashboardKambanSites,
+                        validateRequired: true)
+                    .Hidden(
+                        controlId: "DashboardPartId",
+                        alwaysSend: true,
+                        value: dashboardPartId.ToString())
+                    .Hidden(
+                        controlId: "SavedDashboardPartKambanSites",
+                        alwaysSend: true,
+                        value: dashboardKambanSites)
+                    .Hidden(
+                        controlId: "ClearDashboardKambanView",
+                        action: "SetSiteSettings",
+                        method: "post")
+                    .P(
+                        id: "DashboardPartKambanSitesMessage",
+                        css: "message-dialog")
+                    .Div(css: "command-center", action: () => hb
+                        .Button(
+                            controlId: "UpdateDashboardPartKambanSites",
+                            text: Displays.OK(context: context),
+                            controlCss: "button-icon validate",
+                            icon: "ui-icon-pencil",
+                            onClick: "$p.send($(this));",
+                            action: "SetSiteSettings",
+                            method: "post")));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static HtmlBuilder DashboardPartDialog(
             Context context,
             SiteSettings ss,
@@ -15449,7 +15522,9 @@ namespace Implem.Pleasanter.Models
         {
             var filterVisible = false;
             var sorterVisible = false;
-            if((dashboardPart.Type == DashboardPartType.TimeLine) || (dashboardPart.Type == DashboardPartType.Calendar))
+            if((dashboardPart.Type == DashboardPartType.TimeLine)
+                || (dashboardPart.Type == DashboardPartType.Calendar)
+                || (dashboardPart.Type == DashboardPartType.Kamban))
             {
                 filterVisible = true;
             }
@@ -15596,6 +15671,10 @@ namespace Implem.Pleasanter.Models
                             {
                                 DashboardPartType.Calendar.ToInt().ToString(),
                                 Displays.Calendar(context: context)
+                            },
+                            {
+                                DashboardPartType.Kamban.ToInt().ToString(),
+                                Displays.Kamban(context: context)
                             }
                         },
                         selectedValue: dashboardPart.Type.ToInt().ToString(),
@@ -15837,6 +15916,114 @@ namespace Implem.Pleasanter.Models
                         fieldCss: hiddenCss(dashboardPart.Type != DashboardPartType.Calendar),
                         labelText: Displays.ShowStatus(context: context),
                         _checked: dashboardPart.CalendarShowStatus == true)
+                    .Div(
+                        id: "DashboardPartKambanSitesField",
+                        css: "both" + hiddenCss(dashboardPart.Type != DashboardPartType.Kamban),
+                        action: () =>
+                        {
+                            var kambanSites = dashboardPart.KambanSites;
+                            var baseSiteId = DashboardPart.GetBaseSiteSettings(
+                                context: context,
+                                sitesString: kambanSites)
+                                    ?.SiteId;
+                            hb
+                                .FieldText(
+                                    controlId: "DashboardPartKambanSitesValue",
+                                    labelText: Displays.SiteId(context: context),
+                                    text: kambanSites)
+                                .Hidden(
+                                    controlId: "DashboardPartKambanSites",
+                                    alwaysSend: true,
+                                    value: kambanSites)
+                                .Hidden(
+                                    controlId: "DashboardPartKambanBaseSiteId",
+                                    alwaysSend: true,
+                                    value: baseSiteId == null
+                                        ? null
+                                        : baseSiteId.ToString())
+                                .Button(
+                                        controlId: "EditKambanSites",
+                                        text: Displays.Edit(context: context),
+                                        controlCss: "button-icon",
+                                        onClick: "$p.openDashboardPartKambanSitesDialog($(this));",
+                                        icon: "ui-icon-pencil",
+                                        action: "SetSiteSettings",
+                                        method: "post");
+                        })
+                    .FieldDropDown(
+                        context: context,
+                        controlId: "DashboardPartKambanGroupByX",
+                        fieldId: "DashboardPartKambanGroupByXField",
+                        fieldCss: "both field-normal" + hiddenCss(dashboardPart.Type != DashboardPartType.Kamban),
+                        controlCss: " always-send",
+                        labelText: Displays.GroupByX(context: context),
+                        optionCollection: ss.KambanGroupByOptions(context: context),
+                        selectedValue: !dashboardPart.KambanGroupByX.IsNullOrEmpty()
+                            ? dashboardPart.KambanGroupByX
+                            : "Status")
+                    .FieldDropDown(
+                        context: context,
+                        controlId: "DashboardPartKambanGroupByY",
+                        fieldId: "DashboardPartKambanGroupByYField",
+                        fieldCss: hiddenCss(dashboardPart.Type != DashboardPartType.Kamban),
+                        controlCss: " always-send",
+                        labelText: Displays.GroupByY(context: context),
+                        optionCollection: ss.KambanGroupByOptions(
+                        context: context,
+                        addNothing: true),
+                        selectedValue: !dashboardPart.KambanGroupByX.IsNullOrEmpty()
+                            ? dashboardPart.KambanGroupByY
+                            : "Owner")
+                    .FieldDropDown(
+                        context: context,
+                        controlId: "DashboardPartKambanAggregateType",
+                        fieldId: "DashboardPartKambanAggregateTypeField",
+                        fieldCss: hiddenCss(dashboardPart.Type != DashboardPartType.Kamban),
+                        controlCss: " always-send",
+                        labelText: Displays.AggregationType(context: context),
+                        optionCollection: ss.KambanAggregationTypeOptions(context: context),
+                        selectedValue: !dashboardPart.KambanAggregateType.IsNullOrEmpty()
+                            ? dashboardPart.KambanAggregateType
+                            : "Total")
+                    .FieldDropDown(
+                        context: context,
+                        controlId: "DashboardPartKambanValue",
+                        fieldId: "DashboardPartKambanValueField",
+                        fieldCss: hiddenCss(dashboardPart.Type != DashboardPartType.Kamban || dashboardPart.KambanAggregateType == "Count"),
+                        controlCss: " always-send",
+                        labelText: Displays.AggregationTarget(context: context),
+                        optionCollection: ss.KambanValueOptions(context: context),
+                        selectedValue: !dashboardPart.KambanValue.IsNullOrEmpty()
+                            ? dashboardPart.KambanValue
+                            : ss.ReferenceType == "Issues" ? "RemainingWorkValue" : "NumA")
+                    .FieldDropDown(
+                        context: context,
+                        controlId: "DashboardPartKambanColumns",
+                        fieldId: "DashboardPartKambanColumnsField",
+                        fieldCss: hiddenCss(dashboardPart.Type != DashboardPartType.Kamban),
+                        controlCss: " always-send",
+                        labelText: Displays.MaxColumns(context: context),
+                        optionCollection: Enumerable.Range(
+                            Parameters.General.KambanMinColumns,
+                            Parameters.General.KambanMaxColumns - Parameters.General.KambanMinColumns + 1)
+                                .ToDictionary(o => o.ToString(), o => o.ToString()),
+                        selectedValue: !dashboardPart.KambanColumns.IsNullOrEmpty()
+                            ? dashboardPart.KambanColumns
+                            : "10")
+                    .FieldCheckBox(
+                        controlId: "DashboardPartKambanAggregationView",
+                        fieldId: "DashboardPartKambanAggregationViewField",
+                        fieldCss: hiddenCss(dashboardPart.Type != DashboardPartType.Kamban),
+                        controlCss: " always-send",
+                        labelText: Displays.AggregationView(context: context),
+                        _checked: dashboardPart.KambanAggregationView == true)
+                    .FieldCheckBox(
+                        controlId: "DashboardPartKambanShowStatus",
+                        fieldId: "DashboardPartKambanShowStatusField",
+                        fieldCss: hiddenCss(dashboardPart.Type != DashboardPartType.Kamban),
+                        controlCss: " always-send",
+                        labelText: Displays.ShowStatus(context: context),
+                        _checked: dashboardPart.KambanShowStatus == true)
                     .FieldCheckBox(
                         controlId: "DisableAsynchronousLoading",
                         controlCss: " always-send",

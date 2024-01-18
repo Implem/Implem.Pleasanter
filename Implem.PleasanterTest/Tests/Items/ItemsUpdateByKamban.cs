@@ -41,7 +41,7 @@ namespace Implem.PleasanterTest.Tests.Items
                 new KeyValue("Issues_ClassC", "サーバ"));
             var baseTests = BaseData.Tests(
                 JsonData.ExistsOne(
-                    method: "Html",
+                    method: "ReplaceAll",
                     target: "#KambanBody"),
                 JsonData.ExistsOne(
                     method: "ClearFormData",
