@@ -93,5 +93,6 @@
     "DateTimeStep": 10,
     "HideCurrentTimeIcon": false,
     "HideCurrentUserIcon": false,
-    "HideCurrentDeptIcon": false
+    "HideCurrentDeptIcon": false,
+    "EnableLightBox": false
 }
