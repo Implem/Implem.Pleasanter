@@ -5491,5 +5491,16 @@ namespace Implem.Pleasanter.Models
                 }).Count.ToInt();
             return count;
         }
+
+        public static int CountByIds(Context context, SiteSettings ss, List<int> ids)
+        {
+            return Repository.ExecuteScalar_int(
+                context: context,
+                statements: Rds.SelectUsers(
+                    column: Rds.UsersColumn()
+                        .UsersCount(),
+                    where: Rds.UsersWhere()
+                        .UserId_In(value: ids)));
+        }
     }
 }

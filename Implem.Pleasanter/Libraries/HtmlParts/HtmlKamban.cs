@@ -26,9 +26,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool aggregationView,
             bool showStatus,
             IEnumerable<KambanElement> data,
-            bool inRange)
+            bool inRange,
+            string suffix,
+            long changedItemId = 0)
         {
-            return hb.Div(id: "Kamban", css: "both", action: () =>
+            return hb.Div(id: $"Kamban{suffix}", css: "both kamban", action: () =>
             {
                 hb
                     .FieldDropDown(
@@ -39,7 +41,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         labelText: Displays.GroupByX(context: context),
                         optionCollection: ss.KambanGroupByOptions(context: context),
                         selectedValue: groupByX?.ColumnName,
-                        method: "post")
+                        method: "post",
+                        _using: suffix.IsNullOrEmpty())
                     .FieldDropDown(
                         context: context,
                         controlId: "KambanGroupByY",
@@ -50,7 +53,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             context: context,
                             addNothing: true),
                         selectedValue: groupByY?.ColumnName,
-                        method: "post")
+                        method: "post",
+                        _using: suffix.IsNullOrEmpty())
                     .FieldDropDown(
                         context: context,
                         controlId: "KambanAggregateType",
@@ -59,7 +63,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         labelText: Displays.AggregationType(context: context),
                         optionCollection: ss.KambanAggregationTypeOptions(context: context),
                         selectedValue: aggregateType,
-                        method: "post")
+                        method: "post",
+                        _using: suffix.IsNullOrEmpty())
                     .FieldDropDown(
                         context: context,
                         fieldId: "KambanValueField",
@@ -69,7 +74,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         labelText: Displays.AggregationTarget(context: context),
                         optionCollection: ss.KambanValueOptions(context: context),
                         selectedValue: value?.ColumnName,
-                        method: "post")
+                        method: "post",
+                        _using: suffix.IsNullOrEmpty())
                     .FieldDropDown(
                         context: context,
                         controlId: "KambanColumns",
@@ -81,21 +87,24 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             Parameters.General.KambanMaxColumns - Parameters.General.KambanMinColumns + 1)
                                 .ToDictionary(o => o.ToString(), o => o.ToString()),
                         selectedValue: columns.ToString(),
-                        method: "post")
+                        method: "post",
+                        _using: suffix.IsNullOrEmpty())
                     .FieldCheckBox(
                         controlId: "KambanAggregationView",
                         fieldCss: "field-auto-thin",
                         controlCss: " auto-postback",
                         labelText: Displays.AggregationView(context: context),
                         _checked: aggregationView,
-                        method: "post")
+                        method: "post",
+                        _using: suffix.IsNullOrEmpty())
                     .FieldCheckBox(
                         controlId: "KambanShowStatus",
                         fieldCss: "field-auto-thin",
                         controlCss: " auto-postback",
                         labelText: Displays.ShowStatus(context: context),
                         _checked: showStatus,
-                        method: "post")
+                        method: "post",
+                        _using: suffix.IsNullOrEmpty())
                     .KambanBody(
                         context: context,
                         ss: ss,
@@ -108,6 +117,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         aggregationView: aggregationView,
                         showStatus: showStatus,
                         data: data,
+                        suffix: suffix,
+                        changedItemId: changedItemId,
                         inRange: inRange);
             });
         }
@@ -125,6 +136,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool aggregationView,
             bool showStatus,
             IEnumerable<KambanElement> data,
+            string suffix,
             long changedItemId = 0,
             bool inRange = true)
         {
@@ -138,7 +150,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     limit: Parameters.General.KambanYLimit));
             return hb.Div(
                 attributes: new HtmlAttributes()
-                    .Id("KambanBody")
+                    .Id($"KambanBody{suffix}")
+                    .Class("kambanbody")
                     .DataAction("UpdateByKamban")
                     .DataMethod("post"),
                 action: () => groupByX?.EditChoices(
@@ -160,7 +173,26 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 aggregationView: aggregationView,
                                 showStatus: showStatus,
                                 data: data,
-                                changedItemId: changedItemId)));
+                                changedItemId: changedItemId)
+                            .Hidden(
+                                controlId: $"KambanSuffix{suffix}",
+                                value: !suffix.IsNullOrEmpty()
+                                    ? suffix.Replace("_", "")
+                                    : "",
+                                _using: !suffix.IsNullOrEmpty())
+                            .Hidden(
+                                controlId: $"KambanReferenceType{suffix}",
+                                value: ss.ReferenceType)
+                            .Hidden(
+                                controlId: $"KambanGroupByX{suffix}",
+                                value: groupByX?.ColumnName,
+                                _using: !suffix.IsNullOrEmpty())
+                            .Hidden(
+                                controlId: $"KambanGroupByY{suffix}",
+                                value: groupByY?.ColumnName,
+                                _using: !suffix.IsNullOrEmpty())
+                        )
+            );
         }
 
         private static Dictionary<string, ControlData> CorrectedChoices(
@@ -195,7 +227,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Max()
                 : 0;
             return hb.Table(
-                id: "Grid",
+                id: ss.DashboardParts.Count == 0
+                    ? "Grid"
+                    : "",
                 css: "grid fixed",
                 action: () => hb
                     .THead(action: () => hb
@@ -397,7 +431,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return hb.Div(
                 attributes: new HtmlAttributes()
                     .Class("kamban-item" + ItemChanged(data.Id, changedItemId))
-                    .DataId(data.Id.ToString()),
+                    .DataId(data.Id.ToString())
+                    .DataSiteId(data.SiteId.ToString()),
                 action: () => hb
                     .Span(css: "ui-icon ui-icon-pencil")
                     .ElementStatus(

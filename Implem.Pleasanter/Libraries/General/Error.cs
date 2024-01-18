@@ -24,6 +24,7 @@ namespace Implem.Pleasanter.Libraries.General
             CanNotDisabled,
             CanNotInherit,
             CanNotLink,
+            CannotMoveMultipleSitesData,
             CanNotPerformed,
             CantSetAtTopOfSite,
             CustomError,
@@ -180,6 +181,10 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.CanNotLink:
                     return Messages.CanNotLink(
+                        context: context,
+                        data: data);
+                case Types.CannotMoveMultipleSitesData:
+                    return Messages.CannotMoveMultipleSitesData(
                         context: context,
                         data: data);
                 case Types.CanNotPerformed:

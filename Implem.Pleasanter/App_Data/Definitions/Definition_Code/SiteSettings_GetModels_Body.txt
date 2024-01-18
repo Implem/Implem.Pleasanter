@@ -7,6 +7,7 @@
     ss.Init(context: context);
 
 <!--SiteSettings_GetModels_GeneralUi-->
+<!--SiteSettings_GetModels_SysLogs_UseFilterButton-->
 
     ss.TableType = tableTypes;
     return ss;

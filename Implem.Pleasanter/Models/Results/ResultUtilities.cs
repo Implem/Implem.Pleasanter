@@ -8119,19 +8119,31 @@ namespace Implem.Pleasanter.Models
             var serverScriptModelRow = ss.GetServerScriptModelRow(
                 context: context,
                 view: view);
-            return hb.ViewModeTemplate(
-                context: context,
-                ss: ss,
-                view: view,
-                viewMode: viewMode,
-                serverScriptModelRow: serverScriptModelRow,
-                viewModeBody: () => hb
-                    .Kamban(
-                        context: context,
-                        ss: ss,
-                        view: view,
-                        bodyOnly: false,
-                        inRange: inRange));
+            if (ss.DashboardParts?.Any() != true)
+            {
+                return hb.ViewModeTemplate(
+                    context: context,
+                    ss: ss,
+                    view: view,
+                    viewMode: viewMode,
+                    serverScriptModelRow: serverScriptModelRow,
+                    viewModeBody: () => hb
+                        .Kamban(
+                            context: context,
+                            ss: ss,
+                            view: view,
+                            bodyOnly: false,
+                            inRange: inRange));
+            }
+            else
+            {
+                return hb.Kamban(
+                    context: context,
+                    ss: ss,
+                    view: view,
+                    bodyOnly: false,
+                    inRange: inRange).ToString();
+            }
         }
 
         public static string KambanJson(
@@ -8144,59 +8156,79 @@ namespace Implem.Pleasanter.Models
                 return Messages.ResponseHasNotPermission(context: context).ToJson();
             }
             var view = Views.GetBySession(context: context, ss: ss);
-            var bodyOnly = context.Forms.ControlId().StartsWith("Kamban");
+            var bodyOnly = ss.DashboardParts?.Any() == true
+                ? false
+                : context.Forms.ControlId().StartsWith("Kamban");
             var res = new ResponseCollection(context: context);
+            var suffix = view.GetKambanSuffix();
             if (context.ErrorData.Type != Error.Types.None)
             {
                 res.Message(context.ErrorData.Message(context: context));
             }
-            if (InRange(
-                context: context,
-                ss: ss,
-                view: view,
-                limit: Parameters.General.KambanLimit))
+            if (ss.DashboardParts?.Any() != true)
             {
-                var body = new HtmlBuilder().Kamban(
+                if (InRange(
                     context: context,
                     ss: ss,
                     view: view,
-                    bodyOnly: bodyOnly,
-                    changedItemId: updated
-                        ? context.Forms.Long("KambanId")
-                        : 0);
-                return res
-                    .ViewMode(
+                    limit: Parameters.General.KambanLimit))
+                {
+                    var body = new HtmlBuilder().Kamban(
                         context: context,
                         ss: ss,
                         view: view,
-                        invoke: "setKamban",
                         bodyOnly: bodyOnly,
-                        bodySelector: "#KambanBody",
-                        body: body)
-                    .Events("on_kamban_load")
-                    .ToJson();
+                        changedItemId: updated
+                            ? context.Forms.Long("KambanId")
+                            : 0);
+                    return res
+                        .ViewMode(
+                            context: context,
+                            ss: ss,
+                            view: view,
+                            invoke: "setKamban",
+                            bodyOnly: bodyOnly,
+                            bodySelector: $"#KambanBody{suffix}",
+                            body: body,
+                            replaceAllBody: true)
+                        .Events("on_kamban_load")
+                        .ToJson();
+                }
+                else
+                {
+                    var body = new HtmlBuilder().Kamban(
+                        context: context,
+                        ss: ss,
+                        view: view,
+                        bodyOnly: bodyOnly,
+                        inRange: false);
+                    return res
+                        .ViewMode(
+                            context: context,
+                            ss: ss,
+                            view: view,
+                            message: Messages.TooManyCases(
+                                context: context,
+                                data: Parameters.General.KambanLimit.ToString()),
+                            bodyOnly: bodyOnly,
+                            bodySelector: $"#KambanBody{suffix}",
+                            body: body,
+                            replaceAllBody: true)
+                        .Events("on_kamban_load")
+                        .ToJson();
+                }
             }
             else
             {
                 var body = new HtmlBuilder().Kamban(
-                    context: context,
-                    ss: ss,
-                    view: view,
-                    bodyOnly: bodyOnly,
-                    inRange: false);
-                return res
-                    .ViewMode(
                         context: context,
                         ss: ss,
                         view: view,
-                        message: Messages.TooManyCases(
-                            context: context,
-                            data: Parameters.General.KambanLimit.ToString()),
                         bodyOnly: bodyOnly,
-                        bodySelector: "#KambanBody",
-                        body: body)
-                    .Events("on_kamban_load")
-                    .ToJson();
+                        changedItemId: updated
+                            ? context.Forms.Long("KambanId")
+                            : 0);
+                return body.ToString();
             }
         }
 
@@ -8241,6 +8273,7 @@ namespace Implem.Pleasanter.Models
                 groupByX: groupByX,
                 groupByY: groupByY,
                 value: value);
+            var suffix = view.GetKambanSuffix();
             return !bodyOnly
                 ? hb.Kamban(
                     context: context,
@@ -8254,7 +8287,9 @@ namespace Implem.Pleasanter.Models
                     aggregationView: aggregationView,
                     showStatus: showStatus,
                     data: data,
-                    inRange: inRange)
+                    inRange: inRange,
+                    suffix: suffix,
+                    changedItemId: changedItemId)
                 : hb.KambanBody(
                     context: context,
                     ss: ss,
@@ -8267,6 +8302,7 @@ namespace Implem.Pleasanter.Models
                     aggregationView: aggregationView,
                     showStatus: showStatus,
                     data: data,
+                    suffix: suffix,
                     changedItemId: changedItemId,
                     inRange: inRange);
         }
@@ -8281,6 +8317,7 @@ namespace Implem.Pleasanter.Models
         {
             var column = Rds.ResultsColumn()
                 .ResultId()
+                .SiteId()
                 .Status()
                 .ItemTitle(ss.ReferenceType)
                 .Add(
@@ -8292,9 +8329,13 @@ namespace Implem.Pleasanter.Models
                 .Add(
                     context: context,
                     column: value);
-            var where = view.Where(
+            var where = ss.DashboardParts?.Any() == true
+                ? ss.DashboardParts[0].View.Where(context: context, ss: ss)
+                : new SqlWhereCollection();
+            where = view.Where(
                 context: context,
-                ss: ss);
+                ss: ss,
+                where: where);
             var param = view.Param(
                 context: context,
                 ss: ss);
@@ -8315,6 +8356,7 @@ namespace Implem.Pleasanter.Models
                         .Select(o => new Libraries.ViewModes.KambanElement()
                         {
                             Id = o.Long("ResultId"),
+                            SiteId = o.Long("SiteId"),
                             Title = o.String("ItemTitle"),
                             Status = new Status(o.Int("Status")),
                             GroupX = groupByX?.ConvertIfUserColumn(o),

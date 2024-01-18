@@ -11,6 +11,7 @@ using System.Linq;
 
 namespace Implem.Pleasanter.Libraries.Settings
 {
+    [Serializable]
     public class DataChange : ISettingListItem
     {
         [JsonConverter(typeof(StringEnumConverter))]
@@ -25,11 +26,21 @@ namespace Implem.Pleasanter.Libraries.Settings
             InputDept
         }
 
+        public enum Periods
+        {
+            Days,
+            Months,
+            Years,
+            Hours,
+            Minutes,
+            Seconds
+        }
         public int Id { get; set; }
-        public Types Type { get; set; }
+        public Types? Type { get; set; }
         public string ColumnName { get; set; }
         public string BaseDateTime { get; set; }
         public string Value { get; set; }
+        public int? Delete { get; set; }
 
         public DataChange()
         {
