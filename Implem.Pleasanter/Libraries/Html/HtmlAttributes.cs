@@ -711,5 +711,15 @@ namespace Implem.Pleasanter.Libraries.Html
             }
             return this;
         }
+
+        public HtmlAttributes DataSiteId(string value, bool _using = true)
+        {
+            if (!value.IsNullOrEmpty() && _using)
+            {
+                Add("data-siteid");
+                Add(value);
+            }
+            return this;
+        }
     }
 }

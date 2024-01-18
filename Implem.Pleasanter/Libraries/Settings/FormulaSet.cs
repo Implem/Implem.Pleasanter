@@ -4,7 +4,7 @@ namespace Implem.Pleasanter.Libraries.Settings
     public class FormulaSet : ISettingListItem
     {
         public int Id { get; set; }
-        public string CalculationMethod;
+        public string CalculationMethod = CalculationMethods.Default.ToString();
         public string Target;
         public int? Condition;
         public Formula Formula;

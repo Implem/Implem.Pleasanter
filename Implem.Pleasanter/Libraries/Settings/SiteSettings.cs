@@ -3337,6 +3337,17 @@ namespace Implem.Pleasanter.Libraries.Settings
             return hash;
         }
 
+        public Dictionary<string, string> CalendarViewTypeOptions(Context context)
+        {
+            return new Dictionary<string, string>
+            {
+                { "dayGridMonth", Displays.Month(context: context) },
+                { "timeGridWeek", Displays.Week(context: context) },
+                { "timeGridDay", Displays.Day(context: context) },
+                { "listMonth", Displays.List(context: context) }
+            };
+        }
+
         public Dictionary<string, string> CrosstabGroupByXOptions(Context context)
         {
             return CrosstabGroupByOptions(

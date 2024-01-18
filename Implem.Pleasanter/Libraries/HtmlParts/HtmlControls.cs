@@ -256,7 +256,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     .DataValidateRegex(validateRegex)
                                     .DataValidateRegexErrorMessage(validateRegexErrorMessage)
                                     .DataReadOnly(readOnly)
-                                    .Add(attributes),
+                                    .Add(attributes)
+                        .Add("data-enablelightbox", Implem.DefinitionAccessor.Parameters.General.EnableLightBox ? "1" : "0"),
                     text: text)
                 .MarkDownCommands(
                     context: context,

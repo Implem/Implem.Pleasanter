@@ -27,6 +27,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             using (var engine = new ScriptEngine(debug: false))
             {
                 engine.AddHostObject("model", Model);
+                engine.AddHostObject("context", context);
+                engine.AddHostType(typeof(FormulaServerScriptUtilities));
                 var functionScripts = GetDateScript()
                     + GetDateDifScript()
                     + GetDayScript()
@@ -71,7 +73,17 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     + GetTruncScript()
                     + GetAscScript()
                     + GetJisScript()
-                    + GetValueScript();
+                    + GetValueScript()
+                    + GetTextScript()
+                    + GetAbsScript()
+                    + GetPowerScript()
+                    + GetRandScript()
+                    + GetSqrtScript()
+                    + GetEOMonthScript()
+                    + GetIsBlankScript()
+                    + GetIsErrorScript()
+                    + GetIfErrorScript()
+                    + GetDateTimeScript();
                 var value = engine.Evaluate(functionScripts + formulaScript);
                 return value == Undefined.Value ? string.Empty : value;
             }
@@ -123,7 +135,44 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 .Replace("$trunc(", "$TRUNC(", StringComparison.InvariantCultureIgnoreCase)
                 .Replace("$asc(", "$ASC(", StringComparison.InvariantCultureIgnoreCase)
                 .Replace("$jis(", "$JIS(", StringComparison.InvariantCultureIgnoreCase)
-                .Replace("$value(", "$VALUE(", StringComparison.InvariantCultureIgnoreCase);
+                .Replace("$value(", "$VALUE(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("$text(", "$TEXT(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("$abs(", "$ABS(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("$power(", "$POWER(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("$rand(", "$RAND(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("$sqrt(", "$SQRT(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("$eomonth(", "$EOMONTH(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("$isblank(", "$ISBLANK(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("$iserror(", "$ISERROR(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("$iferror(", "$IFERROR(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("$datetime(", "$DATETIME(", StringComparison.InvariantCultureIgnoreCase);
+        }
+
+        public static string GetText(object value, string format, Context context)
+        {
+            if (string.IsNullOrEmpty(format))
+            {
+                return string.Empty;
+            }
+            if (long.TryParse(value.ToString(), out long longValue))
+            {
+                return longValue.ToString(
+                    format: format,
+                    provider: context.CultureInfoCurrency(context.Language));
+            }
+            if (double.TryParse(value.ToString(), out double doubleValue))
+            {
+                return doubleValue.ToString(
+                    format: format,
+                    provider: context.CultureInfoCurrency(context.Language));
+            }
+            return DateTime.Parse(value.ToString()).ToString(
+                format: format
+                    .Replace("Y", "y")
+                    .Replace("D", "d")
+                    .Replace("H", "h")
+                    .Replace("AM/PM", "tt"),
+                provider: context.CultureInfoCurrency(context.Language));
         }
 
         private static string GetDateScript()
@@ -132,14 +181,14 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 function $DATE(year, month, day)
                 {
                     if (arguments.length != 3) {
-                        throw 'Invalid Parameter';
+                        return 'Invalid Parameter';
                     }
                     year = (year === undefined || year === '' || year === '0') ? 0 : year;
                     month = (month === undefined || month === '' || month === '0') ? 0 : month;
                     day = (day === undefined || day === '' || day === '0') ? 0 : day;
                     if (isNaN(year) || isNaN(month) || isNaN(day))
                     {
-                        throw '#NUM!';
+                        return '#NUM!';
                     }
                     year = Number(year);
                     month = Number(month);
@@ -154,7 +203,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     var date = new Date(year, month - 1, day);
                     if (isNaN(date.getTime()) || date.getFullYear() < 1900 || date.getFullYear() > 9999)
                     {
-                        throw '#NUM!';
+                        return '#NUM!';
                     }
                     return date.getFullYear()
                         + '/' + ('0' + (date.getMonth() + 1)).slice(-2)
@@ -168,7 +217,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 function $DATEDIF(startDate, endDate, unit)
                 {
                     if (arguments.length != 3) {
-                        throw 'Invalid Parameter';
+                        return 'Invalid Parameter';
                     }
                     startDate = (startDate === undefined  || startDate === '' || startDate === '0') ? 0 : startDate;
                     endDate = (endDate === undefined || endDate === '' || endDate === '0') ? 0 : endDate;
@@ -181,7 +230,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         {
                             return 0;
                         }
-                        throw '#NUM!';
+                        return '#NUM!';
                     }
                     if (isNaN(startDate))
                     {
@@ -194,7 +243,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     }
                     if (originStartDate !== 0 && (isNaN(startDate.getTime()) || startDate.getFullYear() < 1900 || startDate.getFullYear() > 9999))
                     {
-                        throw '#VALUE!';
+                        return '#VALUE!';
                     }
                     if (isNaN(endDate))
                     {
@@ -208,7 +257,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     if (originEndDate !== 0 && (isNaN(endDate.getTime()) || endDate.getFullYear() < 1900 || endDate.getFullYear() > 9999)
                         || startDate.getTime() > endDate.getTime())
                     {
-                        throw '#VALUE!';
+                        return '#VALUE!';
                     }
                     switch(unit)
                     {
@@ -224,8 +273,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                                 + 12 * (endDate.getFullYear() - startDate.getFullYear())
                                 - (endDate.getDate() >= startDate.getDate() ? 0 : 1);
                         case 'D':
-                            startDate = startDate.getTime();
-                            endDate = endDate.getTime();
+                            startDate = startDate.getTime() - (startDate.getTimezoneOffset() == -402 ? -24124000 : startDate.getTimezoneOffset() * 60 * 1000);
+                            endDate = endDate.getTime() - (endDate.getTimezoneOffset() == -402 ? -24124000 : endDate.getTimezoneOffset() * 60 * 1000);
                             var diff = (endDate - startDate) / (1000 * 3600 * 24);
                             return ((startDate <= endDate && endDate <= -2203915325000)
                                 || (endDate >= startDate && startDate >= -2203915324000))
@@ -254,15 +303,15 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                                     endDate.setYear(startDate.getFullYear() + 1);
                                 }
                             }
-                            startDate = startDate.getTime();
-                            endDate = endDate.getTime();
+                            startDate = startDate.getTime() - (startDate.getTimezoneOffset() == -402 ? -24124000 : startDate.getTimezoneOffset() * 60 * 1000);
+                            endDate = endDate.getTime() - (endDate.getTimezoneOffset() == -402 ? -24124000 : endDate.getTimezoneOffset() * 60 * 1000);
                             var diff = (endDate - startDate) / (1000 * 3600 * 24);
                             return ((startDate <= endDate && endDate <= -2203915325000)
                                 || (endDate >= startDate && startDate >= -2203915324000))
                                 ? diff
                                 : (startDate < endDate ? diff - 1 : diff);
                         default:
-                            throw '#NUM!';
+                            return '#NUM!';
                     }
                 }";
         }
@@ -273,9 +322,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 function $DAY(date)
                 {
                     if (arguments.length === 0) {
-                        throw 'Invalid Parameter';
+                        return 'Invalid Parameter';
                     }
-                    if (date === undefined || date == '' || date == 0)
+                    if (date === undefined || date === '' || date == 0)
                     {
                         return 0;
                     }
@@ -290,7 +339,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     }
                     if (isNaN(date.getTime()) || date.getFullYear() < 1900 || date.getFullYear() > 9999)
                     {
-                        throw '#VALUE!';
+                        return '#VALUE!';
                     }
                     return date.getDate();
                 }";
@@ -302,7 +351,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 function $DAYS(startDate, endDate)
                 {
                    if (arguments.length !== 2) {
-                        throw 'Invalid Parameter';
+                        return 'Invalid Parameter';
                     }
                     startDate = (startDate === undefined || startDate === '' || startDate === '0') ? 0 : startDate;
                     endDate = (endDate === undefined || endDate === '' || startDate === '0') ? 0 : endDate;
@@ -323,7 +372,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     }
                     if (originStartDate !== 0 && (isNaN(startDate.getTime()) || startDate.getFullYear() < 1900 || startDate.getFullYear() > 9999))
                     {
-                        throw '#VALUE!';
+                        return '#VALUE!';
                     }
                     if (isNaN(endDate))
                     {
@@ -336,10 +385,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     }
                     if (originEndDate !== 0 && (isNaN(endDate.getTime()) || endDate.getFullYear() < 1900 || endDate.getFullYear() > 9999))
                     {
-                        throw '#VALUE!';
+                        return '#VALUE!';
                     }
-                    startDate = startDate.getTime();
-                    endDate = endDate.getTime();
+                    startDate = startDate.getTime() - (startDate.getTimezoneOffset() == -402 ? -24124000 : startDate.getTimezoneOffset() * 60 * 1000);
+                    endDate = endDate.getTime() - (endDate.getTimezoneOffset() == -402 ? -24124000 : endDate.getTimezoneOffset() * 60 * 1000);
                     let diff = (startDate - endDate) / (1000 * 3600 * 24),
                         result = ((endDate <= startDate && startDate <= -2203915325000)
                         || (startDate >= endDate && endDate >= -2203915324000))
@@ -359,7 +408,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 function $HOUR(date)
                 {
                     if (arguments.length === 0) {
-                        throw 'Invalid Parameter';
+                        return 'Invalid Parameter';
                     }
                     if(date === undefined || date === '' || date === '0') {
                         return 0;
@@ -387,7 +436,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     }
                     if (isNaN(date.getTime()) || date.getFullYear() < 1900 || date.getFullYear() > 9999)
                     {
-                        throw '#NUM!';
+                        return '#NUM!';
                     }
                     return date.getHours();
                 }";
@@ -399,7 +448,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 function $MINUTE(date)
                 {
                    if (arguments.length === 0) {
-                        throw 'Invalid Parameter';
+                        return 'Invalid Parameter';
                     } 
                     if(date === undefined || date === '' || date == '0') {
                         return 0;
@@ -416,7 +465,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                                 var times = originDate.split(':');
                                 if (Number(times[0]) > 23 || Number(times[2]) > 59)
                                 {
-                                    throw '#VALUE!';
+                                    return '#VALUE!';
                                 }
                                 return Number(times[1]) % 60;
                             }
@@ -437,7 +486,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     }
                     if (isNaN(date.getTime()) || date.getFullYear() < 1900 || date.getFullYear() > 9999)
                     {
-                        throw '#VALUE!';
+                        return '#VALUE!';
                     }
                     return date.getMinutes();
                 }";
@@ -449,7 +498,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 function $MONTH(date)
                 {
                     if (arguments.length === 0) {
-                        throw 'Invalid Parameter';
+                        return 'Invalid Parameter';
                     }
                     if(date === undefined || date === '' || date == '0') {
                         return 1;
@@ -465,7 +514,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     }
                     if (isNaN(date.getTime()) || date.getFullYear() < 1900 || date.getFullYear() > 9999)
                     {
-                        throw '#VALUE!';
+                        return '#VALUE!';
                     }
                     return date.getMonth() + 1;
                 }";
@@ -493,7 +542,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 function $SECOND(date)
                 {
                     if (arguments.length === 0) {
-                        throw 'Invalid Parameter';
+                        return 'Invalid Parameter';
                     }
                     if(date === undefined || date === '' || date == '0') {
                         return 0;
@@ -521,7 +570,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     }
                     if (isNaN(date.getTime()) || date.getFullYear() < 1900 || date.getFullYear() > 9999)
                     {
-                        throw '#VALUE!';
+                        return '#VALUE!';
                     }
                     return date.getSeconds();
                 }";
@@ -546,7 +595,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 function $YEAR(date)
                 {
                     if (arguments.length === 0) {
-                        throw 'Invalid Parameter';
+                        return 'Invalid Parameter';
                     }
                     if(date === undefined || date === '' || date == '0') {
                         return 1900;
@@ -562,7 +611,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     }
                     if (isNaN(date.getTime()) || date.getFullYear() < 1900 || date.getFullYear() > 9999)
                     {
-                        throw '#VALUE!';
+                        return '#VALUE!';
                     }
                     return date.getFullYear();
                 }";
@@ -575,7 +624,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 {
                     if (arguments.length === 0)
                     {
-                        throw 'Invalid Parameter';
+                        return 'Invalid Parameter';
                     }
                     let result = firstString === undefined ? '' : firstString;
                     for (var i = 1; i < arguments.length; i++)
@@ -595,10 +644,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 function $FIND(findText, withinText, startNum = 1)
                 {
                     if (arguments.length > 3 || arguments.length < 2) {
-                        throw 'Invalid Parameter';
+                        return 'Invalid Parameter';
                     }
                     if(isNaN(startNum) || Number(startNum) < 1) {
-                        throw '#VALUE!';
+                        return '#VALUE!';
                     }
                     findText = (findText == undefined) ? '' : findText;
                     withinText = (withinText == undefined ) ? '' : withinText; 
@@ -608,12 +657,12 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     }
                     if((findText === '' && withinText === '' && startNum > 1)
                         || (findText === '' && (withinText.toString().length + 1) < startNum)) {
-                            throw '#VALUE!';
+                            return '#VALUE!';
                     }
                     var index = withinText.toString().indexOf(findText.toString(), startNum - 1);
                     if (index < 0)
                     {
-                        throw '#VALUE!';
+                        return '#VALUE!';
                     }
                     return index + 1;
                 }";
@@ -625,7 +674,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 function $LEFT(text, numChars = 1)
                 {
                     if (arguments.length > 2 || arguments.length < 1) {
-                        throw 'Invalid Parameter';
+                        return 'Invalid Parameter';
                     }
                     numChars = Number(numChars);
                     return text.toString().substring(0, numChars);
@@ -638,7 +687,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 function $LEN(text)
                 {
                     if (arguments.length !== 1) {
-                        throw 'Invalid Parameter';
+                        return 'Invalid Parameter';
                     }
                     text = (text == undefined) ? '' : text;
                     return text.toString().length;
@@ -651,7 +700,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 function $LOWER(text)
                 {
                     if (arguments.length !== 1) {
-                        throw 'Invalid Parameter';
+                        return 'Invalid Parameter';
                     }
                     text = (text == undefined) ? '' : text;
                     return text.toString().toLowerCase();
@@ -664,18 +713,18 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 function $MID(text, startNum, numChars)
                 {
                     if (arguments.length !== 3) {
-                        throw 'Invalid Parameter';
+                        return 'Invalid Parameter';
                     }
                     text = (text == undefined) ? '' : text;
                     if (isNaN(startNum) || isNaN(numChars))
                     {
-                        throw '#VALUE!';
+                        return '#VALUE!';
                     }
                     startNum = Number(startNum);
                     numChars = Number(numChars);
                     if (startNum < 1 || numChars < 0)
                     {
-                        throw '#VALUE!';
+                        return '#VALUE!';
                     }
                     return text.toString().substring(startNum - 1, startNum - 1 + numChars);
                 }";
@@ -687,12 +736,12 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 function $RIGHT(text, numChars = 1)
                 {
                     if (arguments.length > 2 || arguments.length < 1) {
-                        throw 'Invalid Parameter';
+                        return 'Invalid Parameter';
                     }    
                     text = (text == undefined) ? '' : text;
                     if (isNaN(numChars) || Number(numChars) < 0)
                     {
-                        throw '#VALUE!';
+                        return '#VALUE!';
                     }    
                     numChars = Number(numChars);
                     return text.toString().substring(text.toString().length - numChars);
@@ -705,11 +754,11 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 function $SUBSTITUTE(text, oldText, newtext, instanceNum)
                 {
                     if (arguments.length > 4 || arguments.length < 3) {
-                        throw 'Invalid Parameter';
+                        return 'Invalid Parameter';
                     }     
                     if (Number(instanceNum) < 1)
                     {
-                        throw '#VALUE!';
+                        return '#VALUE!';
                     }
                     text = (text == undefined) ? '' : text;
                     oldText = (oldText == undefined) ? '' : oldText;
@@ -731,7 +780,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 function $TRIM(text)
                 {
                     if (arguments.length !== 1) {
-                        throw 'Invalid Parameter';
+                        return 'Invalid Parameter';
                     }
                     text = (text == undefined) ? '' : text;
                     return text.toString().trim();
@@ -744,7 +793,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 function $UPPER(text)
                 {
                     if (arguments.length !== 1) {
-                        throw 'Invalid Parameter';
+                        return 'Invalid Parameter';
                     }
                     text = (text == undefined) ? '' : text;
                     return text.toString().toUpperCase();
@@ -757,7 +806,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 function $AND(firstClause)
                 {
                     if (arguments.length == 0) {
-                        throw 'Invalid Parameter';
+                        return 'Invalid Parameter';
                     }
                     if(firstClause == 0 || firstClause === 'false') {
                         return false;
@@ -784,7 +833,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                             ? true
                             : firstClause;
                     if (firstClause === undefined || firstClause === '' || isNaN(firstClause)) {
-                        throw '#VALUE!';
+                        return '#VALUE!';
                     }
                     return Boolean(firstClause);
                 }";
@@ -796,7 +845,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 function $IF(expression, valueIfTrue, valueIfFalse = false)
                 {
                     if (arguments.length > 3 || arguments.length < 2) {
-                        throw 'Invalid Parameter';
+                        return 'Invalid Parameter';
                     }
                     expression = (expression === undefined || expression === '') ? false  : expression;
                     valueIfTrue = (valueIfTrue === undefined ||  valueIfTrue === '') ? 0 : valueIfTrue;
@@ -831,7 +880,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 function $NOT(expression)
                 {
                     if (arguments.length === 0) {
-                        throw 'Invalid Parameter';
+                        return 'Invalid Parameter';
                     }
                     expression = (expression == undefined) ? '' : expression;
                     if (!isNaN(expression))
@@ -840,7 +889,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     }
                     else if (typeof expression != 'boolean')
                     {
-                        throw '#VALUE!';
+                        return '#VALUE!';
                     }
                     return !expression;
                 }";
@@ -852,7 +901,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 function $OR(expression)
                 {
                     if (arguments.length === 0) {
-                        throw 'Invalid Parameter';
+                        return 'Invalid Parameter';
                     }
                     for (let i = 1; i < arguments.length; i++) {        
                         if (arguments[i] === undefined || arguments[i].toString().trim() === '') {
@@ -863,7 +912,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                             if (arguments[i] === true || Boolean(Number(arguments[i]))) {
                                 return true;
                             }            
-                            expression =  false;
+                            expression = Boolean(arguments[0]);
                         }
                     }
                     expression =
@@ -873,7 +922,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                             ? false
                             : expression;
                     if (expression === undefined || expression === '' || isNaN(expression)) {
-                        throw '#VALUE!';
+                        return '#VALUE!';
                     }
                     return Boolean(expression);
                 }";
@@ -886,19 +935,19 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 {
                     if (arguments.length !== 4)
                     {
-                        throw 'Invalid Parameter';
+                        return 'Invalid Parameter';
                     }
                     startNum = (startNum === undefined) ? 0 : startNum;
                     numChars = (numChars === undefined) ? 0 : numChars;
                     if (isNaN(startNum) || isNaN(numChars))
                     {
-                        throw 'Invalid Parameter';
+                        return 'Invalid Parameter';
                     }
                     startNum = Number(startNum);
                     numChars = Number(numChars);
                     if (startNum < 1 || numChars < 0)
                     {
-                        throw 'Invalid Parameter';
+                        return 'Invalid Parameter';
                     }
                     if(oldText === undefined || oldText === '') {
                         return newText === undefined ? '' : newText;
@@ -919,21 +968,21 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 {
                     if (arguments.length < 2 || arguments.length > 3)
                     {
-                        throw 'Invalid Parameter';
+                        return 'Invalid Parameter';
                     }
-                    if (start == '' || isNaN(start))
+                    if (start === '' || isNaN(start))
                     {
-                        throw '#VALUE!';
+                        return '#VALUE!';
                     }
                     start = Number(start);
                     if (start < 1 || start > withinText.toString().length)
                     {
-                        throw '#VALUE!';
+                        return '#VALUE!';
                     }
                     let index = withinText.toString().toLowerCase().indexOf(findText.toString().toLowerCase(), start - 1);
                     if (index < 0)
                     {
-                        throw 'Not Found';
+                        return 'Not Found';
                     }
                     return index + 1;
 	            }";
@@ -945,7 +994,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 function $IFS(logicalTest, valueIfTrue)
                 {
                     if (arguments.length === 0 || arguments.length % 2 !== 0) {
-                        throw 'Invalid Parameter';
+                        return 'Invalid Parameter';
                     }  
                     for (let i = 0; i < arguments.length; i = i + 2)
                     {
@@ -972,7 +1021,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         }
                     }
                     if(logicalTest === false) {
-                        throw '#N/A';
+                        return '#N/A';
                     }
 	            }";
         }
@@ -983,7 +1032,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 function $ISEVEN(number)
                 {
                     if (arguments.length !== 1) {
-                        throw 'Invalid Parameter';
+                        return 'Invalid Parameter';
                     }
                     number = ( number == undefined  ||  number === '') ? 0 : number;
                     if (isNaN(number))
@@ -1002,7 +1051,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 {
                     if (arguments.length === 0)
                     {
-                        throw 'Invalid Parameter';
+                        return 'Invalid Parameter';
                     }
                     if(value === '' || value === undefined || typeof value === 'boolean') 
                     {
@@ -1022,7 +1071,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 function $ISODD(number)
                 {
                     if (arguments.length !== 1) {
-                        throw 'Invalid Parameter';
+                        return 'Invalid Parameter';
                     }
                     number = ( number == undefined  ||  number === '') ? 0 : number;
                     if (isNaN(number) && typeof number === 'string')
@@ -1040,7 +1089,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 function $ISTEXT(text)
                 {
                     if (arguments.length === 0) {
-                        throw 'Invalid Parameter';
+                        return 'Invalid Parameter';
                     }
                     if (text === ''
                         || text === undefined 
@@ -1061,14 +1110,14 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 function $MOD(number, divisor)
                 {
                     if (arguments.length !== 2) {
-                        throw 'Invalid Parameter';
+                        return 'Invalid Parameter';
                     }
                     divisor = (divisor === undefined || divisor === '') ? 0
                         : (typeof divisor === 'boolean' && divisor) ? 1 
                         : (typeof divisor === 'boolean' && !divisor) ? 0
                         : divisor;
                     if(divisor == 0 || divisor == undefined) {
-                        throw '#DIV/0!';
+                        return '#DIV/0!';
                     }
                     number = (number === undefined || number === '') ? 0
                         : (typeof number === 'boolean' && number) ? 1 
@@ -1087,7 +1136,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 {
                     if (arguments.length === 0)
                     {
-                        throw 'Invalid Parameter';
+                        return 'Invalid Parameter';
                     } 
                     number = (number === undefined || number === '' || typeof number === 'boolean') ? 1 : number;
                     if(number === 1) {
@@ -1109,7 +1158,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 {
                     if (arguments.length == 0 || arguments.length > 255)
                     {
-                        throw 'Invalid Parameter';
+                        return 'Invalid Parameter';
                     }
                     let sum = 0, averageCount = 0;
                     for (let i = 0; i < arguments.length; i++)
@@ -1136,7 +1185,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     }
                     if (averageCount === 0)
                     {
-                        throw '#DIV/0!';
+                        return '#DIV/0!';
                     }
                     return sum / averageCount;
 	            }";
@@ -1148,11 +1197,11 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 function $WEEKDAY(date, returnType = 1)
                 {
                     if (arguments.length < 1) {
-                        throw 'Invalid Parameter';
+                        return 'Invalid Parameter';
                     }
                     date = (date == undefined) ? 0 : date;
-                    if(date == '' && (returnType == '' || Number(returnType) == 0)) {
-                        throw '#NUM!';
+                    if(date === '' && (returnType === '' || Number(returnType) == 0)) {
+                        return '#NUM!';
                     }
                     if (isNaN(date))
                     {
@@ -1167,7 +1216,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     }
                     if (isNaN(date.getTime()) || date.getFullYear() < 1900 || date.getFullYear() > 9999)
                     {
-                        throw '#NUM!';
+                        return '#NUM!';
                     }
                     returnType = Number(returnType)
                     switch (returnType)
@@ -1191,7 +1240,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         case 16:
                             return (date.getDay() + 2) % 7 == 0 ? 7 : (date.getDay() + 2) % 7;
                         default:
-                            throw '#NUM!';
+                            return '#NUM!';
                     }
                 }";
         }
@@ -1203,7 +1252,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 {
                     if (arguments.length == 0 || arguments.length > 255)
                     {
-                        throw 'Invalid Parameter';
+                        return 'Invalid Parameter';
                     }
                     let minValue = Number.POSITIVE_INFINITY;
                     for (let i = 0; i < arguments.length; i++)
@@ -1224,7 +1273,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 {
                     if (arguments.length == 0 || arguments.length > 255)
                     {
-                        throw 'Invalid Parameter';
+                        return 'Invalid Parameter';
                     }
                     let maxValue = Number.NEGATIVE_INFINITY;
                     for (let i = 0; i < arguments.length; i++)
@@ -1244,7 +1293,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 function $ROUND(number, numDigits)
                 {
                     if (arguments.length !== 2) {
-                        throw 'Invalid Parameter';
+                        return 'Invalid Parameter';
                     }
                     number = (number === undefined || number === '') ? 0
                             : (typeof number === 'boolean' && number) ? 1 
@@ -1258,7 +1307,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         : numDigits;
                     if (isNaN(Number(number)) || isNaN(Number(numDigits)))
                     {
-                        throw '#VALUE!';
+                        return '#VALUE!';
                     }
                     if (number == 0 && !isNaN(Number(numDigits))) {
                         return 0;
@@ -1302,7 +1351,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 function $ROUNDUP(number, numDigits)
                 {
                     if (arguments.length !== 2) {
-                        throw 'Invalid Parameter';
+                        return 'Invalid Parameter';
                     }
                     number = (number === undefined || number === '') ? 0
                             : (typeof number === 'boolean' && number) ? 1 
@@ -1316,7 +1365,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         : numDigits;
                     if (isNaN(Number(number)) || isNaN(Number(numDigits)))
                     {
-                        throw '#VALUE!';
+                        return '#VALUE!';
                     }
                     if (number == 0 && !isNaN(Number(numDigits))) {
                         return 0;
@@ -1360,7 +1409,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 function $ROUNDDOWN(number, numDigits)
                 {
                     if (arguments.length !== 2) {
-                        throw 'Invalid Parameter';
+                        return 'Invalid Parameter';
                     }
                     number =  (number === undefined || number === '') ? 0
                             : (typeof number === 'boolean' && number) ? 1 
@@ -1374,7 +1423,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         : numDigits;
                     if (isNaN(Number(number)) || isNaN(Number(numDigits)))
                     {
-                        throw '#VALUE!';
+                        return '#VALUE!';
                     }
                     if (number == 0 && !isNaN(Number(numDigits))) {
                         return 0;
@@ -1418,7 +1467,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 function $TRUNC(number, numDigits)
                 {
                     if (arguments.length > 2 || arguments.length  < 1) {
-                        throw 'Invalid Parameter';
+                        return 'Invalid Parameter';
                     }
                     number = (number === undefined || number === '') ? 0
                             : (typeof number === 'boolean' && number) ? 1 
@@ -1432,7 +1481,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         : numDigits;    
                     if (isNaN(Number(number)) || isNaN(Number(numDigits)))
                     {
-                        throw '#VALUE!';
+                        return '#VALUE!';
                     }
                     if (number === 0 && !isNaN(Number(numDigits))) {
                         return 0;
@@ -1460,7 +1509,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 function $ASC(text)
                 {
                     if (arguments.length !== 1) {
-                        throw 'Invalid Parameter';
+                        return 'Invalid Parameter';
                     }
                     if(text === undefined || text === '') {
                         return '';
@@ -1495,7 +1544,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 function $JIS(text)
                 {
                     if (arguments.length !== 1) {
-                        throw 'Invalid Parameter';
+                        return 'Invalid Parameter';
                     }
                     if(text === undefined || text === '') {
                         return '';
@@ -1539,10 +1588,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 function $VALUE(text)
                 {
                     if (arguments.length !== 1) {
-                        throw 'Invalid Parameter';
+                        return 'Invalid Parameter';
                     }
                     if(typeof text === 'boolean' || text === undefined || text === '') {
-                        throw '#VALUE!';
+                        return '#VALUE!';
                     }    
                     if (!isNaN(text)) {
                         return Number(text);
@@ -1555,7 +1604,312 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     if (!isNaN(text)) {
                         return Number(text);
                     }
-                    throw '#VALUE!';
+                    return '#VALUE!';
+                }";
+        }
+
+        private static string GetTextScript()
+        {
+            return @"
+                function $TEXT(value, format)
+                {
+                    if (arguments.length != 2 || value === undefined || format === undefined)
+                    {
+                        return 'Invalid Parameter';
+                    }
+                    if ((value.toString().toLowerCase() === 'true' || value.toString().toLowerCase() === 'false')
+                        && (format === '' || !isNaN(format)))
+                    {
+                        return value;
+                    }
+                    var reg = new RegExp('^0+$', 'g');
+                    if (reg.test(format))
+                    {
+                        return FormulaServerScriptUtilities.GetText(value, '#' + format, context);
+                    }
+                    if (format.toString().toLowerCase() === 'true'
+                        || format.toString().toLowerCase() === 'false'
+                        || !isNaN(Date.parse(format)))
+                    {
+                        return '#VALUE!';
+                    }
+                    return FormulaServerScriptUtilities.GetText(value, format, context);
+                }";
+        }
+
+        private static string GetAbsScript()
+        {
+            return @"
+                function $ABS(number)
+                {
+                    if (arguments.length === 0 || number === undefined || number === '')
+                    {
+                        return 'Invalid Parameter';
+                    }
+                    if (number.toString().toLowerCase() === 'true')
+                    {
+                        number = true;
+                    }
+                    else if (number.toString().toLowerCase() === 'false')
+                    {
+                        number = false;
+                    }
+                    if (isNaN(number))
+                    {
+                        return '#VALUE!';
+                    }
+                    else
+                    {
+                        return Math.abs(Number(number));
+                    }
+	            }";
+        }
+
+        private static string GetPowerScript()
+        {
+            return @"
+                function $POWER(number, power)
+                {
+                    if (arguments.length != 2 || number === undefined || power === undefined || number === '' || power === '')
+                    {
+                        return 'Invalid Parameter';
+                    }
+                    if (number.toString().toLowerCase() === 'true')
+                    {
+                        number = true;
+                    }
+                    else if (number.toString().toLowerCase() === 'false')
+                    {
+                        number = false;
+                    }
+                    if (isNaN(number))
+                    {
+                        return '#VALUE!';
+                    }
+                    if (power.toString().toLowerCase() === 'true')
+                    {
+                        power = true;
+                    }
+                    else if (power.toString().toLowerCase() === 'false')
+                    {
+                        power = false;
+                    }
+                    if (isNaN(power))
+                    {
+                        return '#VALUE!';
+                    }
+                    if (((Number(number) == 0 || !number) && (Number(power) == 0 || !power)) || (Number(number) < 0 && Number(power) % 1 !== 0))
+                    {
+                        return '#NUM!';
+                    }
+                    var result = Math.pow(Number(number), Number(power));
+                    if (result == Number.POSITIVE_INFINITY || result == Number.NEGATIVE_INFINITY)
+                    {
+                        return '#NUM!';
+                    }
+                    return result;
+	            }";
+        }
+
+        private static string GetRandScript()
+        {
+            return @"
+                function $RAND()
+                {
+                    return Math.random();
+	            }";
+        }
+
+        private static string GetSqrtScript()
+        {
+            return @"
+                function $SQRT(number)
+                {
+                    if (arguments.length === 0 || number === undefined || number === '')
+                    {
+                        return 'Invalid Parameter';
+                    }
+                    if (number.toString().toLowerCase() === 'true')
+                    {
+                        number = true;
+                    }
+                    else if (number.toString().toLowerCase() === 'false')
+                    {
+                        number = false;
+                    }
+                    if (isNaN(number))
+                    {
+                        return '#VALUE!';
+                    }
+                    else
+                    {
+                        if (Number(number) < 0)
+                        {
+                            return '#NUM!';
+                        }
+                        return Math.sqrt(Number(number));
+                    }
+	            }";
+        }
+
+        private static string GetEOMonthScript()
+        {
+            return @"
+                function $EOMONTH(start_date, months)
+                {
+                    if (arguments.length != 2 || months === undefined || start_date === undefined)
+                    {
+                        return 'Invalid Parameter';
+                    }
+                    if (start_date === '')
+                    {
+                        start_date = 1;
+                    }
+                    var datePart = start_date.split(' ')[0].toString().split('/');
+                    if (isNaN(start_date))
+                    {
+                        if (isNaN(Date.parse(start_date)))
+                        {
+                            return '#VALUE!';
+                        }
+                        else
+                        {
+                            start_date = new Date(Date.parse(start_date));
+                        }
+                    }
+                    else
+                    {
+                        return '#VALUE!';
+                    }
+                    if (isNaN(months))
+                    {
+                        if (isNaN(Date.parse(months)))
+                        {
+                            return '#VALUE!';
+                        }
+                        else
+                        {
+                            months = $DAYS(months, '1900/01/01') + 1;
+                        }
+                    }
+                    else
+                    {
+                        months = Number(months);
+                    }
+                    if (isNaN(start_date.getTime()) || start_date.getFullYear() < 1900 || start_date.getFullYear() > 9999)
+                    {
+                        return 'Invalid Parameter';
+                    }
+                    if (datePart.length == 3 && datePart[2] != start_date.getDate())
+                    {
+                        return '#VALUE!';
+                    }
+                    var d = new Date(start_date.getFullYear(), start_date.getMonth() + Number(months) + 1, 0);
+                    if (isNaN(d.getTime()) || d.getFullYear() < 1900 || d.getFullYear() > 9999)
+                    {
+                        return '#NUM!';
+                    }
+                    return d.getFullYear()
+                        + '/' + ('0' + (d.getMonth() + 1)).slice(-2)
+                        + '/' + ('0' + d.getDate()).slice(-2);
+                }";
+        }
+
+        private static string GetIsBlankScript()
+        {
+            return @"
+                function $ISBLANK(value)
+                {
+                    if (arguments.length != 1)
+                    {
+                        return 'Invalid Parameter';
+                    }
+                    return value === undefined || value === '';
+                }";
+        }
+
+        private static string GetIsErrorScript()
+        {
+            return @"
+                function $ISERROR(value)
+                {
+                    if (arguments.length != 1)
+                    {
+                        return 'Invalid Parameter';
+                    }
+                    return value == '#N/A'
+                        || value == '#VALUE!'
+                        || value == '#REF!'
+                        || value == '#DIV/0!'
+                        || value == '#NUM!'
+                        || value == '#NAME?'
+                        || value == '#NULL!'
+                        || value == 'Invalid Parameter'
+                        || !Number.isFinite(value);
+                }";
+        }
+
+        private static string GetIfErrorScript()
+        {
+            return @"
+                function $IFERROR(value, value_if_error)
+                {
+                    if (arguments.length != 2)
+                    {
+                        return 'Invalid Parameter';
+                    }
+                    return value === undefined || value === ''
+                        ? 0
+                        : ($ISERROR(value)
+                            ? (value_if_error === '' ? 0 : value_if_error)
+                            : value);
+                }";
+        }
+
+        private static string GetDateTimeScript()
+        {
+            return @"
+                function $DATETIME(year, month, day, hour, minute, second)
+                {
+                    if (arguments.length != 6)
+                    {
+                        return 'Invalid Parameter';
+                    }
+                    year = (year === undefined || year === '' || year === '0') ? 0 : year;
+                    month = (month === undefined || month === '' || month === '0') ? 0 : month;
+                    day = (day === undefined || day === '' || day === '0') ? 0 : day;
+                    hour = (hour === undefined || hour === '' || hour === '0') ? 0 : hour;
+                    minute = (minute === undefined || minute === '' || minute === '0') ? 0 : minute;
+                    second = (second === undefined || second === '' || second === '0') ? 0 : second;
+                    if (isNaN(year) || isNaN(month) || isNaN(day) || isNaN(hour) || isNaN(minute) || isNaN(second))
+                    {
+                        return '#NUM!';
+                    }
+                    year = Number(year);
+                    month = Number(month);
+                    day = Number(day);
+                    hour = Number(hour);
+                    minute = Number(minute);
+                    second = Number(second);
+                    if (year === 0 && month === 1 && day === 0 && hour === 0 && minute === 0 && second === 0)
+                    {
+                        return '1900/01/00 00:00:00';
+                    }    
+                    if (year >= 0 && year < 1900)
+                    {
+                        year = 1900 + year;
+                    }
+                    var date = new Date(year, month - 1, day, hour, minute, second);
+                    if (isNaN(date.getTime()) || date.getFullYear() < 1900 || date.getFullYear() > 9999)
+                    {
+                        return '#NUM!';
+                    }
+                    return date.getFullYear()
+                        + '/' + ('0' + (date.getMonth() + 1)).slice(-2)
+                        + '/' + ('0' + date.getDate()).slice(-2)
+                        + ' ' + ('0' + (date.getHours())).slice(-2)
+                        + ':' + ('0' + (date.getMinutes())).slice(-2)
+                        + ':' + ('0' + date.getSeconds()).slice(-2);
                 }";
         }
     }

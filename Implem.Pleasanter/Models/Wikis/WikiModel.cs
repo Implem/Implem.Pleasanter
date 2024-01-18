@@ -1491,41 +1491,45 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         formulaScript: formulaSet.FormulaScript,
                         calculationMethod: formulaSet.CalculationMethod);
-                    try
+                    var value = FormulaServerScriptUtilities.Execute(
+                        context: context,
+                        ss: ss,
+                        itemModel: this,
+                        formulaScript: formulaSet.FormulaScript);
+                    switch (value)
                     {
-                        var value = FormulaServerScriptUtilities.Execute(
-                            context: context,
-                            ss: ss,
-                            itemModel: this,
-                            formulaScript: formulaSet.FormulaScript);
-                        var formData = new Dictionary<string, string>
-                        {
-                            { $"Wikis_{columnName}", value.ToString() }
-                        };
-                        SetByFormData(
-                            context: context,
-                            ss: ss,
-                            formData: formData);
-                        if (ss.OutputFormulaLogs == true)
-                        {
-                            context.LogBuilder?.AppendLine($"formulaSet: {formulaSet.GetRecordingData().ToJson()}");
-                            context.LogBuilder?.AppendLine($"formulaSource: {this.ToJson()}");
-                            context.LogBuilder?.AppendLine($"formulaResult: {{\"{columnName}\":{value}}}");
-                        }
+                        case "#N/A":
+                        case "#VALUE!":
+                        case "#REF!":
+                        case "#DIV/0!":
+                        case "#NUM!":
+                        case "#NAME?":
+                        case "#NULL!":
+                        case "Invalid Parameter":
+                            if (formulaSet.IsDisplayError == true)
+                            {
+                                throw new Exception($"Formula error {value}");
+                            }
+                            new SysLogModel(
+                                context: context,
+                                method: nameof(SetByFormula),
+                                message: $"Formula error {value}",
+                                sysLogType: SysLogModel.SysLogTypes.Execption);
+                            break;
                     }
-                    catch (Exception exception)
+                    var formData = new Dictionary<string, string>
                     {
-                        // Check formual setting display error;
-                        if (formulaSet.IsDisplayError == true)
-                        {
-                            throw new Exception($"Formula error {exception.Message}");
-                        }
-                        new SysLogModel(
-                            context: context,
-                            method: nameof(SetByFormula),
-                            message: $"Formula error {exception.Message}",
-                            errStackTrace: exception.StackTrace,
-                            sysLogType: SysLogModel.SysLogTypes.Execption);
+                        { $"Wikis_{columnName}", value.ToString() }
+                    };
+                    SetByFormData(
+                        context: context,
+                        ss: ss,
+                        formData: formData);
+                    if (ss.OutputFormulaLogs == true)
+                    {
+                        context.LogBuilder?.AppendLine($"formulaSet: {formulaSet.GetRecordingData().ToJson()}");
+                        context.LogBuilder?.AppendLine($"formulaSource: {this.ToJson()}");
+                        context.LogBuilder?.AppendLine($"formulaResult: {{\"{columnName}\":{value}}}");
                     }
                 }
             });
