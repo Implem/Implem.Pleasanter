@@ -5867,7 +5867,9 @@ namespace Implem.Pleasanter.Models
                             searchOptionFunction: "$p.openSearchEditorColumnDialog($(this));")
                         .Hidden(
                             controlId: "SearchEditorColumnDialogSelection",
-                            css: "always-send")
+                            css: "always-send",
+                            action: "SetSiteSettings",
+                            method: "post")
                         .Hidden(
                             controlId: "SearchEditorColumnDialogKeyWord",
                             css: "always-send")

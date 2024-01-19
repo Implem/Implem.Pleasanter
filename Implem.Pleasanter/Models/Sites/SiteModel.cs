@@ -4281,7 +4281,7 @@ namespace Implem.Pleasanter.Models
                 "#EditorSourceColumns",
                 new HtmlBuilder().SelectableItems(
                     listItemCollection: SiteSettings
-                        .EditorSelectableOptions(
+                        .EditorSelectableOptions(   // ←既存の処理。引数を今回拡張する。（押したボタン、検索ワード）
                             context: context,
                             enabled: false)))
             .SetData("#EditorSourceColumns")

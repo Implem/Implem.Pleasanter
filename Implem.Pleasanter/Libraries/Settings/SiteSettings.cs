@@ -2844,7 +2844,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             return hash;
         }
 
-        public Dictionary<string, ControlData> EditorSelectableOptions(
+        public Dictionary<string, ControlData> EditorSelectableOptions( // 既存のリスト（右辺）の生成処理（本対応で変更なし）
             Context context, bool enabled = true)
         {
             return enabled
@@ -2865,12 +2865,33 @@ namespace Implem.Pleasanter.Libraries.Settings
                     ss: this,
                     columns: ColumnDefinitionHash.EditorDefinitions(context: context)
                         .Where(o => !GetEditorColumnNames().Contains(o.ColumnName))
+                        //.Where(o => FilterColumn(context,this,o))
                         .OrderBy(o => o.EditorColumn)
                         .Select(o => o.ColumnName),
                     order: ColumnDefinitionHash?.EditorDefinitions(context: context)?
                         .OrderBy(o => o.EditorColumn)
                         .Select(o => o.ColumnName).ToList());
         }
+
+        /**
+         * FilterColumnは、1つのカラムに対する検索処理になる。
+         * 1カラム1回だけ判定するように性能を改善する。
+         * 検索するフィールドが複数あるなら、どこかでヒットしたら返すように組む。
+         * フィールド内の検索は単語複数あるならAND条件になるようにする。
+        private bool FilterColumn(Context context, SiteSettings ss, ColumnDefinition def,string word)
+        {
+        // 今回のダイアログの入力内容から検索を行うフィルタ用のメソッド。
+        // 対象のフィールドは3つ→ヒットしたものすべてのカラムを出力。（Any）
+        // 　　フィールド単位の検索ダイアログに入力した文字列→空白区切りでそのすべてがAND条件（All）
+
+            def.ColumnName,
+
+            ss.GetColumn(context:context,def.ColumnName)
+            
+            def.LabelText
+               
+        }
+        **/
 
         public Dictionary<string, ControlData> EditorSelectableOptionsByTypeString(
             Context context, string typeString)
