@@ -9,6 +9,20 @@
         disableDrag: isMobile,
     });
     $p.gridstackInstance.load(JSON.parse(layout));
+
+    $p.gridstackInstance.on('resizestop', function (event, el) {
+        var node = el.gridstackNode;
+        var layouts = {
+            id:node.id,
+            x: node.x,
+            y: node.y,
+            w:node.w,
+            h:node.h,
+            content: ""
+        }
+        $p.set($('#DashboardPartLayout'), JSON.stringify(layouts))
+        $p.send($('#DashboardPartLayout'));
+    })
 };
 
 //現在のレイアウトを保存する

@@ -51,7 +51,7 @@ namespace Implem.Pleasanter.Controllers
             return Content(json);
         }
 
-        [AcceptVerbs(HttpVerbs.Get)]
+        [AcceptVerbs(HttpVerbs.Post)]
         public void DashboardPartLayout(long id)
         {
             var context = new Context();

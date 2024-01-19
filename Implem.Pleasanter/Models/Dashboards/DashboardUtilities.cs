@@ -165,6 +165,11 @@ namespace Implem.Pleasanter.Models
                                 controlId: "DashboardPartLayouts",
                                 value: dashboardPartLayouts)
                             .Hidden(
+                                controlId: "DashboardPartLayout",
+                                value: dashboardPartLayouts,
+                                action: "DashboardPartLayout",
+                                method: "post")
+                            .Hidden(
                                 controlId: "Sites_Timestamp",
                                 css: "control-hidden always-send",
                                 value: siteModel.Timestamp))
