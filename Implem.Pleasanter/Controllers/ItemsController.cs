@@ -52,6 +52,13 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
+        public void DashboardPartLayout(long id)
+        {
+            var context = new Context();
+            new ItemModel(context: context, referenceId: id).DashboardPartLayout(context: context);
+        }
+
+        [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult Pdf(long id, int reportId = 0, bool download = false)
         {
             var context = new Context();

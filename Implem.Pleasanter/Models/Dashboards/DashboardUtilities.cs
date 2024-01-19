@@ -1400,6 +1400,19 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public static void DashboardPartLayout(
+            Context context,
+            SiteSettings ss)
+        {
+            Views.GetBySession(
+                context: context,
+                ss: ss,
+                setSession: true);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static string ReplaceLineByDashboardModel(
             this DashboardModel dashboardModel,
             Context context,
