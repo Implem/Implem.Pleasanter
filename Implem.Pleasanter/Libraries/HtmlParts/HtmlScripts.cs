@@ -79,6 +79,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         parts: "Scripts/Plugins/moment.min.js"))
                     .Script(src: Responses.Locations.Get(
                         context: context,
+                        parts: "Scripts/Plugins/lightbox.min.js"))
+                    .Script(src: Responses.Locations.Get(
+                        context: context,
                         parts: "Scripts/Plugins/gridstack.js/gridstack-all.min.js"))
                     .Script(src: Responses.Locations.Get(
                         context: context,
@@ -112,6 +115,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Script(script: "$p.setCalendar();",
                         _using: ss.ReferenceType == "Dashboards" &&
                              ss.DashboardParts?.Any(part=>part.Type == DashboardPartType.Calendar) == true)
+                    .Script(script: "$p.setKamban();",
+                        _using: ss.ReferenceType == "Dashboards" &&
+                             ss.DashboardParts?.Any(part => part.Type == DashboardPartType.Kamban) == true)
                     .Script(script: "$p.setDashboardAsync();",
                         _using: ss.ReferenceType == "Dashboards")
                     .OnEditorLoad(context: context);

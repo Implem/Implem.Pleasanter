@@ -143,8 +143,9 @@ $p.apply = function () {
     $('.control-markdown:not(.applied)').each(function () {
         var $control = $(this);
         var id = $control.attr('id');
+        var enableLightBox = Boolean($control.data('enablelightbox'));
         var $viewer = $('[id="' + id + '.viewer"]');
-        var markup = $p.markup($control.val());
+        var markup = $p.markup($control.val(), enableLightBox);
         $viewer.html($p.setInputGuide(id, $control.val(), markup));
         $control.addClass('applied');
         $p.setTargetBlank();
@@ -152,7 +153,9 @@ $p.apply = function () {
     $('.markup:not(.applied)').each(function () {
         var $control = $(this);
         var id = $control.attr('id');
-        var markup = $p.markup($control.html(), true);
+        var enableLightBox = Boolean($control.data('enablelightbox'));
+        var dataId = $control.closest('.grid-row').data('id');
+        var markup = $p.markup($control.html(), enableLightBox, true, dataId);
         $control.html($p.setInputGuide(id, $control.html(), markup));
         $control.addClass('applied');
         $p.setTargetBlank();
