@@ -185,6 +185,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 groupBy: groupBy,
                                 key: data.Key,
                                 linkedLabelHash: linkedLabelHash),
+                            isCheck: aggregation.GroupBy.Contains("Check"),
                             attributes: new HtmlAttributes()
                                 .Attributes(ss, aggregation, groupBy, data.Key)));
                 });
@@ -340,16 +341,26 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string label,
             string value,
             bool bold,
+            bool isCheck,
             HtmlAttributes attributes)
         {
             return hb.Span(attributes: attributes, action: () =>
             {
-                if (label != string.Empty)
+                if (isCheck)
                 {
-                    hb.Span(
-                        css: bold ? "bold" : null,
-                        action: () => hb
-                            .Text(label));
+                    hb
+                        .Span(
+                            css: label != string.Empty ? "bold ui-icon ui-icon-check" : "bold ui-icon ui-icon-cancel");
+                }   
+                else
+                {
+                    if (label != string.Empty)
+                    {
+                        hb.Span(
+                            css: bold ? "bold" : null,
+                            action: () => hb
+                                .Text(label));
+                    }
                 }
                 hb.Text(value);
             });
