@@ -16761,16 +16761,14 @@ namespace Implem.Pleasanter.Models
                         legendText: Displays.Search(context: context),
                         action: () => hb
                             .FieldTextBox(
-                                controlCss: "control-textbox always-send",
                                 controlId: "TargetColumnKeyWord",
-                                text: context.Forms.Data("SearchEditorColumnDialogKeyWord"))
+                                text: context.Forms.Data("SearchEditorColumnDialogKeyWord"),
+                                controlCss: "control-textbox always-send")
                             .Button(
                                 controlId: "ShowTargetColumnKeyWord",
                                 text: Displays.Search(context: context),
                                 controlCss: "button-icon",
-                                onClick: "$p.selectSearchEditorColumn($(this), 'KeyWord');",
-                                action: "SetSiteSettings",
-                                method: "post"))
+                                onClick: "$p.selectSearchEditorColumn($(this), 'KeyWord');"))
                     .FieldSet(
                         css: " enclosed",
                         legendText: Displays.UseSearchFilter(context: context),
@@ -16780,62 +16778,46 @@ namespace Implem.Pleasanter.Models
                                     controlId: "ShowTargetColumnBasic",
                                     text: Displays.Basic(context: context),
                                     controlCss: "button-icon w150",
-                                    onClick: "$p.selectSearchEditorColumn($(this), 'Basic');",
-                                    action: "SetSiteSettings",
-                                    method: "post")
+                                    onClick: "$p.selectSearchEditorColumn($(this), 'Basic');")
                                 .Button(
                                     controlId: "ShowTargetColumnClass",
                                     text: Displays.Class(context: context),
                                     controlCss: "button-icon w150",
-                                    onClick: "$p.selectSearchEditorColumn($(this), 'Class');",
-                                    action: "SetSiteSettings",
-                                    method: "post")
+                                    onClick: "$p.selectSearchEditorColumn($(this), 'Class');")
                                 .Button(
                                     controlId: "ShowTargetColumnNum",
                                     text: Displays.Num(context: context),
                                     controlCss: "button-icon w150",
-                                    onClick: "$p.selectSearchEditorColumn($(this), 'Num');",
-                                    action: "SetSiteSettings",
-                                    method: "post"))
+                                    onClick: "$p.selectSearchEditorColumn($(this), 'Num');"))
                             .Div(css: "command-left", action: () => hb
                                 .Button(
                                     controlId: "ShowTargetColumnDate",
                                     text: Displays.Date(context: context),
                                     controlCss: "button-icon w150",
-                                    onClick: "$p.selectSearchEditorColumn($(this), 'Date');",
-                                    action: "SetSiteSettings",
-                                    method: "post")
+                                    onClick: "$p.selectSearchEditorColumn($(this), 'Date');")
                                 .Button(
                                     controlId: "ShowTargetColumnDescription",
                                     text: Displays.Description(context: context),
                                     controlCss: "button-icon w150",
-                                    onClick: "$p.selectSearchEditorColumn($(this), 'Description');",
-                                    action: "SetSiteSettings",
-                                    method: "post")
+                                    onClick: "$p.selectSearchEditorColumn($(this), 'Description');")
                                 .Button(
                                     controlId: "ShowTargetColumnCheck",
                                     text: Displays.Check(context: context),
                                     controlCss: "button-icon w150",
-                                    onClick: "$p.selectSearchEditorColumn($(this), 'Check');",
-                                    action: "SetSiteSettings",
-                                    method: "post"))
+                                    onClick: "$p.selectSearchEditorColumn($(this), 'Check');"))
                             .Div(css: "command-left", action: () => hb
                                 .Button(
                                     controlId: "ShowTargetColumnAttachments",
                                     text: Displays.Attachments(context: context),
                                     controlCss: "button-icon w150",
-                                    onClick: "$p.selectSearchEditorColumn($(this), 'Attachments');",
-                                    action: "SetSiteSettings",
-                                    method: "post")))
+                                    onClick: "$p.selectSearchEditorColumn($(this), 'Attachments');")))
                     .Div(css: "command-center", action: () => hb
                         .Button(
                             controlId: "ShowTargetColumnDefault",
                             text: Displays.Reset(context: context),
                             controlCss: "button-icon",
                             onClick: "$p.selectSearchEditorColumn($(this), '');",
-                            icon: "ui-icon-gear",
-                            action: "SetSiteSettings",
-                            method: "post")
+                            icon: "ui-icon-gear")
                         .Button(
                             text: Displays.Cancel(context: context),
                             controlCss: "button-icon",

@@ -3617,54 +3617,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         res: res);
                     break;
-                case "ShowTargetColumnKeyWord":
-                    ShowTargetColumnKeyWord(
-                        context: context,
-                        res: res,
-                        keyWord: context.Forms.Data("TargetColumnKeyWord"));
-                    break;
-                case "ShowTargetColumnBasic":
-                    ShowTargetColumnBasic(
-                        context: context,
-                        res: res);
-                    break;
-                case "ShowTargetColumnClass":
-                    ShowTargetColumnByTypeString(
-                        context: context,
-                        res: res,
-                        typeString: "Class");
-                    break;
-                case "ShowTargetColumnNum":
-                    ShowTargetColumnByTypeString(
-                        context: context,
-                        res: res,
-                        typeString: "Num");
-                    break;
-                case "ShowTargetColumnDate":
-                    ShowTargetColumnByTypeString(
-                        context: context,
-                        res: res,
-                        typeString: "Date");
-                    break;
-                case "ShowTargetColumnDescription":
-                    ShowTargetColumnByTypeString(
-                        context: context,
-                        res: res,
-                        typeString: "Description");
-                    break;
-                case "ShowTargetColumnCheck":
-                    ShowTargetColumnByTypeString(
-                        context: context,
-                        res: res,
-                        typeString: "Check");
-                    break;
-                case "ShowTargetColumnAttachments":
-                    ShowTargetColumnByTypeString(
-                        context: context,
-                        res: res,
-                        typeString: "Attachments");
-                    break;
-                case "ShowTargetColumnDefault":
+                case "SearchEditorColumnDialogSelection":
                     ShowTargetColumnDefault(
                         context: context,
                         res: res);
@@ -4193,86 +4146,9 @@ namespace Implem.Pleasanter.Models
                 ss: SiteSettings);
         }
 
-        private void ShowTargetColumnKeyWord(
-            Context context,
-            ResponseCollection res,
-            string keyWord)
-        {
-            res.Html(
-                "#EditorSourceColumns",
-                new HtmlBuilder().SelectableItems(
-                    listItemCollection: SiteSettings
-                        .EditorSelectableOptionsByKeyWord(
-                            context: context,
-                            keyWord: keyWord)))
-            .SetData("#EditorSourceColumns")
-            .CloseDialog();
-        }
-
-        private void ShowTargetColumnBasic(
-            Context context,
-            ResponseCollection res)
-        {
-            Dictionary<string, ControlData> all = SiteSettings
-                .EditorSelectableOptions(context: context, enabled: false);
-            var key = all
-                .Keys
-                .ToList()
-                .Except(SiteSettings
-                    .EditorSelectableOptionsByTypeString(
-                        context: context, typeString: "Class")
-                    .Union(
-                        SiteSettings
-                                .EditorSelectableOptionsByTypeString(
-                                    context: context, typeString: "Num"))
-                    .Union(
-                        SiteSettings
-                            .EditorSelectableOptionsByTypeString(
-                                context: context, typeString: "Date"))
-                    .Union(
-                        SiteSettings
-                            .EditorSelectableOptionsByTypeString(
-                                context: context, typeString: "Description"))
-                    .Union(
-                        SiteSettings
-                            .EditorSelectableOptionsByTypeString(
-                                    context: context, typeString: "Check"))
-                    .Union(
-                        SiteSettings
-                            .EditorSelectableOptionsByTypeString(
-                                context: context, typeString: "Attachments"))
-                    .ToDictionary()
-                    .Keys
-                    .ToList())
-                .ToList();
-            Dictionary<string, ControlData> basic = new Dictionary<string, ControlData>();
-            foreach (string k in key)
-            {
-                basic.Add(k, all.Get(k));
-            }
-            res.Html(
-                "#EditorSourceColumns",
-                new HtmlBuilder().SelectableItems(listItemCollection: basic))
-            .SetData("#EditorSourceColumns")
-            .CloseDialog();
-        }
-
-        private void ShowTargetColumnByTypeString(
-            Context context,
-            ResponseCollection res,
-            string typeString)
-        {
-            res.Html(
-                "#EditorSourceColumns",
-                new HtmlBuilder().SelectableItems(
-                    listItemCollection: SiteSettings
-                        .EditorSelectableOptionsByTypeString(
-                            context: context,
-                            typeString: typeString)))
-            .SetData("#EditorSourceColumns")
-            .CloseDialog();
-        }
-
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private void ShowTargetColumnDefault(
             Context context,
             ResponseCollection res)
