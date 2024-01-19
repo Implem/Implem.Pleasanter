@@ -2844,8 +2844,11 @@ namespace Implem.Pleasanter.Libraries.Settings
             return hash;
         }
 
-        public Dictionary<string, ControlData> EditorSelectableOptions( // 既存のリスト（右辺）の生成処理（本対応で変更なし）
-            Context context, bool enabled = true)
+        public Dictionary<string, ControlData> EditorSelectableOptions(
+            Context context,
+            bool enabled = true,
+            string selection = "",
+            string keyWord = "")
         {
             return enabled
                 ? ColumnUtilities.SelectableOptions(
@@ -2865,7 +2868,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                     ss: this,
                     columns: ColumnDefinitionHash.EditorDefinitions(context: context)
                         .Where(o => !GetEditorColumnNames().Contains(o.ColumnName))
-                        //.Where(o => FilterColumn(context,this,o))
+                        .Where(o => FilterColumn(
+                            context: context,
+                            ss: this,
+                            def: o,
+                            selection: selection,
+                            keyWord: keyWord))
                         .OrderBy(o => o.EditorColumn)
                         .Select(o => o.ColumnName),
                     order: ColumnDefinitionHash?.EditorDefinitions(context: context)?
@@ -2878,145 +2886,36 @@ namespace Implem.Pleasanter.Libraries.Settings
          * 1カラム1回だけ判定するように性能を改善する。
          * 検索するフィールドが複数あるなら、どこかでヒットしたら返すように組む。
          * フィールド内の検索は単語複数あるならAND条件になるようにする。
-        private bool FilterColumn(Context context, SiteSettings ss, ColumnDefinition def,string word)
-        {
-        // 今回のダイアログの入力内容から検索を行うフィルタ用のメソッド。
-        // 対象のフィールドは3つ→ヒットしたものすべてのカラムを出力。（Any）
-        // 　　フィールド単位の検索ダイアログに入力した文字列→空白区切りでそのすべてがAND条件（All）
-
-            def.ColumnName,
-
-            ss.GetColumn(context:context,def.ColumnName)
-            
-            def.LabelText
-               
-        }
         **/
-
-        public Dictionary<string, ControlData> EditorSelectableOptionsByTypeString(
-            Context context, string typeString)
+        private bool FilterColumn(
+            Context context,
+            SiteSettings ss,
+            ColumnDefinition def,
+            string selection,
+            string keyWord)
         {
-            return ColumnUtilities.SelectableOptions(
-                context: context,
-                ss: this,
-                columns: ColumnDefinitionHash.EditorDefinitions(context: context)
-                    .Where(o => !GetEditorColumnNames().Contains(o.ColumnName))
-                    .Where(o => o.ColumnName.StartsWith(typeString))
-                    .OrderBy(o => o.EditorColumn)
-                    .Select(o => o.ColumnName),
-                order: ColumnDefinitionHash?.EditorDefinitions(context: context)?
-                    .OrderBy(o => o.EditorColumn)
-                    .Select(o => o.ColumnName).ToList());
-        }
-
-        public Dictionary<string, ControlData> EditorSelectableOptionsByKeyWord(
-            Context context, string keyWord)
-        {
-            var array = keyWord.Replace("　", " ").Split(" ");
-            List<string> resultByColumnName = new List<string>();
-            List<string> resultByLabelText = new List<string>();
-            List<string> resultByLabelTextDefault = new List<string>();
-            foreach (string k in array)
+            switch (selection)
             {
-                List<string> tmp1
-                    = SearchEditorSelectableOptionsByColumnName(
-                        context: context,
-                        columnName: k.Trim()).Keys.ToList();
-                if (resultByColumnName.Count == 0)
-                {
-                    resultByColumnName = tmp1;
-
-                }
-                else
-                {
-                    resultByColumnName = tmp1.Intersect(resultByColumnName)
-                        .ToList();
-                }
-
-                List<string> tmp2
-                    = SearchEditorSelectableOptionsByLabelTextDefault(
-                        context: context,
-                        labelTextDefault: k.Trim()).Keys.ToList();
-                if (resultByLabelTextDefault.Count == 0)
-                {
-                    resultByLabelTextDefault = tmp2;
-
-                }
-                else
-                {
-                    resultByLabelTextDefault = tmp2.Intersect(resultByLabelTextDefault)
-                        .ToList();
-                }
-
-                List<string> tmp3
-                    = SearchEditorSelectableOptionsByLabelText(
-                        context: context,
-                        labelText: k.Trim()).Keys.ToList();
-                if (resultByLabelText.Count == 0)
-                {
-                    resultByLabelText = tmp3;
-
-                }
-                else
-                {
-                    resultByLabelText = tmp3.Intersect(resultByLabelText)
-                        .ToList();
-                }
+                case "KeyWord":
+                    // 今回のダイアログの入力内容から検索を行うフィルタ用のメソッド。
+                    // 対象のフィールドは3つ→ヒットしたものすべてのカラムを出力。（Any）
+                    // 　　フィールド単位の検索ダイアログに入力した文字列→空白区切りでそのすべてがAND条件（All）            
+                    //def.ColumnName
+                    //def.LabelText;
+                    //ss.GetColumn(context: context, def.ColumnName);
+                    return true;
+                case "Basic":
+                    //return !def.ColumnName.StartsWith(selection); 動作しない。確認する。
+                case "Class":
+                case "Num":
+                case "Date":
+                case "Description":
+                case "Check":
+                case "Attachments":
+                    return def.ColumnName.StartsWith(selection);
+                default:
+                    return true;
             }
-            List<string> resultKeys = resultByColumnName
-                .Union(resultByLabelTextDefault)
-                .Union(resultByLabelText)
-                .ToList();
-            Dictionary<string, ControlData> all
-                = EditorSelectableOptions(context: context, enabled: false);
-            Dictionary<string, ControlData> result
-                = new Dictionary<string, ControlData>();
-            foreach (KeyValuePair<string, ControlData> data in all)
-            {
-                if (resultKeys.Contains(data.Key))
-                {
-                    result.Add(data.Key, data.Value);
-                }
-            }
-            return result;
-        }
-
-        private Dictionary<string, ControlData> SearchEditorSelectableOptionsByColumnName(
-            Context context, string columnName)
-        {
-            return ColumnUtilities.SelectableOptions(
-                context: context,
-                ss: this,
-                columns: ColumnDefinitionHash.EditorDefinitions(context: context)
-                    .Where(o => !GetEditorColumnNames().Contains(o.ColumnName))
-                    .Where(o => o.ColumnName.Contains(
-                        value: columnName.Trim(),
-                        comparisonType: StringComparison.OrdinalIgnoreCase))
-                    .Select(o => o.ColumnName));
-        }
-
-        private Dictionary<string, ControlData> SearchEditorSelectableOptionsByLabelTextDefault(
-            Context context, string labelTextDefault)
-        {
-            return ColumnUtilities.SelectableOptions(
-                context: context,
-                ss: this,
-                columns: ColumnDefinitionHash.EditorDefinitions(context: context)
-                    .Where(o => !GetEditorColumnNames().Contains(o.ColumnName))
-                    .Where(o => o.LabelText.Contains(
-                        value: labelTextDefault.Trim(),
-                        comparisonType: StringComparison.OrdinalIgnoreCase))
-                    .Select(o => o.ColumnName));
-        }
-
-        private Dictionary<string, ControlData> SearchEditorSelectableOptionsByLabelText(
-            Context context, string labelText)
-        {
-            return EditorSelectableOptions(context: context, enabled: false)
-                .Where(o => o.Value.Text.Contains(
-                    value: labelText.Trim(),
-                    comparisonType: StringComparison.OrdinalIgnoreCase))
-                .ToDictionary();
         }
 
         public Dictionary<string, ControlData> EditorSelectableOptions(

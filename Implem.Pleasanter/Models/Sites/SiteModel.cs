@@ -3618,7 +3618,7 @@ namespace Implem.Pleasanter.Models
                         res: res);
                     break;
                 case "SearchEditorColumnDialogSelection":
-                    ShowTargetColumnDefault(
+                    FilterSourceColumnSelectable(
                         context: context,
                         res: res);
                     break;
@@ -4149,17 +4149,11 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private void ShowTargetColumnDefault(
+        private void FilterSourceColumnSelectable(
             Context context,
             ResponseCollection res)
         {
-            res.Html(
-                "#EditorSourceColumns",
-                new HtmlBuilder().SelectableItems(
-                    listItemCollection: SiteSettings
-                        .EditorSelectableOptions(   // ←既存の処理。引数を今回拡張する。（押したボタン、検索ワード）
-                            context: context,
-                            enabled: false)))
+            SiteUtilities.FilterSourceColumnSelectable(res, context, SiteSettings)
             .SetData("#EditorSourceColumns")
             .CloseDialog();
         }

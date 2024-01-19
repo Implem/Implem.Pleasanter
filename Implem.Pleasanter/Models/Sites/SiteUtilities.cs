@@ -7247,6 +7247,25 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public static ResponseCollection FilterSourceColumnSelectable(
+            ResponseCollection res,
+            Context context,
+            SiteSettings ss)
+        {
+            return res.Html(
+                "#EditorSourceColumns",
+                new HtmlBuilder().SelectableItems(
+                    listItemCollection: ss
+                        .EditorSelectableOptions(
+                            context: context,
+                            enabled: false,
+                            selection: context.Forms.Data("SearchEditorColumnDialogSelection"),
+                            keyWord: context.Forms.Data("SearchEditorColumnDialogKeyWord"))));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static ResponseCollection EditorSourceColumnsResponses(
             this ResponseCollection res,
             Context context,
@@ -7255,83 +7274,7 @@ namespace Implem.Pleasanter.Models
             switch (context.Forms.Data("EditorSourceColumnsType"))
             {
                 case "Columns":
-                    switch (context.Forms.Data("SearchEditorColumnDialogSelection"))
-                    {
-                        case "KeyWord":
-                            res.Html(
-                                "#EditorSourceColumns",
-                                new HtmlBuilder().SelectableItems(
-                                    listItemCollection: ss
-                                        .EditorSelectableOptionsByKeyWord(
-                                            context: context,
-                                            keyWord: context.Forms.Data("SearchEditorColumnDialogKeyWord"))));
-                            break;
-                        case "Basic":
-                            Dictionary<string, ControlData> all = ss
-                                .EditorSelectableOptions(context: context, enabled: false);
-                            var key = all
-                                .Keys
-                                .ToList()
-                                .Except(ss
-                                    .EditorSelectableOptionsByTypeString(
-                                        context: context, typeString: "Class")
-                                    .Union(
-                                        ss
-                                            .EditorSelectableOptionsByTypeString(
-                                                context: context, typeString: "Num"))
-                                    .Union(
-                                        ss
-                                            .EditorSelectableOptionsByTypeString(
-                                                context: context, typeString: "Date"))
-                                    .Union(
-                                        ss
-                                            .EditorSelectableOptionsByTypeString(
-                                                context: context, typeString: "Description"))
-                                    .Union(
-                                        ss
-                                            .EditorSelectableOptionsByTypeString(
-                                                    context: context, typeString: "Check"))
-                                    .Union(
-                                        ss
-                                            .EditorSelectableOptionsByTypeString(
-                                                context: context, typeString: "Attachments"))
-                                    .ToDictionary()
-                                    .Keys
-                                    .ToList())
-                                .ToList();
-                            Dictionary<string, ControlData> basic = new Dictionary<string, ControlData>();
-                            foreach (string k in key)
-                            {
-                                basic.Add(k, all.Get(k));
-                            }
-                            res.Html(
-                                "#EditorSourceColumns",
-                                new HtmlBuilder().SelectableItems(listItemCollection: basic));
-                            break;
-                        case "Class":
-                        case "Num":
-                        case "Date":
-                        case "Description":
-                        case "Check":
-                        case "Attachments":
-                            res.Html(
-                                "#EditorSourceColumns",
-                                new HtmlBuilder().SelectableItems(
-                                    listItemCollection: ss
-                                        .EditorSelectableOptionsByTypeString(
-                                            context: context,
-                                            typeString: context.Forms.Data("SearchEditorColumnDialogSelection"))));
-                            break;
-                        default:
-                            res.Html(
-                                "#EditorSourceColumns",
-                                new HtmlBuilder().SelectableItems(
-                                    listItemCollection: ss
-                                        .EditorSelectableOptions(
-                                            context: context,
-                                            enabled: false)));
-                            break;
-                    }
+                    FilterSourceColumnSelectable(res, context, ss);
                     break;
                 case "Links":
                     res.Html(
