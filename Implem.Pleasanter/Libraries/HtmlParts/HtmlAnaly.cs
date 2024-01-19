@@ -48,7 +48,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     Id = 0,
                     GroupBy = ss.AnalyGroupByOptions(context: context).FirstOrDefault().Key,
                     TimePeriodValue = 0,
-                    TimePeriod = "DaysAgoNoArgs",
+                    TimePeriod = "Days",
                     AggregationType = "Count"
                 };
             return hb.Form(

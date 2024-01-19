@@ -3229,12 +3229,12 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             return new Dictionary<string, string>()
             {
-                { "DaysAgoNoArgs", Displays.DaysAgoNoArgs(context: context) },
-                { "MonthsAgoNoArgs", Displays.MonthsAgoNoArgs(context: context) },
-                { "YearsAgoNoArgs", Displays.YearsAgoNoArgs(context: context) },
-                { "HoursAgoNoArgs", Displays.HoursAgoNoArgs(context: context) },
-                { "MinutesAgoNoArgs", Displays.MinutesAgoNoArgs(context: context) },
-                { "SecondsAgoNoArgs", Displays.SecondsAgoNoArgs(context: context) }
+                { "Days", Displays.DaysAgoNoArgs(context: context) },
+                { "Months", Displays.MonthsAgoNoArgs(context: context) },
+                { "Years", Displays.YearsAgoNoArgs(context: context) },
+                { "Hours", Displays.HoursAgoNoArgs(context: context) },
+                { "Minutes", Displays.MinutesAgoNoArgs(context: context) },
+                { "Seconds", Displays.SecondsAgoNoArgs(context: context) }
             };
         }
 
