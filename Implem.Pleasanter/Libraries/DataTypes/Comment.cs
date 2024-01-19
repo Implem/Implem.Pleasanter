@@ -65,8 +65,11 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                     else
                     {
                         hb
-                            .P(css: "body markup", action: () => hb
-                                .Text(text: Body));
+                            .P(
+                                css: "body markup",
+                                attributes: new HtmlAttributes().Add("data-enablelightbox", Implem.DefinitionAccessor.Parameters.General.EnableLightBox ? "1" : "0"),
+                                action: () => hb
+                                    .Text(text: Body));
                     }
                 });
         }
