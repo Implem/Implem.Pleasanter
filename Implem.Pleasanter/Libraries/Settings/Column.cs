@@ -1298,10 +1298,14 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 css,
                 ExtendedCellCss,
-                TextAlign == SiteSettings.TextAlignTypes.Right
-                    ? "right-align"
-                    : string.Empty
-            }
+                TextAlign switch
+                {
+                    SiteSettings.TextAlignTypes.Right => " right-align",
+                    SiteSettings.TextAlignTypes.Center => " center-align",
+                    _ => string.Empty
+                }
+        }
+
                 .Select(o => o?.Trim())
                 .Where(o => !o.IsNullOrEmpty())
                 .Join(" ");

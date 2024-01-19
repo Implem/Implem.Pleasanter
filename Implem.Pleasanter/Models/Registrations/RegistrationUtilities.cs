@@ -1681,9 +1681,13 @@ namespace Implem.Pleasanter.Models
                                                     controlId: $"Registrations_{column.Name}",
                                                     columnName: column.ColumnName,
                                                     fieldCss: column.FieldCss
-                                                        + (column.TextAlign == SiteSettings.TextAlignTypes.Right
-                                                            ? " right-align"
-                                                            : string.Empty),
+                                                        + (
+                                                            column.TextAlign switch
+                                                            {
+                                                                SiteSettings.TextAlignTypes.Right => " right-align",
+                                                                SiteSettings.TextAlignTypes.Center => " center-align",
+                                                                _ => string.Empty
+                                                            }),
                                                     fieldDescription: column.Description,
                                                     labelText: column.LabelText,
                                                     value: registrationModel.GetAttachments(columnName: column.Name).ToJson(),
