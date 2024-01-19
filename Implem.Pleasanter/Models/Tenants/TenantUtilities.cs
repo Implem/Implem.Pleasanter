@@ -1150,11 +1150,13 @@ namespace Implem.Pleasanter.Models
                                                     controlId: $"Tenants_{column.Name}",
                                                     columnName: column.ColumnName,
                                                     fieldCss: column.FieldCss
-                                                        + (column.TextAlign == SiteSettings.TextAlignTypes.Right
-                                                            ? " right-align"
-                                                            : column.TextAlign == SiteSettings.TextAlignTypes.Center
-                                                                ? " center-align"
-                                                                : string.Empty),
+                                                        + (
+                                                            column.TextAlign switch
+                                                            {
+                                                                SiteSettings.TextAlignTypes.Right => " right-align",
+                                                                SiteSettings.TextAlignTypes.Center => " center-align",
+                                                                _ => string.Empty
+                                                            }),
                                                     fieldDescription: column.Description,
                                                     labelText: column.LabelText,
                                                     value: tenantModel.GetAttachments(columnName: column.Name).ToJson(),

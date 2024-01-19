@@ -522,11 +522,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         baseModel: issueModel))
                                 {
                                     hb.Td(
-                                        css: column.TextAlign == SiteSettings.TextAlignTypes.Right
-                                            ? " right-align"
-                                            : column.TextAlign == SiteSettings.TextAlignTypes.Center
-                                                ? " center-align"
-                                                : string.Empty,
+                                        css: column.TextAlign switch
+                                            {
+                                                SiteSettings.TextAlignTypes.Right => " right-align",
+                                                SiteSettings.TextAlignTypes.Center => " center-align",
+                                                _ => string.Empty
+                                            },
                                         action: () => hb.Field(
                                             context: context,
                                             column: column,
@@ -588,11 +589,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         baseModel: resultModel))
                                 {
                                     hb.Td(
-                                        css: column.TextAlign == SiteSettings.TextAlignTypes.Right
-                                            ? " right-align"
-                                            : column.TextAlign == SiteSettings.TextAlignTypes.Center
-                                                ? " center-align"
-                                                : string.Empty,
+                                        css: column.TextAlign switch
+                                            {
+                                                SiteSettings.TextAlignTypes.Right => " right-align",
+                                                SiteSettings.TextAlignTypes.Center => " center-align",
+                                                _ => string.Empty
+                                            },
                                         action: () => hb.Field(
                                             context: context,
                                             column: column,

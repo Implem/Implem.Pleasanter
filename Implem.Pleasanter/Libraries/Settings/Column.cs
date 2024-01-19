@@ -1304,6 +1304,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         ? " center-align"
                         : string.Empty
         }
+
                 .Select(o => o?.Trim())
                 .Where(o => !o.IsNullOrEmpty())
                 .Join(" ");
