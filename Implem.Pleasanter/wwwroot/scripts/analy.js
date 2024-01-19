@@ -51,13 +51,14 @@
         div
             .append('span')
             .attr('id', 'DeleteChartIcon_' + pieChart.Setting.Id)
-            .attr('class', 'ui-icon ui-icon-closethick')
+            .attr('class', 'material-symbols-outlined')
             .attr('onclick', '$p.send($(\'#DeleteAnalyPart_' + pieChart.Setting.Id + '\'));')
             .style('margin-top', '5%')
             .style('margin-right', '5%')
             .style('visibility', 'hidden')
             .style('cursor', 'pointer')
-            .style('float', 'right');
+            .style('float', 'right')
+            .text('close');
         // svgタグを設定
         var svg = div
             .append('svg')
