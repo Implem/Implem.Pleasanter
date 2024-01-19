@@ -60,6 +60,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public enum TextAlignTypes : int
         {
             Left = 10,
+            Center = 15,
             Right = 20
         }
 
