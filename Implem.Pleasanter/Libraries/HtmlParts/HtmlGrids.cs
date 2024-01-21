@@ -664,10 +664,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             {
                 return false;
             }
-            if (column.TypeCs == "Attachments")
-            {
-                return false;
-            }
             if (!column.GridDesign.IsNullOrEmpty())
             {
                 return false;

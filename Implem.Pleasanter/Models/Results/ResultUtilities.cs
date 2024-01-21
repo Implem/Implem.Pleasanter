@@ -2641,7 +2641,6 @@ namespace Implem.Pleasanter.Models
                                 mine: null)
                             && !column.Id_Ver
                             && column.EditorColumn
-                            && column.TypeCs != "Attachments"
                             && column.GridDesign.IsNullOrEmpty())
                         {
                             hb.Td(action: () => hb
