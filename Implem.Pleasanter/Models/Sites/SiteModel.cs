@@ -9149,7 +9149,6 @@ namespace Implem.Pleasanter.Models
                     res.Message(Messages.CanNotPerformed(context: context));
                     break;
                 case "Columns":
-                    AddOrUpdateEditorColumnHash(context: context);
                     res.Html("#SearchEditorColumnDialog", SiteUtilities.SearchEditorColumnDialog(
                         context: context,
                         ss: SiteSettings));
