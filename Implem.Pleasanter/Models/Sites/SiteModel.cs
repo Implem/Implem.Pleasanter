@@ -4149,18 +4149,6 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private void FilterSourceColumnsSelectable(
-            Context context,
-            ResponseCollection res)
-        {
-            SiteUtilities.FilterSourceColumnsSelectable(res, context, SiteSettings)
-            .SetData("#EditorSourceColumns")
-            .CloseDialog();
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
         private void SetTabsOrder(Context context, ResponseCollection res, string controlId)
         {
             var selected = context.Forms.IntList("Tabs");
@@ -9168,6 +9156,18 @@ namespace Implem.Pleasanter.Models
                         ss: SiteSettings));
                     break;
             }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void FilterSourceColumnsSelectable(
+            Context context,
+            ResponseCollection res)
+        {
+            SiteUtilities.FilterSourceColumnsSelectable(res, context, SiteSettings)
+            .SetData("#EditorSourceColumns")
+            .CloseDialog();
         }
     }
 }
