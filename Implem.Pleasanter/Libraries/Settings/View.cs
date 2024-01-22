@@ -964,7 +964,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         KambanAggregationView = dashboardPart.KambanAggregationView;
                         KambanShowStatus = dashboardPart.KambanShowStatus;
                     }
-                    if (ss.DashboardParts?.Count.Equals(1) == true && ss.DashboardParts.First().Type.ToString() == "Index")
+                    if (ss.DashboardParts?.FirstOrDefault()?.Type == DashboardPartType.Index)
                     {
                         var dashboardPart = ss.DashboardParts.FirstOrDefault();
                         IndexSuffix = $"_{dashboardPart.Id}";
