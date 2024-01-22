@@ -2906,8 +2906,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 value: o,
                                 comparisonType: StringComparison.OrdinalIgnoreCase));
                 case "Basic":
+                    //「分類」「数値」「日付」「説明」「チェック」「添付ファイル」の
+                    //何れでもないカラムならばTrueを返却する（例「担当者」はTrue）
                     return new List<string> {
-                        "Class","Num", "Date","Description", "Check", "Attachments" }
+                        "Class", "Num", "Date", "Description", "Check", "Attachments" }
                             .All(o => !def.ColumnName.StartsWith(o));
                 case "Class":
                 case "Num":
