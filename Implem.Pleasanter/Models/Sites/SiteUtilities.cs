@@ -7247,25 +7247,6 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static ResponseCollection FilterSourceColumnSelectable(
-            ResponseCollection res,
-            Context context,
-            SiteSettings ss)
-        {
-            return res.Html(
-                "#EditorSourceColumns",
-                new HtmlBuilder().SelectableItems(
-                    listItemCollection: ss
-                        .EditorSelectableOptions(
-                            context: context,
-                            enabled: false,
-                            selection: context.Forms.Data("SearchEditorColumnDialogSelection"),
-                            keyWord: context.Forms.Data("SearchEditorColumnDialogKeyWord"))));
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
         public static ResponseCollection EditorSourceColumnsResponses(
             this ResponseCollection res,
             Context context,
@@ -7274,7 +7255,7 @@ namespace Implem.Pleasanter.Models
             switch (context.Forms.Data("EditorSourceColumnsType"))
             {
                 case "Columns":
-                    FilterSourceColumnSelectable(res, context, ss);
+                    FilterSourceColumnsSelectable(res, context, ss);
                     break;
                 case "Links":
                     res.Html(
@@ -7300,6 +7281,25 @@ namespace Implem.Pleasanter.Models
                     break;
             }
             return res.SetData("#EditorSourceColumns");
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static ResponseCollection FilterSourceColumnsSelectable(
+            ResponseCollection res,
+            Context context,
+            SiteSettings ss)
+        {
+            return res.Html(
+                "#EditorSourceColumns",
+                new HtmlBuilder().SelectableItems(
+                    listItemCollection: ss
+                        .EditorSelectableOptions(
+                            context: context,
+                            enabled: false,
+                            selection: context.Forms.Data("SearchEditorColumnDialogSelection"),
+                            keyWord: context.Forms.Data("SearchEditorColumnDialogKeyWord"))));
         }
 
         /// <summary>
@@ -16687,6 +16687,9 @@ namespace Implem.Pleasanter.Models
             return hb;
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static HtmlBuilder SearchEditorColumnDialog(
             Context context,
             SiteSettings ss)

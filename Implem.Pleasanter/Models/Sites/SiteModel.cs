@@ -3618,7 +3618,7 @@ namespace Implem.Pleasanter.Models
                         res: res);
                     break;
                 case "SearchEditorColumnDialogSelection":
-                    FilterSourceColumnSelectable(
+                    FilterSourceColumnsSelectable(
                         context: context,
                         res: res);
                     break;
@@ -4149,11 +4149,11 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private void FilterSourceColumnSelectable(
+        private void FilterSourceColumnsSelectable(
             Context context,
             ResponseCollection res)
         {
-            SiteUtilities.FilterSourceColumnSelectable(res, context, SiteSettings)
+            SiteUtilities.FilterSourceColumnsSelectable(res, context, SiteSettings)
             .SetData("#EditorSourceColumns")
             .CloseDialog();
         }
