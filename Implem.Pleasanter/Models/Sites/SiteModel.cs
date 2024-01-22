@@ -9164,6 +9164,7 @@ namespace Implem.Pleasanter.Models
             Context context,
             ResponseCollection res)
         {
+            AddOrUpdateEditorColumnHash(context: context);
             SiteUtilities.FilterSourceColumnsSelectable(res, context, SiteSettings)
             .SetData("#EditorSourceColumns")
             .CloseDialog();
