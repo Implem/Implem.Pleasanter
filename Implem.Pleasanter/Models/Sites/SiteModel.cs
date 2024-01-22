@@ -20,7 +20,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Linq;
-
+using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
 namespace Implem.Pleasanter.Models
 {
     [Serializable]
@@ -2553,6 +2553,9 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public void UpsertProcessByApi(
             SiteSettings siteSetting,
             List<ApiSiteSettings.ProcessApiSettingModel> processesApiSiteSetting,
@@ -2642,8 +2645,11 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public void UpsertStatusControlByApi(
-            SiteSettings siteSetting,
+        SiteSettings siteSetting,
             List<ApiSiteSettings.StatusControlApiSettingModel> statusControlSettings,
             Context context)
         {

@@ -3144,6 +3144,9 @@ namespace Implem.Pleasanter.Models
             return count;
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static int CountByIds(Context context, SiteSettings ss, List<int> ids)
         {
             return Repository.ExecuteScalar_int(
