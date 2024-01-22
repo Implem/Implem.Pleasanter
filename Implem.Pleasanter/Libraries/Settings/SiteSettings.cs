@@ -2881,12 +2881,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .Select(o => o.ColumnName).ToList());
         }
 
-        /**
-         * FilterColumnは、1つのカラムに対する検索処理になる。
-         * 1カラム1回だけ判定するように性能を改善する。
-         * 検索するフィールドが複数あるなら、どこかでヒットしたら返すように組む。
-         * フィールド内の検索は単語複数あるならAND条件になるようにする。
-        **/
         private bool FilterColumn(
             Context context,
             SiteSettings ss,
@@ -2897,15 +2891,23 @@ namespace Implem.Pleasanter.Libraries.Settings
             switch (selection)
             {
                 case "KeyWord":
-                    // 今回のダイアログの入力内容から検索を行うフィルタ用のメソッド。
-                    // 対象のフィールドは3つ→ヒットしたものすべてのカラムを出力。（Any）
-                    // 　　フィールド単位の検索ダイアログに入力した文字列→空白区切りでそのすべてがAND条件（All）            
-                    //def.ColumnName
-                    //def.LabelText;
-                    //ss.GetColumn(context: context, def.ColumnName);
-                    return true;
+                    var keyWords = keyWord.Replace("　", " ").Split(" ");
+                    return keyWords
+                        .All(o => def.ColumnName.Contains(
+                            value: o,
+                            comparisonType: StringComparison.OrdinalIgnoreCase))
+                        || keyWords
+                            .All(o => def.LabelText.Contains(
+                                value: o,
+                                comparisonType: StringComparison.OrdinalIgnoreCase))
+                        || keyWords
+                            .All(o => ss.GetColumn(context, def.ColumnName).LabelText.Contains(
+                                value: o,
+                                comparisonType: StringComparison.OrdinalIgnoreCase));
                 case "Basic":
-                    //return !def.ColumnName.StartsWith(selection); 動作しない。確認する。
+                    return new List<string> {
+                        "Class","Num", "Date","Description", "Check", "Attachments" }
+                            .All(o => !def.ColumnName.StartsWith(o));
                 case "Class":
                 case "Num":
                 case "Date":
