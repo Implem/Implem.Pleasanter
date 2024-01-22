@@ -6458,6 +6458,10 @@ namespace Implem.Pleasanter.Models
                                             SiteSettings.TextAlignTypes.Right.ToInt().ToString(),
                                             Displays.RightAlignment(context: context)
                                         },
+                                        {
+                                            SiteSettings.TextAlignTypes.Center.ToInt().ToString(),
+                                            Displays.CenterAlignment(context: context)
+                                        },
                                     },
                                     selectedValue: column.TextAlign.ToInt().ToString());
                             if (column.OtherColumn())

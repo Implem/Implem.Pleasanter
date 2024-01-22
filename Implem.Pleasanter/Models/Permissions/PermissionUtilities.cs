@@ -164,7 +164,7 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     controlId: "InheritPermission",
                     fieldCss: "field-auto-thin",
-                    controlCss: " auto-postback search",
+                    controlCss: " auto-postback search always-send",
                     labelText: Displays.InheritPermission(context: context),
                     optionCollection: InheritTargets(
                         context: context,
