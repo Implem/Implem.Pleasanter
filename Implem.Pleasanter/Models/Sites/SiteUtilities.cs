@@ -5866,13 +5866,10 @@ namespace Implem.Pleasanter.Models
                             searchOptionId: "OpenSearchEditorColumnDialog",
                             searchOptionFunction: "$p.openSearchEditorColumnDialog($(this));")
                         .Hidden(
-                            controlId: "SearchEditorColumnDialogSelection",
+                            controlId: "SearchEditorColumnDialogInput",
                             css: "always-send",
                             action: "SetSiteSettings",
                             method: "post")
-                        .Hidden(
-                            controlId: "SearchEditorColumnDialogKeyWord",
-                            css: "always-send")
                         .Div(
                             css: "both",
                             action: () => hb
@@ -7291,6 +7288,8 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss)
         {
+            var dialogInput = context.Forms.Data("SearchEditorColumnDialogInput")
+                .Deserialize<Dictionary<string, string>>();
             return res.Html(
                 "#EditorSourceColumns",
                 new HtmlBuilder().SelectableItems(
@@ -7298,8 +7297,8 @@ namespace Implem.Pleasanter.Models
                         .EditorSelectableOptions(
                             context: context,
                             enabled: false,
-                            selection: context.Forms.Data("SearchEditorColumnDialogSelection"),
-                            keyWord: context.Forms.Data("SearchEditorColumnDialogKeyWord"))));
+                            selection: dialogInput.Get("selection"),
+                            keyWord: dialogInput.Get("keyWord"))));
         }
 
         /// <summary>
@@ -16694,6 +16693,8 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss)
         {
+            var dialogInput = context.Forms.Data("SearchEditorColumnDialogInput")
+                .Deserialize<Dictionary<string, string>>();
             var hb = new HtmlBuilder();
             return hb.Form(
                 attributes: new HtmlAttributes()
@@ -16708,13 +16709,13 @@ namespace Implem.Pleasanter.Models
                         action: () => hb
                             .FieldTextBox(
                                 controlId: "TargetColumnKeyWord",
-                                text: context.Forms.Data("SearchEditorColumnDialogKeyWord"),
+                                text: dialogInput == null ? "" : dialogInput.Get("keyWord"),
                                 controlCss: "control-textbox always-send")
                             .Button(
                                 controlId: "ShowTargetColumnKeyWord",
                                 text: Displays.Search(context: context),
                                 controlCss: "button-icon",
-                                onClick: "$p.selectSearchEditorColumn($(this), 'KeyWord');"))
+                                onClick: "$p.selectSearchEditorColumn('KeyWord');"))
                     .FieldSet(
                         css: " enclosed",
                         legendText: Displays.UseSearchFilter(context: context),
@@ -16724,45 +16725,45 @@ namespace Implem.Pleasanter.Models
                                     controlId: "ShowTargetColumnBasic",
                                     text: Displays.Basic(context: context),
                                     controlCss: "button-icon w150",
-                                    onClick: "$p.selectSearchEditorColumn($(this), 'Basic');")
+                                    onClick: "$p.selectSearchEditorColumn('Basic');")
                                 .Button(
                                     controlId: "ShowTargetColumnClass",
                                     text: Displays.Class(context: context),
                                     controlCss: "button-icon w150",
-                                    onClick: "$p.selectSearchEditorColumn($(this), 'Class');")
+                                    onClick: "$p.selectSearchEditorColumn('Class');")
                                 .Button(
                                     controlId: "ShowTargetColumnNum",
                                     text: Displays.Num(context: context),
                                     controlCss: "button-icon w150",
-                                    onClick: "$p.selectSearchEditorColumn($(this), 'Num');"))
+                                    onClick: "$p.selectSearchEditorColumn('Num');"))
                             .Div(css: "command-left", action: () => hb
                                 .Button(
                                     controlId: "ShowTargetColumnDate",
                                     text: Displays.Date(context: context),
                                     controlCss: "button-icon w150",
-                                    onClick: "$p.selectSearchEditorColumn($(this), 'Date');")
+                                    onClick: "$p.selectSearchEditorColumn('Date');")
                                 .Button(
                                     controlId: "ShowTargetColumnDescription",
                                     text: Displays.Description(context: context),
                                     controlCss: "button-icon w150",
-                                    onClick: "$p.selectSearchEditorColumn($(this), 'Description');")
+                                    onClick: "$p.selectSearchEditorColumn('Description');")
                                 .Button(
                                     controlId: "ShowTargetColumnCheck",
                                     text: Displays.Check(context: context),
                                     controlCss: "button-icon w150",
-                                    onClick: "$p.selectSearchEditorColumn($(this), 'Check');"))
+                                    onClick: "$p.selectSearchEditorColumn('Check');"))
                             .Div(css: "command-left", action: () => hb
                                 .Button(
                                     controlId: "ShowTargetColumnAttachments",
                                     text: Displays.Attachments(context: context),
                                     controlCss: "button-icon w150",
-                                    onClick: "$p.selectSearchEditorColumn($(this), 'Attachments');")))
+                                    onClick: "$p.selectSearchEditorColumn('Attachments');")))
                     .Div(css: "command-center", action: () => hb
                         .Button(
                             controlId: "ShowTargetColumnDefault",
                             text: Displays.Reset(context: context),
                             controlCss: "button-icon",
-                            onClick: "$p.selectSearchEditorColumn($(this), '');",
+                            onClick: "$p.selectSearchEditorColumn('');",
                             icon: "ui-icon-gear")
                         .Button(
                             text: Displays.Cancel(context: context),

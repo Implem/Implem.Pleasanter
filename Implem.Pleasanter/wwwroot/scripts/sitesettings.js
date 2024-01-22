@@ -321,19 +321,21 @@ $p.confirmKambanSites = function (value) {
         $p.closeDialog($("#DashboardPartKambanSitesDialog"));
     }
 }
+
 $p.openSearchEditorColumnDialog = function ($control) {
     $p.data.SearchEditorColumnForm = {};
     $p.openSiteSettingsDialog($control, '#SearchEditorColumnDialog', '535px');
 }
 
-$p.selectSearchEditorColumn = function ($control, value) {
-    var $selection = $('#SearchEditorColumnDialogSelection');
-    $selection.val(value);
-    if (value == 'KeyWord') {
-        $('#SearchEditorColumnDialogKeyWord').val($('#TargetColumnKeyWord').val());
-    } else {
+$p.selectSearchEditorColumn = function (value) {
+    var $hidden = $('#SearchEditorColumnDialogInput');
+    if (value != 'KeyWord') {
         $('#TargetColumnKeyWord').val('');
-        $('#SearchEditorColumnDialogKeyWord').val('');
-    }   
-    $p.send($selection);
+    }
+    var jsonData = {
+        "selection": value,
+        "keyWord": $('#TargetColumnKeyWord').val()
+    };
+    $hidden.val(JSON.stringify(jsonData));
+    $p.send($hidden);
 }

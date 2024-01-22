@@ -3617,7 +3617,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         res: res);
                     break;
-                case "SearchEditorColumnDialogSelection":
+                case "SearchEditorColumnDialogInput":
                     FilterSourceColumnsSelectable(
                         context: context,
                         res: res);
@@ -9146,8 +9146,7 @@ namespace Implem.Pleasanter.Models
             {
                 case "Links":
                 case "Others":
-                    res.Html("#SearchEditorColumnDialog", new HtmlBuilder())
-                        .Message(Messages.CanNotPerformed(context: context));
+                    res.Message(Messages.CanNotPerformed(context: context));
                     break;
                 case "Columns":
                     AddOrUpdateEditorColumnHash(context: context);
