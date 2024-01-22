@@ -3378,6 +3378,10 @@ textarea:focus {
     flex-direction: column;
 }
 
+.grid-stack > .grid-stack-item > .grid-stack-item-content {
+    overflow-x: auto;
+}
+
 .dashboard-part-title {
     font-size: 1.2em;
     color: #333333;
