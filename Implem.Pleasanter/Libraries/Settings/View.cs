@@ -8,6 +8,7 @@ using Implem.Pleasanter.Libraries.Search;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.ServerScripts;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -96,6 +97,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public Dictionary<string, DateTime?> CalendarStartHash;
         public Dictionary<string, DateTime?> CalendarEndHash;
         public Dictionary<string, string> CalendarViewTypeHash;
+        public Dictionary<string, DashboardPartLayout> DashboardPartLayoutHash;
         public string CrosstabGroupByX;
         public string CrosstabGroupByY;
         public string CrosstabColumns;
@@ -882,6 +884,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                                     context: context,
                                     controlId: controlId);
                                 break;
+                            case "DashboardPartLayout":
+                                AddDashboardPartLayoutHash(context: context);
+                                break;
                             default:
                                 if (controlId.StartsWith(columnFilterPrefix))
                                 {
@@ -1244,6 +1249,22 @@ namespace Implem.Pleasanter.Libraries.Settings
                 CalendarViewTypeHash = new Dictionary<string, string>();
             }
             CalendarViewTypeHash.AddOrUpdate(key: key, value: value);
+        }
+
+        private void AddDashboardPartLayoutHash(Context context)
+        {
+            if(DashboardPartLayoutHash == null)
+            {
+                DashboardPartLayoutHash = new Dictionary<string, DashboardPartLayout>();
+            }
+            var dashboardPartLayout = JsonConvert.DeserializeObject<DashboardPartLayout>(context.Forms.Data("DashboardPartLayout"));
+            var value = new DashboardPartLayout();
+            value.X = dashboardPartLayout.X;
+            value.Y = dashboardPartLayout.Y;
+            value.W = dashboardPartLayout.W;
+            value.H = dashboardPartLayout.H;
+            value.Id = dashboardPartLayout.Id;
+            DashboardPartLayoutHash.AddOrUpdate(key: value.Id.ToString(), value: value);
         }
 
         private void SetSorters(Context context, SiteSettings ss, string prefix = "")
@@ -1627,6 +1648,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (CalendarViewTypeHash?.Any() == true)
             {
                 view.CalendarViewTypeHash = CalendarViewTypeHash;
+            }
+            if(DashboardPartLayoutHash?.Any() == true)
+            {
+                view.DashboardPartLayoutHash = DashboardPartLayoutHash;
             }
             if (!CrosstabGroupByX.IsNullOrEmpty())
             {

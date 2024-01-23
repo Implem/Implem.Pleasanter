@@ -90,36 +90,44 @@ namespace Implem.Pleasanter.Models
                 if (ss.DashboardPartsAsynchronousLoading == true
                     && dashboardPart.DisableAsynchronousLoading == false)
                 {
-                    return AsynchronousLoadingLayout(dashboardPart: dashboardPart);
+                    return AsynchronousLoadingLayout(
+                        view: view,
+                        dashboardPart: dashboardPart);
                 }
                 switch (dashboardPart.Type)
                 {
                     case DashboardPartType.QuickAccess:
                         return QuickAccessLayout(
                             context: context,
+                            view: view,
                             dashboardPart: dashboardPart);
                     case DashboardPartType.TimeLine:
                         return TimeLineLayout(
                             context: context,
                             ss: ss,
+                            view: view,
                             dashboardPart: dashboardPart);
                     case DashboardPartType.Custom:
-                        return CustomLayouyt(
+                        return CustomLayout(
                             context: context,
+                            view: view,
                             dashboardPart: dashboardPart);
                     case DashboardPartType.CustomHtml:
-                        return CustomHtmlLayouyt(
+                        return CustomHtmlLayout(
                             context: context,
+                            view: view,
                             dashboardPart: dashboardPart);
                     case DashboardPartType.Calendar:
                         return CalendarLayout(
                             context: context,
                             ss: ss,
+                            view: view,
                             dashboardPart: dashboardPart);
                     case DashboardPartType.Kamban:
                         return KambanLayout(
                             context: context,
                             ss: ss,
+                            view: view,
                             dashboardPart: dashboardPart);
                     default:
                         return new DashboardPartLayout();
@@ -1351,6 +1359,9 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             string dashboardPartId)
         {
+            var view = Views.GetBySession(
+                context: context,
+                ss: ss);
             var dashboardPartLayout = ss.DashboardParts
                 .Where(dashboardPart => dashboardPart
                     .Accessable(
@@ -1365,29 +1376,35 @@ namespace Implem.Pleasanter.Models
                         case DashboardPartType.QuickAccess:
                             return QuickAccessLayout(
                                 context: context,
+                                view: view,
                                 dashboardPart: dashboardPart).Content;
                         case DashboardPartType.TimeLine:
                             return TimeLineLayout(
                                 context: context,
                                 ss: ss,
+                                view: view,
                                 dashboardPart: dashboardPart).Content;
                         case DashboardPartType.Custom:
-                            return CustomLayouyt(
+                            return CustomLayout(
                                 context: context,
+                                view: view,
                                 dashboardPart: dashboardPart).Content;
                         case DashboardPartType.CustomHtml:
-                            return CustomHtmlLayouyt(
+                            return CustomHtmlLayout(
                                 context: context,
+                                view: view,
                                 dashboardPart: dashboardPart).Content;
                         case DashboardPartType.Calendar:
                             return CalendarLayout(
                                 context: context,
                                 ss: ss,
+                                view: view,
                                 dashboardPart: dashboardPart).Content;
                         case DashboardPartType.Kamban:
                             return KambanLayout(
                                 context: context,
                                 ss: ss,
+                                view: view,
                                 dashboardPart: dashboardPart).Content;
                         default:
                             return null;
@@ -1550,11 +1567,21 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static DashboardPartLayout CustomHtmlLayouyt(Context context, DashboardPart dashboardPart)
+        private static DashboardPartLayout CustomHtmlLayout(
+            Context context,
+            View view,
+            DashboardPart dashboardPart)
         {
             var content = new HtmlBuilder()
                 .CustomHtml(context: context, dashboardPart: dashboardPart).ToString();
-            return new DashboardPartLayout()
+            DashboardPartLayout session = null;
+            if (view.DashboardPartLayoutHash != null
+                && view.DashboardPartLayoutHash.ContainsKey(dashboardPart.Id.ToString()))
+            {
+                session = view.DashboardPartLayoutHash[dashboardPart.Id.ToString()];
+                session.Content = content;
+            }
+            return session ?? new DashboardPartLayout()
             {
                 Id = dashboardPart.Id,
                 X = dashboardPart.X,
@@ -1568,11 +1595,21 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static DashboardPartLayout CustomLayouyt(Context context, DashboardPart dashboardPart)
+        private static DashboardPartLayout CustomLayout(
+            Context context,
+            View view,
+            DashboardPart dashboardPart)
         {
             var content = new HtmlBuilder()
                 .Custom(context: context, dashboardPart: dashboardPart).ToString();
-            return new DashboardPartLayout()
+            DashboardPartLayout session = null;
+            if (view.DashboardPartLayoutHash != null
+                && view.DashboardPartLayoutHash.ContainsKey(dashboardPart.Id.ToString()))
+            {
+                session = view.DashboardPartLayoutHash[dashboardPart.Id.ToString()];
+                session.Content = content;
+            }
+            return session ?? new DashboardPartLayout()
             {
                 Id = dashboardPart.Id,
                 X = dashboardPart.X,
@@ -1635,14 +1672,24 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static DashboardPartLayout QuickAccessLayout(Context context, DashboardPart dashboardPart)
+        private static DashboardPartLayout QuickAccessLayout(
+            Context context,
+            View view,
+            DashboardPart dashboardPart)
         {
             var content = new HtmlBuilder()
                 .QuickAccessMenu(
                     context: context,
                     dashboardPart)
                 .ToString();
-            return new DashboardPartLayout()
+            DashboardPartLayout session = null;
+            if (view.DashboardPartLayoutHash != null
+                && view.DashboardPartLayoutHash.ContainsKey(dashboardPart.Id.ToString()))
+            {
+                session = view.DashboardPartLayoutHash[dashboardPart.Id.ToString()];
+                session.Content = content;
+            }
+            return session ?? new DashboardPartLayout()
             {
                 Id = dashboardPart.Id,
                 X = dashboardPart.X,
@@ -1773,6 +1820,7 @@ namespace Implem.Pleasanter.Models
         private static DashboardPartLayout TimeLineLayout(
             Context context,
             SiteSettings ss,
+            View view,
             DashboardPart dashboardPart)
         {
             var timeLineItems = GetTimeLineRecords(
@@ -1801,7 +1849,14 @@ namespace Implem.Pleasanter.Models
                                     ?? TimeLineDisplayType.Standard);
                         }
                     }).ToString();
-            return new DashboardPartLayout()
+            DashboardPartLayout session = null;
+            if (view.DashboardPartLayoutHash != null
+                && view.DashboardPartLayoutHash.ContainsKey(dashboardPart.Id.ToString()))
+            {
+                session = view.DashboardPartLayoutHash[dashboardPart.Id.ToString()];
+                session.Content = timeLine;
+            }
+            return session ?? new DashboardPartLayout()
             {
                 Id = dashboardPart.Id,
                 X = dashboardPart.X,
@@ -2075,6 +2130,7 @@ namespace Implem.Pleasanter.Models
         private static DashboardPartLayout CalendarLayout(
             Context context,
             SiteSettings ss,
+            View view,
             DashboardPart dashboardPart)
         {
             var hb = new HtmlBuilder();
@@ -2096,7 +2152,14 @@ namespace Implem.Pleasanter.Models
                         }
                         hb.Raw(text: calendarHtml);
                     }).ToString();
-            return new DashboardPartLayout()
+            DashboardPartLayout session = null;
+            if (view.DashboardPartLayoutHash != null
+                && view.DashboardPartLayoutHash.ContainsKey(dashboardPart.Id.ToString()))
+            {
+                session = view.DashboardPartLayoutHash[dashboardPart.Id.ToString()];
+                session.Content = calendar;
+            }
+            return session ?? new DashboardPartLayout()
             {
                 Id = dashboardPart.Id,
                 X = dashboardPart.X,
@@ -2322,7 +2385,9 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static DashboardPartLayout AsynchronousLoadingLayout(DashboardPart dashboardPart)
+        private static DashboardPartLayout AsynchronousLoadingLayout(
+            View view,
+            DashboardPart dashboardPart)
         {
             var hb = new HtmlBuilder();
             var AsynchronousLoading = hb.Div(
@@ -2339,7 +2404,14 @@ namespace Implem.Pleasanter.Models
                     }
                     hb.Hidden(controlId: $"DashboardAsync_{dashboardPart.Id}");
                 }).ToString();
-            return new DashboardPartLayout()
+            DashboardPartLayout session = null;
+            if(view.DashboardPartLayoutHash != null
+                && view.DashboardPartLayoutHash.ContainsKey(dashboardPart.Id.ToString()))
+            {
+                session = view.DashboardPartLayoutHash[dashboardPart.Id.ToString()];
+                session.Content = AsynchronousLoading;
+            }
+            return session ?? new DashboardPartLayout()
             {
                 Id = dashboardPart.Id,
                 X = dashboardPart.X,
@@ -2356,6 +2428,7 @@ namespace Implem.Pleasanter.Models
         private static DashboardPartLayout KambanLayout(
             Context context,
             SiteSettings ss,
+            View view,
             DashboardPart dashboardPart)
         {
             var hb = new HtmlBuilder();
@@ -2377,7 +2450,14 @@ namespace Implem.Pleasanter.Models
                         }
                         hb.Raw(text: kambanHtml);
                     }).ToString();
-            return new DashboardPartLayout()
+            DashboardPartLayout session = null;
+            if (view.DashboardPartLayoutHash != null
+                && view.DashboardPartLayoutHash.ContainsKey(dashboardPart.Id.ToString()))
+            {
+                session = view.DashboardPartLayoutHash[dashboardPart.Id.ToString()];
+                session.Content = kamban;
+            }
+            return session ?? new DashboardPartLayout()
             {
                 Id = dashboardPart.Id,
                 X = dashboardPart.X,
