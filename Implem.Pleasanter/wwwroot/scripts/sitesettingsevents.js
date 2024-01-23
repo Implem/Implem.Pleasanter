@@ -225,8 +225,10 @@
         //selected==4: Calendarのみ表示
         $('#DashboardPartCalendarSitesField').toggle(selected === '4');
         $('#DashboardPartCalendarTypeField').toggle(selected === '4');
-        $('#DashboardPartCalendarGroupByField').toggle($("#DashboardPartCalendarType").val() === '1');
-        $('#DashboardPartCalendarTimePeriodField').toggle($("#DashboardPartCalendarType").val() === '1');
+        $('#DashboardPartCalendarGroupByField').toggle(selected === '4'
+            && $("#DashboardPartCalendarType").val() === '1');
+        $('#DashboardPartCalendarTimePeriodField').toggle(selected === '4'
+            && $("#DashboardPartCalendarType").val() === '1');
         $('#DashboardPartCalendarFromToField').toggle(selected === '4');
         $('#DashboardPartCalendarShowStatusField').toggle(selected === '4');
         //selected==5: Kambanのみ表示 

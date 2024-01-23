@@ -15712,6 +15712,11 @@ namespace Implem.Pleasanter.Models
             string controlId,
             DashboardPart dashboardPart)
         {
+            var currentSs = dashboardPart.SiteId > 0
+                ? SiteSettingsUtilities.Get(
+                    context: context,
+                    siteId: dashboardPart.SiteId)
+                : ss;
             string hiddenCss(bool hide) => hide ? " hidden" : "";
             return hb
                 .FieldSet(id: $"DashboardPartGeneralTabContainer", action: () => hb
@@ -15976,7 +15981,7 @@ namespace Implem.Pleasanter.Models
                         controlCss: " always-send",
                         fieldCss: hiddenCss(dashboardPart.Type != DashboardPartType.Calendar || dashboardPart.CalendarType == SiteSettings.CalendarTypes.FullCalendar),
                         labelText: Displays.GroupBy(context: context),
-                        optionCollection: ss.CalendarGroupByOptions(context: context),
+                        optionCollection: currentSs.CalendarGroupByOptions(context: context),
                         selectedValue: dashboardPart.CalendarGroupBy?.ToString(),
                         insertBlank: true)
                     .FieldDropDown(
@@ -15986,7 +15991,7 @@ namespace Implem.Pleasanter.Models
                         controlCss: " always-send",
                         fieldCss: hiddenCss(dashboardPart.Type != DashboardPartType.Calendar || dashboardPart.CalendarType == SiteSettings.CalendarTypes.FullCalendar),
                         labelText: Displays.Period(context: context),
-                        optionCollection: ss.CalendarTimePeriodOptions(context: context),
+                        optionCollection: currentSs.CalendarTimePeriodOptions(context: context),
                         selectedValue: !dashboardPart.CalendarTimePeriod.IsNullOrEmpty()
                             ? dashboardPart.CalendarTimePeriod.ToString()
                             : "Monthly",
@@ -15998,7 +16003,7 @@ namespace Implem.Pleasanter.Models
                         controlCss: " always-send",
                         fieldCss: hiddenCss(dashboardPart.Type != DashboardPartType.Calendar),
                         labelText: Displays.Column(context: context),
-                        optionCollection: ss.CalendarColumnOptions(context: context),
+                        optionCollection: currentSs.CalendarColumnOptions(context: context),
                         selectedValue: !dashboardPart.CalendarFromTo.IsNullOrEmpty()
                             ? dashboardPart.CalendarFromTo.ToString()
                             : "StartTime-CompletionTime",
@@ -16051,7 +16056,7 @@ namespace Implem.Pleasanter.Models
                         fieldCss: "both field-normal" + hiddenCss(dashboardPart.Type != DashboardPartType.Kamban),
                         controlCss: " always-send",
                         labelText: Displays.GroupByX(context: context),
-                        optionCollection: ss.KambanGroupByOptions(context: context),
+                        optionCollection: currentSs.KambanGroupByOptions(context: context),
                         selectedValue: !dashboardPart.KambanGroupByX.IsNullOrEmpty()
                             ? dashboardPart.KambanGroupByX
                             : "Status")
@@ -16062,10 +16067,10 @@ namespace Implem.Pleasanter.Models
                         fieldCss: hiddenCss(dashboardPart.Type != DashboardPartType.Kamban),
                         controlCss: " always-send",
                         labelText: Displays.GroupByY(context: context),
-                        optionCollection: ss.KambanGroupByOptions(
-                        context: context,
-                        addNothing: true),
-                        selectedValue: !dashboardPart.KambanGroupByX.IsNullOrEmpty()
+                        optionCollection: currentSs.KambanGroupByOptions(
+                            context: context,
+                            addNothing: true),
+                        selectedValue: !dashboardPart.KambanGroupByY.IsNullOrEmpty()
                             ? dashboardPart.KambanGroupByY
                             : "Owner")
                     .FieldDropDown(
@@ -16075,7 +16080,7 @@ namespace Implem.Pleasanter.Models
                         fieldCss: hiddenCss(dashboardPart.Type != DashboardPartType.Kamban),
                         controlCss: " always-send",
                         labelText: Displays.AggregationType(context: context),
-                        optionCollection: ss.KambanAggregationTypeOptions(context: context),
+                        optionCollection: currentSs.KambanAggregationTypeOptions(context: context),
                         selectedValue: !dashboardPart.KambanAggregateType.IsNullOrEmpty()
                             ? dashboardPart.KambanAggregateType
                             : "Total")
@@ -16086,7 +16091,7 @@ namespace Implem.Pleasanter.Models
                         fieldCss: hiddenCss(dashboardPart.Type != DashboardPartType.Kamban || dashboardPart.KambanAggregateType == "Count"),
                         controlCss: " always-send",
                         labelText: Displays.AggregationTarget(context: context),
-                        optionCollection: ss.KambanValueOptions(context: context),
+                        optionCollection: currentSs.KambanValueOptions(context: context),
                         selectedValue: !dashboardPart.KambanValue.IsNullOrEmpty()
                             ? dashboardPart.KambanValue
                             : ss.ReferenceType == "Issues" ? "RemainingWorkValue" : "NumA")
