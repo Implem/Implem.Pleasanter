@@ -8740,6 +8740,10 @@ namespace Implem.Pleasanter.Models
             var currentSs = DashboardPart.GetBaseSiteSettings(
                 context: context,
                 context.Forms.Data("DashboardPartKambanSitesEdit"));
+            var kambanGroupByOptions = currentSs.KambanGroupByOptions(
+                context: context,
+                addNothing: true)?
+                    .ToDictionary(o => o.Key, o => new ControlData(o.Value));
             if (currentSs == null)
             {
                 res.Message(
@@ -8765,6 +8769,24 @@ namespace Implem.Pleasanter.Models
                             view: new View(),
                             prefix: "DashboardPart",
                             currentTableOnly: true))
+                .Html(
+                    target: "#DashboardPartKambanGroupByX",
+                    value: new HtmlBuilder()
+                        .OptionCollection(
+                            context: context,
+                            optionCollection: kambanGroupByOptions,
+                            selectedValue: kambanGroupByOptions?.ContainsKey("Status") == true
+                                ? "Status"
+                                : null))
+                .Html(
+                    target: "#DashboardPartKambanGroupByY",
+                    value: new HtmlBuilder()
+                        .OptionCollection(
+                            context: context,
+                            optionCollection: kambanGroupByOptions,
+                            selectedValue: kambanGroupByOptions?.ContainsKey("Owner") == true
+                                ? "Owner"
+                                : null))
                 .Html(
                     target: "#DashboardPartKambanValue",
                     value: new HtmlBuilder()

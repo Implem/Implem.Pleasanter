@@ -660,6 +660,8 @@ namespace Implem.Pleasanter.Libraries.Models
             bool filter,
             bool multiple)
         {
+            var pastPermission = context.Forms.Data("InheritPermission");
+            var selectedPermission = selected.FirstOrDefault();
             var optionCollection = PermissionUtilities.InheritTargets(
                 context: context,
                 ss: ss).OptionCollection;
@@ -677,7 +679,9 @@ namespace Implem.Pleasanter.Libraries.Models
                                 multiple: multiple),
                             multiple: multiple,
                             insertBlank: !filter))
-                    .Invoke("setDropDownSearch")
+                    .Invoke(
+                        methodName: "setDropDownSearch",
+                        _using: pastPermission != selectedPermission)
                     .ToJson()
                 : new ResponseCollection(context: context)
                     .Message(Messages.NotFound(context: context))
