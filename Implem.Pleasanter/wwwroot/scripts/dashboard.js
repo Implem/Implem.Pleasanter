@@ -10,7 +10,7 @@
     });
     $p.gridstackInstance.load(JSON.parse(layout));
 
-    $p.gridstackInstance.on('resizestop', function (event, el) {
+    $p.gridstackInstance.on('resizestop dragstop', function (event, el) {
         var node = el.gridstackNode;
         var layouts = {
             id:node.id,
