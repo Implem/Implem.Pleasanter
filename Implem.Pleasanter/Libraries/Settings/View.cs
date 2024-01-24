@@ -1257,7 +1257,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 DashboardPartLayoutHash = new Dictionary<string, DashboardPartLayout>();
             }
-            var dashboardPartLayout = JsonConvert.DeserializeObject<DashboardPartLayout>(context.Forms.Data("DashboardPartLayout"));
+            var dashboardPartLayout = JsonConvert
+                .DeserializeObject<DashboardPartLayout>(context.Forms.Data("DashboardPartLayout"));
             var value = new DashboardPartLayout();
             value.X = dashboardPartLayout.X;
             value.Y = dashboardPartLayout.Y;
