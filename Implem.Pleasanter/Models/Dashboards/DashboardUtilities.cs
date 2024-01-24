@@ -121,6 +121,10 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             dashboardPart: dashboardPart);
+                    case DashboardPartType.Index:
+                        return IndexLayout(
+                            context: context,
+                            dashboardPart: dashboardPart);
                     default:
                         return new DashboardPartLayout();
                 };
@@ -225,7 +229,8 @@ namespace Implem.Pleasanter.Models
             GridData gridData,
             View view,
             string action = "GridRows",
-            ServerScriptModelRow serverScriptModelRow = null)
+            ServerScriptModelRow serverScriptModelRow = null,
+            string suffix = "")
         {
             var columns = ss.GetGridColumns(
                 context: context,
@@ -234,7 +239,7 @@ namespace Implem.Pleasanter.Models
             return hb
                 .Table(
                     attributes: new HtmlAttributes()
-                        .Id("Grid")
+                        .Id($"Grid{suffix}")
                         .Class(ss.GridCss(context: context))
                         .DataValue("back", _using: ss?.IntegratedSites?.Any() == true)
                         .DataAction(action)
@@ -247,14 +252,16 @@ namespace Implem.Pleasanter.Models
                             columns: columns,
                             view: view,
                             serverScriptModelRow: serverScriptModelRow,
-                            action: action))
+                            action: action,
+                            suffix: suffix))
                 .GridHeaderMenus(
                     context: context,
                     ss: ss,
                     view: view,
-                    columns: columns)
+                    columns: columns,
+                    suffix: suffix)
                 .Hidden(
-                    controlId: "GridOffset",
+                    controlId: $"GridOffset{suffix}",
                     value: ss.GridNextOffset(
                         0,
                         gridData.DataRows.Count(),
@@ -280,9 +287,12 @@ namespace Implem.Pleasanter.Models
             bool windowScrollTop = false,
             bool clearCheck = false,
             string action = "GridRows",
-            Message message = null)
+            Message message = null,
+            string suffix = "")
         {
-            var view = Views.GetBySession(context: context, ss: ss);
+            var view = Views.GetBySession(
+                context: context,
+                ss: ss);
             var gridData = GetGridData(
                 context: context,
                 ss: ss,
@@ -350,7 +360,8 @@ namespace Implem.Pleasanter.Models
             int offset = 0,
             bool clearCheck = false,
             string action = "GridRows",
-            ServerScriptModelRow serverScriptModelRow = null)
+            ServerScriptModelRow serverScriptModelRow = null,
+            string suffix = "")
         {
             var checkRow = ss.CheckRow(
                 context: context,
@@ -370,7 +381,8 @@ namespace Implem.Pleasanter.Models
                             checkRow: checkRow,
                             checkAll: checkAll,
                             action: action,
-                            serverScriptModelRow: serverScriptModelRow))
+                            serverScriptModelRow: serverScriptModelRow,
+                            suffix: suffix))
                 .TBody(action: () => hb
                     .GridRows(
                         context: context,
@@ -1383,6 +1395,10 @@ namespace Implem.Pleasanter.Models
                             return KambanLayout(
                                 context: context,
                                 ss: ss,
+                                dashboardPart: dashboardPart).Content;
+                        case DashboardPartType.Index:
+                            return IndexLayout(
+                                context: context,
                                 dashboardPart: dashboardPart).Content;
                         default:
                             return null;
@@ -2517,6 +2533,105 @@ namespace Implem.Pleasanter.Models
                         .ToJson();
                 default:
                     return Messages.ResponseNotFound(context: context).ToJson();
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static DashboardPartLayout IndexLayout(
+            Context context,
+            DashboardPart dashboardPart)
+        {
+            var hb = new HtmlBuilder();
+            var indexHtml = GetIndexRecords(
+                context: context,
+                dashboardPart: dashboardPart);
+            var index = hb
+                .Div(
+                    id: $"DashboardPart_{dashboardPart.Id}",
+                    attributes: new HtmlAttributes().DataId(dashboardPart.Id.ToString()),
+                    css: "dashboard-index-container " + dashboardPart.ExtendedCss,
+                    action: () =>
+                    {
+                        if (dashboardPart.ShowTitle == true)
+                        {
+                            hb.Div(
+                                css: "dashboard-part-title",
+                                action: () => hb.Text(dashboardPart.Title));
+                        }
+                        hb.Raw(text: indexHtml);
+                    }).ToString();
+            return new DashboardPartLayout()
+            {
+                Id = dashboardPart.Id,
+                X = dashboardPart.X,
+                Y = dashboardPart.Y,
+                W = dashboardPart.Width,
+                H = dashboardPart.Height,
+                Content = index
+            };
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static string GetIndexRecords(
+            Context context,
+            DashboardPart dashboardPart)
+        {
+            var ss = SiteSettingsUtilities.Get(
+                context: context,
+                siteId: dashboardPart.SiteId);
+            //対象サイトをサイト統合の仕組みで登録
+            ss.IntegratedSites = dashboardPart.IndexSitesData;
+            ss.SetSiteIntegration(context: context);
+            ss.SetDashboardParts(dashboardPart: dashboardPart);
+            switch (ss.ReferenceType)
+            {
+                case "Issues":
+                    return IssueUtilities.Index(context: context, ss: ss);
+                case "Results":
+                    return ResultUtilities.Index(context: context, ss: ss);
+                default:
+                    return null;
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string DashboardIndexGridRows(
+            Context context,
+            SiteSettings ss,
+            int offset = 0)
+        {
+            var suffix = context.Forms.Data("IndexSuffix");
+            DashboardPart dashboardPart = ss.DashboardParts.FirstOrDefault(x => x.Id == suffix.Replace("_", "").ToInt());
+            var currentSs = SiteSettingsUtilities.Get(
+                context: context,
+                siteId: dashboardPart.SiteId);
+            //対象サイトをサイト統合の仕組みで登録
+            currentSs.IntegratedSites = dashboardPart.IndexSitesData;
+            currentSs.SetSiteIntegration(context: context);
+            currentSs.SetDashboardParts(dashboardPart: dashboardPart);
+            var hb = new HtmlBuilder();
+            switch (currentSs.ReferenceType)
+            {
+                case "Issues":
+                    return IssueUtilities.GridRows(
+                        context: context,
+                        ss: currentSs,
+                        offset: offset,
+                        suffix: suffix);
+                case "Results":
+                    return ResultUtilities.GridRows(
+                        context: context,
+                        ss: currentSs,
+                        offset: offset,
+                        suffix: suffix);
+                default:
+                    return null;
             }
         }
     }

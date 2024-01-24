@@ -1,0 +1,3 @@
+﻿css: ss.DashboardParts.Any()
+    ? "dashboard-grid-header"
+    : "",

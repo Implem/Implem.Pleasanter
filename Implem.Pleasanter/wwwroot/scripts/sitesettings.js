@@ -279,6 +279,11 @@ $p.openDashboardPartKambanSitesDialog = function ($control) {
     $p.openSiteSettingsDialog($control, '#DashboardPartKambanSitesDialog');
 }
 
+$p.openDashboardPartIndexSitesDialog = function ($control) {
+    $p.data.TimeLineSitesForm = {};
+    $p.openSiteSettingsDialog($control, '#DashboardPartIndexSitesDialog');
+}
+
 $p.updateDashboardPartTimeLineSites = function ($control) {
     $p.send($control);
 }
@@ -319,5 +324,18 @@ $p.confirmKambanSites = function (value) {
         $p.send($("#ClearDashboardKambanView"));
         $p.clearData('DashboardPartView', 'DashboardPartForm', 'startsWith');
         $p.closeDialog($("#DashboardPartKambanSitesDialog"));
+    }
+}
+
+$p.confirmIndexSites = function (value) {
+    var args = JSON.parse(value);
+    var result = confirm($p.display('ResetIndexView'));
+    if (result) {
+        $('#DashboardPartIndexSitesValue').text(args.indexSites);
+        $p.set($('#DashboardPartIndexSites'), args.indexSites);
+        $p.set($('#DashboardPartBaseSiteId'), args.baseSiteId);
+        $p.send($("#ClearDashboardIndexView"));
+        $p.clearData('DashboardPartView', 'DashboardPartForm', 'startsWith');
+        $p.closeDialog($("#DashboardPartIndexSitesDialog"));
     }
 }
