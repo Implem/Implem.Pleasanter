@@ -20,6 +20,7 @@ using Implem.Pleasanter.Libraries.Web;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
@@ -132,6 +133,8 @@ namespace Implem.Pleasanter.Models
                     case DashboardPartType.Index:
                         return IndexLayout(
                             context: context,
+                            ss: ss,
+                            view: view,
                             dashboardPart: dashboardPart);
                     default:
                         return new DashboardPartLayout();
@@ -1421,6 +1424,8 @@ namespace Implem.Pleasanter.Models
                         case DashboardPartType.Index:
                             return IndexLayout(
                                 context: context,
+                                ss: ss,
+                                view: view,
                                 dashboardPart: dashboardPart).Content;
                         default:
                             return null;
@@ -2665,11 +2670,14 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static DashboardPartLayout IndexLayout(
             Context context,
+            SiteSettings ss,
+            View view,
             DashboardPart dashboardPart)
         {
             var hb = new HtmlBuilder();
             var indexHtml = GetIndexRecords(
                 context: context,
+                ss: ss,
                 dashboardPart: dashboardPart);
             var index = hb
                 .Div(
@@ -2686,7 +2694,14 @@ namespace Implem.Pleasanter.Models
                         }
                         hb.Raw(text: indexHtml);
                     }).ToString();
-            return new DashboardPartLayout()
+            DashboardPartLayout session = null;
+            if (view.DashboardPartLayoutHash != null
+                && view.DashboardPartLayoutHash.ContainsKey(dashboardPart.Id.ToString()))
+            {
+                session = view.DashboardPartLayoutHash[dashboardPart.Id.ToString()];
+                session.Content = index;
+            }
+            return session ?? new DashboardPartLayout()
             {
                 Id = dashboardPart.Id,
                 X = dashboardPart.X,
@@ -2702,21 +2717,26 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static string GetIndexRecords(
             Context context,
+            SiteSettings ss,
             DashboardPart dashboardPart)
         {
-            var ss = SiteSettingsUtilities.Get(
+            var currentSs = SiteSettingsUtilities.Get(
                 context: context,
                 siteId: dashboardPart.SiteId);
             //対象サイトをサイト統合の仕組みで登録
-            ss.IntegratedSites = dashboardPart.IndexSitesData;
-            ss.SetSiteIntegration(context: context);
-            ss.SetDashboardParts(dashboardPart: dashboardPart);
-            switch (ss.ReferenceType)
+            currentSs.IntegratedSites = dashboardPart.IndexSitesData;
+            currentSs.SetSiteIntegration(context: context);
+            currentSs.SetDashboardParts(dashboardPart: dashboardPart);
+            if (ss.SaveViewType == SiteSettings.SaveViewTypes.User)
+            {
+                currentSs.SaveViewType = ss.SaveViewType;
+            }
+            switch (currentSs.ReferenceType)
             {
                 case "Issues":
-                    return IssueUtilities.Index(context: context, ss: ss);
+                    return IssueUtilities.Index(context: context, ss: currentSs);
                 case "Results":
-                    return ResultUtilities.Index(context: context, ss: ss);
+                    return ResultUtilities.Index(context: context, ss: currentSs);
                 default:
                     return null;
             }
@@ -2739,6 +2759,10 @@ namespace Implem.Pleasanter.Models
             currentSs.IntegratedSites = dashboardPart.IndexSitesData;
             currentSs.SetSiteIntegration(context: context);
             currentSs.SetDashboardParts(dashboardPart: dashboardPart);
+            if (ss.SaveViewType == SiteSettings.SaveViewTypes.User)
+            {
+                currentSs.SaveViewType = ss.SaveViewType;
+            }
             var hb = new HtmlBuilder();
             switch (currentSs.ReferenceType)
             {
