@@ -1268,15 +1268,18 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 DashboardPartLayoutHash = new Dictionary<string, DashboardPartLayout>();
             }
-            var dashboardPartLayout = JsonConvert
-                .DeserializeObject<DashboardPartLayout>(context.Forms.Data("DashboardPartLayout"));
-            var value = new DashboardPartLayout();
-            value.X = dashboardPartLayout.X;
-            value.Y = dashboardPartLayout.Y;
-            value.W = dashboardPartLayout.W;
-            value.H = dashboardPartLayout.H;
-            value.Id = dashboardPartLayout.Id;
-            DashboardPartLayoutHash.AddOrUpdate(key: value.Id.ToString(), value: value);
+            var dashboardPartLayouts = JsonConvert
+                .DeserializeObject<List<DashboardPartLayout>>(context.Forms.Data("DashboardPartLayout"));
+            foreach (var dashboardPartLayout in dashboardPartLayouts)
+            {
+                var value = new DashboardPartLayout();
+                value.X = dashboardPartLayout.X;
+                value.Y = dashboardPartLayout.Y;
+                value.W = dashboardPartLayout.W;
+                value.H = dashboardPartLayout.H;
+                value.Id = dashboardPartLayout.Id;
+                DashboardPartLayoutHash.AddOrUpdate(key: value.Id.ToString(), value: value);
+            }
         }
 
         private void SetSorters(Context context, SiteSettings ss, string prefix = "")
