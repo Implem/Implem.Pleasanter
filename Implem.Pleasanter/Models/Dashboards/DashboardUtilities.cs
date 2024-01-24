@@ -2136,6 +2136,7 @@ namespace Implem.Pleasanter.Models
             var hb = new HtmlBuilder();
             var calendarHtml = GetCalendarRecords(
                 context: context,
+                ss: ss,
                 dashboardPart: dashboardPart);
             var calendar = hb
                 .Div(
@@ -2175,23 +2176,28 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static string GetCalendarRecords(
             Context context,
+            SiteSettings ss,
             DashboardPart dashboardPart)
         {
             //基準となるサイトからSiteSettingsを取得
-            var ss = SiteSettingsUtilities.Get(
+            var currentSs = SiteSettingsUtilities.Get(
                 context: context,
                 siteId: dashboardPart.SiteId);
             //対象サイトをサイト統合の仕組みで登録
-            ss.IntegratedSites = dashboardPart.CalendarSitesData;
-            ss.SetSiteIntegration(context: context);
-            ss.SetDashboardParts(dashboardPart: dashboardPart);
-            if (ss.ReferenceType == "Issues")
+            currentSs.IntegratedSites = dashboardPart.CalendarSitesData;
+            currentSs.SetSiteIntegration(context: context);
+            currentSs.SetDashboardParts(dashboardPart: dashboardPart);
+            if(ss.SaveViewType == SiteSettings.SaveViewTypes.User)
             {
-                return IssueUtilities.Calendar(context: context, ss: ss);
+                currentSs.SaveViewType = ss.SaveViewType;
             }
-            else if (ss.ReferenceType == "Results")
+            if (currentSs.ReferenceType == "Issues")
             {
-                return ResultUtilities.Calendar(context: context, ss: ss);
+                return IssueUtilities.Calendar(context: context, ss: currentSs);
+            }
+            else if (currentSs.ReferenceType == "Results")
+            {
+                return ResultUtilities.Calendar(context: context, ss: currentSs);
             }
             else
             {
@@ -2218,6 +2224,10 @@ namespace Implem.Pleasanter.Models
             currentSs.IntegratedSites = dashboardPart.CalendarSitesData;
             currentSs.SetSiteIntegration(context: context);
             currentSs.SetDashboardParts(dashboardPart: dashboardPart);
+            if (ss.SaveViewType == SiteSettings.SaveViewTypes.User)
+            {
+                currentSs.SaveViewType = ss.SaveViewType;
+            }
             var hb = new HtmlBuilder();
             switch (currentSs.ReferenceType)
             {
@@ -2284,6 +2294,10 @@ namespace Implem.Pleasanter.Models
             currentSs.IntegratedSites = dashboardPart.CalendarSitesData;
             currentSs.SetSiteIntegration(context: context);
             currentSs.SetDashboardParts(dashboardPart: dashboardPart);
+            if (ss.SaveViewType == SiteSettings.SaveViewTypes.User)
+            {
+                currentSs.SaveViewType = ss.SaveViewType;
+            }
             var hb = new HtmlBuilder();
             switch (currentSs.ReferenceType)
             {
@@ -2434,6 +2448,7 @@ namespace Implem.Pleasanter.Models
             var hb = new HtmlBuilder();
             var kambanHtml = GetKambanRecords(
                 context: context,
+                ss: ss,
                 dashboardPart: dashboardPart);
             var kamban = hb
                 .Div(
@@ -2473,24 +2488,29 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static string GetKambanRecords(
             Context context,
+            SiteSettings ss,
             DashboardPart dashboardPart)
         {
             //基準となるサイトからSiteSettingsを取得
-            var ss = SiteSettingsUtilities.Get(
+            var currentSs = SiteSettingsUtilities.Get(
                 context: context,
                 siteId: dashboardPart.SiteId,
                 setAllChoices: true);
             //対象サイトをサイト統合の仕組みで登録
-            ss.IntegratedSites = dashboardPart.KambanSitesData;
-            ss.SetSiteIntegration(context: context);
-            ss.SetDashboardParts(dashboardPart: dashboardPart);
-            if (ss.ReferenceType == "Issues")
+            currentSs.IntegratedSites = dashboardPart.KambanSitesData;
+            currentSs.SetSiteIntegration(context: context);
+            currentSs.SetDashboardParts(dashboardPart: dashboardPart);
+            if (ss.SaveViewType == SiteSettings.SaveViewTypes.User)
             {
-                return IssueUtilities.Kamban(context: context, ss: ss);
+                currentSs.SaveViewType = ss.SaveViewType;
             }
-            else if (ss.ReferenceType == "Results")
+            if (currentSs.ReferenceType == "Issues")
             {
-                return ResultUtilities.Kamban(context: context, ss: ss);
+                return IssueUtilities.Kamban(context: context, ss: currentSs);
+            }
+            else if (currentSs.ReferenceType == "Results")
+            {
+                return ResultUtilities.Kamban(context: context, ss: currentSs);
             }
             else
             {
@@ -2515,8 +2535,12 @@ namespace Implem.Pleasanter.Models
             currentSs.IntegratedSites = dashboardPart.KambanSitesData;
             currentSs.SetSiteIntegration(context: context);
             currentSs.SetDashboardParts(dashboardPart: dashboardPart);
+            if (ss.SaveViewType == SiteSettings.SaveViewTypes.User)
+            {
+                currentSs.SaveViewType = ss.SaveViewType;
+            }
             //複数サイト表示時はドラッグによる更新不可
-            if( currentSs.AllowedIntegratedSites?.Count > 1)
+            if ( currentSs.AllowedIntegratedSites?.Count > 1)
             {
                 return Messages.ResponseCannotMoveMultipleSitesData(context: context).ToJson();
             }
