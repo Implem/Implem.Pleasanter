@@ -11,15 +11,8 @@
     $p.gridstackInstance.load(JSON.parse(layout));
 
     $p.gridstackInstance.on('resizestop dragstop', function (event, el) {
-        var node = el.gridstackNode;
-        var layouts = {
-            id:node.id,
-            x: node.x,
-            y: node.y,
-            w:node.w,
-            h:node.h,
-            content: ""
-        }
+        let layouts = $p.gridstackInstance.save();
+        layouts.forEach(item => item.content = "");
         $p.set($('#DashboardPartLayout'), JSON.stringify(layouts))
         $p.send($('#DashboardPartLayout'));
     })
