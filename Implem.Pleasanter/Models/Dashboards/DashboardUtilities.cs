@@ -2210,10 +2210,7 @@ namespace Implem.Pleasanter.Models
             currentSs.IntegratedSites = dashboardPart.CalendarSitesData;
             currentSs.SetSiteIntegration(context: context);
             currentSs.SetDashboardParts(dashboardPart: dashboardPart);
-            if(ss.SaveViewType == SiteSettings.SaveViewTypes.User)
-            {
-                currentSs.SaveViewType = ss.SaveViewType;
-            }
+            currentSs.SaveViewType = ss.SaveViewType;
             if (currentSs.ReferenceType == "Issues")
             {
                 return IssueUtilities.Calendar(context: context, ss: currentSs);
@@ -2247,10 +2244,7 @@ namespace Implem.Pleasanter.Models
             currentSs.IntegratedSites = dashboardPart.CalendarSitesData;
             currentSs.SetSiteIntegration(context: context);
             currentSs.SetDashboardParts(dashboardPart: dashboardPart);
-            if (ss.SaveViewType == SiteSettings.SaveViewTypes.User)
-            {
-                currentSs.SaveViewType = ss.SaveViewType;
-            }
+            currentSs.SaveViewType = ss.SaveViewType;
             var hb = new HtmlBuilder();
             switch (currentSs.ReferenceType)
             {
@@ -2317,10 +2311,7 @@ namespace Implem.Pleasanter.Models
             currentSs.IntegratedSites = dashboardPart.CalendarSitesData;
             currentSs.SetSiteIntegration(context: context);
             currentSs.SetDashboardParts(dashboardPart: dashboardPart);
-            if (ss.SaveViewType == SiteSettings.SaveViewTypes.User)
-            {
-                currentSs.SaveViewType = ss.SaveViewType;
-            }
+            currentSs.SaveViewType = ss.SaveViewType;
             var hb = new HtmlBuilder();
             switch (currentSs.ReferenceType)
             {
@@ -2523,10 +2514,7 @@ namespace Implem.Pleasanter.Models
             currentSs.IntegratedSites = dashboardPart.KambanSitesData;
             currentSs.SetSiteIntegration(context: context);
             currentSs.SetDashboardParts(dashboardPart: dashboardPart);
-            if (ss.SaveViewType == SiteSettings.SaveViewTypes.User)
-            {
-                currentSs.SaveViewType = ss.SaveViewType;
-            }
+            currentSs.SaveViewType = ss.SaveViewType;
             if (currentSs.ReferenceType == "Issues")
             {
                 return IssueUtilities.Kamban(context: context, ss: currentSs);
@@ -2558,10 +2546,7 @@ namespace Implem.Pleasanter.Models
             currentSs.IntegratedSites = dashboardPart.KambanSitesData;
             currentSs.SetSiteIntegration(context: context);
             currentSs.SetDashboardParts(dashboardPart: dashboardPart);
-            if (ss.SaveViewType == SiteSettings.SaveViewTypes.User)
-            {
-                currentSs.SaveViewType = ss.SaveViewType;
-            }
+            currentSs.SaveViewType = ss.SaveViewType;
             //複数サイト表示時はドラッグによる更新不可
             if ( currentSs.AllowedIntegratedSites?.Count > 1)
             {
@@ -2727,10 +2712,7 @@ namespace Implem.Pleasanter.Models
             currentSs.IntegratedSites = dashboardPart.IndexSitesData;
             currentSs.SetSiteIntegration(context: context);
             currentSs.SetDashboardParts(dashboardPart: dashboardPart);
-            if (ss.SaveViewType == SiteSettings.SaveViewTypes.User)
-            {
-                currentSs.SaveViewType = ss.SaveViewType;
-            }
+            currentSs.SaveViewType = ss.SaveViewType;
             switch (currentSs.ReferenceType)
             {
                 case "Issues":
@@ -2759,10 +2741,7 @@ namespace Implem.Pleasanter.Models
             currentSs.IntegratedSites = dashboardPart.IndexSitesData;
             currentSs.SetSiteIntegration(context: context);
             currentSs.SetDashboardParts(dashboardPart: dashboardPart);
-            if (ss.SaveViewType == SiteSettings.SaveViewTypes.User)
-            {
-                currentSs.SaveViewType = ss.SaveViewType;
-            }
+            currentSs.SaveViewType = ss.SaveViewType;
             var hb = new HtmlBuilder();
             switch (currentSs.ReferenceType)
             {
