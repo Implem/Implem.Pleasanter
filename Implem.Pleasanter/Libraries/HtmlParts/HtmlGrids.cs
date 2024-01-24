@@ -29,7 +29,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool checkRow = true,
             bool checkAll = false,
             string action = "GridRows",
-            ServerScriptModelRow serverScriptModelRow = null)
+            ServerScriptModelRow serverScriptModelRow = null,
+            string suffix = "")
         {
             return hb.Tr(
                 css: "ui-widget-header",
@@ -74,7 +75,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         if (sort)
                         {
                             hb.Th(
-                                css: column.CellCss(css: "sortable"),
+                                css: suffix.IsNullOrEmpty()
+                                    ? column.CellCss(css: "sortable")
+                                    : null,
                                 attributes: new HtmlAttributes()
                                     .DataName(column.ColumnName),
                                 action: () => hb
@@ -108,7 +111,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
            Context context,
            SiteSettings ss,
            View view,
-           IEnumerable<Column> columns)
+           IEnumerable<Column> columns,
+           string suffix = "")
         {
             return hb.Div(id: "GridHeaderMenus", action: () =>
                 columns.ForEach(column => hb
@@ -161,7 +165,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 action: () => hb
                                     .Div(action: () => hb
                                         .Span(attributes: new HtmlAttributes().Class("ui-icon ui-icon-power"))
-                                        .Text(text: Displays.ResetOrder(context)))))));
+                                        .Text(text: Displays.ResetOrder(context)))))),
+                        _using: suffix.IsNullOrEmpty());
         }
 
         public static HtmlBuilder ViewFiltersLabelMenus(

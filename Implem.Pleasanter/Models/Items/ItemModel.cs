@@ -1281,6 +1281,11 @@ namespace Implem.Pleasanter.Models
                 setSiteIntegration: true);
             switch (Site.ReferenceType)
             {
+                case "Dashboards":
+                    return DashboardUtilities.DashboardIndexGridRows(
+                        context: context,
+                        ss: Site.SiteSettings,
+                        offset: context.Forms.Int("GridOffset"));
                 case "Issues":
                     return IssueUtilities.GridRows(
                         context: context,

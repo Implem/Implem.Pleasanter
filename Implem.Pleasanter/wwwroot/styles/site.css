@@ -321,7 +321,7 @@ pre {
         top: 30px;
         right: 0px;
         border-radius: 0px 0px 5px 5px;
-        z-index: 3;
+        z-index: 4;
     }
 
         #NavigationMenu .menu > li > a {
@@ -2574,6 +2574,12 @@ _::-webkit-full-page-media, _:future, :root .field-normal .control-checkbox + la
         padding: 8px 0px 0px 10px;
     }
 
+.dashboard-grid-header {
+    position: sticky;
+    top: -20px;
+    z-index: 3;
+}
+
 .links {
     padding: 0px 10px;
 }
@@ -3370,6 +3376,10 @@ textarea:focus {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
+}
+
+.grid-stack > .grid-stack-item > .grid-stack-item-content {
+    overflow-x: auto;
 }
 
 .dashboard-part-title {

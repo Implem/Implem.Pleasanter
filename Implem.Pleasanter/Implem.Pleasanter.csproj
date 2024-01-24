@@ -5,9 +5,9 @@
     <Copyright>Copyright © Implem Inc 2014 - 2023</Copyright>
     <Description>Business application platform</Description>
     <AssemblyName>Implem.Pleasanter</AssemblyName>
-    <AssemblyVersion>1.4.0.0</AssemblyVersion>
-    <FileVersion>1.4.0.0</FileVersion>
-    <Version>1.4.0.0</Version>
+    <AssemblyVersion>1.4.0.1</AssemblyVersion>
+    <FileVersion>1.4.0.1</FileVersion>
+    <Version>1.4.0.1</Version>
     <Nullable>disable</Nullable>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
@@ -94,6 +94,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="App_Data\Definitions\Definition_Code\Model_DashboardGridRowsCases.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_ImportByApi.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_SetCopyDefault.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_SetCopyDefaultParameter.json" />
@@ -101,9 +102,19 @@
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_ApiCreatedMessage_Table.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_ApiUpdatedMessage.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_ApiUpdatedMessage_Table.json" />
+    <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_CheckRow.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_Create_SetCopyDefault.json" />
+    <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_DashboardCheckRow.json" />
+    <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_DashboardGridRowsReturn.json" />
+    <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_DashboardHeaderCss.json" />
+    <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_DashboardReturn.json" />
+    <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_DashboardSuffix.json" />
+    <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_DashboardView.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_GetServerScriptModelRow.json" />
+    <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_GridRowsReturn.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_Response_ResetGroupMembers.json" />
+    <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_Return.json" />
+    <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_View.json" />
   </ItemGroup>
 
   <ItemGroup>
