@@ -571,14 +571,14 @@ namespace Implem.Pleasanter.Models
                 dashboardPartId: dashboardPartId);
         }
 
-        public void DashboardPartLayout (Context context)
+        public string DashboardPartLayout (Context context)
         {
             SetSite(
                 context: context,
                 initSiteSettings: true,
                 setSiteIntegration: true,
                 setAllChoices: true);
-            DashboardUtilities.DashboardPartLayout(
+            return DashboardUtilities.DashboardPartLayout(
                 context: context,
                 ss: Site.SiteSettings);
         }

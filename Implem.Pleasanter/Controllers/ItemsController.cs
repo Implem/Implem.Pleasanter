@@ -1,5 +1,6 @@
 ﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataTypes;
+using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Search;
@@ -52,10 +53,13 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
-        public void DashboardPartLayout(long id)
+        public ActionResult DashboardPartLayout(long id)
         {
             var context = new Context();
-            new ItemModel(context: context, referenceId: id).DashboardPartLayout(context: context);
+            var log = new SysLogModel(context: context);
+            var json = new ItemModel(context: context, referenceId: id).DashboardPartLayout(context: context);
+            log.Finish(context: context, responseSize: json.Length);
+            return Content(json);
         }
 
         [AcceptVerbs(HttpVerbs.Get)]

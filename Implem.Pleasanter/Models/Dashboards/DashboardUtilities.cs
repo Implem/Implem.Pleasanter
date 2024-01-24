@@ -1422,7 +1422,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static void DashboardPartLayout(
+        public static string DashboardPartLayout(
             Context context,
             SiteSettings ss)
         {
@@ -1430,6 +1430,8 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 setSession: true);
+            return new ResponseCollection(context: context)
+                .ToJson();
         }
 
         /// <summary>
