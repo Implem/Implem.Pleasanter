@@ -98,6 +98,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public Dictionary<string, DateTime?> CalendarEndHash;
         public Dictionary<string, string> CalendarViewTypeHash;
         public Dictionary<string, DashboardPartLayout> DashboardPartLayoutHash;
+        public string IndexSuffix;
         public string CrosstabGroupByX;
         public string CrosstabGroupByY;
         public string CrosstabColumns;
@@ -271,6 +272,11 @@ namespace Implem.Pleasanter.Libraries.Settings
             return !CalendarGroupBy.IsNullOrEmpty()
                 ? CalendarGroupBy
                 : string.Empty;
+        }
+
+        public string GetIndexSuffix()
+        {
+            return IndexSuffix;
         }
 
         public string GetCrosstabGroupByX(Context context, SiteSettings ss)
@@ -962,6 +968,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                         KambanColumns = dashboardPart.KambanColumns.ToInt();
                         KambanAggregationView = dashboardPart.KambanAggregationView;
                         KambanShowStatus = dashboardPart.KambanShowStatus;
+                    }
+                    if (ss.DashboardParts?.FirstOrDefault()?.Type == DashboardPartType.Index)
+                    {
+                        var dashboardPart = ss.DashboardParts.FirstOrDefault();
+                        IndexSuffix = $"_{dashboardPart.Id}";
                     }
                     break;
             }

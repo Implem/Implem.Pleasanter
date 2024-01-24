@@ -1,0 +1,6 @@
+﻿var suffix = ss.DashboardParts.Any()
+    ? Views.GetBySession(
+        context: context,
+        ss: ss)
+        .GetIndexSuffix()
+    : "";

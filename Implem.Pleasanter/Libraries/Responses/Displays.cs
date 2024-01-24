@@ -1659,6 +1659,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string CenterAlignment(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "CenterAlignment",
+                data: data);
+        }
+
         public static string Change(
             Context context,
             params string[] data)
@@ -8136,6 +8146,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "ResetKambanView",
+                data: data);
+        }
+
+        public static string ResetIndexView(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ResetIndexView",
                 data: data);
         }
 

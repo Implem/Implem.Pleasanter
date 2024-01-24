@@ -1,0 +1,3 @@
+﻿var checkRow = ss.CheckRow(
+    context: context,
+    gridColumns: view.GridColumns);
