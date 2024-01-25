@@ -16864,7 +16864,8 @@ namespace Implem.Pleasanter.Models
                     .Id("SearchEditorColumnForm")
                     .Action(Locations.ItemAction(
                         context: context,
-                        id: ss.SiteId)),
+                        id: ss.SiteId))
+                    .DataEnter("#ShowTargetColumnKeyWord"),
                 action: () => hb
                     .FieldSet(
                         css: " enclosed",
