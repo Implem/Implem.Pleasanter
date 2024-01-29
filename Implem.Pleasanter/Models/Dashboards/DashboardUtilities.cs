@@ -17,6 +17,7 @@ using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Libraries.Web;
+using SendGrid.Helpers.Mail;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -1596,22 +1597,10 @@ namespace Implem.Pleasanter.Models
         {
             var content = new HtmlBuilder()
                 .CustomHtml(context: context, dashboardPart: dashboardPart).ToString();
-            DashboardPartLayout session = null;
-            if (view.DashboardPartLayoutHash != null
-                && view.DashboardPartLayoutHash.ContainsKey(dashboardPart.Id.ToString()))
-            {
-                session = view.DashboardPartLayoutHash[dashboardPart.Id.ToString()];
-                session.Content = content;
-            }
-            return session ?? new DashboardPartLayout()
-            {
-                Id = dashboardPart.Id,
-                X = dashboardPart.X,
-                Y = dashboardPart.Y,
-                W = dashboardPart.Width,
-                H = dashboardPart.Height,
-                Content = content
-            };
+            return DashboardReturn(
+                view: view,
+                dashboardPart: dashboardPart,
+                content: content);
         }
 
         /// <summary>
@@ -1624,22 +1613,10 @@ namespace Implem.Pleasanter.Models
         {
             var content = new HtmlBuilder()
                 .Custom(context: context, dashboardPart: dashboardPart).ToString();
-            DashboardPartLayout session = null;
-            if (view.DashboardPartLayoutHash != null
-                && view.DashboardPartLayoutHash.ContainsKey(dashboardPart.Id.ToString()))
-            {
-                session = view.DashboardPartLayoutHash[dashboardPart.Id.ToString()];
-                session.Content = content;
-            }
-            return session ?? new DashboardPartLayout()
-            {
-                Id = dashboardPart.Id,
-                X = dashboardPart.X,
-                Y = dashboardPart.Y,
-                W = dashboardPart.Width,
-                H = dashboardPart.Height,
-                Content = content
-            };
+            return DashboardReturn(
+                view: view,
+                dashboardPart: dashboardPart,
+                content: content);
         }
 
         /// <summary>
@@ -1704,22 +1681,10 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     dashboardPart)
                 .ToString();
-            DashboardPartLayout session = null;
-            if (view.DashboardPartLayoutHash != null
-                && view.DashboardPartLayoutHash.ContainsKey(dashboardPart.Id.ToString()))
-            {
-                session = view.DashboardPartLayoutHash[dashboardPart.Id.ToString()];
-                session.Content = content;
-            }
-            return session ?? new DashboardPartLayout()
-            {
-                Id = dashboardPart.Id,
-                X = dashboardPart.X,
-                Y = dashboardPart.Y,
-                W = dashboardPart.Width,
-                H = dashboardPart.Height,
-                Content = content
-            };
+            return DashboardReturn(
+                view: view,
+                dashboardPart: dashboardPart,
+                content: content);
         }
 
         /// <summary>
@@ -1871,22 +1836,10 @@ namespace Implem.Pleasanter.Models
                                     ?? TimeLineDisplayType.Standard);
                         }
                     }).ToString();
-            DashboardPartLayout session = null;
-            if (view.DashboardPartLayoutHash != null
-                && view.DashboardPartLayoutHash.ContainsKey(dashboardPart.Id.ToString()))
-            {
-                session = view.DashboardPartLayoutHash[dashboardPart.Id.ToString()];
-                session.Content = timeLine;
-            }
-            return session ?? new DashboardPartLayout()
-            {
-                Id = dashboardPart.Id,
-                X = dashboardPart.X,
-                Y = dashboardPart.Y,
-                W = dashboardPart.Width,
-                H = dashboardPart.Height,
-                Content = timeLine
-            };
+            return DashboardReturn(
+                view: view,
+                dashboardPart: dashboardPart,
+                content: timeLine);
         }
 
         /// <summary>
@@ -2175,22 +2128,10 @@ namespace Implem.Pleasanter.Models
                         }
                         hb.Raw(text: calendarHtml);
                     }).ToString();
-            DashboardPartLayout session = null;
-            if (view.DashboardPartLayoutHash != null
-                && view.DashboardPartLayoutHash.ContainsKey(dashboardPart.Id.ToString()))
-            {
-                session = view.DashboardPartLayoutHash[dashboardPart.Id.ToString()];
-                session.Content = calendar;
-            }
-            return session ?? new DashboardPartLayout()
-            {
-                Id = dashboardPart.Id,
-                X = dashboardPart.X,
-                Y = dashboardPart.Y,
-                W = dashboardPart.Width,
-                H = dashboardPart.Height,
-                Content = calendar
-            };
+            return DashboardReturn(
+                view: view,
+                dashboardPart: dashboardPart,
+                content: calendar);
         }
 
         /// <summary>
@@ -2431,22 +2372,10 @@ namespace Implem.Pleasanter.Models
                     }
                     hb.Hidden(controlId: $"DashboardAsync_{dashboardPart.Id}");
                 }).ToString();
-            DashboardPartLayout session = null;
-            if(view.DashboardPartLayoutHash != null
-                && view.DashboardPartLayoutHash.ContainsKey(dashboardPart.Id.ToString()))
-            {
-                session = view.DashboardPartLayoutHash[dashboardPart.Id.ToString()];
-                session.Content = AsynchronousLoading;
-            }
-            return session ?? new DashboardPartLayout()
-            {
-                Id = dashboardPart.Id,
-                X = dashboardPart.X,
-                Y = dashboardPart.Y,
-                W = dashboardPart.Width,
-                H = dashboardPart.Height,
-                Content = AsynchronousLoading
-            };
+            return DashboardReturn(
+                view: view,
+                dashboardPart: dashboardPart,
+                content: AsynchronousLoading);
         }
 
         /// <summary>
@@ -2478,22 +2407,10 @@ namespace Implem.Pleasanter.Models
                         }
                         hb.Raw(text: kambanHtml);
                     }).ToString();
-            DashboardPartLayout session = null;
-            if (view.DashboardPartLayoutHash != null
-                && view.DashboardPartLayoutHash.ContainsKey(dashboardPart.Id.ToString()))
-            {
-                session = view.DashboardPartLayoutHash[dashboardPart.Id.ToString()];
-                session.Content = kamban;
-            }
-            return session ?? new DashboardPartLayout()
-            {
-                Id = dashboardPart.Id,
-                X = dashboardPart.X,
-                Y = dashboardPart.Y,
-                W = dashboardPart.Width,
-                H = dashboardPart.Height,
-                Content = kamban
-            };
+            return DashboardReturn(
+                view: view,
+                dashboardPart: dashboardPart,
+                content: kamban);
         }
 
         /// <summary>
@@ -2678,22 +2595,10 @@ namespace Implem.Pleasanter.Models
                         }
                         hb.Raw(text: indexHtml);
                     }).ToString();
-            DashboardPartLayout session = null;
-            if (view.DashboardPartLayoutHash != null
-                && view.DashboardPartLayoutHash.ContainsKey(dashboardPart.Id.ToString()))
-            {
-                session = view.DashboardPartLayoutHash[dashboardPart.Id.ToString()];
-                session.Content = index;
-            }
-            return session ?? new DashboardPartLayout()
-            {
-                Id = dashboardPart.Id,
-                X = dashboardPart.X,
-                Y = dashboardPart.Y,
-                W = dashboardPart.Width,
-                H = dashboardPart.Height,
-                Content = index
-            };
+            return DashboardReturn(
+                view: view,
+                dashboardPart: dashboardPart,
+                content: index);
         }
 
         /// <summary>
@@ -2759,6 +2664,29 @@ namespace Implem.Pleasanter.Models
                 default:
                     return null;
             }
+        }
+
+        public static DashboardPartLayout DashboardReturn(
+            View view,
+            DashboardPart dashboardPart,
+            string content)
+        {
+            DashboardPartLayout session = null;
+            if (view.DashboardPartLayoutHash != null
+                && view.DashboardPartLayoutHash.ContainsKey(dashboardPart.Id.ToString()))
+            {
+                session = view.DashboardPartLayoutHash[dashboardPart.Id.ToString()];
+                session.Content = content;
+            }
+            return session ?? new DashboardPartLayout()
+            {
+                Id = dashboardPart.Id,
+                X = dashboardPart.X,
+                Y = dashboardPart.Y,
+                W = dashboardPart.Width,
+                H = dashboardPart.Height,
+                Content = content
+            };
         }
     }
 }
