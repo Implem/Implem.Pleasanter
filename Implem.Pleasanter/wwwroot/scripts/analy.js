@@ -1,30 +1,20 @@
 ﻿$p.drawAnaly = function () {
-    /*
-    変数定義箇所
-    ユーザによる変更可能
-    */
+    // 変数定義箇所
+    // ユーザによる変更可能
     const chartWidth = 550;
     const chartHeight = 465;
     const settingFontSizeLarge = 25;
     const settingFontSizeSmall = 15;
     const settingFontHeight = 0;
-
-
-    /*
-    変数定義箇所
-    ユーザによる変更不要
-    */
+    // 変数定義箇所
+    // ユーザによる変更不要
     const radius = Math.min(chartWidth - 1, chartHeight - 5) / 2;
     var colorLabelMemorys = [];
     var conditionIllegalFlag = false;
     var colorIndex;
     var colorIndexFlag = false;
-
-
-    /*
-    ロジック定義箇所
-    ユーザによる変更不要
-    */
+    // ロジック定義箇所
+    // ユーザによる変更不要
     // id=Analyを削除
     document.getElementById('Analy').remove();
     // サーバから返却されたデータをもとに反復処理
@@ -242,7 +232,6 @@
             .attr('stroke', 'white');
     }
 }
-
 
 $p.openAnalyPartDialog = function ($control) {
     error = $p.syncSend($control);
