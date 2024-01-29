@@ -339,3 +339,21 @@ $p.confirmIndexSites = function (value) {
         $p.closeDialog($("#DashboardPartIndexSitesDialog"));
     }
 }
+
+$p.openSearchEditorColumnDialog = function ($control) {
+    $p.data.SearchEditorColumnForm = {};
+    $p.openSiteSettingsDialog($control, '#SearchEditorColumnDialog', '535px');
+}
+
+$p.selectSearchEditorColumn = function (value) {
+    var $hidden = $('#SearchEditorColumnDialogInput');
+    if (value != 'KeyWord') {
+        $('#TargetColumnKeyWord').val('');
+    }
+    var jsonData = {
+        "selection": value,
+        "keyWord": $('#TargetColumnKeyWord').val()
+    };
+    $hidden.val(JSON.stringify(jsonData));
+    $p.send($hidden);
+}

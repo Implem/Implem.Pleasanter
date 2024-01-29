@@ -3636,6 +3636,16 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         res: res);
                     break;
+                case "OpenSearchEditorColumnDialog":
+                    OpenSearchEditorColumnDialog(
+                        context: context,
+                        res: res);
+                    break;
+                case "SearchEditorColumnDialogInput":
+                    FilterSourceColumnsSelectable(
+                        context: context,
+                        res: res);
+                    break;
                 default:
                     if (controlId.Contains("_NumericRange"))
                     {
@@ -9292,6 +9302,40 @@ namespace Implem.Pleasanter.Models
                 });
             }
             return data;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void OpenSearchEditorColumnDialog(
+            Context context,
+            ResponseCollection res)
+        {
+            switch (context.Forms.Data("EditorSourceColumnsType"))
+            {
+                case "Links":
+                case "Others":
+                    res.Message(Messages.CanNotPerformed(context: context));
+                    break;
+                case "Columns":
+                    res.Html("#SearchEditorColumnDialog", SiteUtilities.SearchEditorColumnDialog(
+                        context: context,
+                        ss: SiteSettings));
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void FilterSourceColumnsSelectable(
+            Context context,
+            ResponseCollection res)
+        {
+            AddOrUpdateEditorColumnHash(context: context);
+            SiteUtilities.FilterSourceColumnsSelectable(res, context, SiteSettings)
+            .SetData("#EditorSourceColumns")
+            .CloseDialog();
         }
     }
 }
