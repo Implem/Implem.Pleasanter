@@ -8,7 +8,6 @@ using Implem.Pleasanter.Libraries.Search;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.ServerScripts;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -1268,8 +1267,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 DashboardPartLayoutHash = new Dictionary<string, DashboardPartLayout>();
             }
-            var dashboardPartLayouts = JsonConvert
-                .DeserializeObject<List<DashboardPartLayout>>(context.Forms.Data("DashboardPartLayout"));
+            var dashboardPartLayouts = context.Forms.Data("DashboardPartLayout")
+                ?.Deserialize<List<DashboardPartLayout>>();
             foreach (var dashboardPartLayout in dashboardPartLayouts)
             {
                 var value = new DashboardPartLayout();
