@@ -572,16 +572,16 @@ namespace Implem.Pleasanter.Models
         }
 
         public string DashboardPartLayout (Context context)
-        {
-            SetSite(
-                context: context,
-                initSiteSettings: true,
-                setSiteIntegration: true,
-                setAllChoices: true);
-            return DashboardUtilities.DashboardPartLayout(
-                context: context,
-                ss: Site.SiteSettings);
-        }
+                {
+                    SetSite(
+                        context: context,
+                        initSiteSettings: true,
+                        setSiteIntegration: true,
+                        setAllChoices: true);
+                    return DashboardUtilities.DashboardPartLayout(
+                        context: context,
+                        ss: Site.SiteSettings);
+                }
 
         public string Gantt(Context context)
         {
