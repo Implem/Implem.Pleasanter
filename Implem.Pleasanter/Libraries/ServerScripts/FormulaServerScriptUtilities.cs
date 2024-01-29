@@ -848,7 +848,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         return 'Invalid Parameter';
                     }
                     expression = (expression === undefined || expression === '') ? false  : expression;
-                    valueIfTrue = (valueIfTrue === undefined ||  valueIfTrue === '') ? 0 : valueIfTrue;
+                    valueIfTrue = (valueIfTrue === undefined) ? 0 : valueIfTrue;
                     valueIfFalse = (valueIfFalse === undefined) ? 0 : valueIfFalse;
                     if(typeof valueIfTrue === 'string' && valueIfTrue.length === 2 
                         && valueIfTrue.substring(0,1).charCodeAt() === 34 && valueIfTrue.substring(1,2).charCodeAt() == 34) 
