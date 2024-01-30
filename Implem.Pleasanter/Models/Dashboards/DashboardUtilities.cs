@@ -90,40 +90,50 @@ namespace Implem.Pleasanter.Models
                 if (ss.DashboardPartsAsynchronousLoading == true
                     && dashboardPart.DisableAsynchronousLoading == false)
                 {
-                    return AsynchronousLoadingLayout(dashboardPart: dashboardPart);
+                    return AsynchronousLoadingLayout(
+                        view: view,
+                        dashboardPart: dashboardPart);
                 }
                 switch (dashboardPart.Type)
                 {
                     case DashboardPartType.QuickAccess:
                         return QuickAccessLayout(
                             context: context,
+                            view: view,
                             dashboardPart: dashboardPart);
                     case DashboardPartType.TimeLine:
                         return TimeLineLayout(
                             context: context,
                             ss: ss,
+                            view: view,
                             dashboardPart: dashboardPart);
                     case DashboardPartType.Custom:
-                        return CustomLayouyt(
+                        return CustomLayout(
                             context: context,
+                            view: view,
                             dashboardPart: dashboardPart);
                     case DashboardPartType.CustomHtml:
-                        return CustomHtmlLayouyt(
+                        return CustomHtmlLayout(
                             context: context,
+                            view: view,
                             dashboardPart: dashboardPart);
                     case DashboardPartType.Calendar:
                         return CalendarLayout(
                             context: context,
                             ss: ss,
+                            view: view,
                             dashboardPart: dashboardPart);
                     case DashboardPartType.Kamban:
                         return KambanLayout(
                             context: context,
                             ss: ss,
+                            view: view,
                             dashboardPart: dashboardPart);
                     case DashboardPartType.Index:
                         return IndexLayout(
                             context: context,
+                            ss: ss,
+                            view: view,
                             dashboardPart: dashboardPart);
                     default:
                         return new DashboardPartLayout();
@@ -168,6 +178,11 @@ namespace Implem.Pleasanter.Models
                             .Hidden(
                                 controlId: "DashboardPartLayouts",
                                 value: dashboardPartLayouts)
+                            .Hidden(
+                                controlId: "DashboardPartLayout",
+                                value: dashboardPartLayouts,
+                                action: "DashboardPartLayout",
+                                method: "post")
                             .Hidden(
                                 controlId: "Sites_Timestamp",
                                 css: "control-hidden always-send",
@@ -1358,6 +1373,9 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             string dashboardPartId)
         {
+            var view = Views.GetBySession(
+                context: context,
+                ss: ss);
             var dashboardPartLayout = ss.DashboardParts
                 .Where(dashboardPart => dashboardPart
                     .Accessable(
@@ -1372,33 +1390,41 @@ namespace Implem.Pleasanter.Models
                         case DashboardPartType.QuickAccess:
                             return QuickAccessLayout(
                                 context: context,
+                                view: view,
                                 dashboardPart: dashboardPart).Content;
                         case DashboardPartType.TimeLine:
                             return TimeLineLayout(
                                 context: context,
                                 ss: ss,
+                                view: view,
                                 dashboardPart: dashboardPart).Content;
                         case DashboardPartType.Custom:
-                            return CustomLayouyt(
+                            return CustomLayout(
                                 context: context,
+                                view: view,
                                 dashboardPart: dashboardPart).Content;
                         case DashboardPartType.CustomHtml:
-                            return CustomHtmlLayouyt(
+                            return CustomHtmlLayout(
                                 context: context,
+                                view: view,
                                 dashboardPart: dashboardPart).Content;
                         case DashboardPartType.Calendar:
                             return CalendarLayout(
                                 context: context,
                                 ss: ss,
+                                view: view,
                                 dashboardPart: dashboardPart).Content;
                         case DashboardPartType.Kamban:
                             return KambanLayout(
                                 context: context,
                                 ss: ss,
+                                view: view,
                                 dashboardPart: dashboardPart).Content;
                         case DashboardPartType.Index:
                             return IndexLayout(
                                 context: context,
+                                ss: ss,
+                                view: view,
                                 dashboardPart: dashboardPart).Content;
                         default:
                             return null;
@@ -1410,6 +1436,21 @@ namespace Implem.Pleasanter.Models
                     value: dashboardPartLayout.FirstOrDefault())
                 .Invoke("setCalendar", dashboardPartId.ToString())
                 .Invoke("setKamban", dashboardPartId.ToString())
+                .ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string DashboardPartLayout(
+            Context context,
+            SiteSettings ss)
+        {
+            Views.GetBySession(
+                context: context,
+                ss: ss,
+                setSession: true);
+            return new ResponseCollection(context: context)
                 .ToJson();
         }
 
@@ -1548,37 +1589,33 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static DashboardPartLayout CustomHtmlLayouyt(Context context, DashboardPart dashboardPart)
+        private static DashboardPartLayout CustomHtmlLayout(
+            Context context,
+            View view,
+            DashboardPart dashboardPart)
         {
             var content = new HtmlBuilder()
                 .CustomHtml(context: context, dashboardPart: dashboardPart).ToString();
-            return new DashboardPartLayout()
-            {
-                Id = dashboardPart.Id,
-                X = dashboardPart.X,
-                Y = dashboardPart.Y,
-                W = dashboardPart.Width,
-                H = dashboardPart.Height,
-                Content = content
-            };
+            return DashboardReturn(
+                view: view,
+                dashboardPart: dashboardPart,
+                content: content);
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static DashboardPartLayout CustomLayouyt(Context context, DashboardPart dashboardPart)
+        private static DashboardPartLayout CustomLayout(
+            Context context,
+            View view,
+            DashboardPart dashboardPart)
         {
             var content = new HtmlBuilder()
                 .Custom(context: context, dashboardPart: dashboardPart).ToString();
-            return new DashboardPartLayout()
-            {
-                Id = dashboardPart.Id,
-                X = dashboardPart.X,
-                Y = dashboardPart.Y,
-                W = dashboardPart.Width,
-                H = dashboardPart.Height,
-                Content = content
-            };
+            return DashboardReturn(
+                view: view,
+                dashboardPart: dashboardPart,
+                content: content);
         }
 
         /// <summary>
@@ -1633,22 +1670,20 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static DashboardPartLayout QuickAccessLayout(Context context, DashboardPart dashboardPart)
+        private static DashboardPartLayout QuickAccessLayout(
+            Context context,
+            View view,
+            DashboardPart dashboardPart)
         {
             var content = new HtmlBuilder()
                 .QuickAccessMenu(
                     context: context,
                     dashboardPart)
                 .ToString();
-            return new DashboardPartLayout()
-            {
-                Id = dashboardPart.Id,
-                X = dashboardPart.X,
-                Y = dashboardPart.Y,
-                W = dashboardPart.Width,
-                H = dashboardPart.Height,
-                Content = content
-            };
+            return DashboardReturn(
+                view: view,
+                dashboardPart: dashboardPart,
+                content: content);
         }
 
         /// <summary>
@@ -1771,6 +1806,7 @@ namespace Implem.Pleasanter.Models
         private static DashboardPartLayout TimeLineLayout(
             Context context,
             SiteSettings ss,
+            View view,
             DashboardPart dashboardPart)
         {
             var timeLineItems = GetTimeLineRecords(
@@ -1799,15 +1835,10 @@ namespace Implem.Pleasanter.Models
                                     ?? TimeLineDisplayType.Standard);
                         }
                     }).ToString();
-            return new DashboardPartLayout()
-            {
-                Id = dashboardPart.Id,
-                X = dashboardPart.X,
-                Y = dashboardPart.Y,
-                W = dashboardPart.Width,
-                H = dashboardPart.Height,
-                Content = timeLine
-            };
+            return DashboardReturn(
+                view: view,
+                dashboardPart: dashboardPart,
+                content: timeLine);
         }
 
         /// <summary>
@@ -2073,11 +2104,13 @@ namespace Implem.Pleasanter.Models
         private static DashboardPartLayout CalendarLayout(
             Context context,
             SiteSettings ss,
+            View view,
             DashboardPart dashboardPart)
         {
             var hb = new HtmlBuilder();
             var calendarHtml = GetCalendarRecords(
                 context: context,
+                ss: ss,
                 dashboardPart: dashboardPart);
             var calendar = hb
                 .Div(
@@ -2094,15 +2127,10 @@ namespace Implem.Pleasanter.Models
                         }
                         hb.Raw(text: calendarHtml);
                     }).ToString();
-            return new DashboardPartLayout()
-            {
-                Id = dashboardPart.Id,
-                X = dashboardPart.X,
-                Y = dashboardPart.Y,
-                W = dashboardPart.Width,
-                H = dashboardPart.Height,
-                Content = calendar
-            };
+            return DashboardReturn(
+                view: view,
+                dashboardPart: dashboardPart,
+                content: calendar);
         }
 
         /// <summary>
@@ -2110,23 +2138,25 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static string GetCalendarRecords(
             Context context,
+            SiteSettings ss,
             DashboardPart dashboardPart)
         {
             //基準となるサイトからSiteSettingsを取得
-            var ss = SiteSettingsUtilities.Get(
+            var currentSs = SiteSettingsUtilities.Get(
                 context: context,
                 siteId: dashboardPart.SiteId);
             //対象サイトをサイト統合の仕組みで登録
-            ss.IntegratedSites = dashboardPart.CalendarSitesData;
-            ss.SetSiteIntegration(context: context);
-            ss.SetDashboardParts(dashboardPart: dashboardPart);
-            if (ss.ReferenceType == "Issues")
+            currentSs.IntegratedSites = dashboardPart.CalendarSitesData;
+            currentSs.SetSiteIntegration(context: context);
+            currentSs.SetDashboardParts(dashboardPart: dashboardPart);
+            currentSs.SaveViewType = ss.SaveViewType;
+            if (currentSs.ReferenceType == "Issues")
             {
-                return IssueUtilities.Calendar(context: context, ss: ss);
+                return IssueUtilities.Calendar(context: context, ss: currentSs);
             }
-            else if (ss.ReferenceType == "Results")
+            else if (currentSs.ReferenceType == "Results")
             {
-                return ResultUtilities.Calendar(context: context, ss: ss);
+                return ResultUtilities.Calendar(context: context, ss: currentSs);
             }
             else
             {
@@ -2153,6 +2183,7 @@ namespace Implem.Pleasanter.Models
             currentSs.IntegratedSites = dashboardPart.CalendarSitesData;
             currentSs.SetSiteIntegration(context: context);
             currentSs.SetDashboardParts(dashboardPart: dashboardPart);
+            currentSs.SaveViewType = ss.SaveViewType;
             var hb = new HtmlBuilder();
             switch (currentSs.ReferenceType)
             {
@@ -2219,6 +2250,7 @@ namespace Implem.Pleasanter.Models
             currentSs.IntegratedSites = dashboardPart.CalendarSitesData;
             currentSs.SetSiteIntegration(context: context);
             currentSs.SetDashboardParts(dashboardPart: dashboardPart);
+            currentSs.SaveViewType = ss.SaveViewType;
             var hb = new HtmlBuilder();
             switch (currentSs.ReferenceType)
             {
@@ -2320,7 +2352,9 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static DashboardPartLayout AsynchronousLoadingLayout(DashboardPart dashboardPart)
+        private static DashboardPartLayout AsynchronousLoadingLayout(
+            View view,
+            DashboardPart dashboardPart)
         {
             var hb = new HtmlBuilder();
             var AsynchronousLoading = hb.Div(
@@ -2337,15 +2371,10 @@ namespace Implem.Pleasanter.Models
                     }
                     hb.Hidden(controlId: $"DashboardAsync_{dashboardPart.Id}");
                 }).ToString();
-            return new DashboardPartLayout()
-            {
-                Id = dashboardPart.Id,
-                X = dashboardPart.X,
-                Y = dashboardPart.Y,
-                W = dashboardPart.Width,
-                H = dashboardPart.Height,
-                Content = AsynchronousLoading
-            };
+            return DashboardReturn(
+                view: view,
+                dashboardPart: dashboardPart,
+                content: AsynchronousLoading);
         }
 
         /// <summary>
@@ -2354,11 +2383,13 @@ namespace Implem.Pleasanter.Models
         private static DashboardPartLayout KambanLayout(
             Context context,
             SiteSettings ss,
+            View view,
             DashboardPart dashboardPart)
         {
             var hb = new HtmlBuilder();
             var kambanHtml = GetKambanRecords(
                 context: context,
+                ss: ss,
                 dashboardPart: dashboardPart);
             var kamban = hb
                 .Div(
@@ -2375,15 +2406,10 @@ namespace Implem.Pleasanter.Models
                         }
                         hb.Raw(text: kambanHtml);
                     }).ToString();
-            return new DashboardPartLayout()
-            {
-                Id = dashboardPart.Id,
-                X = dashboardPart.X,
-                Y = dashboardPart.Y,
-                W = dashboardPart.Width,
-                H = dashboardPart.Height,
-                Content = kamban
-            };
+            return DashboardReturn(
+                view: view,
+                dashboardPart: dashboardPart,
+                content: kamban);
         }
 
         /// <summary>
@@ -2391,24 +2417,26 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static string GetKambanRecords(
             Context context,
+            SiteSettings ss,
             DashboardPart dashboardPart)
         {
             //基準となるサイトからSiteSettingsを取得
-            var ss = SiteSettingsUtilities.Get(
+            var currentSs = SiteSettingsUtilities.Get(
                 context: context,
                 siteId: dashboardPart.SiteId,
                 setAllChoices: true);
             //対象サイトをサイト統合の仕組みで登録
-            ss.IntegratedSites = dashboardPart.KambanSitesData;
-            ss.SetSiteIntegration(context: context);
-            ss.SetDashboardParts(dashboardPart: dashboardPart);
-            if (ss.ReferenceType == "Issues")
+            currentSs.IntegratedSites = dashboardPart.KambanSitesData;
+            currentSs.SetSiteIntegration(context: context);
+            currentSs.SetDashboardParts(dashboardPart: dashboardPart);
+            currentSs.SaveViewType = ss.SaveViewType;
+            if (currentSs.ReferenceType == "Issues")
             {
-                return IssueUtilities.Kamban(context: context, ss: ss);
+                return IssueUtilities.Kamban(context: context, ss: currentSs);
             }
-            else if (ss.ReferenceType == "Results")
+            else if (currentSs.ReferenceType == "Results")
             {
-                return ResultUtilities.Kamban(context: context, ss: ss);
+                return ResultUtilities.Kamban(context: context, ss: currentSs);
             }
             else
             {
@@ -2433,8 +2461,9 @@ namespace Implem.Pleasanter.Models
             currentSs.IntegratedSites = dashboardPart.KambanSitesData;
             currentSs.SetSiteIntegration(context: context);
             currentSs.SetDashboardParts(dashboardPart: dashboardPart);
+            currentSs.SaveViewType = ss.SaveViewType;
             //複数サイト表示時はドラッグによる更新不可
-            if( currentSs.AllowedIntegratedSites?.Count > 1)
+            if ( currentSs.AllowedIntegratedSites?.Count > 1)
             {
                 return Messages.ResponseCannotMoveMultipleSitesData(context: context).ToJson();
             }
@@ -2541,11 +2570,14 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static DashboardPartLayout IndexLayout(
             Context context,
+            SiteSettings ss,
+            View view,
             DashboardPart dashboardPart)
         {
             var hb = new HtmlBuilder();
             var indexHtml = GetIndexRecords(
                 context: context,
+                ss: ss,
                 dashboardPart: dashboardPart);
             var index = hb
                 .Div(
@@ -2562,15 +2594,10 @@ namespace Implem.Pleasanter.Models
                         }
                         hb.Raw(text: indexHtml);
                     }).ToString();
-            return new DashboardPartLayout()
-            {
-                Id = dashboardPart.Id,
-                X = dashboardPart.X,
-                Y = dashboardPart.Y,
-                W = dashboardPart.Width,
-                H = dashboardPart.Height,
-                Content = index
-            };
+            return DashboardReturn(
+                view: view,
+                dashboardPart: dashboardPart,
+                content: index);
         }
 
         /// <summary>
@@ -2578,21 +2605,23 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static string GetIndexRecords(
             Context context,
+            SiteSettings ss,
             DashboardPart dashboardPart)
         {
-            var ss = SiteSettingsUtilities.Get(
+            var currentSs = SiteSettingsUtilities.Get(
                 context: context,
                 siteId: dashboardPart.SiteId);
             //対象サイトをサイト統合の仕組みで登録
-            ss.IntegratedSites = dashboardPart.IndexSitesData;
-            ss.SetSiteIntegration(context: context);
-            ss.SetDashboardParts(dashboardPart: dashboardPart);
-            switch (ss.ReferenceType)
+            currentSs.IntegratedSites = dashboardPart.IndexSitesData;
+            currentSs.SetSiteIntegration(context: context);
+            currentSs.SetDashboardParts(dashboardPart: dashboardPart);
+            currentSs.SaveViewType = ss.SaveViewType;
+            switch (currentSs.ReferenceType)
             {
                 case "Issues":
-                    return IssueUtilities.Index(context: context, ss: ss);
+                    return IssueUtilities.Index(context: context, ss: currentSs);
                 case "Results":
-                    return ResultUtilities.Index(context: context, ss: ss);
+                    return ResultUtilities.Index(context: context, ss: currentSs);
                 default:
                     return null;
             }
@@ -2615,6 +2644,7 @@ namespace Implem.Pleasanter.Models
             currentSs.IntegratedSites = dashboardPart.IndexSitesData;
             currentSs.SetSiteIntegration(context: context);
             currentSs.SetDashboardParts(dashboardPart: dashboardPart);
+            currentSs.SaveViewType = ss.SaveViewType;
             var hb = new HtmlBuilder();
             switch (currentSs.ReferenceType)
             {
@@ -2633,6 +2663,32 @@ namespace Implem.Pleasanter.Models
                 default:
                     return null;
             }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static DashboardPartLayout DashboardReturn(
+            View view,
+            DashboardPart dashboardPart,
+            string content)
+        {
+            DashboardPartLayout session = null;
+            if (view.DashboardPartLayoutHash != null
+                && view.DashboardPartLayoutHash.ContainsKey(dashboardPart.Id.ToString()))
+            {
+                session = view.DashboardPartLayoutHash[dashboardPart.Id.ToString()];
+                session.Content = content;
+            }
+            return session ?? new DashboardPartLayout()
+            {
+                Id = dashboardPart.Id,
+                X = dashboardPart.X,
+                Y = dashboardPart.Y,
+                W = dashboardPart.Width,
+                H = dashboardPart.Height,
+                Content = content
+            };
         }
     }
 }

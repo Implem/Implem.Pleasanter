@@ -3332,6 +3332,11 @@ namespace Implem.Pleasanter.Models
                                 .Li(
                                     action: () => hb
                                         .A(
+                                            href: "#ViewsSettingsEditor",
+                                            text: Displays.DataView(context: context)))
+                                .Li(
+                                    action: () => hb
+                                        .A(
                                             href: "#StylesSettingsEditor",
                                             text: Displays.Styles(context: context)),
                                     _using: context.ContractSettings.Style != false)
@@ -4737,6 +4742,7 @@ namespace Implem.Pleasanter.Models
                     case "Dashboards":
                         hb
                             .DashboardPartSettingsEditor(context: context, ss: siteModel.SiteSettings)
+                            .ViewsSettingsEditor(context: context, ss: siteModel.SiteSettings)
                             .StylesSettingsEditor(context: context, ss: siteModel.SiteSettings)
                             .ScriptsSettingsEditor(context: context, ss: siteModel.SiteSettings)
                             .HtmlsSettingsEditor(context: context, ss: siteModel.SiteSettings);
@@ -10408,7 +10414,8 @@ namespace Implem.Pleasanter.Models
                                         onClick: "$p.send($(this));",
                                         icon: "ui-icon-trash",
                                         action: "SetSiteSettings",
-                                        method: "put"))))
+                                        method: "put"))),
+                    _using: ss.ReferenceType != "Dashboards")
                 .FieldDropDown(
                     context: context,
                     controlId: "SaveViewType",
