@@ -9,6 +9,13 @@
         disableDrag: isMobile,
     });
     $p.gridstackInstance.load(JSON.parse(layout));
+
+    $p.gridstackInstance.on('resizestop dragstop', function (event, el) {
+        let layouts = $p.gridstackInstance.save();
+        layouts.forEach(item => item.content = "");
+        $p.set($('#DashboardPartLayout'), JSON.stringify(layouts))
+        $p.send($('#DashboardPartLayout'));
+    })
 };
 
 //現在のレイアウトを保存する
