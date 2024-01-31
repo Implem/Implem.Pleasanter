@@ -29,7 +29,7 @@
                 id = 'DeleteChartIcon_' + id;
                 document.getElementById(id).style.visibility = 'visible';
             })
-            .on("mouseout", function () {
+            .on('mouseout', function () {
                 var id = $(this).attr('id');
                 id = id.substring(9);
                 id = 'DeleteChartIcon_' + id;
@@ -62,24 +62,14 @@
                 'transform',
                 'translate(' + ((chartWidth / 2) + 1) + ',' + ((chartHeight / 2) + 1) + ')');
         // データが抽出できない場合
-        if (pieChart.Elements.length === 0) {
+        if (!pieChart.Elements.length) {
             // データがない旨画面に表示
             notIndicateAnalyChart('NoData');
             // データが抽出できた場合
         } else {
-            // valueに「0」が設定されているかどうかの判定処理
-            for (var element of pieChart.Elements) {
-                // 要求が不正だった場合
-                if (element.Value === 0) {
-                    conditionIllegalFlag = true;
-                    // 要求が正しかった場合
-                } else {
-                    conditionIllegalFlag = false;
-                    break;
-                }
-            }
+            var results = pieChart.Elements.filter(element => element.Value > 0);
             // 要求が不正だった場合
-            if (conditionIllegalFlag === true) {
+            if (!results.length) {
                 // 要求が不正だった旨画面に表示
                 notIndicateAnalyChart('InvalidRequest');
                 // 要求が正しかった場合
@@ -168,6 +158,8 @@
                     .attr('text-anchor', 'middle')
                     .text(function (d) {
                         if (d.data.Value === 0) return;
+                        // todo
+                        // ?の判定は必要なし
                         if (d.data.GroupTitle === '? ')
                             return $p.display('NotSet') + ',' + d.data.Value;
                         return d.data.GroupTitle + ',' + d.data.Value;
@@ -198,10 +190,11 @@
             .attr('d', arc)
             .attr('fill', function (d) {
                 // 単数円グラフの表示処理
-                if (colorLabelMemorys.length === 0) {
+                if (!colorLabelMemorys.length) {
                     colorLabelMemorys.push({ labelName: d.data.GroupTitle, color: d.index });
                     return color(d.index);
                 }
+                // todo
                 // 複数円グラフの表示処理
                 for (var colorLabelMemory of colorLabelMemorys) {
                     // すでにカラーが割り振られたラベル名が存在する場合
