@@ -27,7 +27,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     icon: "ui-icon-plus",
                     action: "OpenAnalyPartDialog",
                     method: "post")
-                .Div(id: "TimeSeriesBody", action: () => hb
+                .Div(id: "AnalyBody", action: () => hb
                     .AnalyBody(
                         context: context,
                         ss: ss,
@@ -48,7 +48,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     Id = 0,
                     GroupBy = ss.AnalyGroupByOptions(context: context).FirstOrDefault().Key,
                     TimePeriodValue = 0,
-                    TimePeriod = "Days",
+                    TimePeriod = "DaysAgoNoArgs",
                     AggregationType = "Count"
                 };
             return hb.Form(
@@ -136,7 +136,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     ss: ss,
                     analyDataList: analyDataList);
                 return hb
-                    .Svg(id: "Analy")
                     .Hidden(
                         controlId: "AnalyJson",
                         value: analy.ToJson());

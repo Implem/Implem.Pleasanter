@@ -15,13 +15,11 @@
     var colorIndexFlag = false;
     // ロジック定義箇所
     // ユーザによる変更不要
-    // id=Analyを削除
-    document.getElementById('Analy').remove();
     // サーバから返却されたデータをもとに反復処理
     for (var pieChart of JSON.parse($('#AnalyJson').val())) {
         // divタグを設定
         var div = d3
-            .select('#TimeSeriesBody')
+            .select('#AnalyBody')
             .append('div')
             .attr('id', 'ChartDiv_' + pieChart.Setting.Id)
             .style('float', 'left')
@@ -102,7 +100,7 @@
                     .text(
                         $p.display(pieChart.Setting.TimePeriodValue) +
                         '' +
-                        $p.display(pieChart.Setting.TimePeriod + 'AgoNoArgs')
+                        $p.display(pieChart.Setting.TimePeriod)
                     );
                 // 条件「集計対象」を画面に表示
                 g.append('text')

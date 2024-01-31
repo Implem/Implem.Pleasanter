@@ -310,17 +310,17 @@ namespace Implem.Pleasanter.Libraries.Server
         {
             switch (timePeriod)
             {
-                case "Days":
+                case "DaysAgoNoArgs":
                     return self.AddDays(timePeriodValue);
-                case "Months":
+                case "MonthsAgoNoArgs":
                     return self.AddMonths(timePeriodValue);
-                case "Years":
+                case "YearsAgoNoArgs":
                     return self.AddYears(timePeriodValue);
-                case "Hours":
+                case "HoursAgoNoArgs":
                     return self.AddHours(timePeriodValue);
-                case "Minutes":
+                case "MinutesAgoNoArgs":
                     return self.AddMinutes(timePeriodValue);
-                case "Seconds":
+                case "SecondsAgoNoArgs":
                     return self.AddSeconds(timePeriodValue);
                 default:
                     return self;
