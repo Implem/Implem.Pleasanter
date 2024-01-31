@@ -28,6 +28,38 @@ $p.paging = function (selector) {
         }
     }
 }
+$p.dashboardPaging = function (selector, target) {
+    if ($('.ui-dialog:visible').length > 0) {
+        return;
+    }
+    var $control = $(selector);
+    var suffix = selector.substring(selector.indexOf('_'))
+    var $offset = $('#Grid' + 'Offset' + suffix);
+    if ($control.length) {
+        if ($(target).scrollTop() + $(target).height() >= $control.offset().top + $control.height()) {
+            if ($offset.val() !== '-1') {
+                var gridId = $control.attr('id');
+                var tableId = $control.attr('id');
+                if (tableId.match(/_(\d+)$/)) {
+                    tableId = tableId.slice(0, tableId.lastIndexOf('_'));
+                }
+                var offsetId = $offset.attr('id');
+                var offsetTableId = $offset.attr('id');
+                if (offsetTableId.match(/_(\d+)$/)) {
+                    offsetTableId = offsetTableId.slice(0, offsetTableId.lastIndexOf('_'));
+                }
+                $control.attr('id', tableId);
+                $offset.attr('id', offsetTableId);
+                $p.setData($offset);
+                $p.getData($control).IndexSuffix = suffix;
+                $offset.val('-1');
+                $p.send($control);
+                $control.attr('id', gridId);
+                $offset.attr('id', offsetId);
+            }
+        }
+    }
+}
 
 $p.setPaging = function (controlId, offsetId) {
     var wrapper = document.getElementById(controlId + 'Wrapper');

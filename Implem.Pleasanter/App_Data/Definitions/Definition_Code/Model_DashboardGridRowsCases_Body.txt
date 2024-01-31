@@ -1,0 +1,5 @@
+﻿case "#TableName#":
+    return #ModelName#Utilities.DashboardIndexGridRows(
+        context: context,
+        ss: Site.SiteSettings,
+        offset: context.Forms.Int("GridOffset"));

@@ -213,36 +213,6 @@ pre {
     padding: 20px 10px 10px 10px;
 }
 
-#AuthenticationByMail {
-    float: left;
-    padding: 0px 0px 10px 50px;
-}
-
-#TotpQRCode {
-    width: 38%;
-    height: 160px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-#TotpQRCodeText {
-    margin-left: auto;
-    margin-right: auto;
-}
-
-#qrCodeText{
-    font-size: 1.3em;
-}
-
-#Demo {
-    width: 500px;
-    margin: 0px auto;
-}
-
-#DemoFields {
-    padding: 20px 10px 10px 10px;
-}
-
 #SearchPermissionElements {
     margin-left: 15px;
 }
@@ -351,7 +321,7 @@ pre {
         top: 30px;
         right: 0px;
         border-radius: 0px 0px 5px 5px;
-        z-index: 3;
+        z-index: 4;
     }
 
         #NavigationMenu .menu > li > a {
@@ -2441,6 +2411,11 @@ _::-webkit-full-page-media, _:future, :root .field-normal .control-checkbox + la
     text-align-last: right;
 }
 
+.center-align {
+    text-align: center;
+    text-align-last: center;
+}
+
 .tooltip {
     display: none;
     position: absolute;
@@ -2598,6 +2573,12 @@ _::-webkit-full-page-media, _:future, :root .field-normal .control-checkbox + la
     .grid-title-body > .title + .body {
         padding: 8px 0px 0px 10px;
     }
+
+.dashboard-grid-header {
+    position: sticky;
+    top: -20px;
+    z-index: 3;
+}
 
 .links {
     padding: 0px 10px;
@@ -3397,6 +3378,10 @@ textarea:focus {
     flex-direction: column;
 }
 
+.grid-stack > .grid-stack-item > .grid-stack-item-content {
+    overflow-x: auto;
+}
+
 .dashboard-part-title {
     font-size: 1.2em;
     color: #333333;
@@ -3650,35 +3635,6 @@ textarea:focus {
         width: 100%;
     }
 
-.annonymous .close-announcement{
-    display:none;
-}
-
-#TotpAuthenticationCodeSeparate {
-    width: 150px;
-    display: flex;
-    padding: 0 0 10px 40px;
-}
-
-#TotpAuthenticationCodeSeparate > .field-normal > .field-control{
-    margin-left: unset;
-}
-
-#TotpAuthenticationCodeSeparate > .field-normal > .field-control > .container-normal{
-    margin-left: 10px;
-}
-
-.totp-authentication-code {
-    height: 25px;
-    width: 25px;
-    border: none;
-    outline: none;
-    border-bottom: 2px solid black;
-    font-size: 125%;
-    text-align: center;
-
-}
-
-.totp-form{
-    visibility: hidden;
+div.lower-search-ui {
+    margin: 4px 0px 0px 0px;
 }
