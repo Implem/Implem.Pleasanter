@@ -204,6 +204,27 @@ pre {
     clear: both;
 }
 
+#AuthenticationByMail {
+    float: left;
+    padding: 0px 0px 10px 50px;
+}
+
+#TotpQRCode {
+    width: 38%;
+    height: 160px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#TotpQRCodeText {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#qrCodeText {
+    font-size: 1.3em;
+}
+
 #Demo {
     width: 500px;
     margin: 0px auto;

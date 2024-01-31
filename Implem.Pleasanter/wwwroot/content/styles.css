@@ -204,15 +204,6 @@ pre {
     clear: both;
 }
 
-#Demo {
-    width: 500px;
-    margin: 0px auto;
-}
-
-#DemoFields {
-    padding: 20px 10px 10px 10px;
-}
-
 #AuthenticationByMail {
     float: left;
     padding: 0px 0px 10px 50px;
@@ -230,7 +221,7 @@ pre {
     margin-right: auto;
 }
 
-#qrCodeText{
+#qrCodeText {
     font-size: 1.3em;
 }
 
@@ -3665,40 +3656,6 @@ textarea:focus {
         width: 100%;
     }
 
-<<<<<<< HEAD
-.annonymous .close-announcement{
-    display:none;
-}
-
-#TotpAuthenticationCodeSeparate {
-    width: 150px;
-    display: flex;
-    padding: 0 0 10px 40px;
-}
-
-#TotpAuthenticationCodeSeparate > .field-normal > .field-control{
-    margin-left: unset;
-}
-
-#TotpAuthenticationCodeSeparate > .field-normal > .field-control > .container-normal{
-    margin-left: 10px;
-}
-
-.totp-authentication-code {
-    height: 25px;
-    width: 25px;
-    border: none;
-    outline: none;
-    border-bottom: 2px solid black;
-    font-size: 125%;
-    text-align: center;
-
-}
-
-.totp-form{
-    visibility: hidden;
-=======
 div.lower-search-ui {
     margin: 4px 0px 0px 0px;
->>>>>>> develop
 }
