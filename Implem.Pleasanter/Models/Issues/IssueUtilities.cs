@@ -4030,6 +4030,14 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 transactional: true,
                 statements: statements.ToArray());
+            issueCollection.ForEach(issueModel =>
+                issueModel.WriteAttachments(
+                    context: context,
+                    ss: ss,
+                    verUp: Versions.VerUp(
+                        context: context,
+                        ss: ss,
+                        verUp: issueModel.VerUp)));
             var response = responses.FirstOrDefault(o => !o.Event.IsNullOrEmpty());
             switch (response?.Event)
             {

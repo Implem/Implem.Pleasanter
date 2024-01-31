@@ -124,6 +124,14 @@
         context: context,
         transactional: true,
         statements: statements.ToArray());
+    #modelName#Collection.ForEach(#modelName#Model =>
+        #modelName#Model.WriteAttachments(
+            context: context,
+            ss: ss,
+            verUp: Versions.VerUp(
+                context: context,
+                ss: ss,
+                verUp: #modelName#Model.VerUp)));
     var response = responses.FirstOrDefault(o => !o.Event.IsNullOrEmpty());
     switch (response?.Event)
     {
