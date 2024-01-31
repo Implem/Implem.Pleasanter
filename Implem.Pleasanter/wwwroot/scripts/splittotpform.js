@@ -27,7 +27,6 @@
             columnNum !== 0
         ) {
             columnNum = columnNum - 1;
-            totpForm.eq(columnNum).val('');
             totpForm.eq(columnNum).focus();
             isDeleted = true;
         } else if (
@@ -38,18 +37,14 @@
             ) &&
             columnNum !== 5) {
             columnNum = columnNum + 1;
-            totpForm.eq(columnNum).val('');
             isDeleted = true;
         }
         if (isDeleted) {
             totpCode = totpCode.slice(0, columnNum) + totpCode.slice(columnNum + 1);
-
             $('#SecondaryAuthenticationCode').val(totpCode);
-
             setCodeSepalateForm(totpForm, totpCode);
         }
     });
-
     $('body').on('input', '.totp-authentication-code', function () {
         var totpForm = $('.totp-authentication-code');
         var columnNum = totpForm.index(this);
@@ -59,8 +54,6 @@
         var secondaryAuthenticationCodeLength = 0;
         var totpCode = $('#SecondaryAuthenticationCode').val();
         var newTotpCode = '';
-        var strLength = 6 - columnNum < inputCode.length ? 6 - columnNum : inputCode.length;
-        var inputColumnNum = strLength + columnNum;
         if (inputCode.match(/[^0-9]+/)) {
             totpForm.eq(columnNum).val(inputCode.replace(/[^0-9]+/g, ''));
             return;
@@ -80,15 +73,14 @@
         } else {
             if (newTotpCode.length === 6) {
                 $('#SecondaryAuthenticate').focus();
-            }
-            if (newTotpCode.length <= columnNum + 1) {
+            } else if (newTotpCode.length <= columnNum + 1) {
                 totpForm.eq(newTotpCode.length).focus();
-            } else if(newTotpCode.length === columnNum + 2) {
+            } else if (newTotpCode.length === columnNum + 2) {
                 totpForm.eq(columnNum + 2).get(0).focus();
             }
         }
     });
-
+    
     function setCodeSepalateForm(totpForm, totpCode) {
         for (var i = 0; i < 6; i++) {
             totpForm.eq(i).val(totpCode.charAt(i));
