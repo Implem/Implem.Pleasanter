@@ -3634,3 +3634,7 @@ textarea:focus {
     .gs-20 > .grid-stack-item[gs-w="20"] {
         width: 100%;
     }
+
+div.lower-search-ui {
+    margin: 4px 0px 0px 0px;
+}

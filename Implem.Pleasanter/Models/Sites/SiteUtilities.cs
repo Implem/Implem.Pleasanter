@@ -3332,6 +3332,11 @@ namespace Implem.Pleasanter.Models
                                 .Li(
                                     action: () => hb
                                         .A(
+                                            href: "#ViewsSettingsEditor",
+                                            text: Displays.DataView(context: context)))
+                                .Li(
+                                    action: () => hb
+                                        .A(
                                             href: "#StylesSettingsEditor",
                                             text: Displays.Styles(context: context)),
                                     _using: context.ContractSettings.Style != false)
@@ -4477,6 +4482,10 @@ namespace Implem.Pleasanter.Models
                     .Class("dialog")
                     .Title(Displays.AdvancedSetting(context: context)))
                 .Div(attributes: new HtmlAttributes()
+                    .Id("SearchEditorColumnDialog")
+                    .Class("dialog")
+                    .Title(Displays.Search(context: context)))
+                .Div(attributes: new HtmlAttributes()
                     .Id("TabDialog")
                     .Class("dialog")
                     .Title(Displays.Tab(context: context)))
@@ -4733,6 +4742,7 @@ namespace Implem.Pleasanter.Models
                     case "Dashboards":
                         hb
                             .DashboardPartSettingsEditor(context: context, ss: siteModel.SiteSettings)
+                            .ViewsSettingsEditor(context: context, ss: siteModel.SiteSettings)
                             .StylesSettingsEditor(context: context, ss: siteModel.SiteSettings)
                             .ScriptsSettingsEditor(context: context, ss: siteModel.SiteSettings)
                             .HtmlsSettingsEditor(context: context, ss: siteModel.SiteSettings);
@@ -5870,7 +5880,15 @@ namespace Implem.Pleasanter.Models
                                         onClick: "$p.enableColumns(event, $(this),'Editor', 'EditorSourceColumnsType');",
                                         icon: "ui-icon-circle-triangle-w",
                                         action: "SetSiteSettings",
-                                        method: "post")))
+                                        method: "post")),
+                            setSearchOptionButton: true,
+                            searchOptionId: "OpenSearchEditorColumnDialog",
+                            searchOptionFunction: "$p.openSearchEditorColumnDialog($(this));")
+                        .Hidden(
+                            controlId: "SearchEditorColumnDialogInput",
+                            css: "always-send",
+                            action: "SetSiteSettings",
+                            method: "post")
                         .Div(
                             css: "both",
                             action: () => hb
@@ -7257,13 +7275,7 @@ namespace Implem.Pleasanter.Models
             switch (context.Forms.Data("EditorSourceColumnsType"))
             {
                 case "Columns":
-                    res.Html(
-                        "#EditorSourceColumns",
-                        new HtmlBuilder().SelectableItems(
-                            listItemCollection: ss
-                                .EditorSelectableOptions(
-                                    context: context,
-                                    enabled: false)));
+                    FilterSourceColumnsSelectable(res, context, ss);
                     break;
                 case "Links":
                     res.Html(
@@ -7289,6 +7301,27 @@ namespace Implem.Pleasanter.Models
                     break;
             }
             return res.SetData("#EditorSourceColumns");
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static ResponseCollection FilterSourceColumnsSelectable(
+            ResponseCollection res,
+            Context context,
+            SiteSettings ss)
+        {
+            var dialogInput = context.Forms.Data("SearchEditorColumnDialogInput")
+                .Deserialize<Dictionary<string, string>>();
+            return res.Html(
+                "#EditorSourceColumns",
+                new HtmlBuilder().SelectableItems(
+                    listItemCollection: ss
+                        .EditorSelectableOptions(
+                            context: context,
+                            enabled: false,
+                            selection: dialogInput.Get("selection"),
+                            keyWord: dialogInput.Get("keyWord"))));
         }
 
         /// <summary>
@@ -10381,7 +10414,8 @@ namespace Implem.Pleasanter.Models
                                         onClick: "$p.send($(this));",
                                         icon: "ui-icon-trash",
                                         action: "SetSiteSettings",
-                                        method: "put"))))
+                                        method: "put"))),
+                    _using: ss.ReferenceType != "Dashboards")
                 .FieldDropDown(
                     context: context,
                     controlId: "SaveViewType",
@@ -16820,6 +16854,93 @@ namespace Implem.Pleasanter.Models
                 labelText: Displays.Target(context: context),
                 optionCollection: ss.FormulaTargetSelectableOptions(target));
             return hb;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder SearchEditorColumnDialog(
+            Context context,
+            SiteSettings ss)
+        {
+            var dialogInput = context.Forms.Data("SearchEditorColumnDialogInput")
+                .Deserialize<Dictionary<string, string>>();
+            var hb = new HtmlBuilder();
+            return hb.Form(
+                attributes: new HtmlAttributes()
+                    .Id("SearchEditorColumnForm")
+                    .Action(Locations.ItemAction(
+                        context: context,
+                        id: ss.SiteId))
+                    .DataEnter("#ShowTargetColumnKeyWord"),
+                action: () => hb
+                    .FieldSet(
+                        css: " enclosed",
+                        legendText: Displays.Search(context: context),
+                        action: () => hb
+                            .FieldTextBox(
+                                controlId: "TargetColumnKeyWord",
+                                text: dialogInput == null ? "" : dialogInput.Get("keyWord"),
+                                controlCss: "control-textbox always-send")
+                            .Button(
+                                controlId: "ShowTargetColumnKeyWord",
+                                text: Displays.Search(context: context),
+                                controlCss: "button-icon",
+                                onClick: "$p.selectSearchEditorColumn('KeyWord');"))
+                    .FieldSet(
+                        css: " enclosed",
+                        legendText: Displays.UseSearchFilter(context: context),
+                        action: () => hb
+                            .Div(css: "command-left", action: () => hb
+                                .Button(
+                                    controlId: "ShowTargetColumnBasic",
+                                    text: Displays.Basic(context: context),
+                                    controlCss: "button-icon w150",
+                                    onClick: "$p.selectSearchEditorColumn('Basic');")
+                                .Button(
+                                    controlId: "ShowTargetColumnClass",
+                                    text: Displays.Class(context: context),
+                                    controlCss: "button-icon w150",
+                                    onClick: "$p.selectSearchEditorColumn('Class');")
+                                .Button(
+                                    controlId: "ShowTargetColumnNum",
+                                    text: Displays.Num(context: context),
+                                    controlCss: "button-icon w150",
+                                    onClick: "$p.selectSearchEditorColumn('Num');"))
+                            .Div(css: "command-left", action: () => hb
+                                .Button(
+                                    controlId: "ShowTargetColumnDate",
+                                    text: Displays.Date(context: context),
+                                    controlCss: "button-icon w150",
+                                    onClick: "$p.selectSearchEditorColumn('Date');")
+                                .Button(
+                                    controlId: "ShowTargetColumnDescription",
+                                    text: Displays.Description(context: context),
+                                    controlCss: "button-icon w150",
+                                    onClick: "$p.selectSearchEditorColumn('Description');")
+                                .Button(
+                                    controlId: "ShowTargetColumnCheck",
+                                    text: Displays.Check(context: context),
+                                    controlCss: "button-icon w150",
+                                    onClick: "$p.selectSearchEditorColumn('Check');"))
+                            .Div(css: "command-left", action: () => hb
+                                .Button(
+                                    controlId: "ShowTargetColumnAttachments",
+                                    text: Displays.Attachments(context: context),
+                                    controlCss: "button-icon w150",
+                                    onClick: "$p.selectSearchEditorColumn('Attachments');")))
+                    .Div(css: "command-center", action: () => hb
+                        .Button(
+                            controlId: "ShowTargetColumnDefault",
+                            text: Displays.Reset(context: context),
+                            controlCss: "button-icon",
+                            onClick: "$p.selectSearchEditorColumn('');",
+                            icon: "ui-icon-gear")
+                        .Button(
+                            text: Displays.Cancel(context: context),
+                            controlCss: "button-icon",
+                            onClick: "$p.closeDialog($(this));",
+                            icon: "ui-icon-cancel")));
         }
     }
 }
