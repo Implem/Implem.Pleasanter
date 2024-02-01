@@ -56,7 +56,6 @@
         var columnNum = totpForm.index(this);
         var inputCode = totpForm.eq(columnNum).val();
         var inputedForm = totpForm.eq(columnNum).get(0);
-        var totpCode = '';
         var secondaryAuthenticationCodeLength = 0;
         var totpCode = $('#SecondaryAuthenticationCode').val();
         var newTotpCode = '';
