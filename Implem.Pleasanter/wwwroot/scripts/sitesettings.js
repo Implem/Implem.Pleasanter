@@ -102,7 +102,7 @@ $p.openStatusControlDialog = function ($control) {
 }
 
 $p.setStatusControlColumnHash = function ($control) {
-    $('#StatusControlColumnHash').find('.ui-selected').each(function () {
+    $('#StatusControlColumnHash').find('li.ui-selected').each(function () {
         var $item = $(this);
         var columnName = $item.attr('data-value').split(',')[0];
         var type = $control.attr('data-type');
