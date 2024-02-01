@@ -6940,7 +6940,8 @@ namespace Implem.Pleasanter.Models
                 var inputErrorData = IssueValidators.OnInputValidating(
                     context: context,
                     ss: ss,
-                    issueHash: issueHash).FirstOrDefault();
+                    issueHash: issueHash,
+                    api: true).FirstOrDefault();
                 switch (inputErrorData.Type)
                 {
                     case Error.Types.None: break;
@@ -7280,7 +7281,8 @@ namespace Implem.Pleasanter.Models
             }
             var invalid = IssueValidators.OnExporting(
                 context: context,
-                ss: ss);
+                ss: ss,
+                api: true);
             switch (invalid.Type)
             {
                 case Error.Types.None: break;

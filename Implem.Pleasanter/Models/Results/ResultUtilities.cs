@@ -6600,7 +6600,8 @@ namespace Implem.Pleasanter.Models
                 var inputErrorData = ResultValidators.OnInputValidating(
                     context: context,
                     ss: ss,
-                    resultHash: resultHash).FirstOrDefault();
+                    resultHash: resultHash,
+                    api: true).FirstOrDefault();
                 switch (inputErrorData.Type)
                 {
                     case Error.Types.None: break;
@@ -6940,7 +6941,8 @@ namespace Implem.Pleasanter.Models
             }
             var invalid = ResultValidators.OnExporting(
                 context: context,
-                ss: ss);
+                ss: ss,
+                api: true);
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
