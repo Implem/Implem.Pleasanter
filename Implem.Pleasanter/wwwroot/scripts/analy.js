@@ -1,22 +1,23 @@
 ﻿$p.drawAnaly = function () {
-    // 変数定義箇所
+    // 定数定義箇所
     // ユーザによる変更可能
     const chartWidth = 550;
     const chartHeight = 465;
-    const settingFontSizeLarge = 25;
-    const settingFontSizeSmall = 15;
+    const settingFontSize = 15;
     const settingFontHeight = 0;
+    const radius = Math.min(chartWidth - 1, chartHeight - 5) / 2;
+    const jsonData = JSON.parse($('#AnalyJson').val());
+    const columnData = JSON.parse($('#Columns').val());
     // 変数定義箇所
     // ユーザによる変更不要
-    const radius = Math.min(chartWidth - 1, chartHeight - 5) / 2;
     var colorLabelMemorys = [];
-    var conditionIllegalFlag = false;
-    var colorIndex;
-    var colorIndexFlag = false;
     // ロジック定義箇所
     // ユーザによる変更不要
     // サーバから返却されたデータをもとに反復処理
-    for (var pieChart of JSON.parse($('#AnalyJson').val())) {
+    for (var pieChart of jsonData) {
+        // svgタグ上に削除機能を実装した×ボタンを表示させることができなかった。
+        // そのため、divタグを実装し、divタグ上に×ボタンを実装するように実装。
+        // そのため、divタグ上にsvgタグ、svgタグ上にgタグとなるように実装。
         // divタグを設定
         var div = d3
             .select('#AnalyBody')
@@ -24,18 +25,20 @@
             .attr('id', 'ChartDiv_' + pieChart.Setting.Id)
             .style('float', 'left')
             .on('mouseover', function () {
+                // 画面上に「×」を表示
                 var id = $(this).attr('id');
                 id = id.substring(9);
                 id = 'DeleteChartIcon_' + id;
                 document.getElementById(id).style.visibility = 'visible';
             })
             .on('mouseout', function () {
+                // 画面上の「×」を非表示
                 var id = $(this).attr('id');
                 id = id.substring(9);
                 id = 'DeleteChartIcon_' + id;
                 document.getElementById(id).style.visibility = 'hidden';
             });
-        // 画面上に「×」を表示
+        // 削除機能を実装した×ボタン要素を実装
         div
             .append('span')
             .attr('id', 'DeleteChartIcon_' + pieChart.Setting.Id)
@@ -53,7 +56,7 @@
             .attr('id', 'ChartSvg_' + pieChart.Setting.Id)
             .style('width', chartWidth)
             .style('height', chartHeight);
-        // gタグを設定
+        // gタグを設定(このgタグ上に円グラフを実装する)
         var g = svg
             .append('g')
             .attr('id', 'DeleteAnalyPart_' + pieChart.Setting.Id)
@@ -67,8 +70,10 @@
             notIndicateAnalyChart('NoData');
             // データが抽出できた場合
         } else {
+            // 取得したデータのうち Value が 0 より上のデータを設定
             var results = pieChart.Elements.filter(element => element.Value > 0);
             // 要求が不正だった場合
+            // データは取得できたが Value が 0 より上のデータが存在しなかった場合(リクエストが不正だった場合)
             if (!results.length) {
                 // 要求が不正だった旨画面に表示
                 notIndicateAnalyChart('InvalidRequest');
@@ -77,14 +82,14 @@
                 // 条件「集計種別」を画面に表示
                 g.append('text')
                     .attr('fill', 'black')
-                    .attr('font-size', settingFontSizeLarge)
+                    .attr('font-size', settingFontSize + 10)
                     .attr('text-anchor', 'middle')
                     .attr('dy', settingFontHeight - 25)
                     .text($p.display(pieChart.Setting.AggregationType));
                 // 条件「値」を画面に表示
                 g.append('text')
                     .attr('fill', 'black')
-                    .attr('font-size', settingFontSizeSmall)
+                    .attr('font-size', settingFontSize)
                     .attr('text-anchor', 'middle')
                     .attr('dy', settingFontHeight)
                     .text(
@@ -95,11 +100,11 @@
                 // 条件「集計対象」を画面に表示
                 g.append('text')
                     .attr('fill', 'black')
-                    .attr('font-size', settingFontSizeSmall)
+                    .attr('font-size', settingFontSize)
                     .attr('text-anchor', 'middle')
                     .attr('dy', settingFontHeight + 25)
                     .text(function () {
-                        for (var columnName of JSON.parse($('#Columns').val())) {
+                        for (var columnName of columnData) {
                             if (columnName.ColumnName === pieChart.Setting.AggregationTarget) {
                                 return columnName.LabelText;
                             }
@@ -108,14 +113,14 @@
                 // 条件「項目」を画面に表示
                 g.append('text')
                     .attr('fill', 'black')
-                    .attr('font-size', settingFontSizeSmall)
+                    .attr('font-size', settingFontSize)
                     .attr('text-anchor', 'middle')
                     .attr('dy', settingFontHeight + 50)
                     .text(function () {
                         if (pieChart.Setting.GroupBy === 'Creator') {
                             return '作成者';
                         } else {
-                            for (var columnName of JSON.parse($('#Columns').val())) {
+                            for (var columnName of columnData) {
                                 if (columnName.ColumnName === pieChart.Setting.GroupBy) {
                                     return columnName.LabelText;
                                 }
@@ -139,8 +144,19 @@
                     .attr('class', 'pie');
                 // 円グラフの半径を設定
                 var arc = d3.arc().outerRadius(radius).innerRadius(100);
+                // 円グラフの各要素に対して色を設定
+                var color = (pieChart.Elements.length <= 10)
+                    ? d3.scaleOrdinal(d3.schemeCategory10)
+                    : d3.scaleSequential(d3.interpolateRainbow).domain([0, 20]);
                 // 初期値設定と円グラフ表示処理
-                drawAnalyChart();
+                // メモリにデータが設定されていない場合
+                if (!colorLabelMemorys.length) {
+                    // 最初の円グラフを表示
+                    singleDrawAnalyChart();
+                } else {
+                    // 2つ以上の円グラフを表示
+                    multiDrawAnalyChart();
+                }
                 // 円グラフの各要素に設定するラベル位置を設定
                 var text = d3
                     .arc()
@@ -158,10 +174,6 @@
                     .attr('text-anchor', 'middle')
                     .text(function (d) {
                         if (d.data.Value === 0) return;
-                        // todo
-                        // ?の判定は必要なし
-                        if (d.data.GroupTitle === '? ')
-                            return $p.display('NotSet') + ',' + d.data.Value;
                         return d.data.GroupTitle + ',' + d.data.Value;
                     });
             }
@@ -169,54 +181,65 @@
     };
 
     // データが取得できなかった際の画面表示処理
+    // 引数を「$p.display()」の引数に渡し、引数を表示
+    // gタグの中心に表示
     function notIndicateAnalyChart(text) {
         g.append('text')
             .attr('fill', 'black')
-            .attr('font-size', settingFontSizeSmall)
+            .attr('font-size', settingFontSize)
             .attr('text-anchor', 'middle')
             .attr('dy', settingFontHeight)
             .text($p.display(text));
     }
 
-    // 初期値設定と円グラフ表示処理
-    function drawAnalyChart() {
-        // 円グラフの各要素に対して色を設定
-        var color = (pieChart.Elements.length <= 10)
-            ? d3.scaleOrdinal(d3.schemeCategory10)
-            : d3.scaleSequential(d3.interpolateRainbow).domain([0, 20]);
-        // 円グラフの各要素を設定
+    // 単数円グラフ各要素の色設定とメモリ登録処理
+    function singleDrawAnalyChart() {
         pieGroup
             .append('path')
             .attr('d', arc)
             .attr('fill', function (d) {
-                // 単数円グラフの表示処理
-                if (!colorLabelMemorys.length) {
+                // 初期値としてメモリに登録
+                colorLabelMemorys.push({ labelName: d.data.GroupTitle, color: d.index });
+                // 要素の色を設定
+                return color(d.index);
+            })
+            .attr('opacity', 0.85)
+            .attr('stroke', 'white');
+    }
+
+    // 複数円グラフ各要素の色設定とメモリ登録処理
+    function multiDrawAnalyChart() {
+        pieGroup
+            .append('path')
+            .attr('d', arc)
+            .attr('fill', function (d) {
+                // メモリに登録されているラベル名の情報を設定
+                // メモリに登録されていないラベル名はnullが設定される
+                var filterResults = colorLabelMemorys.find(colorLabelMemory => d.data.GroupTitle === colorLabelMemory.labelName);
+                // ラベル名がメモリに登録されていない場合
+                if (!filterResults) {
+                    // 初期値としてメモリに登録
                     colorLabelMemorys.push({ labelName: d.data.GroupTitle, color: d.index });
+                    // 要素の色を設定
                     return color(d.index);
-                }
-                // todo
-                // 複数円グラフの表示処理
-                for (var colorLabelMemory of colorLabelMemorys) {
-                    // すでにカラーが割り振られたラベル名が存在する場合
-                    if (colorLabelMemory.labelName === d.data.GroupTitle) {
-                        colorIndex = colorLabelMemory.color;
-                        colorIndexFlag = true;
-                        break;
-                        // カラーラベルが割り振られていない場合
-                    } else {
-                        colorIndex = d.index;
-                    }
-                }
-                // メモリにラベル名と割り振られたカラーを設定
-                if (colorIndexFlag === false) colorLabelMemorys.push({ labelName: d.data.GroupTitle, color: d.index });
-                // 要素数が10以下の場合、10色のカラーセットでカラーを設定
-                if (pieChart.Elements.length <= 10) {
-                    // すでに11色のカラーセットで割り振られ、今回10色のカラーセットでカラーを設定する
-                    if (d3.schemeCategory10[colorIndex] === undefined) return d3.schemeCategory10[d.index];
-                    return d3.schemeCategory10[colorIndex];
-                    // 要素数が11色以上の場合、20色のカラーセットでカラーを設定する
+                    // ラベル名がメモリに登録されている場合
                 } else {
-                    return color(colorIndex);
+                    // 取得したデータ件数が10件以下の場合
+                    // 10色のカラーセットで要素の色を設定
+                    if (pieChart.Elements.length <= 10) {
+                        // 10色のカラーセットで対応できない場合
+                        // 初期値として11色以上のカラーセットで設定されていたが、10色のカラーセットでは対応できない場合
+                        if (d3.schemeCategory10[filterResults.color] === undefined) {
+                            // 要素の色を設定
+                            return color(d.index);
+                            // 10色のカラーセットで対応できる場合
+                        } else {
+                            // 要素の色を設定
+                            return d3.schemeCategory10[filterResults.color];
+                        }
+                    } else {
+                        return color(filterResults.color);
+                    }
                 }
             })
             .attr('opacity', 0.85)
