@@ -3818,6 +3818,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         dataTableName: formData.Id.ToString()));
+                    resultCollection.Add(resultModel);
                 }
                 else
                 {

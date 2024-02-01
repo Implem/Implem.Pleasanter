@@ -100,6 +100,7 @@
                 context: context,
                 ss: ss,
                 dataTableName: formData.Id.ToString()));
+            #modelName#Collection.Add(#modelName#Model);
         }
         else
         {

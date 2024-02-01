@@ -4006,6 +4006,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         dataTableName: formData.Id.ToString()));
+                    issueCollection.Add(issueModel);
                 }
                 else
                 {
