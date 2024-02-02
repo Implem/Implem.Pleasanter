@@ -2,12 +2,12 @@
     // 定数定義箇所
     // ユーザによる変更可能
     const chartWidth = 550;
-    const chartHeight = 465;
+    const chartHeight = 550;
     const settingFontSize = 15;
     const settingFontHeight = 0;
     const radius = Math.min(chartWidth - 1, chartHeight - 5) / 2;
     const jsonData = JSON.parse($('#AnalyJson').val());
-    const columnData = JSON.parse($('#Columns').val());
+    const columnDataArray = JSON.parse($('#Columns').val());
     // 変数定義箇所
     // ユーザによる変更不要
     var colorLabelMemorys = [];
@@ -46,14 +46,16 @@
             .attr('onclick', '$p.send($(\'#DeleteAnalyPart_' + pieChart.Setting.Id + '\'));')
             .style('margin-top', '5%')
             .style('margin-right', '5%')
-            .style('visibility', 'hidden')
             .style('cursor', 'pointer')
             .style('float', 'right')
+            .style('visibility', 'hidden')
             .text('close');
         // svgタグを設定
         var svg = div
             .append('svg')
             .attr('id', 'ChartSvg_' + pieChart.Setting.Id)
+            .style('margin-left', '20px')
+            .style('margin-right', '20px')
             .style('width', chartWidth)
             .style('height', chartHeight);
         // gタグを設定(このgタグ上に円グラフを実装する)
@@ -104,11 +106,11 @@
                     .attr('text-anchor', 'middle')
                     .attr('dy', settingFontHeight + 25)
                     .text(function () {
-                        for (var columnName of columnData) {
-                            if (columnName.ColumnName === pieChart.Setting.AggregationTarget) {
-                                return columnName.LabelText;
-                            }
-                        }
+                        if (!pieChart.Setting.AggregationTarget) return "";
+                        var targetColumnData = columnDataArray.filter(function (columnData) {
+                            return columnData.ColumnName === pieChart.Setting.AggregationTarget;
+                        });
+                        return targetColumnData[0].LabelText;
                     });
                 // 条件「項目」を画面に表示
                 g.append('text')
@@ -118,15 +120,14 @@
                     .attr('dy', settingFontHeight + 50)
                     .text(function () {
                         if (pieChart.Setting.GroupBy === 'Creator') {
-                            return '作成者';
+                            return "作成者";
                         } else {
-                            for (var columnName of columnData) {
-                                if (columnName.ColumnName === pieChart.Setting.GroupBy) {
-                                    return columnName.LabelText;
-                                }
-                            }
+                            var targetColumnData = columnDataArray.filter(function (columnData) {
+                                return columnData.ColumnName === pieChart.Setting.GroupBy
+                            });
+                            return targetColumnData[0].LabelText;
                         }
-                    })
+                    });
                 // 円グラフの各要素に対してラベルを設定
                 var pie = d3
                     .pie()
@@ -143,7 +144,7 @@
                     .append('g')
                     .attr('class', 'pie');
                 // 円グラフの半径を設定
-                var arc = d3.arc().outerRadius(radius).innerRadius(100);
+                var arc = d3.arc().outerRadius(radius).innerRadius(130);
                 // 円グラフの各要素に対して色を設定
                 var color = (pieChart.Elements.length <= 10)
                     ? d3.scaleOrdinal(d3.schemeCategory10)
