@@ -7597,7 +7597,7 @@ namespace Implem.Pleasanter.Models
         {
             if (controlId == "NewServerScript")
             {
-                var script = new ServerScript() { BeforeFormula = true };
+                var script = new ServerScript();
                 OpenServerScriptDialog(
                     context: context,
                     res: res,
