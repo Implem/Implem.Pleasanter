@@ -22,6 +22,7 @@
     "NotForm": "1",
     "UpdateAccessControl": "ManageService",
     "FieldCss": "field-markdown",
+    "ApiNewKeyword": "1",
     "LabelText_en": "Description",
     "LabelText_zh": "说明",
     "LabelText_de": "Beschreibung",

@@ -102,7 +102,7 @@ $p.openStatusControlDialog = function ($control) {
 }
 
 $p.setStatusControlColumnHash = function ($control) {
-    $('#StatusControlColumnHash').find('.ui-selected').each(function () {
+    $('#StatusControlColumnHash').find('li.ui-selected').each(function () {
         var $item = $(this);
         var columnName = $item.attr('data-value').split(',')[0];
         var type = $control.attr('data-type');
@@ -255,7 +255,7 @@ $p.setRelatingColumn = function ($control) {
 }
 
 $p.openDashboardPartDialog = function ($control) {
-    $p.data.DashboardForm = {};
+    $p.data.DashboardPartForm = {};
     $p.openSiteSettingsDialog($control, '#DashboardPartDialog');
 }
 
@@ -270,8 +270,18 @@ $p.openDashboardPartTimeLineSitesDialog = function ($control) {
 }
 
 $p.openDashboardPartCalendarSitesDialog = function ($control) {
-    $p.data.TimeLineSitesForm = {};
+    $p.data.CalendarSitesForm = {};
     $p.openSiteSettingsDialog($control, '#DashboardPartCalendarSitesDialog');
+}
+
+$p.openDashboardPartKambanSitesDialog = function ($control) {
+    $p.data.KambanSitesForm = {};
+    $p.openSiteSettingsDialog($control, '#DashboardPartKambanSitesDialog');
+}
+
+$p.openDashboardPartIndexSitesDialog = function ($control) {
+    $p.data.TimeLineSitesForm = {};
+    $p.openSiteSettingsDialog($control, '#DashboardPartIndexSitesDialog');
 }
 
 $p.updateDashboardPartTimeLineSites = function ($control) {
@@ -286,6 +296,7 @@ $p.confirmTimeLineSites = function (value) {
         $p.set($('#DashboardPartTimeLineSites'), args.timeLineSites);
         $p.set($('#DashboardPartBaseSiteId'), args.baseSiteId);
         $p.send($("#ClearDashboardView"));
+        $p.clearData('DashboardPartView', 'DashboardPartForm', 'startsWith');
         $p.closeDialog($("#DashboardPartTimeLineSitesDialog"));
     }
 }
@@ -297,7 +308,52 @@ $p.confirmCalendarSites = function (value) {
         $('#DashboardPartCalendarSitesValue').text(args.calendarSites);
         $p.set($('#DashboardPartCalendarSites'), args.calendarSites);
         $p.set($('#DashboardPartBaseSiteId'), args.baseSiteId);
-        $p.send($("#ClearDashboardView"));
+        $p.send($("#ClearDashboardCalendarView"));
+        $p.clearData('DashboardPartView', 'DashboardPartForm', 'startsWith');
         $p.closeDialog($("#DashboardPartCalendarSitesDialog"));
     }
+}
+
+$p.confirmKambanSites = function (value) {
+    var args = JSON.parse(value);
+    var result = confirm($p.display('ResetKambanView'));
+    if (result) {
+        $('#DashboardPartKambanSitesValue').text(args.kambanSites);
+        $p.set($('#DashboardPartKambanSites'), args.kambanSites);
+        $p.set($('#DashboardPartBaseSiteId'), args.baseSiteId);
+        $p.send($("#ClearDashboardKambanView"));
+        $p.clearData('DashboardPartView', 'DashboardPartForm', 'startsWith');
+        $p.closeDialog($("#DashboardPartKambanSitesDialog"));
+    }
+}
+
+$p.confirmIndexSites = function (value) {
+    var args = JSON.parse(value);
+    var result = confirm($p.display('ResetIndexView'));
+    if (result) {
+        $('#DashboardPartIndexSitesValue').text(args.indexSites);
+        $p.set($('#DashboardPartIndexSites'), args.indexSites);
+        $p.set($('#DashboardPartBaseSiteId'), args.baseSiteId);
+        $p.send($("#ClearDashboardIndexView"));
+        $p.clearData('DashboardPartView', 'DashboardPartForm', 'startsWith');
+        $p.closeDialog($("#DashboardPartIndexSitesDialog"));
+    }
+}
+
+$p.openSearchEditorColumnDialog = function ($control) {
+    $p.data.SearchEditorColumnForm = {};
+    $p.openSiteSettingsDialog($control, '#SearchEditorColumnDialog', '535px');
+}
+
+$p.selectSearchEditorColumn = function (value) {
+    var $hidden = $('#SearchEditorColumnDialogInput');
+    if (value != 'KeyWord') {
+        $('#TargetColumnKeyWord').val('');
+    }
+    var jsonData = {
+        "selection": value,
+        "keyWord": $('#TargetColumnKeyWord').val()
+    };
+    $hidden.val(JSON.stringify(jsonData));
+    $p.send($hidden);
 }

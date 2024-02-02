@@ -321,7 +321,7 @@ pre {
         top: 30px;
         right: 0px;
         border-radius: 0px 0px 5px 5px;
-        z-index: 3;
+        z-index: 4;
     }
 
         #NavigationMenu .menu > li > a {
@@ -986,23 +986,27 @@ th.calendar-header {
         fill: black;
     }
 
-#KambanBody .kamban-row {
+.kambanbody .kamban-row {
     border-bottom: dotted 1px silver;
 }
 
-#KambanBody .kamban-container > div {
+.kambanbody .kamban-container{
+    background-color: white;
+}
+
+.kambanbody .kamban-container > div {
     min-height: 30px;
 }
 
-#KambanBody .kamban-container.hover {
+.kambanbody .kamban-container.hover {
     background-color: whitesmoke;
 }
 
-#KambanBody .kamban-container .kamban-item:last-child {
+.kambanbody .kamban-container .kamban-item:last-child {
     margin: 3px 3px 30px 3px;
 }
 
-#KambanBody .kamban-item {
+.kambanbody .kamban-item {
     margin: 3px;
     padding: 4px 16px 4px 5px;
     background-color: lightgoldenrodyellow;
@@ -1010,39 +1014,56 @@ th.calendar-header {
     position: relative;
     cursor: pointer;
     border-radius: 5px;
+    overflow: hidden;
 }
 
-    #KambanBody .kamban-item:hover {
+    .kambanbody .kamban-item:hover {
         background-color: white;
         border: solid 1px orange;
     }
 
-    #KambanBody .kamban-item.changed {
+    .kambanbody .kamban-item.changed {
         font-weight: bold;
         background-color: yellow;
         border: solid 1px orange;
     }
 
-    #KambanBody .kamban-item .ui-icon {
+    .kambanbody .kamban-item .ui-icon {
         position: absolute;
         top: 0px;
         right: 0px;
     }
 
-    #KambanBody .kamban-item > span {
+    .kambanbody .kamban-item > span {
         margin-right: 3px;
     }
 
-#ImageLib .item {
-    width: 250px;
-    height: 250px;
-    float: left;
-    margin: 10px 10px 0px 0px;
-    padding: 10px;
-    border: solid 1px silver;
-    position: relative;
-    overflow: hidden;
+    .kambanbody .dragging {
+        padding: 5px;
+        background-color: lightgoldenrodyellow;
+        border-radius: 3px;
+        z-index: 50;
+    }
+
+.dashboard-kamban-header {
+    position: sticky;
+    top: -20px;
+    z-index: 1;
 }
+    .dashboard-kamban-header > th {
+        overflow-x: hidden;
+    }
+
+    #ImageLib .item {
+        width: 250px;
+        height: 250px;
+        float: left;
+        margin: 10px 10px 0px 0px;
+        padding: 10px;
+        border: solid 1px silver;
+        position: relative;
+        overflow: hidden;
+    }
 
     #ImageLib .item .image {
         width: 100%;
@@ -2390,6 +2411,11 @@ _::-webkit-full-page-media, _:future, :root .field-normal .control-checkbox + la
     text-align-last: right;
 }
 
+.center-align {
+    text-align: center;
+    text-align-last: center;
+}
+
 .tooltip {
     display: none;
     position: absolute;
@@ -2547,6 +2573,12 @@ _::-webkit-full-page-media, _:future, :root .field-normal .control-checkbox + la
     .grid-title-body > .title + .body {
         padding: 8px 0px 0px 10px;
     }
+
+.dashboard-grid-header {
+    position: sticky;
+    top: -20px;
+    z-index: 3;
+}
 
 .links {
     padding: 0px 10px;
@@ -3346,6 +3378,10 @@ textarea:focus {
     flex-direction: column;
 }
 
+.grid-stack > .grid-stack-item > .grid-stack-item-content {
+    overflow-x: auto;
+}
+
 .dashboard-part-title {
     font-size: 1.2em;
     color: #333333;
@@ -3598,3 +3634,7 @@ textarea:focus {
     .gs-20 > .grid-stack-item[gs-w="20"] {
         width: 100%;
     }
+
+div.lower-search-ui {
+    margin: 4px 0px 0px 0px;
+}

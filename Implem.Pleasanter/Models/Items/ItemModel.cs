@@ -571,6 +571,18 @@ namespace Implem.Pleasanter.Models
                 dashboardPartId: dashboardPartId);
         }
 
+        public string DashboardPartLayout (Context context)
+                {
+                    SetSite(
+                        context: context,
+                        initSiteSettings: true,
+                        setSiteIntegration: true,
+                        setAllChoices: true);
+                    return DashboardUtilities.DashboardPartLayout(
+                        context: context,
+                        ss: Site.SiteSettings);
+                }
+
         public string Gantt(Context context)
         {
             SetSite(
@@ -1281,6 +1293,11 @@ namespace Implem.Pleasanter.Models
                 setSiteIntegration: true);
             switch (Site.ReferenceType)
             {
+                case "Dashboards":
+                    return DashboardUtilities.DashboardIndexGridRows(
+                        context: context,
+                        ss: Site.SiteSettings,
+                        offset: context.Forms.Int("GridOffset"));
                 case "Issues":
                     return IssueUtilities.GridRows(
                         context: context,
@@ -2823,6 +2840,10 @@ namespace Implem.Pleasanter.Models
                 setAllChoices: true);
             switch (Site.ReferenceType)
             {
+                case "Dashboards":
+                    return DashboardUtilities.UpdateByKamban(
+                        context: context,
+                        ss: Site.SiteSettings);
                 case "Issues":
                     return IssueUtilities.UpdateByKamban(
                         context: context,

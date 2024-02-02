@@ -96,6 +96,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public Dictionary<string, DateTime?> CalendarStartHash;
         public Dictionary<string, DateTime?> CalendarEndHash;
         public Dictionary<string, string> CalendarViewTypeHash;
+        public Dictionary<string, DashboardPartLayout> DashboardPartLayoutHash;
+        public string IndexSuffix;
         public string CrosstabGroupByX;
         public string CrosstabGroupByY;
         public string CrosstabColumns;
@@ -120,6 +122,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public int? KambanColumns;
         public bool? KambanAggregationView;
         public bool? KambanShowStatus;
+        public string KambanSuffix;
         public List<int> Depts;
         public List<int> Groups;
         public List<int> Users;
@@ -268,6 +271,11 @@ namespace Implem.Pleasanter.Libraries.Settings
             return !CalendarGroupBy.IsNullOrEmpty()
                 ? CalendarGroupBy
                 : string.Empty;
+        }
+
+        public string GetIndexSuffix()
+        {
+            return IndexSuffix;
         }
 
         public string GetCrosstabGroupByX(Context context, SiteSettings ss)
@@ -472,6 +480,11 @@ namespace Implem.Pleasanter.Libraries.Settings
         public int GetKambanColumns()
         {
             return KambanColumns ?? Parameters.General.KambanColumns;
+        }
+
+        public string GetKambanSuffix()
+        {
+            return KambanSuffix;
         }
 
         private ViewModeDefinition Definition(SiteSettings ss, string name)
@@ -876,6 +889,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                                     context: context,
                                     controlId: controlId);
                                 break;
+                            case "DashboardPartLayout":
+                                AddDashboardPartLayoutHash(context: context);
+                                break;
                             default:
                                 if (controlId.StartsWith(columnFilterPrefix))
                                 {
@@ -939,6 +955,23 @@ namespace Implem.Pleasanter.Libraries.Settings
                         {
                             AddCalendarViewTypeHash(value: context.Forms.Data($"CalendarViewType{CalendarSuffix}"), key: $"CalendarViewType{CalendarSuffix}");
                         }
+                    }
+                    if (ss.DashboardParts?.FirstOrDefault()?.Type == DashboardPartType.Kamban)
+                    {
+                        var dashboardPart = ss.DashboardParts.FirstOrDefault();
+                        KambanSuffix = $"_{dashboardPart.Id}";
+                        KambanGroupByX = dashboardPart.KambanGroupByX;
+                        KambanGroupByY = dashboardPart.KambanGroupByY;
+                        KambanAggregateType = dashboardPart.KambanAggregateType;
+                        KambanValue = dashboardPart.KambanValue;
+                        KambanColumns = dashboardPart.KambanColumns.ToInt();
+                        KambanAggregationView = dashboardPart.KambanAggregationView;
+                        KambanShowStatus = dashboardPart.KambanShowStatus;
+                    }
+                    if (ss.DashboardParts?.FirstOrDefault()?.Type == DashboardPartType.Index)
+                    {
+                        var dashboardPart = ss.DashboardParts.FirstOrDefault();
+                        IndexSuffix = $"_{dashboardPart.Id}";
                     }
                     break;
             }
@@ -1226,6 +1259,26 @@ namespace Implem.Pleasanter.Libraries.Settings
                 CalendarViewTypeHash = new Dictionary<string, string>();
             }
             CalendarViewTypeHash.AddOrUpdate(key: key, value: value);
+        }
+
+        private void AddDashboardPartLayoutHash(Context context)
+        {
+            if(DashboardPartLayoutHash == null)
+            {
+                DashboardPartLayoutHash = new Dictionary<string, DashboardPartLayout>();
+            }
+            var dashboardPartLayouts = context.Forms.Data("DashboardPartLayout")
+                ?.Deserialize<List<DashboardPartLayout>>();
+            foreach (var dashboardPartLayout in dashboardPartLayouts)
+            {
+                var value = new DashboardPartLayout();
+                value.X = dashboardPartLayout.X;
+                value.Y = dashboardPartLayout.Y;
+                value.W = dashboardPartLayout.W;
+                value.H = dashboardPartLayout.H;
+                value.Id = dashboardPartLayout.Id;
+                DashboardPartLayoutHash.AddOrUpdate(key: value.Id.ToString(), value: value);
+            }
         }
 
         private void SetSorters(Context context, SiteSettings ss, string prefix = "")
@@ -1609,6 +1662,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (CalendarViewTypeHash?.Any() == true)
             {
                 view.CalendarViewTypeHash = CalendarViewTypeHash;
+            }
+            if(DashboardPartLayoutHash?.Any() == true)
+            {
+                view.DashboardPartLayoutHash = DashboardPartLayoutHash;
             }
             if (!CrosstabGroupByX.IsNullOrEmpty())
             {

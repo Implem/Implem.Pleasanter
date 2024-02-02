@@ -60,6 +60,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public enum TextAlignTypes : int
         {
             Left = 10,
+            Center = 15,
             Right = 20
         }
 
@@ -2845,7 +2846,10 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         public Dictionary<string, ControlData> EditorSelectableOptions(
-            Context context, bool enabled = true)
+            Context context,
+            bool enabled = true,
+            string selection = "",
+            string keyWord = "")
         {
             return enabled
                 ? ColumnUtilities.SelectableOptions(
@@ -2865,11 +2869,64 @@ namespace Implem.Pleasanter.Libraries.Settings
                     ss: this,
                     columns: ColumnDefinitionHash.EditorDefinitions(context: context)
                         .Where(o => !GetEditorColumnNames().Contains(o.ColumnName))
+                        .Where(o => FilterColumn(
+                            context: context,
+                            ss: this,
+                            def: o,
+                            selection: selection,
+                            keyWord: keyWord))
                         .OrderBy(o => o.EditorColumn)
                         .Select(o => o.ColumnName),
                     order: ColumnDefinitionHash?.EditorDefinitions(context: context)?
                         .OrderBy(o => o.EditorColumn)
                         .Select(o => o.ColumnName).ToList());
+        }
+
+        private bool FilterColumn(
+            Context context,
+            SiteSettings ss,
+            ColumnDefinition def,
+            string selection,
+            string keyWord)
+        {
+            switch (selection)
+            {
+                case "KeyWord":
+                    var keyWords = keyWord.Replace("　", " ").Split(" ");
+                    return keyWords.All(o => def.ColumnName.Contains(
+                        value: o,
+                        comparisonType: StringComparison.OrdinalIgnoreCase))
+                            || keyWords
+                                .All(o => def.LabelText.Contains(
+                                    value: o,
+                                    comparisonType: StringComparison.OrdinalIgnoreCase))
+                            || keyWords
+                                .All(o => ss.GetColumn(context, def.ColumnName).LabelText.Contains(
+                                    value: o,
+                                    comparisonType: StringComparison.OrdinalIgnoreCase));
+                case "Basic":
+                    //「分類」「数値」「日付」「説明」「チェック」「添付ファイル」の
+                    //何れでもないカラムならばTrueを返却する（例「担当者」はTrue）
+                    return new List<string>
+                    {
+                        "Class",
+                        "Num",
+                        "Date",
+                        "Description",
+                        "Check",
+                        "Attachments"
+                    }
+                        .All(o => !def.ColumnName.StartsWith(o));
+                case "Class":
+                case "Num":
+                case "Date":
+                case "Description":
+                case "Check":
+                case "Attachments":
+                    return def.ColumnName.StartsWith(selection);
+                default:
+                    return true;
+            }
         }
 
         public Dictionary<string, ControlData> EditorSelectableOptions(
@@ -3334,6 +3391,17 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .OrderBy(o => o.No)
                 .ToDictionary(o => o.ColumnName, o => o.GridLabelText));
             return hash;
+        }
+
+        public Dictionary<string, string> CalendarViewTypeOptions(Context context)
+        {
+            return new Dictionary<string, string>
+            {
+                { "dayGridMonth", Displays.Month(context: context) },
+                { "timeGridWeek", Displays.Week(context: context) },
+                { "timeGridDay", Displays.Day(context: context) },
+                { "listMonth", Displays.List(context: context) }
+            };
         }
 
         public Dictionary<string, string> CrosstabGroupByXOptions(Context context)
