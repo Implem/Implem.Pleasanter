@@ -1,0 +1,5 @@
+﻿var checkRow = ss.DashboardParts.Any()
+    ? false
+    : ss.CheckRow(
+        context: context,
+        gridColumns: view.GridColumns);

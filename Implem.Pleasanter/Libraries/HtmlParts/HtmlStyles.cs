@@ -99,6 +99,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .Link(
                     href: Responses.Locations.Get(
                         context: context,
+                        parts: "Styles/Plugins/lightbox.css"),
+                    rel: "stylesheet")
+                .Link(
+                    href: Responses.Locations.Get(
+                        context: context,
                         parts: $"Styles/Plugins/themes/{context.Theme}/jquery-ui.min.css"),
                     rel: "stylesheet")
                 .Link(
