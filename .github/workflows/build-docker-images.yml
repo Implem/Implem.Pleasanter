@@ -19,15 +19,17 @@ jobs:
       - name: Test variable
         run: |
           echo ${{ steps.split.outputs.RELEASEVER }}
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        with:
+          version: "lab:latest"
+          driver: cloud
+          endpoint: "implem/pleasanter-release-builder"
       - name: Extract metadata (Pleasanter)
         id: meta1
         uses: docker/metadata-action@v5
