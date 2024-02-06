@@ -2883,7 +2883,6 @@ namespace Implem.Pleasanter.Models
                                 mine: null)
                             && !column.Id_Ver
                             && column.EditorColumn
-                            && column.TypeCs != "Attachments"
                             && column.GridDesign.IsNullOrEmpty())
                         {
                             hb.Td(action: () => hb
@@ -4068,6 +4067,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         dataTableName: formData.Id.ToString()));
+                    issueCollection.Add(issueModel);
                 }
                 else
                 {
@@ -4092,6 +4092,14 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 transactional: true,
                 statements: statements.ToArray());
+            issueCollection.ForEach(issueModel =>
+                issueModel.WriteAttachments(
+                    context: context,
+                    ss: ss,
+                    verUp: Versions.VerUp(
+                        context: context,
+                        ss: ss,
+                        verUp: issueModel.VerUp)));
             var response = responses.FirstOrDefault(o => !o.Event.IsNullOrEmpty());
             switch (response?.Event)
             {

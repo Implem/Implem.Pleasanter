@@ -1924,7 +1924,7 @@ namespace Implem.Pleasanter.Models
             return statements;
         }
 
-        private void WriteAttachments(Context context, SiteSettings ss, bool verUp = false)
+        public void WriteAttachments(Context context, SiteSettings ss, bool verUp = false)
         {
             ColumnNames()
                 .Where(columnName => columnName.StartsWith("Attachments"))
