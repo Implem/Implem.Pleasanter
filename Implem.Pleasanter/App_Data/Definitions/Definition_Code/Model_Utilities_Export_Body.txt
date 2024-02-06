@@ -168,7 +168,8 @@ public static ContentResultInheritance ExportByApi(
     }
     var invalid = #ModelName#Validators.OnExporting(
         context: context,
-        ss: ss);
+        ss: ss,
+        api: true);
     switch (invalid.Type)
     {
         case Error.Types.None: break;

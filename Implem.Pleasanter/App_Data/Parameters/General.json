@@ -94,5 +94,5 @@
     "HideCurrentTimeIcon": false,
     "HideCurrentUserIcon": false,
     "HideCurrentDeptIcon": false,
-    "EnableLightBox": false
+    "EnableLightBox": true
 }
