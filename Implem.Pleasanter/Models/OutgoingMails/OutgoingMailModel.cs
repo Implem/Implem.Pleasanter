@@ -802,6 +802,28 @@ namespace Implem.Pleasanter.Models
                     column: ss.GetColumn(context: context, o.Key)));
         }
 
+        public bool Updated(Context context, SiteSettings ss)
+        {
+            return UpdatedWithColumn(context: context, ss: ss)
+                || ReferenceType_Updated(context: context)
+                || ReferenceId_Updated(context: context)
+                || ReferenceVer_Updated(context: context)
+                || OutgoingMailId_Updated(context: context)
+                || Ver_Updated(context: context)
+                || Host_Updated(context: context)
+                || Port_Updated(context: context)
+                || From_Updated(context: context)
+                || To_Updated(context: context)
+                || Cc_Updated(context: context)
+                || Bcc_Updated(context: context)
+                || Title_Updated(context: context)
+                || Body_Updated(context: context)
+                || SentTime_Updated(context: context)
+                || Comments_Updated(context: context)
+                || Creator_Updated(context: context)
+                || Updator_Updated(context: context);
+        }
+
         /// <summary>
         /// Fixed:
         /// </summary>
@@ -971,28 +993,6 @@ namespace Implem.Pleasanter.Models
                     .SendAsync(
                         context: context,
                         attachments: attachments);
-        }
-
-         public bool Updated(Context context, SiteSettings ss)
-        {
-            return UpdatedWithColumn(context: context, ss: ss)
-                || ReferenceType_Updated(context: context)
-                || ReferenceId_Updated(context: context)
-                || ReferenceVer_Updated(context: context)
-                || OutgoingMailId_Updated(context: context)
-                || Ver_Updated(context: context)
-                || Host_Updated(context: context)
-                || Port_Updated(context: context)
-                || From_Updated(context: context)
-                || To_Updated(context: context)
-                || Cc_Updated(context: context)
-                || Bcc_Updated(context: context)
-                || Title_Updated(context: context)
-                || Body_Updated(context: context)
-                || SentTime_Updated(context: context)
-                || Comments_Updated(context: context)
-                || Creator_Updated(context: context)
-                || Updator_Updated(context: context);
         }
     }
 }

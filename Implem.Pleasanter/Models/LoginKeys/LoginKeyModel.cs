@@ -353,7 +353,7 @@ namespace Implem.Pleasanter.Models
                     column: ss.GetColumn(context: context, o.Key)));
         }
 
-         public bool Updated(Context context, SiteSettings ss)
+        public bool Updated(Context context, SiteSettings ss)
         {
             return UpdatedWithColumn(context: context, ss: ss)
                 || LoginId_Updated(context: context)

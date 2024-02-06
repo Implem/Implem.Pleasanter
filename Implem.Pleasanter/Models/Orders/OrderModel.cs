@@ -335,6 +335,19 @@ namespace Implem.Pleasanter.Models
                     column: ss.GetColumn(context: context, o.Key)));
         }
 
+        public bool Updated(Context context, SiteSettings ss)
+        {
+            return UpdatedWithColumn(context: context, ss: ss)
+                || ReferenceId_Updated(context: context)
+                || ReferenceType_Updated(context: context)
+                || OwnerId_Updated(context: context)
+                || Ver_Updated(context: context)
+                || Data_Updated(context: context)
+                || Comments_Updated(context: context)
+                || Creator_Updated(context: context)
+                || Updator_Updated(context: context);
+        }
+
         /// <summary>
         /// Fixed:
         /// </summary>
@@ -381,19 +394,6 @@ namespace Implem.Pleasanter.Models
                         setDefault: true),
                     tableType: tableType));
             return new ResponseCollection(context: context).ToJson();
-        }
-
-         public bool Updated(Context context, SiteSettings ss)
-        {
-            return UpdatedWithColumn(context: context, ss: ss)
-                || ReferenceId_Updated(context: context)
-                || ReferenceType_Updated(context: context)
-                || OwnerId_Updated(context: context)
-                || Ver_Updated(context: context)
-                || Data_Updated(context: context)
-                || Comments_Updated(context: context)
-                || Creator_Updated(context: context)
-                || Updator_Updated(context: context);
         }
     }
 }

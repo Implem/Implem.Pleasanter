@@ -677,19 +677,7 @@ namespace Implem.Pleasanter.Models
                     column: ss.GetColumn(context: context, o.Key)));
         }
 
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public void InitializeTimeLag()
-        {
-            TimeLag = (
-                DateTime.Now -
-                Def.DemoDefinitionCollection
-                    .Where(o => o.UpdatedTime >= Parameters.General.MinTime)
-                    .Select(o => o.UpdatedTime).Max()).Days - 1;
-        }
-
-         public bool Updated(Context context, SiteSettings ss)
+        public bool Updated(Context context, SiteSettings ss)
         {
             return UpdatedWithColumn(context: context, ss: ss)
                 || DemoId_Updated(context: context)
@@ -703,6 +691,18 @@ namespace Implem.Pleasanter.Models
                 || Comments_Updated(context: context)
                 || Creator_Updated(context: context)
                 || Updator_Updated(context: context);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public void InitializeTimeLag()
+        {
+            TimeLag = (
+                DateTime.Now -
+                Def.DemoDefinitionCollection
+                    .Where(o => o.UpdatedTime >= Parameters.General.MinTime)
+                    .Select(o => o.UpdatedTime).Max()).Days - 1;
         }
     }
 }

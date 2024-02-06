@@ -826,6 +826,27 @@ namespace Implem.Pleasanter.Models
                     column: ss.GetColumn(context: context, o.Key)));
         }
 
+        public bool Updated(Context context, SiteSettings ss)
+        {
+            return UpdatedWithColumn(context: context, ss: ss)
+                || BinaryId_Updated(context: context)
+                || TenantId_Updated(context: context)
+                || ReferenceId_Updated(context: context)
+                || Guid_Updated(context: context)
+                || Ver_Updated(context: context)
+                || BinaryType_Updated(context: context)
+                || Title_Updated(context: context)
+                || Body_Updated(context: context)
+                || FileName_Updated(context: context)
+                || Extension_Updated(context: context)
+                || Size_Updated(context: context)
+                || ContentType_Updated(context: context)
+                || BinarySettings_Updated(context: context)
+                || Comments_Updated(context: context)
+                || Creator_Updated(context: context)
+                || Updator_Updated(context: context);
+        }
+
         /// <summary>
         /// Fixed:
         /// </summary>
@@ -1093,27 +1114,6 @@ namespace Implem.Pleasanter.Models
                 param: Rds.BinariesParam()
                     .ReferenceId()
                     .ContentType());
-        }
-
-         public bool Updated(Context context, SiteSettings ss)
-        {
-            return UpdatedWithColumn(context: context, ss: ss)
-                || BinaryId_Updated(context: context)
-                || TenantId_Updated(context: context)
-                || ReferenceId_Updated(context: context)
-                || Guid_Updated(context: context)
-                || Ver_Updated(context: context)
-                || BinaryType_Updated(context: context)
-                || Title_Updated(context: context)
-                || Body_Updated(context: context)
-                || FileName_Updated(context: context)
-                || Extension_Updated(context: context)
-                || Size_Updated(context: context)
-                || ContentType_Updated(context: context)
-                || BinarySettings_Updated(context: context)
-                || Comments_Updated(context: context)
-                || Creator_Updated(context: context)
-                || Updator_Updated(context: context);
         }
     }
 }

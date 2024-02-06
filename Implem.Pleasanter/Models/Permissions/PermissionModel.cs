@@ -379,6 +379,20 @@ namespace Implem.Pleasanter.Models
                     column: ss.GetColumn(context: context, o.Key)));
         }
 
+        public bool Updated(Context context, SiteSettings ss)
+        {
+            return UpdatedWithColumn(context: context, ss: ss)
+                || ReferenceId_Updated(context: context)
+                || DeptId_Updated(context: context)
+                || GroupId_Updated(context: context)
+                || UserId_Updated(context: context)
+                || Ver_Updated(context: context)
+                || PermissionType_Updated(context: context)
+                || Comments_Updated(context: context)
+                || Creator_Updated(context: context)
+                || Updator_Updated(context: context);
+        }
+
         /// <summary>
         /// Fixed:
         /// </summary>
@@ -433,20 +447,6 @@ namespace Implem.Pleasanter.Models
             PermissionType = permissionType;
             Set(context: context, dataRow: dataRow);
             OnConstructed(context: context);
-        }
-
-         public bool Updated(Context context, SiteSettings ss)
-        {
-            return UpdatedWithColumn(context: context, ss: ss)
-                || ReferenceId_Updated(context: context)
-                || DeptId_Updated(context: context)
-                || GroupId_Updated(context: context)
-                || UserId_Updated(context: context)
-                || Ver_Updated(context: context)
-                || PermissionType_Updated(context: context)
-                || Comments_Updated(context: context)
-                || Creator_Updated(context: context)
-                || Updator_Updated(context: context);
         }
     }
 }
