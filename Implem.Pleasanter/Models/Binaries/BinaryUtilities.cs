@@ -847,18 +847,20 @@ namespace Implem.Pleasanter.Models
                 var invalid = ValidateFileHash(resultFileNames[0].Value, contentRange, fileHash);
                 if (invalid != Error.Types.None) return invalid.MessageJson(context);
             }
-            return CreateResult(resultFileNames,
-                CreateResponseJson(
-                    context,
-                    fileUuids,
-                    fileNames,
-                    fileSizes,
-                    fileTypes,
-                    ss,
-                    column,
-                    controlId,
-                    attachments,
-                    contentRange));
+            // 一覧編集画面からアップロードが行われた場合、ControlIdにSuffixが付与される
+            // Suffixが付与されている場合にはcontrolOnlyをtrueにしてLabelTextが出力されないようにする
+            var controlOnly = !context.Forms.ControlId().RegexFirst("_\\d+_-?\\d+$").IsNullOrEmpty();
+            return CreateResult(resultFileNames, CreateResponseJson(
+                context: context,
+                fileUuids: fileUuids,
+                fileNames: fileNames,
+                fileSizes: fileSizes,
+                fileTypes: fileTypes,
+                ss: ss,
+                column: column,
+                controlId: controlId,
+                attachments: attachments,
+                controlOnly: controlOnly));
         }
 
         /// <summary>
@@ -926,30 +928,36 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static string CreateResponseJson(
             Context context,
-            IEnumerable<string> guids,
-            IEnumerable<string> names,
-            IEnumerable<string> sizes,
-            IEnumerable<string> types,
+            IEnumerable<string> fileUuids,
+            IEnumerable<string> fileNames,
+            IEnumerable<string> fileSizes,
+            IEnumerable<string> fileTypes,
             SiteSettings ss,
             Column column,
             string controlId,
             List<Attachment> attachments,
-            System.Net.Http.Headers.ContentRangeHeaderValue contentRange)
+            bool controlOnly)
         {
-            Enumerable.Range(0, new[] { guids.Count(), names.Count(), sizes.Count(), types.Count() }.Min()).ForEach(index =>
+            Enumerable.Range(0, new[]
             {
-                var fileName = names.Skip(index).First();
+                fileUuids.Count(),
+                fileNames.Count(),
+                fileSizes.Count(),
+                fileTypes.Count()
+            }.Min()).ForEach(index =>
+            {
+                var fileName = fileNames.Skip(index).First();
                 if (column.OverwriteSameFileName == true)
                 {
                     OverwriteSameFileName(attachments, fileName);
                 }
                 attachments.Add(new Attachment()
                 {
-                    Guid = guids.Skip(index).First(),
+                    Guid = fileUuids.Skip(index).First(),
                     Name = fileName,
-                    Size = sizes.Skip(index).First().ToLong(),
-                    Extention = System.IO.Path.GetExtension(names.Skip(index).First()),
-                    ContentType = types.Skip(index).First(),
+                    Size = fileSizes.Skip(index).First().ToLong(),
+                    Extention = System.IO.Path.GetExtension(fileNames.Skip(index).First()),
+                    ContentType = fileTypes.Skip(index).First(),
                     Added = true,
                     Deleted = false
                 });
@@ -967,8 +975,8 @@ namespace Implem.Pleasanter.Models
                             ss: ss,
                             column: column,
                             null),
-                        idSuffix: System.Text.RegularExpressions.Regex.Match(controlId, "_\\d+_-?\\d+").Value
-                        ))
+                        controlOnly: controlOnly,
+                        idSuffix: System.Text.RegularExpressions.Regex.Match(controlId, "_\\d+_-?\\d+").Value))
                 .SetData("#" + controlId)
                 .ToJson();
         }
