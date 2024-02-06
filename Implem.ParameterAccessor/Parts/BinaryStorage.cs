@@ -31,6 +31,7 @@
         public string DefaultBinaryStorageProvider;
         public string ImagesProvider;
         public string SiteImageProvider;
+        public string UploadTemporaryStorageProbider;
 
         public string GetProvider(string provider)
         {

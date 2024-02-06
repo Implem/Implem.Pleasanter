@@ -13501,6 +13501,8 @@ namespace Implem.DefinitionAccessor
         public string GrantDatabaseForPostgres;
         public string UpsertGroupMember;
         public string SelectSelectableMembers;
+        public string GetBinaryHash;
+        public string UpsertBinaries;
     }
 
     /// <summary>

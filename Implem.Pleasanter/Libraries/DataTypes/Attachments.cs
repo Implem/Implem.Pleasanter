@@ -93,13 +93,14 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             return this?.Any() != true;
         }
 
-        public void SetData(Column column)
+        public void SetData(Context context, Column column)
         {
             ForEach(attachment =>
             {
                 if (attachment.Added == true)
                 {
-                    attachment.SetHashCode(column: column);
+                    attachment.SetHashCode(
+                        context: context, column: column);
                 }
                 if (attachment.Deleted == true)
                 {
@@ -165,7 +166,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                         {
                             attachment.WriteToLocal(context: context);
                         }
-                        DataSources.File.DeleteTemp(attachment.Guid);
+                        DataSources.File.DeleteTemp(context: context, attachment.Guid);
                     }
                     else if (attachment.Deleted == true && !attachment.Overwritten.HasValue)
                     {

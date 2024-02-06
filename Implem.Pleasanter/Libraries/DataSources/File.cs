@@ -6,11 +6,25 @@ namespace Implem.Pleasanter.Libraries.DataSources
 {
     public static class File
     {
-        public static void DeleteTemp(string guid)
+        public static void DeleteTemp(Context context, string guid)
         {
-            if (Directory.Exists(Path.Combine(Directories.Temp(), guid)))
+            if (Parameters.BinaryStorage.Provider == "Rds"
+                && Parameters.BinaryStorage.UploadTemporaryStorageProbider == "Rds")
             {
-                Directory.Delete(Path.Combine(Directories.Temp(), guid), true);
+                Repository.ExecuteNonQuery(
+                    context: context,
+                    statements: Rds.DeleteBinaries(
+                        factory: context,
+                        where: Rds.BinariesWhere()
+                            .BinaryType("Temporary")
+                            .Guid(guid)));
+            }
+            else
+            {
+                if (Directory.Exists(Path.Combine(Directories.Temp(), guid)))
+                {
+                    Directory.Delete(Path.Combine(Directories.Temp(), guid), true);
+                }
             }
         }
         public static string Extension(this IHttpPostedFile file)
@@ -18,7 +32,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return Path.GetExtension(file.FileName);
         }
 
-        public static byte[] Byte(this IHttpPostedFile file)
+        public static byte[] Byte(this IHttpPostedFile file)    
         {
             using (var inputStream = file.InputStream())
             {
@@ -33,6 +47,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static string WriteToTemp(this IHttpPostedFile file)
         {
             var guid = Strings.NewGuid();
+            if (Parameters.BinaryStorage.Provider == "Rds"
+                && Parameters.BinaryStorage.UploadTemporaryStorageProbider == "Rds") return guid;
             var folderPath = Path.Combine(Path.Combine(Directories.Temp(), guid));
             if (!folderPath.Exists()) Directory.CreateDirectory(folderPath);
             var filePath = Path.Combine(

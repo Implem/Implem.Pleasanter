@@ -103,7 +103,10 @@ namespace Implem.Pleasanter.Libraries.Responses
                 attachment.ReferenceId = dataRow.Long("ReferenceId");
                 attachment.Name = dataRow.String("FileName");
                 attachment.Size = dataRow.Long("Size");
-                attachment.SetHashCode(column, dataRow.Bytes("Bin"));
+                attachment.SetHashCode(
+                    context: context,
+                    column: column,
+                    bin: dataRow.Bytes("Bin"));
             }
             return attachment;
         }
@@ -274,8 +277,28 @@ namespace Implem.Pleasanter.Libraries.Responses
             }
         }
 
-        public static ResponseFile DownloadTemp(string guid)
+        public static ResponseFile DownloadTemp(Context context, string guid)
         {
+            if (Parameters.BinaryStorage.Provider == "Rds"
+                && Parameters.BinaryStorage.UploadTemporaryStorageProbider == "Rds")
+            {
+                var dataRow = Repository.ExecuteTable(
+                    context: context,
+                    statements: Rds.SelectBinaries(
+                        column: Rds.BinariesColumn()
+                            .Title()
+                            .Bin(),
+                        where: Rds.BinariesWhere()
+                            .BinaryType("Temporary")
+                            .Guid(guid)))
+                    .AsEnumerable()
+                    .FirstOrDefault();
+                var bin = dataRow.Bytes("Bin");
+                var fileName = dataRow["Title"].ToString() ;
+                var fileInfo = new FileInfo(fileName);
+                System.IO.File.WriteAllBytes(fileName, bin);
+                return new ResponseFile(fileInfo, dataRow.String("Title"));
+            }
             var folderPath = Path.Combine(Path.Combine(Directories.Temp(), guid));
             var files = Directory.GetFiles(folderPath);
             return new ResponseFile(new FileInfo(files[0]), Path.GetFileName(files[0]));

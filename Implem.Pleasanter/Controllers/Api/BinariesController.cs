@@ -270,7 +270,7 @@ namespace Implem.Pleasanter.Controllers.Api
             {
                 if (uploaded)
                 {
-                    Libraries.DataSources.File.DeleteTemp(guid: postedFile.Guid);
+                    Libraries.DataSources.File.DeleteTemp(context: context, guid: postedFile.Guid);
                     Files.DeleteFile(path: filePath);
                 }
             }

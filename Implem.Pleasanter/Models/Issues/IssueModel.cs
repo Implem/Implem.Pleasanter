@@ -2062,7 +2062,7 @@ namespace Implem.Pleasanter.Models
         {
             ss.Columns
                 .Where(column => column.ColumnName.StartsWith("Attachments"))
-                .ForEach(column => GetAttachments(column.ColumnName).SetData(column: column));
+                .ForEach(column => GetAttachments(column.ColumnName).SetData(context: context, column: column));
             var timestamp = Timestamp.ToDateTime();
             var statements = new List<SqlStatement>();
             var where = Rds.IssuesWhereDefault(
