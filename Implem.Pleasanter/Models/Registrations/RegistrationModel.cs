@@ -1608,6 +1608,51 @@ namespace Implem.Pleasanter.Models
                 || Updator_Updated(context: context);
         }
 
+        private bool UpdatedWithColumn(Context context, SiteSettings ss)
+        {
+            return ClassHash.Any(o => Class_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || NumHash.Any(o => Num_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || DateHash.Any(o => Date_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || DescriptionHash.Any(o => Description_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || CheckHash.Any(o => Check_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || AttachmentsHash.Any(o => Attachments_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)));
+        }
+
+         public bool Updated(Context context, SiteSettings ss)
+        {
+            return UpdatedWithColumn(context: context, ss: ss)
+                || TenantId_Updated(context: context)
+                || RegistrationId_Updated(context: context)
+                || Ver_Updated(context: context)
+                || MailAddress_Updated(context: context)
+                || Invitee_Updated(context: context)
+                || InviteeName_Updated(context: context)
+                || LoginId_Updated(context: context)
+                || Name_Updated(context: context)
+                || Password_Updated(context: context)
+                || Language_Updated(context: context)
+                || Passphrase_Updated(context: context)
+                || Invitingflg_Updated(context: context)
+                || UserId_Updated(context: context)
+                || DeptId_Updated(context: context)
+                || GroupId_Updated(context: context)
+                || Comments_Updated(context: context)
+                || Creator_Updated(context: context)
+                || Updator_Updated(context: context);
+        }
+
         public override List<string> Mine(Context context)
         {
             if (MineCache == null)

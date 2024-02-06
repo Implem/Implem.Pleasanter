@@ -600,6 +600,28 @@ namespace Implem.Pleasanter.Models
                 || Updator_Updated(context: context);
         }
 
+        private bool UpdatedWithColumn(Context context, SiteSettings ss)
+        {
+            return ClassHash.Any(o => Class_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || NumHash.Any(o => Num_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || DateHash.Any(o => Date_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || DescriptionHash.Any(o => Description_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || CheckHash.Any(o => Check_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || AttachmentsHash.Any(o => Attachments_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)));
+        }
+
         /// <summary>
         /// Fixed:
         /// </summary>
@@ -611,6 +633,19 @@ namespace Implem.Pleasanter.Models
                     .OwnerId(userId)
                     .OwnerType("Users"),
                 top: 1);
+        }
+
+         public bool Updated(Context context, SiteSettings ss)
+        {
+            return UpdatedWithColumn(context: context, ss: ss)
+                || OwnerId_Updated(context: context)
+                || OwnerType_Updated(context: context)
+                || MailAddressId_Updated(context: context)
+                || Ver_Updated(context: context)
+                || MailAddress_Updated(context: context)
+                || Comments_Updated(context: context)
+                || Creator_Updated(context: context)
+                || Updator_Updated(context: context);
         }
     }
 }

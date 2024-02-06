@@ -3646,6 +3646,78 @@ namespace Implem.Pleasanter.Models
                 || Updator_Updated(context: context);
         }
 
+        private bool UpdatedWithColumn(Context context, SiteSettings ss)
+        {
+            return ClassHash.Any(o => Class_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || NumHash.Any(o => Num_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || DateHash.Any(o => Date_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || DescriptionHash.Any(o => Description_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || CheckHash.Any(o => Check_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || AttachmentsHash.Any(o => Attachments_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)));
+        }
+
+         public bool Updated(Context context, SiteSettings ss)
+        {
+            return UpdatedWithColumn(context: context, ss: ss)
+                || TenantId_Updated(context: context)
+                || UserId_Updated(context: context)
+                || Ver_Updated(context: context)
+                || LoginId_Updated(context: context)
+                || GlobalId_Updated(context: context)
+                || Name_Updated(context: context)
+                || UserCode_Updated(context: context)
+                || Password_Updated(context: context)
+                || LastName_Updated(context: context)
+                || FirstName_Updated(context: context)
+                || Birthday_Updated(context: context)
+                || Gender_Updated(context: context)
+                || Language_Updated(context: context)
+                || TimeZone_Updated(context: context)
+                || DeptId_Updated(context: context)
+                || Theme_Updated(context: context)
+                || FirstAndLastNameOrder_Updated(context: context)
+                || Body_Updated(context: context)
+                || LastLoginTime_Updated(context: context)
+                || PasswordExpirationTime_Updated(context: context)
+                || PasswordChangeTime_Updated(context: context)
+                || NumberOfLogins_Updated(context: context)
+                || NumberOfDenial_Updated(context: context)
+                || TenantManager_Updated(context: context)
+                || ServiceManager_Updated(context: context)
+                || AllowCreationAtTopSite_Updated(context: context)
+                || AllowGroupAdministration_Updated(context: context)
+                || AllowGroupCreation_Updated(context: context)
+                || AllowApi_Updated(context: context)
+                || EnableSecondaryAuthentication_Updated(context: context)
+                || DisableSecondaryAuthentication_Updated(context: context)
+                || Disabled_Updated(context: context)
+                || Lockout_Updated(context: context)
+                || LockoutCounter_Updated(context: context)
+                || Developer_Updated(context: context)
+                || UserSettings_Updated(context: context)
+                || ApiKey_Updated(context: context)
+                || PasswordHistries_Updated(context: context)
+                || SecondaryAuthenticationCode_Updated(context: context)
+                || SecondaryAuthenticationCodeExpirationTime_Updated(context: context)
+                || LdapSearchRoot_Updated(context: context)
+                || SynchronizedTime_Updated(context: context)
+                || Comments_Updated(context: context)
+                || Creator_Updated(context: context)
+                || Updator_Updated(context: context);
+        }
+
         public override List<string> Mine(Context context)
         {
             if (MineCache == null)

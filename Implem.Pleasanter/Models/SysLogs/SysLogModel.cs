@@ -3133,6 +3133,77 @@ namespace Implem.Pleasanter.Models
                 || Updator_Updated(context: context);
         }
 
+        private bool UpdatedWithColumn(Context context, SiteSettings ss)
+        {
+            return ClassHash.Any(o => Class_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || NumHash.Any(o => Num_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || DateHash.Any(o => Date_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || DescriptionHash.Any(o => Description_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || CheckHash.Any(o => Check_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || AttachmentsHash.Any(o => Attachments_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)));
+        }
+
+         public bool Updated(Context context, SiteSettings ss)
+        {
+            return UpdatedWithColumn(context: context, ss: ss)
+                || SysLogId_Updated(context: context)
+                || Ver_Updated(context: context)
+                || SysLogType_Updated(context: context)
+                || OnAzure_Updated(context: context)
+                || MachineName_Updated(context: context)
+                || ServiceName_Updated(context: context)
+                || TenantName_Updated(context: context)
+                || Application_Updated(context: context)
+                || Class_Updated(context: context)
+                || Method_Updated(context: context)
+                || Api_Updated(context: context)
+                || SiteId_Updated(context: context)
+                || ReferenceId_Updated(context: context)
+                || ReferenceType_Updated(context: context)
+                || Status_Updated(context: context)
+                || Description_Updated(context: context)
+                || RequestData_Updated(context: context)
+                || HttpMethod_Updated(context: context)
+                || RequestSize_Updated(context: context)
+                || ResponseSize_Updated(context: context)
+                || Elapsed_Updated(context: context)
+                || ApplicationAge_Updated(context: context)
+                || ApplicationRequestInterval_Updated(context: context)
+                || SessionAge_Updated(context: context)
+                || SessionRequestInterval_Updated(context: context)
+                || WorkingSet64_Updated(context: context)
+                || VirtualMemorySize64_Updated(context: context)
+                || ProcessId_Updated(context: context)
+                || ProcessName_Updated(context: context)
+                || BasePriority_Updated(context: context)
+                || Url_Updated(context: context)
+                || UrlReferer_Updated(context: context)
+                || UserHostName_Updated(context: context)
+                || UserHostAddress_Updated(context: context)
+                || UserLanguage_Updated(context: context)
+                || UserAgent_Updated(context: context)
+                || SessionGuid_Updated(context: context)
+                || ErrMessage_Updated(context: context)
+                || ErrStackTrace_Updated(context: context)
+                || InDebug_Updated(context: context)
+                || AssemblyVersion_Updated(context: context)
+                || Comments_Updated(context: context)
+                || Creator_Updated(context: context)
+                || Updator_Updated(context: context);
+        }
+
         public override List<string> Mine(Context context)
         {
             if (MineCache == null)
