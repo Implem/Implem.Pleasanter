@@ -1942,7 +1942,7 @@ namespace Implem.Pleasanter.Models
                 {
                     if (deptModel.AccessStatus == Databases.AccessStatuses.Selected)
                     {
-                        if (deptModel.Updated(context: context))
+                        if (deptModel.Updated(context: context, ss: ss))
                         {
                             deptModel.VerUp = Versions.MustVerUp(
                                 context: context,
@@ -2100,7 +2100,7 @@ namespace Implem.Pleasanter.Models
                 {
                     if (deptModel.AccessStatus == Databases.AccessStatuses.Selected)
                     {
-                        if (deptModel.Updated(context: context))
+                        if (deptModel.Updated(context: context, ss: ss))
                         {
                             deptModel.VerUp = Versions.MustVerUp(
                                 context: context,

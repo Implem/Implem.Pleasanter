@@ -3116,7 +3116,7 @@ namespace Implem.Pleasanter.Models
                     if (userModel.AccessStatus == Databases.AccessStatuses.Selected)
                     {
                         var mailAddressUpdated = UpdateMailAddresses(context, userModel);
-                        if (userModel.Updated(context: context))
+                        if (userModel.Updated(context: context, ss: ss))
                         {
                             userModel.VerUp = Versions.MustVerUp(
                                 context: context,
@@ -3331,7 +3331,7 @@ namespace Implem.Pleasanter.Models
                     if (userModel.AccessStatus == Databases.AccessStatuses.Selected)
                     {
                         var mailAddressUpdated = UpdateMailAddresses(context, userModel);
-                        if (userModel.Updated(context: context))
+                        if (userModel.Updated(context: context, ss: ss))
                         {
                             userModel.VerUp = Versions.MustVerUp(
                                 context: context,

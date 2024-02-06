@@ -6673,7 +6673,7 @@ namespace Implem.Pleasanter.Models
                                     {
                                         case Databases.AccessStatuses.Selected:
                                             // 更新による競合のため再更新
-                                            if (issueModel.Updated(context: context))
+                                            if (issueModel.Updated(context: context, ss: ss))
                                             {
                                                 issueModel.VerUp = Versions.MustVerUp(
                                                     context: context,
@@ -6998,7 +6998,7 @@ namespace Implem.Pleasanter.Models
                                     {
                                         case Databases.AccessStatuses.Selected:
                                             // 更新による競合のため再更新
-                                            if (issueModel.Updated(context: context))
+                                            if (issueModel.Updated(context: context, ss: ss))
                                             {
                                                 issueModel.VerUp = Versions.MustVerUp(
                                                     context: context,

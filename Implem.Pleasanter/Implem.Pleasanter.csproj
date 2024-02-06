@@ -94,6 +94,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="App_Data\Definitions\Definition_Code\Base_PropertyUpdated_Num.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_DashboardGridRowsCases.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_ImportByApi.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_SetCopyDefault.json" />
