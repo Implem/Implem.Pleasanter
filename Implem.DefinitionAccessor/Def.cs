@@ -560,6 +560,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_PhysicalDelete": Code.Model_PhysicalDelete = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PhysicalDelete, definitionRow, CodeXls); break;
                     case "Model_PhysicalDeleteByApiCases": Code.Model_PhysicalDeleteByApiCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PhysicalDeleteByApiCases, definitionRow, CodeXls); break;
                     case "Model_PhysicalDeleteCases": Code.Model_PhysicalDeleteCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PhysicalDeleteCases, definitionRow, CodeXls); break;
+                    case "Model_PostInit": Code.Model_PostInit = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PostInit, definitionRow, CodeXls); break;
                     case "Model_PreviousTitle": Code.Model_PreviousTitle = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PreviousTitle, definitionRow, CodeXls); break;
                     case "Model_PropertyUpdated_ColumnCases": Code.Model_PropertyUpdated_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PropertyUpdated_ColumnCases, definitionRow, CodeXls); break;
                     case "Model_PropertyValue": Code.Model_PropertyValue = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PropertyValue, definitionRow, CodeXls); break;
@@ -7027,6 +7028,7 @@ namespace Implem.DefinitionAccessor
         public string Model_PhysicalDelete;
         public string Model_PhysicalDeleteByApiCases;
         public string Model_PhysicalDeleteCases;
+        public string Model_PostInit;
         public string Model_PreviousTitle;
         public string Model_PropertyUpdated_ColumnCases;
         public string Model_PropertyValue;
@@ -7844,6 +7846,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_PhysicalDelete = new CodeDefinition();
         public CodeDefinition Model_PhysicalDeleteByApiCases = new CodeDefinition();
         public CodeDefinition Model_PhysicalDeleteCases = new CodeDefinition();
+        public CodeDefinition Model_PostInit = new CodeDefinition();
         public CodeDefinition Model_PreviousTitle = new CodeDefinition();
         public CodeDefinition Model_PropertyUpdated_ColumnCases = new CodeDefinition();
         public CodeDefinition Model_PropertyValue = new CodeDefinition();
