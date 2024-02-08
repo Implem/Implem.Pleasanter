@@ -15,6 +15,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? Gantt;
         public bool? BurnDown;
         public bool? TimeSeries;
+        public bool? Analy;
         public bool? Kamban;
         public bool? ImageLib;
         public bool? Disabled;
@@ -36,6 +37,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool? gantt,
             bool? burnDown,
             bool? timeSeries,
+            bool? analy,
             bool? kamban,
             bool? imageLib,
             bool? disabled,
@@ -52,6 +54,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             Gantt = gantt;
             BurnDown = burnDown;
             TimeSeries = timeSeries;
+            Analy = analy;
             Kamban = kamban;
             ImageLib = imageLib;
             Disabled = disabled;
@@ -69,6 +72,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool? gantt,
             bool? burnDown,
             bool? timeSeries,
+            bool? analy,
             bool? kamban,
             bool? imageLib,
             bool? disabled,
@@ -84,6 +88,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (gantt != null) Gantt = gantt;
             if (burnDown != null) BurnDown = burnDown;
             if (timeSeries != null) TimeSeries = timeSeries;
+            if (analy != null) Analy = analy;
             if (kamban != null) Kamban = kamban;
             if (imageLib != null) ImageLib = imageLib;
             if (disabled != null) Disabled = disabled;
@@ -109,6 +114,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 if (Gantt == true) script.Gantt = true;
                 if (BurnDown == true) script.BurnDown = true;
                 if (TimeSeries == true) script.TimeSeries = true;
+                if (Analy == true) script.Analy = true;
                 if (Kamban == true) script.Kamban = true;
                 if (ImageLib == true) script.ImageLib = true;
             }

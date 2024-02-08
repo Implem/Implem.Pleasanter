@@ -21,6 +21,7 @@ namespace Implem.Pleasanter.Models.ApiSiteSettings
         public bool? HtmlGantt { get; set; }
         public bool? HtmlBurnDown { get; set; }
         public bool? HtmlTimeSeries { get; set; }
+        public bool? HtmlAnaly { get; set; }
         public bool? HtmlKamban { get; set; }
         public bool? HtmlImageLib { get; set; }
         public int? Delete { get; set; }

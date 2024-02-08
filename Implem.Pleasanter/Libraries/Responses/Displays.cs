@@ -2809,6 +2809,26 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string DaysAgoNoArgs(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "DaysAgoNoArgs",
+                data: data);
+        }
+
+        public static string December(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "December",
+                data: data);
+        }
+
         public static string DecimalPlaces(
             Context context,
             params string[] data)

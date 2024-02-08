@@ -2113,6 +2113,7 @@ namespace Implem.Pleasanter.Models
                 || GanttGuide_Updated(context: context)
                 || BurnDownGuide_Updated(context: context)
                 || TimeSeriesGuide_Updated(context: context)
+                || AnalyGuide_Updated(context: context)
                 || KambanGuide_Updated(context: context)
                 || ImageLibGuide_Updated(context: context)
                 || ReferenceType_Updated(context: context)
@@ -2475,6 +2476,7 @@ namespace Implem.Pleasanter.Models
                             gantt: scApiSiteSetting.ScriptGantt,
                             burnDown: scApiSiteSetting.ScriptBurnDown,
                             timeSeries: scApiSiteSetting.ScriptTimeSeries,
+                            analy: scApiSiteSetting.ScriptAnaly,
                             kamban: scApiSiteSetting.ScriptKamban,
                             imageLib: scApiSiteSetting.ScriptImageLib,
                             disabled: scApiSiteSetting.Disabled,
@@ -2495,6 +2497,7 @@ namespace Implem.Pleasanter.Models
                             gantt: scApiSiteSetting.ScriptGantt,
                             burnDown: scApiSiteSetting.ScriptBurnDown,
                             timeSeries: scApiSiteSetting.ScriptTimeSeries,
+                            analy: scApiSiteSetting.ScriptAnaly,
                             kamban: scApiSiteSetting.ScriptKamban,
                             imageLib: scApiSiteSetting.ScriptImageLib,
                             disabled: scApiSiteSetting.Disabled,
@@ -2541,6 +2544,7 @@ namespace Implem.Pleasanter.Models
                             gantt: stApiSiteSetting.StyleGantt,
                             burnDown: stApiSiteSetting.StyleBurnDown,
                             timeSeries: stApiSiteSetting.StyleTimeSeries,
+                            analy: stApiSiteSetting.StyleAnaly,
                             kamban: stApiSiteSetting.StyleKamban,
                             imageLib: stApiSiteSetting.StyleImageLib,
                             disabled: stApiSiteSetting.Disabled,
@@ -2561,6 +2565,7 @@ namespace Implem.Pleasanter.Models
                             gantt: stApiSiteSetting.StyleGantt,
                             burnDown: stApiSiteSetting.StyleBurnDown,
                             timeSeries: stApiSiteSetting.StyleTimeSeries,
+                            analy: stApiSiteSetting.StyleAnaly,
                             kamban: stApiSiteSetting.StyleKamban,
                             imageLib: stApiSiteSetting.StyleImageLib,
                             disabled: stApiSiteSetting.Disabled,
@@ -2608,6 +2613,7 @@ namespace Implem.Pleasanter.Models
                             gantt: htmlApiSiteSetting.HtmlGantt,
                             burnDown: htmlApiSiteSetting.HtmlBurnDown,
                             timeSeries: htmlApiSiteSetting.HtmlTimeSeries,
+                            analy: htmlApiSiteSetting.HtmlAnaly,
                             kamban: htmlApiSiteSetting.HtmlKamban,
                             imageLib: htmlApiSiteSetting.HtmlImageLib,
                             disabled: htmlApiSiteSetting.Disabled,
@@ -2629,6 +2635,7 @@ namespace Implem.Pleasanter.Models
                             gantt: htmlApiSiteSetting.HtmlGantt,
                             burnDown: htmlApiSiteSetting.HtmlBurnDown,
                             timeSeries: htmlApiSiteSetting.HtmlTimeSeries,
+                            analy: htmlApiSiteSetting.HtmlAnaly,
                             kamban: htmlApiSiteSetting.HtmlKamban,
                             imageLib: htmlApiSiteSetting.HtmlImageLib,
                             disabled: htmlApiSiteSetting.Disabled,
