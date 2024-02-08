@@ -58,6 +58,7 @@
             "wwwroot/scripts/formula.js",
             "wwwroot/scripts/gantt.js",
             "wwwroot/scripts/ganttevents.js",
+            "wwwroot/scripts/generatepassword.js",
             "wwwroot/scripts/grid.js",
             "wwwroot/scripts/gridevents.js",
             "wwwroot/scripts/group.js",

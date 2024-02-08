@@ -1,6 +1,7 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
+using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
@@ -719,6 +720,21 @@ namespace Implem.Pleasanter.Controllers
                 ss: SiteSettingsUtilities.UsersSiteSettings(
                     context: context,
                     tableTypes: Implem.Libraries.DataSources.SqlServer.Sqls.TableTypes.Deleted));
+            log.Finish(context: context, responseSize: json.Length);
+            return json;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        [HttpPost]
+        public string GeneratePassword(string passwordObject, string passwordValidateObject)
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = UserUtilities.GeneratePassword(
+                    passwordObject,
+                    passwordValidateObject);
             log.Finish(context: context, responseSize: json.Length);
             return json;
         }

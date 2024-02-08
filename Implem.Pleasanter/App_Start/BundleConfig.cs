@@ -50,6 +50,7 @@ namespace Implem.Pleasanter.App_Start
                 "~/scripts/formula.js",
                 "~/scripts/gantt.js",
                 "~/scripts/ganttevents.js",
+                "~/scripts/generatepassword.js",
                 "~/scripts/grid.js",
                 "~/scripts/gridevents.js",
                 "~/scripts/group.js",

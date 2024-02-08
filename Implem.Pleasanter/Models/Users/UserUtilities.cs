@@ -5474,5 +5474,16 @@ namespace Implem.Pleasanter.Models
                     where: Rds.UsersWhere()
                         .UserId_In(value: ids)));
         }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string GeneratePassword(string passwordObject, string passwordValidateObject)
+        {
+            return new ResponseCollection()
+                .Val(passwordObject, "test")
+                .Val(passwordValidateObject, "test")
+                .ToJson();
+        }
     }
 }
