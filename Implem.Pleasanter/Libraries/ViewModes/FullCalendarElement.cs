@@ -1,5 +1,4 @@
-﻿using DocumentFormat.OpenXml.Office2010.ExcelAc;
-using Implem.Libraries.Utilities;
+﻿using Implem.Libraries.Utilities;
 using System;
 using System.Collections.Generic;
 
@@ -9,6 +8,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
     public class FullCalendarElement
     {
         public long id;
+        public long siteId;
         public string title;
         public string time;
         public DateTime start;
@@ -20,6 +20,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
 
         public FullCalendarElement(
             long Id,
+            long SiteId,
             string Title,
             string Time,
             DateTime from,
@@ -29,6 +30,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             string statusHtml)
         {
             id = Id;
+            siteId = SiteId;
             title = Title;
             time = Time;
             start = from;

@@ -1,8 +1,10 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
+using Org.BouncyCastle.Utilities.Zlib;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Formats.Png;
+using SixLabors.ImageSharp.PixelFormats;
+using SixLabors.ImageSharp.Processing;
 using System.IO;
 namespace Implem.Pleasanter.Libraries.Images
 {
@@ -28,7 +30,7 @@ namespace Implem.Pleasanter.Libraries.Images
 
         public ImageData(byte[] data, long referenceId, Types type)
         {
-            Data = Image.FromStream(new MemoryStream(data));
+            Data = Image.Load<Rgba32>(new MemoryStream(data));
             ReferenceId = referenceId;
             Type = type;
         }
@@ -71,7 +73,7 @@ namespace Implem.Pleasanter.Libraries.Images
 
         private void WriteToLocal(Image image, long referenceId, Types type, SizeTypes sizeType)
         {
-            image.Write(Path(referenceId, type, sizeType), ImageFormat.Png);
+            Files.Write(image, Path(referenceId, type, sizeType), new PngEncoder());
         }
 
         public void DeleteLocalFiles()
@@ -101,7 +103,7 @@ namespace Implem.Pleasanter.Libraries.Images
             using (var memory = new MemoryStream())
             {
                 memory.Position = 0;
-                ReSize(sizeType).Save(memory, ImageFormat.Png);
+                ReSize(sizeType).Save(memory, new PngEncoder());
                 return GetByte(memory);
             }
         }
@@ -131,7 +133,7 @@ namespace Implem.Pleasanter.Libraries.Images
             using (var memory = new MemoryStream())
             {
                 memory.Position = 0;
-                ReSize(size).Save(memory, ImageFormat.Png);
+                ReSize(size).Save(memory, new PngEncoder());
                 return GetByte(memory);
             }
         }
@@ -168,14 +170,12 @@ namespace Implem.Pleasanter.Libraries.Images
 
         private Image GetImage(int width, int height, int x, int y)
         {
-            var resizedImage = new Bitmap(width, height);
-            resizedImage.MakeTransparent();
-            using (var graphics = Graphics.FromImage(resizedImage))
+            Data.Mutate(x =>
             {
-                graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                graphics.DrawImage(Data, x, y, width, height);
-                return resizedImage;
-            }
+                x.Resize(width, height);
+            });
+
+            return Data;
         }
 
         private static byte[] GetByte(MemoryStream memory)

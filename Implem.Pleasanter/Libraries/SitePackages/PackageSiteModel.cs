@@ -201,6 +201,8 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                             : s)
                     .ToList();
                 dashboardPart.SetTimeLineSites();
+                dashboardPart.SetCalendarSites();
+                dashboardPart.SetIndexSites();
             });
             ss.Views?.ForEach(view =>
             {

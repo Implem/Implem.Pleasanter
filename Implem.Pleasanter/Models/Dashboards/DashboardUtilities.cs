@@ -87,24 +87,53 @@ namespace Implem.Pleasanter.Models
                 .Select(dashboardPart =>
             {
                 dashboardPart.SetSitesData();
+                if (ss.DashboardPartsAsynchronousLoading == true
+                    && dashboardPart.DisableAsynchronousLoading == false)
+                {
+                    return AsynchronousLoadingLayout(
+                        view: view,
+                        dashboardPart: dashboardPart);
+                }
                 switch (dashboardPart.Type)
                 {
                     case DashboardPartType.QuickAccess:
                         return QuickAccessLayout(
                             context: context,
+                            view: view,
                             dashboardPart: dashboardPart);
                     case DashboardPartType.TimeLine:
                         return TimeLineLayout(
                             context: context,
                             ss: ss,
+                            view: view,
                             dashboardPart: dashboardPart);
                     case DashboardPartType.Custom:
-                        return CustomLayouyt(
+                        return CustomLayout(
                             context: context,
+                            view: view,
                             dashboardPart: dashboardPart);
                     case DashboardPartType.CustomHtml:
-                        return CustomHtmlLayouyt(
+                        return CustomHtmlLayout(
                             context: context,
+                            view: view,
+                            dashboardPart: dashboardPart);
+                    case DashboardPartType.Calendar:
+                        return CalendarLayout(
+                            context: context,
+                            ss: ss,
+                            view: view,
+                            dashboardPart: dashboardPart);
+                    case DashboardPartType.Kamban:
+                        return KambanLayout(
+                            context: context,
+                            ss: ss,
+                            view: view,
+                            dashboardPart: dashboardPart);
+                    case DashboardPartType.Index:
+                        return IndexLayout(
+                            context: context,
+                            ss: ss,
+                            view: view,
                             dashboardPart: dashboardPart);
                     default:
                         return new DashboardPartLayout();
@@ -149,6 +178,11 @@ namespace Implem.Pleasanter.Models
                             .Hidden(
                                 controlId: "DashboardPartLayouts",
                                 value: dashboardPartLayouts)
+                            .Hidden(
+                                controlId: "DashboardPartLayout",
+                                value: dashboardPartLayouts,
+                                action: "DashboardPartLayout",
+                                method: "post")
                             .Hidden(
                                 controlId: "Sites_Timestamp",
                                 css: "control-hidden always-send",
@@ -210,7 +244,8 @@ namespace Implem.Pleasanter.Models
             GridData gridData,
             View view,
             string action = "GridRows",
-            ServerScriptModelRow serverScriptModelRow = null)
+            ServerScriptModelRow serverScriptModelRow = null,
+            string suffix = "")
         {
             var columns = ss.GetGridColumns(
                 context: context,
@@ -219,7 +254,7 @@ namespace Implem.Pleasanter.Models
             return hb
                 .Table(
                     attributes: new HtmlAttributes()
-                        .Id("Grid")
+                        .Id($"Grid{suffix}")
                         .Class(ss.GridCss(context: context))
                         .DataValue("back", _using: ss?.IntegratedSites?.Any() == true)
                         .DataAction(action)
@@ -232,14 +267,16 @@ namespace Implem.Pleasanter.Models
                             columns: columns,
                             view: view,
                             serverScriptModelRow: serverScriptModelRow,
-                            action: action))
+                            action: action,
+                            suffix: suffix))
                 .GridHeaderMenus(
                     context: context,
                     ss: ss,
                     view: view,
-                    columns: columns)
+                    columns: columns,
+                    suffix: suffix)
                 .Hidden(
-                    controlId: "GridOffset",
+                    controlId: $"GridOffset{suffix}",
                     value: ss.GridNextOffset(
                         0,
                         gridData.DataRows.Count(),
@@ -265,9 +302,12 @@ namespace Implem.Pleasanter.Models
             bool windowScrollTop = false,
             bool clearCheck = false,
             string action = "GridRows",
-            Message message = null)
+            Message message = null,
+            string suffix = "")
         {
-            var view = Views.GetBySession(context: context, ss: ss);
+            var view = Views.GetBySession(
+                context: context,
+                ss: ss);
             var gridData = GetGridData(
                 context: context,
                 ss: ss,
@@ -335,7 +375,8 @@ namespace Implem.Pleasanter.Models
             int offset = 0,
             bool clearCheck = false,
             string action = "GridRows",
-            ServerScriptModelRow serverScriptModelRow = null)
+            ServerScriptModelRow serverScriptModelRow = null,
+            string suffix = "")
         {
             var checkRow = ss.CheckRow(
                 context: context,
@@ -355,7 +396,8 @@ namespace Implem.Pleasanter.Models
                             checkRow: checkRow,
                             checkAll: checkAll,
                             action: action,
-                            serverScriptModelRow: serverScriptModelRow))
+                            serverScriptModelRow: serverScriptModelRow,
+                            suffix: suffix))
                 .TBody(action: () => hb
                     .GridRows(
                         context: context,
@@ -1326,6 +1368,95 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public static string DashboardPartJson(
+            Context context,
+            SiteSettings ss,
+            string dashboardPartId)
+        {
+            var view = Views.GetBySession(
+                context: context,
+                ss: ss);
+            var dashboardPartLayout = ss.DashboardParts
+                .Where(dashboardPart => dashboardPart
+                    .Accessable(
+                        context: context,
+                        ss: ss)
+                    && dashboardPart.Id == dashboardPartId.ToInt())
+                .Select(dashboardPart =>
+                {
+                    dashboardPart.SetSitesData();
+                    switch (dashboardPart.Type)
+                    {
+                        case DashboardPartType.QuickAccess:
+                            return QuickAccessLayout(
+                                context: context,
+                                view: view,
+                                dashboardPart: dashboardPart).Content;
+                        case DashboardPartType.TimeLine:
+                            return TimeLineLayout(
+                                context: context,
+                                ss: ss,
+                                view: view,
+                                dashboardPart: dashboardPart).Content;
+                        case DashboardPartType.Custom:
+                            return CustomLayout(
+                                context: context,
+                                view: view,
+                                dashboardPart: dashboardPart).Content;
+                        case DashboardPartType.CustomHtml:
+                            return CustomHtmlLayout(
+                                context: context,
+                                view: view,
+                                dashboardPart: dashboardPart).Content;
+                        case DashboardPartType.Calendar:
+                            return CalendarLayout(
+                                context: context,
+                                ss: ss,
+                                view: view,
+                                dashboardPart: dashboardPart).Content;
+                        case DashboardPartType.Kamban:
+                            return KambanLayout(
+                                context: context,
+                                ss: ss,
+                                view: view,
+                                dashboardPart: dashboardPart).Content;
+                        case DashboardPartType.Index:
+                            return IndexLayout(
+                                context: context,
+                                ss: ss,
+                                view: view,
+                                dashboardPart: dashboardPart).Content;
+                        default:
+                            return null;
+                    }
+                }).ToList();
+            return new ResponseCollection(context: context)
+                .ReplaceAll(
+                    target: $"#DashboardPart_{dashboardPartId}",
+                    value: dashboardPartLayout.FirstOrDefault())
+                .Invoke("setCalendar", dashboardPartId.ToString())
+                .Invoke("setKamban", dashboardPartId.ToString())
+                .ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string DashboardPartLayout(
+            Context context,
+            SiteSettings ss)
+        {
+            Views.GetBySession(
+                context: context,
+                ss: ss,
+                setSession: true);
+            return new ResponseCollection(context: context)
+                .ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static string ReplaceLineByDashboardModel(
             this DashboardModel dashboardModel,
             Context context,
@@ -1458,37 +1589,33 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static DashboardPartLayout CustomHtmlLayouyt(Context context, DashboardPart dashboardPart)
+        private static DashboardPartLayout CustomHtmlLayout(
+            Context context,
+            View view,
+            DashboardPart dashboardPart)
         {
             var content = new HtmlBuilder()
                 .CustomHtml(context: context, dashboardPart: dashboardPart).ToString();
-            return new DashboardPartLayout()
-            {
-                Id = dashboardPart.Id,
-                X = dashboardPart.X,
-                Y = dashboardPart.Y,
-                W = dashboardPart.Width,
-                H = dashboardPart.Height,
-                Content = content
-            };
+            return DashboardReturn(
+                view: view,
+                dashboardPart: dashboardPart,
+                content: content);
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static DashboardPartLayout CustomLayouyt(Context context, DashboardPart dashboardPart)
+        private static DashboardPartLayout CustomLayout(
+            Context context,
+            View view,
+            DashboardPart dashboardPart)
         {
             var content = new HtmlBuilder()
                 .Custom(context: context, dashboardPart: dashboardPart).ToString();
-            return new DashboardPartLayout()
-            {
-                Id = dashboardPart.Id,
-                X = dashboardPart.X,
-                Y = dashboardPart.Y,
-                W = dashboardPart.Width,
-                H = dashboardPart.Height,
-                Content = content
-            };
+            return DashboardReturn(
+                view: view,
+                dashboardPart: dashboardPart,
+                content: content);
         }
 
         /// <summary>
@@ -1543,22 +1670,20 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static DashboardPartLayout QuickAccessLayout(Context context, DashboardPart dashboardPart)
+        private static DashboardPartLayout QuickAccessLayout(
+            Context context,
+            View view,
+            DashboardPart dashboardPart)
         {
             var content = new HtmlBuilder()
                 .QuickAccessMenu(
                     context: context,
                     dashboardPart)
                 .ToString();
-            return new DashboardPartLayout()
-            {
-                Id = dashboardPart.Id,
-                X = dashboardPart.X,
-                Y = dashboardPart.Y,
-                W = dashboardPart.Width,
-                H = dashboardPart.Height,
-                Content = content
-            };
+            return DashboardReturn(
+                view: view,
+                dashboardPart: dashboardPart,
+                content: content);
         }
 
         /// <summary>
@@ -1681,6 +1806,7 @@ namespace Implem.Pleasanter.Models
         private static DashboardPartLayout TimeLineLayout(
             Context context,
             SiteSettings ss,
+            View view,
             DashboardPart dashboardPart)
         {
             var timeLineItems = GetTimeLineRecords(
@@ -1709,15 +1835,10 @@ namespace Implem.Pleasanter.Models
                                     ?? TimeLineDisplayType.Standard);
                         }
                     }).ToString();
-            return new DashboardPartLayout()
-            {
-                Id = dashboardPart.Id,
-                X = dashboardPart.X,
-                Y = dashboardPart.Y,
-                W = dashboardPart.Width,
-                H = dashboardPart.Height,
-                Content = timeLine
-            };
+            return DashboardReturn(
+                view: view,
+                dashboardPart: dashboardPart,
+                content: timeLine);
         }
 
         /// <summary>
@@ -1975,6 +2096,599 @@ namespace Implem.Pleasanter.Models
                         Updator = model.Updator
                     };
                 });
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static DashboardPartLayout CalendarLayout(
+            Context context,
+            SiteSettings ss,
+            View view,
+            DashboardPart dashboardPart)
+        {
+            var hb = new HtmlBuilder();
+            var calendarHtml = GetCalendarRecords(
+                context: context,
+                ss: ss,
+                dashboardPart: dashboardPart);
+            var calendar = hb
+                .Div(
+                    id: $"DashboardPart_{dashboardPart.Id}",
+                    attributes: new HtmlAttributes().DataId(dashboardPart.Id.ToString()),
+                    css: "dashboard-calendar-container " + dashboardPart.ExtendedCss,
+                    action: () =>
+                    {
+                        if (dashboardPart.ShowTitle == true)
+                        {
+                            hb.Div(
+                                css: "dashboard-part-title",
+                                action: () => hb.Text(dashboardPart.Title));
+                        }
+                        hb.Raw(text: calendarHtml);
+                    }).ToString();
+            return DashboardReturn(
+                view: view,
+                dashboardPart: dashboardPart,
+                content: calendar);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static string GetCalendarRecords(
+            Context context,
+            SiteSettings ss,
+            DashboardPart dashboardPart)
+        {
+            //基準となるサイトからSiteSettingsを取得
+            var currentSs = SiteSettingsUtilities.Get(
+                context: context,
+                siteId: dashboardPart.SiteId);
+            //対象サイトをサイト統合の仕組みで登録
+            currentSs.IntegratedSites = dashboardPart.CalendarSitesData;
+            currentSs.SetSiteIntegration(context: context);
+            currentSs.SetDashboardParts(dashboardPart: dashboardPart);
+            currentSs.SaveViewType = ss.SaveViewType;
+            if (currentSs.ReferenceType == "Issues")
+            {
+                return IssueUtilities.Calendar(context: context, ss: currentSs);
+            }
+            else if (currentSs.ReferenceType == "Results")
+            {
+                return ResultUtilities.Calendar(context: context, ss: currentSs);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string CalendarJson(Context context, SiteSettings ss)
+        {
+            var matchingKey = context.Forms.Keys.FirstOrDefault(x => x.StartsWith("CalendarSuffix_"));
+            DashboardPart dashboardPart = ss.DashboardParts.FirstOrDefault(x => x.Id == context.Forms.Data(matchingKey).ToInt());
+            if (dashboardPart == null && context.Forms.ControlId().StartsWith("CalendarDate_"))
+            {
+                var suffix = context.Forms.ControlId().Replace("CalendarDate_", "");
+                dashboardPart = ss.DashboardParts.FirstOrDefault(x => x.Id == suffix.ToInt());
+            }
+            var currentSs = SiteSettingsUtilities.Get(
+                context: context,
+                siteId: dashboardPart.SiteId);
+            //対象サイトをサイト統合の仕組みで登録
+            currentSs.IntegratedSites = dashboardPart.CalendarSitesData;
+            currentSs.SetSiteIntegration(context: context);
+            currentSs.SetDashboardParts(dashboardPart: dashboardPart);
+            currentSs.SaveViewType = ss.SaveViewType;
+            var hb = new HtmlBuilder();
+            switch (currentSs.ReferenceType)
+            {
+                case "Issues":
+                    var issues = hb.Div(
+                        id: $"DashboardPart_{dashboardPart.Id}",
+                        attributes: new HtmlAttributes().DataId(dashboardPart.Id.ToString()),
+                        css: "dashboard-calendar-container " + dashboardPart.ExtendedCss,
+                        action: () =>
+                        {
+                            if (dashboardPart.ShowTitle == true)
+                            {
+                                hb.Div(
+                                    css: "dashboard-part-title",
+                                    action: () => hb.Text(dashboardPart.Title));
+                            }
+                            hb.Raw(text: IssueUtilities.CalendarJson(context: context, ss: currentSs));
+                        }).ToString();
+                    return new ResponseCollection(context: context)
+                        .ReplaceAll(
+                            target: $"#DashboardPart_{dashboardPart.Id}",
+                            value: issues)
+                        .Invoke("setCalendar",dashboardPart.Id.ToString())
+                        .ToJson();
+                case "Results":
+                    var results = hb.Div(
+                        id: $"DashboardPart_{dashboardPart.Id}",
+                        attributes: new HtmlAttributes().DataId(dashboardPart.Id.ToString()),
+                        css: "dashboard-calendar-container " + dashboardPart.ExtendedCss,
+                        action: () =>
+                        {
+                            if (dashboardPart.ShowTitle == true)
+                            {
+                                hb.Div(
+                                    css: "dashboard-part-title",
+                                    action: () => hb.Text(dashboardPart.Title));
+                            }
+                            hb.Raw(text: ResultUtilities.CalendarJson(context: context, ss: currentSs));
+                        }).ToString();
+                    return new ResponseCollection(context: context)
+                        .ReplaceAll(
+                            target: $"#DashboardPart_{dashboardPart.Id}",
+                            value: results)
+                        .Invoke("setCalendar", dashboardPart.Id.ToString())
+                        .ToJson();
+                default:
+                    return Messages.ResponseNotFound(context: context).ToJson();
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string UpdateByCalendar(
+            Context context,
+            SiteSettings ss)
+        {
+            var matchingKey = context.Forms.Keys.FirstOrDefault(x => x.StartsWith("CalendarSuffix_"));
+            DashboardPart dashboardPart = ss.DashboardParts.FirstOrDefault(x => x.Id == context.Forms.Data(matchingKey).ToInt());
+            var currentSs = SiteSettingsUtilities.Get(
+                context: context,
+                siteId: context.Forms.Long("SiteId"));
+            //対象サイトをサイト統合の仕組みで登録
+            currentSs.IntegratedSites = dashboardPart.CalendarSitesData;
+            currentSs.SetSiteIntegration(context: context);
+            currentSs.SetDashboardParts(dashboardPart: dashboardPart);
+            currentSs.SaveViewType = ss.SaveViewType;
+            var hb = new HtmlBuilder();
+            switch (currentSs.ReferenceType)
+            {
+                case "Issues":
+                    var issues = IssueUtilities.UpdateByCalendar(context: context, ss: currentSs);
+                    var issueCalendar = hb.Div(
+                        id: $"DashboardPart_{dashboardPart.Id}",
+                        attributes: new HtmlAttributes().DataId(dashboardPart.Id.ToString()),
+                        css: "dashboard-calendar-container " + dashboardPart.ExtendedCss,
+                        action: () =>
+                        {
+                            if (dashboardPart.ShowTitle == true)
+                            {
+                                hb.Div(
+                                    css: "dashboard-part-title",
+                                    action: () => hb.Text(dashboardPart.Title));
+                            }
+                            hb.Raw(text: issues);
+                        }).ToString();
+                    List<Dictionary<string, string>> issuesJson = Jsons.Deserialize<List<Dictionary<string, string>>>(issues);
+                    if (issuesJson != null)
+                    {
+                        Dictionary<string, string> messageElement = issuesJson.Find(item => item.ContainsValue("Message"));
+                        if (messageElement != null)
+                        {
+                            Dictionary<string, string> messageValue = Jsons.Deserialize<Dictionary<string, string>>(messageElement["Value"]);
+                            return new ResponseCollection(context: context)
+                                .Message(message: new Message(messageValue["Id"], messageValue["Text"], messageValue["Css"]))
+                                .Invoke("setCalendar", dashboardPart.Id.ToString())
+                                .ToJson();
+                        }
+                    }
+                    var issueModel = new IssueModel(
+                        context: context,
+                        ss: currentSs,
+                        issueId: context.Forms.Long("EventId"),
+                        formData: context.Forms);
+                    return new ResponseCollection(context: context)
+                        .ReplaceAll(
+                            target: $"#DashboardPart_{dashboardPart.Id}",
+                            value: issueCalendar)
+                        .Message(context.ErrorData.Type != Error.Types.None
+                            ? context.ErrorData.Message(context: context)
+                            : Messages.Updated(
+                                context: context,
+                                data: issueModel.Title.MessageDisplay(context: context)))
+                        .Invoke("setCalendar", dashboardPart.Id.ToString())
+                        .ToJson();
+                case "Results":
+                    var results = ResultUtilities.UpdateByCalendar(context: context, ss: currentSs);
+                    var resultCalendar = hb.Div(
+                        id: $"DashboardPart_{dashboardPart.Id}",
+                        attributes: new HtmlAttributes().DataId(dashboardPart.Id.ToString()),
+                        css: "dashboard-calendar-container " + dashboardPart.ExtendedCss,
+                        action: () =>
+                        {
+                            if (dashboardPart.ShowTitle == true)
+                            {
+                                hb.Div(
+                                    css: "dashboard-part-title",
+                                    action: () => hb.Text(dashboardPart.Title));
+                            }
+                            hb.Raw(text: results);
+                        }).ToString();
+                    List<Dictionary<string, string>> resultsJson = Jsons.Deserialize<List<Dictionary<string, string>>>(results);
+                    if (resultsJson != null)
+                    {
+                        Dictionary<string, string> messageElement = resultsJson.Find(item => item.ContainsValue("Message"));
+                        if (messageElement != null)
+                        {
+                            Dictionary<string, string> messageValue = Jsons.Deserialize<Dictionary<string, string>>(messageElement["Value"]);
+                            return new ResponseCollection(context: context)
+                                .Message(message: new Message(messageValue["Id"], messageValue["Text"], messageValue["Css"]))
+                                .Invoke("setCalendar", dashboardPart.Id.ToString())
+                                .ToJson();
+                        }
+                    }
+                    var resultModel = new ResultModel(
+                        context: context,
+                        ss: currentSs,
+                        resultId: context.Forms.Long("EventId"),
+                        formData: context.Forms);
+                    return new ResponseCollection(context: context)
+                        .ReplaceAll(
+                            target: $"#DashboardPart_{dashboardPart.Id}",
+                            value: resultCalendar)
+                        .Message(context.ErrorData.Type != Error.Types.None
+                            ? context.ErrorData.Message(context: context)
+                            : Messages.Updated(
+                                context: context,
+                                data: resultModel.Title.MessageDisplay(context: context)))
+                        .Invoke("setCalendar", dashboardPart.Id.ToString())
+                        .ToJson();
+                default:
+                    return Messages.ResponseNotFound(context: context).ToJson();
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static DashboardPartLayout AsynchronousLoadingLayout(
+            View view,
+            DashboardPart dashboardPart)
+        {
+            var hb = new HtmlBuilder();
+            var AsynchronousLoading = hb.Div(
+                id: $"DashboardPart_{dashboardPart.Id}",
+                attributes: new HtmlAttributes().DataId(dashboardPart.Id.ToString()),
+                css: "dashboard-calendar-container " + dashboardPart.ExtendedCss,
+                action: () =>
+                {
+                    if (dashboardPart.ShowTitle == true)
+                    {
+                        hb.Div(
+                            css: "dashboard-part-title",
+                            action: () => hb.Text(dashboardPart.Title));
+                    }
+                    hb.Hidden(controlId: $"DashboardAsync_{dashboardPart.Id}");
+                }).ToString();
+            return DashboardReturn(
+                view: view,
+                dashboardPart: dashboardPart,
+                content: AsynchronousLoading);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static DashboardPartLayout KambanLayout(
+            Context context,
+            SiteSettings ss,
+            View view,
+            DashboardPart dashboardPart)
+        {
+            var hb = new HtmlBuilder();
+            var kambanHtml = GetKambanRecords(
+                context: context,
+                ss: ss,
+                dashboardPart: dashboardPart);
+            var kamban = hb
+                .Div(
+                    id: $"DashboardPart_{dashboardPart.Id}",
+                    attributes: new HtmlAttributes().DataId(dashboardPart.Id.ToString()),
+                    css: "dashboard-kamban-container " + dashboardPart.ExtendedCss,
+                    action: () =>
+                    {
+                        if (dashboardPart.ShowTitle == true)
+                        {
+                            hb.Div(
+                                css: "dashboard-part-title",
+                                action: () => hb.Text(dashboardPart.Title));
+                        }
+                        hb.Raw(text: kambanHtml);
+                    }).ToString();
+            return DashboardReturn(
+                view: view,
+                dashboardPart: dashboardPart,
+                content: kamban);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static string GetKambanRecords(
+            Context context,
+            SiteSettings ss,
+            DashboardPart dashboardPart)
+        {
+            //基準となるサイトからSiteSettingsを取得
+            var currentSs = SiteSettingsUtilities.Get(
+                context: context,
+                siteId: dashboardPart.SiteId,
+                setAllChoices: true);
+            //対象サイトをサイト統合の仕組みで登録
+            currentSs.IntegratedSites = dashboardPart.KambanSitesData;
+            currentSs.SetSiteIntegration(context: context);
+            currentSs.SetDashboardParts(dashboardPart: dashboardPart);
+            currentSs.SaveViewType = ss.SaveViewType;
+            if (currentSs.ReferenceType == "Issues")
+            {
+                return IssueUtilities.Kamban(context: context, ss: currentSs);
+            }
+            else if (currentSs.ReferenceType == "Results")
+            {
+                return ResultUtilities.Kamban(context: context, ss: currentSs);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string UpdateByKamban(
+            Context context,
+            SiteSettings ss)
+        {
+            var matchingKey = context.Forms.Keys.FirstOrDefault(x => x.StartsWith("KambanSuffix_"));
+            DashboardPart dashboardPart = ss.DashboardParts.FirstOrDefault(x => x.Id == context.Forms.Data(matchingKey).ToInt());
+            var currentSs = SiteSettingsUtilities.Get(
+                context: context,
+                siteId: context.Forms.Long("SiteId"),
+                setAllChoices: true);
+            //対象サイトをサイト統合の仕組みで登録
+            currentSs.IntegratedSites = dashboardPart.KambanSitesData;
+            currentSs.SetSiteIntegration(context: context);
+            currentSs.SetDashboardParts(dashboardPart: dashboardPart);
+            currentSs.SaveViewType = ss.SaveViewType;
+            //複数サイト表示時はドラッグによる更新不可
+            if ( currentSs.AllowedIntegratedSites?.Count > 1)
+            {
+                return Messages.ResponseCannotMoveMultipleSitesData(context: context).ToJson();
+            }
+            var hb = new HtmlBuilder();
+            switch (currentSs.ReferenceType)
+            {
+                case "Issues":
+                    var issues = IssueUtilities.UpdateByKamban(context: context, ss: currentSs);
+                    var issueKamban = hb.Div(
+                        id: $"DashboardPart_{dashboardPart.Id}",
+                        attributes: new HtmlAttributes().DataId(dashboardPart.Id.ToString()),
+                        css: "dashboard-kamban-container " + dashboardPart.ExtendedCss,
+                        action: () =>
+                        {
+                            if (dashboardPart.ShowTitle == true)
+                            {
+                                hb.Div(
+                                    css: "dashboard-part-title",
+                                    action: () => hb.Text(dashboardPart.Title));
+                            }
+                            hb.Raw(text: issues);
+                        }).ToString();
+                    List<Dictionary<string, string>> issuesJson = Jsons.Deserialize<List<Dictionary<string, string>>>(issues);
+                    if (issuesJson != null)
+                    {
+                        Dictionary<string, string> messageElement = issuesJson.Find(item => item.ContainsValue("Message"));
+                        if (messageElement != null)
+                        {
+                            Dictionary<string, string> messageValue = Jsons.Deserialize<Dictionary<string, string>>(messageElement["Value"]);
+                            return new ResponseCollection(context: context)
+                                .Message(message: new Message(messageValue["Id"], messageValue["Text"], messageValue["Css"]))
+                                .Invoke("setKamban", dashboardPart.Id.ToString())
+                                .ToJson();
+                        }
+                    }
+                    var issueModel = new IssueModel(
+                        context: context,
+                        ss: currentSs,
+                        issueId: context.Forms.Long("KambanId"),
+                        formData: context.Forms);
+                    return new ResponseCollection(context: context)
+                        .ReplaceAll(
+                            target: $"#DashboardPart_{dashboardPart.Id}",
+                            value: issueKamban)
+                        .Message(context.ErrorData.Type != Error.Types.None
+                            ? context.ErrorData.Message(context: context)
+                            : Messages.Updated(
+                                context: context,
+                                data: issueModel.Title.MessageDisplay(context: context)))
+                        .Invoke("setKamban", dashboardPart.Id.ToString())
+                        .ToJson();
+                case "Results":
+                    var results = ResultUtilities.UpdateByKamban(context: context, ss: currentSs);
+                    var resultKamban = hb.Div(
+                        id: $"DashboardPart_{dashboardPart.Id}",
+                        attributes: new HtmlAttributes().DataId(dashboardPart.Id.ToString()),
+                        css: "dashboard-kamban-container " + dashboardPart.ExtendedCss,
+                        action: () =>
+                        {
+                            if (dashboardPart.ShowTitle == true)
+                            {
+                                hb.Div(
+                                    css: "dashboard-part-title",
+                                    action: () => hb.Text(dashboardPart.Title));
+                            }
+                            hb.Raw(text: results);
+                        }).ToString();
+                    List<Dictionary<string, string>> resultsJson = Jsons.Deserialize<List<Dictionary<string, string>>>(results);
+                    if (resultsJson != null)
+                    {
+                        Dictionary<string, string> messageElement = resultsJson.Find(item => item.ContainsValue("Message"));
+                        if (messageElement != null)
+                        {
+                            Dictionary<string, string> messageValue = Jsons.Deserialize<Dictionary<string, string>>(messageElement["Value"]);
+                            return new ResponseCollection(context: context)
+                                .Message(message: new Message(messageValue["Id"], messageValue["Text"], messageValue["Css"]))
+                                .Invoke("setKamban", dashboardPart.Id.ToString())
+                                .ToJson();
+                        }
+                    }
+                    var resultModel = new ResultModel(
+                        context: context,
+                        ss: currentSs,
+                        resultId: context.Forms.Long("KambanId"),
+                        formData: context.Forms);
+                    return new ResponseCollection(context: context)
+                        .Html(
+                            target: $"#DashboardPart_{dashboardPart.Id}",
+                            value: resultKamban)
+                        .Message(context.ErrorData.Type != Error.Types.None
+                            ? context.ErrorData.Message(context: context)
+                            : Messages.Updated(
+                                context: context,
+                                data: resultModel.Title.MessageDisplay(context: context)))
+                        .Invoke("setKamban", dashboardPart.Id.ToString())
+                        .ToJson();
+                default:
+                    return Messages.ResponseNotFound(context: context).ToJson();
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static DashboardPartLayout IndexLayout(
+            Context context,
+            SiteSettings ss,
+            View view,
+            DashboardPart dashboardPart)
+        {
+            var hb = new HtmlBuilder();
+            var indexHtml = GetIndexRecords(
+                context: context,
+                ss: ss,
+                dashboardPart: dashboardPart);
+            var index = hb
+                .Div(
+                    id: $"DashboardPart_{dashboardPart.Id}",
+                    attributes: new HtmlAttributes().DataId(dashboardPart.Id.ToString()),
+                    css: "dashboard-index-container " + dashboardPart.ExtendedCss,
+                    action: () =>
+                    {
+                        if (dashboardPart.ShowTitle == true)
+                        {
+                            hb.Div(
+                                css: "dashboard-part-title",
+                                action: () => hb.Text(dashboardPart.Title));
+                        }
+                        hb.Raw(text: indexHtml);
+                    }).ToString();
+            return DashboardReturn(
+                view: view,
+                dashboardPart: dashboardPart,
+                content: index);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static string GetIndexRecords(
+            Context context,
+            SiteSettings ss,
+            DashboardPart dashboardPart)
+        {
+            var currentSs = SiteSettingsUtilities.Get(
+                context: context,
+                siteId: dashboardPart.SiteId);
+            //対象サイトをサイト統合の仕組みで登録
+            currentSs.IntegratedSites = dashboardPart.IndexSitesData;
+            currentSs.SetSiteIntegration(context: context);
+            currentSs.SetDashboardParts(dashboardPart: dashboardPart);
+            currentSs.SaveViewType = ss.SaveViewType;
+            switch (currentSs.ReferenceType)
+            {
+                case "Issues":
+                    return IssueUtilities.Index(context: context, ss: currentSs);
+                case "Results":
+                    return ResultUtilities.Index(context: context, ss: currentSs);
+                default:
+                    return null;
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string DashboardIndexGridRows(
+            Context context,
+            SiteSettings ss,
+            int offset = 0)
+        {
+            var suffix = context.Forms.Data("IndexSuffix");
+            DashboardPart dashboardPart = ss.DashboardParts.FirstOrDefault(x => x.Id == suffix.Replace("_", "").ToInt());
+            var currentSs = SiteSettingsUtilities.Get(
+                context: context,
+                siteId: dashboardPart.SiteId);
+            //対象サイトをサイト統合の仕組みで登録
+            currentSs.IntegratedSites = dashboardPart.IndexSitesData;
+            currentSs.SetSiteIntegration(context: context);
+            currentSs.SetDashboardParts(dashboardPart: dashboardPart);
+            currentSs.SaveViewType = ss.SaveViewType;
+            var hb = new HtmlBuilder();
+            switch (currentSs.ReferenceType)
+            {
+                case "Issues":
+                    return IssueUtilities.GridRows(
+                        context: context,
+                        ss: currentSs,
+                        offset: offset,
+                        suffix: suffix);
+                case "Results":
+                    return ResultUtilities.GridRows(
+                        context: context,
+                        ss: currentSs,
+                        offset: offset,
+                        suffix: suffix);
+                default:
+                    return null;
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static DashboardPartLayout DashboardReturn(
+            View view,
+            DashboardPart dashboardPart,
+            string content)
+        {
+            DashboardPartLayout session = null;
+            if (view.DashboardPartLayoutHash != null
+                && view.DashboardPartLayoutHash.ContainsKey(dashboardPart.Id.ToString()))
+            {
+                session = view.DashboardPartLayoutHash[dashboardPart.Id.ToString()];
+                session.Content = content;
+            }
+            return session ?? new DashboardPartLayout()
+            {
+                Id = dashboardPart.Id,
+                X = dashboardPart.X,
+                Y = dashboardPart.Y,
+                W = dashboardPart.Width,
+                H = dashboardPart.Height,
+                Content = content
+            };
         }
     }
 }

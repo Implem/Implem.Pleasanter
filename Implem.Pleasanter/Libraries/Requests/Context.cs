@@ -119,6 +119,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public IEnumerable<Claim> UserClaims { get; set; }
         public string IdentityType { get; set; }
         public bool Request { get; set; }
+        public bool BackgroundServerScript { get; set; }
 
         public Context(
             bool request = true,
@@ -476,9 +477,9 @@ namespace Implem.Pleasanter.Libraries.Requests
             }
         }
 
-        private void SetTenantProperties()
+        public void SetTenantProperties(bool force = false)
         {
-            if (HasRoute)
+            if (HasRoute || force)
             {
                 var dataRow = Repository.ExecuteTable(
                     context: this,
@@ -1121,8 +1122,20 @@ namespace Implem.Pleasanter.Libraries.Requests
         {
             switch (language)
             {
+                case "en":
+                    return new CultureInfo("en-US");
+                case "zh":
+                    return new CultureInfo("zh-CN");
                 case "ja":
                     return new CultureInfo("ja-JP");
+                case "de":
+                    return new CultureInfo("de-DE");
+                case "ko":
+                    return new CultureInfo("ko-KR");
+                case "es":
+                    return new CultureInfo("es-ES");
+                case "vn":
+                    return new CultureInfo("vi-VN");
                 default:
                     return new CultureInfo(language);
             }

@@ -1,0 +1,106 @@
+﻿<!--Model_Utilities_HistoriesParams-->
+<!--Model_Utilities_HistoriesParams_Sites-->
+
+    if (!context.CanRead(ss: ss))
+    {
+        return Error.Types.HasNotPermission.MessageJson(context: context);
+    }
+    var hb = new HtmlBuilder();
+    hb
+        .HistoryCommands(context: context, ss: ss)
+        .Table(
+            attributes: new HtmlAttributes().Class("grid history"),
+            action: () => hb
+                .THead(action: () => hb
+                    .GridHeader(
+                        context: context,
+                        ss: ss,
+                        columns: columns,
+                        sort: false,
+                        checkRow: true))
+                .TBody(action: () => hb
+                    .HistoriesTableBody(
+                        context: context,
+                        ss: ss,
+                        columns: columns,
+                        #modelName#Model: #modelName#Model)));
+    return new #TableName#ResponseCollection(
+        context: context,
+        #modelName#Model: #modelName#Model)
+            .Html("#FieldSetHistories", hb)
+            .Message(message)
+            .Messages(context.Messages)
+            .ToJson();
+}
+
+private static void HistoriesTableBody(
+    this HtmlBuilder hb,
+    Context context,
+    SiteSettings ss,
+    List<Column> columns,
+    #ModelName#Model #modelName#Model)
+{
+    new #ModelName#Collection(
+        context: context,
+
+        <!--Model_SiteSettingsWithParameterNameLower-->
+
+        column: HistoryColumn(
+            context: context,
+            ss: ss,
+            columns: columns),
+
+        <!--Model_Utilities_Histories_Join-->
+
+        where: Rds.#TableName#Where().#ModelName#Id(#modelName#Model.#ModelName#Id),
+        orderBy: Rds.#TableName#OrderBy().Ver(SqlOrderBy.Types.desc),
+        tableType: Sqls.TableTypes.NormalAndHistory)
+            .ForEach(#modelName#ModelHistory => hb
+                .Tr(
+                    attributes: new HtmlAttributes()
+                        .Class("grid-row")
+                        .DataAction("History")
+                        .DataMethod("post")
+                        .DataVer(#modelName#ModelHistory.Ver)
+                        .DataLatest(
+                            value: 1,
+                            _using: #modelName#ModelHistory.Ver == #modelName#Model.Ver),
+                    action: () =>
+                    {
+
+<!--Model_Utilities_HistoriesSetChoiceHash-->
+
+                        hb.Td(
+                            css: "grid-check-td",
+                            action: () => hb
+                                .CheckBox(
+                                    controlCss: "grid-check",
+                                    _checked: false,
+                                    dataId: #modelName#ModelHistory.Ver.ToString(),
+                                    _using: #modelName#ModelHistory.Ver < #modelName#Model.Ver));
+                        columns.ForEach(column => hb
+                            .TdValue(
+                                context: context,
+                                ss: ss,
+                                column: column,
+                                #modelName#Model: #modelName#ModelHistory));
+                    }));
+}
+
+private static SqlColumnCollection HistoryColumn(
+    Context context,
+    SiteSettings ss,
+    List<Column> columns)
+{
+    var sqlColumn = Rds.#TableName#TitleColumn(
+        context: context,
+        ss: ss)
+            .#ModelName#Id()
+            .Ver();
+    columns.ForEach(column =>
+        sqlColumn.#TableName#Column(columnName: column.ColumnName));
+    return sqlColumn;
+}
+
+<!--Model_Utilities_History-->
+<!--Model_Utilities_History_Sites-->

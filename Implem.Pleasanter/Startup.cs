@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.DataProtection.KeyManagement;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
@@ -25,11 +26,17 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Primitives;
+using Quartz.AspNetCore;
+using Quartz;
 using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Quartz.Impl;
+using System.Collections.Specialized;
+using Implem.Pleasanter.Libraries.Settings;
+
 namespace Implem.Pleasanter.NetCore
 {
     public class Startup
@@ -170,11 +177,9 @@ namespace Implem.Pleasanter.NetCore
             {
                 services.AddHostedService<ReminderBackgroundService>();
             }
-            if (Parameters.BackgroundService.TimerEnabled(
-                deploymentEnvironment: Parameters.Service.DeploymentEnvironment))
-            {
-                services.AddHostedService<TimerBackgroundService>();
-            }
+            services.AddHostedService<CustomQuartzHostedService>();
+            new TimerBackground().Init();
+            BackgroundServerScriptUtilities.InitSchedule();
             var blobContainerUri = Parameters.Security.AspNetCoreDataProtection?.BlobContainerUri;
             var keyIdentifier = Parameters.Security.AspNetCoreDataProtection?.KeyIdentifier;
             if (!blobContainerUri.IsNullOrEmpty()
@@ -187,6 +192,16 @@ namespace Implem.Pleasanter.NetCore
                     .AddDataProtection()
                     .PersistKeysToAzureBlobStorage(blobClient)
                     .ProtectKeysWithAzureKeyVault(new Uri(keyIdentifier), new DefaultAzureCredential());
+            }
+            else
+            {
+                services
+                    .AddOptions<KeyManagementOptions>()
+                    .Configure<IServiceScopeFactory>((options, factory) =>
+                    {
+                        options.XmlRepository = new AspNetCoreKeyManagementXmlRepository();
+                        options.XmlEncryptor = new AspNetCoreKeyManagementXmlEncryptor();
+                    });
             }
             if (Parameters.Security.HttpStrictTransportSecurity?.Enabled == true)
             {
@@ -503,9 +518,9 @@ namespace Implem.Pleasanter.NetCore
         }
         public Task Invoke(HttpContext context)
         {
-            context.Response.Headers.Add("X-Frame-Options", new StringValues("SAMEORIGIN"));
-            context.Response.Headers.Add("X-Xss-Protection", new StringValues("1; mode=block"));
-            context.Response.Headers.Add("X-Content-Type-Options", new StringValues("nosniff"));
+            context.Response.Headers.Append("X-Frame-Options", new StringValues("SAMEORIGIN"));
+            context.Response.Headers.Append("X-Xss-Protection", new StringValues("1; mode=block"));
+            context.Response.Headers.Append("X-Content-Type-Options", new StringValues("nosniff"));
             if (Parameters.Security.SecureCacheControl != null)
             {
                 if (Parameters.Security.SecureCacheControl.NoCache
@@ -524,7 +539,7 @@ namespace Implem.Pleasanter.NetCore
                 }
                 if (Parameters.Security.SecureCacheControl.PragmaNoCache)
                 {
-                    context.Response.Headers.Add("Pragma", new StringValues("no-cache"));
+                    context.Response.Headers.Append("Pragma", new StringValues("no-cache"));
                 }
             }
             return _next(context);

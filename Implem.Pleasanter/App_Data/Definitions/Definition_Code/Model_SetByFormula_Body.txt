@@ -6,49 +6,107 @@
     ss.Formulas?.ForEach(formulaSet =>
     {
         var columnName = formulaSet.Target;
-        var formula = formulaSet.Formula;
-        var view = ss.Views?.Get(formulaSet.Condition);
-        if (view != null && !Matched(context: context, ss: ss, view: view))
+        if (string.IsNullOrEmpty(formulaSet.CalculationMethod)
+            || formulaSet.CalculationMethod == FormulaSet.CalculationMethods.Default.ToString())
         {
-            if (formulaSet.OutOfCondition != null)
+            var formula = formulaSet.Formula;
+            var view = ss.Views?.Get(formulaSet.Condition);
+            if (view != null && !Matched(context: context, ss: ss, view: view))
             {
-                formula = formulaSet.OutOfCondition;
+                if (formulaSet.OutOfCondition != null)
+                {
+                    formula = formulaSet.OutOfCondition;
+                }
+                else
+                {
+                    return;
+                }
             }
-            else
+            var data = new Dictionary<string, decimal>
             {
-                return;
+
+    <!--Model_SetByFormula_Data-->
+
+            };
+            data.AddRange(NumHash.ToDictionary(
+                o => o.Key,
+                o => o.Value?.Value?.ToDecimal() ?? 0));
+            var value = formula?.GetResult(
+                data: data,
+                column: ss.GetColumn(
+                    context: context,
+                    columnName: columnName)) ?? 0;
+            switch (columnName)
+            {
+
+    <!--Model_SetByFormula_ColumnCases-->
+
+                default:
+                    SetNum(
+                        columnName: columnName,
+                        value: new Num(value));
+                    break;
+            }
+            if (ss.OutputFormulaLogs == true)
+            {
+                context.LogBuilder?.AppendLine($"formulaSet: {formulaSet.GetRecordingData().ToJson()}");
+                context.LogBuilder?.AppendLine($"formulaSource: {data.ToJson()}");
+                context.LogBuilder?.AppendLine($"formulaResult: {{\"{columnName}\":{value}}}");
             }
         }
-        var data = new Dictionary<string, decimal>
+        else if (formulaSet.CalculationMethod == FormulaSet.CalculationMethods.Extended.ToString())
         {
-
-<!--Model_SetByFormula_Data-->
-
-        };
-        data.AddRange(NumHash.ToDictionary(
-            o => o.Key,
-            o => o.Value?.Value?.ToDecimal() ?? 0));
-        var value = formula?.GetResult(
-            data: data,
-            column: ss.GetColumn(
+            SetExtendedColumnDefaultValue(
+                ss: ss,
+                formulaScript: formulaSet.FormulaScript,
+                calculationMethod: formulaSet.CalculationMethod);
+            formulaSet = FormulaBuilder.UpdateColumnDisplayText(
+                ss: ss,
+                formulaSet: formulaSet);
+            formulaSet.FormulaScript = FormulaBuilder.ParseFormulaScript(
+                ss: ss,
+                formulaScript: formulaSet.FormulaScript,
+                calculationMethod: formulaSet.CalculationMethod);
+            var value = FormulaServerScriptUtilities.Execute(
                 context: context,
-                columnName: columnName)) ?? 0;
-        switch (columnName)
-        {
-
-<!--Model_SetByFormula_ColumnCases-->
-
-            default:
-                SetNum(
-                    columnName: columnName,
-                    value: new Num(value));
-                break;
-        }
-        if (ss.OutputFormulaLogs == true)
-        {
-            context.LogBuilder?.AppendLine($"formulaSet: {formulaSet.GetRecordingData().ToJson()}");
-            context.LogBuilder?.AppendLine($"formulaSource: {data.ToJson()}");
-            context.LogBuilder?.AppendLine($"formulaResult: {{\"{columnName}\":{value}}}");
+                ss: ss,
+                itemModel: this,
+                formulaScript: formulaSet.FormulaScript);
+            switch (value)
+            {
+                case "#N/A":
+                case "#VALUE!":
+                case "#REF!":
+                case "#DIV/0!":
+                case "#NUM!":
+                case "#NAME?":
+                case "#NULL!":
+                case "Invalid Parameter":
+                    if (formulaSet.IsDisplayError == true)
+                    {
+                        throw new Exception($"Formula error {value}");
+                    }
+                    new SysLogModel(
+                        context: context,
+                        method: nameof(SetByFormula),
+                        message: $"Formula error {value}",
+                        sysLogType: SysLogModel.SysLogTypes.Execption);
+                    break;
+            }
+            var formData = new Dictionary<string, string>
+            {
+                { $"#TableName#_{columnName}", value.ToString() }
+            };
+            SetByFormData(
+                context: context,
+                ss: ss,
+                formData: formData);
+            if (ss.OutputFormulaLogs == true)
+            {
+                context.LogBuilder?.AppendLine($"formulaSet: {formulaSet.GetRecordingData().ToJson()}");
+                context.LogBuilder?.AppendLine($"formulaSource: {this.ToJson()}");
+                context.LogBuilder?.AppendLine($"formulaResult: {{\"{columnName}\":{value}}}");
+            }
         }
     });
     SetByAfterFormulaServerScript(

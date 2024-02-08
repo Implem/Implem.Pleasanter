@@ -304,6 +304,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-error");
         }
 
+        public static Message CannotMoveMultipleSitesData(Context context, params string[] data)
+        {
+            return Get(
+                id: "CannotMoveMultipleSitesData",
+                text: Displays.CannotMoveMultipleSitesData(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
         public static Message CanNotPerformed(Context context, params string[] data)
         {
             return Get(
@@ -774,6 +784,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-error");
         }
 
+        public static Message IncorrectUser(Context context, params string[] data)
+        {
+            return Get(
+                id: "IncorrectUser",
+                text: Displays.IncorrectUser(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
         public static Message InputMailAddress(Context context, params string[] data)
         {
             return Get(
@@ -799,6 +819,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 id: "InvalidCsvData",
                 text: Displays.InvalidCsvData(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
+        public static Message InvalidDateHhMmFormat(Context context, params string[] data)
+        {
+            return Get(
+                id: "InvalidDateHhMmFormat",
+                text: Displays.InvalidDateHhMmFormat(
                     context: context,
                     data: data),
                 css: "alert-error");
@@ -1212,6 +1242,26 @@ namespace Implem.Pleasanter.Libraries.Responses
                     context: context,
                     data: data),
                 css: "alert-success");
+        }
+
+        public static Message PleaseInputData(Context context, params string[] data)
+        {
+            return Get(
+                id: "PleaseInputData",
+                text: Displays.PleaseInputData(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
+        public static Message PleaseUncheck(Context context, params string[] data)
+        {
+            return Get(
+                id: "PleaseUncheck",
+                text: Displays.PleaseUncheck(
+                    context: context,
+                    data: data),
+                css: "alert-error");
         }
 
         public static Message ReadOnlyBecausePreviousVer(Context context, params string[] data)
@@ -1871,6 +1921,17 @@ namespace Implem.Pleasanter.Libraries.Responses
                 target: target);
         }
 
+        public static ResponseCollection ResponseCannotMoveMultipleSitesData(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: CannotMoveMultipleSitesData(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
         public static ResponseCollection ResponseCanNotPerformed(
             Context context, string target = null, params string[] data)
         {
@@ -2388,6 +2449,17 @@ namespace Implem.Pleasanter.Libraries.Responses
                 target: target);
         }
 
+        public static ResponseCollection ResponseIncorrectUser(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: IncorrectUser(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
         public static ResponseCollection ResponseInputMailAddress(
             Context context, string target = null, params string[] data)
         {
@@ -2416,6 +2488,17 @@ namespace Implem.Pleasanter.Libraries.Responses
             return ResponseMessage(
                 context: context,
                 message: InvalidCsvData(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseInvalidDateHhMmFormat(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: InvalidDateHhMmFormat(
                     context: context,
                     data: data),
                 target: target);
@@ -2867,6 +2950,28 @@ namespace Implem.Pleasanter.Libraries.Responses
             return ResponseMessage(
                 context: context,
                 message: PhysicalBulkDeletedFromRecycleBin(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponsePleaseInputData(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: PleaseInputData(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponsePleaseUncheck(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: PleaseUncheck(
                     context: context,
                     data: data),
                 target: target);

@@ -82,6 +82,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                         view.ColumnFilterHash = prevView.ColumnFilterHash;
                         view.ColumnFilterSearchTypes = prevView.ColumnFilterSearchTypes;
                         view.Search = prevView.Search;
+                        view.ColumnFilterNegatives = prevView.ColumnFilterNegatives;
                     }
                     if (view.KeepSorterState == true)
                     {

@@ -351,6 +351,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             var canManageTrashBox = CanManageTrashBox(
                 context: context,
                 ss: ss);
+            var canManageGroupTrashBox = CanManageGroupTrashBox(
+                context: context,
+                ss: ss);
+            var canManageDeptTrashBox = CanManageDeptTrashBox(
+                context: context,
+                ss: ss);
+            var canManageUserTrashBox = CanManageUserTrashBox(
+                context: context,
+                ss: ss);
             var canUseApi = context.UserSettings?.AllowApi(context: context) == true;
             var canUnlockSite = ss.LockedTable()
                 && ss.LockedTableUser.Id == context.UserId;
@@ -364,7 +373,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             : context.CanCreate(ss: ss, site: true)
                                 && ss.ReferenceType != "Wikis"
                                 && context.Action != "trashbox"
-                                && ss.ReferenceType != "Dashboards";
+                                && ss.ReferenceType != "Dashboards"
+                                && !(ss.ReferenceType == "Sites" && context.Action == "edit");
                 case "ViewModeMenu":
                     return Def.ViewModeDefinitionCollection
                         .Any(o => o.ReferenceType == referenceType);
@@ -387,7 +397,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 case "SettingsMenu_Registrations":
                     return canManageRegistrations;
                 case "SettingsMenu_TrashBox":
-                    return canManageTrashBox;
+                    return canManageTrashBox
+                        && ss.ReferenceType != "Wikis";
+                case "SettingsMenu_GroupTrashBox":
+                    return canManageGroupTrashBox;
+                case "SettingsMenu_DeptTrashBox":
+                    return canManageDeptTrashBox;
+                case "SettingsMenu_UserTrashBox":
+                    return canManageUserTrashBox;
                 case "SettingsMenu_TenantAdmin":
                     return canManageTenants;
                 case "SettingsMenu_ImportSitePackage":
@@ -396,11 +413,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         && ss.IsSite(context: context)
                         && ss.ReferenceType == "Sites"
                         || (context.Controller == "items"
+                            && context.Action == "index"
                             && ss.SiteId == 0
                             && context.UserSettings?.AllowCreationAtTopSite(context: context) == true);
                 case "SettingsMenu_ExportSitePackage":
                     return Parameters.SitePackage.Export
                         && canManageSite
+                        && context.Action == "index"
                         && ss.IsSite(context: context);
                 case "AccountMenu_ShowStartGuide":
                     return context.UserSettings?.ShowStartGuideAvailable(context: context) == true;
@@ -615,6 +634,29 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 && (context.Id != 0 || context.HasPrivilege);
         }
 
+        private static bool CanManageGroupTrashBox(Context context, SiteSettings ss)
+        {
+            return (Parameters.Deleted.Restore || Parameters.Deleted.PhysicalDelete)
+                && context.Controller == "groups"
+                && Permissions.CanEditGroup(context: context)
+                && !ss.Locked();
+        }
+
+        private static bool CanManageDeptTrashBox(Context context, SiteSettings ss)
+        {
+            return (Parameters.Deleted.Restore || Parameters.Deleted.PhysicalDelete)
+                && context.Controller == "depts"
+                && Permissions.CanManageTenant(context: context);
+        }
+
+        private static bool CanManageUserTrashBox(Context context, SiteSettings ss)
+        {
+            return (Parameters.Deleted.Restore || Parameters.Deleted.PhysicalDelete)
+                && context.Controller == "users"
+                && Permissions.CanManageUser(context: context)
+                && !ss.Locked();
+        }
+        
         private static HtmlBuilder ResponsiveMenu(this HtmlBuilder hb, Context context)
         {
             return Parameters.Mobile.Responsive

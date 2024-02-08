@@ -1,5 +1,6 @@
 ﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataTypes;
+using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Search;
@@ -39,6 +40,26 @@ namespace Implem.Pleasanter.Controllers
                 log.Finish(context: context, responseSize: json.Length);
                 return Content(json);
             }
+        }
+
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult DashboardPart(long id, string dashboardPartId)
+        {
+            var context = new Context(); 
+            var log = new SysLogModel(context: context);
+            var json = new ItemModel(context: context, referenceId: id).DashboardPartJson(context: context, dashboardPartId: dashboardPartId);
+            log.Finish(context: context, responseSize: json.Length);
+            return Content(json);
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult DashboardPartLayout(long id)
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = new ItemModel(context: context, referenceId: id).DashboardPartLayout(context: context);
+            log.Finish(context: context, responseSize: json.Length);
+            return Content(json);
         }
 
         [AcceptVerbs(HttpVerbs.Get)]

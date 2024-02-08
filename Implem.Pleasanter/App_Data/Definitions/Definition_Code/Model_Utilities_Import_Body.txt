@@ -155,7 +155,7 @@
                             {
                                 case Databases.AccessStatuses.Selected:
                                     // 更新による競合のため再更新
-                                    if (#modelName#Model.Updated(context: context))
+                                    if (#modelName#Model.Updated(context: context, ss: ss))
                                     {
                                         #modelName#Model.VerUp = Versions.MustVerUp(
                                             context: context,
@@ -410,7 +410,8 @@ public static ContentResultInheritance ImportByApi(
         var inputErrorData = #ModelName#Validators.OnInputValidating(
             context: context,
             ss: ss,
-            #modelName#Hash: #modelName#Hash).FirstOrDefault();
+            #modelName#Hash: #modelName#Hash,
+            api: true).FirstOrDefault();
         switch (inputErrorData.Type)
         {
             case Error.Types.None: break;
@@ -459,7 +460,7 @@ public static ContentResultInheritance ImportByApi(
                             {
                                 case Databases.AccessStatuses.Selected:
                                     // 更新による競合のため再更新
-                                    if (#modelName#Model.Updated(context: context))
+                                    if (#modelName#Model.Updated(context: context, ss: ss))
                                     {
                                         #modelName#Model.VerUp = Versions.MustVerUp(
                                             context: context,

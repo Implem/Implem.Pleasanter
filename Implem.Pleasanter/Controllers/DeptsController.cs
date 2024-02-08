@@ -244,5 +244,105 @@ namespace Implem.Pleasanter.Controllers
                 return null;
             }
         }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        [HttpDelete]
+        public string BulkDelete(long id)
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = DeptUtilities.BulkDelete(
+                context: context,
+                ss: SiteSettingsUtilities.DeptsSiteSettings(context: context));
+            log.Finish(context: context, responseSize: json.Length);
+            return json;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        [AcceptVerbs(HttpVerbs.Get, HttpVerbs.Post)]
+        public ActionResult TrashBox()
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            if (!context.Ajax)
+            {
+                var html = DeptUtilities.TrashBox(
+                    context: context,
+                    ss: SiteSettingsUtilities.DeptsSiteSettings(
+                        context: context,
+                        tableTypes: Implem.Libraries.DataSources.SqlServer.Sqls.TableTypes.Deleted));
+                ViewBag.HtmlBody = html;
+                log.Finish(context: context, responseSize: html.Length);
+                return context.RedirectData.Url.IsNullOrEmpty()
+                    ? View()
+                    : Redirect(context.RedirectData.Url);
+            }
+            else
+            {
+                var json = DeptUtilities.TrashBoxJson(
+                    context: context,
+                    ss: SiteSettingsUtilities.DeptsSiteSettings(
+                        context: context,
+                        tableTypes: Implem.Libraries.DataSources.SqlServer.Sqls.TableTypes.Deleted));
+                log.Finish(context: context, responseSize: json.Length);
+                return Content(json);
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public string TrashBoxGridRows(long id)
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = DeptUtilities.GridRows(
+                context: context,
+                ss: SiteSettingsUtilities.DeptsSiteSettings(
+                    context: context,
+                    tableTypes: Implem.Libraries.DataSources.SqlServer.Sqls.TableTypes.Deleted),
+                offset: context.Forms.Int("GridOffset"),
+                action: "TrashBoxGridRows");
+            log.Finish(context: context, responseSize: json.Length);
+            return json;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        [HttpPost]
+        public string Restore(long id)
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = DeptUtilities.Restore(
+                context: context,
+                ss: SiteSettingsUtilities.DeptsSiteSettings(
+                    context: context,
+                    tableTypes: Implem.Libraries.DataSources.SqlServer.Sqls.TableTypes.Deleted));
+            log.Finish(context: context, responseSize: json.Length);
+            return json;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        [HttpDelete]
+        public string PhysicalDelete(long id)
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = DeptUtilities.PhysicalBulkDelete(
+                context: context,
+                ss: SiteSettingsUtilities.DeptsSiteSettings(
+                    context: context,
+                    tableTypes: Implem.Libraries.DataSources.SqlServer.Sqls.TableTypes.Deleted));
+            log.Finish(context: context, responseSize: json.Length);
+            return json;
+        }
     }
 }

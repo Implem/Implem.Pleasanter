@@ -1,8 +1,6 @@
 ﻿private static ResponseCollection EditorResponse(
     Context context,
-
-    <!--Model_SiteSettingsParameter-->
-
+    SiteSettings ss,
     #ModelName#Model #modelName#Model,
     Message message = null,
     string switchTargets = null)
@@ -10,22 +8,27 @@
     #modelName#Model.MethodType = #modelName#Model.#ModelName#Id == 0
         ? BaseModel.MethodTypes.New
         : BaseModel.MethodTypes.Edit;
-    var editInDialog = context.Forms.Bool("EditInDialog");
-    return context.QueryStrings.Bool("control-auto-postback")
-        ? EditorFields(
+    if (context.QueryStrings.Bool("control-auto-postback"))
+    {
+        return EditorFields(
             context: context,
             ss: ss,
-            #modelName#Model: #modelName#Model)
-        : editInDialog
+            #modelName#Model: #modelName#Model);
+    }
+    else
+    {
+        var editInDialog = context.Forms.Bool("EditInDialog");
+        var html = Editor(
+            context: context,
+            ss: ss,
+            #modelName#Model: #modelName#Model,
+            editInDialog: editInDialog);
+        return editInDialog
             ? new #TableName#ResponseCollection(
                 context: context,
                 #modelName#Model: #modelName#Model)
                     .Response("id", #modelName#Model.#ModelName#Id.ToString())
-                    .Html("#EditInDialogBody", Editor(
-                        context: context,
-                        ss: ss,
-                        #modelName#Model: #modelName#Model,
-                        editInDialog: editInDialog))
+                    .Html("#EditInDialogBody", html)
                     .Invoke("openEditorDialog")
                     .Messages(context.Messages)
                     .Events("on_editor_load")
@@ -34,7 +37,7 @@
                 #modelName#Model: #modelName#Model)
                     .Response("id", #modelName#Model.#ModelName#Id.ToString())
                     .Invoke("clearDialogs")
-                    .ReplaceAll("#MainContainer", Editor(context, <!--Model_SiteSettings-->#modelName#Model))
+                    .ReplaceAll("#MainContainer", html)
                     .Val("#Id", #modelName#Model.#ModelName#Id.ToString())
                     .Val("#SwitchTargets", switchTargets, _using: switchTargets != null)
                     .SetMemory("formChanged", false)
@@ -50,6 +53,7 @@
                     .Messages(context.Messages)
                     .ClearFormData()
                     .Events("on_editor_load");
+    }
 }
 
 private static ResponseCollection EditorFields(

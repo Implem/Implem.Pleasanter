@@ -184,6 +184,11 @@ namespace Implem.DefinitionAccessor
                 Parameters.Security.AspNetCoreDataProtection.KeyIdentifier,
                 Environment.GetEnvironmentVariable($"{Parameters.Service.EnvironmentName}_Security_AspNetCoreDataProtection_KeyIdentifier"),
                 Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_Security_AspNetCoreDataProtection_KeyIdentifier"));
+            Parameters.Security.AspNetCoreDataProtection.XmlAesKey = Strings.CoalesceEmpty(
+                Parameters.Security.AspNetCoreDataProtection.XmlAesKey,
+                Environment.GetEnvironmentVariable($"{Parameters.Service.EnvironmentName}_Security_AspNetCoreDataProtection_XmlAesKey"),
+                Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_Security_AspNetCoreDataProtection_XmlAesKey"),
+                Parameters.Service.Name);
             Parameters.Service.DeploymentEnvironment = Strings.CoalesceEmpty(
                 Parameters.Service.DeploymentEnvironment,
                 Environment.GetEnvironmentVariable($"{Parameters.Service.EnvironmentName}_Service_DeploymentEnvironment"),

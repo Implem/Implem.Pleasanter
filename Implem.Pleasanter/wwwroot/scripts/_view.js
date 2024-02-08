@@ -26,6 +26,10 @@
                     $control.attr('datetime', value);
                     break;
                 default:
+                    if ($control.hasClass('radio-value')) {
+                        // type="radio"のチェック変更
+                        $('input[name="' + $control.attr('id') + '"]').val([value]);
+                    }
                     $control.val(value);
                     break;
             }

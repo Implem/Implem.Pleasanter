@@ -1,0 +1,33 @@
+﻿{
+    "Id": "CenterAlignment",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Center alignment"
+        },
+        {
+            "Language": "zh",
+            "Body": "中心对齐"
+        },
+        {
+            "Language": "ja",
+            "Body": "中央揃え"
+        },
+        {
+            "Language": "de",
+            "Body": "Ausrichtung zentrieren"
+        },
+        {
+            "Language": "ko",
+            "Body": "중심 정렬"
+        },
+        {
+            "Language": "es",
+            "Body": "Alineación central"
+        },
+        {
+            "Language": "vn",
+            "Body": "Căn giữa"
+        }
+    ]
+}

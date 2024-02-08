@@ -29,7 +29,7 @@
 }
 
 $(document).ready(function () {
-    if ($p.responsive() && screen.width < 981) {
+    if ($p.responsive() && screen.width < 1025) {
         const heightHeader = $('#Header').length > 0 ? $('#Header').height() : 100;
         $('#Application').css({
             'padding-top': `${heightHeader}px`
@@ -46,7 +46,7 @@ $(document).ready(function () {
                 $('#Header').css({
                     'box-shadow': 'rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px'
                 });
-                if (window.location.pathname.includes('index')) {
+                if (window.location.pathname.includes('index') && $('#TableName').val() !== 'Dashboards') {
                     $('body thead').css({
                         'top': `${heightHeader}px`
                     });
@@ -97,7 +97,7 @@ $.each($toggleBtns, function (i, el) {
     });
 });
 
-if (screen.width < 981) {
+if (screen.width < 1025) {
     $p.send($('#ReduceViewFilters'));
     $p.send($('#ReduceAggregations'));
 }
@@ -124,18 +124,18 @@ $(document).ready(function () {
         }
     }
     // Initial check and event listener
-    if ($p.responsive() && screen.width < 981) {
+    if ($p.responsive() && screen.width < 1025) {
         handleSMobileViewport();
     }
     // Attach a listener for changes in viewport width
     window.addEventListener('resize', function () {
-        if ($p.responsive()  && screen.width < 981) {
+        if ($p.responsive() && screen.width < 1025) {
             handleSMobileViewport();
         }
     });
 });
 
-if ($p.responsive() && screen.width < 981) {
+if ($p.responsive() && screen.width < 1025) {
     $('#ViewModeContainer').on('scroll', function () {
         let scrollLeft = $(this).scrollLeft();
         if ($(this).scrollLeft() > 0) {
@@ -144,4 +144,11 @@ if ($p.responsive() && screen.width < 981) {
             });
         }
     });
+}
+
+// Preventing iOS Textbox Auto Zooming and ViewPort Sizing
+if(navigator.userAgent.indexOf('iPhone') > -1 ) {
+    document
+      .querySelector("[name=viewport]")
+      .setAttribute("content","width=device-width, initial-scale=1, maximum-scale=1");
 }

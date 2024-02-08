@@ -1,4 +1,4 @@
-﻿public static SiteSettings #TableName#SiteSettings(Context context)
+﻿public static SiteSettings #TableName#SiteSettings(Context context, Sqls.TableTypes tableTypes = Sqls.TableTypes.Normal)
 {
     var ss = new SiteSettings()
     {
@@ -7,7 +7,8 @@
     ss.Init(context: context);
 
 <!--SiteSettings_GetModels_GeneralUi-->
-<!--SiteSettings_Users-->
+<!--SiteSettings_GetModels_SysLogs_UseFilterButton-->
 
+    ss.TableType = tableTypes;
     return ss;
 }

@@ -12,13 +12,14 @@
     statements.AddRange(new List<SqlStatement>
     {
 
+<!--Model_Delete_NotItem-->
 <!--Model_Delete_Item-->
+<!--Model_Delete_GroupMembers-->
 
         Rds.Delete#TableName#(
             factory: context,
             where: where)<!--Comma ( UpdateMonitor = 1 ) -->
 
-<!--Model_Delete_GroupMembers-->
 <!--Model_UpdateStatus-->
 
     });

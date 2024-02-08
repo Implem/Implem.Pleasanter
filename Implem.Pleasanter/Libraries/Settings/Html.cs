@@ -1,4 +1,5 @@
-﻿using Implem.Pleasanter.Interfaces;
+﻿using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Interfaces;
 
 namespace Implem.Pleasanter.Libraries.Settings
 {
@@ -9,7 +10,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             HeadTop = 1000,
             HeadBottom = 1010,
             BodyScriptTop = 9000,
-            BodyScriptBottom = 9010,
+            BodyScriptBottom = 9010
         }
 
         public int Id { get; set; }
@@ -24,7 +25,6 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? Gantt;
         public bool? BurnDown;
         public bool? TimeSeries;
-        public bool? Analy;
         public bool? Kamban;
         public bool? ImageLib;
         public bool? Disabled;
@@ -32,29 +32,28 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public Html()
         {
-                
+
         }
 
         public Html(
-            int id,
+            int? id,
             string title,
             PositionTypes positionType,
-            bool all,
-            bool _new,
-            bool edit,
-            bool index,
-            bool calendar,
-            bool crosstab,
-            bool gantt,
-            bool burnDown,
-            bool timeSeries,
-            bool analy,
-            bool kamban,
-            bool imageLib,
-            bool disabled,
+            bool? all,
+            bool? _new,
+            bool? edit,
+            bool? index,
+            bool? calendar,
+            bool? crosstab,
+            bool? gantt,
+            bool? burnDown,
+            bool? timeSeries,
+            bool? kamban,
+            bool? imageLib,
+            bool? disabled,
             string body)
         {
-            Id = id;
+            Id = id.ToInt();
             Title = title;
             PositionType = positionType;
             All = all;
@@ -66,7 +65,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             Gantt = gantt;
             BurnDown = burnDown;
             TimeSeries = timeSeries;
-            Analy = analy;
             Kamban = kamban;
             ImageLib = imageLib;
             Disabled = disabled;
@@ -76,37 +74,35 @@ namespace Implem.Pleasanter.Libraries.Settings
         public void Update(
            string title,
            PositionTypes positionType,
-           bool all,
-           bool _new,
-           bool edit,
-           bool index,
-           bool calendar,
-           bool crosstab,
-           bool gantt,
-           bool burnDown,
-           bool timeSeries,
-           bool analy,
-           bool kamban,
-           bool imageLib,
-           bool disabled,
+           bool? all,
+           bool? _new,
+           bool? edit,
+           bool? index,
+           bool? calendar,
+           bool? crosstab,
+           bool? gantt,
+           bool? burnDown,
+           bool? timeSeries,
+           bool? kamban,
+           bool? imageLib,
+           bool? disabled,
            string body)
         {
             Title = title;
             PositionType = positionType;
-            All = all;
-            New = _new;
-            Edit = edit;
-            Index = index;
-            Calendar = calendar;
-            Crosstab = crosstab;
-            Gantt = gantt;
-            BurnDown = burnDown;
-            TimeSeries = timeSeries;
-            Analy = analy;
-            Kamban = kamban;
-            ImageLib = imageLib;
-            Disabled = disabled;
-            Body = body;
+            if (all != null) All = all;
+            if (_new != null) New = _new;
+            if (edit != null) Edit = edit;
+            if (index != null) Index = index;
+            if (calendar != null) Calendar = calendar;
+            if (crosstab != null) Crosstab = crosstab;
+            if (gantt != null) Gantt = gantt;
+            if (burnDown != null) BurnDown = burnDown;
+            if (timeSeries != null) TimeSeries = timeSeries;
+            if (kamban != null) Kamban = kamban;
+            if (imageLib != null) ImageLib = imageLib;
+            if (disabled != null) Disabled = disabled;
+            if (body != null) Body = body;
         }
 
         public Html GetRecordingData()
@@ -129,7 +125,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                 if (Gantt == true) html.Gantt = true;
                 if (BurnDown == true) html.BurnDown = true;
                 if (TimeSeries == true) html.TimeSeries = true;
-                if (Analy == true) html.Analy = true;
                 if (Kamban == true) html.Kamban = true;
                 if (ImageLib == true) html.ImageLib = true;
             }

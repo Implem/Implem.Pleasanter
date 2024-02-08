@@ -7,6 +7,7 @@
     switch (Site.ReferenceType)
     {
 
+<!--Model_DashboardGridRowsCases-->
 <!--Model_GridRowsCases-->
 
         default:
@@ -527,6 +528,38 @@ public ContentResultInheritance UpsertByApi(Context context, string referenceTyp
 
 <!--Model_UpsertByApiCases-->
 
+        default:
+            return ApiResults.Get(ApiResponses.NotFound(context: context));
+    }
+}
+
+public ContentResultInheritance UpdateSiteSettingsByApi(Context context, string referenceType = null)
+{
+    SetSite(
+        context: context,
+        initSiteSettings: true);
+    if (!Site.WithinApiLimits(context: context))
+    {
+        return ApiResults.Get(ApiResponses.OverLimitApi(
+            context: context,
+            siteId: Site.SiteId,
+            limitPerSite: context.ContractSettings.ApiLimit()));
+    }
+    if (Site.SiteId == 0)
+    {
+        return ApiResults.Get(ApiResponses.NotFound(context: context));
+    }
+    switch (referenceType ?? Site.ReferenceType)
+    {
+        case "Sites":
+        case "Issues":
+        case "Results":
+        case "Wikis":
+        case "Dashboards":
+            return SiteUtilities.UpdateSiteSettingsByApi(
+                context: context,
+                ss: Site.SiteSettings,
+                siteModel: Site);
         default:
             return ApiResults.Get(ApiResponses.NotFound(context: context));
     }

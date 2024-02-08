@@ -42,6 +42,7 @@ namespace Implem.Pleasanter.Models
         public string TopStyle = string.Empty;
         public string TopScript = string.Empty;
         public string TopDashboards = string.Empty;
+        public TenantSettings TenantSettings = new TenantSettings();
         public int SavedTenantId = 0;
         public string SavedTenantName = string.Empty;
         public string SavedTitle = string.Empty;
@@ -58,6 +59,7 @@ namespace Implem.Pleasanter.Models
         public string SavedTopStyle = string.Empty;
         public string SavedTopScript = string.Empty;
         public string SavedTopDashboards = string.Empty;
+        public string SavedTenantSettings = string.Empty;
 
         public bool TenantId_Updated(Context context, bool copy = false, Column column = null)
         {
@@ -239,6 +241,18 @@ namespace Implem.Pleasanter.Models
                     || column.GetDefaultInput(context: context).ToString() != TopDashboards);
         }
 
+        public bool TenantSettings_Updated(Context context, bool copy = false, Column column = null)
+        {
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != TenantSettings.RecordingJson(context: context);
+            }
+            return TenantSettings.RecordingJson(context: context) != SavedTenantSettings && TenantSettings.RecordingJson(context: context) != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != TenantSettings.RecordingJson(context: context));
+        }
+
         public bool ContractDeadline_Updated(Context context, bool copy = false, Column column = null)
         {
             if (copy && column?.CopyByDefault == true)
@@ -249,6 +263,22 @@ namespace Implem.Pleasanter.Models
                 && (column == null
                     || column.DefaultInput.IsNullOrEmpty()
                     || column.DefaultTime(context: context).Date != ContractDeadline.Date);
+        }
+
+        public TenantSettings Session_TenantSettings(Context context)
+        {
+            return context.SessionData.Get("TenantSettings") != null
+                ? TenantSettings.GetTenantSettings(context: context, context.SessionData.Get("TenantSettings")) ?? new TenantSettings(context: context)
+                : TenantSettings;
+        }
+
+        public void Session_TenantSettings(Context context, string value)
+        {
+            SessionUtilities.Set(
+                context: context,
+                key: "TenantSettings",
+                value: value,
+                page: true);
         }
 
         public List<int> SwitchTargets;
@@ -366,6 +396,7 @@ namespace Implem.Pleasanter.Models
 
         public void ClearSessions(Context context)
         {
+            Session_TenantSettings(context: context, value: null);
         }
 
         public TenantModel Get(
@@ -426,6 +457,7 @@ namespace Implem.Pleasanter.Models
                     case "TopStyle": data.TopStyle = TopStyle; break;
                     case "TopScript": data.TopScript = TopScript; break;
                     case "TopDashboards": data.TopDashboards = TopDashboards; break;
+                    case "TenantSettings": data.TenantSettings = TenantSettings.RecordingJson(context: context); break;
                     case "Creator": data.Creator = Creator.Id; break;
                     case "Updator": data.Updator = Updator.Id; break;
                     case "CreatedTime": data.CreatedTime = CreatedTime.Value.ToLocal(context: context); break;
@@ -689,6 +721,9 @@ namespace Implem.Pleasanter.Models
             {
                 Get(context: context, ss: ss);
             }
+            SetByAfterUpdateBackgroundServerScript(
+                context: context,
+                ss: ss);
             return new ErrorData(type: Error.Types.None);
         }
 
@@ -842,6 +877,26 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             Dictionary<string, string> formData)
         {
+            SetByFormData(
+                context: context,
+                ss: ss,
+                formData: formData);
+            if (context.QueryStrings.ContainsKey("ver"))
+            {
+                Ver = context.QueryStrings.Int("ver");
+            }
+            if (context.Action == "deletecomment")
+            {
+                DeleteCommentId = formData.Get("ControlId")?
+                    .Split(',')
+                    ._2nd()
+                    .ToInt() ?? 0;
+                Comments.RemoveAll(o => o.CommentId == DeleteCommentId);
+            }
+        }
+
+        private void SetByFormData(Context context, SiteSettings ss, Dictionary<string, string> formData)
+        {
             formData.ForEach(data =>
             {
                 var key = data.Key;
@@ -922,18 +977,6 @@ namespace Implem.Pleasanter.Models
                         break;
                 }
             });
-            if (context.QueryStrings.ContainsKey("ver"))
-            {
-                Ver = context.QueryStrings.Int("ver");
-            }
-            if (context.Action == "deletecomment")
-            {
-                DeleteCommentId = formData.Get("ControlId")?
-                    .Split(',')
-                    ._2nd()
-                    .ToInt() ?? 0;
-                Comments.RemoveAll(o => o.CommentId == DeleteCommentId);
-            }
         }
 
         public void SetByModel(TenantModel tenantModel)
@@ -953,6 +996,7 @@ namespace Implem.Pleasanter.Models
             TopStyle = tenantModel.TopStyle;
             TopScript = tenantModel.TopScript;
             TopDashboards = tenantModel.TopDashboards;
+            TenantSettings = tenantModel.TenantSettings;
             Comments = tenantModel.Comments;
             Creator = tenantModel.Creator;
             Updator = tenantModel.Updator;
@@ -1103,6 +1147,7 @@ namespace Implem.Pleasanter.Models
 
         private void SetBySession(Context context)
         {
+            if (!context.Forms.Exists("Tenants_TenantSettings")) TenantSettings = Session_TenantSettings(context: context);
         }
 
         private void Set(Context context, SiteSettings ss, DataTable dataTable)
@@ -1195,6 +1240,10 @@ namespace Implem.Pleasanter.Models
                         case "TopDashboards":
                             TopDashboards = dataRow[column.ColumnName].ToString();
                             SavedTopDashboards = TopDashboards;
+                            break;
+                        case "TenantSettings":
+                            TenantSettings = GetTenantSettings(context: context, dataRow: dataRow);
+                            SavedTenantSettings = TenantSettings.RecordingJson(context: context);
                             break;
                         case "Comments":
                             Comments = dataRow[column.ColumnName].ToString().Deserialize<Comments>() ?? new Comments();
@@ -1301,6 +1350,55 @@ namespace Implem.Pleasanter.Models
                 || TopStyle_Updated(context: context)
                 || TopScript_Updated(context: context)
                 || TopDashboards_Updated(context: context)
+                || TenantSettings_Updated(context: context)
+                || Comments_Updated(context: context)
+                || Creator_Updated(context: context)
+                || Updator_Updated(context: context);
+        }
+
+        private bool UpdatedWithColumn(Context context, SiteSettings ss)
+        {
+            return ClassHash.Any(o => Class_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || NumHash.Any(o => Num_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || DateHash.Any(o => Date_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || DescriptionHash.Any(o => Description_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || CheckHash.Any(o => Check_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || AttachmentsHash.Any(o => Attachments_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)));
+        }
+
+        public bool Updated(Context context, SiteSettings ss)
+        {
+            return UpdatedWithColumn(context: context, ss: ss)
+                || TenantId_Updated(context: context)
+                || Ver_Updated(context: context)
+                || TenantName_Updated(context: context)
+                || Title_Updated(context: context)
+                || Body_Updated(context: context)
+                || ContractSettings_Updated(context: context)
+                || ContractDeadline_Updated(context: context)
+                || DisableAllUsersPermission_Updated(context: context)
+                || DisableApi_Updated(context: context)
+                || DisableStartGuide_Updated(context: context)
+                || LogoType_Updated(context: context)
+                || HtmlTitleTop_Updated(context: context)
+                || HtmlTitleSite_Updated(context: context)
+                || HtmlTitleRecord_Updated(context: context)
+                || TopStyle_Updated(context: context)
+                || TopScript_Updated(context: context)
+                || TopDashboards_Updated(context: context)
+                || TenantSettings_Updated(context: context)
                 || Comments_Updated(context: context)
                 || Creator_Updated(context: context)
                 || Updator_Updated(context: context);
@@ -1334,6 +1432,482 @@ namespace Implem.Pleasanter.Models
         {
             ImageOnly,
             ImageAndTitle
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public string SetBGServerScript(
+            Context context,
+            bool setSiteSettingsPropertiesBySession = true)
+        {
+            SetBySession(context: context);
+            var res = new TenantsResponseCollection(
+                context: context,
+                tenantModel: this);
+            SetTenantSettings(context: context, res: res);
+            Session_TenantSettings(
+                context: context,
+                value: TenantSettings.RecordingJson(context: context));
+            return res
+                .SetMemory("formChanged", true)
+                .ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void SetTenantSettings(Context context, ResponseCollection res)
+        {
+            var controlId = context.Forms.ControlId();
+            switch (controlId)
+            {
+                case "ExecServerScript":
+                    ExecServerScript(
+                        context: context,
+                        res: res,
+                        scriptId: context.Forms.Int("ServerScriptId"));
+                    break;
+                case "MoveUpServerScripts":
+                case "MoveDownServerScripts":
+                    OpsServerScripts(
+                        context: context,
+                        res: res,
+                        action: (selected, scripts) => scripts.MoveUpOrDown(ColumnUtilities.ChangeCommand(controlId), selected));
+                    break;
+                case "NewServerScript":
+                case "EditServerScript":
+                    OpenServerScriptDialog(
+                        context: context,
+                        res: res,
+                        controlId: controlId);
+                    break;
+                case "AddServerScript":
+                    AddServerScript(
+                        context: context,
+                        res: res,
+                        controlId: controlId);
+                    break;
+                case "UpdateServerScript":
+                    UpdateServerScript(
+                        context: context,
+                        res: res,
+                        controlId: controlId);
+                    break;
+                case "CopyServerScripts":
+                    OpsServerScripts(
+                        context: context,
+                        res: res,
+                        action: (selected, scripts) => scripts.Copy(selected));
+                    break;
+                case "DeleteServerScripts":
+                    OpsServerScripts(
+                        context: context,
+                        res: res,
+                        action: (selected, scripts) => scripts.Delete(selected));
+                    break;
+                case "MoveUpServerScriptSchedules":
+                case "MoveDownServerScriptSchedules":
+                    OpsServerScriptSchedules(
+                        context: context,
+                        res: res,
+                        action: (selected, schedules) => schedules.MoveUpOrDown(ColumnUtilities.ChangeCommand(controlId), selected));
+                    break;
+                case "NewServerScriptSchedules":
+                case "EditServerScriptSchedules":
+                    OpenServerScriptScheduleDialog(
+                        context: context,
+                        res: res,
+                        controlId: controlId);
+                    break;
+                case "AddServerScriptSchedules":
+                    AddServerScriptSchedules(
+                        context: context,
+                        res: res,
+                        controlId: controlId);
+                    break;
+                case "UpdateServerScriptSchedules":
+                    UpdateServerScriptSchedules(
+                        context: context,
+                        res: res,
+                        controlId: controlId);
+                    break;
+                case "CopyServerScriptSchedules":
+                    OpsServerScriptSchedules(
+                        context: context,
+                        res: res,
+                        action: (selected, schedules) => schedules.Copy(selected));
+                    break;
+                case "DeleteServerScriptSchedules":
+                    OpsServerScriptSchedules(
+                        context: context,
+                        res: res,
+                        action: (selected, schedules) => schedules.Delete(selected));
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void OpenServerScriptDialog(Context context, ResponseCollection res, string controlId)
+        {
+            if (controlId == "NewServerScript")
+            {
+                var script = new BackgroundServerScript();
+                OpenServerScriptDialog(
+                    context: context,
+                    res: res,
+                    script: script);
+            }
+            else
+            {
+                var script = TenantSettings.BackgroundServerScripts.Scripts?.Get(context.Forms.Int("ServerScriptId"));
+                if (script == null)
+                {
+                    OpenDialogError(
+                        res: res,
+                        message: Messages.SelectOne(context: context),
+                        target: "#ServerScriptDialog");
+                }
+                else
+                {
+                    OpenServerScriptDialog(
+                        context: context,
+                        res: res,
+                        script: script);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void OpenServerScriptDialog(Context context, ResponseCollection res, BackgroundServerScript script)
+        {
+            res.Html("#ServerScriptDialog", TenantUtilities.ServerScriptDialog(
+                context: context,
+                tenantModel: this,
+                controlId: context.Forms.ControlId(),
+                script: script));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void ExecServerScript(Context context, ResponseCollection res, int scriptId)
+        {
+            var script = GetBackgroundServerScriptFromForm(context);
+            if (script.UserId == 0)
+            {
+                res.Message(Messages.PleaseInputData(context: context, data: Displays.ExecutionUser(context: context)));
+                return;
+            }
+            else if (script.Shared == true)
+            {
+                res.Message(Messages.PleaseUncheck(context: context, data: Displays.Shared(context: context)));
+                return;
+            }
+            script.Disabled = false;
+            var backgroundServerScripts = TenantSettings.BackgroundServerScripts.ToJson().Deserialize<BackgroundServerScripts>();
+            if (scriptId != 0) backgroundServerScripts.Scripts.Delete(new int[] { scriptId });
+            backgroundServerScripts.Scripts.Add(script);
+            _ = BackgroundServerScriptUtilities.ExecuteNow(backgroundServerScripts: backgroundServerScripts, scriptId: scriptId);
+            res.Message(new Message()
+            {
+                Text = Displays.ProcessExecuted(context: context, data: script.Name),
+                Css = "alert-success"
+            });
+            return;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void AddServerScript(Context context, ResponseCollection res, string controlId)
+        {
+            if (!context.HasPrivilege)
+            {
+                res.Message(Error.Types.HasNotPermission.Message(context: context));
+                return;
+            }
+            var script = GetBackgroundServerScriptFromForm(context);
+            var invalid = BackgroundServerScriptValidators.OnCreating(
+                context: context,
+                script: script);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    res.Message(invalid.Message(context: context));
+                    return;
+            }
+            script.Id = TenantSettings.BackgroundServerScripts.Scripts.MaxOrDefault(o => o.Id) + 1;
+            TenantSettings.BackgroundServerScripts.Scripts.Add(script);
+            Session_TenantSettings(
+                context: context,
+                value: TenantSettings.RecordingJson(context: context));
+            res
+                .ReplaceAll("#EditServerScript", new HtmlBuilder()
+                    .EditServerScript(
+                        context: context,
+                        tenantModel: this))
+                .CloseDialog(target: "#ServerScriptDialog");
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void UpdateServerScript(Context context, ResponseCollection res, string controlId)
+        {
+            var script = GetBackgroundServerScriptFromForm(context);
+            var invalid = BackgroundServerScriptValidators.OnUpdating(
+                context: context,
+                script: script);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    res.Message(invalid.Message(context: context));
+                    return;
+            }
+            TenantSettings.BackgroundServerScripts?.Scripts?
+                .FirstOrDefault(o => o.Id == script.Id)?
+                .Update(
+                    userId: script.UserId,
+                    title: script.Title,
+                    name: script.Name,
+                    shared: script.Shared ?? default,
+                    disabled: script.Disabled ?? default,
+                    body: script.Body,
+                    timeOut: script.TimeOut,
+                    backgoundSchedules: script.backgoundSchedules);
+            res
+                .Html("#EditServerScript", new HtmlBuilder()
+                    .EditServerScript(
+                        context: context,
+                        tenantModel: this))
+                .CloseDialog(target: "#ServerScriptDialog");
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static BackgroundServerScript GetBackgroundServerScriptFromForm(Context context)
+        {
+            return new BackgroundServerScript(
+                id: context.Forms.Int("ServerScriptId"),
+                userId: context.Forms.Int("ServerScriptUser"),
+                title: context.Forms.Data("ServerScriptTitle"),
+                name: context.Forms.Data("ServerScriptName"),
+                shared: context.Forms.Bool("ServerScriptShared"),
+                disabled: context.Forms.Bool("ServerScriptDisabled"),
+                body: context.Forms.Data("ServerScriptBody"),
+                timeOut: context.Forms.Int("ServerScriptTimeOut"),
+                backgoundSchedules: context.Forms.Data("BackgroundSchedule").Deserialize<IEnumerable<BackgroundSchedule>>());
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void OpsServerScripts(Context context, ResponseCollection res, Action<List<int>, SettingList<BackgroundServerScript>> action)
+        {
+            var selected = context.Forms.IntList("EditServerScript");
+            if (selected?.Any() != true)
+            {
+                res.Message(Messages.SelectTargets(context: context)).ToJson();
+            }
+            else
+            {
+                var scripts = TenantSettings.BackgroundServerScripts.Scripts;
+                action(selected, scripts);
+                Session_TenantSettings(
+                    context: context,
+                    value: TenantSettings.RecordingJson(context: context));
+                res
+                    .ReplaceAll("#EditServerScript", new HtmlBuilder()
+                        .EditServerScript(
+                            context: context,
+                            tenantModel: this));
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void OpenServerScriptScheduleDialog(Context context, ResponseCollection res, string controlId)
+        {
+            var schedules = context.Forms.Data("BackgroundSchedule").Deserialize<SettingList<BackgroundSchedule>>();
+            if (controlId == "NewServerScriptSchedules")
+            {
+                var schedule = new BackgroundSchedule(timeZoneId: context.TimeZoneInfo?.Id);
+                OpenServerScriptScheduleDialog(
+                    context: context,
+                    res: res,
+                    schedules: schedules,
+                    schedule: schedule);
+            }
+            else
+            {
+                var schedule = schedules.Get(context.Forms.Int("ServerScriptScheduleId"));
+                if (schedule == null)
+                {
+                    OpenDialogError(
+                        res: res,
+                        message: Messages.SelectOne(context: context),
+                        target: "#ServerScriptScheduleDialog");
+                }
+                else
+                {
+                    OpenServerScriptScheduleDialog(
+                        context: context,
+                        res: res,
+                        schedules: schedules,
+                        schedule: schedule);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void OpenServerScriptScheduleDialog(Context context, ResponseCollection res, SettingList<BackgroundSchedule> schedules, BackgroundSchedule schedule)
+        {
+            res.Html("#ServerScriptScheduleDialog", TenantUtilities.ServerScriptScheduleDialog(
+                context: context,
+                tenantModel: this,
+                controlId: context.Forms.ControlId(),
+                schedules: schedules,
+                schedule: schedule));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void AddServerScriptSchedules(Context context, ResponseCollection res, string controlId)
+        {
+            var schedule = GetScheduleFromForm(context);
+            var invalid = BackgroundScheduleValidators.OnCreating(
+                context: context,
+                schedule: schedule);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    res.Message(invalid.Message(context: context));
+                    return;
+            }
+            var schedules = context.Forms.Data("EditServerScriptScheduleList").Deserialize<SettingList<BackgroundSchedule>>();
+            schedule.Id = schedules.MaxOrDefault(o => o.Id) + 1;
+            schedules.Add(schedule);
+            res
+                .ReplaceAll("#EditServerScriptSchedules", new HtmlBuilder()
+                    .EditServerScriptSchedules(
+                        context: context,
+                        backgoundSchedules: schedules))
+                .CloseDialog(target: "#ServerScriptScheduleDialog")
+                .Val("#BackgroundSchedule", schedules.ToJson());
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void UpdateServerScriptSchedules(Context context, ResponseCollection res, string controlId)
+        {
+            var schedule = GetScheduleFromForm(context);
+            var invalid = BackgroundScheduleValidators.OnUpdating(
+                context: context,
+                schedule: schedule);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    res.Message(invalid.Message(context: context));
+                    return;
+            }
+            var schedules = context.Forms.Data("EditServerScriptScheduleList").Deserialize<SettingList<BackgroundSchedule>>();
+            schedules?
+                .FirstOrDefault(o => o.Id == schedule.Id)?
+                .UpdateFromRecode(schedule: schedule);
+            res
+                .Html("#EditServerScriptSchedules", new HtmlBuilder()
+                    .EditServerScriptSchedules(
+                        context: context,
+                        backgoundSchedules: schedules))
+                .CloseDialog(target: "#ServerScriptScheduleDialog")
+                .Val("#BackgroundSchedule", schedules.ToJson());
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static BackgroundSchedule GetScheduleFromForm(Context context)
+        {
+            return new BackgroundSchedule(
+                id: context.Forms.Int("ServerScriptScheduleId"),
+                name: context.Forms.Data("ServerScriptScheduleName"),
+                type: context.Forms.Data("ServerScriptScheduleType"),
+                timeZoneId: context.Forms.Data("ServerScriptScheduleTimeZoneId"),
+                dailyTime: context.Forms.Data("ServerScriptScheduleDailyTime"),
+                hourlyTime: context.Forms.Data("ServerScriptScheduleHourlyTime"),
+                weeklyWeek: context.Forms.Data("ServerScriptScheduleWeeklyWeek"),
+                weeklyTime: context.Forms.Data("ServerScriptScheduleWeeklyTime"),
+                monthlyMonth: context.Forms.Data("ServerScriptScheduleMonthlyMonth"),
+                monthlyDay: context.Forms.Data("ServerScriptScheduleMonthlyDay"),
+                monthlyTime: context.Forms.Data("ServerScriptScheduleMonthlyTime"),
+                onlyOnceTime: context.Forms.Data("ServerScriptScheduleOnlyOnceTime"));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void OpsServerScriptSchedules(
+            Context context,
+            ResponseCollection res,
+            Action<List<int>, SettingList<BackgroundSchedule>> action)
+        {
+            var selected = context.Forms.IntList("EditServerScriptSchedules");
+            if (selected?.Any() != true)
+            {
+                res.Message(Messages.SelectTargets(context: context)).ToJson();
+            }
+            else
+            {
+                var schedules = context.Forms.Data("BackgroundSchedule").Deserialize<SettingList<BackgroundSchedule>>();
+                action(selected, schedules);
+                res
+                    .ReplaceAll("#EditServerScriptSchedules", new HtmlBuilder()
+                    .EditServerScriptSchedules(
+                        context: context,
+                        backgoundSchedules: schedules))
+                    .Val("#BackgroundSchedule", schedules.ToJson());
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void OpenDialogError(ResponseCollection res, Message message, string target = null)
+        {
+            res
+                .CloseDialog(target: target)
+                .Message(message);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private TenantSettings GetTenantSettings(Context context, DataRow dataRow)
+        {
+            return TenantSettings.GetTenantSettings(context: context, value: dataRow.String("TenantSettings")) ?? new TenantSettings(context: context);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void SetByAfterUpdateBackgroundServerScript(Context context, SiteSettings ss)
+        {
+            BackgroundServerScriptUtilities.Reschedule(backgroundServerScripts: TenantSettings.BackgroundServerScripts);
         }
     }
 }

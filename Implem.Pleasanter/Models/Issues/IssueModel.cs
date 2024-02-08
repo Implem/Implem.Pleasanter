@@ -2169,7 +2169,7 @@ namespace Implem.Pleasanter.Models
             return statements;
         }
 
-        private void WriteAttachments(Context context, SiteSettings ss, bool verUp = false)
+        public void WriteAttachments(Context context, SiteSettings ss, bool verUp = false)
         {
             ColumnNames()
                 .Where(columnName => columnName.StartsWith("Attachments"))
@@ -2728,6 +2728,80 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             Dictionary<string, string> formData)
         {
+            //items/{id}/new にPOSTで送信された項目の初期値を最初に設定する。
+            //カレンダーからの新規作成時、日付項目の初期値を設定する際に使用（Form名の例 "PostInit_Issues_StartTime"）。
+            var postInitForm = formData
+                .Where(o => o.Key.StartsWith("PostInit_"))
+                .ToDictionary(o => o.Key.Replace("PostInit_", ""), o => o.Value);
+            if (postInitForm.Count > 0)
+            {
+                SetByFormData(
+                    context: context,
+                    ss: ss,
+                    formData: postInitForm);
+            }
+            SetByFormData(
+                context: context,
+                ss: ss,
+                formData: formData);
+            if (context.QueryStrings.ContainsKey("ver"))
+            {
+                Ver = context.QueryStrings.Int("ver");
+            }
+            var formsSiteId = context.RequestData("FromSiteId").ToLong();
+            if (formsSiteId > 0)
+            {
+                var column = ss.GetColumn(
+                    context: context,
+                    columnName: ss.Links
+                        ?.Where(o => o.SiteId > 0)
+                        .FirstOrDefault(o => o.SiteId == formsSiteId).ColumnName);
+                if (column != null)
+                {
+                    var value = PropertyValue(
+                        context: context,
+                        column: column);
+                    column.Linking = column.MultipleSelections == true
+                        ? value.Deserialize<List<string>>()?.Contains(context.RequestData("LinkId")) == true
+                        : value == context.RequestData("LinkId");
+                }
+            }
+            var queryStringsSiteId = context.RequestData("FromSiteId").ToLong();
+            if (queryStringsSiteId > 0)
+            {
+                var id = context.RequestData("LinkId");
+                ss.Links
+                    ?.Where(link => link.SiteId == queryStringsSiteId)
+                    .Where(link => ss.Links?.Any(o => o.SelectNewLink == true) != true
+                        || link.SelectNewLink == true)
+                    .Select(link => ss.GetColumn(
+                        context: context,
+                        columnName: link.ColumnName))
+                    .Where(column => column != null)
+                    .Where(column => !formData.Any(o => o.Key == $"Issues_{column.ColumnName}"))
+                    .ForEach(column =>
+                    {
+                        id = column.MultipleSelections == true
+                            ? id.ToSingleList().ToJson()
+                            : id;
+                        SetClass(column.ColumnName, id);
+                        column.ControlCss += " always-send";
+                    });
+            }
+            SetByFormula(context: context, ss: ss);
+            SetChoiceHash(context: context, ss: ss);
+            if (context.Action == "deletecomment")
+            {
+                DeleteCommentId = formData.Get("ControlId")?
+                    .Split(',')
+                    ._2nd()
+                    .ToInt() ?? 0;
+                Comments.RemoveAll(o => o.CommentId == DeleteCommentId);
+            }
+        }
+
+        private void SetByFormData(Context context, SiteSettings ss, Dictionary<string, string> formData)
+        {
             formData.ForEach(data =>
             {
                 var key = data.Key;
@@ -2807,60 +2881,6 @@ namespace Implem.Pleasanter.Models
                         break;
                 }
             });
-            if (context.QueryStrings.ContainsKey("ver"))
-            {
-                Ver = context.QueryStrings.Int("ver");
-            }
-            var formsSiteId = context.RequestData("FromSiteId").ToLong();
-            if (formsSiteId > 0)
-            {
-                var column = ss.GetColumn(
-                    context: context,
-                    columnName: ss.Links
-                        ?.Where(o => o.SiteId > 0)
-                        .FirstOrDefault(o => o.SiteId == formsSiteId).ColumnName);
-                if (column != null)
-                {
-                    var value = PropertyValue(
-                        context: context,
-                        column: column);
-                    column.Linking = column.MultipleSelections == true
-                        ? value.Deserialize<List<string>>()?.Contains(context.RequestData("LinkId")) == true
-                        : value == context.RequestData("LinkId");
-                }
-            }
-            var queryStringsSiteId = context.RequestData("FromSiteId").ToLong();
-            if (queryStringsSiteId > 0)
-            {
-                var id = context.RequestData("LinkId");
-                ss.Links
-                    ?.Where(link => link.SiteId == queryStringsSiteId)
-                    .Where(link => ss.Links?.Any(o => o.SelectNewLink == true) != true
-                        || link.SelectNewLink == true)
-                    .Select(link => ss.GetColumn(
-                        context: context,
-                        columnName: link.ColumnName))
-                    .Where(column => column != null)
-                    .Where(column => !formData.Any(o => o.Key == $"Issues_{column.ColumnName}"))
-                    .ForEach(column =>
-                    {
-                        id = column.MultipleSelections == true
-                            ? id.ToSingleList().ToJson()
-                            : id;
-                        SetClass(column.ColumnName, id);
-                        column.ControlCss += " always-send";
-                    });
-            }
-            SetByFormula(context: context, ss: ss);
-            SetChoiceHash(context: context, ss: ss);
-            if (context.Action == "deletecomment")
-            {
-                DeleteCommentId = formData.Get("ControlId")?
-                    .Split(',')
-                    ._2nd()
-                    .ToInt() ?? 0;
-                Comments.RemoveAll(o => o.CommentId == DeleteCommentId);
-            }
         }
 
         public void SetByCsvRow(
@@ -3548,30 +3568,94 @@ namespace Implem.Pleasanter.Models
                 .Where(o => selected == null || selected.Contains(o.Id))
                 .ForEach(formulaSet =>
                 {
-                    switch (formulaSet.Target)
+                    if (string.IsNullOrEmpty(formulaSet.CalculationMethod)
+                        || formulaSet.CalculationMethod == FormulaSet.CalculationMethods.Default.ToString())
                     {
+                        switch (formulaSet.Target)
+                        {
                         case "WorkValue": param.WorkValue(WorkValue.Value); break;
                         case "ProgressRate": param.ProgressRate(ProgressRate.Value); break;
-                        default:
-                            if (Def.ExtendedColumnTypes.ContainsKey(formulaSet.Target ?? string.Empty))
-                            {
-                                param.Add(
-                                    columnBracket: $"\"{formulaSet.Target}\"",
-                                    name: formulaSet.Target,
-                                    value: GetNum(formulaSet.Target).Value);
-                            }
-                            break;
+                            default:
+                                if (Def.ExtendedColumnTypes.ContainsKey(formulaSet.Target ?? string.Empty))
+                                {
+                                    param.Add(
+                                        columnBracket: $"\"{formulaSet.Target}\"",
+                                        name: formulaSet.Target,
+                                        value: GetNum(formulaSet.Target).Value);
+                                }
+                                break;
+                        }
+                    }
+                    else if (formulaSet.CalculationMethod == FormulaSet.CalculationMethods.Extended.ToString())
+                    {
+                        switch (formulaSet.Target)
+                        {
+                            case "Title": param.Title(Title.Value); break;
+                            case "Body": param.Body(Body); break;
+                            case "StartTime": param.StartTime(StartTime); break;
+                            case "CompletionTime": param.CompletionTime(CompletionTime.Value); break;
+                            case "WorkValue": param.WorkValue(WorkValue.Value); break;
+                            case "ProgressRate": param.ProgressRate(ProgressRate.Value); break;
+                            case "Status": param.Status(Status.Value); break;
+                            case "Manager": param.Manager(Manager.Id); break;
+                            case "Owner": param.Owner(Owner.Id); break;
+                            case "Locked": param.Locked(Locked); break;
+                                case "Comments": param.Comments(Comments.ToString()); break;
+                            default:
+                                if (Def.ExtendedColumnTypes.ContainsKey(formulaSet.Target ?? string.Empty))
+                                {
+                                    switch (Def.ExtendedColumnTypes.Get(formulaSet.Target))
+                                    {
+                                        case "Class":
+                                            param.Add(
+                                                columnBracket: $"\"{formulaSet.Target}\"",
+                                                name: formulaSet.Target,
+                                                value: GetClass(formulaSet.Target));
+                                            break;
+                                        case "Num":
+                                            param.Add(
+                                                columnBracket: $"\"{formulaSet.Target}\"",
+                                                name: formulaSet.Target,
+                                                value: GetNum(formulaSet.Target).Value);
+                                            break;
+                                        case "Date":
+                                            param.Add(
+                                                columnBracket: $"\"{formulaSet.Target}\"",
+                                                name: formulaSet.Target,
+                                                value: GetDate(formulaSet.Target));
+                                            break;
+                                        case "Description":
+                                            param.Add(
+                                                columnBracket: $"\"{formulaSet.Target}\"",
+                                                name: formulaSet.Target,
+                                                value: GetDescription(formulaSet.Target));
+                                            break;
+                                        case "Check":
+                                            param.Add(
+                                                columnBracket: $"\"{formulaSet.Target}\"",
+                                                name: formulaSet.Target,
+                                                value: GetCheck(formulaSet.Target));
+                                            break;
+                                    }
+                                    break;
+                                }
+                                break;
+                        }
                     }
                 });
-            Repository.ExecuteNonQuery(
-                context: context,
-                statements: Rds.UpdateIssues(
-                    param: param,
-                    where: Rds.IssuesWhereDefault(
-                        context: context,
-                        issueModel: this),
-                    addUpdatedTimeParam: false,
-                    addUpdatorParam: false));
+            var paramFilter = param.Where(p => p.Value != null).ToList();
+            if (paramFilter.Count > 0)
+            {
+                Repository.ExecuteNonQuery(
+                    context: context,
+                    statements: Rds.UpdateIssues(
+                        param: param,
+                        where: Rds.IssuesWhereDefault(
+                            context: context,
+                            issueModel: this),
+                        addUpdatedTimeParam: false,
+                        addUpdatorParam: false));
+            }
         }
 
         public void SetByFormula(Context context, SiteSettings ss)
@@ -3582,52 +3666,110 @@ namespace Implem.Pleasanter.Models
             ss.Formulas?.ForEach(formulaSet =>
             {
                 var columnName = formulaSet.Target;
-                var formula = formulaSet.Formula;
-                var view = ss.Views?.Get(formulaSet.Condition);
-                if (view != null && !Matched(context: context, ss: ss, view: view))
+                if (string.IsNullOrEmpty(formulaSet.CalculationMethod)
+                    || formulaSet.CalculationMethod == FormulaSet.CalculationMethods.Default.ToString())
                 {
-                    if (formulaSet.OutOfCondition != null)
+                    var formula = formulaSet.Formula;
+                    var view = ss.Views?.Get(formulaSet.Condition);
+                    if (view != null && !Matched(context: context, ss: ss, view: view))
                     {
-                        formula = formulaSet.OutOfCondition;
+                        if (formulaSet.OutOfCondition != null)
+                        {
+                            formula = formulaSet.OutOfCondition;
+                        }
+                        else
+                        {
+                            return;
+                        }
                     }
-                    else
+                    var data = new Dictionary<string, decimal>
                     {
-                        return;
-                    }
-                }
-                var data = new Dictionary<string, decimal>
-                {
-                    { "WorkValue", WorkValue.Value.ToDecimal() },
+                                { "WorkValue", WorkValue.Value.ToDecimal() },
                     { "ProgressRate", ProgressRate.Value.ToDecimal() },
                     { "RemainingWorkValue", RemainingWorkValue.Value.ToDecimal() }
-                };
-                data.AddRange(NumHash.ToDictionary(
-                    o => o.Key,
-                    o => o.Value?.Value?.ToDecimal() ?? 0));
-                var value = formula?.GetResult(
-                    data: data,
-                    column: ss.GetColumn(
-                        context: context,
-                        columnName: columnName)) ?? 0;
-                switch (columnName)
-                {
-                    case "WorkValue":
+                    };
+                    data.AddRange(NumHash.ToDictionary(
+                        o => o.Key,
+                        o => o.Value?.Value?.ToDecimal() ?? 0));
+                    var value = formula?.GetResult(
+                        data: data,
+                        column: ss.GetColumn(
+                            context: context,
+                            columnName: columnName)) ?? 0;
+                    switch (columnName)
+                    {
+                                case "WorkValue":
                         WorkValue.Value = value;
                         break;
                     case "ProgressRate":
                         ProgressRate.Value = value;
                         break;
-                    default:
-                        SetNum(
-                            columnName: columnName,
-                            value: new Num(value));
-                        break;
+                        default:
+                            SetNum(
+                                columnName: columnName,
+                                value: new Num(value));
+                            break;
+                    }
+                    if (ss.OutputFormulaLogs == true)
+                    {
+                        context.LogBuilder?.AppendLine($"formulaSet: {formulaSet.GetRecordingData().ToJson()}");
+                        context.LogBuilder?.AppendLine($"formulaSource: {data.ToJson()}");
+                        context.LogBuilder?.AppendLine($"formulaResult: {{\"{columnName}\":{value}}}");
+                    }
                 }
-                if (ss.OutputFormulaLogs == true)
+                else if (formulaSet.CalculationMethod == FormulaSet.CalculationMethods.Extended.ToString())
                 {
-                    context.LogBuilder?.AppendLine($"formulaSet: {formulaSet.GetRecordingData().ToJson()}");
-                    context.LogBuilder?.AppendLine($"formulaSource: {data.ToJson()}");
-                    context.LogBuilder?.AppendLine($"formulaResult: {{\"{columnName}\":{value}}}");
+                    SetExtendedColumnDefaultValue(
+                        ss: ss,
+                        formulaScript: formulaSet.FormulaScript,
+                        calculationMethod: formulaSet.CalculationMethod);
+                    formulaSet = FormulaBuilder.UpdateColumnDisplayText(
+                        ss: ss,
+                        formulaSet: formulaSet);
+                    formulaSet.FormulaScript = FormulaBuilder.ParseFormulaScript(
+                        ss: ss,
+                        formulaScript: formulaSet.FormulaScript,
+                        calculationMethod: formulaSet.CalculationMethod);
+                    var value = FormulaServerScriptUtilities.Execute(
+                        context: context,
+                        ss: ss,
+                        itemModel: this,
+                        formulaScript: formulaSet.FormulaScript);
+                    switch (value)
+                    {
+                        case "#N/A":
+                        case "#VALUE!":
+                        case "#REF!":
+                        case "#DIV/0!":
+                        case "#NUM!":
+                        case "#NAME?":
+                        case "#NULL!":
+                        case "Invalid Parameter":
+                            if (formulaSet.IsDisplayError == true)
+                            {
+                                throw new Exception($"Formula error {value}");
+                            }
+                            new SysLogModel(
+                                context: context,
+                                method: nameof(SetByFormula),
+                                message: $"Formula error {value}",
+                                sysLogType: SysLogModel.SysLogTypes.Execption);
+                            break;
+                    }
+                    var formData = new Dictionary<string, string>
+                    {
+                        { $"Issues_{columnName}", value.ToString() }
+                    };
+                    SetByFormData(
+                        context: context,
+                        ss: ss,
+                        formData: formData);
+                    if (ss.OutputFormulaLogs == true)
+                    {
+                        context.LogBuilder?.AppendLine($"formulaSet: {formulaSet.GetRecordingData().ToJson()}");
+                        context.LogBuilder?.AppendLine($"formulaSource: {this.ToJson()}");
+                        context.LogBuilder?.AppendLine($"formulaResult: {{\"{columnName}\":{value}}}");
+                    }
                 }
             });
             SetByAfterFormulaServerScript(
@@ -4445,6 +4587,48 @@ namespace Implem.Pleasanter.Models
         public bool Updated(Context context)
         {
             return Updated()
+                || SiteId_Updated(context: context)
+                || Ver_Updated(context: context)
+                || Title_Updated(context: context)
+                || Body_Updated(context: context)
+                || StartTime_Updated(context: context)
+                || CompletionTime_Updated(context: context)
+                || WorkValue_Updated(context: context)
+                || ProgressRate_Updated(context: context)
+                || Status_Updated(context: context)
+                || Manager_Updated(context: context)
+                || Owner_Updated(context: context)
+                || Locked_Updated(context: context)
+                || Comments_Updated(context: context)
+                || Creator_Updated(context: context)
+                || Updator_Updated(context: context);
+        }
+
+        private bool UpdatedWithColumn(Context context, SiteSettings ss)
+        {
+            return ClassHash.Any(o => Class_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || NumHash.Any(o => Num_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || DateHash.Any(o => Date_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || DescriptionHash.Any(o => Description_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || CheckHash.Any(o => Check_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || AttachmentsHash.Any(o => Attachments_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)));
+        }
+
+        public bool Updated(Context context, SiteSettings ss)
+        {
+            return UpdatedWithColumn(context: context, ss: ss)
                 || SiteId_Updated(context: context)
                 || Ver_Updated(context: context)
                 || Title_Updated(context: context)

@@ -60,6 +60,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public enum TextAlignTypes : int
         {
             Left = 10,
+            Center = 15,
             Right = 20
         }
 
@@ -195,6 +196,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? AllowStandardExport;
         public SettingList<Style> Styles;
         public bool? Responsive;
+        public bool? DashboardPartsAsynchronousLoading;
         public SettingList<Script> Scripts;
         public SettingList<Html> Htmls;
         public SettingList<ServerScript> ServerScripts;
@@ -358,6 +360,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             AllowStandardExport = AllowStandardExport ?? Parameters.General.AllowStandardExport;
             if (Styles == null) Styles = new SettingList<Style>();
             if (Responsive == null) Responsive = Parameters.Mobile.SiteSettingsResponsive;
+            if (DashboardPartsAsynchronousLoading == null) DashboardPartsAsynchronousLoading = Parameters.Dashboard.AsynchronousLoadingDefault;
             if (Scripts == null) Scripts = new SettingList<Script>();
             if (Htmls == null) Htmls = new SettingList<Html>();
             if (ServerScripts == null) ServerScripts = new SettingList<ServerScript>();
@@ -668,6 +671,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             switch (context.Action)
             {
                 case "index":
+                    return false;
+                case "dashboardpart":
                     return false;
                 default:
                     return true;
@@ -1094,6 +1099,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (Responsive != Parameters.Mobile.SiteSettingsResponsive)
             {
                 ss.Responsive = Responsive;
+            }
+            if (DashboardPartsAsynchronousLoading != Parameters.Dashboard.AsynchronousLoadingDefault)
+            {
+                ss.DashboardPartsAsynchronousLoading = DashboardPartsAsynchronousLoading;
             }
             Scripts?.ForEach(script =>
             {
@@ -2264,14 +2273,38 @@ namespace Implem.Pleasanter.Libraries.Settings
                 o.ColumnName == columnName && o.HistoryColumn);
         }
 
-        public Column FormulaColumn(string name)
+        public Column FormulaColumn(string name, string calculationMethod = null)
+        {
+            return (string.IsNullOrEmpty(calculationMethod) || calculationMethod == FormulaSet.CalculationMethods.Default.ToString()
+                ? Columns
+                    .Where(o => o.ColumnName == name || o.LabelText == name)
+                    .Where(o => o.TypeName == "decimal")
+                    .Where(o => !o.NotUpdate)
+                    .Where(o => !o.Joined)
+                : Columns
+                    .Where(o => o.ColumnName == name || o.LabelText == name)
+                    .Where(o => o.ControlType != "Attachments")
+                    .Where(o => !o.NotUpdate)
+                    .Where(o => !o.Id_Ver)
+                    .Where(o => !o.Joined)
+                    .Where(o => !o.OtherColumn())
+                    .Where(o => o.Name != "SiteId"
+                        && o.Name != "Comments"))
+                .FirstOrDefault();
+        }
+
+        public List<Column> FormulaColumnList()
         {
             return Columns
-                .Where(o => o.ColumnName == name || o.LabelText == name)
-                .Where(o => o.TypeName == "decimal")
+                .Where(o => o.ControlType != "Attachments")
                 .Where(o => !o.NotUpdate)
+                .Where(o => !o.Id_Ver)
                 .Where(o => !o.Joined)
-                .FirstOrDefault();
+                .Where(o => !o.OtherColumn())
+                .Where(o => o.Name != "SiteId"
+                    && o.Name != "Comments")
+                .OrderByDescending(o => o.LabelText.Length)
+                .ToList();
         }
 
         public List<Column> GetGridColumns(
@@ -2460,10 +2493,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Where(c => c.NoDuplication != true)
                 .Where(c => c.ColumnName != "Comments")
                 .Where(column => !Formulas.Any(formulaSet =>
-                    formulaSet.Target == column.ColumnName
-                    || ContainsFormulaColumn(
-                        columnName: column.ColumnName,
-                        children: formulaSet.Formula.Children)))
+                    (string.IsNullOrEmpty(formulaSet.CalculationMethod)
+                        || formulaSet.CalculationMethod == FormulaSet.CalculationMethods.Default.ToString())
+                    && (formulaSet.Target == column.ColumnName
+                        || ContainsFormulaColumn(
+                            columnName: column.ColumnName,
+                            children: formulaSet.Formula.Children))))
                 .Where(column => column.AllowBulkUpdate == true)
                 .Where(column => column.CanUpdate(
                     context: context,
@@ -2516,7 +2551,12 @@ namespace Implem.Pleasanter.Libraries.Settings
         public List<Column> GetHistoryColumns(Context context, bool checkPermission = false)
         {
             return HistoryColumns
-                .Select(columnName => GetColumn(context: context, columnName: columnName))
+                // GridDesignに含まれるカラムを追加する。
+                .Concat(IncludedColumns())
+                .Distinct()
+                .Select(columnName => GetColumn(
+                    context: context,
+                    columnName: columnName))
                 .Where(column => column != null)
                 .AllowedColumns(
                     context: context,
@@ -2815,7 +2855,10 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         public Dictionary<string, ControlData> EditorSelectableOptions(
-            Context context, bool enabled = true)
+            Context context,
+            bool enabled = true,
+            string selection = "",
+            string keyWord = "")
         {
             return enabled
                 ? ColumnUtilities.SelectableOptions(
@@ -2835,11 +2878,64 @@ namespace Implem.Pleasanter.Libraries.Settings
                     ss: this,
                     columns: ColumnDefinitionHash.EditorDefinitions(context: context)
                         .Where(o => !GetEditorColumnNames().Contains(o.ColumnName))
+                        .Where(o => FilterColumn(
+                            context: context,
+                            ss: this,
+                            def: o,
+                            selection: selection,
+                            keyWord: keyWord))
                         .OrderBy(o => o.EditorColumn)
                         .Select(o => o.ColumnName),
                     order: ColumnDefinitionHash?.EditorDefinitions(context: context)?
                         .OrderBy(o => o.EditorColumn)
                         .Select(o => o.ColumnName).ToList());
+        }
+
+        private bool FilterColumn(
+            Context context,
+            SiteSettings ss,
+            ColumnDefinition def,
+            string selection,
+            string keyWord)
+        {
+            switch (selection)
+            {
+                case "KeyWord":
+                    var keyWords = keyWord.Replace("　", " ").Split(" ");
+                    return keyWords.All(o => def.ColumnName.Contains(
+                        value: o,
+                        comparisonType: StringComparison.OrdinalIgnoreCase))
+                            || keyWords
+                                .All(o => def.LabelText.Contains(
+                                    value: o,
+                                    comparisonType: StringComparison.OrdinalIgnoreCase))
+                            || keyWords
+                                .All(o => ss.GetColumn(context, def.ColumnName).LabelText.Contains(
+                                    value: o,
+                                    comparisonType: StringComparison.OrdinalIgnoreCase));
+                case "Basic":
+                    //「分類」「数値」「日付」「説明」「チェック」「添付ファイル」の
+                    //何れでもないカラムならばTrueを返却する（例「担当者」はTrue）
+                    return new List<string>
+                    {
+                        "Class",
+                        "Num",
+                        "Date",
+                        "Description",
+                        "Check",
+                        "Attachments"
+                    }
+                        .All(o => !def.ColumnName.StartsWith(o));
+                case "Class":
+                case "Num":
+                case "Date":
+                case "Description":
+                case "Check":
+                case "Attachments":
+                    return def.ColumnName.StartsWith(selection);
+                default:
+                    return true;
+            }
         }
 
         public Dictionary<string, ControlData> EditorSelectableOptions(
@@ -3100,12 +3196,22 @@ namespace Implem.Pleasanter.Libraries.Settings
                     o => new ControlData(text: o.Text));
         }
 
-        public Dictionary<string, ControlData> FormulaTargetSelectableOptions()
+        public Dictionary<string, ControlData> FormulaTargetSelectableOptions(string calculationMethod)
         {
-            return Columns
-                .Where(o => o.TypeName == "decimal")
-                .Where(o => !o.NotUpdate)
-                .Where(o => !o.Joined)
+            return (string.IsNullOrEmpty(calculationMethod)
+                || calculationMethod == FormulaSet.CalculationMethods.Default.ToString()
+                    ? Columns
+                        .Where(o => o.TypeName == "decimal")
+                        .Where(o => !o.NotUpdate)
+                        .Where(o => !o.Joined)
+                    : Columns
+                        .Where(o => o.ControlType != "Attachments")
+                        .Where(o => !o.NotUpdate)
+                        .Where(o => !o.Id_Ver)
+                        .Where(o => !o.Joined)
+                        .Where(o => !o.OtherColumn())
+                        .Where(o => o.Name != "SiteId"
+                            && o.Name != "Comments"))
                 .OrderBy(o => o.No)
                 .ToDictionary(o => o.ColumnName, o => new ControlData(o.LabelText));
         }
@@ -3118,6 +3224,21 @@ namespace Implem.Pleasanter.Libraries.Settings
         public Dictionary<string, ControlData> ViewSelectableOptions()
         {
             return Views?.ToDictionary(o => o.Id.ToString(), o => new ControlData(o.Name));
+        }
+
+        public Dictionary<string, ControlData> FormulaCalculationMethodSelectableOptions(Context context)
+        {
+            return Enum.GetValues(typeof(FormulaSet.CalculationMethods))
+               .Cast<FormulaSet.CalculationMethods>()
+               .ToDictionary(
+                    o => o.ToString(),
+                    o => new ControlData(
+                        text: Displays.Get(
+                            context: context,
+                            id: Enum.GetName(typeof(FormulaSet.CalculationMethods), o)),
+                        attributes: new Dictionary<string, string>() { { "data-action", "SetSiteSettings" } }
+                    )
+                );
         }
 
         public Dictionary<string, ControlData> MonitorChangesSelectableOptions(
@@ -3305,6 +3426,17 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .OrderBy(o => o.No)
                 .ToDictionary(o => o.ColumnName, o => o.GridLabelText));
             return hash;
+        }
+
+        public Dictionary<string, string> CalendarViewTypeOptions(Context context)
+        {
+            return new Dictionary<string, string>
+            {
+                { "dayGridMonth", Displays.Month(context: context) },
+                { "timeGridWeek", Displays.Week(context: context) },
+                { "timeGridDay", Displays.Day(context: context) },
+                { "listMonth", Displays.List(context: context) }
+            };
         }
 
         public Dictionary<string, string> CrosstabGroupByXOptions(Context context)
@@ -3720,6 +3852,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "FirstDayOfWeek": FirstDayOfWeek = value.ToInt(); break;
                 case "FirstMonth": FirstMonth = value.ToInt(); break;
                 case "Responsive": Responsive = value.ToBool(); break;
+                case "AsynchronousLoadingDefault": DashboardPartsAsynchronousLoading = value.ToBool(); break;
                 case "AutoVerUpType": AutoVerUpType = (Versions.AutoVerUpTypes)value.ToInt(); break;
                 case "AllowCopy": AllowCopy = value.ToBool(); break;
                 case "AllowReferenceCopy": AllowReferenceCopy = value.ToBool(); break;
@@ -4885,6 +5018,14 @@ namespace Implem.Pleasanter.Libraries.Settings
             return PermissionForUpdating?.ContainsKey(key) == true
                 ? new Permission(key, 0, PermissionForUpdating[key])
                 : new Permission(key, 0, Permissions.Types.NotSet, source: true);
+        }
+
+        public void SetDashboardParts(DashboardPart dashboardPart)
+        {
+            DashboardParts = new SettingList<DashboardPart>
+            {
+                dashboardPart
+            };
         }
 
         public void SetSiteIntegration(Context context)

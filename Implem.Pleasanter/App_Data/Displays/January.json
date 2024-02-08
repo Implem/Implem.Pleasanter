@@ -1,0 +1,33 @@
+{
+    "Id": "January",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "January"
+        },
+        {
+            "Language": "ja",
+            "Body": "1月"
+        },
+        {
+            "Language": "zh",
+            "Body": "1月"
+        },
+        {
+            "Language": "ko",
+            "Body": "1월"
+        },
+        {
+            "Language": "vi",
+            "Body": "Tháng Một"
+        },
+        {
+            "Language": "es",
+            "Body": "Enero"
+        },
+        {
+            "Language": "de",
+            "Body": "Januar"
+        }
+    ]
+}

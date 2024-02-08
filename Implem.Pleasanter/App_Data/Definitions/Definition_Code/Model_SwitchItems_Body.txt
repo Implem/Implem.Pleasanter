@@ -185,7 +185,10 @@ public string CalendarJson(Context context)
         initSiteSettings: true,
         setSiteIntegration: true,
         setAllChoices: true);
-    ViewModes.Set(context: context, siteId: Site.SiteId);
+    if (Site.ReferenceType != "Dashboards")
+    {
+        ViewModes.Set(context: context, siteId: Site.SiteId);
+    }
     switch (Site.ReferenceType)
     {
 
@@ -237,6 +240,31 @@ public string CrosstabJson(Context context)
             return Messages.ResponseNotFound(context: context).ToJson();
     }
 }
+
+public string DashboardPartJson(Context context,string dashboardPartId)
+{
+    SetSite(
+        context: context,
+        initSiteSettings: true,
+        setSiteIntegration: true,
+        setAllChoices: true);
+    return DashboardUtilities.DashboardPartJson(
+        context: context,
+        ss: Site.SiteSettings,
+        dashboardPartId: dashboardPartId);
+}
+
+public string DashboardPartLayout (Context context)
+        {
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true,
+                setAllChoices: true);
+            return DashboardUtilities.DashboardPartLayout(
+                context: context,
+                ss: Site.SiteSettings);
+        }
 
 public string Gantt(Context context)
 {

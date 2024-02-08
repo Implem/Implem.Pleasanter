@@ -718,8 +718,6 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                         ? "-true"
                         : "-false"),
                     new ControlData(name, title: dataRow.String("ReferenceType"),
-                        css: " ui-icon ui-icon-folder-open",
-                        style: " ui-icon ui-icon-folder-collapsed",
                         order: listItemCollection.Count + 1));
                 if (dataRow.String("ReferenceType") == "Sites")
                 {
@@ -815,7 +813,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                     && (context.ContractSettings.Export == false
                         || !context.CanExport(ss: currentSs)))
                 {
-                    return null;
+                    site.IncludeData = false;
                 }
             }
             return new SitePackage(

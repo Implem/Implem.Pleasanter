@@ -1153,6 +1153,12 @@ namespace Implem.Pleasanter.Models
             var where = Rds.DeptsWhere().DeptId(DeptId);
             statements.AddRange(new List<SqlStatement>
             {
+                Rds.DeleteBinaries(
+                    factory: context,
+                    where: Rds.BinariesWhere()
+                        .TenantId(context.TenantId)
+                        .ReferenceId(DeptId)
+                        .BinaryType(value: "TenantManagementImages")),
                 Rds.DeleteDepts(
                     factory: context,
                     where: where),
@@ -1207,6 +1213,26 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             Dictionary<string, string> formData)
+        {
+            SetByFormData(
+                context: context,
+                ss: ss,
+                formData: formData);
+            if (context.QueryStrings.ContainsKey("ver"))
+            {
+                Ver = context.QueryStrings.Int("ver");
+            }
+            if (context.Action == "deletecomment")
+            {
+                DeleteCommentId = formData.Get("ControlId")?
+                    .Split(',')
+                    ._2nd()
+                    .ToInt() ?? 0;
+                Comments.RemoveAll(o => o.CommentId == DeleteCommentId);
+            }
+        }
+
+        private void SetByFormData(Context context, SiteSettings ss, Dictionary<string, string> formData)
         {
             formData.ForEach(data =>
             {
@@ -1278,18 +1304,6 @@ namespace Implem.Pleasanter.Models
                         break;
                 }
             });
-            if (context.QueryStrings.ContainsKey("ver"))
-            {
-                Ver = context.QueryStrings.Int("ver");
-            }
-            if (context.Action == "deletecomment")
-            {
-                DeleteCommentId = formData.Get("ControlId")?
-                    .Split(',')
-                    ._2nd()
-                    .ToInt() ?? 0;
-                Comments.RemoveAll(o => o.CommentId == DeleteCommentId);
-            }
         }
 
         public void SetByModel(DeptModel deptModel)
@@ -1583,6 +1597,43 @@ namespace Implem.Pleasanter.Models
         public bool Updated(Context context)
         {
             return Updated()
+                || TenantId_Updated(context: context)
+                || DeptId_Updated(context: context)
+                || Ver_Updated(context: context)
+                || DeptCode_Updated(context: context)
+                || DeptName_Updated(context: context)
+                || Body_Updated(context: context)
+                || Disabled_Updated(context: context)
+                || Comments_Updated(context: context)
+                || Creator_Updated(context: context)
+                || Updator_Updated(context: context);
+        }
+
+        private bool UpdatedWithColumn(Context context, SiteSettings ss)
+        {
+            return ClassHash.Any(o => Class_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || NumHash.Any(o => Num_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || DateHash.Any(o => Date_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || DescriptionHash.Any(o => Description_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || CheckHash.Any(o => Check_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || AttachmentsHash.Any(o => Attachments_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)));
+        }
+
+        public bool Updated(Context context, SiteSettings ss)
+        {
+            return UpdatedWithColumn(context: context, ss: ss)
                 || TenantId_Updated(context: context)
                 || DeptId_Updated(context: context)
                 || Ver_Updated(context: context)

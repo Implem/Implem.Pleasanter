@@ -1495,6 +1495,27 @@ namespace Implem.Pleasanter.Models
             Dictionary<string, string> formData)
         {
             var ss = new SiteSettings();
+            SetByFormData(
+                context: context,
+                ss: ss,
+                formData: formData);
+            if (context.QueryStrings.ContainsKey("ver"))
+            {
+                Ver = context.QueryStrings.Int("ver");
+            }
+            SetSiteSettings(context: context);
+            if (context.Action == "deletecomment")
+            {
+                DeleteCommentId = formData.Get("ControlId")?
+                    .Split(',')
+                    ._2nd()
+                    .ToInt() ?? 0;
+                Comments.RemoveAll(o => o.CommentId == DeleteCommentId);
+            }
+        }
+
+        private void SetByFormData(Context context, SiteSettings ss, Dictionary<string, string> formData)
+        {
             formData.ForEach(data =>
             {
                 var key = data.Key;
@@ -1596,19 +1617,6 @@ namespace Implem.Pleasanter.Models
                         break;
                 }
             });
-            if (context.QueryStrings.ContainsKey("ver"))
-            {
-                Ver = context.QueryStrings.Int("ver");
-            }
-            SetSiteSettings(context: context);
-            if (context.Action == "deletecomment")
-            {
-                DeleteCommentId = formData.Get("ControlId")?
-                    .Split(',')
-                    ._2nd()
-                    .ToInt() ?? 0;
-                Comments.RemoveAll(o => o.CommentId == DeleteCommentId);
-            }
         }
 
         public void SetByModel(SiteModel siteModel)
@@ -2067,6 +2075,61 @@ namespace Implem.Pleasanter.Models
                 || Updator_Updated(context: context);
         }
 
+        private bool UpdatedWithColumn(Context context, SiteSettings ss)
+        {
+            return ClassHash.Any(o => Class_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || NumHash.Any(o => Num_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || DateHash.Any(o => Date_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || DescriptionHash.Any(o => Description_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || CheckHash.Any(o => Check_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || AttachmentsHash.Any(o => Attachments_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)));
+        }
+
+        public bool Updated(Context context, SiteSettings ss)
+        {
+            return UpdatedWithColumn(context: context, ss: ss)
+                || TenantId_Updated(context: context)
+                || Ver_Updated(context: context)
+                || Title_Updated(context: context)
+                || Body_Updated(context: context)
+                || SiteName_Updated(context: context)
+                || SiteGroupName_Updated(context: context)
+                || GridGuide_Updated(context: context)
+                || EditorGuide_Updated(context: context)
+                || CalendarGuide_Updated(context: context)
+                || CrosstabGuide_Updated(context: context)
+                || GanttGuide_Updated(context: context)
+                || BurnDownGuide_Updated(context: context)
+                || TimeSeriesGuide_Updated(context: context)
+                || KambanGuide_Updated(context: context)
+                || ImageLibGuide_Updated(context: context)
+                || ReferenceType_Updated(context: context)
+                || ParentId_Updated(context: context)
+                || InheritPermission_Updated(context: context)
+                || SiteSettings_Updated(context: context)
+                || Publish_Updated(context: context)
+                || DisableCrossSearch_Updated(context: context)
+                || LockedTime_Updated(context: context)
+                || LockedUser_Updated(context: context)
+                || ApiCountDate_Updated(context: context)
+                || ApiCount_Updated(context: context)
+                || Comments_Updated(context: context)
+                || Creator_Updated(context: context)
+                || Updator_Updated(context: context);
+        }
+
         public override List<string> Mine(Context context)
         {
             if (MineCache == null)
@@ -2307,6 +2370,426 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public void UpsertServerScriptByApi(
+            SiteSettings siteSetting,
+            List<ApiSiteSettings.ServerScriptApiSettingModel> serverScriptsApiSiteSetting)
+        {
+            List<int> deleteSelected = new List<int>();
+            serverScriptsApiSiteSetting.ForEach(ssApiSetting =>
+            {
+                var currentServerScript = siteSetting.ServerScripts?.FirstOrDefault(o =>
+                    o.Id == ssApiSetting.Id.ToInt());
+                if (ssApiSetting.Delete.ToInt() == ApiSiteSetting.DeleteFlag.IsDelete.ToInt())
+                {
+                    deleteSelected.Add(ssApiSetting.Id.ToInt());
+                }
+                else
+                {
+                    if (currentServerScript != null)
+                    {
+                        // Update ServerScript site setting
+                        currentServerScript.Update(
+                            title: ssApiSetting.Title,
+                            name: ssApiSetting.Name,
+                            whenloadingSiteSettings: ssApiSetting.ServerScriptWhenloadingSiteSettings,
+                            whenViewProcessing: ssApiSetting.ServerScriptWhenViewProcessing,
+                            whenloadingRecord: ssApiSetting.ServerScriptWhenloadingRecord,
+                            beforeFormula: ssApiSetting.ServerScriptBeforeFormula,
+                            afterFormula: ssApiSetting.ServerScriptAfterFormula,
+                            beforeCreate: ssApiSetting.ServerScriptBeforeCreate,
+                            afterCreate: ssApiSetting.ServerScriptAfterCreate,
+                            beforeUpdate: ssApiSetting.ServerScriptBeforeUpdate,
+                            afterUpdate: ssApiSetting.ServerScriptAfterUpdate,
+                            beforeDelete: ssApiSetting.ServerScriptBeforeDelete,
+                            afterDelete: ssApiSetting.ServerScriptAfterDelete,
+                            beforeOpeningPage: ssApiSetting.ServerScriptBeforeOpeningPage,
+                            beforeOpeningRow: ssApiSetting.ServerScriptBeforeOpeningRow,
+                            shared: ssApiSetting.ServerScriptShared,
+                            background: default,
+                            body: ssApiSetting.Body,
+                            timeOut: default);
+                    }
+                    else
+                    {
+                        // Create new ServerScript site setting
+                        SiteSettings.ServerScripts.Add(new ServerScript(
+                            id: ssApiSetting.Id,
+                            title: ssApiSetting.Title,
+                            name: ssApiSetting.Name,
+                            whenloadingSiteSettings: ssApiSetting.ServerScriptWhenloadingSiteSettings,
+                            whenViewProcessing: ssApiSetting.ServerScriptWhenViewProcessing,
+                            whenloadingRecord: ssApiSetting.ServerScriptWhenloadingRecord,
+                            beforeFormula: ssApiSetting.ServerScriptBeforeFormula,
+                            afterFormula: ssApiSetting.ServerScriptAfterFormula,
+                            beforeCreate: ssApiSetting.ServerScriptBeforeCreate,
+                            afterCreate: ssApiSetting.ServerScriptAfterCreate,
+                            beforeUpdate: ssApiSetting.ServerScriptBeforeUpdate,
+                            afterUpdate: ssApiSetting.ServerScriptAfterUpdate,
+                            beforeDelete: ssApiSetting.ServerScriptBeforeDelete,
+                            afterDelete: ssApiSetting.ServerScriptAfterDelete,
+                            beforeOpeningPage: ssApiSetting.ServerScriptBeforeOpeningPage,
+                            beforeOpeningRow: ssApiSetting.ServerScriptBeforeOpeningRow,
+                            shared: ssApiSetting.ServerScriptShared,
+                            body: ssApiSetting.Body,
+                            background: default,
+                            timeOut: default));
+                    }
+                }
+            });
+            // Check has deleted
+            if (deleteSelected.Count() != 0)
+            {
+                siteSetting.ServerScripts.Delete(deleteSelected);
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public void UpsertScriptByApi(
+            SiteSettings siteSetting,
+            List<ApiSiteSettings.ScriptApiSettingModel> scriptsApiSiteSetting)
+        {
+            List<int> deleteSelected = new List<int>();
+            scriptsApiSiteSetting.ForEach(scApiSiteSetting =>
+            {
+                var currentScript = siteSetting.Scripts?.
+                     FirstOrDefault(o => o.Id == scApiSiteSetting.Id.ToInt());
+                if (scApiSiteSetting.Delete.ToInt() == ApiSiteSetting.DeleteFlag.IsDelete.ToInt())
+                {
+                    deleteSelected.Add(scApiSiteSetting.Id.ToInt());
+                }
+                else
+                {
+                    if (currentScript != null)
+                    {
+                        // Update Script site setting
+                        currentScript.Update(
+                            title: scApiSiteSetting.Title,
+                            all: scApiSiteSetting.ScriptAll,
+                            _new: scApiSiteSetting.ScriptNew,
+                            edit: scApiSiteSetting.ScriptEdit,
+                            index: scApiSiteSetting.ScriptIndex,
+                            calendar: scApiSiteSetting.ScriptCalendar,
+                            crosstab: scApiSiteSetting.ScriptCrosstab,
+                            gantt: scApiSiteSetting.ScriptGantt,
+                            burnDown: scApiSiteSetting.ScriptBurnDown,
+                            timeSeries: scApiSiteSetting.ScriptTimeSeries,
+                            kamban: scApiSiteSetting.ScriptKamban,
+                            imageLib: scApiSiteSetting.ScriptImageLib,
+                            disabled: scApiSiteSetting.Disabled,
+                            body: scApiSiteSetting.Body);
+                    }
+                    else
+                    {
+                        // Create new Script site setting
+                        SiteSettings.Scripts.Add(new Script(
+                            id: scApiSiteSetting.Id,
+                            title: scApiSiteSetting.Title,
+                            all: scApiSiteSetting.ScriptAll,
+                            _new: scApiSiteSetting.ScriptNew,
+                            edit: scApiSiteSetting.ScriptEdit,
+                            index: scApiSiteSetting.ScriptIndex,
+                            calendar: scApiSiteSetting.ScriptCalendar,
+                            crosstab: scApiSiteSetting.ScriptCrosstab,
+                            gantt: scApiSiteSetting.ScriptGantt,
+                            burnDown: scApiSiteSetting.ScriptBurnDown,
+                            timeSeries: scApiSiteSetting.ScriptTimeSeries,
+                            kamban: scApiSiteSetting.ScriptKamban,
+                            imageLib: scApiSiteSetting.ScriptImageLib,
+                            disabled: scApiSiteSetting.Disabled,
+                            body: scApiSiteSetting.Body));
+                    }
+                }
+            });
+            // Check has deleted
+            if (deleteSelected.Count() != 0)
+            {
+                siteSetting.Scripts.Delete(deleteSelected);
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public void UpsertStyleByApi(
+            SiteSettings siteSetting,
+            List<ApiSiteSettings.StyleApiSettingModel> styleApiSiteSetting)
+        {
+            List<int> deleteSelected = new List<int>();
+            styleApiSiteSetting.ForEach(stApiSiteSetting =>
+            {
+                var currentStyle = siteSetting.Styles?.
+                     FirstOrDefault(o => o.Id == stApiSiteSetting.Id.ToInt());
+                if (stApiSiteSetting.Delete.ToInt() == ApiSiteSetting.DeleteFlag.IsDelete.ToInt())
+                {
+                    deleteSelected.Add(stApiSiteSetting.Id.ToInt());
+                }
+                else
+                {
+                    if (currentStyle != null)
+                    {
+                        // Update Style site setting
+                        currentStyle.Update(
+                            title: stApiSiteSetting.Title,
+                            all: stApiSiteSetting.StyleAll,
+                            _new: stApiSiteSetting.StyleNew,
+                            edit: stApiSiteSetting.StyleEdit,
+                            index: stApiSiteSetting.StyleIndex,
+                            calendar: stApiSiteSetting.StyleCalendar,
+                            crosstab: stApiSiteSetting.StyleCrosstab,
+                            gantt: stApiSiteSetting.StyleGantt,
+                            burnDown: stApiSiteSetting.StyleBurnDown,
+                            timeSeries: stApiSiteSetting.StyleTimeSeries,
+                            kamban: stApiSiteSetting.StyleKamban,
+                            imageLib: stApiSiteSetting.StyleImageLib,
+                            disabled: stApiSiteSetting.Disabled,
+                            body: stApiSiteSetting.Body);
+                    }
+                    else
+                    {
+                        // Add new Style site setting
+                        SiteSettings.Styles.Add(new Style(
+                            id: stApiSiteSetting.Id,
+                            title: stApiSiteSetting.Title,
+                            all: stApiSiteSetting.StyleAll,
+                            _new: stApiSiteSetting.StyleNew,
+                            edit: stApiSiteSetting.StyleEdit,
+                            index: stApiSiteSetting.StyleIndex,
+                            calendar: stApiSiteSetting.StyleCalendar,
+                            crosstab: stApiSiteSetting.StyleCrosstab,
+                            gantt: stApiSiteSetting.StyleGantt,
+                            burnDown: stApiSiteSetting.StyleBurnDown,
+                            timeSeries: stApiSiteSetting.StyleTimeSeries,
+                            kamban: stApiSiteSetting.StyleKamban,
+                            imageLib: stApiSiteSetting.StyleImageLib,
+                            disabled: stApiSiteSetting.Disabled,
+                            body: stApiSiteSetting.Body));
+                    }
+                }
+            });
+            // Check has deleted
+            if (deleteSelected.Count() != 0)
+            {
+                siteSetting.Styles.Delete(deleteSelected);
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public void UpsertHtmlByApi(
+            SiteSettings siteSetting,
+            List<ApiSiteSettings.HtmlApiSettingModel> htmlsApiSiteSetting)
+        {
+            List<int> deleteSelected = new List<int>();
+            htmlsApiSiteSetting.ForEach(htmlApiSiteSetting =>
+            {
+                var currentHtml = siteSetting.Htmls?.
+                     FirstOrDefault(o => o.Id == htmlApiSiteSetting.Id.ToInt());
+                if (htmlApiSiteSetting.Delete.ToInt() == ApiSiteSetting.DeleteFlag.IsDelete.ToInt())
+                {
+                    deleteSelected.Add(htmlApiSiteSetting.Id.ToInt());
+                }
+                else
+                {
+                    if (currentHtml != null)
+                    {
+                        // Update html site setting
+                        currentHtml.Update(
+                            title: htmlApiSiteSetting.Title,
+                            positionType: htmlApiSiteSetting.HtmlPositionType.ToEnum<Html.PositionTypes>(),
+                            all: htmlApiSiteSetting.HtmlAll,
+                            _new: htmlApiSiteSetting.HtmlNew,
+                            edit: htmlApiSiteSetting.HtmlEdit,
+                            index: htmlApiSiteSetting.HtmlIndex,
+                            calendar: htmlApiSiteSetting.HtmlCalendar,
+                            crosstab: htmlApiSiteSetting.HtmlCrosstab,
+                            gantt: htmlApiSiteSetting.HtmlGantt,
+                            burnDown: htmlApiSiteSetting.HtmlBurnDown,
+                            timeSeries: htmlApiSiteSetting.HtmlTimeSeries,
+                            kamban: htmlApiSiteSetting.HtmlKamban,
+                            imageLib: htmlApiSiteSetting.HtmlImageLib,
+                            disabled: htmlApiSiteSetting.Disabled,
+                            body: htmlApiSiteSetting.Body);
+                    }
+                    else
+                    {
+                        // Add new html site setting
+                        SiteSettings.Htmls.Add(new Html(
+                            id: htmlApiSiteSetting.Id,
+                            title: htmlApiSiteSetting.Title,
+                            positionType: htmlApiSiteSetting.HtmlPositionType.ToEnum<Html.PositionTypes>(),
+                            all: htmlApiSiteSetting.HtmlAll,
+                            _new: htmlApiSiteSetting.HtmlNew,
+                            edit: htmlApiSiteSetting.HtmlEdit,
+                            index: htmlApiSiteSetting.HtmlIndex,
+                            calendar: htmlApiSiteSetting.HtmlCalendar,
+                            crosstab: htmlApiSiteSetting.HtmlCrosstab,
+                            gantt: htmlApiSiteSetting.HtmlGantt,
+                            burnDown: htmlApiSiteSetting.HtmlBurnDown,
+                            timeSeries: htmlApiSiteSetting.HtmlTimeSeries,
+                            kamban: htmlApiSiteSetting.HtmlKamban,
+                            imageLib: htmlApiSiteSetting.HtmlImageLib,
+                            disabled: htmlApiSiteSetting.Disabled,
+                            body: htmlApiSiteSetting.Body));
+                    }
+                }
+            });
+            // Check has deleted
+            if (deleteSelected.Count() != 0)
+            {
+                siteSetting.Htmls.Delete(deleteSelected);
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public void UpsertProcessByApi(
+            SiteSettings siteSetting,
+            List<ApiSiteSettings.ProcessApiSettingModel> processesApiSiteSetting,
+            Context context)
+        {
+            List<int> deleteSelected = new List<int>();
+            processesApiSiteSetting.ForEach(processApiSiteSetting =>
+            {
+                var currentProcess = siteSetting.Processes?.
+                     FirstOrDefault(o => o.Id == processApiSiteSetting.Id.ToInt());
+                if (processApiSiteSetting.Delete.ToInt() == ApiSiteSetting.DeleteFlag.IsDelete.ToInt())
+                {
+                    deleteSelected.Add(processApiSiteSetting.Id.ToInt());
+                }
+                else if (currentProcess != null)
+                {
+                    currentProcess.Update(
+                        name: processApiSiteSetting.Name,
+                        displayName: processApiSiteSetting.DisplayName,
+                        screenType: processApiSiteSetting.ScreenType?.ToString().ToEnum<Process.ScreenTypes>(),
+                        currentStatus: processApiSiteSetting.CurrentStatus,
+                        changedStatus: processApiSiteSetting.ChangedStatus,
+                        description: processApiSiteSetting.Description,
+                        tooltip: processApiSiteSetting.Tooltip,
+                        confirmationMessage: processApiSiteSetting.ConfirmationMessage,
+                        successMessage: processApiSiteSetting.SuccessMessage,
+                        onClick: processApiSiteSetting.OnClick,
+                        executionType: processApiSiteSetting.ExecutionType?.ToString().ToEnum<Process.ExecutionTypes>(),
+                        actionType: processApiSiteSetting.ActionType?.ToString().ToEnum<Process.ActionTypes>(),
+                        allowBulkProcessing: processApiSiteSetting.AllowBulkProcessing,
+                        validationType: processApiSiteSetting.ValidationType?.ToString().ToEnum<Process.ValidationTypes>(),
+                        validateInputs: ParseValidateInputs(
+                            validateInputs: processApiSiteSetting.ValidateInputs,
+                            process: currentProcess),
+                        permissions: processApiSiteSetting.Permission != null ? ParsePermissions(
+                            apiSettingPermission: processApiSiteSetting.Permission,
+                            ss: siteSetting,
+                            target: currentProcess) : null,
+                        view: processApiSiteSetting.View,
+                        errorMessage: processApiSiteSetting.ErrorMessage,
+                        dataChanges: ParseDataChanges(
+                            dataChanges: processApiSiteSetting.DataChanges,
+                            process: currentProcess),
+                        autoNumbering: processApiSiteSetting.AutoNumbering,
+                        notifications: ParseNotifications(
+                            notifications: processApiSiteSetting.Notifications,
+                            process: currentProcess));
+                }
+                else
+                {
+                    SiteSettings.Processes.Add(new Process(
+                        id: processApiSiteSetting.Id,
+                        name: processApiSiteSetting.Name,
+                        displayName: processApiSiteSetting.DisplayName,
+                        screenType: processApiSiteSetting.ScreenType?.ToString().ToEnum<Process.ScreenTypes>(),
+                        currentStatus: processApiSiteSetting.CurrentStatus != null ? (int)processApiSiteSetting.CurrentStatus : default,
+                        changedStatus: processApiSiteSetting.ChangedStatus != null ? (int)processApiSiteSetting.ChangedStatus : default,
+                        description: processApiSiteSetting.Description,
+                        tooltip: processApiSiteSetting.Tooltip,
+                        confirmationMessage: processApiSiteSetting.ConfirmationMessage,
+                        successMessage: processApiSiteSetting.SuccessMessage,
+                        onClick: processApiSiteSetting.OnClick,
+                        executionType: processApiSiteSetting.ExecutionType?.ToString().ToEnum<Process.ExecutionTypes>(),
+                        actionType: processApiSiteSetting.ActionType?.ToString().ToEnum<Process.ActionTypes>(),
+                        allowBulkProcessing: processApiSiteSetting.AllowBulkProcessing,
+                        validationType: processApiSiteSetting.ValidationType?.ToString().ToEnum<Process.ValidationTypes>(),
+                        validateInputs: ParseValidateInputs(
+                            validateInputs: processApiSiteSetting.ValidateInputs,
+                            process: currentProcess),
+                        permissions: ParsePermissions(
+                            apiSettingPermission: processApiSiteSetting.Permission,
+                            ss: siteSetting),
+                        view: processApiSiteSetting.View,
+                        errorMessage: processApiSiteSetting.ErrorMessage,
+                        dataChanges: ParseDataChanges(
+                            dataChanges: processApiSiteSetting.DataChanges,
+                            process: currentProcess),
+                        autoNumbering: processApiSiteSetting.AutoNumbering,
+                        notifications: ParseNotifications(
+                            notifications: processApiSiteSetting.Notifications,
+                            process: currentProcess)));
+                }
+            });
+            if (deleteSelected.Count() != 0)
+            {
+                siteSetting.Processes.Delete(deleteSelected);
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public void UpsertStatusControlByApi(
+        SiteSettings siteSetting,
+            List<ApiSiteSettings.StatusControlApiSettingModel> statusControlSettings,
+            Context context)
+        {
+            List<int> deleteSelected = new List<int>();
+            statusControlSettings.ForEach(statusControlSetting =>
+            {
+                var statusControl = siteSetting.StatusControls?.
+                     FirstOrDefault(o => o.Id == statusControlSetting.Id.ToInt());
+                if (statusControlSetting.Delete.ToInt() == ApiSiteSetting.DeleteFlag.IsDelete.ToInt())
+                {
+                    deleteSelected.Add(statusControlSetting.Id.ToInt());
+                }
+                else if (statusControl != null)
+                {
+                    statusControl.Update(
+                     name: statusControlSetting.Name,
+                     description: statusControlSetting.Description,
+                     status: statusControlSetting.Status,
+                     readOnly: statusControlSetting.ReadOnly,
+                     view: statusControlSetting.View,
+                     columnHash: statusControlSetting.ColumnHash,
+                     permissions: statusControlSetting.Permission != null ? ParsePermissions(
+                         apiSettingPermission: statusControlSetting.Permission,
+                         ss: siteSetting,
+                         target: statusControl) : null);
+                }
+                else
+                {
+                    SiteSettings.StatusControls.Add(new StatusControl(
+                     id: statusControlSetting.Id,
+                     name: statusControlSetting.Name,
+                     description: statusControlSetting.Description,
+                     status: statusControlSetting.Status,
+                     readOnly: statusControlSetting.ReadOnly,
+                     view: statusControlSetting.View,
+                     columnHash: statusControlSetting.ColumnHash,
+                     permissions: ParsePermissions(
+                         apiSettingPermission: statusControlSetting.Permission,
+                         ss: siteSetting)));
+                }
+            });
+            if (deleteSelected.Count() != 0)
+            {
+                siteSetting.StatusControls.Delete(deleteSelected);
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private void SetSiteSettings(Context context, ResponseCollection res)
         {
             var controlId = context.Forms.ControlId();
@@ -2514,6 +2997,11 @@ namespace Implem.Pleasanter.Models
                     break;
                 case "DeleteFormulas":
                     DeleteFormulas(
+                        context: context,
+                        res: res);
+                    break;
+                case "FormulaCalculationMethod":
+                    ChangeFormulaCalculationMethod(
                         context: context,
                         res: res);
                     break;
@@ -3145,9 +3633,25 @@ namespace Implem.Pleasanter.Models
                         res: res);
                     break;
                 case "AddDashboardPartViewFilter":
+                    long BaseSiteId = 0;
+                    switch ((DashboardPartType)context.Forms.Long("DashboardPartType"))
+                    {
+                        case DashboardPartType.TimeLine:
+                            BaseSiteId = context.Forms.Long("DashboardPartBaseSiteId");
+                            break;
+                        case DashboardPartType.Calendar:
+                            BaseSiteId = context.Forms.Long("DashboardPartCalendarBaseSiteId");
+                            break;
+                        case DashboardPartType.Kamban:
+                            BaseSiteId = context.Forms.Long("DashboardPartKambanBaseSiteId");
+                            break;
+                        case DashboardPartType.Index:
+                            BaseSiteId = context.Forms.Long("DashboardPartIndexBaseSiteId");
+                            break;
+                    }
                     var ss = SiteSettingsUtilities.Get(
                         context: context,
-                        siteId: context.Forms.Long("DashboardPartBaseSiteId"));
+                        siteId: BaseSiteId);
                     AddViewFilter(
                         context: context,
                         res: res,
@@ -3164,8 +3668,53 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         res: res);
                     break;
+                case "EditCalendarSites":
+                    OpenDashboardPartCalendarSitesDialog(
+                        context: context,
+                        res: res);
+                    break;
+                case "UpdateDashboardPartCalendarSites":
+                    UpdateDashboardPartCalendarSites(
+                        context: context,
+                        res: res);
+                    break;
+                case "EditKambanSites":
+                    OpenDashboardPartKambanSitesDialog(
+                        context: context,
+                        res: res);
+                    break;
+                case "UpdateDashboardPartKambanSites":
+                    UpdateDashboardPartKambanSites(
+                        context: context,
+                        res: res);
+                    break;
+                case "EditIndexSites":
+                    OpenDashboardPartIndexSitesDialog(
+                        context: context,
+                        res: res);
+                    break;
+                case "UpdateDashboardPartIndexSites":
+                    UpdateDashboardPartIndexSites(
+                        context: context,
+                        res: res);
+                    break;
                 case "ClearDashboardView":
                     ClearDashboardView(
+                        context: context,
+                        res: res);
+                    break;
+                case "ClearDashboardCalendarView":
+                    ClearDashboardCalendarView(
+                        context: context,
+                        res: res);
+                    break;
+                case "ClearDashboardKambanView":
+                    ClearDashboardKambanView(
+                        context: context,
+                        res: res);
+                    break;
+                case "ClearDashboardIndexView":
+                    ClearDashboardIndexView(
                         context: context,
                         res: res);
                     break;
@@ -3174,6 +3723,16 @@ namespace Implem.Pleasanter.Models
                     break;
                 case "SearchDashboardPartAccessControl":
                     SearchDashboardPartAccessControl(
+                        context: context,
+                        res: res);
+                    break;
+                case "OpenSearchEditorColumnDialog":
+                    OpenSearchEditorColumnDialog(
+                        context: context,
+                        res: res);
+                    break;
+                case "SearchEditorColumnDialogInput":
+                    FilterSourceColumnsSelectable(
                         context: context,
                         res: res);
                     break;
@@ -4254,9 +4813,12 @@ namespace Implem.Pleasanter.Models
         {
             var outOfCondition = context.Forms.Data("FormulaOutOfCondition").Trim();
             var error = SiteSettings.AddFormula(
+                context.Forms.Data("FormulaCalculationMethod"),
                 context.Forms.Data("FormulaTarget"),
                 context.Forms.Int("FormulaCondition"),
                 context.Forms.Data("Formula"),
+                context.Forms.Bool("NotUseDisplayName"),
+                context.Forms.Bool("IsDisplayError"),
                 outOfCondition != string.Empty
                     ? outOfCondition
                     : null);
@@ -4282,9 +4844,12 @@ namespace Implem.Pleasanter.Models
             var outOfCondition = context.Forms.Data("FormulaOutOfCondition").Trim();
             var error = SiteSettings.UpdateFormula(
                 id,
+                context.Forms.Data("FormulaCalculationMethod"),
                 context.Forms.Data("FormulaTarget"),
                 context.Forms.Int("FormulaCondition"),
                 context.Forms.Data("Formula"),
+                context.Forms.Bool("NotUseDisplayName"),
+                context.Forms.Bool("IsDisplayError"),
                 outOfCondition != string.Empty
                     ? outOfCondition
                     : null);
@@ -7128,7 +7693,7 @@ namespace Implem.Pleasanter.Models
         {
             if (controlId == "NewServerScript")
             {
-                var script = new ServerScript() { BeforeFormula = true };
+                var script = new ServerScript();
                 OpenServerScriptDialog(
                     context: context,
                     res: res,
@@ -7190,8 +7755,9 @@ namespace Implem.Pleasanter.Models
                 beforeOpeningPage: context.Forms.Bool("ServerScriptBeforeOpeningPage"),
                 beforeOpeningRow: context.Forms.Bool("ServerScriptBeforeOpeningRow"),
                 shared: context.Forms.Bool("ServerScriptShared"),
+                background: false,
                 body: context.Forms.Data("ServerScriptBody"),
-                timeOut: context.Forms.Int("ServerScriptTimeOut"));
+                timeOut: GetServerScriptTimeOutValue(context: context));
             var invalid = ServerScriptValidators.OnCreating(
                 context: context,
                 serverScript: script);
@@ -7220,8 +7786,9 @@ namespace Implem.Pleasanter.Models
                 beforeOpeningPage: script.BeforeOpeningPage ?? default,
                 beforeOpeningRow: script.BeforeOpeningRow ?? default,
                 shared: script.Shared ?? default,
+                background: script.Background ?? default,
                 body: script.Body,
-                timeOut: context.Forms.Int("ServerScriptTimeOut")));
+                timeOut: script.TimeOut));
             res
                 .ReplaceAll("#EditServerScript", new HtmlBuilder()
                     .EditServerScript(
@@ -7253,8 +7820,9 @@ namespace Implem.Pleasanter.Models
                 beforeOpeningPage: context.Forms.Bool("ServerScriptBeforeOpeningPage"),
                 beforeOpeningRow: context.Forms.Bool("ServerScriptBeforeOpeningRow"),
                 shared: context.Forms.Bool("ServerScriptShared"),
+                background: false,
                 body: context.Forms.Data("ServerScriptBody"),
-                timeOut: context.Forms.Int("ServerScriptTimeOut"));
+                timeOut: GetServerScriptTimeOutValue(context: context));
             var invalid = ServerScriptValidators.OnUpdating(
                 context: context,
                 serverScript: script);
@@ -7284,6 +7852,7 @@ namespace Implem.Pleasanter.Models
                     beforeOpeningPage: script.BeforeOpeningPage ?? default,
                     beforeOpeningRow: script.BeforeOpeningRow ?? default,
                     shared: script.Shared ?? default,
+                    background: script.Background ?? default,
                     body: script.Body,
                     timeOut: script.TimeOut);
             res
@@ -7292,6 +7861,18 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: SiteSettings))
                 .CloseDialog();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private int? GetServerScriptTimeOutValue(Context context)
+        {
+            int timeOut;
+            return int.TryParse(context.Forms.Data("ServerScriptTimeOut"), out timeOut)
+                && timeOut <= Parameters.Script.ServerScriptTimeOutMax && timeOut >= Parameters.Script.ServerScriptTimeOutMin
+                    ? timeOut
+                    : null;
         }
 
         /// <summary>
@@ -7745,6 +8326,42 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        private void OpenDashboardPartCalendarSitesDialog(Context context, ResponseCollection res)
+        {
+            res.Html("#DashboardPartCalendarSitesDialog", SiteUtilities.DashboardPartCalendarSitesDialog(
+                context: context,
+                ss: SiteSettings,
+                dashboardPartId: context.Forms.Int("DashboardPartId"),
+                dashboardCalendarSites: context.Forms.Data("DashboardPartCalendarSites")));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void OpenDashboardPartKambanSitesDialog(Context context, ResponseCollection res)
+        {
+            res.Html("#DashboardPartKambanSitesDialog", SiteUtilities.DashboardPartKambanSitesDialog(
+                context: context,
+                ss: SiteSettings,
+                dashboardPartId: context.Forms.Int("DashboardPartId"),
+                dashboardKambanSites: context.Forms.Data("DashboardPartKambanSites")));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void OpenDashboardPartIndexSitesDialog(Context context, ResponseCollection res)
+        {
+            res.Html("#DashboardPartIndexSitesDialog", SiteUtilities.DashboardPartIndexSitesDialog(
+                context: context,
+                ss: SiteSettings,
+                dashboardPartId: context.Forms.Int("DashboardPartId"),
+                dashboardIndexSites: context.Forms.Data("DashboardPartIndexSites")));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private void OpenDashboardPartDialog(Context context, ResponseCollection res, string controlId)
         {
             if (controlId == "NewDashboardPart")
@@ -7796,7 +8413,26 @@ namespace Implem.Pleasanter.Models
                 content: context.Forms.Data("DashboardPartContent"),
                 htmlContent: context.Forms.Data("DashboardPartHtmlContent"),
                 timeLineDisplayType: context.Forms.Data("DashboardPartTimeLineDisplayType").ToEnum<TimeLineDisplayType>(),
+                calendarSites: context.Forms.Data("DashboardPartCalendarSites"),
+                calendarSitesData: context.Forms.Data("DashboardPartCalendarSites").Split(',').ToList(),
+                calendarGroupBy: context.Forms.Data("DashboardPartCalendarGroupBy"),
+                calendarTimePeriod: context.Forms.Data("DashboardPartCalendarTimePeriod"),
+                calendarFromTo: context.Forms.Data("DashboardPartCalendarFromTo"),
+                calendarShowStatus: context.Forms.Bool("CalendarShowStatus"),
+                calendarType: context.Forms.Data("DashboardPartCalendarType").ToEnum<SiteSettings.CalendarTypes>(),
+                kambanSites: context.Forms.Data("DashboardPartKambanSites"),
+                kambanSitesData: context.Forms.Data("DashboardPartKambanSites").Split(',').ToList(),
+                kambanGroupByX: context.Forms.Data("DashboardPartKambanGroupByX"),
+                kambanGroupByY: context.Forms.Data("DashboardPartKambanGroupByY"),
+                kambanAggregateType: context.Forms.Data("DashboardPartKambanAggregateType"),
+                kambanValue: context.Forms.Data("DashboardPartKambanValue"),
+                kambanColumns: context.Forms.Data("DashboardPartKambanColumns"),
+                kambanAggregationView: context.Forms.Bool("DashboardPartKambanAggregationView"),
+                kambanShowStatus: context.Forms.Bool("DashboardPartKambanShowStatus"),
+                indexSites: context.Forms.Data("DashboardPartIndexSites"),
+                indexSitesData: context.Forms.Data("DashboardPartIndexSites").Split(',').ToList(),
                 extendedCss: context.Forms.Data("DashboardPartExtendedCss"),
+                disableAsynchronousLoading: context.Forms.Bool("DisableAsynchronousLoading"),
                 permissions: DashboardPartPermissions(context: context));
             SiteSettings.DashboardParts.Add(dashboardPart);
             res
@@ -7853,7 +8489,26 @@ namespace Implem.Pleasanter.Models
                 content: context.Forms.Data("DashboardPartContent"),
                 htmlContent: context.Forms.Data("DashboardPartHtmlContent"),
                 timeLineDisplayType: context.Forms.Data("DashboardPartTimeLineDisplayType").ToEnum<TimeLineDisplayType>(),
+                calendarSites: context.Forms.Data("DashboardPartCalendarSites"),
+                calendarSitesData: context.Forms.Data("DashboardPartCalendarSites").Split(',').ToList(),
+                calendarGroupBy: context.Forms.Data("DashboardPartCalendarGroupBy"),
+                calendarTimePeriod: context.Forms.Data("DashboardPartCalendarTimePeriod"),
+                calendarFromTo: context.Forms.Data("DashboardPartCalendarFromTo"),
+                calendarShowStatus: context.Forms.Bool("CalendarShowStatus"),
+                calendarType: context.Forms.Data("DashboardPartCalendarType").ToEnum<SiteSettings.CalendarTypes>(),
+                kambanSites: context.Forms.Data("DashboardPartKambanSites"),
+                kambanSitesData: context.Forms.Data("DashboardPartKambanSites").Split(',').ToList(),
+                kambanGroupByX: context.Forms.Data("DashboardPartKambanGroupByX"),
+                kambanGroupByY: context.Forms.Data("DashboardPartKambanGroupByY"),
+                kambanAggregateType: context.Forms.Data("DashboardPartKambanAggregateType"),
+                kambanValue: context.Forms.Data("DashboardPartKambanValue"),
+                kambanColumns: context.Forms.Data("DashboardPartKambanColumns"),
+                kambanAggregationView: context.Forms.Bool("DashboardPartKambanAggregationView"),
+                kambanShowStatus: context.Forms.Bool("DashboardPartKambanShowStatus"),
+                indexSites: context.Forms.Data("DashboardPartIndexSites"),
+                indexSitesData: context.Forms.Data("DashboardPartIndexSites").Split(',').ToList(),
                 extendedCss: context.Forms.Data("DashboardPartExtendedCss"),
+                disableAsynchronousLoading: context.Forms.Bool("DisableAsynchronousLoading"),
                 permissions: DashboardPartPermissions(context: context));
             res
                 .Html("#EditDashboardPart", new HtmlBuilder()
@@ -7972,10 +8627,10 @@ namespace Implem.Pleasanter.Models
             var timeLineSites = context.Forms.Data("DashboardPartTimeLineSitesEdit");
             var savedSs = DashboardPart.GetBaseSiteSettings(
                 context: context,
-                timeLineSitesString: savedTimeLineSites);
+                sitesString: savedTimeLineSites);
             var currentSs = DashboardPart.GetBaseSiteSettings(
-                    context: context,
-                    timeLineSitesString: timeLineSites);
+                context: context,
+                sitesString: timeLineSites);
             if (currentSs == null || currentSs.SiteId == 0)
             {
                 res.Message(
@@ -8021,6 +8676,185 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        private void UpdateDashboardPartCalendarSites(Context context, ResponseCollection res)
+        {
+            var savedCalendarSites = context.Forms.Data("SavedDashboardPartCalendarSites");
+            var calendarSites = context.Forms.Data("DashboardPartCalendarSitesEdit");
+            var savedSs = DashboardPart.GetBaseSiteSettings(
+                context: context,
+                sitesString: savedCalendarSites);
+            var currentSs = DashboardPart.GetBaseSiteSettings(
+                context: context,
+                sitesString: calendarSites);
+            if (currentSs == null || currentSs.SiteId == 0)
+            {
+                res.Message(
+                    message: new Message(
+                        id: "InvalidCalendarSites",
+                        text: Displays.InvalidTimeLineSites(context: context),
+                        css: "alert-error"),
+                    target: "#DashboardPartCalendarSitesMessage");
+            }
+            else if (savedSs == null || savedSs?.SiteId == 0 || savedSs?.SiteId == currentSs?.SiteId)
+            {
+                res
+                    .Set(
+                        target: "#DashboardPartCalendarSites",
+                        value: calendarSites)
+                    .Set(
+                        target: "#DashboardPartCalendarBaseSiteId",
+                        value: currentSs.SiteId)
+                    .Add(
+                        method: "SetValue",
+                        target: "#DashboardPartCalendarSitesValue",
+                        value: calendarSites)
+                    .CloseDialog(
+                        target: "#DashboardPartCalendarSitesDialog");
+                if (savedSs == null || savedSs?.SiteId == 0)
+                {
+                    ClearDashboardCalendarView(context: context, res: res);
+                }
+            }
+            else
+            {
+                res
+                    .Html(
+                        target: "#DashboardPartCalendarGroupBy",
+                        value: new HtmlBuilder()
+                            .OptionCollection(
+                                context: context,
+                                optionCollection: currentSs.CalendarGroupByOptions(context: context)?.ToDictionary(
+                                o => o.Key, o => new ControlData(o.Value)),
+                                insertBlank: true))
+                    .Html(
+                        target: "#DashboardPartCalendarFromTo",
+                        value: new HtmlBuilder()
+                            .OptionCollection(
+                                context: context,
+                                optionCollection: currentSs.CalendarColumnOptions(context: context)?.ToDictionary(
+                                o => o.Key, o => new ControlData(o.Value))))
+                    .Invoke(
+                        methodName: "confirmCalendarSites",
+                        args: new
+                        {
+                            calendarSites,
+                            baseSiteId = currentSs.SiteId
+                        }.ToJson());
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void UpdateDashboardPartKambanSites(Context context, ResponseCollection res)
+        {
+            var savedKambanSites = context.Forms.Data("SavedDashboardPartKambanSites");
+            var kambanSites = context.Forms.Data("DashboardPartKambanSitesEdit");
+            var savedSs = DashboardPart.GetBaseSiteSettings(
+                context: context,
+                sitesString: savedKambanSites);
+            var currentSs = DashboardPart.GetBaseSiteSettings(
+                context: context,
+                sitesString: kambanSites);
+            if (currentSs == null || currentSs.SiteId == 0)
+            {
+                res.Message(
+                    message: new Message(
+                        id: "InvalidKambanSites",
+                        text: Displays.InvalidTimeLineSites(context: context),
+                        css: "alert-error"),
+                    target: "#DashboardPartKambanSitesMessage");
+            }
+            else if (savedSs == null || savedSs?.SiteId == 0 || savedSs?.SiteId == currentSs?.SiteId)
+            {
+                res
+                    .Set(
+                        target: "#DashboardPartKambanSites",
+                        value: kambanSites)
+                    .Set(
+                        target: "#DashboardPartKambanBaseSiteId",
+                        value: currentSs.SiteId)
+                    .Add(
+                        method: "SetValue",
+                        target: "#DashboardPartKambanSitesValue",
+                        value: kambanSites)
+                    .CloseDialog(
+                        target: "#DashboardPartKambanSitesDialog");
+                if (savedSs == null || savedSs?.SiteId == 0)
+                {
+                    ClearDashboardKambanView(context: context, res: res);
+                }
+            }
+            else
+            {
+                res
+                    .Invoke(
+                        methodName: "confirmKambanSites",
+                        args: new
+                        {
+                            kambanSites,
+                            baseSiteId = currentSs.SiteId
+                        }.ToJson());
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void UpdateDashboardPartIndexSites(Context context, ResponseCollection res)
+        {
+            var savedIndexSites = context.Forms.Data("SavedDashboardPartIndexSites");
+            var indexSites = context.Forms.Data("DashboardPartIndexSitesEdit");
+            var savedSs = DashboardPart.GetBaseSiteSettings(
+                context: context,
+                sitesString: savedIndexSites);
+            var currentSs = DashboardPart.GetBaseSiteSettings(
+                context: context,
+                sitesString: indexSites);
+            if (currentSs == null || currentSs.SiteId == 0)
+            {
+                res.Message(
+                    message: new Message(
+                        id: "InvalidIndexSites",
+                        text: Displays.InvalidTimeLineSites(context: context),
+                        css: "alert-error"),
+                    target: "#DashboardPartIndexSitesMessage");
+            }
+            else if (savedSs == null || savedSs?.SiteId == 0 || savedSs?.SiteId == currentSs?.SiteId)
+            {
+                res
+                    .Set(
+                        target: "#DashboardPartIndexSites",
+                        value: indexSites)
+                    .Set(
+                        target: "#DashboardPartIndexBaseSiteId",
+                        value: currentSs.SiteId)
+                    .Add(
+                        method: "SetValue",
+                        target: "#DashboardPartIndexSitesValue",
+                        value: indexSites)
+                    .CloseDialog(
+                        target: "#DashboardPartIndexSitesDialog");
+                if (savedSs == null || savedSs?.SiteId == 0)
+                {
+                    ClearDashboardIndexView(context: context, res: res);
+                }
+            }
+            else
+            {
+                res.Invoke(
+                    methodName: "confirmIndexSites",
+                    args: new
+                    {
+                        indexSites,
+                        baseSiteId = currentSs.SiteId
+                    }.ToJson());
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private void ClearDashboardView(Context context, ResponseCollection res)
         {
             var currentSs = DashboardPart.GetBaseSiteSettings(
@@ -8042,6 +8876,174 @@ namespace Implem.Pleasanter.Models
                 dashboardPart.View = new View();
             }
             res
+                .Html(
+                    "#DashboardPartViewFiltersTabContainer",
+                    new HtmlBuilder()
+                        .ViewFiltersTab(
+                            context: context,
+                            ss: currentSs,
+                            view: new View(),
+                            prefix: "DashboardPart",
+                            currentTableOnly: true))
+                .Html(
+                    "#DashboardPartViewSortersTabContainer",
+                    new HtmlBuilder()
+                        .ViewSortersTab(
+                            context: context,
+                            ss: currentSs,
+                            view: new View(),
+                            prefix: "DashboardPart",
+                            usekeepSorterState: false,
+                            currentTableOnly: true));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void ClearDashboardCalendarView(Context context, ResponseCollection res)
+        {
+            var currentSs = DashboardPart.GetBaseSiteSettings(
+                context: context,
+                context.Forms.Data("DashboardPartCalendarSitesEdit"));
+            if (currentSs == null)
+            {
+                res.Message(
+                   new Message(
+                       "InvalidCalendarSites",
+                       Displays.InvalidTimeLineSites(context: context),
+                       "alert-error"));
+                return;
+            }
+            var dashboardPart = SiteSettings.DashboardParts?
+                .FirstOrDefault(o => o.Id == context.Forms.Int("DashboardPartId"));
+            if (dashboardPart != null)
+            {
+                dashboardPart.View = new View();
+            }
+            res
+                .Html(
+                    "#DashboardPartViewFiltersTabContainer",
+                    new HtmlBuilder()
+                        .ViewFiltersTab(
+                            context: context,
+                            ss: currentSs,
+                            view: new View(),
+                            prefix: "DashboardPart",
+                            currentTableOnly: true))
+                .Html(
+                    target: "#DashboardPartCalendarGroupBy",
+                    value: new HtmlBuilder()
+                        .OptionCollection(
+                            context: context,
+                            optionCollection: currentSs.CalendarGroupByOptions(context: context)?.ToDictionary(
+                            o => o.Key, o => new ControlData(o.Value)),
+                            insertBlank: true))
+                .Html(
+                    target: "#DashboardPartCalendarFromTo",
+                    value: new HtmlBuilder()
+                        .OptionCollection(
+                            context: context,
+                            optionCollection: currentSs.CalendarColumnOptions(context: context)?.ToDictionary(
+                            o => o.Key, o => new ControlData(o.Value))));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void ClearDashboardKambanView(Context context, ResponseCollection res)
+        {
+            var currentSs = DashboardPart.GetBaseSiteSettings(
+                context: context,
+                context.Forms.Data("DashboardPartKambanSitesEdit"));
+            var kambanGroupByOptions = currentSs.KambanGroupByOptions(
+                context: context,
+                addNothing: true)?
+                    .ToDictionary(o => o.Key, o => new ControlData(o.Value));
+            if (currentSs == null)
+            {
+                res.Message(
+                   new Message(
+                       "InvalidKambanSites",
+                       Displays.InvalidTimeLineSites(context: context),
+                       "alert-error"));
+                return;
+            }
+            var dashboardPart = SiteSettings.DashboardParts?
+                .FirstOrDefault(o => o.Id == context.Forms.Int("DashboardPartId"));
+            if (dashboardPart != null)
+            {
+                dashboardPart.View = new View();
+            }
+            res
+                .Html(
+                    "#DashboardPartViewFiltersTabContainer",
+                    new HtmlBuilder()
+                        .ViewFiltersTab(
+                            context: context,
+                            ss: currentSs,
+                            view: new View(),
+                            prefix: "DashboardPart",
+                            currentTableOnly: true))
+                .Html(
+                    target: "#DashboardPartKambanGroupByX",
+                    value: new HtmlBuilder()
+                        .OptionCollection(
+                            context: context,
+                            optionCollection: kambanGroupByOptions,
+                            selectedValue: kambanGroupByOptions?.ContainsKey("Status") == true
+                                ? "Status"
+                                : null))
+                .Html(
+                    target: "#DashboardPartKambanGroupByY",
+                    value: new HtmlBuilder()
+                        .OptionCollection(
+                            context: context,
+                            optionCollection: kambanGroupByOptions,
+                            selectedValue: kambanGroupByOptions?.ContainsKey("Owner") == true
+                                ? "Owner"
+                                : null))
+                .Html(
+                    target: "#DashboardPartKambanValue",
+                    value: new HtmlBuilder()
+                        .OptionCollection(
+                            context: context,
+                            optionCollection: currentSs.KambanValueOptions(context: context)?.ToDictionary(
+                            o => o.Key, o => new ControlData(o.Value)),
+                            selectedValue: currentSs.ReferenceType == "Issues" ? "RemainingWorkValue" : "NumA"));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void ClearDashboardIndexView(Context context, ResponseCollection res)
+        {
+            var currentSs = DashboardPart.GetBaseSiteSettings(
+                context: context,
+                context.Forms.Data("DashboardPartIndexSitesEdit"));
+            if (currentSs == null)
+            {
+                res.Message(
+                   new Message(
+                       "InvalidIndexSites",
+                       Displays.InvalidTimeLineSites(context: context),
+                       "alert-error"));
+                return;
+            }
+            var dashboardPart = SiteSettings.DashboardParts?
+                .FirstOrDefault(o => o.Id == context.Forms.Int("DashboardPartId"));
+            if (dashboardPart != null)
+            {
+                dashboardPart.View = new View();
+            }
+            res
+                .Html(
+                    "#DashboardPartViewIndexTabContainer",
+                    new HtmlBuilder()
+                        .ViewGridTab(
+                            context: context,
+                            ss: currentSs,
+                            view: new View(),
+                            prefix: "DashboardPart"))
                 .Html(
                     "#DashboardPartViewFiltersTabContainer",
                     new HtmlBuilder()
@@ -8216,6 +9218,220 @@ namespace Implem.Pleasanter.Models
                         .SiteId(SiteId)
                         .Id(reminder.Id))));
             return statements;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void ChangeFormulaCalculationMethod(Context context, ResponseCollection res)
+        {
+            if (!context.CanUpdate(ss: SiteSettings))
+            {
+                res.Message(Messages.HasNotPermission(context: context)).ToJson();
+            }
+            else
+            {
+                res
+                    .Html(
+                        "#FormulaTarget",
+                        new HtmlBuilder().FormulaCalculationMethod(
+                            context: context,
+                            ss: SiteSettings,
+                            target: context.Forms.Data("CalculationMethod")))
+                    .ClearFormData()
+                    .ToJson();
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private List<Permission> ParsePermissions(ApiSiteSettingPermission apiSettingPermission, SiteSettings ss, object target = null)
+        {
+            var permissions = new List<Permission>();
+            if (apiSettingPermission == null) {
+                return permissions;
+            }
+            apiSettingPermission.Users?.ForEach(id => permissions.Add(new Permission(
+                ss: ss,
+                name: "User",
+                id: id)));
+            apiSettingPermission.Groups?.ForEach(id => permissions.Add(new Permission(
+                ss: ss,
+                name: "Group",
+                id: id)));
+            apiSettingPermission.Depts?.ForEach(id => permissions.Add(new Permission(
+                ss: ss,
+                name: "Dept",
+                id: id)));
+            switch (target)
+            {
+                case Process process when target.GetType().Name == nameof(Process):
+                    if (process.Users != null && apiSettingPermission.Users == null) {
+                        process.Users.ForEach(id => permissions.Add(new Permission(
+                            ss: ss,
+                            name: "User",
+                            id: id)));
+                    }
+                    if (process.Depts != null && apiSettingPermission.Depts == null)
+                    {
+                        process.Depts.ForEach(id => permissions.Add(new Permission(
+                            ss: ss,
+                            name: "Dept",
+                            id: id)));
+                    }
+                    if (process.Groups != null && apiSettingPermission.Groups == null)
+                    {
+                        process.Groups.ForEach(id => permissions.Add(new Permission(
+                            ss: ss,
+                            name: "Group",
+                            id: id)));
+                    }
+                    break;
+                case StatusControl statusControll when target.GetType().Name == nameof(StatusControl):
+                    if (statusControll.Users != null && apiSettingPermission.Users == null)
+                    {
+                        statusControll.Users.ForEach(id => permissions.Add(new Permission(
+                            ss: ss,
+                            name: "User",
+                            id: id)));
+                    }
+                    if (statusControll.Depts != null && apiSettingPermission.Depts == null)
+                    {
+                        statusControll.Depts.ForEach(id => permissions.Add(new Permission(
+                            ss: ss,
+                            name: "Dept",
+                            id: id)));
+                    }
+                    if (statusControll.Groups != null && apiSettingPermission.Groups == null)
+                    {
+                        statusControll.Groups.ForEach(id => permissions.Add(new Permission(
+                            ss: ss,
+                            name: "Group",
+                            id: id)));
+                    }
+                    break;
+            }
+            return permissions;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private SettingList<ValidateInput> ParseValidateInputs(SettingList<ValidateInput> validateInputs, Process process)
+        {
+            var data = new SettingList<ValidateInput>();
+            if (validateInputs == null) {
+                return null;
+            }
+            validateInputs.ForEach(o => {
+                if (o.Delete != 1)
+                {
+                    data.Add(o);
+                }
+            });
+            if (process?.ValidateInputs != null) {
+                var requestIds = validateInputs.Select(o => o.Id).ToArray();
+                process.ValidateInputs.ForEach(o => {
+                    if (!requestIds.Contains(o.Id))
+                    {
+                        data.Add(o);
+                    }
+                });
+            }
+            return data;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private SettingList<DataChange> ParseDataChanges(SettingList<DataChange> dataChanges, Process process)
+        {
+            var data = new SettingList<DataChange>();
+            if (dataChanges == null)
+            {
+                return null;
+            }
+            dataChanges.ForEach(o => {
+                if (o.Delete != 1)
+                {
+                    data.Add(o);
+                }
+            });
+            if (process?.DataChanges != null)
+            {
+                var requestIds = dataChanges.Select(o => o.Id).ToArray();
+                process.DataChanges.ForEach(o => {
+                    if (!requestIds.Contains(o.Id))
+                    {
+                        data.Add(o);
+                    }
+                });
+            }
+            return data;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private SettingList<Notification> ParseNotifications(SettingList<Notification> notifications, Process process)
+        {
+            var data = new SettingList<Notification>();
+            if (notifications == null)
+            {
+                return null;
+            }
+            notifications.ForEach(o => {
+                if (o.Delete != 1)
+                {
+                    data.Add(o);
+                }
+            });
+            if (process?.Notifications != null)
+            {
+                var requestIds = notifications.Select(o => o.Id).ToArray();
+                process.Notifications.ForEach(o => {
+                    if (!requestIds.Contains(o.Id))
+                    {
+                        data.Add(o);
+                    }
+                });
+            }
+            return data;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void OpenSearchEditorColumnDialog(
+            Context context,
+            ResponseCollection res)
+        {
+            switch (context.Forms.Data("EditorSourceColumnsType"))
+            {
+                case "Links":
+                case "Others":
+                    res.Message(Messages.CanNotPerformed(context: context));
+                    break;
+                case "Columns":
+                    res.Html("#SearchEditorColumnDialog", SiteUtilities.SearchEditorColumnDialog(
+                        context: context,
+                        ss: SiteSettings));
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void FilterSourceColumnsSelectable(
+            Context context,
+            ResponseCollection res)
+        {
+            AddOrUpdateEditorColumnHash(context: context);
+            SiteUtilities.FilterSourceColumnsSelectable(res, context, SiteSettings)
+            .SetData("#EditorSourceColumns")
+            .CloseDialog();
         }
     }
 }

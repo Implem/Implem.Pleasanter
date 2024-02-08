@@ -182,6 +182,18 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     case "index":
                                         hb
                                             .Button(
+                                                controlId: "BulkDeleteCommand",
+                                                text: Displays.BulkDelete(context: context),
+                                                controlCss: "button-icon",
+                                                accessKey: "r",
+                                                onClick: "$p.send($(this));",
+                                                icon: "ui-icon-trash",
+                                                action: "BulkDelete",
+                                                method: "delete",
+                                                confirm: "ConfirmDelete",
+                                                _using: context.CanDelete(ss: ss)
+                                                    && !readOnly)
+                                            .Button(
                                                 controlId: "EditImportSettings",
                                                 text: Displays.Import(context: context),
                                                 controlCss: "button-icon",

@@ -1,6 +1,14 @@
 ﻿$p.setGrid = function () {
     $p.paging('#Grid');
 }
+$p.setDashboardGrid = function () {
+    var elementsWithGridId = document.querySelectorAll('[id*="Grid_"]');
+    elementsWithGridId.forEach(function (element) {
+        $(element).closest('.grid-stack-item').on('scroll resize', function () {
+            $p.dashboardPaging(element.id, $(element).closest('.grid-stack-item'));
+        });
+    });
+}
 
 $p.openEditorDialog = function (id) {
     $p.data.DialogEditorForm = {};

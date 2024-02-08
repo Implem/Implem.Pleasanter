@@ -1,0 +1,2 @@
+﻿ss.UseFilterButton = true;
+ss.AlwaysRequestSearchCondition = true;
