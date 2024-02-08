@@ -2449,6 +2449,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Creator(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Creator",
+                data: data);
+        }
+
         public static string Crosstab(
             Context context,
             params string[] data)

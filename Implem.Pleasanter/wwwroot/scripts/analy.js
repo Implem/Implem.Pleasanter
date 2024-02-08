@@ -120,7 +120,7 @@
                     .attr('dy', settingFontHeight + 50)
                     .text(function () {
                         if (pieChart.Setting.GroupBy === 'Creator') {
-                            return "作成者";
+                            return $p.display('Creator');
                         } else {
                             var targetColumnData = columnDataArray.filter(function (columnData) {
                                 return columnData.ColumnName === pieChart.Setting.GroupBy
