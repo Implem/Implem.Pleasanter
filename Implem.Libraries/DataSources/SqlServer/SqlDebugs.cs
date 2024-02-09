@@ -42,14 +42,27 @@ namespace Implem.Libraries.DataSources.SqlServer
         public static void WritePostgreSqlLog(ISqlCommand sqlCommand, string logsPath)
         {
             var commandTextForDebugging = FormattedCommandText(sqlCommand);
-            foreach (ISqlParameter param in sqlCommand.SqlParameters())
+            var parameters = sqlCommand.SqlParameters()
+                .Select(o => new
+                {
+                    Name = "@" + GetParameterName(o),
+                    Value = GetParameterValue(o)
+                })
+                .OrderByDescending(o => o.Name.Length);
+            foreach (var param in parameters)
             {
                 commandTextForDebugging = commandTextForDebugging
-                    .Replace("@" + GetParameterName(param), GetParameterValue(param));
+                    .Replace(param.Name, param.Value);
             }
+            var comment = $$"""
+                /*
+                {{DeclareParametersText(sqlCommand)}}
+                */
+
+                """;
             lock (WriteLockObject)
             {
-                commandTextForDebugging
+                (comment + commandTextForDebugging)
                     .Write(Path.Combine(logsPath, "CommandTextForDebugging.sql"));
             }
         }
