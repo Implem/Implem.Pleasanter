@@ -25,5 +25,5 @@
     "ThumbnailLimitSize": null,
     "ThumbnailMinSize": 100,
     "ThumbnailMaxSize": 1000,
-    "UploadTemporaryStorageProbider": "Rds"
+    "UploadTemporaryStorageProbider": null
 }

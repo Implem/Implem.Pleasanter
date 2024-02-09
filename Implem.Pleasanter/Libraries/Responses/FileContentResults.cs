@@ -293,15 +293,23 @@ namespace Implem.Pleasanter.Libraries.Responses
                             .Guid(guid)))
                     .AsEnumerable()
                     .FirstOrDefault();
-                var bin = dataRow.Bytes("Bin");
-                var fileName = dataRow["Title"].ToString() ;
-                var fileInfo = new FileInfo(fileName);
-                System.IO.File.WriteAllBytes(fileName, bin);
-                return new ResponseFile(fileInfo, dataRow.String("Title"));
+                var bytes = dataRow.Bytes("Bin");
+                var fileName = dataRow.String("Title");
+                var folderPath = Path.Combine(Path.Combine(Directories.Temp(), guid));
+                Directory.CreateDirectory(folderPath);
+                var filePath = Path.Combine(folderPath, fileName);
+                using (var fileStream = System.IO.File.Create(filePath))
+                {
+                    fileStream.Write(bytes);
+                    return new ResponseFile(new FileInfo(filePath), fileName);
+                }
             }
-            var folderPath = Path.Combine(Path.Combine(Directories.Temp(), guid));
-            var files = Directory.GetFiles(folderPath);
-            return new ResponseFile(new FileInfo(files[0]), Path.GetFileName(files[0]));
+            else
+            {
+                var folderPath = Path.Combine(Path.Combine(Directories.Temp(), guid));
+                var files = Directory.GetFiles(folderPath);
+                return new ResponseFile(new FileInfo(files[0]), Path.GetFileName(files[0]));
+            }
         }
 
         public static FileContentResult ToFileContentResult(this FileContentResult content)
