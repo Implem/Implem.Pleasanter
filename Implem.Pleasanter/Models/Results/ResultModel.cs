@@ -2447,6 +2447,18 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             Dictionary<string, string> formData)
         {
+            //items/{id}/new にPOSTで送信された項目の初期値を最初に設定する。
+            //カレンダーからの新規作成時、日付項目の初期値を設定する際に使用（Form名の例 "PostInit_Issues_StartTime"）。
+            var postInitForm = formData
+                .Where(o => o.Key.StartsWith("PostInit_"))
+                .ToDictionary(o => o.Key.Replace("PostInit_", ""), o => o.Value);
+            if (postInitForm.Count > 0)
+            {
+                SetByFormData(
+                    context: context,
+                    ss: ss,
+                    formData: postInitForm);
+            }
             SetByFormData(
                 context: context,
                 ss: ss,
