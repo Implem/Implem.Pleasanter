@@ -44,7 +44,9 @@ namespace Implem.PleasanterFilters
                 setPermissions: false,
                 apiRequestBody: requestData);
             if (!IpAddresses.AllowedIpAddress(
+                context: context,
                 allowIpAddresses: Parameters.Security.AllowIpAddresses,
+                ipRestrictionExcludeMembers: Parameters.Security.IpRestrictionExcludeMembers,
                 ipAddress: context.UserHostAddress))
             {
                 filterContext.HttpContext.Response.StatusCode = StatusCodes.Status403Forbidden;
@@ -55,7 +57,9 @@ namespace Implem.PleasanterFilters
                     });
                 return;
             }
-            if (!context.ContractSettings.AllowedIpAddress(context.UserHostAddress))
+            if (!context.ContractSettings.AllowedIpAddress(
+                context: context,
+                context.UserHostAddress))
             {
                 filterContext.HttpContext.Response.StatusCode = StatusCodes.Status403Forbidden;
                 filterContext.Result = new JsonResult(

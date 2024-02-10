@@ -28,7 +28,9 @@ namespace Implem.PleasanterFilters
                     Locations.ParameterSyntaxError(context: context));
             }
             if (!IpAddresses.AllowedIpAddress(
+                context: context,
                 allowIpAddresses: Parameters.Security.AllowIpAddresses,
+                ipRestrictionExcludeMembers: Parameters.Security.IpRestrictionExcludeMembers,
                 ipAddress: context.UserHostAddress))
             {
                 filterContext.Result = new ContentResult()
@@ -39,7 +41,9 @@ namespace Implem.PleasanterFilters
                 return;
             }
             if (context.Authenticated
-                && !context.ContractSettings.AllowedIpAddress(context.UserHostAddress))
+                && !context.ContractSettings.AllowedIpAddress(
+                    context: context,
+                    context.UserHostAddress))
             {
                 Authentications.SignOut(context: context);
                 filterContext.Result = new RedirectResult(
