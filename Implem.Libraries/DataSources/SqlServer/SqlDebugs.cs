@@ -1,5 +1,6 @@
 ﻿using Implem.IRds;
 using Implem.Libraries.Utilities;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -12,7 +13,20 @@ namespace Implem.Libraries.DataSources.SqlServer
         private static object WriteLockObject = new object();
 
         [Conditional("DEBUG")]
-        public static void WriteSqlLog(string rdsName, ISqlCommand sqlCommand, string logsPath)
+        public static void WriteSqlLog(string provider, string rdsName, ISqlCommand sqlCommand, string logsPath)
+        {
+            switch (provider)
+            {
+                case "SQLServer":
+                    WriteSqlServerLog(rdsName, sqlCommand, logsPath);
+                        break;
+                case "PostgreSQL":
+                    WritePostgreSqlLog(sqlCommand, logsPath);
+                    break;
+            }
+        }
+               
+        public static void WriteSqlServerLog(string rdsName, ISqlCommand sqlCommand, string logsPath)
         {
             var commandTextForDebugging = new StringBuilder();
             commandTextForDebugging.Append("use [", rdsName, "];\r\n");
@@ -23,6 +37,50 @@ namespace Implem.Libraries.DataSources.SqlServer
                 commandTextForDebugging.ToString()
                     .Write(Path.Combine(logsPath, "CommandTextForDebugging.sql"));
             }
+        }
+               
+        public static void WritePostgreSqlLog(ISqlCommand sqlCommand, string logsPath)
+        {
+            var commandTextForDebugging = FormattedCommandText(sqlCommand);
+            var parameters = sqlCommand.SqlParameters()
+                .Select(o => new
+                {
+                    Name = "@" + GetParameterName(o),
+                    Value = GetParameterValue(o)
+                })
+                .OrderByDescending(o => o.Name.Length);
+            foreach (var param in parameters)
+            {
+                commandTextForDebugging = commandTextForDebugging
+                    .Replace(param.Name, param.Value);
+            }
+            var comment = $$"""
+                /*
+                {{DeclareParametersText(sqlCommand)}}
+                */
+
+                """;
+            lock (WriteLockObject)
+            {
+                (comment + commandTextForDebugging)
+                    .Write(Path.Combine(logsPath, "CommandTextForDebugging.sql"));
+            }
+        }
+
+        private static string GetParameterValue(ISqlParameter parameter)
+        {
+            return parameter.DbType switch
+            {
+                System.Data.DbType.String
+                    or System.Data.DbType.AnsiString
+                    or System.Data.DbType.AnsiStringFixedLength
+                    or System.Data.DbType.StringFixedLength
+                    or System.Data.DbType.Date
+                    or System.Data.DbType.DateTime
+                    or System.Data.DbType.DateTime2
+                    or System.Data.DbType.DateTimeOffset => $"'{parameter.Value.ToStr()}'",
+                _ => parameter.Value.ToStr()
+            };
         }
 
         private static string FormattedCommandText(ISqlCommand sqlCommand)
