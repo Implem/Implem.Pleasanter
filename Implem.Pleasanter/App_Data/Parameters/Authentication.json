@@ -74,8 +74,8 @@
                 "LoadMetadata": false,
                 "MetadataLocation": null,
                 "SigningCertificate": {
-                    "StoreName": "CurrentUser",
-                    "StoreLocation": "My",
+                    "StoreName": "My",
+                    "StoreLocation": "CurrentUser",
                     "X509FindType": "FindByThumbprint",
                     "FindValue": null
                 }
