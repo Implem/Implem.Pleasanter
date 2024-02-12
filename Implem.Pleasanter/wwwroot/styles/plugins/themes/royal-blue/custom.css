@@ -1,6 +1,6 @@
 ﻿.nav-site {
     background-color: white;
-    border:solid 2px silver;
+    border: solid 2px silver;
 }
 
     .nav-site.sites {
@@ -27,26 +27,26 @@
 }
 
 .nav-sites .ui-icon {
-    background-image: url("images/ui-icons_d19405_256x240.png");
+    background-image: url("images/ui-icons_3d3d3d_256x240.png");
 }
 
 #RecordInfo .ui-icon {
-    background-image: url("images/ui-icons_d19405_256x240.png");
+    background-image: url("images/ui-icons_3d3d3d_256x240.png");
 }
 
 #EditorComments .ui-icon {
-    background-image: url("images/ui-icons_d19405_256x240.png");
+    background-image: url("images/ui-icons_3d3d3d_256x240.png");
 }
 
 .ui-icon.ui-icon-pencil.button-edit-markdown {
-    background-image: url("images/ui-icons_d19405_256x240.png");
+    background-image: url("images/ui-icons_3d3d3d_256x240.png");
 }
 
 .ui-widget-content .control-markup a {
     color: #383838;
 }
 
-.ui-widget-content .control-text a {
+.ui-widget-content a {
     color: #383838;
 }
 
@@ -62,16 +62,16 @@
     color: black;
 }
 
-.field-control .ui-multiselect .ui-icon.ui-icon-triangle-1-s {
-    background-image: url("images/ui-icons_d19405_256x240.png");
-}
+    .field-control .ui-multiselect .ui-icon.ui-icon-triangle-1-s {
+        background-image: url("images/ui-icons_3d3d3d_256x240.png");
+    }
 
 #CopyToClipboards .ui-icon.ui-icon-link {
-    background-image: url("images/ui-icons_d19405_256x240.png");
+    background-image: url("images/ui-icons_3d3d3d_256x240.png");
 }
 
 .ui-icon.ui-icon-close {
-    background-image: url("images/ui-icons_d19405_256x240.png");
+    background-image: url("images/ui-icons_3d3d3d_256x240.png");
 }
 
 .ui-button-icon.ui-icon.ui-icon-close {
@@ -79,13 +79,422 @@
 }
 
 #ViewFilters .ui-icon.ui-icon-info {
-    background-image: url("images/ui-icons_d19405_256x240.png");
+    background-image: url("images/ui-icons_3d3d3d_256x240.png");
 }
 
 #Links .grid-row a {
     color: #383838;
 }
 
+
+
+/* 全体共通 */
+* {
+    font-family: 'メイリオ', 'Meiryo', 'Hiragino Kaku Gothic ProN', 'ヒラギノ角ゴ ProN W3', sans-serif;
+    font-size: 13px;
+}
+
+body{
+    background-color: #E7E7E7;
+}
+
+/* コンテンツ */
+#MainContainer {
+    margin-left: 52px;
+}
+#Application {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* 共通ヘッダ */
+#Header {
+    background-color: #FFFFFF;
+    border-bottom: 1px solid #CECECE!important;
+}
+
+/* パンくず */
+.separator {
+    display: none;
+}
+
+#Breadcrumb {
+    display: flex;
+    margin: 0 !important;
+    background-color: #FFFFFF;
+    width: 100%;
+    box-shadow: 0 2px 2px rgba(0,0,0,.2);
+    position: relative;
+}
+
+#Breadcrumb li {
+    list-style: none;
+    font-size: 14px;
+    height: 40px;
+    line-height: 30px;
+    margin-right: 16px;
+    position: relative;
+    padding: 0 16px;
+}
+
+#Breadcrumb li:before,
+#Breadcrumb li:after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    border-top: 20px solid transparent;
+    border-right: 24px solid transparent;
+    border-bottom: 20px solid transparent;
+}
+
+#Breadcrumb li:last-child {
+    background-color: #106EBE;
+}
+
+#Breadcrumb li:nth-last-child(2)::after {
+    background-color: #106EBE;
+}
+
+#Breadcrumb li:last-child::after {
+    border-left: 15px solid #106EBE;
+}
+
+#Breadcrumb li:before {
+    right: -40px;
+    border-left: 15px solid #ccc;
+}
+
+#Breadcrumb li:after {
+    right: -39px;
+    border-left: 15px solid #fff;
+}
+
+#Breadcrumb li:last-child a {
+    color: #fff;
+}
+
+/* フィルター */
+#ViewFilters {
+    margin: 0 !important;
+    padding: 8px 8px 0 !important;
+    border: none !important;
+    border-radius: 0 !important;
+    background-color: #DEECF9;
+}
+
+#ViewFilters > .field-auto-thin {
+    height: 38px !important;
+}
+
+/* 結果 */
+#Aggregations {
+    margin: 0 !important;
+    padding: 8px !important;
+    border: none !important;
+    border-radius: 0 !important;
+    background-color: #DEECF9;
+}
+
+#Aggregations .label {
+    height: auto !important;
+    margin: 0 !important;
+    border-radius: 4px !important;
+    background: #C1E1FF !important;
+    border: 1px solid #90CAFF;
+}
+
+#Aggregations .label.overdue {
+    background: #E03E3E !important;
+    border: 1px solid #E03E3E;
+}
+
+#Aggregations .data.overdue {
+    color: #E03E3E !important;
+}
+
+/* テーブルヘッダ */
 .grid-row .ui-icon {
-    background-image: url("images/ui-icons_d19405_256x240.png");
+    background-image: url("images/ui-icons_3d3d3d_256x240.png");
+}
+
+.ui-widget-header {
+    background: #106EBE;
+}
+
+.ui-multiselect-header {
+    background: #ECECEC;
+    border: 1px solid #CECECE;
+    padding: 4px !important;
+}
+
+.ui-multiselect-header .ui-icon{
+    float: none !important;
+}
+
+#Aggregations .label.overdue {
+    background-color: #E03E3E;
+}
+
+.grid > thead > tr:first-child > th:first-child {
+    border-radius: 0 !important;
+}
+
+/* フォーム */
+.control-text {
+    border: 1px solid #CECECE !important;
+    border-radius: 4px !important;
+    padding: 4px 8px 4px 8px !important;
+}
+.fieldset.enclosed,
+.fieldset.enclosed-thin {
+    border: 1px solid #CECECE !important;
+    background: #F8F8F8 !important;
+}
+.control-dropdown {
+    border-radius: 4px !important;
+}
+
+.control-textbox {
+    border-radius: 4px !important;
+    padding: 4px 8px 4px 8px !important;
+}
+
+.control-textbox:focus,
+.control-dropdown:focus,
+.control-textarea:focus {
+    outline: none;
+    border: 1px solid #666;
+}
+
+.field-control .control-markdown {
+    outline: none;
+}
+
+.field-control .control-markup {
+    padding: 8px 28px 8px 8px !important;
+}
+/* ボタン */
+.ui-button {
+    background: #FFFFFF;
+    border-radius: 4px !important;
+    border: 1px solid #CECECE;
+    box-shadow: 0 2px 2px rgba(0,0,0,.2);
+    color: #222222;
+}
+
+.ui-button:hover {
+    background: #FFFFFF;
+    border: 1px solid #aeaeae;
+    box-shadow: 0 2px 2px rgba(0,0,0,.4);
+}
+
+.ui-button:hover .ui-icon {
+    background-image: url("images/ui-icons_3d3d3d_256x240.png");
+}
+
+.ui-icon-person {
+    background-position: -144px -93px;
+}
+
+.ui-widget.ui-widget-content{
+    border: 1px solid #CECECE;
+    border-radius: 4px;
+}
+
+.ui-tabs .ui-tabs-nav{
+    padding: 4px 16px 0;
+}
+
+.ui-widget-content{
+    background: #fff;
+}
+
+.ui-state-hover,
+.ui-widget-content .ui-state-hover,
+.ui-widget-header .ui-state-hover,
+.ui-state-focus,
+.ui-widget-content .ui-state-focus,
+.ui-widget-header .ui-state-focus{
+    background: #C1E1FF;
+    border: 1px solid #90CAFF;
+}
+
+/* 一覧画面 */
+.grid > thead > tr > th {
+    padding: 8px !important;
+    font-weight: bold;
+}
+
+td {
+    padding: 8px !important;
+}
+
+.grid > tbody > tr > td {
+    border-left: 1px solid #ECECEC !important;
+    border-right: 1px solid #ECECEC !important;
+}
+
+.grid-row .comment {
+    margin-bottom: 0 !important;
+    padding: 4px 4px 4px 16px !important;
+    background: #EFF6FC !important;
+    border: 1px solid #EFF6FC !important;
+}
+
+.grid-title-body{
+    margin-bottom: 0 !important;
+    padding: 8px !important;
+}
+
+.grid > thead > tr:first-child > th:last-child{
+    border-radius: 0 !important;
+}
+
+.limit-warning3 {
+    background-color: #E03E3E !important;
+}
+
+/* 編集画面 */
+#Editor {
+    overflow: hidden;
+}
+
+#EditorComments {
+    background: #DEECF9;
+    padding-top: 16px !important;
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+    padding-bottom: 10000px !important;
+    margin-bottom: -10000px !important;
+}
+
+.comment {
+    border: 0 !important;
+    border-bottom: 1px solid #CECECE !important;
+    background: none !important;
+}
+
+#EditorTabsContainer {
+    margin-bottom: 0 !important;
+}
+
+#EditorTabsContainer.ui-widget-content {
+    background: #fff;
+    border: none;
+}
+
+#EditorTabsContainer.ui-tabs {
+    padding: 0;
+}
+
+#EditorTabs.ui-widget-header {
+    background: #DEECF9;
+    border: none;
+    border-radius: 0;
+    border-bottom: 4px solid #106EBE;
+}
+
+.ui-tabs .ui-tabs-nav li.ui-tabs-active {
+    padding-bottom: 0;
+}
+
+#EditorTabs li.ui-state-active {
+    border: none;
+    border-radius: 4px 4px 0 0;
+}
+
+#EditorTabs li.ui-state-active a {
+    background: #106EBE;
+    border-radius: 4px 4px 0 0;
+    font-weight: bold;
+    color: #fff;
+}
+
+#EditorTabs li {
+    border: none;
+    border-radius: 4px 4px 0 0;
+}
+
+#EditorTabs li a {
+    background: #fff;
+    border-radius: 4px 4px 0 0;
+    color: #106EBE;
+}
+
+.ui-corner-all, .ui-corner-bottom, .ui-corner-right, .ui-corner-br {
+    border-radius: 0;
+}
+
+#Guide > div {
+    margin-bottom: 0 !important;
+    padding: 10px 8px 8px !important;
+    border: none !important;
+    border-bottom: 1px solid #cecece !important;
+    position: static !important;
+    border-radius: 0 !important;
+}
+
+#HeaderTitleContainer {
+}
+
+#HeaderTitle {
+    font-size: 16px !important;
+    color: #222 !important;
+}
+
+#RecordInfo {
+    padding: 0 16px !important;
+}
+
+#RecordInfo div p .elapsed-time {
+    background-color: #CECECE !important;
+}
+
+.ui-icon, .ui-widget-content .ui-icon {
+    background-image: url("images/ui-icons_3d3d3d_256x240.png");
+}
+
+/* フッタメッセージ */
+.message {
+    bottom: 63px !important;
+}
+
+.message .body{
+    margin-bottom: 0 !important;
+    border-radius: 0 !important;
+}
+
+.alert-success {
+    padding: 8px !important;
+    background-color: rgba(0,159,124,.9) !important;
+    border: none !important;
+}
+
+.alert-error {
+    padding: 8px !important;
+    background-color: #E03E3E !important;
+    border: none !important;
+}
+
+/* フッタボタン */
+#MainCommandsContainer {
+    height: 63px !important;
+    background-color: rgba(0,0,0,.5) !important;
+    bottom: 0 !important;
+    padding-top: 16px !important;
+}
+
+#MainCommands > button {
+    margin: 0 8px !important;
+}
+
+/* 共通フッタ（コピーライト） */
+#Footer {
+    background: none !important;
+    position: relative !important;
+    z-index: 0 !important;
+}
+#Footer a {
+    color: #666666 !important;
 }
