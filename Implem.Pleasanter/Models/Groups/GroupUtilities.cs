@@ -174,7 +174,11 @@ namespace Implem.Pleasanter.Models
                     .Div(attributes: new HtmlAttributes()
                         .Id("BulkUpdateSelectorDialog")
                         .Class("dialog")
-                        .Title(Displays.BulkUpdate(context: context))))
+                        .Title(Displays.BulkUpdate(context: context)))
+                    .Div(attributes: new HtmlAttributes()
+                        .Id("AnalyPartDialog")
+                        .Class("dialog")
+                        .Title(Displays.AnalyPart(context: context))))
                     .ToString();
         }
 

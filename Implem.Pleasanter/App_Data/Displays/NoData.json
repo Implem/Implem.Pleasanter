@@ -1,6 +1,7 @@
-{
+﻿{
     "Id": "NoData",
     "Type": 110,
+    "ClientScript": true,
     "Languages": [
         {
             "Body": "There is no applicable data."

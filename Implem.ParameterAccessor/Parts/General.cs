@@ -72,6 +72,8 @@ namespace Implem.ParameterAccessor.Parts
         public int GanttPeriodMax;
         public int BurnDownLimit;
         public int TimeSeriesLimit;
+        public int AnalyPartPeriodValueMin;
+        public int AnalyPartPeriodValueMax;
         public int KambanLimit;
         public int KambanXLimit;
         public int KambanYLimit;

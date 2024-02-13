@@ -21,6 +21,7 @@
     ss.GanttGuide = siteModel.GanttGuide;
     ss.BurnDownGuide = siteModel.BurnDownGuide;
     ss.TimeSeriesGuide = siteModel.TimeSeriesGuide;
+    ss.AnalyGuide = siteModel.AnalyGuide;
     ss.KambanGuide = siteModel.KambanGuide;
     ss.ImageLibGuide = siteModel.ImageLibGuide;
     ss.ReferenceType = "#TableName#";
