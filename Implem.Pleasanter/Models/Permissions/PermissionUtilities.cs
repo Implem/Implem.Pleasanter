@@ -691,13 +691,16 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static List<int> Groups(Context context)
+        public static List<int> Groups(Context context, bool enableOnly = false)
         {
             if (context.Authenticated)
             {
+                var sql = enableOnly
+                    ? context.Sqls.GetGroup
+                    : context.Sqls.GetGroup;    //
                 return Repository.ExecuteTable(
                     context: context,
-                    statements: new SqlStatement(context.Sqls.GetGroup))
+                    statements: new SqlStatement(sql))
                         .AsEnumerable()
                         .Select(o => o.Int("GroupId"))
                         .ToList();

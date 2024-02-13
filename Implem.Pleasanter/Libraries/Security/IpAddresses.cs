@@ -30,7 +30,7 @@ namespace Implem.Pleasanter.Libraries.Security
                 {
                     return true;
                 }
-                if (ipRestrictionExcludeMembers.Contains("Dept" + context.DeptId))
+                if (IpRestrictionExcludeDept(context, ipRestrictionExcludeMembers))
                 {
                     return true;
                 }
@@ -48,6 +48,16 @@ namespace Implem.Pleasanter.Libraries.Security
             return allowIpAddresses
                 .Select(IpRange.FromCidr)
                 .Any(range => range.InRange(ipAddress));
+        }
+
+        private static bool IpRestrictionExcludeDept(Context context, IList<string> ipRestrictionExcludeMembers)
+        {
+            var dept = SiteInfo.Dept(
+                tenantId: context.TenantId,
+                deptId: context.DeptId);
+            return dept.Id > 0
+                && !dept.Disabled
+                && ipRestrictionExcludeMembers.Contains("Dept" + dept.Id);
         }
 
         private static bool IpRestrictionExcludeGroup(
