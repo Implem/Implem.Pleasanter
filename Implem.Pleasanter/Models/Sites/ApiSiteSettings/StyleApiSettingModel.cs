@@ -20,6 +20,7 @@ namespace Implem.Pleasanter.Models.ApiSiteSettings
         public bool? StyleGantt { get; set; }
         public bool? StyleBurnDown { get; set; }
         public bool? StyleTimeSeries { get; set; }
+        public bool? StyleAnaly { get; set; }
         public bool? StyleKamban { get; set; }
         public bool? StyleImageLib { get; set; }
         public int? Delete { get; set; }

@@ -329,9 +329,16 @@ namespace Implem.Pleasanter.Libraries.DataSources
         private static bool Enabled(SearchResult result, ParameterAccessor.Parts.Ldap ldap)
         {
             var accountDisabled = 2;
-            return !ldap.LdapExcludeAccountDisabled
-                || !result.Properties.Contains("UserAccountControl")
-                || (result.Properties["UserAccountControl"].ToLong() & accountDisabled) == 0;
+            if (!ldap.LdapExcludeAccountDisabled)
+            {
+                return true;
+            }
+            if (result.Properties.Contains("UserAccountControl")
+                && result.Properties["UserAccountControl"].Count > 0)
+            {
+                return (result.Properties["UserAccountControl"][0].ToLong() & accountDisabled) == 0;
+            }
+            return true;
         }
 
         private static DirectorySearcher DirectorySearcher(

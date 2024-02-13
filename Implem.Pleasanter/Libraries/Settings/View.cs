@@ -96,6 +96,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public Dictionary<string, DateTime?> CalendarStartHash;
         public Dictionary<string, DateTime?> CalendarEndHash;
         public Dictionary<string, string> CalendarViewTypeHash;
+        public Dictionary<string, DashboardPartLayout> DashboardPartLayoutHash;
+        public string IndexSuffix;
         public string CrosstabGroupByX;
         public string CrosstabGroupByY;
         public string CrosstabColumns;
@@ -113,6 +115,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string TimeSeriesValue;
         public string TimeSeriesChartType;
         public string TimeSeriesHorizontalAxis;
+        public List<AnalyPartSetting> AnalyPartSettings;
         public string KambanGroupByX;
         public string KambanGroupByY;
         public string KambanAggregateType;
@@ -271,6 +274,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                 : string.Empty;
         }
 
+        public string GetIndexSuffix()
+        {
+            return IndexSuffix;
+        }
+
         public string GetCrosstabGroupByX(Context context, SiteSettings ss)
         {
             var options = ss.CrosstabGroupByXOptions(context: context);
@@ -422,6 +430,32 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
+        public string GetAnalyGroupBy(Context context, SiteSettings ss, string value)
+        {
+            var options = ss.AnalyGroupByOptions(context: context);
+            var ret = value;
+            if (value.IsNullOrEmpty())
+            {
+                ret = options.ContainsKey(Definition(ss, "TimeSeries")?.Option1)
+                    ? Definition(ss, "TimeSeries")?.Option1
+                    : options.FirstOrDefault().Key;
+            }
+            return ret;
+        }
+
+        public string GetAnalyAggregationTarget(Context context, SiteSettings ss, string value)
+        {
+            var options = ss.AnalyAggregationTargetOptions(context: context);
+            var ret = value;
+            if (value.IsNullOrEmpty())
+            {
+                ret = options.ContainsKey(Definition(ss, "TimeSeries")?.Option1)
+                    ? Definition(ss, "TimeSeries")?.Option1
+                    : options.FirstOrDefault().Key;
+            }
+            return ret;
+        }
+
         public string GetKambanGroupByX(Context context, SiteSettings ss)
         {
             var options = ss.KambanGroupByOptions(context: context);
@@ -515,7 +549,14 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "ViewSorters_Reset":
                     ResetViewSorters(ss: ss);
                     break;
+                case "AddAnalyPart":
+                    AddAnalyPart(context: context);
+                    break;
                 default:
+                    if (context.Forms.ControlId().StartsWith("DeleteAnalyPart_"))
+                    {
+                        DeleteAnalyPart(context: context);
+                    }
                     foreach (var controlId in context.Forms.Keys)
                     {
                         switch (ControlIdWithOutPrefix(
@@ -882,6 +923,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                                     context: context,
                                     controlId: controlId);
                                 break;
+                            case "DashboardPartLayout":
+                                AddDashboardPartLayoutHash(context: context);
+                                break;
                             default:
                                 if (controlId.StartsWith(columnFilterPrefix))
                                 {
@@ -957,6 +1001,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                         KambanColumns = dashboardPart.KambanColumns.ToInt();
                         KambanAggregationView = dashboardPart.KambanAggregationView;
                         KambanShowStatus = dashboardPart.KambanShowStatus;
+                    }
+                    if (ss.DashboardParts?.FirstOrDefault()?.Type == DashboardPartType.Index)
+                    {
+                        var dashboardPart = ss.DashboardParts.FirstOrDefault();
+                        IndexSuffix = $"_{dashboardPart.Id}";
                     }
                     break;
             }
@@ -1244,6 +1293,26 @@ namespace Implem.Pleasanter.Libraries.Settings
                 CalendarViewTypeHash = new Dictionary<string, string>();
             }
             CalendarViewTypeHash.AddOrUpdate(key: key, value: value);
+        }
+
+        private void AddDashboardPartLayoutHash(Context context)
+        {
+            if(DashboardPartLayoutHash == null)
+            {
+                DashboardPartLayoutHash = new Dictionary<string, DashboardPartLayout>();
+            }
+            var dashboardPartLayouts = context.Forms.Data("DashboardPartLayout")
+                ?.Deserialize<List<DashboardPartLayout>>();
+            foreach (var dashboardPartLayout in dashboardPartLayouts)
+            {
+                var value = new DashboardPartLayout();
+                value.X = dashboardPartLayout.X;
+                value.Y = dashboardPartLayout.Y;
+                value.W = dashboardPartLayout.W;
+                value.H = dashboardPartLayout.H;
+                value.Id = dashboardPartLayout.Id;
+                DashboardPartLayoutHash.AddOrUpdate(key: value.Id.ToString(), value: value);
+            }
         }
 
         private void SetSorters(Context context, SiteSettings ss, string prefix = "")
@@ -1628,6 +1697,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 view.CalendarViewTypeHash = CalendarViewTypeHash;
             }
+            if(DashboardPartLayoutHash?.Any() == true)
+            {
+                view.DashboardPartLayoutHash = DashboardPartLayoutHash;
+            }
             if (!CrosstabGroupByX.IsNullOrEmpty())
             {
                 view.CrosstabGroupByX = CrosstabGroupByX;
@@ -1689,6 +1762,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (!TimeSeriesHorizontalAxis.IsNullOrEmpty())
             {
                 view.TimeSeriesHorizontalAxis = TimeSeriesHorizontalAxis;
+            }
+            if (AnalyPartSettings?.Any() == true)
+            {
+                view.AnalyPartSettings = AnalyPartSettings;
             }
             if (!KambanGroupByX.IsNullOrEmpty())
             {
@@ -3580,6 +3657,32 @@ namespace Implem.Pleasanter.Libraries.Settings
                 o => o.Key,
                 o => o.Value)
                     ?? new Dictionary<string, Column.SearchTypes>();
+        }
+
+        public void AddAnalyPart(Context context)
+        {
+            var analyPartSetting = new AnalyPartSetting()
+            {
+                Id = AnalyPartSettings?.Max(o => o.Id) + 1 ?? 1,
+                GroupBy = context.Forms.Data("AnalyPartGroupBy"),
+                TimePeriodValue = context.Forms.Decimal(
+                    context: context,
+                    key: "AnalyPartTimePeriodValue"),
+                TimePeriod = context.Forms.Data("AnalyPartTimePeriod"),
+                AggregationType = context.Forms.Data("AnalyPartAggregationType"),
+                AggregationTarget = context.Forms.Data("AnalyPartAggregationTarget")
+            };
+            if (AnalyPartSettings == null)
+            {
+                AnalyPartSettings = new List<AnalyPartSetting>();
+            }
+            AnalyPartSettings.Add(analyPartSetting);
+        }
+
+        public void DeleteAnalyPart(Context context)
+        {
+            var controlId = context.Forms.ControlId();
+            AnalyPartSettings.RemoveAll(o => o.Id == controlId.Split_2nd('_').ToInt());
         }
     }
 }

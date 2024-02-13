@@ -51,11 +51,11 @@ namespace Implem.Pleasanter.Models
                 viewMode: viewMode,
                 serverScriptModelRow: serverScriptModelRow,
                 viewModeBody: () => hb.Grid(
-                   context: context,
-                   gridData: gridData,
-                   ss: ss,
-                   view: view,
-                   serverScriptModelRow: serverScriptModelRow));
+                    context: context,
+                    gridData: gridData,
+                    ss: ss,
+                    view: view,
+                    serverScriptModelRow: serverScriptModelRow));
         }
 
         private static string ViewModeTemplate(
@@ -161,7 +161,11 @@ namespace Implem.Pleasanter.Models
                     .Div(attributes: new HtmlAttributes()
                         .Id("BulkUpdateSelectorDialog")
                         .Class("dialog")
-                        .Title(Displays.BulkUpdate(context: context))))
+                        .Title(Displays.BulkUpdate(context: context)))
+                    .Div(attributes: new HtmlAttributes()
+                        .Id("AnalyPartDialog")
+                        .Class("dialog")
+                        .Title(Displays.AnalyPart(context: context))))
                     .ToString();
         }
 
@@ -216,7 +220,8 @@ namespace Implem.Pleasanter.Models
             GridData gridData,
             View view,
             string action = "GridRows",
-            ServerScriptModelRow serverScriptModelRow = null)
+            ServerScriptModelRow serverScriptModelRow = null,
+            string suffix = "")
         {
             var columns = ss.GetGridColumns(
                 context: context,
@@ -225,7 +230,7 @@ namespace Implem.Pleasanter.Models
             return hb
                 .Table(
                     attributes: new HtmlAttributes()
-                        .Id("Grid")
+                        .Id($"Grid{suffix}")
                         .Class(ss.GridCss(context: context))
                         .DataValue("back", _using: ss?.IntegratedSites?.Any() == true)
                         .DataAction(action)
@@ -238,14 +243,16 @@ namespace Implem.Pleasanter.Models
                             columns: columns,
                             view: view,
                             serverScriptModelRow: serverScriptModelRow,
-                            action: action))
+                            action: action,
+                            suffix: suffix))
                 .GridHeaderMenus(
                     context: context,
                     ss: ss,
                     view: view,
-                    columns: columns)
+                    columns: columns,
+                    suffix: suffix)
                 .Hidden(
-                    controlId: "GridOffset",
+                    controlId: $"GridOffset{suffix}",
                     value: ss.GridNextOffset(
                         0,
                         gridData.DataRows.Count(),
@@ -271,9 +278,12 @@ namespace Implem.Pleasanter.Models
             bool windowScrollTop = false,
             bool clearCheck = false,
             string action = "GridRows",
-            Message message = null)
+            Message message = null,
+            string suffix = "")
         {
-            var view = Views.GetBySession(context: context, ss: ss);
+            var view = Views.GetBySession(
+                context: context,
+                ss: ss);
             var gridData = GetGridData(
                 context: context,
                 ss: ss,
@@ -341,7 +351,8 @@ namespace Implem.Pleasanter.Models
             int offset = 0,
             bool clearCheck = false,
             string action = "GridRows",
-            ServerScriptModelRow serverScriptModelRow = null)
+            ServerScriptModelRow serverScriptModelRow = null,
+            string suffix = "")
         {
             var checkRow = ss.CheckRow(
                 context: context,
@@ -362,7 +373,8 @@ namespace Implem.Pleasanter.Models
                             checkRow: checkRow,
                             checkAll: checkAll,
                             action: action,
-                            serverScriptModelRow: serverScriptModelRow))
+                            serverScriptModelRow: serverScriptModelRow,
+                            suffix: suffix))
                 .TBody(action: () => hb
                     .GridRows(
                         context: context,
@@ -3324,6 +3336,11 @@ namespace Implem.Pleasanter.Models
                                 .Li(
                                     action: () => hb
                                         .A(
+                                            href: "#ViewsSettingsEditor",
+                                            text: Displays.DataView(context: context)))
+                                .Li(
+                                    action: () => hb
+                                        .A(
                                             href: "#StylesSettingsEditor",
                                             text: Displays.Styles(context: context)),
                                     _using: context.ContractSettings.Style != false)
@@ -3490,6 +3507,14 @@ namespace Implem.Pleasanter.Models
                                             text: Displays.TimeSeries(context: context)),
                                     _using: Def.ViewModeDefinitionCollection
                                         .Where(o => o.Name == "TimeSeries")
+                                        .Any(o => o.ReferenceType == siteModel.ReferenceType))
+                                .Li(
+                                    action: () => hb
+                                        .A(
+                                            href: "#AnalySettingsEditor",
+                                            text: Displays.Analy(context: context)),
+                                    _using: Def.ViewModeDefinitionCollection
+                                        .Where(o => o.Name == "Analy")
                                         .Any(o => o.ReferenceType == siteModel.ReferenceType))
                                 .Li(
                                     action: () => hb
@@ -4469,6 +4494,10 @@ namespace Implem.Pleasanter.Models
                     .Class("dialog")
                     .Title(Displays.AdvancedSetting(context: context)))
                 .Div(attributes: new HtmlAttributes()
+                    .Id("SearchEditorColumnDialog")
+                    .Class("dialog")
+                    .Title(Displays.Search(context: context)))
+                .Div(attributes: new HtmlAttributes()
                     .Id("TabDialog")
                     .Class("dialog")
                     .Title(Displays.Tab(context: context)))
@@ -4566,6 +4595,11 @@ namespace Implem.Pleasanter.Models
                 .Div(
                     attributes: new HtmlAttributes()
                         .Id("DashboardPartKambanSitesDialog")
+                        .Class("dialog")
+                        .Title(Displays.SiteId(context: context)))
+                .Div(
+                    attributes: new HtmlAttributes()
+                        .Id("DashboardPartIndexSitesDialog")
                         .Class("dialog")
                         .Title(Displays.SiteId(context: context)))
                 .Div(
@@ -4720,6 +4754,7 @@ namespace Implem.Pleasanter.Models
                     case "Dashboards":
                         hb
                             .DashboardPartSettingsEditor(context: context, ss: siteModel.SiteSettings)
+                            .ViewsSettingsEditor(context: context, ss: siteModel.SiteSettings)
                             .StylesSettingsEditor(context: context, ss: siteModel.SiteSettings)
                             .ScriptsSettingsEditor(context: context, ss: siteModel.SiteSettings)
                             .HtmlsSettingsEditor(context: context, ss: siteModel.SiteSettings);
@@ -4759,6 +4794,7 @@ namespace Implem.Pleasanter.Models
                             .GanttSettingsEditor(context: context, ss: siteModel.SiteSettings)
                             .BurnDownSettingsEditor(context: context, ss: siteModel.SiteSettings)
                             .TimeSeriesSettingsEditor(context: context, ss: siteModel.SiteSettings)
+                            .AnalySettingsEditor(context: context, ss: siteModel.SiteSettings)
                             .KambanSettingsEditor(context: context, ss: siteModel.SiteSettings)
                             .ImageLibSettingsEditor(context: context, ss: siteModel.SiteSettings)
                             .SearchSettingsEditor(context: context, siteModel: siteModel)
@@ -4862,6 +4898,17 @@ namespace Implem.Pleasanter.Models
                         fieldCss: "field-wide",
                         labelText: Displays.Sites_TimeSeriesGuide(context: context),
                         text: siteModel.TimeSeriesGuide,
+                        mobile: context.Mobile,
+                        _using: ss.ReferenceType != "Sites"
+                            && ss.ReferenceType != "Wikis"
+                            && ss.ReferenceType != "Dashboards")
+                    .FieldMarkDown(
+                        context: context,
+                        ss: ss,
+                        controlId: "Sites_AnalyGuide",
+                        fieldCss: "field-wide",
+                        labelText: Displays.Sites_AnalyGuide(context: context),
+                        text: siteModel.AnalyGuide,
                         mobile: context.Mobile,
                         _using: ss.ReferenceType != "Sites"
                             && ss.ReferenceType != "Wikis"
@@ -5857,7 +5904,15 @@ namespace Implem.Pleasanter.Models
                                         onClick: "$p.enableColumns(event, $(this),'Editor', 'EditorSourceColumnsType');",
                                         icon: "ui-icon-circle-triangle-w",
                                         action: "SetSiteSettings",
-                                        method: "post")))
+                                        method: "post")),
+                            setSearchOptionButton: true,
+                            searchOptionId: "OpenSearchEditorColumnDialog",
+                            searchOptionFunction: "$p.openSearchEditorColumnDialog($(this));")
+                        .Hidden(
+                            controlId: "SearchEditorColumnDialogInput",
+                            css: "always-send",
+                            action: "SetSiteSettings",
+                            method: "post")
                         .Div(
                             css: "both",
                             action: () => hb
@@ -6445,6 +6500,10 @@ namespace Implem.Pleasanter.Models
                                         {
                                             SiteSettings.TextAlignTypes.Right.ToInt().ToString(),
                                             Displays.RightAlignment(context: context)
+                                        },
+                                        {
+                                            SiteSettings.TextAlignTypes.Center.ToInt().ToString(),
+                                            Displays.CenterAlignment(context: context)
                                         },
                                     },
                                     selectedValue: column.TextAlign.ToInt().ToString());
@@ -7240,13 +7299,7 @@ namespace Implem.Pleasanter.Models
             switch (context.Forms.Data("EditorSourceColumnsType"))
             {
                 case "Columns":
-                    res.Html(
-                        "#EditorSourceColumns",
-                        new HtmlBuilder().SelectableItems(
-                            listItemCollection: ss
-                                .EditorSelectableOptions(
-                                    context: context,
-                                    enabled: false)));
+                    FilterSourceColumnsSelectable(res, context, ss);
                     break;
                 case "Links":
                     res.Html(
@@ -7272,6 +7325,27 @@ namespace Implem.Pleasanter.Models
                     break;
             }
             return res.SetData("#EditorSourceColumns");
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static ResponseCollection FilterSourceColumnsSelectable(
+            ResponseCollection res,
+            Context context,
+            SiteSettings ss)
+        {
+            var dialogInput = context.Forms.Data("SearchEditorColumnDialogInput")
+                .Deserialize<Dictionary<string, string>>();
+            return res.Html(
+                "#EditorSourceColumns",
+                new HtmlBuilder().SelectableItems(
+                    listItemCollection: ss
+                        .EditorSelectableOptions(
+                            context: context,
+                            enabled: false,
+                            selection: dialogInput.Get("selection"),
+                            keyWord: dialogInput.Get("keyWord"))));
         }
 
         /// <summary>
@@ -9521,7 +9595,7 @@ namespace Implem.Pleasanter.Models
                             : string.Empty),
                         controlCss: " always-send",
                         labelText: Displays.Period(context: context),
-                        optionCollection: DataChangeUtilities.PeriodOptions(context: context),
+                        optionCollection: ss.PeriodOptions(context: context),
                         selectedValue: dataChange.Visible(type: "DateTime")
                             ? dataChange.DateTimePeriod()
                             : string.Empty)
@@ -10364,7 +10438,8 @@ namespace Implem.Pleasanter.Models
                                         onClick: "$p.send($(this));",
                                         icon: "ui-icon-trash",
                                         action: "SetSiteSettings",
-                                        method: "put"))))
+                                        method: "put"))),
+                    _using: ss.ReferenceType != "Dashboards")
                 .FieldDropDown(
                     context: context,
                     controlId: "SaveViewType",
@@ -10403,6 +10478,8 @@ namespace Implem.Pleasanter.Models
                 .Any(o => o.Name == "Gantt" && o.ReferenceType == ss.ReferenceType);
             var hasTimeSeries = Def.ViewModeDefinitionCollection
                 .Any(o => o.Name == "TimeSeries" && o.ReferenceType == ss.ReferenceType);
+            var hasAnaly = Def.ViewModeDefinitionCollection
+                .Any(o => o.Name == "Analy" && o.ReferenceType == ss.ReferenceType);
             var hasKamban = Def.ViewModeDefinitionCollection
                 .Any(o => o.Name == "Kamban" && o.ReferenceType == ss.ReferenceType);
             var displayTypeOptionCollection = GetDisplayTypeOptionCollection(context);
@@ -10484,6 +10561,12 @@ namespace Implem.Pleasanter.Models
                                 .Li(
                                     action: () => hb
                                         .A(
+                                            href: "#ViewAnalyTab",
+                                            text: Displays.Analy(context: context)),
+                                    _using: hasAnaly)
+                                .Li(
+                                    action: () => hb
+                                        .A(
                                             href: "#ViewKambanTab",
                                             text: Displays.Kamban(context: context)),
                                     _using: hasKamban)
@@ -10531,6 +10614,11 @@ namespace Implem.Pleasanter.Models
                             ss: ss,
                             view: view,
                             _using: hasTimeSeries)
+                        .ViewAnalyTab(
+                            context: context,
+                            ss: ss,
+                            view: view,
+                            _using: hasAnaly)
                         .ViewKambanTab(
                             context: context,
                             ss: ss,
@@ -10570,21 +10658,23 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder ViewGridTab(
+        public static HtmlBuilder ViewGridTab(
             this HtmlBuilder hb,
             Context context,
             SiteSettings ss,
             View view,
-            Dictionary<string, string> displayTypeOptionCollection,
-            Dictionary<string, string> commandDisplayTypeOptionCollection)
+            string prefix = "",
+            Action action = null,
+            Dictionary<string, string> displayTypeOptionCollection = null,
+            Dictionary<string, string> commandDisplayTypeOptionCollection = null)
         {
-            return hb.FieldSet(id: "ViewGridTab", action: () => hb
+            return hb.FieldSet(id: $"{prefix}ViewGridTab", action: () => hb
                 .FieldSet(
                     css: " enclosed-thin",
                     legendText: Displays.ListSettings(context: context),
                     action: () => hb
                         .FieldSelectable(
-                            controlId: "ViewGridColumns",
+                            controlId: $"{prefix}ViewGridColumns",
                             fieldCss: "field-vertical",
                             controlContainerCss: "container-selectable",
                             controlWrapperCss: " h350",
@@ -10601,22 +10691,22 @@ namespace Implem.Pleasanter.Models
                                         controlId: "MoveUpViewGridColumns",
                                         controlCss: "button-icon",
                                         text: Displays.MoveUp(context: context),
-                                        onClick: "$p.moveColumns(event, $(this),'ViewGrid',false,true);",
+                                        onClick: $"$p.moveColumns(event, $(this),'{prefix}ViewGrid',false,true);",
                                         icon: "ui-icon-circle-triangle-n")
                                     .Button(
                                         controlId: "MoveDownViewGridColumns",
                                         controlCss: "button-icon",
                                         text: Displays.MoveDown(context: context),
-                                        onClick: "$p.moveColumns(event, $(this),'ViewGrid',false,true);",
+                                        onClick: $"$p.moveColumns(event, $(this),'{prefix}ViewGrid',false,true);",
                                         icon: "ui-icon-circle-triangle-s")
                                     .Button(
                                         controlId: "ToDisableViewGridColumns",
                                         controlCss: "button-icon",
                                         text: Displays.ToDisable(context: context),
-                                        onClick: "$p.moveColumns(event, $(this),'ViewGrid',false,true);",
+                                        onClick: $"$p.moveColumns(event, $(this),'{prefix}ViewGrid',false,true);",
                                         icon: "ui-icon-circle-triangle-e")))
                         .FieldSelectable(
-                            controlId: "ViewGridSourceColumns",
+                            controlId: $"{prefix}ViewGridSourceColumns",
                             fieldCss: "field-vertical",
                             controlContainerCss: "container-selectable",
                             controlWrapperCss: " h350",
@@ -10632,11 +10722,11 @@ namespace Implem.Pleasanter.Models
                                         controlId: "ToEnableViewGridColumns",
                                         text: Displays.ToEnable(context: context),
                                         controlCss: "button-icon",
-                                        onClick: "$p.moveColumns(event, $(this),'ViewGrid',false,true);",
+                                        onClick: $"$p.moveColumns(event, $(this),'{prefix}ViewGrid',false,true);",
                                         icon: "ui-icon-circle-triangle-w")
                                     .FieldDropDown(
                                         context: context,
-                                        controlId: "ViewGridJoin",
+                                        controlId: $"{prefix}ViewGridJoin",
                                         fieldCss: "w150",
                                         controlCss: " auto-postback always-send",
                                         optionCollection: ss.JoinOptions(),
@@ -10660,7 +10750,8 @@ namespace Implem.Pleasanter.Models
                             fieldCss: "field-auto-thin",
                             labelText: Displays.AggregationsDisplayType(context: context),
                             optionCollection: displayTypeOptionCollection,
-                            selectedValue: view.AggregationsDisplayType?.ToInt().ToString()))
+                            selectedValue: view.AggregationsDisplayType?.ToInt().ToString()),
+                    _using: prefix.IsNullOrEmpty())
                 .FieldSet(
                     css: " enclosed-thin",
                     legendText: Displays.CommandButtonsSettings(context: context),
@@ -10706,7 +10797,8 @@ namespace Implem.Pleasanter.Models
                             fieldCss: "field-auto-thin",
                             labelText: Displays.EditMode(context: context),
                             optionCollection: commandDisplayTypeOptionCollection,
-                            selectedValue: view.EditOnGridCommand?.ToInt().ToString())));
+                            selectedValue: view.EditOnGridCommand?.ToInt().ToString()),
+                    _using: prefix.IsNullOrEmpty()));
         }
 
         /// <summary>
@@ -11403,6 +11495,20 @@ namespace Implem.Pleasanter.Models
                                 labelText: Displays.AggregationTarget(context: context),
                                 optionCollection: ss.TimeSeriesValueOptions(context: context),
                                 selectedValue: view.TimeSeriesValue)))
+                : hb;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder ViewAnalyTab(
+            this HtmlBuilder hb, Context context, SiteSettings ss, View view, bool _using)
+        {
+            return _using
+                ? hb.FieldSet(id: "ViewAnalyTab", action: () => hb
+                    .FieldSet(
+                        css: " enclosed-thin",
+                        legendText: Displays.AnalySettings(context: context)))
                 : hb;
         }
 
@@ -13262,6 +13368,24 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        private static HtmlBuilder AnalySettingsEditor(
+            this HtmlBuilder hb, Context context, SiteSettings ss)
+        {
+            return Def.ViewModeDefinitionCollection
+                .Where(o => o.Name == "Analy")
+                .Any(o => o.ReferenceType == ss.ReferenceType)
+                    ? hb.FieldSet(id: "AnalySettingsEditor", action: () => hb
+                        .FieldCheckBox(
+                            controlId: "EnableAnaly",
+                            fieldCss: "field-auto-thin",
+                            labelText: Displays.Enabled(context: context),
+                            _checked: ss.EnableAnaly == true))
+                    : hb;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private static HtmlBuilder KambanSettingsEditor(
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
@@ -13582,6 +13706,8 @@ namespace Implem.Pleasanter.Models
                 .Th(action: () => hb
                     .Text(text: Displays.TimeSeries(context: context)))
                 .Th(action: () => hb
+                    .Text(text: Displays.Analy(context: context)))
+                .Th(action: () => hb
                     .Text(text: Displays.Kamban(context: context)))
                 .Th(action: () => hb
                     .Text(text: Displays.ImageLib(context: context)));
@@ -13661,6 +13787,10 @@ namespace Implem.Pleasanter.Models
                     .Span(
                         css: "ui-icon ui-icon-circle-check",
                         _using: style.TimeSeries == true))
+                .Td(action: () => hb
+                    .Span(
+                        css: "ui-icon ui-icon-circle-check",
+                        _using: style.Analy == true))
                 .Td(action: () => hb
                     .Span(
                         css: "ui-icon ui-icon-circle-check",
@@ -13778,6 +13908,12 @@ namespace Implem.Pleasanter.Models
                                 controlCss: " always-send",
                                 labelText: Displays.TimeSeries(context: context),
                                 _checked: style.TimeSeries == true)
+                            .FieldCheckBox(
+                                controlId: "StyleAnaly",
+                                fieldCss: outputDestinationCss,
+                                controlCss: " always-send",
+                                labelText: Displays.Analy(context: context),
+                                _checked: style.Analy == true)
                             .FieldCheckBox(
                                 controlId: "StyleKamban",
                                 fieldCss: outputDestinationCss,
@@ -13953,6 +14089,8 @@ namespace Implem.Pleasanter.Models
                 .Th(action: () => hb
                     .Text(text: Displays.TimeSeries(context: context)))
                 .Th(action: () => hb
+                    .Text(text: Displays.Analy(context: context)))
+                .Th(action: () => hb
                     .Text(text: Displays.Kamban(context: context)))
                 .Th(action: () => hb
                     .Text(text: Displays.ImageLib(context: context)));
@@ -14032,6 +14170,10 @@ namespace Implem.Pleasanter.Models
                     .Span(
                         css: "ui-icon ui-icon-circle-check",
                         _using: script.TimeSeries == true))
+                .Td(action: () => hb
+                    .Span(
+                        css: "ui-icon ui-icon-circle-check",
+                        _using: script.Analy == true))
                 .Td(action: () => hb
                     .Span(
                         css: "ui-icon ui-icon-circle-check",
@@ -14149,6 +14291,12 @@ namespace Implem.Pleasanter.Models
                                 controlCss: " always-send",
                                 labelText: Displays.TimeSeries(context: context),
                                 _checked: script.TimeSeries == true)
+                            .FieldCheckBox(
+                                controlId: "ScriptAnaly",
+                                fieldCss: outputDestinationCss,
+                                controlCss: " always-send",
+                                labelText: Displays.Analy(context: context),
+                                _checked: script.Analy == true)
                             .FieldCheckBox(
                                 controlId: "ScriptKamban",
                                 fieldCss: outputDestinationCss,
@@ -14327,6 +14475,8 @@ namespace Implem.Pleasanter.Models
                 .Th(action: () => hb
                     .Text(text: Displays.TimeSeries(context: context)))
                 .Th(action: () => hb
+                    .Text(text: Displays.Analy(context: context)))
+                .Th(action: () => hb
                     .Text(text: Displays.Kamban(context: context)))
                 .Th(action: () => hb
                     .Text(text: Displays.ImageLib(context: context)));
@@ -14429,6 +14579,10 @@ namespace Implem.Pleasanter.Models
                     .Span(
                         css: "ui-icon ui-icon-circle-check",
                         _using: html.TimeSeries == true))
+                .Td(action: () => hb
+                    .Span(
+                        css: "ui-icon ui-icon-circle-check",
+                        _using: html.Analy == true))
                 .Td(action: () => hb
                     .Span(
                         css: "ui-icon ui-icon-circle-check",
@@ -14572,6 +14726,12 @@ namespace Implem.Pleasanter.Models
                                 controlCss: " always-send",
                                 labelText: Displays.TimeSeries(context: context),
                                 _checked: html.TimeSeries == true)
+                            .FieldCheckBox(
+                                controlId: "HtmlAnaly",
+                                fieldCss: outputDestinationCss,
+                                controlCss: " always-send",
+                                labelText: Displays.Analy(context: context),
+                                _checked: html.Analy == true)
                             .FieldCheckBox(
                                 controlId: "HtmlKamban",
                                 fieldCss: outputDestinationCss,
@@ -15514,6 +15674,56 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public static HtmlBuilder DashboardPartIndexSitesDialog(
+            Context context,
+            SiteSettings ss,
+            int dashboardPartId,
+            string dashboardIndexSites)
+        {
+            var hb = new HtmlBuilder();
+            return hb.Form(
+                attributes: new HtmlAttributes()
+                    .Id("DashboardPartIndexSitesEditForm")
+                    .Action(Locations.ItemAction(
+                        context: context,
+                        id: ss.SiteId)),
+                action: () => hb
+                    .FieldTextBox(
+                        controlId: "DashboardPartIndexSitesEdit",
+                        fieldCss: "field-wide",
+                        controlCss: " always-send",
+                        labelText: Displays.SiteId(context: context),
+                        text: dashboardIndexSites,
+                        validateRequired: true)
+                    .Hidden(
+                        controlId: "DashboardPartId",
+                        alwaysSend: true,
+                        value: dashboardPartId.ToString())
+                    .Hidden(
+                        controlId: "SavedDashboardPartIndexSites",
+                        alwaysSend: true,
+                        value: dashboardIndexSites)
+                    .Hidden(
+                        controlId: "ClearDashboardIndexView",
+                        action: "SetSiteSettings",
+                        method: "post")
+                    .P(
+                        id: "DashboardPartIndexSitesMessage",
+                        css: "message-dialog")
+                    .Div(css: "command-center", action: () => hb
+                        .Button(
+                            controlId: "UpdateDashboardPartIndexSites",
+                            text: Displays.OK(context: context),
+                            controlCss: "button-icon validate",
+                            icon: "ui-icon-pencil",
+                            onClick: "$p.send($(this));",
+                            action: "SetSiteSettings",
+                            method: "post")));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static HtmlBuilder DashboardPartDialog(
             Context context,
             SiteSettings ss,
@@ -15522,15 +15732,24 @@ namespace Implem.Pleasanter.Models
         {
             var filterVisible = false;
             var sorterVisible = false;
-            if((dashboardPart.Type == DashboardPartType.TimeLine)
-                || (dashboardPart.Type == DashboardPartType.Calendar)
-                || (dashboardPart.Type == DashboardPartType.Kamban))
+            var indexVisible = false;
+            switch (dashboardPart.Type)
             {
-                filterVisible = true;
-            }
-            if(dashboardPart.Type == DashboardPartType.TimeLine)
-            {
-                sorterVisible = true;
+                case DashboardPartType.TimeLine:
+                    filterVisible = true;
+                    sorterVisible = true;
+                    break;
+                case DashboardPartType.Calendar:
+                    filterVisible = true;
+                    break;
+                case DashboardPartType.Kamban:
+                    filterVisible = true;
+                    break;
+                case DashboardPartType.Index:
+                    indexVisible = true;
+                    filterVisible = true;
+                    sorterVisible = true;
+                    break;
             }
             var hb = new HtmlBuilder();
             return hb.Form(
@@ -15552,6 +15771,13 @@ namespace Implem.Pleasanter.Models
                                     .A(
                                         href: "#DashboardPartGeneralTabContainer",
                                         text: Displays.General(context: context)))
+                                .Li(
+                                    id: "DashboardPartViewIndexTabControl",
+                                    css: indexVisible ? "" : "hidden",
+                                    action: () => hb
+                                        .A(
+                                            href: "#DashboardPartViewIndexTabContainer",
+                                            text: Displays.Index(context: context)))
                                 .Li(
                                     id: "DashboardPartViewFiltersTabControl",
                                     css: filterVisible ? "" : "hidden",
@@ -15575,6 +15801,9 @@ namespace Implem.Pleasanter.Models
                             ss: ss,
                             dashboardPart: dashboardPart,
                             controlId: controlId)
+                        .DashboardPartViewIndexTab(
+                            context: context,
+                            dashboardPart: dashboardPart)
                         .DashboardPartViewFiltersTab(
                             context: context,
                             dashboardPart: dashboardPart)
@@ -15680,6 +15909,10 @@ namespace Implem.Pleasanter.Models
                             {
                                 DashboardPartType.Kamban.ToInt().ToString(),
                                 Displays.Kamban(context: context)
+                            },
+                            {
+                                DashboardPartType.Index.ToInt().ToString(),
+                                Displays.Index(context: context)
                             }
                         },
                         selectedValue: dashboardPart.Type.ToInt().ToString(),
@@ -16029,9 +16262,44 @@ namespace Implem.Pleasanter.Models
                         controlCss: " always-send",
                         labelText: Displays.ShowStatus(context: context),
                         _checked: dashboardPart.KambanShowStatus == true)
+                    .Div(
+                        id: "DashboardPartIndexSitesField",
+                        css: "both" + hiddenCss(dashboardPart.Type != DashboardPartType.Index),
+                        action: () =>
+                        {
+                            var indexSites = dashboardPart.IndexSites;
+                            var baseSiteId = DashboardPart.GetBaseSiteSettings(
+                                context: context,
+                                sitesString: indexSites)
+                                    ?.SiteId;
+                            hb
+                                .FieldText(
+                                    controlId: "DashboardPartIndexSitesValue",
+                                    labelText: Displays.SiteId(context: context),
+                                    text: indexSites)
+                                .Hidden(
+                                    controlId: "DashboardPartIndexSites",
+                                    alwaysSend: true,
+                                    value: indexSites)
+                                .Hidden(
+                                    controlId: "DashboardPartIndexBaseSiteId",
+                                    alwaysSend: true,
+                                    value: baseSiteId == null
+                                        ? null
+                                        : baseSiteId.ToString())
+                                .Button(
+                                        controlId: "EditIndexSites",
+                                        text: Displays.Edit(context: context),
+                                        controlCss: "button-icon",
+                                        onClick: "$p.openDashboardPartIndexSitesDialog($(this));",
+                                        icon: "ui-icon-pencil",
+                                        action: "SetSiteSettings",
+                                        method: "post");
+                        })
                     .FieldCheckBox(
                         controlId: "DisableAsynchronousLoading",
-                        controlCss: " always-send",
+                        fieldCss:" both",
+                        controlCss: " always-send control-checkbox",
                         labelText: Displays.DisableAsynchronousLoading(context: context),
                         _checked: dashboardPart.DisableAsynchronousLoading == true)
                     .FieldTextBox(
@@ -16039,6 +16307,35 @@ namespace Implem.Pleasanter.Models
                         controlCss: " always-send",
                         labelText: "CSS",
                         text: dashboardPart.ExtendedCss));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder DashboardPartViewIndexTab(
+            this HtmlBuilder hb,
+            Context context,
+            DashboardPart dashboardPart,
+            bool clearView = false,
+            bool _using = true)
+        {
+            if (_using == false) return hb;
+            var view = clearView
+                ? new View()
+                : (dashboardPart.View ?? new View());
+            var currentSs = SiteSettingsUtilities.Get(
+                context: context,
+                dashboardPart.SiteId);
+            if (currentSs == null)
+            {
+                return hb.FieldSet(id: "DashboardPartViewIndexTabContainer");
+            }
+            return hb.FieldSet(id: "DashboardPartViewIndexTabContainer",
+                action: () => hb.ViewGridTab(
+                    context: context,
+                    ss: currentSs,
+                    view: view,
+                    prefix: "DashboardPart"));
         }
 
         /// <summary>
@@ -16662,6 +16959,93 @@ namespace Implem.Pleasanter.Models
                 labelText: Displays.Target(context: context),
                 optionCollection: ss.FormulaTargetSelectableOptions(target));
             return hb;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder SearchEditorColumnDialog(
+            Context context,
+            SiteSettings ss)
+        {
+            var dialogInput = context.Forms.Data("SearchEditorColumnDialogInput")
+                .Deserialize<Dictionary<string, string>>();
+            var hb = new HtmlBuilder();
+            return hb.Form(
+                attributes: new HtmlAttributes()
+                    .Id("SearchEditorColumnForm")
+                    .Action(Locations.ItemAction(
+                        context: context,
+                        id: ss.SiteId))
+                    .DataEnter("#ShowTargetColumnKeyWord"),
+                action: () => hb
+                    .FieldSet(
+                        css: " enclosed",
+                        legendText: Displays.Search(context: context),
+                        action: () => hb
+                            .FieldTextBox(
+                                controlId: "TargetColumnKeyWord",
+                                text: dialogInput == null ? "" : dialogInput.Get("keyWord"),
+                                controlCss: "control-textbox always-send")
+                            .Button(
+                                controlId: "ShowTargetColumnKeyWord",
+                                text: Displays.Search(context: context),
+                                controlCss: "button-icon",
+                                onClick: "$p.selectSearchEditorColumn('KeyWord');"))
+                    .FieldSet(
+                        css: " enclosed",
+                        legendText: Displays.UseSearchFilter(context: context),
+                        action: () => hb
+                            .Div(css: "command-left", action: () => hb
+                                .Button(
+                                    controlId: "ShowTargetColumnBasic",
+                                    text: Displays.Basic(context: context),
+                                    controlCss: "button-icon w150",
+                                    onClick: "$p.selectSearchEditorColumn('Basic');")
+                                .Button(
+                                    controlId: "ShowTargetColumnClass",
+                                    text: Displays.Class(context: context),
+                                    controlCss: "button-icon w150",
+                                    onClick: "$p.selectSearchEditorColumn('Class');")
+                                .Button(
+                                    controlId: "ShowTargetColumnNum",
+                                    text: Displays.Num(context: context),
+                                    controlCss: "button-icon w150",
+                                    onClick: "$p.selectSearchEditorColumn('Num');"))
+                            .Div(css: "command-left", action: () => hb
+                                .Button(
+                                    controlId: "ShowTargetColumnDate",
+                                    text: Displays.Date(context: context),
+                                    controlCss: "button-icon w150",
+                                    onClick: "$p.selectSearchEditorColumn('Date');")
+                                .Button(
+                                    controlId: "ShowTargetColumnDescription",
+                                    text: Displays.Description(context: context),
+                                    controlCss: "button-icon w150",
+                                    onClick: "$p.selectSearchEditorColumn('Description');")
+                                .Button(
+                                    controlId: "ShowTargetColumnCheck",
+                                    text: Displays.Check(context: context),
+                                    controlCss: "button-icon w150",
+                                    onClick: "$p.selectSearchEditorColumn('Check');"))
+                            .Div(css: "command-left", action: () => hb
+                                .Button(
+                                    controlId: "ShowTargetColumnAttachments",
+                                    text: Displays.Attachments(context: context),
+                                    controlCss: "button-icon w150",
+                                    onClick: "$p.selectSearchEditorColumn('Attachments');")))
+                    .Div(css: "command-center", action: () => hb
+                        .Button(
+                            controlId: "ShowTargetColumnDefault",
+                            text: Displays.Reset(context: context),
+                            controlCss: "button-icon",
+                            onClick: "$p.selectSearchEditorColumn('');",
+                            icon: "ui-icon-gear")
+                        .Button(
+                            text: Displays.Cancel(context: context),
+                            controlCss: "button-icon",
+                            onClick: "$p.closeDialog($(this));",
+                            icon: "ui-icon-cancel")));
         }
     }
 }

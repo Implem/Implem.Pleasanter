@@ -256,7 +256,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     .DataValidateRegex(validateRegex)
                                     .DataValidateRegexErrorMessage(validateRegexErrorMessage)
                                     .DataReadOnly(readOnly)
-                                    .Add(attributes),
+                                    .Add(attributes)
+                        .Add("data-enablelightbox", Implem.DefinitionAccessor.Parameters.General.EnableLightBox ? "1" : "0"),
                     text: text)
                 .MarkDownCommands(
                     context: context,
@@ -782,6 +783,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool alwaysDataValue = false,
             string action = null,
             string method = null,
+            bool setSearchOptionButton = false,
+            string searchOptionId = null,
+            string searchOptionFunction = null,
             bool _using = true)
         {
             return _using
@@ -797,6 +801,27 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             alwaysDataValue: alwaysDataValue,
                             action: action,
                             method: method))
+                    .SearchOptionButton(
+                        setSearchOptionButton: setSearchOptionButton,
+                        searchOptionId: searchOptionId,
+                        searchOptionFunction: searchOptionFunction)
+                : hb;
+        }
+
+        public static HtmlBuilder SearchOptionButton(
+            this HtmlBuilder hb,
+            bool setSearchOptionButton = false,
+            string searchOptionId = null,
+            string searchOptionFunction = null)
+        {
+            return setSearchOptionButton
+                ? hb.Div(
+                    attributes: new HtmlAttributes()
+                        .Id(searchOptionId)
+                        .Class("ui-icon ui-icon-search lower-search-ui")
+                        .OnClick(searchOptionFunction)
+                        .DataAction("SetSiteSettings")
+                        .DataMethod("post"))
                 : hb;
         }
 

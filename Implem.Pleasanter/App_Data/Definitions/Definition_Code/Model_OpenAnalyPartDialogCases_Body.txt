@@ -1,0 +1,4 @@
+﻿case "#TableName#":
+    return #ModelName#Utilities.OpenAnalyPartDialog(
+        context: context,
+        ss: Site.SiteSettings);

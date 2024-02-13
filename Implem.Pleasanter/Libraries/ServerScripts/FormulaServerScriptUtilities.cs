@@ -848,8 +848,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         return 'Invalid Parameter';
                     }
                     expression = (expression === undefined || expression === '') ? false  : expression;
-                    valueIfTrue = (valueIfTrue === undefined ||  valueIfTrue === '') ? 0 : valueIfTrue;
-                    valueIfFalse = (valueIfFalse === '') ? 0 : valueIfFalse;
+                    valueIfTrue = (valueIfTrue === undefined) ? 0 : valueIfTrue;
+                    valueIfFalse = (valueIfFalse === undefined) ? 0 : valueIfFalse;
                     if(typeof valueIfTrue === 'string' && valueIfTrue.length === 2 
                         && valueIfTrue.substring(0,1).charCodeAt() === 34 && valueIfTrue.substring(1,2).charCodeAt() == 34) 
                     {
@@ -1000,24 +1000,18 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     {
                         logicalTest = (arguments[i] === '' || arguments[i] === undefined ) ? false : arguments[i] 
                         logicalTest = (logicalTest === 'false' || logicalTest == '0') ? false : (logicalTest === 'true') ? true : logicalTest;
-                        valueIfTrue = (arguments[i+1] === '' || arguments[i+1] === undefined ) ? 0 : arguments[i+1];
+                        valueIfTrue = arguments[i+1] === undefined ? 0 : arguments[i+1];
                         if (!isNaN(logicalTest) || typeof logicalTest === 'boolean')
                         {       
                             if(Boolean(logicalTest)) {
-                                try {
-                                    return $VALUE(valueIfTrue) 
-                                } catch (error) {
-                                    return valueIfTrue;
-                                }
+                                retValue = $VALUE(valueIfTrue);
+                                return (retValue == 'Invalid Parameter' || retValue == '#VALUE!') ? valueIfTrue : retValue;
                             }
                             logicalTest = Boolean(logicalTest);
                         }
                         else if(Boolean($VALUE(logicalTest))) {
-                            try {
-                                return $VALUE(valueIfTrue)
-                            } catch (error) {
-                                return valueIfTrue;
-                            }
+                            retValue = $VALUE(valueIfTrue);
+                            return (retValue == 'Invalid Parameter' || retValue == '#VALUE!') ? valueIfTrue : retValue;
                         }
                     }
                     if(logicalTest === false) {
@@ -1860,9 +1854,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     }
                     return value === undefined || value === ''
                         ? 0
-                        : ($ISERROR(value)
-                            ? (value_if_error === '' ? 0 : value_if_error)
-                            : value);
+                        : ($ISERROR(value) ? value_if_error : value);
                 }";
         }
 

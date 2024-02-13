@@ -1,6 +1,7 @@
-{
+﻿{
     "Id": "Average",
     "Type": 110,
+    "ClientScript": true,
     "Languages": [
         {
             "Body": "Average"

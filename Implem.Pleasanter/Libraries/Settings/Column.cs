@@ -1298,10 +1298,14 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 css,
                 ExtendedCellCss,
-                TextAlign == SiteSettings.TextAlignTypes.Right
-                    ? "right-align"
-                    : string.Empty
-            }
+                TextAlign switch
+                {
+                    SiteSettings.TextAlignTypes.Right => " right-align",
+                    SiteSettings.TextAlignTypes.Center => " center-align",
+                    _ => string.Empty
+                }
+        }
+
                 .Select(o => o?.Trim())
                 .Where(o => !o.IsNullOrEmpty())
                 .Join(" ");
@@ -1719,6 +1723,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                             break;
                         case "TimeSeriesGuide":
                             sql.Sites_TimeSeriesGuide(tableName: path, _as: _as);
+                            break;
+                        case "AnalyGuide":
+                            sql.Sites_AnalyGuide(tableName: path, _as: _as);
                             break;
                         case "KambanGuide":
                             sql.Sites_KambanGuide(tableName: path, _as: _as);

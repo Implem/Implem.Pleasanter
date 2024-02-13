@@ -30,9 +30,11 @@ namespace Implem.Pleasanter.Models
         public static string Index(Context context, SiteSettings ss)
         {
             var hb = new HtmlBuilder();
-            var view = Views.GetBySession(
-                context: context,
-                ss: ss);
+            var view = ss.DashboardParts.Any()
+                ? ss.DashboardParts.FirstOrDefault().View
+                : Views.GetBySession(
+                    context: context,
+                    ss: ss);
             var gridData = GetGridData(
                 context: context,
                 ss: ss,
@@ -44,18 +46,37 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 view: view,
                 gridData: gridData);
-            return hb.ViewModeTemplate(
+            var suffix = ss.DashboardParts.Any()
+                ? Views.GetBySession(
+                    context: context,
+                    ss: ss)
+                    .GetIndexSuffix()
+                : "";
+            if (ss.DashboardParts?.Any() != true)
+            {
+                return hb.ViewModeTemplate(
                 context: context,
                 ss: ss,
                 view: view,
                 viewMode: viewMode,
                 serverScriptModelRow: serverScriptModelRow,
                 viewModeBody: () => hb.Grid(
-                   context: context,
-                   gridData: gridData,
-                   ss: ss,
-                   view: view,
-                   serverScriptModelRow: serverScriptModelRow));
+                    context: context,
+                    gridData: gridData,
+                    ss: ss,
+                    view: view,
+                    serverScriptModelRow: serverScriptModelRow));
+            }
+            else
+            {
+                return hb.Grid(
+                    context: context,
+                    ss: ss,
+                    gridData: gridData,
+                    view: view,
+                    serverScriptModelRow: serverScriptModelRow,
+                    suffix: suffix).ToString();
+            }
         }
 
         private static string ViewModeTemplate(
@@ -173,7 +194,11 @@ namespace Implem.Pleasanter.Models
                     .Div(attributes: new HtmlAttributes()
                         .Id("BulkUpdateSelectorDialog")
                         .Class("dialog")
-                        .Title(Displays.BulkUpdate(context: context))))
+                        .Title(Displays.BulkUpdate(context: context)))
+                    .Div(attributes: new HtmlAttributes()
+                        .Id("AnalyPartDialog")
+                        .Class("dialog")
+                        .Title(Displays.AnalyPart(context: context))))
                     .ToString();
         }
 
@@ -227,7 +252,8 @@ namespace Implem.Pleasanter.Models
             GridData gridData,
             View view,
             string action = "GridRows",
-            ServerScriptModelRow serverScriptModelRow = null)
+            ServerScriptModelRow serverScriptModelRow = null,
+            string suffix = "")
         {
             var columns = ss.GetGridColumns(
                 context: context,
@@ -236,7 +262,7 @@ namespace Implem.Pleasanter.Models
             return hb
                 .Table(
                     attributes: new HtmlAttributes()
-                        .Id("Grid")
+                        .Id($"Grid{suffix}")
                         .Class(ss.GridCss(context: context))
                         .DataValue("back", _using: ss?.IntegratedSites?.Any() == true)
                         .DataAction(action)
@@ -250,14 +276,16 @@ namespace Implem.Pleasanter.Models
                             view: view,
                             editRow: context.Forms.Bool("EditOnGrid"),
                             serverScriptModelRow: serverScriptModelRow,
-                            action: action))
+                            action: action,
+                            suffix: suffix))
                 .GridHeaderMenus(
                     context: context,
                     ss: ss,
                     view: view,
-                    columns: columns)
+                    columns: columns,
+                    suffix: suffix)
                 .Hidden(
-                    controlId: "GridOffset",
+                    controlId: $"GridOffset{suffix}",
                     value: ss.GridNextOffset(
                         0,
                         gridData.DataRows.Count(),
@@ -283,9 +311,14 @@ namespace Implem.Pleasanter.Models
             bool windowScrollTop = false,
             bool clearCheck = false,
             string action = "GridRows",
-            Message message = null)
+            Message message = null,
+            string suffix = "")
         {
-            var view = Views.GetBySession(context: context, ss: ss);
+            var view = ss.DashboardParts.Any()
+                ? ss.DashboardParts.FirstOrDefault().View
+                : Views.GetBySession(
+                    context: context,
+                    ss: ss);
             var gridData = GetGridData(
                 context: context,
                 ss: ss,
@@ -339,65 +372,90 @@ namespace Implem.Pleasanter.Models
                         view: view);
                 }
             }
-            return new ResponseCollection(context: context)
-                .WindowScrollTop(_using: windowScrollTop)
-                .Remove(".grid tr", _using: offset == 0)
-                .ClearFormData("GridOffset")
-                .ClearFormData("GridCheckAll", _using: clearCheck)
-                .ClearFormData("GridUnCheckedItems", _using: clearCheck)
-                .ClearFormData("GridCheckedItems", _using: clearCheck)
-                .ClearFormData("OriginalId", _using: newOnGrid)
-                .CloseDialog(_using: offset == 0)
-                .ReplaceAll("#CopyDirectUrlToClipboard", new HtmlBuilder()
-                    .CopyDirectUrlToClipboard(
-                        context: context,
-                        view: view))
-                .ReplaceAll(
-                    "#Aggregations",
-                    new HtmlBuilder().Aggregations(
-                        context: context,
-                        ss: ss,
-                        view: view),
-                    _using: offset == 0)
-                .ReplaceAll(
-                    "#ViewFilters",
-                    new HtmlBuilder()
-                        .ViewFilters(
+            if (suffix.IsNullOrEmpty())
+            {
+                return new ResponseCollection(context: context)
+                    .WindowScrollTop(_using: windowScrollTop)
+                    .Remove(".grid tr", _using: offset == 0)
+                    .ClearFormData("GridOffset")
+                    .ClearFormData("GridCheckAll", _using: clearCheck)
+                    .ClearFormData("GridUnCheckedItems", _using: clearCheck)
+                    .ClearFormData("GridCheckedItems", _using: clearCheck)
+                    .ClearFormData("OriginalId", _using: newOnGrid)
+                    .CloseDialog(_using: offset == 0)
+                    .ReplaceAll("#CopyDirectUrlToClipboard", new HtmlBuilder()
+                        .CopyDirectUrlToClipboard(
+                            context: context,
+                            view: view))
+                    .ReplaceAll(
+                        "#Aggregations",
+                        new HtmlBuilder().Aggregations(
                             context: context,
                             ss: ss,
                             view: view),
-                    _using: context.Forms.ControlId().StartsWith("ViewFiltersOnGridHeader__"))
-                .Append("#Grid", new HtmlBuilder().GridRows(
-                    context: context,
-                    ss: ss,
-                    gridData: gridData,
-                    columns: columns,
-                    view: view,
-                    resultModel: resultModel,
-                    editRow: editRow,
-                    newRowId: newRowId,
-                    offset: offset,
-                    clearCheck: clearCheck,
-                    action: action))
-                .Val("#NewRowId", newRowId, _using: newOnGrid)
-                .CopyRowFormData(
-                    context: context,
-                    ss: ss,
-                    resultModel: resultModel,
-                    columns: columns,
-                    newOnGrid: newOnGrid,
-                    newRowId: newRowId,
-                    originalId: originalId)
-                .Val("#GridOffset", ss.GridNextOffset(
-                    offset,
-                    gridData.DataRows.Count(),
-                    gridData.TotalCount))
-                .Val("#GridRowIds", gridData.DataRows.Select(g => g.Long("ResultId")).ToJson())
-                .Val("#GridColumns", columns.Select(o => o.ColumnName).ToJson())
-                .Paging("#Grid")
-                .Message(message)
-                .Messages(context.Messages)
-                .ToJson();
+                        _using: offset == 0)
+                    .ReplaceAll(
+                        "#ViewFilters",
+                        new HtmlBuilder()
+                            .ViewFilters(
+                                context: context,
+                                ss: ss,
+                                view: view),
+                        _using: context.Forms.ControlId().StartsWith("ViewFiltersOnGridHeader__"))
+                    .Append("#Grid", new HtmlBuilder().GridRows(
+                        context: context,
+                        ss: ss,
+                        gridData: gridData,
+                        columns: columns,
+                        view: view,
+                        resultModel: resultModel,
+                        editRow: editRow,
+                        newRowId: newRowId,
+                        offset: offset,
+                        clearCheck: clearCheck,
+                        action: action))
+                    .Val("#NewRowId", newRowId, _using: newOnGrid)
+                    .CopyRowFormData(
+                        context: context,
+                        ss: ss,
+                        resultModel: resultModel,
+                        columns: columns,
+                        newOnGrid: newOnGrid,
+                        newRowId: newRowId,
+                        originalId: originalId)
+                    .Val("#GridOffset", ss.GridNextOffset(
+                        offset,
+                        gridData.DataRows.Count(),
+                        gridData.TotalCount))
+                    .Val("#GridRowIds", gridData.DataRows.Select(g => g.Long("ResultId")).ToJson())
+                    .Val("#GridColumns", columns.Select(o => o.ColumnName).ToJson())
+                    .Paging("#Grid")
+                    .Message(message)
+                    .Messages(context.Messages)
+                    .ToJson();
+            }
+            else
+            {
+                return new ResponseCollection(context: context)
+                    .ClearFormData("GridOffset")
+                    .Append($"#Grid{suffix}", new HtmlBuilder().GridRows(
+                        context: context,
+                        ss: ss,
+                        gridData: gridData,
+                        columns: columns,
+                        view: view,
+                        resultModel: resultModel,
+                        editRow: editRow,
+                        newRowId: newRowId,
+                        offset: offset,
+                        clearCheck: clearCheck,
+                        action: action))
+                    .Val($"#GridOffset{suffix}", ss.GridNextOffset(
+                        offset,
+                        gridData.DataRows.Count(),
+                        gridData.TotalCount))
+                    .ToJson();
+            }
         }
 
         private static HtmlBuilder GridRows(
@@ -413,11 +471,14 @@ namespace Implem.Pleasanter.Models
             int offset = 0,
             bool clearCheck = false,
             string action = "GridRows",
-            ServerScriptModelRow serverScriptModelRow = null)
+            ServerScriptModelRow serverScriptModelRow = null,
+            string suffix = "")
         {
-            var checkRow = ss.CheckRow(
-                context: context,
-                gridColumns: view.GridColumns);
+            var checkRow = ss.DashboardParts.Any()
+                ? false
+                : ss.CheckRow(
+                    context: context,
+                    gridColumns: view.GridColumns);
             var checkAll = clearCheck
                 ? false
                 : context.Forms.Bool("GridCheckAll");
@@ -426,6 +487,9 @@ namespace Implem.Pleasanter.Models
                 ss: ss);
             return hb
                 .THead(
+                    css: ss.DashboardParts.Any()
+                        ? "dashboard-grid-header"
+                        : "",
                     _using: offset == 0,
                     action: () => hb
                         .GridHeader(
@@ -437,7 +501,8 @@ namespace Implem.Pleasanter.Models
                             checkRow: checkRow,
                             checkAll: checkAll,
                             action: action,
-                            serverScriptModelRow: serverScriptModelRow))
+                            serverScriptModelRow: serverScriptModelRow,
+                            suffix: suffix))
                 .TBody(action: () => hb
                     .GridNewRows(
                         context: context,
@@ -1535,7 +1600,8 @@ namespace Implem.Pleasanter.Models
                             _using: !context.Ajax)
                         .Hidden(
                             controlId: "TriggerRelatingColumns_Editor", 
-                            value: Jsons.ToJson(ss.RelatingColumns)))
+                            value: Jsons.ToJson(ss.RelatingColumns))
+                        .PostInitHiddenData(context: context))
                 .OutgoingMailsForm(
                     context: context,
                     ss: ss,
@@ -1555,6 +1621,21 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     resultModel: resultModel,
                     ss: ss));
+        }
+
+        private static HtmlBuilder PostInitHiddenData(
+            this HtmlBuilder hb,
+            Context context)
+        {
+            var postInitData = context.Forms.Where(o => o.Key.StartsWith("PostInit_"));
+            postInitData.ForEach(data =>
+            {
+                hb.Hidden(
+                    controlId: data.Key,
+                    value: data.Value,
+                    css: "always-send");
+            });
+            return hb;
         }
 
         private static HtmlBuilder EditorTabs(
@@ -2497,9 +2578,13 @@ namespace Implem.Pleasanter.Models
                                                     controlId: $"Results_{column.Name}",
                                                     columnName: column.ColumnName,
                                                     fieldCss: column.FieldCss
-                                                        + (column.TextAlign == SiteSettings.TextAlignTypes.Right
-                                                            ? " right-align"
-                                                            : string.Empty),
+                                                        + (
+                                                            column.TextAlign switch
+                                                            {
+                                                                SiteSettings.TextAlignTypes.Right => " right-align",
+                                                                SiteSettings.TextAlignTypes.Center => " center-align",
+                                                                _ => string.Empty
+                                                            }),
                                                     fieldDescription: column.Description,
                                                     labelText: column.LabelText,
                                                     value: resultModel.GetAttachments(columnName: column.Name).ToJson(),
@@ -2637,7 +2722,6 @@ namespace Implem.Pleasanter.Models
                                 mine: null)
                             && !column.Id_Ver
                             && column.EditorColumn
-                            && column.TypeCs != "Attachments"
                             && column.GridDesign.IsNullOrEmpty())
                         {
                             hb.Td(action: () => hb
@@ -3815,6 +3899,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         dataTableName: formData.Id.ToString()));
+                    resultCollection.Add(resultModel);
                 }
                 else
                 {
@@ -3839,6 +3924,14 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 transactional: true,
                 statements: statements.ToArray());
+            resultCollection.ForEach(resultModel =>
+                resultModel.WriteAttachments(
+                    context: context,
+                    ss: ss,
+                    verUp: Versions.VerUp(
+                        context: context,
+                        ss: ss,
+                        verUp: resultModel.VerUp)));
             var response = responses.FirstOrDefault(o => !o.Event.IsNullOrEmpty());
             switch (response?.Event)
             {
@@ -6260,7 +6353,7 @@ namespace Implem.Pleasanter.Models
                                     {
                                         case Databases.AccessStatuses.Selected:
                                             // 更新による競合のため再更新
-                                            if (resultModel.Updated(context: context))
+                                            if (resultModel.Updated(context: context, ss: ss))
                                             {
                                                 resultModel.VerUp = Versions.MustVerUp(
                                                     context: context,
@@ -6535,7 +6628,8 @@ namespace Implem.Pleasanter.Models
                 var inputErrorData = ResultValidators.OnInputValidating(
                     context: context,
                     ss: ss,
-                    resultHash: resultHash).FirstOrDefault();
+                    resultHash: resultHash,
+                    api: true).FirstOrDefault();
                 switch (inputErrorData.Type)
                 {
                     case Error.Types.None: break;
@@ -6584,7 +6678,7 @@ namespace Implem.Pleasanter.Models
                                     {
                                         case Databases.AccessStatuses.Selected:
                                             // 更新による競合のため再更新
-                                            if (resultModel.Updated(context: context))
+                                            if (resultModel.Updated(context: context, ss: ss))
                                             {
                                                 resultModel.VerUp = Versions.MustVerUp(
                                                     context: context,
@@ -6875,7 +6969,8 @@ namespace Implem.Pleasanter.Models
             }
             var invalid = ResultValidators.OnExporting(
                 context: context,
-                ss: ss);
+                ss: ss,
+                api: true);
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
@@ -8083,6 +8178,241 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     dataRows: dataRows);
                 return dataRows;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public static string OpenAnalyPartDialog(Context context, SiteSettings ss)
+        {
+            if (context.ContractSettings.Export == false)
+            {
+                return HtmlTemplates.Error(
+                    context: context,
+                    errorData: new ErrorData(type: Error.Types.InvalidRequest));
+            }
+            var invalid = ResultValidators.OnExporting(
+                context: context,
+                ss: ss);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default: return invalid.MessageJson(context: context);
+            }
+            var view = Views.GetBySession(
+                context: context,
+                ss: ss);
+            return new ResponseCollection(context: context)
+                .Html(
+                    "#AnalyPartDialog",
+                    new HtmlBuilder().AnalyPartDialog(
+                        context: context,
+                        ss: ss,
+                        view: view,
+                        analyPartId: context.Forms.Int("AnalyPartId")))
+                .CloseDialog()
+                .ToJson();
+        }
+
+        public static string Analy(Context context, SiteSettings ss)
+        {
+            if (!ss.EnableViewMode(
+                context: context,
+                name: "Analy"))
+            {
+                return HtmlTemplates.Error(
+                    context: context,
+                    errorData: new ErrorData(type: Error.Types.HasNotPermission));
+            }
+            var hb = new HtmlBuilder();
+            var view = Views.GetBySession(
+                context: context,
+                ss: ss);
+            var viewMode = ViewModes.GetSessionData(
+                context: context,
+                siteId: ss.SiteId);
+            var serverScriptModelRow = ss.GetServerScriptModelRow(
+                context: context,
+                view: view);
+            return hb.ViewModeTemplate(
+                context: context,
+                ss: ss,
+                view: view,
+                viewMode: viewMode,
+                serverScriptModelRow: serverScriptModelRow,
+                viewModeBody: () => hb
+                    .Analy(
+                        context: context,
+                        ss: ss,
+                        view: view,
+                        bodyOnly: false,
+                        inRange: true));
+        }
+
+        public static string AnalyJson(Context context, SiteSettings ss)
+        {
+            if (!ss.EnableViewMode(context: context, name: "Analy"))
+            {
+                return Messages.ResponseHasNotPermission(context: context).ToJson();
+            }
+            var view = Views.GetBySession(
+                context: context,
+                ss: ss);
+            var bodyOnly = context.Forms.ControlId().StartsWith("Analy");
+            var body = new HtmlBuilder().Analy(
+                context: context,
+                ss: ss,
+                view: view,
+                bodyOnly: bodyOnly,
+                inRange: true);
+            return new ResponseCollection(context: context)
+                .ViewMode(
+                    context: context,
+                    ss: ss,
+                    view: view,
+                    invoke: "drawAnaly",
+                    bodyOnly: bodyOnly,
+                    bodySelector: "#AnalyBody",
+                    body: body)
+                .Events("on_analy_load")
+                .CloseDialog(_using: context.Forms.ControlId() == "AddAnalyPart")
+                .ToJson();
+        }
+
+        private static HtmlBuilder Analy(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            View view,
+            bool bodyOnly,
+            bool inRange)
+        {
+            var analyDataList = new List<Libraries.ViewModes.AnalyData>();
+            view.AnalyPartSettings?.ForEach(analyPart =>
+            {
+                var groupBy = ss.GetColumn(
+                    context: context,
+                    columnName: view.GetAnalyGroupBy(
+                        context: context,
+                        ss: ss,
+                        value: analyPart.GroupBy));
+                var aggregationTarget = ss.GetColumn(
+                    context: context,
+                    columnName: analyPart.AggregationTarget);
+                var analyData = AnalyDat(
+                    context: context,
+                    ss: ss,
+                    view: view,
+                    analyPartSetting: analyPart,
+                    groupBy: groupBy,
+                    timePeriodValue: analyPart.TimePeriodValue,
+                    timePeriod: analyPart.TimePeriod,
+                    aggregationTarget: aggregationTarget);
+                analyDataList.Add(analyData);
+            });
+            return !bodyOnly
+                ? hb.Analy(
+                    context: context,
+                    ss: ss,
+                    analyDataList: analyDataList,
+                    inRange: inRange)
+                : hb.AnalyBody(
+                    context: context,
+                    ss: ss,
+                    analyDataList: analyDataList,
+                    inRange: inRange);
+        }
+
+        private static Libraries.ViewModes.AnalyData AnalyDat(
+            Context context,
+            SiteSettings ss,
+            View view,
+            AnalyPartSetting analyPartSetting,
+            Column groupBy,
+            decimal timePeriodValue,
+            string timePeriod,
+            Column aggregationTarget)
+        {
+            if (groupBy != null)
+            {
+                var column = Rds.ResultsColumn()
+                    .ResultsColumn(
+                        columnName: Rds.IdColumn(tableName: "Results"),
+                        _as: "Id")
+                    .ResultsColumn(columnName: "Ver")
+                    .ResultsColumn(
+                        columnName: groupBy.ColumnName,
+                        _as: "GroupBy");
+                if (aggregationTarget != null)
+                {
+                    column.ResultsColumn(
+                        columnName: aggregationTarget.ColumnName,
+                        _as: "Value");
+                }
+                var where = view.Where(
+                    context: context,
+                    ss: ss);
+                if (timePeriodValue > 0)
+                {
+                    where.Results_UpdatedTime(
+                        value: DateTime.Now.DateAdd(
+                            timePeriod: timePeriod,
+                            timePeriodValue: (timePeriodValue * -1).ToInt()),
+                        _operator: "<=");
+                }
+                var param = view.Param(
+                    context: context,
+                    ss: ss);
+                var join = ss.Join(
+                    context: context,
+                    join: new IJoin[]
+                    {
+                        column,
+                        where
+                    });
+                var dataSet = Repository.ExecuteDataSet(
+                    context: context,
+                    statements: new SqlStatement[]
+                    {
+                        Rds.SelectResults(
+                            dataTableName: "Normal",
+                            column: column,
+                            join: join,
+                            where: new Rds.ResultsWhereCollection()
+                                .ResultId_In(sub: Rds.SelectResults(
+                                    column: Rds.ResultsColumn().ResultId(),
+                                    join: join,
+                                    where: where)),
+                            param: param),
+                        Rds.SelectResults(
+                            dataTableName: "History",
+                            tableType: Sqls.TableTypes.History,
+                            column: column,
+                            join: join,
+                            where: new Rds.ResultsWhereCollection()
+                                .ResultId_In(sub: Rds.SelectResults(
+                                    column: Rds.ResultsColumn().ResultId(),
+                                    join: join,
+                                    where: where))
+                                .Ver(
+                                    sub: Rds.SelectResults(
+                                        tableType: Sqls.TableTypes.History,
+                                        _as: "b",
+                                        column: Rds.ResultsColumn().Ver(
+                                            tableName: "b",
+                                            function: Sqls.Functions.Max),
+                                        where: Rds.ResultsWhere().ResultId(
+                                            tableName: "b",
+                                            raw: "\"Results\".\"ResultId\""),
+                                        groupBy: Rds.ResultsGroupBy().ResultId(tableName: "b"))),
+                            param: param,
+                            _using: timePeriodValue > 0)
+                    });
+                return new Libraries.ViewModes.AnalyData(
+                    analyPartSetting: analyPartSetting,
+                    dataSet: dataSet);
             }
             else
             {

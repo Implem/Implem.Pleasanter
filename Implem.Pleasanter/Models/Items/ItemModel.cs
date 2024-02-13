@@ -571,6 +571,18 @@ namespace Implem.Pleasanter.Models
                 dashboardPartId: dashboardPartId);
         }
 
+        public string DashboardPartLayout (Context context)
+                {
+                    SetSite(
+                        context: context,
+                        initSiteSettings: true,
+                        setSiteIntegration: true,
+                        setAllChoices: true);
+                    return DashboardUtilities.DashboardPartLayout(
+                        context: context,
+                        ss: Site.SiteSettings);
+                }
+
         public string Gantt(Context context)
         {
             SetSite(
@@ -722,6 +734,79 @@ namespace Implem.Pleasanter.Models
                         ss: Site.SiteSettings);
                 case "Results":
                     return ResultUtilities.TimeSeriesJson(
+                        context: context,
+                        ss: Site.SiteSettings);
+                default:
+                    return Messages.ResponseNotFound(context: context).ToJson();
+            }
+        }
+
+        public string Analy(Context context)
+        {
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true,
+                setAllChoices: true);
+            ViewModes.Set(context: context, siteId: Site.SiteId);
+            switch (Site.ReferenceType)
+            {
+                case "Issues":
+                    return IssueUtilities.Analy(
+                        context: context,
+                        ss: Site.SiteSettings);
+                case "Results":
+                    return ResultUtilities.Analy(
+                        context: context,
+                        ss: Site.SiteSettings);
+                default:
+                    return HtmlTemplates.Error(
+                        context: context,
+                        errorData: new ErrorData(
+                            context: context,
+                            type: Error.Types.NotFound,
+                            sysLogsStatus: 404,
+                            sysLogsDescription: Debugs.GetSysLogsDescription()));
+            }
+        }
+
+        public string AnalyJson(Context context)
+        {
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true,
+                setAllChoices: true);
+            ViewModes.Set(context: context, siteId: Site.SiteId);
+            switch (Site.ReferenceType)
+            {
+                case "Issues":
+                    return IssueUtilities.AnalyJson(
+                        context: context,
+                        ss: Site.SiteSettings);
+                case "Results":
+                    return ResultUtilities.AnalyJson(
+                        context: context,
+                        ss: Site.SiteSettings);
+                default:
+                    return Messages.ResponseNotFound(context: context).ToJson();
+            }
+        }
+
+        public string OpenAnalyPartDialog(Context context)
+        {
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true);
+            switch (Site.ReferenceType)
+            {
+                case "Issues":
+                    return IssueUtilities.OpenAnalyPartDialog(
+                        context: context,
+                        ss: Site.SiteSettings);
+                case "Results":
+                    return ResultUtilities.OpenAnalyPartDialog(
                         context: context,
                         ss: Site.SiteSettings);
                 default:
@@ -1281,6 +1366,11 @@ namespace Implem.Pleasanter.Models
                 setSiteIntegration: true);
             switch (Site.ReferenceType)
             {
+                case "Dashboards":
+                    return DashboardUtilities.DashboardIndexGridRows(
+                        context: context,
+                        ss: Site.SiteSettings,
+                        offset: context.Forms.Int("GridOffset"));
                 case "Issues":
                     return IssueUtilities.GridRows(
                         context: context,
@@ -3374,6 +3464,43 @@ namespace Implem.Pleasanter.Models
         public bool Updated(Context context)
         {
             return Updated()
+                || ReferenceId_Updated(context: context)
+                || Ver_Updated(context: context)
+                || ReferenceType_Updated(context: context)
+                || SiteId_Updated(context: context)
+                || Title_Updated(context: context)
+                || FullText_Updated(context: context)
+                || SearchIndexCreatedTime_Updated(context: context)
+                || Comments_Updated(context: context)
+                || Creator_Updated(context: context)
+                || Updator_Updated(context: context);
+        }
+
+        private bool UpdatedWithColumn(Context context, SiteSettings ss)
+        {
+            return ClassHash.Any(o => Class_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || NumHash.Any(o => Num_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || DateHash.Any(o => Date_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || DescriptionHash.Any(o => Description_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || CheckHash.Any(o => Check_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || AttachmentsHash.Any(o => Attachments_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)));
+        }
+
+        public bool Updated(Context context, SiteSettings ss)
+        {
+            return UpdatedWithColumn(context: context, ss: ss)
                 || ReferenceId_Updated(context: context)
                 || Ver_Updated(context: context)
                 || ReferenceType_Updated(context: context)

@@ -1,6 +1,7 @@
-{
+﻿{
     "Id": "Min",
     "Type": 110,
+    "ClientScript": true,
     "Languages": [
         {
             "Body": "Min"

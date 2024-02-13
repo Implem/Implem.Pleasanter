@@ -1,0 +1,33 @@
+﻿{
+    "Id": "AnalySettings",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Analysis chart settings"
+        },
+        {
+            "Language": "zh",
+            "Body": "分析图表设置"
+        },
+        {
+            "Language": "ja",
+            "Body": "分析チャートの設定"
+        },
+        {
+            "Language": "de",
+            "Body": "Einstellungen für Analysediagramme"
+        },
+        {
+            "Language": "ko",
+            "Body": "분석 차트 설정"
+        },
+        {
+            "Language": "es",
+            "Body": "Configuración del gráfico de análisis"
+        },
+        {
+            "Language": "vn",
+            "Body": "Cài đặt biểu đồ phân tích"
+        }
+    ]
+}

@@ -20,7 +20,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Linq;
-
+using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
 namespace Implem.Pleasanter.Models
 {
     [Serializable]
@@ -37,6 +37,7 @@ namespace Implem.Pleasanter.Models
         public string GanttGuide = string.Empty;
         public string BurnDownGuide = string.Empty;
         public string TimeSeriesGuide = string.Empty;
+        public string AnalyGuide = string.Empty;
         public string KambanGuide = string.Empty;
         public string ImageLibGuide = string.Empty;
         public string ReferenceType = "Sites";
@@ -45,8 +46,8 @@ namespace Implem.Pleasanter.Models
         public bool Publish = false;
         public bool DisableCrossSearch = false;
         public Time LockedTime = new Time();
-        public User LockedUser = new User();
         public SiteCollection Ancestors = null;
+        public User LockedUser = new User();
         public int SiteMenu = 0;
         public List<string> MonitorChangesColumns = null;
         public List<string> TitleColumns = null;
@@ -73,6 +74,7 @@ namespace Implem.Pleasanter.Models
         public string SavedGanttGuide = string.Empty;
         public string SavedBurnDownGuide = string.Empty;
         public string SavedTimeSeriesGuide = string.Empty;
+        public string SavedAnalyGuide = string.Empty;
         public string SavedKambanGuide = string.Empty;
         public string SavedImageLibGuide = string.Empty;
         public string SavedReferenceType = "Sites";
@@ -82,8 +84,8 @@ namespace Implem.Pleasanter.Models
         public bool SavedPublish = false;
         public bool SavedDisableCrossSearch = false;
         public DateTime SavedLockedTime = 0.ToDateTime();
-        public int SavedLockedUser = 0;
         public SiteCollection SavedAncestors = null;
+        public int SavedLockedUser = 0;
         public int SavedSiteMenu = 0;
         public List<string> SavedMonitorChangesColumns = null;
         public List<string> SavedTitleColumns = null;
@@ -210,6 +212,18 @@ namespace Implem.Pleasanter.Models
                 &&  (column == null
                     || column.DefaultInput.IsNullOrEmpty()
                     || column.GetDefaultInput(context: context).ToString() != TimeSeriesGuide);
+        }
+
+        public bool AnalyGuide_Updated(Context context, bool copy = false, Column column = null)
+        {
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != AnalyGuide;
+            }
+            return AnalyGuide != SavedAnalyGuide && AnalyGuide != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != AnalyGuide);
         }
 
         public bool KambanGuide_Updated(Context context, bool copy = false, Column column = null)
@@ -456,6 +470,7 @@ namespace Implem.Pleasanter.Models
                 case "GanttGuide": return GanttGuide;
                 case "BurnDownGuide": return BurnDownGuide;
                 case "TimeSeriesGuide": return TimeSeriesGuide;
+                case "AnalyGuide": return AnalyGuide;
                 case "KambanGuide": return KambanGuide;
                 case "ImageLibGuide": return ImageLibGuide;
                 case "ReferenceType": return ReferenceType;
@@ -465,8 +480,8 @@ namespace Implem.Pleasanter.Models
                 case "Publish": return Publish.ToString();
                 case "DisableCrossSearch": return DisableCrossSearch.ToString();
                 case "LockedTime": return LockedTime.Value.ToString();
-                case "LockedUser": return LockedUser.Id.ToString();
                 case "Ancestors": return Ancestors.ToString();
+                case "LockedUser": return LockedUser.Id.ToString();
                 case "SiteMenu": return SiteMenu.ToString();
                 case "MonitorChangesColumns": return MonitorChangesColumns.ToString();
                 case "TitleColumns": return TitleColumns.ToString();
@@ -505,6 +520,7 @@ namespace Implem.Pleasanter.Models
                 case "GanttGuide": return SavedGanttGuide;
                 case "BurnDownGuide": return SavedBurnDownGuide;
                 case "TimeSeriesGuide": return SavedTimeSeriesGuide;
+                case "AnalyGuide": return SavedAnalyGuide;
                 case "KambanGuide": return SavedKambanGuide;
                 case "ImageLibGuide": return SavedImageLibGuide;
                 case "ReferenceType": return SavedReferenceType;
@@ -584,6 +600,9 @@ namespace Implem.Pleasanter.Models
                         case "TimeSeriesGuide":
                             hash.Add("TimeSeriesGuide", TimeSeriesGuide);
                             break;
+                        case "AnalyGuide":
+                            hash.Add("AnalyGuide", AnalyGuide);
+                            break;
                         case "KambanGuide":
                             hash.Add("KambanGuide", KambanGuide);
                             break;
@@ -611,11 +630,11 @@ namespace Implem.Pleasanter.Models
                         case "LockedTime":
                             hash.Add("LockedTime", LockedTime.Value.ToString());
                             break;
-                        case "LockedUser":
-                            hash.Add("LockedUser", LockedUser.Id.ToString());
-                            break;
                         case "Ancestors":
                             hash.Add("Ancestors", Ancestors.ToString());
+                            break;
+                        case "LockedUser":
+                            hash.Add("LockedUser", LockedUser.Id.ToString());
                             break;
                         case "SiteMenu":
                             hash.Add("SiteMenu", SiteMenu.ToString());
@@ -683,6 +702,7 @@ namespace Implem.Pleasanter.Models
                 case "GanttGuide": return GanttGuide_Updated(context: context);
                 case "BurnDownGuide": return BurnDownGuide_Updated(context: context);
                 case "TimeSeriesGuide": return TimeSeriesGuide_Updated(context: context);
+                case "AnalyGuide": return AnalyGuide_Updated(context: context);
                 case "KambanGuide": return KambanGuide_Updated(context: context);
                 case "ImageLibGuide": return ImageLibGuide_Updated(context: context);
                 case "ReferenceType": return ReferenceType_Updated(context: context);
@@ -930,6 +950,11 @@ namespace Implem.Pleasanter.Models
                         column: column);
                 case "TimeSeriesGuide":
                     return TimeSeriesGuide.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "AnalyGuide":
+                    return AnalyGuide.ToDisplay(
                         context: context,
                         ss: ss,
                         column: column);
@@ -1508,6 +1533,7 @@ namespace Implem.Pleasanter.Models
                     case "Sites_GanttGuide": GanttGuide = value.ToString(); break;
                     case "Sites_BurnDownGuide": BurnDownGuide = value.ToString(); break;
                     case "Sites_TimeSeriesGuide": TimeSeriesGuide = value.ToString(); break;
+                    case "Sites_AnalyGuide": AnalyGuide = value.ToString(); break;
                     case "Sites_KambanGuide": KambanGuide = value.ToString(); break;
                     case "Sites_ImageLibGuide": ImageLibGuide = value.ToString(); break;
                     case "Sites_ReferenceType": ReferenceType = value.ToString(); break;
@@ -1608,6 +1634,7 @@ namespace Implem.Pleasanter.Models
             GanttGuide = siteModel.GanttGuide;
             BurnDownGuide = siteModel.BurnDownGuide;
             TimeSeriesGuide = siteModel.TimeSeriesGuide;
+            AnalyGuide = siteModel.AnalyGuide;
             KambanGuide = siteModel.KambanGuide;
             ImageLibGuide = siteModel.ImageLibGuide;
             ReferenceType = siteModel.ReferenceType;
@@ -1617,8 +1644,8 @@ namespace Implem.Pleasanter.Models
             Publish = siteModel.Publish;
             DisableCrossSearch = siteModel.DisableCrossSearch;
             LockedTime = siteModel.LockedTime;
-            LockedUser = siteModel.LockedUser;
             Ancestors = siteModel.Ancestors;
+            LockedUser = siteModel.LockedUser;
             SiteMenu = siteModel.SiteMenu;
             MonitorChangesColumns = siteModel.MonitorChangesColumns;
             TitleColumns = siteModel.TitleColumns;
@@ -1653,6 +1680,7 @@ namespace Implem.Pleasanter.Models
             if (data.GanttGuide != null) GanttGuide = data.GanttGuide.ToString().ToString();
             if (data.BurnDownGuide != null) BurnDownGuide = data.BurnDownGuide.ToString().ToString();
             if (data.TimeSeriesGuide != null) TimeSeriesGuide = data.TimeSeriesGuide.ToString().ToString();
+            if (data.AnalyGuide != null) AnalyGuide = data.AnalyGuide.ToString().ToString();
             if (data.KambanGuide != null) KambanGuide = data.KambanGuide.ToString().ToString();
             if (data.ImageLibGuide != null) ImageLibGuide = data.ImageLibGuide.ToString().ToString();
             if (data.ReferenceType != null) ReferenceType = data.ReferenceType.ToString().ToString();
@@ -1880,6 +1908,10 @@ namespace Implem.Pleasanter.Models
                             TimeSeriesGuide = dataRow[column.ColumnName].ToString();
                             SavedTimeSeriesGuide = TimeSeriesGuide;
                             break;
+                        case "AnalyGuide":
+                            AnalyGuide = dataRow[column.ColumnName].ToString();
+                            SavedAnalyGuide = AnalyGuide;
+                            break;
                         case "KambanGuide":
                             KambanGuide = dataRow[column.ColumnName].ToString();
                             SavedKambanGuide = KambanGuide;
@@ -2025,6 +2057,63 @@ namespace Implem.Pleasanter.Models
                 || GanttGuide_Updated(context: context)
                 || BurnDownGuide_Updated(context: context)
                 || TimeSeriesGuide_Updated(context: context)
+                || AnalyGuide_Updated(context: context)
+                || KambanGuide_Updated(context: context)
+                || ImageLibGuide_Updated(context: context)
+                || ReferenceType_Updated(context: context)
+                || ParentId_Updated(context: context)
+                || InheritPermission_Updated(context: context)
+                || SiteSettings_Updated(context: context)
+                || Publish_Updated(context: context)
+                || DisableCrossSearch_Updated(context: context)
+                || LockedTime_Updated(context: context)
+                || LockedUser_Updated(context: context)
+                || ApiCountDate_Updated(context: context)
+                || ApiCount_Updated(context: context)
+                || Comments_Updated(context: context)
+                || Creator_Updated(context: context)
+                || Updator_Updated(context: context);
+        }
+
+        private bool UpdatedWithColumn(Context context, SiteSettings ss)
+        {
+            return ClassHash.Any(o => Class_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || NumHash.Any(o => Num_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || DateHash.Any(o => Date_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || DescriptionHash.Any(o => Description_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || CheckHash.Any(o => Check_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || AttachmentsHash.Any(o => Attachments_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)));
+        }
+
+        public bool Updated(Context context, SiteSettings ss)
+        {
+            return UpdatedWithColumn(context: context, ss: ss)
+                || TenantId_Updated(context: context)
+                || Ver_Updated(context: context)
+                || Title_Updated(context: context)
+                || Body_Updated(context: context)
+                || SiteName_Updated(context: context)
+                || SiteGroupName_Updated(context: context)
+                || GridGuide_Updated(context: context)
+                || EditorGuide_Updated(context: context)
+                || CalendarGuide_Updated(context: context)
+                || CrosstabGuide_Updated(context: context)
+                || GanttGuide_Updated(context: context)
+                || BurnDownGuide_Updated(context: context)
+                || TimeSeriesGuide_Updated(context: context)
+                || AnalyGuide_Updated(context: context)
                 || KambanGuide_Updated(context: context)
                 || ImageLibGuide_Updated(context: context)
                 || ReferenceType_Updated(context: context)
@@ -2077,6 +2166,7 @@ namespace Implem.Pleasanter.Models
             data.GanttGuide = GanttGuide;
             data.BurnDownGuide = BurnDownGuide;
             data.TimeSeriesGuide = TimeSeriesGuide;
+            data.AnalyGuide = AnalyGuide;
             data.KambanGuide = KambanGuide;
             data.ImageLibGuide = ImageLibGuide;
             data.ReferenceType = ReferenceType;
@@ -2141,6 +2231,7 @@ namespace Implem.Pleasanter.Models
                             .GanttGuide(GanttGuide)
                             .BurnDownGuide(BurnDownGuide)
                             .TimeSeriesGuide(TimeSeriesGuide)
+                            .AnalyGuide(TimeSeriesGuide)
                             .KambanGuide(KambanGuide)
                             .ImageLibGuide(ImageLibGuide)
                             .ReferenceType(ReferenceType.MaxLength(32))
@@ -2385,6 +2476,7 @@ namespace Implem.Pleasanter.Models
                             gantt: scApiSiteSetting.ScriptGantt,
                             burnDown: scApiSiteSetting.ScriptBurnDown,
                             timeSeries: scApiSiteSetting.ScriptTimeSeries,
+                            analy: scApiSiteSetting.ScriptAnaly,
                             kamban: scApiSiteSetting.ScriptKamban,
                             imageLib: scApiSiteSetting.ScriptImageLib,
                             disabled: scApiSiteSetting.Disabled,
@@ -2405,6 +2497,7 @@ namespace Implem.Pleasanter.Models
                             gantt: scApiSiteSetting.ScriptGantt,
                             burnDown: scApiSiteSetting.ScriptBurnDown,
                             timeSeries: scApiSiteSetting.ScriptTimeSeries,
+                            analy: scApiSiteSetting.ScriptAnaly,
                             kamban: scApiSiteSetting.ScriptKamban,
                             imageLib: scApiSiteSetting.ScriptImageLib,
                             disabled: scApiSiteSetting.Disabled,
@@ -2451,6 +2544,7 @@ namespace Implem.Pleasanter.Models
                             gantt: stApiSiteSetting.StyleGantt,
                             burnDown: stApiSiteSetting.StyleBurnDown,
                             timeSeries: stApiSiteSetting.StyleTimeSeries,
+                            analy: stApiSiteSetting.StyleAnaly,
                             kamban: stApiSiteSetting.StyleKamban,
                             imageLib: stApiSiteSetting.StyleImageLib,
                             disabled: stApiSiteSetting.Disabled,
@@ -2471,6 +2565,7 @@ namespace Implem.Pleasanter.Models
                             gantt: stApiSiteSetting.StyleGantt,
                             burnDown: stApiSiteSetting.StyleBurnDown,
                             timeSeries: stApiSiteSetting.StyleTimeSeries,
+                            analy: stApiSiteSetting.StyleAnaly,
                             kamban: stApiSiteSetting.StyleKamban,
                             imageLib: stApiSiteSetting.StyleImageLib,
                             disabled: stApiSiteSetting.Disabled,
@@ -2518,6 +2613,7 @@ namespace Implem.Pleasanter.Models
                             gantt: htmlApiSiteSetting.HtmlGantt,
                             burnDown: htmlApiSiteSetting.HtmlBurnDown,
                             timeSeries: htmlApiSiteSetting.HtmlTimeSeries,
+                            analy: htmlApiSiteSetting.HtmlAnaly,
                             kamban: htmlApiSiteSetting.HtmlKamban,
                             imageLib: htmlApiSiteSetting.HtmlImageLib,
                             disabled: htmlApiSiteSetting.Disabled,
@@ -2539,6 +2635,7 @@ namespace Implem.Pleasanter.Models
                             gantt: htmlApiSiteSetting.HtmlGantt,
                             burnDown: htmlApiSiteSetting.HtmlBurnDown,
                             timeSeries: htmlApiSiteSetting.HtmlTimeSeries,
+                            analy: htmlApiSiteSetting.HtmlAnaly,
                             kamban: htmlApiSiteSetting.HtmlKamban,
                             imageLib: htmlApiSiteSetting.HtmlImageLib,
                             disabled: htmlApiSiteSetting.Disabled,
@@ -2553,6 +2650,9 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public void UpsertProcessByApi(
             SiteSettings siteSetting,
             List<ApiSiteSettings.ProcessApiSettingModel> processesApiSiteSetting,
@@ -2642,8 +2742,11 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public void UpsertStatusControlByApi(
-            SiteSettings siteSetting,
+        SiteSettings siteSetting,
             List<ApiSiteSettings.StatusControlApiSettingModel> statusControlSettings,
             Context context)
         {
@@ -3538,17 +3641,20 @@ namespace Implem.Pleasanter.Models
                     break;
                 case "AddDashboardPartViewFilter":
                     long BaseSiteId = 0;
-                    if (!context.Forms.Data("DashboardPartCalendarBaseSiteId").IsNullOrEmpty())
+                    switch ((DashboardPartType)context.Forms.Long("DashboardPartType"))
                     {
-                        BaseSiteId = context.Forms.Long("DashboardPartCalendarBaseSiteId");
-                    }
-                    else if (!context.Forms.Data("DashboardPartKambanBaseSiteId").IsNullOrEmpty())
-                    {
-                        BaseSiteId = context.Forms.Long("DashboardPartKambanBaseSiteId");
-                    }
-                    else
-                    {
-                        BaseSiteId = context.Forms.Long("DashboardPartBaseSiteId");
+                        case DashboardPartType.TimeLine:
+                            BaseSiteId = context.Forms.Long("DashboardPartBaseSiteId");
+                            break;
+                        case DashboardPartType.Calendar:
+                            BaseSiteId = context.Forms.Long("DashboardPartCalendarBaseSiteId");
+                            break;
+                        case DashboardPartType.Kamban:
+                            BaseSiteId = context.Forms.Long("DashboardPartKambanBaseSiteId");
+                            break;
+                        case DashboardPartType.Index:
+                            BaseSiteId = context.Forms.Long("DashboardPartIndexBaseSiteId");
+                            break;
                     }
                     var ss = SiteSettingsUtilities.Get(
                         context: context,
@@ -3589,6 +3695,16 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         res: res);
                     break;
+                case "EditIndexSites":
+                    OpenDashboardPartIndexSitesDialog(
+                        context: context,
+                        res: res);
+                    break;
+                case "UpdateDashboardPartIndexSites":
+                    UpdateDashboardPartIndexSites(
+                        context: context,
+                        res: res);
+                    break;
                 case "ClearDashboardView":
                     ClearDashboardView(
                         context: context,
@@ -3604,11 +3720,26 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         res: res);
                     break;
+                case "ClearDashboardIndexView":
+                    ClearDashboardIndexView(
+                        context: context,
+                        res: res);
+                    break;
                 case "UpdateDashboardPartLayouts":
                     UpdatedashboardPartLayouts(context: context);
                     break;
                 case "SearchDashboardPartAccessControl":
                     SearchDashboardPartAccessControl(
+                        context: context,
+                        res: res);
+                    break;
+                case "OpenSearchEditorColumnDialog":
+                    OpenSearchEditorColumnDialog(
+                        context: context,
+                        res: res);
+                    break;
+                case "SearchEditorColumnDialogInput":
+                    FilterSourceColumnsSelectable(
                         context: context,
                         res: res);
                     break;
@@ -7119,6 +7250,7 @@ namespace Implem.Pleasanter.Models
                 gantt: context.Forms.Bool("StyleGantt"),
                 burnDown: context.Forms.Bool("StyleBurnDown"),
                 timeSeries: context.Forms.Bool("StyleTimeSeries"),
+                analy: context.Forms.Bool("StyleAnaly"),
                 kamban: context.Forms.Bool("StyleKamban"),
                 imageLib: context.Forms.Bool("StyleImageLib"),
                 disabled: context.Forms.Bool("StyleDisabled"),
@@ -7149,6 +7281,7 @@ namespace Implem.Pleasanter.Models
                     gantt: context.Forms.Bool("StyleGantt"),
                     burnDown: context.Forms.Bool("StyleBurnDown"),
                     timeSeries: context.Forms.Bool("StyleTimeSeries"),
+                    analy: context.Forms.Bool("StyleAnaly"),
                     kamban: context.Forms.Bool("StyleKamban"),
                     imageLib: context.Forms.Bool("StyleImageLib"),
                     disabled: context.Forms.Bool("StyleDisabled"),
@@ -7285,6 +7418,7 @@ namespace Implem.Pleasanter.Models
                 gantt: context.Forms.Bool("ScriptGantt"),
                 burnDown: context.Forms.Bool("ScriptBurnDown"),
                 timeSeries: context.Forms.Bool("ScriptTimeSeries"),
+                analy: context.Forms.Bool("ScriptAnaly"),
                 kamban: context.Forms.Bool("ScriptKamban"),
                 imageLib: context.Forms.Bool("ScriptImageLib"),
                 disabled: context.Forms.Bool("ScriptDisabled"),
@@ -7315,6 +7449,7 @@ namespace Implem.Pleasanter.Models
                     gantt: context.Forms.Bool("ScriptGantt"),
                     burnDown: context.Forms.Bool("ScriptBurnDown"),
                     timeSeries: context.Forms.Bool("ScriptTimeSeries"),
+                    analy: context.Forms.Bool("ScriptAnaly"),
                     kamban: context.Forms.Bool("ScriptKamban"),
                     imageLib: context.Forms.Bool("ScriptImageLib"),
                     disabled: context.Forms.Bool("ScriptDisabled"),
@@ -7452,6 +7587,7 @@ namespace Implem.Pleasanter.Models
                 gantt: context.Forms.Bool("HtmlGantt"),
                 burnDown: context.Forms.Bool("HtmlBurnDown"),
                 timeSeries: context.Forms.Bool("HtmlTimeSeries"),
+                analy: context.Forms.Bool("HtmlAnaly"),
                 kamban: context.Forms.Bool("HtmlKamban"),
                 imageLib: context.Forms.Bool("HtmlImageLib"),
                 disabled: context.Forms.Bool("HtmlDisabled"),
@@ -7483,6 +7619,7 @@ namespace Implem.Pleasanter.Models
                     gantt: context.Forms.Bool("HtmlGantt"),
                     burnDown: context.Forms.Bool("HtmlBurnDown"),
                     timeSeries: context.Forms.Bool("HtmlTimeSeries"),
+                    analy: context.Forms.Bool("HtmlAnaly"),
                     kamban: context.Forms.Bool("HtmlKamban"),
                     imageLib: context.Forms.Bool("HtmlImageLib"),
                     disabled: context.Forms.Bool("HtmlDisabled"),
@@ -7563,7 +7700,7 @@ namespace Implem.Pleasanter.Models
         {
             if (controlId == "NewServerScript")
             {
-                var script = new ServerScript() { BeforeFormula = true };
+                var script = new ServerScript();
                 OpenServerScriptDialog(
                     context: context,
                     res: res,
@@ -8220,6 +8357,18 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        private void OpenDashboardPartIndexSitesDialog(Context context, ResponseCollection res)
+        {
+            res.Html("#DashboardPartIndexSitesDialog", SiteUtilities.DashboardPartIndexSitesDialog(
+                context: context,
+                ss: SiteSettings,
+                dashboardPartId: context.Forms.Int("DashboardPartId"),
+                dashboardIndexSites: context.Forms.Data("DashboardPartIndexSites")));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private void OpenDashboardPartDialog(Context context, ResponseCollection res, string controlId)
         {
             if (controlId == "NewDashboardPart")
@@ -8287,6 +8436,8 @@ namespace Implem.Pleasanter.Models
                 kambanColumns: context.Forms.Data("DashboardPartKambanColumns"),
                 kambanAggregationView: context.Forms.Bool("DashboardPartKambanAggregationView"),
                 kambanShowStatus: context.Forms.Bool("DashboardPartKambanShowStatus"),
+                indexSites: context.Forms.Data("DashboardPartIndexSites"),
+                indexSitesData: context.Forms.Data("DashboardPartIndexSites").Split(',').ToList(),
                 extendedCss: context.Forms.Data("DashboardPartExtendedCss"),
                 disableAsynchronousLoading: context.Forms.Bool("DisableAsynchronousLoading"),
                 permissions: DashboardPartPermissions(context: context));
@@ -8361,6 +8512,8 @@ namespace Implem.Pleasanter.Models
                 kambanColumns: context.Forms.Data("DashboardPartKambanColumns"),
                 kambanAggregationView: context.Forms.Bool("DashboardPartKambanAggregationView"),
                 kambanShowStatus: context.Forms.Bool("DashboardPartKambanShowStatus"),
+                indexSites: context.Forms.Data("DashboardPartIndexSites"),
+                indexSitesData: context.Forms.Data("DashboardPartIndexSites").Split(',').ToList(),
                 extendedCss: context.Forms.Data("DashboardPartExtendedCss"),
                 disableAsynchronousLoading: context.Forms.Bool("DisableAsynchronousLoading"),
                 permissions: DashboardPartPermissions(context: context));
@@ -8655,6 +8808,60 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        private void UpdateDashboardPartIndexSites(Context context, ResponseCollection res)
+        {
+            var savedIndexSites = context.Forms.Data("SavedDashboardPartIndexSites");
+            var indexSites = context.Forms.Data("DashboardPartIndexSitesEdit");
+            var savedSs = DashboardPart.GetBaseSiteSettings(
+                context: context,
+                sitesString: savedIndexSites);
+            var currentSs = DashboardPart.GetBaseSiteSettings(
+                context: context,
+                sitesString: indexSites);
+            if (currentSs == null || currentSs.SiteId == 0)
+            {
+                res.Message(
+                    message: new Message(
+                        id: "InvalidIndexSites",
+                        text: Displays.InvalidTimeLineSites(context: context),
+                        css: "alert-error"),
+                    target: "#DashboardPartIndexSitesMessage");
+            }
+            else if (savedSs == null || savedSs?.SiteId == 0 || savedSs?.SiteId == currentSs?.SiteId)
+            {
+                res
+                    .Set(
+                        target: "#DashboardPartIndexSites",
+                        value: indexSites)
+                    .Set(
+                        target: "#DashboardPartIndexBaseSiteId",
+                        value: currentSs.SiteId)
+                    .Add(
+                        method: "SetValue",
+                        target: "#DashboardPartIndexSitesValue",
+                        value: indexSites)
+                    .CloseDialog(
+                        target: "#DashboardPartIndexSitesDialog");
+                if (savedSs == null || savedSs?.SiteId == 0)
+                {
+                    ClearDashboardIndexView(context: context, res: res);
+                }
+            }
+            else
+            {
+                res.Invoke(
+                    methodName: "confirmIndexSites",
+                    args: new
+                    {
+                        indexSites,
+                        baseSiteId = currentSs.SiteId
+                    }.ToJson());
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private void ClearDashboardView(Context context, ResponseCollection res)
         {
             var currentSs = DashboardPart.GetBaseSiteSettings(
@@ -8810,6 +9017,59 @@ namespace Implem.Pleasanter.Models
                             optionCollection: currentSs.KambanValueOptions(context: context)?.ToDictionary(
                             o => o.Key, o => new ControlData(o.Value)),
                             selectedValue: currentSs.ReferenceType == "Issues" ? "RemainingWorkValue" : "NumA"));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void ClearDashboardIndexView(Context context, ResponseCollection res)
+        {
+            var currentSs = DashboardPart.GetBaseSiteSettings(
+                context: context,
+                context.Forms.Data("DashboardPartIndexSitesEdit"));
+            if (currentSs == null)
+            {
+                res.Message(
+                   new Message(
+                       "InvalidIndexSites",
+                       Displays.InvalidTimeLineSites(context: context),
+                       "alert-error"));
+                return;
+            }
+            var dashboardPart = SiteSettings.DashboardParts?
+                .FirstOrDefault(o => o.Id == context.Forms.Int("DashboardPartId"));
+            if (dashboardPart != null)
+            {
+                dashboardPart.View = new View();
+            }
+            res
+                .Html(
+                    "#DashboardPartViewIndexTabContainer",
+                    new HtmlBuilder()
+                        .ViewGridTab(
+                            context: context,
+                            ss: currentSs,
+                            view: new View(),
+                            prefix: "DashboardPart"))
+                .Html(
+                    "#DashboardPartViewFiltersTabContainer",
+                    new HtmlBuilder()
+                        .ViewFiltersTab(
+                            context: context,
+                            ss: currentSs,
+                            view: new View(),
+                            prefix: "DashboardPart",
+                            currentTableOnly: true))
+                .Html(
+                    "#DashboardPartViewSortersTabContainer",
+                    new HtmlBuilder()
+                        .ViewSortersTab(
+                            context: context,
+                            ss: currentSs,
+                            view: new View(),
+                            prefix: "DashboardPart",
+                            usekeepSorterState: false,
+                            currentTableOnly: true));
         }
 
         /// <summary>
@@ -9145,6 +9405,40 @@ namespace Implem.Pleasanter.Models
                 });
             }
             return data;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void OpenSearchEditorColumnDialog(
+            Context context,
+            ResponseCollection res)
+        {
+            switch (context.Forms.Data("EditorSourceColumnsType"))
+            {
+                case "Links":
+                case "Others":
+                    res.Message(Messages.CanNotPerformed(context: context));
+                    break;
+                case "Columns":
+                    res.Html("#SearchEditorColumnDialog", SiteUtilities.SearchEditorColumnDialog(
+                        context: context,
+                        ss: SiteSettings));
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void FilterSourceColumnsSelectable(
+            Context context,
+            ResponseCollection res)
+        {
+            AddOrUpdateEditorColumnHash(context: context);
+            SiteUtilities.FilterSourceColumnsSelectable(res, context, SiteSettings)
+            .SetData("#EditorSourceColumns")
+            .CloseDialog();
         }
     }
 }

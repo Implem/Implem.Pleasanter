@@ -1,0 +1,8 @@
+﻿{
+    "Id": "Model_DashboardGridRowsCases",
+    "RepeatType": "Table",
+    "Indent": "4",
+    "Separator": "\\r\\n",
+    "ItemOnly": "1",
+    "Include": "Dashboards"
+}

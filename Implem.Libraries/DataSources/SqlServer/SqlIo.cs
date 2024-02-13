@@ -33,7 +33,7 @@ namespace Implem.Libraries.DataSources.SqlServer
             SetSqlCommand(factory: factory);
             if (SqlContainer.WriteSqlToDebugLog)
             {
-                SqlDebugs.WriteSqlLog(SqlContainer.RdsName, SqlCommand, Sqls.LogsPath);
+                SqlDebugs.WriteSqlLog(Parameters.Rds.Dbms, SqlContainer.RdsName, SqlCommand, Sqls.LogsPath);
             }
         }
 
