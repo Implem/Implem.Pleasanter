@@ -59,7 +59,7 @@ namespace Implem.Pleasanter.Libraries.Security
                 .Select(o => o.RegexMatches("[0-9]+").FirstOrDefault().ToInt())
                 .Where(o => o > 0)
                 .ToList();
-            if (excludeGroups.Count == 0)
+            if (!excludeGroups.Any())
             {
                 return false;
             }
