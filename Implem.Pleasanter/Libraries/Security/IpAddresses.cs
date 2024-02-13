@@ -55,9 +55,14 @@ namespace Implem.Pleasanter.Libraries.Security
             IList<string> ipRestrictionExcludeMembers)
         {
             var excludeGroups = ipRestrictionExcludeMembers
-                .Select(o => o.RegexMatches("(?<=Group)[0-9]+").FirstOrDefault().ToInt())
+                .Where(o => o.StartsWith("Group"))
+                .Select(o => o.RegexMatches("[0-9]+").FirstOrDefault().ToInt())
                 .Where(o => o > 0)
                 .ToList();
+            if (excludeGroups.Count == 0)
+            {
+                return false;
+            }
             var groups = PermissionUtilities.Groups(context: context);
             return groups.Any(excludeGroups.Contains);
         }
