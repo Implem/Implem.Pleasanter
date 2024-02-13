@@ -44,8 +44,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Implem.TestAutomation", "Im
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CICD", "CICD", "{EDD4BA11-3C06-4DE2-82CA-D0B945EE21E6}"
 	ProjectSection(SolutionItems) = preProject
-		.github\workflows\CI.yaml = .github\workflows\CI.yaml
-		.github\workflows\xUnit.yaml = .github\workflows\xUnit.yaml
+		.github\workflows\stale.yml = .github\workflows\stale.yml
+		.github\workflows\build-docker-images.yaml = .github\workflows\build-docker-images.yml
 	EndProjectSection
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{10984740-E12C-427F-A980-0100734AE1B9}"
