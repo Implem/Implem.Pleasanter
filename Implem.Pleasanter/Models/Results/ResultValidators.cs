@@ -1179,7 +1179,8 @@ namespace Implem.Pleasanter.Models
         public static List<ErrorData> OnInputValidating(
             Context context,
             SiteSettings ss,
-            Dictionary<int, ResultModel> resultHash)
+            Dictionary<int, ResultModel> resultHash,
+            bool api = false)
         {
             var errors = resultHash
                 ?.OrderBy(data => data.Key)
@@ -1195,6 +1196,7 @@ namespace Implem.Pleasanter.Models
                 errors.Add(new ErrorData(
                     context: context,
                     type: Error.Types.None,
+                    api: api,
                     sysLogsStatus: 200,
                     sysLogsDescription: Debugs.GetSysLogsDescription()));
             }

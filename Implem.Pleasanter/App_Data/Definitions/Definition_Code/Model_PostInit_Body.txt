@@ -1,0 +1,10 @@
+﻿var postInitForm = formData
+    .Where(o => o.Key.StartsWith("PostInit_"))
+    .ToDictionary(o => o.Key.Replace("PostInit_", ""), o => o.Value);
+if (postInitForm.Count > 0)
+{
+    SetByFormData(
+        context: context,
+        ss: ss,
+        formData: postInitForm);
+}

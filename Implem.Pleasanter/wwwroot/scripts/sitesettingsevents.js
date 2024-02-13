@@ -211,7 +211,6 @@
         let selected = $control.val();        
         $('#DashboardPartQuickAccessSitesField').toggle(selected === '0');
         $('#DashboardPartQuickAccessLayoutField').toggle(selected === '0');
-        $('#DashboardPartViewSortersTabControl').toggle(selected === '1');
         $('#DashboardPartTimeLineSitesField').toggle(selected === '1');
         $('#DashboardPartTimeLineTitleField').toggle(selected === '1');
         $('#DashboardPartTimeLineBodyField').toggle(selected === '1');
@@ -235,7 +234,13 @@
         $('#DashboardPartKambanColumnsField').toggle(selected === '5');
         $('#DashboardPartKambanAggregationViewField').toggle(selected === '5');
         $('#DashboardPartKambanShowStatusField').toggle(selected === '5');
-        $('#DashboardPartViewFiltersTabControl').toggle(selected === '1' || selected === '4' || selected === '5');
+        $('#DashboardPartIndexSitesField').toggle(selected === '6');
+        $('#DashboardPartViewIndexTabControl').toggle(selected === '6');
+        $('#DashboardPartViewFiltersTabControl').toggle(selected === '1'
+            || selected === '4'
+            || selected === '5'
+            || selected === '6');
+        $('#DashboardPartViewSortersTabControl').toggle(selected === '1' || selected === '6');
     });
 
     $(document).on('change','#DashboardPartCalendarType',function () {

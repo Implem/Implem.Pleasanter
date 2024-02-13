@@ -161,9 +161,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 + (column.GetHide() || controlConstraintsType == StatusControl.ControlConstraintsTypes.Hidden
                     ? " hidden"
                     : string.Empty)
-                + (column.TextAlign == SiteSettings.TextAlignTypes.Right
-                    ? " right-align"
-                    : string.Empty)
+                + (column.TextAlign switch
+                    {
+                        SiteSettings.TextAlignTypes.Right => " right-align",
+                        SiteSettings.TextAlignTypes.Center => " center-align",
+                        _ => string.Empty
+                    })
                 + (!extendedFieldCss.IsNullOrEmpty()
                     ? " " + extendedFieldCss
                     : string.Empty);
@@ -187,10 +190,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 + (!disableAutoPostBack && column.AutoPostBack == true
                     ? " control-auto-postback"
                     : string.Empty)
-                + (column.TextAlign == SiteSettings.TextAlignTypes.Right
-                    ? " right-align"
-                    : string.Empty)
-                + (!extendedControlCss.IsNullOrEmpty()
+                + (column.TextAlign switch
+                    {
+                        SiteSettings.TextAlignTypes.Right => " right-align",
+                        SiteSettings.TextAlignTypes.Center => " center-align",
+                        _ => string.Empty
+                    })
+            + (!extendedControlCss.IsNullOrEmpty()
                     ? " " + extendedControlCss
                     : string.Empty);
         }
@@ -1832,6 +1838,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string extendedHtmlBetweenLabelAndControl = null,
             string extendedHtmlAfterControl = null,
             Action commandOptionAction = null,
+            bool setSearchOptionButton = false,
+            string searchOptionId = null,
+            string searchOptionFunction = null,
             bool _using = true)
         {
             if (!_using) return hb;
@@ -1888,7 +1897,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             selectedValueCollection: selectedValueCollection,
                             alwaysDataValue: alwaysDataValue,
                             action: action,
-                            method: method);
+                            method: method,
+                            setSearchOptionButton: setSearchOptionButton,
+                            searchOptionId: searchOptionId,
+                            searchOptionFunction: searchOptionFunction);
                     });
             }
         }

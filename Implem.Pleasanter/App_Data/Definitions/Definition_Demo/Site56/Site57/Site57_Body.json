@@ -97,12 +97,13 @@
         {
             "ColumnName": "Manager",
             "LabelText": "回答者",
-            "DefaultInput": ""
+            "DefaultInput": "[[Self]]"
         },
         {
             "ColumnName": "ClassA",
             "LabelText": "申請部門",
-            "ChoicesText": "[[Depts]]"
+            "ChoicesText": "[[Depts]]",
+            "DefaultInput": "[[Self]]"
         },
         {
             "ColumnName": "NumA",
@@ -1166,7 +1167,6 @@
             "ColumnHash": {
                 "Status": "ReadOnly",
                 "Owner": "Hidden",
-                "ClassA": "Hidden",
                 "ClassB": "Hidden",
                 "ClassC": "Hidden",
                 "ClassD": "Hidden",
@@ -1181,7 +1181,7 @@
                 "DescriptionC": "Hidden",
                 "DescriptionD": "Hidden",
                 "DescriptionE": "Hidden",
-                "DescriptionH": "ReadOnly"
+                "DescriptionH": "Hidden"
             },
             "View": {
                 "Id": 0,
@@ -1900,11 +1900,13 @@
     "NoDisplayIfReadOnly": true,
     "PermissionForCreating": {
         "Manager": 7,
-        "ClassA": 7
+        "ClassA": 7,
+        "User": 7
     },
     "PermissionForUpdating": {
         "Manager": 7,
-        "ClassA": 7
+        "ClassA": 7,
+        "User": 7
     },
     "UpdateColumnAccessControls": [
         {

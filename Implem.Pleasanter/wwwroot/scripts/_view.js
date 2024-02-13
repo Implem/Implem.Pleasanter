@@ -26,6 +26,9 @@
                     $control.attr('datetime', value);
                     break;
                 default:
+                    if ($control.hasClass('radio-value')) {
+                        $('input[name="' + $control.attr('id') + '"]').val([value]);
+                    }
                     $control.val(value);
                     break;
             }

@@ -1,0 +1,34 @@
+﻿{
+    "Id": "Creator",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Creator"
+        },
+        {
+            "Language": "zh",
+            "Body": "作者"
+        },
+        {
+            "Language": "ja",
+            "Body": "作成者"
+        },
+        {
+            "Language": "de",
+            "Body": "Autor"
+        },
+        {
+            "Language": "ko",
+            "Body": "만든 사람"
+        },
+        {
+            "Language": "es",
+            "Body": "Autor"
+        },
+        {
+            "Language": "vn",
+            "Body": "Tác giả"
+        }
+    ]
+}

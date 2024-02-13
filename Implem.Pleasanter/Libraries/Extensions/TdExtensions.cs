@@ -65,8 +65,11 @@ namespace Implem.Pleasanter.Libraries.Extensions
                         if (column.ControlType == "MarkDown")
                         {
                             hb.Div(css: "grid-title-body", action: () => hb
-                                .P(css: "body markup", action: () => hb
-                                    .Raw(serverScriptModelColumn?.RawText)));
+                                .P(
+                                    css: "body markup",
+                                    attributes: new HtmlAttributes().Add("data-enablelightbox", Implem.DefinitionAccessor.Parameters.General.EnableLightBox ? "1" : "0"),
+                                    action: () => hb
+                                        .Raw(serverScriptModelColumn?.RawText)));
                         }
                         else
                         {
@@ -130,8 +133,11 @@ namespace Implem.Pleasanter.Libraries.Extensions
                         else if (column.ControlType == "MarkDown")
                         {
                             hb.Div(css: "grid-title-body", action: () => hb
-                                .P(css: "body markup", action: () => hb
-                                    .Text(text: value)));
+                                .P(
+                                    css: "body markup",
+                                    attributes: new HtmlAttributes().Add("data-enablelightbox", Implem.DefinitionAccessor.Parameters.General.EnableLightBox ? "1" : "0"),
+                                    action: () => hb
+                                        .Text(text: value)));
                         }
                         else
                         {

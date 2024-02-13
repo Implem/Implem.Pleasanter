@@ -1924,7 +1924,7 @@ namespace Implem.Pleasanter.Models
             return statements;
         }
 
-        private void WriteAttachments(Context context, SiteSettings ss, bool verUp = false)
+        public void WriteAttachments(Context context, SiteSettings ss, bool verUp = false)
         {
             ColumnNames()
                 .Where(columnName => columnName.StartsWith("Attachments"))
@@ -2447,6 +2447,16 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             Dictionary<string, string> formData)
         {
+            var postInitForm = formData
+                .Where(o => o.Key.StartsWith("PostInit_"))
+                .ToDictionary(o => o.Key.Replace("PostInit_", ""), o => o.Value);
+            if (postInitForm.Count > 0)
+            {
+                SetByFormData(
+                    context: context,
+                    ss: ss,
+                    formData: postInitForm);
+            }
             SetByFormData(
                 context: context,
                 ss: ss,
@@ -4141,6 +4151,44 @@ namespace Implem.Pleasanter.Models
         public bool Updated(Context context)
         {
             return Updated()
+                || SiteId_Updated(context: context)
+                || Ver_Updated(context: context)
+                || Title_Updated(context: context)
+                || Body_Updated(context: context)
+                || Status_Updated(context: context)
+                || Manager_Updated(context: context)
+                || Owner_Updated(context: context)
+                || Locked_Updated(context: context)
+                || Comments_Updated(context: context)
+                || Creator_Updated(context: context)
+                || Updator_Updated(context: context);
+        }
+
+        private bool UpdatedWithColumn(Context context, SiteSettings ss)
+        {
+            return ClassHash.Any(o => Class_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || NumHash.Any(o => Num_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || DateHash.Any(o => Date_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || DescriptionHash.Any(o => Description_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || CheckHash.Any(o => Check_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || AttachmentsHash.Any(o => Attachments_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)));
+        }
+
+        public bool Updated(Context context, SiteSettings ss)
+        {
+            return UpdatedWithColumn(context: context, ss: ss)
                 || SiteId_Updated(context: context)
                 || Ver_Updated(context: context)
                 || Title_Updated(context: context)
