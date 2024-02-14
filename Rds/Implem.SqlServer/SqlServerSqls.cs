@@ -210,6 +210,23 @@ namespace Implem.SqlServer
             where ""Users"".""TenantId""=@_T
                 and ""Users"".""UserId""=@_U;";
 
+        public string GetEnabledGroup { get; } = @"
+            select ""Groups"".""GroupId"" 
+            from ""Groups"" as ""Groups""
+                inner join ""GroupMembers"" on ""Groups"".""GroupId""=""GroupMembers"".""GroupId""
+                inner join ""Depts"" on ""GroupMembers"".""DeptId""=""Depts"".""DeptId""
+            where ""Groups"".""Disabled""='false'
+                and ""Depts"".""TenantId""=@ipT
+                and ""Depts"".""DeptId""=@ipD
+            union all
+            select ""Groups"".""GroupId"" 
+            from ""Groups"" as ""Groups""
+                inner join ""GroupMembers"" on ""Groups"".""GroupId""=""GroupMembers"".""GroupId""
+                inner join ""Users"" on ""GroupMembers"".""UserId""=""Users"".""UserId""
+            where ""Groups"".""Disabled""='false'
+                and ""Users"".""TenantId""=@ipT
+                and ""Users"".""UserId""=@ipU;";
+
         public string PermissionsWhere { get; } = @"
             (
                 exists

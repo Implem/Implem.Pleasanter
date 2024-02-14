@@ -73,7 +73,7 @@ namespace Implem.Pleasanter.Libraries.Security
             {
                 return false;
             }
-            var groups = PermissionUtilities.Groups(context: context);
+            var groups = PermissionUtilities.Groups(context: context, enableOnly: true);
             return groups.Any(excludeGroups.Contains);
         }
     }

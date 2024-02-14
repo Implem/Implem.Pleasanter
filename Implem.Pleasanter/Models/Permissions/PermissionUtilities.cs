@@ -696,8 +696,8 @@ namespace Implem.Pleasanter.Models
             if (context.Authenticated)
             {
                 var sql = enableOnly
-                    ? context.Sqls.GetGroup
-                    : context.Sqls.GetGroup;    //
+                    ? context.Sqls.GetEnabledGroup
+                    : context.Sqls.GetGroup;
                 return Repository.ExecuteTable(
                     context: context,
                     statements: new SqlStatement(sql))
