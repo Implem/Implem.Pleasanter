@@ -94,7 +94,11 @@
     font-size: 13px;
 }
 
-body{
+a, a:link {
+    color: #106EBE;
+}
+
+body {
     background-color: #E7E7E7;
 }
 
@@ -102,6 +106,7 @@ body{
 #MainContainer {
     margin-left: 52px;
 }
+
 #Application {
     margin: 0 !important;
     padding: 0 !important;
@@ -110,7 +115,25 @@ body{
 /* 共通ヘッダ */
 #Header {
     background-color: #FFFFFF;
-    border-bottom: 1px solid #CECECE!important;
+    border-bottom: 1px solid #CECECE !important;
+}
+
+/* クリップボードリンク */
+nav.both.cf {
+    position: relative;
+}
+
+#CopyToClipboards {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    z-index: 1;
+}
+
+#CopyDirectUrlToClipboard {
+    border: 1px solid #CECECE;
+    padding: 0 2px;
+    border-radius: 4px;
 }
 
 /* パンくず */
@@ -135,6 +158,10 @@ body{
     margin-right: 16px;
     position: relative;
     padding: 0 16px;
+}
+
+#Breadcrumb li:first-child {
+    padding-left: 36px !important;
 }
 
 #Breadcrumb li:before,
@@ -172,6 +199,15 @@ body{
 
 #Breadcrumb li:last-child a {
     color: #fff;
+}
+
+#Breadcrumb .item {
+    padding: 4px 12px !important;
+}
+
+/* ビュー */
+#ViewSelectorField {
+    top: 5px !important;
 }
 
 /* フィルター */
@@ -213,6 +249,11 @@ body{
     color: #E03E3E !important;
 }
 
+/* 見出しタイトル */
+#TitleContainer{
+    padding: 16px;
+}
+
 /* テーブルヘッダ */
 .grid-row .ui-icon {
     background-image: url("images/ui-icons_3d3d3d_256x240.png");
@@ -228,7 +269,7 @@ body{
     padding: 4px !important;
 }
 
-.ui-multiselect-header .ui-icon{
+.ui-multiselect-header .ui-icon {
     float: none !important;
 }
 
@@ -246,11 +287,13 @@ body{
     border-radius: 4px !important;
     padding: 4px 8px 4px 8px !important;
 }
+
 .fieldset.enclosed,
 .fieldset.enclosed-thin {
     border: 1px solid #CECECE !important;
     background: #F8F8F8 !important;
 }
+
 .control-dropdown {
     border-radius: 4px !important;
 }
@@ -274,6 +317,7 @@ body{
 .field-control .control-markup {
     padding: 8px 28px 8px 8px !important;
 }
+
 /* ボタン */
 .ui-button {
     background: #FFFFFF;
@@ -297,16 +341,16 @@ body{
     background-position: -144px -93px;
 }
 
-.ui-widget.ui-widget-content{
+.ui-widget.ui-widget-content {
     border: 1px solid #CECECE;
     border-radius: 4px;
 }
 
-.ui-tabs .ui-tabs-nav{
+.ui-tabs .ui-tabs-nav {
     padding: 4px 16px 0;
 }
 
-.ui-widget-content{
+.ui-widget-content {
     background: #fff;
 }
 
@@ -315,9 +359,39 @@ body{
 .ui-widget-header .ui-state-hover,
 .ui-state-focus,
 .ui-widget-content .ui-state-focus,
-.ui-widget-header .ui-state-focus{
+.ui-widget-header .ui-state-focus {
     background: #C1E1FF;
     border: 1px solid #90CAFF;
+}
+
+.button-neutral,
+.button-neutral:hover {
+    background-color: #444444;
+    border: 1px solid #444444;
+    color: #FFFFFF;
+}
+
+.button-negative,
+.button-negative:hover {
+    background-color: #E16A6A;
+    border: 1px solid #E16A6A;
+    color: #FFFFFF;
+}
+
+.button-positive,
+.button-positive:hover {
+    background-color: #106EBE;
+    border: 1px solid #106EBE;
+    color: #FFFFFF;
+}
+
+.button-neutral .ui-icon,
+.button-neutral:hover .ui-icon,
+.button-negative .ui-icon,
+.button-negative:hover .ui-icon,
+.button-positive .ui-icon,
+.button-positive:hover .ui-icon {
+    background-image: url("images/ui-icons_ffffff_256x240.png");
 }
 
 /* 一覧画面 */
@@ -342,12 +416,12 @@ td {
     border: 1px solid #EFF6FC !important;
 }
 
-.grid-title-body{
+.grid-title-body {
     margin-bottom: 0 !important;
     padding: 8px !important;
 }
 
-.grid > thead > tr:first-child > th:last-child{
+.grid > thead > tr:first-child > th:last-child {
     border-radius: 0 !important;
 }
 
@@ -455,12 +529,23 @@ td {
     background-image: url("images/ui-icons_3d3d3d_256x240.png");
 }
 
+.control-selectable .ui-selected {
+    background: #106EBE;
+    border: 1px solid #005A9E;
+}
+
+.control-selectable li:active {
+    background: #106EBE;
+    border: 1px solid #005A9E;
+    color: #FFFFFF;
+}
+
 /* フッタメッセージ */
 .message {
     bottom: 63px !important;
 }
 
-.message .body{
+.message .body {
     margin-bottom: 0 !important;
     border-radius: 0 !important;
 }
@@ -495,6 +580,91 @@ td {
     position: relative !important;
     z-index: 0 !important;
 }
+
 #Footer a {
     color: #666666 !important;
+}
+
+/* トップ（スタートガイド） */
+#StartGuide {
+    width: calc(100% - 32px) !important;
+    background-color: #FFFFFF !important;
+    border-radius: 4px !important;
+    margin: 0 16px 16px !important;
+    padding: 24px 0 0 0 !important;
+    box-shadow: 0 2px 2px rgba(0,0,0,.2);
+}
+
+#StartGuide > #StartGuideContents > a:hover {
+    background-color: #EFF6FC !important;
+}
+
+#StartGuide > #StartGuideContents {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: auto !important;
+}
+
+#StartGuide > #StartGuideContents > a {
+    margin: 0 0 !important;
+    border-radius: 4px !important;
+    padding: 16px !important;
+    width: 216px !important;
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+}
+
+#StartGuide > #DisableStartGuideField {
+    margin: 24px 0 0 16px !important;
+}
+
+/* トップ（サイトメニュー） */
+#SiteMenu {
+    margin: 16px;
+}
+
+.heading {
+    display: none;
+}
+
+.nav-site a {
+    padding: 8px !important;
+    text-align: center;
+}
+
+.nav-site .conditions {
+    position: relative !important;
+}
+
+.nav-site .conditions span.overdue {
+    background-color: #E03E3E !important;
+}
+
+.conditions {
+    position: relative !important;
+}
+
+.nav-site span.title {
+    margin: 0 auto !important;
+    padding-top: 100px !important;
+}
+
+.nav-site {
+    width: 213px !important;
+    min-height: 140px;
+    background-color: #FFFFFF !important;
+    border: none !important;
+    border-radius: 4px !important;
+    box-shadow: 0 2px 2px rgba(0,0,0,.2) !important;
+}
+
+.stacking1, .stacking2 {
+    display: none;
+}
+
+.nav-site.to-parent {
+    min-height: 36px !important;
+    margin-top: 0 !important;
 }
