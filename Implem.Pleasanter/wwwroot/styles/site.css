@@ -2879,7 +2879,14 @@ h3.title-header {
     z-index: 10;
 }
 
-input[type="password"]::-ms-reveal{
+#passwordGeneratebutton {
+    position: absolute;
+    top: 2px;
+    right: -88px;
+    z-index: 10;
+}
+
+input[type="password"]::-ms-reveal {
     display: none;
 }
 

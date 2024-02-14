@@ -80,6 +80,7 @@
             ]
         }
     ],
+    "PasswordGenerator": true,
     "SecondaryAuthentication": {
         "Mode": "None",
         "NotificationType": "Mail",
@@ -92,7 +93,7 @@
         "BlobContainerUri": null,
         "KeyIdentifier": null,
         "KeyFileName": "Keys.xml",
-        "XmlAesKey":  null
+        "XmlAesKey": null
     },
     "HttpStrictTransportSecurity": {
         "Enabled": false,

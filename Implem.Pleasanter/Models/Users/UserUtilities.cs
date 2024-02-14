@@ -5480,9 +5480,24 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string GeneratePassword(string passwordObject, string passwordValidateObject)
         {
+            var password = "";
+            var regex = "";
+            var defaultRegex = Parameters.Security.PasswordPolicies[0].Enabled
+                ? Parameters.Security.PasswordPolicies[0].Regex
+                : "[!-~]{ 6,}";
+            foreach(var policy in Parameters.Security.PasswordPolicies.Skip(1).Where(o => o.Enabled))
+            {
+                regex += "(?=.*?" + policy.Regex + ")";
+            }
+            regex += defaultRegex;
+            var xeger = new Fare.Xeger(defaultRegex, new Random());
+            while(!System.Text.RegularExpressions.Regex.IsMatch(password, "^(?=.*?[^a-zA-Z0-9]+)(?=.*?[0-9]+)(?=.*?[a-z]+)(?=.*?[A-Z]+)[!-~]{6,12}$"))
+            {
+                password = xeger.Generate();
+            }
             return new ResponseCollection()
-                .Val(passwordObject, "test")
-                .Val(passwordValidateObject, "test")
+                .Val(passwordObject, password)
+                .Val(passwordValidateObject, password)
                 .ToJson();
         }
     }

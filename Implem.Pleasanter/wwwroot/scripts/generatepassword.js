@@ -7,9 +7,15 @@
     if ($('input#Users_ChangedPasswordValidator').length) {
         $p.generatePasswordButton('#Users_ChangedPassword', '#Users_ChangedPasswordValidator');
     }
+    if ($('input#Users_AfterResetPasswordValidator').length) {
+        $p.generatePasswordButton('#Users_AfterResetPassword', '#Users_AfterResetPasswordValidator');
+    }
 });
 
 $p.generatePasswordButton = function (passwordObject, passwordValidateObject) {
+    if (!parseInt($(passwordObject).data('passwordgenerator'))) {
+        return;
+    }
     $('<button>', {
         id: 'passwordGeneratebutton',
         class: 'button button-icon validate ui-button ui-corner-all ui-widget',
