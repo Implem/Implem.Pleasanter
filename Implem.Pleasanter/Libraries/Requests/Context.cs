@@ -1147,5 +1147,21 @@ namespace Implem.Pleasanter.Libraries.Requests
                 ? AspNetCoreHttpContext.Current?.Request?.Cookies[".AspNetCore.Session"]?.Sha512Cng()
                 : string.Empty;
         }
+
+        public decimal ThemeVersion()
+        {
+            switch (Theme)
+            {
+                case "cerulean":
+                    return 2.0M;
+                default:
+                    return 1.0M;
+            }
+        }
+
+        public bool ThemeVersionOver2_0()
+        {
+            return ThemeVersion() >= 2.0M;
+        }
     }
 }

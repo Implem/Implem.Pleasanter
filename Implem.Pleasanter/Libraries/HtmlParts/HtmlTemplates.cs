@@ -340,13 +340,28 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string title,
             bool useTitle)
         {
-            return useTitle
-                ? hb.Title(
-                    context: context,
-                    ss: ss,
-                    siteId: siteId,
-                    text: title)
-                : hb;
+            if (useTitle)
+            {
+                if (context.ThemeVersionOver2_0())
+                {
+                    return hb.Div(
+                        id: "TitleContainer",
+                        action: () => hb.Title(
+                            context: context,
+                            ss: ss,
+                            siteId: siteId,
+                            text: title));
+                }
+                else
+                {
+                    return hb.Title(
+                        context: context,
+                        ss: ss,
+                        siteId: siteId,
+                        text: title);
+                }
+            }
+            return hb;
         }
 
         public static HtmlBuilder Warnings(
