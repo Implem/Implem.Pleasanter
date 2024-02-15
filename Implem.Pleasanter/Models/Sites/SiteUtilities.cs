@@ -3894,12 +3894,85 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
+                if (context.ThemeVersionOver2_0())
+                {
+                    if (hasImage)
+                    {
+                        hb.Div(
+                            css: "site-icon",
+                            action: () => hb
+                                .Img(
+                                    src: Locations.Get(
+                                        context: context,
+                                        parts: new string[]
+                                        {
+                                            "Items",
+                                            siteId.ToString(),
+                                            "Binaries",
+                                            "SiteImageThumbnail",
+                                            siteImagePrefix
+                                        })));
+                    }
+                    else
+                    {
+                        switch (referenceType)
+                        {
+                            case "Sites":
+                                hb.Div(
+                                    css: "site-icon",
+                                    action: () => hb
+                                        .Img(src: Locations.Get(
+                                            context: context,
+                                            "Images",
+                                            "ico_site_folder.svg")));
+                                break;
+                            case "Issues":
+                                hb.Div(
+                                    css: "site-icon",
+                                    action: () => hb
+                                        .Img(src: Locations.Get(
+                                            context: context,
+                                            "Images",
+                                            "ico_site_table_task.svg")));
+                                break;
+                            case "Results":
+                                hb.Div(
+                                    css: "site-icon",
+                                    action: () => hb
+                                        .Img(src: Locations.Get(
+                                            context: context,
+                                            "Images",
+                                            "ico_site_table_record.svg")));
+                                break;
+                            case "Wikis":
+                                hb.Div(
+                                    css: "site-icon",
+                                    action: () => hb
+                                        .Img(src: Locations.Get(
+                                            context: context,
+                                            "Images",
+                                            "ico_site_wiki.svg")));
+                                break;
+                            case "Dashboards":
+                                hb.Div(
+                                    css: "site-icon",
+                                    action: () => hb
+                                        .Img(src: Locations.Get(
+                                            context: context,
+                                            "Images",
+                                            "ico_site_dashboard.svg")));
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
                 hb.SiteMenuChild(
-                    context: context,
-                    siteId: siteId,
-                    title: title,
-                    hasImage: hasImage,
-                    siteImagePrefix: siteImagePrefix);
+                        context: context,
+                        siteId: siteId,
+                        title: title,
+                        hasImage: hasImage,
+                        siteImagePrefix: siteImagePrefix);
             }
             return hb
                 .SiteMenuStyle(referenceType: referenceType)
@@ -3958,23 +4031,26 @@ namespace Implem.Pleasanter.Models
             bool hasImage,
             string siteImagePrefix)
         {
-            if (hasImage)
+            if (!context.ThemeVersionOver2_0())
             {
-                hb.Img(
-                    src: Locations.Get(
-                        context: context,
-                        parts: new string[]
-                        {
-                            "Items",
-                            siteId.ToString(),
-                            "Binaries",
-                            "SiteImageThumbnail",
-                            siteImagePrefix
-                        }),
-                    css: "site-image-thumbnail");
+                if (hasImage)
+                {
+                    hb.Img(
+                        src: Locations.Get(
+                            context: context,
+                            parts: new string[]
+                            {
+                                "Items",
+                                siteId.ToString(),
+                                "Binaries",
+                                "SiteImageThumbnail",
+                                siteImagePrefix
+                            }),
+                        css: "site-image-thumbnail");
+                }
             }
             return hb.Span(css: "title", action: () => hb
-                .Text(title));
+            .Text(title));
         }
 
         /// <summary>
