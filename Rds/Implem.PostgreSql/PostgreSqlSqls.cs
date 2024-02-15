@@ -222,6 +222,7 @@ namespace Implem.PostgreSql
             where ""Groups"".""Disabled""='false'
                 and ""Depts"".""TenantId""=@ipT
                 and ""Depts"".""DeptId""=@ipD
+                and ""Depts"".""Disabled""='false'
             union all
             select ""Groups"".""GroupId"" 
             from ""Groups"" as ""Groups""
