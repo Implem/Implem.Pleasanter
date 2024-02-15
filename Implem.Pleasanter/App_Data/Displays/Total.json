@@ -1,6 +1,7 @@
-{
+﻿{
     "Id": "Total",
     "Type": 110,
+    "ClientScript": true,
     "Languages": [
         {
             "Body": "Total"

@@ -37,6 +37,7 @@ namespace Implem.Pleasanter.Models
         public string GanttGuide = string.Empty;
         public string BurnDownGuide = string.Empty;
         public string TimeSeriesGuide = string.Empty;
+        public string AnalyGuide = string.Empty;
         public string KambanGuide = string.Empty;
         public string ImageLibGuide = string.Empty;
         public string ReferenceType = "Sites";
@@ -45,8 +46,8 @@ namespace Implem.Pleasanter.Models
         public bool Publish = false;
         public bool DisableCrossSearch = false;
         public Time LockedTime = new Time();
-        public User LockedUser = new User();
         public SiteCollection Ancestors = null;
+        public User LockedUser = new User();
         public int SiteMenu = 0;
         public List<string> MonitorChangesColumns = null;
         public List<string> TitleColumns = null;
@@ -73,6 +74,7 @@ namespace Implem.Pleasanter.Models
         public string SavedGanttGuide = string.Empty;
         public string SavedBurnDownGuide = string.Empty;
         public string SavedTimeSeriesGuide = string.Empty;
+        public string SavedAnalyGuide = string.Empty;
         public string SavedKambanGuide = string.Empty;
         public string SavedImageLibGuide = string.Empty;
         public string SavedReferenceType = "Sites";
@@ -82,8 +84,8 @@ namespace Implem.Pleasanter.Models
         public bool SavedPublish = false;
         public bool SavedDisableCrossSearch = false;
         public DateTime SavedLockedTime = 0.ToDateTime();
-        public int SavedLockedUser = 0;
         public SiteCollection SavedAncestors = null;
+        public int SavedLockedUser = 0;
         public int SavedSiteMenu = 0;
         public List<string> SavedMonitorChangesColumns = null;
         public List<string> SavedTitleColumns = null;
@@ -210,6 +212,18 @@ namespace Implem.Pleasanter.Models
                 &&  (column == null
                     || column.DefaultInput.IsNullOrEmpty()
                     || column.GetDefaultInput(context: context).ToString() != TimeSeriesGuide);
+        }
+
+        public bool AnalyGuide_Updated(Context context, bool copy = false, Column column = null)
+        {
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != AnalyGuide;
+            }
+            return AnalyGuide != SavedAnalyGuide && AnalyGuide != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != AnalyGuide);
         }
 
         public bool KambanGuide_Updated(Context context, bool copy = false, Column column = null)
@@ -456,6 +470,7 @@ namespace Implem.Pleasanter.Models
                 case "GanttGuide": return GanttGuide;
                 case "BurnDownGuide": return BurnDownGuide;
                 case "TimeSeriesGuide": return TimeSeriesGuide;
+                case "AnalyGuide": return AnalyGuide;
                 case "KambanGuide": return KambanGuide;
                 case "ImageLibGuide": return ImageLibGuide;
                 case "ReferenceType": return ReferenceType;
@@ -465,8 +480,8 @@ namespace Implem.Pleasanter.Models
                 case "Publish": return Publish.ToString();
                 case "DisableCrossSearch": return DisableCrossSearch.ToString();
                 case "LockedTime": return LockedTime.Value.ToString();
-                case "LockedUser": return LockedUser.Id.ToString();
                 case "Ancestors": return Ancestors.ToString();
+                case "LockedUser": return LockedUser.Id.ToString();
                 case "SiteMenu": return SiteMenu.ToString();
                 case "MonitorChangesColumns": return MonitorChangesColumns.ToString();
                 case "TitleColumns": return TitleColumns.ToString();
@@ -505,6 +520,7 @@ namespace Implem.Pleasanter.Models
                 case "GanttGuide": return SavedGanttGuide;
                 case "BurnDownGuide": return SavedBurnDownGuide;
                 case "TimeSeriesGuide": return SavedTimeSeriesGuide;
+                case "AnalyGuide": return SavedAnalyGuide;
                 case "KambanGuide": return SavedKambanGuide;
                 case "ImageLibGuide": return SavedImageLibGuide;
                 case "ReferenceType": return SavedReferenceType;
@@ -584,6 +600,9 @@ namespace Implem.Pleasanter.Models
                         case "TimeSeriesGuide":
                             hash.Add("TimeSeriesGuide", TimeSeriesGuide);
                             break;
+                        case "AnalyGuide":
+                            hash.Add("AnalyGuide", AnalyGuide);
+                            break;
                         case "KambanGuide":
                             hash.Add("KambanGuide", KambanGuide);
                             break;
@@ -611,11 +630,11 @@ namespace Implem.Pleasanter.Models
                         case "LockedTime":
                             hash.Add("LockedTime", LockedTime.Value.ToString());
                             break;
-                        case "LockedUser":
-                            hash.Add("LockedUser", LockedUser.Id.ToString());
-                            break;
                         case "Ancestors":
                             hash.Add("Ancestors", Ancestors.ToString());
+                            break;
+                        case "LockedUser":
+                            hash.Add("LockedUser", LockedUser.Id.ToString());
                             break;
                         case "SiteMenu":
                             hash.Add("SiteMenu", SiteMenu.ToString());
@@ -683,6 +702,7 @@ namespace Implem.Pleasanter.Models
                 case "GanttGuide": return GanttGuide_Updated(context: context);
                 case "BurnDownGuide": return BurnDownGuide_Updated(context: context);
                 case "TimeSeriesGuide": return TimeSeriesGuide_Updated(context: context);
+                case "AnalyGuide": return AnalyGuide_Updated(context: context);
                 case "KambanGuide": return KambanGuide_Updated(context: context);
                 case "ImageLibGuide": return ImageLibGuide_Updated(context: context);
                 case "ReferenceType": return ReferenceType_Updated(context: context);
@@ -930,6 +950,11 @@ namespace Implem.Pleasanter.Models
                         column: column);
                 case "TimeSeriesGuide":
                     return TimeSeriesGuide.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "AnalyGuide":
+                    return AnalyGuide.ToDisplay(
                         context: context,
                         ss: ss,
                         column: column);
@@ -1508,6 +1533,7 @@ namespace Implem.Pleasanter.Models
                     case "Sites_GanttGuide": GanttGuide = value.ToString(); break;
                     case "Sites_BurnDownGuide": BurnDownGuide = value.ToString(); break;
                     case "Sites_TimeSeriesGuide": TimeSeriesGuide = value.ToString(); break;
+                    case "Sites_AnalyGuide": AnalyGuide = value.ToString(); break;
                     case "Sites_KambanGuide": KambanGuide = value.ToString(); break;
                     case "Sites_ImageLibGuide": ImageLibGuide = value.ToString(); break;
                     case "Sites_ReferenceType": ReferenceType = value.ToString(); break;
@@ -1608,6 +1634,7 @@ namespace Implem.Pleasanter.Models
             GanttGuide = siteModel.GanttGuide;
             BurnDownGuide = siteModel.BurnDownGuide;
             TimeSeriesGuide = siteModel.TimeSeriesGuide;
+            AnalyGuide = siteModel.AnalyGuide;
             KambanGuide = siteModel.KambanGuide;
             ImageLibGuide = siteModel.ImageLibGuide;
             ReferenceType = siteModel.ReferenceType;
@@ -1617,8 +1644,8 @@ namespace Implem.Pleasanter.Models
             Publish = siteModel.Publish;
             DisableCrossSearch = siteModel.DisableCrossSearch;
             LockedTime = siteModel.LockedTime;
-            LockedUser = siteModel.LockedUser;
             Ancestors = siteModel.Ancestors;
+            LockedUser = siteModel.LockedUser;
             SiteMenu = siteModel.SiteMenu;
             MonitorChangesColumns = siteModel.MonitorChangesColumns;
             TitleColumns = siteModel.TitleColumns;
@@ -1653,6 +1680,7 @@ namespace Implem.Pleasanter.Models
             if (data.GanttGuide != null) GanttGuide = data.GanttGuide.ToString().ToString();
             if (data.BurnDownGuide != null) BurnDownGuide = data.BurnDownGuide.ToString().ToString();
             if (data.TimeSeriesGuide != null) TimeSeriesGuide = data.TimeSeriesGuide.ToString().ToString();
+            if (data.AnalyGuide != null) AnalyGuide = data.AnalyGuide.ToString().ToString();
             if (data.KambanGuide != null) KambanGuide = data.KambanGuide.ToString().ToString();
             if (data.ImageLibGuide != null) ImageLibGuide = data.ImageLibGuide.ToString().ToString();
             if (data.ReferenceType != null) ReferenceType = data.ReferenceType.ToString().ToString();
@@ -1880,6 +1908,10 @@ namespace Implem.Pleasanter.Models
                             TimeSeriesGuide = dataRow[column.ColumnName].ToString();
                             SavedTimeSeriesGuide = TimeSeriesGuide;
                             break;
+                        case "AnalyGuide":
+                            AnalyGuide = dataRow[column.ColumnName].ToString();
+                            SavedAnalyGuide = AnalyGuide;
+                            break;
                         case "KambanGuide":
                             KambanGuide = dataRow[column.ColumnName].ToString();
                             SavedKambanGuide = KambanGuide;
@@ -2025,6 +2057,7 @@ namespace Implem.Pleasanter.Models
                 || GanttGuide_Updated(context: context)
                 || BurnDownGuide_Updated(context: context)
                 || TimeSeriesGuide_Updated(context: context)
+                || AnalyGuide_Updated(context: context)
                 || KambanGuide_Updated(context: context)
                 || ImageLibGuide_Updated(context: context)
                 || ReferenceType_Updated(context: context)
@@ -2080,6 +2113,7 @@ namespace Implem.Pleasanter.Models
                 || GanttGuide_Updated(context: context)
                 || BurnDownGuide_Updated(context: context)
                 || TimeSeriesGuide_Updated(context: context)
+                || AnalyGuide_Updated(context: context)
                 || KambanGuide_Updated(context: context)
                 || ImageLibGuide_Updated(context: context)
                 || ReferenceType_Updated(context: context)
@@ -2132,6 +2166,7 @@ namespace Implem.Pleasanter.Models
             data.GanttGuide = GanttGuide;
             data.BurnDownGuide = BurnDownGuide;
             data.TimeSeriesGuide = TimeSeriesGuide;
+            data.AnalyGuide = AnalyGuide;
             data.KambanGuide = KambanGuide;
             data.ImageLibGuide = ImageLibGuide;
             data.ReferenceType = ReferenceType;
@@ -2196,6 +2231,7 @@ namespace Implem.Pleasanter.Models
                             .GanttGuide(GanttGuide)
                             .BurnDownGuide(BurnDownGuide)
                             .TimeSeriesGuide(TimeSeriesGuide)
+                            .AnalyGuide(TimeSeriesGuide)
                             .KambanGuide(KambanGuide)
                             .ImageLibGuide(ImageLibGuide)
                             .ReferenceType(ReferenceType.MaxLength(32))
@@ -2440,6 +2476,7 @@ namespace Implem.Pleasanter.Models
                             gantt: scApiSiteSetting.ScriptGantt,
                             burnDown: scApiSiteSetting.ScriptBurnDown,
                             timeSeries: scApiSiteSetting.ScriptTimeSeries,
+                            analy: scApiSiteSetting.ScriptAnaly,
                             kamban: scApiSiteSetting.ScriptKamban,
                             imageLib: scApiSiteSetting.ScriptImageLib,
                             disabled: scApiSiteSetting.Disabled,
@@ -2460,6 +2497,7 @@ namespace Implem.Pleasanter.Models
                             gantt: scApiSiteSetting.ScriptGantt,
                             burnDown: scApiSiteSetting.ScriptBurnDown,
                             timeSeries: scApiSiteSetting.ScriptTimeSeries,
+                            analy: scApiSiteSetting.ScriptAnaly,
                             kamban: scApiSiteSetting.ScriptKamban,
                             imageLib: scApiSiteSetting.ScriptImageLib,
                             disabled: scApiSiteSetting.Disabled,
@@ -2506,6 +2544,7 @@ namespace Implem.Pleasanter.Models
                             gantt: stApiSiteSetting.StyleGantt,
                             burnDown: stApiSiteSetting.StyleBurnDown,
                             timeSeries: stApiSiteSetting.StyleTimeSeries,
+                            analy: stApiSiteSetting.StyleAnaly,
                             kamban: stApiSiteSetting.StyleKamban,
                             imageLib: stApiSiteSetting.StyleImageLib,
                             disabled: stApiSiteSetting.Disabled,
@@ -2526,6 +2565,7 @@ namespace Implem.Pleasanter.Models
                             gantt: stApiSiteSetting.StyleGantt,
                             burnDown: stApiSiteSetting.StyleBurnDown,
                             timeSeries: stApiSiteSetting.StyleTimeSeries,
+                            analy: stApiSiteSetting.StyleAnaly,
                             kamban: stApiSiteSetting.StyleKamban,
                             imageLib: stApiSiteSetting.StyleImageLib,
                             disabled: stApiSiteSetting.Disabled,
@@ -2573,6 +2613,7 @@ namespace Implem.Pleasanter.Models
                             gantt: htmlApiSiteSetting.HtmlGantt,
                             burnDown: htmlApiSiteSetting.HtmlBurnDown,
                             timeSeries: htmlApiSiteSetting.HtmlTimeSeries,
+                            analy: htmlApiSiteSetting.HtmlAnaly,
                             kamban: htmlApiSiteSetting.HtmlKamban,
                             imageLib: htmlApiSiteSetting.HtmlImageLib,
                             disabled: htmlApiSiteSetting.Disabled,
@@ -2594,6 +2635,7 @@ namespace Implem.Pleasanter.Models
                             gantt: htmlApiSiteSetting.HtmlGantt,
                             burnDown: htmlApiSiteSetting.HtmlBurnDown,
                             timeSeries: htmlApiSiteSetting.HtmlTimeSeries,
+                            analy: htmlApiSiteSetting.HtmlAnaly,
                             kamban: htmlApiSiteSetting.HtmlKamban,
                             imageLib: htmlApiSiteSetting.HtmlImageLib,
                             disabled: htmlApiSiteSetting.Disabled,
@@ -7208,6 +7250,7 @@ namespace Implem.Pleasanter.Models
                 gantt: context.Forms.Bool("StyleGantt"),
                 burnDown: context.Forms.Bool("StyleBurnDown"),
                 timeSeries: context.Forms.Bool("StyleTimeSeries"),
+                analy: context.Forms.Bool("StyleAnaly"),
                 kamban: context.Forms.Bool("StyleKamban"),
                 imageLib: context.Forms.Bool("StyleImageLib"),
                 disabled: context.Forms.Bool("StyleDisabled"),
@@ -7238,6 +7281,7 @@ namespace Implem.Pleasanter.Models
                     gantt: context.Forms.Bool("StyleGantt"),
                     burnDown: context.Forms.Bool("StyleBurnDown"),
                     timeSeries: context.Forms.Bool("StyleTimeSeries"),
+                    analy: context.Forms.Bool("StyleAnaly"),
                     kamban: context.Forms.Bool("StyleKamban"),
                     imageLib: context.Forms.Bool("StyleImageLib"),
                     disabled: context.Forms.Bool("StyleDisabled"),
@@ -7374,6 +7418,7 @@ namespace Implem.Pleasanter.Models
                 gantt: context.Forms.Bool("ScriptGantt"),
                 burnDown: context.Forms.Bool("ScriptBurnDown"),
                 timeSeries: context.Forms.Bool("ScriptTimeSeries"),
+                analy: context.Forms.Bool("ScriptAnaly"),
                 kamban: context.Forms.Bool("ScriptKamban"),
                 imageLib: context.Forms.Bool("ScriptImageLib"),
                 disabled: context.Forms.Bool("ScriptDisabled"),
@@ -7404,6 +7449,7 @@ namespace Implem.Pleasanter.Models
                     gantt: context.Forms.Bool("ScriptGantt"),
                     burnDown: context.Forms.Bool("ScriptBurnDown"),
                     timeSeries: context.Forms.Bool("ScriptTimeSeries"),
+                    analy: context.Forms.Bool("ScriptAnaly"),
                     kamban: context.Forms.Bool("ScriptKamban"),
                     imageLib: context.Forms.Bool("ScriptImageLib"),
                     disabled: context.Forms.Bool("ScriptDisabled"),
@@ -7541,6 +7587,7 @@ namespace Implem.Pleasanter.Models
                 gantt: context.Forms.Bool("HtmlGantt"),
                 burnDown: context.Forms.Bool("HtmlBurnDown"),
                 timeSeries: context.Forms.Bool("HtmlTimeSeries"),
+                analy: context.Forms.Bool("HtmlAnaly"),
                 kamban: context.Forms.Bool("HtmlKamban"),
                 imageLib: context.Forms.Bool("HtmlImageLib"),
                 disabled: context.Forms.Bool("HtmlDisabled"),
@@ -7572,6 +7619,7 @@ namespace Implem.Pleasanter.Models
                     gantt: context.Forms.Bool("HtmlGantt"),
                     burnDown: context.Forms.Bool("HtmlBurnDown"),
                     timeSeries: context.Forms.Bool("HtmlTimeSeries"),
+                    analy: context.Forms.Bool("HtmlAnaly"),
                     kamban: context.Forms.Bool("HtmlKamban"),
                     imageLib: context.Forms.Bool("HtmlImageLib"),
                     disabled: context.Forms.Bool("HtmlDisabled"),

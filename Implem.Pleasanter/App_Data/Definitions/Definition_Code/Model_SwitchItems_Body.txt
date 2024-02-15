@@ -409,6 +409,64 @@ public string TimeSeriesJson(Context context)
     }
 }
 
+public string Analy(Context context)
+{
+    SetSite(
+        context: context,
+        initSiteSettings: true,
+        setSiteIntegration: true,
+        setAllChoices: true);
+    ViewModes.Set(context: context, siteId: Site.SiteId);
+    switch (Site.ReferenceType)
+    {
+
+<!--Model_AnalyCases-->
+
+        default:
+            return HtmlTemplates.Error(
+                context: context,
+                errorData: new ErrorData(
+                    context: context,
+                    type: Error.Types.NotFound,
+                    sysLogsStatus: 404,
+                    sysLogsDescription: Debugs.GetSysLogsDescription()));
+    }
+}
+
+public string AnalyJson(Context context)
+{
+    SetSite(
+        context: context,
+        initSiteSettings: true,
+        setSiteIntegration: true,
+        setAllChoices: true);
+    ViewModes.Set(context: context, siteId: Site.SiteId);
+    switch (Site.ReferenceType)
+    {
+
+<!--Model_AnalyJsonCases-->
+
+        default:
+            return Messages.ResponseNotFound(context: context).ToJson();
+    }
+}
+
+public string OpenAnalyPartDialog(Context context)
+{
+    SetSite(
+        context: context,
+        initSiteSettings: true,
+        setSiteIntegration: true);
+    switch (Site.ReferenceType)
+    {
+
+<!--Model_OpenAnalyPartDialogCases-->
+
+        default:
+            return Messages.ResponseNotFound(context: context).ToJson();
+    }
+}
+
 public string Kamban(Context context)
 {
     SetSite(
