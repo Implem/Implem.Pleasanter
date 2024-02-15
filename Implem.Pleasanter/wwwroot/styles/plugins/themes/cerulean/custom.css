@@ -155,7 +155,7 @@ nav.both.cf {
     font-size: 14px;
     height: 40px;
     line-height: 30px;
-    margin-right: 16px;
+    margin-right: 28px;
     position: relative;
     padding: 0 16px;
 }
@@ -202,7 +202,7 @@ nav.both.cf {
 }
 
 #Breadcrumb .item {
-    padding: 4px 12px !important;
+    padding: 4px 24px 4px 12px !important;
 }
 
 /* ビュー */
@@ -316,6 +316,12 @@ nav.both.cf {
 
 .field-control .control-markup {
     padding: 8px 28px 8px 8px !important;
+}
+
+input:focus,
+textarea:focus,
+select{
+    background-color: #FFF9E3 !important;
 }
 
 /* ボタン */
@@ -501,12 +507,13 @@ td {
 }
 
 #Guide > div {
-    margin-bottom: 0 !important;
-    padding: 10px 8px 8px !important;
+    margin: 0 0 12px 0 !important;
+    padding: 10px 16px 8px !important;
     border: none !important;
     border-bottom: 1px solid #cecece !important;
     position: static !important;
     border-radius: 0 !important;
+    background-color: #FFF9E3 !important;
 }
 
 #HeaderTitleContainer {
@@ -585,6 +592,10 @@ td {
     color: #666666 !important;
 }
 
+#BottomMargin {
+    height: 34px !important;
+}
+
 /* トップ（スタートガイド） */
 #StartGuide {
     width: calc(100% - 32px) !important;
@@ -635,7 +646,18 @@ td {
 }
 
 .nav-site .conditions {
-    position: relative !important;
+    /*position: relative !important;*/
+    top: 0 !important;
+    left: 0 !important;
+}
+
+.nav-site .conditions span:nth-of-type(1){
+    float: left;
+}
+
+.nav-site .conditions span:nth-of-type(2),
+.nav-site .conditions span:nth-of-type(3) {
+    float: right;
 }
 
 .nav-site .conditions span.overdue {
@@ -643,12 +665,7 @@ td {
 }
 
 .conditions {
-    position: relative !important;
-}
-
-.nav-site span.title {
-    margin: 0 auto !important;
-    padding-top: 100px !important;
+    /*position: relative !important;*/
 }
 
 .nav-site {
@@ -660,6 +677,10 @@ td {
     box-shadow: 0 2px 2px rgba(0,0,0,.2) !important;
 }
 
+.nav-site span.title {
+    margin: 0 !important;
+}
+
 .stacking1, .stacking2 {
     display: none;
 }
@@ -667,4 +688,245 @@ td {
 .nav-site.to-parent {
     min-height: 36px !important;
     margin-top: 0 !important;
+}
+
+/* サイドメニュー */
+.box-header {
+    background: #fff;
+    height: 64px;
+    padding: 1em;
+    position: fixed;
+    width: 92%;
+    right: 10px;
+}
+
+.box-sitename {
+    font-weight: 700;
+    font-size: 18px;
+}
+
+.hamburger-menubox * {
+    font-size: 13px;
+}
+
+.hamburger-menubox li {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.input-hidden {
+    display: none;
+}
+
+.hamburger-switch {
+    cursor: pointer;
+    position: absolute;
+    left: 16px;
+    top: 16px;
+    width: 20px;
+    height: 20px;
+}
+
+.hamburger-switch-line, .hamburger-switch-line:before, .hamburger-switch-line:after {
+    width: 20px;
+    height: 2px;
+    background: #666; /* ハンバーガーアイコンの色 */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transition: .3s;
+    content: "";
+    z-index: 9999;
+}
+
+.hamburger-switch-line {
+    transform: translate(-50%, -50%);
+}
+
+.hamburger-switch-line:before {
+    transform: translate(-50%, -300%);
+}
+
+.hamburger-switch-line:after {
+    transform: translate(-50%, 200%);
+}
+
+.hamburger-menuwrap {
+    position: fixed;
+    height: 100%;
+    background: #FFFFFF;
+    padding: 100px 0 16px;
+    z-index: 9998;
+    transition: .3s;
+    top: 0;
+    left: 0;
+    width: 52px;
+    overflow: hidden;
+    box-shadow: 2px 0 2px rgba(0,0,0,.2);
+}
+
+.hamburger-menulist {
+    margin-right: 3%;
+    padding-left: 0% !important;
+    list-style: none;
+}
+
+.hamburger-menulist li a {
+    text-decoration: none;
+    color: #333;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: nowrap;
+    padding: 0;
+    overflow: hidden;
+    width: 160px;
+    height: 52px;
+}
+
+.accordion a img {
+    margin: 0 10px 0 10px;
+    width: 32px;
+}
+
+.accordion a img.new {
+    background-color: #106EBE;
+    border-radius: 16px;
+}
+
+.hamburger-menulist li a:hover {
+    background-color: #DEECF9;
+}
+
+#hamburger:checked ~ .hamburger-menuwrap {
+    left: 0;
+    width: 240px;
+    overflow-y: scroll;
+}
+
+.hamburger-menuwrap::-webkit-scrollbar {
+    display: none;
+}
+
+#hamburger:checked ~ .hamburger-closelabel {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 50;
+    left: 0;
+}
+
+#hamburger:checked ~ .hamburger-closelabel .hamburger-cover {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 9997;
+    background: rgba(3,3,3,.5);
+    display: block;
+    cursor: pointer;
+}
+
+section.accordion {
+    width: 240px;
+    overflow: hidden;
+}
+
+.toggle {
+    display: none;
+}
+
+.menulabel {
+    display: block;
+    cursor: pointer;
+}
+
+.menulabel::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-top: 2px solid #999999;
+    border-right: 2px solid #999999;
+    -webkit-transform: rotate(45deg);
+    position: absolute;
+    top: calc( 50% - 3px );
+    right: 20px;
+    transform: rotate(135deg);
+}
+
+.menulabel,
+.menubox-sub {
+    height: 52px;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    transform: translateZ(0);
+}
+
+.toggle:checked + .menulabel + .menubox-sub {
+    width: 240px;
+    height: auto;
+    transition: all .3s;
+    overflow: hidden;
+}
+
+.toggle:checked + .menulabel::before {
+    transform: rotate(-45deg) !important;
+}
+
+.menubox > a {
+    min-height: 52px;
+}
+
+.menubox a {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    color: #222222;
+    text-decoration: none;
+}
+
+.menubox a span:first-child {
+    width: 52px;
+}
+
+.menubox label {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.menubox a:hover,
+.menubox label:hover {
+    background-color: #DEECF9;
+}
+
+.menubox label span:first-child {
+    width: 32px;
+    padding: 10px;
+}
+
+.menubox-sub {
+    height: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #F5F5F5;
+}
+
+.menubox-sub ul {
+    margin: 0;
+    padding: 0;
+}
+
+.menubox-sub ul li a {
+    width: calc(100% - 60px);
+    padding: 8px 8px 8px 52px;
+}
+
+.menubox-sub ul li a:hover {
+    background: #E7E7E7;
 }
