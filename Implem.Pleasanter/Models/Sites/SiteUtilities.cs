@@ -3968,11 +3968,11 @@ namespace Implem.Pleasanter.Models
                     }
                 }
                 hb.SiteMenuChild(
-                        context: context,
-                        siteId: siteId,
-                        title: title,
-                        hasImage: hasImage,
-                        siteImagePrefix: siteImagePrefix);
+                    context: context,
+                    siteId: siteId,
+                    title: title,
+                    hasImage: hasImage,
+                    siteImagePrefix: siteImagePrefix);
             }
             return hb
                 .SiteMenuStyle(referenceType: referenceType)
@@ -4050,7 +4050,7 @@ namespace Implem.Pleasanter.Models
                 }
             }
             return hb.Span(css: "title", action: () => hb
-            .Text(title));
+                .Text(title));
         }
 
         /// <summary>
