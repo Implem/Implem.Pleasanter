@@ -1,6 +1,7 @@
-{
+﻿{
     "Id": "NotSet",
     "Type": 110,
+    "ClientScript": true,
     "Languages": [
         {
             "Body": "(Not set)"

@@ -1,0 +1,34 @@
+﻿{
+    "Id": "MonthsAgoNoArgs",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "months ago"
+        },
+        {
+            "Language": "zh",
+            "Body": "几个月前"
+        },
+        {
+            "Language": "ja",
+            "Body": "ヶ月前"
+        },
+        {
+            "Language": "de",
+            "Body": "vor wenigen Monaten"
+        },
+        {
+            "Language": "ko",
+            "Body": "몇달 전"
+        },
+        {
+            "Language": "es",
+            "Body": "Hace meses"
+        },
+        {
+            "Language": "vn",
+            "Body": "tháng trước"
+        }
+    ]
+}

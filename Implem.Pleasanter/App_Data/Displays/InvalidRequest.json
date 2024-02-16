@@ -1,6 +1,7 @@
-{
+﻿{
     "Id": "InvalidRequest",
     "Type": 240,
+    "ClientScript": true,
     "Languages": [
         {
             "Body": "Invalid request has been sent."

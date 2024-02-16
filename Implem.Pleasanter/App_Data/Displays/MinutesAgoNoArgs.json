@@ -1,0 +1,34 @@
+﻿{
+    "Id": "MinutesAgoNoArgs",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "minutes ago"
+        },
+        {
+            "Language": "zh",
+            "Body": "几分钟前"
+        },
+        {
+            "Language": "ja",
+            "Body": "分前"
+        },
+        {
+            "Language": "de",
+            "Body": "Vor ein paar Minuten"
+        },
+        {
+            "Language": "ko",
+            "Body": "몇분 전에"
+        },
+        {
+            "Language": "es",
+            "Body": "hace minutos"
+        },
+        {
+            "Language": "vn",
+            "Body": "Vài phút trước"
+        }
+    ]
+}
