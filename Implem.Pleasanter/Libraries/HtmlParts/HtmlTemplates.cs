@@ -231,258 +231,252 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 .Div(
                                     css: "hamburger-switch-line"))
                     .Div(
-                        css: "box-header",
+                        css: "hamburger-menubox",
                         action: () => hb
-                            .Div(
+                            .Input(
                                 attributes: new HtmlAttributes()
-                                    .Add("style", "width: 80%; height: 2000px; background-color: #eee;"))
+                                    .Type("checkbox"),
+                                id: "hamburger",
+                                css: "input-hidden")
                             .Div(
-                                css: "hamburger-menubox",
+                                css: "hamburger-menuwrap hamburger-menuwrap-left",
                                 action: () => hb
-                                    .Input(
+                                    .Section(
                                         attributes: new HtmlAttributes()
-                                            .Type("checkbox"),
-                                        id: "hamburger",
-                                        css: "input-hidden")
-                                    .Div(
-                                        css: "hamburger-menuwrap hamburger-menuwrap-left",
-                                        action: () => hb
-                                            .Section(
-                                                attributes: new HtmlAttributes()
-                                                    .Class("accordion"),
+                                            .Class("accordion"),
+                                    action: () => hb
+                                        .Div(
+                                            css: "menubox",
                                             action: () => hb
-                                                .Div(
-                                                    css: "menubox",
+                                                .A(
+                                                    href: "dummy",
                                                     action: () => hb
-                                                        .A(
-                                                            href: "dummy",
+                                                        .Span(
                                                             action: () => hb
-                                                                .Span(
-                                                                    action: () => hb
-                                                                        .Img(
-                                                                            css: "new",
-                                                                            src: Locations.Get(
-                                                                                context: context,
-                                                                                "Images",
-                                                                                "i_menu_add.svg")))
-                                                                .Span(
-                                                                    action: () => hb
-                                                                        .Text("新規追加"))))
-                                                .Div(
-                                                    css: "menubox",
+                                                                .Img(
+                                                                    css: "new",
+                                                                    src: Locations.Get(
+                                                                        context: context,
+                                                                        "Images",
+                                                                        "i_menu_add.svg")))
+                                                        .Span(
+                                                            action: () => hb
+                                                                .Text("新規追加"))))
+                                        .Div(
+                                            css: "menubox",
+                                            action: () => hb
+                                                .Input(
+                                                    attributes: new HtmlAttributes()
+                                                        .Type("checkbox"),
+                                                    id: "block-02",
+                                                    css: "toggle")
+                                                .Label(
+                                                    css: "menulabel",
+                                                    attributes: new HtmlAttributes()
+                                                        .For("block-02"),
                                                     action: () => hb
-                                                        .Input(
-                                                            attributes: new HtmlAttributes()
-                                                                .Type("checkbox"),
-                                                            id: "block-02",
-                                                            css: "toggle")
-                                                        .Label(
-                                                            css: "menulabel",
-                                                            attributes: new HtmlAttributes()
-                                                                .For("block-02"),
+                                                        .Span(
                                                             action: () => hb
-                                                                .Span(
-                                                                    action: () => hb
-                                                                        .Img(
-                                                                            src: Locations.Get(
-                                                                                context: context,
-                                                                                "Images",
-                                                                                "i_menu_view.svg")))
-                                                                .Span(
-                                                                    action: () => hb
-                                                                        .Text("表示")))
-                                                        .Div(
-                                                            css: "menubox-sub",
+                                                                .Img(
+                                                                    src: Locations.Get(
+                                                                        context: context,
+                                                                        "Images",
+                                                                        "i_menu_view.svg")))
+                                                        .Span(
                                                             action: () => hb
-                                                                .Ul(action: () => hb
-                                                                    .Li(action: () => hb
-                                                                        .A(
-                                                                            href: "dummy",
-                                                                            text: "一覧"))
-                                                                    .Li(action: () => hb
-                                                                        .A(
-                                                                            href: "dummy",
-                                                                            text: "カレンダー"))
-                                                                    .Li(action: () => hb
-                                                                        .A(
-                                                                            href: "dummy",
-                                                                            text: "クロス集計"))
-                                                                    .Li(action: () => hb
-                                                                        .A(
-                                                                            href: "dummy",
-                                                                            text: "ガントチャート"))
-                                                                    .Li(action: () => hb
-                                                                        .A(
-                                                                            href: "dummy",
-                                                                            text: "バーンダウンチャート"))
-                                                                    .Li(action: () => hb
-                                                                        .A(
-                                                                            href: "dummy",
-                                                                            text: "時系列チャート"))
-                                                                    .Li(action: () => hb
-                                                                        .A(
-                                                                            href: "dummy",
-                                                                            text: "カンバン"))
-                                                                    .Li(action: () => hb
-                                                                        .A(
-                                                                            href: "dummy",
-                                                                            text: "画像ライブラリ")))))
+                                                                .Text("表示")))
                                                 .Div(
-                                                    css: "menubox",
+                                                    css: "menubox-sub",
                                                     action: () => hb
-                                                        .Input(
-                                                            attributes: new HtmlAttributes()
-                                                                .Type("checkbox"),
-                                                            id: "block-03",
-                                                            css: "toggle")
-                                                        .Label(
-                                                            css: "menulabel",
-                                                            attributes: new HtmlAttributes()
-                                                                .For("block-03"),
+                                                        .Ul(action: () => hb
+                                                            .Li(action: () => hb
+                                                                .A(
+                                                                    href: "dummy",
+                                                                    text: "一覧"))
+                                                            .Li(action: () => hb
+                                                                .A(
+                                                                    href: "dummy",
+                                                                    text: "カレンダー"))
+                                                            .Li(action: () => hb
+                                                                .A(
+                                                                    href: "dummy",
+                                                                    text: "クロス集計"))
+                                                            .Li(action: () => hb
+                                                                .A(
+                                                                    href: "dummy",
+                                                                    text: "ガントチャート"))
+                                                            .Li(action: () => hb
+                                                                .A(
+                                                                    href: "dummy",
+                                                                    text: "バーンダウンチャート"))
+                                                            .Li(action: () => hb
+                                                                .A(
+                                                                    href: "dummy",
+                                                                    text: "時系列チャート"))
+                                                            .Li(action: () => hb
+                                                                .A(
+                                                                    href: "dummy",
+                                                                    text: "カンバン"))
+                                                            .Li(action: () => hb
+                                                                .A(
+                                                                    href: "dummy",
+                                                                    text: "画像ライブラリ")))))
+                                        .Div(
+                                            css: "menubox",
+                                            action: () => hb
+                                                .Input(
+                                                    attributes: new HtmlAttributes()
+                                                        .Type("checkbox"),
+                                                    id: "block-03",
+                                                    css: "toggle")
+                                                .Label(
+                                                    css: "menulabel",
+                                                    attributes: new HtmlAttributes()
+                                                        .For("block-03"),
+                                                    action: () => hb
+                                                        .Span(
                                                             action: () => hb
-                                                                .Span(
-                                                                    action: () => hb
-                                                                        .Img(
-                                                                            src: Locations.Get(
-                                                                                context: context,
-                                                                                "Images",
-                                                                                "i_menu_setting.svg")))
-                                                                .Span(
-                                                                    action: () => hb
-                                                                        .Text("管理")))
-                                                        .Div(
-                                                            css: "menubox-sub",
+                                                                .Img(
+                                                                    src: Locations.Get(
+                                                                        context: context,
+                                                                        "Images",
+                                                                        "i_menu_setting.svg")))
+                                                        .Span(
                                                             action: () => hb
-                                                                .Ul(action: () => hb
-                                                                    .Li(action: () => hb
-                                                                        .A(
-                                                                            href: "dummy",
-                                                                            text: "テーブルの管理"))
-                                                                    .Li(action: () => hb
-                                                                        .A(
-                                                                            href: "dummy",
-                                                                            text: "テナントの管理"))
-                                                                    .Li(action: () => hb
-                                                                        .A(
-                                                                            href: "dummy",
-                                                                            text: "組織の管理"))
-                                                                    .Li(action: () => hb
-                                                                        .A(
-                                                                            href: "dummy",
-                                                                            text: "グループの管理"))
-                                                                    .Li(action: () => hb
-                                                                        .A(
-                                                                            href: "dummy",
-                                                                            text: "ユーザの管理"))
-                                                                    .Li(action: () => hb
-                                                                        .A(
-                                                                            href: "dummy",
-                                                                            text: "サイトパッケージのエクスポート"))
-                                                                    .Li(action: () => hb
-                                                                        .A(
-                                                                            href: "dummy",
-                                                                            text: "ごみ箱")))))
+                                                                .Text("管理")))
                                                 .Div(
-                                                    css: "menubox",
+                                                    css: "menubox-sub",
                                                     action: () => hb
-                                                        .Input(
-                                                            attributes: new HtmlAttributes()
-                                                                .Type("checkbox"),
-                                                            id: "block-04",
-                                                            css: "toggle")
-                                                        .Label(
-                                                            css: "menulabel",
-                                                            attributes: new HtmlAttributes()
-                                                                .For("block-04"),
+                                                        .Ul(action: () => hb
+                                                            .Li(action: () => hb
+                                                                .A(
+                                                                    href: "dummy",
+                                                                    text: "テーブルの管理"))
+                                                            .Li(action: () => hb
+                                                                .A(
+                                                                    href: "dummy",
+                                                                    text: "テナントの管理"))
+                                                            .Li(action: () => hb
+                                                                .A(
+                                                                    href: "dummy",
+                                                                    text: "組織の管理"))
+                                                            .Li(action: () => hb
+                                                                .A(
+                                                                    href: "dummy",
+                                                                    text: "グループの管理"))
+                                                            .Li(action: () => hb
+                                                                .A(
+                                                                    href: "dummy",
+                                                                    text: "ユーザの管理"))
+                                                            .Li(action: () => hb
+                                                                .A(
+                                                                    href: "dummy",
+                                                                    text: "サイトパッケージのエクスポート"))
+                                                            .Li(action: () => hb
+                                                                .A(
+                                                                    href: "dummy",
+                                                                    text: "ごみ箱")))))
+                                        .Div(
+                                            css: "menubox",
+                                            action: () => hb
+                                                .Input(
+                                                    attributes: new HtmlAttributes()
+                                                        .Type("checkbox"),
+                                                    id: "block-04",
+                                                    css: "toggle")
+                                                .Label(
+                                                    css: "menulabel",
+                                                    attributes: new HtmlAttributes()
+                                                        .For("block-04"),
+                                                    action: () => hb
+                                                        .Span(
                                                             action: () => hb
-                                                                .Span(
-                                                                    action: () => hb
-                                                                        .Img(
-                                                                            src: Locations.Get(
-                                                                                context: context,
-                                                                                "Images",
-                                                                                "i_menu_help.svg")))
-                                                                .Span(
-                                                                    action: () => hb
-                                                                        .Text("ヘルプ")))
-                                                        .Div(
-                                                            css: "menubox-sub",
+                                                                .Img(
+                                                                    src: Locations.Get(
+                                                                        context: context,
+                                                                        "Images",
+                                                                        "i_menu_help.svg")))
+                                                        .Span(
                                                             action: () => hb
-                                                                .Ul(action: () => hb
-                                                                    .Li(action: () => hb
-                                                                        .A(
-                                                                            href: "dummy",
-                                                                            text: "ユーザマニュアル"))
-                                                                    .Li(action: () => hb
-                                                                        .A(
-                                                                            href: "dummy",
-                                                                            text: "年間サポートサービス"))
-                                                                    .Li(action: () => hb
-                                                                        .A(
-                                                                            href: "dummy",
-                                                                            text: "Enterprise edition"))
-                                                                    .Li(action: () => hb
-                                                                        .A(
-                                                                            href: "dummy",
-                                                                            text: "ブログ"))
-                                                                    .Li(action: () => hb
-                                                                        .A(
-                                                                            href: "dummy",
-                                                                            text: "お問い合わせ"))
-                                                                    .Li(action: () => hb
-                                                                        .A(
-                                                                            href: "dummy",
-                                                                            text: "Pleasanter.net"))
-                                                                    .Li(action: () => hb
-                                                                        .A(
-                                                                            href: "dummy",
-                                                                            text: "バージョン")))))
+                                                                .Text("ヘルプ")))
                                                 .Div(
-                                                    css: "menubox",
+                                                    css: "menubox-sub",
                                                     action: () => hb
-                                                        .Input(
-                                                            attributes: new HtmlAttributes()
-                                                                .Type("checkbox"),
-                                                            id: "block-05",
-                                                            css: "toggle")
-                                                        .Label(
-                                                            css: "menulabel",
-                                                            attributes: new HtmlAttributes()
-                                                                .For("block-05"),
+                                                        .Ul(action: () => hb
+                                                            .Li(action: () => hb
+                                                                .A(
+                                                                    href: "dummy",
+                                                                    text: "ユーザマニュアル"))
+                                                            .Li(action: () => hb
+                                                                .A(
+                                                                    href: "dummy",
+                                                                    text: "年間サポートサービス"))
+                                                            .Li(action: () => hb
+                                                                .A(
+                                                                    href: "dummy",
+                                                                    text: "Enterprise edition"))
+                                                            .Li(action: () => hb
+                                                                .A(
+                                                                    href: "dummy",
+                                                                    text: "ブログ"))
+                                                            .Li(action: () => hb
+                                                                .A(
+                                                                    href: "dummy",
+                                                                    text: "お問い合わせ"))
+                                                            .Li(action: () => hb
+                                                                .A(
+                                                                    href: "dummy",
+                                                                    text: "Pleasanter.net"))
+                                                            .Li(action: () => hb
+                                                                .A(
+                                                                    href: "dummy",
+                                                                    text: "バージョン")))))
+                                        .Div(
+                                            css: "menubox",
+                                            action: () => hb
+                                                .Input(
+                                                    attributes: new HtmlAttributes()
+                                                        .Type("checkbox"),
+                                                    id: "block-05",
+                                                    css: "toggle")
+                                                .Label(
+                                                    css: "menulabel",
+                                                    attributes: new HtmlAttributes()
+                                                        .For("block-05"),
+                                                    action: () => hb
+                                                        .Span(
                                                             action: () => hb
-                                                                .Span(
-                                                                    action: () => hb
-                                                                        .Img(
-                                                                            src: Locations.Get(
-                                                                                context: context,
-                                                                                "Images",
-                                                                                "i_menu_admin.svg")))
-                                                                .Span(
-                                                                    action: () => hb
-                                                                        .Text("ユーザ")))
-                                                        .Div(
-                                                            css: "menubox-sub",
+                                                                .Img(
+                                                                    src: Locations.Get(
+                                                                        context: context,
+                                                                        "Images",
+                                                                        "i_menu_admin.svg")))
+                                                        .Span(
                                                             action: () => hb
-                                                                .Ul(action: () => hb
-                                                                    .Li(action: () => hb
-                                                                        .A(
-                                                                            href: "dummy",
-                                                                            text: "ログアウト"))
-                                                                    .Li(action: () => hb
-                                                                        .A(
-                                                                            href: "dummy",
-                                                                            text: "プロファイル編集"))
-                                                                    .Li(action: () => hb
-                                                                        .A(
-                                                                            href: "dummy",
-                                                                            text: "API設定")))))))
-                                    .Div(
-                                        css: "hamburger-closelabel",
-                                        action: () => hb
-                                            .Label(
-                                                attributes: new HtmlAttributes()
-                                                    .For("hamburger"),
-                                                    css: "hamburger-cover"))))
+                                                                .Text("ユーザ")))
+                                                .Div(
+                                                    css: "menubox-sub",
+                                                    action: () => hb
+                                                        .Ul(action: () => hb
+                                                            .Li(action: () => hb
+                                                                .A(
+                                                                    href: "dummy",
+                                                                    text: "ログアウト"))
+                                                            .Li(action: () => hb
+                                                                .A(
+                                                                    href: "dummy",
+                                                                    text: "プロファイル編集"))
+                                                            .Li(action: () => hb
+                                                                .A(
+                                                                    href: "dummy",
+                                                                    text: "API設定")))))))
+                            .Div(
+                                css: "hamburger-closelabel",
+                                action: () => hb
+                                    .Label(
+                                        attributes: new HtmlAttributes()
+                                            .For("hamburger"),
+                                            css: "hamburger-cover")))
                 : hb;
         }
 
