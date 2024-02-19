@@ -635,7 +635,9 @@ namespace Implem.Pleasanter.Models
             {
                 return null;
             }
-            return FileContentResults.DownloadTemp(context: context, guid: guid.ToUpper());
+            return FileContentResults.DownloadTemp(
+                context: context,
+                guid: guid.ToUpper());
         }
 
         /// <summary>
