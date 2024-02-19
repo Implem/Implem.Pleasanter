@@ -661,6 +661,10 @@ namespace Implem.Pleasanter.Libraries.Models
             bool multiple)
         {
             var pastPermission = context.Forms.Data("InheritPermission");
+            if (pastPermission.IsNullOrEmpty())
+            {
+                pastPermission = ss.InheritPermission.ToString();
+            }
             var selectedPermission = selected.FirstOrDefault();
             var optionCollection = PermissionUtilities.InheritTargets(
                 context: context,
