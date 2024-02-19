@@ -648,8 +648,12 @@ namespace Implem.Pleasanter.Models
                 return null;
             }
             var guid = context.Forms.Data("Guid");
-            RemoveTempFileSession(context: context, guid: guid);
-            Libraries.DataSources.File.DeleteTemp(context: context, guid: guid);
+            RemoveTempFileSession(
+                context: context,
+                guid: guid);
+            Libraries.DataSources.File.DeleteTemp(
+                context: context,
+                guid: guid);
             return "[]";
         }
 
