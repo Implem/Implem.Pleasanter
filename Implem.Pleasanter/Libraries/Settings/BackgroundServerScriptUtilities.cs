@@ -104,6 +104,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .UsingJobData("tenantId", backgroundServerScripts.TenantId)
                 .UsingJobData("scriptId", script.Id)
                 .UsingJobData("userId", script.UserId.ToString())
+                .UsingJobData("scheduleId", -1)
                 .UsingJobData("scripts", backgroundServerScripts.ToJson())
                 .Build();
             await scheduler.AddJob(job, replace: true, storeNonDurableWhileAwaitingScheduling: true);
