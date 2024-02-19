@@ -20,7 +20,6 @@ using Implem.Pleasanter.Libraries.Web;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.IO;
 using System.Linq;
 using System.Web;
 using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
@@ -841,7 +840,7 @@ namespace Implem.Pleasanter.Models
                 // Binariesテーブルに直接アップロードしてきたバイナリデータを登録する
                 for (int filesIndex = 0; filesIndex < context.PostedFiles.Count; ++filesIndex)
                 {
-                    using (MemoryStream memory = new MemoryStream())
+                    using (var memory = new System.IO.MemoryStream())
                     {
                         var file = context.PostedFiles[filesIndex];
                         file.InputStream.CopyTo(memory);
@@ -931,7 +930,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static FileInfo GetTempFileInfo(string fileUuid, string fileName)
+        public static System.IO.FileInfo GetTempFileInfo(string fileUuid, string fileName)
         {
             var tempDirectoryInfo = new System.IO.DirectoryInfo(DefinitionAccessor.Directories.Temp());
             if (!tempDirectoryInfo.Exists)
@@ -1067,6 +1066,9 @@ namespace Implem.Pleasanter.Models
                 bytes: hashValue);
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static Error.Types ValidateFileHash(
             byte[] tempBinaryHash,
             System.Net.Http.Headers.ContentRangeHeaderValue contentRange,
@@ -1079,6 +1081,9 @@ namespace Implem.Pleasanter.Models
                 bytes: tempBinaryHash);
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static Error.Types CompareFileHash(string hash, byte[] bytes)
         {
             var fileHash = string.Join(string.Empty, bytes.Select(h => h.ToString("x2")));
