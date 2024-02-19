@@ -695,7 +695,7 @@ td {
     background: #fff;
     height: 64px;
     padding: 1em;
-    position: fixed;
+    position: absolute;
     width: 92%;
     right: 10px;
 }
@@ -722,11 +722,12 @@ td {
 
 .hamburger-switch {
     cursor: pointer;
-    position: absolute;
+    position: fixed;
     left: 16px;
     top: 16px;
     width: 20px;
     height: 20px;
+    z-index: 9999;
 }
 
 .hamburger-switch-line, .hamburger-switch-line:before, .hamburger-switch-line:after {
@@ -814,7 +815,7 @@ td {
     position: fixed;
     width: 100%;
     height: 100%;
-    top: 50;
+    top: 50px;
     left: 0;
 }
 
@@ -906,7 +907,6 @@ section.accordion {
 }
 
 .menubox label span:first-child {
-    width: 32px;
     padding: 10px;
 }
 
@@ -923,7 +923,7 @@ section.accordion {
 }
 
 .menubox-sub ul li a {
-    width: calc(100% - 60px);
+    width: 100%;
     padding: 8px 8px 8px 52px;
 }
 
