@@ -835,10 +835,9 @@ namespace Implem.Pleasanter.Models
             // 一覧編集画面からアップロードが行われた場合、ControlIdにSuffixが付与される
             // Suffixが付与されている場合にはcontrolOnlyをtrueにしてLabelTextが出力されないようにする
             var controlOnly = !context.Forms.ControlId().RegexFirst("_\\d+_-?\\d+$").IsNullOrEmpty();
-            if (Parameters.BinaryStorage.Provider == "Rds"
-                && Parameters.BinaryStorage.UploadTemporaryStorageProbider == "Rds")
+            if (Parameters.BinaryStorage.TemporaryBinaryStorageProvider == "Rds")
             {
-                var resultFileNames = new List<string>();
+                var resultFileNames = new List<dynamic>();
                 // Binariesテーブルに直接アップロードしてきたバイナリデータを登録する
                 for (int filesIndex = 0; filesIndex < context.PostedFiles.Count; ++filesIndex)
                 {
@@ -849,40 +848,35 @@ namespace Implem.Pleasanter.Models
                         Repository.ExecuteNonQuery(
                             context: context,
                             statements: new SqlStatement(
-                                commandText: Def.Sql.UpsertBinaries,
+                                commandText: context.Sqls.UpsertBinary,
                                 param: new SqlParamCollection{
-                                    { "TenantId", context.TenantId },
                                     { "ReferenceId", context.Id },
                                     { "Guid", fileUuid[filesIndex] },
                                     { "BinaryType", "Temporary" },
-                                    { "Title",  fileNames[filesIndex] },
+                                    { "Title",  file.FileName },
                                     { "Bin", memory.ToArray() },
-                                    { "Creator", context.User.Id },
-                                    { "Updator", context.User.Id },
                                 }));
+                        resultFileNames.Add(new { name = file.FileName });
                     }
-                    resultFileNames.Add(fileNames[filesIndex]);
                     SaveTempFileSession(
                         context: context,
                         guid: fileUuid[filesIndex]);
-                    {
-                        var tempBinaryHash = Repository.ExecuteScalar_bytes(
+                    var tempBinaryHash = Repository.ExecuteScalar_bytes(
                             context: context,
                             statements: new SqlStatement(
-                                commandText: Def.Sql.GetBinaryHash,
+                                commandText: context.Sqls.GetBinaryHash,
                                 param: new SqlParamCollection{
                                     { "Algorithm", "md5" },
                                     { "Guid", fileUuid[filesIndex] }
                                 }));
-                        var invalid = ValidateFileHash(
-                            tempBinaryHash: tempBinaryHash,
-                            contentRange: contentRange,
-                            hash: fileHash);
-                        if (invalid != Error.Types.None) return invalid.MessageJson(context);
-                    }
+                    var invalid = ValidateFileHash(
+                        tempBinaryHash: tempBinaryHash,
+                        contentRange: contentRange,
+                        hash: fileHash);
+                    if (invalid != Error.Types.None) return invalid.MessageJson(context);
                 }
                 return CreateResult(
-                    resultFileNames: resultFileNames,
+                    resultFileNames: resultFileNames.ToArray(),
                     responseJson: CreateResponseJson(
                         context: context,
                         fileUuids: fileUuids,
@@ -907,14 +901,19 @@ namespace Implem.Pleasanter.Models
                         new KeyValuePair<PostedFile, System.IO.FileInfo>(
                             file,
                             saveFile));
-                    SaveTempFileSession(context: context, guid: fileUuid[filesIndex]);
+                    SaveTempFileSession(
+                        context: context,
+                        guid: fileUuid[filesIndex]);
                 }
-                {
-                    var invalid = ValidateFileHash(resultFileNames[0].Value, contentRange, fileHash);
-                    if (invalid != Error.Types.None) return invalid.MessageJson(context);
-                }
+                var invalid = ValidateFileHash(
+                    fileInfo: resultFileNames[0].Value,
+                    contentRange: contentRange,
+                    hash: fileHash);
+                if (invalid != Error.Types.None) return invalid.MessageJson(context);
                 return CreateResult(
-                    resultFileNames: resultFileNames,
+                    resultFileNames: resultFileNames
+                        .Select(file => new { name = file.Value.Name })
+                        .ToArray(),
                     responseJson: CreateResponseJson(
                         context: context,
                         fileUuids: fileUuids,
@@ -977,23 +976,7 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static string CreateResult(
-            List<KeyValuePair<PostedFile, System.IO.FileInfo>> resultFileNames,
-            string responseJson)
-        {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(
-                new
-                {
-                    files = resultFileNames.Select(
-                    file => new { name = file.Value.Name }).ToArray(),
-                    ResponseJson = responseJson
-                });
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private static string CreateResult(
-            List<string> resultFileNames,
+            dynamic[] resultFileNames,
             string responseJson)
         {
             return Newtonsoft.Json.JsonConvert.SerializeObject(
@@ -1079,8 +1062,9 @@ namespace Implem.Pleasanter.Models
                 hashValue = System.Security.Cryptography.MD5.Create().ComputeHash(fileStream);
                 fileStream.Close();
             }
-            var fileHash = string.Join(string.Empty, hashValue.Select(h => h.ToString("x2")));
-            return hash == fileHash ? Error.Types.None : Error.Types.InvalidRequest;
+            return CompareFileHash(
+                hash: hash,
+                bytes: hashValue);
         }
 
         public static Error.Types ValidateFileHash(
@@ -1090,7 +1074,14 @@ namespace Implem.Pleasanter.Models
         {
             if (string.IsNullOrEmpty(hash)) return Error.Types.None;
             if (contentRange.Length > (contentRange.To + 1)) return Error.Types.None;
-            var fileHash = string.Join(string.Empty, tempBinaryHash.Select(h => h.ToString("x2")));
+            return CompareFileHash(
+                hash: hash,
+                bytes: tempBinaryHash);
+        }
+
+        public static Error.Types CompareFileHash(string hash, byte[] bytes)
+        {
+            var fileHash = string.Join(string.Empty, bytes.Select(h => h.ToString("x2")));
             return hash == fileHash ? Error.Types.None : Error.Types.InvalidRequest;
         }
 

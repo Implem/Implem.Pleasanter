@@ -142,8 +142,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         {
             if (Added == true)
             {
-                if (Parameters.BinaryStorage.Provider == "Rds"
-                    && Parameters.BinaryStorage.UploadTemporaryStorageProbider == "Rds")
+                if (Parameters.BinaryStorage.TemporaryBinaryStorageProvider == "Rds")
                 {
                     // Binariesテーブルにアップロードした一時的なレコードを更新する
                     // 一時的なレコードのBinaryTypeをTemporaryからAttachmentsに変更する
@@ -282,7 +281,9 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             {
                 WriteToLocal(context: context);
             }
-            var bin = isLocal ? default : GetBin(context);
+            var bin = isLocal
+                ? default
+                : GetBin(context: context);
             var statements = new List<SqlStatement>();
             statements.Add(Rds.InsertBinaries(
                 selectIdentity: true,
@@ -332,17 +333,18 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 }
             }
             else
-            {   if (Parameters.BinaryStorage.Provider == "Rds"
-                    && Parameters.BinaryStorage.UploadTemporaryStorageProbider == "Rds")
+            {   if (Parameters.BinaryStorage.TemporaryBinaryStorageProvider == "Rds")
                 {
                     var hash = Repository.ExecuteScalar_bytes(
                         context: context,
                         statements: new SqlStatement(
-                            commandText: Def.Sql.GetBinaryHash,
-                                param: new SqlParamCollection{
-                                    { "Algorithm", Parameters.Rds.Dbms == "SQLServer" ? "SHA2_256" : "sha256"},
-                                    { "Guid", Guid }
-                                }));
+                            commandText: context.Sqls.GetBinaryHash,
+                            param: new SqlParamCollection{
+                                { "Algorithm", Parameters.Rds.Dbms == "SQLServer"
+                                    ? "sha2_256"
+                                    : "sha256" },
+                                { "Guid", Guid }
+                            }));
                     HashCode = System.Convert.ToBase64String(hash);
                 }
                 else

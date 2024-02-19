@@ -279,8 +279,7 @@ namespace Implem.Pleasanter.Libraries.Responses
 
         public static ResponseFile DownloadTemp(Context context, string guid)
         {
-            if (Parameters.BinaryStorage.Provider == "Rds"
-                && Parameters.BinaryStorage.UploadTemporaryStorageProbider == "Rds")
+            if (Parameters.BinaryStorage.TemporaryBinaryStorageProvider == "Rds")
             {
                 var dataRow = Repository.ExecuteTable(
                     context: context,

@@ -21,9 +21,9 @@
     "LocalFolderTotalMaxSize": 30720,
     "UseStorageSelect": false,
     "DefaultBinaryStorageProvider": "DataBase",
+    "TemporaryBinaryStorageProvider": null,
     "ImageLimitSize": null,
     "ThumbnailLimitSize": null,
     "ThumbnailMinSize": 100,
-    "ThumbnailMaxSize": 1000,
-    "UploadTemporaryStorageProbider": null
+    "ThumbnailMaxSize": 1000
 }

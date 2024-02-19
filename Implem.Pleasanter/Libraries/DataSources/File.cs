@@ -8,8 +8,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
     {
         public static void DeleteTemp(Context context, string guid)
         {
-            if (Parameters.BinaryStorage.Provider == "Rds"
-                && Parameters.BinaryStorage.UploadTemporaryStorageProbider == "Rds")
+            if (Parameters.BinaryStorage.TemporaryBinaryStorageProvider == "Rds")
             {
                 Repository.ExecuteNonQuery(
                     context: context,
@@ -32,7 +31,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return Path.GetExtension(file.FileName);
         }
 
-        public static byte[] Byte(this IHttpPostedFile file)    
+        public static byte[] Byte(this IHttpPostedFile file)
         {
             using (var inputStream = file.InputStream())
             {
@@ -47,8 +46,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static string WriteToTemp(this IHttpPostedFile file)
         {
             var guid = Strings.NewGuid();
-            if (Parameters.BinaryStorage.Provider == "Rds"
-                && Parameters.BinaryStorage.UploadTemporaryStorageProbider == "Rds") return guid;
+            if (Parameters.BinaryStorage.TemporaryBinaryStorageProvider == "Rds") return guid;
             var folderPath = Path.Combine(Path.Combine(Directories.Temp(), guid));
             if (!folderPath.Exists()) Directory.CreateDirectory(folderPath);
             var filePath = Path.Combine(
