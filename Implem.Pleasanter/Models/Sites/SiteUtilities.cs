@@ -3933,49 +3933,29 @@ namespace Implem.Pleasanter.Models
                         switch (referenceType)
                         {
                             case "Sites":
-                                hb.Div(
-                                    css: "site-icon",
-                                    action: () => hb
-                                        .Img(src: Locations.Get(
-                                            context: context,
-                                            "Images",
-                                            "ico_site_folder.svg")));
+                                hb.SiteMenuIcon(
+                                    context: context,
+                                    iconName: "ico_site_folder.svg");
                                 break;
                             case "Issues":
-                                hb.Div(
-                                    css: "site-icon",
-                                    action: () => hb
-                                        .Img(src: Locations.Get(
-                                            context: context,
-                                            "Images",
-                                            "ico_site_table_task.svg")));
+                                hb.SiteMenuIcon(
+                                    context: context,
+                                    iconName: "ico_site_table_task.svg");
                                 break;
                             case "Results":
-                                hb.Div(
-                                    css: "site-icon",
-                                    action: () => hb
-                                        .Img(src: Locations.Get(
-                                            context: context,
-                                            "Images",
-                                            "ico_site_table_record.svg")));
+                                hb.SiteMenuIcon(
+                                    context: context,
+                                    iconName: "ico_site_table_record.svg");
                                 break;
                             case "Wikis":
-                                hb.Div(
-                                    css: "site-icon",
-                                    action: () => hb
-                                        .Img(src: Locations.Get(
-                                            context: context,
-                                            "Images",
-                                            "ico_site_wiki.svg")));
+                                hb.SiteMenuIcon(
+                                    context: context,
+                                    iconName: "ico_site_wiki.svg");
                                 break;
                             case "Dashboards":
-                                hb.Div(
-                                    css: "site-icon",
-                                    action: () => hb
-                                        .Img(src: Locations.Get(
-                                            context: context,
-                                            "Images",
-                                            "ico_site_dashboard.svg")));
+                                hb.SiteMenuIcon(
+                                    context: context,
+                                    iconName: "ico_site_dashboard.svg");
                                 break;
                             default:
                                 break;
@@ -4033,6 +4013,23 @@ namespace Implem.Pleasanter.Models
                     cssText: "title",
                     text: title);
             }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder SiteMenuIcon(
+            this HtmlBuilder hb,
+            Context context,
+            string iconName)
+        {
+            return hb.Div(
+                css: "site-icon",
+                action: () => hb
+                    .Img(src: Locations.Get(
+                        context: context,
+                        "Images",
+                        iconName)));
         }
 
         /// <summary>
