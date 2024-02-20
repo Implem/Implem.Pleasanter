@@ -84,6 +84,7 @@ namespace Implem.Pleasanter.Models
                 siteId: ss.SiteId,
                 parentId: ss.ParentId,
                 referenceType: "Sites",
+                useTitle: false,
                 script: JavaScripts.ViewMode(viewMode),
                 userScript: ss.ViewModeScripts(context: context),
                 userStyle: ss.ViewModeStyles(context: context),
@@ -3628,6 +3629,7 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 view: null,
                 referenceType: "Sites",
+                useTitle: false,
                 script: (Parameters.Site.TopOrderBy <= 0
                     || context.UserId == Parameters.Site.TopOrderBy
                     || Permissions.PrivilegedUsers(loginId: context.LoginId))
@@ -3697,6 +3699,7 @@ namespace Implem.Pleasanter.Models
                 siteId: siteModel.SiteId,
                 parentId: siteModel.ParentId,
                 referenceType: "Sites",
+                useTitle: false,
                 script: "$p.setSiteMenu();",
                 action: () =>
                 {

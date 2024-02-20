@@ -931,6 +931,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_UpdateParameters_Sites": Code.Model_Utilities_UpdateParameters_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_UpdateParameters_Sites, definitionRow, CodeXls); break;
                     case "Model_Utilities_UpsertByApi": Code.Model_Utilities_UpsertByApi = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_UpsertByApi, definitionRow, CodeXls); break;
                     case "Model_Utilities_UpsertByServerScript": Code.Model_Utilities_UpsertByServerScript = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_UpsertByServerScript, definitionRow, CodeXls); break;
+                    case "Model_Utilities_UseTitle": Code.Model_Utilities_UseTitle = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_UseTitle, definitionRow, CodeXls); break;
                     case "Model_Utilities_View": Code.Model_Utilities_View = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_View, definitionRow, CodeXls); break;
                     case "Model_Utilities_ViewSelectorField": Code.Model_Utilities_ViewSelectorField = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ViewSelectorField, definitionRow, CodeXls); break;
                     case "Model_Utilities_ViewSelectorFieldWithShowHistory": Code.Model_Utilities_ViewSelectorFieldWithShowHistory = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ViewSelectorFieldWithShowHistory, definitionRow, CodeXls); break;
@@ -7406,6 +7407,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_UpdateParameters_Sites;
         public string Model_Utilities_UpsertByApi;
         public string Model_Utilities_UpsertByServerScript;
+        public string Model_Utilities_UseTitle;
         public string Model_Utilities_View;
         public string Model_Utilities_ViewSelectorField;
         public string Model_Utilities_ViewSelectorFieldWithShowHistory;
@@ -8228,6 +8230,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_UpdateParameters_Sites = new CodeDefinition();
         public CodeDefinition Model_Utilities_UpsertByApi = new CodeDefinition();
         public CodeDefinition Model_Utilities_UpsertByServerScript = new CodeDefinition();
+        public CodeDefinition Model_Utilities_UseTitle = new CodeDefinition();
         public CodeDefinition Model_Utilities_View = new CodeDefinition();
         public CodeDefinition Model_Utilities_ViewSelectorField = new CodeDefinition();
         public CodeDefinition Model_Utilities_ViewSelectorFieldWithShowHistory = new CodeDefinition();
