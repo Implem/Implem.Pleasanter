@@ -67,6 +67,8 @@
     "GanttPeriodMax": 180,
     "BurnDownLimit": 1000,
     "TimeSeriesLimit": 1000,
+    "AnalyPartPeriodValueMin": 0,
+    "AnalyPartPeriodValueMax": 99999,
     "KambanLimit": 1000,
     "KambanXLimit": 50,
     "KambanYLimit": 300,

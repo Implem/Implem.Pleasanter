@@ -569,6 +569,36 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Analy(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Analy",
+                data: data);
+        }
+
+        public static string AnalyPart(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AnalyPart",
+                data: data);
+        }
+
+        public static string AnalySettings(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AnalySettings",
+                data: data);
+        }
+
         public static string Anchor(
             Context context,
             params string[] data)
@@ -2419,6 +2449,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Creator(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Creator",
+                data: data);
+        }
+
         public static string Crosstab(
             Context context,
             params string[] data)
@@ -2776,6 +2816,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "DaysAgo",
+                data: data);
+        }
+
+        public static string DaysAgoNoArgs(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "DaysAgoNoArgs",
                 data: data);
         }
 
@@ -4129,6 +4179,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Future(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Future",
+                data: data);
+        }
+
         public static string Fy(
             Context context,
             params string[] data)
@@ -4516,6 +4576,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "HoursAgo",
+                data: data);
+        }
+
+        public static string HoursAgoNoArgs(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "HoursAgoNoArgs",
                 data: data);
         }
 
@@ -6309,6 +6379,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string MinutesAgoNoArgs(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "MinutesAgoNoArgs",
+                data: data);
+        }
+
         public static string MinutesStep(
             Context context,
             params string[] data)
@@ -6396,6 +6476,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "MonthsAgo",
+                data: data);
+        }
+
+        public static string MonthsAgoNoArgs(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "MonthsAgoNoArgs",
                 data: data);
         }
 
@@ -7436,6 +7526,26 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "PasswordResetCompleted",
+                data: data);
+        }
+
+        public static string Past(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Past",
+                data: data);
+        }
+
+        public static string PastOrFuture(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "PastOrFuture",
                 data: data);
         }
 
@@ -8496,6 +8606,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "SecondsAgo",
+                data: data);
+        }
+
+        public static string SecondsAgoNoArgs(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SecondsAgoNoArgs",
                 data: data);
         }
 
@@ -10489,6 +10609,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string YearsAgoNoArgs(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "YearsAgoNoArgs",
+                data: data);
+        }
+
         public static string Ym(
             Context context,
             params string[] data)
@@ -12246,6 +12376,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Sessions_Value",
+                data: data);
+        }
+
+        public static string Sites_AnalyGuide(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Sites_AnalyGuide",
                 data: data);
         }
 

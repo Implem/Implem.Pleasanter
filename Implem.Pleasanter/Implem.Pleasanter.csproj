@@ -2,12 +2,12 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <Copyright>Copyright © Implem Inc 2014 - 2023</Copyright>
+    <Copyright>Copyright © Implem Inc 2014 - 2024</Copyright>
     <Description>Business application platform</Description>
     <AssemblyName>Implem.Pleasanter</AssemblyName>
-    <AssemblyVersion>1.4.0.1</AssemblyVersion>
-    <FileVersion>1.4.0.1</FileVersion>
-    <Version>1.4.0.1</Version>
+    <AssemblyVersion>1.4.1.1</AssemblyVersion>
+    <FileVersion>1.4.1.1</FileVersion>
+    <Version>1.4.1.1</Version>
     <Nullable>disable</Nullable>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
@@ -94,6 +94,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="App_Data\Definitions\Definition_Code\Base_PropertyUpdated_Num.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_DashboardGridRowsCases.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_ImportByApi.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_SetCopyDefault.json" />

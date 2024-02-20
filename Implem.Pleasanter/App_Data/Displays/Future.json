@@ -1,0 +1,33 @@
+﻿{
+    "Id": "Future",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Future"
+        },
+        {
+            "Language": "zh",
+            "Body": "未来"
+        },
+        {
+            "Language": "ja",
+            "Body": "未来"
+        },
+        {
+            "Language": "de",
+            "Body": "Zukunft"
+        },
+        {
+            "Language": "ko",
+            "Body": "미래"
+        },
+        {
+            "Language": "es",
+            "Body": "futuro"
+        },
+        {
+            "Language": "vn",
+            "Body": "tương lai"
+        }
+    ]
+}

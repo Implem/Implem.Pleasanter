@@ -1356,6 +1356,54 @@ namespace Implem.Pleasanter.Models
                 || Updator_Updated(context: context);
         }
 
+        private bool UpdatedWithColumn(Context context, SiteSettings ss)
+        {
+            return ClassHash.Any(o => Class_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || NumHash.Any(o => Num_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || DateHash.Any(o => Date_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || DescriptionHash.Any(o => Description_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || CheckHash.Any(o => Check_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || AttachmentsHash.Any(o => Attachments_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)));
+        }
+
+        public bool Updated(Context context, SiteSettings ss)
+        {
+            return UpdatedWithColumn(context: context, ss: ss)
+                || TenantId_Updated(context: context)
+                || Ver_Updated(context: context)
+                || TenantName_Updated(context: context)
+                || Title_Updated(context: context)
+                || Body_Updated(context: context)
+                || ContractSettings_Updated(context: context)
+                || ContractDeadline_Updated(context: context)
+                || DisableAllUsersPermission_Updated(context: context)
+                || DisableApi_Updated(context: context)
+                || DisableStartGuide_Updated(context: context)
+                || LogoType_Updated(context: context)
+                || HtmlTitleTop_Updated(context: context)
+                || HtmlTitleSite_Updated(context: context)
+                || HtmlTitleRecord_Updated(context: context)
+                || TopStyle_Updated(context: context)
+                || TopScript_Updated(context: context)
+                || TopDashboards_Updated(context: context)
+                || TenantSettings_Updated(context: context)
+                || Comments_Updated(context: context)
+                || Creator_Updated(context: context)
+                || Updator_Updated(context: context);
+        }
+
         public override List<string> Mine(Context context)
         {
             if (MineCache == null)

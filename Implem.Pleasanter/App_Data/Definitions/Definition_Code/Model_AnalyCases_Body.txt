@@ -1,0 +1,4 @@
+﻿case "#TableName#":
+    return #ModelName#Utilities.Analy(
+        context: context,
+        ss: Site.SiteSettings);

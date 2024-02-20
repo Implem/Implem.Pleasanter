@@ -20,6 +20,7 @@ namespace Implem.Pleasanter.Models.ApiSiteSettings
         public bool? ScriptGantt { get; set; }
         public bool? ScriptBurnDown { get; set; }
         public bool? ScriptTimeSeries { get; set; }
+        public bool? ScriptAnaly { get; set; }
         public bool? ScriptKamban { get; set; }
         public bool? ScriptImageLib { get; set; }
         public int? Delete { get; set; }

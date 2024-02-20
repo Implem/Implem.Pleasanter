@@ -28,6 +28,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
         public string GanttGuide = string.Empty;
         public string BurnDownGuide = string.Empty;
         public string TimeSeriesGuide = string.Empty;
+        public string AnalyGuide = string.Empty;
         public string KambanGuide = string.Empty;
         public string ImageLibGuide = string.Empty;
         public string ReferenceType = "Sites";
@@ -66,6 +67,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
             GanttGuide = siteModel.GanttGuide;
             BurnDownGuide = siteModel.BurnDownGuide;
             TimeSeriesGuide = siteModel.TimeSeriesGuide;
+            AnalyGuide = siteModel.AnalyGuide;
             KambanGuide = siteModel.KambanGuide;
             ImageLibGuide = siteModel.ImageLibGuide;
             ReferenceType = siteModel.ReferenceType;

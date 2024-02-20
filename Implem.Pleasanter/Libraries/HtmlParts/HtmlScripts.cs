@@ -215,6 +215,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 case "timeseries":
                     hb.Script(script: "$p.execEvents('on_timeseries_load','');");
                     break;
+                case "analy":
+                    hb.Script(script: "$p.execEvents('on_analy_load','');");
+                    break;
                 case "kamban":
                     hb.Script(script: "$p.execEvents('on_kamban_load','');");
                     break;

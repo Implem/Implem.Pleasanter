@@ -15,6 +15,7 @@ namespace Implem.Pleasanter.Libraries.Resources
                 case "gantt": return "$p.drawGantt();";
                 case "burndown": return "$p.drawBurnDown();";
                 case "timeseries": return "$p.drawTimeSeries();";
+                case "analy": return "$p.drawAnaly();";
                 case "kamban": return "$p.setKamban();";
                 case "imagelib": return "$p.setImageLib();";
             }
