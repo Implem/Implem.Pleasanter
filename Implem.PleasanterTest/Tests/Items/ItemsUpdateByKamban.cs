@@ -60,7 +60,7 @@ namespace Implem.PleasanterTest.Tests.Items
                     target: "#Guide"),
                 JsonData.ExistsOne(
                     method: "ReplaceAll",
-                    target: "#CopyDirectUrlToClipboard"),
+                    target: "#CopyToClipboards"),
                 JsonData.ExistsOne(
                     method: "ReplaceAll",
                     target: "#Aggregations"),
