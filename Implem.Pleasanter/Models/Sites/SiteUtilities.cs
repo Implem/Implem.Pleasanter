@@ -3935,27 +3935,27 @@ namespace Implem.Pleasanter.Models
                             case "Sites":
                                 hb.SiteMenuIcon(
                                     context: context,
-                                    iconName: "ico_site_folder.svg");
+                                    iconName: "icon-site-sites.svg");
                                 break;
                             case "Issues":
                                 hb.SiteMenuIcon(
                                     context: context,
-                                    iconName: "ico_site_table_task.svg");
+                                    iconName: "icon-site-issues.svg");
                                 break;
                             case "Results":
                                 hb.SiteMenuIcon(
                                     context: context,
-                                    iconName: "ico_site_table_record.svg");
+                                    iconName: "icon-site-results.svg");
                                 break;
                             case "Wikis":
                                 hb.SiteMenuIcon(
                                     context: context,
-                                    iconName: "ico_site_wiki.svg");
+                                    iconName: "icon-site-wikis.svg");
                                 break;
                             case "Dashboards":
                                 hb.SiteMenuIcon(
                                     context: context,
-                                    iconName: "ico_site_dashboard.svg");
+                                    iconName: "icon-site-dashboards.svg");
                                 break;
                             default:
                                 break;
