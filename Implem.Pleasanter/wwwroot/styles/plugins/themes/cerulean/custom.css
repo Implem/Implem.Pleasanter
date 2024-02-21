@@ -410,42 +410,42 @@ select{
 }
 
 /* 一覧画面 */
-.grid > thead > tr > th {
-    padding: 8px !important;
+#ViewModeContainer .grid > thead > tr > th {
+    padding: 8px;
     font-weight: bold;
 }
 
-td {
-    padding: 8px !important;
+#ViewModeContainer td {
+    padding: 8px;
 }
 
-.grid > tbody > tr > td {
-    border-left: 1px solid #ECECEC !important;
-    border-right: 1px solid #ECECEC !important;
+#ViewModeContainer .grid > tbody > tr > td {
+    border-left: 1px solid #ECECEC;
+    border-right: 1px solid #ECECEC;
 }
 
-.grid-row .comment {
-    margin-bottom: 0 !important;
-    padding: 4px 4px 4px 16px !important;
-    background: #EFF6FC !important;
-    border: 1px solid #EFF6FC !important;
+#ViewModeContainer .grid-row .comment {
+    margin-bottom: 0;
+    padding: 4px 4px 4px 16px;
+    background: #EFF6FC;
+    border: 1px solid #EFF6FC;
 }
 
-.grid-title-body {
-    margin-bottom: 0 !important;
-    padding: 8px !important;
+#ViewModeContainer .grid-title-body {
+    margin-bottom: 0;
+    padding: 8px;
 }
 
-.grid > thead > tr:first-child > th:last-child {
-    border-radius: 0 !important;
+#ViewModeContainer .grid > thead > tr:first-child > th:last-child {
+    border-radius: 0;
 }
 
-table td:has(.grid-title-body){
-    padding: 0 !important;
+#ViewModeContainer table td:has(.grid-title-body) {
+    padding: 0;
 }
 
-.limit-warning3 {
-    background-color: #E03E3E !important;
+#ViewModeContainer .limit-warning3 {
+    background-color: #E03E3E;
 }
 
 /* 編集画面 */
