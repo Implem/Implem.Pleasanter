@@ -258,7 +258,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                                     src: Locations.Get(
                                                                         context: context,
                                                                         "Images",
-                                                                        "i_menu_add.svg")))
+                                                                        "icon-menu-new.svg")))
                                                         .Span(
                                                             action: () => hb
                                                                 .Text("新規追加"))))
@@ -281,7 +281,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                                     src: Locations.Get(
                                                                         context: context,
                                                                         "Images",
-                                                                        "i_menu_view.svg")))
+                                                                        "icon-menu-view-mode.svg")))
                                                         .Span(
                                                             action: () => hb
                                                                 .Text("表示")))
@@ -340,7 +340,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                                     src: Locations.Get(
                                                                         context: context,
                                                                         "Images",
-                                                                        "i_menu_setting.svg")))
+                                                                        "icon-menu-settings.svg")))
                                                         .Span(
                                                             action: () => hb
                                                                 .Text("管理")))
@@ -395,7 +395,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                                     src: Locations.Get(
                                                                         context: context,
                                                                         "Images",
-                                                                        "i_menu_help.svg")))
+                                                                        "icon-menu-help.svg")))
                                                         .Span(
                                                             action: () => hb
                                                                 .Text("ヘルプ")))
@@ -450,7 +450,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                                     src: Locations.Get(
                                                                         context: context,
                                                                         "Images",
-                                                                        "i_menu_admin.svg")))
+                                                                        "icon-menu-account.svg")))
                                                         .Span(
                                                             action: () => hb
                                                                 .Text("ユーザ")))
@@ -475,7 +475,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 action: () => hb
                                     .Label(
                                         attributes: new HtmlAttributes()
-                                            .For("hamburger"),
+                                            .For("hamburger")
+                                            .OnClick("$p.closeSideMenu($(this));"),
                                             css: "hamburger-cover")))
                 : hb;
         }

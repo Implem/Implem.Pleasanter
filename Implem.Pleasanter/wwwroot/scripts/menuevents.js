@@ -10,3 +10,7 @@
         $('#' + $container.attr('data-id')).hide();
     });
 });
+
+$p.closeSideMenu = function ($control) {
+    alert('dummy');
+}
