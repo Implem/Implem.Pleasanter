@@ -107,15 +107,15 @@ body {
     margin-left: 52px;
 }
 
-#Application {
-    margin: 0 !important;
-    padding: 0 !important;
+#MainContainer #Application {
+    margin: 0;
+    padding: 0;
 }
 
 /* 共通ヘッダ */
-#Header {
+#MainContainer #Header {
     background-color: #FFFFFF;
-    border-bottom: 1px solid #CECECE !important;
+    border-bottom: 1px solid #CECECE;
 }
 
 /* クリップボードリンク */
@@ -141,16 +141,16 @@ nav.both.cf {
     display: none;
 }
 
-#Breadcrumb {
+#Application #Breadcrumb {
     display: flex;
-    margin: 0 !important;
+    margin: 0;
     background-color: #FFFFFF;
     width: 100%;
     box-shadow: 0 2px 2px rgba(0,0,0,.2);
     position: relative;
 }
 
-#Breadcrumb li {
+#Application #Breadcrumb li {
     list-style: none;
     font-size: 14px;
     height: 40px;
@@ -160,12 +160,12 @@ nav.both.cf {
     padding: 0 16px;
 }
 
-#Breadcrumb li:first-child {
+#Application #Breadcrumb li:first-child {
     padding-left: 36px !important;
 }
 
-#Breadcrumb li:before,
-#Breadcrumb li:after {
+#Application #Breadcrumb li:before,
+#Application #Breadcrumb li:after {
     content: "";
     display: block;
     position: absolute;
@@ -175,78 +175,86 @@ nav.both.cf {
     border-bottom: 20px solid transparent;
 }
 
-#Breadcrumb li:last-child {
+#Application #Breadcrumb li:last-child {
     background-color: #106EBE;
 }
 
-#Breadcrumb li:nth-last-child(2)::after {
+#Application #Breadcrumb li:nth-last-child(2)::after {
     background-color: #106EBE;
 }
 
-#Breadcrumb li:last-child::after {
+#Application #Breadcrumb li:last-child::after {
     border-left: 15px solid #106EBE;
 }
 
-#Breadcrumb li:before {
+#Application #Breadcrumb li:before {
     right: -40px;
     border-left: 15px solid #ccc;
 }
 
-#Breadcrumb li:after {
+#Application #Breadcrumb li:after {
     right: -39px;
     border-left: 15px solid #fff;
 }
 
-#Breadcrumb li:last-child a {
+#Application #Breadcrumb li:last-child a {
     color: #fff;
 }
 
-#Breadcrumb .item {
-    padding: 4px 24px 4px 12px !important;
+#Application #Breadcrumb .item {
+    padding: 4px 24px 4px 12px;
 }
 
 /* ビュー */
-#ViewSelectorField {
-    top: 5px !important;
+#MainForm #ViewSelectorField {
+    top: 5px;
 }
 
 /* フィルター */
-#ViewFilters {
-    margin: 0 !important;
-    padding: 8px 8px 0 !important;
-    border: none !important;
-    border-radius: 0 !important;
+#MainForm #ViewFilters {
+    margin: 0;
+    padding: 8px;
+    border: none;
+    border-radius: 0;
     background-color: #DEECF9;
 }
 
-#ViewFilters > .field-auto-thin {
-    height: 38px !important;
+#MainForm #ViewFilters > .field-auto-thin {
+    height: 38px;
 }
 
 /* 結果 */
-#Aggregations {
-    margin: 0 !important;
-    padding: 8px !important;
-    border: none !important;
-    border-radius: 0 !important;
+#MainForm #Aggregations {
+    margin: 0;
+    padding: 8px;
+    border: none;
+    border-radius: 0;
     background-color: #DEECF9;
 }
 
-#Aggregations .label {
-    height: auto !important;
-    margin: 0 !important;
-    border-radius: 4px !important;
-    background: #C1E1FF !important;
+#MainForm #Aggregations .label {
+    height: auto;
+    margin: 0;
+    border-radius: 4px;
+    background: #C1E1FF;
     border: 1px solid #90CAFF;
 }
 
-#Aggregations .label.overdue {
-    background: #E03E3E !important;
+#MainForm #Aggregations .label.overdue {
+    background: #E03E3E;
     border: 1px solid #E03E3E;
 }
 
-#Aggregations .data.overdue {
-    color: #E03E3E !important;
+#MainForm #Aggregations .data{
+    margin: 2px 16px 0 8px;
+}
+
+#MainForm #Aggregations span{
+    padding: 4px 8px;
+}
+
+#MainForm #Aggregations .data.overdue {
+    color: #E03E3E;
 }
 
 /* 見出しタイトル */
@@ -273,19 +281,19 @@ nav.both.cf {
     float: none !important;
 }
 
-#Aggregations .label.overdue {
+#MainForm #Aggregations .label.overdue {
     background-color: #E03E3E;
 }
 
-.grid > thead > tr:first-child > th:first-child {
-    border-radius: 0 !important;
+#MainForm .grid > thead > tr:first-child > th:first-child {
+    border-radius: 0;
 }
 
 /* フォーム */
-.control-text {
-    border: 1px solid #CECECE !important;
-    border-radius: 4px !important;
-    padding: 4px 8px 4px 8px !important;
+.field-control .control-text {
+    border: 1px solid #CECECE;
+    border-radius: 4px;
+    padding: 4px 8px 4px 8px;
 }
 
 .fieldset.enclosed,
@@ -294,13 +302,14 @@ nav.both.cf {
     background: #F8F8F8 !important;
 }
 
-.control-dropdown {
+.field-control .control-dropdown,
+.field-control .ui-multiselect {
     border-radius: 4px !important;
 }
 
-.control-textbox {
-    border-radius: 4px !important;
-    padding: 4px 8px 4px 8px !important;
+.field-control .control-textbox {
+    border-radius: 4px;
+    padding: 4px 8px 4px 8px;
 }
 
 .control-textbox:focus,
@@ -315,7 +324,7 @@ nav.both.cf {
 }
 
 .field-control .control-markup {
-    padding: 8px 28px 8px 8px !important;
+    padding: 8px 28px 8px 8px;
 }
 
 input:focus,
@@ -391,12 +400,12 @@ select{
     color: #FFFFFF;
 }
 
-.button-neutral .ui-icon,
-.button-neutral:hover .ui-icon,
-.button-negative .ui-icon,
-.button-negative:hover .ui-icon,
-.button-positive .ui-icon,
-.button-positive:hover .ui-icon {
+#MainCommands .button-neutral .ui-icon,
+#MainCommands .button-neutral:hover .ui-icon,
+#MainCommands .button-negative .ui-icon,
+#MainCommands .button-negative:hover .ui-icon,
+#MainCommands .button-positive .ui-icon,
+#MainCommands .button-positive:hover .ui-icon {
     background-image: url("images/ui-icons_ffffff_256x240.png");
 }
 
@@ -431,6 +440,10 @@ td {
     border-radius: 0 !important;
 }
 
+table td:has(.grid-title-body){
+    padding: 0 !important;
+}
+
 .limit-warning3 {
     background-color: #E03E3E !important;
 }
@@ -440,63 +453,70 @@ td {
     overflow: hidden;
 }
 
-#EditorComments {
+#MainForm #EditorComments {
     background: #DEECF9;
-    padding-top: 16px !important;
-    padding-left: 16px !important;
-    padding-right: 16px !important;
-    padding-bottom: 10000px !important;
-    margin-bottom: -10000px !important;
+    padding-top: 16px;
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-bottom: 10000px;
+    margin-bottom: -10000px;
 }
 
-.comment {
-    border: 0 !important;
-    border-bottom: 1px solid #CECECE !important;
-    background: none !important;
+#MainForm .comment {
+    border: 0;
+    border-bottom: 1px solid #CECECE;
+    background: none;
 }
 
-#EditorTabsContainer {
-    margin-bottom: 0 !important;
+#MainForm #EditorTabsContainer {
+    margin-bottom: 0;
 }
 
-#EditorTabsContainer.ui-widget-content {
+#MainForm #EditorTabsContainer.ui-widget-content {
     background: #fff;
     border: none;
 }
 
-#EditorTabsContainer.ui-tabs {
+#MainForm #EditorTabsContainer.ui-tabs,
+.template-tab-container .ui-tabs {
     padding: 0;
 }
 
-#EditorTabs.ui-widget-header {
+#MainForm #EditorTabs.ui-widget-header,
+.template-tab-container .ui-widget-header {
     background: #DEECF9;
     border: none;
     border-radius: 0;
     border-bottom: 4px solid #106EBE;
 }
 
-.ui-tabs .ui-tabs-nav li.ui-tabs-active {
+.ui-tabs .ui-tabs-nav li.ui-tabs-active,
+.template-tab-container .ui-tabs .ui-tabs-nav li.ui-tabs-active {
     padding-bottom: 0;
 }
 
-#EditorTabs li.ui-state-active {
+#MainForm #EditorTabs li.ui-state-active,
+.template-tab-container li.ui-state-active {
     border: none;
     border-radius: 4px 4px 0 0;
 }
 
-#EditorTabs li.ui-state-active a {
+#MainForm #EditorTabs li.ui-state-active a,
+.template-tab-container li.ui-state-active a {
     background: #106EBE;
     border-radius: 4px 4px 0 0;
     font-weight: bold;
     color: #fff;
 }
 
-#EditorTabs li {
+#MainForm #EditorTabs li,
+.template-tab-container li {
     border: none;
     border-radius: 4px 4px 0 0;
 }
 
-#EditorTabs li a {
+#MainForm #EditorTabs li a,
+.template-tab-container li a {
     background: #fff;
     border-radius: 4px 4px 0 0;
     color: #106EBE;
@@ -506,30 +526,27 @@ td {
     border-radius: 0;
 }
 
-#Guide > div {
-    margin: 0 0 12px 0 !important;
-    padding: 10px 16px 8px !important;
-    border: none !important;
-    border-bottom: 1px solid #cecece !important;
-    position: static !important;
-    border-radius: 0 !important;
-    background-color: #FFF9E3 !important;
+#Application #Guide > div {
+    margin: 0 0 12px 0;
+    padding: 10px 16px 8px;
+    border: none;
+    border-bottom: 1px solid #CECECE;
+    position: static;
+    border-radius: 0;
+    background-color: #FFF9E3;
 }
 
-#HeaderTitleContainer {
+#HeaderTitleContainer #HeaderTitle {
+    font-size: 16px;
+    color: #222;
 }
 
-#HeaderTitle {
-    font-size: 16px !important;
-    color: #222 !important;
+#RecordHeader #RecordInfo {
+    padding: 0 16px;
 }
 
-#RecordInfo {
-    padding: 0 16px !important;
-}
-
-#RecordInfo div p .elapsed-time {
-    background-color: #CECECE !important;
+#RecordHeader #RecordInfo div p .elapsed-time {
+    background-color: #CECECE;
 }
 
 .ui-icon, .ui-widget-content .ui-icon {
@@ -547,88 +564,103 @@ td {
     color: #FFFFFF;
 }
 
+.ui-state-default,
+.ui-widget-content .ui-state-default,
+.ui-widget-header .ui-state-default{
+    border: none;
+    color: #106EBE;
+}
+
+.template-tab-container .fieldset{
+    background-color: #FFFFFF;
+}
+
 /* フッタメッセージ */
-.message {
-    bottom: 63px !important;
+#Application .message {
+    bottom: 63px;
 }
 
-.message .body {
-    margin-bottom: 0 !important;
-    border-radius: 0 !important;
+    #Application .message .body {
+        margin-bottom: 0;
+        border-radius: 0;
+    }
+
+#Application .alert-success {
+    padding: 8px;
+    background-color: rgba(0,159,124,.9);
+    border: none;
 }
 
-.alert-success {
-    padding: 8px !important;
-    background-color: rgba(0,159,124,.9) !important;
-    border: none !important;
-}
-
-.alert-error {
-    padding: 8px !important;
-    background-color: #E03E3E !important;
-    border: none !important;
+#Application .alert-error {
+    padding: 8px;
+    background-color: #E03E3E;
+    border: none;
 }
 
 /* フッタボタン */
-#MainCommandsContainer {
-    height: 63px !important;
-    background-color: rgba(0,0,0,.5) !important;
-    bottom: 0 !important;
-    padding-top: 16px !important;
+#Application #MainCommandsContainer {
+    height: 63px;
+    background-color: rgba(0,0,0,.5);
+    bottom: 0;
+    padding-top: 16px;
 }
 
-#MainCommands > button {
-    margin: 0 8px !important;
+#Application #MainCommands > button {
+    margin: 0 8px;
+}
+
+#Application #MainCommands > button .ui-icon-person {
+    background-position: -144px -96px;
 }
 
 /* 共通フッタ（コピーライト） */
-#Footer {
-    background: none !important;
-    position: relative !important;
-    z-index: 0 !important;
+#MainContainer #Footer {
+    background: none;
+    position: relative;
+    z-index: 0;
 }
 
-#Footer a {
-    color: #666666 !important;
+#MainContainer #Footer a {
+    color: #666666;
 }
 
-#BottomMargin {
-    height: 34px !important;
+#MainContainer #BottomMargin {
+    height: 34px;
 }
 
 /* トップ（スタートガイド） */
-#StartGuide {
-    width: calc(100% - 32px) !important;
-    background-color: #FFFFFF !important;
-    border-radius: 4px !important;
-    margin: 0 16px 16px !important;
-    padding: 24px 0 0 0 !important;
+#MainForm #StartGuide {
+    width: calc(100% - 32px);
+    background-color: #FFFFFF;
+    border-radius: 4px;
+    margin: 0 16px 16px;
+    padding: 24px 0 0 0;
     box-shadow: 0 2px 2px rgba(0,0,0,.2);
 }
 
-#StartGuide > #StartGuideContents > a:hover {
-    background-color: #EFF6FC !important;
+#MainForm #StartGuide > #StartGuideContents > a:hover {
+    background-color: #EFF6FC;
 }
 
-#StartGuide > #StartGuideContents {
+#MainForm #StartGuide > #StartGuideContents {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: auto !important;
+    width: auto;
 }
 
-#StartGuide > #StartGuideContents > a {
-    margin: 0 0 !important;
-    border-radius: 4px !important;
-    padding: 16px !important;
-    width: 216px !important;
-    display: flex !important;
+#MainForm #StartGuide > #StartGuideContents > a {
+    margin: 0 0;
+    border-radius: 4px;
+    padding: 16px;
+    width: 216px;
+    display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-#StartGuide > #DisableStartGuideField {
-    margin: 24px 0 0 16px !important;
+#MainForm #StartGuide > #DisableStartGuideField {
+    margin: 24px 0 0 16px;
 }
 
 /* トップ（サイトメニュー） */
@@ -636,58 +668,119 @@ td {
     margin: 16px;
 }
 
-.heading {
+#SiteMenu .heading {
     display: none;
 }
 
-.nav-site a {
-    padding: 8px !important;
+#SiteMenu .nav-site a {
+    padding: 8px;
     text-align: center;
 }
 
-.nav-site .conditions {
-    /*position: relative !important;*/
-    top: 0 !important;
-    left: 0 !important;
+#SiteMenu .nav-site .conditions {
+    top: 0;
+    left: 0;
+    height: 40px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
 }
 
-.nav-site .conditions span:nth-of-type(1){
-    float: left;
+#SiteMenu .nav-site .conditions span:nth-of-type(2) {
+    margin-left: auto;
 }
 
-.nav-site .conditions span:nth-of-type(2),
-.nav-site .conditions span:nth-of-type(3) {
-    float: right;
+#SiteMenu .nav-site .conditions span.count {
+    background-color: #C1E1FF;
+    border: 1px solid #90CAFF;
 }
 
-.nav-site .conditions span.overdue {
-    background-color: #E03E3E !important;
+#SiteMenu .nav-site .conditions span.overdue {
+    background-color: #E03E3E;
+    border: 1px solid #E03E3E;
 }
 
-.conditions {
-    /*position: relative !important;*/
-}
-
-.nav-site {
-    width: 213px !important;
+#SiteMenu .nav-site {
+    width: 213px;
     min-height: 140px;
-    background-color: #FFFFFF !important;
-    border: none !important;
-    border-radius: 4px !important;
-    box-shadow: 0 2px 2px rgba(0,0,0,.2) !important;
+    background-color: #FFFFFF;
+    border: none;
+    border-radius: 4px;
+    box-shadow: 0 2px 2px rgba(0,0,0,.2);
 }
 
-.nav-site span.title {
-    margin: 0 !important;
+#SiteMenu .nav-site span.title {
+    margin: 0;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
 }
 
 .stacking1, .stacking2 {
     display: none;
 }
 
-.nav-site.to-parent {
-    min-height: 36px !important;
-    margin-top: 0 !important;
+#SiteMenu .nav-site.to-parent {
+    min-height: 36px;
+    margin-top: 0;
+}
+
+#TemplateTabsContainer.ui-widget.ui-widget-content {
+    border: none;
+    border-radius: 0;
+}
+
+#TemplateTabsContainer.ui-widget.ui-widget-content.ui-tabs{
+    padding: 0;
+}
+
+#TemplateTabsContainer .template-viewer {
+    background-color: #F8F8F8;
+    border: 1px solid #CECECE;
+    padding: 0;
+    margin: 0 0 0 330px !important;
+}
+
+#TemplateTabsContainer .template-viewer .description {
+    margin: 0;
+    padding: 10px 16px 8px;
+    border: none;
+    border-radius: 0;
+    border-bottom: none;
+    background: #FFF9E3;
+}
+
+#TemplateTabsContainer .template-viewer .samples-displayed {
+    margin: 0;
+    padding: 10px 16px 8px;
+    border: none;
+    border-radius: 0;
+    border-bottom: 1px solid #cecece;
+    background: #FFE1E1;
+    color: #E03E3E;
+}
+
+.viewer .template-tab-container.ui-widget.ui-widget-content {
+    border: none;
+    border-radius: 0;
+    padding: 16px;
+    background-color: #F8F8F8;
+}
+
+#SiteMenu .nav-site .conditions span{
+    background: none;
+    padding: 0 8px;
+    margin: 6px 6px 6px 0;
+}
+
+.site-icon{
+    margin: 28px 0 8px;
+}
+
+.site-icon img {
+    width: 36px;
 }
 
 /* サイドメニュー */
