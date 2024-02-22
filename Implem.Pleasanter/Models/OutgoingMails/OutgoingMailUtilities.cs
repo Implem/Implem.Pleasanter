@@ -113,7 +113,7 @@ namespace Implem.Pleasanter.Models
                             action: () => hb
                                 .Button(
                                     text: Displays.Reply(context: context),
-                                    controlCss: "button-icon",
+                                    controlCss: "button-icon button-positive",
                                     onClick: "$p.openOutgoingMailReplyDialog($(this));",
                                     dataId: outgoingMailModel.OutgoingMailId.ToString(),
                                     icon: "ui-icon-mail-closed",
@@ -288,7 +288,7 @@ namespace Implem.Pleasanter.Models
                 .Div(css: "command-center", action: () => hb
                     .Button(
                         controlId: "OutgoingMails_Send",
-                        controlCss: "button-icon validate",
+                        controlCss: "button-icon validate button-positive",
                         text: Displays.Send(context: context),
                         onClick: "$p.sendMail($(this));",
                         icon: "ui-icon-mail-closed",
@@ -297,7 +297,7 @@ namespace Implem.Pleasanter.Models
                         confirm: "ConfirmSendMail")
                     .Button(
                         controlId: "OutgoingMails_Cancel",
-                        controlCss: "button-icon",
+                        controlCss: "button-icon button-neutral",
                         text: Displays.Cancel(context: context),
                         onClick: "$p.closeDialog($(this));",
                         icon: "ui-icon-cancel"))

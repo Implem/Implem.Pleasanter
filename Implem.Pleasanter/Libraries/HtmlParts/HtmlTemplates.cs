@@ -834,12 +834,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 .Div(css: "command-center", action: () => hb
                                     .Button(
                                         text: Displays.ToShoot(context: context),
-                                        controlCss: "button-icon",
+                                        controlCss: "button-icon button-positive",
                                         onClick: "$p.toShoot($(this));",
                                         icon: "ui-icon-video")
                                     .Button(
                                         text: Displays.Cancel(context: context),
-                                        controlCss: "button-icon",
+                                        controlCss: "button-icon button-neutral",
                                         onClick: "$p.closeDialog($(this));",
                                         icon: "ui-icon-cancel")))
                         .Canvas(id: "Canvas")

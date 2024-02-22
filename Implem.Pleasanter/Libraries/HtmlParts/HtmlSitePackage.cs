@@ -74,14 +74,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         action: () => hb
                             .Button(
                                 text: Displays.Import(context: context),
-                                controlCss: "button-icon",
+                                controlCss: "button-icon button-positive",
                                 onClick: "$p.importSitePackage($(this));",
                                 icon: "ui-icon-arrowreturnthick-1-e",
                                 action: "ImportSitePackage",
                                 method: "post")
                             .Button(
                                 text: Displays.Cancel(context: context),
-                                controlCss: "button-icon",
+                                controlCss: "button-icon button-neutral",
                                 onClick: "$p.closeDialog($(this));",
                                 icon: "ui-icon-cancel")));
         }
@@ -199,14 +199,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Div(css: "command-center", action: () => hb
                             .Button(
                                 text: Displays.Export(context: context),
-                                controlCss: "button-icon",
+                                controlCss: "button-icon button-positive",
                                 onClick: "$p.exportSitePackage();",
                                 icon: "ui-icon-arrowreturnthick-1-w",
                                 action: "ExportSitePackage",
                                 method: "get")
                             .Button(
                                 text: Displays.Cancel(context: context),
-                                controlCss: "button-icon",
+                                controlCss: "button-icon button-neutral",
                                 onClick: "$p.closeDialog($(this));",
                                 icon: "ui-icon-cancel")));
         }

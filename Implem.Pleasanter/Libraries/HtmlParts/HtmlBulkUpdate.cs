@@ -39,7 +39,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                        .Button(
                            text: Displays.BulkUpdate(context: context),
                            controlId: "BulkUpdate",
-                           controlCss: "button-icon validate",
+                           controlCss: "button-icon validate button-positive",
                            accessKey: "s",
                            onClick: "$p.bulkUpdate();",
                            icon: "ui-icon-copy",
@@ -47,7 +47,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                            method: "post")
                        .Button(
                            text: Displays.Cancel(context: context),
-                           controlCss: "button-icon",
+                           controlCss: "button-icon button-neutral",
                            onClick: "$p.closeDialog($(this));",
                            icon: "ui-icon-cancel"));
                 });

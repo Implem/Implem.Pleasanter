@@ -760,7 +760,7 @@ namespace Implem.Pleasanter.Models
                     action: () => hb
                         .Button(
                             controlId: "TenantSyncByLdap",
-                            controlCss: "button-icon",
+                            controlCss: "button-icon button-positive",
                             text: Displays.SyncByLdap(context: context),
                             onClick: "$p.send($(this));",
                             icon: "ui-icon-disk",
@@ -1735,14 +1735,14 @@ namespace Implem.Pleasanter.Models
                             labelText: Displays.File(context: context))
                         .Button(
                             controlId: "SetTenantImage",
-                            controlCss: "button-icon",
+                            controlCss: "button-icon button-positive",
                             text: Displays.Upload(context: context),
                             onClick: "$p.uploadTenantImage($(this));",
                             icon: "ui-icon-disk",
                             action: "binaries/updatetenantimage",
                             method: "post")
                         .Button(
-                            controlCss: "button-icon",
+                            controlCss: "button-icon button-negative",
                             text: Displays.Delete(context: context),
                             onClick: "$p.send($(this));",
                             icon: "ui-icon-trash",
@@ -1825,7 +1825,7 @@ namespace Implem.Pleasanter.Models
                                 .Button(
                                     controlId: "ExecServerScript",
                                     text: Displays.ExecutionNow(context: context),
-                                    controlCss: "button-icon validate",
+                                    controlCss: "button-icon validate button-positive",
                                     onClick: "$p.setServerScript($(this));",
                                     icon: "ui-icon-play",
                                     action: "SetBGServerScript",
@@ -1888,7 +1888,7 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlId: "AddServerScript",
                             text: Displays.Add(context: context),
-                            controlCss: "button-icon validate",
+                            controlCss: "button-icon validate button-positive",
                             icon: "ui-icon-disk",
                             onClick: "$p.setServerScript($(this));",
                             action: "SetBGServerScript",
@@ -1897,7 +1897,7 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlId: "UpdateServerScript",
                             text: Displays.Change(context: context),
-                            controlCss: "button-icon validate",
+                            controlCss: "button-icon validate button-positive",
                             onClick: "$p.setServerScript($(this));",
                             icon: "ui-icon-disk",
                             action: "SetBGServerScript",
@@ -1905,7 +1905,7 @@ namespace Implem.Pleasanter.Models
                             _using: controlId == "EditServerScript")
                         .Button(
                             text: Displays.Cancel(context: context),
-                            controlCss: "button-icon",
+                            controlCss: "button-icon button-neutral",
                             onClick: "$p.closeDialog($(this));",
                             icon: "ui-icon-cancel"))
                         .Hidden(
@@ -2346,7 +2346,7 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlId: "AddServerScriptSchedules",
                             text: Displays.Add(context: context),
-                            controlCss: "button-icon validate",
+                            controlCss: "button-icon validate button-positive",
                             icon: "ui-icon-disk",
                             onClick: "$p.setServerScript($(this));",
                             action: "SetBGServerScript",
@@ -2355,7 +2355,7 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlId: "UpdateServerScriptSchedules",
                             text: Displays.Change(context: context),
-                            controlCss: "button-icon validate",
+                            controlCss: "button-icon validate button-positive",
                             onClick: "$p.setServerScript($(this));",
                             icon: "ui-icon-disk",
                             action: "SetBGServerScript",
@@ -2363,7 +2363,7 @@ namespace Implem.Pleasanter.Models
                             _using: controlId == "EditServerScriptSchedules")
                         .Button(
                             text: Displays.Cancel(context: context),
-                            controlCss: "button-icon",
+                            controlCss: "button-icon button-neutral",
                             onClick: "$p.closeDialog($(this));",
                             icon: "ui-icon-cancel"))
                     .Hidden(
