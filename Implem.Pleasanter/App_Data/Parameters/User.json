@@ -4,5 +4,5 @@
     "DisableGroupCreation": false,
     "DisableApi": false,
     "SelectorToolTip": "LoginId",
-    "Theme": "sunny"
+    "Theme": "cerulean"
 }
