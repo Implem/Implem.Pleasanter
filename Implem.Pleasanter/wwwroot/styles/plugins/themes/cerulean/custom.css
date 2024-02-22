@@ -18,12 +18,13 @@
 }
 
 .control-selectable .ui-selecting {
-    background: #FECA40;
+    background: #106EBE;
+    color: #FFFFFF;
 }
 
 .control-selectable .ui-selected {
-    color: white;
-    background: #F39814;
+    background: #106EBE;
+    color: #FFFFFF;
 }
 
 .nav-sites .ui-icon {
@@ -319,12 +320,17 @@ nav.both.cf {
     border: 1px solid #666;
 }
 
-.field-control .control-markdown {
+.field-control .control-markdown,
+.field-control .control-spinner {
     outline: none;
 }
 
 .field-control .control-markup {
     padding: 8px 28px 8px 8px;
+}
+
+.field-control .control-attachments-upload {
+    border: 2px dotted #106EBE;
 }
 
 input:focus,
@@ -431,7 +437,15 @@ select{
     border: 1px solid #EFF6FC;
 }
 
-#ViewModeContainer .grid-title-body {
+.grid .grid-row .comment {
+    background: #FFFFFF;
+}
+
+.grid .grid-row:hover .comment{
+    background: #FFFFFF;
+}
+
+#ViewModeContainer .grid-title-body{
     margin-bottom: 0;
     padding: 8px;
 }
@@ -440,12 +454,40 @@ select{
     border-radius: 0;
 }
 
-#ViewModeContainer table td:has(.grid-title-body) {
+#ViewModeContainer table td:has(.grid-title-body),
+#ViewModeContainer table td:has(.comment) {
     padding: 0;
 }
 
 #ViewModeContainer .limit-warning3 {
     background-color: #E03E3E;
+}
+
+#MainForm #RecordHeader {
+    position: relative;
+    margin: 0;
+    padding-top: 8px;
+    padding-bottom: 12px;
+}
+
+#MainForm #RecordHeader #RecordSwitchers {
+    position: absolute;
+    bottom: 10px;
+    right: 16px;
+}
+
+#MainForm #RecordHeader #RecordSwitchers .current {
+    height: 30px;
+    margin: 0 8px;
+}
+
+#MainForm #RecordHeader #RecordSwitchers .ui-widget-header {
+    background: none;
+    color: #222222;
+    border: none;
+}
+#MainForm #RecordHeader #RecordSwitchers button:last-child {
+    margin-left: 16px;
 }
 
 /* 編集画面 */
@@ -462,7 +504,7 @@ select{
     margin-bottom: -10000px;
 }
 
-#MainForm .comment {
+#MainForm #EditorComments .comment {
     border: 0;
     border-bottom: 1px solid #CECECE;
     background: none;
