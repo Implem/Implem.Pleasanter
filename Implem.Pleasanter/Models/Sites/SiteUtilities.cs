@@ -11547,7 +11547,7 @@ namespace Implem.Pleasanter.Models
                                 fieldCss: "field-auto-thin",
                                 labelText: Displays.AggregationType(context: context),
                                 optionCollection: ss.KambanAggregationTypeOptions(context: context),
-                                selectedValue: view.KambanAggregateType ?? view.GetKambanAggregationType(context: context, ss: ss))
+                                selectedValue: view.GetKambanAggregationType(context: context, ss: ss))
                             .FieldDropDown(
                                 context: context,
                                 controlId: "KambanValue",
