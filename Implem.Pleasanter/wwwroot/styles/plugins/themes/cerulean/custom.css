@@ -608,12 +608,12 @@ select{
 
 .ui-state-default,
 .ui-widget-content .ui-state-default,
-.ui-widget-header .ui-state-default{
+.ui-widget-header .ui-state-default {
     border: none;
     color: #106EBE;
 }
 
-.template-tab-container .fieldset{
+.template-tab-container .fieldset {
     background-color: #FFFFFF;
 }
 

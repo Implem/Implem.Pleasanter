@@ -2,12 +2,11 @@
   "profiles": {
     "Implem.CodeDefiner": {
       "commandName": "Project",
-      "commandLineArgs": "def"
+      "commandLineArgs": "_rds"
     },
     "WSL": {
-        "commandName": "WSL2",
-        "environmentVariables": {},
-        "distributionName": ""
+      "commandName": "WSL2",
+      "distributionName": ""
     },
     "Docker": {
       "commandName": "Docker",
