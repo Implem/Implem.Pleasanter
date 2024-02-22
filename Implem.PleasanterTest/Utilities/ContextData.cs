@@ -71,7 +71,7 @@ namespace Implem.PleasanterTest.Utilities
                 context.Theme = Strings.CoalesceEmpty(
                     userModel.Theme,
                     Parameters.User.Theme,
-                    "sunny");
+                    "cerulean");
                 context.Developer = userModel.Developer;
                 context.TimeZoneInfo = userModel.TimeZoneInfo;
                 context.UserSettings = userModel.UserSettings;
