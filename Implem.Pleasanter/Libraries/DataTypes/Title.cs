@@ -182,11 +182,14 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             switch (column.TypeName.CsTypeSummary())
             {
                 case Types.CsNumeric:
+                    var value = data.Get(column.ColumnName);
                     return column.HasChoices()
-                        ? column.Choice(data.Get(column.ColumnName)).Text
+                        ? column.Choice(value).Text
                         : column.Display(
                             context: context,
-                            value: data.Get(column.ColumnName).ToDecimal(),
+                            value: value.IsNullOrEmpty()
+                                ? null
+                                : value.ToDecimal(),
                             unit: true);
                 case Types.CsDateTime:
                     switch (column.ColumnName)

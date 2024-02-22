@@ -1724,6 +1724,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                         case "TimeSeriesGuide":
                             sql.Sites_TimeSeriesGuide(tableName: path, _as: _as);
                             break;
+                        case "AnalyGuide":
+                            sql.Sites_AnalyGuide(tableName: path, _as: _as);
+                            break;
                         case "KambanGuide":
                             sql.Sites_KambanGuide(tableName: path, _as: _as);
                             break;

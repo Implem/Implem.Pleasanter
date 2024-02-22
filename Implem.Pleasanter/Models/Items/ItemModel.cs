@@ -741,6 +741,79 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public string Analy(Context context)
+        {
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true,
+                setAllChoices: true);
+            ViewModes.Set(context: context, siteId: Site.SiteId);
+            switch (Site.ReferenceType)
+            {
+                case "Issues":
+                    return IssueUtilities.Analy(
+                        context: context,
+                        ss: Site.SiteSettings);
+                case "Results":
+                    return ResultUtilities.Analy(
+                        context: context,
+                        ss: Site.SiteSettings);
+                default:
+                    return HtmlTemplates.Error(
+                        context: context,
+                        errorData: new ErrorData(
+                            context: context,
+                            type: Error.Types.NotFound,
+                            sysLogsStatus: 404,
+                            sysLogsDescription: Debugs.GetSysLogsDescription()));
+            }
+        }
+
+        public string AnalyJson(Context context)
+        {
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true,
+                setAllChoices: true);
+            ViewModes.Set(context: context, siteId: Site.SiteId);
+            switch (Site.ReferenceType)
+            {
+                case "Issues":
+                    return IssueUtilities.AnalyJson(
+                        context: context,
+                        ss: Site.SiteSettings);
+                case "Results":
+                    return ResultUtilities.AnalyJson(
+                        context: context,
+                        ss: Site.SiteSettings);
+                default:
+                    return Messages.ResponseNotFound(context: context).ToJson();
+            }
+        }
+
+        public string OpenAnalyPartDialog(Context context)
+        {
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true);
+            switch (Site.ReferenceType)
+            {
+                case "Issues":
+                    return IssueUtilities.OpenAnalyPartDialog(
+                        context: context,
+                        ss: Site.SiteSettings);
+                case "Results":
+                    return ResultUtilities.OpenAnalyPartDialog(
+                        context: context,
+                        ss: Site.SiteSettings);
+                default:
+                    return Messages.ResponseNotFound(context: context).ToJson();
+            }
+        }
+
         public string Kamban(Context context)
         {
             SetSite(

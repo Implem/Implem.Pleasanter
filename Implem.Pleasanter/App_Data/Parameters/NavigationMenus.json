@@ -50,6 +50,12 @@
                 "Function": "PostBack"
             },
             {
+                "MenuId": "ViewModelMenu_Analy",
+                "Name": "Analy",
+                "Icon": "ui-icon ui-icon-triangle-1-e",
+                "Function": "PostBack"
+            },
+            {
                 "MenuId": "ViewModelMenu_Kamban",
                 "Name": "Kamban",
                 "Icon": "ui-icon ui-icon-triangle-1-e",

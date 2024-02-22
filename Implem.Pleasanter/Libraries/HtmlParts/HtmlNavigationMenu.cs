@@ -524,6 +524,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 case "ViewModelMenu_Gantt":
                 case "ViewModelMenu_BurnDown":
                 case "ViewModelMenu_TimeSeries":
+                case "ViewModelMenu_Analy":
                 case "ViewModelMenu_Kamban":
                 case "ViewModelMenu_ImageLib":
                     return (Def.ViewModeDefinitionCollection

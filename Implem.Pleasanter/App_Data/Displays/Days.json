@@ -1,6 +1,7 @@
 ﻿{
     "Id": "Days",
     "Type": 110,
+    "ClientScript": true,
     "Languages": [
         {
             "Body": "Days"
