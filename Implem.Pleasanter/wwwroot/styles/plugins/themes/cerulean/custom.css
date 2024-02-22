@@ -774,7 +774,7 @@ select{
     border-radius: 0;
 }
 
-#TemplateTabsContainer.ui-widget.ui-widget-content.ui-tabs{
+#TemplateTabsContainer.ui-widget.ui-widget-content.ui-tabs {
     padding: 0;
 }
 
@@ -811,7 +811,7 @@ select{
     background-color: #F8F8F8;
 }
 
-#SiteMenu .nav-site .conditions span{
+#SiteMenu .nav-site .conditions span {
     background: none;
     padding: 0 8px;
     margin: 6px 6px 6px 0;
