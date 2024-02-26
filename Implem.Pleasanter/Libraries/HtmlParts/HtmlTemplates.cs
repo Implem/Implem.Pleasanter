@@ -277,7 +277,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                     action: () => hb
                                                         .Span(
                                                             attributes: new HtmlAttributes()
-                                                                .OnClick("$p.clickImg($(this));"),
+                                                                .OnClick("$p.expandSideMenu($(this));"),
                                                             action: () => hb
                                                                 .Img(
                                                                     src: Locations.Get(
@@ -338,7 +338,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                     action: () => hb
                                                         .Span(
                                                             attributes: new HtmlAttributes()
-                                                                .OnClick("$p.clickImg($(this));"),
+                                                                .OnClick("$p.expandSideMenu($(this));"),
                                                             action: () => hb
                                                                 .Img(
                                                                     src: Locations.Get(
@@ -395,7 +395,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                     action: () => hb
                                                         .Span(
                                                             attributes: new HtmlAttributes()
-                                                                .OnClick("$p.clickImg($(this));"),
+                                                                .OnClick("$p.expandSideMenu($(this));"),
                                                             action: () => hb
                                                                 .Img(
                                                                     src: Locations.Get(
@@ -452,7 +452,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                     action: () => hb
                                                         .Span(
                                                             attributes: new HtmlAttributes()
-                                                                .OnClick("$p.clickImg($(this));"),
+                                                                .OnClick("$p.expandSideMenu($(this));"),
                                                             action: () => hb
                                                                 .Img(
                                                                     src: Locations.Get(
