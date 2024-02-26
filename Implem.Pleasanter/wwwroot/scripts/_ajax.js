@@ -40,6 +40,10 @@
                 ? -1
                 : 0;
             $p.execEvents('ajax_after_done', $p.eventArgs(url, methodType, data, $control, _async, ret, json));
+            if (url.indexOf("authenticate") !== -1) {
+                $p.showQr();
+                $p.authenticatebymail();
+            }
         })
         .fail(function (jqXHR, textStatus, errorThrown) {
             ret = -1;

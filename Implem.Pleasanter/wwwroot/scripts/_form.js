@@ -65,6 +65,7 @@ $p.send = function ($control, formId, _async, clearMessage) {
     var url = action !== undefined
         ? $form.attr('action').replace('_action_', action.toLowerCase())
         : location.href;
+    url += $p.isAuthenticationByMail();
     var fieldSetTab = $('li[role="tab"][aria-selected=true][aria-controls^=FieldSetTab]');
     var selectedTabIndex = fieldSetTab.parent().children().index(fieldSetTab);
     if (selectedTabIndex > 0) {
