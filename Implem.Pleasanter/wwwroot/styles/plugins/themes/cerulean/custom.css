@@ -63,9 +63,9 @@
     color: black;
 }
 
-    .field-control .ui-multiselect .ui-icon.ui-icon-triangle-1-s {
-        background-image: url("images/ui-icons_3d3d3d_256x240.png");
-    }
+.field-control .ui-multiselect .ui-icon.ui-icon-triangle-1-s {
+    background-image: url("images/ui-icons_3d3d3d_256x240.png");
+}
 
 #CopyToClipboards .ui-icon.ui-icon-link {
     background-image: url("images/ui-icons_3d3d3d_256x240.png");
@@ -86,8 +86,6 @@
 #Links .grid-row a {
     color: #383838;
 }
-
-
 
 /* 全体共通 */
 * {
@@ -333,9 +331,22 @@ nav.both.cf {
     border: 2px dotted #106EBE;
 }
 
+fieldset .command-left {
+    padding: 0 0 8px;
+}
+
+fieldset .command-left > button {
+    margin: 0 8px 0 0;
+}
+
+.field-control #SearchPermissionElements {
+    margin-left: 0;
+    margin-right: 8px;
+}
+
 input:focus,
 textarea:focus,
-select{
+select {
     background-color: #FFF9E3 !important;
 }
 
@@ -385,40 +396,93 @@ select{
     border: 1px solid #90CAFF;
 }
 
+.ui-button:hover,
+.ui-button:focus,
+.ui-button:active {
+    background: none;
+    background-color: #FFFFFF;
+    border: 1px solid #CECECE;
+    color: #222222;
+}
+
 .button-neutral,
-.button-neutral:hover {
+.button-neutral:hover,
+.button-neutral:focus,
+.button-neutral:active {
+    background: none;
     background-color: #444444;
     border: 1px solid #444444;
     color: #FFFFFF;
 }
 
 .button-negative,
-.button-negative:hover {
+.button-negative:hover,
+.button-negative:focus,
+.button-negative:active {
+    background: none;
     background-color: #E16A6A;
     border: 1px solid #E16A6A;
     color: #FFFFFF;
 }
 
 .button-positive,
-.button-positive:hover {
+.button-positive:hover,
+.button-positive:focus,
+.button-positive:active {
+    background: none;
     background-color: #106EBE;
     border: 1px solid #106EBE;
     color: #FFFFFF;
 }
 
+#MainForm .button-neutral .ui-icon,
+#MainForm .button-neutral:hover .ui-icon,
+#MainForm .button-negative .ui-icon,
+#MainForm .button-negative:hover .ui-icon,
+#MainForm .button-positive .ui-icon,
+#MainForm .button-positive:hover .ui-icon,
 #MainCommands .button-neutral .ui-icon,
 #MainCommands .button-neutral:hover .ui-icon,
 #MainCommands .button-negative .ui-icon,
 #MainCommands .button-negative:hover .ui-icon,
 #MainCommands .button-positive .ui-icon,
-#MainCommands .button-positive:hover .ui-icon {
+#MainCommands .button-positive:hover .ui-icon,
+.dialog .button-neutral .ui-icon,
+.dialog .button-neutral:hover .ui-icon,
+.dialog .button-negative .ui-icon,
+.dialog .button-negative:hover .ui-icon,
+.dialog .button-positive .ui-icon,
+.dialog .button-positive:hover .ui-icon,
+fieldset .button-neutral .ui-icon,
+fieldset .button-neutral:hover .ui-icon,
+fieldset .button-negative .ui-icon,
+fieldset .button-negative:hover .ui-icon,
+fieldset .button-positive .ui-icon,
+fieldset .button-positive:hover .ui-icon {
     background-image: url("images/ui-icons_ffffff_256x240.png");
+}
+
+/* ボタンpadding設定 */
+#MainForm #RecordSwitchers .ui-button,
+#MainCommands .ui-button,
+#ViewFilters .ui-button,
+.field-control .ui-button {
+    padding: 4px 8px !important;
+}
+
+.ui-state-active .ui-icon, .ui-button:active .ui-icon,
+.ui-state-active .ui-icon, .ui-button:focus .ui-icon {
+    background-image: url(images/ui-icons_3d3d3d_256x240.png);
 }
 
 /* 一覧画面 */
 #ViewModeContainer .grid > thead > tr > th {
     padding: 8px;
     font-weight: bold;
+}
+
+#ViewModeContainer>div{
+    padding-top: 16px;
 }
 
 #ViewModeContainer td {
@@ -486,6 +550,7 @@ select{
     color: #222222;
     border: none;
 }
+
 #MainForm #RecordHeader #RecordSwitchers button:last-child {
     margin-left: 16px;
 }
@@ -615,6 +680,27 @@ select{
 
 .template-tab-container .fieldset {
     background-color: #FFFFFF;
+}
+
+.ui-tabs .ui-tabs-panel {
+    background-color: #FFFFFF;
+}
+
+.ui-widget-content {
+    border: 1px solid #AEAEAE;
+    background-color: #F5F5F5;
+}
+
+.container-selectable {
+    margin-top: 8px;
+}
+
+.field-control .container-selectable .wrapper {
+    background-color: #FFFFFF;
+}
+
+fieldset .field-vertical > .field-label{
+    padding: 0;
 }
 
 /* フッタメッセージ */
