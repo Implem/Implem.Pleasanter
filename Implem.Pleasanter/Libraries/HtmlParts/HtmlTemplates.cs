@@ -276,6 +276,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                         .For("block-02"),
                                                     action: () => hb
                                                         .Span(
+                                                            attributes: new HtmlAttributes()
+                                                                .OnClick("$p.clickImg($(this));"),
                                                             action: () => hb
                                                                 .Img(
                                                                     src: Locations.Get(
@@ -335,6 +337,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                         .For("block-03"),
                                                     action: () => hb
                                                         .Span(
+                                                            attributes: new HtmlAttributes()
+                                                                .OnClick("$p.clickImg($(this));"),
                                                             action: () => hb
                                                                 .Img(
                                                                     src: Locations.Get(
@@ -390,6 +394,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                         .For("block-04"),
                                                     action: () => hb
                                                         .Span(
+                                                            attributes: new HtmlAttributes()
+                                                                .OnClick("$p.clickImg($(this));"),
                                                             action: () => hb
                                                                 .Img(
                                                                     src: Locations.Get(
@@ -445,6 +451,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                         .For("block-05"),
                                                     action: () => hb
                                                         .Span(
+                                                            attributes: new HtmlAttributes()
+                                                                .OnClick("$p.clickImg($(this));"),
                                                             action: () => hb
                                                                 .Img(
                                                                     src: Locations.Get(
