@@ -58,7 +58,7 @@ namespace Implem.Pleasanter.Libraries.Responses
                     .Guide(
                         context: context,
                         ss: ss))
-                .ReplaceAll("#CopyDirectUrlToClipboard", new HtmlBuilder()
+                .ReplaceAll("#CopyToClipboards", new HtmlBuilder()
                     .CopyDirectUrlToClipboard(
                         context: context,
                         view: view))

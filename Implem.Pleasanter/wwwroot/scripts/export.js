@@ -40,7 +40,7 @@ $p.export = function () {
         }
         if ($('#DoExport').hasClass('save-view-types-none')) {
             (Object.keys(data)).forEach(function (e) {
-                if (e.match(/^ViewFilters_/)) {
+                if (e.match(/(^ViewFilters_|^ViewSorters_|^ViewSelector$)/)) {
                     addInput(form, e, data[e]);
                 }
             });

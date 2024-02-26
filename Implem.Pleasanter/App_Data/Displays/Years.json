@@ -1,6 +1,7 @@
 ﻿{
     "Id": "Years",
     "Type": 110,
+    "ClientScript": true,
     "Languages": [
         {
             "Body": "Years"

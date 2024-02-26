@@ -18,6 +18,7 @@ namespace Implem.Pleasanter.App_Start
                 "~/scripts/_view.js",
                 "~/scripts/_controllevents.js",
                 "~/scripts/aggregationevents.js",
+                "~/scripts/analy.js",
                 "~/scripts/anchor.js",
                 "~/scripts/anchorevents.js",
                 "~/scripts/announcement.js",

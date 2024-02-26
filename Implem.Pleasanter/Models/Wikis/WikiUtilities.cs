@@ -735,7 +735,8 @@ namespace Implem.Pleasanter.Models
                             _using: !context.Ajax || context.Action == "create")
                         .Hidden(
                             controlId: "TriggerRelatingColumns_Editor", 
-                            value: Jsons.ToJson(ss.RelatingColumns)))
+                            value: Jsons.ToJson(ss.RelatingColumns))
+                        .PostInitHiddenData(context: context))
                 .OutgoingMailsForm(
                     context: context,
                     ss: ss,
@@ -747,6 +748,21 @@ namespace Implem.Pleasanter.Models
                     ss: ss)
                 .MoveDialog(context: context)
                 .OutgoingMailDialog());
+        }
+
+        private static HtmlBuilder PostInitHiddenData(
+            this HtmlBuilder hb,
+            Context context)
+        {
+            var postInitData = context.Forms.Where(o => o.Key.StartsWith("PostInit_"));
+            postInitData.ForEach(data =>
+            {
+                hb.Hidden(
+                    controlId: data.Key,
+                    value: data.Value,
+                    css: "always-send");
+            });
+            return hb;
         }
 
         private static HtmlBuilder EditorTabs(

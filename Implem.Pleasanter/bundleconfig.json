@@ -26,6 +26,7 @@
             "wwwroot/scripts/_view.js",
             "wwwroot/scripts/_controllevents.js",
             "wwwroot/scripts/aggregationevents.js",
+            "wwwroot/scripts/analy.js",
             "wwwroot/scripts/anchor.js",
             "wwwroot/scripts/anchorevents.js",
             "wwwroot/scripts/announcement.js",

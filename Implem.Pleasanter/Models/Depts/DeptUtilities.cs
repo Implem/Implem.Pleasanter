@@ -172,7 +172,11 @@ namespace Implem.Pleasanter.Models
                     .Div(attributes: new HtmlAttributes()
                         .Id("BulkUpdateSelectorDialog")
                         .Class("dialog")
-                        .Title(Displays.BulkUpdate(context: context))))
+                        .Title(Displays.BulkUpdate(context: context)))
+                    .Div(attributes: new HtmlAttributes()
+                        .Id("AnalyPartDialog")
+                        .Class("dialog")
+                        .Title(Displays.AnalyPart(context: context))))
                     .ToString();
         }
 
@@ -308,7 +312,7 @@ namespace Implem.Pleasanter.Models
                 .ClearFormData("GridUnCheckedItems", _using: clearCheck)
                 .ClearFormData("GridCheckedItems", _using: clearCheck)
                 .CloseDialog(_using: offset == 0)
-                .ReplaceAll("#CopyDirectUrlToClipboard", new HtmlBuilder()
+                .ReplaceAll("#CopyToClipboards", new HtmlBuilder()
                     .CopyDirectUrlToClipboard(
                         context: context,
                         view: view))
@@ -1942,7 +1946,7 @@ namespace Implem.Pleasanter.Models
                 {
                     if (deptModel.AccessStatus == Databases.AccessStatuses.Selected)
                     {
-                        if (deptModel.Updated(context: context))
+                        if (deptModel.Updated(context: context, ss: ss))
                         {
                             deptModel.VerUp = Versions.MustVerUp(
                                 context: context,
@@ -2100,7 +2104,7 @@ namespace Implem.Pleasanter.Models
                 {
                     if (deptModel.AccessStatus == Databases.AccessStatuses.Selected)
                     {
-                        if (deptModel.Updated(context: context))
+                        if (deptModel.Updated(context: context, ss: ss))
                         {
                             deptModel.VerUp = Versions.MustVerUp(
                                 context: context,

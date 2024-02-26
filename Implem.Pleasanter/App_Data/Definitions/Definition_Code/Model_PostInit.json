@@ -1,0 +1,6 @@
+﻿{
+    "Id": "Model_PostInit",
+    "Indent": "3",
+    "ItemOnly": "1",
+    "Include": "Issues,Results,Wikis"
+}

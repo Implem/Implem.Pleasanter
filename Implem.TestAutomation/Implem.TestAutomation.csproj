@@ -3,10 +3,10 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net8.0</TargetFramework>
-    <Copyright>Copyright © Implem Inc 2014 - 2023</Copyright>
-    <AssemblyVersion>1.4.0.1</AssemblyVersion>
-    <FileVersion>1.4.0.1</FileVersion>
-    <Version>1.4.0.1</Version>
+    <Copyright>Copyright © Implem Inc 2014 - 2024</Copyright>
+    <AssemblyVersion>1.4.1.1</AssemblyVersion>
+    <FileVersion>1.4.1.1</FileVersion>
+    <Version>1.4.1.1</Version>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>  
   </PropertyGroup>
 
@@ -22,16 +22,16 @@
 
   <ItemGroup>
     <PackageReference Include="AspNetCoreCurrentRequestContext" Version="2.0.0" />
-    <PackageReference Include="CsvHelper" Version="30.0.1" />
-    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.5" />
+    <PackageReference Include="CsvHelper" Version="30.1.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.6" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="Selenium.Support" Version="4.16.2" />
-    <PackageReference Include="Selenium.WebDriver" Version="4.16.2" />
-    <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="120.0.6099.10900" />
+    <PackageReference Include="Selenium.Support" Version="4.17.0" />
+    <PackageReference Include="Selenium.WebDriver" Version="4.17.0" />
+    <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="121.0.6167.8500" />
     <PackageReference Include="Selenium.WebDriver.IEDriver" Version="4.14.0" />
-    <PackageReference Include="Selenium.WebDriver.MSEdgeDriver" Version="119.0.2151.42" />
+    <PackageReference Include="Selenium.WebDriver.MSEdgeDriver" Version="120.0.2210.144" />
     <PackageReference Include="Selenium.WebDriverBackedSelenium" Version="4.1.0" />
-    <PackageReference Include="SixLabors.ImageSharp" Version="3.1.1" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="3.1.2" />
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
   </ItemGroup>
 

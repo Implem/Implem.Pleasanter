@@ -4,29 +4,29 @@
         if (($('#CalendarEditorFormat' + calendarSuffix).val() === 'Ymd') && endDateFormat(endDate)) {
             endDate.setDate(endDate.getDate() - 1);
         }
-        var form = document.createElement("form");
-        form.setAttribute("action", $('#ApplicationPath').val() + 'items/' + $('#CalendarSiteData' + calendarSuffix).val() + '/new');
-        form.setAttribute("method", "post");
-        form.style.display = "none";
+        var form = document.createElement('form');
+        form.setAttribute('action', $('#ApplicationPath').val() + 'items/' + $('#CalendarSiteData' + calendarSuffix).val() + '/new');
+        form.setAttribute('method', 'post');
+        form.style.display = 'none';
         document.body.appendChild(form);
-        var start = document.createElement("input");
-        start.setAttribute("type", "hidden");
-        start.setAttribute("name", $('#CalendarReferenceType' + calendarSuffix).val() + "_StartTime");
-        start.setAttribute("value", info.start.toLocaleString());
+        var start = document.createElement('input');
+        start.setAttribute('type', 'hidden');
+        start.setAttribute('name', 'PostInit_' + $('#CalendarReferenceType' + calendarSuffix).val() + '_StartTime');
+        start.setAttribute('value', info.start.toLocaleString());
         form.appendChild(start);
-        var end = document.createElement("input");
-        end.setAttribute("type", "hidden");
-        end.setAttribute("name", $('#CalendarReferenceType' + calendarSuffix).val() + "_CompletionTime");
-        end.setAttribute("value", endDate.toLocaleString());
+        var end = document.createElement('input');
+        end.setAttribute('type', 'hidden');
+        end.setAttribute('name', 'PostInit_' + $('#CalendarReferenceType' + calendarSuffix).val() + '_CompletionTime');
+        end.setAttribute('value', endDate.toLocaleString());
         form.appendChild(end);
         var fromTo = $('#CalendarFromTo' + calendarSuffix).val().split('-');
         const match = /^Date/;
         if (fromTo[1]) {
         } else if (match.test(fromTo)) {
-            var from = document.createElement("input");
-            from.setAttribute("type", "hidden");
-            from.setAttribute("name", "Issues_" + fromTo);
-            from.setAttribute("value", info.start.toLocaleString());
+            var from = document.createElement('input');
+            from.setAttribute('type', 'hidden');
+            from.setAttribute('name', 'PostInit_' + $('#CalendarReferenceType' + calendarSuffix).val() + '_' + fromTo);
+            from.setAttribute('value', info.start.toLocaleString());
             form.appendChild(from);
         } else {
             return;

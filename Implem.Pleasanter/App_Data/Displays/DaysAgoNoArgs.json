@@ -1,0 +1,34 @@
+﻿{
+    "Id": "DaysAgoNoArgs",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "days ago"
+        },
+        {
+            "Language": "zh",
+            "Body": "几天前"
+        },
+        {
+            "Language": "ja",
+            "Body": "日前"
+        },
+        {
+            "Language": "de",
+            "Body": "Vor Tagen"
+        },
+        {
+            "Language": "ko",
+            "Body": "며칠 전에"
+        },
+        {
+            "Language": "es",
+            "Body": "hace días"
+        },
+        {
+            "Language": "vn",
+            "Body": "ngày trước"
+        }
+    ]
+}
