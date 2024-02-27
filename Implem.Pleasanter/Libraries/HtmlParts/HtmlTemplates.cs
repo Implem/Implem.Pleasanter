@@ -147,7 +147,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Raw(HtmlHtmls.ExtendedHtmls(
                             context: context,
                             id: "HtmlHeaderBottom")))
-                    .Body(style: "visibility:hidden", action: action));
+                    .Body(
+                        id: context.Action == "login"
+                            ? "login"
+                            : string.Empty,
+                        style: "visibility:hidden",
+                        action: action));
             }
             else
             {
