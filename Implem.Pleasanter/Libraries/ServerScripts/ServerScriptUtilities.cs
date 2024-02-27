@@ -1454,7 +1454,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         context: apiContext,
                         ss: ss);
             var join = ss.Join(
-                context: context,
+                context: apiContext,
                 join: new IJoin[]
                 {
                     where
