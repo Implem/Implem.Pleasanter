@@ -12,5 +12,11 @@
 });
 
 $p.closeSideMenu = function ($control) {
-    alert('dummy');
+    var $checkbox = $('.menubox > input[class="toggle"]');
+    $checkbox.prop('checked', false);
+}
+
+$p.expandSideMenu = function ($control) {
+    var $hamburgerCheckbox = $('#hamburger');
+    $hamburgerCheckbox.prop('checked', true);
 }
