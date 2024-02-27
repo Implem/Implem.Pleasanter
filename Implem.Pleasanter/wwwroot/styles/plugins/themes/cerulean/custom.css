@@ -117,6 +117,10 @@ body {
     border-bottom: 1px solid #CECECE;
 }
 
+#Header #CorpLogo {
+    margin: 0;
+}
+
 /* クリップボードリンク */
 nav.both.cf {
     position: relative;
@@ -473,6 +477,14 @@ fieldset .button-positive:hover .ui-icon {
 .ui-state-active .ui-icon, .ui-button:active .ui-icon,
 .ui-state-active .ui-icon, .ui-button:focus .ui-icon {
     background-image: url(images/ui-icons_3d3d3d_256x240.png);
+}
+
+.ui-icon-triangle-1-e {
+    background-position: -32px -12px;
+}
+
+.ui-icon-triangle-1-s {
+    background-position: -65px -12px;
 }
 
 /* 一覧画面 */
@@ -1033,7 +1045,7 @@ fieldset .field-vertical > .field-label{
 }
 
 #hamburger:checked ~ .hamburger-closelabel {
-    position: fixed;
+    /*position: fixed;*//*サイドメニュークリック時のオーバーレイに悪影響及ぼしているため一旦コメントアウト中*/
     width: 100%;
     height: 100%;
     top: 50px;
@@ -1150,4 +1162,77 @@ section.accordion {
 
 .menubox-sub ul li a:hover {
     background: #E7E7E7;
+}
+
+/* ログイン画面 */
+body#login {
+    background-color: #F8F8F8;
+}
+
+#MainContainer #Header {
+    height: 39px;
+}
+
+#MainForm #LoginFieldSet {
+    background-color: initial;
+}
+
+#Logins div .field-wide {
+    padding-bottom: 14px;
+}
+
+#Logins div .field-wide .field-control .container-normal {
+    margin-left: 0;
+}
+
+#Logins div .field-wide .field-control .container-normal input {
+    height: 50px;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, .2);
+    padding: 4px 20px;
+}
+
+#Logins div #Tenants {
+    display: none;
+}
+
+#Users_LoginIdField p,
+#Users_PasswordField p {
+    display: none;
+}
+
+#Users_PasswordField div .show-password {
+    position: absolute;
+    top: 14px;
+    right: -36px;
+    color: #666666;
+    font-weight: lighter;
+}
+
+#Users_RememberMeField {
+    width: 240px;
+    padding-top: 24px;
+}
+
+#Users_RememberMeField .field-control .container-normal {
+    margin-left: 0;
+}
+
+#Users_RememberMeField .field-control .container-normal .control-checkbox ~ label {
+    margin: 5px 5px 0 6px;
+}
+
+#LoginCommands {
+    position: relative;
+    top: -30px;
+    right: 8px;
+}
+
+#LoginCommands button {
+    height: 40px;
+}
+
+#LoginCommands .ui-button {
+    padding: 4px 22px !important;
 }
