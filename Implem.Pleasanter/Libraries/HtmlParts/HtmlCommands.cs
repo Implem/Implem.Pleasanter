@@ -323,7 +323,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                             commandDisplayTypes: view?.EditOnGridCommand,
                                             controlId: "EditOnGridCommand",
                                             text: Displays.ListMode(context: context),
-                                            controlCss: "button-icon button-positive",
+                                            controlCss: "button-icon button-neutral",
                                             onClick: "$p.editOnGrid($(this),0);",
                                             icon: "ui-icon-arrowreturnthick-1-w",
                                             action: "Index",

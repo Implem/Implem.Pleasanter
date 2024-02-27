@@ -1987,7 +1987,7 @@ namespace Implem.Pleasanter.Models
                     hb.Button(
                         controlId: "OpenChangePasswordDialog",
                         text: Displays.ChangePassword(context: context),
-                        controlCss: "button-icon",
+                        controlCss: "button-icon button-positive",
                         onClick: "$p.openDialog($(this));",
                         icon: "ui-icon-person",
                         selector: "#ChangePasswordDialog");
@@ -1996,7 +1996,7 @@ namespace Implem.Pleasanter.Models
                 {
                     hb.Button(
                         text: Displays.ResetPassword(context: context),
-                        controlCss: "button-icon",
+                        controlCss: "button-icon button-negative",
                         onClick: "$p.openDialog($(this));",
                         icon: "ui-icon-person",
                         selector: "#ResetPasswordDialog");
@@ -4110,7 +4110,7 @@ namespace Implem.Pleasanter.Models
                                 .Button(
                                     controlId: "ResetPassword",
                                     text: Displays.Reset(context: context),
-                                    controlCss: "button-icon validate button-positive",
+                                    controlCss: "button-icon validate button-negative",
                                     onClick: "$p.send($(this));",
                                     icon: "ui-icon-disk",
                                     action: "ResetPassword",
