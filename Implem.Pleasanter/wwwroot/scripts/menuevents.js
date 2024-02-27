@@ -11,12 +11,10 @@
     });
 });
 
-$p.closeSideMenu = function ($control) {
-    var $checkbox = $('.menubox > input[class="toggle"]');
-    $checkbox.prop('checked', false);
+$p.expandSideMenu = function () {
+    $('#hamburger').prop('checked', true);
 }
 
-$p.expandSideMenu = function ($control) {
-    var $hamburgerCheckbox = $('#hamburger');
-    $hamburgerCheckbox.prop('checked', true);
+$p.closeSideMenu = function () {
+    $('.menubox > input[class="toggle"]').prop('checked', false);
 }
