@@ -348,6 +348,10 @@ fieldset .command-left > button {
     margin-right: 8px;
 }
 
+.field-control input[type='file']{
+    padding: 1px;
+}
+
 input:focus,
 textarea:focus,
 select {
@@ -470,8 +474,11 @@ fieldset .button-positive:hover .ui-icon {
 #MainForm #RecordSwitchers .ui-button,
 #MainCommands .ui-button,
 #ViewFilters .ui-button,
-.field-control .ui-button {
-    padding: 4px 8px !important;
+fieldset .ui-button,
+.field-control .ui-button,
+.dialog .ui-button {
+    padding: 4px 8px 4px 6px !important;
+    margin-bottom: 8px;
 }
 
 .ui-state-active .ui-icon, .ui-button:active .ui-icon,
@@ -479,11 +486,11 @@ fieldset .button-positive:hover .ui-icon {
     background-image: url(images/ui-icons_3d3d3d_256x240.png);
 }
 
-.ui-icon-triangle-1-e {
+.legend .ui-icon-triangle-1-e {
     background-position: -32px -12px;
 }
 
-.ui-icon-triangle-1-s {
+.legend .ui-icon-triangle-1-s {
     background-position: -65px -12px;
 }
 
@@ -513,6 +520,10 @@ fieldset .button-positive:hover .ui-icon {
     border: 1px solid #EFF6FC;
 }
 
+.grid > thead > tr > th {
+    font-weight: bold;
+}
+
 .grid .grid-row .comment {
     background: #FFFFFF;
 }
@@ -521,7 +532,11 @@ fieldset .button-positive:hover .ui-icon {
     background: #FFFFFF;
 }
 
-#ViewModeContainer .grid-title-body{
+#MainForm .grid > thead > tr:first-child > th:last-child {
+    border-radius: 0;
+}
+
+#ViewModeContainer .grid-title-body {
     margin-bottom: 0;
     padding: 8px;
 }
@@ -591,18 +606,21 @@ fieldset .button-positive:hover .ui-icon {
     margin-bottom: 0;
 }
 
-#MainForm #EditorTabsContainer.ui-widget-content {
+#MainForm #EditorTabsContainer.ui-widget-content,
+#TenantForm #EditorTabsContainer.ui-widget-content {
     background: #fff;
     border: none;
 }
 
 #MainForm #EditorTabsContainer.ui-tabs,
+#TenantForm #EditorTabsContainer.ui-tabs,
 .template-tab-container .ui-tabs {
     padding: 0;
 }
 
 #MainForm #EditorTabs.ui-widget-header,
-.template-tab-container .ui-widget-header {
+#TenantForm #EditorTabs.ui-widget-header,
+.template-tab-container>.ui-widget-header {
     background: #DEECF9;
     border: none;
     border-radius: 0;
@@ -615,12 +633,14 @@ fieldset .button-positive:hover .ui-icon {
 }
 
 #MainForm #EditorTabs li.ui-state-active,
+#TenantForm #EditorTabs li.ui-state-active,
 .template-tab-container li.ui-state-active {
     border: none;
     border-radius: 4px 4px 0 0;
 }
 
 #MainForm #EditorTabs li.ui-state-active a,
+#TenantForm #EditorTabs li.ui-state-active a,
 .template-tab-container li.ui-state-active a {
     background: #106EBE;
     border-radius: 4px 4px 0 0;
@@ -629,12 +649,14 @@ fieldset .button-positive:hover .ui-icon {
 }
 
 #MainForm #EditorTabs li,
+#TenantForm #EditorTabs li,
 .template-tab-container li {
     border: none;
     border-radius: 4px 4px 0 0;
 }
 
 #MainForm #EditorTabs li a,
+#TenantForm #EditorTabs li a,
 .template-tab-container li a {
     background: #fff;
     border-radius: 4px 4px 0 0;
@@ -956,11 +978,14 @@ fieldset .field-vertical > .field-label{
 .hamburger-switch {
     cursor: pointer;
     position: fixed;
-    left: 16px;
-    top: 16px;
-    width: 20px;
-    height: 20px;
+    left: 10px;
+    top: 10px;
+    width: 32px;
+    height: 32px;
     z-index: 9999;
+    background-color: #FFFFFF;
+    padding: 12px;
+    border-radius: 4px
 }
 
 .hamburger-switch-line, .hamburger-switch-line:before, .hamburger-switch-line:after {
