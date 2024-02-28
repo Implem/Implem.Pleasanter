@@ -27,19 +27,22 @@ namespace Implem.PleasanterFilters
                 filterContext.Result = new RedirectResult(
                     Locations.ParameterSyntaxError(context: context));
             }
-            if (!IpAddresses.AllowedIpAddress(
-                context: context,
-                allowIpAddresses: Parameters.Security.AllowIpAddresses,
-                ipRestrictionExcludeMembers: Parameters.Security.IpRestrictionExcludeMembers,
-                ipAddress: context.UserHostAddress))
+            // APIの場合はIPアドレスチェック対象外。
+            // IPの制限対象であっても、403 ForbiddenはCheckApiContextAttributesのフィルタ処理で戻す。
+            if (!context.AbsolutePath.ToLower().StartsWith("/api/")
+                && !IpAddresses.AllowedIpAddress(
+                    context: context,
+                    allowIpAddresses: Parameters.Security.AllowIpAddresses,
+                    ipRestrictionExcludeMembers: Parameters.Security.IpRestrictionExcludeMembers,
+                    ipAddress: context.UserHostAddress))
             {
-                filterContext.Result = new ContentResult()
-                {
-                    StatusCode = 403,
-                    Content = "403 Forbidden"
-                };
+                    filterContext.Result = new ContentResult()
+                    {
+                        StatusCode = 403,
+                        Content = "403 Forbidden"
+                    };
                 return;
-            }
+                } 
             if (context.Authenticated
                 && !context.ContractSettings.AllowedIpAddress(
                     context: context,
