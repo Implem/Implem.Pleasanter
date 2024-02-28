@@ -36,13 +36,13 @@ namespace Implem.PleasanterFilters
                     ipRestrictionExcludeMembers: Parameters.Security.IpRestrictionExcludeMembers,
                     ipAddress: context.UserHostAddress))
             {
-                    filterContext.Result = new ContentResult()
-                    {
-                        StatusCode = 403,
-                        Content = "403 Forbidden"
-                    };
+                filterContext.Result = new ContentResult()
+                {
+                    StatusCode = 403,
+                    Content = "403 Forbidden"
+                };
                 return;
-                } 
+            } 
             if (context.Authenticated
                 && !context.ContractSettings.AllowedIpAddress(
                     context: context,
