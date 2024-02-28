@@ -27,23 +27,32 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             return hb.Header(
                 id: "Header",
-                css: context.Action == "login"
-                    ? "login"
-                    : string.Empty,
-                action: () => hb
-                    .Announcement(context: context)
-                    .HeaderLogo(
-                        context: context,
-                        ss: ss)
-                    .NavigationMenu(
-                        context: context,
-                        ss: ss,
-                        siteId: siteId,
-                        referenceType: referenceType,
-                        errorType: errorType,
-                        useNavigationMenu: useNavigationMenu,
-                        useSearch: useSearch,
-                        serverScriptModelRow: serverScriptModelRow));
+                action: context.ThemeVersionOver2_0() && context.Action == "login"
+                    ? () => hb
+                        .Announcement(context: context)
+                        .NavigationMenu(
+                            context: context,
+                            ss: ss,
+                            siteId: siteId,
+                            referenceType: referenceType,
+                            errorType: errorType,
+                            useNavigationMenu: useNavigationMenu,
+                            useSearch: useSearch,
+                            serverScriptModelRow: serverScriptModelRow)
+                    : () => hb
+                        .Announcement(context: context)
+                        .HeaderLogo(
+                            context: context,
+                            ss: ss)
+                        .NavigationMenu(
+                            context: context,
+                            ss: ss,
+                            siteId: siteId,
+                            referenceType: referenceType,
+                            errorType: errorType,
+                            useNavigationMenu: useNavigationMenu,
+                            useSearch: useSearch,
+                            serverScriptModelRow: serverScriptModelRow));
         }
 
         public static HtmlBuilder Announcement(this HtmlBuilder hb, Context context)

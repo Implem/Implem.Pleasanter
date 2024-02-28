@@ -4167,7 +4167,14 @@ namespace Implem.Pleasanter.Models
                                 }))
                             .DataEnter("#Login"),
                         action: () => hb
-                            .Div(id: "LoginLogo")
+                            .Div(
+                                id: "LoginLogo",
+                                action: context.ThemeVersionOver2_0()
+                                    ? () => hb
+                                        .HeaderLogo(
+                                            context: context,
+                                            ss: ss)
+                                    : (Action)null)
                             .FieldSet(id: "LoginFieldSet", action: () => hb
                                 .Div(
                                     id: "Logins",
