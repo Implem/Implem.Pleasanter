@@ -42,7 +42,7 @@ namespace Implem.PleasanterFilters
                     Content = "403 Forbidden"
                 };
                 return;
-            } 
+            }
             if (context.Authenticated
                 && !context.ContractSettings.AllowedIpAddress(
                     context: context,
