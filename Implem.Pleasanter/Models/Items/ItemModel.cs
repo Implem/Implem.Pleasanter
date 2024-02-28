@@ -957,7 +957,7 @@ namespace Implem.Pleasanter.Models
                     .ReplaceAll("#MainContainer", New(context: context))
                     .WindowScrollTop()
                     .FocusMainForm()
-                    .ClearFormData(_using: !context.QueryStrings.Bool("control-auto-postback"))
+                    .ClearFormData(_using: !(context.Forms.ControlId().StartsWith("Process_") && context.Action == "new"))
                     .PushState("Edit", Locations.Get(
                         context: context,
                         parts: new string[]

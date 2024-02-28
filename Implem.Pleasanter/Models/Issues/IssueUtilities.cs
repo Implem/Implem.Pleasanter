@@ -2459,7 +2459,7 @@ namespace Implem.Pleasanter.Models
                                     ss: ss))
                                 .FirstOrDefault(o => o.MatchConditions)?.GetSuccessMessage(context: context))
                             .Messages(context.Messages)
-                            .ClearFormData()
+                            .ClearFormData(_using: !(context.Forms.ControlId().StartsWith("Process_") && context.Action == "edit"))
                             .Events("on_editor_load");
             }
         }
