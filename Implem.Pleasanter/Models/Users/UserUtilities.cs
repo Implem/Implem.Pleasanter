@@ -1034,6 +1034,24 @@ namespace Implem.Pleasanter.Models
                                     value: string.Empty,
                                     tabIndex: tabIndex,
                                     serverScriptModelColumn: serverScriptModelColumn);
+                    case "EnableSecretKey":
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: userModel.EnableSecretKey,
+                                    tabIndex: tabIndex,
+                                    serverScriptModelColumn: serverScriptModelColumn)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty,
+                                    tabIndex: tabIndex,
+                                    serverScriptModelColumn: serverScriptModelColumn);
                     case "Comments":
                         return ss.ReadColumnAccessControls.Allowed(
                             context: context,
@@ -1343,6 +1361,9 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         column: column); break;
                     case "SynchronizedTime": value = userModel.SynchronizedTime.GridText(
+                        context: context,
+                        column: column); break;
+                    case "EnableSecretKey": value = userModel.EnableSecretKey.GridText(
                         context: context,
                         column: column); break;
                     case "Comments": value = userModel.Comments.GridText(
@@ -1917,6 +1938,12 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: column);
+                case "EnableSecretKey":
+                    return userModel.EnableSecretKey
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
                 default:
                     switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
                     {
@@ -2375,6 +2402,18 @@ namespace Implem.Pleasanter.Models
                                 res.Val(
                                     target: "#Users_SynchronizedTime" + idSuffix,
                                     value: userModel.SynchronizedTime.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "SecretKey":
+                                res.Val(
+                                    target: "#Users_SecretKey" + idSuffix,
+                                    value: userModel.SecretKey.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "EnableSecretKey":
+                                res.Val(
+                                    target: "#Users_EnableSecretKey" + idSuffix,
+                                    value: userModel.EnableSecretKey,
                                     options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                 break;
                             default:
@@ -3548,6 +3587,9 @@ namespace Implem.Pleasanter.Models
                         case "Theme":
                             userModel.Theme = recordingData.ToString();
                             break;
+                        case "EnableSecretKey":
+                            userModel.EnableSecretKey = recordingData.ToBool();
+                            break;
                         case "Body":
                             userModel.Body = recordingData.ToString();
                             break;
@@ -4231,7 +4273,8 @@ namespace Implem.Pleasanter.Models
                                             action: () => hb.Raw(HtmlHtmls.ExtendedHtmls(
                                                 context: context,
                                                 id: "LoginGuideBottom"))))
-                                .Div(id: "SecondaryAuthentications")))
+                                .Div(id: "SecondaryAuthentications")
+                                .Div(id: "TotpRegister")))
                     .Form(
                         attributes: new HtmlAttributes()
                             .Id("DemoForm")

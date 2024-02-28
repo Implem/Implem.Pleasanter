@@ -83,6 +83,7 @@
     "SecondaryAuthentication": {
         "Mode": "None",
         "NotificationType": "Mail",
+        "CountTolerances": 1,
         "NotificationMailBcc": false,
         "AuthenticationCodeCharacterType": "Number",
         "AuthenticationCodeLength": 8,
