@@ -366,6 +366,9 @@ namespace Implem.Pleasanter.Libraries.Requests
                         Page = Controller;
                         ExtendedFields = GroupUtilities.GetExtendedFields(context: this);
                         break;
+                    case "users":
+                        Page = $"{Controller}/{Id}";
+                        break;
                     default:
                         Page = Controller;
                         break;
