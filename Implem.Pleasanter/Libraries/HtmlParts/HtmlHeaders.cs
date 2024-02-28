@@ -25,20 +25,25 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool useSearch,
             ServerScriptModelRow serverScriptModelRow)
         {
-            return hb.Header(id: "Header", action: () => hb
-                .Announcement(context: context)
-                .HeaderLogo(
-                    context: context,
-                    ss: ss)
-                .NavigationMenu(
-                    context: context,
-                    ss: ss,
-                    siteId: siteId,
-                    referenceType: referenceType,
-                    errorType: errorType,
-                    useNavigationMenu: useNavigationMenu,
-                    useSearch: useSearch,
-                    serverScriptModelRow: serverScriptModelRow));
+            return hb.Header(
+                id: "Header",
+                css: context.Action == "login"
+                    ? "login"
+                    : string.Empty,
+                action: () => hb
+                    .Announcement(context: context)
+                    .HeaderLogo(
+                        context: context,
+                        ss: ss)
+                    .NavigationMenu(
+                        context: context,
+                        ss: ss,
+                        siteId: siteId,
+                        referenceType: referenceType,
+                        errorType: errorType,
+                        useNavigationMenu: useNavigationMenu,
+                        useSearch: useSearch,
+                        serverScriptModelRow: serverScriptModelRow));
         }
 
         public static HtmlBuilder Announcement(this HtmlBuilder hb, Context context)
