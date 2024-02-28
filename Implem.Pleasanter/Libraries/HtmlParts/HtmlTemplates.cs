@@ -230,7 +230,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 ? hb
                     .Label(
                         attributes: new HtmlAttributes()
-                            .For("hamburger"),
+                            .For("hamburger")
+                            .OnClick("$p.closeSideMenu($(this));"),
                             css: "hamburger-switch",
                             action: () => hb
                                 .Div(
