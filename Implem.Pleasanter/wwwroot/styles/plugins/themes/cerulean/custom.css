@@ -602,25 +602,29 @@ fieldset .ui-button,
     background: none;
 }
 
-#MainForm #EditorTabsContainer {
+#MainForm #EditorTabsContainer,
+.ui-dialog .ui-dialog-content form .tab-container {
     margin-bottom: 0;
 }
 
 #MainForm #EditorTabsContainer.ui-widget-content,
-#TenantForm #EditorTabsContainer.ui-widget-content {
+#TenantForm #EditorTabsContainer.ui-widget-content,
+.ui-dialog .ui-dialog-content form .tab-container.ui-widget-content {
     background: #fff;
     border: none;
 }
 
 #MainForm #EditorTabsContainer.ui-tabs,
 #TenantForm #EditorTabsContainer.ui-tabs,
-.template-tab-container .ui-tabs {
+.template-tab-container .ui-tabs,
+.ui-dialog .ui-dialog-content form .tab-container.ui-tabs {
     padding: 0;
 }
 
 #MainForm #EditorTabs.ui-widget-header,
 #TenantForm #EditorTabs.ui-widget-header,
-.template-tab-container>.ui-widget-header {
+.template-tab-container > .ui-widget-header,
+.ui-dialog .ui-dialog-content form .tab-container .ui-widget-header{
     background: #DEECF9;
     border: none;
     border-radius: 0;
@@ -628,20 +632,23 @@ fieldset .ui-button,
 }
 
 .ui-tabs .ui-tabs-nav li.ui-tabs-active,
-.template-tab-container .ui-tabs .ui-tabs-nav li.ui-tabs-active {
+.template-tab-container .ui-tabs .ui-tabs-nav li.ui-tabs-active,
+.ui-dialog .ui-dialog-content form .tab-container.ui-tabs-nav li.ui-tabs-active {
     padding-bottom: 0;
 }
 
 #MainForm #EditorTabs li.ui-state-active,
 #TenantForm #EditorTabs li.ui-state-active,
-.template-tab-container li.ui-state-active {
+.template-tab-container li.ui-state-active,
+.ui-dialog .ui-dialog-content form .tab-container li.ui-state-active {
     border: none;
     border-radius: 4px 4px 0 0;
 }
 
 #MainForm #EditorTabs li.ui-state-active a,
 #TenantForm #EditorTabs li.ui-state-active a,
-.template-tab-container li.ui-state-active a {
+.template-tab-container li.ui-state-active a,
+.ui-dialog .ui-dialog-content form .tab-container .ui-tabs-nav li.ui-state-active a {
     background: #106EBE;
     border-radius: 4px 4px 0 0;
     font-weight: bold;
@@ -650,14 +657,16 @@ fieldset .ui-button,
 
 #MainForm #EditorTabs li,
 #TenantForm #EditorTabs li,
-.template-tab-container li {
+.template-tab-container li,
+.ui-dialog .ui-dialog-content form .tab-container .ui-tabs-nav li {
     border: none;
     border-radius: 4px 4px 0 0;
 }
 
 #MainForm #EditorTabs li a,
 #TenantForm #EditorTabs li a,
-.template-tab-container li a {
+.template-tab-container li a,
+.ui-dialog .ui-dialog-content form .tab-container .ui-tabs-nav li a {
     background: #fff;
     border-radius: 4px 4px 0 0;
     color: #106EBE;
@@ -665,6 +674,37 @@ fieldset .ui-button,
 
 .ui-corner-all, .ui-corner-bottom, .ui-corner-right, .ui-corner-br {
     border-radius: 0;
+}
+
+.ui-dialog.ui-widget.ui-widget-content {
+    padding: 0;
+    border: none;
+    border-radius: 0;
+}
+
+.ui-dialog.ui-widget.ui-widget-content .ui-widget-header {
+    background: #fff;
+    border: none;
+    border-bottom: 1px solid #CECECE;
+}
+
+.ui-dialog.ui-widget.ui-widget-content .ui-widget-header .ui-dialog-title {
+    color: #4C3000;
+}
+
+.ui-dialog.ui-widget.ui-widget-content .ui-widget-header .ui-dialog-titlebar-close {
+    box-shadow: none;
+    border: none;
+    right: 1.5rem;
+}
+
+.ui-dialog .ui-dialog-content form .tab-container.ui-tabs fieldset {
+    margin: 0;
+    padding: 1rem;
+}
+
+.ui-dialog .ui-dialog-content form .tab-container.ui-tabs fieldset fieldset {
+    margin: 0 10px 10px 10px;
 }
 
 #Application #Guide > div {
@@ -1258,6 +1298,6 @@ body#login {
     height: 40px;
 }
 
-#LoginCommands .ui-button {
-    padding: 4px 22px !important;
+#MainForm #LoginFieldSet #Logins #LoginCommands #Login.ui-button {
+    padding: 4px 22px;
 }
