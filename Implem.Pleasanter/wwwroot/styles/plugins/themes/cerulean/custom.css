@@ -164,7 +164,7 @@ nav.both.cf {
 }
 
 #Application #Breadcrumb li:first-child {
-    padding-left: 36px !important;
+    padding-left: 36px;
 }
 
 #Application #Breadcrumb li:before,
@@ -299,15 +299,15 @@ nav.both.cf {
     padding: 4px 8px 4px 8px;
 }
 
-.fieldset.enclosed,
-.fieldset.enclosed-thin {
-    border: 1px solid #CECECE !important;
-    background: #F8F8F8 !important;
+#MainContainer .fieldset.enclosed,
+#MainContainer .fieldset.enclosed-thin {
+    border: 1px solid #CECECE;
+    background: #F8F8F8;
 }
 
-.field-control .control-dropdown,
-.field-control .ui-multiselect {
-    border-radius: 4px !important;
+#MainContainer .field-control .control-dropdown,
+#MainContainer .field-control .ui-multiselect {
+    border-radius: 4px;
 }
 
 .field-control .control-textbox {
@@ -352,10 +352,9 @@ fieldset .command-left > button {
     padding: 1px;
 }
 
-input:focus,
-textarea:focus,
-select {
-    background-color: #FFF9E3 !important;
+#MainContainer input:focus,
+#MainContainer textarea:focus {
+    background-color: #FFF9E3;
 }
 
 /* ボタン */
@@ -942,7 +941,7 @@ fieldset .field-vertical > .field-label{
     background-color: #F8F8F8;
     border: 1px solid #CECECE;
     padding: 0;
-    margin: 0 0 0 330px !important;
+    margin: 0 0 0 330px;
 }
 
 #TemplateTabsContainer .template-viewer .description {
@@ -1068,7 +1067,7 @@ fieldset .field-vertical > .field-label{
 
 .hamburger-menulist {
     margin-right: 3%;
-    padding-left: 0% !important;
+    padding-left: 0%;
     list-style: none;
 }
 
@@ -1172,7 +1171,7 @@ section.accordion {
 }
 
 .toggle:checked + .menulabel::before {
-    transform: rotate(-45deg) !important;
+    transform: rotate(-45deg);
 }
 
 .menubox > a {
@@ -1299,5 +1298,5 @@ body#login {
 }
 
 #MainForm #LoginFieldSet #Logins #LoginCommands #Login.ui-button {
-    padding: 4px 22px;
+    padding: 4px 22px !important;
 }
