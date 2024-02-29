@@ -226,7 +226,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             Context context)
         {
-            return context.ThemeVersionOver2_0()
+            return context.ThemeVersionOver2_0() && context.Action != "login"
                 ? hb
                     .Label(
                         attributes: new HtmlAttributes()
