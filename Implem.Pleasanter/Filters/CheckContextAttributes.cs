@@ -29,7 +29,8 @@ namespace Implem.PleasanterFilters
             }
             // APIの場合はIPアドレスチェック対象外。
             // IPの制限対象であっても、403 ForbiddenはCheckApiContextAttributesのフィルタ処理で戻す。
-            if (!context.AbsolutePath.ToLower().StartsWith("/api/")
+            if ((context.AbsolutePath == null
+                || !context.AbsolutePath.ToLower().StartsWith("/api/"))
                 && !IpAddresses.AllowedIpAddress(
                     context: context,
                     allowIpAddresses: Parameters.Security.AllowIpAddresses,
