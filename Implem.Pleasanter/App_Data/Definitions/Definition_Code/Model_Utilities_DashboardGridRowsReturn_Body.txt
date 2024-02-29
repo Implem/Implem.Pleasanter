@@ -11,7 +11,7 @@
 <!--Model_Utilities_ClearOriginalId-->
 
         .CloseDialog(_using: offset == 0)
-        .ReplaceAll("#CopyDirectUrlToClipboard", new HtmlBuilder()
+        .ReplaceAll("#CopyToClipboards", new HtmlBuilder()
             .CopyDirectUrlToClipboard(
                 context: context,
                 view: view))
