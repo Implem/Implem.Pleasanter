@@ -2106,6 +2106,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                         case "SynchronizedTime":
                             sql.Users_SynchronizedTime(tableName: path, _as: _as);
                             break;
+                        case "SecretKey":
+                            sql.Users_SecretKey(tableName: path, _as: _as);
+                            break;
+                        case "EnableSecretKey":
+                            sql.Users_EnableSecretKey(tableName: path, _as: _as);
+                            break;
                         case "Comments":
                             sql.Users_Comments(tableName: path, _as: _as);
                             break;

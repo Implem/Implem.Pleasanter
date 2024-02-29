@@ -1,0 +1,33 @@
+﻿{
+    "Id": "RequireSecondAuthenticationByMail",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "Authenticate by mail"
+        },
+        {
+            "Language": "zh",
+            "Body": "通过电子邮件认证"
+        },
+        {
+            "Language": "ja",
+            "Body": "メールで認証する"
+        },
+        {
+            "Language": "de",
+            "Body": "Godkendelse via e-mail"
+        },
+        {
+            "Language": "ko",
+            "Body": "이메일로 인증"
+        },
+        {
+            "Language": "es",
+            "Body": "Autentimine e-posti teel"
+        },
+        {
+            "Language": "vn",
+            "Body": "Xác thực bằng email"
+        }
+    ]
+}
