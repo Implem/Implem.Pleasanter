@@ -302,6 +302,7 @@ nav.both.cf {
 #MainContainer .fieldset.enclosed,
 #MainContainer .fieldset.enclosed-thin {
     border: 1px solid #CECECE;
+    border-radius: 4px;
     background: #F8F8F8;
 }
 
@@ -353,8 +354,13 @@ fieldset .command-left > button {
 }
 
 #MainContainer input:focus,
-#MainContainer textarea:focus {
+#MainContainer textarea:focus,
+#MainContainer select:focus:not(.has-css) {
     background-color: #FFF9E3;
+}
+
+.ui-widget input{
+    cursor: pointer;
 }
 
 /* ボタン */
@@ -456,10 +462,13 @@ fieldset .command-left > button {
 #MainCommands .button-positive:hover .ui-icon,
 .dialog .button-neutral .ui-icon,
 .dialog .button-neutral:hover .ui-icon,
+.dialog .button-neutral:focus .ui-icon,
 .dialog .button-negative .ui-icon,
 .dialog .button-negative:hover .ui-icon,
+.dialog .button-negative:focus .ui-icon,
 .dialog .button-positive .ui-icon,
 .dialog .button-positive:hover .ui-icon,
+.dialog .button-positive:focus .ui-icon,
 fieldset .button-neutral .ui-icon,
 fieldset .button-neutral:hover .ui-icon,
 fieldset .button-negative .ui-icon,
@@ -470,14 +479,14 @@ fieldset .button-positive:hover .ui-icon {
 }
 
 /* ボタンpadding設定 */
-#MainForm #RecordSwitchers .ui-button,
+#Editor #RecordSwitchers .ui-button,
 #MainCommands .ui-button,
 #ViewFilters .ui-button,
 fieldset .ui-button,
 .field-control .ui-button,
 .dialog .ui-button {
     padding: 4px 8px 4px 6px !important;
-    margin-bottom: 8px;
+    /*margin-bottom: 8px;*/
 }
 
 .ui-state-active .ui-icon, .ui-button:active .ui-icon,
@@ -553,32 +562,48 @@ fieldset .ui-button,
     background-color: #E03E3E;
 }
 
-#MainForm #RecordHeader {
+#Editor #RecordHeader {
     position: relative;
     margin: 0;
     padding-top: 8px;
     padding-bottom: 12px;
 }
 
-#MainForm #RecordHeader #RecordSwitchers {
+#Editor #RecordHeader #RecordSwitchers {
     position: absolute;
     bottom: 10px;
     right: 16px;
 }
 
-#MainForm #RecordHeader #RecordSwitchers .current {
+#Editor #RecordHeader #RecordSwitchers .current {
     height: 30px;
     margin: 0 8px;
 }
 
-#MainForm #RecordHeader #RecordSwitchers .ui-widget-header {
+#Editor #RecordHeader #RecordSwitchers .ui-widget-header {
     background: none;
     color: #222222;
     border: none;
 }
 
-#MainForm #RecordHeader #RecordSwitchers button:last-child {
+#Editor #RecordHeader #RecordSwitchers button:last-child {
     margin-left: 16px;
+}
+
+table.grid thead th > input,
+table.grid tbody td > input {
+    margin: 0 auto;
+    width: 100%;
+    cursor: pointer;
+}
+
+#Editor table.grid > thead > tr:first-child > th:first-child,
+#Editor table.grid > thead > tr:last-child > th:last-child {
+    border-radius: 0;
+}
+
+#Editor #EditorTabsContainer.ui-tabs .ui-tabs-panel {
+    padding: 16px 16px 6px;
 }
 
 /* 編集画面 */
@@ -586,7 +611,7 @@ fieldset .ui-button,
     overflow: hidden;
 }
 
-#MainForm #EditorComments {
+#Editor #EditorComments{
     background: #DEECF9;
     padding-top: 16px;
     padding-left: 16px;
@@ -595,35 +620,35 @@ fieldset .ui-button,
     margin-bottom: -10000px;
 }
 
-#MainForm #EditorComments .comment {
+#Editor #EditorComments .comment {
     border: 0;
     border-bottom: 1px solid #CECECE;
     background: none;
 }
 
-#MainForm #EditorTabsContainer,
+#Editor #EditorTabsContainer,
 .ui-dialog .ui-dialog-content form .tab-container {
     margin-bottom: 0;
 }
 
-#MainForm #EditorTabsContainer.ui-widget-content,
+#Editor #EditorTabsContainer.ui-widget-content,
 #TenantForm #EditorTabsContainer.ui-widget-content,
 .ui-dialog .ui-dialog-content form .tab-container.ui-widget-content {
     background: #fff;
     border: none;
 }
 
-#MainForm #EditorTabsContainer.ui-tabs,
+#Editor #EditorTabsContainer.ui-tabs,
 #TenantForm #EditorTabsContainer.ui-tabs,
 .template-tab-container .ui-tabs,
 .ui-dialog .ui-dialog-content form .tab-container.ui-tabs {
     padding: 0;
 }
 
-#MainForm #EditorTabs.ui-widget-header,
+#Editor #EditorTabs.ui-widget-header,
 #TenantForm #EditorTabs.ui-widget-header,
 .template-tab-container > .ui-widget-header,
-.ui-dialog .ui-dialog-content form .tab-container .ui-widget-header{
+.ui-dialog .ui-dialog-content form .tab-container .ui-widget-header {
     background: #DEECF9;
     border: none;
     border-radius: 0;
@@ -636,7 +661,7 @@ fieldset .ui-button,
     padding-bottom: 0;
 }
 
-#MainForm #EditorTabs li.ui-state-active,
+#Editor #EditorTabs li.ui-state-active,
 #TenantForm #EditorTabs li.ui-state-active,
 .template-tab-container li.ui-state-active,
 .ui-dialog .ui-dialog-content form .tab-container li.ui-state-active {
@@ -644,7 +669,7 @@ fieldset .ui-button,
     border-radius: 4px 4px 0 0;
 }
 
-#MainForm #EditorTabs li.ui-state-active a,
+#Editor #EditorTabs li.ui-state-active a,
 #TenantForm #EditorTabs li.ui-state-active a,
 .template-tab-container li.ui-state-active a,
 .ui-dialog .ui-dialog-content form .tab-container .ui-tabs-nav li.ui-state-active a {
@@ -654,7 +679,7 @@ fieldset .ui-button,
     color: #fff;
 }
 
-#MainForm #EditorTabs li,
+#Editor #EditorTabs li,
 #TenantForm #EditorTabs li,
 .template-tab-container li,
 .ui-dialog .ui-dialog-content form .tab-container .ui-tabs-nav li {
@@ -662,7 +687,7 @@ fieldset .ui-button,
     border-radius: 4px 4px 0 0;
 }
 
-#MainForm #EditorTabs li a,
+#Editor #EditorTabs li a,
 #TenantForm #EditorTabs li a,
 .template-tab-container li a,
 .ui-dialog .ui-dialog-content form .tab-container .ui-tabs-nav li a {
@@ -772,8 +797,28 @@ fieldset .ui-button,
     background-color: #FFFFFF;
 }
 
-fieldset .field-vertical > .field-label{
+fieldset .field-vertical > .field-label {
     padding: 0;
+}
+
+.field-label label{
+    cursor: default;
+}
+
+.field-control .command-left .control-textbox {
+    margin-right: 8px;
+}
+
+.field-control .command-right {
+    padding: 0;
+}
+
+.field-control .command-right > button {
+    margin: 0 0 8px;
+}
+
+.ui-dialog .command-center > button{
+    margin: 0 8px;
 }
 
 /* フッタメッセージ */
@@ -1239,6 +1284,8 @@ body#login {
 
 #MainForm #LoginFieldSet {
     background-color: initial;
+    border: 1px solid #CECECE;
+    border-radius: 4px;
 }
 
 #Logins div .field-wide {
@@ -1250,10 +1297,10 @@ body#login {
 }
 
 #Logins div .field-wide .field-control .container-normal input {
-    height: 50px;
+    height: 48px;
     border: none;
-    border-radius: 8px;
-    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, .2);
+    border: 1px solid #CECECE;
+    border-radius: 4px;
     padding: 4px 20px;
 }
 
