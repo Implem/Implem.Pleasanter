@@ -4151,7 +4151,9 @@ namespace Implem.Pleasanter.Models
             var createdContext = new Context(
                 tenantId: TenantId,
                 context: context);
-            return context.ContractSettings.AllowedIpAddress(createdContext.UserHostAddress);
+            return context.ContractSettings.AllowedIpAddress(
+                context: context,
+                createdContext.UserHostAddress);
         }
 
         /// <summary>
