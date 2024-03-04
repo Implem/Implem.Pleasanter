@@ -3813,6 +3813,8 @@ namespace Implem.Pleasanter.Models
                 || SecondaryAuthenticationCodeExpirationTime_Updated(context: context)
                 || LdapSearchRoot_Updated(context: context)
                 || SynchronizedTime_Updated(context: context)
+                || SecretKey_Updated(context: context)
+                || EnableSecretKey_Updated(context: context)
                 || Comments_Updated(context: context)
                 || Creator_Updated(context: context)
                 || Updator_Updated(context: context);
