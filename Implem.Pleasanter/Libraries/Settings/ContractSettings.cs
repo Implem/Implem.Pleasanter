@@ -120,10 +120,12 @@ namespace Implem.Pleasanter.Libraries.Settings
             return Parameters.BinaryStorage.Images && Attachments();
         }
 
-        public bool AllowedIpAddress(string ipAddress)
+        public bool AllowedIpAddress(Context context, string ipAddress)
         {
             return IpAddresses.AllowedIpAddress(
+                context: context,
                 allowIpAddresses: AllowIpAddresses,
+                ipRestrictionExcludeMembers: Parameters.Security.IpRestrictionExcludeMembers,
                 ipAddress: ipAddress);
         }
 
