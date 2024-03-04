@@ -10239,6 +10239,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string UserMenu(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "UserMenu",
+                data: data);
+        }
+
         public static string UserNotSelfDelete(
             Context context,
             params string[] data)
