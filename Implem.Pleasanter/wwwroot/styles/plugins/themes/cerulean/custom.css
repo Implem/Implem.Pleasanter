@@ -323,13 +323,26 @@ nav.both.cf {
     border: 1px solid #666;
 }
 
+.field-control .control-textbox,
+.dialog .command-center button,
+#MainCommands button,
+#Editor fieldset button{
+    font-family: 'メイリオ', 'Meiryo', 'Hiragino Kaku Gothic ProN', 'ヒラギノ角ゴ ProN W3', sans-serif;
+}
+
 .field-control .control-markdown,
 .field-control .control-spinner {
     outline: none;
 }
 
-.field-control .control-markup {
+#Editor .field-control .control-markup {
     padding: 8px 28px 8px 8px;
+    border-radius: 4px;
+}
+
+#Editor .control-markdown{
+    padding: 8px;
+    border-radius: 4px;
 }
 
 .field-control .control-attachments-upload {
@@ -337,11 +350,30 @@ nav.both.cf {
 }
 
 fieldset .command-left {
-    padding: 0 0 8px;
+    padding: 0;
 }
 
+fieldset .command-center > button,
 fieldset .command-left > button {
-    margin: 0 8px 0 0;
+    margin: 0 4px 8px;
+}
+
+.container-selectable .command-center,
+.container-selectable .command-left {
+    padding: 0;
+}
+
+.container-selectable .command-center > button,
+.container-selectable .command-left > button {
+    margin: 0 4px 8px;
+}
+
+.container-selectable button {
+    margin-right: 8px;
+}
+
+.control-dropdown {
+    margin: 0 4px 8px;
 }
 
 .field-control #SearchPermissionElements {
@@ -368,14 +400,14 @@ fieldset .command-left > button {
     background: #FFFFFF;
     border-radius: 4px !important;
     border: 1px solid #CECECE;
-    box-shadow: 0 2px 2px rgba(0,0,0,.2);
+    box-shadow: 0 1px 2px rgba(0,0,0,.1);
     color: #222222;
 }
 
 .ui-button:hover {
     background: #FFFFFF;
     border: 1px solid #aeaeae;
-    box-shadow: 0 2px 2px rgba(0,0,0,.4);
+    box-shadow: 0 2px 4px rgba(0,0,0,.2);
 }
 
 .ui-button:hover .ui-icon {
@@ -486,7 +518,6 @@ fieldset .ui-button,
 .field-control .ui-button,
 .dialog .ui-button {
     padding: 4px 8px 4px 6px !important;
-    /*margin-bottom: 8px;*/
 }
 
 .ui-state-active .ui-icon, .ui-button:active .ui-icon,
@@ -626,26 +657,26 @@ table.grid tbody td > input {
     background: none;
 }
 
-#Editor #EditorTabsContainer,
+#MainForm #EditorTabsContainer,
 .ui-dialog .ui-dialog-content form .tab-container {
     margin-bottom: 0;
 }
 
-#Editor #EditorTabsContainer.ui-widget-content,
+#MainForm #EditorTabsContainer.ui-widget-content,
 #TenantForm #EditorTabsContainer.ui-widget-content,
 .ui-dialog .ui-dialog-content form .tab-container.ui-widget-content {
     background: #fff;
     border: none;
 }
 
-#Editor #EditorTabsContainer.ui-tabs,
+#MainForm #EditorTabsContainer.ui-tabs,
 #TenantForm #EditorTabsContainer.ui-tabs,
 .template-tab-container .ui-tabs,
 .ui-dialog .ui-dialog-content form .tab-container.ui-tabs {
     padding: 0;
 }
 
-#Editor #EditorTabs.ui-widget-header,
+#MainForm #EditorTabs.ui-widget-header,
 #TenantForm #EditorTabs.ui-widget-header,
 .template-tab-container > .ui-widget-header,
 .ui-dialog .ui-dialog-content form .tab-container .ui-widget-header {
@@ -661,7 +692,7 @@ table.grid tbody td > input {
     padding-bottom: 0;
 }
 
-#Editor #EditorTabs li.ui-state-active,
+#MainForm #EditorTabs li.ui-state-active,
 #TenantForm #EditorTabs li.ui-state-active,
 .template-tab-container li.ui-state-active,
 .ui-dialog .ui-dialog-content form .tab-container li.ui-state-active {
@@ -669,7 +700,7 @@ table.grid tbody td > input {
     border-radius: 4px 4px 0 0;
 }
 
-#Editor #EditorTabs li.ui-state-active a,
+#MainForm #EditorTabs li.ui-state-active a,
 #TenantForm #EditorTabs li.ui-state-active a,
 .template-tab-container li.ui-state-active a,
 .ui-dialog .ui-dialog-content form .tab-container .ui-tabs-nav li.ui-state-active a {
@@ -679,7 +710,7 @@ table.grid tbody td > input {
     color: #fff;
 }
 
-#Editor #EditorTabs li,
+#MainForm #EditorTabs li,
 #TenantForm #EditorTabs li,
 .template-tab-container li,
 .ui-dialog .ui-dialog-content form .tab-container .ui-tabs-nav li {
@@ -687,7 +718,7 @@ table.grid tbody td > input {
     border-radius: 4px 4px 0 0;
 }
 
-#Editor #EditorTabs li a,
+#MainForm #EditorTabs li a,
 #TenantForm #EditorTabs li a,
 .template-tab-container li a,
 .ui-dialog .ui-dialog-content form .tab-container .ui-tabs-nav li a {
@@ -818,7 +849,7 @@ fieldset .field-vertical > .field-label {
 }
 
 .ui-dialog .command-center > button{
-    margin: 0 8px;
+    margin: 0 4px;
 }
 
 /* フッタメッセージ */
@@ -852,7 +883,7 @@ fieldset .field-vertical > .field-label {
 }
 
 #Application #MainCommands > button {
-    margin: 0 8px;
+    margin: 0 4px;
 }
 
 #Application #MainCommands > button .ui-icon-person {
@@ -879,7 +910,7 @@ fieldset .field-vertical > .field-label {
     width: calc(100% - 32px);
     background-color: #FFFFFF;
     border-radius: 4px;
-    margin: 0 16px 16px;
+    margin: 16px 16px 0;
     padding: 24px 0 0 0;
     box-shadow: 0 2px 2px rgba(0,0,0,.2);
 }
@@ -911,19 +942,33 @@ fieldset .field-vertical > .field-label {
 
 /* トップ（サイトメニュー） */
 #SiteMenu {
-    margin: 16px;
+    margin: 0;
 }
 
 #SiteMenu .heading {
     display: none;
 }
 
-#SiteMenu .nav-site a {
-    padding: 8px;
-    text-align: center;
+#Application .nav-sites {
+    margin: 0;
+    padding: 16px;
 }
 
-#SiteMenu .nav-site .conditions {
+#Application .nav-site {
+    margin: 0 16px 16px 0;
+}
+
+#Application .nav-site a {
+    padding: 8px;
+    text-align: center;
+    vertical-align: middle;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+
+#Application .nav-site .conditions {
     top: 0;
     left: 0;
     height: 40px;
@@ -933,21 +978,21 @@ fieldset .field-vertical > .field-label {
     justify-content: flex-start;
 }
 
-#SiteMenu .nav-site .conditions span:nth-of-type(2) {
+#Application .nav-site .conditions span:nth-of-type(2) {
     margin-left: auto;
 }
 
-#SiteMenu .nav-site .conditions span.count {
+#Application .nav-site .conditions span.count {
     background-color: #C1E1FF;
     border: 1px solid #90CAFF;
 }
 
-#SiteMenu .nav-site .conditions span.overdue {
+#Application .nav-site .conditions span.overdue {
     background-color: #E03E3E;
     border: 1px solid #E03E3E;
 }
 
-#SiteMenu .nav-site {
+#Application .nav-site {
     width: 213px;
     min-height: 140px;
     background-color: #FFFFFF;
@@ -956,7 +1001,7 @@ fieldset .field-vertical > .field-label {
     box-shadow: 0 2px 2px rgba(0,0,0,.2);
 }
 
-#SiteMenu .nav-site span.title {
+#Application .nav-site span.title {
     margin: 0;
     overflow: hidden;
     display: -webkit-box;
@@ -971,6 +1016,10 @@ fieldset .field-vertical > .field-label {
 #SiteMenu .nav-site.to-parent {
     min-height: 36px;
     margin-top: 0;
+}
+
+#SiteMenu .nav-site.to-parent .ui-icon{
+    top: 12px;
 }
 
 #TemplateTabsContainer.ui-widget.ui-widget-content {
