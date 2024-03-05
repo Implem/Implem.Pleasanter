@@ -166,7 +166,9 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                         {
                             attachment.WriteToLocal(context: context);
                         }
-                        DataSources.File.DeleteTemp(context: context, attachment.Guid);
+                        DataSources.File.DeleteTemp(
+                            context: context,
+                            attachment.Guid);
                     }
                     else if (attachment.Deleted == true && !attachment.Overwritten.HasValue)
                     {
