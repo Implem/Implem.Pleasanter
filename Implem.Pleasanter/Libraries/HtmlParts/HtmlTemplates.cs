@@ -149,7 +149,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         id: context.Action == "login"
                             ? "login"
                             : string.Empty,
-                        css: context.ThemeVersionEqual1_0()
+                        css: context.ThemeVersion1_0()
                             ? "theme-version-1_0"
                             : string.Empty,
                         style: "visibility:hidden",

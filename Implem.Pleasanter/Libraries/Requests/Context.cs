@@ -1159,7 +1159,7 @@ namespace Implem.Pleasanter.Libraries.Requests
             }
         }
 
-        public bool ThemeVersionEqual1_0()
+        public bool ThemeVersion1_0()
         {
             return ThemeVersion() == 1.0M;
         }

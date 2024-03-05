@@ -27,87 +27,104 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool useSearch,
             ServerScriptModelRow serverScriptModelRow)
         {
-            if (context.ThemeVersionEqual1_0())
+            if (errorType == Error.Types.None
+                && useNavigationMenu
+                && !context.Publish)
             {
-                return errorType == Error.Types.None
-                    && useNavigationMenu
-                    && !context.Publish
-                        ? hb.Nav(
-                            id: "Navigations",
-                            css: "ui-widget-header",
+                if (context.ThemeVersion1_0())
+                {
+                    return Navigations(
+                        hb: hb,
+                        context: context,
+                        ss: ss,
+                        siteId: siteId,
+                        referenceType: referenceType,
+                        useSearch: useSearch,
+                        serverScriptModelRow: serverScriptModelRow);
+                }
+                else if (context.ThemeVersionOver2_0() && context.Action != "login")
+                {
+                    return hb
+                        .Label(
+                            attributes: new HtmlAttributes()
+                                .For("hamburger")
+                                .OnClick("$p.closeSideMenu($(this));"),
+                                css: "hamburger-switch",
+                                action: () => hb
+                                    .Div(
+                                        css: "hamburger-switch-line"))
+                        .Div(
+                            css: "hamburger-menubox",
                             action: () => hb
-                                .Menus(
-                                    context: context,
-                                    ss: ss,
-                                    siteId: siteId,
-                                    referenceType: referenceType,
-                                    muenuId: "NavigationMenu",
-                                    menus: ExtendedAssembleNavigationMenu(
-                                        navigationMenus: Parameters.NavigationMenus,
-                                        extendedNavigationMenus: ExtendedNavigationMenu(context)),
-                                    serverScriptModelRow: serverScriptModelRow)
-                                .Search(
-                                    context: context,
-                                    _using: useSearch && !Parameters.Search.DisableCrossSearch))
-                            .ResponsiveMenu(
-                                context: context)
-                        : hb;
-            }
-            else if (context.ThemeVersionOver2_0() && context.Action != "login")
-            {
-                return hb
-                    .Label(
-                        attributes: new HtmlAttributes()
-                            .For("hamburger")
-                            .OnClick("$p.closeSideMenu($(this));"),
-                            css: "hamburger-switch",
-                            action: () => hb
+                                .Input(
+                                    attributes: new HtmlAttributes()
+                                        .Type("checkbox"),
+                                    id: "hamburger",
+                                    css: "input-hidden")
                                 .Div(
-                                    css: "hamburger-switch-line"))
-                    .Div(
-                        css: "hamburger-menubox",
-                        action: () => hb
-                            .Input(
-                                attributes: new HtmlAttributes()
-                                    .Type("checkbox"),
-                                id: "hamburger",
-                                css: "input-hidden")
-                            .Div(
-                                css: "hamburger-menuwrap hamburger-menuwrap-left",
-                                action: () => hb
-                                    .Section(
-                                        attributes: new HtmlAttributes()
-                                            .Class("accordion"),
-                                        action: () => hb
-                                            .Nav(
-                                                id: "Navigations",
-                                                css: "hamburger-menubox",
-                                                action: () => hb
-                                                    .Menus(
-                                                        context: context,
-                                                        ss: ss,
-                                                        siteId: siteId,
-                                                        referenceType: referenceType,
-                                                        muenuId: "NavigationMenu",
-                                                        menus: ExtendedAssembleNavigationMenu(
-                                                            navigationMenus: Parameters.NavigationMenus,
-                                                            extendedNavigationMenus: ExtendedNavigationMenu(context)),
-                                                        serverScriptModelRow: serverScriptModelRow))
-                                                .ResponsiveMenu(
-                                                    context: context)))
-                            .Div(
-                                css: "hamburger-closelabel",
-                                action: () => hb
-                                    .Label(
-                                        attributes: new HtmlAttributes()
-                                            .For("hamburger")
-                                            .OnClick("$p.closeSideMenu($(this));"),
-                                            css: "hamburger-cover")));
+                                    css: "hamburger-menuwrap hamburger-menuwrap-left",
+                                    action: () => hb
+                                        .Section(
+                                            attributes: new HtmlAttributes()
+                                                .Class("accordion"),
+                                            action: () => Navigations(
+                                                hb: hb,
+                                                context: context,
+                                                ss: ss,
+                                                siteId: siteId,
+                                                referenceType: referenceType,
+                                                useSearch: useSearch,
+                                                serverScriptModelRow: serverScriptModelRow)))
+                                .Div(
+                                    css: "hamburger-closelabel",
+                                    action: () => hb
+                                        .Label(
+                                            attributes: new HtmlAttributes()
+                                                .For("hamburger")
+                                                .OnClick("$p.closeSideMenu($(this));"),
+                                                css: "hamburger-cover")));
+                }
+                else
+                {
+                    return hb;
+                }
             }
             else
             {
                 return hb;
             }
+        }
+
+        public static HtmlBuilder Navigations(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            long siteId,
+            string referenceType,
+            bool useSearch,
+            ServerScriptModelRow serverScriptModelRow)
+        {
+            return hb.Nav(
+                id: "Navigations",
+                css: context.ThemeVersion1_0()
+                    ? "ui-widget-header"
+                    : "hamburger-menubox",
+                action: () => hb
+                    .Menus(
+                        context: context,
+                        ss: ss,
+                        siteId: siteId,
+                        referenceType: referenceType,
+                        muenuId: "NavigationMenu",
+                        menus: ExtendedAssembleNavigationMenu(
+                            navigationMenus: Parameters.NavigationMenus,
+                            extendedNavigationMenus: ExtendedNavigationMenu(context)),
+                        serverScriptModelRow: serverScriptModelRow)
+                    .Search(
+                        context: context,
+                        _using: useSearch && !Parameters.Search.DisableCrossSearch))
+                .ResponsiveMenu(
+                    context: context);
         }
 
         private static HtmlBuilder Menus(
@@ -147,265 +164,98 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     siteId: siteId,
                                     menu: menu)))
                         {
-                            if (context.ThemeVersionEqual1_0())
+                            if (context.ThemeVersion1_0())
                             {
-                                hb.Li(
+                                SubMenu(
+                                    hb: hb,
+                                    context: context,
+                                    ss: ss,
+                                    siteId: siteId,
+                                    referenceType: referenceType,
                                     id: id,
-                                    css: menu.ChildMenus?.Any() != true
-                                        ? null
-                                        : "sub-menu",
-                                    attributes: new HtmlAttributes()
-                                        .Style(
-                                            value: "display:none;",
-                                            _using: serverScriptModelRow?.Elements?.Hidden(id) == true),
-                                    action: () => hb
-                                        .Content(
-                                            context: context,
-                                            ss: ss,
-                                            siteId: siteId,
-                                            childMenu: childMenu,
-                                            menu: menu,
-                                            serverScriptLabelText: serverScriptModelRow?.Elements?.LabelText(id))
-                                        .Menus(
-                                            context: context,
-                                            ss: ss,
-                                            siteId: siteId,
-                                            referenceType: referenceType,
-                                            muenuId: menu.MenuId,
-                                            css: "menu",
-                                            cssUiWidget: "ui-widget-content",
-                                            childMenu: true,
-                                            menus: menu.ChildMenus,
-                                            serverScriptModelRow: serverScriptModelRow));
+                                    menu: menu,
+                                    childMenu: childMenu,
+                                    serverScriptModelRow: serverScriptModelRow);
                             }
                             else if (context.ThemeVersionOver2_0() && context.Action != "login")
                             {
+                                var attributesForId = string.Empty;
+                                var iconName = string.Empty;
+                                var displayText = string.Empty;
                                 switch (menu.ContainerId)
                                 {
                                     case "NewMenuContainer":
-                                        hb.Div(
-                                            css: "menubox",
-                                            action: () => hb
-                                                .A(
-                                                href: menu.Url
-                                                    ?? Href(
-                                                        context: context,
-                                                        ss: ss,
-                                                        siteId: siteId,
-                                                        menu: menu)
-                                                    ?? "javascript:void(0);",
-                                                action: () => hb
-                                                    .Span(
-                                                        action: () => hb
-                                                            .Img(
-                                                                css: "new",
-                                                                src: Locations.Get(
-                                                                    context: context,
-                                                                    "Images",
-                                                                    "icon-menu-new.svg")))
-                                                    .Span(
-                                                        action: () => hb
-                                                            .Text(Displays.New(context: context))))
-                                                .Div(
-                                                    css: "menubox-sub",
-                                                    action: () => hb
-                                                        .Ul(action: () => hb
-                                                            .Li(
-                                                                id: id,
-                                                                css: menu.ChildMenus?.Any() != true
-                                                                    ? null
-                                                                    : "sub-menu",
-                                                                attributes: new HtmlAttributes()
-                                                                    .Style(
-                                                                        value: string.Empty,
-                                                                        _using: serverScriptModelRow?.Elements?.Hidden(id) == true),
-                                                                action: () => hb
-                                                                    .Menus(
-                                                                        context: context,
-                                                                        ss: ss,
-                                                                        siteId: siteId,
-                                                                        referenceType: referenceType,
-                                                                        muenuId: menu.MenuId,
-                                                                        childMenu: true,
-                                                                        menus: menu.ChildMenus,
-                                                                        serverScriptModelRow: serverScriptModelRow)))));
-                                        break;
+                                        iconName = "icon-menu-new.svg";
+                                        displayText = Displays.New(context: context);
+                                        goto case "MenuContainer";
                                     case "ViewModeMenuContainer":
-                                        hb.Div(
-                                            css: "menubox",
-                                            action: () => hb
-                                                .Input(
-                                                    attributes: new HtmlAttributes()
-                                                        .Type("checkbox"),
-                                                    id: "block-02",
-                                                    css: "toggle")
-                                                .Label(
-                                                    css: "menulabel",
-                                                    attributes: new HtmlAttributes()
-                                                        .For("block-02"),
-                                                    action: () => hb
-                                                        .Span(
-                                                            attributes: new HtmlAttributes()
-                                                                .OnClick("$p.expandSideMenu($(this));"),
-                                                            action: () => hb
-                                                                .Img(
-                                                                    src: Locations.Get(
-                                                                        context: context,
-                                                                        "Images",
-                                                                        "icon-menu-view-mode.svg")))
-                                                        .Span(
-                                                            action: () => hb
-                                                                .Text(Displays.View(context: context))))
-                                                .Div(
-                                                    css: "menubox-sub",
-                                                    action: () => hb
-                                                        .Ul(action: () => hb
-                                                            .Li(
-                                                                id: id,
-                                                                css: menu.ChildMenus?.Any() != true
-                                                                    ? null
-                                                                    : "sub-menu",
-                                                                attributes: new HtmlAttributes()
-                                                                    .Style(
-                                                                        value: string.Empty,
-                                                                        _using: serverScriptModelRow?.Elements?.Hidden(id) == true),
-                                                                action: () => hb
-                                                                    .Menus(
-                                                                        context: context,
-                                                                        ss: ss,
-                                                                        siteId: siteId,
-                                                                        referenceType: referenceType,
-                                                                        muenuId: menu.MenuId,
-                                                                        childMenu: true,
-                                                                        menus: menu.ChildMenus,
-                                                                        serverScriptModelRow: serverScriptModelRow)))));
-                                        break;
+                                        attributesForId = "block-02";
+                                        iconName = "icon-menu-view-mode.svg";
+                                        displayText = Displays.View(context: context);
+                                        goto case "MenuContainer";
                                     case "SettingsMenuContainer":
-                                        hb.Div(
-                                            css: "menubox",
-                                            action: () => hb
-                                                .Input(
-                                                    attributes: new HtmlAttributes()
-                                                        .Type("checkbox"),
-                                                    id: "block-03",
-                                                    css: "toggle")
-                                                .Label(
-                                                    css: "menulabel",
-                                                    attributes: new HtmlAttributes()
-                                                        .For("block-03"),
-                                                    action: () => hb
-                                                        .Span(
-                                                            attributes: new HtmlAttributes()
-                                                                .OnClick("$p.expandSideMenu($(this));"),
-                                                            action: () => hb
-                                                                .Img(
-                                                                    src: Locations.Get(
-                                                                        context: context,
-                                                                        "Images",
-                                                                        "icon-menu-settings.svg")))
-                                                        .Span(
-                                                            action: () => hb
-                                                                .Text(Displays.Manage(context: context))))
-                                                .Div(
-                                                    css: "menubox-sub",
-                                                    action: () => hb
-                                                        .Ul(action: () => hb
-                                                            .Li(
-                                                                id: id,
-                                                                css: menu.ChildMenus?.Any() != true
-                                                                    ? null
-                                                                    : "sub-menu",
-                                                                attributes: new HtmlAttributes()
-                                                                    .Style(
-                                                                        value: string.Empty,
-                                                                        _using: serverScriptModelRow?.Elements?.Hidden(id) == true),
-                                                                action: () => hb
-                                                                    .Menus(
-                                                                        context: context,
-                                                                        ss: ss,
-                                                                        siteId: siteId,
-                                                                        referenceType: referenceType,
-                                                                        muenuId: menu.MenuId,
-                                                                        childMenu: true,
-                                                                        menus: menu.ChildMenus,
-                                                                        serverScriptModelRow: serverScriptModelRow)))));
-                                        break;
+                                        attributesForId = "block-03";
+                                        iconName = "icon-menu-settings.svg";
+                                        displayText = Displays.Manage(context: context);
+                                        goto case "MenuContainer";
                                     case "HelpMenuContainer":
-                                        hb.Div(
-                                            css: "menubox",
-                                            action: () => hb
-                                                .Input(
-                                                    attributes: new HtmlAttributes()
-                                                        .Type("checkbox"),
-                                                    id: "block-04",
-                                                    css: "toggle")
-                                                .Label(
-                                                    css: "menulabel",
-                                                    attributes: new HtmlAttributes()
-                                                        .For("block-04"),
-                                                    action: () => hb
-                                                        .Span(
-                                                            attributes: new HtmlAttributes()
-                                                                .OnClick("$p.expandSideMenu($(this));"),
-                                                            action: () => hb
-                                                                .Img(
-                                                                    src: Locations.Get(
-                                                                        context: context,
-                                                                        "Images",
-                                                                        "icon-menu-help.svg")))
-                                                        .Span(
-                                                            action: () => hb
-                                                                .Text(Displays.HelpMenu(context: context))))
-                                                .Div(
-                                                    css: "menubox-sub",
-                                                    action: () => hb
-                                                        .Ul(action: () => hb
-                                                            .Li(
-                                                                id: id,
-                                                                css: menu.ChildMenus?.Any() != true
-                                                                    ? null
-                                                                    : "sub-menu",
-                                                                attributes: new HtmlAttributes()
-                                                                    .Style(
-                                                                        value: string.Empty,
-                                                                        _using: serverScriptModelRow?.Elements?.Hidden(id) == true),
-                                                                action: () => hb
-                                                                    .Menus(
-                                                                        context: context,
-                                                                        ss: ss,
-                                                                        siteId: siteId,
-                                                                        referenceType: referenceType,
-                                                                        muenuId: menu.MenuId,
-                                                                        childMenu: true,
-                                                                        menus: menu.ChildMenus,
-                                                                        serverScriptModelRow: serverScriptModelRow)))));
-                                        break;
+                                        attributesForId = "block-04";
+                                        iconName = "icon-menu-help.svg";
+                                        displayText = Displays.HelpMenu(context: context);
+                                        goto case "MenuContainer";
                                     case "AccountMenuContainer":
+                                        attributesForId = "block-05";
+                                        iconName = "icon-menu-account.svg";
+                                        displayText = Displays.UserMenu(context: context);
+                                        goto case "MenuContainer";
+                                    case "MenuContainer":
                                         hb.Div(
                                             css: "menubox",
-                                            action: () => hb
-                                                .Input(
-                                                    attributes: new HtmlAttributes()
-                                                        .Type("checkbox"),
-                                                    id: "block-05",
-                                                    css: "toggle")
-                                                .Label(
-                                                    css: "menulabel",
-                                                    attributes: new HtmlAttributes()
-                                                        .For("block-05"),
-                                                    action: () => hb
-                                                        .Span(
-                                                            attributes: new HtmlAttributes()
-                                                                .OnClick("$p.expandSideMenu($(this));"),
+                                            action: menu.ContainerId == "NewMenuContainer"
+                                                ? () => hb
+                                                    .A(
+                                                        href: menu.Url
+                                                            ?? Href(
+                                                                context: context,
+                                                                ss: ss,
+                                                                siteId: siteId,
+                                                                menu: menu)
+                                                            ?? "javascript:void(0);",
                                                             action: () => hb
-                                                                .Img(
-                                                                    src: Locations.Get(
-                                                                        context: context,
-                                                                        "Images",
-                                                                        "icon-menu-account.svg")))
-                                                        .Span(
-                                                            action: () => hb
-                                                                .Text(Displays.UserMenu(context: context))))
+                                                                .Span(
+                                                                    action: () => hb
+                                                                        .Img(
+                                                                            css: "new",
+                                                                            src: Locations.Get(
+                                                                                context: context,
+                                                                                "Images",
+                                                                                iconName)))
+                                                                .Span(
+                                                                    action: () => hb
+                                                                        .Text(displayText)))
+                                                : () => hb
+                                                    .Input(
+                                                        attributes: new HtmlAttributes()
+                                                            .Type("checkbox"),
+                                                        id: attributesForId,
+                                                        css: "toggle")
+                                                    .Label(
+                                                        css: "menulabel",
+                                                        attributes: new HtmlAttributes()
+                                                            .For(attributesForId),
+                                                        action: () => hb
+                                                            .Span(
+                                                                attributes: new HtmlAttributes()
+                                                                    .OnClick("$p.expandSideMenu($(this));"),
+                                                                action: () => hb
+                                                                    .Img(
+                                                                        src: Locations.Get(
+                                                                            context: context,
+                                                                            "Images",
+                                                                            iconName)))
+                                                            .Span(
+                                                                action: () => hb
+                                                                    .Text(displayText)))
                                                 .Div(
                                                     css: "menubox-sub",
                                                     action: () => hb
@@ -431,37 +281,68 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                                         serverScriptModelRow: serverScriptModelRow)))));
                                         break;
                                     default:
-                                        hb.Li(
+                                        SubMenu(
+                                            hb: hb,
+                                            context: context,
+                                            ss: ss,
+                                            siteId: siteId,
+                                            referenceType: referenceType,
                                             id: id,
-                                            css: menu.ChildMenus?.Any() != true
-                                                ? null
-                                                : "sub-menu",
-                                            attributes: new HtmlAttributes()
-                                                .Style(
-                                                    value: string.Empty,
-                                                    _using: serverScriptModelRow?.Elements?.Hidden(id) == true),
-                                            action: () => hb
-                                                .Content(
-                                                    context: context,
-                                                    ss: ss,
-                                                    siteId: siteId,
-                                                    childMenu: childMenu,
-                                                    menu: menu,
-                                                    serverScriptLabelText: serverScriptModelRow?.Elements?.LabelText(id))
-                                                .Menus(
-                                                    context: context,
-                                                    ss: ss,
-                                                    siteId: siteId,
-                                                    referenceType: referenceType,
-                                                    muenuId: menu.MenuId,
-                                                    childMenu: true,
-                                                    menus: menu.ChildMenus,
-                                                    serverScriptModelRow: serverScriptModelRow));
+                                            menu: menu,
+                                            childMenu: childMenu,
+                                            serverScriptModelRow: serverScriptModelRow);
                                         break;
                                 }
                             }
                         }
                     }));
+        }
+
+        private static HtmlBuilder SubMenu(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            long siteId,
+            string referenceType,
+            string id,
+            NavigationMenu menu,
+            bool childMenu = false,
+            ServerScriptModelRow serverScriptModelRow = null)
+        {
+            return hb.Li(
+                id: id,
+                css: menu.ChildMenus?.Any() != true
+                    ? null
+                    : "sub-menu",
+                attributes: new HtmlAttributes()
+                    .Style(
+                        value: context.ThemeVersion1_0()
+                            ? "display:none;"
+                            : string.Empty,
+                        _using: serverScriptModelRow?.Elements?.Hidden(id) == true),
+                action: () => hb
+                    .Content(
+                        context: context,
+                        ss: ss,
+                        siteId: siteId,
+                        childMenu: childMenu,
+                        menu: menu,
+                        serverScriptLabelText: serverScriptModelRow?.Elements?.LabelText(id))
+                    .Menus(
+                        context: context,
+                        ss: ss,
+                        siteId: siteId,
+                        referenceType: referenceType,
+                        muenuId: menu.MenuId,
+                        css: context.ThemeVersion1_0()
+                            ? "menu"
+                            : null,
+                        cssUiWidget: context.ThemeVersion1_0()
+                            ? "ui-widget-content"
+                            : null,
+                        childMenu: true,
+                        menus: menu.ChildMenus,
+                        serverScriptModelRow: serverScriptModelRow));
         }
 
         private static HtmlBuilder Content(
@@ -514,7 +395,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 return hb
                     .Span(
                         css: menu.Icon,
-                        _using: context.ThemeVersionEqual1_0())
+                        _using: context.ThemeVersion1_0())
                     .Text(text: Text(
                         context: context,
                         ss: ss,
@@ -541,7 +422,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     action: () => hb
                         .Span(
                             css: menu.Icon,
-                            _using: context.ThemeVersionEqual1_0())
+                            _using: context.ThemeVersion1_0())
                         .Text(text: Text(
                             context: context,
                             ss: ss,
