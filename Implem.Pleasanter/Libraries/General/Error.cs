@@ -89,6 +89,7 @@ namespace Implem.Pleasanter.Libraries.General
             ReminderErrorTitle,
             RequireMailAddresses,
             RequireManagePermission,
+            RequireSecondAuthenticationByMail,
             RequireTo,
             Restricted,
             SamlLoginFailed,
@@ -440,6 +441,10 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.RequireManagePermission:
                     return Messages.RequireManagePermission(
+                        context: context,
+                        data: data);
+                case Types.RequireSecondAuthenticationByMail:
+                    return Messages.RequireSecondAuthenticationByMail(
                         context: context,
                         data: data);
                 case Types.RequireTo:

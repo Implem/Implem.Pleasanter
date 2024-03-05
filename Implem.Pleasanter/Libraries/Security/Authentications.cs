@@ -15,7 +15,7 @@ namespace Implem.Pleasanter.Libraries.Security
             NumberAndLetter
         }
 
-        public static string SignIn(Context context, string returnUrl, bool noHttpContext = false)
+        public static string SignIn(Context context, string returnUrl, bool isAuthenticationByMail = false, bool noHttpContext = false)
         {
             return new UserModel(
                 context: context,
@@ -24,7 +24,8 @@ namespace Implem.Pleasanter.Libraries.Security
                     .Authenticate(
                         context: context,
                         returnUrl: returnUrl,
-                        noHttpContext: noHttpContext);
+                        noHttpContext: noHttpContext,
+                        isAuthenticationByMail: isAuthenticationByMail);
         }
 
         public static bool Try(Context context, string loginId, string password)
