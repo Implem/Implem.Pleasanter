@@ -1071,11 +1071,11 @@ fieldset .field-vertical > .field-label {
 }
 
 .site-icon{
-    margin: 28px 0 8px;
+    margin: 24px 0 0;
 }
 
 .site-icon img {
-    width: 36px;
+    width: 48px;
 }
 
 /* サイドメニュー */
@@ -1351,6 +1351,7 @@ body#login {
     border: 1px solid #CECECE;
     border-radius: 4px;
     padding: 4px 20px;
+    font-size: 16px;
 }
 
 #Logins div #Tenants {
