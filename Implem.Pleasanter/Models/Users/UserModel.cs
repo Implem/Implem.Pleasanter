@@ -4639,7 +4639,7 @@ namespace Implem.Pleasanter.Models
                                 id: "TotpRegisterGuideTop")))
                         .Div(
                             id: "TotpQRCode",
-                            attributes: new HtmlAttributes().Add("data-url", "otpauth://totp/" + LoginId + "?secret=" + SecretKey + "&issuer=implemPlesanter"),
+                            attributes: new HtmlAttributes().Add("data-url", "otpauth://totp/" + LoginId + "?secret=" + SecretKey + "&issuer=Implem%20Plesanter"),
                             action: () => hb.Span(
                                 id: "qrCode"))
                         .Div(
