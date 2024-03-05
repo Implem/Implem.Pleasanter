@@ -267,7 +267,7 @@ pre {
     clear: both;
 }
 
-.theme-version-1_0 #Navigations {
+.theme-version-1_0 #Navigations, #NavigationsUpperRight {
     height: 30px;
     margin: 0px 0px 5px 0px;
     padding: 0px 5px 0px 15px;

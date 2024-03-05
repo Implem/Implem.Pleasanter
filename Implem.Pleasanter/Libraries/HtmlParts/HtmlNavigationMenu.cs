@@ -82,7 +82,21 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                             attributes: new HtmlAttributes()
                                                 .For("hamburger")
                                                 .OnClick("$p.closeSideMenu($(this));"),
-                                                css: "hamburger-cover")));
+                                                css: "hamburger-cover")))
+                        .Div(
+                            id: "NavigationsUpperRight",
+                            action: () => hb
+                                .Div(
+                                    id: "AccountUserName",
+                                    action: () => hb
+                                        .Span(
+                                            css: "ui-icon ui-icon-person")
+                                        .Text(SiteInfo.UserName(
+                                            context: context,
+                                            userId: context.UserId)))
+                                .Search(
+                                    context: context,
+                                    _using: useSearch && !Parameters.Search.DisableCrossSearch));
                 }
                 else
                 {
@@ -122,7 +136,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         serverScriptModelRow: serverScriptModelRow)
                     .Search(
                         context: context,
-                        _using: useSearch && !Parameters.Search.DisableCrossSearch))
+                        _using: useSearch
+                            && !Parameters.Search.DisableCrossSearch
+                            && context.ThemeVersion1_0()))
                 .ResponsiveMenu(
                     context: context);
         }
