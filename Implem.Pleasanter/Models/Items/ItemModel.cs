@@ -951,13 +951,48 @@ namespace Implem.Pleasanter.Models
 
         public string NewJson(Context context)
         {
+            SetSite(
+                context: context,
+                siteOnly: true,
+                initSiteSettings: true);
+            var ss = Site.SiteSettings;
+            var referenceType = Site.ReferenceType;
             if (!context.QueryStrings.Bool("control-auto-postback"))
             {
+                var process = ss.Processes
+                    ?.Where(o => $"Process_{o.Id}" == context.Forms.ControlId())
+                    .Where(o => o.Accessable(context: context, ss: ss))
+                    .Select(o => {
+                        if (referenceType == "Issues")
+                        {
+                            var issueModel = new IssueModel(
+                                context: context,
+                                ss: ss,
+                                issueId: 0);
+                            o.MatchConditions = issueModel.GetProcessMatchConditions(
+                                context: context,
+                                ss: ss,
+                                process: o);
+                        }
+                        else if (referenceType == "Results")
+                        {
+                            var resultModel = new ResultModel(
+                                context: context,
+                                ss: ss,
+                                resultId: 0);
+                            o.MatchConditions = resultModel.GetProcessMatchConditions(
+                                context: context,
+                                ss: ss,
+                                process: o);
+                        }
+                        return o;
+                    })
+                    .FirstOrDefault(o => o.MatchConditions);
                 return new ResponseCollection(context: context)
                     .ReplaceAll("#MainContainer", New(context: context))
                     .WindowScrollTop()
                     .FocusMainForm()
-                    .ClearFormData(_using: !(context.Forms.ControlId().StartsWith("Process_") && context.Action == "new"))
+                    .ClearFormData(_using: process?.ActionType != Libraries.Settings.Process.ActionTypes.PostBack)
                     .PushState("Edit", Locations.Get(
                         context: context,
                         parts: new string[]
@@ -971,26 +1006,22 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                SetSite(
-                    context: context,
-                    siteOnly: true,
-                    initSiteSettings: true);
-                switch (Site.ReferenceType)
+                switch (referenceType)
                 {
                     case "Issues":
                         return IssueUtilities.EditorJson(
                             context: context,
-                            ss: Site.SiteSettings,
+                            ss: ss,
                             issueId: 0);
                     case "Results":
                         return ResultUtilities.EditorJson(
                             context: context,
-                            ss: Site.SiteSettings,
+                            ss: ss,
                             resultId: 0);
                     case "Wikis":
                         return WikiUtilities.EditorJson(
                             context: context,
-                            ss: Site.SiteSettings,
+                            ss: ss,
                             wikiId: 0);
                     default:
                         return HtmlTemplates.Error(

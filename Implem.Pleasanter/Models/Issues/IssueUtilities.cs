@@ -2426,6 +2426,20 @@ namespace Implem.Pleasanter.Models
             else
             {
                 var editInDialog = context.Forms.Bool("EditInDialog");
+                var process = ss.Processes
+                    ?.Where(o => $"Process_{o.Id}" == context.Forms.ControlId())
+                    .Where(o => o.Accessable(
+                        context: context,
+                        ss: ss))
+                    .Select(o =>
+                    {
+                        o.MatchConditions = issueModel.GetProcessMatchConditions(
+                            context: context,
+                            ss: ss,
+                            process: o);
+                        return o;
+                    })
+                    .FirstOrDefault(o => o.MatchConditions);
                 var html = Editor(
                     context: context,
                     ss: ss,
@@ -2459,7 +2473,7 @@ namespace Implem.Pleasanter.Models
                                     ss: ss))
                                 .FirstOrDefault(o => o.MatchConditions)?.GetSuccessMessage(context: context))
                             .Messages(context.Messages)
-                            .ClearFormData(_using: !(context.Forms.ControlId().StartsWith("Process_") && context.Action == "edit"))
+                            .ClearFormData(_using: process?.ActionType != Process.ActionTypes.PostBack)
                             .Events("on_editor_load");
             }
         }
