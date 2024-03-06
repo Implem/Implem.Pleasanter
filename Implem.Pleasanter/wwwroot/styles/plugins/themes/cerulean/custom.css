@@ -140,11 +140,11 @@ nav.both.cf {
 }
 
 /* パンくず */
-.separator {
+#Application nav #Breadcrumb .separator {
     display: none;
 }
 
-#Application #Breadcrumb {
+#Application nav #Breadcrumb {
     display: flex;
     margin: 0;
     background-color: #FFFFFF;
@@ -153,7 +153,7 @@ nav.both.cf {
     position: relative;
 }
 
-#Application #Breadcrumb li {
+#Application nav #Breadcrumb li {
     list-style: none;
     font-size: 14px;
     height: 40px;
@@ -163,12 +163,12 @@ nav.both.cf {
     padding: 0 16px;
 }
 
-#Application #Breadcrumb li:first-child {
+#Application nav #Breadcrumb li:first-child {
     padding-left: 36px;
 }
 
-#Application #Breadcrumb li:before,
-#Application #Breadcrumb li:after {
+#Application nav #Breadcrumb li:before,
+#Application nav #Breadcrumb li:after {
     content: "";
     display: block;
     position: absolute;
@@ -178,34 +178,55 @@ nav.both.cf {
     border-bottom: 20px solid transparent;
 }
 
-#Application #Breadcrumb li:last-child {
+#Application nav #Breadcrumb li:last-child {
     background-color: #106EBE;
 }
 
-#Application #Breadcrumb li:nth-last-child(2)::after {
+#Application nav #Breadcrumb li:nth-last-child(2)::after {
     background-color: #106EBE;
 }
 
-#Application #Breadcrumb li:last-child::after {
+#Application nav #Breadcrumb li:last-child::after {
     border-left: 15px solid #106EBE;
 }
 
-#Application #Breadcrumb li:before {
+#Application nav #Breadcrumb li:before {
     right: -40px;
     border-left: 15px solid #ccc;
 }
 
-#Application #Breadcrumb li:after {
+#Application nav #Breadcrumb li:after {
     right: -39px;
     border-left: 15px solid #fff;
 }
 
-#Application #Breadcrumb li:last-child a {
+#Application nav #Breadcrumb li:last-child a {
     color: #fff;
 }
 
-#Application #Breadcrumb .item {
+#Application nav #Breadcrumb .item {
     padding: 4px 24px 4px 12px;
+}
+
+/* 横断検索 */
+#Application #SearchResults {
+    margin: 0 0 0 16px;
+}
+
+#Application #SearchResults #Search{
+    height: 30px;
+    border-radius: 4px;
+    padding: 4px 8px;
+    margin-top: 11px;
+}
+
+#Application #SearchResults .result {
+    background-color: #FFFFFF;
+    margin-bottom: 16px;
+}
+
+#Application #SearchResults #Breadcrumb .item:first-child {
+    padding-left: 0;
 }
 
 /* ビュー */
@@ -260,8 +281,24 @@ nav.both.cf {
     color: #E03E3E;
 }
 
+#Application #SearchResults .count {
+    margin-bottom: 16px;
+}
+
+#Application #SearchResults .count .label {
+    height: auto;
+    margin: 0;
+    border-radius: 4px;
+    background: #FFFFFF;
+    border: 1px solid #FFFFFF;
+}
+
+#Application #SearchResults .count .data{
+    padding-left: 16px;
+}
+
 /* 見出しタイトル */
-#TitleContainer{
+#TitleContainer {
     padding: 16px;
 }
 
@@ -539,8 +576,12 @@ fieldset .ui-button,
     font-weight: bold;
 }
 
-#ViewModeContainer>div{
-    padding-top: 16px;
+#ViewModeContainer > div {
+    /*padding: 16px;*/
+}
+
+#ViewModeContainer > .both{
+    padding: 16px 16px 0;
 }
 
 #ViewModeContainer td {
@@ -993,7 +1034,7 @@ fieldset .field-vertical > .field-label {
 }
 
 #Application .nav-site {
-    width: 211px;
+    width: 209px;
     min-height: 140px;
     background-color: #FFFFFF;
     border: none;
