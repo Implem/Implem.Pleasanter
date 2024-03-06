@@ -588,16 +588,19 @@ fieldset .ui-button,
     padding: 8px;
 }
 
-#ViewModeContainer .grid > tbody > tr > td {
+#ViewModeContainer .grid > tbody > tr > td,
+#EditorTabsContainer .grid > tbody > tr > td {
     border-left: 1px solid #ECECEC;
     border-right: 1px solid #ECECEC;
 }
 
-#ViewModeContainer .grid-row .comment {
+#ViewModeContainer .grid-row .comment,
+#EditorTabsContainer .grid-row .comment {
     margin-bottom: 0;
     padding: 4px 4px 4px 16px;
     background: #EFF6FC;
-    border: 1px solid #EFF6FC;
+    border: 1px solid #C1E1FF;
+    margin-bottom: 4px;
 }
 
 .grid > thead > tr > th {
@@ -616,22 +619,30 @@ fieldset .ui-button,
     border-radius: 0;
 }
 
-#ViewModeContainer .grid-title-body {
-    margin-bottom: 0;
+#ViewModeContainer .grid-title-body,
+#EditorTabsContainer .grid-title-body {
+    margin-bottom: 4px;
     padding: 8px;
 }
 
-#ViewModeContainer .grid > thead > tr:first-child > th:last-child {
+#ViewModeContainer .grid > thead > tr:first-child > th:last-child,
+#EditorTabsContainer .grid > thead > tr:first-child > th:last-child {
     border-radius: 0;
 }
 
 #ViewModeContainer table td:has(.grid-title-body),
-#ViewModeContainer table td:has(.comment) {
-    padding: 0;
+#ViewModeContainer table td:has(.comment),
+#EditorTabsContainer table td:has(.grid-title-body),
+#EditorTabsContainer table td:has(.comment) {
+    padding: 4px 4px 0;
 }
 
 #ViewModeContainer .limit-warning3 {
     background-color: #E03E3E;
+}
+
+#ViewModeContainer .grid-stack{
+    margin: 16px;
 }
 
 #Editor #RecordHeader {
