@@ -2466,12 +2466,7 @@ namespace Implem.Pleasanter.Models
                             .Invoke("setCurrentIndex")
                             .Invoke("initRelatingColumnEditor")
                             // ?? 以降はプロセスのアクション種別がポストバックの場合にもメッセージを出せるようにする処理
-                            .Message(message ?? ss.Processes
-                                ?.Where(o => $"Process_{o.Id}" == context.Forms.ControlId())
-                                .Where(o => o.Accessable(
-                                    context: context,
-                                    ss: ss))
-                                .FirstOrDefault(o => o.MatchConditions)?.GetSuccessMessage(context: context))
+                            .Message(message ?? process?.GetSuccessMessage(context: context))
                             .Messages(context.Messages)
                             .ClearFormData(_using: process?.ActionType != Process.ActionTypes.PostBack)
                             .Events("on_editor_load");
