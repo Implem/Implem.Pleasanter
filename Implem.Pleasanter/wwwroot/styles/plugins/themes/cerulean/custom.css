@@ -1397,14 +1397,38 @@ body#login {
     background-color: #F8F8F8;
 }
 
+body#login #MainContainer {
+    margin-left: 0;
+}
+
+body#login #MainContainer #Application #PortalLink{
+    top: -30px;
+}
+
 #MainContainer #Header {
     height: 39px;
+}
+
+#LoginLogo {
+    margin: 100px auto 40px;
+}
+
+#LoginLogo #Logo {
+    padding: 0;
+}
+
+#LoginLogo #Logo #CorpLogo {
+    float: none;
+    margin: 0 auto;
+    max-height: 48px;
+    margin: 0 auto 20px auto;
 }
 
 #MainForm #LoginFieldSet {
     background-color: initial;
     border: 1px solid #CECECE;
     border-radius: 4px;
+    margin: 0 auto 20px auto;
 }
 
 #Logins div .field-wide {
@@ -1431,6 +1455,14 @@ body#login {
 #Users_LoginIdField p,
 #Users_PasswordField p {
     display: none;
+}
+
+#Users_LoginIdField .field-control .container-normal label.error,
+#Users_PasswordField .field-control .container-normal label.error {
+    background-color: #ffccd5;
+    border-radius: 0;
+    border: none;
+    padding: 4px 8px;
 }
 
 #Users_PasswordField div .show-password {
