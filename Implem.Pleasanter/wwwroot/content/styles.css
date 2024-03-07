@@ -204,6 +204,59 @@ pre {
     clear: both;
 }
 
+#AuthenticationByMail {
+    float: left;
+    padding: 0px 0px 10px 50px;
+}
+
+#TotpQRCode {
+    width: 38%;
+    height: 160px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#TotpQRCodeText {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#qrCodeText {
+    font-size: 1.3em;
+}
+
+.annonymous .close-announcement {
+    display: none;
+}
+
+#TotpAuthenticationCodeSeparate {
+    width: 150px;
+    display: flex;
+    padding: 0 0 10px 40px;
+}
+
+#TotpAuthenticationCodeSeparate > .field-normal > .field-control {
+    margin-left: unset;
+}
+
+#TotpAuthenticationCodeSeparate > .field-normal > .field-control > .container-normal {
+    margin-left: 10px;
+}
+
+.totp-authentication-code {
+    height: 25px;
+    width: 25px;
+    border: none;
+    outline: none;
+    border-bottom: 2px solid black;
+    font-size: 125%;
+    text-align: center;
+}
+
+.totp-form {
+    visibility: hidden;
+}
+
 #Demo {
     width: 500px;
     margin: 0px auto;
