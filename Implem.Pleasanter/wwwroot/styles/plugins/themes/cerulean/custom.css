@@ -369,6 +369,14 @@ nav.both.cf {
     border-radius: 4px;
 }
 
+#MainContainer .fieldset .field-normal .field-control .control-dropdown {
+    margin: 0;
+}
+
+#MainContainer .fieldset .field-normal .field-control .ui-icon-person {
+    background-position: -144px -96px;
+}
+
 .field-control .control-textbox {
     border-radius: 4px;
     padding: 4px 8px 4px 8px;
@@ -712,6 +720,11 @@ table.grid tbody td > input {
 
 #Editor #EditorTabsContainer.ui-tabs .ui-tabs-panel {
     padding: 16px 16px 6px;
+}
+
+#SummariesSettingsEditor .grid > thead > tr > th:nth-child(3),
+#SummariesSettingsEditor .grid > thead > tr > th:last-child {
+    border-bottom: solid 1px #fff;
 }
 
 /* 編集画面 */
