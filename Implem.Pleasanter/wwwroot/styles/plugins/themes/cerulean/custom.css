@@ -117,8 +117,29 @@ body {
     border-bottom: 1px solid #CECECE;
 }
 
+#Header #Logo {
+    padding: 2px 0;
+}
+
 #Header #CorpLogo {
     margin: 0;
+}
+
+#NavigationsUpperRight {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+#NavigationsUpperRight #Search {
+    height: 30px;
+    padding: 4px 8px;
+    margin-left: 16px;
+    margin-right: 4px;
+}
+
+#NavigationsUpperRight #AccountUserName .ui-icon-person {
+    background-position: -144px -96px;
 }
 
 /* クリップボードリンク */
@@ -461,7 +482,11 @@ fieldset .command-left > button {
 }
 
 .ui-tabs .ui-tabs-nav {
-    padding: 4px 16px 0;
+    padding: 4px 0 0 16px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
 }
 
 .ui-widget-content {
@@ -714,22 +739,19 @@ table.grid tbody td > input {
     margin-bottom: 0;
 }
 
-#MainForm #EditorTabsContainer.ui-widget-content,
-#TenantForm #EditorTabsContainer.ui-widget-content,
+#Editor #EditorTabsContainer.ui-widget-content,
 .ui-dialog .ui-dialog-content form .tab-container.ui-widget-content {
     background: #fff;
     border: none;
 }
 
-#MainForm #EditorTabsContainer.ui-tabs,
-#TenantForm #EditorTabsContainer.ui-tabs,
+#Editor #EditorTabsContainer.ui-tabs,
 .template-tab-container .ui-tabs,
 .ui-dialog .ui-dialog-content form .tab-container.ui-tabs {
     padding: 0;
 }
 
-#MainForm #EditorTabs.ui-widget-header,
-#TenantForm #EditorTabs.ui-widget-header,
+#Editor #EditorTabs.ui-widget-header,
 .template-tab-container > .ui-widget-header,
 .ui-dialog .ui-dialog-content form .tab-container .ui-widget-header {
     background: #DEECF9;
@@ -744,16 +766,14 @@ table.grid tbody td > input {
     padding-bottom: 0;
 }
 
-#MainForm #EditorTabs li.ui-state-active,
-#TenantForm #EditorTabs li.ui-state-active,
+#Editor #EditorTabs li.ui-state-active,
 .template-tab-container li.ui-state-active,
 .ui-dialog .ui-dialog-content form .tab-container li.ui-state-active {
     border: none;
     border-radius: 4px 4px 0 0;
 }
 
-#MainForm #EditorTabs li.ui-state-active a,
-#TenantForm #EditorTabs li.ui-state-active a,
+#Editor #EditorTabs li.ui-state-active a,
 .template-tab-container li.ui-state-active a,
 .ui-dialog .ui-dialog-content form .tab-container .ui-tabs-nav li.ui-state-active a {
     background: #106EBE;
@@ -762,16 +782,14 @@ table.grid tbody td > input {
     color: #fff;
 }
 
-#MainForm #EditorTabs li,
-#TenantForm #EditorTabs li,
+#Editor #EditorTabs li,
 .template-tab-container li,
 .ui-dialog .ui-dialog-content form .tab-container .ui-tabs-nav li {
     border: none;
     border-radius: 4px 4px 0 0;
 }
 
-#MainForm #EditorTabs li a,
-#TenantForm #EditorTabs li a,
+#Editor #EditorTabs li a,
 .template-tab-container li a,
 .ui-dialog .ui-dialog-content form .tab-container .ui-tabs-nav li a {
     background: #fff;
@@ -945,12 +963,12 @@ fieldset .field-vertical > .field-label {
 /* 共通フッタ（コピーライト） */
 #MainContainer #Footer {
     background: none;
-    position: relative;
-    z-index: 0;
+    position: fixed;
+    z-index: 9999;
 }
 
 #MainContainer #Footer a {
-    color: #666666;
+    color: #FFFFFF;
 }
 
 #MainContainer #BottomMargin {
