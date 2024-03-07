@@ -18,6 +18,20 @@
     else
     {
         var editInDialog = context.Forms.Bool("EditInDialog");
+        var process = ss.Processes
+            ?.Where(o => $"Process_{o.Id}" == context.Forms.ControlId())
+            .Where(o => o.Accessable(
+                context: context,
+                ss: ss))
+            .Select(o =>
+            {
+                o.MatchConditions = #modelName#Model.GetProcessMatchConditions(
+                    context: context,
+                    ss: ss,
+                    process: o);
+                return o;
+            })
+            .FirstOrDefault(o => o.MatchConditions);
         var html = Editor(
             context: context,
             ss: ss,
@@ -44,14 +58,9 @@
                     .Invoke("setCurrentIndex")
                     .Invoke("initRelatingColumnEditor")
                     // ?? 以降はプロセスのアクション種別がポストバックの場合にもメッセージを出せるようにする処理
-                    .Message(message ?? ss.Processes
-                        ?.Where(o => $"Process_{o.Id}" == context.Forms.ControlId())
-                        .Where(o => o.Accessable(
-                            context: context,
-                            ss: ss))
-                        .FirstOrDefault(o => o.MatchConditions)?.GetSuccessMessage(context: context))
+                    .Message(message ?? process?.GetSuccessMessage(context: context))
                     .Messages(context.Messages)
-                    .ClearFormData()
+                    .ClearFormData(_using: process?.ActionType != Process.ActionTypes.PostBack)
                     .Events("on_editor_load");
     }
 }

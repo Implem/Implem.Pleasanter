@@ -575,13 +575,48 @@ public string New(Context context)
 
 public string NewJson(Context context)
 {
+    SetSite(
+        context: context,
+        siteOnly: true,
+        initSiteSettings: true);
+    var ss = Site.SiteSettings;
+    var referenceType = Site.ReferenceType;
     if (!context.QueryStrings.Bool("control-auto-postback"))
     {
+        var process = ss.Processes
+            ?.Where(o => $"Process_{o.Id}" == context.Forms.ControlId())
+            .Where(o => o.Accessable(context: context, ss: ss))
+            .Select(o => {
+                if (referenceType == "Issues")
+                {
+                    var issueModel = new IssueModel(
+                        context: context,
+                        ss: ss,
+                        issueId: 0);
+                    o.MatchConditions = issueModel.GetProcessMatchConditions(
+                        context: context,
+                        ss: ss,
+                        process: o);
+                }
+                else if (referenceType == "Results")
+                {
+                    var resultModel = new ResultModel(
+                        context: context,
+                        ss: ss,
+                        resultId: 0);
+                    o.MatchConditions = resultModel.GetProcessMatchConditions(
+                        context: context,
+                        ss: ss,
+                        process: o);
+                }
+                return o;
+            })
+            .FirstOrDefault(o => o.MatchConditions);
         return new ResponseCollection(context: context)
             .ReplaceAll("#MainContainer", New(context: context))
             .WindowScrollTop()
             .FocusMainForm()
-            .ClearFormData(_using: !context.QueryStrings.Bool("control-auto-postback"))
+            .ClearFormData(_using: process?.ActionType != Libraries.Settings.Process.ActionTypes.PostBack)
             .PushState("Edit", Locations.Get(
                 context: context,
                 parts: new string[]
@@ -595,11 +630,7 @@ public string NewJson(Context context)
     }
     else
     {
-        SetSite(
-            context: context,
-            siteOnly: true,
-            initSiteSettings: true);
-        switch (Site.ReferenceType)
+        switch (referenceType)
         {
 
 <!--Model_NewJsonCases-->
