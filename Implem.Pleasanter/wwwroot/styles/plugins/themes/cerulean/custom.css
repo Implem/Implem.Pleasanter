@@ -771,6 +771,11 @@ table.grid tbody td > input {
     background: none;
 }
 
+#Application #TemplateTabsContainer {
+    margin: 16px;
+    width: calc(100% - 32px);
+}
+
 #Application #EditorTabsContainer,
 #Application #TemplateTabsContainer,
 .ui-dialog .ui-dialog-content form .tab-container {
@@ -1006,7 +1011,7 @@ fieldset .field-vertical > .field-label {
 }
 
 #MainContainer #BottomMargin {
-    height: 34px;
+    height: 80px;
 }
 
 /* トップ（スタートガイド） */
