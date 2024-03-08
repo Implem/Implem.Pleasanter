@@ -3269,6 +3269,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string DuplicateLoginId(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "DuplicateLoginId",
+                data: data);
+        }
+
         public static string EarnedValue(
             Context context,
             params string[] data)

@@ -31,6 +31,7 @@ namespace Implem.Pleasanter.Libraries.General
             DefinitionNotFound,
             DeleteConflicts,
             Duplicated,
+            DuplicateLoginId,
             EmptyUserName,
             Expired,
             ExportNotSetEmail,
@@ -209,6 +210,10 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.Duplicated:
                     return Messages.Duplicated(
+                        context: context,
+                        data: data);
+                case Types.DuplicateLoginId:
+                    return Messages.DuplicateLoginId(
                         context: context,
                         data: data);
                 case Types.EmptyUserName:

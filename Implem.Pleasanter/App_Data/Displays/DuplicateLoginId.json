@@ -1,0 +1,33 @@
+﻿{
+    "Id": "DuplicateLoginId",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": ""
+        },
+        {
+            "Language": "zh",
+            "Body": ""
+        },
+        {
+            "Language": "ja",
+            "Body": "ログインID \"{0}\" が重複しています。"
+        },
+        {
+            "Language": "de",
+            "Body": ""
+        },
+        {
+            "Language": "ko",
+            "Body": ""
+        },
+        {
+            "Language": "es",
+            "Body": ""
+        },
+        {
+            "Language": "vn",
+            "Body": ""
+        }
+    ]
+}
