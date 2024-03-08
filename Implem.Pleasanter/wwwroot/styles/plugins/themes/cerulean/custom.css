@@ -258,20 +258,25 @@ nav.both.cf {
 /* フィルター */
 #MainForm #ViewFilters {
     margin: 0;
-    padding: 8px;
+    padding: 8px 16px 0;
     border: none;
     border-radius: 0;
     background-color: #DEECF9;
 }
 
+#MainForm #ViewFilters > .display-control {
+    margin: 0 8px 8px 0;
+}
+
 #MainForm #ViewFilters > .field-auto-thin {
-    height: 38px;
+    height: 30px;
+    margin-bottom: 8px;
 }
 
 /* 結果 */
 #MainForm #Aggregations {
     margin: 0;
-    padding: 8px;
+    padding: 8px 16px 0;
     border: none;
     border-radius: 0;
     background-color: #DEECF9;
@@ -279,10 +284,14 @@ nav.both.cf {
 
 #MainForm #Aggregations .label {
     height: auto;
-    margin: 0;
+    margin: 0 0 8px;
     border-radius: 4px;
     background: #C1E1FF;
     border: 1px solid #90CAFF;
+}
+
+#MainForm #Aggregations > .display-control{
+    margin: 0 8px 8px 0;
 }
 
 #MainForm #Aggregations .label.overdue {
@@ -291,7 +300,8 @@ nav.both.cf {
 }
 
 #MainForm #Aggregations .data{
-    margin: 2px 16px 0 8px;
+    margin: 0 16px 8px 0;
+    min-height: 30px;
 }
 
 #MainForm #Aggregations span{
@@ -328,7 +338,8 @@ nav.both.cf {
     background-image: url("images/ui-icons_3d3d3d_256x240.png");
 }
 
-.ui-widget-header {
+.ui-widget-header,
+#ProcessForm #ProcessTabsContainer fieldset .ui-widget-header {
     background: #106EBE;
 }
 
@@ -348,6 +359,14 @@ nav.both.cf {
 
 #MainForm .grid > thead > tr:first-child > th:first-child {
     border-radius: 0;
+}
+
+/* テーブルヘッダ（スクロール） */
+thead th .control-checkbox{
+    margin: 0;
+}
+thead th:has(.control-checkbox) {/* 調整中 */
+    text-align: center;
 }
 
 /* フォーム */
@@ -392,7 +411,8 @@ nav.both.cf {
 .field-control .control-textbox,
 .dialog .command-center button,
 #MainCommands button,
-#Editor fieldset button{
+#Editor fieldset button,
+.field-control select.control-dropdown {
     font-family: 'メイリオ', 'Meiryo', 'Hiragino Kaku Gothic ProN', 'ヒラギノ角ゴ ProN W3', sans-serif;
 }
 
@@ -459,6 +479,10 @@ fieldset .command-left > button {
 
 .ui-widget input{
     cursor: pointer;
+}
+
+.ui-widget.ui-state-default.ui-multiselect{
+    padding: 4px 0 4px 8px;
 }
 
 /* ボタン */
@@ -747,26 +771,29 @@ table.grid tbody td > input {
     background: none;
 }
 
-#MainForm #EditorTabsContainer,
+#Application #EditorTabsContainer,
+#Application #TemplateTabsContainer,
 .ui-dialog .ui-dialog-content form .tab-container {
     margin-bottom: 0;
 }
 
-#Editor #EditorTabsContainer.ui-widget-content,
+#Application #EditorTabsContainer.ui-widget-content,
+#Application #TempleteTabsContainer.ui-widget-content,
 .ui-dialog .ui-dialog-content form .tab-container.ui-widget-content {
     background: #fff;
     border: none;
 }
 
-#Editor #EditorTabsContainer.ui-tabs,
+#Application #EditorTabsContainer.ui-tabs,
+#Application #TempleteTabsContainer.ui-tabs,
 .template-tab-container .ui-tabs,
 .ui-dialog .ui-dialog-content form .tab-container.ui-tabs {
     padding: 0;
 }
 
-#Editor #EditorTabs.ui-widget-header,
+#Application #EditorTabs.ui-widget-header,
 .template-tab-container > .ui-widget-header,
-.ui-dialog .ui-dialog-content form .tab-container .ui-widget-header {
+.ui-dialog .ui-dialog-content form .tab-container > .ui-widget-header {
     background: #DEECF9;
     border: none;
     border-radius: 0;
@@ -779,14 +806,14 @@ table.grid tbody td > input {
     padding-bottom: 0;
 }
 
-#Editor #EditorTabs li.ui-state-active,
+#Application #EditorTabs li.ui-state-active,
 .template-tab-container li.ui-state-active,
 .ui-dialog .ui-dialog-content form .tab-container li.ui-state-active {
     border: none;
     border-radius: 4px 4px 0 0;
 }
 
-#Editor #EditorTabs li.ui-state-active a,
+#Application #EditorTabs li.ui-state-active a,
 .template-tab-container li.ui-state-active a,
 .ui-dialog .ui-dialog-content form .tab-container .ui-tabs-nav li.ui-state-active a {
     background: #106EBE;
@@ -795,14 +822,14 @@ table.grid tbody td > input {
     color: #fff;
 }
 
-#Editor #EditorTabs li,
+#Application #EditorTabs li,
 .template-tab-container li,
 .ui-dialog .ui-dialog-content form .tab-container .ui-tabs-nav li {
     border: none;
     border-radius: 4px 4px 0 0;
 }
 
-#Editor #EditorTabs li a,
+#Application #EditorTabs li a,
 .template-tab-container li a,
 .ui-dialog .ui-dialog-content form .tab-container .ui-tabs-nav li a {
     background: #fff;
@@ -975,13 +1002,7 @@ fieldset .field-vertical > .field-label {
 
 /* 共通フッタ（コピーライト） */
 #MainContainer #Footer {
-    background: none;
-    position: fixed;
-    z-index: 9999;
-}
-
-#MainContainer #Footer a {
-    color: #FFFFFF;
+    display: none;
 }
 
 #MainContainer #BottomMargin {
@@ -1181,7 +1202,7 @@ fieldset .field-vertical > .field-label {
 }
 
 .hamburger-menubox li {
-    display: flex;
+    /*display: flex;*//*一旦削除*/
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
@@ -1286,7 +1307,6 @@ fieldset .field-vertical > .field-label {
 }
 
 #hamburger:checked ~ .hamburger-closelabel {
-    /*position: fixed;*//*サイドメニュークリック時のオーバーレイに悪影響及ぼしているため一旦コメントアウト中*/
     width: 100%;
     height: 100%;
     top: 50px;
