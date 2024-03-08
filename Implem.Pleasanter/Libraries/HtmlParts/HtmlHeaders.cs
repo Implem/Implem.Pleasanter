@@ -27,32 +27,23 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             return hb.Header(
                 id: "Header",
-                action: context.ThemeVersionOver2_0() && context.Action == "login"
-                    ? () => hb
-                        .Announcement(context: context)
-                        .NavigationMenu(
-                            context: context,
-                            ss: ss,
-                            siteId: siteId,
-                            referenceType: referenceType,
-                            errorType: errorType,
-                            useNavigationMenu: useNavigationMenu,
-                            useSearch: useSearch,
-                            serverScriptModelRow: serverScriptModelRow)
-                    : () => hb
-                        .Announcement(context: context)
-                        .HeaderLogo(
-                            context: context,
-                            ss: ss)
-                        .NavigationMenu(
-                            context: context,
-                            ss: ss,
-                            siteId: siteId,
-                            referenceType: referenceType,
-                            errorType: errorType,
-                            useNavigationMenu: useNavigationMenu,
-                            useSearch: useSearch,
-                            serverScriptModelRow: serverScriptModelRow));
+                action: () => hb
+                    .Announcement(context: context)
+                    .HeaderLogo(
+                        context: context,
+                        ss: ss,
+                        _using: context.ThemeVersionOver2_0() && context.Action == "login"
+                            ? false
+                            : true)
+                    .NavigationMenu(
+                        context: context,
+                        ss: ss,
+                        siteId: siteId,
+                        referenceType: referenceType,
+                        errorType: errorType,
+                        useNavigationMenu: useNavigationMenu,
+                        useSearch: useSearch,
+                        serverScriptModelRow: serverScriptModelRow));
         }
 
         public static HtmlBuilder Announcement(this HtmlBuilder hb, Context context)
@@ -114,7 +105,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder HeaderLogo(
             this HtmlBuilder hb,
             Context context,
-            SiteSettings ss)
+            SiteSettings ss,
+            bool _using = true)
         {
             var existsImage = BinaryUtilities.ExistsTenantImage(
                 context: context,
@@ -122,24 +114,26 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 referenceId: context.TenantId,
                 sizeType: Images.ImageData.SizeTypes.Logo);
             var title = Title(context: context);
-            return hb.H(number: 2, id: "Logo", action: () => hb
-                .A(
-                    attributes: new HtmlAttributes().Href(context.Publish
-                        ? ss.ReferenceType == "Wikis"
-                            ? Locations.ItemEdit(
+            return _using
+                ? hb.H(number: 2, id: "Logo", action: () => hb
+                    .A(
+                        attributes: new HtmlAttributes().Href(context.Publish
+                            ? ss.ReferenceType == "Wikis"
+                                ? Locations.ItemEdit(
+                                    context: context,
+                                    id: context.Id)
+                                : Locations.ItemIndex(
+                                    context: context,
+                                    id: context.SiteId)
+                            : Locations.Top(context: context)),
+                        action: () => hb
+                            .LogoImage(
                                 context: context,
-                                id: context.Id)
-                            : Locations.ItemIndex(
-                                context: context,
-                                id: context.SiteId)
-                        : Locations.Top(context: context)),
-                    action: () => hb
-                        .LogoImage(
-                            context: context,
-                            showTitle: !title.IsNullOrEmpty(),
-                            existsTenantImage: existsImage)
-                        .Span(id: "ProductLogo", action: () => hb
-                        .Text(text: title))));
+                                showTitle: !title.IsNullOrEmpty(),
+                                existsTenantImage: existsImage)
+                            .Span(id: "ProductLogo", action: () => hb
+                            .Text(text: title))))
+                : hb;
         }
 
         private static HtmlBuilder LogoImage(
