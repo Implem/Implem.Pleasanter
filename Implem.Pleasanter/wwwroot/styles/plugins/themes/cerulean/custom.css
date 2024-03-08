@@ -600,7 +600,8 @@ fieldset .button-neutral:hover .ui-icon,
 fieldset .button-negative .ui-icon,
 fieldset .button-negative:hover .ui-icon,
 fieldset .button-positive .ui-icon,
-fieldset .button-positive:hover .ui-icon {
+fieldset .button-positive:hover .ui-icon,
+#OutgoingMailsForm .button-positive .ui-icon {
     background-image: url("images/ui-icons_ffffff_256x240.png");
 }
 
@@ -610,7 +611,8 @@ fieldset .button-positive:hover .ui-icon {
 #ViewFilters .ui-button,
 fieldset .ui-button,
 .field-control .ui-button,
-.dialog .ui-button {
+.dialog .ui-button,
+#OutgoingMailsForm .ui-button {
     padding: 4px 8px 4px 6px !important;
 }
 
@@ -798,6 +800,7 @@ table.grid tbody td > input {
 
 #Application #EditorTabs.ui-widget-header,
 .template-tab-container > .ui-widget-header,
+.ui-dialog .ui-dialog-content .tab-container .ui-tabs-nav.ui-widget-header,
 .ui-dialog .ui-dialog-content form .tab-container > .ui-widget-header {
     background: #DEECF9;
     border: none;
@@ -820,7 +823,8 @@ table.grid tbody td > input {
 
 #Application #EditorTabs li.ui-state-active a,
 .template-tab-container li.ui-state-active a,
-.ui-dialog .ui-dialog-content form .tab-container .ui-tabs-nav li.ui-state-active a {
+.ui-dialog .ui-dialog-content .tab-container .ui-tabs-nav li.ui-state-active a,
+.ui-dialog .ui-dialog-content form .tab-container .ui-tabs-nav li.ui-state-active a{
     background: #106EBE;
     border-radius: 4px 4px 0 0;
     font-weight: bold;
@@ -836,6 +840,7 @@ table.grid tbody td > input {
 
 #Application #EditorTabs li a,
 .template-tab-container li a,
+.ui-dialog .ui-dialog-content .tab-container .ui-tabs-nav li a,
 .ui-dialog .ui-dialog-content form .tab-container .ui-tabs-nav li a {
     background: #fff;
     border-radius: 4px 4px 0 0;
