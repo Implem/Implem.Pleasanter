@@ -305,17 +305,23 @@ pre {
     clear: both;
     border-radius: 5px;
 }
-#Guide > .display-control {
-    float: left;
+
+#Guide > .with-icon-close {
+    padding: 5px 5px 2px 5px;
+}
+    #Guide > div > #ReduceGuide {
+        float: left;
+        cursor: pointer;
+    }
+
+#Guide > #ExpandGuide {
+    float: none;
+    margin: 0 5px 0 0;
+    padding: 5px 10px 5px 0;
+    background: initial;
+    border: 0;
     font-weight: bold;
     cursor: pointer;
-}
-#Guide.reduced > div {
-    width: auto;
-    margin: 0px 5px 0px 5px;
-    padding: 0px 0px 2px;
-    background: initial;
-    border: none;
 }
 
 #CopyToClipboards > .display-control {
