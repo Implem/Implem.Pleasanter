@@ -14,7 +14,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             View view)
         {
             var alwaysFlg = false; // todo
-            var defaultExpandFlg = false; // todo
+            var defaultExpandFlg = true; // todo
             return GetGuideText(context: context, ss: ss).IsNullOrEmpty()
                 ? hb.Div(id: "Guide")
                 : alwaysFlg
@@ -22,42 +22,52 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         hb.Guide(context: context,
                             ss: ss))
                     : defaultExpandFlg
-                        ? hb.Div(
-                            id: "Guide",
-                            action: () => hb
-                                .DisplayControl(
-                                    context: context,
-                                    view: view,
-                                    id: "ReduceGuide",
-                                    icon: "ui-icon-close")
-                                .Guide(
-                                    context: context,
-                                    ss: ss))
+                        ? hb.Div(id: "Guide", action: () =>
+                            hb.Guide(
+                                context: context,
+                                ss: ss,
+                                useDisplayControl: true))
                         : hb.Div(
                             id: "Guide",
                             css: "reduced",
                             action: () => hb
-                                .DisplayControl(
-                                    context: context,
-                                    view: view,
-                                    id: "ExpandGuide",
-                                    icon: "ui-icon-folder-open"));
+                                .Div(
+                                    attributes: new HtmlAttributes()
+                                        .Id("ExpandGuide")
+                                        .Class("display-control")
+                                        .OnClick("$p.send($(this));")
+                                        .DataMethod("post"),
+                                    action: () => hb
+                                        .Span(css: "ui-icon ui-icon-folder-open")
+                                        .Text(text: Displays.Guide(context: context) + ":")));
         }
 
         private static HtmlBuilder Guide(
             this HtmlBuilder hb,
             Context context,
             SiteSettings ss,
-            bool _using = true)
+            bool useDisplayControl = false)
         {
             var text = ConvertGuide(
                 ss: ss,
                 text: GetGuideText(context: context, ss: ss));
-            return _using && !text.IsNullOrEmpty()
-                ? hb.Div(action: () => hb
+            return useDisplayControl
+                ? hb.Div(
+                    css: "with-icon-close",
+                    action: () => hb
+                        .Div(
+                            attributes: new HtmlAttributes()
+                                .Id("ReduceGuide")
+                                .Class("display-control")
+                                .OnClick("$p.send($(this));")
+                                .DataMethod("post"),
+                            action: () => hb
+                                .Span(css: "ui-icon ui-icon-close"))
                     .Div(css: "markup", action: () => hb
                         .Text(text: text)))
-                : hb;
+                : hb.Div(action: () => hb
+                    .Div(css: "markup", action: () => hb
+                        .Text(text: text)));
         }
 
         private static string ConvertGuide(SiteSettings ss, string text)
@@ -120,28 +130,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 default:
                     return string.Empty;
             }
-        }
-
-        private static HtmlBuilder DisplayControl(
-            this HtmlBuilder hb,
-            Context context,
-            string id,
-            string icon,
-            View view)
-        {
-            if (view?.FiltersDisplayType == View.DisplayTypes.AlwaysDisplayed)
-            {
-                return hb;
-            }
-            return hb.Div(
-                attributes: new HtmlAttributes()
-                    .Id(id)
-                    .Class("display-control")
-                    .OnClick("$p.send($(this));")
-                    .DataMethod("post"),
-                action: () => hb
-                    .Span(css: "ui-icon " + icon)
-                    .Text(text: Displays.Guide(context: context) + ":"));
         }
     }
 }
