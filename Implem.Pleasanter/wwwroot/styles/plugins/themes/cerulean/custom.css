@@ -485,6 +485,28 @@ fieldset .command-left > button {
     padding: 4px 0 4px 8px;
 }
 
+.field-control .container-normal .ui-slider-handle {
+    background-image: none;
+    background-color: #106EBE;
+    border-radius: 2px;
+    outline: none;
+}
+
+.field-control .container-normal .ui-slider-handle:hover,
+.field-control .container-normal .ui-slider-handle:active,
+.field-control .container-normal .ui-slider-handle:focus {
+    background-color: #005A9E;
+    outline: none;
+}
+
+.field-control .container-normal .already-attachments {
+    background-color: #DEECF9;
+}
+
+.field-control .container-normal .control-attachments-item {
+    border: 1px solid #106EBE;
+}
+
 /* ボタン */
 .ui-button {
     background: #FFFFFF;
