@@ -157,7 +157,9 @@
 .ui-widget.ui-widget-content {
     font-size: 2.6vw;
 }
+
 #Guide { font-size: 2.6vw; }
+    #Guide.reduced { border-bottom: 1px solid #aaa; margin-bottom: 2%; padding: 2%; }
 
 .alert-success,
 .alert-warning,

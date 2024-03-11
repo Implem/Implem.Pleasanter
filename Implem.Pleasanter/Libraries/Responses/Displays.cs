@@ -2059,6 +2059,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string CommonAllowExpand(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "CommonAllowExpand",
+                data: data);
+        }
+
         public static string Condition(
             Context context,
             params string[] data)

@@ -305,6 +305,18 @@ pre {
     clear: both;
     border-radius: 5px;
 }
+#Guide > .display-control {
+    float: left;
+    font-weight: bold;
+    cursor: pointer;
+}
+#Guide.reduced > div {
+    width: auto;
+    margin: 0px 5px 0px 5px;
+    padding: 0px 0px 2px;
+    background: initial;
+    border: none;
+}
 
 #CopyToClipboards > .display-control {
     float: left;

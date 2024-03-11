@@ -1,88 +1,58 @@
 ﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlGuides
     {
-        public static HtmlBuilder Guide(this HtmlBuilder hb, Context context, SiteSettings ss)
+        public static HtmlBuilder Guide(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            View view)
         {
-            return hb.Div(id: "Guide", action: () =>
-            {
-                switch (context.Action)
-                {
-                    case "index":
-                        hb.Guide(
-                            ss: ss,
-                            text: ss.GridGuide);
-                        break;
-                    case "new":
-                        hb.Guide(
-                            ss: ss,
-                            text: ss.EditorGuide);
-                        break;
-                    case "edit":
-                    case "update":
-                    case "history":
-                        hb.Guide(
-                            ss: ss,
-                            text: ss.EditorGuide,
-                            _using: !ss.IsSite(context: context));
-                        break;
-                    case "calendar":
-                        hb.Guide(
-                            ss: ss,
-                            text: ss.CalendarGuide);
-                        break;
-                    case "crosstab":
-                        hb.Guide(
-                            ss: ss,
-                            text: ss.CrosstabGuide);
-                        break;
-                    case "gantt":
-                        hb.Guide(
-                            ss: ss,
-                            text: ss.GanttGuide);
-                        break;
-                    case "burndown":
-                        hb.Guide(
-                            ss: ss,
-                            text: ss.BurnDownGuide);
-                        break;
-                    case "timeseries":
-                        hb.Guide(
-                            ss: ss,
-                            text: ss.TimeSeriesGuide);
-                        break;
-                    case "analy":
-                        hb.Guide(
-                            ss: ss,
-                            text: ss.AnalyGuide);
-                        break;
-                    case "kamban":
-                        hb.Guide(
-                            ss: ss,
-                            text: ss.KambanGuide);
-                        break;
-                    case "imagelib":
-                        hb.Guide(
-                            ss: ss,
-                            text: ss.ImageLibGuide);
-                        break;
-                }
-            });
+            var alwaysFlg = false; // todo
+            var defaultExpandFlg = false; // todo
+            return GetGuideText(context: context, ss: ss).IsNullOrEmpty()
+                ? hb.Div(id: "Guide")
+                : alwaysFlg
+                    ? hb.Div(id: "Guide", action: () =>
+                        hb.Guide(context: context,
+                            ss: ss))
+                    : defaultExpandFlg
+                        ? hb.Div(
+                            id: "Guide",
+                            action: () => hb
+                                .DisplayControl(
+                                    context: context,
+                                    view: view,
+                                    id: "ReduceGuide",
+                                    icon: "ui-icon-close")
+                                .Guide(
+                                    context: context,
+                                    ss: ss))
+                        : hb.Div(
+                            id: "Guide",
+                            css: "reduced",
+                            action: () => hb
+                                .DisplayControl(
+                                    context: context,
+                                    view: view,
+                                    id: "ExpandGuide",
+                                    icon: "ui-icon-folder-open"));
         }
 
         private static HtmlBuilder Guide(
             this HtmlBuilder hb,
+            Context context,
             SiteSettings ss,
-            string text,
             bool _using = true)
         {
-            text = ConvertGuide(
+            var text = ConvertGuide(
                 ss: ss,
-                text: text);
+                text: GetGuideText(context: context, ss: ss));
             return _using && !text.IsNullOrEmpty()
                 ? hb.Div(action: () => hb
                     .Div(css: "markup", action: () => hb
@@ -117,6 +87,61 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 default:
                     return text;
             }
+        }
+
+        private static string GetGuideText(Context context, SiteSettings ss)
+        {
+            switch (context.Action)
+            {
+                case "index":
+                    return ss.GridGuide;
+                case "new":
+                    return ss.EditorGuide;
+                case "edit":
+                case "update":
+                case "history":
+                    return !ss.IsSite(context: context) ? ss.EditorGuide : string.Empty;
+                case "calendar":
+                    return ss.CalendarGuide;
+                case "crosstab":
+                    return ss.CrosstabGuide;
+                case "gantt":
+                    return ss.GanttGuide;
+                case "burndown":
+                    return ss.BurnDownGuide;
+                case "timeseries":
+                    return ss.TimeSeriesGuide;
+                case "analy":
+                    return ss.AnalyGuide;
+                case "kamban":
+                    return ss.KambanGuide;
+                case "imagelib":
+                    return ss.ImageLibGuide;
+                default:
+                    return string.Empty;
+            }
+        }
+
+        private static HtmlBuilder DisplayControl(
+            this HtmlBuilder hb,
+            Context context,
+            string id,
+            string icon,
+            View view)
+        {
+            if (view?.FiltersDisplayType == View.DisplayTypes.AlwaysDisplayed)
+            {
+                return hb;
+            }
+            return hb.Div(
+                attributes: new HtmlAttributes()
+                    .Id(id)
+                    .Class("display-control")
+                    .OnClick("$p.send($(this));")
+                    .DataMethod("post"),
+                action: () => hb
+                    .Span(css: "ui-icon " + icon)
+                    .Text(text: Displays.Guide(context: context) + ":"));
         }
     }
 }

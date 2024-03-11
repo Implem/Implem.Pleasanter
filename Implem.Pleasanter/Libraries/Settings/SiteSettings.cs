@@ -99,24 +99,44 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string Body;
         [NonSerialized]
         public string GridGuide;
+        public bool? GridGuideAllowExpand;
+        public string GridGuideExpand;
         [NonSerialized]
         public string EditorGuide;
+        public bool? EditorGuideAllowExpand;
+        public string EditorGuideExpand;
         [NonSerialized]
         public string CalendarGuide;
+        public bool? CalendarGuideAllowExpand;
+        public string CalendarGuideExpand;
         [NonSerialized]
         public string CrosstabGuide;
+        public bool? CrosstabGuideAllowExpand;
+        public string CrosstabGuideExpand;
         [NonSerialized]
         public string GanttGuide;
+        public bool? GanttGuideAllowExpand;
+        public string GanttGuideExpand;
         [NonSerialized]
         public string BurnDownGuide;
+        public bool? BurnDownGuideAllowExpand;
+        public string BurnDownGuideExpand;
         [NonSerialized]
         public string TimeSeriesGuide;
+        public bool? TimeSeriesGuideAllowExpand;
+        public string TimeSeriesGuideExpand;
         [NonSerialized]
         public string AnalyGuide;
+        public bool? AnalyGuideAllowExpand;
+        public string AnalyGuideExpand;
         [NonSerialized]
         public string KambanGuide;
+        public bool? KambanGuideAllowExpand;
+        public string KambanGuideExpand;
         [NonSerialized]
         public string ImageLibGuide;
+        public bool? ImageLibGuideAllowExpand;
+        public string ImageLibGuideExpand;
         [NonSerialized]
         public long ParentId;
         [NonSerialized]
@@ -693,6 +713,86 @@ namespace Implem.Pleasanter.Libraries.Settings
                 Version = Version,
                 ReferenceType = ReferenceType
             };
+            if (GridGuideAllowExpand == true)
+            {
+                ss.GridGuideAllowExpand = GridGuideAllowExpand;
+            }
+            if (!GridGuideExpand.IsNullOrEmpty())
+            {
+                ss.GridGuideExpand = GridGuideExpand;
+            }
+            if (EditorGuideAllowExpand == true)
+            {
+                ss.EditorGuideAllowExpand = EditorGuideAllowExpand;
+            }
+            if (!EditorGuideExpand.IsNullOrEmpty())
+            {
+                ss.EditorGuideExpand = EditorGuideExpand;
+            }
+            if (CalendarGuideAllowExpand == true)
+            {
+                ss.CalendarGuideAllowExpand = CalendarGuideAllowExpand;
+            }
+            if (!CalendarGuideExpand.IsNullOrEmpty())
+            {
+                ss.CalendarGuideExpand = CalendarGuideExpand;
+            }
+            if (CrosstabGuideAllowExpand == true)
+            {
+                ss.CrosstabGuideAllowExpand = CrosstabGuideAllowExpand;
+            }
+            if (!CrosstabGuideExpand.IsNullOrEmpty())
+            {
+                ss.CrosstabGuideExpand = CrosstabGuideExpand;
+            }
+            if (GanttGuideAllowExpand == true)
+            {
+                ss.GanttGuideAllowExpand = GanttGuideAllowExpand;
+            }
+            if (!GanttGuideExpand.IsNullOrEmpty())
+            {
+                ss.GanttGuideExpand = GanttGuideExpand;
+            }
+            if (BurnDownGuideAllowExpand == true)
+            {
+                ss.BurnDownGuideAllowExpand = BurnDownGuideAllowExpand;
+            }
+            if (!BurnDownGuideExpand.IsNullOrEmpty())
+            {
+                ss.BurnDownGuideExpand = BurnDownGuideExpand;
+            }
+            if (TimeSeriesGuideAllowExpand == true)
+            {
+                ss.TimeSeriesGuideAllowExpand = TimeSeriesGuideAllowExpand;
+            }
+            if (!TimeSeriesGuideExpand.IsNullOrEmpty())
+            {
+                ss.TimeSeriesGuideExpand = TimeSeriesGuideExpand;
+            }
+            if (AnalyGuideAllowExpand == true)
+            {
+                ss.AnalyGuideAllowExpand = AnalyGuideAllowExpand;
+            }
+            if (!AnalyGuideExpand.IsNullOrEmpty())
+            {
+                ss.AnalyGuideExpand = AnalyGuideExpand;
+            }
+            if (KambanGuideAllowExpand == true)
+            {
+                ss.KambanGuideAllowExpand = KambanGuideAllowExpand;
+            }
+            if (!KambanGuideExpand.IsNullOrEmpty())
+            {
+                ss.KambanGuideExpand = KambanGuideExpand;
+            }
+            if (ImageLibGuideAllowExpand == true)
+            {
+                ss.ImageLibGuideAllowExpand = ImageLibGuideAllowExpand;
+            }
+            if (!ImageLibGuideExpand.IsNullOrEmpty())
+            {
+                ss.ImageLibGuideExpand = ImageLibGuideExpand;
+            }
             if (NearCompletionTimeAfterDays != param.NearCompletionTimeAfterDays)
             {
                 ss.NearCompletionTimeAfterDays = NearCompletionTimeAfterDays;
@@ -3839,6 +3939,26 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             switch (propertyName)
             {
+                case "GridGuideAllowExpand": GridGuideAllowExpand = value.ToBool(); break;
+                case "GridGuideExpand": GridGuideExpand = value; break;
+                case "EditorGuideAllowExpand": EditorGuideAllowExpand = value.ToBool(); break;
+                case "EditorGuideExpand": EditorGuideExpand = value; break;
+                case "CalendarGuideAllowExpand": CalendarGuideAllowExpand = value.ToBool(); break;
+                case "CalendarGuideExpand": CalendarGuideExpand = value; break;
+                case "CrosstabGuideAllowExpand": CrosstabGuideAllowExpand = value.ToBool(); break;
+                case "CrosstabGuideExpand": CrosstabGuideExpand = value; break;
+                case "GanttGuideAllowExpand": GanttGuideAllowExpand = value.ToBool(); break;
+                case "GanttGuideExpand": GanttGuideExpand = value; break;
+                case "BurnDownGuideAllowExpand": BurnDownGuideAllowExpand = value.ToBool(); break;
+                case "BurnDownGuideExpand": BurnDownGuideExpand = value; break;
+                case "TimeSeriesGuideAllowExpand": TimeSeriesGuideAllowExpand = value.ToBool(); break;
+                case "TimeSeriesGuideExpand": TimeSeriesGuideExpand = value; break;
+                case "AnalyGuideAllowExpand": AnalyGuideAllowExpand = value.ToBool(); break;
+                case "AnalyGuideExpand": AnalyGuideExpand = value; break;
+                case "KambanGuideAllowExpand": KambanGuideAllowExpand = value.ToBool(); break;
+                case "KambanGuideExpand": KambanGuideExpand = value; break;
+                case "ImageLibGuideAllowExpand": ImageLibGuideAllowExpand = value.ToBool(); break;
+                case "ImageLibGuideExpand": ImageLibGuideExpand = value; break;
                 case "NearCompletionTimeBeforeDays": NearCompletionTimeBeforeDays = value.ToInt(); break;
                 case "NearCompletionTimeAfterDays": NearCompletionTimeAfterDays = value.ToInt(); break;
                 case "GridPageSize": GridPageSize = value.ToInt(); break;
