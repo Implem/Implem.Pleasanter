@@ -3,15 +3,19 @@
     border: solid 2px silver;
 }
 
-    .nav-site.sites {
-        background-color: white;
-        border: solid 2px orange;
-    }
+.nav-site.sites {
+    background-color: white;
+    border: solid 2px orange;
+}
 
-    .nav-site .heading {
-        background-color: gold;
-        border: solid 1px orange;
-    }
+.nav-site .heading {
+    background-color: gold;
+    border: solid 1px orange;
+}
+
+#Navigations #NavigationMenu{
+    width: 100%;
+}
 
 #NavigationMenu .menu > li > a {
     color: #383838;
@@ -505,6 +509,11 @@ fieldset .command-left > button {
 
 .field-control .container-normal .control-attachments-item {
     border: 1px solid #106EBE;
+}
+
+.field-control .container-normal .already-attachments.preparation-delete {
+    background-color: #ECECEC;
+    border: 1px solid #CECECE;
 }
 
 /* ボタン */
