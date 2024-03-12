@@ -13,13 +13,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             SiteSettings ss,
             View view)
         {
-            var reduced = view?.GuideReduced; // todo デバッグ用フラグ。課題：viewのオブジェクトについて、wiki（テーブルエディタ）、フォルダの場合に取得できない。
-            // todo 初期表示の処理のみに対応。ajaxで表示を切り替える場合の条件分岐処理が未対応。
+            // todo:F5やパンくずで自画面に遷移した際は、ガイドの開閉の状態をキープできないか？
+            var guideClick = context.Forms.ControlId() == "ExpandGuide" || context.Forms.ControlId() == "ReduceGuide";
             var reductionSettings = GetReductionSettings(context: context, ss: ss);
             return GetGuideText(context: context, ss: ss).IsNullOrEmpty()
                 ? hb.Div(id: "Guide")
                 : reductionSettings.canReduce
-                    ? reductionSettings.defaultReduce
+                    ? context.Forms.ControlId() == "ReduceGuide" || !guideClick && reductionSettings.defaultReduce
                         ? hb.Div(
                             id: "Guide",
                             css: "reduced",

@@ -49,7 +49,6 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? FiltersReduced;
         public DisplayTypes? AggregationsDisplayType;
         public bool? AggregationsReduced;
-        public bool? GuideReduced;
         public bool? KeepFilterState;
         public bool? Incomplete;
         public bool? Own;
@@ -543,12 +542,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                     break;
                 case "ExpandAggregations":
                     AggregationsReduced = false;
-                    break;
-                case "ReduceGuide":
-                    GuideReduced = true;
-                    break;
-                case "ExpandGuide":
-                    GuideReduced = false;
                     break;
                 case "ViewFilters_Reset":
                     ResetViewFilters(ss: ss);
@@ -1476,10 +1469,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (AggregationsReduced != null)
             {
                 view.AggregationsReduced = AggregationsReduced;
-            }
-            if (GuideReduced != null)
-            {
-                view.GuideReduced = GuideReduced;
             }
             if (KeepFilterState == true)
             {
