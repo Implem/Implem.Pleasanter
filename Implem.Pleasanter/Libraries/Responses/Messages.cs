@@ -534,16 +534,6 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-error");
         }
 
-        public static Message DuplicateLoginId(Context context, params string[] data)
-        {
-            return Get(
-                id: "DuplicateLoginId",
-                text: Displays.DuplicateLoginId(
-                    context: context,
-                    data: data),
-                css: "alert-error");
-        }
-
         public static Message EmptyUserName(Context context, params string[] data)
         {
             return Get(
@@ -712,6 +702,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                     context: context,
                     data: data),
                 css: "alert-success");
+        }
+
+        public static Message ImportInvalidUserIdAndLoginId(Context context, params string[] data)
+        {
+            return Get(
+                id: "ImportInvalidUserIdAndLoginId",
+                text: Displays.ImportInvalidUserIdAndLoginId(
+                    context: context,
+                    data: data),
+                css: "alert-error");
         }
 
         public static Message ImportMax(Context context, params string[] data)
@@ -2194,17 +2194,6 @@ namespace Implem.Pleasanter.Libraries.Responses
                 target: target);
         }
 
-        public static ResponseCollection ResponseDuplicateLoginId(
-            Context context, string target = null, params string[] data)
-        {
-            return ResponseMessage(
-                context: context,
-                message: DuplicateLoginId(
-                    context: context,
-                    data: data),
-                target: target);
-        }
-
         public static ResponseCollection ResponseEmptyUserName(
             Context context, string target = null, params string[] data)
         {
@@ -2387,6 +2376,17 @@ namespace Implem.Pleasanter.Libraries.Responses
             return ResponseMessage(
                 context: context,
                 message: Imported(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseImportInvalidUserIdAndLoginId(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: ImportInvalidUserIdAndLoginId(
                     context: context,
                     data: data),
                 target: target);

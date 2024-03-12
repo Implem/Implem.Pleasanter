@@ -3269,16 +3269,6 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
-        public static string DuplicateLoginId(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "DuplicateLoginId",
-                data: data);
-        }
-
         public static string EarnedValue(
             Context context,
             params string[] data)
@@ -4776,6 +4766,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Imported",
+                data: data);
+        }
+
+        public static string ImportInvalidUserIdAndLoginId(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ImportInvalidUserIdAndLoginId",
                 data: data);
         }
 

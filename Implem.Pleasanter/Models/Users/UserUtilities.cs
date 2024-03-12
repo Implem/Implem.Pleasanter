@@ -3176,10 +3176,11 @@ namespace Implem.Pleasanter.Models
                                 case Error.Types.None:
                                     break;
                                 case Error.Types.UpdateConflicts:
-                                    // errorData.Type = Error.Types.Duplicated
-                                    errorData.Type = Error.Types.DuplicateLoginId;
-                                    errorData.Data = [userModel.LoginId];
-                                    return errorData.MessageJson(context: context);
+                                    return new ResponseCollection(context: context)
+                                        .Message(Messages.ImportInvalidUserIdAndLoginId(
+                                            context:context,
+                                            data: [userModel.UserId.ToString(), userModel.LoginId]))
+                                        .ToJson();
                                 default:
                                     return errorData.MessageJson(context: context);
                             }
