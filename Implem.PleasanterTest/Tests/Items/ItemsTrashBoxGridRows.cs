@@ -43,7 +43,7 @@ namespace Implem.PleasanterTest.Tests.Items
                 JsonData.ExistsOne(method: "CloseDialog"),
                 JsonData.ExistsOne(
                     method: "ReplaceAll",
-                    target: "#CopyDirectUrlToClipboard"),
+                    target: "#CopyToClipboards"),
                 JsonData.ExistsOne(
                     method: "ReplaceAll",
                     target: "#Aggregations"),

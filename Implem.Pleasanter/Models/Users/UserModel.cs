@@ -79,6 +79,8 @@ namespace Implem.Pleasanter.Models
         public Time SecondaryAuthenticationCodeExpirationTime = new Time();
         public string LdapSearchRoot = string.Empty;
         public DateTime SynchronizedTime = 0.ToDateTime();
+        public string SecretKey = string.Empty;
+        public bool EnableSecretKey = false;
 
         public TimeZoneInfo TimeZoneInfo
         {
@@ -157,6 +159,8 @@ namespace Implem.Pleasanter.Models
         public DateTime SavedSecondaryAuthenticationCodeExpirationTime = 0.ToDateTime();
         public string SavedLdapSearchRoot = string.Empty;
         public DateTime SavedSynchronizedTime = 0.ToDateTime();
+        public string SavedSecretKey = string.Empty;
+        public bool SavedEnableSecretKey = false;
 
         public bool TenantId_Updated(Context context, bool copy = false, Column column = null)
         {
@@ -576,6 +580,30 @@ namespace Implem.Pleasanter.Models
                 &&  (column == null
                     || column.DefaultInput.IsNullOrEmpty()
                     || column.GetDefaultInput(context: context).ToString() != LdapSearchRoot);
+        }
+
+        public bool SecretKey_Updated(Context context, bool copy = false, Column column = null)
+        {
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != SecretKey;
+            }
+            return SecretKey != SavedSecretKey && SecretKey != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != SecretKey);
+        }
+
+        public bool EnableSecretKey_Updated(Context context, bool copy = false, Column column = null)
+        {
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToBool() != EnableSecretKey;
+            }
+            return EnableSecretKey != SavedEnableSecretKey
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToBool() != EnableSecretKey);
         }
 
         public bool Birthday_Updated(Context context, bool copy = false, Column column = null)
@@ -1221,6 +1249,30 @@ namespace Implem.Pleasanter.Models
                                 exportColumn: exportColumn)
                             : string.Empty;
                     break;
+                case "SecretKey":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? SecretKey.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "EnableSecretKey":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? EnableSecretKey.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
                 case "Comments":
                     value = ss.ReadColumnAccessControls.Allowed(
                         context: context,
@@ -1576,6 +1628,8 @@ namespace Implem.Pleasanter.Models
                     case "SecondaryAuthenticationCodeExpirationTime": data.SecondaryAuthenticationCodeExpirationTime = SecondaryAuthenticationCodeExpirationTime.Value.ToLocal(context: context); break;
                     case "LdapSearchRoot": data.LdapSearchRoot = LdapSearchRoot; break;
                     case "SynchronizedTime": data.SynchronizedTime = SynchronizedTime.ToLocal(context: context); break;
+                    case "SecretKey": data.SecretKey = SecretKey; break;
+                    case "EnableSecretKey": data.EnableSecretKey = EnableSecretKey; break;
                     case "Creator": data.Creator = Creator.Id; break;
                     case "Updator": data.Updator = Updator.Id; break;
                     case "CreatedTime": data.CreatedTime = CreatedTime.Value.ToLocal(context: context); break;
@@ -1841,6 +1895,16 @@ namespace Implem.Pleasanter.Models
                         column: column);
                 case "SynchronizedTime":
                     return SynchronizedTime.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "SecretKey":
+                    return SecretKey.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "EnableSecretKey":
+                    return EnableSecretKey.ToDisplay(
                         context: context,
                         ss: ss,
                         column: column);
@@ -2200,6 +2264,16 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column);
+                case "SecretKey":
+                    return SecretKey.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "EnableSecretKey":
+                    return EnableSecretKey.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
                 case "Comments":
                     return Comments.ToApiDisplayValue(
                         context: context,
@@ -2553,6 +2627,16 @@ namespace Implem.Pleasanter.Models
                         column: column);
                 case "SynchronizedTime":
                     return SynchronizedTime.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "SecretKey":
+                    return SecretKey.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "EnableSecretKey":
+                    return EnableSecretKey.ToApiValue(
                         context: context,
                         ss: ss,
                         column: column);
@@ -3022,6 +3106,8 @@ namespace Implem.Pleasanter.Models
                     case "Users_SecondaryAuthenticationCodeExpirationTime": SecondaryAuthenticationCodeExpirationTime = new Time(context, value.ToDateTime(), byForm: true); break;
                     case "Users_LdapSearchRoot": LdapSearchRoot = value.ToString(); break;
                     case "Users_SynchronizedTime": SynchronizedTime = value.ToDateTime().ToUniversal(context: context); break;
+                    case "Users_SecretKey": SecretKey = value.ToString(); break;
+                    case "Users_EnableSecretKey": EnableSecretKey = value.ToBool(); break;
                     case "Users_Timestamp": Timestamp = value.ToString(); break;
                     case "Comments": Comments.Prepend(
                         context: context,
@@ -3138,6 +3224,8 @@ namespace Implem.Pleasanter.Models
             SecondaryAuthenticationCodeExpirationTime = userModel.SecondaryAuthenticationCodeExpirationTime;
             LdapSearchRoot = userModel.LdapSearchRoot;
             SynchronizedTime = userModel.SynchronizedTime;
+            SecretKey = userModel.SecretKey;
+            EnableSecretKey = userModel.EnableSecretKey;
             Comments = userModel.Comments;
             Creator = userModel.Creator;
             Updator = userModel.Updator;
@@ -3190,6 +3278,8 @@ namespace Implem.Pleasanter.Models
             if (data.SecondaryAuthenticationCodeExpirationTime != null) SecondaryAuthenticationCodeExpirationTime = new Time(context, data.SecondaryAuthenticationCodeExpirationTime.ToDateTime(), byForm: true);
             if (data.LdapSearchRoot != null) LdapSearchRoot = data.LdapSearchRoot.ToString().ToString();
             if (data.SynchronizedTime != null) SynchronizedTime = data.SynchronizedTime.ToDateTime().ToDateTime().ToUniversal(context: context);
+            if (data.SecretKey != null) SecretKey = data.SecretKey.ToString().ToString();
+            if (data.EnableSecretKey != null) EnableSecretKey = data.EnableSecretKey.ToBool().ToBool();
             if (data.Comments != null) Comments.Prepend(context: context, ss: ss, body: data.Comments);
             if (data.VerUp != null) VerUp = data.VerUp.ToBool();
             data.ClassHash?.ForEach(o => SetClass(
@@ -3511,6 +3601,14 @@ namespace Implem.Pleasanter.Models
                             SynchronizedTime = dataRow[column.ColumnName].ToDateTime();
                             SavedSynchronizedTime = SynchronizedTime;
                             break;
+                        case "SecretKey":
+                            SecretKey = dataRow[column.ColumnName].ToString();
+                            SavedSecretKey = SecretKey;
+                            break;
+                        case "EnableSecretKey":
+                            EnableSecretKey = dataRow[column.ColumnName].ToBool();
+                            SavedEnableSecretKey = EnableSecretKey;
+                            break;
                         case "Comments":
                             Comments = dataRow[column.ColumnName].ToString().Deserialize<Comments>() ?? new Comments();
                             SavedComments = Comments.ToJson();
@@ -3641,6 +3739,8 @@ namespace Implem.Pleasanter.Models
                 || SecondaryAuthenticationCodeExpirationTime_Updated(context: context)
                 || LdapSearchRoot_Updated(context: context)
                 || SynchronizedTime_Updated(context: context)
+                || SecretKey_Updated(context: context)
+                || EnableSecretKey_Updated(context: context)
                 || Comments_Updated(context: context)
                 || Creator_Updated(context: context)
                 || Updator_Updated(context: context);
@@ -3713,6 +3813,8 @@ namespace Implem.Pleasanter.Models
                 || SecondaryAuthenticationCodeExpirationTime_Updated(context: context)
                 || LdapSearchRoot_Updated(context: context)
                 || SynchronizedTime_Updated(context: context)
+                || SecretKey_Updated(context: context)
+                || EnableSecretKey_Updated(context: context)
                 || Comments_Updated(context: context)
                 || Creator_Updated(context: context)
                 || Updator_Updated(context: context);
@@ -3874,7 +3976,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public string Authenticate(Context context, string returnUrl, bool noHttpContext = false)
+        public string Authenticate(Context context, string returnUrl, bool isAuthenticationByMail, bool noHttpContext = false)
         {
             if (Parameters.Security.RevealUserDisabled && DisabledUser(context: context))
             {
@@ -3900,10 +4002,16 @@ namespace Implem.Pleasanter.Models
                         .Forms
                         .Data("SecondaryAuthenticationCode");
                     return string.IsNullOrEmpty(secondaryAuthenticationCode)
-                        ? OpenSecondaryAuthentication(context: context)
+                        ? !EnableSecretKey
+                            ? OpenTotpRegisterCode(context: context)
+                            : OpenSecondaryAuthentication(
+                                context: context,
+                                returnUrl: returnUrl,
+                                isAuthenticationByMail: isAuthenticationByMail)
                         : !SecondaryAuthentication(
                                 context: context,
-                                secondaryAuthenticationCode: secondaryAuthenticationCode)
+                                secondaryAuthenticationCode: secondaryAuthenticationCode,
+                                isAuthenticationByMail: isAuthenticationByMail)
                             ? Messages
                                 .ResponseSecondaryAuthentication(
                                     context: context,
@@ -3912,11 +4020,17 @@ namespace Implem.Pleasanter.Models
                                 .ToJson()
                             : PasswordExpired()
                                 ? OpenChangePasswordAtLoginDialog(context: context)
-                                : Allow(
-                                    context: context,
-                                    returnUrl: returnUrl,
-                                    createPersistentCookie: context.Forms.Bool("Users_RememberMe"),
-                                    noHttpContext: noHttpContext);
+                                : !EnableSecretKey && !isAuthenticationByMail
+                                    ? setEnableSecretKeyandAllow(
+                                        context: context,
+                                        returnUrl: returnUrl,
+                                        createPersistentCookie: context.Forms.Bool("Users_RememberMe"),
+                                        noHttpContext: noHttpContext)
+                                    : Allow(
+                                        context: context,
+                                        returnUrl: returnUrl,
+                                        createPersistentCookie: context.Forms.Bool("Users_RememberMe"),
+                                        noHttpContext: noHttpContext);
                 }
                 else if (PasswordExpired())
                 {
@@ -4039,7 +4153,9 @@ namespace Implem.Pleasanter.Models
             var createdContext = new Context(
                 tenantId: TenantId,
                 context: context);
-            return context.ContractSettings.AllowedIpAddress(createdContext.UserHostAddress);
+            return context.ContractSettings.AllowedIpAddress(
+                context: context,
+                createdContext.UserHostAddress);
         }
 
         /// <summary>
@@ -4304,6 +4420,78 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        private void UpdateSecretKey(Context context)
+        {
+            SecretKey = OtpNet.Base32Encoding.ToString(OtpNet.KeyGeneration.GenerateRandomKey(20));
+            Repository.ExecuteNonQuery(
+                context: context,
+                statements: Rds.UpdateUsers(
+                    where: Rds.UsersWhereDefault(
+                        context: context,
+                        userModel: this),
+                    param: Rds.UsersParam().SecretKey(SecretKey),
+                    addUpdatorParam: false,
+                    addUpdatedTimeParam: false));
+            Repository.ExecuteNonQuery(
+                context: context,
+                statements: Rds.UpdateUsers(
+                    where: Rds.UsersWhereDefault(
+                        context: context,
+                        userModel: this),
+                    param: Rds.UsersParam().EnableSecretKey(EnableSecretKey),
+                    addUpdatorParam: false,
+                    addUpdatedTimeParam: false));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void UpdateEnableSecretKey(Context context)
+        {
+            Repository.ExecuteNonQuery(
+                context: context,
+                statements: Rds.UpdateUsers(
+                    where: Rds.UsersWhereDefault(
+                        context: context,
+                        userModel: this),
+                    param: Rds.UsersParam().EnableSecretKey(EnableSecretKey),
+                    addUpdatorParam: false,
+                    addUpdatedTimeParam: false));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private string AddHyphenSecretKey()
+        {
+            string addHyphenSecretKey = string.Empty;
+            foreach (System.Text.RegularExpressions.Match keys in System.Text.RegularExpressions.Regex.Matches(SecretKey, "(....)"))
+            {
+                addHyphenSecretKey += keys + "-";
+            }
+            return addHyphenSecretKey[..^1];
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private string setEnableSecretKeyandAllow(Context context, string returnUrl, bool createPersistentCookie, bool noHttpContext)
+        {
+            if (!EnableSecretKey)
+            {
+                EnableSecretKey = true;
+                UpdateEnableSecretKey(context);
+            }
+            return Allow(
+                context: context,
+                returnUrl: returnUrl,
+                createPersistentCookie: context.Forms.Bool("Users_RememberMe"),
+                noHttpContext: noHttpContext);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private void NotificationSecondaryAuthenticationCode(Context context)
         {
             var language = Language.IsNullOrEmpty()
@@ -4311,7 +4499,7 @@ namespace Implem.Pleasanter.Models
                 : Language;
             switch (Parameters.Security?.SecondaryAuthentication?.NotificationType)
             {
-                case "Mail":
+                case ParameterAccessor.Parts.SecondaryAuthentication.SecondaryAuthenticationModeNotificationTypes.Mail:
                     Repository.ExecuteTable(
                         context: context,
                         statements: Rds.SelectMailAddresses(
@@ -4348,10 +4536,93 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private string OpenSecondaryAuthentication(Context context)
+        private string OpenSecondaryAuthentication(Context context, string returnUrl, bool isAuthenticationByMail)
         {
-            UpdateSecondaryAuthenticationCode(context: context);
-            NotificationSecondaryAuthenticationCode(context: context);
+            if (Parameters.Security?.SecondaryAuthentication?.NotificationType == ParameterAccessor.Parts.SecondaryAuthentication.SecondaryAuthenticationModeNotificationTypes.Mail)
+            {
+                isAuthenticationByMail = true;
+            }
+            if (isAuthenticationByMail)
+            {
+                UpdateSecondaryAuthenticationCode(context: context);
+                NotificationSecondaryAuthenticationCode(context: context);
+            }
+            var hb = new HtmlBuilder();
+            hb
+                .Div(
+                    id: "SecondaryAuthenticationGuideTop",
+                    action: () => hb.Raw(HtmlHtmls.ExtendedHtmls(
+                        context: context,
+                        id: "SecondaryAuthenticationGuideTop")))
+                .Div(action: isAuthenticationByMail
+                    ? () => hb
+                        .FieldTextBox(
+                            textType: isAuthenticationByMail
+                                ? HtmlTypes.TextTypes.Password
+                                : HtmlTypes.TextTypes.Normal,
+                            controlId: "SecondaryAuthenticationCode",
+                            controlCss: " focus always-send",
+                            labelText: Displays.AuthenticationCode(context: context),
+                            validateRequired: true,
+                            validateNumber: true)
+                    : () => hb = TotpAuthenticationCodeSeparate(hb, context));
+            hb
+                .Div(
+                    id: "AuthenticationByMail",
+                    attributes: new HtmlAttributes().Add(
+                    "data-isAuthenticationByMail",
+                    isAuthenticationByMail ? "1" : "0"),
+                    action: isAuthenticationByMail
+                        ? null
+                        : () => hb.A(
+                            href: "javascript:void(0)",
+                            text: Displays.RequireSecondAuthenticationByMail(context: context)))
+                                .Div(
+                                    id: "SecondaryAuthenticationCommands",
+                                    css: "both",
+                                    action: () => hb.Div(css: "command-right", action: () => hb
+                                        .Button(
+                                            controlId: "SecondaryAuthenticate",
+                                            controlCss: " button-icon validate",
+                                            text: Displays.Confirm(context: context),
+                                            onClick: "$p.send($(this));",
+                                            icon: "ui-icon-unlocked",
+                                            action: "Authenticate",
+                                            method: "post",
+                                            type: "submit")
+                                        .Button(
+                                                text: Displays.Cancel(context: context),
+                                                controlCss: "button-icon ",
+                                                onClick: "$p.back();",
+                                                icon: "ui-icon-cancel")))
+                                .Div(
+                                    id: "SecondaryAuthenticationBottom",
+                                    action: () => hb.Raw(HtmlHtmls.ExtendedHtmls(
+                                        context: context,
+                                        id: "SecondaryAuthenticationGuideBottom")));
+            var rc = new ResponseCollection(context: context)
+                .Css(
+                    target: "#Logins",
+                    name: "display",
+                    value: "none")
+                .Html(
+                    target: "#SecondaryAuthentications",
+                    value: hb)
+                .Val(
+                    target: "#BackUrl",
+                    value: context.UrlReferrer,
+                    _using: !context.UrlReferrer.IsNullOrEmpty());
+            return isAuthenticationByMail
+                ? rc.Focus("#SecondaryAuthenticationCode").ToJson()
+                : rc.Focus("#FirstTotpAuthenticationCode").ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private string OpenTotpRegisterCode(Context context)
+        {
+            UpdateSecretKey(context);
             var hb = new HtmlBuilder();
             return new ResponseCollection(context: context)
                 .Css(
@@ -4359,48 +4630,100 @@ namespace Implem.Pleasanter.Models
                     name: "display",
                     value: "none")
                 .Html(
-                    target: "#SecondaryAuthentications",
+                    target: "#TotpRegister",
                     value: hb
                         .Div(
-                            id: "SecondaryAuthenticationGuideTop",
+                            id: "TotpRegisterGuideTop",
                             action: () => hb.Raw(HtmlHtmls.ExtendedHtmls(
                                 context: context,
-                                id: "SecondaryAuthenticationGuideTop")))
-                        .Div(action: () => hb
-                            .FieldTextBox(
-                                textType: HtmlTypes.TextTypes.Password,
-                                controlId: "SecondaryAuthenticationCode",
-                                controlCss: " focus always-send",
-                                labelText: Displays.AuthenticationCode(context: context),
-                                validateRequired: true))
+                                id: "TotpRegisterGuideTop")))
                         .Div(
-                            id: "SecondaryAuthenticationCommands",
-                            css: "both",
-                            action: () => hb.Div(css: "command-right", action: () => hb
-                                .Button(
-                                    controlId: "SecondaryAuthenticate",
-                                    controlCss: " button-icon validate",
-                                    text: Displays.Confirm(context: context),
-                                    onClick: "$p.send($(this));",
-                                    icon: "ui-icon-unlocked",
-                                    action: "Authenticate",
-                                    method: "post",
-                                    type: "submit")
-                                .Button(
-                                        text: Displays.Cancel(context: context),
-                                        controlCss: "button-icon ",
-                                        onClick: "$p.back();",
-                                        icon: "ui-icon-cancel")))
+                            id: "TotpQRCode",
+                            attributes: new HtmlAttributes().Add("data-url", "otpauth://totp/" + LoginId + "?secret=" + SecretKey + "&issuer=Implem%20Plesanter"),
+                            action: () => hb.Span(
+                                id: "qrCode"))
                         .Div(
-                            id: "SecondaryAuthenticationBottom",
+                            id: "TotpQRCodeText",
+                            action: () => hb.Span(
+                                id: "qrCodeText",
+                                action: () => hb.Text(AddHyphenSecretKey())))
+                        .Div(action: () => hb = TotpAuthenticationCodeSeparate(hb, context))
+                        .Div(
+                            id: "AuthenticationByMail",
+                            attributes: new HtmlAttributes().Add(
+                                "data-isAuthenticationByMail", "0"),
+                            action: () => hb.A(
+                                href: "javascript:void(0)",
+                                text: Displays.RequireSecondAuthenticationByMail(context: context)))
+                                    .Div(
+                                        id: "SecondaryAuthenticationCommands",
+                                        css: "both",
+                                        action: () => hb.Div(css: "command-right", action: () => hb
+                                            .Button(
+                                                controlId: "SecondaryAuthenticate",
+                                                controlCss: " button-icon validate",
+                                                text: Displays.Confirm(context: context),
+                                                onClick: "$p.send($(this));",
+                                                icon: "ui-icon-unlocked",
+                                                action: "Authenticate",
+                                                method: "post",
+                                                type: "submit")
+                                            .Button(
+                                                    text: Displays.Cancel(context: context),
+                                                    controlCss: "button-icon ",
+                                                    onClick: "$p.back();",
+                                                    icon: "ui-icon-cancel")))
+                        .Div(
+                            id: "TotpRegisterBottom",
                             action: () => hb.Raw(HtmlHtmls.ExtendedHtmls(
                                 context: context,
-                                id: "SecondaryAuthenticationGuideBottom"))))
+                                id: "TotpRegisterBottom"))))
                 .Val(
                     target: "#BackUrl",
                     value: context.UrlReferrer,
-                    _using: !context.UrlReferrer.IsNullOrEmpty())
-                .Focus("#SecondaryAuthenticationCode").ToJson();
+                    _using: !context.UrlReferrer.IsNullOrEmpty()).ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public HtmlBuilder TotpAuthenticationCodeSeparate(HtmlBuilder hb, Context context)
+        {
+            return hb.FieldTextBox(
+                textType: HtmlTypes.TextTypes.Normal,
+                controlId: "SecondaryAuthenticationCode",
+                controlCss: "always-send totp-form",
+                labelText: Displays.AuthenticationCode(context: context),
+                validateRequired: true,
+                validateNumber: true)
+                .Div(
+                    id: "TotpAuthenticationCodeSeparate",
+                    action: () => hb
+                        .FieldTextBox(
+                            textType: HtmlTypes.TextTypes.Normal,
+                            controlId: "FirstTotpAuthenticationCode",
+                            controlCss: "focus totp-authentication-code",
+                            validateNumber: true)
+                        .FieldTextBox(
+                            textType: HtmlTypes.TextTypes.Normal,
+                            controlCss: "totp-authentication-code",
+                            validateNumber: true)
+                        .FieldTextBox(
+                            textType: HtmlTypes.TextTypes.Normal,
+                            controlCss: "totp-authentication-code",
+                            validateNumber: true)
+                        .FieldTextBox(
+                            textType: HtmlTypes.TextTypes.Normal,
+                            controlCss: "totp-authentication-code",
+                            validateNumber: true)
+                        .FieldTextBox(
+                            textType: HtmlTypes.TextTypes.Normal,
+                            controlCss: "totp-authentication-code",
+                            validateNumber: true)
+                        .FieldTextBox(
+                            textType: HtmlTypes.TextTypes.Normal,
+                            controlCss: "totp-authentication-code",
+                            validateNumber: true)); ;
         }
 
         /// <summary>
@@ -4677,12 +5000,29 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private bool SecondaryAuthentication(Context context, string secondaryAuthenticationCode)
+        private bool SecondaryAuthentication(Context context, string secondaryAuthenticationCode, bool isAuthenticationByMail)
         {
-            return
-                SecondaryAuthenticationCode == secondaryAuthenticationCode
-                && SecondaryAuthenticationCodeExpirationTime.Value.InRange()
-                && SecondaryAuthenticationCodeExpirationTime.Value > DateTime.Now;
+            return isAuthenticationByMail
+                ? SecondaryAuthenticationCode == secondaryAuthenticationCode
+                    && SecondaryAuthenticationCodeExpirationTime.Value.InRange()
+                    && SecondaryAuthenticationCodeExpirationTime.Value > DateTime.Now
+                : VerifyTotp(secondaryAuthenticationCode);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private bool VerifyTotp(string secondaryAuthenticationCode, double countTolerances = 0)
+        {
+            OtpNet.Totp totp = new OtpNet.Totp(OtpNet.Base32Encoding.ToBytes(SecretKey), totpSize: 6);
+            var beforeTime = countTolerances * -30;
+            return countTolerances >= Parameters.Security.SecondaryAuthentication.CountTolerances
+                ? false
+                : totp.VerifyTotp(DateTime.UtcNow.AddSeconds((double)beforeTime),
+                    secondaryAuthenticationCode, out _,
+                    OtpNet.VerificationWindow.RfcSpecifiedNetworkDelay)
+                        ? true
+                        : VerifyTotp(secondaryAuthenticationCode, countTolerances + 1);
         }
 
         /// <summary>
