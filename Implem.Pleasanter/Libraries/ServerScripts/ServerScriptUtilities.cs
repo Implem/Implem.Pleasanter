@@ -1447,6 +1447,12 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     ?.Where(
                         context: apiContext,
                         ss: ss);
+            var join = ss.Join(
+                context: apiContext,
+                join: new IJoin[]
+                {
+                    where
+                });
             var column = ss.GetColumn(
                 context: apiContext,
                 columnName: columnName);
@@ -1468,6 +1474,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                                 column: Rds.IssuesColumn().Add(
                                     column: column,
                                     function: function),
+                                join: join,
                                 where: where));
                     case "Results":
                         return Repository.ExecuteScalar_decimal(
@@ -1476,6 +1483,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                                 column: Rds.ResultsColumn().Add(
                                     column: column,
                                     function: function),
+                                join: join,
                                 where: where));
                 }
             }

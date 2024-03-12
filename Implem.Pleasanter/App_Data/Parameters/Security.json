@@ -1,5 +1,6 @@
 ﻿{
     "AllowIpAddresses": null,
+    "IpRestrictionExcludeMembers": null,
     "MimeTypeCheckOnApi": false,
     "PrivilegedUsers": null,
     "RevealUserDisabled": false,
@@ -83,6 +84,7 @@
     "SecondaryAuthentication": {
         "Mode": "None",
         "NotificationType": "Mail",
+        "CountTolerances": 1,
         "NotificationMailBcc": false,
         "AuthenticationCodeCharacterType": "Number",
         "AuthenticationCodeLength": 8,
@@ -92,7 +94,7 @@
         "BlobContainerUri": null,
         "KeyIdentifier": null,
         "KeyFileName": "Keys.xml",
-        "XmlAesKey":  null
+        "XmlAesKey": null
     },
     "HttpStrictTransportSecurity": {
         "Enabled": false,

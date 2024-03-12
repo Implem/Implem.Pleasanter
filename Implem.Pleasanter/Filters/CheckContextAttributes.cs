@@ -27,9 +27,13 @@ namespace Implem.PleasanterFilters
                 filterContext.Result = new RedirectResult(
                     Locations.ParameterSyntaxError(context: context));
             }
-            if (!IpAddresses.AllowedIpAddress(
-                allowIpAddresses: Parameters.Security.AllowIpAddresses,
-                ipAddress: context.UserHostAddress))
+            if ((filterContext.HttpContext.Request.Path == null
+                || !filterContext.HttpContext.Request.Path.ToString().ToLower().StartsWith("/api/"))
+                && !IpAddresses.AllowedIpAddress(
+                    context: context,
+                    allowIpAddresses: Parameters.Security.AllowIpAddresses,
+                    ipRestrictionExcludeMembers: Parameters.Security.IpRestrictionExcludeMembers,
+                    ipAddress: context.UserHostAddress))
             {
                 filterContext.Result = new ContentResult()
                 {
@@ -39,7 +43,9 @@ namespace Implem.PleasanterFilters
                 return;
             }
             if (context.Authenticated
-                && !context.ContractSettings.AllowedIpAddress(context.UserHostAddress))
+                && !context.ContractSettings.AllowedIpAddress(
+                    context: context,
+                    context.UserHostAddress))
             {
                 Authentications.SignOut(context: context);
                 filterContext.Result = new RedirectResult(

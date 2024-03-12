@@ -301,7 +301,7 @@ namespace Implem.Pleasanter.Models
                 .ClearFormData("GridUnCheckedItems", _using: clearCheck)
                 .ClearFormData("GridCheckedItems", _using: clearCheck)
                 .CloseDialog(_using: offset == 0)
-                .ReplaceAll("#CopyDirectUrlToClipboard", new HtmlBuilder()
+                .ReplaceAll("#CopyToClipboards", new HtmlBuilder()
                     .CopyDirectUrlToClipboard(
                         context: context,
                         view: view))
@@ -11538,7 +11538,7 @@ namespace Implem.Pleasanter.Models
                                 fieldCss: "field-auto-thin",
                                 labelText: Displays.AggregationType(context: context),
                                 optionCollection: ss.KambanAggregationTypeOptions(context: context),
-                                selectedValue: view.KambanAggregateType)
+                                selectedValue: view.GetKambanAggregationType(context: context, ss: ss))
                             .FieldDropDown(
                                 context: context,
                                 controlId: "KambanValue",
