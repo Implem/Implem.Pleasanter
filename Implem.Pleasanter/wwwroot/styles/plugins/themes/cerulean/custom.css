@@ -481,10 +481,6 @@ fieldset .command-left > button {
     background-color: #FFF9E3;
 }
 
-.ui-widget input{
-    cursor: pointer;
-}
-
 .ui-widget.ui-state-default.ui-multiselect{
     padding: 4px 0 4px 8px;
 }
@@ -1532,20 +1528,20 @@ body#login #MainContainer #Application #PortalLink{
     display: none;
 }
 
-#Users_LoginIdField p,
-#Users_PasswordField p {
+#login #Users_LoginIdField p,
+#login #Users_PasswordField p {
     display: none;
 }
 
-#Users_LoginIdField .field-control .container-normal label.error,
-#Users_PasswordField .field-control .container-normal label.error {
+#login #Users_LoginIdField .field-control .container-normal label.error,
+#login #Users_PasswordField .field-control .container-normal label.error {
     background-color: #ffccd5;
     border-radius: 0;
     border: none;
     padding: 4px 8px;
 }
 
-#Users_PasswordField div .show-password {
+#login #Users_PasswordField div .show-password {
     position: absolute;
     top: 14px;
     right: -36px;
@@ -1553,16 +1549,16 @@ body#login #MainContainer #Application #PortalLink{
     font-weight: lighter;
 }
 
-#Users_RememberMeField {
+#login #Users_RememberMeField {
     width: 240px;
     padding-top: 24px;
 }
 
-#Users_RememberMeField .field-control .container-normal {
+#login #Users_RememberMeField .field-control .container-normal {
     margin-left: 0;
 }
 
-#Users_RememberMeField .field-control .container-normal .control-checkbox ~ label {
+#login #Users_RememberMeField .field-control .container-normal .control-checkbox ~ label {
     margin: 5px 5px 0 6px;
 }
 
