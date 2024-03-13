@@ -18,6 +18,7 @@ namespace Implem.Pleasanter.App_Start
                 "~/scripts/_view.js",
                 "~/scripts/_controllevents.js",
                 "~/scripts/aggregationevents.js",
+                "~/scripts/authenticatebymail.js",
                 "~/scripts/analy.js",
                 "~/scripts/anchor.js",
                 "~/scripts/anchorevents.js",
@@ -83,6 +84,7 @@ namespace Implem.Pleasanter.App_Start
                 "~/scripts/positionevents.js",
                 "~/scripts/process.js",
                 "~/scripts/processevents.js",
+                "~/scripts/qr.js",
                 "~/scripts/scroll.js",
                 "~/scripts/scrollevents.js",
                 "~/scripts/searchevents.js",
@@ -97,6 +99,7 @@ namespace Implem.Pleasanter.App_Start
                 "~/scripts/sitepackage.js",
                 "~/scripts/sitesettings.js",
                 "~/scripts/sitesettingsevents.js",
+                "~/scripts/splittotpform.js",
                 "~/scripts/startguide.js",
                 "~/scripts/statuscontrol.js",
                 "~/scripts/statusevents.js",
@@ -114,10 +117,7 @@ namespace Implem.Pleasanter.App_Start
                 "~/scripts/relatingcolumns.js",
                 "~/scripts/fieldselectable.js",
                 "~/scripts/tenants.js",
-                "~/scripts/responsive.js",
-                "~/scripts/qr.js",
-                "~/scripts/authenticatebymail.js",
-                "~/scripts/splittotpform.js"
+                "~/scripts/responsive.js"
             };
         }
     }
