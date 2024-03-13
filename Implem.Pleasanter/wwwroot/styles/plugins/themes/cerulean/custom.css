@@ -1466,6 +1466,12 @@ section.accordion {
     background: #E7E7E7;
 }
 
+.menubox a span,
+.menubox label span {
+    display: flex;
+    align-items: center;
+}
+
 /* ログイン画面 */
 body#login {
     background-color: #F8F8F8;
