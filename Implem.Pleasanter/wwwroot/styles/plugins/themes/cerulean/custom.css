@@ -392,11 +392,13 @@ thead th:has(.control-checkbox) {/* 調整中 */
     border-radius: 4px;
 }
 
-#MainContainer .fieldset .field-normal .field-control .control-dropdown {
+#MainContainer .fieldset .field-normal .field-control .control-dropdown,
+.ui-dialog .ui-dialog-content .fieldset .field-normal .field-control .control-dropdown {
     margin: 0;
 }
 
-#MainContainer .fieldset .field-normal .field-control .ui-icon-person {
+#MainContainer .fieldset .field-normal .field-control .ui-icon-person,
+.ui-dialog .ui-dialog-content .fieldset .field-normal .field-control .ui-icon-person {
     background-position: -144px -96px;
 }
 
@@ -1586,4 +1588,10 @@ body#login #MainContainer #Application #PortalLink{
 
 #MainForm #LoginFieldSet #Logins #LoginCommands #Login.ui-button {
     padding: 4px 22px !important;
+}
+
+.fieldset .show-password,
+.ui-dialog .show-password {
+    color: #666666;
+    font-weight: lighter;
 }
