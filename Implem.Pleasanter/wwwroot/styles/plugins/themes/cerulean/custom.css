@@ -456,7 +456,9 @@ fieldset .command-left > button {
 }
 
 .container-selectable .command-center > button,
-.container-selectable .command-left > button {
+.ui-dialog .container-selectable .command-center > button,
+.container-selectable .command-left > button,
+.field-control .container-selectable .command-right > button {
     margin: 0 4px 8px;
 }
 
@@ -514,6 +516,13 @@ fieldset .command-left > button {
     border: 1px solid #CECECE;
 }
 
+.field-vertical .command-left > button {
+    margin: 8px 4px 0;
+}
+
+.field-vertical .command-left > input {
+    margin: 8px 4px 0 0;
+}
 /* ボタン */
 .ui-button {
     background: #FFFFFF;
@@ -637,11 +646,13 @@ fieldset .button-positive:hover .ui-icon,
 /* ボタンpadding設定 */
 #Editor #RecordSwitchers .ui-button,
 #MainCommands .ui-button,
+#ViewModeContainer .ui-button,
 #ViewFilters .ui-button,
 fieldset .ui-button,
 .field-control .ui-button,
 .dialog .ui-button,
-#OutgoingMailsForm .ui-button {
+#OutgoingMailsForm .ui-button,
+#ApiEditorCommands .ui-button {
     padding: 4px 8px 4px 6px !important;
 }
 
