@@ -6,7 +6,6 @@ using Implem.Pleasanter.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.OutputCaching;
 using System.Collections.Generic;
 using System.Linq;
 namespace Implem.Pleasanter.Controllers
@@ -16,7 +15,7 @@ namespace Implem.Pleasanter.Controllers
     {
         [HttpGet]
         [ResponseCache(Duration = int.MaxValue)]
-        [OutputCache()]
+        [OutputCache(PolicyName = "test")]
         public ActionResult SiteImageThumbnail(string reference, long id)
         {
             var context = new Context();
@@ -34,7 +33,7 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [HttpGet]
-        [ResponseCache(Duration = int.MaxValue, VaryByQueryKeys = new[] {"*"})]
+        [ResponseCache(Duration = int.MaxValue)]
         public ActionResult SiteImageIcon(string reference, long id)
         {
             var context = new Context();
@@ -53,7 +52,6 @@ namespace Implem.Pleasanter.Controllers
 
         [HttpGet]
         [ResponseCache(Duration = int.MaxValue)]
-        [OutputCache()]
         public ActionResult TenantImageLogo()
         {
             var context = new Context();
@@ -225,7 +223,7 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [HttpPost]
-        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
+        //[ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public ActionResult Upload(long id)
         {
             var files = Request.Form.Files;
