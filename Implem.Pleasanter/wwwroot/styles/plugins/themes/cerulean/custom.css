@@ -612,6 +612,19 @@ fieldset .command-left > button {
     color: #FFFFFF;
 }
 
+
+.button-neutral:hover {
+    background-color: #515151;
+}
+
+.button-positive:hover {
+    background-color: #1a77c6;
+}
+
+.button-negative:hover {
+    background-color: #e37171;
+}
+
 #MainForm .button-neutral .ui-icon,
 #MainForm .button-neutral:hover .ui-icon,
 #MainForm .button-negative .ui-icon,
