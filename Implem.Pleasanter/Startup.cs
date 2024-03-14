@@ -221,7 +221,7 @@ namespace Implem.Pleasanter.NetCore
             }
             services.AddOutputCache(options =>
             {
-                options.AddBasePolicy(builder => builder.Expire(System.TimeSpan.FromSeconds(int.MaxValue)));
+                options.AddBasePolicy(builder => builder.Expire(System.TimeSpan.FromSeconds(600)));
             });
         }
 
@@ -266,9 +266,10 @@ namespace Implem.Pleasanter.NetCore
             app.UseCookiePolicy();
             app.UseRouting();
             app.UseCors();
+            app.UseResponseCaching();
             if (!Parameters.Security.SecureCacheControl.NoOutputCache)
             {
-                app.UseOutputCache();
+                 app.UseOutputCache();
             }
             app.UseSession();
             app.UseAuthentication();

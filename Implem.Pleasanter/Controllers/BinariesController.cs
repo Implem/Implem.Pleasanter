@@ -34,8 +34,7 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [HttpGet]
-        [ResponseCache(Duration = int.MaxValue)]
-        [OutputCache()]
+        [ResponseCache(Duration = int.MaxValue, VaryByQueryKeys = new[] {"*"})]
         public ActionResult SiteImageIcon(string reference, long id)
         {
             var context = new Context();
