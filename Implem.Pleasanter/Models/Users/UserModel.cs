@@ -3978,6 +3978,10 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public string Authenticate(Context context, string returnUrl, bool isAuthenticationByMail, bool noHttpContext = false)
         {
+            if (Parameters.Security?.SecondaryAuthentication?.NotificationType == ParameterAccessor.Parts.SecondaryAuthentication.SecondaryAuthenticationModeNotificationTypes.Mail)
+            {
+                isAuthenticationByMail = true;
+            }
             if (Parameters.Security.RevealUserDisabled && DisabledUser(context: context))
             {
                 return UserDisabled(context: context);
@@ -4002,7 +4006,7 @@ namespace Implem.Pleasanter.Models
                         .Forms
                         .Data("SecondaryAuthenticationCode");
                     return string.IsNullOrEmpty(secondaryAuthenticationCode)
-                        ? !EnableSecretKey
+                        ? !EnableSecretKey && !isAuthenticationByMail
                             ? OpenTotpRegisterCode(context: context)
                             : OpenSecondaryAuthentication(
                                 context: context,
@@ -4535,10 +4539,6 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private string OpenSecondaryAuthentication(Context context, string returnUrl, bool isAuthenticationByMail)
         {
-            if (Parameters.Security?.SecondaryAuthentication?.NotificationType == ParameterAccessor.Parts.SecondaryAuthentication.SecondaryAuthenticationModeNotificationTypes.Mail)
-            {
-                isAuthenticationByMail = true;
-            }
             if (isAuthenticationByMail)
             {
                 UpdateSecondaryAuthenticationCode(context: context);
