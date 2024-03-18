@@ -230,7 +230,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                             action: menu.ContainerId == "NewMenuContainer"
                                                 ? () => hb
                                                     .A(
-                                                        attributes: menu.Function == "CreateTemplates"
+                                                        attributes: referenceType == "Sites" && context.Action == "index"
                                                             ? new HtmlAttributes()
                                                                 .OnClick("$p.templates($(this));")
                                                                 .DataAction("Templates")
