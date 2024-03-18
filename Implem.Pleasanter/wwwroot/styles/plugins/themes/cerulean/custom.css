@@ -393,7 +393,8 @@ thead th:has(.control-checkbox) {/* 調整中 */
 }
 
 #MainContainer .fieldset .field-normal .field-control .control-dropdown,
-.ui-dialog .ui-dialog-content .fieldset .field-normal .field-control .control-dropdown {
+.ui-dialog .ui-dialog-content .fieldset .field-normal .field-control .control-dropdown,
+.ui-dialog .ui-dialog-content form .field-normal .field-control .control-dropdown {
     margin: 0;
 }
 
@@ -516,11 +517,11 @@ fieldset .command-left > button {
     border: 1px solid #CECECE;
 }
 
-.field-vertical .command-left > button {
+#FieldSetMailAddresses .field-vertical .command-left > button {
     margin: 8px 4px 0;
 }
 
-.field-vertical .command-left > input {
+#FieldSetMailAddresses .field-vertical .command-left > input {
     margin: 8px 4px 0 0;
 }
 /* ボタン */
@@ -694,6 +695,10 @@ fieldset .ui-button,
 
 #ViewModeContainer > .both{
     padding: 16px 16px 0;
+}
+
+#ViewModeContainer .both button {
+    margin: 0 4px 2px;
 }
 
 #ViewModeContainer td {
