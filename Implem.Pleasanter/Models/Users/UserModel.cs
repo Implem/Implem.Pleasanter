@@ -4496,44 +4496,43 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private void NotificationSecondaryAuthenticationCode(Context context)
+        private void NotificationSecondaryAuthenticationCode(Context context, bool isAuthenticationByMail)
         {
             var language = Language.IsNullOrEmpty()
                 ? context.Language
                 : Language;
-            switch (Parameters.Security?.SecondaryAuthentication?.NotificationType)
+
+            if(isAuthenticationByMail)
             {
-                case ParameterAccessor.Parts.SecondaryAuthentication.SecondaryAuthenticationModeNotificationTypes.Mail:
-                    Repository.ExecuteTable(
-                        context: context,
-                        statements: Rds.SelectMailAddresses(
-                            column: Rds.MailAddressesColumn().MailAddress(),
-                            where: Rds.MailAddressesWhere().OwnerId(UserId).OwnerType("Users")))
-                                ?.AsEnumerable()
-                                .Select(o => o["MailAddress"].ToString())
-                                .Where(o => !o.IsNullOrEmpty())
-                                .ForEach(mailAddress => new OutgoingMailModel()
-                                {
-                                    Title = new Title(Displays.Get(
-                                        id: "SecondaryAuthenticationMailSubject",
-                                        language: language)),
-                                    Body = Displays.Get(
-                                        id: "SecondaryAuthenticationMailBody",
-                                        language: language)
-                                            .Replace(
-                                                "[AuthenticationCode]",
-                                                SecondaryAuthenticationCode),
-                                    From = MimeKit.MailboxAddress.Parse(Parameters
-                                        .Mail
-                                        .SupportFrom),
-                                    To = $"\"{Name}\" <{mailAddress}>",
-                                    Bcc = Parameters.Security.SecondaryAuthentication.NotificationMailBcc
-                                        ? Parameters.Mail.SupportFrom
-                                        : string.Empty
-                                }.Send(
-                                    context: context,
-                                    ss: new SiteSettings()));
-                    break;
+                Repository.ExecuteTable(
+                    context: context,
+                    statements: Rds.SelectMailAddresses(
+                        column: Rds.MailAddressesColumn().MailAddress(),
+                        where: Rds.MailAddressesWhere().OwnerId(UserId).OwnerType("Users")))
+                            ?.AsEnumerable()
+                            .Select(o => o["MailAddress"].ToString())
+                            .Where(o => !o.IsNullOrEmpty())
+                            .ForEach(mailAddress => new OutgoingMailModel()
+                            {
+                                Title = new Title(Displays.Get(
+                                    id: "SecondaryAuthenticationMailSubject",
+                                    language: language)),
+                                Body = Displays.Get(
+                                    id: "SecondaryAuthenticationMailBody",
+                                    language: language)
+                                        .Replace(
+                                            "[AuthenticationCode]",
+                                            SecondaryAuthenticationCode),
+                                From = MimeKit.MailboxAddress.Parse(Parameters
+                                    .Mail
+                                    .SupportFrom),
+                                To = $"\"{Name}\" <{mailAddress}>",
+                                Bcc = Parameters.Security.SecondaryAuthentication.NotificationMailBcc
+                                    ? Parameters.Mail.SupportFrom
+                                    : string.Empty
+                            }.Send(
+                                context: context,
+                                ss: new SiteSettings()));
             }
         }
 
@@ -4545,7 +4544,7 @@ namespace Implem.Pleasanter.Models
             if (isAuthenticationByMail)
             {
                 UpdateSecondaryAuthenticationCode(context: context);
-                NotificationSecondaryAuthenticationCode(context: context);
+                NotificationSecondaryAuthenticationCode(context: context, isAuthenticationByMail: isAuthenticationByMail);
             }
             var hb = new HtmlBuilder();
             hb
