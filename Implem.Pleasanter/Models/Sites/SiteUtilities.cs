@@ -4021,8 +4021,10 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder SiteMenuIcon(
             this HtmlBuilder hb,
             Context context,
-            string iconName)
+            string iconName,
+            bool _using = true)
         {
+            if (_using == false) return hb;
             return hb.Div(
                 css: "site-icon",
                 action: () => hb
@@ -4367,6 +4369,12 @@ namespace Implem.Pleasanter.Models
                                         ? " sites"
                                         : " dashboards"), action: () => hb
                                 .Span(css: "title", action: () => hb.Text(title))
+                                .SiteMenuIcon(
+                                    context: context,
+                                    iconName: ss.ReferenceType != "Dashboards"
+                                        ? "icon-site-sites.svg"
+                                        : "icon-site-dashboards.svg",
+                                    _using: context.ThemeVersionOver2_0())
                                 .Div(css: "heading", _using: ss.ReferenceType != "Dashboards"))))
                                     .ToString();
         }

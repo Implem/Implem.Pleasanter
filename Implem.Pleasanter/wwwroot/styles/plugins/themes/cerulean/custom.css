@@ -1250,6 +1250,10 @@ fieldset .field-vertical > .field-label {
     width: 48px;
 }
 
+#StandardTemplatesViewer .site-icon {
+    text-align: center;
+}
+
 /* サイドメニュー */
 .box-header {
     background: #fff;
