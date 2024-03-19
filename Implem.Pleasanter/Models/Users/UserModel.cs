@@ -4692,8 +4692,7 @@ namespace Implem.Pleasanter.Models
                 controlId: "SecondaryAuthenticationCode",
                 controlCss: "always-send totp-form",
                 labelText: Displays.AuthenticationCode(context: context),
-                validateRequired: true,
-                validateNumber: true)
+                validateRequired: true)
                 .Div(
                     id: "TotpAuthenticationCodeSeparate",
                     action: () => hb
