@@ -719,6 +719,14 @@ fieldset .legend{
     margin: 0 4px 2px;
 }
 
+#ViewModeContainer .fc-toolbar-chunk .fc-button-group {
+    margin-right: 16px;
+}
+
+#ViewModeContainer .both #FullCalendar button {
+    margin: 0 0 2px;
+}
+
 #ViewModeContainer td {
     padding: 8px;
 }
