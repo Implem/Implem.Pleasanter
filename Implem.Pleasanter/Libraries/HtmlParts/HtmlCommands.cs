@@ -568,7 +568,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .Any(o => ss.MoveTargets.Contains(o.Key.ToLong()))
                         && !readOnly)
                 .Button(
-                    serverScriptModelRow:serverScriptModelRow,
+                    serverScriptModelRow: serverScriptModelRow,
                     commandDisplayTypes: view?.EditOutgoingMail,
                     controlId: "EditOutgoingMail",
                     text: Displays.Mail(context: context),
@@ -632,17 +632,41 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool _using = true)
         {
             var serverScriptElements = serverScriptModelRow?.Elements;
+            var serverScriptElementExists = serverScriptElements?.DisplayTypeHash.ContainsKey(controlId ?? string.Empty) ?? false;
+            var style = String.Empty;
+            var disabled = false;
+            if (serverScriptElementExists)
+            {
+                switch (serverScriptElements.DisplayTypeHash.Get(controlId))
+                {
+                    case View.CommandDisplayTypes.None:
+                        _using = false;
+                        break;
+                    case View.CommandDisplayTypes.Disabled:
+                        disabled = true;
+                        break;
+                    case View.CommandDisplayTypes.Hidden:
+                        style = "display:none;";
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else if (commandDisplayTypes != null)
+            {
+                style = commandDisplayTypes == View.CommandDisplayTypes.Hidden
+                    ? "display:none;"
+                    : string.Empty;
+                disabled = commandDisplayTypes == View.CommandDisplayTypes.Disabled;
+                _using = commandDisplayTypes != View.CommandDisplayTypes.None;
+            }
             return hb.Button(
                 controlId: controlId,
                 text: Strings.CoalesceEmpty(
                     serverScriptElements?.LabelText(controlId),
                     text),
                 controlCss: controlCss,
-                style: (serverScriptElements != null
-                    ? serverScriptElements.Hidden(controlId) == true
-                    : commandDisplayTypes == View.CommandDisplayTypes.Hidden)
-                        ? "display:none;"
-                        : string.Empty,
+                style: style,
                 title: title,
                 accessKey: accessKey,
                 onClick: onClick,
@@ -654,12 +678,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 method: method,
                 confirm: confirm,
                 type: type,
-                disabled: serverScriptElements != null 
-                    ? serverScriptElements.Disabled(controlId) == true
-                    : commandDisplayTypes == View.CommandDisplayTypes.Disabled,
-                _using: _using
-                    && serverScriptModelRow?.Elements?.None(controlId) != true
-                    && commandDisplayTypes != View.CommandDisplayTypes.None);
+                disabled: disabled,
+                _using: _using);
         }
     }
 }
