@@ -1,8 +1,11 @@
 ﻿$p.authenticatebymail = function () {
     $('#AuthenticationByMail').on('click', function () {
-        $('#SecondaryAuthenticationCode').remove();
         $('#AuthenticationByMail').data('isauthenticationbymail', '1');
+        $('#SecondaryAuthenticationCode').remove();
         $p.send($('#Login'));
+        if ($('#TotpRegister').length) {
+            $('#TotpRegister').remove();
+        }
     });
 }
 
