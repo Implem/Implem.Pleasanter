@@ -36,6 +36,8 @@ using System.Threading.Tasks;
 using Quartz.Impl;
 using System.Collections.Specialized;
 using Implem.Pleasanter.Libraries.Settings;
+using System.Collections.Generic;
+
 
 namespace Implem.Pleasanter.NetCore
 {
@@ -138,12 +140,15 @@ namespace Implem.Pleasanter.NetCore
                     options.Secure = CookieSecurePolicy.Always;
                 });
             }
-            var extensionDirectory = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), "ExtendedLibraries");
-            if (Directory.Exists(extensionDirectory))
+            var extensionPaths = GetExtendedLibrariePaths();
+            foreach (var path in extensionPaths)
             {
-                foreach (var assembly in Directory.GetFiles(extensionDirectory, "*.dll").Select(dll => Assembly.LoadFrom(dll)).ToArray())
+                if (Directory.Exists(path))
                 {
-                    mvcBuilder.AddApplicationPart(assembly);
+                    foreach (var assembly in Directory.GetFiles(path, "*.dll").Select(dll => Assembly.LoadFrom(dll)).ToArray())
+                    {
+                        mvcBuilder.AddApplicationPart(assembly);
+                    }
                 }
             }
             services.Configure<FormOptions>(options =>
@@ -219,6 +224,19 @@ namespace Implem.Pleasanter.NetCore
                     }
                 });
             }
+        }
+
+        // 拡張DLLの探索をExtendedLibrariesディレクトリ内の一段下のディレクトリも対象をする。
+        private IEnumerable<string> GetExtendedLibrariePaths()
+        {
+            var list = new List<string>();
+            var basePath = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), "ExtendedLibraries");
+            if (Directory.Exists(basePath))
+            {
+                list.Add(basePath);
+                list.AddRange(Directory.GetDirectories(basePath));
+            }
+            return list;
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
