@@ -144,6 +144,11 @@ namespace Implem.Pleasanter.NetCore
                     foreach (var assembly in Directory.GetFiles(path, "*.dll").Select(dll => Assembly.LoadFrom(dll)).ToArray())
                     {
                         mvcBuilder.AddApplicationPart(assembly);
+                        // DLL内にImplem.Pleasanter.NetCore.ExtendedLibrarie.ExtendedLibrarieクラスinitialize(static)メソッドがあった場合は呼び出す
+                        // 拡張DLL内でbackgrondのworkerスレッドを起動したい場合に使用
+                        assembly.GetType("Implem.Pleasanter.NetCore.ExtendedLibrarie.ExtendedLibrarie")?
+                            .GetMethod("initialize")?
+                            .Invoke(null, null);
                     }
                 }
             }
