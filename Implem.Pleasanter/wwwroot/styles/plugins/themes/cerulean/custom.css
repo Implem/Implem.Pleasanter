@@ -18,7 +18,7 @@
 }
 
 #NavigationMenu .menu > li > a {
-    color: #383838;
+    color: #222222;
 }
 
 .control-selectable .ui-selecting {
@@ -48,19 +48,19 @@
 }
 
 .ui-widget-content .control-markup a {
-    color: #383838;
+    color: #222222;
 }
 
 .ui-widget-content a {
-    color: #383838;
+    color: #222222;
 }
 
 .field-control .control-textbox {
-    color: #383838;
+    color: #222222;
 }
 
 .field-control .already-attachments .file-name {
-    color: #383838;
+    color: #222222;
 }
 
 .field-control .ui-multiselect {
@@ -88,7 +88,7 @@
 }
 
 #Links .grid-row a {
-    color: #383838;
+    color: #222222;
 }
 
 /* 全体共通 */
@@ -119,6 +119,7 @@ body {
 #MainContainer #Header {
     background-color: #FFFFFF;
     border-bottom: 1px solid #CECECE;
+    color: #222222;
 }
 
 #Header #Logo {
@@ -266,6 +267,7 @@ nav.both.cf {
     border: none;
     border-radius: 0;
     background-color: #DEECF9;
+    color: #222222;
 }
 
 #MainForm #ViewFilters > .display-control {
@@ -284,6 +286,7 @@ nav.both.cf {
     border: none;
     border-radius: 0;
     background-color: #DEECF9;
+    color: #222222;
 }
 
 #MainForm #Aggregations .label {
@@ -378,6 +381,7 @@ thead th:has(.control-checkbox) {/* 調整中 */
     border: 1px solid #CECECE;
     border-radius: 4px;
     padding: 4px 8px 4px 8px;
+    color: #222222;
 }
 
 #MainContainer .fieldset.enclosed,
@@ -408,6 +412,10 @@ thead th:has(.control-checkbox) {/* 調整中 */
     padding: 4px 8px 4px 8px;
 }
 
+.field-control pre {
+    color: #222222;
+}
+
 .control-textbox:focus,
 .control-dropdown:focus,
 .control-textarea:focus {
@@ -420,7 +428,7 @@ thead th:has(.control-checkbox) {/* 調整中 */
 #MainCommands button,
 #Editor fieldset button,
 .field-control select.control-dropdown {
-    font-family: 'メイリオ', 'Meiryo', 'Hiragino Kaku Gothic ProN', 'ヒラギノ角ゴ ProN W3', sans-serif;
+font-family: 'メイリオ', 'Meiryo', 'Hiragino Kaku Gothic ProN', 'ヒラギノ角ゴ ProN W3', sans-serif;
 }
 
 .field-control .control-markdown,
@@ -431,6 +439,7 @@ thead th:has(.control-checkbox) {/* 調整中 */
 #Editor .field-control .control-markup {
     padding: 8px 28px 8px 8px;
     border-radius: 4px;
+    color: #222222;
 }
 
 #Editor .control-markdown{
@@ -486,7 +495,12 @@ fieldset .command-left > button {
     background-color: #FFF9E3;
 }
 
-.ui-widget.ui-state-default.ui-multiselect{
+.field-control label,
+.field-control textarea {
+    color: #222222;
+}
+
+.ui-widget.ui-state-default.ui-multiselect {
     padding: 4px 0 4px 8px;
 }
 
@@ -683,6 +697,10 @@ fieldset .ui-button,
     background-position: -65px -12px;
 }
 
+fieldset .legend{
+    color: #222222;
+}
+
 /* 一覧画面 */
 #ViewModeContainer .grid > thead > tr > th {
     padding: 8px;
@@ -701,6 +719,14 @@ fieldset .ui-button,
     margin: 0 4px 2px;
 }
 
+#ViewModeContainer .fc-toolbar-chunk .fc-button-group {
+    margin-right: 16px;
+}
+
+#ViewModeContainer .both #FullCalendar button {
+    margin: 0 0 2px;
+}
+
 #ViewModeContainer td {
     padding: 8px;
 }
@@ -709,6 +735,7 @@ fieldset .ui-button,
 #EditorTabsContainer .grid > tbody > tr > td {
     border-left: 1px solid #ECECEC;
     border-right: 1px solid #ECECEC;
+    color: #222222;
 }
 
 #ViewModeContainer .grid-row .comment,
@@ -823,12 +850,14 @@ table.grid tbody td > input {
     padding-right: 16px;
     padding-bottom: 10000px;
     margin-bottom: -10000px;
+    color: #222222;
 }
 
 #Editor #EditorComments .comment {
     border: 0;
     border-bottom: 1px solid #CECECE;
     background: none;
+    color: #222222;
 }
 
 #Application #TemplateTabsContainer {
@@ -922,7 +951,7 @@ table.grid tbody td > input {
 }
 
 .ui-dialog.ui-widget.ui-widget-content .ui-widget-header .ui-dialog-title {
-    color: #4C3000;
+    color: #222222;
 }
 
 .ui-dialog.ui-widget.ui-widget-content .ui-widget-header .ui-dialog-titlebar-close {
@@ -957,6 +986,7 @@ table.grid tbody td > input {
 
 #RecordHeader #RecordInfo {
     padding: 0 16px;
+    color: #222222;
 }
 
 #RecordHeader #RecordInfo div p .elapsed-time {
@@ -1012,6 +1042,7 @@ fieldset .field-vertical > .field-label {
 
 .field-label label{
     cursor: default;
+    color: #222222;
 }
 
 .field-control .command-left .control-textbox {
