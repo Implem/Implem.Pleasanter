@@ -13,34 +13,37 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             SiteSettings ss,
             View view)
         {
-            // todo:F5やパンくずで自画面に遷移した際は、ガイドの開閉の状態をキープできないか？
-            var guideClick = context.Forms.ControlId() == "ExpandGuide" || context.Forms.ControlId() == "ReduceGuide";
-            var reductionSettings = GetReductionSettings(context: context, ss: ss);
-            return GetGuideText(context: context, ss: ss).IsNullOrEmpty()
-                ? hb.Div(id: "Guide")
-                : reductionSettings.canReduce
-                    ? context.Forms.ControlId() == "ReduceGuide" || !guideClick && reductionSettings.defaultReduce
-                        ? hb.Div(
-                            id: "Guide",
-                            css: "reduced",
-                            action: () => hb
-                                .Div(
-                                    attributes: new HtmlAttributes()
-                                        .Id("ExpandGuide")
-                                        .Class("display-control")
-                                        .OnClick("$p.send($(this));")
-                                        .DataMethod("post"),
-                                    action: () => hb
-                                        .Span(css: "ui-icon ui-icon-folder-open")
-                                        .Text(text: Displays.Guide(context: context) + ":")))
+            var reductionSettings = GetReductionSettings(
+                context: context,
+                ss: ss);
+            return GetGuideText(
+                context: context,
+                ss: ss).IsNullOrEmpty()
+                    ? hb.Div(id: "Guide")
+                    : reductionSettings.canReduce
+                        ? view.GuidesReduced ?? reductionSettings.defaultReduce
+                            ? hb.Div(
+                                id: "Guide",
+                                css: "reduced",
+                                action: () => hb
+                                    .Div(
+                                        attributes: new HtmlAttributes()
+                                            .Id("ExpandGuides")
+                                            .Class("display-control")
+                                            .OnClick("$p.send($(this));")
+                                            .DataMethod("post"),
+                                        action: () => hb
+                                            .Span(css: "ui-icon ui-icon-folder-open")
+                                            .Text(text: Displays.Guide(context: context) + ":")))
+                            : hb.Div(id: "Guide", action: () =>
+                                hb.Guide(
+                                    context: context,
+                                    ss: ss,
+                                    useDisplayControl: true))
                         : hb.Div(id: "Guide", action: () =>
                             hb.Guide(
                                 context: context,
-                                ss: ss,
-                                useDisplayControl: true))
-                    : hb.Div(id: "Guide", action: () =>
-                        hb.Guide(context: context,
-                            ss: ss));
+                                ss: ss));
         }
 
         private static (bool canReduce, bool defaultReduce) GetReductionSettings(Context context, SiteSettings ss)
@@ -120,7 +123,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     action: () => hb
                         .Div(
                             attributes: new HtmlAttributes()
-                                .Id("ReduceGuide")
+                                .Id("ReduceGuides")
                                 .Class("display-control")
                                 .OnClick("$p.send($(this));")
                                 .DataMethod("post"),

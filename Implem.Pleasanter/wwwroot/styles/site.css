@@ -309,12 +309,12 @@ pre {
 #Guide > .with-icon-close {
     padding: 5px 5px 2px 5px;
 }
-    #Guide > div > #ReduceGuide {
+    #Guide > div > #ReduceGuides {
         float: left;
         cursor: pointer;
     }
 
-#Guide > #ExpandGuide {
+#Guide > #ExpandGuides {
     float: none;
     margin: 0 5px 0 0;
     padding: 5px 10px 5px 0;

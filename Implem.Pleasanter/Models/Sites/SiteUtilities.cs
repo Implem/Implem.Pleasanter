@@ -3693,7 +3693,9 @@ namespace Implem.Pleasanter.Models
             return hb.Template(
                 context: context,
                 ss: ss,
-                view: null,
+                view: Views.GetBySession(
+                    context: context,
+                    ss: ss),
                 siteId: siteModel.SiteId,
                 parentId: siteModel.ParentId,
                 referenceType: "Sites",
