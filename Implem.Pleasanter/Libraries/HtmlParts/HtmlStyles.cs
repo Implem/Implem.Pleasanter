@@ -104,12 +104,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .Link(
                     href: Responses.Locations.Get(
                         context: context,
-                        parts: $"Styles/Plugins/themes/{context.Theme}/jquery-ui.min.css"),
+                        parts: context.Mobile || context.Responsive
+                            ? $"Styles/Plugins/themes/sunny/jquery-ui.min.css"
+                            : $"Styles/Plugins/themes/{context.Theme}/jquery-ui.min.css"),
                     rel: "stylesheet")
                 .Link(
                     href: Responses.Locations.Get(
                         context: context,
-                        parts: $"Styles/Plugins/themes/{context.Theme}/custom.css"),
+                        parts: context.Mobile || context.Responsive
+                            ? $"Styles/Plugins/themes/sunny/custom.css"
+                            : $"Styles/Plugins/themes/{context.Theme}/custom.css"),
                     rel: "stylesheet")
                 .Link(
                     href: Responses.Locations.Get(
