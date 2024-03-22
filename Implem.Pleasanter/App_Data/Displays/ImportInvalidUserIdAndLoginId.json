@@ -1,0 +1,33 @@
+﻿{
+    "Id": "ImportInvalidUserIdAndLoginId",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "The data for User ID \"{0}\" and Login ID \"{1}\" cannot be imported."
+        },
+        {
+            "Language": "zh",
+            "Body": "无法导入用户ID \"{0}\" 和登录ID \"{1}\" 的数据。"
+        },
+        {
+            "Language": "ja",
+            "Body": "ユーザID \"{0}\" ログインID \"{1}\" のデータをインポートすることができません。"
+        },
+        {
+            "Language": "de",
+            "Body": "Die Daten für Benutzer-ID \"{0}\" und Login-ID \"{1}\" können nicht importiert werden. "
+        },
+        {
+            "Language": "ko",
+            "Body": "사용자 ID \"{0}\" 로그인 ID \"{1}\" 의 데이터를 가져올 수 없습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Los datos para el ID de usuario \"{0}\" y el ID de inicio de sesión \"{1}\" no se pueden importar."
+        },
+        {
+            "Language": "vn",
+            "Body": "Không thể nhập dữ liệu cho ID người dùng \"{0}\" và ID đăng nhập \"{1}\"."
+        }
+    ]
+}
