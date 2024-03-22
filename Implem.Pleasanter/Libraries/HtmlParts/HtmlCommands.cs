@@ -631,55 +631,63 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string type = "button",
             bool _using = true)
         {
-            var serverScriptElements = serverScriptModelRow?.Elements;
-            var serverScriptElementExists = serverScriptElements?.DisplayTypeHash.ContainsKey(controlId ?? string.Empty) ?? false;
-            var style = String.Empty;
-            var disabled = false;
-            if (serverScriptElementExists)
+            if (!_using)
             {
-                switch (serverScriptElements.DisplayTypeHash.Get(controlId))
+                return hb;
+            }
+            else
+            {
+                var serverScriptElements = serverScriptModelRow?.Elements;
+                var serverScriptElementExists = serverScriptElements?.DisplayTypeHash.ContainsKey(controlId ?? string.Empty) ?? false;
+                var style = String.Empty;
+                var disabled = false;
+                var buttonExists = true;
+                if (serverScriptElementExists)
                 {
-                    case View.CommandDisplayTypes.None:
-                        _using = false;
-                        break;
-                    case View.CommandDisplayTypes.Disabled:
-                        disabled = true;
-                        break;
-                    case View.CommandDisplayTypes.Hidden:
-                        style = "display:none;";
-                        break;
-                    default:
-                        break;
+                    switch (serverScriptElements.DisplayTypeHash.Get(controlId))
+                    {
+                        case View.CommandDisplayTypes.None:
+                            buttonExists = false;
+                            break;
+                        case View.CommandDisplayTypes.Disabled:
+                            disabled = true;
+                            break;
+                        case View.CommandDisplayTypes.Hidden:
+                            style = "display:none;";
+                            break;
+                        default:
+                            break;
+                    }
                 }
+                else if (commandDisplayTypes != null)
+                {
+                    style = commandDisplayTypes == View.CommandDisplayTypes.Hidden
+                        ? "display:none;"
+                        : string.Empty;
+                    disabled = commandDisplayTypes == View.CommandDisplayTypes.Disabled;
+                    buttonExists = commandDisplayTypes != View.CommandDisplayTypes.None;
+                }
+                return hb.Button(
+                    controlId: controlId,
+                    text: Strings.CoalesceEmpty(
+                        serverScriptElements?.LabelText(controlId),
+                        text),
+                    controlCss: controlCss,
+                    style: style,
+                    title: title,
+                    accessKey: accessKey,
+                    onClick: onClick,
+                    href: href,
+                    dataId: dataId,
+                    icon: icon,
+                    selector: selector,
+                    action: action,
+                    method: method,
+                    confirm: confirm,
+                    type: type,
+                    disabled: disabled,
+                    _using: buttonExists);
             }
-            else if (commandDisplayTypes != null)
-            {
-                style = commandDisplayTypes == View.CommandDisplayTypes.Hidden
-                    ? "display:none;"
-                    : string.Empty;
-                disabled = commandDisplayTypes == View.CommandDisplayTypes.Disabled;
-                _using = commandDisplayTypes != View.CommandDisplayTypes.None;
-            }
-            return hb.Button(
-                controlId: controlId,
-                text: Strings.CoalesceEmpty(
-                    serverScriptElements?.LabelText(controlId),
-                    text),
-                controlCss: controlCss,
-                style: style,
-                title: title,
-                accessKey: accessKey,
-                onClick: onClick,
-                href: href,
-                dataId: dataId,
-                icon: icon,
-                selector: selector,
-                action: action,
-                method: method,
-                confirm: confirm,
-                type: type,
-                disabled: disabled,
-                _using: _using);
         }
     }
 }
