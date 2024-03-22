@@ -136,18 +136,17 @@ namespace Implem.Pleasanter.NetCore
                     options.Secure = CookieSecurePolicy.Always;
                 });
             }
-            var extensionPaths = GetExtendedLibrariePaths();
-            foreach (var path in extensionPaths)
+            foreach (var path in GetExtendedLibraryPaths())
             {
                 if (Directory.Exists(path))
                 {
                     foreach (var assembly in Directory.GetFiles(path, "*.dll").Select(dll => Assembly.LoadFrom(dll)).ToArray())
                     {
                         mvcBuilder.AddApplicationPart(assembly);
-                        // DLL内にImplem.Pleasanter.NetCore.ExtendedLibrarie.ExtendedLibrarieクラスinitialize(static)メソッドがあった場合は呼び出す
+                        // DLL内にImplem.Pleasanter.NetCore.ExtendedLibrary.ExtendedLibraryクラスInitialize()staticメソッドがあった場合は呼び出す
                         // 拡張DLL内でbackgrondのworkerスレッドを起動したい場合に使用
-                        assembly.GetType("Implem.Pleasanter.NetCore.ExtendedLibrarie.ExtendedLibrarie")?
-                            .GetMethod("initialize")?
+                        assembly.GetType("Implem.Pleasanter.NetCore.ExtendedLibrary.ExtendedLibrary")?
+                            .GetMethod("Initialize")?
                             .Invoke(null, null);
                     }
                 }
@@ -228,7 +227,7 @@ namespace Implem.Pleasanter.NetCore
         }
 
         // 拡張DLLの探索をExtendedLibrariesディレクトリ内の一段下のディレクトリも対象をする。
-        private IEnumerable<string> GetExtendedLibrariePaths()
+        private IEnumerable<string> GetExtendedLibraryPaths()
         {
             var list = new List<string>();
             var basePath = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), "ExtendedLibraries");
