@@ -917,6 +917,14 @@ namespace Implem.DefinitionAccessor
                     SetManageServiceToDisableSecondaryAuthentication();
                     break;
             }
+            if((Parameters.Security.SecondaryAuthentication?.Mode
+                is null
+                or SecondaryAuthentication.SecondaryAuthenticationMode.None)
+                    || Parameters.Security.SecondaryAuthentication?.NotificationType
+                        != SecondaryAuthentication.SecondaryAuthenticationModeNotificationTypes.Totp)
+            {
+                SetManageServiceToEnableSecretKey();
+            }
         }
 
         private static void SetManageServiceToDisableSecondaryAuthentication()
@@ -937,6 +945,16 @@ namespace Implem.DefinitionAccessor
                 o.Id == "Users_EnableSecondaryAuthentication").ReadAccessControl = "ManageService";
             Def.ColumnDefinitionCollection.FirstOrDefault(o =>
                 o.Id == "Users_EnableSecondaryAuthentication").UpdateAccessControl = "ManageService";
+        }
+
+        private static void SetManageServiceToEnableSecretKey()
+        {
+            Def.ColumnDefinitionCollection.FirstOrDefault(o =>
+                o.Id == "Users_EnableSecretKey").CreateAccessControl = "ManageService";
+            Def.ColumnDefinitionCollection.FirstOrDefault(o =>
+                o.Id == "Users_EnableSecretKey").ReadAccessControl = "ManageService";
+            Def.ColumnDefinitionCollection.FirstOrDefault(o =>
+                o.Id == "Users_EnableSecretKey").UpdateAccessControl = "ManageService";
         }
 
         private static void SetTimeZone()
