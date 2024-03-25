@@ -372,7 +372,7 @@ nav.both.cf {
 thead th .control-checkbox{
     margin: 0;
 }
-thead th:has(.control-checkbox) {/* 調整中 */
+thead th:has(.control-checkbox) {
     text-align: center;
 }
 
@@ -382,6 +382,16 @@ thead th:has(.control-checkbox) {/* 調整中 */
     border-radius: 4px;
     padding: 4px 8px 4px 8px;
     color: #222222;
+}
+
+#SearchField .control-textbox,
+.field-control .control-textbox,
+.field-control .control-markup {
+    border: 1px solid #CECECE;
+}
+
+#SearchField .control-textbox:focus{
+    border: 1px solid #666666;
 }
 
 #MainContainer .fieldset.enclosed,
@@ -705,10 +715,6 @@ fieldset .legend{
 #ViewModeContainer .grid > thead > tr > th {
     padding: 8px;
     font-weight: bold;
-}
-
-#ViewModeContainer > div {
-    /*padding: 16px;*/
 }
 
 #ViewModeContainer > .both{
@@ -1305,7 +1311,6 @@ fieldset .field-vertical > .field-label {
 }
 
 .hamburger-menubox li {
-    /*display: flex;*//*一旦削除*/
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
@@ -1331,7 +1336,7 @@ fieldset .field-vertical > .field-label {
 .hamburger-switch-line, .hamburger-switch-line:before, .hamburger-switch-line:after {
     width: 20px;
     height: 2px;
-    background: #666; /* ハンバーガーアイコンの色 */
+    background: #666;
     position: absolute;
     top: 50%;
     left: 50%;
