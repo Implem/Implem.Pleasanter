@@ -26,16 +26,14 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Primitives;
-using Quartz.AspNetCore;
-using Quartz;
 using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using Quartz.Impl;
-using System.Collections.Specialized;
 using Implem.Pleasanter.Libraries.Settings;
+using System.Collections.Generic;
+
 
 namespace Implem.Pleasanter.NetCore
 {
@@ -138,12 +136,19 @@ namespace Implem.Pleasanter.NetCore
                     options.Secure = CookieSecurePolicy.Always;
                 });
             }
-            var extensionDirectory = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), "ExtendedLibraries");
-            if (Directory.Exists(extensionDirectory))
+            foreach (var path in GetExtendedLibraryPaths())
             {
-                foreach (var assembly in Directory.GetFiles(extensionDirectory, "*.dll").Select(dll => Assembly.LoadFrom(dll)).ToArray())
+                if (Directory.Exists(path))
                 {
-                    mvcBuilder.AddApplicationPart(assembly);
+                    foreach (var assembly in Directory.GetFiles(path, "*.dll").Select(dll => Assembly.LoadFrom(dll)).ToArray())
+                    {
+                        mvcBuilder.AddApplicationPart(assembly);
+                        // DLL内にImplem.Pleasanter.NetCore.ExtendedLibrary.ExtendedLibraryクラスInitialize()staticメソッドがあった場合は呼び出す
+                        // 拡張DLL内でbackgrondのworkerスレッドを起動したい場合に使用
+                        assembly.GetType("Implem.Pleasanter.NetCore.ExtendedLibrary.ExtendedLibrary")?
+                            .GetMethod("Initialize")?
+                            .Invoke(null, null);
+                    }
                 }
             }
             services.Configure<FormOptions>(options =>
@@ -225,6 +230,19 @@ namespace Implem.Pleasanter.NetCore
                 options.AddPolicy("test", builder => builder.Expire(System.TimeSpan.FromSeconds(int.MaxValue)));
                 // 86400
             });
+        }
+
+        // 拡張DLLの探索をExtendedLibrariesディレクトリ内の一段下のディレクトリも対象をする。
+        private IEnumerable<string> GetExtendedLibraryPaths()
+        {
+            var list = new List<string>();
+            var basePath = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), "ExtendedLibraries");
+            if (Directory.Exists(basePath))
+            {
+                list.Add(basePath);
+                list.AddRange(Directory.GetDirectories(basePath));
+            }
+            return list;
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
