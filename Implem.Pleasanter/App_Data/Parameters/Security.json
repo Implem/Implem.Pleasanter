@@ -108,7 +108,6 @@
         "NoStore": false,
         "Private": false,
         "MustRevalidate": false,
-        "PragmaNoCache": false,
-        "NoOutputCache": false
+        "PragmaNoCache": false
     }
 }
