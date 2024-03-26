@@ -4045,23 +4045,20 @@ namespace Implem.Pleasanter.Models
             bool hasImage,
             string siteImagePrefix)
         {
-            if (!context.ThemeVersionOver2_0())
+            if (context.ThemeVersion1_0() && hasImage)
             {
-                if (hasImage)
-                {
-                    hb.Img(
-                        src: Locations.Get(
-                            context: context,
-                            parts: new string[]
-                            {
-                                "Items",
-                                siteId.ToString(),
-                                "Binaries",
-                                "SiteImageThumbnail",
-                                siteImagePrefix
-                            }),
-                        css: "site-image-thumbnail");
-                }
+                hb.Img(
+                    src: Locations.Get(
+                        context: context,
+                        parts: new string[]
+                        {
+                            "Items",
+                            siteId.ToString(),
+                            "Binaries",
+                            "SiteImageThumbnail",
+                            siteImagePrefix
+                        }),
+                    css: "site-image-thumbnail");
             }
             return hb.Span(css: "title", action: () => hb
                 .Text(title));
