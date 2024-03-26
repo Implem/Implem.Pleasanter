@@ -3176,6 +3176,12 @@ namespace Implem.Pleasanter.Models
                             {
                                 case Error.Types.None:
                                     break;
+                                case Error.Types.UpdateConflicts:
+                                    return new ResponseCollection(context: context)
+                                        .Message(Messages.ImportInvalidUserIdAndLoginId(
+                                            context:context,
+                                            data: [userModel.UserId.ToString(), userModel.LoginId]))
+                                        .ToJson();
                                 default:
                                     return errorData.MessageJson(context: context);
                             }

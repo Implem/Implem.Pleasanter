@@ -4769,6 +4769,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string ImportInvalidUserIdAndLoginId(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ImportInvalidUserIdAndLoginId",
+                data: data);
+        }
+
         public static string ImportKey(
             Context context,
             params string[] data)
