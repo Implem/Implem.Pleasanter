@@ -6,6 +6,7 @@ using Implem.Pleasanter.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OutputCaching;
 using System.Collections.Generic;
 using System.Linq;
 namespace Implem.Pleasanter.Controllers
@@ -15,7 +16,7 @@ namespace Implem.Pleasanter.Controllers
     {
         [HttpGet]
         [ResponseCache(Duration = int.MaxValue)]
-        [OutputCache(PolicyName = "test")]
+        [OutputCache(PolicyName = "imageCache")]
         public ActionResult SiteImageThumbnail(string reference, long id)
         {
             var context = new Context();
