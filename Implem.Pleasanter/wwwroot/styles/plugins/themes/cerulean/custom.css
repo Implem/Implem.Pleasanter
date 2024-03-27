@@ -346,6 +346,7 @@ nav.both.cf {
 }
 
 .ui-widget-header,
+.ui-dialog.ui-widget.ui-widget-content fieldset .ui-widget-header,
 #ProcessForm #ProcessTabsContainer fieldset .ui-widget-header {
     background: #106EBE;
 }
