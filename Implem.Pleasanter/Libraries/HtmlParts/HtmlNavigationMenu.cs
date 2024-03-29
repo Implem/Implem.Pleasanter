@@ -49,10 +49,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             attributes: new HtmlAttributes()
                                 .For("hamburger")
                                 .OnClick("$p.closeSideMenu($(this));"),
-                                css: "hamburger-switch",
-                                action: () => hb
-                                    .Div(
-                                        css: "hamburger-switch-line"))
+                            css: "hamburger-switch",
+                            action: () => hb
+                                .Div(css: "hamburger-switch-line"))
                         .Div(
                             css: "hamburger-menubox",
                             action: () => hb
@@ -82,7 +81,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                             attributes: new HtmlAttributes()
                                                 .For("hamburger")
                                                 .OnClick("$p.closeSideMenu($(this));"),
-                                                css: "hamburger-cover")))
+                                            css: "hamburger-cover")))
                         .Div(
                             id: "NavigationsUpperRight",
                             action: () => hb
@@ -139,8 +138,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         _using: useSearch
                             && !Parameters.Search.DisableCrossSearch
                             && context.ThemeVersion1_0()))
-                .ResponsiveMenu(
-                    context: context);
+                    .ResponsiveMenu(context: context);
         }
 
         private static HtmlBuilder Menus(
@@ -243,18 +241,18 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                                 siteId: siteId,
                                                                 menu: menu)
                                                             ?? "javascript:void(0);",
-                                                            action: () => hb
-                                                                .Span(
-                                                                    action: () => hb
-                                                                        .Img(
-                                                                            css: "new",
-                                                                            src: Locations.Get(
-                                                                                context: context,
-                                                                                "Images",
-                                                                                iconName)))
-                                                                .Span(
-                                                                    action: () => hb
-                                                                        .Text(displayText)))
+                                                        action: () => hb
+                                                            .Span(
+                                                                action: () => hb
+                                                                    .Img(
+                                                                        css: "new",
+                                                                        src: Locations.Get(
+                                                                            context: context,
+                                                                            "Images",
+                                                                            iconName)))
+                                                            .Span(
+                                                                action: () => hb
+                                                                    .Text(displayText)))
                                                 : () => hb
                                                     .Input(
                                                         attributes: new HtmlAttributes()
@@ -270,11 +268,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                                 attributes: new HtmlAttributes()
                                                                     .OnClick("$p.expandSideMenu($(this));"),
                                                                 action: () => hb
-                                                                    .Img(
-                                                                        src: Locations.Get(
-                                                                            context: context,
-                                                                            "Images",
-                                                                            iconName)))
+                                                                    .Img(src: Locations.Get(
+                                                                        context: context,
+                                                                        "Images",
+                                                                        iconName)))
                                                             .Span(
                                                                 action: () => hb
                                                                     .Text(displayText)))

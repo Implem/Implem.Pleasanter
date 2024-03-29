@@ -3916,17 +3916,16 @@ namespace Implem.Pleasanter.Models
                         hb.Div(
                             css: "site-icon",
                             action: () => hb
-                                .Img(
-                                    src: Locations.Get(
-                                        context: context,
-                                        parts: new string[]
-                                        {
-                                            "Items",
-                                            siteId.ToString(),
-                                            "Binaries",
-                                            "SiteImageThumbnail",
-                                            siteImagePrefix
-                                        })));
+                                .Img(src: Locations.Get(
+                                    context: context,
+                                    parts: new string[]
+                                    {
+                                        "Items",
+                                        siteId.ToString(),
+                                        "Binaries",
+                                        "SiteImageThumbnail",
+                                        siteImagePrefix
+                                    })));
                     }
                     else
                     {
