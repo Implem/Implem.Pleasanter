@@ -13359,6 +13359,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Tenants_Theme(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Tenants_Theme",
+                data: data);
+        }
+
         public static string Tenants_Title(
             Context context,
             params string[] data)

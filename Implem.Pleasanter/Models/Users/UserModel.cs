@@ -4501,7 +4501,6 @@ namespace Implem.Pleasanter.Models
             var language = Language.IsNullOrEmpty()
                 ? context.Language
                 : Language;
-
             if(isAuthenticationByMail)
             {
                 Repository.ExecuteTable(

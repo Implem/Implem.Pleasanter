@@ -81,6 +81,24 @@ namespace Implem.Pleasanter.Models
                                     value: string.Empty,
                                     tabIndex: tabIndex,
                                     serverScriptModelColumn: serverScriptModelColumn);
+                    case "Theme":
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: tenantModel.Theme,
+                                    tabIndex: tabIndex,
+                                    serverScriptModelColumn: serverScriptModelColumn)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty,
+                                    tabIndex: tabIndex,
+                                    serverScriptModelColumn: serverScriptModelColumn);
                     case "Comments":
                         return ss.ReadColumnAccessControls.Allowed(
                             context: context,
@@ -303,6 +321,9 @@ namespace Implem.Pleasanter.Models
                 switch (column.Name)
                 {
                     case "Ver": value = tenantModel.Ver.GridText(
+                        context: context,
+                        column: column); break;
+                    case "Theme": value = tenantModel.Theme.GridText(
                         context: context,
                         column: column); break;
                     case "Comments": value = tenantModel.Comments.GridText(
@@ -630,6 +651,16 @@ namespace Implem.Pleasanter.Models
                         ?.Deserialize<long?[]>()
                         ?.FirstOrDefault()
                         ?.ToString())
+                .FieldDropDown(
+                    context: context,
+                    controlId: "Tenants_Theme",
+                    controlCss: " always-send",
+                    labelText: Displays.Tenants_Theme(context),
+                    optionCollection: ss.GetColumn(
+                        context: context,
+                        columnName: "Theme").EditChoices(context: context),
+                    selectedValue: tenantModel.Theme,
+                    insertBlank: true)
                 .FieldSet(
                     id: "PermissionsField",
                     css: " enclosed",
@@ -817,6 +848,12 @@ namespace Implem.Pleasanter.Models
             {
                 case "Ver":
                     return tenantModel.Ver
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Theme":
+                    return tenantModel.Theme
                         .ToControl(
                             context: context,
                             ss: ss,
@@ -1093,6 +1130,12 @@ namespace Implem.Pleasanter.Models
                                 res.Val(
                                     target: "#Tenants_TopDashboards" + idSuffix,
                                     value: tenantModel.TopDashboards.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "Theme":
+                                res.Val(
+                                    target: "#Tenants_Theme" + idSuffix,
+                                    value: tenantModel.Theme.ToResponse(context: context, ss: ss, column: column),
                                     options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                 break;
                             default:

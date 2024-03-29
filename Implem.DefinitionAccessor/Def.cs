@@ -1889,6 +1889,7 @@ namespace Implem.DefinitionAccessor
                     case "Tenants_TenantId": Column.Tenants_TenantId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_TenantId, definitionRow, ColumnXls); break;
                     case "Tenants_TenantName": Column.Tenants_TenantName = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_TenantName, definitionRow, ColumnXls); break;
                     case "Tenants_TenantSettings": Column.Tenants_TenantSettings = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_TenantSettings, definitionRow, ColumnXls); break;
+                    case "Tenants_Theme": Column.Tenants_Theme = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_Theme, definitionRow, ColumnXls); break;
                     case "Tenants_Title": Column.Tenants_Title = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_Title, definitionRow, ColumnXls); break;
                     case "Tenants_TopDashboards": Column.Tenants_TopDashboards = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_TopDashboards, definitionRow, ColumnXls); break;
                     case "Tenants_TopScript": Column.Tenants_TopScript = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_TopScript, definitionRow, ColumnXls); break;
@@ -9217,6 +9218,7 @@ namespace Implem.DefinitionAccessor
         public string Tenants_TenantId;
         public string Tenants_TenantName;
         public string Tenants_TenantSettings;
+        public string Tenants_Theme;
         public string Tenants_Title;
         public string Tenants_TopDashboards;
         public string Tenants_TopScript;
@@ -9779,6 +9781,7 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Tenants_TenantId = new ColumnDefinition();
         public ColumnDefinition Tenants_TenantName = new ColumnDefinition();
         public ColumnDefinition Tenants_TenantSettings = new ColumnDefinition();
+        public ColumnDefinition Tenants_Theme = new ColumnDefinition();
         public ColumnDefinition Tenants_Title = new ColumnDefinition();
         public ColumnDefinition Tenants_TopDashboards = new ColumnDefinition();
         public ColumnDefinition Tenants_TopScript = new ColumnDefinition();

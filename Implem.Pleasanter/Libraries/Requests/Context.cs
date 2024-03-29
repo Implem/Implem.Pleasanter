@@ -471,7 +471,15 @@ namespace Implem.Pleasanter.Libraries.Requests
                 Dept = SiteInfo.Dept(tenantId: TenantId, deptId: DeptId);
                 User = SiteInfo.User(context: this, userId: UserId);
                 Language = userModel.Language;
-                Theme = Strings.CoalesceEmpty(userModel.Theme, Parameters.User.Theme, "cerulean");
+                Theme = Strings.CoalesceEmpty(
+                    userModel.Theme,
+                    Rds.ExecuteScalar_string(
+                        context: this,
+                        statements: Rds.SelectTenants(
+                            column: Rds.TenantsColumn().Theme(),
+                            where: Rds.TenantsWhere().TenantId(TenantId))),
+                    Parameters.User.Theme,
+                    "cerulean");
                 UserHostAddress = noHttpContext
                     ? string.Empty
                     : GetUserHostAddress();
