@@ -4501,7 +4501,6 @@ namespace Implem.Pleasanter.Models
             var language = Language.IsNullOrEmpty()
                 ? context.Language
                 : Language;
-
             if(isAuthenticationByMail)
             {
                 Repository.ExecuteTable(
@@ -4659,7 +4658,7 @@ namespace Implem.Pleasanter.Models
                                         action: () => hb.Div(css: "command-right", action: () => hb
                                             .Button(
                                                 controlId: "SecondaryAuthenticate",
-                                                controlCss: " button-icon validate",
+                                                controlCss: " button-icon validate button-positive",
                                                 text: Displays.Confirm(context: context),
                                                 onClick: "$p.send($(this));",
                                                 icon: "ui-icon-unlocked",
@@ -4668,7 +4667,7 @@ namespace Implem.Pleasanter.Models
                                                 type: "submit")
                                             .Button(
                                                     text: Displays.Cancel(context: context),
-                                                    controlCss: "button-icon ",
+                                                    controlCss: "button-icon button-neutral",
                                                     onClick: "$p.back();",
                                                     icon: "ui-icon-cancel")))
                         .Div(

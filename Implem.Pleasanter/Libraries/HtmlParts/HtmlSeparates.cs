@@ -90,7 +90,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Button(
                         controlId: "Separate",
                         text: Displays.Separate(context: context),
-                        controlCss: "button-icon",
+                        controlCss: "button-icon button-positive",
                         onClick: "$p.send($(this));",
                         icon: "ui-icon-extlink",
                         action: "Separate",
@@ -98,7 +98,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         confirm: "ConfirmSeparate")
                     .Button(
                         text: Displays.Cancel(context: context),
-                        controlCss: "button-icon",
+                        controlCss: "button-icon button-neutral",
                         onClick: "$p.closeDialog($(this));",
                         icon: "ui-icon-cancel")));
         }

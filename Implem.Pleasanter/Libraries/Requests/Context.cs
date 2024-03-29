@@ -471,7 +471,15 @@ namespace Implem.Pleasanter.Libraries.Requests
                 Dept = SiteInfo.Dept(tenantId: TenantId, deptId: DeptId);
                 User = SiteInfo.User(context: this, userId: UserId);
                 Language = userModel.Language;
-                Theme = Strings.CoalesceEmpty(userModel.Theme, Parameters.User.Theme, "sunny");
+                Theme = Strings.CoalesceEmpty(
+                    userModel.Theme,
+                    Rds.ExecuteScalar_string(
+                        context: this,
+                        statements: Rds.SelectTenants(
+                            column: Rds.TenantsColumn().Theme(),
+                            where: Rds.TenantsWhere().TenantId(TenantId))),
+                    Parameters.User.Theme,
+                    "cerulean");
                 UserHostAddress = noHttpContext
                     ? string.Empty
                     : GetUserHostAddress();
@@ -1151,6 +1159,28 @@ namespace Implem.Pleasanter.Libraries.Requests
             return Request
                 ? AspNetCoreHttpContext.Current?.Request?.Cookies[".AspNetCore.Session"]?.Sha512Cng()
                 : string.Empty;
+        }
+
+        public decimal ThemeVersion()
+        {
+            if (Mobile) { return 1.0M; }
+            switch (Theme)
+            {
+                case "cerulean":
+                    return 2.0M;
+                default:
+                    return 1.0M;
+            }
+        }
+
+        public bool ThemeVersion1_0()
+        {
+            return ThemeVersion() == 1.0M;
+        }
+
+        public bool ThemeVersionOver2_0()
+        {
+            return ThemeVersion() >= 2.0M;
         }
     }
 }

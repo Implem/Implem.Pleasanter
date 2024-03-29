@@ -35,7 +35,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Button(
                         text: Displays.Export(context: context),
                         controlId: "DoExport",
-                        controlCss: "button-icon" + (ss.SaveViewType == SiteSettings.SaveViewTypes.None
+                        controlCss: "button-icon button-positive" + (ss.SaveViewType == SiteSettings.SaveViewTypes.None
                              ? " save-view-types-none"
                              : string.Empty),
                         action: "ExportAndMailNotify",
@@ -44,7 +44,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         icon: "ui-icon-arrowreturnthick-1-w")
                     .Button(
                         text: Displays.Cancel(context: context),
-                        controlCss: "button-icon",
+                        controlCss: "button-icon button-neutral",
                         onClick: "$p.closeDialog($(this));",
                         icon: "ui-icon-cancel"));
         }

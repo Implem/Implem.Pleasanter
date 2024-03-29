@@ -37,7 +37,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         onClick: !process.OnClick.IsNullOrEmpty()
                             ? process.OnClick
                             : "$p.execProcess($(this));",
-                        controlCss: "button-icon"
+                        controlCss: "button-icon button-positive"
                             + ValidateCss(
                                 context: context,
                                 process: process),

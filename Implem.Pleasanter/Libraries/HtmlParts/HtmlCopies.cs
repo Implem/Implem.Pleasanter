@@ -63,14 +63,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 .Button(
                                     controlId: "CopyCommand",
                                     text: Displays.Copy(context: context),
-                                    controlCss: "button-icon",
+                                    controlCss: "button-icon button-positive",
                                     onClick: "$p.copy($(this));",
                                     icon: "ui-icon-copy",
                                     action: "Copy",
                                     method: "post")
                                 .Button(
                                     text: Displays.Cancel(context: context),
-                                    controlCss: "button-icon",
+                                    controlCss: "button-icon button-neutral",
                                     onClick: "$p.closeDialog($(this));",
                                     icon: "ui-icon-cancel"))));
         }
