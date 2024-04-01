@@ -105,6 +105,7 @@ namespace Implem.Pleasanter.Models
                 siteId: ss.SiteId,
                 parentId: ss.ParentId,
                 referenceType: "Issues",
+                useTitle: false,
                 script: JavaScripts.ViewMode(viewMode),
                 userScript: ss.ViewModeScripts(context: context),
                 userStyle: ss.ViewModeStyles(context: context),
@@ -2351,7 +2352,7 @@ namespace Implem.Pleasanter.Models
                 issueModel.VerType == Versions.VerTypes.Latest
                     ? hb.Button(
                         text: Displays.Separate(context: context),
-                        controlCss: "button-icon",
+                        controlCss: "button-icon button-positive",
                         onClick: "$p.openSeparateSettingsDialog($(this));",
                         icon: "ui-icon-extlink",
                         action: "EditSeparateSettings",

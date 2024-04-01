@@ -72,14 +72,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         action: () => hb
                             .Button(
                                 text: Displays.Import(context: context),
-                                controlCss: "button-icon",
+                                controlCss: "button-icon button-positive",
                                 onClick: "$p.import($(this));",
                                 icon: "ui-icon-arrowreturnthick-1-e",
                                 action: "Import",
                                 method: "post")
                             .Button(
                                 text: Displays.Cancel(context: context),
-                                controlCss: "button-icon",
+                                controlCss: "button-icon button-neutral",
                                 onClick: "$p.closeDialog($(this));",
                                 icon: "ui-icon-cancel")));
         }

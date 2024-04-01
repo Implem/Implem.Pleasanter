@@ -83,13 +83,18 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder Body(
             this HtmlBuilder hb,
             string style,
+            string id = null,
+            string css = null,
             bool _using = true,
             Action action = null)
         {
             return _using
                 ? hb.Append(
                     tag: "body",
+                    id: id,
+                    css: css,
                     attributes: new HtmlAttributes()
+                        .Id(id)
                         .Add("style", style),
                     action: action)
                 : hb;

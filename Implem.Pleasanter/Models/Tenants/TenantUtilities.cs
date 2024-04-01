@@ -81,6 +81,24 @@ namespace Implem.Pleasanter.Models
                                     value: string.Empty,
                                     tabIndex: tabIndex,
                                     serverScriptModelColumn: serverScriptModelColumn);
+                    case "Theme":
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: tenantModel.Theme,
+                                    tabIndex: tabIndex,
+                                    serverScriptModelColumn: serverScriptModelColumn)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty,
+                                    tabIndex: tabIndex,
+                                    serverScriptModelColumn: serverScriptModelColumn);
                     case "Comments":
                         return ss.ReadColumnAccessControls.Allowed(
                             context: context,
@@ -303,6 +321,9 @@ namespace Implem.Pleasanter.Models
                 switch (column.Name)
                 {
                     case "Ver": value = tenantModel.Ver.GridText(
+                        context: context,
+                        column: column); break;
+                    case "Theme": value = tenantModel.Theme.GridText(
                         context: context,
                         column: column); break;
                     case "Comments": value = tenantModel.Comments.GridText(
@@ -630,6 +651,16 @@ namespace Implem.Pleasanter.Models
                         ?.Deserialize<long?[]>()
                         ?.FirstOrDefault()
                         ?.ToString())
+                .FieldDropDown(
+                    context: context,
+                    controlId: "Tenants_Theme",
+                    controlCss: " always-send",
+                    labelText: Displays.Tenants_Theme(context),
+                    optionCollection: ss.GetColumn(
+                        context: context,
+                        columnName: "Theme").EditChoices(context: context),
+                    selectedValue: tenantModel.Theme,
+                    insertBlank: true)
                 .FieldSet(
                     id: "PermissionsField",
                     css: " enclosed",
@@ -760,7 +791,7 @@ namespace Implem.Pleasanter.Models
                     action: () => hb
                         .Button(
                             controlId: "TenantSyncByLdap",
-                            controlCss: "button-icon",
+                            controlCss: "button-icon button-positive",
                             text: Displays.SyncByLdap(context: context),
                             onClick: "$p.send($(this));",
                             icon: "ui-icon-disk",
@@ -817,6 +848,12 @@ namespace Implem.Pleasanter.Models
             {
                 case "Ver":
                     return tenantModel.Ver
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Theme":
+                    return tenantModel.Theme
                         .ToControl(
                             context: context,
                             ss: ss,
@@ -1093,6 +1130,12 @@ namespace Implem.Pleasanter.Models
                                 res.Val(
                                     target: "#Tenants_TopDashboards" + idSuffix,
                                     value: tenantModel.TopDashboards.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "Theme":
+                                res.Val(
+                                    target: "#Tenants_Theme" + idSuffix,
+                                    value: tenantModel.Theme.ToResponse(context: context, ss: ss, column: column),
                                     options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                 break;
                             default:
@@ -1735,14 +1778,14 @@ namespace Implem.Pleasanter.Models
                             labelText: Displays.File(context: context))
                         .Button(
                             controlId: "SetTenantImage",
-                            controlCss: "button-icon",
+                            controlCss: "button-icon button-positive",
                             text: Displays.Upload(context: context),
                             onClick: "$p.uploadTenantImage($(this));",
                             icon: "ui-icon-disk",
                             action: "binaries/updatetenantimage",
                             method: "post")
                         .Button(
-                            controlCss: "button-icon",
+                            controlCss: "button-icon button-negative",
                             text: Displays.Delete(context: context),
                             onClick: "$p.send($(this));",
                             icon: "ui-icon-trash",
@@ -1825,7 +1868,7 @@ namespace Implem.Pleasanter.Models
                                 .Button(
                                     controlId: "ExecServerScript",
                                     text: Displays.ExecutionNow(context: context),
-                                    controlCss: "button-icon validate",
+                                    controlCss: "button-icon validate button-positive",
                                     onClick: "$p.setServerScript($(this));",
                                     icon: "ui-icon-play",
                                     action: "SetBGServerScript",
@@ -1888,7 +1931,7 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlId: "AddServerScript",
                             text: Displays.Add(context: context),
-                            controlCss: "button-icon validate",
+                            controlCss: "button-icon validate button-positive",
                             icon: "ui-icon-disk",
                             onClick: "$p.setServerScript($(this));",
                             action: "SetBGServerScript",
@@ -1897,7 +1940,7 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlId: "UpdateServerScript",
                             text: Displays.Change(context: context),
-                            controlCss: "button-icon validate",
+                            controlCss: "button-icon validate button-positive",
                             onClick: "$p.setServerScript($(this));",
                             icon: "ui-icon-disk",
                             action: "SetBGServerScript",
@@ -1905,7 +1948,7 @@ namespace Implem.Pleasanter.Models
                             _using: controlId == "EditServerScript")
                         .Button(
                             text: Displays.Cancel(context: context),
-                            controlCss: "button-icon",
+                            controlCss: "button-icon button-neutral",
                             onClick: "$p.closeDialog($(this));",
                             icon: "ui-icon-cancel"))
                         .Hidden(
@@ -2346,7 +2389,7 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlId: "AddServerScriptSchedules",
                             text: Displays.Add(context: context),
-                            controlCss: "button-icon validate",
+                            controlCss: "button-icon validate button-positive",
                             icon: "ui-icon-disk",
                             onClick: "$p.setServerScript($(this));",
                             action: "SetBGServerScript",
@@ -2355,7 +2398,7 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlId: "UpdateServerScriptSchedules",
                             text: Displays.Change(context: context),
-                            controlCss: "button-icon validate",
+                            controlCss: "button-icon validate button-positive",
                             onClick: "$p.setServerScript($(this));",
                             icon: "ui-icon-disk",
                             action: "SetBGServerScript",
@@ -2363,7 +2406,7 @@ namespace Implem.Pleasanter.Models
                             _using: controlId == "EditServerScriptSchedules")
                         .Button(
                             text: Displays.Cancel(context: context),
-                            controlCss: "button-icon",
+                            controlCss: "button-icon button-neutral",
                             onClick: "$p.closeDialog($(this));",
                             icon: "ui-icon-cancel"))
                     .Hidden(

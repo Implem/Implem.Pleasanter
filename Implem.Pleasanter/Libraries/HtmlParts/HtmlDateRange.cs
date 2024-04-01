@@ -91,14 +91,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 .Button(
                                     text: Displays.OK(context: context),
                                     controlId: "DateRangeOK",
-                                    controlCss: "button-icon validate",
+                                    controlCss: "button-icon validate button-positive",
                                     onClick: $"$p.openSetDateRangeOK('{context.Forms.ControlId()}','{(column.DateTimepicker() ? "DateTimepicker" : string.Empty)}');",
                                     icon: "ui-icon-arrowreturnthick-1-e",
                                     method: "post")
                                 .Button(
                                     text: Displays.Cancel(context: context),
                                     controlId: "DateRangeCancel",
-                                    controlCss: "button-icon",
+                                    controlCss: "button-icon button-neutral",
                                     onClick: $"$p.closeSiteSetDateRangeDialog('{context.Forms.ControlId()}')",
                                     icon: "ui-icon-cancel")
                                 .Button(
