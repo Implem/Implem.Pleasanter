@@ -105,14 +105,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     href: Responses.Locations.Get(
                         context: context,
                         parts: context.ThemeVersionForCss() >= 2.0M && context.Mobile
-                            ? $"Styles/Plugins/themes/sunny/jquery-ui.min.css"
+                            ? $"Styles/Plugins/themes/cupertino/jquery-ui.min.css"
                             : $"Styles/Plugins/themes/{context.Theme()}/jquery-ui.min.css"),
                     rel: "stylesheet")
                 .Link(
                     href: Responses.Locations.Get(
                         context: context,
                         parts: context.ThemeVersionForCss() >= 2.0M && context.Mobile
-                            ? $"Styles/Plugins/themes/sunny/custom.css"
+                            ? $"Styles/Plugins/themes/cupertino/custom.css"
                             : $"Styles/Plugins/themes/{context.Theme()}/custom.css"),
                     rel: "stylesheet")
                 .Link(
