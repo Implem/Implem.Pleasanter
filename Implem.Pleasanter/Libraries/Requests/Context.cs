@@ -1178,6 +1178,17 @@ namespace Implem.Pleasanter.Libraries.Requests
             }
         }
 
+        public decimal ThemeVersionForCss()
+        {
+            switch (Theme())
+            {
+                case "cerulean":
+                    return 2.0M;
+                default:
+                    return 1.0M;
+            }
+        }
+
         public bool ThemeVersion1_0()
         {
             return ThemeVersion() == 1.0M;
