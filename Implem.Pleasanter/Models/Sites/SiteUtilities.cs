@@ -4905,317 +4905,143 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             SiteModel siteModel)
         {
-            var optionCollection = new Dictionary<string, string>
-            {
-                {
-                    "1",
-                    Displays.Open(context:context)
-                },
-                {
-                    "0",
-                    Displays.Close(context: context)
-                }
-            };
             return hb.FieldSet(id: "GuideEditor", action: () => hb
                 .FieldSet(
                     css: " enclosed",
-                    legendText: ss.ReferenceType == "Sites"
-                        ? Displays.MenuGuide(context: context)
-                        : (ss.ReferenceType == "Dashboards"
-                            ? Displays.DashboardGuide(context: context)
-                            : Displays.Sites_GridGuide(context: context)),
-                    _using: siteModel.ReferenceType != "Wikis",
+                    legendText: Displays.Guide(context: context),
                     action: () => hb
+                    .FieldCheckBox(
+                        controlId: "GuideAllowExpand",
+                        fieldCss: "field-normal",
+                        labelText: Displays.CommonAllowExpand(context: context),
+                        _checked: ss.GuideAllowExpand == true)
+                    .FieldDropDown(
+                        context: context,
+                        fieldId: "GuideExpandField",
+                        controlId: "GuideExpand",
+                        fieldCss: "field-auto-thin" + (ss.GuideExpand.IsNullOrEmpty()
+                            ? " hidden"
+                            : string.Empty),
+                        labelText: Displays.Expand(context: context),
+                        optionCollection: new Dictionary<string, string>
+                            {
+                                {
+                                    "1",
+                                    Displays.Open(context:context)
+                                },
+                                {
+                                    "0",
+                                    Displays.Close(context: context)
+                                }
+                            },
+                        selectedValue: ss.GuideExpand)
                     .FieldMarkDown(
                         context: context,
                         ss: ss,
                         controlId: "Sites_GridGuide",
                         fieldCss: "field-wide",
-                        labelText: Displays.Guide(context: context),
+                        labelText: ss.ReferenceType == "Sites"
+                            ? Displays.MenuGuide(context: context)
+                            : (ss.ReferenceType == "Dashboards"
+                                ? Displays.DashboardGuide(context: context)
+                                : Displays.Sites_GridGuide(context: context)),
                         text: siteModel.GridGuide,
-                        mobile: context.Mobile)
-                    .FieldCheckBox(
-                        controlId: "GridGuideAllowExpand",
-                        fieldCss: "field-normal",
-                        labelText: Displays.CommonAllowExpand(context: context),
-                        _checked: ss.GridGuideAllowExpand == true)
-                    .FieldDropDown(
-                        context: context,
-                        fieldId: "GridGuideExpandField",
-                        controlId: "GridGuideExpand",
-                        fieldCss: "field-auto-thin" + (!ss.GridGuideExpand.IsNullOrEmpty()
-                            ? string.Empty
-                            : " hidden"),
-                        labelText: Displays.Expand(context: context),
-                        optionCollection: optionCollection,
-                        selectedValue: ss.GridGuideExpand))
-                .FieldSet(
-                    css: " enclosed",
-                    legendText: Displays.Sites_EditorGuide(context: context),
-                    _using: ss.ReferenceType != "Sites"
-                        && ss.ReferenceType != "Dashboards",
-                    action: () => hb
+                        mobile: context.Mobile,
+                        _using: siteModel.ReferenceType != "Wikis")
                     .FieldMarkDown(
                         context: context,
                         ss: ss,
                         controlId: "Sites_EditorGuide",
                         fieldCss: "field-wide",
-                        labelText: Displays.Guide(context: context),
+                        labelText: Displays.Sites_EditorGuide(context: context),
                         text: siteModel.EditorGuide,
                         mobile: context.Mobile,
                         _using: ss.ReferenceType != "Sites"
                             && ss.ReferenceType != "Dashboards")
-                    .FieldCheckBox(
-                        controlId: "EditorGuideAllowExpand",
-                        fieldCss: "field-normal",
-                        labelText: Displays.CommonAllowExpand(context: context),
-                        _checked: ss.EditorGuideAllowExpand == true)
-                    .FieldDropDown(
-                        context: context,
-                        fieldId: "EditorGuideExpandField",
-                        controlId: "EditorGuideExpand",
-                        fieldCss: "field-auto-thin" + (!ss.EditorGuideExpand.IsNullOrEmpty()
-                            ? string.Empty
-                            : " hidden"),
-                        labelText: Displays.Expand(context: context),
-                        optionCollection: optionCollection,
-                        selectedValue: ss.EditorGuideExpand))
-                .FieldSet(
-                    css: " enclosed",
-                    legendText: Displays.Sites_CalendarGuide(context: context),
-                    _using: ss.ReferenceType != "Sites"
-                        && ss.ReferenceType != "Wikis"
-                        && ss.ReferenceType != "Dashboards",
-                    action: () => hb
                     .FieldMarkDown(
                         context: context,
                         ss: ss,
                         controlId: "Sites_CalendarGuide",
                         fieldCss: "field-wide",
-                        labelText: Displays.Guide(context: context),
+                        labelText: Displays.Sites_CalendarGuide(context: context),
                         text: siteModel.CalendarGuide,
-                        mobile: context.Mobile)
-                    .FieldCheckBox(
-                        controlId: "CalendarGuideAllowExpand",
-                        fieldCss: "field-normal",
-                        labelText: Displays.CommonAllowExpand(context: context),
-                        _checked: ss.CalendarGuideAllowExpand == true)
-                    .FieldDropDown(
-                        context: context,
-                        fieldId: "CalendarGuideExpandField",
-                        controlId: "CalendarGuideExpand",
-                        fieldCss: "field-auto-thin" + (!ss.CalendarGuideExpand.IsNullOrEmpty()
-                            ? string.Empty
-                            : " hidden"),
-                        labelText: Displays.Expand(context: context),
-                        optionCollection: optionCollection,
-                        selectedValue: ss.CalendarGuideExpand))
-                .FieldSet(
-                    css: " enclosed",
-                    legendText: Displays.Sites_CrosstabGuide(context: context),
-                    _using: ss.ReferenceType != "Sites"
-                        && ss.ReferenceType != "Wikis"
-                        && ss.ReferenceType != "Dashboards",
-                    action: () => hb
+                        mobile: context.Mobile,
+                        _using: ss.ReferenceType != "Sites"
+                            && ss.ReferenceType != "Wikis"
+                            && ss.ReferenceType != "Dashboards")
                     .FieldMarkDown(
                         context: context,
                         ss: ss,
                         controlId: "Sites_CrosstabGuide",
                         fieldCss: "field-wide",
-                        labelText: Displays.Guide(context: context),
+                        labelText: Displays.Sites_CrosstabGuide(context: context),
                         text: siteModel.CrosstabGuide,
-                        mobile: context.Mobile)
-                    .FieldCheckBox(
-                        controlId: "CrosstabGuideAllowExpand",
-                        fieldCss: "field-normal",
-                        labelText: Displays.CommonAllowExpand(context: context),
-                        _checked: ss.CrosstabGuideAllowExpand == true)
-                    .FieldDropDown(
-                        context: context,
-                        fieldId: "CrosstabGuideExpandField",
-                        controlId: "CrosstabGuideExpand",
-                        fieldCss: "field-auto-thin" + (!ss.CrosstabGuideExpand.IsNullOrEmpty()
-                            ? string.Empty
-                            : " hidden"),
-                        labelText: Displays.Expand(context: context),
-                        optionCollection: optionCollection,
-                        selectedValue: ss.CrosstabGuideExpand))
-                .FieldSet(
-                    css: " enclosed",
-                    legendText: Displays.Sites_GanttGuide(context: context),
-                    _using: ss.ReferenceType == "Issues",
-                    action: () => hb
+                        mobile: context.Mobile,
+                        _using: ss.ReferenceType != "Sites"
+                            && ss.ReferenceType != "Wikis"
+                            && ss.ReferenceType != "Dashboards")
                     .FieldMarkDown(
                         context: context,
                         ss: ss,
                         controlId: "Sites_GanttGuide",
                         fieldCss: "field-wide",
-                        labelText: Displays.Guide(context: context),
+                        labelText: Displays.Sites_GanttGuide(context: context),
                         text: siteModel.GanttGuide,
-                        mobile: context.Mobile)
-                    .FieldCheckBox(
-                        controlId: "GanttGuideAllowExpand",
-                        fieldCss: "field-normal",
-                        labelText: Displays.CommonAllowExpand(context: context),
-                        _checked: ss.GanttGuideAllowExpand == true)
-                    .FieldDropDown(
-                        context: context,
-                        fieldId: "GanttGuideExpandField",
-                        controlId: "GanttGuideExpand",
-                        fieldCss: "field-auto-thin" + (!ss.GanttGuideExpand.IsNullOrEmpty()
-                            ? string.Empty
-                            : " hidden"),
-                        labelText: Displays.Expand(context: context),
-                        optionCollection: optionCollection,
-                        selectedValue: ss.GanttGuideExpand))
-                .FieldSet(
-                    css: " enclosed",
-                    legendText: Displays.Sites_BurnDownGuide(context: context),
-                    _using: ss.ReferenceType == "Issues",
-                    action: () => hb
+                        mobile: context.Mobile,
+                        _using: ss.ReferenceType == "Issues")
                     .FieldMarkDown(
                         context: context,
                         ss: ss,
                         controlId: "Sites_BurnDownGuide",
                         fieldCss: "field-wide",
-                        labelText: Displays.Guide(context: context),
+                        labelText: Displays.Sites_BurnDownGuide(context: context),
                         text: siteModel.BurnDownGuide,
-                        mobile: context.Mobile)
-                    .FieldCheckBox(
-                        controlId: "BurnDownGuideAllowExpand",
-                        fieldCss: "field-normal",
-                        labelText: Displays.CommonAllowExpand(context: context),
-                        _checked: ss.BurnDownGuideAllowExpand == true)
-                    .FieldDropDown(
-                        context: context,
-                        fieldId: "BurnDownGuideExpandField",
-                        controlId: "BurnDownGuideExpand",
-                        fieldCss: "field-auto-thin" + (!ss.BurnDownGuideExpand.IsNullOrEmpty()
-                            ? string.Empty
-                            : " hidden"),
-                        labelText: Displays.Expand(context: context),
-                        optionCollection: optionCollection,
-                        selectedValue: ss.BurnDownGuideExpand))
-                .FieldSet(
-                    css: " enclosed",
-                    legendText: Displays.Sites_TimeSeriesGuide(context: context),
-                    _using: ss.ReferenceType != "Sites"
-                        && ss.ReferenceType != "Wikis"
-                        && ss.ReferenceType != "Dashboards",
-                    action: () => hb
+                        mobile: context.Mobile,
+                        _using: ss.ReferenceType == "Issues")
                     .FieldMarkDown(
                         context: context,
                         ss: ss,
                         controlId: "Sites_TimeSeriesGuide",
                         fieldCss: "field-wide",
-                        labelText: Displays.Guide(context: context),
+                        labelText: Displays.Sites_TimeSeriesGuide(context: context),
                         text: siteModel.TimeSeriesGuide,
-                        mobile: context.Mobile)
-                    .FieldCheckBox(
-                        controlId: "TimeSeriesGuideAllowExpand",
-                        fieldCss: "field-normal",
-                        labelText: Displays.CommonAllowExpand(context: context),
-                        _checked: ss.TimeSeriesGuideAllowExpand == true)
-                    .FieldDropDown(
-                        context: context,
-                        fieldId: "TimeSeriesGuideExpandField",
-                        controlId: "TimeSeriesGuideExpand",
-                        fieldCss: "field-auto-thin" + (!ss.TimeSeriesGuideExpand.IsNullOrEmpty()
-                            ? string.Empty
-                            : " hidden"),
-                        labelText: Displays.Expand(context: context),
-                        optionCollection: optionCollection,
-                        selectedValue: ss.TimeSeriesGuideExpand))
-                .FieldSet(
-                    css: " enclosed",
-                    legendText: Displays.Sites_AnalyGuide(context: context),
-                    _using: ss.ReferenceType != "Sites"
-                        && ss.ReferenceType != "Wikis"
-                        && ss.ReferenceType != "Dashboards",
-                    action: () => hb
+                        mobile: context.Mobile,
+                        _using: ss.ReferenceType != "Sites"
+                            && ss.ReferenceType != "Wikis"
+                            && ss.ReferenceType != "Dashboards")
                     .FieldMarkDown(
                         context: context,
                         ss: ss,
                         controlId: "Sites_AnalyGuide",
                         fieldCss: "field-wide",
-                        labelText: Displays.Guide(context: context),
+                        labelText: Displays.Sites_AnalyGuide(context: context),
                         text: siteModel.AnalyGuide,
-                        mobile: context.Mobile)
-                    .FieldCheckBox(
-                        controlId: "AnalyGuideAllowExpand",
-                        fieldCss: "field-normal",
-                        labelText: Displays.CommonAllowExpand(context: context),
-                        _checked: ss.AnalyGuideAllowExpand == true)
-                    .FieldDropDown(
-                        context: context,
-                        fieldId: "AnalyGuideExpandField",
-                        controlId: "AnalyGuideExpand",
-                        fieldCss: "field-auto-thin" + (!ss.AnalyGuideExpand.IsNullOrEmpty()
-                            ? string.Empty
-                            : " hidden"),
-                        labelText: Displays.Expand(context: context),
-                        optionCollection: optionCollection,
-                        selectedValue: ss.AnalyGuideExpand))
-                .FieldSet(
-                    css: " enclosed",
-                    legendText: Displays.Sites_KambanGuide(context: context),
-                    _using: ss.ReferenceType != "Sites"
-                        && ss.ReferenceType != "Wikis"
-                        && ss.ReferenceType != "Dashboards",
-                    action: () => hb
+                        mobile: context.Mobile,
+                        _using: ss.ReferenceType != "Sites"
+                            && ss.ReferenceType != "Wikis"
+                            && ss.ReferenceType != "Dashboards")
                     .FieldMarkDown(
                         context: context,
                         ss: ss,
                         controlId: "Sites_KambanGuide",
                         fieldCss: "field-wide",
-                        labelText: Displays.Guide(context: context),
+                        labelText: Displays.Sites_KambanGuide(context: context),
                         text: siteModel.KambanGuide,
-                        mobile: context.Mobile)
-                    .FieldCheckBox(
-                        controlId: "KambanGuideAllowExpand",
-                        fieldCss: "field-normal",
-                        labelText: Displays.CommonAllowExpand(context: context),
-                        _checked: ss.KambanGuideAllowExpand == true)
-                    .FieldDropDown(
-                        context: context,
-                        fieldId: "KambanGuideExpandField",
-                        controlId: "KambanGuideExpand",
-                        fieldCss: "field-auto-thin" + (!ss.KambanGuideExpand.IsNullOrEmpty()
-                            ? string.Empty
-                            : " hidden"),
-                        labelText: Displays.Expand(context: context),
-                        optionCollection: optionCollection,
-                        selectedValue: ss.KambanGuideExpand))
-                .FieldSet(
-                    css: " enclosed",
-                    legendText: Displays.Sites_ImageLibGuide(context: context),
-                    _using: ss.ReferenceType != "Sites"
-                        && ss.ReferenceType != "Wikis"
-                        && ss.ReferenceType != "Dashboards",
-                    action: () => hb
+                        mobile: context.Mobile,
+                        _using: ss.ReferenceType != "Sites"
+                            && ss.ReferenceType != "Wikis"
+                            && ss.ReferenceType != "Dashboards")
                     .FieldMarkDown(
                         context: context,
                         ss: ss,
                         controlId: "Sites_ImageLibGuide",
                         fieldCss: "field-wide",
-                        labelText: Displays.Guide(context: context),
+                        labelText: Displays.Sites_ImageLibGuide(context: context),
                         text: siteModel.ImageLibGuide,
-                        mobile: context.Mobile)
-                    .FieldCheckBox(
-                        controlId: "ImageLibGuideAllowExpand",
-                        fieldCss: "field-normal",
-                        labelText: Displays.CommonAllowExpand(context: context),
-                        _checked: ss.ImageLibGuideAllowExpand == true)
-                    .FieldDropDown(
-                        context: context,
-                        fieldId: "ImageLibGuideExpandField",
-                        controlId: "ImageLibGuideExpand",
-                        fieldCss: "field-auto-thin" + (!ss.ImageLibGuideExpand.IsNullOrEmpty()
-                            ? string.Empty
-                            : " hidden"),
-                        labelText: Displays.Expand(context: context),
-                        optionCollection: optionCollection,
-                        selectedValue: ss.ImageLibGuideExpand)));
+                        mobile: context.Mobile,
+                        _using: ss.ReferenceType != "Sites"
+                            && ss.ReferenceType != "Wikis"
+                            && ss.ReferenceType != "Dashboards")));
         }
 
         /// <summary>

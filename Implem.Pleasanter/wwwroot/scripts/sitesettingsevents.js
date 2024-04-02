@@ -261,44 +261,8 @@
         $('#DashboardPartKambanValueField').toggle($('#DashboardPartKambanAggregateType').val() !== 'Count');
 
     });
-    $(document).on('change', '#GridGuideAllowExpand', function () {
+    $(document).on('change', '#GuideAllowExpand', function () {
         var visibility = $(this).prop('checked');
-        $('#GridGuideExpandField').toggle(visibility);
-    });
-    $(document).on('change', '#EditorGuideAllowExpand', function () {
-        var visibility = $(this).prop('checked');
-        $('#EditorGuideExpandField').toggle(visibility);
-    });
-    $(document).on('change', '#CalendarGuideAllowExpand', function () {
-        var visibility = $(this).prop('checked');
-        $('#CalendarGuideExpandField').toggle(visibility);
-    });
-    $(document).on('change', '#CrosstabGuideAllowExpand', function () {
-        var visibility = $(this).prop('checked');
-        $('#CrosstabGuideExpandField').toggle(visibility);
-    });
-    $(document).on('change', '#GanttGuideAllowExpand', function () {
-        var visibility = $(this).prop('checked');
-        $('#GanttGuideExpandField').toggle(visibility);
-    });
-    $(document).on('change', '#BurnDownGuideAllowExpand', function () {
-        var visibility = $(this).prop('checked');
-        $('#BurnDownGuideExpandField').toggle(visibility);
-    });
-    $(document).on('change', '#TimeSeriesGuideAllowExpand', function () {
-        var visibility = $(this).prop('checked');
-        $('#TimeSeriesGuideExpandField').toggle(visibility);
-    });
-    $(document).on('change', '#AnalyGuideAllowExpand', function () {
-        var visibility = $(this).prop('checked');
-        $('#AnalyGuideExpandField').toggle(visibility);
-    });
-    $(document).on('change', '#KambanGuideAllowExpand', function () {
-        var visibility = $(this).prop('checked');
-        $('#KambanGuideExpandField').toggle(visibility);
-    });
-    $(document).on('change', '#ImageLibGuideAllowExpand', function () {
-        var visibility = $(this).prop('checked');
-        $('#ImageLibGuideExpandField').toggle(visibility);
+        $('#GuideExpandField').toggle(visibility);
     });
 });

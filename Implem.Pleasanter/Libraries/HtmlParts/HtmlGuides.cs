@@ -13,15 +13,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             SiteSettings ss,
             View view)
         {
-            var reductionSettings = GetReductionSettings(
-                context: context,
-                ss: ss);
             return GetGuideText(
                 context: context,
                 ss: ss).IsNullOrEmpty()
                     ? hb.Div(id: "Guide")
-                    : reductionSettings.canReduce
-                        ? view.GuidesReduced ?? reductionSettings.defaultReduce
+                    : ss.GuideAllowExpand.ToBool()
+                        ? view.GuidesReduced ?? ss.GuideExpand == "0"
                             ? hb.Div(
                                 id: "Guide",
                                 css: "reduced",
@@ -44,68 +41,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             hb.Guide(
                                 context: context,
                                 ss: ss));
-        }
-
-        private static (bool canReduce, bool defaultReduce) GetReductionSettings(Context context, SiteSettings ss)
-        {
-            var canReduce = false;
-            var defaultReduce = false;
-            switch (context.Action)
-            {
-                case "index":
-                    canReduce = ss.GridGuideAllowExpand.ToBool();
-                    defaultReduce = ss.GridGuideAllowExpand.ToBool() && ss.GridGuideExpand == "0";
-                    break;
-                case "new":
-                    canReduce = ss.EditorGuideAllowExpand.ToBool();
-                    defaultReduce = ss.EditorGuideAllowExpand.ToBool() && ss.GridGuideExpand == "0";
-                    break;
-                case "edit":
-                case "update":
-                case "history":
-                    canReduce = !ss.IsSite(context: context)
-                        ? ss.EditorGuideAllowExpand.ToBool()
-                        : false;
-                    defaultReduce = !ss.IsSite(context: context)
-                        ? ss.EditorGuideAllowExpand.ToBool() && ss.GridGuideExpand == "0"
-                        : false;
-                    break;
-                case "calendar":
-                    canReduce = ss.CalendarGuideAllowExpand.ToBool();
-                    defaultReduce = ss.CalendarGuideAllowExpand.ToBool() && ss.GridGuideExpand == "0";
-                    break;
-                case "crosstab":
-                    canReduce = ss.CrosstabGuideAllowExpand.ToBool();
-                    defaultReduce = ss.CrosstabGuideAllowExpand.ToBool() && ss.GridGuideExpand == "0";
-                    break;
-                case "gantt":
-                    canReduce = ss.GanttGuideAllowExpand.ToBool();
-                    defaultReduce = ss.GanttGuideAllowExpand.ToBool() && ss.GridGuideExpand == "0";
-                    break;
-                case "burndown":
-                    canReduce = ss.BurnDownGuideAllowExpand.ToBool();
-                    defaultReduce = ss.BurnDownGuideAllowExpand.ToBool() && ss.GridGuideExpand == "0";
-                    break;
-                case "timeseries":
-                    canReduce = ss.TimeSeriesGuideAllowExpand.ToBool();
-                    defaultReduce = ss.TimeSeriesGuideAllowExpand.ToBool() && ss.GridGuideExpand == "0";
-                    break;
-                case "analy":
-                    canReduce = ss.AnalyGuideAllowExpand.ToBool();
-                    defaultReduce = ss.AnalyGuideAllowExpand.ToBool() && ss.GridGuideExpand == "0";
-                    break;
-                case "kamban":
-                    canReduce = ss.KambanGuideAllowExpand.ToBool();
-                    defaultReduce = ss.KambanGuideAllowExpand.ToBool() && ss.GridGuideExpand == "0";
-                    break;
-                case "imagelib":
-                    canReduce = ss.ImageLibGuideAllowExpand.ToBool();
-                    defaultReduce = ss.ImageLibGuideAllowExpand.ToBool() && ss.GridGuideExpand == "0";
-                    break;
-                default:
-                    break;
-            }
-            return (canReduce, defaultReduce);
         }
 
         private static HtmlBuilder Guide(
