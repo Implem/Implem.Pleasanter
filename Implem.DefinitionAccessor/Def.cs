@@ -931,6 +931,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_UpdateParameters_Sites": Code.Model_Utilities_UpdateParameters_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_UpdateParameters_Sites, definitionRow, CodeXls); break;
                     case "Model_Utilities_UpsertByApi": Code.Model_Utilities_UpsertByApi = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_UpsertByApi, definitionRow, CodeXls); break;
                     case "Model_Utilities_UpsertByServerScript": Code.Model_Utilities_UpsertByServerScript = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_UpsertByServerScript, definitionRow, CodeXls); break;
+                    case "Model_Utilities_UseTitle": Code.Model_Utilities_UseTitle = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_UseTitle, definitionRow, CodeXls); break;
                     case "Model_Utilities_View": Code.Model_Utilities_View = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_View, definitionRow, CodeXls); break;
                     case "Model_Utilities_ViewSelectorField": Code.Model_Utilities_ViewSelectorField = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ViewSelectorField, definitionRow, CodeXls); break;
                     case "Model_Utilities_ViewSelectorFieldWithShowHistory": Code.Model_Utilities_ViewSelectorFieldWithShowHistory = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ViewSelectorFieldWithShowHistory, definitionRow, CodeXls); break;
@@ -1888,6 +1889,7 @@ namespace Implem.DefinitionAccessor
                     case "Tenants_TenantId": Column.Tenants_TenantId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_TenantId, definitionRow, ColumnXls); break;
                     case "Tenants_TenantName": Column.Tenants_TenantName = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_TenantName, definitionRow, ColumnXls); break;
                     case "Tenants_TenantSettings": Column.Tenants_TenantSettings = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_TenantSettings, definitionRow, ColumnXls); break;
+                    case "Tenants_Theme": Column.Tenants_Theme = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_Theme, definitionRow, ColumnXls); break;
                     case "Tenants_Title": Column.Tenants_Title = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_Title, definitionRow, ColumnXls); break;
                     case "Tenants_TopDashboards": Column.Tenants_TopDashboards = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_TopDashboards, definitionRow, ColumnXls); break;
                     case "Tenants_TopScript": Column.Tenants_TopScript = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_TopScript, definitionRow, ColumnXls); break;
@@ -7408,6 +7410,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_UpdateParameters_Sites;
         public string Model_Utilities_UpsertByApi;
         public string Model_Utilities_UpsertByServerScript;
+        public string Model_Utilities_UseTitle;
         public string Model_Utilities_View;
         public string Model_Utilities_ViewSelectorField;
         public string Model_Utilities_ViewSelectorFieldWithShowHistory;
@@ -8230,6 +8233,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_UpdateParameters_Sites = new CodeDefinition();
         public CodeDefinition Model_Utilities_UpsertByApi = new CodeDefinition();
         public CodeDefinition Model_Utilities_UpsertByServerScript = new CodeDefinition();
+        public CodeDefinition Model_Utilities_UseTitle = new CodeDefinition();
         public CodeDefinition Model_Utilities_View = new CodeDefinition();
         public CodeDefinition Model_Utilities_ViewSelectorField = new CodeDefinition();
         public CodeDefinition Model_Utilities_ViewSelectorFieldWithShowHistory = new CodeDefinition();
@@ -9214,6 +9218,7 @@ namespace Implem.DefinitionAccessor
         public string Tenants_TenantId;
         public string Tenants_TenantName;
         public string Tenants_TenantSettings;
+        public string Tenants_Theme;
         public string Tenants_Title;
         public string Tenants_TopDashboards;
         public string Tenants_TopScript;
@@ -9776,6 +9781,7 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Tenants_TenantId = new ColumnDefinition();
         public ColumnDefinition Tenants_TenantName = new ColumnDefinition();
         public ColumnDefinition Tenants_TenantSettings = new ColumnDefinition();
+        public ColumnDefinition Tenants_Theme = new ColumnDefinition();
         public ColumnDefinition Tenants_Title = new ColumnDefinition();
         public ColumnDefinition Tenants_TopDashboards = new ColumnDefinition();
         public ColumnDefinition Tenants_TopScript = new ColumnDefinition();

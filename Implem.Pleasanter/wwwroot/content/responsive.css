@@ -122,7 +122,10 @@
 #RecordInfo div { clear:both; margin-right: 0; }
 #RecordInfo div p { font-size: 2.6vw; }
 
-#Application { padding-bottom: 15%;}
+#Application {
+    padding-top: 10%;
+    padding-bottom: 15%;
+}
 #MainForm { display: flex; flex-direction: column; }
 
     #RecordInfo { margin-bottom: 2%;}
