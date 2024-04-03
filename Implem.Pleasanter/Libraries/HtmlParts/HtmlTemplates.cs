@@ -564,6 +564,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return context.Authenticated
                 && context.ContractSettings.Attachments() != false
                 && !context.Mobile
+                && !context.Ajax
                     ? hb
                         .Div(
                             attributes: new HtmlAttributes()
