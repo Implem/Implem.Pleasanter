@@ -1600,6 +1600,11 @@ body#login #MainContainer #Application #PortalLink{
     display: none;
 }
 
+#Logins #SsoLogin .ssoLoginMessage {
+    margin: 10px 0;
+    padding: 6px 0;
+}
+
 #login #Users_LoginIdField p,
 #login #Users_PasswordField p {
     display: none;
@@ -1652,4 +1657,12 @@ body#login #MainContainer #Application #PortalLink{
 .ui-dialog .show-password {
     color: #666666;
     font-weight: lighter;
+}
+
+#LoginFieldSet #TotpRegister {
+    text-align: center;
+}
+
+#LoginFieldSet #TotpRegister #qrCodeText {
+    font-size: 1.2rem;
 }
