@@ -31,6 +31,7 @@ namespace Implem.IRds
         string GetPermissions { get; }
         string GetPermissionsById { get; }
         string GetGroup { get; }
+        string GetEnabledGroup { get; }
         string PermissionsWhere { get; }
         string SiteDeptWhere { get; }
         string SiteGroupWhere { get; }

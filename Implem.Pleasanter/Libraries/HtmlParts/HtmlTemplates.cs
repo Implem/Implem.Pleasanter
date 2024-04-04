@@ -145,7 +145,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Raw(HtmlHtmls.ExtendedHtmls(
                             context: context,
                             id: "HtmlHeaderBottom")))
-                    .Body(style: "visibility:hidden", action: action));
+                    .Body(
+                        id: context.Action == "login"
+                            ? "login"
+                            : string.Empty,
+                        css: context.ThemeVersion1_0()
+                            ? "theme-version-1_0"
+                            : string.Empty,
+                        style: "visibility:hidden",
+                        action: action));
             }
             else
             {
@@ -340,13 +348,28 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string title,
             bool useTitle)
         {
-            return useTitle
-                ? hb.Title(
-                    context: context,
-                    ss: ss,
-                    siteId: siteId,
-                    text: title)
-                : hb;
+            if (useTitle)
+            {
+                if (context.ThemeVersionOver2_0())
+                {
+                    return hb.Div(
+                        id: "TitleContainer",
+                        action: () => hb.Title(
+                            context: context,
+                            ss: ss,
+                            siteId: siteId,
+                            text: title));
+                }
+                else
+                {
+                    return hb.Title(
+                        context: context,
+                        ss: ss,
+                        siteId: siteId,
+                        text: title);
+                }
+            }
+            return hb;
         }
 
         public static HtmlBuilder Warnings(
@@ -553,12 +576,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 .Div(css: "command-center", action: () => hb
                                     .Button(
                                         text: Displays.ToShoot(context: context),
-                                        controlCss: "button-icon",
+                                        controlCss: "button-icon button-positive",
                                         onClick: "$p.toShoot($(this));",
                                         icon: "ui-icon-video")
                                     .Button(
                                         text: Displays.Cancel(context: context),
-                                        controlCss: "button-icon",
+                                        controlCss: "button-icon button-neutral",
                                         onClick: "$p.closeDialog($(this));",
                                         icon: "ui-icon-cancel")))
                         .Canvas(id: "Canvas")
@@ -609,6 +632,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Hidden(controlId: "DeptId", value: context.DeptId.ToString())
                     .Hidden(controlId: "UserId", value: context.UserId.ToString())
                     .Hidden(controlId: "LoginId", value: context.LoginId)
+                    .Hidden(controlId: "Theme", value: context.Theme())
                     .Hidden(controlId: "Publish", value: "1", _using: context.Publish)
                     .Hidden(controlId: "Responsive", value: "1", _using: context.Responsive)
                     .Hidden(controlId: "TableName", value: ss?.ReferenceType)

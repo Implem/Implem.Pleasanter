@@ -39,6 +39,7 @@ namespace Implem.Pleasanter.Libraries.General
             FileNotFound,
             HasNotChangeColumnPermission,
             HasNotPermission,
+            ImportInvalidUserIdAndLoginId,
             ImportMax,
             InCircleInvalidToken,
             IncorrectCurrentPassword,
@@ -241,6 +242,10 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.HasNotPermission:
                     return Messages.HasNotPermission(
+                        context: context,
+                        data: data);
+                case Types.ImportInvalidUserIdAndLoginId:
+                    return Messages.ImportInvalidUserIdAndLoginId(
                         context: context,
                         data: data);
                 case Types.ImportMax:
