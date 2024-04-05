@@ -136,6 +136,13 @@ namespace Implem.Pleasanter.Models
                                         _checked: view.ShowHistory == true,
                                         labelText: Displays.ShowHistory(context:context),
                                         _using: ss.HistoryOnGrid == true))
+                            .Guide(
+                                context: context,
+                                ss: ss,
+                                view: view,
+                                _using: (ss.ReferenceType == "Issues"
+                                    || ss.ReferenceType == "Results")
+                                    && context.Action != "edit")
                             .ViewFilters(
                                 context: context,
                                 ss: ss,
@@ -388,6 +395,14 @@ namespace Implem.Pleasanter.Models
                         .CopyDirectUrlToClipboard(
                             context: context,
                             view: view))
+                    .ReplaceAll("#Guide", new HtmlBuilder()
+                        .Guide(
+                            context: context,
+                            ss: ss,
+                            view: view,
+                            _using: (ss.ReferenceType == "Issues"
+                                || ss.ReferenceType == "Results")
+                                && context.Action != "edit"))
                     .ReplaceAll(
                         "#Aggregations",
                         new HtmlBuilder().Aggregations(

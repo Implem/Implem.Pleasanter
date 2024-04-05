@@ -296,10 +296,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             ss: ss,
                             view: view,
                             _using: useBreadcrumb))
-                        .Guide(
-                            context: context,
-                            ss: ss,
-                            view: view)
+                    .Guide(
+                        context: context,
+                        ss: ss,
+                        view: view,
+                        _using: !((ss.ReferenceType == "Issues"
+                            || ss.ReferenceType == "Results")
+                            && context.Action != "edit"))
                         .Title(
                             context: context,
                             ss: ss,
