@@ -1,4 +1,5 @@
-﻿using Implem.Libraries.Utilities;
+﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System.Linq;
@@ -204,7 +205,19 @@ namespace Implem.Pleasanter.Libraries.Requests
         {
             if (setSession)
             {
-                SessionUtilities.Set(
+                // fixme 上(呼出元)を変えてもいいが・・・こっちを変えるべきかなー
+                // オーバーロード作ったほうが良いかも？
+                // 取得したデータを格納するのはこの上ではないと駄目なので、こっちで設定してもしょうがない
+                // (一度は取得の必要があるので)
+                // 簡単に言うと上がGetなのでそこで取得させ、SessionテーブルにSetさせたうえでKVSにもセット
+                // KVSのセッションが切れるまではそちらから取得する方針
+                if (Parameters.Session.EnableKVS)
+                {
+
+                }
+                else
+                {
+                    SessionUtilities.Set(
                     context: context,
                     ss: ss,
                     key: key,
@@ -212,6 +225,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                     sessionGuid: useUsersView
                         ? "@" + context.UserId
                         : null);
+                }
             }
         }
     }

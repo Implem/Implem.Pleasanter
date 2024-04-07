@@ -3,5 +3,6 @@
     public class Session
     {
         public int RetentionPeriod;
+        public bool EnableKVS;
     }
 }
