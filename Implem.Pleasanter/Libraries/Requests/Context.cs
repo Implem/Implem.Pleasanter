@@ -1172,9 +1172,9 @@ namespace Implem.Pleasanter.Libraries.Requests
             switch (Theme())
             {
                 case "cerulean":
-                case "emerald":
+                case "green-tea":
                 case "mandarin":
-                case "dark-mode":
+                case "midnight":
                     return 2.0M;
                 default:
                     return 1.0M;
@@ -1186,9 +1186,9 @@ namespace Implem.Pleasanter.Libraries.Requests
             switch (Theme())
             {
                 case "cerulean":
-                case "emerald":
+                case "green-tea":
                 case "mandarin":
-                case "dark-mode":
+                case "midnight":
                     return 2.0M;
                 default:
                     return 1.0M;

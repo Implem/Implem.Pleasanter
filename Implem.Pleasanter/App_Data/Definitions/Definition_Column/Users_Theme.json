@@ -19,7 +19,7 @@
     "MaxLength": "32",
     "Nullable": "1",
     "ControlType": "ChoicesText",
-    "ChoicesText": "cerulean\nemerald\nmandarin\ndark-mode\nbase\nblack-tie\nblitzer\ncupertino\ndark-hive\ndot-luv\neggplant\nexcite-bike\nflick\nhot-sneaks\nhumanity\nle-frog\nmint-choc\novercast\npepper-grinder\nredmond\nsmoothness\nsouth-street\nstart\nsunny\nswanky-purse\ntrontastic\nui-darkness\nui-lightness\nvader",
+    "ChoicesText": "cerulean\ngreen-tea\nmandarin\nmidnight\nbase\nblack-tie\nblitzer\ncupertino\ndark-hive\ndot-luv\neggplant\nexcite-bike\nflick\nhot-sneaks\nhumanity\nle-frog\nmint-choc\novercast\npepper-grinder\nredmond\nsmoothness\nsouth-street\nstart\nsunny\nswanky-purse\ntrontastic\nui-darkness\nui-lightness\nvader",
     "LabelText_en": "Theme",
     "LabelText_zh": "主题",
     "LabelText_de": "Thema",
