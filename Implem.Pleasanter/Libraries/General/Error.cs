@@ -27,6 +27,7 @@ namespace Implem.Pleasanter.Libraries.General
             CannotMoveMultipleSitesData,
             CanNotPerformed,
             CantSetAtTopOfSite,
+            CircularGroupChild,
             CustomError,
             DefinitionNotFound,
             DeleteConflicts,
@@ -194,6 +195,10 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.CantSetAtTopOfSite:
                     return Messages.CantSetAtTopOfSite(
+                        context: context,
+                        data: data);
+                case Types.CircularGroupChild:
+                    return Messages.CircularGroupChild(
                         context: context,
                         data: data);
                 case Types.CustomError:

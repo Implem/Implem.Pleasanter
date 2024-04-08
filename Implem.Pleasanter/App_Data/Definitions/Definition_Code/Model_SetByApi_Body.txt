@@ -4,6 +4,7 @@
 <!--Model_SetByApi_ColumnCases-->
 <!--Model_SetByApi_ColumnCasesSite-->
 <!--Model_SetByApi_ColumnCasesGroupMembers-->
+<!--Model_SetByApi_ColumnCasesGroupChildren-->
 
     if (data.Comments != null) Comments.Prepend(context: context, ss: ss, body: data.Comments);
     if (data.VerUp != null) VerUp = data.VerUp.ToBool();

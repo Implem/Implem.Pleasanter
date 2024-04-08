@@ -1,0 +1,7 @@
+﻿{
+    "Id": "Model_SetByForm_GroupModel_GroupChildren",
+    "Indent": "3",
+    "Separator": "\\r\\n",
+    "NotCalc": "1",
+    "Include": "Groups"
+}

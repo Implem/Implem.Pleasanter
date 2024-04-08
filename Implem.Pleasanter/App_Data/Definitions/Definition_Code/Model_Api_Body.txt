@@ -11,6 +11,7 @@ namespace Implem.Pleasanter.Models
 <!--Model_ApiItemTitle-->
 <!--Model_ApiProcessId-->
 <!--Model_ApiGroupMembers-->
+<!--Model_ApiGroupChildren-->
 <!--Model_ApiMailAddresses-->
 
         public #ModelName#ApiModel()

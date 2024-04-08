@@ -1,0 +1,22 @@
+﻿{
+	"Id": "GroupMembers_ChildGroup",
+	"ModelName": "GroupMember",
+	"TableName": "GroupMembers",
+	"Label": "グループメンバー",
+	"ColumnName": "ChildGroup",
+	"LabelText": "子グループのユーザ",
+	"No": "4",
+	"History": "4",
+	"LinkColumn": "4",
+	"HistoryColumn": "4",
+	"TypeName": "bit",
+    "Pk": "4",
+	"Default": "0",
+	"Required": "1",
+	"LabelText_en": "Child group user",
+	"LabelText_zh": "子组用户",
+	"LabelText_de": "Benutzer der untergeordneten Gruppe",
+	"LabelText_ko": "하위 그룹의 사용자",
+	"LabelText_es": "Usuario del grupo infantil",
+	"LabelText_vn": "Người dùng nhóm con"
+}
