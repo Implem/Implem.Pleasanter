@@ -31,9 +31,6 @@
 $(document).ready(function () {
     if ($p.responsive() && screen.width < 1025) {
         const heightHeader = $('#Header').length > 0 ? $('#Header').height() : 100;
-        $('#Application').css({
-            'padding-top': `${heightHeader}px`
-        });
         $(window).scroll(function () {
             // Get the current scroll position
             const scrollPosition = $(this).scrollTop();
