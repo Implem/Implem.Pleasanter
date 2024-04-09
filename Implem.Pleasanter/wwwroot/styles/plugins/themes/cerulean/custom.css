@@ -1540,69 +1540,6 @@ section.accordion {
     align-items: center;
 }
 
-#NavigationMenu > li.sub-menu {
-    display: flex;
-    height: auto;
-    width: auto;
-    float: none;
-}
-
-#NavigationMenu > li.sub-menu:first-of-type {
-    border-top: 1px solid #ddd;
-}
-
-#NavigationMenu > li.sub-menu ul {
-    width: 100%;
-}
-
-#NavigationMenu > li > div {
-    display: flex;
-    height: auto!important;
-    align-items: center;
-}
-
-#NavigationMenu > li.sub-menu > div::before {
-    content: "";
-    display: block;
-    width: 52px;
-    height: 52px;
-    background: url(../../../../images/icon-menu-custom.svg) no-repeat 50% 50%;
-    background-size: 32px;
-}
-
-#NavigationMenu > li.sub-menu > ul li a {
-    display: block;
-    width: 100%;
-    padding: 8px 8px 8px 52px;
-    color: #222;
-    text-decoration: none;
-}
-
-#NavigationMenu > li.sub-menu > ul li a:hover {
-    background-color: #E7E7E7;
-}
-
-#hamburger:checked ~ .hamburger-menuwrap .sub-menu:hover {
-    background: #DEECF9;
-}
-
-#hamburger:checked ~ .hamburger-menuwrap .sub-menu:hover > ul {
-    background-color: #F5F5F5;
-}
-
-#hamburger:checked ~ .hamburger-menuwrap .sub-menu > ul {
-    display: block !important;
-}
-
-#hamburger:not(:checked) ~ .hamburger-menuwrap .sub-menu > div {
-    cursor: default;
-    opacity: .5;
-}
-
-#hamburger:not(:checked) ~ .hamburger-menuwrap .sub-menu > ul {
-    display: none !important;
-}
-
 /* ログイン画面 */
 body#login {
     background-color: #F8F8F8;
