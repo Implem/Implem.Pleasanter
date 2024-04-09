@@ -1488,6 +1488,12 @@ namespace Implem.Pleasanter.Models
                                 ? resultModel.ResultId
                                 : resultModel.SiteId)),
                     action: () => hb
+                        .Guide(
+                            context: context,
+                            ss: ss,
+                            view: Views.GetBySession(
+                                context: context,
+                                ss: ss))
                         .RecordHeader(
                             context: context,
                             ss: ss,

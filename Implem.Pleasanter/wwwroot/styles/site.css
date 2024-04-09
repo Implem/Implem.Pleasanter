@@ -1381,6 +1381,10 @@ th.calendar-header {
     background: #ff0;
 }
 
+#ViewModeContainer {
+    clear: both;
+}
+
 #MainCommandsContainer {
     width: 100%;
     height: 47px;

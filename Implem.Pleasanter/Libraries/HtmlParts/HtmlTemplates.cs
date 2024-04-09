@@ -304,17 +304,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             useTitle: useTitle)
                         .Warnings(
                             context: context,
-                            ss: ss)
-                        .Guide(
-                            context: context,
-                            ss: ss,
-                            view: view,
-                            _using: !((ss.ReferenceType == "Issues" || ss.ReferenceType == "Results")
-                                && (context.Action == "index" || context.Action == "calendar"
-                                || context.Action == "crosstab" || context.Action == "gantt"
-                                || context.Action == "burndown" || context.Action == "timeseries"
-                                || context.Action == "analy" || context.Action == "kamban"
-                                || context.Action == "imagelib")));
+                            ss: ss);
                     action?.Invoke();
                     hb.Message(
                         message: context.Message(),

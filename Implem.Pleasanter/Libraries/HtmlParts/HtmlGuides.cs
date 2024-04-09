@@ -11,10 +11,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             Context context,
             SiteSettings ss,
-            View view,
-            bool _using = true)
+            View view)
         {
-            if (_using == false) return hb;
             return GetGuideText(
                 context: context,
                 ss: ss).IsNullOrEmpty()
