@@ -300,16 +300,26 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                                         serverScriptModelRow: serverScriptModelRow)))));
                                         break;
                                     default:
-                                        SubMenu(
-                                            hb: hb,
-                                            context: context,
-                                            ss: ss,
-                                            siteId: siteId,
-                                            referenceType: referenceType,
-                                            id: id,
-                                            menu: menu,
-                                            childMenu: childMenu,
-                                            serverScriptModelRow: serverScriptModelRow);
+                                        if (menu.ChildMenus != null && menu.ContainerId != null)
+                                        {
+                                            attributesForId = "block-" + menu.ContainerId;
+                                            iconName = "icon-menu-custom.svg";
+                                            displayText = menu.Name;
+                                            goto case "MenuContainer";
+                                        }
+                                        else
+                                        {
+                                            SubMenu(
+                                                hb: hb,
+                                                context: context,
+                                                ss: ss,
+                                                siteId: siteId,
+                                                referenceType: referenceType,
+                                                id: id,
+                                                menu: menu,
+                                                childMenu: childMenu,
+                                                serverScriptModelRow: serverScriptModelRow);
+                                        }
                                         break;
                                 }
                             }

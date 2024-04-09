@@ -1540,6 +1540,10 @@ section.accordion {
     align-items: center;
 }
 
+.menubox .menulabel img {
+    width: 32px;
+}
+
 /* ログイン画面 */
 body#login {
     background-color: #F8F8F8;
