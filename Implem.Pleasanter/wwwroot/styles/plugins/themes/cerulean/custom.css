@@ -1544,6 +1544,28 @@ section.accordion {
     width: 32px;
 }
 
+.menubox-sub .sub-menu .sub-menu > ul {
+    margin-bottom: 15px;
+}
+
+.menubox-sub .sub-menu .sub-menu > ul li {
+    padding-left: 52px;
+}
+
+.menubox-sub .sub-menu .sub-menu > ul > li > a {
+    position: relative;
+    padding: 3px 1.5em;
+    font-size: 12px;
+    word-break: break-all;
+}
+
+.menubox-sub .sub-menu .sub-menu > ul > li > a::before {
+    position: absolute;
+    top: 3px;
+    left: 0;
+    content: '・';
+}
+
 /* ログイン画面 */
 body#login {
     background-color: #F8F8F8;
