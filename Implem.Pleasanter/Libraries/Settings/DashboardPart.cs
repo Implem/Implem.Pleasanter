@@ -517,11 +517,11 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             return sites?.SelectMany(site =>
                 long.TryParse(site.Id, out var siteId)
-                        ? new[] { (siteId, site) }
-                        : SiteInfo.Sites(context: context).Values
-                            .Where(row => row.String("SiteName") == site.Id
-                                || row.String("SiteGroupName") == site.Id)
-                            .Select(row => (row.Long("SiteId"), site)))
+                    ? new[] { (siteId, site) }
+                    : SiteInfo.Sites(context: context).Values
+                        .Where(row => row.String("SiteName") == site.Id
+                            || row.String("SiteGroupName") == site.Id)
+                        .Select(row => (row.Long("SiteId"), site)))
                 .ToList()
                     ?? new List<(long, QuickAccessSite Settings)>();
         }
@@ -665,9 +665,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
-        /// <summary>
-        /// Quikc
-        /// </summary>
         public void SetQuickAccessSites()
         {
             if (QuickAccessSitesData == null)
