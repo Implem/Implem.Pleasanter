@@ -13,14 +13,17 @@ namespace Implem.Pleasanter.Libraries.Settings
     public class QuickAccessSite
     {
         public string Id { get; set; }
+        public string ViewMode { get; set; }
+        public string Title { get; set; }
         public string Icon { get; set; }
         public string Css { get; set; }
+        public bool OpenInNewTab { get; set; }
     }
+
     public class QuickAccessSiteModel
     {
         public SiteModel Model { get; set; }
-        public string Icon { get; set; }
-        public string Css { get; set; }
+        public QuickAccessSite Settings { get; set; }
     }
 
     public class DashboardPart : ISettingListItem
@@ -258,11 +261,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                 calendarShowStatus: calendarShowStatus,
                 indexSites: indexSites,
                 indexSitesData: indexSitesData,
-                kambanSites : kambanSites,
+                kambanSites: kambanSites,
                 kambanSitesData: kambanSitesData,
-                kambanGroupByX : kambanGroupByX,
-                kambanGroupByY : kambanGroupByY,
-                kambanAggregateType : kambanAggregateType,
+                kambanGroupByX: kambanGroupByX,
+                kambanGroupByY: kambanGroupByY,
+                kambanAggregateType: kambanAggregateType,
                 kambanValue: kambanValue,
                 kambanColumns: kambanColumns,
                 kambanAggregationView: kambanAggregationView,
@@ -368,7 +371,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         /// TimeLineSitesDataから基準となるサイトIDを取得し、そのIDとFormの情報からViewオブジェクトを生成する
         /// </summary>
         private void SetBaseSiteData(Context context)
-        { 
+        {
             var currentSs = GetBaseSiteSettings(
                 context: context,
                 sites: GetSiteTypeData());
@@ -412,14 +415,17 @@ namespace Implem.Pleasanter.Libraries.Settings
                     {
                         Id = o,
                         Icon = null,
-                        Css = null
+                        Css = null,
+                        ViewMode = null,
+                        Title = null,
+                        OpenInNewTab = false
                     })
                     .ToList();
         }
-                
+
         private void SetTimeLineSitesData()
         {
-            if(TimeLineSites == null)
+            if (TimeLineSites == null)
             {
                 TimeLineSitesData = new List<string>();
                 return;
@@ -507,17 +513,17 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .ToList() ?? new List<long>();
         }
 
-        public static IList<(long Id, string Icon, string Css)> GetQuickAccessSites(Context context, IEnumerable<QuickAccessSite> sites)
+        public static IList<(long Id, QuickAccessSite　Settings)> GetQuickAccessSites(Context context, IEnumerable<QuickAccessSite> sites)
         {
             return sites?.SelectMany(site =>
                 long.TryParse(site.Id, out var siteId)
-                    ? new[] { (siteId, site.Icon, site.Css) }
-                    : SiteInfo.Sites(context: context).Values
-                        .Where(row => row.String("SiteName") == site.Id
-                            || row.String("SiteGroupName") == site.Id)
-                        .Select(row => (row.Long("SiteId"), site.Icon, site.Css)))
+                        ? new[] { (siteId, site) }
+                        : SiteInfo.Sites(context: context).Values
+                            .Where(row => row.String("SiteName") == site.Id
+                                || row.String("SiteGroupName") == site.Id)
+                            .Select(row => (row.Long("SiteId"), site)))
                 .ToList()
-                    ?? new List<(long, string, string)>();
+                    ?? new List<(long, QuickAccessSite Settings)>();
         }
 
         public static IEnumerable<long> GetDashboardPartTables(Context context, List<string> sites)
@@ -668,7 +674,12 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 QuickAccessSites = string.Empty;
             }
-            else if (QuickAccessSitesData.Any(o => o.Icon != null || o.Css != null))
+            else if (QuickAccessSitesData.Any(o =>
+                o.Icon != null
+                || o.Css != null
+                || o.ViewMode != null
+                || o.Title != null
+                || o.OpenInNewTab == true))
             {
                 QuickAccessSites = QuickAccessSitesData.ToJson(formatting: Newtonsoft.Json.Formatting.Indented);
             }

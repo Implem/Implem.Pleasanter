@@ -1723,23 +1723,26 @@ namespace Implem.Pleasanter.Models
                                             }
                                             var itemTypeCss = string.Empty;
                                             var iconName = string.Empty;
+                                            var href = string.Empty;
+                                            href = GetQuickAccessHref(context, quickAccess);
                                             switch (quickAccess.Model.ReferenceType)
                                             {
                                                 case "Sites":
-                                                    itemTypeCss = " dashboard-part-nav-folder " + quickAccess.Css;
-                                                    iconName = Strings.CoalesceEmpty(quickAccess.Icon, "folder");
+                                                    itemTypeCss = " dashboard-part-nav-folder " + quickAccess.Settings.Css;
+                                                    iconName = Strings.CoalesceEmpty(quickAccess.Settings.Icon, "folder");
                                                     break;
                                                 case "Dashboards":
-                                                    itemTypeCss = " dashboard-part-nav-dashboard " + quickAccess.Css;
-                                                    iconName = Strings.CoalesceEmpty(quickAccess.Icon, "dashboard");
+                                                    itemTypeCss = " dashboard-part-nav-dashboard " + quickAccess.Settings.Css;
+                                                    iconName = Strings.CoalesceEmpty(quickAccess.Settings.Icon, "dashboard");
                                                     break;
                                                 case "Wikis":
-                                                    itemTypeCss = " dashboard-part-nav-wiki " + quickAccess.Css;
-                                                    iconName = Strings.CoalesceEmpty(quickAccess.Icon, "text_snippet");
+                                                    itemTypeCss = " dashboard-part-nav-wiki " + quickAccess.Settings.Css;
+                                                    iconName = Strings.CoalesceEmpty(quickAccess.Settings.Icon, "text_snippet");
+
                                                     break;
                                                 default:
-                                                    itemTypeCss = " dashboard-part-nav-table " + quickAccess.Css;
-                                                    iconName = Strings.CoalesceEmpty(quickAccess.Icon, "table");
+                                                    itemTypeCss = " dashboard-part-nav-table " + quickAccess.Settings.Css;
+                                                    iconName = Strings.CoalesceEmpty(quickAccess.Settings.Icon, "table");
                                                     break;
                                             }
                                             hb.Li(css: "dashboard-part-nav-item" + itemTypeCss.TrimEnd(),
@@ -1748,18 +1751,13 @@ namespace Implem.Pleasanter.Models
                                                         action: () => hb.Text(iconName))
                                                     .A(
                                                         css: "dashboard-part-nav-link",
-                                                        text: quickAccess.Model.Title.DisplayValue,
-                                                        href: quickAccess.Model.ReferenceType == "Wikis"
-                                                            ? Locations.ItemEdit(
-                                                                context: context,
-                                                                id: Repository.ExecuteScalar_long(
-                                                                    context: context,
-                                                                    statements: Rds.SelectWikis(
-                                                                        column: Rds.WikisColumn().WikiId(),
-                                                                        where: Rds.WikisWhere().SiteId(quickAccess.Model.SiteId))))
-                                                            : Locations.ItemIndex(
-                                                                context: context,
-                                                                id: quickAccess.Model.SiteId)));
+                                                        text: quickAccess.Settings.Title.IsNullOrEmpty()
+                                                            ? quickAccess.Model.Title.DisplayValue
+                                                            : quickAccess.Settings.Title,
+                                                        href: href,
+                                                        target: quickAccess.Settings.OpenInNewTab
+                                                            ? "_blank"
+                                                            : null));
                                         })));
                 });
         }
@@ -1767,9 +1765,38 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        private static string GetQuickAccessHref(Context context, QuickAccessSiteModel quickAccess)
+        {
+            if (!quickAccess.Settings.ViewMode.IsNullOrEmpty()
+                && (quickAccess.Model.ReferenceType == "Results"
+                    || quickAccess.Model.ReferenceType == "Issues"))
+            {
+                return Locations.ItemView(
+                    context: context,
+                    id: quickAccess.Model.SiteId,
+                    quickAccess.Settings.ViewMode);
+            }
+            if (quickAccess.Model.ReferenceType == "Wikis")
+            {
+                return Locations.ItemEdit(
+                    context: context,
+                    id: Repository.ExecuteScalar_long(
+                        context: context,
+                        statements: Rds.SelectWikis(
+                            column: Rds.WikisColumn().WikiId(),
+                            where: Rds.WikisWhere().SiteId(quickAccess.Model.SiteId))));
+            }
+            return Locations.ItemIndex(
+                context: context,
+                id: quickAccess.Model.SiteId);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private static IEnumerable<QuickAccessSiteModel> QuickAccessSites(
             Context context,
-            IEnumerable<(long Id, string Icon, string Css)> sites)
+            IEnumerable<(long Id, QuickAccessSite Settings)> sites)
         {
             var siteModels = new SiteCollection(
                 context: context,
@@ -1789,14 +1816,12 @@ namespace Implem.Pleasanter.Models
                     ? new QuickAccessSiteModel()
                     {
                         Model = new SiteModel(context: context, siteId: 0),
-                        Icon = o.Icon,
-                        Css = o.Css
+                        Settings = o.Settings
                     }
                     : new QuickAccessSiteModel()
                     {
                         Model = siteModels.FirstOrDefault(model => model.SiteId == o.Id),
-                        Icon = o.Icon,
-                        Css = o.Css
+                        Settings = o.Settings
                     })
                 .Where(model => model.Model != null);
         }
