@@ -99,8 +99,9 @@
 #ViewFilters { font-size: 2.6vw; padding-bottom: 2%; }
 #Aggregations { font-size: 2.6vw;}
     #ViewFilters_Reset { float: none; }
+    #Guide.reduced,
     #ViewFilters.reduced,
-    #Aggregations.reduced { border-bottom: 1px solid #aaa; margin-bottom: 2%; padding: 2%; }
+    #Aggregations.reduced { border-bottom: 1px solid #aaa; margin-bottom: 2%; padding: 2%; width: 100%; border-radius: 5px; }
     #Aggregations .label { height: auto; }
     #ViewFilters>.field-auto-thin { height: 6vw; padding: 0; margin: 2% 0 0 0; line-height: 1; width: 49%;display: flex;
     justify-content: start;
