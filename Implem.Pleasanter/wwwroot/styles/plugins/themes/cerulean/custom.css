@@ -1510,7 +1510,9 @@ section.accordion {
 }
 
 .menubox label span:first-child {
-    padding: 10px;
+    width: 52px;
+    height: 52px;
+    justify-content: center;
 }
 
 .menubox-sub {
@@ -1538,10 +1540,6 @@ section.accordion {
 .menubox label span {
     display: flex;
     align-items: center;
-}
-
-.menubox .menulabel img {
-    width: 32px;
 }
 
 .menubox-sub .sub-menu .sub-menu > ul {
