@@ -89,6 +89,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public string HtmlTitleRecord { get; set; }
         public string TopStyle { get; set; }
         public string TopScript { get; set; }
+        public string TenantTheme { get; set; }
         public int DeptId { get; set; }
         public int UserId { get; set; }
         public string LoginId { get; set; }
@@ -98,7 +99,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public string UserHostAddress { get; set; }
         public string UserAgent { get; set; }
         public string Language { get; set; } = Parameters.Service.DefaultLanguage;
-        public string Theme { get; set; } = Parameters.User.Theme;
+        public string UserTheme { get; set; } = Parameters.User.Theme;
         public bool Developer { get; set; }
         public TimeZoneInfo TimeZoneInfo { get; set; } = Environments.TimeZoneInfoDefault;
         public UserSettings UserSettings { get; set; }
@@ -469,7 +470,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                 Dept = SiteInfo.Dept(tenantId: TenantId, deptId: DeptId);
                 User = SiteInfo.User(context: this, userId: UserId);
                 Language = userModel.Language;
-                Theme = Strings.CoalesceEmpty(userModel.Theme, Parameters.User.Theme, "sunny");
+                UserTheme = userModel.Theme;
                 UserHostAddress = noHttpContext
                     ? string.Empty
                     : GetUserHostAddress();
@@ -499,7 +500,8 @@ namespace Implem.Pleasanter.Libraries.Requests
                             .HtmlTitleSite()
                             .HtmlTitleRecord()
                             .TopStyle()
-                            .TopScript(),
+                            .TopScript()
+                            .Theme(),
                         where: Rds.TenantsWhere().TenantId(TenantId)))
                             .AsEnumerable()
                             .FirstOrDefault();
@@ -518,6 +520,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                     HtmlTitleRecord = dataRow.String("HtmlTitleRecord");
                     TopStyle = dataRow.String("TopStyle");
                     TopScript = dataRow.String("TopScript");
+                    TenantTheme = dataRow.String("Theme");
                 }
             }
         }
@@ -1148,6 +1151,49 @@ namespace Implem.Pleasanter.Libraries.Requests
             return Request
                 ? AspNetCoreHttpContext.Current?.Request?.Cookies[".AspNetCore.Session"]?.Sha512Cng()
                 : string.Empty;
+        }
+
+        public string Theme()
+        {
+            var theme = Strings.CoalesceEmpty(
+                UserTheme,
+                TenantTheme,
+                Parameters.User.Theme,
+                "cerulean");
+            return theme;
+        }
+
+        public decimal ThemeVersion()
+        {
+            if (Mobile) { return 1.0M; }
+            switch (Theme())
+            {
+                case "cerulean":
+                    return 2.0M;
+                default:
+                    return 1.0M;
+            }
+        }
+
+        public decimal ThemeVersionForCss()
+        {
+            switch (Theme())
+            {
+                case "cerulean":
+                    return 2.0M;
+                default:
+                    return 1.0M;
+            }
+        }
+
+        public bool ThemeVersion1_0()
+        {
+            return ThemeVersion() == 1.0M;
+        }
+
+        public bool ThemeVersionOver2_0()
+        {
+            return ThemeVersion() >= 2.0M;
         }
     }
 }

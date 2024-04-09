@@ -45,7 +45,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             text: Strings.CoalesceEmpty(
                                 serverScriptModelRow?.Elements?.LabelText("GoBack"),
                                 Displays.GoBack(context: context)),
-                            controlCss: "button-icon",
+                            controlCss: "button-icon button-neutral",
                             accessKey: "q",
                             onClick: "$p.back();",
                             icon: "ui-icon-circle-arrow-w");
@@ -57,7 +57,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             case "registrations":
                                 hb.Button(
                                     controlId: "RegistrationId",
-                                    controlCss: "button-icon validate",
+                                    controlCss: "button-icon validate button-positive",
                                     text: Displays.Invite(context: context),
                                     onClick: "$p.send($(this));",
                                     icon: "ui-icon-mail-closed",
@@ -70,7 +70,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     commandDisplayTypes: view?.CreateCommand,
                                     controlId: "CreateCommand",
                                     text: Displays.Create(context: context),
-                                    controlCss: "button-icon validate",
+                                    controlCss: "button-icon validate button-positive",
                                     accessKey: "s",
                                     onClick: "$p.send($(this));",
                                     icon: "ui-icon-disk",
@@ -103,7 +103,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                             .Button(
                                                 controlId: "OpenExportSelectorDialogCommand",
                                                 text: Displays.Export(context: context),
-                                                controlCss: "button-icon",
+                                                controlCss: "button-icon button-positive",
                                                 accessKey: "x",
                                                 onClick: "$p.openExportSelectorDialog($(this));",
                                                 icon: "ui-icon-arrowreturnthick-1-w",
@@ -132,7 +132,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                             .Button(
                                                 controlId: "BulkDeleteCommand",
                                                 text: Displays.BulkDelete(context: context),
-                                                controlCss: "button-icon",
+                                                controlCss: "button-icon button-negative",
                                                 accessKey: "r",
                                                 onClick: "$p.send($(this));",
                                                 icon: "ui-icon-trash",
@@ -144,7 +144,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                             .Button(
                                                 controlId: "EditImportSettings",
                                                 text: Displays.Import(context: context),
-                                                controlCss: "button-icon",
+                                                controlCss: "button-icon button-positive",
                                                 accessKey: "w",
                                                 onClick: "$p.openImportSettingsDialog($(this));",
                                                 icon: "ui-icon-arrowreturnthick-1-e",
@@ -154,7 +154,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                             .Button(
                                                 controlId: "OpenExportSelectorDialogCommand",
                                                 text: Displays.Export(context: context),
-                                                controlCss: "button-icon",
+                                                controlCss: "button-icon button-positive",
                                                 accessKey: "x",
                                                 onClick: "$p.openExportSelectorDialog($(this));",
                                                 icon: "ui-icon-arrowreturnthick-1-w",
@@ -184,7 +184,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                             .Button(
                                                 controlId: "BulkDeleteCommand",
                                                 text: Displays.BulkDelete(context: context),
-                                                controlCss: "button-icon",
+                                                controlCss: "button-icon button-negative",
                                                 accessKey: "r",
                                                 onClick: "$p.send($(this));",
                                                 icon: "ui-icon-trash",
@@ -196,7 +196,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                             .Button(
                                                 controlId: "EditImportSettings",
                                                 text: Displays.Import(context: context),
-                                                controlCss: "button-icon",
+                                                controlCss: "button-icon button-positive",
                                                 accessKey: "w",
                                                 onClick: "$p.openImportSettingsDialog($(this));",
                                                 icon: "ui-icon-arrowreturnthick-1-e",
@@ -206,7 +206,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                             .Button(
                                                 controlId: "OpenExportSelectorDialogCommand",
                                                 text: Displays.Export(context: context),
-                                                controlCss: "button-icon",
+                                                controlCss: "button-icon button-positive",
                                                 accessKey: "x",
                                                 onClick: "$p.openExportSelectorDialog($(this));",
                                                 icon: "ui-icon-arrowreturnthick-1-w",
@@ -222,7 +222,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     case "login":
                                         hb.Button(
                                             controlId: "RegistrationId",
-                                            controlCss: "button-icon validate",
+                                            controlCss: "button-icon validate button-positive",
                                             text: Strings.CoalesceEmpty(
                                                 serverScriptModelRow?.Elements?.LabelText("BulkDeleteCommand"),
                                                 Displays.ApprovalRequest(context: context)),
@@ -236,7 +236,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                             .Button(
                                                 controlId: "RegistrationApproval",
                                                 text: Displays.Approval(context: context),
-                                                controlCss: "button-icon",
+                                                controlCss: "button-icon button-positive",
                                                 onClick: "$p.send($(this));",
                                                 icon: "ui-icon-mail-closed",
                                                 action: "Approval",
@@ -245,7 +245,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                             .Button(
                                                 controlId: "DeleteCommand",
                                                 text: Displays.Delete(context: context),
-                                                controlCss: "button-icon",
+                                                controlCss: "button-icon button-negative",
                                                 accessKey: "r",
                                                 onClick: "$p.send($(this));",
                                                 icon: "ui-icon-trash",
@@ -263,7 +263,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                             text: Strings.CoalesceEmpty(
                                                 serverScriptModelRow?.Elements?.LabelText("BulkDeleteCommand"),
                                                 Displays.BulkDelete(context: context)),
-                                            controlCss: "button-icon",
+                                            controlCss: "button-icon button-negative",
                                             accessKey: "r",
                                             onClick: "$p.send($(this));",
                                             icon: "ui-icon-trash",
@@ -283,7 +283,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         .Button(
                                             controlId: "UpdateDashboardPartLayouts",
                                             text: Displays.SaveLayout(context: context),
-                                            controlCss: "button-icon",
+                                            controlCss: "button-icon button-positive",
                                             accessKey: "s",
                                             icon: "ui-icon-disk",
                                             onClick: "$p.updateDashboardPartLayouts();",
@@ -311,7 +311,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                             commandDisplayTypes: view?.UpdateCommand,
                                             controlId: "UpdateByGridCommand",
                                             text: Displays.Update(context: context),
-                                            controlCss: "button-icon validate",
+                                            controlCss: "button-icon validate button-positive",
                                             accessKey: "s",
                                             onClick: "$p.send($(this));",
                                             icon: "ui-icon-disk",
@@ -323,7 +323,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                             commandDisplayTypes: view?.EditOnGridCommand,
                                             controlId: "EditOnGridCommand",
                                             text: Displays.ListMode(context: context),
-                                            controlCss: "button-icon",
+                                            controlCss: "button-icon button-neutral",
                                             onClick: "$p.editOnGrid($(this),0);",
                                             icon: "ui-icon-arrowreturnthick-1-w",
                                             action: "Index",
@@ -348,7 +348,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                         commandDisplayTypes: view?.BulkMoveTargetsCommand,
                                                         controlId: "BulkMoveTargetsCommand",
                                                         text: Displays.BulkMove(context: context),
-                                                        controlCss: "button-icon open-dialog",
+                                                        controlCss: "button-icon open-dialog button-positive",
                                                         accessKey: "o",
                                                         onClick: "$p.moveTargets($(this));",
                                                         icon: "ui-icon-transferthick-e-w",
@@ -366,7 +366,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                         commandDisplayTypes: view?.BulkDeleteCommand,
                                                         controlId: "BulkDeleteCommand",
                                                         text: Displays.BulkDelete(context: context),
-                                                        controlCss: "button-icon",
+                                                        controlCss: "button-icon button-negative",
                                                         accessKey: "r",
                                                         onClick: "$p.send($(this));",
                                                         icon: "ui-icon-trash",
@@ -381,7 +381,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                         commandDisplayTypes: view?.EditImportSettings,
                                                         controlId: "EditImportSettings",
                                                         text: Displays.Import(context: context),
-                                                        controlCss: "button-icon",
+                                                        controlCss: "button-icon button-positive",
                                                         accessKey: "w",
                                                         onClick: "$p.openImportSettingsDialog($(this));",
                                                         icon: "ui-icon-arrowreturnthick-1-e",
@@ -393,7 +393,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                         commandDisplayTypes: view?.OpenExportSelectorDialogCommand,
                                                         controlId: "OpenExportSelectorDialogCommand",
                                                         text: Displays.Export(context: context),
-                                                        controlCss: "button-icon",
+                                                        controlCss: "button-icon button-positive",
                                                         accessKey: "x",
                                                         onClick: "$p.openExportSelectorDialog($(this));",
                                                         icon: "ui-icon-arrowreturnthick-1-w",
@@ -408,7 +408,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                         commandDisplayTypes: view?.OpenBulkUpdateSelectorDialogCommand,
                                                         controlId: "OpenBulkUpdateSelectorDialogCommand",
                                                         text: Displays.BulkUpdate(context: context),
-                                                        controlCss: "button-icon",
+                                                        controlCss: "button-icon button-positive",
                                                         accessKey: "s",
                                                         onClick: "$p.openBulkUpdateSelectorDialog($(this));",
                                                         icon: "ui-icon-disk",
@@ -422,7 +422,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                         commandDisplayTypes: view?.EditOnGridCommand,
                                                         controlId: "EditOnGridCommand",
                                                         text: Displays.EditMode(context: context),
-                                                        controlCss: "button-icon",
+                                                        controlCss: "button-icon button-positive",
                                                         onClick: "$p.editOnGrid($(this),1);",
                                                         icon: "ui-icon-arrowreturnthick-1-w",
                                                         action: "Index",
@@ -447,7 +447,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                     .Button(
                                                         controlId: "BulkProcessCommand",
                                                         text: Displays.Execute(context: context),
-                                                        controlCss: "button-icon",
+                                                        controlCss: "button-icon button-positive",
                                                         onClick: "$p.send($(this));",
                                                         icon: "ui-icon-disk",
                                                         action: "BulkProcess",
@@ -456,7 +456,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                     .Button(
                                                         controlId: "BulkProcessCancelCommand",
                                                         text: Displays.ListMode(context: context),
-                                                        controlCss: "button-icon",
+                                                        controlCss: "button-icon button-neutral",
                                                         onClick: "$('#BulkProcessingItems').val('').change();",
                                                         icon: "ui-icon-arrowreturnthick-1-w");
                                             }
@@ -467,7 +467,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                 commandDisplayTypes: view?.ExportCrosstabCommand,
                                                 controlId: "ExportCrosstabCommand",
                                                 text: Displays.Export(context: context),
-                                                controlCss: "button-icon",
+                                                controlCss: "button-icon button-positive",
                                                 accessKey: "x",
                                                 onClick: "$p.exportCrosstab();",
                                                 icon: "ui-icon-arrowreturnthick-1-w",
@@ -514,7 +514,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     commandDisplayTypes: view?.UpdateCommand,
                     controlId: "UpdateCommand",
                     text: Displays.Update(context: context),
-                    controlCss: "button-icon validate",
+                    controlCss: "button-icon validate button-positive",
                     accessKey: "s",
                     onClick: "$p.send($(this));",
                     icon: "ui-icon-disk",
@@ -528,7 +528,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     commandDisplayTypes: view?.OpenCopyDialogCommand,
                     controlId: "OpenCopyDialogCommand",
                     text: Displays.Copy(context: context),
-                    controlCss: "button-icon open-dialog",
+                    controlCss: "button-icon open-dialog button-positive",
                     accessKey: "c",
                     onClick: "$p.openDialog($(this));",
                     icon: "ui-icon-copy",
@@ -541,7 +541,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     commandDisplayTypes: view?.ReferenceCopyCommand,
                     controlId: "ReferenceCopyCommand",
                     text: Displays.ReferenceCopy(context: context),
-                    controlCss: "button-icon",
+                    controlCss: "button-icon button-positive",
                     accessKey: "k",
                     onClick: $"location.href='{Locations.ItemNew(context: context, id: ss.SiteId)}?CopyFrom={context.Id}'",
                     icon: "ui-icon-copy",
@@ -554,7 +554,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     commandDisplayTypes: view?.MoveTargetsCommand,
                     controlId: "MoveTargetsCommand",
                     text: Displays.Move(context: context),
-                    controlCss: "button-icon open-dialog",
+                    controlCss: "button-icon open-dialog button-positive",
                     accessKey: "o",
                     onClick: "$p.moveTargets($(this));",
                     icon: "ui-icon-transferthick-e-w",
@@ -568,11 +568,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .Any(o => ss.MoveTargets.Contains(o.Key.ToLong()))
                         && !readOnly)
                 .Button(
-                    serverScriptModelRow:serverScriptModelRow,
+                    serverScriptModelRow: serverScriptModelRow,
                     commandDisplayTypes: view?.EditOutgoingMail,
                     controlId: "EditOutgoingMail",
                     text: Displays.Mail(context: context),
-                    controlCss: "button-icon",
+                    controlCss: "button-icon button-positive",
                     onClick: "$p.openOutgoingMailDialog($(this));",
                     icon: "ui-icon-mail-closed",
                     action: "Edit",
@@ -585,7 +585,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     commandDisplayTypes: view?.DeleteCommand,
                     controlId: "DeleteCommand",
                     text: Displays.Delete(context: context),
-                    controlCss: "button-icon",
+                    controlCss: "button-icon button-negative",
                     accessKey: "r",
                     onClick: "$p.send($(this));",
                     icon: "ui-icon-trash",
@@ -601,7 +601,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     commandDisplayTypes: view?.OpenDeleteSiteDialogCommand,
                     controlId: "OpenDeleteSiteDialogCommand",
                     text: Displays.DeleteSite(context: context),
-                    controlCss: "button-icon",
+                    controlCss: "button-icon button-negative",
                     accessKey: "r",
                     onClick: "$p.openDeleteSiteDialog($(this));",
                     icon: "ui-icon-trash",
@@ -631,35 +631,63 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string type = "button",
             bool _using = true)
         {
-            var serverScriptElements = serverScriptModelRow?.Elements;
-            return hb.Button(
-                controlId: controlId,
-                text: Strings.CoalesceEmpty(
-                    serverScriptElements?.LabelText(controlId),
-                    text),
-                controlCss: controlCss,
-                style: (serverScriptElements != null
-                    ? serverScriptElements.Hidden(controlId) == true
-                    : commandDisplayTypes == View.CommandDisplayTypes.Hidden)
+            if (!_using)
+            {
+                return hb;
+            }
+            else
+            {
+                var serverScriptElements = serverScriptModelRow?.Elements;
+                var serverScriptElementExists = serverScriptElements?.DisplayTypeHash.ContainsKey(controlId ?? string.Empty) ?? false;
+                var style = String.Empty;
+                var disabled = false;
+                var buttonExists = true;
+                if (serverScriptElementExists)
+                {
+                    switch (serverScriptElements.DisplayTypeHash.Get(controlId))
+                    {
+                        case View.CommandDisplayTypes.None:
+                            buttonExists = false;
+                            break;
+                        case View.CommandDisplayTypes.Disabled:
+                            disabled = true;
+                            break;
+                        case View.CommandDisplayTypes.Hidden:
+                            style = "display:none;";
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                else if (commandDisplayTypes != null)
+                {
+                    style = commandDisplayTypes == View.CommandDisplayTypes.Hidden
                         ? "display:none;"
-                        : string.Empty,
-                title: title,
-                accessKey: accessKey,
-                onClick: onClick,
-                href: href,
-                dataId: dataId,
-                icon: icon,
-                selector: selector,
-                action: action,
-                method: method,
-                confirm: confirm,
-                type: type,
-                disabled: serverScriptElements != null 
-                    ? serverScriptElements.Disabled(controlId) == true
-                    : commandDisplayTypes == View.CommandDisplayTypes.Disabled,
-                _using: _using
-                    && serverScriptModelRow?.Elements?.None(controlId) != true
-                    && commandDisplayTypes != View.CommandDisplayTypes.None);
+                        : string.Empty;
+                    disabled = commandDisplayTypes == View.CommandDisplayTypes.Disabled;
+                    buttonExists = commandDisplayTypes != View.CommandDisplayTypes.None;
+                }
+                return hb.Button(
+                    controlId: controlId,
+                    text: Strings.CoalesceEmpty(
+                        serverScriptElements?.LabelText(controlId),
+                        text),
+                    controlCss: controlCss,
+                    style: style,
+                    title: title,
+                    accessKey: accessKey,
+                    onClick: onClick,
+                    href: href,
+                    dataId: dataId,
+                    icon: icon,
+                    selector: selector,
+                    action: action,
+                    method: method,
+                    confirm: confirm,
+                    type: type,
+                    disabled: disabled,
+                    _using: buttonExists);
+            }
         }
     }
 }

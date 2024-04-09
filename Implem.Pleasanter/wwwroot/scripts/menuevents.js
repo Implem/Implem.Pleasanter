@@ -10,3 +10,11 @@
         $('#' + $container.attr('data-id')).hide();
     });
 });
+
+$p.expandSideMenu = function () {
+    $('#hamburger').prop('checked', true);
+}
+
+$p.closeSideMenu = function () {
+    $('.menubox > input[class="toggle"]').prop('checked', false);
+}

@@ -4769,6 +4769,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string ImportInvalidUserIdAndLoginId(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ImportInvalidUserIdAndLoginId",
+                data: data);
+        }
+
         public static string ImportKey(
             Context context,
             params string[] data)
@@ -10249,6 +10259,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string UserMenu(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "UserMenu",
+                data: data);
+        }
+
         public static string UserNotSelfDelete(
             Context context,
             params string[] data)
@@ -13336,6 +13356,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Tenants_TenantSettings",
+                data: data);
+        }
+
+        public static string Tenants_Theme(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Tenants_Theme",
                 data: data);
         }
 

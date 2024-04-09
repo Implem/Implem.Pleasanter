@@ -39,6 +39,10 @@ $p.userName = function () {
     return $('#AccountUserName').text();
 }
 
+$p.theme = function () {
+    return $('#Theme').val();
+}
+
 $p.referenceType = function () {
     return $('#ReferenceType').val();
 }
