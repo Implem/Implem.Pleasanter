@@ -79,6 +79,9 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private static string ViewModeTemplate(
             this HtmlBuilder hb,
             Context context,
@@ -1560,6 +1563,9 @@ namespace Implem.Pleasanter.Models
                 value: context.Id.ToString());
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private static HtmlBuilder Editor(
             this HtmlBuilder hb,
             Context context,
