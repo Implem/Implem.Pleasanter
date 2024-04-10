@@ -18,20 +18,13 @@
     else
     {
         var editInDialog = context.Forms.Bool("EditInDialog");
-        var process = ss.Processes
-            ?.Where(o => $"Process_{o.Id}" == context.Forms.ControlId())
-            .Where(o => o.Accessable(
+        var process = Process.GetProcess(
+            context: context,
+            ss: ss,
+            getProcessMatchConditions: (o) => #modelName#Model.GetProcessMatchConditions(
                 context: context,
-                ss: ss))
-            .Select(o =>
-            {
-                o.MatchConditions = #modelName#Model.GetProcessMatchConditions(
-                    context: context,
-                    ss: ss,
-                    process: o);
-                return o;
-            })
-            .FirstOrDefault(o => o.MatchConditions);
+                ss: ss,
+                process: o));
         var html = Editor(
             context: context,
             ss: ss,
