@@ -22,12 +22,12 @@
 }
 
 .control-selectable .ui-selecting {
-    background: #106EBE;
+    background: #F37A23;
     color: #FFFFFF;
 }
 
 .control-selectable .ui-selected {
-    background: #106EBE;
+    background: #F37A23;
     color: #FFFFFF;
 }
 
@@ -98,7 +98,7 @@
 }
 
 a, a:link {
-    color: #106EBE;
+    color: #F37A23;
 }
 
 body {
@@ -205,15 +205,15 @@ nav.both.cf {
 }
 
 #Application nav #Breadcrumb li:last-child {
-    background-color: #106EBE;
+    background-color: #F37A23;
 }
 
 #Application nav #Breadcrumb li:nth-last-child(2)::after {
-    background-color: #106EBE;
+    background-color: #F37A23;
 }
 
 #Application nav #Breadcrumb li:last-child::after {
-    border-left: 15px solid #106EBE;
+    border-left: 15px solid #F37A23;
 }
 
 #Application nav #Breadcrumb li:before {
@@ -266,7 +266,7 @@ nav.both.cf {
     padding: 8px 16px 0;
     border: none;
     border-radius: 0;
-    background-color: #DEECF9;
+    background-color: #FFF1CA;
     color: #222222;
 }
 
@@ -285,7 +285,7 @@ nav.both.cf {
     padding: 8px 16px 0;
     border: none;
     border-radius: 0;
-    background-color: #DEECF9;
+    background-color: #FFF1CA;
     color: #222222;
 }
 
@@ -293,8 +293,8 @@ nav.both.cf {
     height: auto;
     margin: 0 0 8px;
     border-radius: 4px;
-    background: #C1E1FF;
-    border: 1px solid #90CAFF;
+    background: #FFF7E0;
+    border: 1px solid #ECD085;
 }
 
 #MainForm #Aggregations > .display-control{
@@ -348,7 +348,7 @@ nav.both.cf {
 .ui-widget-header,
 .ui-dialog.ui-widget.ui-widget-content fieldset .ui-widget-header,
 #ProcessForm #ProcessTabsContainer fieldset .ui-widget-header {
-    background: #106EBE;
+    background: #F37A23;
 }
 
 .ui-multiselect-header {
@@ -459,7 +459,7 @@ font-family: 'メイリオ', 'Meiryo', 'Hiragino Kaku Gothic ProN', 'ヒラギ�
 }
 
 .field-control .control-attachments-upload {
-    border: 2px dotted #106EBE;
+    border: 2px dotted #F37A23;
 }
 
 fieldset .command-left {
@@ -517,7 +517,7 @@ fieldset .command-left > button {
 
 .field-control .container-normal .ui-slider-handle {
     background-image: none;
-    background-color: #106EBE;
+    background-color: #F37A23;
     border-radius: 2px;
     outline: none;
 }
@@ -530,11 +530,11 @@ fieldset .command-left > button {
 }
 
 .field-control .container-normal .already-attachments {
-    background-color: #DEECF9;
+    background-color: #FFF1CA;
 }
 
 .field-control .container-normal .control-attachments-item {
-    border: 1px solid #106EBE;
+    border: 1px solid #F37A23;
 }
 
 .field-control .container-normal .already-attachments.preparation-delete {
@@ -595,8 +595,8 @@ fieldset .command-left > button {
 .ui-state-focus,
 .ui-widget-content .ui-state-focus,
 .ui-widget-header .ui-state-focus {
-    background: #C1E1FF;
-    border: 1px solid #90CAFF;
+    background: #FFF7E0;
+    border: 1px solid #ECD085;
 }
 
 .ui-button:hover,
@@ -633,8 +633,8 @@ fieldset .command-left > button {
 .button-positive:focus,
 .button-positive:active {
     background: none;
-    background-color: #106EBE;
-    border: 1px solid #106EBE;
+    background-color: #F37A23;
+    border: 1px solid #F37A23;
     color: #FFFFFF;
 }
 
@@ -749,8 +749,8 @@ fieldset .legend{
 #EditorTabsContainer .grid-row .comment {
     margin-bottom: 0;
     padding: 4px 4px 4px 16px;
-    background: #EFF6FC;
-    border: 1px solid #C1E1FF;
+    background: #FFFAEB;
+    border: 1px solid #FFF7E0;
     margin-bottom: 4px;
 }
 
@@ -851,7 +851,7 @@ table.grid tbody td > input {
 }
 
 #Editor #EditorComments{
-    background: #DEECF9;
+    background: #FFF1CA;
     padding-top: 16px;
     padding-left: 16px;
     padding-right: 16px;
@@ -896,10 +896,10 @@ table.grid tbody td > input {
 .template-tab-container > .ui-widget-header,
 .ui-dialog .ui-dialog-content .tab-container .ui-tabs-nav.ui-widget-header,
 .ui-dialog .ui-dialog-content form .tab-container > .ui-widget-header {
-    background: #DEECF9;
+    background: #FFF1CA;
     border: none;
     border-radius: 0;
-    border-bottom: 4px solid #106EBE;
+    border-bottom: 4px solid #F37A23;
 }
 
 .ui-tabs .ui-tabs-nav li.ui-tabs-active,
@@ -919,7 +919,7 @@ table.grid tbody td > input {
 .template-tab-container li.ui-state-active a,
 .ui-dialog .ui-dialog-content .tab-container .ui-tabs-nav li.ui-state-active a,
 .ui-dialog .ui-dialog-content form .tab-container .ui-tabs-nav li.ui-state-active a{
-    background: #106EBE;
+    background: #F37A23;
     border-radius: 4px 4px 0 0;
     font-weight: bold;
     color: #fff;
@@ -938,7 +938,7 @@ table.grid tbody td > input {
 .ui-dialog .ui-dialog-content form .tab-container .ui-tabs-nav li a {
     background: #fff;
     border-radius: 4px 4px 0 0;
-    color: #106EBE;
+    color: #F37A23;
 }
 
 .ui-corner-all, .ui-corner-bottom, .ui-corner-right, .ui-corner-br {
@@ -1005,12 +1005,12 @@ table.grid tbody td > input {
 }
 
 .control-selectable .ui-selected {
-    background: #106EBE;
+    background: #F37A23;
     border: 1px solid #005A9E;
 }
 
 .control-selectable li:active {
-    background: #106EBE;
+    background: #F37A23;
     border: 1px solid #005A9E;
     color: #FFFFFF;
 }
@@ -1019,7 +1019,7 @@ table.grid tbody td > input {
 .ui-widget-content .ui-state-default,
 .ui-widget-header .ui-state-default {
     border: none;
-    color: #106EBE;
+    color: #F37A23;
 }
 
 .template-tab-container .fieldset {
@@ -1126,7 +1126,7 @@ fieldset .field-vertical > .field-label {
 }
 
 #MainForm #StartGuide > #StartGuideContents > a:hover {
-    background-color: #EFF6FC;
+    background-color: #FFFAEB;
 }
 
 #MainForm #StartGuide > #StartGuideContents {
@@ -1193,8 +1193,8 @@ fieldset .field-vertical > .field-label {
 }
 
 #Application .nav-site .conditions span.count {
-    background-color: #C1E1FF;
-    border: 1px solid #90CAFF;
+    background-color: #FFF7E0;
+    border: 1px solid #ECD085;
 }
 
 #Application .nav-site .conditions span.overdue {
@@ -1397,12 +1397,12 @@ fieldset .field-vertical > .field-label {
 }
 
 .accordion a img.new {
-    background-color: #106EBE;
+    background-color: #F37A23;
     border-radius: 16px;
 }
 
 .hamburger-menulist li a:hover {
-    background-color: #DEECF9;
+    background-color: #FFF1CA;
 }
 
 #hamburger:checked ~ .hamburger-menuwrap {
@@ -1506,7 +1506,7 @@ section.accordion {
 
 .menubox a:hover,
 .menubox label:hover {
-    background-color: #DEECF9;
+    background-color: #FFF1CA;
 }
 
 .menubox label span:first-child {
