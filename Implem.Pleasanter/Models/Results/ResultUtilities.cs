@@ -2270,20 +2270,13 @@ namespace Implem.Pleasanter.Models
             else
             {
                 var editInDialog = context.Forms.Bool("EditInDialog");
-                var process = ss.Processes
-                    ?.Where(o => $"Process_{o.Id}" == context.Forms.ControlId())
-                    .Where(o => o.Accessable(
+                var process = Process.GetProcess(
                         context: context,
-                        ss: ss))
-                    .Select(o =>
-                    {
-                        o.MatchConditions = resultModel.GetProcessMatchConditions(
+                        ss: ss,
+                        getProcessMatchConditions: (o) => resultModel.GetProcessMatchConditions(
                             context: context,
                             ss: ss,
-                            process: o);
-                        return o;
-                    })
-                    .FirstOrDefault(o => o.MatchConditions);
+                            process: o));
                 var html = Editor(
                     context: context,
                     ss: ss,

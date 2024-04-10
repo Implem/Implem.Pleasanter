@@ -572,16 +572,16 @@ namespace Implem.Pleasanter.Models
         }
 
         public string DashboardPartLayout (Context context)
-                {
-                    SetSite(
-                        context: context,
-                        initSiteSettings: true,
-                        setSiteIntegration: true,
-                        setAllChoices: true);
-                    return DashboardUtilities.DashboardPartLayout(
-                        context: context,
-                        ss: Site.SiteSettings);
-                }
+        {
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true,
+                setAllChoices: true);
+            return DashboardUtilities.DashboardPartLayout(
+                context: context,
+                ss: Site.SiteSettings);
+        }
 
         public string Gantt(Context context)
         {
@@ -959,35 +959,35 @@ namespace Implem.Pleasanter.Models
             var referenceType = Site.ReferenceType;
             if (!context.QueryStrings.Bool("control-auto-postback"))
             {
-                var process = ss.Processes
-                    ?.Where(o => $"Process_{o.Id}" == context.Forms.ControlId())
-                    .Where(o => o.Accessable(context: context, ss: ss))
-                    .Select(o => {
-                        if (referenceType == "Issues")
-                        {
-                            var issueModel = new IssueModel(
-                                context: context,
-                                ss: ss,
-                                issueId: 0);
-                            o.MatchConditions = issueModel.GetProcessMatchConditions(
-                                context: context,
-                                ss: ss,
-                                process: o);
-                        }
-                        else if (referenceType == "Results")
-                        {
-                            var resultModel = new ResultModel(
-                                context: context,
-                                ss: ss,
-                                resultId: 0);
-                            o.MatchConditions = resultModel.GetProcessMatchConditions(
-                                context: context,
-                                ss: ss,
-                                process: o);
-                        }
-                        return o;
-                    })
-                    .FirstOrDefault(o => o.MatchConditions);
+                Process process = null;
+                if (referenceType == "Issues")
+                {
+                    var issueModel = new IssueModel(
+                        context: context,
+                        ss: ss,
+                        issueId: 0);
+                    process = Process.GetProcess(
+                        context: context,
+                        ss: ss,
+                        getProcessMatchConditions: (o) => issueModel.GetProcessMatchConditions(
+                            context: context,
+                            ss: ss,
+                            process: o));
+                }
+                else if (referenceType == "Results")
+                {
+                    var resultModel = new ResultModel(
+                        context: context,
+                        ss: ss,
+                        resultId: 0);
+                    process = Process.GetProcess(
+                        context: context,
+                        ss: ss,
+                        getProcessMatchConditions: (o) => resultModel.GetProcessMatchConditions(
+                            context: context,
+                            ss: ss,
+                            process: o));
+                }
                 return new ResponseCollection(context: context)
                     .ReplaceAll("#MainContainer", New(context: context))
                     .WindowScrollTop()
@@ -1313,8 +1313,8 @@ namespace Implem.Pleasanter.Models
                 userId: context.UserId).IsNullOrEmpty())
             {
                 return Messages.ResponseExportNotSetEmail(
-                    context: context, 
-                    target: null, 
+                    context: context,
+                    target: null,
                     $"{context.User.Name}<{context.User.LoginId}>").ToJson();
             }
             switch (Site.ReferenceType)
