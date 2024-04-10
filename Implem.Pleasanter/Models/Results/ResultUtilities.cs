@@ -2271,12 +2271,12 @@ namespace Implem.Pleasanter.Models
             {
                 var editInDialog = context.Forms.Bool("EditInDialog");
                 var process = Process.GetProcess(
+                    context: context,
+                    ss: ss,
+                    getProcessMatchConditions: (o) => resultModel.GetProcessMatchConditions(
                         context: context,
                         ss: ss,
-                        getProcessMatchConditions: (o) => resultModel.GetProcessMatchConditions(
-                            context: context,
-                            ss: ss,
-                            process: o));
+                        process: o));
                 var html = Editor(
                     context: context,
                     ss: ss,
