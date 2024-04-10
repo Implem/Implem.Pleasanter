@@ -18,3 +18,8 @@ $p.expandSideMenu = function () {
 $p.closeSideMenu = function () {
     $('.menubox > input[class="toggle"]').prop('checked', false);
 }
+$p.closeSideMenu = function ($elem) {
+    $p.clearDialogs();
+    if (!$elem) $('#hamburger').prop('checked', false);
+    $('.menubox > input[class="toggle"]').prop('checked', false);
+}
