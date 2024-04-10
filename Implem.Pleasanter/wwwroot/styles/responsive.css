@@ -222,6 +222,7 @@ z-index: 100;
 font-size: 3.2vw;
 line-height: 7vw;
 transition: .5s;
+background-position: 0 0;
 }
 
 #Navigations.open {
@@ -664,7 +665,7 @@ overflow: hidden;
 @media screen and (max-width: 1024px) and (min-width: 0px) {
   #Logo a {
     align-items: center;
-    display: flex;
+    display: inline-flex;
   }
   #Logo #ProductLogo {
     font-size: 18px;
@@ -1174,6 +1175,9 @@ overflow: hidden;
     width: 70%;
     padding-top: 112px;
     opacity: 0;
+  }
+  #Navigations:not(.open) {
+     pointer-events: none;
   }
   #Navigations.open {
     opacity: 1;
