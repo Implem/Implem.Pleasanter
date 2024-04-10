@@ -64,13 +64,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         action: () => hb
                             .Button(
                                 text: Displays.OK(context: context),
-                                controlCss: "button-icon validate",
+                                controlCss: "button-icon validate button-positive",
                                 onClick: "$p.openSetNumericRangeOK('" + context.Forms.ControlId() + "');",
                                 icon: "ui-icon-arrowreturnthick-1-e",
                                 method: "post")
                             .Button(
                                 text: Displays.Cancel(context: context),
-                                controlCss: "button-icon",
+                                controlCss: "button-icon button-neutral",
                                 onClick: $"$p.closeSiteSetNumericRangeDialog('{context.Forms.ControlId()}')",
                                 icon: "ui-icon-cancel")
                             .Button(
