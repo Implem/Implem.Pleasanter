@@ -1,4 +1,7 @@
 ﻿using Implem.Libraries.Utilities;
+using DiffMatchPatch;
+using System.Collections.Generic;
+
 namespace Implem.Pleasanter.Libraries.Settings
 {
     public class NotificationColumnFormat
@@ -7,6 +10,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string Prefix;
         public string Delimiter;
         public string Allow;
+        public string DiffTypes;
         public bool? Always;
         public ValueDisplayTypes? DisplayTypes;
         public bool? ValueOnly;
@@ -60,7 +64,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case ValueDisplayTypes.BeforeAndAfterChange:
                 case null:
                 default:
-                    return $"{Header(column)}{saved}{SeperateLine(column)}{GetAllow()}{SeperateLine(column)}{Self(self)}";
+                    return GetDiffTypes() == "DiffMatchPatch" ?
+                        Self(GetDiff(column, saved, self)) :
+                        $"{Header(column)}{saved}{SeperateLine(column)}{GetAllow()}{SeperateLine(column)}{Self(self)}";
             }
         }
 
@@ -87,11 +93,39 @@ namespace Implem.Pleasanter.Libraries.Settings
             return Strings.CoalesceEmpty(Allow, " => ");
         }
 
+        private string GetDiffTypes()
+        {
+            return Strings.CoalesceEmpty(DiffTypes, "standard");
+        }
+
         private string Self(string self)
         {
             return self?.EndsWith("\n") == true
                 ? self
                 : self + "\n";
+        }
+
+        private string GetDiff(Column column, string saved, string self)
+        {
+            string diffText = "";
+            diff_match_patch dmp = new diff_match_patch();
+            dmp.Diff_Timeout = 0;
+            List<Diff> results = dmp.diff_main(self, saved);
+            foreach (Diff diff in results) {
+                switch (diff.operation)
+                {
+                    case Operation.EQUAL:
+                        diffText += diff.text;
+                        break;
+                    case Operation.DELETE:
+                        diffText += $"(-{diff.text})";
+                        break;
+                    case Operation.INSERT:
+                        diffText += $"(+{diff.text})";
+                        break;
+                }
+            }
+            return $"{Header(column)}{diffText}";
         }
     }
 }
