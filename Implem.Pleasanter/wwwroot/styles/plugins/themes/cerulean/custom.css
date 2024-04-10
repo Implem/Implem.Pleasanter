@@ -266,15 +266,8 @@ nav.both.cf {
     padding: 8px 16px 0;
     border: none;
     border-radius: 0;
-    border-top: 1px solid #CECECE;
     background-color: #DEECF9;
     color: #222222;
-}
-
-#MainForm #ViewFilters.reduced {
-    border-right: 1px solid #CECECE;
-    border-bottom: 1px solid #CECECE;
-    background-color: #FFFFFF;
 }
 
 #MainForm #ViewFilters > .display-control {
@@ -288,20 +281,12 @@ nav.both.cf {
 
 /* 集計 */
 #MainForm #Aggregations {
-    margin: 0 0 6px 0;
+    margin: 0;
     padding: 8px 16px 0;
     border: none;
     border-radius: 0;
-    border-bottom: 1px solid #CECECE;
     background-color: #DEECF9;
     color: #222222;
-}
-
-#MainForm #Aggregations.reduced {
-    border-right: 1px solid #CECECE;
-    border-top: 1px solid #CECECE;
-    padding: 8px 25px 0 15px;
-    background-color: #FFFFFF;
 }
 
 #MainForm #Aggregations .label {
@@ -999,14 +984,6 @@ table.grid tbody td > input {
     position: static;
     border-radius: 0;
     background-color: #FFF9E3;
-}
-
-#Application #Guide #ExpandGuides {
-    border-right: 1px solid #CECECE;
-    border-top: 1px solid #CECECE;
-    margin: 0 0 6px 0;
-    padding: 13px 30px 13px 15px;
-    background-color: #FFFFFF;
 }
 
 #HeaderTitleContainer #HeaderTitle {

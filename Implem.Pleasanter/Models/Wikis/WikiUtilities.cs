@@ -668,12 +668,6 @@ namespace Implem.Pleasanter.Models
                                 ? wikiModel.WikiId
                                 : wikiModel.SiteId)),
                     action: () => hb
-                        .Guide(
-                            context: context,
-                            ss: ss,
-                            view: Views.GetBySession(
-                                context: context,
-                                ss: ss))
                         .RecordHeader(
                             context: context,
                             ss: ss,

@@ -293,14 +293,6 @@ pre {
         margin: 0px 0px 0px 8px;
     }
 
-#Guide.reduced {
-    width: fit-content;
-}
-
-#MainForm > #Guide > #ExpandGuides {
-    float: left;
-}
-
 #Guide > div {
     width: 100%;
     display: block;
@@ -315,21 +307,19 @@ pre {
 }
 
 #Guide > .with-icon-close {
-    padding: 5px 5px 2px 5px;
+    padding: 10px 5px 10px;
 }
-    #Guide > div > #ReduceGuides {
-        float: left;
-        cursor: pointer;
-    }
+
+#Guide > div > #ReduceGuides {
+    float: left;
+    cursor: pointer;
+    padding-right: 5px;
+}
 
 #Guide > #ExpandGuides {
-    float: none;
-    margin: 0 5px 0 0;
-    padding: 5px 10px 5px 0;
-    background: initial;
-    border: 0;
     font-weight: bold;
     cursor: pointer;
+    padding: 10px 5px 10px;
 }
 
 #CopyToClipboards > .display-control {
@@ -1379,10 +1369,6 @@ th.calendar-header {
 
 .highlight {
     background: #ff0;
-}
-
-#ViewModeContainer {
-    clear: both;
 }
 
 #MainCommandsContainer {

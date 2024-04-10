@@ -79,9 +79,6 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        /// <summary>
-        /// Fixed:
-        /// </summary>
         private static string ViewModeTemplate(
             this HtmlBuilder hb,
             Context context,
@@ -139,10 +136,6 @@ namespace Implem.Pleasanter.Models
                                         _checked: view.ShowHistory == true,
                                         labelText: Displays.ShowHistory(context:context),
                                         _using: ss.HistoryOnGrid == true))
-                            .Guide(
-                                context: context,
-                                ss: ss,
-                                view: view)
                             .ViewFilters(
                                 context: context,
                                 ss: ss,
@@ -1458,9 +1451,6 @@ namespace Implem.Pleasanter.Models
                 value: context.Id.ToString());
         }
 
-        /// <summary>
-        /// Fixed:
-        /// </summary>
         private static HtmlBuilder Editor(
             this HtmlBuilder hb,
             Context context,
@@ -1494,12 +1484,6 @@ namespace Implem.Pleasanter.Models
                                 ? resultModel.ResultId
                                 : resultModel.SiteId)),
                     action: () => hb
-                        .Guide(
-                            context: context,
-                            ss: ss,
-                            view: Views.GetBySession(
-                                context: context,
-                                ss: ss))
                         .RecordHeader(
                             context: context,
                             ss: ss,

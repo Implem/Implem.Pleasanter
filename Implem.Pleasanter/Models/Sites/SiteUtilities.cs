@@ -3682,9 +3682,6 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 siteModel: siteModel);
-            var view = Views.GetBySession(
-                context: context,
-                ss: ss);
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
@@ -3698,7 +3695,9 @@ namespace Implem.Pleasanter.Models
             return hb.Template(
                 context: context,
                 ss: ss,
-                view: view,
+                view: Views.GetBySession(
+                    context: context,
+                    ss: ss),
                 siteId: siteModel.SiteId,
                 parentId: siteModel.ParentId,
                 referenceType: "Sites",
@@ -3715,10 +3714,6 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     id: ss.SiteId)),
                             action: () => hb
-                                .Guide(
-                                    context: context,
-                                    ss: ss,
-                                    view: view)
                                 .SiteMenu(
                                     context: context,
                                     siteModel: siteModel,

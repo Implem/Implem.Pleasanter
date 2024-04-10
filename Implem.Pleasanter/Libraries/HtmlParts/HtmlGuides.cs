@@ -30,7 +30,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                             .OnClick("$p.send($(this));")
                                             .DataMethod("post"),
                                         action: () => hb
-                                            .Span(css: "ui-icon ui-icon-folder-open")
+                                            .Span(css: "ui-icon ui-icon-plusthick")
                                             .Text(text: Displays.Guide(context: context) + ":")))
                             : hb.Div(id: "Guide", action: () =>
                                 hb.Guide(
@@ -63,7 +63,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 .OnClick("$p.send($(this));")
                                 .DataMethod("post"),
                             action: () => hb
-                                .Span(css: "ui-icon ui-icon-close"))
+                                .Span(css: "ui-icon ui-icon-minusthick"))
                     .Div(css: "markup", action: () => hb
                         .Text(text: text)))
                 : hb.Div(action: () => hb

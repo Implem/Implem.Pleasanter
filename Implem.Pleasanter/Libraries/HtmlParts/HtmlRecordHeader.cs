@@ -32,7 +32,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         ss: ss,
                         verType: baseModel.VerType,
                         readOnly: baseModel.ReadOnly)
-                : hb.Div(id: "RecordHeader");
+                : hb;
         }
     }
 }
