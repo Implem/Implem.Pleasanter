@@ -32,6 +32,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static Dictionary<string, string> Get(Context context, bool includeUserArea = false, string sessionGuid = null)
         {
+            // fixme Sessionの取得はここ
             return Repository.ExecuteTable(
                 context: context,
                 statements: new SqlStatement[]

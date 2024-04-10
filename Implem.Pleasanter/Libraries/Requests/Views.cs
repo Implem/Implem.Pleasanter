@@ -9,6 +9,7 @@ namespace Implem.Pleasanter.Libraries.Requests
     {
         public static View GetBySession(Context context, SiteSettings ss, bool setSession = true)
         {
+            // fixme 大本はここ
             var useUsersView = ss.SaveViewType == SiteSettings.SaveViewTypes.User;
             setSession = setSession && ss.SaveViewType != SiteSettings.SaveViewTypes.None;
             var view = !context.Ajax
@@ -215,17 +216,14 @@ namespace Implem.Pleasanter.Libraries.Requests
                 {
 
                 }
-                else
-                {
-                    SessionUtilities.Set(
-                    context: context,
-                    ss: ss,
-                    key: key,
-                    view: view,
-                    sessionGuid: useUsersView
-                        ? "@" + context.UserId
-                        : null);
-                }
+                SessionUtilities.Set(
+                context: context,
+                ss: ss,
+                key: key,
+                view: view,
+                sessionGuid: useUsersView
+                    ? "@" + context.UserId
+                    : null);
             }
         }
     }
