@@ -11,6 +11,12 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string Delimiter;
         public string Allow;
         public string DiffTypes;
+        public string StartBracket;
+        public string EndBracket;
+        public string DeletePrefixSymbol;
+        public string DeleteSuffixSymbol;
+        public string AddPrefixSymbol;
+        public string AddSuffixSymbol;
         public bool? Always;
         public ValueDisplayTypes? DisplayTypes;
         public bool? ValueOnly;
@@ -107,6 +113,13 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         private string GetDiff(Column column, string saved, string self)
         {
+            string startBracket = Strings.CoalesceEmpty(StartBracket, "(");
+            string endBracket = Strings.CoalesceEmpty(EndBracket, ")");
+            string deletePrefixSymbol = Strings.CoalesceEmpty(DeletePrefixSymbol, "-");
+            string deleteSuffixSymbol = Strings.CoalesceEmpty(StartBracket, "");
+            string addPrefixSymbol = Strings.CoalesceEmpty(AddPrefixSymbol, "(");
+            string addSuffixSymbol = Strings.CoalesceEmpty(AddSuffixSymbol, "");
+
             string diffText = "";
             diff_match_patch dmp = new diff_match_patch();
             dmp.Diff_Timeout = 0;
@@ -118,14 +131,19 @@ namespace Implem.Pleasanter.Libraries.Settings
                         diffText += diff.text;
                         break;
                     case Operation.DELETE:
-                        diffText += $"(-{diff.text})";
+                        diffText += $"{startBracket}{deletePrefixSymbol}{diff.text}{deleteSuffixSymbol}{endBracket}";
                         break;
                     case Operation.INSERT:
-                        diffText += $"(+{diff.text})";
+                        diffText += $"{startBracket}{addPrefixSymbol}{diff.text}{addSuffixSymbol}{endBracket}";
                         break;
                 }
             }
             return $"{Header(column)}{diffText}";
+        }
+
+        private string GetStartBracket()
+        {
+            return Strings.CoalesceEmpty(StartBracket, "(");
         }
     }
 }
