@@ -427,6 +427,13 @@ thead th:has(.control-checkbox) {
     padding: 4px 8px 4px 8px;
 }
 
+.field-control span.control-text.status-preparation,
+.field-control span.control-text.status-inprogress,
+.field-control span.control-text.status-closed,
+.field-control span.control-text.status-rejected {
+    color: #fff;
+}
+
 .field-control pre {
     color: #222222;
 }
