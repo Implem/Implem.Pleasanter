@@ -796,6 +796,11 @@ fieldset .legend{
     margin: 16px;
 }
 
+#ViewModeContainer #GanttAxis {
+    margin-left: -2px;
+    width: calc(100% + 2px);
+}
+
 #Editor #RecordHeader {
     position: relative;
     margin: 0;
