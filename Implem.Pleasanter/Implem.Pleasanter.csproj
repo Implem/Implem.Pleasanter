@@ -117,6 +117,7 @@
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_Response_ResetGroupMembers.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_Return.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_View.json" />
+    <Content Remove="App_Data\Definitions\Definition_Code\Model_WriteAttachmentsExecute_Create.json" />
   </ItemGroup>
 
   <ItemGroup>
