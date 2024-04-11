@@ -86,6 +86,7 @@
         "ClassA",
         "Body",
         "DescriptionA",
+        "AttachmentsA",
         "NumB",
         "NumC",
         "NumD",
@@ -94,11 +95,11 @@
         "NumA",
         "NumG",
         "DescriptionB",
-        "AttachmentsA",
         "Comments"
     ],
     "TitleColumns": [
-        "ClassA"
+        "DateA",
+        "Owner"
     ],
     "LinkColumns": [
         "ResultId",
@@ -136,11 +137,12 @@
         },
         {
             "ColumnName": "Owner",
+            "LabelText": "営業担当者",
             "ValidateRequired": true
         },
         {
             "ColumnName": "ClassA",
-            "LabelText": "目標達成",
+            "LabelText": "目標達成度",
             "ChoicesText": "達成\n未達成",
             "ValidateRequired": true
         },
@@ -228,7 +230,7 @@
         },
         {
             "ColumnName": "Status",
-            "ChoicesText": "100,起票,起,status-new\n900,上司確認済,済,status-closed\n910,保留,留,status-rejected",
+            "ChoicesText": "100,起票,起,status-new\n900,レビュー済,済,status-closed\n910,保留,留,status-rejected",
             "ValidateRequired": true
         },
         {

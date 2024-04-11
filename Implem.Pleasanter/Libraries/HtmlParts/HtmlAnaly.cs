@@ -22,7 +22,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .Button(
                     controlId: "OpenAnalyPartDialog",
                     text: Displays.Add(context: context),
-                    controlCss: "button-icon",
+                    controlCss: "button-icon button-positive",
                     onClick: "$p.openAnalyPartDialog($(this));",
                     icon: "ui-icon-plus",
                     action: "OpenAnalyPartDialog",
@@ -111,13 +111,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Button(
                             text: Displays.Add(context: context),
                             controlId: "AddAnalyPart",
-                            controlCss: "button-icon",
+                            controlCss: "button-icon button-positive",
                             onClick: "$p.send($(this));",
                             method: "post",
                             icon: "ui-icon-disk")
                         .Button(
                             text: Displays.Cancel(context: context),
-                            controlCss: "button-icon",
+                            controlCss: "button-icon button-neutral",
                             onClick: "$p.closeDialog($(this));",
                             icon: "ui-icon-cancel")));
         }

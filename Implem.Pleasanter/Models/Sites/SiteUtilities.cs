@@ -84,6 +84,7 @@ namespace Implem.Pleasanter.Models
                 siteId: ss.SiteId,
                 parentId: ss.ParentId,
                 referenceType: "Sites",
+                useTitle: false,
                 script: JavaScripts.ViewMode(viewMode),
                 userScript: ss.ViewModeScripts(context: context),
                 userStyle: ss.ViewModeStyles(context: context),
@@ -2482,7 +2483,7 @@ namespace Implem.Pleasanter.Models
                         extensions: () => hb
                             .Button(
                                 text: Displays.GoBack(context: context),
-                                controlCss: "button-icon",
+                                controlCss: "button-icon button-neutral",
                                 accessKey: "q",
                                 onClick: "$p.send($(this),'MainForm');",
                                 icon: "ui-icon-disk",
@@ -2491,7 +2492,7 @@ namespace Implem.Pleasanter.Models
                             .Button(
                                 controlId: "OpenSiteTitleDialog",
                                 text: Displays.Create(context: context),
-                                controlCss: "button-icon hidden",
+                                controlCss: "button-icon hidden button-positive",
                                 onClick: "$p.openSiteTitleDialog($(this));",
                                 icon: "ui-icon-disk")))
                 .Invoke("setTemplate")
@@ -3036,7 +3037,7 @@ namespace Implem.Pleasanter.Models
                             .Div(css: "command-center", action: () => hb
                                 .Button(
                                     text: Displays.Create(context: context),
-                                    controlCss: "button-icon validate",
+                                    controlCss: "button-icon validate button-positive",
                                     onClick: "$p.send($(this));",
                                     icon: "ui-icon-disk",
                                     action: "CreateLink",
@@ -3044,7 +3045,7 @@ namespace Implem.Pleasanter.Models
                                     confirm: "ConfirmCreateLink")
                                 .Button(
                                     text: Displays.Cancel(context: context),
-                                    controlCss: "button-icon",
+                                    controlCss: "button-icon button-neutral",
                                     onClick: "$p.closeDialog($(this));",
                                     icon: "ui-icon-cancel")))))
                 .ReplaceAll("#SiteMenu", new HtmlBuilder().SiteMenu(
@@ -3628,6 +3629,7 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 view: null,
                 referenceType: "Sites",
+                useTitle: false,
                 script: (Parameters.Site.TopOrderBy <= 0
                     || context.UserId == Parameters.Site.TopOrderBy
                     || Permissions.PrivilegedUsers(loginId: context.LoginId))
@@ -3697,6 +3699,7 @@ namespace Implem.Pleasanter.Models
                 siteId: siteModel.SiteId,
                 parentId: siteModel.ParentId,
                 referenceType: "Sites",
+                useTitle: false,
                 script: "$p.setSiteMenu();",
                 action: () =>
                 {
@@ -3906,6 +3909,58 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
+                if (context.ThemeVersionOver2_0())
+                {
+                    if (hasImage)
+                    {
+                        hb.Div(
+                            css: "site-icon",
+                            action: () => hb
+                                .Img(src: Locations.Get(
+                                    context: context,
+                                    parts: new string[]
+                                    {
+                                        "Items",
+                                        siteId.ToString(),
+                                        "Binaries",
+                                        "SiteImageThumbnail",
+                                        siteImagePrefix
+                                    })));
+                    }
+                    else
+                    {
+                        switch (referenceType)
+                        {
+                            case "Sites":
+                                hb.SiteMenuIcon(
+                                    context: context,
+                                    iconName: "icon-site-sites.svg");
+                                break;
+                            case "Issues":
+                                hb.SiteMenuIcon(
+                                    context: context,
+                                    iconName: "icon-site-issues.svg");
+                                break;
+                            case "Results":
+                                hb.SiteMenuIcon(
+                                    context: context,
+                                    iconName: "icon-site-results.svg");
+                                break;
+                            case "Wikis":
+                                hb.SiteMenuIcon(
+                                    context: context,
+                                    iconName: "icon-site-wikis.svg");
+                                break;
+                            case "Dashboards":
+                                hb.SiteMenuIcon(
+                                    context: context,
+                                    iconName: "icon-site-dashboards.svg");
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
                 hb.SiteMenuChild(
                     context: context,
                     siteId: siteId,
@@ -3962,6 +4017,25 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        private static HtmlBuilder SiteMenuIcon(
+            this HtmlBuilder hb,
+            Context context,
+            string iconName,
+            bool _using = true)
+        {
+            if (_using == false) return hb;
+            return hb.Div(
+                css: "site-icon",
+                action: () => hb
+                    .Img(src: Locations.Get(
+                        context: context,
+                        "Images",
+                        iconName)));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private static HtmlBuilder SiteMenuChild(
             this HtmlBuilder hb,
             Context context,
@@ -3970,7 +4044,7 @@ namespace Implem.Pleasanter.Models
             bool hasImage,
             string siteImagePrefix)
         {
-            if (hasImage)
+            if (context.ThemeVersion1_0() && hasImage)
             {
                 hb.Img(
                     src: Locations.Get(
@@ -4191,14 +4265,14 @@ namespace Implem.Pleasanter.Models
                                 .Button(
                                     controlId: "CreateByTemplate",
                                     text: Displays.Create(context: context),
-                                    controlCss: "button-icon validate",
+                                    controlCss: "button-icon validate button-positive",
                                     onClick: "$p.send($(this));",
                                     icon: "ui-icon-gear",
                                     action: "CreateByTemplate",
                                     method: "post")
                                 .Button(
                                     text: Displays.Cancel(context: context),
-                                    controlCss: "button-icon",
+                                    controlCss: "button-icon button-neutral",
                                     onClick: "$p.closeDialog($(this));",
                                     icon: "ui-icon-cancel"))));
         }
@@ -4291,6 +4365,12 @@ namespace Implem.Pleasanter.Models
                                         ? " sites"
                                         : " dashboards"), action: () => hb
                                 .Span(css: "title", action: () => hb.Text(title))
+                                .SiteMenuIcon(
+                                    context: context,
+                                    iconName: ss.ReferenceType != "Dashboards"
+                                        ? "icon-site-sites.svg"
+                                        : "icon-site-dashboards.svg",
+                                    _using: context.ThemeVersionOver2_0())
                                 .Div(css: "heading", _using: ss.ReferenceType != "Dashboards"))))
                                     .ToString();
         }
@@ -4956,14 +5036,14 @@ namespace Implem.Pleasanter.Models
                             labelText: Displays.File(context: context))
                         .Button(
                             controlId: "SetSiteImage",
-                            controlCss: "button-icon",
+                            controlCss: "button-icon button-positive",
                             text: Displays.Upload(context: context),
                             onClick: "$p.uploadSiteImage($(this));",
                             icon: "ui-icon-disk",
                             action: "binaries/updatesiteimage",
                             method: "post")
                         .Button(
-                            controlCss: "button-icon",
+                            controlCss: "button-icon button-negative",
                             text: Displays.Delete(context: context),
                             onClick: "$p.send($(this));",
                             icon: "ui-icon-trash",
@@ -5248,14 +5328,14 @@ namespace Implem.Pleasanter.Models
                     .Button(
                         controlId: "SetGridColumn",
                         text: Displays.Change(context: context),
-                        controlCss: "button-icon validate",
+                        controlCss: "button-icon validate button-positive",
                         onClick: "$p.setGridColumn($(this));",
                         icon: "ui-icon-gear",
                         action: "SetSiteSettings",
                         method: "post")
                     .Button(
                         text: Displays.Cancel(context: context),
-                        controlCss: "button-icon",
+                        controlCss: "button-icon button-neutral",
                         onClick: "$p.closeDialog($(this));",
                         icon: "ui-icon-cancel"));
         }
@@ -5633,14 +5713,14 @@ namespace Implem.Pleasanter.Models
                     .Button(
                         controlId: "SetFilterColumn",
                         text: Displays.Change(context: context),
-                        controlCss: "button-icon validate",
+                        controlCss: "button-icon validate button-positive",
                         onClick: "$p.send($(this));",
                         icon: "ui-icon-gear",
                         action: "SetSiteSettings",
                         method: "post")
                     .Button(
                         text: Displays.Cancel(context: context),
-                        controlCss: "button-icon",
+                        controlCss: "button-icon button-neutral",
                         onClick: "$p.closeDialog($(this));",
                         icon: "ui-icon-cancel"));
         }
@@ -5766,14 +5846,14 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlId: "SetAggregationDetails",
                             text: Displays.Change(context: context),
-                            controlCss: "button-icon",
+                            controlCss: "button-icon button-positive",
                             onClick: "$p.setAggregationDetails($(this));",
                             icon: "ui-icon-gear",
                             action: "SetSiteSettings",
                             method: "post")
                         .Button(
                             text: Displays.Cancel(context: context),
-                            controlCss: "button-icon",
+                            controlCss: "button-icon button-neutral",
                             onClick: "$p.closeDialog($(this));",
                             icon: "ui-icon-cancel")));
         }
@@ -6222,7 +6302,7 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlId: "SetEditorColumn",
                             text: Displays.Change(context: context),
-                            controlCss: "button-icon validate",
+                            controlCss: "button-icon validate button-positive",
                             onClick: "$p.send($(this));",
                             icon: "ui-icon-gear",
                             action: "SetSiteSettings",
@@ -6238,7 +6318,7 @@ namespace Implem.Pleasanter.Models
                             confirm: "ConfirmReset")
                         .Button(
                             text: Displays.Cancel(context: context),
-                            controlCss: "button-icon",
+                            controlCss: "button-icon button-neutral",
                             onClick: "$p.closeDialog($(this));",
                             icon: "ui-icon-cancel")));
             }
@@ -6286,7 +6366,7 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlId: "SetEditorColumn",
                             text: Displays.Change(context: context),
-                            controlCss: "button-icon validate",
+                            controlCss: "button-icon validate button-positive",
                             onClick: "$p.send($(this));",
                             icon: "ui-icon-gear",
                             action: "SetSiteSettings",
@@ -6302,7 +6382,7 @@ namespace Implem.Pleasanter.Models
                             confirm: "ConfirmReset")
                         .Button(
                             text: Displays.Cancel(context: context),
-                            controlCss: "button-icon",
+                            controlCss: "button-icon button-neutral",
                             onClick: "$p.closeDialog($(this));",
                             icon: "ui-icon-cancel")));
         }
@@ -7180,7 +7260,7 @@ namespace Implem.Pleasanter.Models
                                 onClick: "$p.moveColumns(event, $(this),'Title');",
                                 icon: "ui-icon-circle-triangle-e")
                             .Button(
-                                controlCss: "button-icon",
+                                controlCss: "button-icon button-positive",
                                 text: Displays.Synchronize(context: context),
                                 onClick: "$p.send($(this));",
                                 icon: "ui-icon-refresh",
@@ -7382,7 +7462,7 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlId: "AddTab",
                             text: Displays.Add(context: context),
-                            controlCss: "button-icon validate",
+                            controlCss: "button-icon validate button-positive",
                             onClick: "$p.send($(this));",
                             icon: "ui-icon-disk",
                             action: "SetSiteSettings",
@@ -7391,7 +7471,7 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlId: "UpdateTab",
                             text: Displays.Change(context: context),
-                            controlCss: "button-icon validate",
+                            controlCss: "button-icon validate button-positive",
                             onClick: "$p.send($(this));",
                             icon: "ui-icon-disk",
                             action: "SetSiteSettings",
@@ -7399,7 +7479,7 @@ namespace Implem.Pleasanter.Models
                             _using: controlId == "EditTabDialog")
                         .Button(
                             text: Displays.Cancel(context: context),
-                            controlCss: "button-icon",
+                            controlCss: "button-icon button-neutral",
                             onClick: "$p.closeDialog($(this));",
                             icon: "ui-icon-cancel")));
         }
@@ -7481,14 +7561,14 @@ namespace Implem.Pleasanter.Models
                             .Button(
                                 controlId: "UpdateSection",
                                 text: Displays.Change(context: context),
-                                controlCss: "button-icon validate",
+                                controlCss: "button-icon validate button-positive",
                                 onClick: "$p.send($(this));",
                                 icon: "ui-icon-disk",
                                 action: "SetSiteSettings",
                                 method: "post")
                             .Button(
                                 text: Displays.Cancel(context: context),
-                                controlCss: "button-icon",
+                                controlCss: "button-icon button-neutral",
                                 onClick: "$p.closeDialog($(this));",
                                 icon: "ui-icon-cancel")));
         }
@@ -7513,14 +7593,14 @@ namespace Implem.Pleasanter.Models
                             .Button(
                                 controlId: "UpdateLink",
                                 text: Displays.Change(context: context),
-                                controlCss: "button-icon validate",
+                                controlCss: "button-icon validate button-positive",
                                 onClick: "$p.send($(this));",
                                 icon: "ui-icon-disk",
                                 action: "SetSiteSettings",
                                 method: "post")
                             .Button(
                                 text: Displays.Cancel(context: context),
-                                controlCss: "button-icon",
+                                controlCss: "button-icon button-neutral",
                                 onClick: "$p.closeDialog($(this));",
                                 icon: "ui-icon-cancel")));
         }
@@ -7772,7 +7852,7 @@ namespace Implem.Pleasanter.Models
                         confirm: Displays.ConfirmDelete(context: context))
                     .Button(
                         controlId: "SynchronizeSummaries",
-                        controlCss: "button-icon",
+                        controlCss: "button-icon button-positive",
                         text: Displays.Synchronize(context: context),
                         onClick: "$p.setAndSend('#EditSummary', $(this));",
                         icon: "ui-icon-refresh",
@@ -8026,7 +8106,7 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlId: "AddSummary",
                             text: Displays.Add(context: context),
-                            controlCss: "button-icon validate",
+                            controlCss: "button-icon validate button-positive",
                             onClick: "$p.setSummary($(this));",
                             icon: "ui-icon-disk",
                             action: "SetSiteSettings",
@@ -8035,7 +8115,7 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlId: "UpdateSummary",
                             text: Displays.Change(context: context),
-                            controlCss: "button-icon validate",
+                            controlCss: "button-icon validate button-positive",
                             onClick: "$p.setSummary($(this));",
                             icon: "ui-icon-disk",
                             action: "SetSiteSettings",
@@ -8043,7 +8123,7 @@ namespace Implem.Pleasanter.Models
                             _using: controlId == "EditSummary")
                         .Button(
                             text: Displays.Cancel(context: context),
-                            controlCss: "button-icon",
+                            controlCss: "button-icon button-neutral",
                             onClick: "$p.closeDialog($(this));",
                             icon: "ui-icon-cancel")));
         }
@@ -8223,7 +8303,7 @@ namespace Implem.Pleasanter.Models
                         confirm: Displays.ConfirmDelete(context: context))
                     .Button(
                         controlId: "SynchronizeFormulas",
-                        controlCss: "button-icon",
+                        controlCss: "button-icon button-positive",
                         text: Displays.Synchronize(context: context),
                         onClick: "$p.setAndSend('#EditFormula', $(this));",
                         icon: "ui-icon-refresh",
@@ -8456,7 +8536,7 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlId: "AddFormula",
                             text: Displays.Add(context: context),
-                            controlCss: "button-icon validate",
+                            controlCss: "button-icon validate button-positive",
                             onClick: "$p.send($(this));",
                             icon: "ui-icon-disk",
                             action: "SetSiteSettings",
@@ -8465,7 +8545,7 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlId: "UpdateFormula",
                             text: Displays.Change(context: context),
-                            controlCss: "button-icon validate",
+                            controlCss: "button-icon validate button-positive",
                             onClick: "$p.send($(this));",
                             icon: "ui-icon-disk",
                             action: "SetSiteSettings",
@@ -8473,7 +8553,7 @@ namespace Implem.Pleasanter.Models
                             _using: controlId == "EditFormula")
                         .Button(
                             text: Displays.Cancel(context: context),
-                            controlCss: "button-icon",
+                            controlCss: "button-icon button-neutral",
                             onClick: "$p.closeDialog($(this));",
                             icon: "ui-icon-cancel")));
         }
@@ -8781,7 +8861,7 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlId: "AddProcess",
                             text: Displays.Add(context: context),
-                            controlCss: "button-icon validate",
+                            controlCss: "button-icon validate button-positive",
                             onClick: "$p.send($(this));",
                             icon: "ui-icon-disk",
                             action: "SetSiteSettings",
@@ -8790,7 +8870,7 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlId: "UpdateProcess",
                             text: Displays.Change(context: context),
-                            controlCss: "button-icon validate",
+                            controlCss: "button-icon validate button-positive",
                             onClick: "$p.send($(this));",
                             icon: "ui-icon-disk",
                             action: "SetSiteSettings",
@@ -8798,7 +8878,7 @@ namespace Implem.Pleasanter.Models
                             _using: controlId == "EditProcess")
                         .Button(
                             text: Displays.Cancel(context: context),
-                            controlCss: "button-icon",
+                            controlCss: "button-icon button-neutral",
                             onClick: "$p.closeDialog($(this));",
                             icon: "ui-icon-cancel")));
         }
@@ -9204,7 +9284,7 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlId: "AddProcessValidateInput",
                             text: Displays.Add(context: context),
-                            controlCss: "button-icon validate",
+                            controlCss: "button-icon validate button-positive",
                             icon: "ui-icon-disk",
                             onClick: "$p.send($(this));",
                             action: "SetSiteSettings",
@@ -9213,7 +9293,7 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlId: "UpdateProcessValidateInput",
                             text: Displays.Change(context: context),
-                            controlCss: "button-icon validate",
+                            controlCss: "button-icon validate button-positive",
                             onClick: "$p.send($(this));",
                             icon: "ui-icon-disk",
                             action: "SetSiteSettings",
@@ -9221,7 +9301,7 @@ namespace Implem.Pleasanter.Models
                             _using: controlId == "EditProcessValidateInput")
                         .Button(
                             text: Displays.Cancel(context: context),
-                            controlCss: "button-icon",
+                            controlCss: "button-icon button-neutral",
                             onClick: "$p.closeDialog($(this));",
                             icon: "ui-icon-cancel")));
         }
@@ -9608,7 +9688,7 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlId: "AddProcessDataChange",
                             text: Displays.Add(context: context),
-                            controlCss: "button-icon validate",
+                            controlCss: "button-icon validate button-positive",
                             icon: "ui-icon-disk",
                             onClick: "$p.send($(this));",
                             action: "SetSiteSettings",
@@ -9617,7 +9697,7 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlId: "UpdateProcessDataChange",
                             text: Displays.Change(context: context),
-                            controlCss: "button-icon validate",
+                            controlCss: "button-icon validate button-positive",
                             onClick: "$p.send($(this));",
                             icon: "ui-icon-disk",
                             action: "SetSiteSettings",
@@ -9625,7 +9705,7 @@ namespace Implem.Pleasanter.Models
                             _using: controlId == "EditProcessDataChange")
                         .Button(
                             text: Displays.Cancel(context: context),
-                            controlCss: "button-icon",
+                            controlCss: "button-icon button-neutral",
                             onClick: "$p.closeDialog($(this));",
                             icon: "ui-icon-cancel")));
         }
@@ -9923,7 +10003,7 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlId: "AddProcessNotification",
                             text: Displays.Add(context: context),
-                            controlCss: "button-icon validate",
+                            controlCss: "button-icon validate button-positive",
                             icon: "ui-icon-disk",
                             onClick: "$p.send($(this));",
                             action: "SetSiteSettings",
@@ -9932,7 +10012,7 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlId: "UpdateProcessNotification",
                             text: Displays.Change(context: context),
-                            controlCss: "button-icon validate",
+                            controlCss: "button-icon validate button-positive",
                             onClick: "$p.send($(this));",
                             icon: "ui-icon-disk",
                             action: "SetSiteSettings",
@@ -9940,7 +10020,7 @@ namespace Implem.Pleasanter.Models
                             _using: controlId == "EditProcessNotification")
                         .Button(
                             text: Displays.Cancel(context: context),
-                            controlCss: "button-icon",
+                            controlCss: "button-icon button-neutral",
                             onClick: "$p.closeDialog($(this));",
                             icon: "ui-icon-cancel")));
         }
@@ -10185,7 +10265,7 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlId: "AddStatusControl",
                             text: Displays.Add(context: context),
-                            controlCss: "button-icon validate",
+                            controlCss: "button-icon validate button-positive",
                             onClick: "$p.send($(this));",
                             icon: "ui-icon-disk",
                             action: "SetSiteSettings",
@@ -10194,7 +10274,7 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlId: "UpdateStatusControl",
                             text: Displays.Change(context: context),
-                            controlCss: "button-icon validate",
+                            controlCss: "button-icon validate button-positive",
                             onClick: "$p.send($(this));",
                             icon: "ui-icon-disk",
                             action: "SetSiteSettings",
@@ -10202,7 +10282,7 @@ namespace Implem.Pleasanter.Models
                             _using: controlId == "EditStatusControl")
                         .Button(
                             text: Displays.Cancel(context: context),
-                            controlCss: "button-icon",
+                            controlCss: "button-icon button-neutral",
                             onClick: "$p.closeDialog($(this));",
                             icon: "ui-icon-cancel")));
         }
@@ -10633,7 +10713,7 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlId: "AddView",
                             text: Displays.Add(context: context),
-                            controlCss: "button-icon validate",
+                            controlCss: "button-icon validate button-positive",
                             onClick: "$p.send($(this));",
                             icon: "ui-icon-disk",
                             action: "SetSiteSettings",
@@ -10642,7 +10722,7 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlId: "UpdateView",
                             text: Displays.Change(context: context),
-                            controlCss: "button-icon validate",
+                            controlCss: "button-icon validate button-positive",
                             onClick: "$p.send($(this));",
                             icon: "ui-icon-disk",
                             action: "SetSiteSettings",
@@ -10650,7 +10730,7 @@ namespace Implem.Pleasanter.Models
                             _using: controlId == "EditView")
                         .Button(
                             text: Displays.Cancel(context: context),
-                            controlCss: "button-icon",
+                            controlCss: "button-icon button-neutral",
                             onClick: "$p.closeDialog($(this));",
                             icon: "ui-icon-cancel")));
         }
@@ -12214,7 +12294,7 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlId: "AddNotification",
                             text: Displays.Add(context: context),
-                            controlCss: "button-icon validate",
+                            controlCss: "button-icon validate button-positive",
                             icon: "ui-icon-disk",
                             onClick: "$p.setNotification($(this));",
                             action: "SetSiteSettings",
@@ -12223,7 +12303,7 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlId: "UpdateNotification",
                             text: Displays.Change(context: context),
-                            controlCss: "button-icon validate",
+                            controlCss: "button-icon validate button-positive",
                             onClick: "$p.setNotification($(this));",
                             icon: "ui-icon-disk",
                             action: "SetSiteSettings",
@@ -12231,7 +12311,7 @@ namespace Implem.Pleasanter.Models
                             _using: controlId == "EditNotification")
                         .Button(
                             text: Displays.Cancel(context: context),
-                            controlCss: "button-icon",
+                            controlCss: "button-icon button-neutral",
                             onClick: "$p.closeDialog($(this));",
                             icon: "ui-icon-cancel")));
         }
@@ -12641,7 +12721,7 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlId: "AddReminder",
                             text: Displays.Add(context: context),
-                            controlCss: "button-icon validate",
+                            controlCss: "button-icon validate button-positive",
                             icon: "ui-icon-disk",
                             onClick: "$p.setReminder($(this));",
                             action: "SetSiteSettings",
@@ -12650,7 +12730,7 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlId: "UpdateReminder",
                             text: Displays.Change(context: context),
-                            controlCss: "button-icon validate",
+                            controlCss: "button-icon validate button-positive",
                             onClick: "$p.setReminder($(this));",
                             icon: "ui-icon-disk",
                             action: "SetSiteSettings",
@@ -12658,7 +12738,7 @@ namespace Implem.Pleasanter.Models
                             _using: controlId == "EditReminder")
                         .Button(
                             text: Displays.Cancel(context: context),
-                            controlCss: "button-icon",
+                            controlCss: "button-icon button-neutral",
                             onClick: "$p.closeDialog($(this));",
                             icon: "ui-icon-cancel")));
         }
@@ -12911,7 +12991,7 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlId: "AddExport",
                             text: Displays.Add(context: context),
-                            controlCss: "button-icon validate",
+                            controlCss: "button-icon validate button-positive",
                             icon: "ui-icon-disk",
                             onClick: "$p.setExport($(this));",
                             action: "SetSiteSettings",
@@ -12920,7 +13000,7 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlId: "UpdateExport",
                             text: Displays.Change(context: context),
-                            controlCss: "button-icon validate",
+                            controlCss: "button-icon validate button-positive",
                             onClick: "$p.setExport($(this));",
                             icon: "ui-icon-disk",
                             action: "SetSiteSettings",
@@ -12928,7 +13008,7 @@ namespace Implem.Pleasanter.Models
                             _using: controlId == "EditExport")
                         .Button(
                             text: Displays.Cancel(context: context),
-                            controlCss: "button-icon",
+                            controlCss: "button-icon button-neutral",
                             onClick: "$p.closeDialog($(this));",
                             icon: "ui-icon-cancel")));
         }
@@ -13000,14 +13080,14 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlId: "UpdateExportColumn",
                             text: Displays.Change(context: context),
-                            controlCss: "button-icon validate",
+                            controlCss: "button-icon validate button-positive",
                             onClick: "$p.setExportColumn($(this));",
                             icon: "ui-icon-disk",
                             action: "SetSiteSettings",
                             method: "post")
                         .Button(
                             text: Displays.Cancel(context: context),
-                            controlCss: "button-icon",
+                            controlCss: "button-icon button-neutral",
                             onClick: "$p.closeDialog($(this));",
                             icon: "ui-icon-cancel")));
         }
@@ -13510,7 +13590,7 @@ namespace Implem.Pleasanter.Models
                     action: () => hb
                         .Button(
                             controlId: "RebuildSearchIndexes",
-                            controlCss: "button-icon",
+                            controlCss: "button-icon button-positive",
                             text: Displays.RebuildSearchIndexes(context: context),
                             onClick: "$p.send($(this));",
                             icon: "ui-icon-refresh",
@@ -13937,7 +14017,7 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlId: "AddStyle",
                             text: Displays.Add(context: context),
-                            controlCss: "button-icon validate",
+                            controlCss: "button-icon validate button-positive",
                             icon: "ui-icon-disk",
                             onClick: "$p.setStyle($(this));",
                             action: "SetSiteSettings",
@@ -13946,7 +14026,7 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlId: "UpdateStyle",
                             text: Displays.Change(context: context),
-                            controlCss: "button-icon validate",
+                            controlCss: "button-icon validate button-positive",
                             onClick: "$p.setStyle($(this));",
                             icon: "ui-icon-disk",
                             action: "SetSiteSettings",
@@ -13954,7 +14034,7 @@ namespace Implem.Pleasanter.Models
                             _using: controlId == "EditStyle")
                         .Button(
                             text: Displays.Cancel(context: context),
-                            controlCss: "button-icon",
+                            controlCss: "button-icon button-neutral",
                             onClick: "$p.closeDialog($(this));",
                             icon: "ui-icon-cancel")));
         }
@@ -14320,7 +14400,7 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlId: "AddScript",
                             text: Displays.Add(context: context),
-                            controlCss: "button-icon validate",
+                            controlCss: "button-icon validate button-positive",
                             icon: "ui-icon-disk",
                             onClick: "$p.setScript($(this));",
                             action: "SetSiteSettings",
@@ -14329,7 +14409,7 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlId: "UpdateScript",
                             text: Displays.Change(context: context),
-                            controlCss: "button-icon validate",
+                            controlCss: "button-icon validate button-positive",
                             onClick: "$p.setScript($(this));",
                             icon: "ui-icon-disk",
                             action: "SetSiteSettings",
@@ -14337,7 +14417,7 @@ namespace Implem.Pleasanter.Models
                             _using: controlId == "EditScript")
                         .Button(
                             text: Displays.Cancel(context: context),
-                            controlCss: "button-icon",
+                            controlCss: "button-icon button-neutral",
                             onClick: "$p.closeDialog($(this));",
                             icon: "ui-icon-cancel")));
         }
@@ -14755,7 +14835,7 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlId: "AddHtml",
                             text: Displays.Add(context: context),
-                            controlCss: "button-icon validate",
+                            controlCss: "button-icon validate button-positive",
                             icon: "ui-icon-disk",
                             onClick: "$p.setHtml($(this));",
                             action: "SetSiteSettings",
@@ -14764,7 +14844,7 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlId: "UpdateHtml",
                             text: Displays.Change(context: context),
-                            controlCss: "button-icon validate",
+                            controlCss: "button-icon validate button-positive",
                             onClick: "$p.setHtml($(this));",
                             icon: "ui-icon-disk",
                             action: "SetSiteSettings",
@@ -14772,7 +14852,7 @@ namespace Implem.Pleasanter.Models
                             _using: controlId == "EditHtml")
                         .Button(
                             text: Displays.Cancel(context: context),
-                            controlCss: "button-icon",
+                            controlCss: "button-icon button-neutral",
                             onClick: "$p.closeDialog($(this));",
                             icon: "ui-icon-cancel")));
         }
@@ -15138,7 +15218,7 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlId: "AddServerScript",
                             text: Displays.Add(context: context),
-                            controlCss: "button-icon validate",
+                            controlCss: "button-icon validate button-positive",
                             icon: "ui-icon-disk",
                             onClick: "$p.setServerScript($(this));",
                             action: "SetSiteSettings",
@@ -15147,7 +15227,7 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlId: "UpdateServerScript",
                             text: Displays.Change(context: context),
-                            controlCss: "button-icon validate",
+                            controlCss: "button-icon validate button-positive",
                             onClick: "$p.setServerScript($(this));",
                             icon: "ui-icon-disk",
                             action: "SetSiteSettings",
@@ -15155,7 +15235,7 @@ namespace Implem.Pleasanter.Models
                             _using: controlId == "EditServerScript")
                         .Button(
                             text: Displays.Cancel(context: context),
-                            controlCss: "button-icon",
+                            controlCss: "button-icon button-neutral",
                             onClick: "$p.closeDialog($(this));",
                             icon: "ui-icon-cancel")));
         }
@@ -15205,7 +15285,7 @@ namespace Implem.Pleasanter.Models
                     .Div(css: "command-center", action: () => hb
                         .Button(
                             text: Displays.DeleteSite(context: context),
-                            controlCss: "button-icon",
+                            controlCss: "button-icon button-negative",
                             onClick: "$p.send($(this));",
                             icon: "ui-icon-trash",
                             action: "Delete",
@@ -15213,7 +15293,7 @@ namespace Implem.Pleasanter.Models
                             confirm: "ConfirmDelete")
                         .Button(
                             text: Displays.Cancel(context: context),
-                            controlCss: "button-icon",
+                            controlCss: "button-icon button-neutral",
                             onClick: "$p.closeDialog($(this));",
                             icon: "ui-icon-cancel")));
         }
@@ -15564,7 +15644,7 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlId: "UpdateDashboardPartTimeLineSites",
                             text: Displays.OK(context: context),
-                            controlCss: "button-icon validate",
+                            controlCss: "button-icon validate button-positive",
                             icon: "ui-icon-pencil",
                             onClick: "$p.updateDashboardPartTimeLineSites($(this));",
                             action: "SetSiteSettings",
@@ -15614,7 +15694,7 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlId: "UpdateDashboardPartCalendarSites",
                             text: Displays.OK(context: context),
-                            controlCss: "button-icon validate",
+                            controlCss: "button-icon validate button-positive",
                             icon: "ui-icon-pencil",
                             onClick: "$p.send($(this));",
                             action: "SetSiteSettings",
@@ -15664,7 +15744,7 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlId: "UpdateDashboardPartKambanSites",
                             text: Displays.OK(context: context),
-                            controlCss: "button-icon validate",
+                            controlCss: "button-icon validate button-positive",
                             icon: "ui-icon-pencil",
                             onClick: "$p.send($(this));",
                             action: "SetSiteSettings",
@@ -15714,7 +15794,7 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlId: "UpdateDashboardPartIndexSites",
                             text: Displays.OK(context: context),
-                            controlCss: "button-icon validate",
+                            controlCss: "button-icon validate button-positive",
                             icon: "ui-icon-pencil",
                             onClick: "$p.send($(this));",
                             action: "SetSiteSettings",
@@ -15819,7 +15899,7 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlId: "AddDashboardPart",
                             text: Displays.Add(context: context),
-                            controlCss: "button-icon validate",
+                            controlCss: "button-icon validate button-positive",
                             icon: "ui-icon-disk",
                             onClick: "$p.setDashboardPart($(this));",
                             action: "SetSiteSettings",
@@ -15828,7 +15908,7 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlId: "UpdateDashboardPart",
                             text: Displays.Change(context: context),
-                            controlCss: "button-icon validate",
+                            controlCss: "button-icon validate button-positive",
                             onClick: "$p.setDashboardPart($(this));",
                             icon: "ui-icon-disk",
                             action: "SetSiteSettings",
@@ -15836,7 +15916,7 @@ namespace Implem.Pleasanter.Models
                             _using: controlId == "EditDashboardPart")
                         .Button(
                             text: Displays.Cancel(context: context),
-                            controlCss: "button-icon",
+                            controlCss: "button-icon button-neutral",
                             onClick: "$p.closeDialog($(this));",
                             icon: "ui-icon-cancel")));
         }
@@ -16586,7 +16666,7 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlId: "AddBulkUpdateColumn",
                             text: Displays.Add(context: context),
-                            controlCss: "button-icon validate",
+                            controlCss: "button-icon validate button-positive",
                             icon: "ui-icon-disk",
                             onClick: "$p.setBulkUpdateColumn($(this));",
                             action: "SetSiteSettings",
@@ -16595,7 +16675,7 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlId: "UpdateBulkUpdateColumn",
                             text: Displays.Change(context: context),
-                            controlCss: "button-icon validate",
+                            controlCss: "button-icon validate button-positive",
                             onClick: "$p.setBulkUpdateColumn($(this));",
                             icon: "ui-icon-disk",
                             action: "SetSiteSettings",
@@ -16603,7 +16683,7 @@ namespace Implem.Pleasanter.Models
                             _using: controlId == "EditBulkUpdateColumns")
                         .Button(
                             text: Displays.Cancel(context: context),
-                            controlCss: "button-icon",
+                            controlCss: "button-icon button-neutral",
                             onClick: "$p.closeDialog($(this));",
                             icon: "ui-icon-cancel")));
         }
@@ -16655,14 +16735,14 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlId: "UpdateBulkUpdateColumnDetail",
                             text: Displays.Change(context: context),
-                            controlCss: "button-icon validate",
+                            controlCss: "button-icon validate button-positive",
                             onClick: "$p.setBulkUpdateColumnDetail($(this));",
                             icon: "ui-icon-disk",
                             action: "SetSiteSettings",
                             method: "post")
                         .Button(
                             text: Displays.Cancel(context: context),
-                            controlCss: "button-icon",
+                            controlCss: "button-icon button-neutral",
                             onClick: "$p.closeDialog($(this));",
                             icon: "ui-icon-cancel")));
         }
@@ -16830,7 +16910,7 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlId: "AddRelatingColumn",
                             text: Displays.Add(context: context),
-                            controlCss: "button-icon validate",
+                            controlCss: "button-icon validate button-positive",
                             icon: "ui-icon-disk",
                             onClick: "$p.setRelatingColumn($(this));",
                             action: "SetSiteSettings",
@@ -16839,7 +16919,7 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlId: "UpdateRelatingColumn",
                             text: Displays.Change(context: context),
-                            controlCss: "button-icon validate",
+                            controlCss: "button-icon validate button-positive",
                             onClick: "$p.setRelatingColumn($(this));",
                             icon: "ui-icon-disk",
                             action: "SetSiteSettings",
@@ -16847,7 +16927,7 @@ namespace Implem.Pleasanter.Models
                             _using: controlId == "EditRelatingColumns")
                         .Button(
                             text: Displays.Cancel(context: context),
-                            controlCss: "button-icon",
+                            controlCss: "button-icon button-neutral",
                             onClick: "$p.closeDialog($(this));",
                             icon: "ui-icon-cancel")));
         }
@@ -16990,7 +17070,7 @@ namespace Implem.Pleasanter.Models
                             .Button(
                                 controlId: "ShowTargetColumnKeyWord",
                                 text: Displays.Search(context: context),
-                                controlCss: "button-icon",
+                                controlCss: "button-icon button-positive",
                                 onClick: "$p.selectSearchEditorColumn('KeyWord');"))
                     .FieldSet(
                         css: " enclosed",
@@ -17043,7 +17123,7 @@ namespace Implem.Pleasanter.Models
                             icon: "ui-icon-gear")
                         .Button(
                             text: Displays.Cancel(context: context),
-                            controlCss: "button-icon",
+                            controlCss: "button-icon button-neutral",
                             onClick: "$p.closeDialog($(this));",
                             icon: "ui-icon-cancel")));
         }
