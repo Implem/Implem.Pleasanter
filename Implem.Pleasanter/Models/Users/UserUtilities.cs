@@ -5554,7 +5554,7 @@ namespace Implem.Pleasanter.Models
             }
             regex += defaultRegex;
             var xeger = new Fare.Xeger(defaultRegex, new Random());
-            while(!System.Text.RegularExpressions.Regex.IsMatch(password, "^(?=.*?[^a-zA-Z0-9]+)(?=.*?[0-9]+)(?=.*?[a-z]+)(?=.*?[A-Z]+)[!-~]{6,12}$"))
+            while(!System.Text.RegularExpressions.Regex.IsMatch(password, $"^{regex}$"))
             {
                 password = xeger.Generate();
             }
