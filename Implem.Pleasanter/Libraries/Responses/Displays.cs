@@ -7489,6 +7489,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string PasswordAutoGenerate(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "PasswordAutoGenerate",
+                data: data);
+        }
+
         public static string PasswordHasBeenUsed(
             Context context,
             params string[] data)

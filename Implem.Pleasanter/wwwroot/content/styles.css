@@ -2932,10 +2932,10 @@ h3.title-header {
     z-index: 10;
 }
 
-#passwordGeneratebutton {
+#passwordGenerateicon {
     position: absolute;
-    top: 2px;
-    right: -88px;
+    top: 4px;
+    right: -60px;
     z-index: 10;
 }
 

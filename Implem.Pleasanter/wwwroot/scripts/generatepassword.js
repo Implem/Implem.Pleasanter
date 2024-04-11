@@ -16,14 +16,15 @@ $p.generatePasswordButton = function (passwordObject, passwordValidateObject) {
     if (!parseInt($(passwordObject).data('passwordgenerator'))) {
         return;
     }
-    $('<button>', {
-        id: 'passwordGeneratebutton',
-        class: 'button button-icon validate ui-button ui-corner-all ui-widget',
-        text: '自動生成',
+    $('<span>', {
+        id: 'passwordGenerateicon',
+        class: 'material-symbols-outlined',
+        title: $p.display('PasswordAutoGenerate'),
+        text: 'key',
         'data-action': 'GeneratePassword'
     }).appendTo($(passwordObject).closest('div'));
 
-    $(document).on('click', '#passwordGeneratebutton', function () {
+    $(document).on('click', '#passwordGenerateicon', function () {
         $p.generatePassword($(this), passwordObject, passwordValidateObject);
     });
 }
