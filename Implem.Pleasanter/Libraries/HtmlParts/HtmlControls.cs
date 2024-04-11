@@ -925,7 +925,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool preview = false,
             bool _using = true,
             bool validateRequired = false,
-            int validateMaxLength = 0)
+            int validateMaxLength = 0,
+            string inputGuide = null)
         {
             if (preview) controlId = Strings.NewGuid();
             var attachments = value.Deserialize<Attachments>();
@@ -947,7 +948,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .DataAction("binaries/multiupload")
                             .DataValidateMaxLength(validateMaxLength),
                         action: () => hb
-                            .Text(text: Displays.FileDragDrop(context: context))
+                            .Text(text: inputGuide.IsNullOrEmpty()
+                                ? Displays.FileDragDrop(context: context)
+                                : inputGuide)
                             .Input(attributes: new HtmlAttributes()
                                 .Id(columnName + ".input")
                                 .Class("hidden")

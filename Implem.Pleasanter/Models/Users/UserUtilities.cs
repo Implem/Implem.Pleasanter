@@ -84,6 +84,7 @@ namespace Implem.Pleasanter.Models
                 siteId: ss.SiteId,
                 parentId: ss.ParentId,
                 referenceType: "Users",
+                useTitle: false,
                 script: JavaScripts.ViewMode(viewMode),
                 userScript: ss.ViewModeScripts(context: context),
                 userStyle: ss.ViewModeStyles(context: context),
@@ -2013,7 +2014,7 @@ namespace Implem.Pleasanter.Models
                     hb.Button(
                         controlId: "OpenChangePasswordDialog",
                         text: Displays.ChangePassword(context: context),
-                        controlCss: "button-icon",
+                        controlCss: "button-icon button-positive",
                         onClick: "$p.openDialog($(this));",
                         icon: "ui-icon-person",
                         selector: "#ChangePasswordDialog");
@@ -2022,7 +2023,7 @@ namespace Implem.Pleasanter.Models
                 {
                     hb.Button(
                         text: Displays.ResetPassword(context: context),
-                        controlCss: "button-icon",
+                        controlCss: "button-icon button-negative",
                         onClick: "$p.openDialog($(this));",
                         icon: "ui-icon-person",
                         selector: "#ResetPasswordDialog");
@@ -2488,7 +2489,8 @@ namespace Implem.Pleasanter.Models
                                                         baseModel: userModel)
                                                             != Permissions.ColumnPermissionTypes.Update,
                                                     allowDelete: column.AllowDeleteAttachments != false,
-                                                    validateRequired: column.ValidateRequired != false),
+                                                    validateRequired: column.ValidateRequired != false,
+                                                    inputGuide: column.InputGuide),
                                             options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                         break;
                                 }
@@ -3175,6 +3177,12 @@ namespace Implem.Pleasanter.Models
                             {
                                 case Error.Types.None:
                                     break;
+                                case Error.Types.UpdateConflicts:
+                                    return new ResponseCollection(context: context)
+                                        .Message(Messages.ImportInvalidUserIdAndLoginId(
+                                            context:context,
+                                            data: [userModel.UserId.ToString(), userModel.LoginId]))
+                                        .ToJson();
                                 default:
                                     return errorData.MessageJson(context: context);
                             }
@@ -4095,14 +4103,14 @@ namespace Implem.Pleasanter.Models
                             .Button(
                                 controlId: "ChangePassword",
                                 text: Displays.Change(context: context),
-                                controlCss: "button-icon validate",
+                                controlCss: "button-icon validate button-positive",
                                 onClick: "$p.send($(this));",
                                 icon: "ui-icon-disk",
                                 action: "ChangePassword",
                                 method: "post")
                             .Button(
                                 text: Displays.Cancel(context: context),
-                                controlCss: "button-icon",
+                                controlCss: "button-icon button-neutral",
                                 onClick: "$p.closeDialog($(this));",
                                 icon: "ui-icon-cancel"))
                     : (Action)null);
@@ -4151,14 +4159,14 @@ namespace Implem.Pleasanter.Models
                                 .Button(
                                     controlId: "ResetPassword",
                                     text: Displays.Reset(context: context),
-                                    controlCss: "button-icon validate",
+                                    controlCss: "button-icon validate button-negative",
                                     onClick: "$p.send($(this));",
                                     icon: "ui-icon-disk",
                                     action: "ResetPassword",
                                     method: "post")
                                 .Button(
                                     text: Displays.Cancel(context: context),
-                                    controlCss: "button-icon",
+                                    controlCss: "button-icon button-neutral",
                                     onClick: "$p.closeDialog($(this));",
                                     icon: "ui-icon-cancel"))));
         }
@@ -4208,6 +4216,14 @@ namespace Implem.Pleasanter.Models
                                 }))
                             .DataEnter("#Login"),
                         action: () => hb
+                            .Div(
+                                id: "LoginLogo",
+                                action: context.ThemeVersionOver2_0()
+                                    ? () => hb
+                                        .HeaderLogo(
+                                            context: context,
+                                            ss: ss)
+                                    : (Action)null)
                             .FieldSet(id: "LoginFieldSet", action: () => hb
                                 .Div(
                                     id: "Logins",
@@ -4246,7 +4262,7 @@ namespace Implem.Pleasanter.Models
                                         .Div(id: "LoginCommands", action: () => hb
                                             .Button(
                                                 controlId: "Login",
-                                                controlCss: "button-icon button-right-justified validate",
+                                                controlCss: "button-icon button-right-justified validate button-positive",
                                                 text: Displays.Login(context: context),
                                                 onClick: "$p.send($(this));",
                                                 icon: "ui-icon-unlocked",
@@ -4262,7 +4278,7 @@ namespace Implem.Pleasanter.Models
                                                         .Text(Displays.SsoLoginMessage(context: context)))
                                                 .Button(
                                                     controlId: "SSOLogin",
-                                                    controlCss: "button-icon button-right-justified",
+                                                    controlCss: "button-icon button-right-justified button-positive",
                                                     text: Displays.SsoLogin(context: context),
                                                     action: "Challenge",
                                                     onClick: "$p.ssoLogin($(this))",
@@ -4301,7 +4317,7 @@ namespace Implem.Pleasanter.Models
                                                     columnName: "DemoMailAddress"))
                                             .Button(
                                                 text: Displays.Register(context: context),
-                                                controlCss: "button-icon validate",
+                                                controlCss: "button-icon validate button-positive",
                                                 onClick: "$p.send($(this));",
                                                 icon: "ui-icon-mail-closed",
                                                 action: "Register",
@@ -4366,14 +4382,14 @@ namespace Implem.Pleasanter.Models
                                 .Button(
                                     controlId: "ChangePassword",
                                     text: Displays.Change(context: context),
-                                    controlCss: "button-icon validate",
+                                    controlCss: "button-icon validate button-positive",
                                     onClick: "$p.changePasswordAtLogin($(this));",
                                     icon: "ui-icon-disk",
                                     action: "ChangePasswordAtLogin",
                                     method: "post")
                                 .Button(
                                     text: Displays.Cancel(context: context),
-                                    controlCss: "button-icon",
+                                    controlCss: "button-icon button-neutral",
                                     onClick: "$p.closeDialog($(this));",
                                     icon: "ui-icon-cancel"))));
         }
@@ -4509,7 +4525,7 @@ namespace Implem.Pleasanter.Models
                         action: () => hb
                             .Button(
                                 controlId: "CreateApiKey",
-                                controlCss: "button-icon",
+                                controlCss: "button-icon button-positive",
                                 text: userModel.ApiKey.IsNullOrEmpty()
                                     ? Displays.Create(context: context)
                                     : Displays.ReCreate(context: context),
@@ -4519,7 +4535,7 @@ namespace Implem.Pleasanter.Models
                                 method: "post")
                             .Button(
                                 controlId: "DeleteApiKey",
-                                controlCss: "button-icon",
+                                controlCss: "button-icon button-negative",
                                 text: Displays.Delete(context: context),
                                 onClick: "$p.send($(this));",
                                 icon: "ui-icon-trash",

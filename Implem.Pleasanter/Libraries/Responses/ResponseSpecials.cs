@@ -8286,6 +8286,50 @@ namespace Implem.Pleasanter.Libraries.Responses
             return res.ValAndFormData("#Tenants_Ver", value);
         }
 
+        public static TenantsResponseCollection Theme(
+            this TenantsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Tenants_Theme",
+                res.TenantModel.Theme.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Theme")));
+        }
+
+        public static TenantsResponseCollection Theme(
+            this TenantsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Tenants_Theme", value);
+        }
+
+        public static TenantsResponseCollection Theme_FormData(
+            this TenantsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Tenants_Theme",
+                res.TenantModel.Theme.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Theme")));
+        }
+
+        public static TenantsResponseCollection Theme_FormData(
+            this TenantsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Tenants_Theme", value);
+        }
+
         public static TenantsResponseCollection Comments(
             this TenantsResponseCollection res,
             Context context,

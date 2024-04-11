@@ -127,6 +127,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         || column.GetValidateRequired()
                         || controlConstraintsType == StatusControl.ControlConstraintsTypes.Required,
                     preview: preview,
+                    inputGuide: column.InputGuide,
                     extendedHtmlBeforeLabel: Strings.CoalesceEmpty(
                         serverScriptModelColumn?.ExtendedHtmlBeforeLabel,
                         column.ExtendedHtmlBeforeLabel),
@@ -356,6 +357,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 required: column.Required
                     || column.GetValidateRequired(),
                 preview: false,
+                inputGuide: column.InputGuide,
                 extendedHtmlBeforeLabel: Strings.CoalesceEmpty(
                     null,
                     column.ExtendedHtmlBeforeLabel),
@@ -391,6 +393,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool alwaysSend,
             bool required,
             bool preview,
+            string inputGuide,
             string extendedHtmlBeforeLabel,
             string extendedHtmlBetweenLabelAndControl,
             string extendedHtmlAfterControl)
@@ -469,6 +472,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 value: value,
                                 readOnly: true,
                                 preview: preview,
+                                inputGuide: column.InputGuide,
                                 extendedHtmlBeforeLabel: extendedHtmlBeforeLabel,
                                 extendedHtmlBetweenLabelAndControl: extendedHtmlBetweenLabelAndControl,
                                 extendedHtmlAfterControl: extendedHtmlAfterControl);
@@ -842,6 +846,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 allowDelete: column.AllowDeleteAttachments != false,
                                 preview: preview,
                                 validateRequired: required,
+                                inputGuide: column.InputGuide,
                                 extendedHtmlBeforeLabel: extendedHtmlBeforeLabel,
                                 extendedHtmlBetweenLabelAndControl: extendedHtmlBetweenLabelAndControl,
                                 extendedHtmlAfterControl: extendedHtmlAfterControl);
@@ -1961,6 +1966,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool preview = false,
             bool validateRequired = false,
             int validateMaxLength = 0,
+            string inputGuide = null,
             string extendedHtmlBeforeLabel = null,
             string extendedHtmlBetweenLabelAndControl = null,
             string extendedHtmlAfterControl = null,
@@ -1990,7 +1996,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             allowDelete: allowDelete,
                             preview: preview,
                             validateRequired: validateRequired,
-                            validateMaxLength: validateMaxLength))
+                            validateMaxLength: validateMaxLength,
+                            inputGuide: inputGuide))
                 : hb;
         }
     }

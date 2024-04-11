@@ -32,6 +32,7 @@
             "wwwroot/scripts/announcement.js",
             "wwwroot/scripts/attachments.js",
             "wwwroot/scripts/attachmentsevents.js",
+            "wwwroot/scripts/authenticatebymail.js",
             "wwwroot/scripts/basket.js",
             "wwwroot/scripts/basketevents.js",
             "wwwroot/scripts/bulkupdate.js",
@@ -92,6 +93,7 @@
             "wwwroot/scripts/positionevents.js",
             "wwwroot/scripts/process.js",
             "wwwroot/scripts/processevents.js",
+            "wwwroot/scripts/qr.js",
             "wwwroot/scripts/scroll.js",
             "wwwroot/scripts/scrollevents.js",
             "wwwroot/scripts/searchevents.js",
@@ -106,6 +108,7 @@
             "wwwroot/scripts/sitepackage.js",
             "wwwroot/scripts/sitesettings.js",
             "wwwroot/scripts/sitesettingsevents.js",
+            "wwwroot/scripts/splittotpform.js",
             "wwwroot/scripts/startguide.js",
             "wwwroot/scripts/statuscontrol.js",
             "wwwroot/scripts/statusevents.js",
@@ -123,10 +126,7 @@
             "wwwroot/scripts/relatingcolumns.js",
             "wwwroot/scripts/fieldselectable.js",
             "wwwroot/scripts/tenants.js",
-            "wwwroot/scripts/responsive.js",
-            "wwwroot/scripts/qr.js",
-            "wwwroot/scripts/authenticatebymail.js",
-            "wwwroot/scripts/splittotpform.js"
+            "wwwroot/scripts/responsive.js"
         ]
     }
 ]

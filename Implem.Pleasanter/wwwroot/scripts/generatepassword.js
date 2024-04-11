@@ -18,7 +18,7 @@ $p.generatePasswordButton = function (passwordObject, passwordValidateObject) {
     }
     $('<span>', {
         id: 'passwordGenerateicon',
-        class: 'material-symbols-outlined',
+        class: 'material-symbols-outlined generate-password',
         title: $p.display('PasswordAutoGenerate'),
         text: 'key',
         'data-action': 'GeneratePassword'
