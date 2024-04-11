@@ -128,27 +128,26 @@ namespace Implem.Pleasanter.Models
             bool userArea,
             string sessionGuid = null)
         {
-            string pageName = page
-                ? context.Page ?? string.Empty
-                : string.Empty;
-            sessionGuid = sessionGuid ?? context.SessionGuid;
-            if (Parameters.Kvs.EnableKVS && !userArea)
-            {
-                IDatabase iDatabase = AzureCacheForRedisConnection.Connection.GetDatabase();
-                string fieldName = pageName.IsNullOrEmpty() ? $"{key}" : $"{key}_{pageName}";
-                HashEntry[] hashEntrys = new HashEntry[]{
-                    new HashEntry(fieldName, value)
-                };
-                iDatabase.HashSet(
-                    sessionGuid,
-                    hashEntrys
-                );
-                iDatabase.KeyExpire(sessionGuid, TimeSpan.FromMinutes(Parameters.Kvs.RetentionPeriod));
-            }
-
             if (value != null)
             {
-                Repository.ExecuteNonQuery(
+                string pageName = page
+                    ? context.Page ?? string.Empty
+                    : string.Empty;
+                sessionGuid = sessionGuid ?? context.SessionGuid;
+                if (Parameters.Kvs.EnableKVS && !userArea)
+                {
+                    IDatabase iDatabase = AzureCacheForRedisConnection.Connection.GetDatabase();
+                    string fieldName = pageName.IsNullOrEmpty() ? $"{key}" : $"{key}_{pageName}";
+                    HashEntry[] hashEntrys = new HashEntry[]{ new HashEntry(fieldName, value) };
+                    iDatabase.HashSet(
+                        sessionGuid,
+                        hashEntrys
+                    );
+                    iDatabase.KeyExpire(sessionGuid, TimeSpan.FromMinutes(Parameters.Kvs.RetentionPeriod));
+                }
+                else
+                {
+                    Repository.ExecuteNonQuery(
                     context: context,
                     statements: Rds.UpdateOrInsertSessions(
                         param: Rds.SessionsParam()
@@ -162,6 +161,7 @@ namespace Implem.Pleasanter.Models
                             .SessionGuid(sessionGuid)
                             .Key(key)
                             .Page(context.Page, _using: page)));
+                }
             }
             else
             {
