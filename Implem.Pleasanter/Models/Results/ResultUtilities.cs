@@ -30,8 +30,6 @@ namespace Implem.Pleasanter.Models
         public static string Index(Context context, SiteSettings ss)
         {
             var hb = new HtmlBuilder();
-            // fixme Sessions Viewの取得はやはりここ　よってここの取得処理が走る際の取得先を変えればOK
-            // 取ってるデータもViewに放り込まれてるだけなので。
             var view = ss.DashboardParts.Any()
                 ? ss.DashboardParts.FirstOrDefault().View
                 : Views.GetBySession(

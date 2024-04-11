@@ -1,6 +1,7 @@
 ﻿using StackExchange.Redis;
 using System;
 using System.Configuration;
+using Implem.DefinitionAccessor;
 
 namespace Implem.Pleasanter.Libraries.Redis
 {
@@ -8,9 +9,7 @@ namespace Implem.Pleasanter.Libraries.Redis
     {
         private static Lazy<ConnectionMultiplexer> lazyConnection = new Lazy<ConnectionMultiplexer>(() =>
         {
-            // Web.configに設定してもポータル上の場合でも、ConfigurationManagerで取得できます。
-            string cacheConnection = ConfigurationManager.AppSettings["CacheConnection"];
-            return ConnectionMultiplexer.Connect(cacheConnection);
+            return ConnectionMultiplexer.Connect(Parameters.Kvs.ConnectionString);
         });
 
         public static ConnectionMultiplexer Connection

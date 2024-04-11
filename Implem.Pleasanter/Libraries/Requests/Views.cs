@@ -9,7 +9,6 @@ namespace Implem.Pleasanter.Libraries.Requests
     {
         public static View GetBySession(Context context, SiteSettings ss, bool setSession = true)
         {
-            // fixme 大本はここ
             var useUsersView = ss.SaveViewType == SiteSettings.SaveViewTypes.User;
             setSession = setSession && ss.SaveViewType != SiteSettings.SaveViewTypes.None;
             var view = !context.Ajax
@@ -206,16 +205,6 @@ namespace Implem.Pleasanter.Libraries.Requests
         {
             if (setSession)
             {
-                // fixme 上(呼出元)を変えてもいいが・・・こっちを変えるべきかなー
-                // オーバーロード作ったほうが良いかも？
-                // 取得したデータを格納するのはこの上ではないと駄目なので、こっちで設定してもしょうがない
-                // (一度は取得の必要があるので)
-                // 簡単に言うと上がGetなのでそこで取得させ、SessionテーブルにSetさせたうえでKVSにもセット
-                // KVSのセッションが切れるまではそちらから取得する方針
-                if (Parameters.Session.EnableKVS)
-                {
-
-                }
                 SessionUtilities.Set(
                 context: context,
                 ss: ss,
