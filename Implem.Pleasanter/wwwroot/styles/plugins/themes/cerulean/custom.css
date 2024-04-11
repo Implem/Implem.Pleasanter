@@ -1448,7 +1448,7 @@ section.accordion {
     cursor: pointer;
 }
 
-.menulabel::before {
+label.menulabel::before {
     content: "";
     width: 6px;
     height: 6px;
@@ -1497,7 +1497,7 @@ section.accordion {
     width: 52px;
 }
 
-.menubox label {
+.menubox .menulabel {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -1509,10 +1509,15 @@ section.accordion {
     background-color: #DEECF9;
 }
 
-.menubox label span:first-child {
+.menubox .menulabel span:first-child {
     width: 52px;
     height: 52px;
     justify-content: center;
+}
+
+.menubox .menulabel span:first-child img{
+    width: initial;
+    margin: auto;
 }
 
 .menubox-sub {
