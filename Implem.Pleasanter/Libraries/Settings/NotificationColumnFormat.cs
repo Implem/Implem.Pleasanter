@@ -119,7 +119,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             string deleteSuffixSymbol = Strings.CoalesceEmpty(DeleteSuffixSymbol, "");
             string addPrefixSymbol = Strings.CoalesceEmpty(AddPrefixSymbol, "+");
             string addSuffixSymbol = Strings.CoalesceEmpty(AddSuffixSymbol, "");
-
             string diffText = "";
             diff_match_patch dmp = new diff_match_patch();
             dmp.Diff_Timeout = 0;
