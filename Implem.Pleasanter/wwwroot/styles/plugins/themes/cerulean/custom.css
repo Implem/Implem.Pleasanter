@@ -1574,7 +1574,7 @@ body#login #MainContainer #Application #PortalLink{
 }
 
 #MainContainer #Header {
-    height: 39px;
+    min-height: 39px;
 }
 
 #LoginLogo {
