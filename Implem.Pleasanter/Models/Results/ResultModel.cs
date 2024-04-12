@@ -1401,6 +1401,18 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     siteId: SiteId);
             }
+            try
+            {
+                WriteAttachments(
+                    context: context,
+                    ss: ss);
+            }
+            catch
+            {
+                return new ErrorData(
+                    type: Error.Types.FailedWriteFile, id:
+                    ResultId);
+            }
             statements.AddRange(CreateStatements(
                 context: context,
                 ss: ss,
@@ -1419,9 +1431,6 @@ namespace Implem.Pleasanter.Models
                     id: ResultId,
                     columnName: response.ColumnName);
             }
-            WriteAttachments(
-                context: context,
-                ss: ss);
             ResultId = (response.Id ?? ResultId).ToLong();
             if (synchronizeSummary)
             {
