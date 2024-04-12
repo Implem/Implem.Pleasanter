@@ -208,30 +208,28 @@ body { min-width: 320px!important; }
 
 * #Navigations {box-sizing: border-box;}
 #Navigations {
-width: 100%;
-max-height: 0;
-overflow: hidden;
-margin: 0;
-padding: 0 5%;
-border: none;
-position: relative;
-top: 0;
-right: 0;
-border-radius: 0;
-z-index: 100;
-font-size: 3.2vw;
-line-height: 7vw;
-transition: .5s;
+    width: 70%;
+    overflow: auto !important;
+    margin: 0 !important;
+    border: none;
+    position: fixed;
+    padding-top: 112px !important;
+    top: 0 !important;
+    right: -110% !important;
+    z-index: 1000;
+    font-size: 3.2vw;
+    line-height: 7vw;
+    height: 100vh !important;
+    transition: right ease-out .3s;
+    float: none !important;
+}
+
+#Navigations:not(.open) {
+    pointer-events: none;
 }
 
 #Navigations.open {
-    max-height: none;
-    height: auto;
-    overflow:visible;
-    margin-top: 2%;
-    margin-bottom: 5%;
-    padding: 5%;
-    transition: .5s;
+    right: 0 !important;
 }
 
 #NavigationMenu>li.sub-menu>div.hover {
@@ -1162,29 +1160,6 @@ overflow: hidden;
     transition: all 0.5s ease;
     transform: translate(12.5%, 0%) rotate(126deg);
   }
-  #Navigations {
-    transition: all 0.5s ease;
-    max-height: 100vh;
-    height: 100vh;
-    position: absolute;
-    top: 0;
-    right: -1000px;
-    z-index: 999;
-    padding: 5%;
-    width: 70%;
-    padding-top: 112px;
-    opacity: 0;
-  }
-  #Navigations.open {
-    opacity: 1;
-    padding-top: 112px;
-    right: 0;
-    height: 100vh;
-    margin: 0;
-    position: fixed;
-    top: 0;
-    z-index: 1000;
-  }
 }
 
 @media screen and (max-width: 1024px) and (min-width: 0px) {
@@ -1315,9 +1290,6 @@ overflow: hidden;
 }
 
 @media screen and (max-width: 1024px) and (min-width: 0px) {
-  #Navigations.open {
-    overflow-y: scroll;
-  }
   #Navigations #NavigationMenu #NewMenuContainer {
     background: unset;
     border: none;
