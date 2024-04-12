@@ -4,5 +4,5 @@
     "Indent": "4",
     "Separator": "\\r\\n",
     "ItemOnly": "1",
-    "Include": "Issues,Results"
+    "Include": "Sites,Dashboards,Issues,Results"
 }
