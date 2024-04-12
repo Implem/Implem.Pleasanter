@@ -3879,6 +3879,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string FailedWriteFile(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "FailedWriteFile",
+                data: data);
+        }
+
         public static string February(
             Context context,
             params string[] data)
