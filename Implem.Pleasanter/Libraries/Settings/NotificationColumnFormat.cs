@@ -116,34 +116,32 @@ namespace Implem.Pleasanter.Libraries.Settings
             string startBracket = Strings.CoalesceEmpty(StartBracket, "(");
             string endBracket = Strings.CoalesceEmpty(EndBracket, ")");
             string deletePrefixSymbol = Strings.CoalesceEmpty(DeletePrefixSymbol, "-");
-            string deleteSuffixSymbol = Strings.CoalesceEmpty(StartBracket, "");
-            string addPrefixSymbol = Strings.CoalesceEmpty(AddPrefixSymbol, "(");
+            string deleteSuffixSymbol = Strings.CoalesceEmpty(DeleteSuffixSymbol, "");
+            string addPrefixSymbol = Strings.CoalesceEmpty(AddPrefixSymbol, "+");
             string addSuffixSymbol = Strings.CoalesceEmpty(AddSuffixSymbol, "");
 
             string diffText = "";
             diff_match_patch dmp = new diff_match_patch();
             dmp.Diff_Timeout = 0;
-            List<Diff> results = dmp.diff_main(self, saved);
-            foreach (Diff diff in results) {
+            List<Diff> results = dmp.diff_main(saved, self);
+            foreach (Diff diff in results)
+            {
+                string start = diff.text.StartsWith("\n") ? "\n" + startBracket : startBracket;
+                string end = diff.text.EndsWith("\n") ? endBracket + "\n" : endBracket;
                 switch (diff.operation)
                 {
                     case Operation.EQUAL:
                         diffText += diff.text;
                         break;
                     case Operation.DELETE:
-                        diffText += $"{startBracket}{deletePrefixSymbol}{diff.text}{deleteSuffixSymbol}{endBracket}";
+                        diffText += $"{start}{deletePrefixSymbol}{diff.text.Trim('\n')}{deleteSuffixSymbol}{end}";
                         break;
                     case Operation.INSERT:
-                        diffText += $"{startBracket}{addPrefixSymbol}{diff.text}{addSuffixSymbol}{endBracket}";
+                        diffText += $"{start}{addPrefixSymbol}{diff.text.Trim('\n')}{addSuffixSymbol}{end}";
                         break;
                 }
             }
-            return $"{Header(column)}{diffText}";
-        }
-
-        private string GetStartBracket()
-        {
-            return Strings.CoalesceEmpty(StartBracket, "(");
+            return $"{Header(column)}{Self(diffText)}";
         }
     }
 }
