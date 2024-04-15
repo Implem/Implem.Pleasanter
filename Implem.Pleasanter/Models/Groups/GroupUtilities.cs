@@ -30,16 +30,6 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static void _TODO()
-        {
-            // TODO ここにTODOを記載。後で削除
-            // TODO CSV入出力 AppendGroupMemberColumnsToCsvのChildren版作成
-            // TODO ServerScriptModelGroupModel 対応（メソッド追加）
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
         public static string Index(Context context, SiteSettings ss)
         {
             var invalid = GroupValidators.OnEntry(
