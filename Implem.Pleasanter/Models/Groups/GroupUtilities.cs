@@ -3698,6 +3698,32 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public static bool Contains(Context context, int groupId, Group child)
+        {
+            return ContainsChildren(
+                context: context,
+                groupId: groupId,
+                childId: child.Id);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static bool ContainsChildren(Context context, int groupId, int childId)
+        {
+            return Repository.ExecuteScalar_int(
+                context: context,
+                statements: Rds.SelectGroupChildren(
+                    column: Rds.GroupChildrenColumn()
+                        .GroupChildrenCount(),
+                    where: Rds.GroupChildrenWhere()
+                        .GroupId(groupId)
+                        .ChildId(childId))) == 1;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static string SelectableChildrenJson(Context context)
         {
             var searchText = context.Forms.Data("SearchChildText");
