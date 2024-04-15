@@ -3989,21 +3989,30 @@ namespace Implem.Pleasanter.Models
                         tableType: tableType);
                     groupCollection.ForEach(groupModel =>
                     {
-                        var data = new Dictionary<string, ControlData>();
+                        var member = new Dictionary<string, ControlData>();
                         GroupMembers(
                             context: context,
                             groupId: groupModel.GroupId)
                                 .ForEach(datarow =>
-                                    data.AddMember(
+                                    member.AddMember(
                                         context: context,
                                         dataRow: datarow));
-                        groupModel.GroupMembers = data.Select(
+                        groupModel.GroupMembers = member.Select(
                             groupMember => groupMember.Key).ToList<string>();
+                        var chileren = new Dictionary<string, ControlData>();
+                        GroupChildren(
+                            context: context,
+                            groupId: groupModel.GroupId)
+                                .ForEach(datarow =>
+                                    chileren.AddChild(
+                                        context: context,
+                                        dataRow: datarow));
+                        groupModel.GroupChildren = chileren.Select(
+                            groupChild => groupChild.Key).ToList<string>();
                     });
                     var groups = siteGroups == null
                         ? groupCollection
                         : groupCollection.Join(siteGroups, c => c.GroupId, s => s, (c, s) => c);
-                    // TODO ChildGrupに詰め替え追加
                     return ApiResults.Get(new
                     {
                         StatusCode = 200,
