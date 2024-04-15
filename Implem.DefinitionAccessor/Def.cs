@@ -13630,6 +13630,7 @@ namespace Implem.DefinitionAccessor
         public string GetGroupParentIds;
         public string GetGroupChildrenIds;
         public string RefreshAllChildMembers;
+        public string LdapUpdateGroupMembersAndChildren;
     }
 
     /// <summary>

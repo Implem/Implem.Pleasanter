@@ -25,6 +25,8 @@
             "LdapLastNamePattern": null,
             "LdapMailAddress": "mail",
             "LdapMailAddressPattern": null,
+            "LdapGroupName": "cn",
+            "LdapGroupNamePattern": null,
             "LdapSyncPageSize": 0,
             "LdapSyncPatterns": [
                 "(&(ObjectCategory=User)(ObjectClass=Person))"
