@@ -748,29 +748,6 @@ overflow: hidden;
 }
 
 @media screen and (max-width: 1024px) and (min-width: 0px) {
-  body::before {
-    content: '';
-    position: fixed;
-    width: 5vw;
-    height: 50vh;
-    top: 0;
-    left: 0;
-    background: white;
-    z-index: 200;
-  }
-  body::after {
-    content: '';
-    position: fixed;
-    width: 5vw;
-    height: 50vh;
-    top: 0;
-    right: 0;
-    background: white;
-    z-index: 700;
-  }
-}
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
   #Users_LoginId,
   #Users_Password {
     height: 40px;
