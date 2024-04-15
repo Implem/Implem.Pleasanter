@@ -46,6 +46,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public List<string> GridColumns;
         public List<string> FilterColumns;
         public DisplayTypes? FiltersDisplayType;
+        public bool? GuidesReduced;
         public bool? FiltersReduced;
         public DisplayTypes? AggregationsDisplayType;
         public bool? AggregationsReduced;
@@ -531,6 +532,12 @@ namespace Implem.Pleasanter.Libraries.Settings
             var columnViewExtensionPrefix = $"{prefix}ViewExtensions__";
             switch (context.Forms.ControlId())
             {
+                case "ReduceGuides":
+                    GuidesReduced = true;
+                    break;
+                case "ExpandGuides":
+                    GuidesReduced = false;
+                    break;
                 case "ReduceViewFilters":
                     FiltersReduced = true;
                     break;
@@ -1457,6 +1464,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (FiltersDisplayType != DisplayTypes.Displayed)
             {
                 view.FiltersDisplayType = FiltersDisplayType;
+            }
+            if (GuidesReduced != null)
+            {
+                view.GuidesReduced = GuidesReduced;
             }
             if (FiltersReduced != null)
             {

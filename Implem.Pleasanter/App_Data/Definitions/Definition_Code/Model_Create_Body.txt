@@ -22,6 +22,7 @@
 
 <!--Model_OnCreatingExtendedSqls-->
 <!--Model_OnCreatingGroupMembers-->
+<!--Model_WriteAttachmentsExecute_Create-->
 <!--Model_OnCreatingGroupChildren-->
 
     statements.AddRange(CreateStatements(
@@ -33,12 +34,10 @@
 <!--Model_CreateStatementsParams_GroupMembers-->
 
         otherInitValue: otherInitValue));
-
 <!--Model_Insert-->
 <!--Model_InsertIdentity-->
 <!--Model_InsertIdentity ( HasIdentity = false, ItemOnly = true ) -->
 <!--Model_IfDuplicatedReturn-->
-<!--Model_WriteAttachmentsExecute-->
 <!--Model_InsertIdentitySet-->
 <!--Model_ForceSynchronizeSummaryExecute-->
 <!--Model_Insert_ExecuteAutomaticNumberingExec-->
