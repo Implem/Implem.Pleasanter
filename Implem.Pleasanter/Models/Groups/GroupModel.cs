@@ -1692,7 +1692,7 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         body: value); break;
                     case "VerUp": VerUp = value.ToBool(); break;
-            case "CurrentChildrenAll": GroupChildren = ParseGroupChildren(value.ToString()); break;
+                    case "CurrentChildrenAll": GroupChildren = ParseGroupChildren(value.ToString()); break;
                     default:
                         if (key.RegexExists("Comment[0-9]+"))
                         {
