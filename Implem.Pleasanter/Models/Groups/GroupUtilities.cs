@@ -2229,6 +2229,7 @@ namespace Implem.Pleasanter.Models
                             updateGroupMemberCount: ref updateGroupMemberCount);
                     }
                 }
+                GroupMemberUtilities.RefreshAllChildMembers(tenantId: context.TenantId);
                 SiteInfo.Reflesh(
                     context: context,
                     force: true);
@@ -2512,6 +2513,7 @@ namespace Implem.Pleasanter.Models
                             updateGroupMemberCount: ref updateGroupMemberCount);
                     }
                 }
+                GroupMemberUtilities.RefreshAllChildMembers(tenantId: context.TenantId);
                 SiteInfo.Reflesh(
                     context: context,
                     force: true);
