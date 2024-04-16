@@ -208,15 +208,15 @@ body { min-width: 320px!important; }
 #Header a#navtgl::before ,
 #Header a#navtgl span,
 #Header a#navtgl::after{ 
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		width: 20px;
-		height: 1.5px;
-		margin: 0 0 0 -10px;
-		content: ' ';
-		background: #333;
-		transition: transform 150ms ease-out, margin 150ms ease-out, width 150ms ease-out;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 20px;
+	height: 1.5px;
+	margin: 0 0 0 -10px;
+	content: ' ';
+	background: #333;
+	transition: transform 150ms ease-out, margin 150ms ease-out, width 150ms ease-out;
 }
 #Header a#navtgl::before {transform: translateY(7px)}
 #Header a#navtgl span {transform: translateY(0)}
