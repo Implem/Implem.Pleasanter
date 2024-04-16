@@ -223,12 +223,12 @@ body { min-width: 320px!important; }
 * #Navigations {box-sizing: border-box;}
 #Navigations {
     width: 70%;
-    overflow: auto !important;
+    overflow: auto;
     margin: 0 !important;
     border: none;
     position: fixed;
     padding-top: 112px !important;
-    top: 0 !important;
+    top: 0;
     right: -110% !important;
     z-index: 1000;
     font-size: 3.2vw;
