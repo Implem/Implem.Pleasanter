@@ -962,6 +962,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_WhereDefault": Code.Model_WhereDefault = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_WhereDefault, definitionRow, CodeXls); break;
                     case "Model_WhereSiteIdOrDefault": Code.Model_WhereSiteIdOrDefault = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_WhereSiteIdOrDefault, definitionRow, CodeXls); break;
                     case "Model_WriteAttachmentsExecute": Code.Model_WriteAttachmentsExecute = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_WriteAttachmentsExecute, definitionRow, CodeXls); break;
+                    case "Model_WriteAttachmentsExecute_Create": Code.Model_WriteAttachmentsExecute_Create = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_WriteAttachmentsExecute_Create, definitionRow, CodeXls); break;
                     case "Model_WriteAttachmentsExecute_Update": Code.Model_WriteAttachmentsExecute_Update = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_WriteAttachmentsExecute_Update, definitionRow, CodeXls); break;
                     case "Rds": Code.Rds = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds, definitionRow, CodeXls); break;
                     case "Rds_AggregationAverageCases": Code.Rds_AggregationAverageCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_AggregationAverageCases, definitionRow, CodeXls); break;
@@ -7441,6 +7442,7 @@ namespace Implem.DefinitionAccessor
         public string Model_WhereDefault;
         public string Model_WhereSiteIdOrDefault;
         public string Model_WriteAttachmentsExecute;
+        public string Model_WriteAttachmentsExecute_Create;
         public string Model_WriteAttachmentsExecute_Update;
         public string Rds;
         public string Rds_AggregationAverageCases;
@@ -8264,6 +8266,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_WhereDefault = new CodeDefinition();
         public CodeDefinition Model_WhereSiteIdOrDefault = new CodeDefinition();
         public CodeDefinition Model_WriteAttachmentsExecute = new CodeDefinition();
+        public CodeDefinition Model_WriteAttachmentsExecute_Create = new CodeDefinition();
         public CodeDefinition Model_WriteAttachmentsExecute_Update = new CodeDefinition();
         public CodeDefinition Rds = new CodeDefinition();
         public CodeDefinition Rds_AggregationAverageCases = new CodeDefinition();

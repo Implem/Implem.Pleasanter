@@ -1,0 +1,12 @@
+﻿try
+{
+    WriteAttachments(
+        context: context,
+        ss: ss);
+}
+catch
+{
+    return new ErrorData(
+        type: Error.Types.FailedWriteFile, id:
+        #ModelName#Id);
+}
