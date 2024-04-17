@@ -30,7 +30,6 @@ from(
             "Groups"."GroupName" like @SearchText
         ) 
         and "Groups"."Disabled" = 'false'
-        and "Groups"."LdapSync" = 'false'
 ) as "items"
 order by
     "items"."GroupName" asc
