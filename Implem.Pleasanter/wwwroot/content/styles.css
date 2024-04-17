@@ -306,6 +306,22 @@ pre {
     border-radius: 5px;
 }
 
+#Guide > .with-icon-close {
+    padding: 10px 5px 10px;
+}
+
+#Guide > div > #ReduceGuides {
+    float: left;
+    cursor: pointer;
+    padding-right: 5px;
+}
+
+#Guide > #ExpandGuides {
+    font-weight: bold;
+    cursor: pointer;
+    padding: 10px 5px 10px;
+}
+
 #CopyToClipboards > .display-control {
     float: left;
     cursor: pointer;
