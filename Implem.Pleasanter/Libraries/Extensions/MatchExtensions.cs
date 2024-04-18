@@ -122,6 +122,8 @@ namespace Implem.Pleasanter.Libraries.Extensions
                             && column.ConvertDateTime(
                                 context: context,
                                 dt: new DateTime(today.Year, 1, 1).AddYears(1)) > value;
+                case "\t":
+                    return !value.InRange();
                 default:
                     return (o.Split_1st().IsNullOrEmpty()
                         || column.ConvertDateTime(

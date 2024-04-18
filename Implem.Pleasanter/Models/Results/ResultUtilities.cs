@@ -1378,7 +1378,9 @@ namespace Implem.Pleasanter.Models
                 : hb.Template(
                     context: context,
                     ss: ss,
-                    view: null,
+                    view: Views.GetBySession(
+                        context: context,
+                        ss: ss),
                     siteId: resultModel.SiteId,
                     parentId: ss.ParentId,
                     referenceType: "Results",
@@ -2270,6 +2272,13 @@ namespace Implem.Pleasanter.Models
             else
             {
                 var editInDialog = context.Forms.Bool("EditInDialog");
+                var process = Process.GetProcess(
+                    context: context,
+                    ss: ss,
+                    getProcessMatchConditions: (o) => resultModel.GetProcessMatchConditions(
+                        context: context,
+                        ss: ss,
+                        process: o));
                 var html = Editor(
                     context: context,
                     ss: ss,
@@ -2296,14 +2305,9 @@ namespace Implem.Pleasanter.Models
                             .Invoke("setCurrentIndex")
                             .Invoke("initRelatingColumnEditor")
                             // ?? 以降はプロセスのアクション種別がポストバックの場合にもメッセージを出せるようにする処理
-                            .Message(message ?? ss.Processes
-                                ?.Where(o => $"Process_{o.Id}" == context.Forms.ControlId())
-                                .Where(o => o.Accessable(
-                                    context: context,
-                                    ss: ss))
-                                .FirstOrDefault(o => o.MatchConditions)?.GetSuccessMessage(context: context))
+                            .Message(message ?? process?.GetSuccessMessage(context: context))
                             .Messages(context.Messages)
-                            .ClearFormData()
+                            .ClearFormData(_using: process?.ActionType != Process.ActionTypes.PostBack)
                             .Events("on_editor_load");
             }
         }
