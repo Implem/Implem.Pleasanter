@@ -60,20 +60,6 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static SqlStatement BulkDelete(
-            Context context,
-            IEnumerable<int> selected)
-        {
-            // selectedのIDの全ての子ユーザを削除
-            return SyncGroupMembersSql(
-                tenantId: context.TenantId,
-                groupId: 0,
-                oldParents: GetParentIds(context: context, startIds: selected));
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
         public static SqlStatement RefreshAllChildMembers(
             int tenantId)
         {

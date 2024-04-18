@@ -3669,7 +3669,6 @@ namespace Implem.Pleasanter.Models
         public static EnumerableRowCollection<DataRow> GroupChildren(
             Context context, int groupId, int offset = 0, int pageSize = 0)
         {
-            // TODO 修正済み
             return Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectGroups(
@@ -4392,8 +4391,6 @@ namespace Implem.Pleasanter.Models
             var sub = Rds.SelectGroups(
                 column: Rds.GroupsColumn().GroupId(),
                 where: where);
-            // TODO 不要削除
-            //GroupMemberUtilities.BulkDelete(context: context, selected: new int[0]/*groupIds*/); // TODO 正しいロジックを実装する
             return Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
@@ -4418,9 +4415,8 @@ namespace Implem.Pleasanter.Models
                         where: Rds.GroupsWhere()
                             .TenantId(context.TenantId)
                             .GroupId_In(sub: sub)),
-                    GroupMemberUtilities.BulkDelete(
-                        context: context,
-                        selected: selected.Select(o => o.ToInt()).ToArray()), // TODO 正しいロジックを実装する
+                    GroupMemberUtilities.RefreshAllChildMembers(
+                        tenantId: context.TenantId),
                     Rds.RowCount(),
                     StatusUtilities.UpdateStatus(
                         tenantId: context.TenantId,
@@ -4629,9 +4625,9 @@ namespace Implem.Pleasanter.Models
                         where: Rds.GroupsWhere()
                             .TenantId(context.TenantId)
                             .GroupId_In(sub: sub)),
-                    Rds.RowCount(),
                     GroupMemberUtilities.RefreshAllChildMembers(
                         tenantId: context.TenantId),
+                    Rds.RowCount(),
                     StatusUtilities.UpdateStatus(
                         tenantId: context.TenantId,
                         type: StatusUtilities.Types.GroupsUpdated)
