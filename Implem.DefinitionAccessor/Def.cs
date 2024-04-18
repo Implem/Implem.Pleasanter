@@ -13634,6 +13634,7 @@ namespace Implem.DefinitionAccessor
         public string GetGroupChildrenIds;
         public string RefreshAllChildMembers;
         public string LdapUpdateGroupMembersAndChildren;
+        public string AdGroupDeleteToDisable;
     }
 
     /// <summary>

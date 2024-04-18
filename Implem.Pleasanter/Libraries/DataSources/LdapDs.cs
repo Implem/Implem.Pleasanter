@@ -7,6 +7,7 @@ using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
+using MailKit.Search;
 using System;
 using System.Collections.Generic;
 using System.DirectoryServices;
@@ -414,7 +415,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 var groupids = Rds.SelectGroups(
                     column: Rds.GroupsColumn().GroupId(),
                     where: Rds.GroupsWhere()
-                        .SynchronizedTime(_operator: " is not null"));
+                        .SynchronizedTime(_operator: " is not null")
+                        .SynchronizedTime(value: synchronizedTime));
                 statements.Add(Rds.PhysicalDeleteGroupMembers(
                     where: Rds.GroupMembersWhere()
                         .GroupId_In(
@@ -423,12 +425,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     where: Rds.GroupChildrenWhere()
                         .GroupId_In(
                             sub: groupids)));
-                // 未更新グループ削除
-                statements.Add(Rds.DeleteGroups(
-                    factory: context,
-                    where: Rds.GroupsWhere()
-                        .SynchronizedTime(_operator: " is not null")
-                        .SynchronizedTime(_operator: "<>", value: synchronizedTime)));
+                // 削除されたグループのDisableをOnにする。
+                statements.Add(new SqlStatement(
+                        commandText: Def.Sql.AdGroupDeleteToDisable,
+                        param: new SqlParamCollection {
+                            { "SynchronizedTime", synchronizedTime }
+                        }));
                 // 子グループ追加＆グループメンバー追加
                 groups.Values
                     .ForEach(groupItem => {
