@@ -25,25 +25,25 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool useSearch,
             ServerScriptModelRow serverScriptModelRow)
         {
-            return hb.Header(
-                id: "Header",
-                action: () => hb
-                    .Announcement(context: context)
-                    .HeaderLogo(
-                        context: context,
-                        ss: ss,
-                        _using: context.ThemeVersionOver2_0() && context.Action == "login"
-                            ? false
-                            : true)
-                    .NavigationMenu(
-                        context: context,
-                        ss: ss,
-                        siteId: siteId,
-                        referenceType: referenceType,
-                        errorType: errorType,
-                        useNavigationMenu: useNavigationMenu,
-                        useSearch: useSearch,
-                        serverScriptModelRow: serverScriptModelRow));
+            return hb.Announcement(context: context)
+                .Header(
+                    id: "Header",
+                    action: () => hb
+                        .HeaderLogo(
+                            context: context,
+                            ss: ss,
+                            _using: context.ThemeVersionOver2_0() && context.Action == "login"
+                                ? false
+                                : true)
+                        .NavigationMenu(
+                            context: context,
+                            ss: ss,
+                            siteId: siteId,
+                            referenceType: referenceType,
+                            errorType: errorType,
+                            useNavigationMenu: useNavigationMenu,
+                            useSearch: useSearch,
+                            serverScriptModelRow: serverScriptModelRow));
         }
 
         public static HtmlBuilder Announcement(this HtmlBuilder hb, Context context)
@@ -63,19 +63,25 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Status(_operator: $"<{Parameters.General.CompletionCode}")
                         .StartTime(now, _operator: "<=")
                         .CompletionTime(now, _operator: ">="));
-                foreach (var issueModel in issueCollection)
-                {
-                    if (!IsHiddenAnnouncement(
-                        context: context,
-                        issueModel: issueModel))
+                hb.Div(
+                    attributes: new HtmlAttributes()
+                        .Id("AnnouncementModule")
+                        .Class("announcements"),
+                    action: () => { 
+                    foreach (var issueModel in issueCollection)
                     {
-                        hb.Div(
-                            attributes: new HtmlAttributes()
-                                .Id($"AnnouncementContainer_{issueModel.IssueId}")
-                                .Class("annonymous", _using: !context.Authenticated),
-                            action: () =>hb.Raw(text: issueModel.Body));
+                        if (!IsHiddenAnnouncement(
+                            context: context,
+                            issueModel: issueModel))
+                        {
+                            hb.Div(
+                                attributes: new HtmlAttributes()
+                                    .Id($"AnnouncementContainer_{issueModel.IssueId}")
+                                    .Class("annonymous", _using: !context.Authenticated),
+                                action: () => hb.Raw(text: issueModel.Body));
+                        }
                     }
-                }
+                });
             }
             return hb;
         }
