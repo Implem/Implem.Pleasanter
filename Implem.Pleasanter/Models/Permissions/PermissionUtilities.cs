@@ -1130,14 +1130,14 @@ namespace Implem.Pleasanter.Models
                             disabled: disableRecordPermission,
                             controlId: "ChangePermissions",
                             text: Displays.Change(context: context),
-                            controlCss: "button-icon validate",
+                            controlCss: "button-icon validate button-positive",
                             onClick: "$p.changePermissions($(this));",
                             icon: "ui-icon-disk",
                             action: "SetPermissions",
                             method: "post")
                         .Button(
                             text: Displays.Cancel(context: context),
-                            controlCss: "button-icon",
+                            controlCss: "button-icon button-neutral",
                             onClick: "$p.closeDialog($(this));",
                             icon: "ui-icon-cancel")));
         }
@@ -1706,14 +1706,14 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlId: "ChangePermissionForCreating",
                             text: Displays.Change(context: context),
-                            controlCss: "button-icon validate",
+                            controlCss: "button-icon validate button-positive",
                             onClick: "$p.changePermissionForCreating($(this));",
                             icon: "ui-icon-disk",
                             action: "SetPermissionForCreating",
                             method: "post")
                         .Button(
                             text: Displays.Cancel(context: context),
-                            controlCss: "button-icon",
+                            controlCss: "button-icon button-neutral",
                             onClick: "$p.closeDialog($(this));",
                             icon: "ui-icon-cancel")));
         }
@@ -1918,14 +1918,14 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlId: "ChangePermissionForUpdating",
                             text: Displays.Change(context: context),
-                            controlCss: "button-icon validate",
+                            controlCss: "button-icon validate button-positive",
                             onClick: "$p.changePermissionForUpdating($(this));",
                             icon: "ui-icon-disk",
                             action: "SetPermissionForUpdating",
                             method: "post")
                         .Button(
                             text: Displays.Cancel(context: context),
-                            controlCss: "button-icon",
+                            controlCss: "button-icon button-neutral",
                             onClick: "$p.closeDialog($(this));",
                             icon: "ui-icon-cancel")));
         }
@@ -2235,14 +2235,14 @@ namespace Implem.Pleasanter.Models
                     .Div(css: "command-center", action: () => hb
                         .Button(
                             text: Displays.Change(context: context),
-                            controlCss: "button-icon validate",
+                            controlCss: "button-icon validate button-positive",
                             onClick: "$p.changeColumnAccessControl($(this), '" + type + "');",
                             icon: "ui-icon-disk",
                             action: "SetColumnAccessControl",
                             method: "post")
                         .Button(
                             text: Displays.Cancel(context: context),
-                            controlCss: "button-icon",
+                            controlCss: "button-icon button-neutral",
                             onClick: "$p.closeDialog($(this));",
                             icon: "ui-icon-cancel"))
                     .Hidden(controlId: "ColumnAccessControlType", value: type)

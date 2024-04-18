@@ -84,6 +84,7 @@ namespace Implem.Pleasanter.Models
                 siteId: ss.SiteId,
                 parentId: ss.ParentId,
                 referenceType: "Registrations",
+                useTitle: false,
                 script: JavaScripts.ViewMode(viewMode),
                 userScript: ss.ViewModeScripts(context: context),
                 userStyle: ss.ViewModeStyles(context: context),
@@ -1702,7 +1703,8 @@ namespace Implem.Pleasanter.Models
                                                         baseModel: registrationModel)
                                                             != Permissions.ColumnPermissionTypes.Update,
                                                     allowDelete: column.AllowDeleteAttachments != false,
-                                                    validateRequired: column.ValidateRequired != false),
+                                                    validateRequired: column.ValidateRequired != false,
+                                                    inputGuide: column.InputGuide),
                                             options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                         break;
                                 }

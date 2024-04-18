@@ -51,7 +51,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Div(css: "command-center", action: () => hb
                             .Button(
                                 text: Displays.Update(context: context),
-                                controlCss: "button-icon validate",
+                                controlCss: "button-icon validate button-positive",
                                 accessKey: "s",
                                 onClick: "$p.send($(this));",
                                 icon: "ui-icon-copy",
@@ -60,7 +60,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 _using: !isHistory)
                             .Button(
                                 text: Displays.Cancel(context: context),
-                                controlCss: "button-icon",
+                                controlCss: "button-icon button-neutral",
                                 onClick: "$p.closeDialog($(this));",
                                 icon: "ui-icon-cancel"))
                         .Hidden(

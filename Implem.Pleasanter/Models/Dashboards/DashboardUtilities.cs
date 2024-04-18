@@ -149,6 +149,7 @@ namespace Implem.Pleasanter.Models
                 siteId: ss.SiteId,
                 parentId: ss.ParentId,
                 referenceType: "Dashboards",
+                useTitle: false,
                 script: JavaScripts.ViewMode(viewMode),
                 userScript: ss.ViewModeScripts(context: context),
                 userStyle: ss.ViewModeStyles(context: context),
@@ -194,35 +195,20 @@ namespace Implem.Pleasanter.Models
                     .ToString();
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static string IndexJson(Context context, SiteSettings ss)
         {
             var view = Views.GetBySession(
                 context: context,
                 ss: ss);
-            var gridData = GetGridData(
-                context: context,
-                ss: ss,
-                view: view);
-            var serverScriptModelRow = ss.GetServerScriptModelRow(
-                context: context,
-                view: view,
-                gridData: gridData);
-            var body = new HtmlBuilder().Grid(
-                context: context,
-                ss: ss,
-                gridData: gridData,
-                view: view,
-                serverScriptModelRow: serverScriptModelRow);
             return new ResponseCollection(context: context)
-                .ViewMode(
-                    context: context,
-                    ss: ss,
-                    view: view,
-                    invoke: "setGrid",
-                    editOnGrid: context.Forms.Bool("EditOnGrid"),
-                    serverScriptModelRow: serverScriptModelRow,
-                    body: body)
-                .Events("on_grid_load")
+                .ReplaceAll("#Guide", new HtmlBuilder()
+                    .Guide(
+                        context: context,
+                        ss: ss,
+                        view: view))
                 .ToJson();
         }
 

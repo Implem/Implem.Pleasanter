@@ -486,5 +486,23 @@ namespace Implem.Pleasanter.Libraries.Settings
             };
             return message;
         }
+
+        public static Process GetProcess(
+            Context context,
+            SiteSettings ss,
+            Func<Process, bool> getProcessMatchConditions)
+        {
+            return ss.Processes
+                ?.Where(o => $"Process_{o.Id}" == context.Forms.ControlId())
+                .Where(o => o.Accessable(
+                    context: context,
+                    ss: ss))
+                .Select(o =>
+                {
+                    o.MatchConditions = getProcessMatchConditions(o);
+                    return o;
+                })
+                .FirstOrDefault(o => o.MatchConditions);
+        }
     }
 }
