@@ -226,7 +226,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
             public string DisplayName;
             public string ADsPath;
             public string LdapObjectGUID;
-            // TODO LDAP://servername/<GUID=XXXXX>で検索可能
             public Implem.ParameterAccessor.Parts.Ldap ldap;
             public string pattern;
         }
