@@ -1,5 +1,5 @@
 ﻿{
-    "ConnectionString": "pmc-pleasanter-test-redis.redis.cache.windows.net:6380,password=GUYB41EFMJTWFIGRw1ikQOOQJHHaUPIsPAzCaKBHPgw=,ssl=True,abortConnect=False",
+    "ConnectionString": null,
     "RetentionPeriod": 1440,
-    "EnableKVS": true
+    "EnableKVS": false
 }
