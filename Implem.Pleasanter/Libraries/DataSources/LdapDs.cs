@@ -346,7 +346,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     else
                     {
                         var groupItem = NewGroupItem(context: context, result: result, ldap: ldap, pattern: pattern);
-                        if (!groups.ContainsKey(groupItem.ADsPath))
+                        if (groupItem != null && !groups.ContainsKey(groupItem.ADsPath))
                         {
                             groups.Add(groupItem.ADsPath, groupItem);
                         }
@@ -372,9 +372,11 @@ namespace Implem.Pleasanter.Libraries.DataSources
             ParameterAccessor.Parts.Ldap ldap,
             string pattern)
         {
+            var displayName = result.Property(context: context, name: ldap.LdapGroupName, pattern: ldap.LdapGroupNamePattern);
+            if (displayName.IsNullOrEmpty()) return null;
             return new GroupItem()
             {
-                DisplayName = result.Property(context: context, name: ldap.LdapGroupName, pattern: ldap.LdapGroupNamePattern),
+                DisplayName = displayName,
                 ADsPath = result.Path,
                 LdapObjectGUID = result.PropertyGUID(context: context, name: "objectGUID"),
                 ldap = ldap,
