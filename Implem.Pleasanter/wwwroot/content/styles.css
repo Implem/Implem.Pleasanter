@@ -306,6 +306,22 @@ pre {
     border-radius: 5px;
 }
 
+#Guide > .with-icon-close {
+    padding: 10px 5px 10px;
+}
+
+#Guide > div > #ReduceGuides {
+    float: left;
+    cursor: pointer;
+    padding-right: 5px;
+}
+
+#Guide > #ExpandGuides {
+    font-weight: bold;
+    cursor: pointer;
+    padding: 10px 5px 10px;
+}
+
 #CopyToClipboards > .display-control {
     float: left;
     cursor: pointer;
@@ -2635,6 +2651,18 @@ _::-webkit-full-page-media, _:future, :root .field-normal .control-checkbox + la
 
 .links {
     padding: 0px 10px;
+}
+
+#Links > .fieldset{
+  display: grid;
+}
+
+#Links > .fieldset > div{
+  overflow: auto;
+}
+
+#Links > .fieldset > div .grid{
+  width: max-content; min-width: 100%;
 }
 
 .link-creations button {
