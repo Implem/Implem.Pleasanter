@@ -2947,7 +2947,6 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static Rds.GroupsWhereCollection AdditionalWhere(Context context, View view)
         {
-            // TODO .ChildGroup(0)が必要か考える
             var deptsSearchText = view.ColumnFilterHash.Get("Depts");
             var usersSearchText = view.ColumnFilterHash.Get("Users");
             return Rds.GroupsWhere()
