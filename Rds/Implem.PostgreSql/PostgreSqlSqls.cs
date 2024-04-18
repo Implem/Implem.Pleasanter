@@ -430,7 +430,8 @@ namespace Implem.PostgreSql
                     ,@ipU as ""Creator""
                     ,@ipU as ""Updator""
             ) as ""Temp""
-            where ""Target"".""Guid"" = ""Temp"".""Guid""
+            where ""Target"".""TenantId"" = ""Temp"".""TenantId""
+                and ""Target"".""Guid"" = ""Temp"".""Guid""
                 and ""Target"".""BinaryType"" = ""Temp"".""BinaryType"";
             insert into ""Binaries"" (
                 ""TenantId""
@@ -469,13 +470,15 @@ namespace Implem.PostgreSql
                     ,@ipU as ""Updator""
             ) as ""Temp""
             left join ""Binaries"" as ""Target"" 
-                on ""Target"".""Guid"" = ""Temp"".""Guid""
+                on ""Target"".""TenantId"" = ""Temp"".""TenantId""
+                and ""Target"".""Guid"" = ""Temp"".""Guid""
                 and ""Target"".""BinaryType"" = ""Temp"".""BinaryType""
             where ""Target"".""Guid"" is null;";
 
         public string GetBinaryHash { get; } = @"
             select digest(""Bin"", @Algorithm)
             from ""Binaries""
-            where ""Guid"" = @Guid;";
+            where ""TenantId"" = @ipT
+                and ""Guid"" = @Guid;";
     }
 }

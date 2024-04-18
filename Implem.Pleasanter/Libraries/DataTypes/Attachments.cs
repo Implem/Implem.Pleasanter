@@ -100,7 +100,8 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 if (attachment.Added == true)
                 {
                     attachment.SetHashCode(
-                        context: context, column: column);
+                        context: context,
+                        column: column);
                 }
                 if (attachment.Deleted == true)
                 {

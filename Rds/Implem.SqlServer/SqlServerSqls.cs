@@ -423,7 +423,8 @@ namespace Implem.SqlServer
                     ,@_U as ""Creator""
                     ,@_U as ""Updator""
             ) as ""Temp""
-            on ""Target"".""Guid"" = ""Temp"".""Guid""
+            on ""Target"".""TenantId"" = @_T
+                and ""Target"".""Guid"" = ""Temp"".""Guid""
                 and ""Target"".""BinaryType"" = ""Temp"".""BinaryType""
             when matched
             then
@@ -465,6 +466,7 @@ namespace Implem.SqlServer
         public string GetBinaryHash { get; } = @"
             select hashbytes(@Algorithm, cast(""Bin"" as varbinary(max)))
             from ""Binaries""
-            where ""Guid"" = @Guid;";
+            where ""TenantId"" = @_T
+                and ""Guid"" = @Guid;";
     }
 }
