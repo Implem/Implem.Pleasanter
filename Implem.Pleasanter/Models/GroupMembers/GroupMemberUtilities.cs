@@ -147,8 +147,7 @@ namespace Implem.Pleasanter.Models
                 : "1=1";
             return new SqlStatement(
                     commandText: Def.Sql.RefreshAllChildMembers
-                        .Replace("{{groupid_search_condition}}", groupidSearchCondition)
-                        .Replace("{{guid}}", Guid.NewGuid().ToString("N")), // TODO GUID不要かもしれない確認
+                        .Replace("{{groupid_search_condition}}", groupidSearchCondition),
                     param: new SqlParamCollection {
                         { "TenantId", tenantId },
                         { "GroupsDepthMax", Implem.DefinitionAccessor.Parameters.General.GroupsDepthMax },

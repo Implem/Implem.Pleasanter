@@ -1,6 +1,6 @@
 ﻿-- テナントの全ての子ユーザを作り直す。
 -- pgsqlのdoブロック内は@TenantId等のパラメータが渡せないため、一時functionを使用する。
-create or replace function pg_temp.refresh_all_member_{{guid}}( 
+create or replace function pg_temp.refresh_all_member( 
     v_tenantid integer
     , v_depth_max integer
     , v_ipu integer
@@ -79,7 +79,7 @@ begin
 end $$ language plpgsql; 
 
 select
-    pg_temp.refresh_all_member_{{guid}}(@TenantId#CommandCount#, @GroupsDepthMax#CommandCount#, @ipU) as refresh_all_member; 
+    pg_temp.refresh_all_member(@TenantId#CommandCount#, @GroupsDepthMax#CommandCount#, @ipU) as refresh_all_member; 
 
-drop function if exists pg_temp.refresh_all_member_{{guid}}(integer, integer, integer);
+drop function if exists pg_temp.refresh_all_member(integer, integer, integer);
 
