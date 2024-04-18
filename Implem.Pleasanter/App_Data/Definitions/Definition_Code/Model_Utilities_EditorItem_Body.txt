@@ -94,7 +94,9 @@ public static string Editor(
         : hb.Template(
             context: context,
             ss: ss,
-            view: null,
+            view: Views.GetBySession(
+                context: context,
+                ss: ss),
             siteId: #modelName#Model.SiteId,
             parentId: ss.ParentId,
             referenceType: "#TableName#",

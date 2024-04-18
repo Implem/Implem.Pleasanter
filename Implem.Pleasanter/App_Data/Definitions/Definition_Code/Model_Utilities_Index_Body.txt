@@ -50,6 +50,7 @@ private static string ViewModeTemplate(
         parentId: ss.ParentId,
         referenceType: "#TableName#",
 
+<!--Model_Utilities_UseTitle-->
 <!--Model_Utilities_TemplateTitle-->
 
         script: JavaScripts.ViewMode(viewMode),

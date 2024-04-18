@@ -42,6 +42,7 @@ namespace Implem.Pleasanter.Models
         public string TopStyle = string.Empty;
         public string TopScript = string.Empty;
         public string TopDashboards = string.Empty;
+        public string Theme = string.Empty;
         public TenantSettings TenantSettings = new TenantSettings();
         public int SavedTenantId = 0;
         public string SavedTenantName = string.Empty;
@@ -59,6 +60,7 @@ namespace Implem.Pleasanter.Models
         public string SavedTopStyle = string.Empty;
         public string SavedTopScript = string.Empty;
         public string SavedTopDashboards = string.Empty;
+        public string SavedTheme = string.Empty;
         public string SavedTenantSettings = string.Empty;
 
         public bool TenantId_Updated(Context context, bool copy = false, Column column = null)
@@ -239,6 +241,18 @@ namespace Implem.Pleasanter.Models
                 &&  (column == null
                     || column.DefaultInput.IsNullOrEmpty()
                     || column.GetDefaultInput(context: context).ToString() != TopDashboards);
+        }
+
+        public bool Theme_Updated(Context context, bool copy = false, Column column = null)
+        {
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != Theme;
+            }
+            return Theme != SavedTheme && Theme != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != Theme);
         }
 
         public bool TenantSettings_Updated(Context context, bool copy = false, Column column = null)
@@ -457,6 +471,7 @@ namespace Implem.Pleasanter.Models
                     case "TopStyle": data.TopStyle = TopStyle; break;
                     case "TopScript": data.TopScript = TopScript; break;
                     case "TopDashboards": data.TopDashboards = TopDashboards; break;
+                    case "Theme": data.Theme = Theme; break;
                     case "TenantSettings": data.TenantSettings = TenantSettings.RecordingJson(context: context); break;
                     case "Creator": data.Creator = Creator.Id; break;
                     case "Updator": data.Updator = Updator.Id; break;
@@ -551,6 +566,11 @@ namespace Implem.Pleasanter.Models
                         column: column);
                 case "TopDashboards":
                     return TopDashboards.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Theme":
+                    return Theme.ToDisplay(
                         context: context,
                         ss: ss,
                         column: column);
@@ -917,6 +937,7 @@ namespace Implem.Pleasanter.Models
                     case "Tenants_TopStyle": TopStyle = value.ToString(); break;
                     case "Tenants_TopScript": TopScript = value.ToString(); break;
                     case "Tenants_TopDashboards": TopDashboards = $"[{value.ToLong()}]"; break;
+                    case "Tenants_Theme": Theme = value.ToString(); break;
                     case "Tenants_Timestamp": Timestamp = value.ToString(); break;
                     case "Comments": Comments.Prepend(
                         context: context,
@@ -996,6 +1017,7 @@ namespace Implem.Pleasanter.Models
             TopStyle = tenantModel.TopStyle;
             TopScript = tenantModel.TopScript;
             TopDashboards = tenantModel.TopDashboards;
+            Theme = tenantModel.Theme;
             TenantSettings = tenantModel.TenantSettings;
             Comments = tenantModel.Comments;
             Creator = tenantModel.Creator;
@@ -1028,6 +1050,7 @@ namespace Implem.Pleasanter.Models
             if (data.TopStyle != null) TopStyle = data.TopStyle.ToString().ToString();
             if (data.TopScript != null) TopScript = data.TopScript.ToString().ToString();
             if (data.TopDashboards != null) TopDashboards = data.TopDashboards.ToString().ToString();
+            if (data.Theme != null) Theme = data.Theme.ToString().ToString();
             if (data.Comments != null) Comments.Prepend(context: context, ss: ss, body: data.Comments);
             if (data.VerUp != null) VerUp = data.VerUp.ToBool();
             data.ClassHash?.ForEach(o => SetClass(
@@ -1241,6 +1264,10 @@ namespace Implem.Pleasanter.Models
                             TopDashboards = dataRow[column.ColumnName].ToString();
                             SavedTopDashboards = TopDashboards;
                             break;
+                        case "Theme":
+                            Theme = dataRow[column.ColumnName].ToString();
+                            SavedTheme = Theme;
+                            break;
                         case "TenantSettings":
                             TenantSettings = GetTenantSettings(context: context, dataRow: dataRow);
                             SavedTenantSettings = TenantSettings.RecordingJson(context: context);
@@ -1350,6 +1377,7 @@ namespace Implem.Pleasanter.Models
                 || TopStyle_Updated(context: context)
                 || TopScript_Updated(context: context)
                 || TopDashboards_Updated(context: context)
+                || Theme_Updated(context: context)
                 || TenantSettings_Updated(context: context)
                 || Comments_Updated(context: context)
                 || Creator_Updated(context: context)
@@ -1398,6 +1426,7 @@ namespace Implem.Pleasanter.Models
                 || TopStyle_Updated(context: context)
                 || TopScript_Updated(context: context)
                 || TopDashboards_Updated(context: context)
+                || Theme_Updated(context: context)
                 || TenantSettings_Updated(context: context)
                 || Comments_Updated(context: context)
                 || Creator_Updated(context: context)

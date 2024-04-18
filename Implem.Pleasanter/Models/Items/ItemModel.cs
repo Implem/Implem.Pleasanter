@@ -312,6 +312,14 @@ namespace Implem.Pleasanter.Models
             ViewModes.Set(context: context, siteId: Site.SiteId);
             switch (Site.ReferenceType)
             {
+                case "Sites":
+                    return SiteUtilities.IndexJson(
+                        context: context,
+                        ss: Site.SiteSettings);
+                case "Dashboards":
+                    return DashboardUtilities.IndexJson(
+                        context: context,
+                        ss: Site.SiteSettings);
                 case "Issues":
                     return IssueUtilities.IndexJson(
                         context: context,
@@ -572,16 +580,16 @@ namespace Implem.Pleasanter.Models
         }
 
         public string DashboardPartLayout (Context context)
-                {
-                    SetSite(
-                        context: context,
-                        initSiteSettings: true,
-                        setSiteIntegration: true,
-                        setAllChoices: true);
-                    return DashboardUtilities.DashboardPartLayout(
-                        context: context,
-                        ss: Site.SiteSettings);
-                }
+        {
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true,
+                setAllChoices: true);
+            return DashboardUtilities.DashboardPartLayout(
+                context: context,
+                ss: Site.SiteSettings);
+        }
 
         public string Gantt(Context context)
         {
@@ -951,13 +959,48 @@ namespace Implem.Pleasanter.Models
 
         public string NewJson(Context context)
         {
+            SetSite(
+                context: context,
+                siteOnly: true,
+                initSiteSettings: true);
+            var ss = Site.SiteSettings;
+            var referenceType = Site.ReferenceType;
             if (!context.QueryStrings.Bool("control-auto-postback"))
             {
+                Process process = null;
+                if (referenceType == "Issues")
+                {
+                    var issueModel = new IssueModel(
+                        context: context,
+                        ss: ss,
+                        issueId: 0);
+                    process = Process.GetProcess(
+                        context: context,
+                        ss: ss,
+                        getProcessMatchConditions: (o) => issueModel.GetProcessMatchConditions(
+                            context: context,
+                            ss: ss,
+                            process: o));
+                }
+                else if (referenceType == "Results")
+                {
+                    var resultModel = new ResultModel(
+                        context: context,
+                        ss: ss,
+                        resultId: 0);
+                    process = Process.GetProcess(
+                        context: context,
+                        ss: ss,
+                        getProcessMatchConditions: (o) => resultModel.GetProcessMatchConditions(
+                            context: context,
+                            ss: ss,
+                            process: o));
+                }
                 return new ResponseCollection(context: context)
                     .ReplaceAll("#MainContainer", New(context: context))
                     .WindowScrollTop()
                     .FocusMainForm()
-                    .ClearFormData(_using: !context.QueryStrings.Bool("control-auto-postback"))
+                    .ClearFormData(_using: process?.ActionType != Libraries.Settings.Process.ActionTypes.PostBack)
                     .PushState("Edit", Locations.Get(
                         context: context,
                         parts: new string[]
@@ -971,26 +1014,22 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                SetSite(
-                    context: context,
-                    siteOnly: true,
-                    initSiteSettings: true);
-                switch (Site.ReferenceType)
+                switch (referenceType)
                 {
                     case "Issues":
                         return IssueUtilities.EditorJson(
                             context: context,
-                            ss: Site.SiteSettings,
+                            ss: ss,
                             issueId: 0);
                     case "Results":
                         return ResultUtilities.EditorJson(
                             context: context,
-                            ss: Site.SiteSettings,
+                            ss: ss,
                             resultId: 0);
                     case "Wikis":
                         return WikiUtilities.EditorJson(
                             context: context,
-                            ss: Site.SiteSettings,
+                            ss: ss,
                             wikiId: 0);
                     default:
                         return HtmlTemplates.Error(
@@ -1282,8 +1321,8 @@ namespace Implem.Pleasanter.Models
                 userId: context.UserId).IsNullOrEmpty())
             {
                 return Messages.ResponseExportNotSetEmail(
-                    context: context, 
-                    target: null, 
+                    context: context,
+                    target: null,
                     $"{context.User.Name}<{context.User.LoginId}>").ToJson();
             }
             switch (Site.ReferenceType)
