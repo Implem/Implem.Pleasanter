@@ -3864,8 +3864,7 @@ namespace Implem.Pleasanter.Models
                     new ControlData(
                         text: group.SelectableText(
                             context: context,
-                            //format: Parameters.GroupChildren.ChildFormat),
-                            format: "[[Group] [GroupId]] [GroupName]"), // TODO 必要ならparameter化
+                            format: Parameters.GroupChildren.GroupFormat),
                         title: group?.Tooltip()));
             }
         }
