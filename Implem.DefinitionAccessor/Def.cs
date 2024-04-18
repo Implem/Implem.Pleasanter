@@ -13629,7 +13629,6 @@ namespace Implem.DefinitionAccessor
         public string SelectSelectableMembers;
         public string UpsertGroupChild;
         public string SelectSelectableGroupChildren;
-        // TODO ここから追加確認
         public string GetGroupParentIds;
         public string GetGroupChildrenIds;
         public string RefreshAllChildMembers;
