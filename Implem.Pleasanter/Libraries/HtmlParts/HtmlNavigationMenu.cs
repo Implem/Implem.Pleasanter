@@ -498,17 +498,17 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             {
                 case "OpenImportDialog":
                     return new HtmlAttributes()
-                        .OnClick("$p.openImportSitePackageDialog($(this));")
+                        .OnClick("$p.closeSideMenu(); $p.openImportSitePackageDialog($(this));")
                         .DataAction("OpenImportSitePackageDialog")
                         .DataMethod("post");
                 case "OpenExportDialog":
                     return new HtmlAttributes()
-                        .OnClick("$p.openExportSitePackageDialog($(this));")
+                        .OnClick("$p.closeSideMenu(); $p.openExportSitePackageDialog($(this));")
                         .DataAction("OpenExportSitePackageDialog")
                         .DataMethod("post");
                 case "OpenChangePasswordDialog":
                     return new HtmlAttributes()
-                        .OnClick("$p.openChangePasswordDialog($(this), 'ChangePasswordForm');")
+                        .OnClick("$p.closeSideMenu(); $p.openChangePasswordDialog($(this), 'ChangePasswordForm');")
                         .DataAction("OpenChangePasswordDialog")
                         .DataMethod("post");
                 case "DisplayStartGuide":

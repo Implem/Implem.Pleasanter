@@ -24,7 +24,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 ss: ss,
                 view: null,
                 title: Displays.Admin(context: context),
-                useNavigationMenu: false,
+                useNavigationMenu: true,
                 action: () => hb
                     .Nav(css: "cf", action: () => hb
                         .Ul(css: "nav-sites", action: () => hb
