@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.DirectoryServices;
 using System.Linq;
+using static Implem.Pleasanter.Models.SysLogModel;
 namespace Implem.Pleasanter.Libraries.DataSources
 {
     public static class LdapDs
@@ -227,8 +228,9 @@ namespace Implem.Pleasanter.Libraries.DataSources
             public string DisplayName;
             public string ADsPath;
             public string LdapObjectGUID;
-            public Implem.ParameterAccessor.Parts.Ldap ldap;
-            public string pattern;
+            public Implem.ParameterAccessor.Parts.Ldap Ldap;
+            public string Pattern;
+            public int GraphIdx;
         }
 
         public static void Sync(Context context)
@@ -368,7 +370,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         // LdapSyncGroupPatterns用
                         if (result.IsGroup(context: context))
                         {
-                            var groupItem = NewGroupItem(context: context, result: result, ldap: ldap, pattern: pattern);
+                            var groupItem = NewGroupItem(
+                                context: context,
+                                result: result,
+                                ldap: ldap,
+                                pattern: pattern,
+                                graphIdx: groups.Count);
                             if (groupItem != null && !groups.ContainsKey(groupItem.ADsPath))
                             {
                                 groups.Add(groupItem.ADsPath, groupItem);
@@ -394,7 +401,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
             Context context,
             SearchResult result,
             ParameterAccessor.Parts.Ldap ldap,
-            string pattern)
+            string pattern,
+            int graphIdx)
         {
             var displayName = result.Property(context: context, name: ldap.LdapGroupName, pattern: ldap.LdapGroupNamePattern);
             if (displayName.IsNullOrEmpty()) return null;
@@ -403,8 +411,9 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 DisplayName = displayName,
                 ADsPath = result.Path,
                 LdapObjectGUID = result.PropertyGUID(context: context, name: "objectGUID"),
-                ldap = ldap,
-                pattern = pattern
+                Ldap = ldap,
+                Pattern = pattern,
+                GraphIdx = graphIdx
             };
         }
 
@@ -421,18 +430,19 @@ namespace Implem.Pleasanter.Libraries.DataSources
             try
             {
                 var statements = new List<SqlStatement>();
+                var groupGraph = new Dictionary<int, int[]>();
                 // グループ作成
                 groups.Values
                     .ForEach(group =>
                     {
                         statements.Add(Rds.UpdateOrInsertGroups(
                             param: Rds.GroupsParam()
-                                .TenantId(group.ldap.LdapTenantId)
+                                .TenantId(group.Ldap.LdapTenantId)
                                 .GroupName(group.DisplayName)
                                 .Disabled(false)
                                 .LdapSync(true)
                                 .LdapGuid(group.LdapObjectGUID)
-                                .LdapSearchRoot(group.ldap.LdapSearchRoot)
+                                .LdapSearchRoot(group.Ldap.LdapSearchRoot)
                                 .SynchronizedTime(synchronizedTime),
                             where: Rds.GroupsWhere().LdapGuid(group.LdapObjectGUID)));
                     });
@@ -461,13 +471,13 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     .ForEach(groupItem =>
                     {
                         var directorySearcher = DirectorySearcher(
-                            loginId: groupItem.ldap.LdapSyncUser,
-                            password: groupItem.ldap.LdapSyncPassword,
-                            ldap: groupItem.ldap,
+                            loginId: groupItem.Ldap.LdapSyncUser,
+                            password: groupItem.Ldap.LdapSyncPassword,
+                            ldap: groupItem.Ldap,
                             ldapSearchRoot: groupItem.ADsPath);
                         var ldapUrl = groupItem.ADsPath.Substring(0, groupItem.ADsPath.LastIndexOf('/') + 1);
                         var userLoginIds = new List<string>();
-                        var groupGuids = new List<string>();
+                        var groupGuids = new List<GroupItem>();
                         var memberLow = 0;
                         var memberSize = 1000;
                         var isLoop = true;
@@ -486,7 +496,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                 {
                                     var key = ldapUrl + item;
                                     if (users.ContainsKey(key)) userLoginIds.Add(users[key]);
-                                    if (groups.ContainsKey(key)) groupGuids.Add(groups[key].LdapObjectGUID);
+                                    if (groups.ContainsKey(key)) groupGuids.Add(groups[key]);
                                 }
                                 if (name.IndexOf("*") < 0)
                                 {
@@ -504,18 +514,31 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                         : "(1=0)")
                                 .Replace("{{groupGuids_condition}}",
                                     groupGuids.Any()
-                                        ? $" \"t5\".\"LdapGuid\" in ({groupGuids.Select(s => $"'{s}'").Join()}) " 
+                                        ? $" \"t5\".\"LdapGuid\" in ({groupGuids.Select(s => $"'{s.LdapObjectGUID}'").Join()}) " 
                                         : "(1=0)"),
                             param: new SqlParamCollection {
-                                    { "TenantId", groupItem.ldap.LdapTenantId },
+                                    { "TenantId", groupItem.Ldap.LdapTenantId },
                                     { "LdapObjectGUID", groupItem.LdapObjectGUID },
                                     { "isMemberInsert", userLoginIds.Any() },
                                     { "isChildInsert", groupGuids.Any() },
                             }));
+                        groupGraph.Add(groupItem.GraphIdx, groupGuids.Select(v => v.GraphIdx).ToArray());
                     });
+                var checkCycle = CheckGroupChildCycle(graph: groupGraph, lvMax: Parameters.General.GroupsDepthMax);
+                if (checkCycle < 0)
+                {
+                    new SysLogModel(
+                        context: context,
+                        method: "LdapSyncGroup",
+                        message: checkCycle == -1
+                            ? "Failed to import LDAP group.Groups in LDAP are circular references."
+                            : "Failed to import LDAP group.LDAP groups are nested too deeply.",
+                        sysLogType: SysLogTypes.UserError);
+                    return;
+                }
                 // テナントの子グループユーザ再構成
                 groups
-                    .Select(group => group.Value.ldap.LdapTenantId)
+                    .Select(group => group.Value.Ldap.LdapTenantId)
                     .Distinct()
                     .ForEach(tenantId => statements.Add(GroupMemberUtilities.RefreshAllChildMembers(tenantId)));
                 Repository.ExecuteNonQuery(
@@ -536,6 +559,45 @@ namespace Implem.Pleasanter.Libraries.DataSources
             }
         }
 
+        // グループの循環参照・ネストの深さチェック
+        private static int CheckGroupChildCycle(Dictionary<int, int[]> graph, int lvMax)
+        {
+            var errCycle = -1;
+            var errLvOver = -2;
+            var lv = 0;
+            foreach (var k in graph.Keys)
+            {
+                var paretIds = new Stack<int>();
+                var ret = Scanning(graph, k, paretIds, 0, lvMax);
+                if (ret < 0)
+                {
+                    lv = ret;
+                    break;
+                }
+                else if (ret > lv)
+                {
+                    lv = ret;
+                }
+            }
+            return lv;
+
+            int Scanning(Dictionary<int, int[]> graph, int idx0, Stack<int> paretIds, int lv, int lvMax)
+            {
+                if (lv >= lvMax) return errLvOver;
+                if (!graph.ContainsKey(idx0)) return lv;
+                paretIds.Push(idx0);
+                var max = lv;
+                foreach (var idx1 in graph[idx0])
+                {
+                    if (paretIds.Contains(idx1)) return errCycle;
+                    var val = Scanning(graph, idx1, paretIds, lv + 1, lvMax);
+                    if (val < 0) return val;
+                    if (val > max) max = val;
+                }
+                paretIds.Pop();
+                return max;
+            }
+        }
 
         private static void SetPropertiesToLoad(DirectorySearcher directorySearcher, ParameterAccessor.Parts.Ldap ldap)
         {
