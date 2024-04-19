@@ -3208,6 +3208,10 @@ input[type="password"]::-ms-reveal{
     border-radius: 2px;
 }
 
+.ui-icon-white {
+    background-image: url(../styles/plugins/images/ui-icons_ffffff_256x240.png);
+}
+
 div.field-control .ui-multiselect.ui-state-disabled {
     background-color: whitesmoke;
     opacity: 1;
