@@ -22,29 +22,29 @@
 }
 
 .control-selectable .ui-selecting {
-    background: #106EBE;
+    background: #7A43B1;
     color: #FFFFFF;
 }
 
 .control-selectable .ui-selected {
-    background: #106EBE;
+    background: #7A43B1;
     color: #FFFFFF;
 }
 
 .nav-sites .ui-icon {
-    background-image: url("images/ui-icons_3d3d3d_256x240.png");
+    background-image: url("images/ui-icons_ffffff_256x240.png");
 }
 
 #RecordInfo .ui-icon {
-    background-image: url("images/ui-icons_3d3d3d_256x240.png");
+    background-image: url("images/ui-icons_ffffff_256x240.png");
 }
 
 #EditorComments .ui-icon {
-    background-image: url("images/ui-icons_3d3d3d_256x240.png");
+    background-image: url("images/ui-icons_ffffff_256x240.png");
 }
 
 .ui-icon.ui-icon-pencil.button-edit-markdown {
-    background-image: url("images/ui-icons_3d3d3d_256x240.png");
+    background-image: url("images/ui-icons_ffffff_256x240.png");
 }
 
 .ui-widget-content .control-markup a {
@@ -56,7 +56,8 @@
 }
 
 .field-control .control-textbox {
-    color: #222222;
+    color: #FFFFFF;
+    background-color: #666666;
 }
 
 .field-control .already-attachments .file-name {
@@ -68,23 +69,23 @@
 }
 
 .field-control .ui-multiselect .ui-icon.ui-icon-triangle-1-s {
-    background-image: url("images/ui-icons_3d3d3d_256x240.png");
+    background-image: url("images/ui-icons_ffffff_256x240.png");
 }
 
 #CopyToClipboards .ui-icon.ui-icon-link {
-    background-image: url("images/ui-icons_3d3d3d_256x240.png");
+    background-image: url("images/ui-icons_ffffff_256x240.png");
 }
 
 .ui-icon.ui-icon-close {
-    background-image: url("images/ui-icons_3d3d3d_256x240.png");
+    background-image: url("images/ui-icons_ffffff_256x240.png");
 }
 
 .ui-button-icon.ui-icon.ui-icon-close {
-    background-image: url("images/ui-icons_3d3d3d_256x240.png");
+    background-image: url("images/ui-icons_ffffff_256x240.png");
 }
 
 #ViewFilters .ui-icon.ui-icon-info {
-    background-image: url("images/ui-icons_3d3d3d_256x240.png");
+    background-image: url("images/ui-icons_ffffff_256x240.png");
 }
 
 #Links .grid-row a {
@@ -98,11 +99,11 @@
 }
 
 a, a:link {
-    color: #106EBE;
+    color: #FFFFFF;
 }
 
 body {
-    background-color: #E7E7E7;
+    background-color: #515151;
 }
 
 /* コンテンツ */
@@ -117,9 +118,9 @@ body {
 
 /* 共通ヘッダ */
 #MainContainer #Header {
-    background-color: #FFFFFF;
-    border-bottom: 1px solid #CECECE;
-    color: #222222;
+    background-color: #1F1F1F;
+    border-bottom: 1px solid #1F1F1F;
+    color: #FFFFFF;
 }
 
 #Header #Logo {
@@ -160,9 +161,10 @@ nav.both.cf {
 }
 
 #CopyDirectUrlToClipboard {
-    border: 1px solid #CECECE;
+    border: 1px solid #8F8F8F;
     padding: 0 2px;
     border-radius: 4px;
+    background-color: #666666;
 }
 
 /* パンくず */
@@ -173,7 +175,7 @@ nav.both.cf {
 #Application nav #Breadcrumb {
     display: flex;
     margin: 0;
-    background-color: #FFFFFF;
+    background-color: #515151;
     width: 100%;
     box-shadow: 0 2px 2px rgba(0,0,0,.2);
     position: relative;
@@ -205,15 +207,15 @@ nav.both.cf {
 }
 
 #Application nav #Breadcrumb li:last-child {
-    background-color: #106EBE;
+    background-color: #7A43B1;
 }
 
 #Application nav #Breadcrumb li:nth-last-child(2)::after {
-    background-color: #106EBE;
+    background-color: #7A43B1;
 }
 
 #Application nav #Breadcrumb li:last-child::after {
-    border-left: 15px solid #106EBE;
+    border-left: 15px solid #7A43B1;
 }
 
 #Application nav #Breadcrumb li:before {
@@ -223,7 +225,7 @@ nav.both.cf {
 
 #Application nav #Breadcrumb li:after {
     right: -39px;
-    border-left: 15px solid #fff;
+    border-left: 15px solid #515151;
 }
 
 #Application nav #Breadcrumb li:last-child a {
@@ -266,17 +268,24 @@ nav.both.cf {
     padding: 8px 16px 0;
     border: none;
     border-radius: 0;
-    background-color: #DEECF9;
+    background-color: #333333;
     color: #222222;
 }
 
 #MainForm #ViewFilters > .display-control {
     margin: 0 8px 8px 0;
+    color: #FFFFFF;
 }
 
 #MainForm #ViewFilters > .field-auto-thin {
     height: 30px;
     margin-bottom: 8px;
+}
+
+#MainForm #ViewFilters #ViewFilters_Reset {
+    background-color: #666666;
+    border: 1px solid #8F8F8F;
+    color: #FFFFFF;
 }
 
 /* 結果 */
@@ -285,7 +294,7 @@ nav.both.cf {
     padding: 8px 16px 0;
     border: none;
     border-radius: 0;
-    background-color: #DEECF9;
+    background-color: #333333;
     color: #222222;
 }
 
@@ -293,12 +302,14 @@ nav.both.cf {
     height: auto;
     margin: 0 0 8px;
     border-radius: 4px;
-    background: #C1E1FF;
-    border: 1px solid #90CAFF;
+    background: #1F1F1F;
+    border: 1px solid #1F1F1F;
+    color: #FFFFFF;
 }
 
 #MainForm #Aggregations > .display-control{
     margin: 0 8px 8px 0;
+    color: #FFFFFF;
 }
 
 #MainForm #Aggregations .label.overdue {
@@ -309,6 +320,7 @@ nav.both.cf {
 #MainForm #Aggregations .data{
     margin: 0 16px 8px 0;
     min-height: 30px;
+    color: #FFFFFF;
 }
 
 #MainForm #Aggregations span{
@@ -342,13 +354,13 @@ nav.both.cf {
 
 /* テーブルヘッダ */
 .grid-row .ui-icon {
-    background-image: url("images/ui-icons_3d3d3d_256x240.png");
+    background-image: url("images/ui-icons_ffffff_256x240.png");
 }
 
 .ui-widget-header,
 .ui-dialog.ui-widget.ui-widget-content fieldset .ui-widget-header,
 #ProcessForm #ProcessTabsContainer fieldset .ui-widget-header {
-    background: #106EBE;
+    background: #7A43B1;
 }
 
 .ui-multiselect-header {
@@ -367,6 +379,11 @@ nav.both.cf {
 
 #MainForm .grid > thead > tr:first-child > th:first-child {
     border-radius: 0;
+    border-left: none;
+}
+
+#MainForm .grid > thead > tr:first-child > th:last-child {
+    border-right: none;
 }
 
 /* テーブルヘッダ（スクロール） */
@@ -379,16 +396,17 @@ thead th:has(.control-checkbox) {
 
 /* フォーム */
 .field-control .control-text {
-    border: 1px solid #CECECE;
+    border: 1px solid #8F8F8F;
     border-radius: 4px;
     padding: 4px 8px 4px 8px;
-    color: #222222;
+    color: #FFFFFF;
+    background-color: #666666;
 }
 
 #SearchField .control-textbox,
 .field-control .control-textbox,
 .field-control .control-markup {
-    border: 1px solid #CECECE;
+    border: 1px solid #8F8F8F;
 }
 
 #SearchField .control-textbox:focus{
@@ -397,14 +415,17 @@ thead th:has(.control-checkbox) {
 
 #MainContainer .fieldset.enclosed,
 #MainContainer .fieldset.enclosed-thin {
-    border: 1px solid #CECECE;
+    border: 1px solid #8F8F8F;
     border-radius: 4px;
-    background: #F8F8F8;
+    background: #3C3C3C;
 }
 
 #MainContainer .field-control .control-dropdown,
 #MainContainer .field-control .ui-multiselect {
     border-radius: 4px;
+    color: #FFFFFF;
+    background-color: #666666;
+    border: 1px solid #8F8F8F;
 }
 
 #MainContainer .fieldset .field-normal .field-control .control-dropdown,
@@ -424,7 +445,7 @@ thead th:has(.control-checkbox) {
 }
 
 .field-control pre {
-    color: #222222;
+    color: #FFFFFF;
 }
 
 .control-textbox:focus,
@@ -451,6 +472,8 @@ font-family: 'メイリオ', 'Meiryo', 'Hiragino Kaku Gothic ProN', 'ヒラギ�
     padding: 8px 28px 8px 8px;
     border-radius: 4px;
     color: #222222;
+    background-color: #666666;
+    border: 1px solid #8F8F8F;
 }
 
 #Editor .control-markdown{
@@ -459,7 +482,7 @@ font-family: 'メイリオ', 'Meiryo', 'Hiragino Kaku Gothic ProN', 'ヒラギ�
 }
 
 .field-control .control-attachments-upload {
-    border: 2px dotted #106EBE;
+    border: 2px dotted #7A43B1;
 }
 
 fieldset .command-left {
@@ -508,7 +531,11 @@ fieldset .command-left > button {
 
 .field-control label,
 .field-control textarea {
-    color: #222222;
+    color: #FFFFFF;
+}
+
+.field-control textarea {
+    background-color: #666666;
 }
 
 .ui-widget.ui-state-default.ui-multiselect {
@@ -517,7 +544,7 @@ fieldset .command-left > button {
 
 .field-control .container-normal .ui-slider-handle {
     background-image: none;
-    background-color: #106EBE;
+    background-color: #7A43B1;
     border-radius: 2px;
     outline: none;
 }
@@ -530,11 +557,11 @@ fieldset .command-left > button {
 }
 
 .field-control .container-normal .already-attachments {
-    background-color: #DEECF9;
+    background-color: #1F1F1F;
 }
 
 .field-control .container-normal .control-attachments-item {
-    border: 1px solid #106EBE;
+    border: 1px solid #7A43B1;
 }
 
 .field-control .container-normal .already-attachments.preparation-delete {
@@ -551,11 +578,11 @@ fieldset .command-left > button {
 }
 /* ボタン */
 .ui-button {
-    background: #FFFFFF;
+    background: #666666;
     border-radius: 4px !important;
-    border: 1px solid #CECECE;
+    border: 1px solid #666666;
     box-shadow: 0 1px 2px rgba(0,0,0,.1);
-    color: #222222;
+    color: #FFFFFF;
 }
 
 .ui-button:hover {
@@ -573,7 +600,7 @@ fieldset .command-left > button {
 }
 
 .ui-widget.ui-widget-content {
-    border: 1px solid #CECECE;
+    border: 1px solid #8F8F8F;
     border-radius: 4px;
 }
 
@@ -633,8 +660,8 @@ fieldset .command-left > button {
 .button-positive:focus,
 .button-positive:active {
     background: none;
-    background-color: #106EBE;
-    border: 1px solid #106EBE;
+    background-color: #7A43B1;
+    border: 1px solid #7A43B1;
     color: #FFFFFF;
 }
 
@@ -709,13 +736,15 @@ fieldset .ui-button,
 }
 
 fieldset .legend{
-    color: #222222;
+    color: #FFFFFF;
 }
 
 /* 一覧画面 */
 #ViewModeContainer .grid > thead > tr > th {
     padding: 8px;
     font-weight: bold;
+    border-left: 1px solid #8F8F8F;
+    border-right: 1px solid #8F8F8F;
 }
 
 #ViewModeContainer > .both{
@@ -738,10 +767,26 @@ fieldset .legend{
     padding: 8px;
 }
 
+#ViewModeContainer .grid > tbody .grid-row {
+    background-color: #515151;
+}
+
 #ViewModeContainer .grid > tbody > tr > td,
 #EditorTabsContainer .grid > tbody > tr > td {
-    border-left: 1px solid #ECECEC;
-    border-right: 1px solid #ECECEC;
+    border-left: 1px solid #8F8F8F;
+    border-right: 1px solid #8F8F8F;
+    color: #FFFFFF;
+}
+
+#ViewModeContainer .grid > tbody > tr > td:first-child {
+    border-left: none;
+}
+
+#ViewModeContainer .grid > tbody > tr > td:last-child {
+    border-right: none;
+}
+
+#ViewModeContainer .grid > tbody > tr > td .status-new {
     color: #222222;
 }
 
@@ -749,8 +794,8 @@ fieldset .legend{
 #EditorTabsContainer .grid-row .comment {
     margin-bottom: 0;
     padding: 4px 4px 4px 16px;
-    background: #EFF6FC;
-    border: 1px solid #C1E1FF;
+    background: #666666;
+    border: 1px solid #666666;
     margin-bottom: 4px;
 }
 
@@ -851,7 +896,7 @@ table.grid tbody td > input {
 }
 
 #Editor #EditorComments{
-    background: #DEECF9;
+    background: #1F1F1F;
     padding-top: 16px;
     padding-left: 16px;
     padding-right: 16px;
@@ -865,6 +910,11 @@ table.grid tbody td > input {
     border-bottom: 1px solid #CECECE;
     background: none;
     color: #222222;
+}
+
+#Editor #EditorComments .control-textarea {
+    background-color: #666666;
+    border: 1px solid #8F8F8F;
 }
 
 #Application #TemplateTabsContainer {
@@ -896,10 +946,10 @@ table.grid tbody td > input {
 .template-tab-container > .ui-widget-header,
 .ui-dialog .ui-dialog-content .tab-container .ui-tabs-nav.ui-widget-header,
 .ui-dialog .ui-dialog-content form .tab-container > .ui-widget-header {
-    background: #DEECF9;
+    background: #1F1F1F;
     border: none;
     border-radius: 0;
-    border-bottom: 4px solid #106EBE;
+    border-bottom: 4px solid #7A43B1;
 }
 
 .ui-tabs .ui-tabs-nav li.ui-tabs-active,
@@ -919,7 +969,7 @@ table.grid tbody td > input {
 .template-tab-container li.ui-state-active a,
 .ui-dialog .ui-dialog-content .tab-container .ui-tabs-nav li.ui-state-active a,
 .ui-dialog .ui-dialog-content form .tab-container .ui-tabs-nav li.ui-state-active a{
-    background: #106EBE;
+    background: #7A43B1;
     border-radius: 4px 4px 0 0;
     font-weight: bold;
     color: #fff;
@@ -936,9 +986,9 @@ table.grid tbody td > input {
 .template-tab-container li a,
 .ui-dialog .ui-dialog-content .tab-container .ui-tabs-nav li a,
 .ui-dialog .ui-dialog-content form .tab-container .ui-tabs-nav li a {
-    background: #fff;
+    background: #666666;
     border-radius: 4px 4px 0 0;
-    color: #106EBE;
+    color: #FFFFFF;
 }
 
 .ui-corner-all, .ui-corner-bottom, .ui-corner-right, .ui-corner-br {
@@ -947,24 +997,28 @@ table.grid tbody td > input {
 
 .ui-dialog.ui-widget.ui-widget-content {
     padding: 0;
-    border: none;
     border-radius: 0;
 }
 
+.ui-dialog.ui-widget.ui-widget-content .ui-dialog-content.ui-widget-content{
+    background-color: #1F1F1F; 
+}
+
 .ui-dialog.ui-widget.ui-widget-content .ui-widget-header {
-    background: #fff;
+    background: #202020;
     border: none;
-    border-bottom: 1px solid #CECECE;
+    border-bottom: 1px solid #8F8F8F;
 }
 
 .ui-dialog.ui-widget.ui-widget-content .ui-widget-header .ui-dialog-title {
-    color: #222222;
+    color: #FFFFFF;
 }
 
 .ui-dialog.ui-widget.ui-widget-content .ui-widget-header .ui-dialog-titlebar-close {
     box-shadow: none;
     border: none;
     right: 1.5rem;
+    border-radius: 50%!important;
 }
 
 .ui-dialog .ui-dialog-content form .tab-container.ui-tabs fieldset {
@@ -974,6 +1028,10 @@ table.grid tbody td > input {
 
 .ui-dialog .ui-dialog-content form .tab-container.ui-tabs fieldset fieldset {
     margin: 0 10px 10px 10px;
+}
+
+.ui-dialog .ui-dialog-content form .tab-container.ui-tabs fieldset fieldset textarea {
+    background-color: #666666;
 }
 
 #Application #Guide > div {
@@ -988,29 +1046,29 @@ table.grid tbody td > input {
 
 #HeaderTitleContainer #HeaderTitle {
     font-size: 16px;
-    color: #222;
+    color: #FFFFFF;
 }
 
 #RecordHeader #RecordInfo {
     padding: 0 16px;
-    color: #222222;
+    color: #FFFFFF;
 }
 
 #RecordHeader #RecordInfo div p .elapsed-time {
-    background-color: #CECECE;
+    background-color: #1F1F1F;
 }
 
 .ui-icon, .ui-widget-content .ui-icon {
-    background-image: url("images/ui-icons_3d3d3d_256x240.png");
+    background-image: url("images/ui-icons_ffffff_256x240.png");
 }
 
 .control-selectable .ui-selected {
-    background: #106EBE;
-    border: 1px solid #005A9E;
+    background: #7A43B1;
+    border: 1px solid #5D2D8C;
 }
 
 .control-selectable li:active {
-    background: #106EBE;
+    background: #7A43B1;
     border: 1px solid #005A9E;
     color: #FFFFFF;
 }
@@ -1019,7 +1077,7 @@ table.grid tbody td > input {
 .ui-widget-content .ui-state-default,
 .ui-widget-header .ui-state-default {
     border: none;
-    color: #106EBE;
+    color: #7A43B1;
 }
 
 .template-tab-container .fieldset {
@@ -1027,12 +1085,13 @@ table.grid tbody td > input {
 }
 
 .ui-tabs .ui-tabs-panel {
-    background-color: #FFFFFF;
+    background-color: #333333;
 }
 
 .ui-widget-content {
-    border: 1px solid #AEAEAE;
-    background-color: #F5F5F5;
+    border: 1px solid #8F8F8F;
+    background-color: #666666;
+    color: #FFFFFF;
 }
 
 .container-selectable {
@@ -1040,16 +1099,16 @@ table.grid tbody td > input {
 }
 
 .field-control .container-selectable .wrapper {
-    background-color: #FFFFFF;
+    background-color: #3C3C3C;
 }
 
 fieldset .field-vertical > .field-label {
     padding: 0;
 }
 
-.field-label label{
+.field-label label {
     cursor: default;
-    color: #222222;
+    color: #FFFFFF;
 }
 
 .field-control .command-left .control-textbox {
@@ -1118,7 +1177,7 @@ fieldset .field-vertical > .field-label {
 /* トップ（スタートガイド） */
 #MainForm #StartGuide {
     width: calc(100% - 32px);
-    background-color: #FFFFFF;
+    background-color: #666666;
     border-radius: 4px;
     margin: 16px 16px 0;
     padding: 24px 0 0 0;
@@ -1126,7 +1185,7 @@ fieldset .field-vertical > .field-label {
 }
 
 #MainForm #StartGuide > #StartGuideContents > a:hover {
-    background-color: #EFF6FC;
+    background-color: #8B8B8B;
 }
 
 #MainForm #StartGuide > #StartGuideContents {
@@ -1193,8 +1252,8 @@ fieldset .field-vertical > .field-label {
 }
 
 #Application .nav-site .conditions span.count {
-    background-color: #C1E1FF;
-    border: 1px solid #90CAFF;
+    background-color: #1F1F1F;
+    border: 1px solid #1F1F1F;
 }
 
 #Application .nav-site .conditions span.overdue {
@@ -1205,7 +1264,7 @@ fieldset .field-vertical > .field-label {
 #Application .nav-site {
     width: 209px;
     min-height: 140px;
-    background-color: #FFFFFF;
+    background-color: #666666;
     border: none;
     border-radius: 4px;
     box-shadow: 0 2px 2px rgba(0,0,0,.2);
@@ -1278,6 +1337,7 @@ fieldset .field-vertical > .field-label {
     background: none;
     padding: 0 8px;
     margin: 6px 6px 6px 0;
+    color: #FFFFFF;
 }
 
 .site-icon{
@@ -1329,7 +1389,7 @@ fieldset .field-vertical > .field-label {
     width: 32px;
     height: 32px;
     z-index: 9999;
-    background-color: #FFFFFF;
+    background-color: #1F1F1F;
     padding: 12px;
     border-radius: 4px
 }
@@ -1361,7 +1421,7 @@ fieldset .field-vertical > .field-label {
 .hamburger-menuwrap {
     position: fixed;
     height: 100%;
-    background: #FFFFFF;
+    background: #1F1F1F;
     padding: 100px 0 16px;
     z-index: 9998;
     transition: .3s;
@@ -1397,12 +1457,12 @@ fieldset .field-vertical > .field-label {
 }
 
 .accordion a img.new {
-    background-color: #106EBE;
+    background-color: #7A43B1;
     border-radius: 16px;
 }
 
 .hamburger-menulist li a:hover {
-    background-color: #DEECF9;
+    background-color: #1F1F1F;
 }
 
 #hamburger:checked ~ .hamburger-menuwrap {
@@ -1506,7 +1566,7 @@ section.accordion {
 
 .menubox a:hover,
 .menubox label:hover {
-    background-color: #DEECF9;
+    background-color: #1F1F1F;
 }
 
 .menubox label span:first-child {
@@ -1517,7 +1577,7 @@ section.accordion {
     height: 0;
     padding: 0;
     overflow: hidden;
-    background-color: #F5F5F5;
+    background-color: #515151;
 }
 
 .menubox-sub ul {
