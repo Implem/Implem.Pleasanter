@@ -1110,6 +1110,10 @@ fieldset .field-vertical > .field-label {
     border: none;
 }
 
+.message-dialog .alert-error {
+    background-color: #E03E3E;
+}
+
 /* フッタボタン */
 #Application #MainCommandsContainer {
     height: 63px;
