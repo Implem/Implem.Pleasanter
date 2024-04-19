@@ -7,6 +7,6 @@
 catch
 {
     return new ErrorData(
-        type: Error.Types.FailedWriteFile, id:
-        #ModelName#Id);
+        type: Error.Types.FailedWriteFile,
+        id: #ModelName#Id);
 }
