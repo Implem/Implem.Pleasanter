@@ -254,7 +254,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .ForEach(pattern =>
                         {
                             // Uers用Ldap同期処理
-                            // 既存の処理を変えたくない為にLdapSyncPatternsとLdapSynGroupPatternsに分けた
+                            // 既存の振る舞いを変えたくない為にLdapSyncPatternsとLdapSynGroupPatternsに分け、ここではユーザのみ取得する。
                             Sync(
                                 context: context,
                                 ldap: ldap,
@@ -428,6 +428,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                             param: Rds.GroupsParam()
                                 .TenantId(g.ldap.LdapTenantId)
                                 .GroupName(g.DisplayName)
+                                .Disabled(false)
                                 .LdapSync(true)
                                 .LdapGuid(g.LdapObjectGUID)
                                 .LdapSearchRoot(g.ldap.LdapSearchRoot)
