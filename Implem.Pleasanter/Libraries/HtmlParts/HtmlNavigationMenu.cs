@@ -302,24 +302,24 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                                                 serverScriptModelRow: serverScriptModelRow))))
 
                                                 : () => hb.A(
-                                                        css: "menulabel",
-                                                        href: menu.Url
-                                                            ?? Href(
-                                                                context: context,
-                                                                ss: ss,
-                                                                siteId: siteId,
-                                                                menu: menu)
-                                                            ?? "javascript:void(0);",
-                                                        action: () => hb
-                                                            .Span(
-                                                                action: () => hb
-                                                                    .Img(src: Locations.Get(
-                                                                        context: context,
-                                                                        "Images",
-                                                                        iconName)))
-                                                            .Span(
-                                                                action: () => hb
-                                                                    .Text(displayText))));
+                                                    css: "menulabel",
+                                                    href: menu.Url
+                                                        ?? Href(
+                                                            context: context,
+                                                            ss: ss,
+                                                            siteId: siteId,
+                                                            menu: menu)
+                                                        ?? "javascript:void(0);",
+                                                    action: () => hb
+                                                        .Span(
+                                                            action: () => hb
+                                                                .Img(src: Locations.Get(
+                                                                    context: context,
+                                                                    "Images",
+                                                                    iconName)))
+                                                        .Span(
+                                                            action: () => hb
+                                                                .Text(displayText))));
                                         break;
                                     default:
                                         // ContainerIdが含まれてる場合は親メニューとして処理
