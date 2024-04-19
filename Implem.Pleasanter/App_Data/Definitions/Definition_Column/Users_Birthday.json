@@ -25,5 +25,8 @@
     "LabelText_de": "Geburtstag",
     "LabelText_ko": "생년월일",
     "LabelText_es": "Fecha de nacimiento",
-    "LabelText_vn": "Ngày sinh"
+    "LabelText_vn": "Ngày sinh",
+    "ReadAccessControl": "ManageService",
+    "CreateAccessControl": "ManageService",
+    "UpdateAccessControl": "ManageService"
 }
