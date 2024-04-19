@@ -27,6 +27,7 @@ namespace Implem.ParameterAccessor.Parts
         public List<LdapExtendedAttribute> LdapExtendedAttributes;
         public int LdapSyncPageSize;
         public List<string> LdapSyncPatterns;
+        public List<string> LdapSynGroupPatterns;
         public bool LdapExcludeAccountDisabled;
         public bool AutoDisable;
         public bool AutoEnable;

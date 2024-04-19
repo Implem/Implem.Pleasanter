@@ -248,59 +248,74 @@ namespace Implem.Pleasanter.Libraries.DataSources
             var users = new Dictionary<string,string>();
             var groups = new Dictionary<string, GroupItem>();
             Parameters.Authentication.LdapParameters
-                .ForEach(ldap => ldap.LdapSyncPatterns?
-                    .ForEach(pattern =>
-                    {
-                        SyncUser(
-                          context: context,
-                          ldap: ldap,
-                          pattern: pattern,
-                          synchronizedTime: synchronizedTime,
-                          users: users,
-                          groups: groups);
-                        if (ldap.AutoDisable)
+                .ForEach(ldap =>
+                {
+                    ldap.LdapSyncPatterns?
+                        .ForEach(pattern =>
                         {
-                            Repository.ExecuteNonQuery(
+                            // Uers用Ldap同期処理
+                            // 既存の処理を変えたくない為にLdapSyncPatternsとLdapSynGroupPatternsに分けた
+                            Sync(
                                 context: context,
-                                statements: Rds.UpdateUsers(
-                                    param: Rds.UsersParam().Disabled(true),
-                                    where: Rds.UsersWhere()
-                                        .Disabled(false)
-                                        .LdapSearchRoot(ldap.LdapSearchRoot)
-                                        .SynchronizedTime(_operator: " is not null")
-                                        .SynchronizedTime(synchronizedTime, _operator: "<>"),
-                                    addUpdatorParam: false,
-                                    addUpdatedTimeParam: false));
-                        }
-                        if (ldap.AutoEnable)
+                                ldap: ldap,
+                                pattern: pattern,
+                                synchronizedTime: synchronizedTime,
+                                users: users);
+                            if (ldap.AutoDisable)
+                            {
+                                Repository.ExecuteNonQuery(
+                                    context: context,
+                                    statements: Rds.UpdateUsers(
+                                        param: Rds.UsersParam().Disabled(true),
+                                        where: Rds.UsersWhere()
+                                            .Disabled(false)
+                                            .LdapSearchRoot(ldap.LdapSearchRoot)
+                                            .SynchronizedTime(_operator: " is not null")
+                                            .SynchronizedTime(synchronizedTime, _operator: "<>"),
+                                        addUpdatorParam: false,
+                                        addUpdatedTimeParam: false));
+                            }
+                            if (ldap.AutoEnable)
+                            {
+                                Repository.ExecuteNonQuery(
+                                    context: context,
+                                    statements: Rds.UpdateUsers(
+                                        param: Rds.UsersParam().Disabled(false),
+                                        where: Rds.UsersWhere()
+                                            .Disabled(true)
+                                            .LdapSearchRoot(ldap.LdapSearchRoot)
+                                            .SynchronizedTime(_operator: " is not null")
+                                            .SynchronizedTime(synchronizedTime),
+                                        addUpdatorParam: false,
+                                        addUpdatedTimeParam: false));
+                            }
+                        });
+                    ldap.LdapSynGroupPatterns?
+                        .ForEach(pattern =>
                         {
-                            Repository.ExecuteNonQuery(
+                            // Group用Ldap同期処理
+                            Sync(
                                 context: context,
-                                statements: Rds.UpdateUsers(
-                                    param: Rds.UsersParam().Disabled(false),
-                                    where: Rds.UsersWhere()
-                                        .Disabled(true)
-                                        .LdapSearchRoot(ldap.LdapSearchRoot)
-                                        .SynchronizedTime(_operator: " is not null")
-                                        .SynchronizedTime(synchronizedTime),
-                                    addUpdatorParam: false,
-                                    addUpdatedTimeParam: false));
-                        }
-                    }));
-            SyncGroup(
+                                ldap: ldap,
+                                pattern: pattern,
+                                synchronizedTime: synchronizedTime,
+                                groups: groups);
+                        });
+                });
+            UpdateGroup(
                 context: context,
                 groups: groups,
                 users: users,
                 synchronizedTime: synchronizedTime);
         }
 
-        private static void SyncUser(
+        private static void Sync(
             Context context,
             ParameterAccessor.Parts.Ldap ldap,
             string pattern,
             DateTime synchronizedTime,
-            Dictionary<string, string> users,
-            Dictionary<string, GroupItem> groups)
+            Dictionary<string, string> users = null,
+            Dictionary<string, GroupItem> groups = null)
         {
             var logs = new Logs()
             {
@@ -326,8 +341,9 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 logs.Add("results", results.Count.ToString());
                 foreach (SearchResult result in results)
                 {
-                    if (!result.IsGroup(context: context))
+                    if (users != null)
                     {
+                        // LdapSyncPatterns用
                         if (Enabled(result, ldap))
                         {
                             logs.Add("result", result.Path);
@@ -337,19 +353,26 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                 ldap: ldap,
                                 synchronizedTime: synchronizedTime);
                         }
-                        if (!users.ContainsKey(result.Path))
+                        if (!result.IsGroup(context: context))
                         {
-                            users.Add(
-                                result.Path,
-                                LoginId(context: context, ldap: ldap, result: result));
+                            if (!users.ContainsKey(result.Path))
+                            {
+                                users.Add(
+                                    result.Path,
+                                    LoginId(context: context, ldap: ldap, result: result));
+                            }
                         }
                     }
                     else
                     {
-                        var groupItem = NewGroupItem(context: context, result: result, ldap: ldap, pattern: pattern);
-                        if (groupItem != null && !groups.ContainsKey(groupItem.ADsPath))
+                        // LdapSyncGroupPatterns用
+                        if (result.IsGroup(context: context))
                         {
-                            groups.Add(groupItem.ADsPath, groupItem);
+                            var groupItem = NewGroupItem(context: context, result: result, ldap: ldap, pattern: pattern);
+                            if (groupItem != null && !groups.ContainsKey(groupItem.ADsPath))
+                            {
+                                groups.Add(groupItem.ADsPath, groupItem);
+                            }
                         }
                     }
                 }
@@ -385,7 +408,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
-        private static void SyncGroup(
+        private static void UpdateGroup(
             Context context,
             Dictionary<string ,GroupItem> groups,
             Dictionary<string, string> users,
