@@ -67,8 +67,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     attributes: new HtmlAttributes()
                         .Id("AnnouncementModule")
                         .Class("announcements"),
-                    action: () => { 
-                    foreach (var issueModel in issueCollection)
+                    action: () => issueCollection.ForEach(issueModel =>
                     {
                         if (!IsHiddenAnnouncement(
                             context: context,
@@ -80,8 +79,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     .Class("annonymous", _using: !context.Authenticated),
                                 action: () => hb.Raw(text: issueModel.Body));
                         }
-                    }
-                });
+                    }));
             }
             return hb;
         }
