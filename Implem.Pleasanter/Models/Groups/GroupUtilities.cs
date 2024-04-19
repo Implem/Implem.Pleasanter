@@ -4413,9 +4413,9 @@ namespace Implem.Pleasanter.Models
                         where: Rds.GroupsWhere()
                             .TenantId(context.TenantId)
                             .GroupId_In(sub: sub)),
+                    Rds.RowCount(),
                     GroupMemberUtilities.RefreshAllChildMembers(
                         tenantId: context.TenantId),
-                    Rds.RowCount(),
                     StatusUtilities.UpdateStatus(
                         tenantId: context.TenantId,
                         type: StatusUtilities.Types.GroupsUpdated),
@@ -4623,9 +4623,9 @@ namespace Implem.Pleasanter.Models
                         where: Rds.GroupsWhere()
                             .TenantId(context.TenantId)
                             .GroupId_In(sub: sub)),
+                    Rds.RowCount(),
                     GroupMemberUtilities.RefreshAllChildMembers(
                         tenantId: context.TenantId),
-                    Rds.RowCount(),
                     StatusUtilities.UpdateStatus(
                         tenantId: context.TenantId,
                         type: StatusUtilities.Types.GroupsUpdated)
