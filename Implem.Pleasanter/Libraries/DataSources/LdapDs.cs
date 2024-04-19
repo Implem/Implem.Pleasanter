@@ -423,17 +423,18 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 var statements = new List<SqlStatement>();
                 // グループ作成
                 groups.Values
-                    .ForEach(g => {
+                    .ForEach(group =>
+                    {
                         statements.Add(Rds.UpdateOrInsertGroups(
                             param: Rds.GroupsParam()
-                                .TenantId(g.ldap.LdapTenantId)
-                                .GroupName(g.DisplayName)
+                                .TenantId(group.ldap.LdapTenantId)
+                                .GroupName(group.DisplayName)
                                 .Disabled(false)
                                 .LdapSync(true)
-                                .LdapGuid(g.LdapObjectGUID)
-                                .LdapSearchRoot(g.ldap.LdapSearchRoot)
+                                .LdapGuid(group.LdapObjectGUID)
+                                .LdapSearchRoot(group.ldap.LdapSearchRoot)
                                 .SynchronizedTime(synchronizedTime),
-                            where: Rds.GroupsWhere().LdapGuid(g.LdapObjectGUID)));
+                            where: Rds.GroupsWhere().LdapGuid(group.LdapObjectGUID)));
                     });
                 // 以前AD連携された 子グループ削除＆グループメンバー削除
                 var groupids = Rds.SelectGroups(
@@ -457,7 +458,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         }));
                 // 子グループ追加＆グループメンバー追加
                 groups.Values
-                    .ForEach(groupItem => {
+                    .ForEach(groupItem =>
+                    {
                         var directorySearcher = DirectorySearcher(
                             loginId: groupItem.ldap.LdapSyncUser,
                             password: groupItem.ldap.LdapSyncPassword,
