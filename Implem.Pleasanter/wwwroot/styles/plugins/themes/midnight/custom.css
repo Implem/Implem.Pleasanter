@@ -409,6 +409,10 @@ thead th:has(.control-checkbox) {
     border: 1px solid #8F8F8F;
 }
 
+.field-control .control-textbox.error {
+    border: solid 1px #f00;
+}
+
 #SearchField .control-textbox:focus{
     border: 1px solid #666666;
 }
@@ -442,6 +446,13 @@ thead th:has(.control-checkbox) {
 .field-control .control-textbox {
     border-radius: 4px;
     padding: 4px 8px 4px 8px;
+}
+
+.field-control span.control-text.status-preparation,
+.field-control span.control-text.status-inprogress,
+.field-control span.control-text.status-closed,
+.field-control span.control-text.status-rejected {
+    color: #fff;
 }
 
 .field-control pre {
@@ -532,6 +543,10 @@ fieldset .command-left > button {
 .field-control label,
 .field-control textarea {
     color: #FFFFFF;
+}
+
+.field-control label.error {
+    z-index: 3;
 }
 
 .field-control textarea {
@@ -841,6 +856,11 @@ fieldset .legend{
     margin: 16px;
 }
 
+#ViewModeContainer #GanttAxis {
+    margin-left: -2px;
+    width: calc(100% + 2px);
+}
+
 #Editor #RecordHeader {
     position: relative;
     margin: 0;
@@ -882,7 +902,7 @@ table.grid tbody td > input {
 }
 
 #Editor #EditorTabsContainer.ui-tabs .ui-tabs-panel {
-    padding: 16px 16px 6px;
+    padding: 16px 16px 28px;
 }
 
 #SummariesSettingsEditor .grid > thead > tr > th:nth-child(3),
@@ -1614,7 +1634,7 @@ body#login #MainContainer #Application #PortalLink{
 }
 
 #MainContainer #Header {
-    height: 39px;
+    min-height: 39px;
 }
 
 #LoginLogo {
