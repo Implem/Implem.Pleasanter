@@ -256,7 +256,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .ForEach(pattern =>
                         {
                             // Uers用Ldap同期処理
-                            // 既存の振る舞いを変えたくない為にLdapSyncPatternsとLdapSynGroupPatternsに分け、ここではユーザのみ取得する。
+                            // 既存の振る舞いを変えたくない為にLdapSyncPatternsとLdapSyncGroupPatternsに分け、ここではユーザのみ取得する。
                             Sync(
                                 context: context,
                                 ldap: ldap,
@@ -292,7 +292,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                         addUpdatedTimeParam: false));
                             }
                         });
-                    ldap.LdapSynGroupPatterns?
+                    ldap.LdapSyncGroupPatterns?
                         .ForEach(pattern =>
                         {
                             // Group用Ldap同期処理
