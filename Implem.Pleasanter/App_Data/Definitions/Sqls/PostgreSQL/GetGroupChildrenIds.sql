@@ -1,4 +1,4 @@
-﻿with recursive "GroupsChildIsNotInSelfId"("Lv", "GroupId", "Parent", "Disabled") as ( 
+﻿with recursive "GroupsChildIsNotInSelfId"("Lv", "GroupId", "ChildId", "Disabled") as ( 
     -- 子GroupIdリスト(自ID含む)
     select
         1 as "Lv"

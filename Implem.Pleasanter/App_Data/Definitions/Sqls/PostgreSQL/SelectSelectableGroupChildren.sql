@@ -10,7 +10,7 @@ from(
         -- 自分自身は含めない
         and "Groups"."GroupId" <> @GroupId
         -- グループメンバーに含まれる組織は含めない
-        and "Groups".GroupId not in 
+        and "Groups"."GroupId" not in 
         (
             select 
                 "GroupChildren"."ChildId"
@@ -29,7 +29,7 @@ from(
         (
             "Groups"."GroupName" like @SearchText
         ) 
-        and "Groups"."Disabled" = 'false'
+        and "Groups"."Disabled" = false
 ) as "items"
 order by
     "items"."GroupName" asc

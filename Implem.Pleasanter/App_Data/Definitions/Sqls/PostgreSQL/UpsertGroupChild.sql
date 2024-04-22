@@ -20,6 +20,6 @@ on conflict
 do update
 set
     "GroupId" = @GroupId
-    ,"DeptId" = @ChildId
+    ,"ChildId" = @ChildId
     ,"Updator" = @ipU
 ;

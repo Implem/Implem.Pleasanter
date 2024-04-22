@@ -61,6 +61,7 @@ begin
             , "Updator"
         ) 
         select
+            distinct
             v_groupid as "GroupId"
             , "DeptId"
             , "UserId"
@@ -71,7 +72,13 @@ begin
             "GroupMembers" as "t4" 
         where
 			"t4"."ChildGroup" = false
-            and "t4"."GroupId" in (select "ChildId" from "GroupsChildIsNotInSelfId");
+            and "t4"."GroupId" in (
+                select "GroupId"
+                from "Groups"
+                where (1=1)
+                    and "Disabled" = false
+                    and "GroupId" in (select "ChildId" from "GroupsChildIsNotInSelfId") 
+            );
 		get diagnostics v_row_cnt = row_count;
 		v_total := v_total + v_row_cnt;
     end loop; 

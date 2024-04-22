@@ -19,7 +19,7 @@ begin;
 	set
 		@v_group2 = @v_group1; 
 	with
-	"GroupsChildIdsInSelfId"("Lv", "GroupId", "ChildId") as ( 
+	"GroupsChildIsNotInSelfId"("Lv", "GroupId", "ChildId") as ( 
 		-- 子GroupIdリスト(自ID含まない)
 		select
 			1 as "Lv"
@@ -37,7 +37,7 @@ begin;
 			, "t2"."GroupId"
 			, "t2"."ChildId"
 		from
-			"GroupsChildIdsInSelfId" as "t1"
+			"GroupsChildIsNotInSelfId" as "t1"
 			, "GroupChildren" as "t2" 
 			inner join "Groups" as "t3" on "t2"."GroupId"="t3"."GroupId"
 		where
@@ -60,11 +60,11 @@ begin;
 			WHERE (1=1)
 				and "t9"."ChildGroup" = 0
 				and "t9"."GroupId" in (
-					select
-						DISTINCT
-						"ChildId" as "GroupId"
-					from
-						"GroupsChildIdsInSelfId"
+                    select "GroupId"
+                    from "Groups"
+                    where (1=1)
+                        and "Disabled" = 0
+                        and "GroupId" in (select "ChildId" from "GroupsChildIsNotInSelfId") 
 				)
 			) AS "src"
 		ON
