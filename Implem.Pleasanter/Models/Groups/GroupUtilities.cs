@@ -4760,6 +4760,10 @@ namespace Implem.Pleasanter.Models
                         tableType: tableType,
                         where: Rds.PermissionsWhere()
                             .GroupId_In(sub: sub)),
+                    Rds.PhysicalDeleteGroupChildren(
+                        tableType: tableType,
+                        where: Rds.GroupChildrenWhere()
+                            .GroupId_In(sub: sub)),
                     Rds.PhysicalDeleteGroups(
                         tableType: tableType,
                         where: Rds.GroupsWhere()
