@@ -537,7 +537,7 @@ fieldset .command-left > button {
 #MainContainer input:focus,
 #MainContainer textarea:focus,
 #MainContainer select:focus:not(.has-css) {
-    background-color: #FFF9E3;
+    background-color: #333333;
 }
 
 .field-control label,
@@ -601,7 +601,7 @@ fieldset .command-left > button {
 }
 
 .ui-button:hover {
-    background: #FFFFFF;
+    background: #777777;
     border: 1px solid #aeaeae;
     box-shadow: 0 2px 4px rgba(0,0,0,.2);
 }
@@ -637,8 +637,9 @@ fieldset .command-left > button {
 .ui-state-focus,
 .ui-widget-content .ui-state-focus,
 .ui-widget-header .ui-state-focus {
-    background: #C1E1FF;
-    border: 1px solid #90CAFF;
+    background: #777777;
+    border: 1px solid #777777;
+    color: #FFFFFF;
 }
 
 .ui-button:hover,
@@ -686,7 +687,7 @@ fieldset .command-left > button {
 }
 
 .button-positive:hover {
-    background-color: #1a77c6;
+    background-color: #864ac2;
 }
 
 .button-negative:hover {
@@ -1025,7 +1026,7 @@ table.grid tbody td > input {
 }
 
 .ui-dialog.ui-widget.ui-widget-content .ui-widget-header {
-    background: #202020;
+    background: #1F1F1F;
     border: none;
     border-bottom: 1px solid #8F8F8F;
 }
@@ -1573,7 +1574,7 @@ section.accordion {
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;
-    color: #222222;
+    color: #FFFFFF;
     text-decoration: none;
 }
 
@@ -1590,7 +1591,7 @@ section.accordion {
 
 .menubox a:hover,
 .menubox label:hover {
-    background-color: #1F1F1F;
+    background-color: #333333;
 }
 
 .menubox label span:first-child {
@@ -1601,7 +1602,7 @@ section.accordion {
     height: 0;
     padding: 0;
     overflow: hidden;
-    background-color: #515151;
+    background-color: #666666;
 }
 
 .menubox-sub ul {
@@ -1615,7 +1616,7 @@ section.accordion {
 }
 
 .menubox-sub ul li a:hover {
-    background: #E7E7E7;
+    background: #777777;
 }
 
 .menubox a span,
