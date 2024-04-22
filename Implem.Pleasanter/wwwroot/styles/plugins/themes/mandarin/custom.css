@@ -22,12 +22,12 @@
 }
 
 .control-selectable .ui-selecting {
-    background: #F37A23;
+    background: #EB9151;
     color: #FFFFFF;
 }
 
 .control-selectable .ui-selected {
-    background: #F37A23;
+    background: #EB9151;
     color: #FFFFFF;
 }
 
@@ -98,7 +98,7 @@
 }
 
 a, a:link {
-    color: #F37A23;
+    color: #666666;
 }
 
 body {
@@ -205,15 +205,15 @@ nav.both.cf {
 }
 
 #Application nav #Breadcrumb li:last-child {
-    background-color: #F37A23;
+    background-color: #EB9151;
 }
 
 #Application nav #Breadcrumb li:nth-last-child(2)::after {
-    background-color: #F37A23;
+    background-color: #EB9151;
 }
 
 #Application nav #Breadcrumb li:last-child::after {
-    border-left: 15px solid #F37A23;
+    border-left: 15px solid #EB9151;
 }
 
 #Application nav #Breadcrumb li:before {
@@ -266,7 +266,7 @@ nav.both.cf {
     padding: 8px 16px 0;
     border: none;
     border-radius: 0;
-    background-color: #FFF1CA;
+    background-color: #FFF9EA;
     color: #222222;
 }
 
@@ -285,7 +285,7 @@ nav.both.cf {
     padding: 8px 16px 0;
     border: none;
     border-radius: 0;
-    background-color: #FFF1CA;
+    background-color: #FFF9EA;
     color: #222222;
 }
 
@@ -348,7 +348,7 @@ nav.both.cf {
 .ui-widget-header,
 .ui-dialog.ui-widget.ui-widget-content fieldset .ui-widget-header,
 #ProcessForm #ProcessTabsContainer fieldset .ui-widget-header {
-    background: #F37A23;
+    background: #EB9151;
 }
 
 .ui-multiselect-header {
@@ -470,7 +470,7 @@ font-family: 'メイリオ', 'Meiryo', 'Hiragino Kaku Gothic ProN', 'ヒラギ�
 }
 
 .field-control .control-attachments-upload {
-    border: 2px dotted #F37A23;
+    border: 2px dotted #EB9151;
 }
 
 fieldset .command-left {
@@ -532,7 +532,7 @@ fieldset .command-left > button {
 
 .field-control .container-normal .ui-slider-handle {
     background-image: none;
-    background-color: #F37A23;
+    background-color: #EB9151;
     border-radius: 2px;
     outline: none;
 }
@@ -545,11 +545,11 @@ fieldset .command-left > button {
 }
 
 .field-control .container-normal .already-attachments {
-    background-color: #FFF1CA;
+    background-color: #FFF9EA;
 }
 
 .field-control .container-normal .control-attachments-item {
-    border: 1px solid #F37A23;
+    border: 1px solid #EB9151;
 }
 
 .field-control .container-normal .already-attachments.preparation-delete {
@@ -648,8 +648,8 @@ fieldset .command-left > button {
 .button-positive:focus,
 .button-positive:active {
     background: none;
-    background-color: #F37A23;
-    border: 1px solid #F37A23;
+    background-color: #EB9151;
+    border: 1px solid #EB9151;
     color: #FFFFFF;
 }
 
@@ -871,7 +871,7 @@ table.grid tbody td > input {
 }
 
 #Editor #EditorComments{
-    background: #FFF1CA;
+    background: #FFF9EA;
     padding-top: 16px;
     padding-left: 16px;
     padding-right: 16px;
@@ -916,10 +916,10 @@ table.grid tbody td > input {
 .template-tab-container > .ui-widget-header,
 .ui-dialog .ui-dialog-content .tab-container .ui-tabs-nav.ui-widget-header,
 .ui-dialog .ui-dialog-content form .tab-container > .ui-widget-header {
-    background: #FFF1CA;
+    background: #FFF9EA;
     border: none;
     border-radius: 0;
-    border-bottom: 4px solid #F37A23;
+    border-bottom: 4px solid #EB9151;
 }
 
 .ui-tabs .ui-tabs-nav li.ui-tabs-active,
@@ -939,7 +939,7 @@ table.grid tbody td > input {
 .template-tab-container li.ui-state-active a,
 .ui-dialog .ui-dialog-content .tab-container .ui-tabs-nav li.ui-state-active a,
 .ui-dialog .ui-dialog-content form .tab-container .ui-tabs-nav li.ui-state-active a{
-    background: #F37A23;
+    background: #EB9151;
     border-radius: 4px 4px 0 0;
     font-weight: bold;
     color: #fff;
@@ -958,7 +958,7 @@ table.grid tbody td > input {
 .ui-dialog .ui-dialog-content form .tab-container .ui-tabs-nav li a {
     background: #fff;
     border-radius: 4px 4px 0 0;
-    color: #F37A23;
+    color: #666666;
 }
 
 .ui-corner-all, .ui-corner-bottom, .ui-corner-right, .ui-corner-br {
@@ -1025,12 +1025,12 @@ table.grid tbody td > input {
 }
 
 .control-selectable .ui-selected {
-    background: #F37A23;
-    border: 1px solid #005A9E;
+    background: #EB9151;
+    border: 1px solid #F37A23;
 }
 
 .control-selectable li:active {
-    background: #F37A23;
+    background: #EB9151;
     border: 1px solid #005A9E;
     color: #FFFFFF;
 }
@@ -1039,7 +1039,7 @@ table.grid tbody td > input {
 .ui-widget-content .ui-state-default,
 .ui-widget-header .ui-state-default {
     border: none;
-    color: #F37A23;
+    color: #EB9151;
 }
 
 .template-tab-container .fieldset {
@@ -1150,7 +1150,7 @@ fieldset .field-vertical > .field-label {
 }
 
 #MainForm #StartGuide > #StartGuideContents > a:hover {
-    background-color: #FFFAEB;
+    background-color: #FFF9EA;
 }
 
 #MainForm #StartGuide > #StartGuideContents {
@@ -1421,12 +1421,12 @@ fieldset .field-vertical > .field-label {
 }
 
 .accordion a img.new {
-    background-color: #F37A23;
+    background-color: #EB9151;
     border-radius: 16px;
 }
 
 .hamburger-menulist li a:hover {
-    background-color: #FFF1CA;
+    background-color: #FFF9EA;
 }
 
 #hamburger:checked ~ .hamburger-menuwrap {
@@ -1530,7 +1530,7 @@ section.accordion {
 
 .menubox a:hover,
 .menubox label:hover {
-    background-color: #FFF1CA;
+    background-color: #FFF9EA;
 }
 
 .menubox label span:first-child {
