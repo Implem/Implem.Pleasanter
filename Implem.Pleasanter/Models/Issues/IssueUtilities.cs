@@ -5467,7 +5467,21 @@ namespace Implem.Pleasanter.Models
                 column: HistoryColumn(
                     context: context,
                     ss: ss,
-                    columns: columns),
+                    columns: columns
+                        // GridDesignに含まれるカラムを追加する。
+                        .Concat(ss.IncludedColumns()
+                        .Select(columnName => ss.GetColumn(
+                            context: context,
+                            columnName: columnName))
+                            .Where(column => column != null)
+                            .AllowedColumns(
+                                context: context,
+                                ss: ss,
+                                checkPermission: true)
+                            .Where(o => context.ContractSettings.Attachments()
+                                || o.ControlType != "Attachments"))
+                        .Distinct()
+                        .ToList()),
                 join: ss.Join(context: context),
                 where: Rds.IssuesWhere().IssueId(issueModel.IssueId),
                 orderBy: Rds.IssuesOrderBy().Ver(SqlOrderBy.Types.desc),
