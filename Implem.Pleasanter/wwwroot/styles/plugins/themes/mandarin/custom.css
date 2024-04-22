@@ -217,12 +217,12 @@ nav.both.cf {
 }
 
 #Application nav #Breadcrumb li:before {
-    right: -40px;
+    right: -39px;
     border-left: 15px solid #ccc;
 }
 
 #Application nav #Breadcrumb li:after {
-    right: -39px;
+    right: -38px;
     border-left: 15px solid #fff;
 }
 
