@@ -1652,6 +1652,18 @@ namespace Implem.Pleasanter.Models
                 tableType: tableType,
                 param: param,
                 otherInitValue: otherInitValue));
+            try
+            {
+                WriteAttachments(
+                    context: context,
+                    ss: ss);
+            }
+            catch
+            {
+                return new ErrorData(
+                    type: Error.Types.FailedWriteFile,
+                    id: IssueId);
+            }
             var response = Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
@@ -1664,9 +1676,6 @@ namespace Implem.Pleasanter.Models
                     id: IssueId,
                     columnName: response.ColumnName);
             }
-            WriteAttachments(
-                context: context,
-                ss: ss);
             IssueId = (response.Id ?? IssueId).ToLong();
             if (synchronizeSummary)
             {

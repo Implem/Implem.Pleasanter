@@ -564,7 +564,9 @@ namespace Implem.Pleasanter.Models
                 : hb.Template(
                     context: context,
                     ss: ss,
-                    view: null,
+                    view: Views.GetBySession(
+                        context: context,
+                        ss: ss),
                     siteId: wikiModel.SiteId,
                     parentId: ss.ParentId,
                     referenceType: "Wikis",

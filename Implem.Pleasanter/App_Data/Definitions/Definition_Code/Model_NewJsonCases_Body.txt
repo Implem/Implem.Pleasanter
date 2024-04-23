@@ -1,5 +1,5 @@
 ﻿case "#TableName#":
     return #ModelName#Utilities.EditorJson(
         context: context,
-        ss: Site.SiteSettings,
+        ss: ss,
         #modelName#Id: 0);
