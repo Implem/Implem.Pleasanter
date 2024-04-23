@@ -5470,9 +5470,9 @@ namespace Implem.Pleasanter.Models
                     columns: columns
                         // GridDesignに含まれるカラムを追加する。
                         .Concat(ss.IncludedColumns()
-                        .Select(columnName => ss.GetColumn(
-                            context: context,
-                            columnName: columnName))
+                            .Select(columnName => ss.GetColumn(
+                                context: context,
+                                columnName: columnName))
                             .Where(column => column != null)
                             .AllowedColumns(
                                 context: context,
