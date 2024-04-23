@@ -255,16 +255,16 @@ public string DashboardPartJson(Context context,string dashboardPartId)
 }
 
 public string DashboardPartLayout (Context context)
-        {
-            SetSite(
-                context: context,
-                initSiteSettings: true,
-                setSiteIntegration: true,
-                setAllChoices: true);
-            return DashboardUtilities.DashboardPartLayout(
-                context: context,
-                ss: Site.SiteSettings);
-        }
+{
+    SetSite(
+        context: context,
+        initSiteSettings: true,
+        setSiteIntegration: true,
+        setAllChoices: true);
+    return DashboardUtilities.DashboardPartLayout(
+        context: context,
+        ss: Site.SiteSettings);
+}
 
 public string Gantt(Context context)
 {
@@ -575,13 +575,48 @@ public string New(Context context)
 
 public string NewJson(Context context)
 {
+    SetSite(
+        context: context,
+        siteOnly: true,
+        initSiteSettings: true);
+    var ss = Site.SiteSettings;
+    var referenceType = Site.ReferenceType;
     if (!context.QueryStrings.Bool("control-auto-postback"))
     {
+        Process process = null;
+        if (referenceType == "Issues")
+        {
+            var issueModel = new IssueModel(
+                context: context,
+                ss: ss,
+                issueId: 0);
+            process = Process.GetProcess(
+                context: context,
+                ss: ss,
+                getProcessMatchConditions: (o) => issueModel.GetProcessMatchConditions(
+                    context: context,
+                    ss: ss,
+                    process: o));
+        }
+        else if (referenceType == "Results")
+        {
+            var resultModel = new ResultModel(
+                context: context,
+                ss: ss,
+                resultId: 0);
+            process = Process.GetProcess(
+                context: context,
+                ss: ss,
+                getProcessMatchConditions: (o) => resultModel.GetProcessMatchConditions(
+                    context: context,
+                    ss: ss,
+                    process: o));
+        }
         return new ResponseCollection(context: context)
             .ReplaceAll("#MainContainer", New(context: context))
             .WindowScrollTop()
             .FocusMainForm()
-            .ClearFormData(_using: !context.QueryStrings.Bool("control-auto-postback"))
+            .ClearFormData(_using: process?.ActionType != Libraries.Settings.Process.ActionTypes.PostBack)
             .PushState("Edit", Locations.Get(
                 context: context,
                 parts: new string[]
@@ -595,11 +630,7 @@ public string NewJson(Context context)
     }
     else
     {
-        SetSite(
-            context: context,
-            siteOnly: true,
-            initSiteSettings: true);
-        switch (Site.ReferenceType)
+        switch (referenceType)
         {
 
 <!--Model_NewJsonCases-->
@@ -835,8 +866,8 @@ public string ExportAndMailNotify(Context context)
         userId: context.UserId).IsNullOrEmpty())
     {
         return Messages.ResponseExportNotSetEmail(
-            context: context, 
-            target: null, 
+            context: context,
+            target: null,
             $"{context.User.Name}<{context.User.LoginId}>").ToJson();
     }
     switch (Site.ReferenceType)

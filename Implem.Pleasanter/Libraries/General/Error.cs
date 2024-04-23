@@ -36,6 +36,7 @@ namespace Implem.Pleasanter.Libraries.General
             ExportNotSetEmail,
             ExternalMailAddress,
             FailedReadFile,
+            FailedWriteFile,
             FileNotFound,
             HasNotChangeColumnPermission,
             HasNotPermission,
@@ -230,6 +231,10 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.FailedReadFile:
                     return Messages.FailedReadFile(
+                        context: context,
+                        data: data);
+                case Types.FailedWriteFile:
+                    return Messages.FailedWriteFile(
                         context: context,
                         data: data);
                 case Types.FileNotFound:
