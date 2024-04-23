@@ -18,6 +18,9 @@
     "TypeName": "nvarchar",
     "MaxLength": "2",
     "Nullable": "1",
+    "ReadAccessControl": "ManageService",
+    "CreateAccessControl": "ManageService",
+    "UpdateAccessControl": "ManageService",
     "ControlType": "ChoicesText",
     "ChoicesText": "1,男性\n2,女性",
     "OldColumnName": "Sex",
@@ -26,8 +29,5 @@
     "LabelText_de": "Geschlecht",
     "LabelText_ko": "성별",
     "LabelText_es": "Sexo",
-    "LabelText_vn": "Giới tính",
-    "ReadAccessControl": "ManageService",
-    "CreateAccessControl": "ManageService",
-    "UpdateAccessControl": "ManageService"
+    "LabelText_vn": "Giới tính"
 }

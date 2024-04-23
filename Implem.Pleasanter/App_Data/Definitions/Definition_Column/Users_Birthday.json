@@ -17,6 +17,9 @@
     "TypeCs": "Time",
     "RecordingData": ".Value",
     "Nullable": "1",
+    "ReadAccessControl": "ManageService",
+    "CreateAccessControl": "ManageService",
+    "UpdateAccessControl": "ManageService",
     "GridFormat": "Ymd",
     "EditorFormat": "Ymd",
     "ExportFormat": "Ymd",
@@ -25,8 +28,5 @@
     "LabelText_de": "Geburtstag",
     "LabelText_ko": "생년월일",
     "LabelText_es": "Fecha de nacimiento",
-    "LabelText_vn": "Ngày sinh",
-    "ReadAccessControl": "ManageService",
-    "CreateAccessControl": "ManageService",
-    "UpdateAccessControl": "ManageService"
+    "LabelText_vn": "Ngày sinh"
 }
