@@ -1,8 +1,9 @@
-create or replace function pg_temp.LdapUpdateGroupMemberAndChildren(
+﻿create or replace function pg_temp.LdapUpdateGroupMemberAndChildren(
     v_tenantid integer
     , v_ldap_object_guid text
 	, v_is_member_insert boolean
 	, v_is_child_insert boolean
+	, v_is_first_time boolean
 	, v_ipu integer	
 ) 
 returns integer as $$
@@ -18,11 +19,17 @@ begin
 	 and "t1"."LdapGuid" = v_ldap_object_guid
 	;
 	-- グループメンバーを削除
-	delete from
-	  "GroupMembers"
-	where
-	  "GroupId" = v_group_id
-	;
+    if v_is_first_time = true
+    then
+    begin
+	    delete from
+	      "GroupMembers"
+	    where
+	      "GroupId" = v_group_id
+	    ;
+	end;
+	end if;
+
 	-- グループメンバーを追加
 	if v_is_member_insert = true
 	then
@@ -39,11 +46,16 @@ begin
 	end if;
 
 	-- 子グループを削除
-	delete from
-	  "GroupChildren"
-	where
-	  "GroupId" = v_group_id
-	;
+    if v_is_first_time = true
+    then
+    begin
+	    delete from
+	      "GroupChildren"
+	    where
+	      "GroupId" = v_group_id
+	    ;
+	end;
+	end if;
 	-- 子グループを追加
 	if v_is_child_insert = true
 	then
@@ -66,5 +78,6 @@ select pg_temp.LdapUpdateGroupMemberAndChildren(
 	@LdapObjectGUID#CommandCount#,
 	@isMemberInsert#CommandCount#,
 	@isChildInsert#CommandCount#,
+    @isFirstTime#CommandCount#,
 	@ipU);
-drop function if exists pg_temp.LdapUpdateGroupMemberAndChildren(integer,text,integer,boolean,boolean);
+drop function if exists pg_temp.LdapUpdateGroupMemberAndChildren(integer,text,boolean,boolean,boolean,integer);

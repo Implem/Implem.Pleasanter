@@ -480,8 +480,10 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         var ldapUrl = groupItem.ADsPath.Substring(0, groupItem.ADsPath.LastIndexOf('/') + 1);
                         var userLoginIds = new List<string>();
                         var groupGuids = new List<GroupItem>();
+                        var groupGuidsAll = new List<GroupItem>();
                         var memberLow = 0;
                         var memberSize = 1000;
+                        var firstTime = true;
                         var isLoop = true;
                         while (isLoop)
                         {
@@ -506,25 +508,30 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                     isLoop = true;
                                 }
                             }
-                        }
-                        // メンバー全削除＆追加・子グループ全削除＆追加
-                        statements.Add(new SqlStatement(
-                            commandText: Def.Sql.LdapUpdateGroupMembersAndChildren
-                                .Replace("{{userLoginIds_condition}}",
-                                    userLoginIds.Any()
-                                        ? $" \"t3\".\"LoginId\" in ({userLoginIds.Select(s => $"'{s}'").Join()}) " 
-                                        : "(1=0)")
-                                .Replace("{{groupGuids_condition}}",
-                                    groupGuids.Any()
-                                        ? $" \"t5\".\"LdapGuid\" in ({groupGuids.Select(s => $"'{s.LdapObjectGUID}'").Join()}) " 
-                                        : "(1=0)"),
-                            param: new SqlParamCollection {
+                            // メンバー全削除＆追加・子グループ全削除＆追加
+                            statements.Add(new SqlStatement(
+                                commandText: Def.Sql.LdapUpdateGroupMembersAndChildren
+                                    .Replace("{{userLoginIds_condition}}",
+                                        userLoginIds.Any()
+                                            ? $" \"t3\".\"LoginId\" in ({userLoginIds.Select(s => $"'{s}'").Join()}) "
+                                            : "(1=0)")
+                                    .Replace("{{groupGuids_condition}}",
+                                        groupGuids.Any()
+                                            ? $" \"t5\".\"LdapGuid\" in ({groupGuids.Select(s => $"'{s.LdapObjectGUID}'").Join()}) "
+                                            : "(1=0)"),
+                                param: new SqlParamCollection {
                                     { "TenantId", groupItem.Ldap.LdapTenantId },
                                     { "LdapObjectGUID", groupItem.LdapObjectGUID },
+                                    { "isFirstTime",  firstTime },
                                     { "isMemberInsert", userLoginIds.Any() },
                                     { "isChildInsert", groupGuids.Any() },
-                            }));
-                        groupGraph.Add(groupItem.GraphIdx, groupGuids.Select(v => v.GraphIdx).ToArray());
+                                }));
+                            firstTime = false;
+                            groupGuidsAll.AddRange(groupGuids);
+                            groupGuids.Clear();
+                            userLoginIds.Clear();
+                        }
+                        groupGraph.Add(groupItem.GraphIdx, groupGuidsAll.Select(v => v.GraphIdx).ToArray());
                     });
                 var checkCycle = CheckGroupChildCycle(graph: groupGraph, lvMax: Parameters.General.GroupsDepthMax);
                 if (checkCycle < 0)

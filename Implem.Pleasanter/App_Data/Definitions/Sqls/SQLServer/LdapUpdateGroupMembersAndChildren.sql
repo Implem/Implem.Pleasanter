@@ -1,4 +1,4 @@
-begin;
+﻿begin;
 	-- 対象のグループID取得
 	declare @v_group_id#CommandCount# int;  
 	select
@@ -11,11 +11,14 @@ begin;
 	;
 
 	-- グループメンバーを削除
-	delete from
-	  "GroupMembers"
-	where
-	  "GroupId" = @v_group_id#CommandCount#
-	;
+    if @isFirstTime#CommandCount# = 'True'
+    begin
+	    delete from
+	      "GroupMembers"
+	    where
+	      "GroupId" = @v_group_id#CommandCount#
+	    ;
+    end
 	-- グループメンバーを追加
 	if @isMemberInsert#CommandCount# = 'True'
 	begin
@@ -28,13 +31,15 @@ begin;
 		    and {{userLoginIds_condition}}
 		  ;
 	end
-
 	-- 子グループを削除
-	delete from
-	  "GroupChildren"
-	where
-	  "GroupId" = @v_group_id#CommandCount#
-	;
+    if @isFirstTime#CommandCount# = 'True'
+    begin
+	    delete from
+	      "GroupChildren"
+	    where
+	      "GroupId" = @v_group_id#CommandCount#
+	    ;
+    end
 	-- 子グループを追加
 	if @isChildInsert#CommandCount# = 'True'
 	begin
