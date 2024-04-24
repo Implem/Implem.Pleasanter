@@ -2220,14 +2220,11 @@ namespace Implem.Pleasanter.Models
                             }
                         }
                     }
-                    if (!groupModel.MemberType.IsNullOrEmpty())
-                    {
-                        UpdateOrInsertGroupMember(
-                            context: context,
-                            groupModel: groupModel,
-                            insertGroupMemberCount: ref insertGroupMemberCount,
-                            updateGroupMemberCount: ref updateGroupMemberCount);
-                    }
+                    ImportGroupMember(
+                        context: context,
+                        groupModel: groupModel,
+                        insertGroupMemberCount: ref insertGroupMemberCount,
+                        updateGroupMemberCount: ref updateGroupMemberCount);
                 }
                 GroupMemberUtilities.RefreshAllChildMembers(tenantId: context.TenantId);
                 SiteInfo.Reflesh(
@@ -2504,14 +2501,11 @@ namespace Implem.Pleasanter.Models
                             }
                         }
                     }
-                    if (!groupModel.MemberType.IsNullOrEmpty())
-                    {
-                        UpdateOrInsertGroupMember(
-                            context: context,
-                            groupModel: groupModel,
-                            insertGroupMemberCount: ref insertGroupMemberCount,
-                            updateGroupMemberCount: ref updateGroupMemberCount);
-                    }
+                    ImportGroupMember(
+                        context: context,
+                        groupModel: groupModel,
+                        insertGroupMemberCount: ref insertGroupMemberCount,
+                        updateGroupMemberCount: ref updateGroupMemberCount);
                 }
                 GroupMemberUtilities.RefreshAllChildMembers(tenantId: context.TenantId);
                 SiteInfo.Reflesh(
@@ -2538,6 +2532,33 @@ namespace Implem.Pleasanter.Models
                     id: context.Id,
                     statusCode: 500,
                     message: Messages.FileNotFound(context: context).Text));
+            }
+        }
+
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static void ImportGroupMember(
+            Context context,
+             GroupModel groupModel,
+            ref int insertGroupMemberCount,
+            ref int updateGroupMemberCount)
+        {
+            switch (groupModel.MemberType)
+            {
+                case "Dept":
+                case "User":
+                    UpdateOrInsertGroupMember(
+                        context: context,
+                        groupModel: groupModel,
+                        insertGroupMemberCount: ref insertGroupMemberCount,
+                        updateGroupMemberCount: ref updateGroupMemberCount);
+                    break;
+                case "Group":
+                    break;
+                default:
+                    break;
             }
         }
 
@@ -2626,7 +2647,8 @@ namespace Implem.Pleasanter.Models
         {
             return memberType.IsNullOrEmpty()
                 || memberType == "Dept"
-                || memberType == "User";
+                || memberType == "User"
+                || memberType == "Group";
         }
 
         /// <summary>
@@ -2647,6 +2669,8 @@ namespace Implem.Pleasanter.Models
                     return GetUserId(
                         context: context,
                         loginId: memberKey) > 0;
+                case "Group":
+                    return true;
                 default:
                     return false;
             }
@@ -2840,7 +2864,10 @@ namespace Implem.Pleasanter.Models
                             var members = GroupMembers(
                                 context: context,
                                 groupId: groupModel.GroupId);
-                            if (members.Count() == 0)
+                            var children = GroupChildren(
+                                context: context,
+                                groupId: groupModel.GroupId);
+                            if (members.Count() == 0 && children.Count() == 0)
                             {
                                 AppendGroupColumnsToCsv(
                                     context: context,
@@ -2861,6 +2888,19 @@ namespace Implem.Pleasanter.Models
                                         export: export,
                                         csv: csv);
                                     AppendGroupMemberColumnsToCsv(
+                                        context: context,
+                                        dataRow: dataRow,
+                                        csv: csv);
+                                });
+                                children.ForEach(dataRow =>
+                                {
+                                    AppendGroupColumnsToCsv(
+                                        context: context,
+                                        ss: ss,
+                                        groupModel: groupModel,
+                                        export: export,
+                                        csv: csv);
+                                    AppendGroupChildrenColumnsToCsv(
                                         context: context,
                                         dataRow: dataRow,
                                         csv: csv);
@@ -2910,6 +2950,22 @@ namespace Implem.Pleasanter.Models
             {
                 AppendBlankGroupMemberColumnsToCsv(csv: csv);
             }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static void AppendGroupChildrenColumnsToCsv(Context context, DataRow dataRow, System.Text.StringBuilder csv)
+        {
+            var group = SiteInfo.Group(
+                tenantId: context.TenantId,
+                groupId: dataRow.Int("GroupId"));
+            csv.Append(
+                $",\"Group\"",
+                $",\"{group.Id}\"",
+                $",\"{group.Name}\"",
+                $",\"\"",
+                "\n");
         }
 
         /// <summary>
