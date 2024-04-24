@@ -1613,11 +1613,14 @@ body#login #MainContainer #Application #PortalLink{
 
 #Logins div .field-wide .field-control .container-normal input {
     height: 48px;
-    border: none;
     border: 1px solid #CECECE;
     border-radius: 4px;
     padding: 4px 20px;
     font-size: 16px;
+}
+
+#Logins div .field-wide .field-control .container-normal input.error{
+    border: solid 1px #f00;
 }
 
 #Logins div #Tenants {
@@ -1636,10 +1639,11 @@ body#login #MainContainer #Application #PortalLink{
 
 #login #Users_LoginIdField .field-control .container-normal label.error,
 #login #Users_PasswordField .field-control .container-normal label.error {
-    background-color: #ffccd5;
+    background-color: transparent;
     border-radius: 0;
     border: none;
     padding: 4px 8px;
+    top: 0;
 }
 
 #login #Users_PasswordField div .show-password {
