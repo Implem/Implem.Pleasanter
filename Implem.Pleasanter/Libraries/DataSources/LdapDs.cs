@@ -356,10 +356,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                 result: result,
                                 ldap: ldap,
                                 synchronizedTime: synchronizedTime);
-                        }
-                        if (!result.IsGroup(context: context))
-                        {
-                            if (!users.ContainsKey(result.Path))
+                            if (!result.IsGroup(context: context) && !users.ContainsKey(result.Path))
                             {
                                 users.Add(
                                     result.Path,
