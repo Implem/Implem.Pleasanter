@@ -8421,7 +8421,9 @@ namespace Implem.Pleasanter.Models
                                 {
                                     formulaSet.FormulaScript = System.Text.RegularExpressions.Regex.Replace(
                                         input: formulaSet.FormulaScript,
-                                        pattern: "(?<!\\$)" + column.LabelText + $"(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)",
+                                        pattern: "(?<!\\$)"
+                                            + System.Text.RegularExpressions.Regex.Escape(column.LabelText)
+                                            + $"(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)",
                                         replacement: $"[{column.ColumnName}]");
                                 }
                             }

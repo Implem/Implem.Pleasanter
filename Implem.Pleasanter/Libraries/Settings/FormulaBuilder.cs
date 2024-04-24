@@ -261,7 +261,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 formulaScript = System.Text.RegularExpressions.Regex.Replace(
                     input: formulaScript,
-                    pattern: column.LabelText + $"(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)",
+                    pattern: System.Text.RegularExpressions.Regex.Escape(column.LabelText)
+                        + $"(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)",
                     replacement: $"model.{column.ColumnName}");
             }
             return formulaScript.Replace("true", "true", StringComparison.InvariantCultureIgnoreCase)
@@ -281,12 +282,14 @@ namespace Implem.Pleasanter.Libraries.Settings
                 {
                     formulaSet.FormulaScript = System.Text.RegularExpressions.Regex.Replace(
                         input: formulaSet.FormulaScript,
-                        pattern: oldMapping.Get(column.ColumnName) + $"(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)",
+                        pattern: System.Text.RegularExpressions.Regex.Escape(oldMapping.Get(column.ColumnName))
+                            + $"(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)",
                         replacement: column.LabelText);
                 }
                 var isMatched = System.Text.RegularExpressions.Regex.IsMatch(
                     input: formulaSet.FormulaScript,
-                    pattern: column.LabelText + $"(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
+                    pattern: System.Text.RegularExpressions.Regex.Escape(column.LabelText)
+                        + $"(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
                 if (isMatched)
                 {
                     formulaDictionary.Add(column.ColumnName, column.LabelText);
