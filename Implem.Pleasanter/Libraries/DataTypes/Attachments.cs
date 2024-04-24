@@ -182,5 +182,50 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                     }
                 });
         }
+
+        public void WriteToLocal(
+            Context context,
+            Column column)
+        {
+            this
+                .Where(o => !o.Guid.IsNullOrEmpty())
+                .ForEach(attachment =>
+                {
+                    if (attachment.Added == true && attachment.IsStoreLocalFolder(column))
+                    {
+                        attachment.WriteToLocal(context: context);
+                    }
+                });
+        }
+
+        public void DeleteAttachment(
+            Context context,
+            Column column,
+            SiteSettings ss,
+            long referenceId,
+            bool verUp)
+        {
+            this
+                .Where(o => !o.Guid.IsNullOrEmpty())
+                .ForEach(attachment =>
+                {
+                    if (attachment.Added == true)
+                    {
+                        DataSources.File.DeleteTemp(
+                            context: context,
+                            attachment.Guid);
+                    }
+                    else if (attachment.Deleted == true && !attachment.Overwritten.HasValue)
+                    {
+                        attachment.DeleteFromLocal(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            referenceId: referenceId,
+                            verUp: verUp);
+                    }
+                });
+        }
+
     }
 }

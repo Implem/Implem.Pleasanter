@@ -1403,7 +1403,7 @@ namespace Implem.Pleasanter.Models
             }
             try
             {
-                WriteAttachments(
+                WriteAttachmentsToLocal(
                     context: context,
                     ss: ss);
             }
@@ -1431,6 +1431,9 @@ namespace Implem.Pleasanter.Models
                     id: ResultId,
                     columnName: response.ColumnName);
             }
+            DeleteAttachments(
+                context: context,
+                ss: ss);
             ResultId = (response.Id ?? ResultId).ToLong();
             if (synchronizeSummary)
             {
@@ -1942,6 +1945,35 @@ namespace Implem.Pleasanter.Models
                 .Where(columnName => Attachments_Updated(columnName: columnName))
                 .ForEach(columnName =>
                     GetAttachments(columnName: columnName).Write(
+                        context: context,
+                        ss: ss,
+                        column: ss.GetColumn(
+                            context: context,
+                            columnName: columnName),
+                        referenceId: ResultId,
+                        verUp: verUp));
+        }
+
+        public void WriteAttachmentsToLocal(Context context, SiteSettings ss)
+        {
+            ColumnNames()
+                .Where(columnName => columnName.StartsWith("Attachments"))
+                .Where(columnName => Attachments_Updated(columnName: columnName))
+                .ForEach(columnName =>
+                    GetAttachments(columnName: columnName).WriteToLocal(
+                        context: context,
+                        column: ss.GetColumn(
+                            context: context,
+                            columnName: columnName)));
+        }
+
+        public void DeleteAttachments(Context context, SiteSettings ss, bool verUp = false)
+        {
+            ColumnNames()
+                .Where(columnName => columnName.StartsWith("Attachments"))
+                .Where(columnName => Attachments_Updated(columnName: columnName))
+                .ForEach(columnName =>
+                    GetAttachments(columnName: columnName).DeleteAttachment(
                         context: context,
                         ss: ss,
                         column: ss.GetColumn(
