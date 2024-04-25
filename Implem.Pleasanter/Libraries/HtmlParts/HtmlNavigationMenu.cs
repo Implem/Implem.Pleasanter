@@ -947,7 +947,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         href: "javascript:void(0);",
                         attributes: new HtmlAttributes()
                             .OnClick("$p.openResponsiveMenu();")
-                            .DataAction("OpenResponsiveMenu"))
+                            .DataAction("OpenResponsiveMenu"),
+                         action: () => hb.Span())
                     : hb;
         }
 

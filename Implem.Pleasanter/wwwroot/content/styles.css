@@ -343,7 +343,7 @@ pre {
     border: none;
     top: 0px;
     right: 5px;
-    border-radius: 20px 5px 5px 20px;
+    border-radius: 20px 0 0 20px;
     float: right;
 }
 
