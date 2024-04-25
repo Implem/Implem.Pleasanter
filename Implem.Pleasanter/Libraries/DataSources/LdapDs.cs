@@ -217,8 +217,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 tenantId: ldap.LdapTenantId, type: StatusUtilities.Types.DeptsUpdated));
             statements.Add(StatusUtilities.UpdateStatus(
                 tenantId: ldap.LdapTenantId, type: StatusUtilities.Types.UsersUpdated));
-            statements.Add(StatusUtilities.UpdateStatus(
-                tenantId: ldap.LdapTenantId, type: StatusUtilities.Types.GroupsUpdated));
             Repository.ExecuteNonQuery(
                 context: context,
                 transactional: true,
@@ -546,7 +544,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 groups
                     .Select(group => group.Value.Ldap.LdapTenantId)
                     .Distinct()
-                    .ForEach(tenantId => statements.Add(GroupMemberUtilities.RefreshAllChildMembers(tenantId)));
+                    .ForEach(tenantId =>
+                    {
+                        statements.Add(GroupMemberUtilities.RefreshAllChildMembers(tenantId));
+                        statements.Add(StatusUtilities.UpdateStatus(
+                            tenantId: tenantId, type: StatusUtilities.Types.GroupsUpdated));
+                    });
                 Repository.ExecuteNonQuery(
                     context: context,
                     transactional: true,
