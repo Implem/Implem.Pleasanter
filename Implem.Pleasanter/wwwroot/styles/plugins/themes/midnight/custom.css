@@ -52,9 +52,10 @@
 }
 
 .ui-widget-content a {
-    color: #222222;
+    color: #FFFFFF;
 }
 
+#SearchField .control-textbox,
 .field-control .control-textbox {
     color: #FFFFFF;
     background-color: #666666;
@@ -220,7 +221,7 @@ nav.both.cf {
 
 #Application nav #Breadcrumb li:before {
     right: -39px;
-    border-left: 15px solid #ccc;
+    border-left: 15px solid #8F8F8F;
 }
 
 #Application nav #Breadcrumb li:after {
@@ -364,8 +365,8 @@ nav.both.cf {
 }
 
 .ui-multiselect-header {
-    background: #ECECEC;
-    border: 1px solid #CECECE;
+    background: #1F1F1F;
+    border: 1px solid #1F1F1F;
     padding: 4px !important;
 }
 
@@ -425,7 +426,8 @@ thead th:has(.control-checkbox) {
 }
 
 #MainContainer .field-control .control-dropdown,
-#MainContainer .field-control .ui-multiselect {
+#MainContainer .field-control .ui-multiselect,
+.ui-dialog .ui-dialog-content .control-dropdown {
     border-radius: 4px;
     color: #FFFFFF;
     background-color: #666666;
@@ -479,7 +481,8 @@ font-family: 'メイリオ', 'Meiryo', 'Hiragino Kaku Gothic ProN', 'ヒラギ�
     outline: none;
 }
 
-#Editor .field-control .control-markup {
+#Editor .field-control .control-markup,
+.ui-dialog .ui-dialog-content .control-markup {
     padding: 8px 28px 8px 8px;
     border-radius: 4px;
     color: #222222;
@@ -567,7 +570,7 @@ fieldset .command-left > button {
 .field-control .container-normal .ui-slider-handle:hover,
 .field-control .container-normal .ui-slider-handle:active,
 .field-control .container-normal .ui-slider-handle:focus {
-    background-color: #005A9E;
+    background-color: #5D2D8C;
     outline: none;
 }
 
@@ -607,7 +610,7 @@ fieldset .command-left > button {
 }
 
 .ui-button:hover .ui-icon {
-    background-image: url("images/ui-icons_3d3d3d_256x240.png");
+    background-image: url("images/ui-icons_ffffff_256x240.png");
 }
 
 .ui-icon-person {
@@ -646,9 +649,9 @@ fieldset .command-left > button {
 .ui-button:focus,
 .ui-button:active {
     background: none;
-    background-color: #FFFFFF;
-    border: 1px solid #CECECE;
-    color: #555555;
+    background-color: #8B8B8B;
+    border: 1px solid #8B8B8B;
+    color: #FFFFFF;
 }
 
 .button-neutral,
@@ -794,6 +797,16 @@ fieldset .legend{
     color: #FFFFFF;
 }
 
+#ViewModeContainer .grid > tbody > tr > td .grid-title-body.focus-inform {
+    background-color: #666666!important;
+    border: solid 1px #8F8F8F!important;
+}
+
+#ViewModeContainer .grid > tbody > tr > td .comment.focus-inform {
+    background-color: #1F1F1F!important;
+    border: solid 1px #8F8F8F!important;
+}
+
 #ViewModeContainer .grid > tbody > tr > td:first-child {
     border-left: none;
 }
@@ -882,7 +895,7 @@ fieldset .legend{
 
 #Editor #RecordHeader #RecordSwitchers .ui-widget-header {
     background: none;
-    color: #222222;
+    color: #FFFFFF;
     border: none;
 }
 
@@ -923,19 +936,24 @@ table.grid tbody td > input {
     padding-right: 16px;
     padding-bottom: 10000px;
     margin-bottom: -10000px;
-    color: #222222;
+    color: #FFFFFF;
 }
 
 #Editor #EditorComments .comment {
     border: 0;
-    border-bottom: 1px solid #CECECE;
+    border-bottom: 1px solid #8F8F8F;
     background: none;
-    color: #222222;
+    color: #FFFFFF;
 }
 
 #Editor #EditorComments .control-textarea {
     background-color: #666666;
     border: 1px solid #8F8F8F;
+    color: #FFFFFF;
+}
+
+#Editor #EditorComments .control-textarea:focus {
+    background: #333333;
 }
 
 #Application #TemplateTabsContainer {
@@ -952,7 +970,7 @@ table.grid tbody td > input {
 #Application #EditorTabsContainer.ui-widget-content,
 #Application #TempleteTabsContainer.ui-widget-content,
 .ui-dialog .ui-dialog-content form .tab-container.ui-widget-content {
-    background: #fff;
+    background: #333333;
     border: none;
 }
 
@@ -1040,6 +1058,11 @@ table.grid tbody td > input {
     border: none;
     right: 1.5rem;
     border-radius: 50%!important;
+    background-color: #FFFFFF;
+}
+
+.ui-dialog.ui-widget.ui-widget-content  .ui-widget-header .ui-dialog-titlebar-close .ui-icon {
+    background-image: url("images/ui-icons_3d3d3d_256x240.png");
 }
 
 .ui-dialog .ui-dialog-content form .tab-container.ui-tabs fieldset {
@@ -1053,6 +1076,12 @@ table.grid tbody td > input {
 
 .ui-dialog .ui-dialog-content form .tab-container.ui-tabs fieldset fieldset textarea {
     background-color: #666666;
+}
+
+.ui-dialog .ui-dialog-content input:focus,
+.ui-dialog .ui-dialog-content textarea:focus,
+.ui-dialog .ui-dialog-content select:focus:not(.has-css) {
+    background-color: #333333;
 }
 
 #Application #Guide > div {
@@ -1079,6 +1108,7 @@ table.grid tbody td > input {
     background-color: #1F1F1F;
 }
 
+.ui-button .ui-icon,
 .ui-icon, .ui-widget-content .ui-icon {
     background-image: url("images/ui-icons_ffffff_256x240.png");
 }
@@ -1090,7 +1120,7 @@ table.grid tbody td > input {
 
 .control-selectable li:active {
     background: #7A43B1;
-    border: 1px solid #005A9E;
+    border: 1px solid #5D2D8C;
     color: #FFFFFF;
 }
 
@@ -1146,6 +1176,14 @@ fieldset .field-vertical > .field-label {
 
 .ui-dialog .command-center > button{
     margin: 0 4px;
+}
+
+#Application #Versions {
+    background-color: #1F1F1F;
+}
+
+#Application #Versions div > span {
+    color: #FFFFFF;
 }
 
 /* フッタメッセージ */

@@ -540,7 +540,7 @@ fieldset .command-left > button {
 .field-control .container-normal .ui-slider-handle:hover,
 .field-control .container-normal .ui-slider-handle:active,
 .field-control .container-normal .ui-slider-handle:focus {
-    background-color: #005A9E;
+    background-color: #F37A23;
     outline: none;
 }
 
@@ -659,7 +659,7 @@ fieldset .command-left > button {
 }
 
 .button-positive:hover {
-    background-color: #fa8632;
+    background-color: #FA9A55;
 }
 
 .button-negative:hover {
@@ -996,6 +996,10 @@ table.grid tbody td > input {
     margin: 0 10px 10px 10px;
 }
 
+.ui-dialog .ui-dialog-content input:focus {
+    background-color: #FFF9E3;
+}
+
 #Application #Guide > div {
     margin: 0 0 12px 0;
     padding: 10px 16px 8px;
@@ -1031,7 +1035,7 @@ table.grid tbody td > input {
 
 .control-selectable li:active {
     background: #EB9151;
-    border: 1px solid #005A9E;
+    border: 1px solid #F37A23;
     color: #FFFFFF;
 }
 
