@@ -198,7 +198,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 });
         }
 
-        public void DeleteAttachment(
+        public void DeleteTempOrLocalAttachment(
             Context context,
             Column column,
             SiteSettings ss,

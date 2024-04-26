@@ -1655,8 +1655,8 @@ namespace Implem.Pleasanter.Models
             catch
             {
                 return new ErrorData(
-                    type: Error.Types.FailedWriteFile, id:
-                    IssueId);
+                    type: Error.Types.FailedWriteFile,
+                    id: IssueId);
             }
             statements.AddRange(CreateStatements(
                 context: context,
@@ -1676,7 +1676,7 @@ namespace Implem.Pleasanter.Models
                     id: IssueId,
                     columnName: response.ColumnName);
             }
-            DeleteAttachments(
+            DeleteTempOrLocalAttachments(
                 context: context,
                 ss: ss);
             IssueId = (response.Id ?? IssueId).ToLong();
@@ -2212,13 +2212,13 @@ namespace Implem.Pleasanter.Models
                             columnName: columnName)));
         }
 
-        public void DeleteAttachments(Context context, SiteSettings ss, bool verUp = false)
+        public void DeleteTempOrLocalAttachments(Context context, SiteSettings ss, bool verUp = false)
         {
             ColumnNames()
                 .Where(columnName => columnName.StartsWith("Attachments"))
                 .Where(columnName => Attachments_Updated(columnName: columnName))
                 .ForEach(columnName =>
-                    GetAttachments(columnName: columnName).DeleteAttachment(
+                    GetAttachments(columnName: columnName).DeleteTempOrLocalAttachment(
                         context: context,
                         ss: ss,
                         column: ss.GetColumn(
