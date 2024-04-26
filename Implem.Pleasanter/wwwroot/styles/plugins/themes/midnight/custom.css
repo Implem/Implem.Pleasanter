@@ -397,11 +397,11 @@ thead th:has(.control-checkbox) {
 
 /* フォーム */
 .field-control .control-text {
-    border: 1px solid #8F8F8F;
+    border: 1px solid #666666;
     border-radius: 4px;
     padding: 4px 8px 4px 8px;
-    color: #FFFFFF;
-    background-color: #666666;
+    color: #AEAEAE;
+    background-color: #444444;
 }
 
 #SearchField .control-textbox,
@@ -517,6 +517,7 @@ font-family: 'メイリオ', 'Meiryo', 'Hiragino Kaku Gothic ProN', 'ヒラギ�
 }
 
 #Editor .field-control .control-markup,
+.ui-widget-content .field-control .control-markup,
 .ui-dialog .ui-dialog-content .control-markup {
     padding: 8px 28px 8px 8px;
     border-radius: 4px;
@@ -887,7 +888,8 @@ fieldset .legend{
     border: solid 1px #8F8F8F!important;
 }
 
-#ViewModeContainer .grid > tbody > tr > td .comment.focus-inform {
+#ViewModeContainer .grid > tbody > tr > td .comment.focus-inform,
+#EditorTabsContainer .grid > tbody > tr > td .comment.focus-inform{
     background-color: #666666!important;
     border: solid 1px #8F8F8F!important;
 }
@@ -1045,6 +1047,14 @@ table.grid tbody td > input {
     margin: 16px;
 }
 
+#ViewModeContainer #BurnDownDetails .user-info {
+    color: #222222;
+}
+
+#ViewModeContainer #BurnDownDetails .items a {
+    color: #FFFFFF;
+}
+
 #ViewModeContainer #AnalyBody svg > g > text {
     fill: #FFFFFF;
 }
@@ -1130,6 +1140,7 @@ table.grid tbody td > input {
 }
 
 #Application #EditorTabs li.ui-state-active a,
+#Application .ui-widget-content li.ui-state-active a,
 .template-tab-container li.ui-state-active a,
 .ui-dialog .ui-dialog-content .tab-container .ui-tabs-nav li.ui-state-active a,
 .ui-dialog .ui-dialog-content form .tab-container .ui-tabs-nav li.ui-state-active a{
@@ -1140,6 +1151,7 @@ table.grid tbody td > input {
 }
 
 #Application #EditorTabs li,
+#Application .ui-widget-content li,
 .template-tab-container li,
 .ui-dialog .ui-dialog-content form .tab-container .ui-tabs-nav li {
     border: none;
@@ -1147,6 +1159,7 @@ table.grid tbody td > input {
 }
 
 #Application #EditorTabs li a,
+#Application .ui-widget-content li a,
 .template-tab-container li a,
 .ui-dialog .ui-dialog-content .tab-container .ui-tabs-nav li a,
 .ui-dialog .ui-dialog-content form .tab-container .ui-tabs-nav li a {
@@ -1276,6 +1289,7 @@ table.grid tbody td > input {
 
 .field-control .container-selectable .wrapper {
     background-color: #3C3C3C;
+    border: solid 1px #8F8F8F;
 }
 
 fieldset .field-vertical > .field-label {
@@ -1493,8 +1507,8 @@ fieldset .field-vertical > .field-label {
 }
 
 #TemplateTabsContainer .template-viewer {
-    background-color: #F8F8F8;
-    border: 1px solid #CECECE;
+    background-color: #666666;
+    border: 1px solid #8F8F8F;
     padding: 0;
     margin: 0 0 0 330px;
 }
@@ -1506,6 +1520,7 @@ fieldset .field-vertical > .field-label {
     border-radius: 0;
     border-bottom: none;
     background: #FFF9E3;
+    color: #222222;
 }
 
 #TemplateTabsContainer .template-viewer .samples-displayed {
@@ -1522,7 +1537,7 @@ fieldset .field-vertical > .field-label {
     border: none;
     border-radius: 0;
     padding: 16px;
-    background-color: #F8F8F8;
+    background-color: #666666;
 }
 
 #SiteMenu .nav-site .conditions span {
