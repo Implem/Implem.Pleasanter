@@ -592,6 +592,10 @@ fieldset .command-left > button {
     border-radius: 4px;
 }
 
+.ui-widget.ui-widget-content.ui-spinner:has(.ui-spinner-input:focus) {
+    background-color: #FFF9E3;
+}
+
 .ui-tabs .ui-tabs-nav {
     padding: 4px 0 0 16px;
     display: flex;
