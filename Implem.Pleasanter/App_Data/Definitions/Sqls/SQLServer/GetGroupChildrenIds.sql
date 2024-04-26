@@ -1,5 +1,5 @@
 ﻿with "GroupsChildIsNotInSelfId"("Lv", "GroupId", "ChildId", "Disabled") as ( 
-    -- 子GroupIdリスト(自ID含む)
+    -- 子GroupIdリスト(自ID含まない)
     select
         1 as "Lv"
         , "t2"."GroupId"

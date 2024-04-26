@@ -4389,6 +4389,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string GroupDepthMax(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "GroupDepthMax",
+                data: data);
+        }
+
         public static string GroupImported(
             Context context,
             params string[] data)

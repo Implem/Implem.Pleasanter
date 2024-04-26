@@ -40,7 +40,7 @@ namespace Implem.Pleasanter.Models
                 statements: SyncGroupMembersSql(
                     tenantId: context.TenantId,
                     groupId: groupId,
-                    oldParents: GetParentIds(context: context, startId: groupId)));
+                    oldParents: GroupChildUtilities.GetParentIds(context: context, startId: groupId)));
         }
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace Implem.Pleasanter.Models
             return SyncGroupMembersSql(
                 tenantId: context.TenantId,
                 groupId: groupId,
-                oldParents: GetParentIds(context: context, startId: groupId));
+                oldParents: GroupChildUtilities.GetParentIds(context: context, startId: groupId));
         }
 
         /// <summary>
@@ -68,54 +68,6 @@ namespace Implem.Pleasanter.Models
                 tenantId: tenantId,
                 groupId: 0,
                 oldParents: new int[] { });
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private static int[] GetParentIds(
-            Context context,
-            int startId)
-        {
-            return GetParentIds(context: context, startIds: new int[] { startId });
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private static int[] GetParentIds(
-            Context context,
-            IEnumerable<int> startIds)
-        {
-            return Repository.ExecuteTable(
-                context: context,
-                statements: new SqlStatement(
-                    commandText: Def.Sql.GetGroupParentIds.Replace("{{GroupsStartIdP}}", string.Join(",", startIds)),
-                    param: new SqlParamCollection {
-                        { "GroupsDepthMax", Implem.DefinitionAccessor.Parameters.General.GroupsDepthMax },
-                    }))
-                    .AsEnumerable()
-                    .Select(v => v.Int("GroupId"))
-                    .ToArray();
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private static int[] GetChildrenIds(
-            Context context,
-            IEnumerable<int> startIds)
-        {
-            return Repository.ExecuteTable(
-                context: context,
-                statements: new SqlStatement(
-                    commandText: Def.Sql.GetGroupChildrenIds.Replace("{{GroupsStartIdP}}", string.Join(",", startIds)),
-                    param: new SqlParamCollection {
-                        { "GroupsDepthMax", Implem.DefinitionAccessor.Parameters.General.GroupsDepthMax },
-                    }))
-                    .AsEnumerable()
-                    .Select(v => v.Int("GroupId"))
-                    .ToArray();
         }
 
         /// <summary>
@@ -138,32 +90,6 @@ namespace Implem.Pleasanter.Models
                         { "TenantId", tenantId },
                         { "GroupsDepthMax", Implem.DefinitionAccessor.Parameters.General.GroupsDepthMax },
                     });
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public static Error.Types CheckCircularGroup(
-            Context context,
-            int groupId,
-            bool disabled,
-            IEnumerable<string> children)
-        {
-            if (disabled) return Error.Types.None;
-            if (children == null || !children.Any()) return Error.Types.None;
-            var startChldIds = children?.Select(o =>
-            (
-                o.StartsWith("Group,")
-                    ? o.Split_2nd().ToInt()
-                    : 0
-            ));
-            var childrenIds = GetChildrenIds(context: context, startIds: startChldIds);
-            if (!childrenIds.Any()) return Error.Types.None;
-            if (childrenIds.Contains(groupId)) return Error.Types.CircularGroupChild;
-            var parentids = GetParentIds(context: context, startId: groupId);
-            return parentids.Any(v => childrenIds.Contains(v))
-                ? Error.Types.CircularGroupChild
-                : Error.Types.None;
         }
     }
 }

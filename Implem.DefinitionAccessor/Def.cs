@@ -956,6 +956,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Validator_LockedTable": Code.Model_Validator_LockedTable = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_LockedTable, definitionRow, CodeXls); break;
                     case "Model_Validator_OnAttaching": Code.Model_Validator_OnAttaching = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_OnAttaching, definitionRow, CodeXls); break;
                     case "Model_Validator_OnAttachingMethod": Code.Model_Validator_OnAttachingMethod = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_OnAttachingMethod, definitionRow, CodeXls); break;
+                    case "Model_Validator_OnCreating_Groups": Code.Model_Validator_OnCreating_Groups = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_OnCreating_Groups, definitionRow, CodeXls); break;
                     case "Model_Validator_OnCreatingCases": Code.Model_Validator_OnCreatingCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_OnCreatingCases, definitionRow, CodeXls); break;
                     case "Model_Validator_OnCreatingDateTimeCases": Code.Model_Validator_OnCreatingDateTimeCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_OnCreatingDateTimeCases, definitionRow, CodeXls); break;
                     case "Model_Validator_OnDeleteHistory": Code.Model_Validator_OnDeleteHistory = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_OnDeleteHistory, definitionRow, CodeXls); break;
@@ -7465,6 +7466,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Validator_LockedTable;
         public string Model_Validator_OnAttaching;
         public string Model_Validator_OnAttachingMethod;
+        public string Model_Validator_OnCreating_Groups;
         public string Model_Validator_OnCreatingCases;
         public string Model_Validator_OnCreatingDateTimeCases;
         public string Model_Validator_OnDeleteHistory;
@@ -8303,6 +8305,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Validator_LockedTable = new CodeDefinition();
         public CodeDefinition Model_Validator_OnAttaching = new CodeDefinition();
         public CodeDefinition Model_Validator_OnAttachingMethod = new CodeDefinition();
+        public CodeDefinition Model_Validator_OnCreating_Groups = new CodeDefinition();
         public CodeDefinition Model_Validator_OnCreatingCases = new CodeDefinition();
         public CodeDefinition Model_Validator_OnCreatingDateTimeCases = new CodeDefinition();
         public CodeDefinition Model_Validator_OnDeleteHistory = new CodeDefinition();

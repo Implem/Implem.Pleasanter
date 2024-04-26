@@ -39,6 +39,7 @@ namespace Implem.Pleasanter.Libraries.General
             FailedReadFile,
             FailedWriteFile,
             FileNotFound,
+            GroupDepthMax,
             HasNotChangeColumnPermission,
             HasNotPermission,
             ImportInvalidUserIdAndLoginId,
@@ -244,6 +245,10 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.FileNotFound:
                     return Messages.FileNotFound(
+                        context: context,
+                        data: data);
+                case Types.GroupDepthMax:
+                    return Messages.GroupDepthMax(
                         context: context,
                         data: data);
                 case Types.HasNotChangeColumnPermission:

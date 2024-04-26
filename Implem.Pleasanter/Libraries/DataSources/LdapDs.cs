@@ -528,14 +528,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         }
                         groupGraph.Add(groupItem.GraphIdx, groupGuidsAll.Select(v => v.GraphIdx).ToArray());
                     });
-                var checkCycle = CheckGroupChildCycle(graph: groupGraph, lvMax: Parameters.General.GroupsDepthMax);
-                if (checkCycle < 0)
+                var checkCycle = GroupChildUtilities.CheckGroupChildCycle(graph: groupGraph, lvMax: Parameters.General.GroupsDepthMax);
+                if (checkCycle.status != Error.Types.None)
                 {
                     new SysLogModel(
                         context: context,
                         method: "LdapSyncGroup",
-                        message: checkCycle == -1
-                            ? "Failed to import LDAP group.Groups in LDAP are circular references."
+                        message: checkCycle.status == Error.Types.CircularGroupChild
+                            ? "Failed to import LDAP group.Groups in LDAP are circular references." +
+                                $"({groups.Where(v => v.Value.GraphIdx == checkCycle.groupIdx)
+                                    .Select(v => v.Value.ADsPath)
+                                    .FirstOrDefault()})"
                             : "Failed to import LDAP group.LDAP groups are nested too deeply.",
                         sysLogType: SysLogTypes.UserError);
                     return;
@@ -565,46 +568,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
             catch (Exception e)
             {
                 new SysLogModel(context: context, e: e, logs: logs);
-            }
-        }
-
-        // グループの循環参照・ネストの深さチェック
-        private static int CheckGroupChildCycle(Dictionary<int, int[]> graph, int lvMax)
-        {
-            var errCycle = -1;
-            var errLvOver = -2;
-            var lv = 0;
-            foreach (var k in graph.Keys)
-            {
-                var paretIds = new Stack<int>();
-                var ret = Scanning(graph, k, paretIds, 0, lvMax);
-                if (ret < 0)
-                {
-                    lv = ret;
-                    break;
-                }
-                else if (ret > lv)
-                {
-                    lv = ret;
-                }
-            }
-            return lv;
-
-            int Scanning(Dictionary<int, int[]> graph, int idx0, Stack<int> paretIds, int lv, int lvMax)
-            {
-                if (lv >= lvMax) return errLvOver;
-                if (!graph.ContainsKey(idx0)) return lv;
-                paretIds.Push(idx0);
-                var max = lv;
-                foreach (var idx1 in graph[idx0])
-                {
-                    if (paretIds.Contains(idx1)) return errCycle;
-                    var val = Scanning(graph, idx1, paretIds, lv + 1, lvMax);
-                    if (val < 0) return val;
-                    if (val > max) max = val;
-                }
-                paretIds.Pop();
-                return max;
             }
         }
 

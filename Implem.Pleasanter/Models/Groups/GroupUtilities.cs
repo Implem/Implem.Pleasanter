@@ -2535,7 +2535,6 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-
         /// <summary>
         /// Fixed:
         /// </summary>

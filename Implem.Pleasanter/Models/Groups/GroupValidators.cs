@@ -178,6 +178,20 @@ namespace Implem.Pleasanter.Models
                         sysLogsStatus: 403,
                         sysLogsDescription: Debugs.GetSysLogsDescription());
             }
+            var checkCircularGroup = GroupChildUtilities.CheckCircularGroup(
+                    context: context,
+                    groupId: groupModel.GroupId,
+                    disabled: groupModel.Disabled,
+                    children: groupModel.GroupChildren);
+            if (Error.Types.None != checkCircularGroup)
+            {
+                return new ErrorData(
+                    context: context,
+                    type: checkCircularGroup,
+                    api: api,
+                    sysLogsStatus: 400,
+                    sysLogsDescription: Debugs.GetSysLogsDescription());
+            }
             foreach (var column in ss.Columns
                 .Where(o => !o.CanCreate(
                     context: context,
@@ -464,16 +478,19 @@ namespace Implem.Pleasanter.Models
                         sysLogsStatus: 403,
                         sysLogsDescription: Debugs.GetSysLogsDescription());
             }
-            var checkCircularGroup = GroupMemberUtilities.CheckCircularGroup(
-            		context: context,
-            		groupId: groupModel.GroupId,
-            		disabled: groupModel.Disabled,
-            		children: groupModel.GroupChildren);
+            var checkCircularGroup = GroupChildUtilities.CheckCircularGroup(
+                    context: context,
+                    groupId: groupModel.GroupId,
+                    disabled: groupModel.Disabled,
+                    children: groupModel.GroupChildren);
             if (Error.Types.None != checkCircularGroup)
             {
-            	return new ErrorData(
-            		type: checkCircularGroup,
-            		id: groupModel.GroupId);
+                return new ErrorData(
+                    context: context,
+                    type: checkCircularGroup,
+                    api: api,
+                    sysLogsStatus: 400,
+                    sysLogsDescription: Debugs.GetSysLogsDescription());
             }
             foreach (var column in ss.Columns
                 .Where(o => !o.CanUpdate(
