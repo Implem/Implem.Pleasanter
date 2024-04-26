@@ -62,7 +62,7 @@
 }
 
 .field-control .already-attachments .file-name {
-    color: #222222;
+    color: #FFFFFF;
 }
 
 .field-control .ui-multiselect {
@@ -104,7 +104,7 @@ a, a:link {
 }
 
 body {
-    background-color: #515151;
+    background-color: #333333;
 }
 
 /* コンテンツ */
@@ -457,6 +457,37 @@ thead th:has(.control-checkbox) {
     color: #fff;
 }
 
+#MainContainer .field-control .control-dropdown.status-preparation,
+#MainContainer .field-control span.control-text.status-preparation {
+    background: #ff8c00;
+    border: 1px solid #ff8c00;
+}
+
+#MainContainer .field-control .control-dropdown.status-inprogress,
+#MainContainer .field-control span.control-text.status-inprogress {
+    background: #008000;
+    border: 1px solid #008000;
+}
+
+#MainContainer .field-control .control-dropdown.status-review,
+#MainContainer .field-control span.control-text.status-review {
+    background: #ff0;
+    border: 1px solid #ff0;
+    color: #222222;
+}
+
+#MainContainer .field-control .control-dropdown.status-closed,
+#MainContainer .field-control span.control-text.status-closed {
+    background: #00f;
+    border: 1px solid #00f;
+}
+
+#MainContainer .field-control .control-dropdown.status-rejected,
+#MainContainer .field-control span.control-text.status-rejected {
+    background: #808080;
+    border: 1px solid #808080;
+}
+
 .field-control pre {
     color: #FFFFFF;
 }
@@ -465,7 +496,7 @@ thead th:has(.control-checkbox) {
 .control-dropdown:focus,
 .control-textarea:focus {
     outline: none;
-    border: 1px solid #666;
+    border: 1px solid #8F8F8F;
 }
 
 .field-control .control-textbox,
@@ -474,6 +505,10 @@ thead th:has(.control-checkbox) {
 #Editor fieldset button,
 .field-control select.control-dropdown {
 font-family: 'メイリオ', 'Meiryo', 'Hiragino Kaku Gothic ProN', 'ヒラギノ角ゴ ProN W3', sans-serif;
+}
+
+.field-control .control-spinner {
+    color: #FFFFFF;
 }
 
 .field-control .control-markdown,
@@ -554,6 +589,7 @@ fieldset .command-left > button {
 
 .field-control textarea {
     background-color: #666666;
+    border: 1px solid #8F8F8F;
 }
 
 .ui-widget.ui-state-default.ui-multiselect {
@@ -575,7 +611,7 @@ fieldset .command-left > button {
 }
 
 .field-control .container-normal .already-attachments {
-    background-color: #1F1F1F;
+    background-color: #333333;
 }
 
 .field-control .container-normal .control-attachments-item {
@@ -583,8 +619,8 @@ fieldset .command-left > button {
 }
 
 .field-control .container-normal .already-attachments.preparation-delete {
-    background-color: #ECECEC;
-    border: 1px solid #CECECE;
+    background-color: #8F8F8F;
+    border: 1px solid #8F8F8F;
 }
 
 #FieldSetMailAddresses .field-vertical .command-left > button {
@@ -593,7 +629,21 @@ fieldset .command-left > button {
 
 #FieldSetMailAddresses .field-vertical .command-left > input {
     margin: 8px 4px 0 0;
+    background-color: #666666;
+    border: solid 1px #8F8F8F;
+    color: #FFFFFF;
 }
+
+#FieldSetMailAddresses .field-vertical .command-left > input:focus {
+    background-color: #333333;
+}
+
+#FieldSetMailEditor .control-basket {
+    background-color: #666666;
+    border: solid 1px #8F8F8F;
+    color: #FFFFFF;
+}
+
 /* ボタン */
 .ui-button {
     background: #666666;
@@ -620,6 +670,11 @@ fieldset .command-left > button {
 .ui-widget.ui-widget-content {
     border: 1px solid #8F8F8F;
     border-radius: 4px;
+    background-color: #666666;
+}
+
+.ui-widget.ui-widget-content.ui-spinner:has(.ui-spinner-input:focus) {
+    background-color: #333333;
 }
 
 .ui-tabs .ui-tabs-nav {
@@ -649,8 +704,8 @@ fieldset .command-left > button {
 .ui-button:focus,
 .ui-button:active {
     background: none;
-    background-color: #8B8B8B;
-    border: 1px solid #8B8B8B;
+    background-color: #777777;
+    border: 1px solid #777777;
     color: #FFFFFF;
 }
 
@@ -743,7 +798,7 @@ fieldset .ui-button,
 
 .ui-state-active .ui-icon, .ui-button:active .ui-icon,
 .ui-state-active .ui-icon, .ui-button:focus .ui-icon {
-    background-image: url(images/ui-icons_3d3d3d_256x240.png);
+    background-image: url(images/ui-icons_ffffff_256x240.png);
 }
 
 .legend .ui-icon-triangle-1-e {
@@ -782,12 +837,42 @@ fieldset .legend{
     margin: 0 0 2px;
 }
 
+#ViewModeContainer .both #FullCalendar .fc-toolbar-title {
+    color: #FFFFFF;
+}
+
+#ViewModeContainer .both #FullCalendar.fc .fc-scrollgrid-section-sticky > * {
+    background: #1F1F1F;
+}
+
 #ViewModeContainer td {
     padding: 8px;
 }
 
-#ViewModeContainer .grid > tbody .grid-row {
+#ViewModeContainer .grid > tbody .grid-row,
+#ViewModeContainer .kambanbody .kamban-container {
     background-color: #515151;
+}
+
+#ViewModeContainer .grid:not(.not-link) .grid-row:hover,
+#ViewModeContainer .kambanbody .kamban-container.hover  {
+    background-color: #444444;
+}
+
+#ViewModeContainer .grid > tbody > tr > th {
+    color: #FFFFFF;
+    background-color: #555555;
+    border-top: solid 1px #8F8F8F;
+    border-bottom: solid 1px #8F8F8F;
+}
+
+#ViewModeContainer .kambanbody .kamban-item {
+    background-color: #666666;
+    border: solid 1px #8F8F8F;
+}
+
+#ViewModeContainer .kambanbody .kamban-item:hover {
+
 }
 
 #ViewModeContainer .grid > tbody > tr > td,
@@ -803,7 +888,7 @@ fieldset .legend{
 }
 
 #ViewModeContainer .grid > tbody > tr > td .comment.focus-inform {
-    background-color: #1F1F1F!important;
+    background-color: #666666!important;
     border: solid 1px #8F8F8F!important;
 }
 
@@ -815,7 +900,10 @@ fieldset .legend{
     border-right: none;
 }
 
-#ViewModeContainer .grid > tbody > tr > td .status-new {
+#ViewModeContainer .grid > tbody > tr > td .status-new,
+#ViewModeContainer .grid > tbody > tr > td .status-review,
+#EditorTabsContainer .grid > tbody > tr > td .status-new,
+#EditorTabsContainer .grid > tbody > tr > td .status-review {
     color: #222222;
 }
 
@@ -828,8 +916,27 @@ fieldset .legend{
     margin-bottom: 4px;
 }
 
-.grid > thead > tr > th {
+#MainForm .grid > thead > tr > th {
     font-weight: bold;
+    border-right: solid 1px #8F8F8F;
+}
+
+#MainForm .grid .grid-row {
+    background-color: #666666;
+    border-bottom: solid 1px #8F8F8F;
+}
+
+#MainForm .grid .grid-row svg.svg-work-value text,
+#MainForm .grid .grid-row svg.svg-progress-rate text{
+    fill: #FFFFFF;
+}
+
+#MainForm .grid .grid-row .svg-progress-rate.warning text{
+    fill: #f00;
+}
+
+#MainForm .grid:not(.not-link) .grid-row:hover {
+    background-color: #555555;
 }
 
 .grid .grid-row .comment {
@@ -837,7 +944,7 @@ fieldset .legend{
 }
 
 .grid .grid-row:hover .comment{
-    background: #FFFFFF;
+    background: #666666;
 }
 
 #MainForm .grid > thead > tr:first-child > th:last-child {
@@ -868,11 +975,6 @@ fieldset .legend{
 
 #ViewModeContainer .grid-stack{
     margin: 16px;
-}
-
-#ViewModeContainer #GanttAxis {
-    margin-left: -2px;
-    width: calc(100% + 2px);
 }
 
 #Editor #RecordHeader {
@@ -922,6 +1024,29 @@ table.grid tbody td > input {
 #SummariesSettingsEditor .grid > thead > tr > th:nth-child(3),
 #SummariesSettingsEditor .grid > thead > tr > th:last-child {
     border-bottom: solid 1px #fff;
+}
+
+/* チャート */
+#ViewModeContainer #Gantt,
+#ViewModeContainer #BurnDown,
+#ViewModeContainer #TimeSeries {
+    border-radius: 4px;
+}
+
+#ViewModeContainer #GanttAxis {
+    margin-left: -2px;
+    width: calc(100% + 2px);
+    border-radius: 0;
+    background-color: rgba(255,255,255,.3);
+}
+
+#ViewModeContainer #BurnDown {
+    width: calc(100% - 32px);
+    margin: 16px;
+}
+
+#ViewModeContainer #AnalyBody svg > g > text {
+    fill: #FFFFFF;
 }
 
 /* 編集画面 */
@@ -1191,10 +1316,14 @@ fieldset .field-vertical > .field-label {
     bottom: 63px;
 }
 
-    #Application .message .body {
-        margin-bottom: 0;
-        border-radius: 0;
-    }
+#Application .message .body {
+    margin-bottom: 0;
+    border-radius: 0;
+}
+
+#Application .message .body .ui-icon.ui-icon-close {
+    background-image: url("images/ui-icons_3d3d3d_256x240.png");
+}
 
 #Application .alert-success {
     padding: 8px;
