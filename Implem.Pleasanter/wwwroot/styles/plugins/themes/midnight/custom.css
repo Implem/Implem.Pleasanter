@@ -850,6 +850,59 @@ fieldset .legend{
     padding: 8px;
 }
 
+#ViewModeContainer #CalendarBody tbody {
+    background-color: #515151;
+}
+
+#ViewModeContainer #CalendarBody th.calendar-header {
+    background-color: #1F1F1F;
+    color: #FFFFFF;
+    border: 1px solid #8F8F8F;
+}
+
+#ViewModeContainer #CalendarBody th.calendar-header.saturday {
+    background-color: #add8e6;
+}
+
+#ViewModeContainer #CalendarBody th.calendar-header.sunday {
+    background-color: #ffc0cb;
+}
+
+#ViewModeContainer #CalendarBody th.calendar-header.saturday,
+#ViewModeContainer #CalendarBody th.calendar-header.sunday {
+    color: #222222;
+}
+
+#ViewModeContainer #CalendarBody td {
+    padding: 8px 0;
+    border: 1px solid #8F8F8F;
+}
+
+#ViewModeContainer #CalendarBody .item {
+    background-color: #8F8F8F;
+    border: solid 1px #8F8F8F;
+}
+
+#ViewModeContainer #CalendarBody .item.hover,
+#ViewModeContainer #CalendarBody .item .connection.hover{
+    background-color: #999999;
+    border: solid 1px #999999;
+}
+
+#ViewModeContainer #CalendarBody .item .connection {
+    background-color: #8F8F8F;
+    border-top: solid 1px #8F8F8F;
+    border-bottom: solid 1px #8F8F8F;
+}
+
+#ViewModeContainer #CalendarBody .item .title {
+    color: #FFFFFF;
+}
+
+#ViewModeContainer #CalendarBody .other-month {
+    background-color: #333333;
+}
+
 #ViewModeContainer .grid > tbody .grid-row,
 #ViewModeContainer .kambanbody .kamban-container {
     background-color: #515151;
@@ -1023,9 +1076,13 @@ table.grid tbody td > input {
     padding: 16px 16px 28px;
 }
 
-#SummariesSettingsEditor .grid > thead > tr > th:nth-child(3),
-#SummariesSettingsEditor .grid > thead > tr > th:last-child {
-    border-bottom: solid 1px #fff;
+#SummariesSettingsEditor .grid > thead > tr:first-child > th:nth-child(3),
+#SummariesSettingsEditor .grid > thead > tr:first-child > th:last-child {
+    border-bottom: solid 1px #8F8F8F;
+}
+
+#SummariesSettingsEditor .grid > thead > tr:nth-child(2) > th:last-child {
+    border-right: none;
 }
 
 /* チャート */
@@ -1057,6 +1114,10 @@ table.grid tbody td > input {
 
 #ViewModeContainer #AnalyBody svg > g > text {
     fill: #FFFFFF;
+}
+
+#ViewModeContainer #AnalyBody .material-symbols-outlined {
+    color: #FFFFFF;
 }
 
 /* 編集画面 */
@@ -1809,7 +1870,7 @@ section.accordion {
 
 /* ログイン画面 */
 body#login {
-    background-color: #F8F8F8;
+    background-color: #3C3C3C;
 }
 
 body#login #MainContainer {
@@ -1841,7 +1902,7 @@ body#login #MainContainer #Application #PortalLink{
 
 #MainForm #LoginFieldSet {
     background-color: initial;
-    border: 1px solid #CECECE;
+    border: 1px solid #8F8F8F;
     border-radius: 4px;
     margin: 0 auto 20px auto;
 }
@@ -1856,7 +1917,7 @@ body#login #MainContainer #Application #PortalLink{
 
 #Logins div .field-wide .field-control .container-normal input {
     height: 48px;
-    border: 1px solid #CECECE;
+    border: 1px solid #8F8F8F;
     border-radius: 4px;
     padding: 4px 20px;
     font-size: 16px;
@@ -1893,7 +1954,7 @@ body#login #MainContainer #Application #PortalLink{
     position: absolute;
     top: 14px;
     right: -36px;
-    color: #666666;
+    color: #FFFFFF;
     font-weight: lighter;
 }
 
@@ -1926,7 +1987,7 @@ body#login #MainContainer #Application #PortalLink{
 
 .fieldset .show-password,
 .ui-dialog .show-password {
-    color: #666666;
+    color: #FFFFFF;
     font-weight: lighter;
 }
 
