@@ -388,6 +388,15 @@ namespace Implem.Pleasanter.Libraries.Models
                 parentIds: parentIds,
                 searchColumnOnly: false,
                 searchFormat: false);
+            selectedValue.Deserialize<string[]>().ForEach(o =>
+            {
+                if (!column.ChoiceHash?.ContainsKey(o) == true)
+                {
+                    column.AddToChoiceHash(
+                        context: context,
+                        value: o);
+                }
+            });
             Dictionary<string, ControlData> optionCollection
                 = new Dictionary<string, ControlData>();
             var multiple = (column.MultipleSelections ?? false) || filter;
