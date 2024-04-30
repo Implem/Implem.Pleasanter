@@ -285,23 +285,17 @@ namespace Implem.Pleasanter.Libraries.Responses
                     context: context,
                     statements: Rds.SelectBinaries(
                         column: Rds.BinariesColumn()
-                            .Title()
-                            .Bin(),
+                            .Guid()
+                            .BinaryType()
+                            .Bin()
+                            .Thumbnail()
+                            .FileName(),
                         where: Rds.BinariesWhere()
                             .BinaryType("Temporary")
                             .Guid(guid)))
                     .AsEnumerable()
                     .FirstOrDefault();
-                var bytes = dataRow.Bytes("Bin");
-                var fileName = dataRow.String("Title");
-                var folderPath = Path.Combine(Path.Combine(Directories.Temp(), guid));
-                Directory.CreateDirectory(folderPath);
-                var filePath = Path.Combine(folderPath, fileName);
-                using (var fileStream = System.IO.File.Create(filePath))
-                {
-                    fileStream.Write(bytes);
-                    return new ResponseFile(new FileInfo(filePath), fileName);
-                }
+                return Bytes(dataRow);
             }
             else
             {

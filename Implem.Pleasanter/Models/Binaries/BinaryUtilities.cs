@@ -860,6 +860,7 @@ namespace Implem.Pleasanter.Models
                                     { "BinaryType", "Temporary" },
                                     { "Title",  file.FileName },
                                     { "Bin", memory.ToArray() },
+                                    { "FileName", file.FileName }
                                 }));
                         resultFileNames.Add(new { name = file.FileName });
                     }

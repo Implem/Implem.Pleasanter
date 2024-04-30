@@ -420,6 +420,7 @@ namespace Implem.SqlServer
                     ,@BinaryType as ""BinaryType""
                     ,@Title as ""Title""
                     ,@Bin as ""Bin""
+                    ,@FileName as ""FileName""
                     ,@_U as ""Creator""
                     ,@_U as ""Updator""
             ) as ""Temp""
@@ -443,6 +444,7 @@ namespace Implem.SqlServer
                     ,""BinaryType""
                     ,""Title""
                     ,""Bin""
+                    ,""FileName""
                     ,""Creator""
                     ,""Updator""
                     ,""CreatedTime""
@@ -457,6 +459,7 @@ namespace Implem.SqlServer
                     ,@BinaryType
                     ,@Title
                     ,@Bin
+                    ,@FileName
                     ,@_U
                     ,@_U
                     ,current_timestamp
