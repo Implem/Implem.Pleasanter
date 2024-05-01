@@ -678,7 +678,7 @@ overflow: hidden;
 @media screen and (max-width: 1024px) and (min-width: 0px) {
   #Logo a {
     align-items: center;
-    display: flex;
+    display: inline-flex;
   }
   #Logo #ProductLogo {
     font-size: 18px;
@@ -1105,6 +1105,9 @@ overflow: hidden;
 }
 
 @media screen and (max-width: 1024px) and (min-width: 0px) {
+   body {
+       overflow-x: hidden;
+   }
   .is-showMenu {
     overflow: hidden;
   }
@@ -1123,10 +1126,9 @@ overflow: hidden;
     display: none;
   }
   #MainContainer {
-    overflow: hidden;
   }
   header#Header {
-    position: fixed;
+    position: sticky;
     top: 0;
     z-index: 1000;
     background-color: #fff;
