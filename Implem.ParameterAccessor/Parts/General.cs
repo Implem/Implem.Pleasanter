@@ -17,6 +17,8 @@ namespace Implem.ParameterAccessor.Parts
         public string HtmlEnterPriseEditionUrl;
         public string HtmlCasesUrl;
         public string HtmlUrlPrefix;
+        public string LogoCorpImage;
+        public string LogoCorpWithTitleImage;
         public bool DisplayLogoText;
         public bool DisableAutoComplete;
         public int SiteMenuHotSpan;
