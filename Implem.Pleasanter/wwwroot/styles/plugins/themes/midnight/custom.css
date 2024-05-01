@@ -1998,3 +1998,28 @@ body#login #MainContainer #Application #PortalLink{
 #LoginFieldSet #TotpRegister #qrCodeText {
     font-size: 1.2rem;
 }
+
+#FullCalendar th {
+    padding: 8px 0;
+}
+
+#FullCalendar td {
+    padding: 0;
+}
+
+#FullCalendar tbody {
+    background: #333;
+}
+
+#FullCalendar th[role="presentation"],
+#FullCalendar td[role="presentation"] {
+    padding: 0;
+}
+
+#FullCalendar .fc-daygrid-day-top {
+    padding: 8px;
+}
+
+#FullCalendar .fc-event-time {
+    padding: 0 8px;
+}
