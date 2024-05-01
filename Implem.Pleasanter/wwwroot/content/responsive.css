@@ -205,35 +205,47 @@ body { min-width: 320px!important; }
     width: 8vw;
     z-index: 101;
     background: #fece2f; }
-#Header a#navtgl::before { content:''; display:block; height: 1.3vw; border-top: .4vw solid #333; border-bottom: .4vw solid #333;  }
-#Header a#navtgl::after { content:''; display:block; height: 1.4vw; border-bottom: .4vw solid #333;  }
+#Header a#navtgl::before ,
+#Header a#navtgl span,
+#Header a#navtgl::after{ 
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 20px;
+	height: 1.5px;
+	margin: 0 0 0 -10px;
+	content: ' ';
+	background: #333;
+	transition: transform 150ms ease-out, margin 150ms ease-out, width 150ms ease-out;
+}
+#Header a#navtgl::before {transform: translateY(7px)}
+#Header a#navtgl span {transform: translateY(0)}
+#Header a#navtgl::after {transform: translateY(-7px)}
 
 * #Navigations {box-sizing: border-box;}
 #Navigations {
-width: 100%;
-max-height: 0;
-overflow: hidden;
-margin: 0;
-padding: 0 5%;
-border: none;
-position: relative;
-top: 0;
-right: 0;
-border-radius: 0;
-z-index: 100;
-font-size: 3.2vw;
-line-height: 7vw;
-transition: .5s;
+    width: 70%;
+    overflow: auto;
+    margin: 0 !important;
+    border: none;
+    position: fixed;
+    padding-top: 112px !important;
+    top: 0;
+    right: -110% !important;
+    z-index: 1000;
+    font-size: 3.2vw;
+    line-height: 7vw;
+    height: 100vh !important;
+    transition: right ease-out .3s;
+    float: none !important;
+}
+
+#Navigations:not(.open) {
+    pointer-events: none;
 }
 
 #Navigations.open {
-    max-height: none;
-    height: auto;
-    overflow:visible;
-    margin-top: 2%;
-    margin-bottom: 5%;
-    padding: 5%;
-    transition: .5s;
+    right: 0 !important;
 }
 
 #NavigationMenu>li.sub-menu>div.hover {
@@ -666,7 +678,7 @@ overflow: hidden;
 @media screen and (max-width: 1024px) and (min-width: 0px) {
   #Logo a {
     align-items: center;
-    display: flex;
+    display: inline-flex;
   }
   #Logo #ProductLogo {
     font-size: 18px;
@@ -734,29 +746,6 @@ overflow: hidden;
 @media screen and (max-width: 1024px) and (min-width: 0px) {
   #Issues_WorkValue {
     width: 100px;
-  }
-}
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
-  body::before {
-    content: '';
-    position: fixed;
-    width: 5vw;
-    height: 50vh;
-    top: 0;
-    left: 0;
-    background: white;
-    z-index: 200;
-  }
-  body::after {
-    content: '';
-    position: fixed;
-    width: 5vw;
-    height: 50vh;
-    top: 0;
-    right: 0;
-    background: white;
-    z-index: 700;
   }
 }
 
@@ -1116,6 +1105,9 @@ overflow: hidden;
 }
 
 @media screen and (max-width: 1024px) and (min-width: 0px) {
+   body {
+       overflow-x: hidden;
+   }
   .is-showMenu {
     overflow: hidden;
   }
@@ -1134,10 +1126,9 @@ overflow: hidden;
     display: none;
   }
   #MainContainer {
-    overflow: hidden;
   }
   header#Header {
-    position: fixed;
+    position: sticky;
     top: 0;
     z-index: 1000;
     background-color: #fff;
@@ -1148,44 +1139,32 @@ overflow: hidden;
     z-index: 1000;
     transition: all 0.5s ease;
   }
-  header#Header a#navtgl::after {
-    transition: all 0.5s ease;
+
+  #Header a#navtgl.on::before ,
+  #Header a#navtgl.on span,
+  #Header a#navtgl.on::after{ 
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 20px;
+      height: 1.5px;
+      margin: 0 0 0 -10px;
+      content: ' ';
+      background: #333;
+      transition: transform 150ms ease-out, margin 150ms ease-out, width 150ms ease-out;
+	}
+	header#Header a#navtgl.on::before {
+    width: 20px;
+    margin: 0 0 0 -10px;
+    transform: rotate(45deg);
   }
-  header#Header a#navtgl.on {
-    transition: all 0.5s ease;
-    position: fixed;
-  }
-  header#Header a#navtgl.on::before {
-    transition: all 0.5s ease;
-    border-top: none;
-    transform: translate(12.5%, 50%) rotate(50deg);
+  header#Header a#navtgl.on span {
+    width: 0;
   }
   header#Header a#navtgl.on::after {
-    transition: all 0.5s ease;
-    transform: translate(12.5%, 0%) rotate(126deg);
-  }
-  #Navigations {
-    transition: all 0.5s ease;
-    max-height: 100vh;
-    height: 100vh;
-    position: absolute;
-    top: 0;
-    right: -1000px;
-    z-index: 999;
-    padding: 5%;
-    width: 70%;
-    padding-top: 112px;
-    opacity: 0;
-  }
-  #Navigations.open {
-    opacity: 1;
-    padding-top: 112px;
-    right: 0;
-    height: 100vh;
-    margin: 0;
-    position: fixed;
-    top: 0;
-    z-index: 1000;
+    width: 20px;
+    margin: 0 0 0 -10px;
+    transform: rotate(-45deg);
   }
 }
 
@@ -1317,9 +1296,6 @@ overflow: hidden;
 }
 
 @media screen and (max-width: 1024px) and (min-width: 0px) {
-  #Navigations.open {
-    overflow-y: scroll;
-  }
   #Navigations #NavigationMenu #NewMenuContainer {
     background: unset;
     border: none;

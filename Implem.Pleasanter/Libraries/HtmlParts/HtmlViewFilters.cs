@@ -397,10 +397,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             column: column,
                             view: view,
                             optionCollection: column.HasChoices()
-                                ? column.EditChoices(
-                                    context: context,
-                                    addNotSet: true,
-                                    own: true)
+                                ? column.UseSearch == true
+                                    ? []
+                                    : column.EditChoices(
+                                        context: context,
+                                        addNotSet: true,
+                                        own: true,
+                                        limit: Parameters.General.DropDownSearchPageSize)
                                 : column.NumFilterOptions(context: context),
                             idPrefix: idPrefix,
                             controlOnly: controlOnly,
@@ -490,10 +493,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             ss: currentSs,
                             column: column,
                             view: view,
-                            optionCollection: column.EditChoices(
-                                context: context,
-                                addNotSet: true,
-                                own: true),
+                            optionCollection: column.UseSearch == true
+                                ? []
+                                : column.EditChoices(
+                                    context: context,
+                                    addNotSet: true,
+                                    own: true,
+                                    limit: Parameters.General.DropDownSearchPageSize),
                             idPrefix: idPrefix,
                             controlOnly: controlOnly,
                             action: action,

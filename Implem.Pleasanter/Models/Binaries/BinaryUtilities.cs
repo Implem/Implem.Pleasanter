@@ -970,6 +970,10 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         column: column,
                         value: attachments.ToJson(),
+                        controlConstraintsType: GetStatusControl(
+                            context: context,
+                            ss: ss,
+                            column: column),
                         columnPermissionType: Permissions.ColumnPermissionType(
                             context: context,
                             ss: ss,
@@ -1056,6 +1060,38 @@ namespace Implem.Pleasanter.Models
                             ss: ss,
                             resultId: context.Id));
                 default: return new ErrorData(Error.Types.HasNotPermission);
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static StatusControl.ControlConstraintsTypes GetStatusControl(
+            Context context,
+            SiteSettings ss,
+            Column column)
+        {
+            switch (ss.ReferenceType)
+            {
+                case "Issues":
+                    return new IssueModel(
+                            context: context,
+                            ss: ss,
+                            issueId: context.Id)
+                        .GetStatusControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Results":
+                    return new ResultModel(
+                            context: context,
+                            ss: ss,
+                            resultId: context.Id)
+                        .GetStatusControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                default: return StatusControl.ControlConstraintsTypes.None;
             }
         }
 
