@@ -2540,7 +2540,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static void ImportGroupMember(
             Context context,
-             GroupModel groupModel,
+            GroupModel groupModel,
             ref int insertGroupMemberCount,
             ref int updateGroupMemberCount)
         {
@@ -4069,15 +4069,15 @@ namespace Implem.Pleasanter.Models
                                         dataRow: datarow));
                         groupModel.GroupMembers = member.Select(
                             groupMember => groupMember.Key).ToList<string>();
-                        var chileren = new Dictionary<string, ControlData>();
+                        var children = new Dictionary<string, ControlData>();
                         GroupChildren(
                             context: context,
                             groupId: groupModel.GroupId)
                                 .ForEach(datarow =>
-                                    chileren.AddChild(
+                                    children.AddChild(
                                         context: context,
                                         dataRow: datarow));
-                        groupModel.GroupChildren = chileren.Select(
+                        groupModel.GroupChildren = children.Select(
                             groupChild => groupChild.Key).ToList<string>();
                     });
                     var groups = siteGroups == null

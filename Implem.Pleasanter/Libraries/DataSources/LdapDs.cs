@@ -7,12 +7,10 @@ using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
-using MailKit.Search;
 using System;
 using System.Collections.Generic;
 using System.DirectoryServices;
 using System.Linq;
-using static Implem.Pleasanter.Models.SysLogModel;
 namespace Implem.Pleasanter.Libraries.DataSources
 {
     public static class LdapDs
@@ -444,7 +442,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                             where: Rds.GroupsWhere().LdapGuid(group.LdapObjectGUID)));
                     });
                 // 以前AD連携された 子グループ削除＆グループメンバー削除
-                var groupids = Rds.SelectGroups(
+                var groupIds = Rds.SelectGroups(
                     column: Rds.GroupsColumn().GroupId(),
                     where: Rds.GroupsWhere()
                         .SynchronizedTime(_operator: " is not null")
@@ -452,11 +450,11 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 statements.Add(Rds.PhysicalDeleteGroupMembers(
                     where: Rds.GroupMembersWhere()
                         .GroupId_In(
-                            sub: groupids)));
+                            sub: groupIds)));
                 statements.Add(Rds.PhysicalDeleteGroupChildren(
                     where: Rds.GroupChildrenWhere()
                         .GroupId_In(
-                            sub: groupids)));
+                            sub: groupIds)));
                 // 削除されたグループのDisableをOnにする。
                 statements.Add(new SqlStatement(
                         commandText: Def.Sql.AdGroupDeleteToDisable,
@@ -540,7 +538,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                     .Select(v => v.Value.ADsPath)
                                     .FirstOrDefault()})"
                             : "Failed to import LDAP group.LDAP groups are nested too deeply.",
-                        sysLogType: SysLogTypes.UserError);
+                        sysLogType: SysLogModel.SysLogTypes.UserError);
                     return;
                 }
                 // テナントの子グループユーザ再構成
@@ -592,7 +590,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 ldap.LdapGroupNamePattern,
             };
             ldap.LdapExtendedAttributes?.ForEach(attribute => list.Add(attribute.Name));
-            directorySearcher.PropertiesToLoad.AddRange(list.Where(s => !s.IsNullOrEmpty()).ToArray());
+            directorySearcher.PropertiesToLoad.AddRange(list.Where(word => !word.IsNullOrEmpty()).ToArray());
         }
 
         private static bool Enabled(SearchResult result, ParameterAccessor.Parts.Ldap ldap)

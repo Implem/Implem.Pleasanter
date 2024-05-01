@@ -80,12 +80,12 @@ namespace Implem.Pleasanter.Models
         {
             var list = new List<int>(oldParents);
             if (groupId != 0) list.Add(groupId);
-            var groupidSearchCondition = list.Any()
+            var groupIdSearchCondition = list.Any()
                 ? "\"GroupId\" in ({0})".Params(string.Join(",", list))
                 : "1=1";
             return new SqlStatement(
                     commandText: Def.Sql.RefreshAllChildMembers
-                        .Replace("{{groupid_search_condition}}", groupidSearchCondition),
+                        .Replace("{{groupid_search_condition}}", groupIdSearchCondition),
                     param: new SqlParamCollection {
                         { "TenantId", tenantId },
                         { "GroupsDepthMax", Implem.DefinitionAccessor.Parameters.General.GroupsDepthMax },

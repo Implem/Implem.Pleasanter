@@ -86,16 +86,16 @@ namespace Implem.Pleasanter.Models
         {
             if (disabled) return Error.Types.None;
             if (children == null || !children.Any()) return Error.Types.None;
-            var startChldIds = children?.Select(o =>
+            var startChildIds = children?.Select(o =>
             (
                 o.StartsWith("Group,")
                     ? o.Split_2nd().ToInt()
                     : 0
             ));
             var ids = new List<int>();
-            ids.AddRange(GetChildrenIds(context: context, startIds: startChldIds));
+            ids.AddRange(GetChildrenIds(context: context, startIds: startChildIds));
             ids.AddRange(GetParentIds(context: context, startId: groupId));
-            ids.AddRange(startChldIds);
+            ids.AddRange(startChildIds);
             var graph = new Dictionary<int, int[]>();
             Repository.ExecuteTable(
                 context: context,
@@ -106,7 +106,7 @@ namespace Implem.Pleasanter.Models
                     .Select(dataSet => (groupId: dataSet.Int("GroupId"), childId: dataSet.Int("ChildId")))
                     .GroupBy(kv => kv.groupId)
                     .ForEach(kv => graph[kv.Key] = kv.Select(v => v.childId).ToArray());
-            graph[groupId] = startChldIds.ToArray();
+            graph[groupId] = startChildIds.ToArray();
             var checkCycle = CheckGroupChildCycle(graph: graph, Parameters.General.GroupsDepthMax);
             if (checkCycle.status == Error.Types.CircularGroupChild)
             {
@@ -122,29 +122,40 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static (Error.Types status, int groupIdx) CheckGroupChildCycle(Dictionary<int, int[]> graph, int lvMax)
+        public static (Error.Types status, int groupIdx) CheckGroupChildCycle(
+            Dictionary<int, int[]> graph,
+            int lvMax)
         {
             foreach (var key in graph.Keys)
             {
                 var parentIds = new Stack<int>();
-                var ret = Scanning(graph, key, parentIds, 1, lvMax);
+                var ret = CheckGroupScanning(graph, key, parentIds, 1, lvMax);
                 if (ret.status != Error.Types.None) return ret;
             }
             return (status: Error.Types.None, groupIdx: 0);
-            (Error.Types status, int groupIdx) Scanning(Dictionary<int, int[]> graph, int idx, Stack<int> parentIds, int lv, int lvMax)
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static (Error.Types status, int groupIdx) CheckGroupScanning(
+            Dictionary<int, int[]> graph,
+            int idx,
+            Stack<int> parentIds,
+            int lv,
+            int lvMax)
+        {
+            if (lv > lvMax) return (status: Error.Types.GroupDepthMax, groupIdx: idx);
+            if (!graph.ContainsKey(idx)) return (status: Error.Types.None, groupIdx: 0);
+            parentIds.Push(idx);
+            foreach (var idx1 in graph[idx])
             {
-                if (lv > lvMax) return (status: Error.Types.GroupDepthMax, groupIdx: idx);
-                if (!graph.ContainsKey(idx)) return (status: Error.Types.None, groupIdx: 0);
-                parentIds.Push(idx);
-                foreach (var idx1 in graph[idx])
-                {
-                    if (parentIds.Contains(idx1)) return (status: Error.Types.CircularGroupChild, groupIdx: idx);
-                    var val = Scanning(graph, idx1, parentIds, lv + 1, lvMax);
-                    if (val.status != Error.Types.None) return val;
-                }
-                parentIds.Pop();
-                return (status: Error.Types.None, groupIdx: 0);
+                if (parentIds.Contains(idx1)) return (status: Error.Types.CircularGroupChild, groupIdx: idx);
+                var val = CheckGroupScanning(graph, idx1, parentIds, lv + 1, lvMax);
+                if (val.status != Error.Types.None) return val;
             }
+            parentIds.Pop();
+            return (status: Error.Types.None, groupIdx: 0);
         }
     }
 }
