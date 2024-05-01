@@ -524,7 +524,10 @@ namespace Implem.Pleasanter.Libraries.DataSources
                             groupGuids.Clear();
                             userLoginIds.Clear();
                         }
-                        groupGraph.Add(groupItem.GraphIdx, groupGuidsAll.Select(v => v.GraphIdx).ToArray());
+                        if (groupGuidsAll.Any())
+                        {
+                            groupGraph.Add(groupItem.GraphIdx, groupGuidsAll.Select(v => v.GraphIdx).ToArray());
+                        }
                     });
                 var checkCycle = GroupChildUtilities.CheckGroupChildCycle(graph: groupGraph, lvMax: Parameters.General.GroupsDepthMax);
                 if (checkCycle.status != Error.Types.None)
