@@ -424,22 +424,42 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
             try
             {
-                var statements = new List<SqlStatement>();
                 var groupGraph = new Dictionary<int, int[]>();
+                var statusUpdateTimer = DateTime.Now.AddSeconds(60);
                 // グループ作成
                 groups.Values
                     .ForEach(group =>
                     {
-                        statements.Add(Rds.UpdateOrInsertGroups(
-                            param: Rds.GroupsParam()
-                                .TenantId(group.Ldap.LdapTenantId)
-                                .GroupName(group.DisplayName)
-                                .Disabled(false)
-                                .LdapSync(true)
-                                .LdapGuid(group.LdapObjectGUID)
-                                .LdapSearchRoot(group.Ldap.LdapSearchRoot)
-                                .SynchronizedTime(synchronizedTime),
-                            where: Rds.GroupsWhere().LdapGuid(group.LdapObjectGUID)));
+                        Repository.ExecuteNonQuery(
+                            context: context,
+                            transactional: true,
+                            statements: new SqlStatement[]
+                            {
+                                Rds.UpdateOrInsertGroups(
+                                    param: Rds.GroupsParam()
+                                        .TenantId(group.Ldap.LdapTenantId)
+                                        .GroupName(group.DisplayName)
+                                        .Disabled(false)
+                                        .LdapSync(true)
+                                        .LdapGuid(group.LdapObjectGUID)
+                                        .LdapSearchRoot(group.Ldap.LdapSearchRoot)
+                                        .SynchronizedTime(synchronizedTime),
+                                    where: Rds.GroupsWhere().LdapGuid(group.LdapObjectGUID))
+                            });
+                        // 一旦、ステータステーブルを更新
+                        if (statusUpdateTimer < DateTime.Now)
+                        {
+                            statusUpdateTimer = DateTime.Now.AddSeconds(60);
+                            Repository.ExecuteNonQuery(
+                                context: context,
+                                transactional: true,
+                                statements: new SqlStatement[]
+                                {
+                                    StatusUtilities.UpdateStatus(
+                                        tenantId: group.Ldap.LdapTenantId, type: StatusUtilities.Types.GroupsUpdated)
+                                });
+                        }
+
                     });
                 // 以前AD連携された 子グループ削除＆グループメンバー削除
                 var groupIds = Rds.SelectGroups(
@@ -447,20 +467,41 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     where: Rds.GroupsWhere()
                         .SynchronizedTime(_operator: " is not null")
                         .SynchronizedTime(value: synchronizedTime));
-                statements.Add(Rds.PhysicalDeleteGroupMembers(
-                    where: Rds.GroupMembersWhere()
-                        .GroupId_In(
-                            sub: groupIds)));
-                statements.Add(Rds.PhysicalDeleteGroupChildren(
-                    where: Rds.GroupChildrenWhere()
-                        .GroupId_In(
-                            sub: groupIds)));
-                // 削除されたグループのDisableをOnにする。
-                statements.Add(new SqlStatement(
-                        commandText: Def.Sql.AdGroupDeleteToDisable,
-                        param: new SqlParamCollection {
-                            { "SynchronizedTime", synchronizedTime }
-                        }));
+                Repository.ExecuteNonQuery(
+                    context: context,
+                    transactional: true,
+                    statements: new SqlStatement[]
+                    {
+                        Rds.PhysicalDeleteGroupMembers(
+                            where: Rds.GroupMembersWhere()
+                                .GroupId_In(
+                                    sub: groupIds)),
+                        Rds.PhysicalDeleteGroupChildren(
+                            where: Rds.GroupChildrenWhere()
+                                .GroupId_In(
+                                    sub: groupIds)),
+                        // 削除されたグループのDisableをOnにする。
+                        new SqlStatement(
+                            commandText: Def.Sql.AdGroupDeleteToDisable,
+                            param: new SqlParamCollection {
+                                { "SynchronizedTime", synchronizedTime }
+                            }),
+                    });
+                // 一旦、ステータステーブルを更新
+                groups
+                    .Select(group => group.Value.Ldap.LdapTenantId)
+                    .Distinct()
+                    .ForEach(tenantId =>
+                    {
+                        Repository.ExecuteNonQuery(
+                            context: context,
+                            transactional: true,
+                            statements: new SqlStatement[]
+                            {
+                                StatusUtilities.UpdateStatus(
+                                    tenantId: tenantId, type: StatusUtilities.Types.GroupsUpdated)
+                            });
+                    });
                 // 子グループ追加＆グループメンバー追加
                 groups.Values
                     .ForEach(groupItem =>
@@ -502,23 +543,29 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                 }
                             }
                             // メンバー全削除＆追加・子グループ全削除＆追加
-                            statements.Add(new SqlStatement(
-                                commandText: Def.Sql.LdapUpdateGroupMembersAndChildren
-                                    .Replace("{{userLoginIds_condition}}",
-                                        userLoginIds.Any()
-                                            ? $" \"t3\".\"LoginId\" in ({userLoginIds.Select(s => $"'{s}'").Join()}) "
-                                            : "(1=0)")
-                                    .Replace("{{groupGuids_condition}}",
-                                        groupGuids.Any()
-                                            ? $" \"t5\".\"LdapGuid\" in ({groupGuids.Select(s => $"'{s.LdapObjectGUID}'").Join()}) "
-                                            : "(1=0)"),
-                                param: new SqlParamCollection {
-                                    { "TenantId", groupItem.Ldap.LdapTenantId },
-                                    { "LdapObjectGUID", groupItem.LdapObjectGUID },
-                                    { "isFirstTime",  firstTime },
-                                    { "isMemberInsert", userLoginIds.Any() },
-                                    { "isChildInsert", groupGuids.Any() },
-                                }));
+                            Repository.ExecuteNonQuery(
+                                context: context,
+                                transactional: true,
+                                statements: new SqlStatement[]
+                                {
+                                    new SqlStatement(
+                                        commandText: Def.Sql.LdapUpdateGroupMembersAndChildren
+                                            .Replace("{{userLoginIds_condition}}",
+                                                userLoginIds.Any()
+                                                    ? $" \"t3\".\"LoginId\" in ({userLoginIds.Select(s => $"'{s}'").Join()}) "
+                                                    : "(1=0)")
+                                            .Replace("{{groupGuids_condition}}",
+                                                groupGuids.Any()
+                                                    ? $" \"t5\".\"LdapGuid\" in ({groupGuids.Select(s => $"'{s.LdapObjectGUID}'").Join()}) "
+                                                    : "(1=0)"),
+                                        param: new SqlParamCollection {
+                                            { "TenantId", groupItem.Ldap.LdapTenantId },
+                                            { "LdapObjectGUID", groupItem.LdapObjectGUID },
+                                            { "isFirstTime",  firstTime },
+                                            { "isMemberInsert", userLoginIds.Any() },
+                                            { "isChildInsert", groupGuids.Any() },
+                                        })
+                                });
                             firstTime = false;
                             groupGuidsAll.AddRange(groupGuids);
                             groupGuids.Clear();
@@ -550,14 +597,16 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     .Distinct()
                     .ForEach(tenantId =>
                     {
-                        statements.Add(GroupMemberUtilities.RefreshAllChildMembers(tenantId));
-                        statements.Add(StatusUtilities.UpdateStatus(
-                            tenantId: tenantId, type: StatusUtilities.Types.GroupsUpdated));
+                        Repository.ExecuteNonQuery(
+                            context: context,
+                            transactional: true,
+                            statements: new SqlStatement[]
+                            {
+                                GroupMemberUtilities.RefreshAllChildMembers(tenantId),
+                                StatusUtilities.UpdateStatus(
+                                    tenantId: tenantId, type: StatusUtilities.Types.GroupsUpdated)
+                            });
                     });
-                Repository.ExecuteNonQuery(
-                    context: context,
-                    transactional: true,
-                    statements: statements.ToArray());
             }
             catch (DirectoryServicesCOMException e)
             {
