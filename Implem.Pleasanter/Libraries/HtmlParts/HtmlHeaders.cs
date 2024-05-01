@@ -163,8 +163,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     src: Locations.Images(
                         context: context,
                         parts: showTitle
-                            ? "logo-corp.png"
-                            : "logo-corp-with-title.png"));
+                            ? "logo-corp.svg"
+                            : "logo-corp-with-title.svg"));
         }
 
         private static string Title(Context context)
