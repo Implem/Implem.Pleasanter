@@ -513,8 +513,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                             ldapSearchRoot: groupItem.ADsPath);
                         var ldapUrl = groupItem.ADsPath.Substring(0, groupItem.ADsPath.LastIndexOf('/') + 1);
                         var userLoginIds = new List<string>();
-                        var groupGuids = new List<GroupItem>();
-                        var groupGuidsAll = new List<GroupItem>();
+                        var groupChild = new List<GroupItem>();
+                        var groupChildAll = new List<GroupItem>();
                         var memberLow = 0;
                         var memberSize = 1000;
                         var firstTime = true;
@@ -534,7 +534,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                 {
                                     var key = ldapUrl + item;
                                     if (users.ContainsKey(key)) userLoginIds.Add(users[key]);
-                                    if (groups.ContainsKey(key)) groupGuids.Add(groups[key]);
+                                    if (groups.ContainsKey(key)) groupChild.Add(groups[key]);
                                 }
                                 if (name.IndexOf("*") < 0)
                                 {
@@ -543,37 +543,40 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                 }
                             }
                             // メンバー全削除＆追加・子グループ全削除＆追加
-                            Repository.ExecuteNonQuery(
-                                context: context,
-                                transactional: true,
-                                statements: new SqlStatement[]
-                                {
-                                    new SqlStatement(
-                                        commandText: Def.Sql.LdapUpdateGroupMembersAndChildren
-                                            .Replace("{{userLoginIds_condition}}",
-                                                userLoginIds.Any()
-                                                    ? $" \"t3\".\"LoginId\" in ({userLoginIds.Select(s => $"'{s}'").Join()}) "
-                                                    : "(1=0)")
-                                            .Replace("{{groupGuids_condition}}",
-                                                groupGuids.Any()
-                                                    ? $" \"t5\".\"LdapGuid\" in ({groupGuids.Select(s => $"'{s.LdapObjectGUID}'").Join()}) "
-                                                    : "(1=0)"),
-                                        param: new SqlParamCollection {
-                                            { "TenantId", groupItem.Ldap.LdapTenantId },
-                                            { "LdapObjectGUID", groupItem.LdapObjectGUID },
-                                            { "isFirstTime",  firstTime },
-                                            { "isMemberInsert", userLoginIds.Any() },
-                                            { "isChildInsert", groupGuids.Any() },
-                                        })
-                                });
+                            if (userLoginIds.Any() || groupChild.Any())
+                            {
+                                Repository.ExecuteNonQuery(
+                                    context: context,
+                                    transactional: true,
+                                    statements: new SqlStatement[]
+                                    {
+                                        new SqlStatement(
+                                            commandText: Def.Sql.LdapUpdateGroupMembersAndChildren
+                                                .Replace("{{userLoginIds_condition}}",
+                                                    userLoginIds.Any()
+                                                        ? $" \"t3\".\"LoginId\" in ({userLoginIds.Select(s => $"'{s}'").Join()}) "
+                                                        : "(1=0)")
+                                                .Replace("{{groupGuids_condition}}",
+                                                    groupChild.Any()
+                                                        ? $" \"t5\".\"LdapGuid\" in ({groupChild.Select(s => $"'{s.LdapObjectGUID}'").Join()}) "
+                                                        : "(1=0)"),
+                                            param: new SqlParamCollection {
+                                                { "TenantId", groupItem.Ldap.LdapTenantId },
+                                                { "LdapObjectGUID", groupItem.LdapObjectGUID },
+                                                { "isFirstTime",  firstTime },
+                                                { "isMemberInsert", userLoginIds.Any() },
+                                                { "isChildInsert", groupChild.Any() },
+                                            })
+                                    });
+                            }
                             firstTime = false;
-                            groupGuidsAll.AddRange(groupGuids);
-                            groupGuids.Clear();
+                            groupChildAll.AddRange(groupChild);
+                            groupChild.Clear();
                             userLoginIds.Clear();
                         }
-                        if (groupGuidsAll.Any())
+                        if (groupChildAll.Any())
                         {
-                            groupGraph.Add(groupItem.GraphIdx, groupGuidsAll.Select(v => v.GraphIdx).ToArray());
+                            groupGraph.Add(groupItem.GraphIdx, groupChildAll.Select(v => v.GraphIdx).ToArray());
                         }
                     });
                 var checkCycle = GroupChildUtilities.CheckGroupChildCycle(graph: groupGraph, lvMax: Parameters.General.GroupsDepthMax);
