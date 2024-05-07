@@ -22,7 +22,6 @@
 
 <!--Model_OnCreatingExtendedSqls-->
 <!--Model_OnCreatingGroupMembers-->
-<!--Model_WriteAttachmentsExecute_Create-->
 
     statements.AddRange(CreateStatements(
         context: context,
@@ -33,6 +32,8 @@
 <!--Model_CreateStatementsParams_GroupMembers-->
 
         otherInitValue: otherInitValue));
+
+<!--Model_WriteAttachmentsExecute_Create-->
 <!--Model_Insert-->
 <!--Model_InsertIdentity-->
 <!--Model_InsertIdentity ( HasIdentity = false, ItemOnly = true ) -->
