@@ -38,6 +38,7 @@
 <!--Model_InsertIdentity-->
 <!--Model_InsertIdentity ( HasIdentity = false, ItemOnly = true ) -->
 <!--Model_IfDuplicatedReturn-->
+<!--Model_DeleteTempOrLocalAttachments-->
 <!--Model_InsertIdentitySet-->
 <!--Model_ForceSynchronizeSummaryExecute-->
 <!--Model_Insert_ExecuteAutomaticNumberingExec-->
