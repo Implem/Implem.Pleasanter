@@ -172,7 +172,6 @@ pre {
     display: block;
     float: left;
     margin: 3px 0px 0px 0px;
-    height: 32px;
 }
 
 #ProductLogo {
@@ -1445,7 +1444,7 @@ th.calendar-header {
 }
 
     #Versions span {
-        margin: 10px 0;
+        margin: 10px;
         line-height: 30px;
     }
 
