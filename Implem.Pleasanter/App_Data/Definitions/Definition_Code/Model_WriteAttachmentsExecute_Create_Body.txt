@@ -1,12 +1,12 @@
 ﻿try
 {
-    WriteAttachments(
+    WriteAttachmentsToLocal(
         context: context,
         ss: ss);
 }
 catch
 {
     return new ErrorData(
-        type: Error.Types.FailedWriteFile, id:
-        #ModelName#Id);
+        type: Error.Types.FailedWriteFile,
+        id: #ModelName#Id);
 }

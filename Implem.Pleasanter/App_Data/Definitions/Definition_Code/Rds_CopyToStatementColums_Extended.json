@@ -3,5 +3,5 @@
     "Indent": "3",
     "Separator": "\\r\\n",
     "NotCalc": "1",
-    "Include": "Issues,Results"
+    "Include": "Issues,Results,Depts,Groups,Users"
 }
