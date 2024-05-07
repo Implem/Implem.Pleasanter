@@ -12,8 +12,6 @@
     "HtmlAGPLUrl": "https://github.com/Implem/Implem.Pleasanter/blob/master/LICENSE",
     "HtmlEnterpriseEditionUrl": "https://pleasanter.org/enterprise",
     "HtmlCasesUrl": "https://pleasanter.org/cases",
-    "LogoCorpImage": "logo-corp.svg",
-    "LogoCorpWithTitleImage": "logo-corp-with-title.svg",
     "DisplayLogoText": false,
     "DisableAutoComplete": false,
     "SiteMenuHotSpan": 30,
