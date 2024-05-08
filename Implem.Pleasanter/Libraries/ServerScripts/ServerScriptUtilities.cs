@@ -1246,6 +1246,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             createdContext.Controller = controller.ToLower();
             createdContext.Action = action.ToLower();
             createdContext.Id = id;
+            createdContext.HasPrivilege = context.HasPrivilege;
             createdContext.ApiRequestBody = apiRequestBody;
             createdContext.PermissionHash = Permissions.Get(context: createdContext);
             createdContext.ServerScriptDepth = context.ServerScriptDepth + 1;
