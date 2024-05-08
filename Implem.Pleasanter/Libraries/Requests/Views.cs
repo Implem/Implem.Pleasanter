@@ -206,13 +206,13 @@ namespace Implem.Pleasanter.Libraries.Requests
             if (setSession)
             {
                 SessionUtilities.Set(
-                context: context,
-                ss: ss,
-                key: key,
-                view: view,
-                sessionGuid: useUsersView
-                    ? "@" + context.UserId
-                    : null);
+                    context: context,
+                    ss: ss,
+                    key: key,
+                    view: view,
+                    sessionGuid: useUsersView
+                        ? "@" + context.UserId
+                        : null);
             }
         }
     }
