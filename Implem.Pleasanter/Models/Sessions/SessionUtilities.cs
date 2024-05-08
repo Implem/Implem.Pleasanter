@@ -17,12 +17,14 @@ using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Libraries.Web;
+using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Web;
 using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
+using Implem.Pleasanter.Libraries.Redis;
 namespace Implem.Pleasanter.Models
 {
     public static class SessionUtilities
@@ -32,6 +34,14 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static Dictionary<string, string> Get(Context context, bool includeUserArea = false, string sessionGuid = null)
         {
+            if (Parameters.Kvs.EnableKVS)
+            {
+                IDatabase iDatabase = AzureCacheForRedisConnection.Connection.GetDatabase();
+                return iDatabase.HashGetAll(sessionGuid ?? context.SessionGuid)
+                    .Where(dataRow => dataRow.Name == $"View_{context.Page}" || !dataRow.Name.StartsWith("View_"))
+                    .ToDictionary(dataRow  => dataRow.Name.ToString().Split('_')[0], dataRow => dataRow.Value.ToString());
+                
+            }
             return Repository.ExecuteTable(
                 context: context,
                 statements: new SqlStatement[]
@@ -120,22 +130,38 @@ namespace Implem.Pleasanter.Models
         {
             if (value != null)
             {
-                Repository.ExecuteNonQuery(
+                string pageName = page
+                    ? context.Page ?? string.Empty
+                    : string.Empty;
+                sessionGuid = sessionGuid ?? context.SessionGuid;
+                if (Parameters.Kvs.EnableKVS && !userArea)
+                {
+                    IDatabase iDatabase = AzureCacheForRedisConnection.Connection.GetDatabase();
+                    string fieldName = pageName.IsNullOrEmpty() ? $"{key}" : $"{key}_{pageName}";
+                    HashEntry[] hashEntrys = new HashEntry[]{ new HashEntry(fieldName, value) };
+                    iDatabase.HashSet(
+                        sessionGuid,
+                        hashEntrys
+                    );
+                    iDatabase.KeyExpire(sessionGuid, TimeSpan.FromMinutes(Parameters.Kvs.RetentionPeriod));
+                }
+                else
+                {
+                    Repository.ExecuteNonQuery(
                     context: context,
                     statements: Rds.UpdateOrInsertSessions(
                         param: Rds.SessionsParam()
-                            .SessionGuid(sessionGuid ?? context.SessionGuid)
+                            .SessionGuid(sessionGuid)
                             .Key(key)
-                            .Page(page
-                                ? context.Page ?? string.Empty
-                                : string.Empty)
+                            .Page(pageName)
                             .Value(value)
                             .ReadOnce(readOnce)
                             .UserArea(userArea),
                         where: Rds.SessionsWhere()
-                            .SessionGuid(sessionGuid ?? context.SessionGuid)
+                            .SessionGuid(sessionGuid)
                             .Key(key)
                             .Page(context.Page, _using: page)));
+                }
             }
             else
             {

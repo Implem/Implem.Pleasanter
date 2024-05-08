@@ -118,6 +118,7 @@ namespace Implem.DefinitionAccessor
             Parameters.Notification = Read<Notification>();
             Parameters.Permissions = Read<Permissions>();
             Parameters.Rds = Read<Rds>();
+            Parameters.Kvs = Read<Kvs>();
             Parameters.Registration = Read<Registration>();
             Parameters.Reminder = Read<Reminder>();
             Parameters.Script = Read<Script>();
