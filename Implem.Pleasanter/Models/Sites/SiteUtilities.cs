@@ -3695,7 +3695,9 @@ namespace Implem.Pleasanter.Models
             return hb.Template(
                 context: context,
                 ss: ss,
-                view: null,
+                view: Views.GetBySession(
+                    context: context,
+                    ss: ss),
                 siteId: siteModel.SiteId,
                 parentId: siteModel.ParentId,
                 referenceType: "Sites",
@@ -4908,6 +4910,31 @@ namespace Implem.Pleasanter.Models
                     css: " enclosed",
                     legendText: Displays.Guide(context: context),
                     action: () => hb
+                    .FieldCheckBox(
+                        controlId: "GuideAllowExpand",
+                        fieldCss: "field-normal",
+                        labelText: Displays.CommonAllowExpand(context: context),
+                        _checked: ss.GuideAllowExpand == true)
+                    .FieldDropDown(
+                        context: context,
+                        fieldId: "GuideExpandField",
+                        controlId: "GuideExpand",
+                        fieldCss: "field-auto-thin" + (ss.GuideExpand.IsNullOrEmpty()
+                            ? " hidden"
+                            : string.Empty),
+                        labelText: Displays.Expand(context: context),
+                        optionCollection: new Dictionary<string, string>
+                            {
+                                {
+                                    "1",
+                                    Displays.Open(context:context)
+                                },
+                                {
+                                    "0",
+                                    Displays.Close(context: context)
+                                }
+                            },
+                        selectedValue: ss.GuideExpand)
                     .FieldMarkDown(
                         context: context,
                         ss: ss,
@@ -8394,7 +8421,9 @@ namespace Implem.Pleasanter.Models
                                 {
                                     formulaSet.FormulaScript = System.Text.RegularExpressions.Regex.Replace(
                                         input: formulaSet.FormulaScript,
-                                        pattern: "(?<!\\$)" + column.LabelText + $"(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)",
+                                        pattern: "(?<!\\$)"
+                                            + System.Text.RegularExpressions.Regex.Escape(column.LabelText)
+                                            + $"(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)",
                                         replacement: $"[{column.ColumnName}]");
                                 }
                             }
