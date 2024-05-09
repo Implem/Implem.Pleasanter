@@ -425,6 +425,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_DeleteHistoryCases": Code.Model_DeleteHistoryCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_DeleteHistoryCases, definitionRow, CodeXls); break;
                     case "Model_DeleteImageWhenDeleting": Code.Model_DeleteImageWhenDeleting = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_DeleteImageWhenDeleting, definitionRow, CodeXls); break;
                     case "Model_DeleteParams": Code.Model_DeleteParams = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_DeleteParams, definitionRow, CodeXls); break;
+                    case "Model_DeleteTempOrLocalAttachments": Code.Model_DeleteTempOrLocalAttachments = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_DeleteTempOrLocalAttachments, definitionRow, CodeXls); break;
                     case "Model_DeleteWithLinks": Code.Model_DeleteWithLinks = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_DeleteWithLinks, definitionRow, CodeXls); break;
                     case "Model_EditorCases": Code.Model_EditorCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_EditorCases, definitionRow, CodeXls); break;
                     case "Model_EditorJsonCases": Code.Model_EditorJsonCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_EditorJsonCases, definitionRow, CodeXls); break;
@@ -962,6 +963,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_WhereDefault": Code.Model_WhereDefault = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_WhereDefault, definitionRow, CodeXls); break;
                     case "Model_WhereSiteIdOrDefault": Code.Model_WhereSiteIdOrDefault = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_WhereSiteIdOrDefault, definitionRow, CodeXls); break;
                     case "Model_WriteAttachmentsExecute": Code.Model_WriteAttachmentsExecute = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_WriteAttachmentsExecute, definitionRow, CodeXls); break;
+                    case "Model_WriteAttachmentsExecute_Create": Code.Model_WriteAttachmentsExecute_Create = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_WriteAttachmentsExecute_Create, definitionRow, CodeXls); break;
                     case "Model_WriteAttachmentsExecute_Update": Code.Model_WriteAttachmentsExecute_Update = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_WriteAttachmentsExecute_Update, definitionRow, CodeXls); break;
                     case "Rds": Code.Rds = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds, definitionRow, CodeXls); break;
                     case "Rds_AggregationAverageCases": Code.Rds_AggregationAverageCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_AggregationAverageCases, definitionRow, CodeXls); break;
@@ -6904,6 +6906,7 @@ namespace Implem.DefinitionAccessor
         public string Model_DeleteHistoryCases;
         public string Model_DeleteImageWhenDeleting;
         public string Model_DeleteParams;
+        public string Model_DeleteTempOrLocalAttachments;
         public string Model_DeleteWithLinks;
         public string Model_EditorCases;
         public string Model_EditorJsonCases;
@@ -7441,6 +7444,7 @@ namespace Implem.DefinitionAccessor
         public string Model_WhereDefault;
         public string Model_WhereSiteIdOrDefault;
         public string Model_WriteAttachmentsExecute;
+        public string Model_WriteAttachmentsExecute_Create;
         public string Model_WriteAttachmentsExecute_Update;
         public string Rds;
         public string Rds_AggregationAverageCases;
@@ -7727,6 +7731,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_DeleteHistoryCases = new CodeDefinition();
         public CodeDefinition Model_DeleteImageWhenDeleting = new CodeDefinition();
         public CodeDefinition Model_DeleteParams = new CodeDefinition();
+        public CodeDefinition Model_DeleteTempOrLocalAttachments = new CodeDefinition();
         public CodeDefinition Model_DeleteWithLinks = new CodeDefinition();
         public CodeDefinition Model_EditorCases = new CodeDefinition();
         public CodeDefinition Model_EditorJsonCases = new CodeDefinition();
@@ -8264,6 +8269,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_WhereDefault = new CodeDefinition();
         public CodeDefinition Model_WhereSiteIdOrDefault = new CodeDefinition();
         public CodeDefinition Model_WriteAttachmentsExecute = new CodeDefinition();
+        public CodeDefinition Model_WriteAttachmentsExecute_Create = new CodeDefinition();
         public CodeDefinition Model_WriteAttachmentsExecute_Update = new CodeDefinition();
         public CodeDefinition Rds = new CodeDefinition();
         public CodeDefinition Rds_AggregationAverageCases = new CodeDefinition();
@@ -13537,6 +13543,8 @@ namespace Implem.DefinitionAccessor
         public string GrantDatabaseForPostgres;
         public string UpsertGroupMember;
         public string SelectSelectableMembers;
+        public string GetBinaryHash;
+        public string UpsertBinaries;
     }
 
     /// <summary>

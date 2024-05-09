@@ -391,6 +391,10 @@ thead th:has(.control-checkbox) {
     border: 1px solid #CECECE;
 }
 
+.field-control .control-textbox.error {
+    border: solid 1px #f00;
+}
+
 #SearchField .control-textbox:focus{
     border: 1px solid #666666;
 }
@@ -421,6 +425,13 @@ thead th:has(.control-checkbox) {
 .field-control .control-textbox {
     border-radius: 4px;
     padding: 4px 8px 4px 8px;
+}
+
+.field-control span.control-text.status-preparation,
+.field-control span.control-text.status-inprogress,
+.field-control span.control-text.status-closed,
+.field-control span.control-text.status-rejected {
+    color: #fff;
 }
 
 .field-control pre {
@@ -509,6 +520,10 @@ fieldset .command-left > button {
 .field-control label,
 .field-control textarea {
     color: #222222;
+}
+
+.field-control label.error {
+    z-index: 3;
 }
 
 .ui-widget.ui-state-default.ui-multiselect {
@@ -796,6 +811,11 @@ fieldset .legend{
     margin: 16px;
 }
 
+#ViewModeContainer #GanttAxis {
+    margin-left: -2px;
+    width: calc(100% + 2px);
+}
+
 #Editor #RecordHeader {
     position: relative;
     margin: 0;
@@ -837,7 +857,7 @@ table.grid tbody td > input {
 }
 
 #Editor #EditorTabsContainer.ui-tabs .ui-tabs-panel {
-    padding: 16px 16px 6px;
+    padding: 16px 16px 28px;
 }
 
 #SummariesSettingsEditor .grid > thead > tr > th:nth-child(3),
@@ -1448,7 +1468,7 @@ section.accordion {
     cursor: pointer;
 }
 
-.menulabel::before {
+label.menulabel::before {
     content: "";
     width: 6px;
     height: 6px;
@@ -1497,7 +1517,7 @@ section.accordion {
     width: 52px;
 }
 
-.menubox label {
+.menubox .menulabel {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -1509,8 +1529,15 @@ section.accordion {
     background-color: #DEECF9;
 }
 
-.menubox label span:first-child {
-    padding: 10px;
+.menubox .menulabel span:first-child {
+    width: 52px;
+    height: 52px;
+    justify-content: center;
+}
+
+.menubox .menulabel span:first-child img{
+    width: initial;
+    margin: auto;
 }
 
 .menubox-sub {
@@ -1540,6 +1567,28 @@ section.accordion {
     align-items: center;
 }
 
+.menubox-sub .sub-menu .sub-menu > ul {
+    margin-bottom: 15px;
+}
+
+.menubox-sub .sub-menu .sub-menu > ul li {
+    padding-left: 52px;
+}
+
+.menubox-sub .sub-menu .sub-menu > ul > li > a {
+    position: relative;
+    padding: 3px 1.5em;
+    font-size: 12px;
+    word-break: break-all;
+}
+
+.menubox-sub .sub-menu .sub-menu > ul > li > a::before {
+    position: absolute;
+    top: 3px;
+    left: 0;
+    content: '・';
+}
+
 /* ログイン画面 */
 body#login {
     background-color: #F8F8F8;
@@ -1554,7 +1603,7 @@ body#login #MainContainer #Application #PortalLink{
 }
 
 #MainContainer #Header {
-    height: 39px;
+    min-height: 39px;
 }
 
 #LoginLogo {
