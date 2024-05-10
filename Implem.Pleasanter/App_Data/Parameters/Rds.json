@@ -1,5 +1,5 @@
 ﻿{
-    "Dbms": "SQLServer",
+    "Dbms": "MySQL",
     "Provider": "Local",
     "SaConnectionString": null,
     "OwnerConnectionString": null,
