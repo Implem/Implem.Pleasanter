@@ -8330,6 +8330,94 @@ namespace Implem.Pleasanter.Libraries.Responses
             return res.ValAndFormData("#Tenants_Theme", value);
         }
 
+        public static TenantsResponseCollection Language(
+            this TenantsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Tenants_Language",
+                res.TenantModel.Language.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Language")));
+        }
+
+        public static TenantsResponseCollection Language(
+            this TenantsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Tenants_Language", value);
+        }
+
+        public static TenantsResponseCollection Language_FormData(
+            this TenantsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Tenants_Language",
+                res.TenantModel.Language.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Language")));
+        }
+
+        public static TenantsResponseCollection Language_FormData(
+            this TenantsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Tenants_Language", value);
+        }
+
+        public static TenantsResponseCollection TimeZone(
+            this TenantsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Tenants_TimeZone",
+                res.TenantModel.TimeZone.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "TimeZone")));
+        }
+
+        public static TenantsResponseCollection TimeZone(
+            this TenantsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Tenants_TimeZone", value);
+        }
+
+        public static TenantsResponseCollection TimeZone_FormData(
+            this TenantsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Tenants_TimeZone",
+                res.TenantModel.TimeZone.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "TimeZone")));
+        }
+
+        public static TenantsResponseCollection TimeZone_FormData(
+            this TenantsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Tenants_TimeZone", value);
+        }
+
         public static TenantsResponseCollection Comments(
             this TenantsResponseCollection res,
             Context context,

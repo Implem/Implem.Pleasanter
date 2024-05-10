@@ -100,6 +100,7 @@
     <Content Remove="App_Data\Definitions\Definition_Code\Model_ImportByApi.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_SetCopyDefault.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_SetCopyDefaultParameter.json" />
+    <Content Remove="App_Data\Definitions\Definition_Code\Model_SetTimeZoneAndLanguage.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_ApiCreatedMessage.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_ApiCreatedMessage_Table.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_ApiUpdatedMessage.json" />
@@ -118,6 +119,8 @@
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_Return.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_View.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_WriteAttachmentsExecute_Create.json" />
+    <Content Remove="App_Data\Definitions\Definition_Column\Tenants_Language.json" />
+    <Content Remove="App_Data\Definitions\Definition_Column\Tenants_TimeZone.json" />
   </ItemGroup>
 
   <ItemGroup>
