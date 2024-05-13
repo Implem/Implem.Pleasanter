@@ -59,6 +59,10 @@ namespace Implem.Pleasanter.Libraries.DataSources
                             extendedErrorMessage: e.ExtendedErrorMessage,
                             e: e);
                     }
+                    else
+                    {
+                        continue;
+                    }
                     return false;
                 }
                 catch (Exception e)
