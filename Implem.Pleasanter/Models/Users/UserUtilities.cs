@@ -4930,7 +4930,8 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 userId: 0,
-                userApiModel: userApiModel);
+                userApiModel: userApiModel,
+                methodType: BaseModel.MethodTypes.New);
             var invalid = UserValidators.OnCreating(
                 context: context,
                 ss: ss,

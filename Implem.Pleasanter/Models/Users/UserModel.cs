@@ -1472,6 +1472,13 @@ namespace Implem.Pleasanter.Models
             OnConstructing(context: context);
             TenantId = context.TenantId;
             UserId = userId;
+            if(methodType == MethodTypes.New)
+            {
+                var language = new TenantModel(context: context, ss: ss, tenantId: TenantId)?.Language;
+                var timeZone = new TenantModel(context: context, ss: ss, tenantId: TenantId)?.TimeZone;
+                Language = language.IsNullOrEmpty()? Parameters.Service.DefaultLanguage : language;
+                TimeZone = timeZone.IsNullOrEmpty() ? Parameters.Service.TimeZoneDefault : timeZone;
+            }
             if (context.QueryStrings.ContainsKey("ver"))
             {
                 Get(
