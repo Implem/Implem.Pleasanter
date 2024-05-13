@@ -1,6 +1,6 @@
 ﻿try
 {
-    WriteAttachments(
+    WriteAttachmentsToLocal(
         context: context,
         ss: ss);
 }

@@ -188,6 +188,7 @@ namespace Implem.Pleasanter.Libraries.Requests
             UserHostAddress = HasRoute
                 ? GetUserHostAddress()
                 : null;
+            HasPrivilege = Permissions.PrivilegedUsers(User.LoginId);
             SetTenantProperties();
             if (context?.Request != false) SetPublish();
             SetPermissions();
