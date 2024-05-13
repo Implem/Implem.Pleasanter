@@ -21,5 +21,4 @@ do update
 set
     "GroupId" = @GroupId
     ,"ChildId" = @ChildId
-    ,"Updator" = @ipU
-;
+    ,"Updator" = @ipU;

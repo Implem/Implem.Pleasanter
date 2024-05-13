@@ -26,7 +26,6 @@ begin
             "GroupId" = v_group_id;
     end;
     end if;
-
     -- グループメンバーを追加
     if v_is_member_insert = true
     then

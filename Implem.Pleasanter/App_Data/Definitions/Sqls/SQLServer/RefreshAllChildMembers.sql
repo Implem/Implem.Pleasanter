@@ -1,6 +1,5 @@
 ﻿declare @v_group1 int; 
 declare @v_group2 int;
-
 declare v_cursor cursor for 
     select
         "GroupId" 
@@ -8,9 +7,7 @@ declare v_cursor cursor for
         "Groups" 
     where
         ("TenantId" = @TenantId#CommandCount#) and ({{groupid_search_condition}}); 
-
 open v_cursor; 
-
 fetch next 
     from
         v_cursor 
@@ -97,8 +94,7 @@ begin;
         -- レコードを削除
         and ("tgt"."GroupId" = @v_group2 AND "tgt"."ChildGroup" <> 0)
         then
-            delete
-    ;
+            delete;
     fetch next 
         from
             v_cursor 

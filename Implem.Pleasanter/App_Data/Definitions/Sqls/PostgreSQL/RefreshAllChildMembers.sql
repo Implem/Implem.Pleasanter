@@ -84,9 +84,7 @@ begin
     end loop; 
     return v_total; 
 end $$ language plpgsql; 
-
 select
     pg_temp.refresh_all_member(@TenantId#CommandCount#, @GroupsDepthMax#CommandCount#, @ipU) as refresh_all_member; 
-
 drop function if exists pg_temp.refresh_all_member(integer, integer, integer);
 
