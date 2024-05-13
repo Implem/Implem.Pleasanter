@@ -22,29 +22,29 @@
 }
 
 .control-selectable .ui-selecting {
-    background: #106EBE;
+    background: #7A43B1;
     color: #FFFFFF;
 }
 
 .control-selectable .ui-selected {
-    background: #106EBE;
+    background: #7A43B1;
     color: #FFFFFF;
 }
 
 .nav-sites .ui-icon {
-    background-image: url("images/ui-icons_3d3d3d_256x240.png");
+    background-image: url("images/ui-icons_ffffff_256x240.png");
 }
 
 #RecordInfo .ui-icon {
-    background-image: url("images/ui-icons_3d3d3d_256x240.png");
+    background-image: url("images/ui-icons_ffffff_256x240.png");
 }
 
 #EditorComments .ui-icon {
-    background-image: url("images/ui-icons_3d3d3d_256x240.png");
+    background-image: url("images/ui-icons_ffffff_256x240.png");
 }
 
 .ui-icon.ui-icon-pencil.button-edit-markdown {
-    background-image: url("images/ui-icons_3d3d3d_256x240.png");
+    background-image: url("images/ui-icons_ffffff_256x240.png");
 }
 
 .ui-widget-content .control-markup a {
@@ -52,15 +52,17 @@
 }
 
 .ui-widget-content a {
-    color: #222222;
+    color: #FFFFFF;
 }
 
+#SearchField .control-textbox,
 .field-control .control-textbox {
-    color: #222222;
+    color: #FFFFFF;
+    background-color: #666666;
 }
 
 .field-control .already-attachments .file-name {
-    color: #222222;
+    color: #FFFFFF;
 }
 
 .field-control .ui-multiselect {
@@ -68,23 +70,23 @@
 }
 
 .field-control .ui-multiselect .ui-icon.ui-icon-triangle-1-s {
-    background-image: url("images/ui-icons_3d3d3d_256x240.png");
+    background-image: url("images/ui-icons_ffffff_256x240.png");
 }
 
 #CopyToClipboards .ui-icon.ui-icon-link {
-    background-image: url("images/ui-icons_3d3d3d_256x240.png");
+    background-image: url("images/ui-icons_ffffff_256x240.png");
 }
 
 .ui-icon.ui-icon-close {
-    background-image: url("images/ui-icons_3d3d3d_256x240.png");
+    background-image: url("images/ui-icons_ffffff_256x240.png");
 }
 
 .ui-button-icon.ui-icon.ui-icon-close {
-    background-image: url("images/ui-icons_3d3d3d_256x240.png");
+    background-image: url("images/ui-icons_ffffff_256x240.png");
 }
 
 #ViewFilters .ui-icon.ui-icon-info {
-    background-image: url("images/ui-icons_3d3d3d_256x240.png");
+    background-image: url("images/ui-icons_ffffff_256x240.png");
 }
 
 #Links .grid-row a {
@@ -98,11 +100,11 @@
 }
 
 a, a:link {
-    color: #106EBE;
+    color: #FFFFFF;
 }
 
 body {
-    background-color: #E7E7E7;
+    background-color: #333333;
 }
 
 /* コンテンツ */
@@ -117,9 +119,9 @@ body {
 
 /* 共通ヘッダ */
 #MainContainer #Header {
-    background-color: #FFFFFF;
-    border-bottom: 1px solid #CECECE;
-    color: #222222;
+    background-color: #1F1F1F;
+    border-bottom: 1px solid #1F1F1F;
+    color: #FFFFFF;
 }
 
 #Header #Logo {
@@ -160,9 +162,10 @@ nav.both.cf {
 }
 
 #CopyDirectUrlToClipboard {
-    border: 1px solid #CECECE;
+    border: 1px solid #8F8F8F;
     padding: 0 2px;
     border-radius: 4px;
+    background-color: #666666;
 }
 
 /* パンくず */
@@ -173,7 +176,7 @@ nav.both.cf {
 #Application nav #Breadcrumb {
     display: flex;
     margin: 0;
-    background-color: #FFFFFF;
+    background-color: #515151;
     width: 100%;
     box-shadow: 0 2px 2px rgba(0,0,0,.2);
     position: relative;
@@ -205,25 +208,25 @@ nav.both.cf {
 }
 
 #Application nav #Breadcrumb li:last-child {
-    background-color: #106EBE;
+    background-color: #7A43B1;
 }
 
 #Application nav #Breadcrumb li:nth-last-child(2)::after {
-    background-color: #106EBE;
+    background-color: #7A43B1;
 }
 
 #Application nav #Breadcrumb li:last-child::after {
-    border-left: 15px solid #106EBE;
+    border-left: 15px solid #7A43B1;
 }
 
 #Application nav #Breadcrumb li:before {
     right: -39px;
-    border-left: 15px solid #ccc;
+    border-left: 15px solid #8F8F8F;
 }
 
 #Application nav #Breadcrumb li:after {
     right: -38px;
-    border-left: 15px solid #fff;
+    border-left: 15px solid #515151;
 }
 
 #Application nav #Breadcrumb li:last-child a {
@@ -266,17 +269,24 @@ nav.both.cf {
     padding: 8px 16px 0;
     border: none;
     border-radius: 0;
-    background-color: #DEECF9;
+    background-color: #333333;
     color: #222222;
 }
 
 #MainForm #ViewFilters > .display-control {
     margin: 0 8px 8px 0;
+    color: #FFFFFF;
 }
 
 #MainForm #ViewFilters > .field-auto-thin {
     height: 30px;
     margin-bottom: 8px;
+}
+
+#MainForm #ViewFilters #ViewFilters_Reset {
+    background-color: #666666;
+    border: 1px solid #8F8F8F;
+    color: #FFFFFF;
 }
 
 /* 結果 */
@@ -285,7 +295,7 @@ nav.both.cf {
     padding: 8px 16px 0;
     border: none;
     border-radius: 0;
-    background-color: #DEECF9;
+    background-color: #333333;
     color: #222222;
 }
 
@@ -293,12 +303,14 @@ nav.both.cf {
     height: auto;
     margin: 0 0 8px;
     border-radius: 4px;
-    background: #C1E1FF;
-    border: 1px solid #90CAFF;
+    background: #1F1F1F;
+    border: 1px solid #1F1F1F;
+    color: #FFFFFF;
 }
 
 #MainForm #Aggregations > .display-control{
     margin: 0 8px 8px 0;
+    color: #FFFFFF;
 }
 
 #MainForm #Aggregations .label.overdue {
@@ -309,6 +321,7 @@ nav.both.cf {
 #MainForm #Aggregations .data{
     margin: 0 16px 8px 0;
     min-height: 30px;
+    color: #FFFFFF;
 }
 
 #MainForm #Aggregations span{
@@ -342,18 +355,18 @@ nav.both.cf {
 
 /* テーブルヘッダ */
 .grid-row .ui-icon {
-    background-image: url("images/ui-icons_3d3d3d_256x240.png");
+    background-image: url("images/ui-icons_ffffff_256x240.png");
 }
 
 .ui-widget-header,
 .ui-dialog.ui-widget.ui-widget-content fieldset .ui-widget-header,
 #ProcessForm #ProcessTabsContainer fieldset .ui-widget-header {
-    background: #106EBE;
+    background: #7A43B1;
 }
 
 .ui-multiselect-header {
-    background: #ECECEC;
-    border: 1px solid #CECECE;
+    background: #1F1F1F;
+    border: 1px solid #1F1F1F;
     padding: 4px !important;
 }
 
@@ -367,6 +380,11 @@ nav.both.cf {
 
 #MainForm .grid > thead > tr:first-child > th:first-child {
     border-radius: 0;
+    border-left: none;
+}
+
+#MainForm .grid > thead > tr:first-child > th:last-child {
+    border-right: none;
 }
 
 /* テーブルヘッダ（スクロール） */
@@ -379,16 +397,17 @@ thead th:has(.control-checkbox) {
 
 /* フォーム */
 .field-control .control-text {
-    border: 1px solid #CECECE;
+    border: 1px solid #666666;
     border-radius: 4px;
     padding: 4px 8px 4px 8px;
-    color: #222222;
+    color: #AEAEAE;
+    background-color: #444444;
 }
 
 #SearchField .control-textbox,
 .field-control .control-textbox,
 .field-control .control-markup {
-    border: 1px solid #CECECE;
+    border: 1px solid #8F8F8F;
 }
 
 .field-control .control-textbox.error {
@@ -401,14 +420,18 @@ thead th:has(.control-checkbox) {
 
 #MainContainer .fieldset.enclosed,
 #MainContainer .fieldset.enclosed-thin {
-    border: 1px solid #CECECE;
+    border: 1px solid #8F8F8F;
     border-radius: 4px;
-    background: #F8F8F8;
+    background: #3C3C3C;
 }
 
 #MainContainer .field-control .control-dropdown,
-#MainContainer .field-control .ui-multiselect {
+#MainContainer .field-control .ui-multiselect,
+.ui-dialog .ui-dialog-content .control-dropdown {
     border-radius: 4px;
+    color: #FFFFFF;
+    background-color: #666666;
+    border: 1px solid #8F8F8F;
 }
 
 #MainContainer .fieldset .field-normal .field-control .control-dropdown,
@@ -434,15 +457,46 @@ thead th:has(.control-checkbox) {
     color: #fff;
 }
 
-.field-control pre {
+#MainContainer .field-control .control-dropdown.status-preparation,
+#MainContainer .field-control span.control-text.status-preparation {
+    background: #ff8c00;
+    border: 1px solid #ff8c00;
+}
+
+#MainContainer .field-control .control-dropdown.status-inprogress,
+#MainContainer .field-control span.control-text.status-inprogress {
+    background: #008000;
+    border: 1px solid #008000;
+}
+
+#MainContainer .field-control .control-dropdown.status-review,
+#MainContainer .field-control span.control-text.status-review {
+    background: #ff0;
+    border: 1px solid #ff0;
     color: #222222;
+}
+
+#MainContainer .field-control .control-dropdown.status-closed,
+#MainContainer .field-control span.control-text.status-closed {
+    background: #00f;
+    border: 1px solid #00f;
+}
+
+#MainContainer .field-control .control-dropdown.status-rejected,
+#MainContainer .field-control span.control-text.status-rejected {
+    background: #808080;
+    border: 1px solid #808080;
+}
+
+.field-control pre {
+    color: #FFFFFF;
 }
 
 .control-textbox:focus,
 .control-dropdown:focus,
 .control-textarea:focus {
     outline: none;
-    border: 1px solid #666;
+    border: 1px solid #8F8F8F;
 }
 
 .field-control .control-textbox,
@@ -453,15 +507,23 @@ thead th:has(.control-checkbox) {
 font-family: 'メイリオ', 'Meiryo', 'Hiragino Kaku Gothic ProN', 'ヒラギノ角ゴ ProN W3', sans-serif;
 }
 
+.field-control .control-spinner {
+    color: #FFFFFF;
+}
+
 .field-control .control-markdown,
 .field-control .control-spinner {
     outline: none;
 }
 
-#Editor .field-control .control-markup {
+#Editor .field-control .control-markup,
+.ui-widget-content .field-control .control-markup,
+.ui-dialog .ui-dialog-content .control-markup {
     padding: 8px 28px 8px 8px;
     border-radius: 4px;
     color: #222222;
+    background-color: #666666;
+    border: 1px solid #8F8F8F;
 }
 
 #Editor .control-markdown{
@@ -470,7 +532,7 @@ font-family: 'メイリオ', 'Meiryo', 'Hiragino Kaku Gothic ProN', 'ヒラギ�
 }
 
 .field-control .control-attachments-upload {
-    border: 2px dotted #106EBE;
+    border: 2px dotted #7A43B1;
 }
 
 fieldset .command-left {
@@ -514,16 +576,21 @@ fieldset .command-left > button {
 #MainContainer input:focus,
 #MainContainer textarea:focus,
 #MainContainer select:focus:not(.has-css) {
-    background-color: #FFF9E3;
+    background-color: #333333;
 }
 
 .field-control label,
 .field-control textarea {
-    color: #222222;
+    color: #FFFFFF;
 }
 
 .field-control label.error {
     z-index: 3;
+}
+
+.field-control textarea {
+    background-color: #666666;
+    border: 1px solid #8F8F8F;
 }
 
 .ui-widget.ui-state-default.ui-multiselect {
@@ -532,7 +599,7 @@ fieldset .command-left > button {
 
 .field-control .container-normal .ui-slider-handle {
     background-image: none;
-    background-color: #106EBE;
+    background-color: #7A43B1;
     border-radius: 2px;
     outline: none;
 }
@@ -540,21 +607,21 @@ fieldset .command-left > button {
 .field-control .container-normal .ui-slider-handle:hover,
 .field-control .container-normal .ui-slider-handle:active,
 .field-control .container-normal .ui-slider-handle:focus {
-    background-color: #005A9E;
+    background-color: #5D2D8C;
     outline: none;
 }
 
 .field-control .container-normal .already-attachments {
-    background-color: #DEECF9;
+    background-color: #333333;
 }
 
 .field-control .container-normal .control-attachments-item {
-    border: 1px solid #106EBE;
+    border: 1px solid #7A43B1;
 }
 
 .field-control .container-normal .already-attachments.preparation-delete {
-    background-color: #ECECEC;
-    border: 1px solid #CECECE;
+    background-color: #8F8F8F;
+    border: 1px solid #8F8F8F;
 }
 
 #FieldSetMailAddresses .field-vertical .command-left > button {
@@ -563,24 +630,38 @@ fieldset .command-left > button {
 
 #FieldSetMailAddresses .field-vertical .command-left > input {
     margin: 8px 4px 0 0;
+    background-color: #666666;
+    border: solid 1px #8F8F8F;
+    color: #FFFFFF;
 }
+
+#FieldSetMailAddresses .field-vertical .command-left > input:focus {
+    background-color: #333333;
+}
+
+#FieldSetMailEditor .control-basket {
+    background-color: #666666;
+    border: solid 1px #8F8F8F;
+    color: #FFFFFF;
+}
+
 /* ボタン */
 .ui-button {
-    background: #FFFFFF;
+    background: #666666;
     border-radius: 4px !important;
-    border: 1px solid #CECECE;
+    border: 1px solid #666666;
     box-shadow: 0 1px 2px rgba(0,0,0,.1);
-    color: #222222;
+    color: #FFFFFF;
 }
 
 .ui-button:hover {
-    background: #FFFFFF;
+    background: #777777;
     border: 1px solid #aeaeae;
     box-shadow: 0 2px 4px rgba(0,0,0,.2);
 }
 
 .ui-button:hover .ui-icon {
-    background-image: url("images/ui-icons_3d3d3d_256x240.png");
+    background-image: url("images/ui-icons_ffffff_256x240.png");
 }
 
 .ui-icon-person {
@@ -588,12 +669,13 @@ fieldset .command-left > button {
 }
 
 .ui-widget.ui-widget-content {
-    border: 1px solid #CECECE;
+    border: 1px solid #8F8F8F;
     border-radius: 4px;
+    background-color: #666666;
 }
 
 .ui-widget.ui-widget-content.ui-spinner:has(.ui-spinner-input:focus) {
-    background-color: #FFF9E3;
+    background-color: #333333;
 }
 
 .ui-tabs .ui-tabs-nav {
@@ -614,17 +696,18 @@ fieldset .command-left > button {
 .ui-state-focus,
 .ui-widget-content .ui-state-focus,
 .ui-widget-header .ui-state-focus {
-    background: #C1E1FF;
-    border: 1px solid #90CAFF;
+    background: #777777;
+    border: 1px solid #777777;
+    color: #FFFFFF;
 }
 
 .ui-button:hover,
 .ui-button:focus,
 .ui-button:active {
     background: none;
-    background-color: #FFFFFF;
-    border: 1px solid #CECECE;
-    color: #555555;
+    background-color: #777777;
+    border: 1px solid #777777;
+    color: #FFFFFF;
 }
 
 .button-neutral,
@@ -652,8 +735,8 @@ fieldset .command-left > button {
 .button-positive:focus,
 .button-positive:active {
     background: none;
-    background-color: #106EBE;
-    border: 1px solid #106EBE;
+    background-color: #7A43B1;
+    border: 1px solid #7A43B1;
     color: #FFFFFF;
 }
 
@@ -663,7 +746,7 @@ fieldset .command-left > button {
 }
 
 .button-positive:hover {
-    background-color: #1a77c6;
+    background-color: #864ac2;
 }
 
 .button-negative:hover {
@@ -716,7 +799,7 @@ fieldset .ui-button,
 
 .ui-state-active .ui-icon, .ui-button:active .ui-icon,
 .ui-state-active .ui-icon, .ui-button:focus .ui-icon {
-    background-image: url(images/ui-icons_3d3d3d_256x240.png);
+    background-image: url(images/ui-icons_ffffff_256x240.png);
 }
 
 .legend .ui-icon-triangle-1-e {
@@ -728,13 +811,15 @@ fieldset .ui-button,
 }
 
 fieldset .legend{
-    color: #222222;
+    color: #FFFFFF;
 }
 
 /* 一覧画面 */
 #ViewModeContainer .grid > thead > tr > th {
     padding: 8px;
     font-weight: bold;
+    border-left: 1px solid #8F8F8F;
+    border-right: 1px solid #8F8F8F;
 }
 
 #ViewModeContainer > .both{
@@ -753,14 +838,127 @@ fieldset .legend{
     margin: 0 0 2px;
 }
 
+#ViewModeContainer .both #FullCalendar .fc-toolbar-title {
+    color: #FFFFFF;
+}
+
+#ViewModeContainer .both #FullCalendar.fc .fc-scrollgrid-section-sticky > * {
+    background: #1F1F1F;
+}
+
 #ViewModeContainer td {
     padding: 8px;
 }
 
+#ViewModeContainer #CalendarBody tbody {
+    background-color: #515151;
+}
+
+#ViewModeContainer #CalendarBody th.calendar-header {
+    background-color: #1F1F1F;
+    color: #FFFFFF;
+    border: 1px solid #8F8F8F;
+}
+
+#ViewModeContainer #CalendarBody th.calendar-header.saturday {
+    background-color: #add8e6;
+}
+
+#ViewModeContainer #CalendarBody th.calendar-header.sunday {
+    background-color: #ffc0cb;
+}
+
+#ViewModeContainer #CalendarBody th.calendar-header.saturday,
+#ViewModeContainer #CalendarBody th.calendar-header.sunday {
+    color: #222222;
+}
+
+#ViewModeContainer #CalendarBody td {
+    padding: 8px 0;
+    border: 1px solid #8F8F8F;
+}
+
+#ViewModeContainer #CalendarBody .item {
+    background-color: #8F8F8F;
+    border: solid 1px #8F8F8F;
+}
+
+#ViewModeContainer #CalendarBody .item.hover,
+#ViewModeContainer #CalendarBody .item .connection.hover{
+    background-color: #999999;
+    border: solid 1px #999999;
+}
+
+#ViewModeContainer #CalendarBody .item .connection {
+    background-color: #8F8F8F;
+    border-top: solid 1px #8F8F8F;
+    border-bottom: solid 1px #8F8F8F;
+}
+
+#ViewModeContainer #CalendarBody .item .title {
+    color: #FFFFFF;
+}
+
+#ViewModeContainer #CalendarBody .other-month {
+    background-color: #333333;
+}
+
+#ViewModeContainer .grid > tbody .grid-row,
+#ViewModeContainer .kambanbody .kamban-container {
+    background-color: #515151;
+}
+
+#ViewModeContainer .grid:not(.not-link) .grid-row:hover,
+#ViewModeContainer .kambanbody .kamban-container.hover  {
+    background-color: #444444;
+}
+
+#ViewModeContainer .grid > tbody > tr > th {
+    color: #FFFFFF;
+    background-color: #555555;
+    border-top: solid 1px #8F8F8F;
+    border-bottom: solid 1px #8F8F8F;
+}
+
+#ViewModeContainer .kambanbody .kamban-item {
+    background-color: #666666;
+    border: solid 1px #8F8F8F;
+}
+
+#ViewModeContainer .kambanbody .kamban-item:hover {
+
+}
+
 #ViewModeContainer .grid > tbody > tr > td,
 #EditorTabsContainer .grid > tbody > tr > td {
-    border-left: 1px solid #ECECEC;
-    border-right: 1px solid #ECECEC;
+    border-left: 1px solid #8F8F8F;
+    border-right: 1px solid #8F8F8F;
+    color: #FFFFFF;
+}
+
+#ViewModeContainer .grid > tbody > tr > td .grid-title-body.focus-inform {
+    background-color: #666666!important;
+    border: solid 1px #8F8F8F!important;
+}
+
+#ViewModeContainer .grid > tbody > tr > td .comment.focus-inform,
+#EditorTabsContainer .grid > tbody > tr > td .comment.focus-inform{
+    background-color: #666666!important;
+    border: solid 1px #8F8F8F!important;
+}
+
+#ViewModeContainer .grid > tbody > tr > td:first-child {
+    border-left: none;
+}
+
+#ViewModeContainer .grid > tbody > tr > td:last-child {
+    border-right: none;
+}
+
+#ViewModeContainer .grid > tbody > tr > td .status-new,
+#ViewModeContainer .grid > tbody > tr > td .status-review,
+#EditorTabsContainer .grid > tbody > tr > td .status-new,
+#EditorTabsContainer .grid > tbody > tr > td .status-review {
     color: #222222;
 }
 
@@ -768,13 +966,32 @@ fieldset .legend{
 #EditorTabsContainer .grid-row .comment {
     margin-bottom: 0;
     padding: 4px 4px 4px 16px;
-    background: #EFF6FC;
-    border: 1px solid #C1E1FF;
+    background: #666666;
+    border: 1px solid #666666;
     margin-bottom: 4px;
 }
 
-.grid > thead > tr > th {
+#MainForm .grid > thead > tr > th {
     font-weight: bold;
+    border-right: solid 1px #8F8F8F;
+}
+
+#MainForm .grid .grid-row {
+    background-color: #666666;
+    border-bottom: solid 1px #8F8F8F;
+}
+
+#MainForm .grid .grid-row svg.svg-work-value text,
+#MainForm .grid .grid-row svg.svg-progress-rate text{
+    fill: #FFFFFF;
+}
+
+#MainForm .grid .grid-row .svg-progress-rate.warning text{
+    fill: #f00;
+}
+
+#MainForm .grid:not(.not-link) .grid-row:hover {
+    background-color: #555555;
 }
 
 .grid .grid-row .comment {
@@ -782,7 +999,7 @@ fieldset .legend{
 }
 
 .grid .grid-row:hover .comment{
-    background: #FFFFFF;
+    background: #666666;
 }
 
 #MainForm .grid > thead > tr:first-child > th:last-child {
@@ -815,11 +1032,6 @@ fieldset .legend{
     margin: 16px;
 }
 
-#ViewModeContainer #GanttAxis {
-    margin-left: -2px;
-    width: calc(100% + 2px);
-}
-
 #Editor #RecordHeader {
     position: relative;
     margin: 0;
@@ -840,7 +1052,7 @@ fieldset .legend{
 
 #Editor #RecordHeader #RecordSwitchers .ui-widget-header {
     background: none;
-    color: #222222;
+    color: #FFFFFF;
     border: none;
 }
 
@@ -864,9 +1076,48 @@ table.grid tbody td > input {
     padding: 16px 16px 28px;
 }
 
-#SummariesSettingsEditor .grid > thead > tr > th:nth-child(3),
-#SummariesSettingsEditor .grid > thead > tr > th:last-child {
-    border-bottom: solid 1px #fff;
+#SummariesSettingsEditor .grid > thead > tr:first-child > th:nth-child(3),
+#SummariesSettingsEditor .grid > thead > tr:first-child > th:last-child {
+    border-bottom: solid 1px #8F8F8F;
+}
+
+#SummariesSettingsEditor .grid > thead > tr:nth-child(2) > th:last-child {
+    border-right: none;
+}
+
+/* チャート */
+#ViewModeContainer #Gantt,
+#ViewModeContainer #BurnDown,
+#ViewModeContainer #TimeSeries {
+    border-radius: 4px;
+}
+
+#ViewModeContainer #GanttAxis {
+    margin-left: -2px;
+    width: calc(100% + 2px);
+    border-radius: 0;
+    background-color: rgba(255,255,255,.3);
+}
+
+#ViewModeContainer #BurnDown {
+    width: calc(100% - 32px);
+    margin: 16px;
+}
+
+#ViewModeContainer #BurnDownDetails .user-info {
+    color: #222222;
+}
+
+#ViewModeContainer #BurnDownDetails .items a {
+    color: #FFFFFF;
+}
+
+#ViewModeContainer #AnalyBody svg > g > text {
+    fill: #FFFFFF;
+}
+
+#ViewModeContainer #AnalyBody .material-symbols-outlined {
+    color: #FFFFFF;
 }
 
 /* 編集画面 */
@@ -875,20 +1126,30 @@ table.grid tbody td > input {
 }
 
 #Editor #EditorComments{
-    background: #DEECF9;
+    background: #1F1F1F;
     padding-top: 16px;
     padding-left: 16px;
     padding-right: 16px;
     padding-bottom: 10000px;
     margin-bottom: -10000px;
-    color: #222222;
+    color: #FFFFFF;
 }
 
 #Editor #EditorComments .comment {
     border: 0;
-    border-bottom: 1px solid #CECECE;
+    border-bottom: 1px solid #8F8F8F;
     background: none;
-    color: #222222;
+    color: #FFFFFF;
+}
+
+#Editor #EditorComments .control-textarea {
+    background-color: #666666;
+    border: 1px solid #8F8F8F;
+    color: #FFFFFF;
+}
+
+#Editor #EditorComments .control-textarea:focus {
+    background: #333333;
 }
 
 #Application #TemplateTabsContainer {
@@ -905,7 +1166,7 @@ table.grid tbody td > input {
 #Application #EditorTabsContainer.ui-widget-content,
 #Application #TempleteTabsContainer.ui-widget-content,
 .ui-dialog .ui-dialog-content form .tab-container.ui-widget-content {
-    background: #fff;
+    background: #333333;
     border: none;
 }
 
@@ -920,10 +1181,10 @@ table.grid tbody td > input {
 .template-tab-container > .ui-widget-header,
 .ui-dialog .ui-dialog-content .tab-container .ui-tabs-nav.ui-widget-header,
 .ui-dialog .ui-dialog-content form .tab-container > .ui-widget-header {
-    background: #DEECF9;
+    background: #1F1F1F;
     border: none;
     border-radius: 0;
-    border-bottom: 4px solid #106EBE;
+    border-bottom: 4px solid #7A43B1;
 }
 
 .ui-tabs .ui-tabs-nav li.ui-tabs-active,
@@ -940,16 +1201,18 @@ table.grid tbody td > input {
 }
 
 #Application #EditorTabs li.ui-state-active a,
+#Application .ui-widget-content li.ui-state-active a,
 .template-tab-container li.ui-state-active a,
 .ui-dialog .ui-dialog-content .tab-container .ui-tabs-nav li.ui-state-active a,
 .ui-dialog .ui-dialog-content form .tab-container .ui-tabs-nav li.ui-state-active a{
-    background: #106EBE;
+    background: #7A43B1;
     border-radius: 4px 4px 0 0;
     font-weight: bold;
     color: #fff;
 }
 
 #Application #EditorTabs li,
+#Application .ui-widget-content li,
 .template-tab-container li,
 .ui-dialog .ui-dialog-content form .tab-container .ui-tabs-nav li {
     border: none;
@@ -957,12 +1220,13 @@ table.grid tbody td > input {
 }
 
 #Application #EditorTabs li a,
+#Application .ui-widget-content li a,
 .template-tab-container li a,
 .ui-dialog .ui-dialog-content .tab-container .ui-tabs-nav li a,
 .ui-dialog .ui-dialog-content form .tab-container .ui-tabs-nav li a {
-    background: #fff;
+    background: #666666;
     border-radius: 4px 4px 0 0;
-    color: #106EBE;
+    color: #FFFFFF;
 }
 
 .ui-corner-all, .ui-corner-bottom, .ui-corner-right, .ui-corner-br {
@@ -971,24 +1235,33 @@ table.grid tbody td > input {
 
 .ui-dialog.ui-widget.ui-widget-content {
     padding: 0;
-    border: none;
     border-radius: 0;
 }
 
+.ui-dialog.ui-widget.ui-widget-content .ui-dialog-content.ui-widget-content{
+    background-color: #1F1F1F; 
+}
+
 .ui-dialog.ui-widget.ui-widget-content .ui-widget-header {
-    background: #fff;
+    background: #1F1F1F;
     border: none;
-    border-bottom: 1px solid #CECECE;
+    border-bottom: 1px solid #8F8F8F;
 }
 
 .ui-dialog.ui-widget.ui-widget-content .ui-widget-header .ui-dialog-title {
-    color: #222222;
+    color: #FFFFFF;
 }
 
 .ui-dialog.ui-widget.ui-widget-content .ui-widget-header .ui-dialog-titlebar-close {
     box-shadow: none;
     border: none;
     right: 1.5rem;
+    border-radius: 50%!important;
+    background-color: #FFFFFF;
+}
+
+.ui-dialog.ui-widget.ui-widget-content  .ui-widget-header .ui-dialog-titlebar-close .ui-icon {
+    background-image: url("images/ui-icons_3d3d3d_256x240.png");
 }
 
 .ui-dialog .ui-dialog-content form .tab-container.ui-tabs fieldset {
@@ -998,6 +1271,16 @@ table.grid tbody td > input {
 
 .ui-dialog .ui-dialog-content form .tab-container.ui-tabs fieldset fieldset {
     margin: 0 10px 10px 10px;
+}
+
+.ui-dialog .ui-dialog-content form .tab-container.ui-tabs fieldset fieldset textarea {
+    background-color: #666666;
+}
+
+.ui-dialog .ui-dialog-content input:focus,
+.ui-dialog .ui-dialog-content textarea:focus,
+.ui-dialog .ui-dialog-content select:focus:not(.has-css) {
+    background-color: #333333;
 }
 
 #Application #Guide > div {
@@ -1012,30 +1295,31 @@ table.grid tbody td > input {
 
 #HeaderTitleContainer #HeaderTitle {
     font-size: 16px;
-    color: #222;
+    color: #FFFFFF;
 }
 
 #RecordHeader #RecordInfo {
     padding: 0 16px;
-    color: #222222;
+    color: #FFFFFF;
 }
 
 #RecordHeader #RecordInfo div p .elapsed-time {
-    background-color: #CECECE;
+    background-color: #1F1F1F;
 }
 
+.ui-button .ui-icon,
 .ui-icon, .ui-widget-content .ui-icon {
-    background-image: url("images/ui-icons_3d3d3d_256x240.png");
+    background-image: url("images/ui-icons_ffffff_256x240.png");
 }
 
 .control-selectable .ui-selected {
-    background: #106EBE;
-    border: 1px solid #005A9E;
+    background: #7A43B1;
+    border: 1px solid #5D2D8C;
 }
 
 .control-selectable li:active {
-    background: #106EBE;
-    border: 1px solid #005A9E;
+    background: #7A43B1;
+    border: 1px solid #5D2D8C;
     color: #FFFFFF;
 }
 
@@ -1043,7 +1327,7 @@ table.grid tbody td > input {
 .ui-widget-content .ui-state-default,
 .ui-widget-header .ui-state-default {
     border: none;
-    color: #106EBE;
+    color: #7A43B1;
 }
 
 .template-tab-container .fieldset {
@@ -1051,12 +1335,13 @@ table.grid tbody td > input {
 }
 
 .ui-tabs .ui-tabs-panel {
-    background-color: #FFFFFF;
+    background-color: #333333;
 }
 
 .ui-widget-content {
-    border: 1px solid #AEAEAE;
-    background-color: #F5F5F5;
+    border: 1px solid #8F8F8F;
+    background-color: #666666;
+    color: #FFFFFF;
 }
 
 .container-selectable {
@@ -1064,16 +1349,17 @@ table.grid tbody td > input {
 }
 
 .field-control .container-selectable .wrapper {
-    background-color: #FFFFFF;
+    background-color: #3C3C3C;
+    border: solid 1px #8F8F8F;
 }
 
 fieldset .field-vertical > .field-label {
     padding: 0;
 }
 
-.field-label label{
+.field-label label {
     cursor: default;
-    color: #222222;
+    color: #FFFFFF;
 }
 
 .field-control .command-left .control-textbox {
@@ -1092,15 +1378,27 @@ fieldset .field-vertical > .field-label {
     margin: 0 4px;
 }
 
+#Application #Versions {
+    background-color: #1F1F1F;
+}
+
+#Application #Versions div > span {
+    color: #FFFFFF;
+}
+
 /* フッタメッセージ */
 #Application .message {
     bottom: 63px;
 }
 
-    #Application .message .body {
-        margin-bottom: 0;
-        border-radius: 0;
-    }
+#Application .message .body {
+    margin-bottom: 0;
+    border-radius: 0;
+}
+
+#Application .message .body .ui-icon.ui-icon-close {
+    background-image: url("images/ui-icons_3d3d3d_256x240.png");
+}
 
 #Application .alert-success {
     padding: 8px;
@@ -1146,7 +1444,7 @@ fieldset .field-vertical > .field-label {
 /* トップ（スタートガイド） */
 #MainForm #StartGuide {
     width: calc(100% - 32px);
-    background-color: #FFFFFF;
+    background-color: #666666;
     border-radius: 4px;
     margin: 16px 16px 0;
     padding: 24px 0 0 0;
@@ -1154,7 +1452,7 @@ fieldset .field-vertical > .field-label {
 }
 
 #MainForm #StartGuide > #StartGuideContents > a:hover {
-    background-color: #EFF6FC;
+    background-color: #8B8B8B;
 }
 
 #MainForm #StartGuide > #StartGuideContents {
@@ -1221,8 +1519,8 @@ fieldset .field-vertical > .field-label {
 }
 
 #Application .nav-site .conditions span.count {
-    background-color: #C1E1FF;
-    border: 1px solid #90CAFF;
+    background-color: #1F1F1F;
+    border: 1px solid #1F1F1F;
 }
 
 #Application .nav-site .conditions span.overdue {
@@ -1233,7 +1531,7 @@ fieldset .field-vertical > .field-label {
 #Application .nav-site {
     width: 209px;
     min-height: 140px;
-    background-color: #FFFFFF;
+    background-color: #666666;
     border: none;
     border-radius: 4px;
     box-shadow: 0 2px 2px rgba(0,0,0,.2);
@@ -1270,8 +1568,8 @@ fieldset .field-vertical > .field-label {
 }
 
 #TemplateTabsContainer .template-viewer {
-    background-color: #F8F8F8;
-    border: 1px solid #CECECE;
+    background-color: #666666;
+    border: 1px solid #8F8F8F;
     padding: 0;
     margin: 0 0 0 330px;
 }
@@ -1283,6 +1581,7 @@ fieldset .field-vertical > .field-label {
     border-radius: 0;
     border-bottom: none;
     background: #FFF9E3;
+    color: #222222;
 }
 
 #TemplateTabsContainer .template-viewer .samples-displayed {
@@ -1299,13 +1598,14 @@ fieldset .field-vertical > .field-label {
     border: none;
     border-radius: 0;
     padding: 16px;
-    background-color: #F8F8F8;
+    background-color: #666666;
 }
 
 #SiteMenu .nav-site .conditions span {
     background: none;
     padding: 0 8px;
     margin: 6px 6px 6px 0;
+    color: #FFFFFF;
 }
 
 .site-icon{
@@ -1357,7 +1657,7 @@ fieldset .field-vertical > .field-label {
     width: 32px;
     height: 32px;
     z-index: 9999;
-    background-color: #FFFFFF;
+    background-color: #1F1F1F;
     padding: 12px;
     border-radius: 4px
 }
@@ -1389,7 +1689,7 @@ fieldset .field-vertical > .field-label {
 .hamburger-menuwrap {
     position: fixed;
     height: 100%;
-    background: #FFFFFF;
+    background: #1F1F1F;
     padding: 100px 0 16px;
     z-index: 9998;
     transition: .3s;
@@ -1425,12 +1725,12 @@ fieldset .field-vertical > .field-label {
 }
 
 .accordion a img.new {
-    background-color: #106EBE;
+    background-color: #7A43B1;
     border-radius: 16px;
 }
 
 .hamburger-menulist li a:hover {
-    background-color: #DEECF9;
+    background-color: #1F1F1F;
 }
 
 #hamburger:checked ~ .hamburger-menuwrap {
@@ -1476,7 +1776,7 @@ section.accordion {
     cursor: pointer;
 }
 
-label.menulabel::before {
+.menulabel::before {
     content: "";
     width: 6px;
     height: 6px;
@@ -1517,7 +1817,7 @@ label.menulabel::before {
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;
-    color: #222222;
+    color: #FFFFFF;
     text-decoration: none;
 }
 
@@ -1525,7 +1825,7 @@ label.menulabel::before {
     width: 52px;
 }
 
-.menubox .menulabel {
+.menubox label {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -1534,25 +1834,18 @@ label.menulabel::before {
 
 .menubox a:hover,
 .menubox label:hover {
-    background-color: #DEECF9;
+    background-color: #333333;
 }
 
-.menubox .menulabel span:first-child {
-    width: 52px;
-    height: 52px;
-    justify-content: center;
-}
-
-.menubox .menulabel span:first-child img{
-    width: initial;
-    margin: auto;
+.menubox label span:first-child {
+    padding: 10px;
 }
 
 .menubox-sub {
     height: 0;
     padding: 0;
     overflow: hidden;
-    background-color: #F5F5F5;
+    background-color: #666666;
 }
 
 .menubox-sub ul {
@@ -1566,7 +1859,7 @@ label.menulabel::before {
 }
 
 .menubox-sub ul li a:hover {
-    background: #E7E7E7;
+    background: #777777;
 }
 
 .menubox a span,
@@ -1575,31 +1868,9 @@ label.menulabel::before {
     align-items: center;
 }
 
-.menubox-sub .sub-menu .sub-menu > ul {
-    margin-bottom: 15px;
-}
-
-.menubox-sub .sub-menu .sub-menu > ul li {
-    padding-left: 52px;
-}
-
-.menubox-sub .sub-menu .sub-menu > ul > li > a {
-    position: relative;
-    padding: 3px 1.5em;
-    font-size: 12px;
-    word-break: break-all;
-}
-
-.menubox-sub .sub-menu .sub-menu > ul > li > a::before {
-    position: absolute;
-    top: 3px;
-    left: 0;
-    content: '・';
-}
-
 /* ログイン画面 */
 body#login {
-    background-color: #F8F8F8;
+    background-color: #3C3C3C;
 }
 
 body#login #MainContainer {
@@ -1631,7 +1902,7 @@ body#login #MainContainer #Application #PortalLink{
 
 #MainForm #LoginFieldSet {
     background-color: initial;
-    border: 1px solid #CECECE;
+    border: 1px solid #8F8F8F;
     border-radius: 4px;
     margin: 0 auto 20px auto;
 }
@@ -1646,7 +1917,7 @@ body#login #MainContainer #Application #PortalLink{
 
 #Logins div .field-wide .field-control .container-normal input {
     height: 48px;
-    border: 1px solid #CECECE;
+    border: 1px solid #8F8F8F;
     border-radius: 4px;
     padding: 4px 20px;
     font-size: 16px;
@@ -1683,7 +1954,7 @@ body#login #MainContainer #Application #PortalLink{
     position: absolute;
     top: 14px;
     right: -36px;
-    color: #666666;
+    color: #FFFFFF;
     font-weight: lighter;
 }
 
@@ -1716,7 +1987,7 @@ body#login #MainContainer #Application #PortalLink{
 
 .fieldset .show-password,
 .ui-dialog .show-password {
-    color: #666666;
+    color: #FFFFFF;
     font-weight: lighter;
 }
 
@@ -1737,7 +2008,7 @@ body#login #MainContainer #Application #PortalLink{
 }
 
 #FullCalendar tbody {
-    background: #fff;
+    background: #333;
 }
 
 #FullCalendar th[role="presentation"],
@@ -1751,14 +2022,4 @@ body#login #MainContainer #Application #PortalLink{
 
 #FullCalendar .fc-event-time {
     padding: 0 8px;
-}
-
-#ViewModeContainer #CalendarBody th,
-#ViewModeContainer #CalendarBody td {
-    padding: 8px 0;
-    border: 1px solid #8F8F8F;
-}
-
-#CalendarBody tbody {
-    background-color: #fff;
 }
