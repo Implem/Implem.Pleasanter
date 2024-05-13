@@ -5,7 +5,7 @@
     "Label": "グループ",
     "ColumnName": "LdapGuid",
     "LabelText": "LDAP GUID",
-	"No": "202",
+    "No": "202",
     "History": "202",
     "GridColumn": "202",
     "FilterColumn": "202",

@@ -7,9 +7,9 @@
         , "t3"."Disabled" 
     from
         "GroupChildren" as "t2"
-		inner join "Groups" as "t3" on "t2"."GroupId" = "t3"."GroupId"
-    where
-        "t2"."GroupId" in ({{GroupsStartIdP}})
+            inner join "Groups" as "t3" on "t2"."GroupId" = "t3"."GroupId"
+    where "t3"."TenantId" = @_T
+        and "t2"."GroupId" in ({{GroupsStartIdP}})
     union all 
     select
         "t1"."Lv" + 1
@@ -19,16 +19,16 @@
     from
         "GroupsChildIsNotInSelfId" as "t1"
         , "GroupChildren" as "t2" 
-			inner join "Groups" as "t3" on "t2"."GroupId" = "t3"."GroupId"
-    where
-        "t1"."Lv" < @GroupsDepthMax 
+            inner join "Groups" as "t3" on "t2"."GroupId" = "t3"."GroupId"
+    where "t3"."TenantId" = @_T
+        and "t1"."Lv" < @GroupsDepthMax 
         and "t3"."Disabled" = 0 
         and "t1"."ChildId" = "t2"."GroupId"
 ) 
 select
-	distinct 
-	"ChildId" as "GroupId"
+    distinct 
+    "ChildId" as "GroupId"
 from
-	"GroupsChildIsNotInSelfId"
+    "GroupsChildIsNotInSelfId"
 order by 
-	"GroupId";
+    "GroupId";

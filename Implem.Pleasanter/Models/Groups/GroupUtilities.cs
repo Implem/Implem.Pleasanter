@@ -1002,8 +1002,8 @@ namespace Implem.Pleasanter.Models
                     ? Displays.Groups(context: context) + " - " + Displays.New(context: context)
                     : groupModel.Title.MessageDisplay(context: context),
                 script: groupModel.MethodType != BaseModel.MethodTypes.New
-                    ? "$p.setPaging('CurrentMembers'); $p.setPaging('SelectableMembers');" +
-                      "$p.setPaging('CurrentChildren'); $p.setPaging('SelectableChildren');"
+                    ? "$p.setPaging('CurrentMembers'); $p.setPaging('SelectableMembers');"
+                      + "$p.setPaging('CurrentChildren'); $p.setPaging('SelectableChildren');"
                     : null,
                 action: () => hb
                     .Editor(

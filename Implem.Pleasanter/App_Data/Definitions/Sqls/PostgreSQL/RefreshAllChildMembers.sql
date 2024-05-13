@@ -13,29 +13,29 @@ declare cur cursor for
         "Groups" 
     where
         "TenantId" = v_tenantid
-		and ({{groupid_search_condition}}); 
+        and ({{groupid_search_condition}}); 
 declare v_groupid integer; 
 declare v_total integer := 0; 
 declare v_row_cnt integer; 
 begin                                           
     -- GroupIdでループ
     for c in cur loop v_groupid := c."GroupId"; 
-		delete 
-		from
-			"GroupMembers" 
-		where
-			"GroupId" = v_groupid
-			and "ChildGroup" = true; 
+        delete 
+        from
+            "GroupMembers" 
+        where
+            "GroupId" = v_groupid
+            and "ChildGroup" = true; 
         with recursive "GroupsChildIsNotInSelfId" ("Lv", "GroupId", "ChildId") as ( 
             select
                 1 as "Lv"
                 , "t2"."GroupId"
                 , "t2"."ChildId" 
             from
-				"GroupChildren" as "t2"
-				inner join "Groups" as "t3" on "t2"."GroupId"="t3"."GroupId"
-            where
-				("t3"."Disabled" = false)
+                "GroupChildren" as "t2"
+                inner join "Groups" as "t3" on "t2"."GroupId"="t3"."GroupId"
+            where "t3"."TenantId" = v_tenantid
+                and "t3"."Disabled" = false
                 and "t2"."GroupId" = c."GroupId" 
             union all 
             select
@@ -44,12 +44,12 @@ begin
                 , "t2"."ChildId" 
             from
                 "GroupsChildIsNotInSelfId" as "t1" 
-				, "GroupChildren" as "t2"
-				inner join "Groups" as "t3" on "t2"."GroupId"="t3"."GroupId"
-            where
-				"t1"."Lv" < v_depth_max 
-				and "t3"."Disabled" = false
-				and "t1"."ChildId" = "t2"."GroupId"
+                , "GroupChildren" as "t2"
+                inner join "Groups" as "t3" on "t2"."GroupId"="t3"."GroupId"
+            where "t3"."TenantId" = v_tenantid
+                and "t1"."Lv" < v_depth_max 
+                and "t3"."Disabled" = false
+                and "t1"."ChildId" = "t2"."GroupId"
         ) 
         insert 
         into "GroupMembers" ( 
@@ -71,16 +71,16 @@ begin
         from
             "GroupMembers" as "t4" 
         where
-			"t4"."ChildGroup" = false
+            "t4"."ChildGroup" = false
             and "t4"."GroupId" in (
                 select "GroupId"
                 from "Groups"
-                where (1=1)
+                where "TenantId" = v_tenantid
                     and "Disabled" = false
                     and "GroupId" in (select "ChildId" from "GroupsChildIsNotInSelfId") 
             );
-		get diagnostics v_row_cnt = row_count;
-		v_total := v_total + v_row_cnt;
+        get diagnostics v_row_cnt = row_count;
+        v_total := v_total + v_row_cnt;
     end loop; 
     return v_total; 
 end $$ language plpgsql; 

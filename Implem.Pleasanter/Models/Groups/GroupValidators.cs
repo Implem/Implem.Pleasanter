@@ -179,10 +179,10 @@ namespace Implem.Pleasanter.Models
                         sysLogsDescription: Debugs.GetSysLogsDescription());
             }
             var checkCircularGroup = GroupChildUtilities.CheckCircularGroup(
-                    context: context,
-                    groupId: groupModel.GroupId,
-                    disabled: groupModel.Disabled,
-                    children: groupModel.GroupChildren);
+                context: context,
+                groupId: groupModel.GroupId,
+                disabled: groupModel.Disabled,
+                children: groupModel.GroupChildren);
             if (Error.Types.None != checkCircularGroup)
             {
                 return new ErrorData(
@@ -479,10 +479,10 @@ namespace Implem.Pleasanter.Models
                         sysLogsDescription: Debugs.GetSysLogsDescription());
             }
             var checkCircularGroup = GroupChildUtilities.CheckCircularGroup(
-                    context: context,
-                    groupId: groupModel.GroupId,
-                    disabled: groupModel.Disabled,
-                    children: groupModel.GroupChildren);
+                context: context,
+                groupId: groupModel.GroupId,
+                disabled: groupModel.Disabled,
+                children: groupModel.GroupChildren);
             if (Error.Types.None != checkCircularGroup)
             {
                 return new ErrorData(
