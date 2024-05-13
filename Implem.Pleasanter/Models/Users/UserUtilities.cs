@@ -3580,9 +3580,19 @@ namespace Implem.Pleasanter.Models
                             break;
                         case "Language":
                             userModel.Language = recordingData.ToString();
+                            if (userModel.Language.IsNullOrEmpty())
+                            {
+                                var language = new TenantModel(context: context, ss: ss, tenantId: userModel.TenantId)?.Language;
+                                userModel.Language = language.IsNullOrEmpty() ? Parameters.Service.DefaultLanguage : language;
+                            }                            
                             break;
                         case "TimeZone":
                             userModel.TimeZone = recordingData.ToString();
+                            if (userModel.TimeZone.IsNullOrEmpty())
+                            {
+                                var timeZone = new TenantModel(context: context, ss: ss, tenantId: userModel.TenantId)?.TimeZone;
+                                userModel.TimeZone = timeZone.IsNullOrEmpty() ? Parameters.Service.TimeZoneDefault : timeZone;
+                            }
                             break;
                         case "DeptId":
                             userModel.DeptId = recordingData.ToInt();
