@@ -6,8 +6,7 @@
     from
         "Groups" as "t1"
     where "t1"."TenantId" = @TenantId#CommandCount#
-        and "t1"."LdapGuid" = @LdapObjectGUID#CommandCount#
-    ;
+        and "t1"."LdapGuid" = @LdapObjectGUID#CommandCount#;
 
     -- グループメンバーを削除
     if @isFirstTime#CommandCount# = 'True'
@@ -15,8 +14,7 @@
         delete from
             "GroupMembers"
         where
-            "GroupId" = @v_group_id#CommandCount#
-        ;
+            "GroupId" = @v_group_id#CommandCount#;
     end
     -- グループメンバーを追加
     if @isMemberInsert#CommandCount# = 'True'
@@ -26,8 +24,7 @@
             select @v_group_id#CommandCount#, "t3"."UserId", @_U, @_U
             from "Users" as "t3"
             where "t3"."TenantId" = @TenantId#CommandCount#
-                and {{userLoginIds_condition}}
-            ;
+                and {{userLoginIds_condition}};
     end
     -- 子グループを削除
     if @isFirstTime#CommandCount# = 'True'
@@ -35,8 +32,7 @@
         delete from
             "GroupChildren"
         where
-            "GroupId" = @v_group_id#CommandCount#
-        ;
+            "GroupId" = @v_group_id#CommandCount#;
     end
     -- 子グループを追加
     if @isChildInsert#CommandCount# = 'True'
@@ -46,7 +42,6 @@
             select @v_group_id#CommandCount#, "t5"."GroupId", @_U, @_U
             from "Groups" as "t5"
             where "t5"."TenantId" = @TenantId#CommandCount#
-                and {{groupGuids_condition}}
-            ;
+                and {{groupGuids_condition}};
     end
 end;

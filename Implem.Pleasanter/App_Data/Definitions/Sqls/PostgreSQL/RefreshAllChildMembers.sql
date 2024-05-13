@@ -2,8 +2,8 @@
 -- pgsqlのdoブロック内は@TenantId等のパラメータが渡せないため、一時functionを使用する。
 create or replace function pg_temp.refresh_all_member( 
     v_tenantid integer
-    , v_depth_max integer
-    , v_ipu integer
+    ,v_depth_max integer
+    ,v_ipu integer
 )
 returns integer as $$
 declare cur cursor for 
@@ -29,8 +29,8 @@ begin
         with recursive "GroupsChildIsNotInSelfId" ("Lv", "GroupId", "ChildId") as ( 
             select
                 1 as "Lv"
-                , "t2"."GroupId"
-                , "t2"."ChildId" 
+                ,"t2"."GroupId"
+                ,"t2"."ChildId" 
             from
                 "GroupChildren" as "t2"
                 inner join "Groups" as "t3" on "t2"."GroupId"="t3"."GroupId"
@@ -40,12 +40,12 @@ begin
             union all 
             select
                 "t1"."Lv" + 1 as "Lv"
-                , "t2"."GroupId"
-                , "t2"."ChildId" 
+                ,"t2"."GroupId"
+                ,"t2"."ChildId" 
             from
                 "GroupsChildIsNotInSelfId" as "t1" 
-                , "GroupChildren" as "t2"
-                inner join "Groups" as "t3" on "t2"."GroupId"="t3"."GroupId"
+                ,"GroupChildren" as "t2"
+                    inner join "Groups" as "t3" on "t2"."GroupId"="t3"."GroupId"
             where "t3"."TenantId" = v_tenantid
                 and "t1"."Lv" < v_depth_max 
                 and "t3"."Disabled" = false
@@ -54,20 +54,20 @@ begin
         insert 
         into "GroupMembers" ( 
             "GroupId"
-            , "DeptId"
-            , "UserId"
-            , "ChildGroup"
-            , "Creator"
-            , "Updator"
+            ,"DeptId"
+            ,"UserId"
+            ,"ChildGroup"
+            ,"Creator"
+            ,"Updator"
         ) 
         select
             distinct
             v_groupid as "GroupId"
-            , "DeptId"
-            , "UserId"
-            , true as "ChildGroup"
-            , v_ipU as "Creator"
-            , v_ipU as "Updator" 
+            ,"DeptId"
+            ,"UserId"
+            ,true as "ChildGroup"
+            ,v_ipU as "Creator"
+            ,v_ipU as "Updator" 
         from
             "GroupMembers" as "t4" 
         where
