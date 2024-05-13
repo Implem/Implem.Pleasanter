@@ -11,6 +11,7 @@ on
     "target"."GroupId" = "item"."GroupId"
     and "target"."DeptId" = "item"."DeptId"
     and "target"."UserId" = "item"."UserId"
+    and "target"."ChildGroup" = 0
 when matched 
 then
     update set

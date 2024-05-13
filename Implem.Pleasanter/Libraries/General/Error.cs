@@ -27,6 +27,7 @@ namespace Implem.Pleasanter.Libraries.General
             CannotMoveMultipleSitesData,
             CanNotPerformed,
             CantSetAtTopOfSite,
+            CircularGroupChild,
             CustomError,
             DefinitionNotFound,
             DeleteConflicts,
@@ -38,6 +39,7 @@ namespace Implem.Pleasanter.Libraries.General
             FailedReadFile,
             FailedWriteFile,
             FileNotFound,
+            GroupDepthMax,
             HasNotChangeColumnPermission,
             HasNotPermission,
             ImportInvalidUserIdAndLoginId,
@@ -197,6 +199,10 @@ namespace Implem.Pleasanter.Libraries.General
                     return Messages.CantSetAtTopOfSite(
                         context: context,
                         data: data);
+                case Types.CircularGroupChild:
+                    return Messages.CircularGroupChild(
+                        context: context,
+                        data: data);
                 case Types.CustomError:
                     return Messages.CustomError(
                         context: context,
@@ -239,6 +245,10 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.FileNotFound:
                     return Messages.FileNotFound(
+                        context: context,
+                        data: data);
+                case Types.GroupDepthMax:
+                    return Messages.GroupDepthMax(
                         context: context,
                         data: data);
                 case Types.HasNotChangeColumnPermission:

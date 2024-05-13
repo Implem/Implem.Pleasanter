@@ -1,0 +1,3 @@
+﻿var groupChildren = groupApiModel != null
+    ? GroupChildren
+    : context.Forms.List("CurrentChildrenAll");
