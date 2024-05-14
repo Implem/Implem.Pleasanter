@@ -29,6 +29,7 @@ namespace Implem.Pleasanter.Models
 
 <!--Model_ItemProperties_Sites-->
 <!--Model_GroupProperties_GroupMembers-->
+<!--Model_GroupProperties_GroupChildren-->
 <!--Base_Property ( RepeatType = Column, NotBase = 1 ) -->
 <!--Base_PropertyCalc ( RepeatType = Column, NotBase = 1 ) -->
 <!--Base_SavedProperty ( RepeatType = Column, NotBase = 1 ) -->

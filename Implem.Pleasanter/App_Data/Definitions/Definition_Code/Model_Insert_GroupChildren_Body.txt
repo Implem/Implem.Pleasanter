@@ -1,0 +1,16 @@
+﻿groupChildren?.ForEach(data =>
+{
+    if (data.StartsWith("Group,"))
+    {
+        Repository.ExecuteNonQuery(
+            context: context,
+            transactional: true,
+            statements: Rds.InsertGroupChildren(
+                param: Rds.GroupChildrenParam()
+                    .GroupId(GroupId)
+                    .ChildId(data.Split_2nd().ToInt())));
+    }
+});
+GroupMemberUtilities.SyncGroupMembers(
+    context: context,
+    groupId: GroupId);

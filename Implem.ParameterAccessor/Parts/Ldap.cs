@@ -22,9 +22,12 @@ namespace Implem.ParameterAccessor.Parts
         public string LdapLastNamePattern;
         public string LdapMailAddress;
         public string LdapMailAddressPattern;
+        public string LdapGroupName;
+        public string LdapGroupNamePattern;
         public List<LdapExtendedAttribute> LdapExtendedAttributes;
         public int LdapSyncPageSize;
         public List<string> LdapSyncPatterns;
+        public List<string> LdapSyncGroupPatterns;
         public bool LdapExcludeAccountDisabled;
         public bool AutoDisable;
         public bool AutoEnable;
