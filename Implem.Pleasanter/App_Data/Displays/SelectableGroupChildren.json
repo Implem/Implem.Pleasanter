@@ -1,0 +1,33 @@
+﻿{
+    "Id": "SelectableGroupChildren",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Selectable groups"
+        },
+        {
+            "Language": "zh",
+            "Body": "可选择的组"
+        },
+        {
+            "Language": "ja",
+            "Body": "選択可能なグループ"
+        },
+        {
+            "Language": "de",
+            "Body": "wählbare Gruppen"
+        },
+        {
+            "Language": "ko",
+            "Body": "선택 가능한 그룹"
+        },
+        {
+            "Language": "es",
+            "Body": "Grupos seleccionables"
+        },
+        {
+            "Language": "vn",
+            "Body": "nhóm có thể lựa chọn"
+        }
+    ]
+}

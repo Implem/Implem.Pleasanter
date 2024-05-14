@@ -55,6 +55,7 @@ namespace Implem.DefinitionAccessor
         public static ParameterAccessor.Parts.Version Version;
         public static Validation Validation;
         public static Dashboard Dashboard;
+        public static GroupChildren GroupChildren;
 
         public static bool CommercialLicense()
         {
