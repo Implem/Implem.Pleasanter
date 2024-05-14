@@ -15,6 +15,7 @@
 <!--Model_Delete_NotItem-->
 <!--Model_Delete_Item-->
 <!--Model_Delete_GroupMembers-->
+<!--Model_Delete_GroupChildren-->
 
         Rds.Delete#TableName#(
             factory: context,

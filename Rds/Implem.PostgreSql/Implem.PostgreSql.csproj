@@ -3,14 +3,14 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <Copyright>Copyright © Implem Inc 2014 - 2024</Copyright>
-    <AssemblyVersion>1.4.3.1</AssemblyVersion>
-    <FileVersion>1.4.3.1</FileVersion>
-    <Version>1.4.3.1</Version>
+    <AssemblyVersion>1.4.4.0</AssemblyVersion>
+    <FileVersion>1.4.4.0</FileVersion>
+    <Version>1.4.4.0</Version>
     <Nullable>disable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Npgsql" Version="8.0.2" />
+    <PackageReference Include="Npgsql" Version="8.0.3" />
   </ItemGroup>
 
   <ItemGroup>

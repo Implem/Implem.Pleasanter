@@ -1,0 +1,86 @@
+﻿private void UpdateGroupChildren(Context context)
+{
+    var deletedChildren = ParseGroupChildren(children: context.Forms.List("DeletedGroupChildren"));
+    var updateChildren = GetUpdateGroupChildren(context: context);
+    if (deletedChildren?.Any() == true)
+    {
+        Repository.ExecuteNonQuery(
+            context: context,
+            transactional: true,
+            statements: Rds.PhysicalDeleteGroupChildren(
+                where: Rds.GroupChildrenWhere()
+                    .GroupId(GroupId)
+                    .Or(Rds.GroupChildrenWhere()
+                        .ChildId_In(deletedChildren, _using: deletedChildren.Any()))));
+    }
+    updateChildren?.ForEach(childId =>
+    {
+        Repository.ExecuteNonQuery(
+            context: context,
+            transactional: true,
+            statements: new SqlStatement(
+                commandText: Def.Sql.UpsertGroupChild,
+                param: new SqlParamCollection
+                    {
+                        { "GroupId", GroupId },
+                        { "ChildId", childId }
+                    }));
+    });
+}
+
+public static IEnumerable<int> GetUpdateGroupChildren(Context context)
+{
+    var addedChildren = ParseGroupChildren(context.Forms.List("AddedGroupChildren")).ToList();
+    var modifiedChildren = ParseGroupChildren(context.Forms.List("ModifiedGroupChildren"));
+    modifiedChildren.ForEach(modified =>
+    {
+        var item = addedChildren.FirstOrDefault(added => added == modified);
+        if (item != default)
+        {
+            addedChildren.Remove(item);    
+        }
+        addedChildren.Add(modified);
+    });
+    return addedChildren;
+}
+
+private static IEnumerable<int> ParseGroupChildren(List<string> children)
+{
+    return children?.Select(o =>
+    (
+        o.StartsWith("Group,")
+            ? o.Split_2nd().ToInt()
+            : 0
+    )) ?? Enumerable.Empty<int>();
+}
+
+private static List<string> ParseGroupChildren(string children)
+{
+    return System.Text.Json.JsonSerializer.Deserialize<List<string>>(children ?? "[]");
+}
+
+private void RenewGroupChildren(Context context, List<string> groupChildren)
+{
+    if (groupChildren != null)
+    {
+        Repository.ExecuteNonQuery(
+        context: context,
+        transactional: true,
+        statements: Rds.PhysicalDeleteGroupChildren(
+            where: Rds.GroupChildrenWhere()
+                .GroupId(GroupId)));
+    }
+    groupChildren?.ForEach(data =>
+    {
+        if (data.StartsWith("Group,"))
+        {
+            Repository.ExecuteNonQuery(
+                context: context,
+                transactional: true,
+                statements: Rds.InsertGroupChildren(
+                    param: Rds.GroupChildrenParam()
+                        .GroupId(GroupId)
+                        .ChildId(data.Split_2nd().ToInt())));
+        }
+    });
+}
