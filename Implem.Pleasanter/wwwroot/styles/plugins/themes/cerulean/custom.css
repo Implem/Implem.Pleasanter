@@ -1616,7 +1616,11 @@ body#login #MainContainer #Application #PortalLink{
     font-size: 16px;
 }
 
-#Logins div #Tenants {
+#Logins div .field-wide .field-control .container-normal input.error{
+    border: solid 1px #f00;
+}
+
+#Logins div #Tenants:empty {
     display: none;
 }
 
