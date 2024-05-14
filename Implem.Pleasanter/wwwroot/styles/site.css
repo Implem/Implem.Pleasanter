@@ -2964,6 +2964,7 @@ h3.title-header {
     position: absolute;
     top: 4px;
     right: -60px;
+    cursor: pointer;
     z-index: 10;
 }
 

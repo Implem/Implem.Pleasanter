@@ -1,4 +1,4 @@
-@charset "utf-8";
+﻿@charset "utf-8";
 
 * {
     box-sizing: border-box;
@@ -2965,6 +2965,7 @@ h3.title-header {
     top: 4px;
     right: -60px;
     z-index: 10;
+    cursor: pointer;
 }
 
 input[type="password"]::-ms-reveal {
