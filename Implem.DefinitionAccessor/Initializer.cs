@@ -44,6 +44,7 @@ namespace Implem.DefinitionAccessor
             Environments.AssemblyVersion = assemblyVersion;
             SetDefinitions();
             SetTimeZone();
+            SetLanguage();
             SetSqls();
             DateTimes.FirstDayOfWeek = Parameters.General.FirstDayOfWeek;
             DateTimes.FirstMonth = Parameters.General.FirstMonth;
@@ -964,6 +965,16 @@ namespace Implem.DefinitionAccessor
                     ?? TimeZoneInfo.Local;
             Def.ColumnDefinitionCollection
                 .FirstOrDefault(o => o.Id == "Users_TimeZone").Default = Environments.TimeZoneInfoDefault.Id;
+        }
+
+        private static void SetLanguage()
+        {
+            var language = Def.ColumnTable.Users_Language.ChoicesText
+                .SplitReturn()
+                .Select(o => o.Split_1st())
+                .FirstOrDefault(o => o == Parameters.Service.DefaultLanguage) ?? "en";
+            Def.ColumnDefinitionCollection
+                .FirstOrDefault(o => o.Id == "Users_Language").Default = language;
         }
 
         private static void SetSqls()

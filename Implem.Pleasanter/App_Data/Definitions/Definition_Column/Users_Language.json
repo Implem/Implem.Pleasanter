@@ -17,7 +17,7 @@
     "HistoryColumn": "113",
     "TypeName": "nvarchar",
     "MaxLength": "32",
-    "Default": "en",
+    "Default": "ja",
     "Required": "1",
     "ControlType": "ChoicesText",
     "ChoicesText": "en,English\nzh,Chinese\nja,Japanese\nde,German\nko,Korean\nes,Spanish\nvn,Vietnamese",
