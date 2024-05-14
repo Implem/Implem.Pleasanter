@@ -188,6 +188,7 @@ namespace Implem.Pleasanter.Libraries.Requests
             UserHostAddress = HasRoute
                 ? GetUserHostAddress()
                 : null;
+            HasPrivilege = Permissions.PrivilegedUsers(User.LoginId);
             SetTenantProperties();
             if (context?.Request != false) SetPublish();
             SetPermissions();
@@ -1169,6 +1170,9 @@ namespace Implem.Pleasanter.Libraries.Requests
             switch (Theme())
             {
                 case "cerulean":
+                case "green-tea":
+                case "mandarin":
+                case "midnight":
                     return 2.0M;
                 default:
                     return 1.0M;
@@ -1180,6 +1184,9 @@ namespace Implem.Pleasanter.Libraries.Requests
             switch (Theme())
             {
                 case "cerulean":
+                case "green-tea":
+                case "mandarin":
+                case "midnight":
                     return 2.0M;
                 default:
                     return 1.0M;

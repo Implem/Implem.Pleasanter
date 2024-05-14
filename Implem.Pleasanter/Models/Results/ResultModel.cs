@@ -1407,6 +1407,18 @@ namespace Implem.Pleasanter.Models
                 tableType: tableType,
                 param: param,
                 otherInitValue: otherInitValue));
+            try
+            {
+                WriteAttachmentsToLocal(
+                    context: context,
+                    ss: ss);
+            }
+            catch
+            {
+                return new ErrorData(
+                    type: Error.Types.FailedWriteFile,
+                    id: ResultId);
+            }
             var response = Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
@@ -1419,7 +1431,7 @@ namespace Implem.Pleasanter.Models
                     id: ResultId,
                     columnName: response.ColumnName);
             }
-            WriteAttachments(
+            DeleteTempOrLocalAttachments(
                 context: context,
                 ss: ss);
             ResultId = (response.Id ?? ResultId).ToLong();
@@ -1817,7 +1829,9 @@ namespace Implem.Pleasanter.Models
         {
             ss.Columns
                 .Where(column => column.ColumnName.StartsWith("Attachments"))
-                .ForEach(column => GetAttachments(column.ColumnName).SetData(column: column));
+                .ForEach(column => GetAttachments(column.ColumnName).SetData(
+                    context: context,
+                    column: column));
             var timestamp = Timestamp.ToDateTime();
             var statements = new List<SqlStatement>();
             var where = Rds.ResultsWhereDefault(
@@ -1931,6 +1945,35 @@ namespace Implem.Pleasanter.Models
                 .Where(columnName => Attachments_Updated(columnName: columnName))
                 .ForEach(columnName =>
                     GetAttachments(columnName: columnName).Write(
+                        context: context,
+                        ss: ss,
+                        column: ss.GetColumn(
+                            context: context,
+                            columnName: columnName),
+                        referenceId: ResultId,
+                        verUp: verUp));
+        }
+
+        public void WriteAttachmentsToLocal(Context context, SiteSettings ss)
+        {
+            ColumnNames()
+                .Where(columnName => columnName.StartsWith("Attachments"))
+                .Where(columnName => Attachments_Updated(columnName: columnName))
+                .ForEach(columnName =>
+                    GetAttachments(columnName: columnName).WriteToLocal(
+                        context: context,
+                        column: ss.GetColumn(
+                            context: context,
+                            columnName: columnName)));
+        }
+
+        public void DeleteTempOrLocalAttachments(Context context, SiteSettings ss, bool verUp = false)
+        {
+            ColumnNames()
+                .Where(columnName => columnName.StartsWith("Attachments"))
+                .Where(columnName => Attachments_Updated(columnName: columnName))
+                .ForEach(columnName =>
+                    GetAttachments(columnName: columnName).DeleteTempOrLocalAttachment(
                         context: context,
                         ss: ss,
                         column: ss.GetColumn(

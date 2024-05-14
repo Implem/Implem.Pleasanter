@@ -1,0 +1,17 @@
+﻿if (updateGroupChildren)
+{
+    if (groupApiModel != null)
+    {
+        RenewGroupChildren(context, GroupChildren);
+    }
+    else
+    {
+        UpdateGroupChildren(context);
+    }
+}
+if (updateGroupMembers || updateGroupChildren || disabledUpdated)
+{
+    GroupMemberUtilities.SyncGroupMembers(
+        context: context,
+        groupId: GroupId);
+}        

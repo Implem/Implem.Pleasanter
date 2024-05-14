@@ -1,32 +1,61 @@
 ﻿$p.setGroup = function ($control) {
-    let modifiedMembers = JSON.parse($("#ModifiedGroupMembers").val());
-    $('#CurrentMembers').find('.ui-selected').each(function () {
-        let $this = $(this);
-        let value = $this.attr('data-value');
-        let data = value.split(',');
-        let type = $control.attr('id');
-        let isManagerButton = type === 'Manager';
-        let isManager = data[2].toLowerCase() === 'true';
-        if (isManager === isManagerButton) {
-            return;
-        }
-        let nextValue = data[0] + ',' + data[1] + ',' + isManagerButton;
-        $this.attr('data-value', nextValue);
-        $this.text($this.text().replace(/\(.*\)/, ''));
-        $this.text($this.text() + (isManagerButton
-            ? '(' + $p.display(type) + ')'
-            : ''));
-        let key = value.substr(0, value.lastIndexOf(',') + 1);
-        if (modifiedMembers.findIndex(item => item.startsWith(key)) !== -1) {
-            modifiedMembers = modifiedMembers.filter(item => !item.startsWith(key));
-        } else {
-            modifiedMembers.push(nextValue);
-        }
-    });
-    $p.set($("#ModifiedGroupMembers"), JSON.stringify(modifiedMembers));
+    {
+        let modifiedMembers = JSON.parse($("#ModifiedGroupMembers").val());
+        $('#CurrentMembers').find('.ui-selected').each(function () {
+            let $this = $(this);
+            let value = $this.attr('data-value');
+            let data = value.split(',');
+            let type = $control.attr('id');
+            let isManagerButton = type === 'Manager';
+            let isManager = data[2].toLowerCase() === 'true';
+            if (isManager === isManagerButton) {
+                return;
+            }
+            let nextValue = data[0] + ',' + data[1] + ',' + isManagerButton;
+            $this.attr('data-value', nextValue);
+            $this.text($this.text().replace(/\(.*\)/, ''));
+            $this.text($this.text() + (isManagerButton
+                ? '(' + $p.display(type) + ')'
+                : ''));
+            let key = value.substr(0, value.lastIndexOf(',') + 1);
+            if (modifiedMembers.findIndex(item => item.startsWith(key)) !== -1) {
+                modifiedMembers = modifiedMembers.filter(item => !item.startsWith(key));
+            } else {
+                modifiedMembers.push(nextValue);
+            }
+        });
+        $p.set($("#ModifiedGroupMembers"), JSON.stringify(modifiedMembers));
+    }
+    {
+        let modifiedChildren = JSON.parse($("#ModifiedGroupChildren").val());
+        $('#CurrentChildren').find('.ui-selected').each(function () {
+            let $this = $(this);
+            let value = $this.attr('data-value');
+            let data = value.split(',');
+            let type = $control.attr('id');
+            let isManagerButton = type === 'Manager'; // TODO 不要なので削除
+            let isManager = data[2].toLowerCase() === 'true';
+            if (isManager === isManagerButton) {
+                return;
+            }
+            let nextValue = data[0] + ',' + data[1] + ',' + isManagerButton;
+            $this.attr('data-value', nextValue);
+            $this.text($this.text().replace(/\(.*\)/, ''));
+            $this.text($this.text() + (isManagerButton
+                ? '(' + $p.display(type) + ')'
+                : ''));
+            let key = value.substr(0, value.lastIndexOf(',') + 1);
+            if (modifiedChildren.findIndex(item => item.startsWith(key)) !== -1) {
+                modifiedChildren = modifiedChildren.filter(item => !item.startsWith(key));
+            } else {
+                modifiedChildren.push(nextValue);
+            }
+        });
+        $p.set($("#ModifiedGroupChildren"), JSON.stringify(modifiedChildren));
+    }
 }
 
-$p.moveGroupMembers = function ($selected, additionSelector, deletionSelector, deletion2Selector) {
+$p.moveGroupSelected = function ($selected, additionSelector, deletionSelector, deletion2Selector) {
     let additionArray = JSON.parse($(additionSelector).val());
     let deletionArray = JSON.parse($(deletionSelector).val());
     let deletion2Array = (deletion2Selector === undefined)
@@ -60,7 +89,7 @@ $p.addToCurrentMembers = function ($control) {
         .closest('.container-selectable')
         .find('.ui-selected');
     $selected.prependTo($('#CurrentMembers'));
-    $p.moveGroupMembers(
+    $p.moveGroupSelected(
         $selected,
         '#AddedGroupMembers',
         '#DeletedGroupMembers');
@@ -71,10 +100,34 @@ $p.deleteFromCurrentMembers = function ($control) {
         .closest('.container-selectable')
         .find('.ui-selected');
     $selected.remove();
-    $p.moveGroupMembers(
+    $p.moveGroupSelected(
         $selected,
         '#DeletedGroupMembers',
         '#AddedGroupMembers',
         '#ModifiedGroupMembers');
+    $p.send($control);
+}
+
+$p.addToCurrentChildren = function ($control) {
+    let $selected = $control
+        .closest('.container-selectable')
+        .find('.ui-selected');
+    $selected.prependTo($('#CurrentChildren'));
+    $p.moveGroupSelected(
+        $selected,
+        '#AddedGroupChildren',
+        '#DeletedGroupChildren');
+}
+
+$p.deleteFromCurrentChildren = function ($control) {
+    let $selected = $control
+        .closest('.container-selectable')
+        .find('.ui-selected');
+    $selected.remove();
+    $p.moveGroupSelected(
+        $selected,
+        '#DeletedGroupChildren',
+        '#AddedGroupChildren',
+        '#ModifiedGroupChildren');
     $p.send($control);
 }

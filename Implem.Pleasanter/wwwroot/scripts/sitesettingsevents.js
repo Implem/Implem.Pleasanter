@@ -205,7 +205,6 @@
     $(document).on('change', '#KeepSorterState', function () {
         $('#ViewFiltersSorterConditionSettingsEditor').toggle();
     });
-
     $(document).on('change', '#DashboardPartType', function () {
         let $control = $(this);
         let selected = $control.val();        
@@ -242,7 +241,6 @@
             || selected === '6');
         $('#DashboardPartViewSortersTabControl').toggle(selected === '1' || selected === '6');
     });
-
     $(document).on('change','#DashboardPartCalendarType',function () {
         
         $('#DashboardPartCalendarGroupByField').toggle($("#DashboardPartCalendarType").val() === '1');
@@ -253,5 +251,9 @@
 
         $('#DashboardPartKambanValueField').toggle($('#DashboardPartKambanAggregateType').val() !== 'Count');
 
+    });
+    $(document).on('change', '#GuideAllowExpand', function () {
+        var visibility = $(this).prop('checked');
+        $('#GuideExpandField').toggle(visibility);
     });
 });

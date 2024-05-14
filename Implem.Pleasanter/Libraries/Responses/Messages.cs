@@ -354,6 +354,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-success");
         }
 
+        public static Message CircularGroupChild(Context context, params string[] data)
+        {
+            return Get(
+                id: "CircularGroupChild",
+                text: Displays.CircularGroupChild(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
         public static Message CodeDefinerBackupCompleted(Context context, params string[] data)
         {
             return Get(
@@ -594,6 +604,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-error");
         }
 
+        public static Message FailedWriteFile(Context context, params string[] data)
+        {
+            return Get(
+                id: "FailedWriteFile",
+                text: Displays.FailedWriteFile(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
         public static Message FileDeleteCompleted(Context context, params string[] data)
         {
             return Get(
@@ -632,6 +652,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                     context: context,
                     data: data),
                 css: "alert-success");
+        }
+
+        public static Message GroupDepthMax(Context context, params string[] data)
+        {
+            return Get(
+                id: "GroupDepthMax",
+                text: Displays.GroupDepthMax(
+                    context: context,
+                    data: data),
+                css: "alert-error");
         }
 
         public static Message GroupImported(Context context, params string[] data)
@@ -1996,6 +2026,17 @@ namespace Implem.Pleasanter.Libraries.Responses
                 target: target);
         }
 
+        public static ResponseCollection ResponseCircularGroupChild(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: CircularGroupChild(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
         public static ResponseCollection ResponseCodeDefinerBackupCompleted(
             Context context, string target = null, params string[] data)
         {
@@ -2260,6 +2301,17 @@ namespace Implem.Pleasanter.Libraries.Responses
                 target: target);
         }
 
+        public static ResponseCollection ResponseFailedWriteFile(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: FailedWriteFile(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
         public static ResponseCollection ResponseFileDeleteCompleted(
             Context context, string target = null, params string[] data)
         {
@@ -2299,6 +2351,17 @@ namespace Implem.Pleasanter.Libraries.Responses
             return ResponseMessage(
                 context: context,
                 message: FileUpdateCompleted(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseGroupDepthMax(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: GroupDepthMax(
                     context: context,
                     data: data),
                 target: target);

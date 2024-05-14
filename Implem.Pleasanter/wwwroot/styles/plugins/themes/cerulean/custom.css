@@ -217,12 +217,12 @@ nav.both.cf {
 }
 
 #Application nav #Breadcrumb li:before {
-    right: -40px;
+    right: -39px;
     border-left: 15px solid #ccc;
 }
 
 #Application nav #Breadcrumb li:after {
-    right: -39px;
+    right: -38px;
     border-left: 15px solid #fff;
 }
 
@@ -590,6 +590,10 @@ fieldset .command-left > button {
 .ui-widget.ui-widget-content {
     border: 1px solid #CECECE;
     border-radius: 4px;
+}
+
+.ui-widget.ui-widget-content.ui-spinner:has(.ui-spinner-input:focus) {
+    background-color: #FFF9E3;
 }
 
 .ui-tabs .ui-tabs-nav {
@@ -1110,6 +1114,10 @@ fieldset .field-vertical > .field-label {
     border: none;
 }
 
+.message-dialog .alert-error {
+    background-color: #E03E3E;
+}
+
 /* フッタボタン */
 #Application #MainCommandsContainer {
     height: 63px;
@@ -1468,7 +1476,7 @@ section.accordion {
     cursor: pointer;
 }
 
-.menulabel::before {
+label.menulabel::before {
     content: "";
     width: 6px;
     height: 6px;
@@ -1517,7 +1525,7 @@ section.accordion {
     width: 52px;
 }
 
-.menubox label {
+.menubox .menulabel {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -1529,8 +1537,15 @@ section.accordion {
     background-color: #DEECF9;
 }
 
-.menubox label span:first-child {
-    padding: 10px;
+.menubox .menulabel span:first-child {
+    width: 52px;
+    height: 52px;
+    justify-content: center;
+}
+
+.menubox .menulabel span:first-child img{
+    width: initial;
+    margin: auto;
 }
 
 .menubox-sub {
@@ -1558,6 +1573,28 @@ section.accordion {
 .menubox label span {
     display: flex;
     align-items: center;
+}
+
+.menubox-sub .sub-menu .sub-menu > ul {
+    margin-bottom: 15px;
+}
+
+.menubox-sub .sub-menu .sub-menu > ul li {
+    padding-left: 52px;
+}
+
+.menubox-sub .sub-menu .sub-menu > ul > li > a {
+    position: relative;
+    padding: 3px 1.5em;
+    font-size: 12px;
+    word-break: break-all;
+}
+
+.menubox-sub .sub-menu .sub-menu > ul > li > a::before {
+    position: absolute;
+    top: 3px;
+    left: 0;
+    content: '・';
 }
 
 /* ログイン画面 */
@@ -1609,15 +1646,35 @@ body#login #MainContainer #Application #PortalLink{
 
 #Logins div .field-wide .field-control .container-normal input {
     height: 48px;
-    border: none;
     border: 1px solid #CECECE;
     border-radius: 4px;
     padding: 4px 20px;
     font-size: 16px;
 }
 
-#Logins div #Tenants {
+#Logins div .field-wide .field-control .container-normal input.error{
+    border: solid 1px #f00;
+}
+
+#Logins div #Tenants:empty {
     display: none;
+}
+
+#Logins div #Tenants.field-wide {
+    padding-right: 0;
+}
+
+#Logins div #Tenant select {
+    height: 48px;
+    border: 1px solid #CECECE;
+    border-radius: 4px;
+    padding: 4px 20px;
+    font-size: 16px;
+}
+
+#Logins #SsoLogin .ssoLoginMessage {
+    margin: 10px 0;
+    padding: 6px 0;
 }
 
 #login #Users_LoginIdField p,
@@ -1627,10 +1684,11 @@ body#login #MainContainer #Application #PortalLink{
 
 #login #Users_LoginIdField .field-control .container-normal label.error,
 #login #Users_PasswordField .field-control .container-normal label.error {
-    background-color: #ffccd5;
+    background-color: transparent;
     border-radius: 0;
     border: none;
     padding: 4px 8px;
+    top: 0;
 }
 
 #login #Users_PasswordField div .show-password {
@@ -1672,4 +1730,47 @@ body#login #MainContainer #Application #PortalLink{
 .ui-dialog .show-password {
     color: #666666;
     font-weight: lighter;
+}
+
+#LoginFieldSet #TotpRegister {
+    text-align: center;
+}
+
+#LoginFieldSet #TotpRegister #qrCodeText {
+    font-size: 1.2rem;
+}
+
+#FullCalendar th {
+    padding: 8px 0;
+}
+
+#FullCalendar td {
+    padding: 0;
+}
+
+#FullCalendar tbody {
+    background: #fff;
+}
+
+#FullCalendar th[role="presentation"],
+#FullCalendar td[role="presentation"] {
+    padding: 0;
+}
+
+#FullCalendar .fc-daygrid-day-top {
+    padding: 8px;
+}
+
+#FullCalendar .fc-event-time {
+    padding: 0 8px;
+}
+
+#ViewModeContainer #CalendarBody th,
+#ViewModeContainer #CalendarBody td {
+    padding: 8px 0;
+    border: 1px solid #8F8F8F;
+}
+
+#CalendarBody tbody {
+    background-color: #fff;
 }

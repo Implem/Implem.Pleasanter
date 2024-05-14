@@ -85,5 +85,37 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     context: Context,
                     userId: user?.UserId ?? 0));
         }
+
+        public List<ServerScriptModelGroupModel> GetChildren()
+        {
+            var groupChildren = new List<ServerScriptModelGroupModel>();
+            GroupUtilities.GroupChildren(
+                context: Context,
+                groupId: GroupId)
+                    .ForEach(dataRow =>
+                        groupChildren.Add(new ServerScriptModelGroups(context: Context)
+                        .Get(id: dataRow.Int("GroupId"))));
+            return groupChildren;
+        }
+
+        public bool ContainsChild(int childId)
+        {
+            return GroupUtilities.Contains(
+                context: Context,
+                groupId: GroupId,
+                child: SiteInfo.Group(
+                    tenantId: Context.TenantId,
+                    groupId: childId));
+        }
+
+        public bool ContainsChild(ServerScriptModelGroupModel group)
+        {
+            return GroupUtilities.Contains(
+                context: Context,
+                groupId: GroupId,
+                child: SiteInfo.Group(
+                    tenantId: Context.TenantId,
+                    groupId: group?.GroupId ?? 0));
+        }
     }
 }

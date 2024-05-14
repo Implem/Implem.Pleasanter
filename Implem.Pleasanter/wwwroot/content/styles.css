@@ -306,6 +306,22 @@ pre {
     border-radius: 5px;
 }
 
+#Guide > .with-icon-close {
+    padding: 10px 5px 10px;
+}
+
+#Guide > div > #ReduceGuides {
+    float: left;
+    cursor: pointer;
+    padding-right: 5px;
+}
+
+#Guide > #ExpandGuides {
+    font-weight: bold;
+    cursor: pointer;
+    padding: 10px 5px 10px;
+}
+
 #CopyToClipboards > .display-control {
     float: left;
     cursor: pointer;
@@ -327,7 +343,7 @@ pre {
     border: none;
     top: 0px;
     right: 5px;
-    border-radius: 20px 5px 5px 20px;
+    border-radius: 20px 0 0 20px;
     float: right;
 }
 
@@ -2637,6 +2653,18 @@ _::-webkit-full-page-media, _:future, :root .field-normal .control-checkbox + la
     padding: 0px 10px;
 }
 
+#Links > .fieldset{
+  display: grid;
+}
+
+#Links > .fieldset > div{
+  overflow: auto;
+}
+
+#Links > .fieldset > div .grid{
+  width: max-content; min-width: 100%;
+}
+
 .link-creations button {
     display: block;
     float: left;
@@ -3178,6 +3206,10 @@ input[type="password"]::-ms-reveal{
 
 .ui-corner-all.ui-state-hover {
     border-radius: 2px;
+}
+
+.ui-icon-white {
+    background-image: url(../styles/plugins/images/ui-icons_ffffff_256x240.png);
 }
 
 div.field-control .ui-multiselect.ui-state-disabled {

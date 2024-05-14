@@ -130,6 +130,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "depts": return DeptsSiteSettings(context: context);
                 case "exportsettings": return ExportSettingsSiteSettings(context: context);
                 case "extensions": return ExtensionsSiteSettings(context: context);
+                case "groupchildren": return GroupChildrenSiteSettings(context: context);
                 case "groupmembers": return GroupMembersSiteSettings(context: context);
                 case "groups": return GroupsSiteSettings(context: context);
                 case "links": return LinksSiteSettings(context: context);
@@ -218,6 +219,17 @@ namespace Implem.Pleasanter.Libraries.Settings
             var ss = new SiteSettings()
             {
                 ReferenceType = "Extensions"
+            };
+            ss.Init(context: context);
+            ss.TableType = tableTypes;
+            return ss;
+        }
+
+        public static SiteSettings GroupChildrenSiteSettings(Context context, Sqls.TableTypes tableTypes = Sqls.TableTypes.Normal)
+        {
+            var ss = new SiteSettings()
+            {
+                ReferenceType = "GroupChildren"
             };
             ss.Init(context: context);
             ss.TableType = tableTypes;

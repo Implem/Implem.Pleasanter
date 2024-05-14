@@ -1517,8 +1517,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 {
                     where
                 });
-            if (where != null
-                && apiContext.CanRead(ss: ss))
+            if (where != null)
             {
                 switch (ss.ReferenceType)
                 {

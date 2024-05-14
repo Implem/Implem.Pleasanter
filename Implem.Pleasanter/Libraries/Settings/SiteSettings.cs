@@ -97,6 +97,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string Title;
         [NonSerialized]
         public string Body;
+        public bool? GuideAllowExpand;
+        public string GuideExpand;
         [NonSerialized]
         public string GridGuide;
         [NonSerialized]
@@ -686,6 +688,18 @@ namespace Implem.Pleasanter.Libraries.Settings
                 Version = Version,
                 ReferenceType = ReferenceType
             };
+            if (GuideAllowExpand == true)
+            {
+                ss.GuideAllowExpand = GuideAllowExpand;
+                if (GuideExpand == "0")
+                {
+                    ss.GuideExpand = GuideExpand;
+                }
+                else
+                {
+                    ss.GuideExpand = "1";
+                }
+            }
             if (NearCompletionTimeAfterDays != param.NearCompletionTimeAfterDays)
             {
                 ss.NearCompletionTimeAfterDays = NearCompletionTimeAfterDays;
@@ -2544,8 +2558,6 @@ namespace Implem.Pleasanter.Libraries.Settings
         public List<Column> GetHistoryColumns(Context context, bool checkPermission = false)
         {
             return HistoryColumns
-                .Concat(IncludedColumns())
-                .Distinct()
                 .Select(columnName => GetColumn(
                     context: context,
                     columnName: columnName))
@@ -3825,6 +3837,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             switch (propertyName)
             {
+                case "GuideAllowExpand": GuideAllowExpand = value.ToBool(); break;
+                case "GuideExpand": GuideExpand = value; break;
                 case "NearCompletionTimeBeforeDays": NearCompletionTimeBeforeDays = value.ToInt(); break;
                 case "NearCompletionTimeAfterDays": NearCompletionTimeAfterDays = value.ToInt(); break;
                 case "GridPageSize": GridPageSize = value.ToInt(); break;

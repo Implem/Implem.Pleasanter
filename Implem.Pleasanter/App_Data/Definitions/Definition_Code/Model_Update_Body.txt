@@ -6,6 +6,7 @@
 <!--Model_UpdateParams_Users-->
 <!--Model_UpdateParams-->
 <!--Model_UpdateParams_GroupMembers-->
+<!--Model_UpdateParams_GroupChildren-->
 <!--Model_UpdateParams_SetByApi-->
 
     SqlParamCollection param = null,
@@ -48,6 +49,7 @@
 <!--Model_ForceSynchronizeSummaryExecute-->
 <!--Model_UpdateWikiTitle-->
 <!--Model_OnUpdatedNotice-->
+<!--Model_SaveDisabledUpdated-->
 
     if (get)
     {
@@ -56,6 +58,7 @@
 
 <!--Model_UpdateRelatedRecords-->
 <!--Model_OnUpdated_GroupMembers-->
+<!--Model_OnUpdated_GroupChildren-->
 <!--Model_OnUpdated_Depts-->
 <!--Model_OnUpdated_Groups-->
 <!--Model_OnUpdated_Users-->
@@ -152,3 +155,4 @@ private List<SqlStatement> UpdateStatements(
 <!--Model_UpdateAttachmentsStatementsMethod-->
 <!--Model_UpdateRelatedRecordsMethod-->
 <!--Model_UpdateGroupMembersMethod-->
+<!--Model_UpdateGroupMembersChildren-->
