@@ -1656,7 +1656,7 @@ body#login #MainContainer #Application #PortalLink{
     border: solid 1px #f00;
 }
 
-#Logins div #Tenants {
+#Logins div #Tenants:empty {
     display: none;
 }
 
