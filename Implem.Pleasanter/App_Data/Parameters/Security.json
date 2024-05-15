@@ -81,6 +81,7 @@
             ]
         }
     ],
+    "PasswordGenerator": true,
     "SecondaryAuthentication": {
         "Mode": "None",
         "NotificationType": "Mail",

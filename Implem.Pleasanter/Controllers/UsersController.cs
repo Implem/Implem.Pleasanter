@@ -724,5 +724,20 @@ namespace Implem.Pleasanter.Controllers
             log.Finish(context: context, responseSize: json.Length);
             return json;
         }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        [HttpPost]
+        public string GeneratePassword(string passwordObject, string passwordValidateObject)
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = UserUtilities.GeneratePassword(
+                    passwordObject,
+                    passwordValidateObject);
+            log.Finish(context: context, responseSize: json.Length);
+            return json;
+        }
     }
 }
