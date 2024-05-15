@@ -6815,7 +6815,9 @@ namespace Implem.Pleasanter.Models
                                                     labelText: Displays.Nullable(context: context),
                                                     _checked: column.Nullable.ToBool(),
                                                     _using: !column.Id_Ver
-                                                        && !column.NotUpdate)
+                                                        && !column.NotUpdate
+                                                        && column.ColumnName != "WorkValue"
+                                                        && column.ColumnName != "ProgressRate")
                                                 .FieldTextBox(
                                                     controlId: "Unit",
                                                     controlCss: " w50",
