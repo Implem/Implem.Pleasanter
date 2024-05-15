@@ -2,6 +2,7 @@
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
+using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Models;
 using System;
 using System.Collections.Generic;
@@ -82,7 +83,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 return true;
             }
-            else if (Depts?.Contains(context.DeptId) == true)
+            else if (Depts?.Contains(context.DeptId) == true
+                && !SiteInfo.Dept(tenantId:context.TenantId,deptId:context.DeptId).Disabled)
             {
                 return true;
             }
@@ -90,7 +92,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 return true;
             }
-            else if (Users?.Contains(context.UserId) == true
+            else if ((Users?.Contains(context.UserId) == true
+                && !SiteInfo.User(context: context, userId: context.UserId).Disabled)
                 // 項目のアクセス制御で全てのユーザー(UserId: -1)が選択されている場合、認証されているユーザーであれば許可する
                 // 情報公開機能を使用して匿名アクセスしたユーザには許可しない
                 || (Users?.Contains(-1) == true && context.Authenticated))
@@ -122,7 +125,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         private bool GroupContains(Context context)
         {
             return Groups?.Any() == true
-                ? context.Groups?.Any(o => Groups.Contains(o)) ?? false
+                ? context.Groups?.Any(o => Groups.Contains(o)
+                    && !SiteInfo.Group(tenantId: context.TenantId, groupId: o).Disabled) ?? false
                 : false;
         }
 
