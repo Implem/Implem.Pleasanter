@@ -1003,7 +1003,7 @@ namespace Implem.Pleasanter.Models
                     : groupModel.Title.MessageDisplay(context: context),
                 script: groupModel.MethodType != BaseModel.MethodTypes.New
                     ? "$p.setPaging('CurrentMembers'); $p.setPaging('SelectableMembers');"
-                      + "$p.setPaging('CurrentChildren'); $p.setPaging('SelectableChildren');"
+                        + "$p.setPaging('CurrentChildren'); $p.setPaging('SelectableChildren');"
                     : null,
                 action: () => hb
                     .Editor(
