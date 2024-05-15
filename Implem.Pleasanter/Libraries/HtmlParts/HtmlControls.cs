@@ -163,7 +163,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .DataValidateEmail(validateEmail)
                         .DataValidateEqualTo(validateEqualTo)
                         .DataValidateMaxLength(validateMaxLength)
-                        .Add(attributes));
+                        .Add(attributes)
+                        .Add("data-passwordgenerator", Implem.DefinitionAccessor.Parameters.Security.PasswordGenerator ? "1" : "0"));
                 case HtmlTypes.TextTypes.File:
                     return hb.Input(attributes: new HtmlAttributes()
                         .Id(controlId)
