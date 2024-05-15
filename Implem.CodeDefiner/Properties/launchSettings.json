@@ -1,8 +1,8 @@
-{
+﻿{
   "profiles": {
     "Implem.CodeDefiner": {
       "commandName": "Project",
-      "commandLineArgs": "_rds"
+      "commandLineArgs": "def"
     },
     "WSL": {
       "commandName": "WSL2",

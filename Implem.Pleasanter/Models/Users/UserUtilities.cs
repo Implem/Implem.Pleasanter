@@ -3519,6 +3519,7 @@ namespace Implem.Pleasanter.Models
             int idColumn)
         {
             var userHash = new Dictionary<int, UserModel>();
+            var tenantModel = new TenantModel(context: context, ss: ss, tenantId: context.TenantId);
             csv.Rows.Select((o, i) => new { Row = o, Index = i }).ForEach(data =>
             {
                 var userModel = new UserModel();
@@ -3581,17 +3582,15 @@ namespace Implem.Pleasanter.Models
                         case "Language":
                             userModel.Language = recordingData.ToString();
                             if (userModel.Language.IsNullOrEmpty())
-                            {
-                                var language = new TenantModel(context: context, ss: ss, tenantId: userModel.TenantId)?.Language;
-                                userModel.Language = language.IsNullOrEmpty() ? Parameters.Service.DefaultLanguage : language;
+                            {                                
+                                userModel.Language = tenantModel.Language.IsNullOrEmpty() ? Parameters.Service.DefaultLanguage : tenantModel.Language;
                             }                            
                             break;
                         case "TimeZone":
                             userModel.TimeZone = recordingData.ToString();
                             if (userModel.TimeZone.IsNullOrEmpty())
                             {
-                                var timeZone = new TenantModel(context: context, ss: ss, tenantId: userModel.TenantId)?.TimeZone;
-                                userModel.TimeZone = timeZone.IsNullOrEmpty() ? Parameters.Service.TimeZoneDefault : timeZone;
+                                userModel.TimeZone = tenantModel.TimeZone.IsNullOrEmpty() ? Parameters.Service.DefaultLanguage : tenantModel.TimeZone;
                             }
                             break;
                         case "DeptId":

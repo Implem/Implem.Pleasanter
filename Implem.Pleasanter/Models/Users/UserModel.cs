@@ -1436,12 +1436,11 @@ namespace Implem.Pleasanter.Models
         {
             OnConstructing(context: context);
             TenantId = context.TenantId;
-            if(methodType == MethodTypes.New)
+            if (methodType == MethodTypes.New)
             {
-                var language = new TenantModel(context: context, ss: ss, tenantId: TenantId)?.Language;
-                var timeZone = new TenantModel(context: context, ss: ss, tenantId: TenantId)?.TimeZone;
-                Language = language.IsNullOrEmpty()? Parameters.Service.DefaultLanguage : language;
-                TimeZone = timeZone.IsNullOrEmpty() ? Parameters.Service.TimeZoneDefault : timeZone;
+                var tenantModel = new TenantModel(context: context, ss: ss, tenantId: TenantId);
+                Language = tenantModel.Language.IsNullOrEmpty() ? Parameters.Service.DefaultLanguage : tenantModel.Language;
+                TimeZone = tenantModel.TimeZone.IsNullOrEmpty() ? Parameters.Service.TimeZoneDefault : tenantModel.TimeZone;
             }
             if (formData != null)
             {
@@ -1472,12 +1471,11 @@ namespace Implem.Pleasanter.Models
             OnConstructing(context: context);
             TenantId = context.TenantId;
             UserId = userId;
-            if(methodType == MethodTypes.New)
+            if (methodType == MethodTypes.New)
             {
-                var language = new TenantModel(context: context, ss: ss, tenantId: TenantId)?.Language;
-                var timeZone = new TenantModel(context: context, ss: ss, tenantId: TenantId)?.TimeZone;
-                Language = language.IsNullOrEmpty()? Parameters.Service.DefaultLanguage : language;
-                TimeZone = timeZone.IsNullOrEmpty() ? Parameters.Service.TimeZoneDefault : timeZone;
+                var tenantModel = new TenantModel(context: context, ss: ss, tenantId: TenantId);
+                Language = tenantModel.Language.IsNullOrEmpty() ? Parameters.Service.DefaultLanguage : tenantModel.Language;
+                TimeZone = tenantModel.TimeZone.IsNullOrEmpty() ? Parameters.Service.TimeZoneDefault : tenantModel.TimeZone;
             }
             if (context.QueryStrings.ContainsKey("ver"))
             {
