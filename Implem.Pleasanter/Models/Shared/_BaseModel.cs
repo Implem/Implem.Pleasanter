@@ -836,7 +836,9 @@ namespace Implem.Pleasanter.Models
                 {
                     if (scriptColumn.Value.ChoiceHash != null)
                     {
-                        var searchText = context.Forms.Data("DropDownSearchText");
+                        var searchText = context.Forms.Data("DropDownSearchTarget") == column.Id
+                            ? context.Forms.Data("DropDownSearchText")
+                            : null;
                         var searchIndexes = searchText.SearchIndexes();
                         column.ChoiceHash = scriptColumn.Value
                             ?.ChoiceHash
