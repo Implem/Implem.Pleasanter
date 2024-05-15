@@ -3101,6 +3101,11 @@ namespace Implem.Pleasanter.Models
                     {
                         idColumn = data.Index;
                     }
+                    if (column?.ColumnName == "TimeZoneInfo")
+                    {
+                        column = ss.Columns
+                        .FirstOrDefault(o => o.ColumnName == "TimeZone");
+                    }
                     if (column != null) columnHash.Add(data.Index, column);
                 });
                 var invalidColumn = Imports.ColumnValidate(
