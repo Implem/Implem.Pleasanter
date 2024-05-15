@@ -5559,8 +5559,14 @@ namespace Implem.Pleasanter.Models
                 password = xeger.Generate();
             }
             return new ResponseCollection()
-                .Val(passwordObject, password)
-                .Val(passwordValidateObject, password)
+                .Val(
+                    target: passwordObject,
+                    value: password)
+                .Val(
+                    target: passwordValidateObject,
+                    value: password)
+                .SetData(target: passwordObject)
+                .SetData(target: passwordValidateObject)
                 .ToJson();
         }
     }
