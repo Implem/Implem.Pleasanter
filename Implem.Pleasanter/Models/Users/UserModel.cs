@@ -1436,12 +1436,10 @@ namespace Implem.Pleasanter.Models
         {
             OnConstructing(context: context);
             TenantId = context.TenantId;
-            if (methodType == MethodTypes.New)
-            {
-                var tenantModel = new TenantModel(context: context, ss: ss, tenantId: TenantId);
-                Language = tenantModel.Language.IsNullOrEmpty() ? Parameters.Service.DefaultLanguage : tenantModel.Language;
-                TimeZone = tenantModel.TimeZone.IsNullOrEmpty() ? Parameters.Service.TimeZoneDefault : tenantModel.TimeZone;
-            }
+            SetTimeZoneAndLanguage(
+                            context: context,
+                            ss: ss,
+                            methodType: methodType);
             if (formData != null)
             {
                 SetByForm(
@@ -1471,12 +1469,10 @@ namespace Implem.Pleasanter.Models
             OnConstructing(context: context);
             TenantId = context.TenantId;
             UserId = userId;
-            if (methodType == MethodTypes.New)
-            {
-                var tenantModel = new TenantModel(context: context, ss: ss, tenantId: TenantId);
-                Language = tenantModel.Language.IsNullOrEmpty() ? Parameters.Service.DefaultLanguage : tenantModel.Language;
-                TimeZone = tenantModel.TimeZone.IsNullOrEmpty() ? Parameters.Service.TimeZoneDefault : tenantModel.TimeZone;
-            }
+            SetTimeZoneAndLanguage(
+                            context: context,
+                            ss: ss,
+                            methodType: methodType);
             if (context.QueryStrings.ContainsKey("ver"))
             {
                 Get(
@@ -3843,6 +3839,29 @@ namespace Implem.Pleasanter.Models
                 MineCache = mine;
             }
             return MineCache;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public void SetTimeZoneAndLanguage(
+            Context context,
+            SiteSettings ss,
+            MethodTypes methodType)
+        {
+            if (methodType == MethodTypes.New)
+            {
+                var tenantModel = new TenantModel(
+                    context: context,
+                    ss: ss,
+                    tenantId: TenantId);
+                Language = tenantModel.Language.IsNullOrEmpty()
+                    ? Parameters.Service.DefaultLanguage
+                    : tenantModel.Language;
+                TimeZone = tenantModel.TimeZone.IsNullOrEmpty()
+                    ? Parameters.Service.TimeZoneDefault
+                    : tenantModel.TimeZone;
+            }
         }
 
         /// <summary>

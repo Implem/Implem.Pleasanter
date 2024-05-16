@@ -1,6 +1,4 @@
-﻿if (methodType == MethodTypes.New)
-{
-    var tenantModel = new TenantModel(context: context, ss: ss, tenantId: TenantId);
-    Language = tenantModel.Language.IsNullOrEmpty() ? Parameters.Service.DefaultLanguage : tenantModel.Language;
-    TimeZone = tenantModel.TimeZone.IsNullOrEmpty() ? Parameters.Service.TimeZoneDefault : tenantModel.TimeZone;
-}
+﻿SetTimeZoneAndLanguage(
+                context: context,
+                ss: ss,
+                methodType: methodType);

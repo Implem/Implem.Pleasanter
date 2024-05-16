@@ -3101,6 +3101,8 @@ namespace Implem.Pleasanter.Models
                     {
                         idColumn = data.Index;
                     }
+                    //海外言語設定のユーザでは、columnはTimeZoneInfoのLabelTextを参照して抽出しているため、
+                    //ColumnNameがTimeZoneのものを抽出する。
                     if (column?.ColumnName == "TimeZoneInfo")
                     {
                         column = ss.Columns
@@ -3524,7 +3526,10 @@ namespace Implem.Pleasanter.Models
             int idColumn)
         {
             var userHash = new Dictionary<int, UserModel>();
-            var tenantModel = new TenantModel(context: context, ss: ss, tenantId: context.TenantId);
+            var tenantModel = new TenantModel(
+                context: context,
+                ss: ss,
+                tenantId: context.TenantId);
             csv.Rows.Select((o, i) => new { Row = o, Index = i }).ForEach(data =>
             {
                 var userModel = new UserModel();
@@ -3588,14 +3593,18 @@ namespace Implem.Pleasanter.Models
                             userModel.Language = recordingData.ToString();
                             if (userModel.Language.IsNullOrEmpty())
                             {                                
-                                userModel.Language = tenantModel.Language.IsNullOrEmpty() ? Parameters.Service.DefaultLanguage : tenantModel.Language;
+                                userModel.Language = tenantModel.Language.IsNullOrEmpty()
+                                ? Parameters.Service.DefaultLanguage
+                                : tenantModel.Language;
                             }                            
                             break;
                         case "TimeZone":
                             userModel.TimeZone = recordingData.ToString();
                             if (userModel.TimeZone.IsNullOrEmpty())
                             {
-                                userModel.TimeZone = tenantModel.TimeZone.IsNullOrEmpty() ? Parameters.Service.DefaultLanguage : tenantModel.TimeZone;
+                                userModel.TimeZone = tenantModel.TimeZone.IsNullOrEmpty()
+                                ? Parameters.Service.DefaultLanguage
+                                : tenantModel.TimeZone;
                             }
                             break;
                         case "DeptId":
