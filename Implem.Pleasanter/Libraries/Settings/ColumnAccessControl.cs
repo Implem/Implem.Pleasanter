@@ -83,7 +83,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 return true;
             }
-             else if (DeptContains(context: context))
+            else if (DeptContains(context: context))
             {
                 return true;
             }
@@ -116,20 +116,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                 return false;
             }
         }
-        private bool UserContains(Context context)
-        {
-            // 項目のアクセス制御で全てのユーザー(UserId: -1)が選択されている場合、認証されているユーザーであれば許可する
-            // 情報公開機能を使用して匿名アクセスしたユーザには許可しない
-            if (Users?.Contains(-1) == true && context.Authenticated) return true;
-            if (Users?.Contains(context.UserId) != true) return false;
-            var user = SiteInfo.User(context: context, userId: context.UserId);
-            return user?.Id == context.UserId && user?.Disabled == false;
-        }
 
         private bool DeptContains(Context context)
         {
             if (Depts?.Contains(context.DeptId) != true) return false;
-            var dept = SiteInfo.Dept(tenantId: context.TenantId, deptId: context.DeptId);
+            var dept = SiteInfo.Dept(
+                tenantId: context.TenantId,
+                deptId: context.DeptId);
             return dept?.Id == context.DeptId && dept?.Disabled == false;
         }
 
@@ -140,9 +133,23 @@ namespace Implem.Pleasanter.Libraries.Settings
                 && Groups.Intersect(context.Groups)
                     .Any(o =>
                     {
-                        var group = SiteInfo.Group(tenantId: context.TenantId, groupId: o);
+                        var group = SiteInfo.Group(
+                            tenantId: context.TenantId,
+                            groupId: o);
                         return group?.Id == o && group?.Disabled == false;
                     });
+        }
+
+        private bool UserContains(Context context)
+        {
+            // 項目のアクセス制御で全てのユーザー(UserId: -1)が選択されている場合、認証されているユーザーであれば許可する
+            // 情報公開機能を使用して匿名アクセスしたユーザには許可しない
+            if (Users?.Contains(-1) == true && context.Authenticated) return true;
+            if (Users?.Contains(context.UserId) != true) return false;
+            var user = SiteInfo.User(
+                context: context,
+                userId: context.UserId);
+            return user?.Id == context.UserId && user?.Disabled == false;
         }
 
         public List<Permission> GetPermissions(SiteSettings ss)
