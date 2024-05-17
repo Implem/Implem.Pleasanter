@@ -1,9 +1,9 @@
-{
+﻿{
     "Id": "YmdaFormat",
     "Type": 130,
     "Languages": [
         {
-            "Body": "yyyy/MM/dd ddd"
+            "Body": "ddd, MM/dd/yyyy"
         },
         {
             "Language": "zh",
@@ -15,19 +15,19 @@
         },
         {
             "Language": "de",
-            "Body": "JJJJ-MM-TT TTT"
+            "Body": "dddd, dd.MM.yyyy"
         },
         {
             "Language": "ko",
-            "Body": "yyyy/MM/dd ddd"
+            "Body": "yyyy.MM.dd. ddd"
         },
         {
             "Language": "es",
-            "Body": "yyyy/MM/dd ddd"
+            "Body": "dddd, dd/MM/yyyy"
         },
         {
             "Language": "vn",
-            "Body": "yyyy/MM/dd ddd"
+            "Body": "dddd, dd/MM/yyyy"
         }
     ]
 }

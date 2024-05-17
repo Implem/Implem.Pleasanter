@@ -1,9 +1,9 @@
-{
+﻿{
     "Id": "YmdDatePickerFormat",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Y/m/d"
+            "Body": "m/d/Y"
         },
         {
             "Language": "zh",
@@ -15,19 +15,19 @@
         },
         {
             "Language": "de",
-            "Body": "J/M/T"
+            "Body": "d/m/Y"
         },
         {
             "Language": "ko",
-            "Body": "Y/m/d"
+            "Body": "Y.m.d"
         },
         {
             "Language": "es",
-            "Body": "Y/m/d"
+            "Body": "d.m.Y"
         },
         {
             "Language": "vn",
-            "Body": "Y/m/d"
+            "Body": "d/m/Y"
         }
     ]
 }
