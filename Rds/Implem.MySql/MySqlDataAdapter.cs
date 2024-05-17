@@ -1,16 +1,15 @@
 ﻿using Implem.IRds;
-using Npgsql;
 using System;
 using System.Data;
 namespace Implem.MySql
 {
     internal class MySqlDataAdapter : ISqlDataAdapter
     {
-        private NpgsqlDataAdapter instance;
+        private MySqlConnector.MySqlDataAdapter instance;
 
         public MySqlDataAdapter(ISqlCommand sqlCommand)
         {
-            instance = new NpgsqlDataAdapter(
+            instance = new MySqlConnector.MySqlDataAdapter(
                 selectCommand: ((MySqlCommand)sqlCommand).InnerInstance);
         }
 
@@ -22,7 +21,7 @@ namespace Implem.MySql
             }
             set
             {
-                instance.DeleteCommand = (NpgsqlCommand)value;
+                instance.DeleteCommand = (MySqlConnector.MySqlCommand)value;
             }
         }
 
@@ -34,7 +33,7 @@ namespace Implem.MySql
             }
             set
             {
-                instance.InsertCommand = (NpgsqlCommand)value;
+                instance.InsertCommand = (MySqlConnector.MySqlCommand)value;
             }
         }
 
@@ -46,7 +45,7 @@ namespace Implem.MySql
             }
             set
             {
-                instance.SelectCommand = (NpgsqlCommand)value;
+                instance.SelectCommand = (MySqlConnector.MySqlCommand)value;
             }
         }
 
@@ -58,7 +57,7 @@ namespace Implem.MySql
             }
             set
             {
-                instance.UpdateCommand = (NpgsqlCommand)value;
+                instance.UpdateCommand = (MySqlConnector.MySqlCommand)value;
             }
         }
 

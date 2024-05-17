@@ -1,14 +1,13 @@
 ﻿using Implem.IRds;
-using Npgsql;
 using System;
 using System.Data;
 namespace Implem.MySql
 {
     internal class MySqlConnection : ISqlConnection
     {
-        private NpgsqlConnection instance;
+        private MySqlConnector.MySqlConnection instance;
 
-        internal NpgsqlConnection InnerInstance
+        internal MySqlConnector.MySqlConnection InnerInstance
         {
             get
             {
@@ -18,7 +17,7 @@ namespace Implem.MySql
 
         public MySqlConnection(string connectionString)
         {
-            instance = new NpgsqlConnection(connectionString);
+            instance = new MySqlConnector.MySqlConnection(connectionString);
         }
 
         public string ConnectionString

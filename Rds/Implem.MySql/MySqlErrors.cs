@@ -1,6 +1,6 @@
 ﻿using Implem.IRds;
 using Implem.Libraries.Utilities;
-using Npgsql;
+using MySqlConnector;
 using System.Data.Common;
 namespace Implem.MySql
 {
@@ -12,7 +12,7 @@ namespace Implem.MySql
 
         public int ErrorCode(DbException dbException)
         {
-            return ((NpgsqlException)dbException).SqlState.ToInt();
+            return ((MySqlException)dbException).SqlState.ToInt();
         }
     }
 }

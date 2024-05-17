@@ -1,15 +1,14 @@
 ﻿using Implem.IRds;
-using Npgsql;
 using System.Data;
 namespace Implem.MySql
 {
     internal class MySqlParameter : ISqlParameter
     {
-        private NpgsqlParameter instance;
+        private MySqlConnector.MySqlParameter instance;
 
         internal MySqlParameter()
         {
-            instance = new NpgsqlParameter();
+            instance = new MySqlConnector.MySqlParameter();
         }
 
         internal MySqlParameter(string parameterName, object value)
@@ -18,10 +17,10 @@ namespace Implem.MySql
             {
                 value = (int)value;
             }
-            instance = new NpgsqlParameter(parameterName, value);
+            instance = new MySqlConnector.MySqlParameter(parameterName, value);
         }
 
-        internal MySqlParameter(NpgsqlParameter parameter)
+        internal MySqlParameter(MySqlConnector.MySqlParameter parameter)
         {
             if (parameter?.Value is System.Enum)
             {
@@ -36,7 +35,7 @@ namespace Implem.MySql
             {
                 try
                 {
-                    return instance.NpgsqlDbType.ToString();
+                    return instance.MySqlDbType.ToString();
                 }
                 catch
                 {

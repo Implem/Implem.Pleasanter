@@ -1,12 +1,11 @@
-﻿using Npgsql;
-using Implem.IRds;
+﻿using Implem.IRds;
 namespace Implem.MySql
 {
     internal class MySqlConnectionStringBuilder : ISqlConnectionStringBuilder
     {
-        private NpgsqlConnectionStringBuilder instance;
+        private MySqlConnector.MySqlConnectionStringBuilder instance;
 
-        internal NpgsqlConnectionStringBuilder InnerInstance
+        internal MySqlConnector.MySqlConnectionStringBuilder InnerInstance
         {
             get
             {
@@ -40,7 +39,7 @@ namespace Implem.MySql
 
         public MySqlConnectionStringBuilder(string connectionString)
         {
-            instance = new NpgsqlConnectionStringBuilder(connectionString);
+            instance = new MySqlConnector.MySqlConnectionStringBuilder(connectionString);
         }
     }
 }

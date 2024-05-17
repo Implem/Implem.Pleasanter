@@ -1,14 +1,14 @@
 ﻿using Implem.IRds;
-using Npgsql;
+using MySqlConnector;
 using System.Collections.Generic;
 using System.Data;
 namespace Implem.MySql
 {
     internal class MySqlCommand : ISqlCommand
     {
-        private NpgsqlCommand instance;
+        private MySqlConnector.MySqlCommand instance;
 
-        internal NpgsqlCommand InnerInstance
+        internal MySqlConnector.MySqlCommand InnerInstance
         {
             get
             {
@@ -18,7 +18,7 @@ namespace Implem.MySql
 
         public MySqlCommand()
         {
-            instance = new NpgsqlCommand();
+            instance = new MySqlConnector.MySqlCommand();
         }
 
         public string CommandText
@@ -65,9 +65,9 @@ namespace Implem.MySql
             }
             set
             {
-                if (value is NpgsqlConnection npgsqlCon)
+                if (value is MySqlConnector.MySqlConnection mySqlConnectorCon)
                 {
-                    instance.Connection = npgsqlCon;
+                    instance.Connection = mySqlConnectorCon;
                 }
                 if (value is MySqlConnection mySqlCon)
                 {
@@ -92,7 +92,7 @@ namespace Implem.MySql
             }
             set
             {
-                instance.Transaction = (NpgsqlTransaction)value;
+                instance.Transaction = (MySqlTransaction)value;
             }
         }
 
@@ -161,14 +161,14 @@ namespace Implem.MySql
         public void Parameters_Add(ISqlParameter parameter)
         {
             instance.Parameters.Add(
-                new NpgsqlParameter(parameter.ParameterName, parameter.Value));
+                new MySqlConnector.MySqlParameter(parameter.ParameterName, parameter.Value));
         }
 
         public IEnumerable<ISqlParameter> SqlParameters()
         {
-            foreach (NpgsqlParameter parameter in instance.Parameters)
+            foreach (MySqlConnector.MySqlParameter parameter in instance.Parameters)
             {
-                yield return new PostgreSqlParameter(parameter);
+                yield return new MySqlParameter(parameter);
             }
         }
     }
