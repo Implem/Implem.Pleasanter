@@ -1,0 +1,10 @@
+﻿.Invoke(
+    methodName: "clearScrollTop",
+    args: "CurrentChildrenWrapper")
+.ReloadCurrentChildren(
+    context: context,
+    groupId: groupModel.GroupId)
+.ResetSelectableChildren()
+.Val(target: "#AddedGroupChildren", value: "[]")
+.Val(target: "#DeletedGroupChildren", value: "[]")
+.Val(target: "#ModifiedGroupChildren", value: "[]")

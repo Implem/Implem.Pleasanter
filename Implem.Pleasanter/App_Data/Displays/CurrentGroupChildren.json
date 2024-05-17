@@ -1,0 +1,33 @@
+﻿{
+    "Id": "CurrentGroupChildren",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Current child group"
+        },
+        {
+            "Language": "zh",
+            "Body": "当前子组"
+        },
+        {
+            "Language": "ja",
+            "Body": "現在の子グループ"
+        },
+        {
+            "Language": "de",
+            "Body": "Aktuelle Kindergruppe"
+        },
+        {
+            "Language": "ko",
+            "Body": "현재 하위 그룹"
+        },
+        {
+            "Language": "es",
+            "Body": "Grupo infantil actual"
+        },
+        {
+            "Language": "vn",
+            "Body": "nhóm trẻ hiện tại"
+        }
+    ]
+}

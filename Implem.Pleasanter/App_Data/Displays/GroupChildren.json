@@ -1,0 +1,33 @@
+{
+    "Id": "GroupChildren",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "child grou"
+        },
+        {
+            "Language": "zh",
+            "Body": "儿童组"
+        },
+        {
+            "Language": "ja",
+            "Body": "子グループ"
+        },
+        {
+            "Language": "de",
+            "Body": "Kindergruppe"
+        },
+        {
+            "Language": "ko",
+            "Body": "아이 그룹"
+        },
+        {
+            "Language": "es",
+            "Body": "grupo infantil"
+        },
+        {
+            "Language": "vn",
+            "Body": "nhóm con"
+        }
+    ]
+}

@@ -148,6 +148,30 @@ namespace Implem.Pleasanter.Libraries.Responses
         }
     }
 
+    public class GroupChildrenResponseCollection : ResponseCollection
+    {
+        public GroupChildModel GroupChildModel;
+
+        public GroupChildrenResponseCollection(
+            Context context,
+            GroupChildModel groupChildModel) : base(context: context)
+        {
+            GroupChildModel = groupChildModel;
+        }
+
+        public GroupChildrenResponseCollection Val(string selector, string value)
+        {
+            base.Val(selector, value);
+            return this;
+        }
+
+        public GroupChildrenResponseCollection ValAndFormData(string selector, string value)
+        {
+            base.ValAndFormData(selector, value);
+            return this;
+        }
+    }
+
     public class GroupMembersResponseCollection : ResponseCollection
     {
         public GroupMemberModel GroupMemberModel;
@@ -2390,6 +2414,226 @@ namespace Implem.Pleasanter.Libraries.Responses
             return res.ValAndFormData("#Extensions_Timestamp", value);
         }
 
+        public static GroupChildrenResponseCollection Ver(
+            this GroupChildrenResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#GroupChildren_Ver",
+                res.GroupChildModel.Ver.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Ver")));
+        }
+
+        public static GroupChildrenResponseCollection Ver(
+            this GroupChildrenResponseCollection res, Context context, string value)
+        {
+            return res.Val("#GroupChildren_Ver", value);
+        }
+
+        public static GroupChildrenResponseCollection Ver_FormData(
+            this GroupChildrenResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#GroupChildren_Ver",
+                res.GroupChildModel.Ver.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Ver")));
+        }
+
+        public static GroupChildrenResponseCollection Ver_FormData(
+            this GroupChildrenResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#GroupChildren_Ver", value);
+        }
+
+        public static GroupChildrenResponseCollection Comments(
+            this GroupChildrenResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#GroupChildren_Comments",
+                res.GroupChildModel.Comments.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Comments")));
+        }
+
+        public static GroupChildrenResponseCollection Comments(
+            this GroupChildrenResponseCollection res, Context context, string value)
+        {
+            return res.Val("#GroupChildren_Comments", value);
+        }
+
+        public static GroupChildrenResponseCollection Comments_FormData(
+            this GroupChildrenResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#GroupChildren_Comments",
+                res.GroupChildModel.Comments.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Comments")));
+        }
+
+        public static GroupChildrenResponseCollection Comments_FormData(
+            this GroupChildrenResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#GroupChildren_Comments", value);
+        }
+
+        public static GroupChildrenResponseCollection CreatedTime(
+            this GroupChildrenResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#GroupChildren_CreatedTime",
+                res.GroupChildModel.CreatedTime.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "CreatedTime")));
+        }
+
+        public static GroupChildrenResponseCollection CreatedTime(
+            this GroupChildrenResponseCollection res, Context context, string value)
+        {
+            return res.Val("#GroupChildren_CreatedTime", value);
+        }
+
+        public static GroupChildrenResponseCollection CreatedTime_FormData(
+            this GroupChildrenResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#GroupChildren_CreatedTime",
+                res.GroupChildModel.CreatedTime.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "CreatedTime")));
+        }
+
+        public static GroupChildrenResponseCollection CreatedTime_FormData(
+            this GroupChildrenResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#GroupChildren_CreatedTime", value);
+        }
+
+        public static GroupChildrenResponseCollection UpdatedTime(
+            this GroupChildrenResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#GroupChildren_UpdatedTime",
+                res.GroupChildModel.UpdatedTime.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "UpdatedTime")));
+        }
+
+        public static GroupChildrenResponseCollection UpdatedTime(
+            this GroupChildrenResponseCollection res, Context context, string value)
+        {
+            return res.Val("#GroupChildren_UpdatedTime", value);
+        }
+
+        public static GroupChildrenResponseCollection UpdatedTime_FormData(
+            this GroupChildrenResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#GroupChildren_UpdatedTime",
+                res.GroupChildModel.UpdatedTime.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "UpdatedTime")));
+        }
+
+        public static GroupChildrenResponseCollection UpdatedTime_FormData(
+            this GroupChildrenResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#GroupChildren_UpdatedTime", value);
+        }
+
+        public static GroupChildrenResponseCollection Timestamp(
+            this GroupChildrenResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#GroupChildren_Timestamp",
+                res.GroupChildModel.Timestamp.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Timestamp")));
+        }
+
+        public static GroupChildrenResponseCollection Timestamp(
+            this GroupChildrenResponseCollection res, Context context, string value)
+        {
+            return res.Val("#GroupChildren_Timestamp", value);
+        }
+
+        public static GroupChildrenResponseCollection Timestamp_FormData(
+            this GroupChildrenResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#GroupChildren_Timestamp",
+                res.GroupChildModel.Timestamp.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Timestamp")));
+        }
+
+        public static GroupChildrenResponseCollection Timestamp_FormData(
+            this GroupChildrenResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#GroupChildren_Timestamp", value);
+        }
+
         public static GroupMembersResponseCollection Ver(
             this GroupMembersResponseCollection res,
             Context context,
@@ -2828,6 +3072,182 @@ namespace Implem.Pleasanter.Libraries.Responses
             this GroupsResponseCollection res, Context context, string value)
         {
             return res.ValAndFormData("#Groups_Disabled", value);
+        }
+
+        public static GroupsResponseCollection LdapSync(
+            this GroupsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Groups_LdapSync",
+                res.GroupModel.LdapSync.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "LdapSync")));
+        }
+
+        public static GroupsResponseCollection LdapSync(
+            this GroupsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Groups_LdapSync", value);
+        }
+
+        public static GroupsResponseCollection LdapSync_FormData(
+            this GroupsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Groups_LdapSync",
+                res.GroupModel.LdapSync.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "LdapSync")));
+        }
+
+        public static GroupsResponseCollection LdapSync_FormData(
+            this GroupsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Groups_LdapSync", value);
+        }
+
+        public static GroupsResponseCollection LdapGuid(
+            this GroupsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Groups_LdapGuid",
+                res.GroupModel.LdapGuid.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "LdapGuid")));
+        }
+
+        public static GroupsResponseCollection LdapGuid(
+            this GroupsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Groups_LdapGuid", value);
+        }
+
+        public static GroupsResponseCollection LdapGuid_FormData(
+            this GroupsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Groups_LdapGuid",
+                res.GroupModel.LdapGuid.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "LdapGuid")));
+        }
+
+        public static GroupsResponseCollection LdapGuid_FormData(
+            this GroupsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Groups_LdapGuid", value);
+        }
+
+        public static GroupsResponseCollection LdapSearchRoot(
+            this GroupsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Groups_LdapSearchRoot",
+                res.GroupModel.LdapSearchRoot.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "LdapSearchRoot")));
+        }
+
+        public static GroupsResponseCollection LdapSearchRoot(
+            this GroupsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Groups_LdapSearchRoot", value);
+        }
+
+        public static GroupsResponseCollection LdapSearchRoot_FormData(
+            this GroupsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Groups_LdapSearchRoot",
+                res.GroupModel.LdapSearchRoot.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "LdapSearchRoot")));
+        }
+
+        public static GroupsResponseCollection LdapSearchRoot_FormData(
+            this GroupsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Groups_LdapSearchRoot", value);
+        }
+
+        public static GroupsResponseCollection SynchronizedTime(
+            this GroupsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Groups_SynchronizedTime",
+                res.GroupModel.SynchronizedTime.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "SynchronizedTime")));
+        }
+
+        public static GroupsResponseCollection SynchronizedTime(
+            this GroupsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Groups_SynchronizedTime", value);
+        }
+
+        public static GroupsResponseCollection SynchronizedTime_FormData(
+            this GroupsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Groups_SynchronizedTime",
+                res.GroupModel.SynchronizedTime.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "SynchronizedTime")));
+        }
+
+        public static GroupsResponseCollection SynchronizedTime_FormData(
+            this GroupsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Groups_SynchronizedTime", value);
         }
 
         public static GroupsResponseCollection Comments(

@@ -1,0 +1,7 @@
+﻿Rds.DeleteGroupChildren(
+    factory: context,
+    where: Rds.GroupChildrenWhere()
+        .GroupId(GroupId)),
+GroupMemberUtilities.DeleteGroupMembers(
+    context: context,
+    groupId: GroupId),
