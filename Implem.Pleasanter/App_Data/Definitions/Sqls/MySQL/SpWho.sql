@@ -1,1 +1,1 @@
-﻿select pid as "spid" from pg_stat_activity where usename = '#Uid#';
+﻿select id from information_schema.processlist where user = '#Uid#';

@@ -1,3 +1,1 @@
-﻿select datname
-from pg_database
-where datname = '#InitialCatalog#';
+﻿show databases where "database" = '#InitialCatalog#';

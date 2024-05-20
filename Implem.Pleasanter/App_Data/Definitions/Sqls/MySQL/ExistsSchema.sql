@@ -1,1 +1,1 @@
-﻿select nspname from pg_namespace where nspname = '#SchemaName#';
+﻿select schema_name from information_schema.schemata where schema_name = '#SchemaName#';
