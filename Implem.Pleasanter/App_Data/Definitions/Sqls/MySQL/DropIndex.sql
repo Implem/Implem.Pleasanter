@@ -1,0 +1,1 @@
+﻿drop index "#IndexName#" cascade;

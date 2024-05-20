@@ -1,0 +1,1 @@
+﻿select rolname from pg_roles where rolname='#Uid#';

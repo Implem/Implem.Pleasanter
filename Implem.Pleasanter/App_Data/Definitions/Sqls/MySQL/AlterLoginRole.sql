@@ -1,0 +1,1 @@
+﻿alter role "#Uid#" with password '#Pwd#';

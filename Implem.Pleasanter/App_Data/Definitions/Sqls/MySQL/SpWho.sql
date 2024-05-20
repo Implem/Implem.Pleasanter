@@ -1,0 +1,1 @@
+﻿select pid as "spid" from pg_stat_activity where usename = '#Uid#';

@@ -1,0 +1,1 @@
+﻿select indexname as "Name" from pg_indexes where tablename='#TableName#';
