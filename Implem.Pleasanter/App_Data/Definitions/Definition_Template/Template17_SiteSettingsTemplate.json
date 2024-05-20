@@ -5,11 +5,14 @@
     "GridColumns": [
         "ResultId",
         "ClassF",
-        "TitleBody",
-        "Comments",
+        "Title",
         "ClassH",
-        "DateA",
-        "DateB",
+        "ClassA",
+        "ClassB",
+        "ClassD",
+        "DateC",
+        "NumA",
+        "NumB",
         "Updator",
         "UpdatedTime"
     ],
