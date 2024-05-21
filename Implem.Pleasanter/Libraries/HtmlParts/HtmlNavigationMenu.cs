@@ -678,7 +678,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     return canManageRegistrations;
                 case "SettingsMenu_TrashBox":
                     return canManageTrashBox
-                        && ss.ReferenceType != "Wikis";
+                        && ss.ReferenceType != "Wikis"
+                        && ss.ReferenceType != "Dashboards";
                 case "SettingsMenu_GroupTrashBox":
                     return canManageGroupTrashBox;
                 case "SettingsMenu_DeptTrashBox":
