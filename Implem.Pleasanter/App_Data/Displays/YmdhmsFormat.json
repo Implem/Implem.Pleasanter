@@ -19,7 +19,7 @@
         },
         {
             "Language": "ko",
-            "Body": "yyyy/MM/dd HH:mm:ss"
+            "Body": "yyyy.MM.dd HH:mm:ss"
         },
         {
             "Language": "es",
