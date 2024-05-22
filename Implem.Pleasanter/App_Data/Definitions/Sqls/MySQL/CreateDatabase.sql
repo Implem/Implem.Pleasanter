@@ -1,1 +1,1 @@
-﻿select 1 as dummy;
+﻿create database "#InitialCatalog#";

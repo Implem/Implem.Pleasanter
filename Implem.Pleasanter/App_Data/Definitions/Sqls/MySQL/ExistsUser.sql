@@ -1,1 +1,1 @@
-﻿select usename from pg_user where usename='#Uid#';
+﻿select "user" from "mysql"."user" where "user" = '#Uid#';

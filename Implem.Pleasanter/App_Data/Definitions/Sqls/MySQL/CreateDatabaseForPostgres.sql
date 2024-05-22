@@ -1,1 +1,1 @@
-﻿create database "#InitialCatalog#" owner "#Uid_Owner#";
+﻿select 1 as dummy;

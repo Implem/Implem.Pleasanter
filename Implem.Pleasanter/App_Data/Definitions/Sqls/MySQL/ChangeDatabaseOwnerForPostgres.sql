@@ -1,1 +1,1 @@
-﻿alter database "#InitialCatalog#" owner to "#Uid_Owner#";
+﻿select 1 as dummy;
