@@ -15,7 +15,7 @@
         },
         {
             "Language": "de",
-            "Body": "d.m.Y"
+            "Body": "Y.m.d"
         },
         {
             "Language": "ko",
@@ -23,11 +23,11 @@
         },
         {
             "Language": "es",
-            "Body": "d/m/Y"
+            "Body": "Y/m/d"
         },
         {
             "Language": "vn",
-            "Body": "d/m/Y"
+            "Body": "Y/m/d"
         }
     ]
 }

@@ -15,19 +15,19 @@
         },
         {
             "Language": "de",
-            "Body": "dd.MM.yyyy HH:mm:ss"
-        },
-        {
-            "Language": "ko",
             "Body": "yyyy.MM.dd HH:mm:ss"
         },
         {
+            "Language": "ko",
+            "Body": "yyyy.MM.dd. HH:mm:ss"
+        },
+        {
             "Language": "es",
-            "Body": "dd/MM/yyyy HH:mm:ss"
+            "Body": "yyyy/MM/dd HH:mm:ss"
         },
         {
             "Language": "vn",
-            "Body": "dd/MM/yyyy HH:mm:ss"
+            "Body": "yyyy/MM/dd HH:mm:ss"
         }
     ]
 }

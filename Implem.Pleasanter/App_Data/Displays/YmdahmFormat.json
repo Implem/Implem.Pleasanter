@@ -23,11 +23,11 @@
         },
         {
             "Language": "es",
-            "Body": "dddd, dd/MM/yyyy HH:mm"
+            "Body": "dddd, yyyy/MM/dd HH:mm"
         },
         {
             "Language": "vn",
-            "Body": "dddd, dd/MM/yyyy HH:mm"
+            "Body": "dddd, yyyy/MM/dd HH:mm"
         }
     ]
 }
