@@ -836,6 +836,7 @@ namespace Implem.Pleasanter.Models
                 {
                     if (scriptColumn.Value.ChoiceHash != null)
                     {
+                        // 該当項目の時のみ絞り込み文字列を適応する
                         var searchText = context.Forms.Data("DropDownSearchTarget") == column.Id
                             ? context.Forms.Data("DropDownSearchText")
                             : null;
