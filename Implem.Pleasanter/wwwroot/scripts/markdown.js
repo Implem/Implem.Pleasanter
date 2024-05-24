@@ -135,7 +135,7 @@ $p.markup = function (markdownValue, enableLightBox, encoded, dataId) {
 $p.setInputGuide = function (id, text, markup) {
     if (text.length === 0) {
         $('[id="' + id + '.viewer"]').css("color", "darkgray");
-        return $('[id="' + id + '"]').attr('placeholder');
+        return $('[id="' + id + '"]').attr('placeholder') ?? '';
     } else {
         $('[id="' + id + '.viewer"]').css("color", "black");
         return markup;
