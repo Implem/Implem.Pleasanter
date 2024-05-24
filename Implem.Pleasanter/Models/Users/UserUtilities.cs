@@ -4604,7 +4604,7 @@ namespace Implem.Pleasanter.Models
                         new HtmlBuilder().ApiEditor(
                             context: context,
                             userModel: userModel))
-                    .Message(Messages.ApiKeyCreated(context: context))
+                    .Message(Messages.ApiKeyDeleted(context: context))
                     .ToJson();
             }
         }
