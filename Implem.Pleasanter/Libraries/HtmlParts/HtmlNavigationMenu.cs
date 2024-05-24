@@ -650,6 +650,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         ? context.CanManageSite(ss: ss)
                         : ss.ReferenceType == "Groups"
                             ? canCreateGroups
+                                && context.Action != "trashbox"
                             : context.CanCreate(ss: ss, site: true)
                                 && ss.ReferenceType != "Wikis"
                                 && context.Action != "trashbox"
@@ -678,7 +679,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     return canManageRegistrations;
                 case "SettingsMenu_TrashBox":
                     return canManageTrashBox
-                        && ss.ReferenceType != "Wikis";
+                        && ss.ReferenceType != "Wikis"
+                        && ss.ReferenceType != "Dashboards";
                 case "SettingsMenu_GroupTrashBox":
                     return canManageGroupTrashBox;
                 case "SettingsMenu_DeptTrashBox":
