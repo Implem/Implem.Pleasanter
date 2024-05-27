@@ -8,11 +8,11 @@ namespace Implem.MySql
         {
             return name
                 .Replace("nchar", "char")
-                .Replace("nvarchar(max)", "text")
+                .Replace("nvarchar(max)", "longtext")
+                .Replace("nvarchar(1024)", "text")
                 .Replace("nvarchar", "varchar")
-                .Replace("bit", "boolean")
-                .Replace("image", "bytea")
-                .Replace("datetime", "timestamp(3)");
+                .Replace("bit", "tinyint(1)")
+                .Replace("image", "blob");
         }
 
         public string ConvertBack(string name)
