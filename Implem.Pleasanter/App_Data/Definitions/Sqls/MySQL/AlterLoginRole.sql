@@ -1,1 +1,1 @@
-﻿alter role "#Uid#" with password '#Pwd#';
+﻿select 1 as dummy;

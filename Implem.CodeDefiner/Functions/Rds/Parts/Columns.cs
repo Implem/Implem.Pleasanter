@@ -106,7 +106,7 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
             }
             if (!noIdentity && columnDefinition.Identity)
             {
-                commandText += factory.Sqls.GenerateIdentity.Params(columnDefinition.Seed == 0 ? 1 : columnDefinition.Seed);
+                //commandText += factory.Sqls.GenerateIdentity.Params(columnDefinition.Seed == 0 ? 1 : columnDefinition.Seed);
             }
             if (columnDefinition.Nullable)
             {

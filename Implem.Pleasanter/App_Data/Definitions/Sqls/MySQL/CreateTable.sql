@@ -1,7 +1,4 @@
-﻿#DropConstraint#
-    create table "#TableName#"
+﻿    create table "#TableName#"
     (
 #Columns#
     );
-#Pks#
-#Defaults#
