@@ -139,8 +139,11 @@ namespace Implem.Pleasanter.Libraries.Extensions
         public static bool Matched(this string value, Context context, Column column, string condition)
         {
             var param = condition.Deserialize<List<string>>()
-                ?.Select(o => (column.Type == Column.Types.User || column.Type == Column.Types.Dept) && o == "Own"
+                ?.Select(o => column.Type == Column.Types.User && o == "Own"
                     ? context.UserId.ToString()
+                    : o)
+                .Select(o => (column.Type == Column.Types.Dept) && o == "Own"
+                    ? context.DeptId.ToString()
                     : o)
                 .ToList();
             if (column.HasChoices())
