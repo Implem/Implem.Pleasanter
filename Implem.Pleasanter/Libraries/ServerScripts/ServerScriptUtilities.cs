@@ -1354,6 +1354,34 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             return items;
         }
 
+        public static ServerScriptModelApiModel GetSiteIdBySiteName(
+            Context context,
+            long? id = null,
+            string siteName = null)
+        {
+            if (siteName.IsNullOrEmpty()) return null;
+            var startId = id ?? context.SiteId;
+            var startSs = SiteSettingsUtilities.Get(
+                context: context,
+                siteId: startId);
+            if (!context.CanRead(ss: startSs)) return null;
+            var tenantCache = SiteInfo.TenantCaches[context.TenantId];
+            var findId = tenantCache.SiteNameTree.Find(
+                startId: startId,
+                name: siteName);
+            if (findId == -1) return null;
+            var findSs = SiteSettingsUtilities.Get(
+                context: context,
+                siteId: findId);
+            if (!context.CanRead(ss: findSs)) return null;
+            var ret = GetSite(
+                context: context,
+                id: findId,
+                apiRequestBody: string.Empty)
+                    .FirstOrDefault();
+            return ret;
+        }
+
         public static bool Create(Context context, long id, object model)
         {
             var apiContext = CreateContext(

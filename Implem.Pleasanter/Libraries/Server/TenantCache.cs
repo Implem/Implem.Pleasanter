@@ -19,6 +19,7 @@ namespace Implem.Pleasanter.Libraries.Server
         public Dictionary<long, List<int>> SiteDeptHash;
         public Dictionary<long, List<int>> SiteGroupHash;
         public Dictionary<long, List<int>> SiteUserHash;
+        public SiteNameTree SiteNameTree;
 
         public UpdateMonitor UpdateMonitor;
 

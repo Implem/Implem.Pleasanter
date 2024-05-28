@@ -73,6 +73,17 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             return ret;
         }
 
+        public ServerScriptModelApiModel GetSiteIdBySiteName(
+            object siteName,
+            object id = null)
+        {
+            var ret = ServerScriptUtilities.GetSiteIdBySiteName(
+                context: Context,
+                id: id?.ToLong(),
+                siteName: siteName?.ToString() ?? string.Empty);
+            return ret;
+        }
+
         public ServerScriptModelApiModel New()
         {
             return NewIssue();

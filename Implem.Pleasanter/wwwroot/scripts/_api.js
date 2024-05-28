@@ -155,3 +155,7 @@ $p.apiUpdateSite = function (args) {
 $p.apiDeleteSite = function (args) {
     return $p.apiExec($p.apiUrl(args.id, 'deletesite'), args);
 }
+
+$p.apiGetSiteIdBySiteName = function (args) {
+    return $p.apiExec($p.apiUrl(args.id, 'getsiteidbysitename'), args);
+}
