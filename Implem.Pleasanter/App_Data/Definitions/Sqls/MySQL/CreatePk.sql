@@ -1,3 +1,3 @@
-﻿alter table "#TableName#" add constraint primary key (#PkColumnsWithoutOrderType#);
+﻿alter table "#TableName#" add constraint primary key (#PkColumns#);
 #AutoIncrement#
 #AutoIncrementValue#
