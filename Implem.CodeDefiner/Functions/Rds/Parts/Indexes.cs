@@ -251,7 +251,8 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
             this SqlStatement sqlStatement,
             string sourceTableName,
             IEnumerable<ColumnDefinition> columnDefinitionCollection,
-            IEnumerable<IndexInfo> tableIndexCollection)
+            IEnumerable<IndexInfo> tableIndexCollection,
+            ISqlObjectFactory factory = null)
         {
             var tableIndex = tableIndexCollection
                 .Where(o => o.Type == IndexInfo.Types.Pk).FirstOrDefault();
@@ -264,8 +265,10 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
                             sourceTableName, tableIndex, columnDefinitionCollection)))
                         .Replace("#PkColumnsWithoutOrderType#", string.Join(",", Sql_CreateIx(
                             sourceTableName, tableIndex, columnDefinitionCollection, false)))
-                        .Replace("#AutoIncrement#", GetAutoIncrement())
-                        .Replace("#AutoIncrementValue#", GetAutoIncrementValue()));
+                        .Replace("#AutoIncrement#", GetAutoIncrement(
+                            factory: factory,
+                            sourceTableName: sourceTableName,
+                            columnDefinitionCollection: columnDefinitionCollection)));
             }
             else
             {
@@ -274,17 +277,27 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
             }
         }
 
-        private static string GetAutoIncrement()
+        private static string GetAutoIncrement(    // todo:Depts等複合主キーのテーブルへの対策が足りない。
+            ISqlObjectFactory factory,
+            string sourceTableName,
+            IEnumerable<ColumnDefinition> columnDefinitionCollection)
         {
+            if (Parameters.Rds.Dbms != "MySQL") { return string.Empty; }
+            if (sourceTableName.EndsWith("_history") || sourceTableName.EndsWith("_deleted")) { return string.Empty; }
+            ColumnDefinition columnDefinition = columnDefinitionCollection
+                .Where(o => o.Identity == true)
+                .FirstOrDefault();
+            if (columnDefinition == null) { return string.Empty; }
             //GenerateIdentityの代替として、MySQLではAutoIncrementを記述する
             //PrimaryKey制約が付与されたカラムに指定しなければエラーが返却されるため、CreatePkの中で記述する
-            return "";
+            var newTypeName = factory.SqlDataType.Convert(columnDefinition.TypeName);
+            var isNullable = columnDefinition.Nullable
+                ? "null"
+                : "not null";
+            var seedValue = $"alter table \"{sourceTableName}\" auto_increment = {columnDefinition.Seed};";
+            return $"alter table \"{sourceTableName}\" modify column \"{columnDefinition.ColumnName}\" {newTypeName} auto_increment {isNullable};\r\n{seedValue}";
         }
 
-        private static string GetAutoIncrementValue()
-        {
-            return "";
-        }
 
         internal static void CreateIx(
             this SqlStatement sqlStatement,

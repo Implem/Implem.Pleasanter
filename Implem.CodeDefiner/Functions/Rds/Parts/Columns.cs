@@ -104,9 +104,9 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
                     commandText += "({0})".Params(columnDefinition.MaxLength);
                 }
             }
-            if (!noIdentity && columnDefinition.Identity)
+            if (Parameters.Rds.Dbms != "MySQL" && !noIdentity && columnDefinition.Identity)
             {
-                //commandText += factory.Sqls.GenerateIdentity.Params(columnDefinition.Seed == 0 ? 1 : columnDefinition.Seed);
+                commandText += factory.Sqls.GenerateIdentity.Params(columnDefinition.Seed == 0 ? 1 : columnDefinition.Seed);
             }
             if (columnDefinition.Nullable)
             {
