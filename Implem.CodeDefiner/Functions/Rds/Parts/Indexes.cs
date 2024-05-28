@@ -245,13 +245,27 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
                         .Replace("#PkColumns#", string.Join(",", Sql_CreateIx(
                             sourceTableName, tableIndex, columnDefinitionCollection)))
                         .Replace("#PkColumnsWithoutOrderType#", string.Join(",", Sql_CreateIx(
-                            sourceTableName, tableIndex, columnDefinitionCollection, false))));
+                            sourceTableName, tableIndex, columnDefinitionCollection, false)))
+                        .Replace("#AutoIncrement#", GetAutoIncrement())
+                        .Replace("#AutoIncrementValue#", GetAutoIncrementValue()));
             }
             else
             {
                 sqlStatement.CommandText = sqlStatement.CommandText.Replace(
                     "#Pks#", string.Empty);
             }
+        }
+
+        private static string GetAutoIncrement()
+        {
+            //GenerateIdentityの代替として、MySQLではAutoIncrementを記述する
+            //PrimaryKey制約が付与されたカラムに指定しなければエラーが返却されるため、CreatePkの中で記述する
+            return "";
+        }
+
+        private static string GetAutoIncrementValue()
+        {
+            return "";
         }
 
         internal static void CreateIx(
