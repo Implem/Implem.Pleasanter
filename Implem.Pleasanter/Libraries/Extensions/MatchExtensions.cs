@@ -138,7 +138,7 @@ namespace Implem.Pleasanter.Libraries.Extensions
 
         public static bool Matched(this string value, Context context, Column column, string condition)
         {
-            var param = getMatchedParam(
+            var param = GetMatchedParam(
                     context: context,
                     column: column,
                     condition: condition);
@@ -249,7 +249,7 @@ namespace Implem.Pleasanter.Libraries.Extensions
                 }
             }
         }
-        private static List<string> getMatchedParam(Context context, Column column, string condition)
+        private static List<string> GetMatchedParam(Context context, Column column, string condition)
         {
             var param = condition.Deserialize<List<string>>();
             switch (column.Type)
