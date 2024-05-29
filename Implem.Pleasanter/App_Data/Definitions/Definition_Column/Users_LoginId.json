@@ -17,7 +17,7 @@
     "HistoryColumn": "101",
     "TypeName": "nvarchar",
     "MaxLength": "256",
-    "Ix2": "1",
+    "Ix3": "1",
     "Unique": "1",
     "Like": "1",
     "Required": "1",

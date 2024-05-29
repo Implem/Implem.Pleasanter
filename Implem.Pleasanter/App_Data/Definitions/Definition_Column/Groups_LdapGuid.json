@@ -15,7 +15,7 @@
     "TypeName": "nvarchar",
     "MaxLength": "256",
     "Nullable": "1",
-    "Ix2": "1",
+    "Ix3": "1",
     "ControlCss": " not-send",
     "EditorReadOnly": "1",
     "LabelText_en": "LDAP GUID",

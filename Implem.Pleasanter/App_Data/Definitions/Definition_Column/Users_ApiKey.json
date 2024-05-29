@@ -11,7 +11,7 @@
     "HistoryColumn": "141",
     "TypeName": "nvarchar",
     "MaxLength": "128",
-    "Ix3": "1",
+    "Ix4": "1",
     "Nullable": "1",
     "NotLookup": "1",
     "LabelText_en": "API key",
