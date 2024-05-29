@@ -43,8 +43,6 @@
     "Ix4OrderBy": "string",
     "Ix5": "int",
     "Ix5OrderBy": "string",
-    "Ix6": "int",
-    "Ix6OrderBy": "string",
     "Nullable": "bool",
     "MatchNullable": "bool",
     "Default": "string",
