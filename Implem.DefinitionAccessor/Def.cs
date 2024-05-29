@@ -2439,16 +2439,6 @@ namespace Implem.DefinitionAccessor
                                 data.ToString();
                             newColumnDefinition.SavedIx5OrderBy = newColumnDefinition.Ix5OrderBy;
                             break;
-                        case "Ix6":
-                            newColumnDefinition.Ix6 = customDefinitionRow.Get("Ix6")?.ToInt() ??
-                                data.ToInt();
-                            newColumnDefinition.SavedIx6 = newColumnDefinition.Ix6;
-                            break;
-                        case "Ix6OrderBy":
-                            newColumnDefinition.Ix6OrderBy = customDefinitionRow.Get("Ix6OrderBy")?.ToString() ??
-                                data.ToString();
-                            newColumnDefinition.SavedIx6OrderBy = newColumnDefinition.Ix6OrderBy;
-                            break;
                         case "Nullable":
                             newColumnDefinition.Nullable = customDefinitionRow.Get("Nullable")?.ToBool() ??
                                 data.ToBool();
@@ -2952,8 +2942,6 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("Ix4OrderBy")) { definition.Ix4OrderBy = definitionRow["Ix4OrderBy"].ToString(); definition.SavedIx4OrderBy = definition.Ix4OrderBy; }
             if (definitionRow.ContainsKey("Ix5")) { definition.Ix5 = definitionRow["Ix5"].ToInt(); definition.SavedIx5 = definition.Ix5; }
             if (definitionRow.ContainsKey("Ix5OrderBy")) { definition.Ix5OrderBy = definitionRow["Ix5OrderBy"].ToString(); definition.SavedIx5OrderBy = definition.Ix5OrderBy; }
-            if (definitionRow.ContainsKey("Ix6")) { definition.Ix6 = definitionRow["Ix6"].ToInt(); definition.SavedIx6 = definition.Ix6; }
-            if (definitionRow.ContainsKey("Ix6OrderBy")) { definition.Ix6OrderBy = definitionRow["Ix6OrderBy"].ToString(); definition.SavedIx6OrderBy = definition.Ix6OrderBy; }
             if (definitionRow.ContainsKey("Nullable")) { definition.Nullable = definitionRow["Nullable"].ToBool(); definition.SavedNullable = definition.Nullable; }
             if (definitionRow.ContainsKey("MatchNullable")) { definition.MatchNullable = definitionRow["MatchNullable"].ToBool(); definition.SavedMatchNullable = definition.MatchNullable; }
             if (definitionRow.ContainsKey("Default")) { definition.Default = definitionRow["Default"].ToString(); definition.SavedDefault = definition.Default; }
@@ -5760,8 +5748,6 @@ namespace Implem.DefinitionAccessor
                         case "Ix4OrderBy": columnDefinition.Ix4OrderBy = optionValue.ToString(); break;
                         case "Ix5": columnDefinition.Ix5 = optionValue.ToInt(); break;
                         case "Ix5OrderBy": columnDefinition.Ix5OrderBy = optionValue.ToString(); break;
-                        case "Ix6": columnDefinition.Ix6 = optionValue.ToInt(); break;
-                        case "Ix6OrderBy": columnDefinition.Ix6OrderBy = optionValue.ToString(); break;
                         case "Nullable": columnDefinition.Nullable = optionValue.ToBool(); break;
                         case "MatchNullable": columnDefinition.MatchNullable = optionValue.ToBool(); break;
                         case "Default": columnDefinition.Default = optionValue.ToString(); break;
@@ -8499,8 +8485,6 @@ namespace Implem.DefinitionAccessor
         public string Ix4OrderBy; public string SavedIx4OrderBy;
         public int Ix5; public int SavedIx5;
         public string Ix5OrderBy; public string SavedIx5OrderBy;
-        public int Ix6; public int SavedIx6;
-        public string Ix6OrderBy; public string SavedIx6OrderBy;
         public bool Nullable; public bool SavedNullable;
         public bool MatchNullable; public bool SavedMatchNullable;
         public string Default; public string SavedDefault;
@@ -8642,8 +8626,6 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("Ix4OrderBy")) Ix4OrderBy = propertyCollection["Ix4OrderBy"].ToString(); else Ix4OrderBy = string.Empty;
             if (propertyCollection.ContainsKey("Ix5")) Ix5 = propertyCollection["Ix5"].ToInt(); else Ix5 = 0;
             if (propertyCollection.ContainsKey("Ix5OrderBy")) Ix5OrderBy = propertyCollection["Ix5OrderBy"].ToString(); else Ix5OrderBy = string.Empty;
-            if (propertyCollection.ContainsKey("Ix6")) Ix6 = propertyCollection["Ix6"].ToInt(); else Ix6 = 0;
-            if (propertyCollection.ContainsKey("Ix6OrderBy")) Ix6OrderBy = propertyCollection["Ix6OrderBy"].ToString(); else Ix6OrderBy = string.Empty;
             if (propertyCollection.ContainsKey("Nullable")) Nullable = propertyCollection["Nullable"].ToBool(); else Nullable = false;
             if (propertyCollection.ContainsKey("MatchNullable")) MatchNullable = propertyCollection["MatchNullable"].ToBool(); else MatchNullable = false;
             if (propertyCollection.ContainsKey("Default")) Default = propertyCollection["Default"].ToString(); else Default = string.Empty;
@@ -8785,8 +8767,6 @@ namespace Implem.DefinitionAccessor
                     case "Ix4OrderBy": return Ix4OrderBy;
                     case "Ix5": return Ix5;
                     case "Ix5OrderBy": return Ix5OrderBy;
-                    case "Ix6": return Ix6;
-                    case "Ix6OrderBy": return Ix6OrderBy;
                     case "Nullable": return Nullable;
                     case "MatchNullable": return MatchNullable;
                     case "Default": return Default;
@@ -8928,8 +8908,6 @@ namespace Implem.DefinitionAccessor
             Ix4OrderBy = SavedIx4OrderBy;
             Ix5 = SavedIx5;
             Ix5OrderBy = SavedIx5OrderBy;
-            Ix6 = SavedIx6;
-            Ix6OrderBy = SavedIx6OrderBy;
             Nullable = SavedNullable;
             MatchNullable = SavedMatchNullable;
             Default = SavedDefault;
