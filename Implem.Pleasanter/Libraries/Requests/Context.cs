@@ -1149,6 +1149,13 @@ namespace Implem.Pleasanter.Libraries.Requests
                     return new CultureInfo(language);
             }
         }
+
+        public string TimeZoneInfoOffset()
+        {
+            return TimeZoneInfo != null
+                ? (TimeZoneInfo.BaseUtcOffset >= TimeSpan.Zero ? "+" : "-") + TimeZoneInfo.BaseUtcOffset.ToString(@"hh\:mm")
+                : "00:00";
+        }
         
         public string Token()
         {
