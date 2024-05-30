@@ -249,6 +249,7 @@ namespace Implem.Pleasanter.Libraries.Extensions
                 }
             }
         }
+
         private static List<string> GetMatchedParam(Context context, Column column, string condition)
         {
             var param = condition.Deserialize<List<string>>();
@@ -256,14 +257,12 @@ namespace Implem.Pleasanter.Libraries.Extensions
             {
                 case Column.Types.User:
                     return param?.Select(o => o == "Own"
-                            ? context.UserId.ToString()
-                            : o)
-                        .ToList();
+                        ? context.UserId.ToString()
+                        : o).ToList();
                 case Column.Types.Dept:
                     return param?.Select(o => o == "Own"
-                            ? context.DeptId.ToString()
-                            : o)
-                        .ToList();
+                        ? context.DeptId.ToString()
+                        : o).ToList();
                 default:
                     return param?.ToList();
             }
