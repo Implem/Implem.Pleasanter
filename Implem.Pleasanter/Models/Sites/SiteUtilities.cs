@@ -17162,7 +17162,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static ContentResultInheritance GetSiteIdBySiteNameByApi(Context context, long id)
+        public static ContentResultInheritance GetClosestSiteIdByApi(Context context, long id)
         {
             var findSiteNames = context.RequestDataString.Deserialize<SiteApiModel>()?.FindSiteNames;
             if (findSiteNames == null)

@@ -315,8 +315,8 @@ namespace Implem.Pleasanter.Controllers.Api
             return result.ToHttpResponse(request: Request);
         }
 
-        [HttpPost("{id}/GetSiteIdBySiteName")]
-        public ContentResult GetSiteIdBySiteName(long id)
+        [HttpPost("{id}/GetClosestSiteId")]
+        public ContentResult GetClosestSiteId(long id)
         {
             var body = default(string);
             using (var reader = new StreamReader(Request.Body)) body = reader.ReadToEnd();
@@ -328,7 +328,7 @@ namespace Implem.Pleasanter.Controllers.Api
                 api: true);
             var log = new SysLogModel(context: context);
             var result = context.Authenticated
-                ? SiteUtilities.GetSiteIdBySiteNameByApi(
+                ? SiteUtilities.GetClosestSiteIdByApi(
                     context: context,
                     id: id)
                 : ApiResults.Unauthorized(context: context);
