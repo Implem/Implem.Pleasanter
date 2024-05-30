@@ -83,7 +83,7 @@ If necessary, run the Docker command with sudo when executing it.
    docker run --rm --network pleasanter-net \
        --name pleasanter \
        --env-file env-list \
-       -p 50001:80 \
+       -p 50001:8080 \
        implem/pleasanter
    ```
 
