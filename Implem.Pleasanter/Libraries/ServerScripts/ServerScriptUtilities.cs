@@ -1354,7 +1354,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             return items;
         }
 
-        public static ServerScriptModelApiModel GetSiteIdBySiteName(
+        public static ServerScriptModelApiModel GetClosestSite(
             Context context,
             long? id = null,
             string siteName = null)
