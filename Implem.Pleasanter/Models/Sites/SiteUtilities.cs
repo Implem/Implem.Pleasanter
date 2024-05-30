@@ -12667,6 +12667,7 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 id: "YmdhmFormat"))
                             : null,
+                        format: Displays.YmdhmDatePickerFormat(context: context),
                         timepiker: true,
                         validateRequired: true,
                         validateDate: true)

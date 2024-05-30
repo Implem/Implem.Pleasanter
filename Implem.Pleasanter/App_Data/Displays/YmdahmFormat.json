@@ -15,7 +15,7 @@
         },
         {
             "Language": "de",
-            "Body": "dddd, dd.MM.yyyy HH:mm"
+            "Body": "dddd, yyyy.MM.dd HH:mm"
         },
         {
             "Language": "ko",

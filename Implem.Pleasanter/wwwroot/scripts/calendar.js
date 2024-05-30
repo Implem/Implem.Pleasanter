@@ -109,6 +109,8 @@ const getEventsDatas = function (calendarSuffix) {
                 let eventData = JSON.parse($('#CalendarJson' + calendarSuffix).val())[0]['items'];
                 successCallback(
                     eventData.map((item) => {
+                        item.start = item.start.replace('Z', '');
+                        item.end = item.end.replace('Z', '');
                         var endDate = new Date(item.end);
                         if ($('#CalendarEditorFormat' + calendarSuffix).val() === 'Ymd') {
                             endDate.setDate(endDate.getDate() + 1);
@@ -137,7 +139,7 @@ const getEventsDatas = function (calendarSuffix) {
         }
     }
 }
-function setCalendarGroup(group, data, calendarSuffix) {
+function setCalendarGroup(group, data, language, calendarSuffix) {
     var hash = {};
     var beginSelector = (group === undefined)
         ? '#Calendar' + calendarSuffix + ' .container:first'
@@ -150,17 +152,19 @@ function setCalendarGroup(group, data, calendarSuffix) {
 
     switch ($('#CalendarTimePeriod' + calendarSuffix).val()) {
         case 'Yearly':
-            setYearly(group, data, hash, begin, end, calendarSuffix);
+            setYearly(group, data, hash, begin, end, language, calendarSuffix);
             break;
         case 'Monthly':
         case 'Weekly':
-            setMonthly(group, data, hash, begin, end, calendarSuffix);
+            setMonthly(group, data, hash, begin, end, language, calendarSuffix);
             break;
     }
 }
 
-function setYearly(group, data, hash, begin, end, calendarSuffix) {
+function setYearly(group, data, hash, begin, end, language, calendarSuffix) {
     data.forEach(function (element) {
+        element.From = (element.From.replace('Z', ''));
+        element.To = (element.To.replace('Z', ''));
         var current = $p.beginningMonth(new Date(element.From))
         if (current < begin) {
             current = new Date(begin);
@@ -171,6 +175,7 @@ function setYearly(group, data, hash, begin, end, calendarSuffix) {
             hash,
             element,
             current,
+            language,
             calendarSuffix,
             undefined,
             undefined,
@@ -187,6 +192,7 @@ function setYearly(group, data, hash, begin, end, calendarSuffix) {
                     hash,
                     element,
                     current,
+                    language,
                     calendarSuffix,
                     1,
                     rank);
@@ -196,8 +202,10 @@ function setYearly(group, data, hash, begin, end, calendarSuffix) {
     });
 }
 
-function setMonthly(group, data, hash, begin, end, calendarSuffix) {
+function setMonthly(group, data, hash, begin, end, language, calendarSuffix) {
     data.forEach(function (element) {
+        element.From = (element.From.replace('Z', ''));
+        element.To = (element.To.replace('Z', ''));
         var current = new Date(element.From);
         if (current < begin) {
             current = new Date(begin);
@@ -208,6 +216,7 @@ function setMonthly(group, data, hash, begin, end, calendarSuffix) {
             hash,
             element,
             current,
+            language,
             calendarSuffix);
         if (element.To !== undefined) {
             current.setDate(current.getDate() + 1);
@@ -224,6 +233,7 @@ function setMonthly(group, data, hash, begin, end, calendarSuffix) {
                     hash,
                     element,
                     current,
+                    language,
                     calendarSuffix,
                     current.getDay() !== 1,
                     rank);
@@ -285,8 +295,7 @@ function Rank(hash, id) {
     return hash[id];
 }
 
-function addItem(group, hash, element, current, calendarSuffix, sub, rank, yearly) {
-
+function addItem(group, hash, element, current, language, calendarSuffix, sub, rank, yearly) {
     var id = $p.shortDateString(current);
     var groupSelector = (group === undefined)
         ? ''
@@ -349,9 +358,9 @@ function addItem(group, hash, element, current, calendarSuffix, sub, rank, yearl
         })
         .addClass(sub ? 'sub' : '')
         .attr('title', htmlEncode(element.Title) + ' -- ' +
-            $p.dateTimeString(new Date(element.From)) +
+        $p.dateTimeFormatString(new Date(element.From.replace('Z', '')), language) +
             (element.To !== undefined && element.To !== element.From
-                ? ' - ' + $p.dateTimeString(new Date(element.To))
+            ? ' - ' + $p.dateTimeFormatString(new Date(element.To.replace('Z', '')), language)
                 : ''))
         .append($('<span />').addClass('ui-icon ui-icon-pencil'))
         .append((element.Time !== undefined
@@ -404,12 +413,8 @@ function margeTime(date, dateTime) {
         dateTime.getSeconds();
 }
 
-function setFullCalendar(calendarSuffix, calendarEl) {
-    var language = $('#Language').val();
+function setFullCalendar(calendarSuffix, calendarEl, language) {
     var supportedLanguages = ['en', 'zh', 'ja', 'de', 'ko', 'es', 'vi'];
-    if (language === 'vn') {
-        language = 'vi';
-    }
     $('#FullCalendar' + calendarSuffix).css('clear', 'both');
     let calendarMiddle = new Date();
     if ($('#CalendarStart' + calendarSuffix).val() !== '') {
@@ -444,9 +449,9 @@ function setFullCalendar(calendarSuffix, calendarEl) {
                 endDate.setDate(endDate.getDate() - 1);
             }
             eventElement.attr('title', htmlEncode(info.event.title) + ' -- ' +
-                $p.dateTimeString(new Date(info.event.start)) +
+                $p.dateTimeFormatString(new Date(info.event.start), language) +
                 (info.event.end !== null && endDate.toLocaleString() !== info.event.start.toLocaleString()
-                    ? ' - ' + $p.dateTimeString(new Date(endDate))
+                ? ' - ' + $p.dateTimeFormatString(new Date(endDate), language)
                     : ''))
                 + htmlEncode(info.event.title);
             if (info.event.extendedProps.StatusHtml) {
@@ -482,17 +487,21 @@ $p.setCalendar = function (suffix) {
     if (suffix) {
         calendarElArr = $('#MainForm').find('div[id$="Calendar_' + suffix + '"].calendar-container').get();
     }
+    var language = $('#Language').val();
+    if (language === 'vn') {
+        language = 'vi';
+    }
     $(calendarElArr).each(function (index, value) {
         var calendarSuffix = value.id.substring(value.id.indexOf('_'));
         calendarSuffix = calendarSuffix.indexOf('_') === -1 ? '' : calendarSuffix;
 
         if ($('#CalendarType' + calendarSuffix).val() == 'FullCalendar') {
-            setFullCalendar(calendarSuffix, value);
+            setFullCalendar(calendarSuffix, value, language);
         } else {
             $('#Calendar' + calendarSuffix + ' .container > div > div:not(.day)').remove();
             var data = JSON.parse($('#CalendarJson' + calendarSuffix).val());
             data.forEach(function (element) {
-                setCalendarGroup(element.group, element.items, calendarSuffix);
+                setCalendarGroup(element.group, element.items, language, calendarSuffix);
             });
             $('#CalendarBody' + calendarSuffix).addClass('no-drag');
         }
