@@ -139,9 +139,9 @@ namespace Implem.Pleasanter.Libraries.Extensions
         public static bool Matched(this string value, Context context, Column column, string condition)
         {
             var param = GetMatchedParam(
-                    context: context,
-                    column: column,
-                    condition: condition);
+                context: context,
+                column: column,
+                condition: condition);
             if (column.HasChoices())
             {
                 if (column.MultipleSelections == true)
