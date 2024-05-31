@@ -220,13 +220,25 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
             {
                 return tableIndex.ColumnCollection
                     .Where(o => o.No > 0)
-                    .Select(o => $"\"{o.ColumnName}\"{(setOrderType ? $" {o.OrderType}" : string.Empty)}")
+                    .Select(o => $"\"{o.ColumnName}\"{GetSmallKeyLength(o.ColumnName, columnDefinitionCollection)}{(setOrderType ? $" {o.OrderType}" : string.Empty)}")
                     .Join(", ");
             }
             else
             {
                 return string.Empty;
             }
+        }
+        private static string GetSmallKeyLength(string columnName, IEnumerable<ColumnDefinition> columnDefinitionCollection)
+        {
+            if (Parameters.Rds.Dbms != "MySQL") { return string.Empty; }
+            ColumnDefinition columnDefinition = columnDefinitionCollection
+                .Where(o => o.ColumnName == columnName)
+                .Where(o => o.TypeName == "nvarchar")
+                .Where(o => o.MaxLength == 1024)
+                .FirstOrDefault();
+            if (columnDefinition == null) { return string.Empty; }
+            //MySQLでtext型カラムをIndexに指定している場合に、key lengthの記述を追加する。
+            return "(512)";
         }
 
         internal static void CreatePk(

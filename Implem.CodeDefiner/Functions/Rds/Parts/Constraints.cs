@@ -46,12 +46,35 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
             IEnumerable<ColumnDefinition> columnDefinitionCollection,
             string tableNameTemp = "")
         {
+            //SQLServerとPostgreSQLはCreateDefault / MySQLはCreateModifyがトレードオフ関係の処理
+            if (Parameters.Rds.Dbms == "MySQL") { return; }
             sqlStatement.CommandText = sqlStatement.CommandText.Replace(
                 "#Defaults#", columnDefinitionCollection
                     .Where(o => !o.Default.IsNullOrEmpty())
                     .Where(o => !(sourceTableName.EndsWith("_history") && o.ColumnName == "Ver"))
                     .Select(o => Sql_Create(factory, Def.Sql.CreateDefault, Strings.CoalesceEmpty(tableNameTemp, sourceTableName), o))
                     .JoinReturn());
+        }
+
+        private static string GetAutoIncrement(    // todo:Depts等複合主キーのテーブルへの対策が足りない。
+            ISqlObjectFactory factory,
+            string sourceTableName,
+            IEnumerable<ColumnDefinition> columnDefinitionCollection)
+        {
+            if (Parameters.Rds.Dbms != "MySQL") { return string.Empty; }
+            if (sourceTableName.EndsWith("_history") || sourceTableName.EndsWith("_deleted")) { return string.Empty; }
+            ColumnDefinition columnDefinition = columnDefinitionCollection
+                .Where(o => o.Identity == true)
+                .FirstOrDefault();
+            if (columnDefinition == null) { return string.Empty; }
+            //GenerateIdentityの代替として、MySQLではAutoIncrementを記述する
+            //PrimaryKey制約が付与されたカラムに指定しなければエラーが返却されるため、CreatePkの中で記述する
+            var newTypeName = factory.SqlDataType.Convert(columnDefinition.TypeName);
+            var isNullable = columnDefinition.Nullable
+                ? "null"
+                : "not null";
+            var seedValue = $"alter table \"{sourceTableName}\" auto_increment = {columnDefinition.Seed};";
+            return $"alter table \"{sourceTableName}\" modify column \"{columnDefinition.ColumnName}\" {newTypeName} auto_increment {isNullable};\r\n{seedValue}";
         }
 
         private static string Sql_Create(
