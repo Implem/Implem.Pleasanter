@@ -3202,10 +3202,18 @@ input[type="password"]::-ms-reveal {
     border: solid 1px silver;
     overflow: hidden;
     border-radius: 5px;
+.ui-multiselect-menu {
+    width: auto !important;
+    min-width: 225px;
+    max-width: 450px;
 }
 
 .ui-multiselect-checkboxes {
     min-height: 300px;
+}
+
+.ui-multiselect-checkboxes label {
+    white-space: nowrap;
 }
 
     .ui-multiselect-checkboxes input {
