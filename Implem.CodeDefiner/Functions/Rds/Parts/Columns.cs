@@ -88,22 +88,27 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
             ColumnDefinition columnDefinition,
             bool noIdentity)
         {
-            var commandText = "\"{0}\" {1}".Params(columnDefinition.ColumnName, columnDefinition.TypeName);
-            if (columnDefinition.MaxLength == -1)
+            var fullTypeText = columnDefinition.TypeName;
+            if (Parameters.Rds.Dbms == "MySQL" && !columnDefinition.TypeConvertMySQL.IsNullOrEmpty())
             {
-                commandText += "(max)";
+                fullTypeText = columnDefinition.TypeConvertMySQL;
+            }
+            else if (columnDefinition.MaxLength == -1)
+            {
+                fullTypeText += "(max)";
             }
             else if (columnDefinition.TypeName == "decimal")
             {
-                commandText += "(" + columnDefinition.Size + ")";
+                fullTypeText += "(" + columnDefinition.Size + ")";
             }
             else
             {
                 if (columnDefinition.MaxLength != 0)
                 {
-                    commandText += "({0})".Params(columnDefinition.MaxLength);
+                    fullTypeText += "({0})".Params(columnDefinition.MaxLength);
                 }
             }
+            var commandText = "\"{0}\" {1}".Params(columnDefinition.ColumnName, fullTypeText);
             //MySQLの場合はここではなくCreateModifyColumnで、identityに代えてauto_incrementを設定する。
             if (Parameters.Rds.Dbms != "MySQL" && !noIdentity && columnDefinition.Identity)
             {

@@ -2349,6 +2349,11 @@ namespace Implem.DefinitionAccessor
                                 data.ToString();
                             newColumnDefinition.SavedTypeName = newColumnDefinition.TypeName;
                             break;
+                        case "TypeConvertMySQL":
+                            newColumnDefinition.TypeConvertMySQL = customDefinitionRow.Get("TypeConvertMySQL")?.ToString() ??
+                                data.ToString();
+                            newColumnDefinition.SavedTypeConvertMySQL = newColumnDefinition.TypeConvertMySQL;
+                            break;
                         case "TypeCs":
                             newColumnDefinition.TypeCs = customDefinitionRow.Get("TypeCs")?.ToString() ??
                                 data.ToString();
@@ -2924,6 +2929,7 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("HistoryEnabled")) { definition.HistoryEnabled = definitionRow["HistoryEnabled"].ToBool(); definition.SavedHistoryEnabled = definition.HistoryEnabled; }
             if (definitionRow.ContainsKey("ExportColumn")) { definition.ExportColumn = definitionRow["ExportColumn"].ToBool(); definition.SavedExportColumn = definition.ExportColumn; }
             if (definitionRow.ContainsKey("TypeName")) { definition.TypeName = definitionRow["TypeName"].ToString(); definition.SavedTypeName = definition.TypeName; }
+            if (definitionRow.ContainsKey("TypeConvertMySQL")) { definition.TypeConvertMySQL = definitionRow["TypeConvertMySQL"].ToString(); definition.SavedTypeConvertMySQL = definition.TypeConvertMySQL; }
             if (definitionRow.ContainsKey("TypeCs")) { definition.TypeCs = definitionRow["TypeCs"].ToString(); definition.SavedTypeCs = definition.TypeCs; }
             if (definitionRow.ContainsKey("RecordingData")) { definition.RecordingData = definitionRow["RecordingData"].ToString(); definition.SavedRecordingData = definition.RecordingData; }
             if (definitionRow.ContainsKey("MaxLength")) { definition.MaxLength = definitionRow["MaxLength"].ToInt(); definition.SavedMaxLength = definition.MaxLength; }
@@ -5730,6 +5736,7 @@ namespace Implem.DefinitionAccessor
                         case "HistoryEnabled": columnDefinition.HistoryEnabled = optionValue.ToBool(); break;
                         case "ExportColumn": columnDefinition.ExportColumn = optionValue.ToBool(); break;
                         case "TypeName": columnDefinition.TypeName = optionValue.ToString(); break;
+                        case "TypeConvertMySQL": columnDefinition.TypeConvertMySQL = optionValue.ToString(); break;
                         case "TypeCs": columnDefinition.TypeCs = optionValue.ToString(); break;
                         case "RecordingData": columnDefinition.RecordingData = optionValue.ToString(); break;
                         case "MaxLength": columnDefinition.MaxLength = optionValue.ToInt(); break;
@@ -8467,6 +8474,7 @@ namespace Implem.DefinitionAccessor
         public bool HistoryEnabled; public bool SavedHistoryEnabled;
         public bool ExportColumn; public bool SavedExportColumn;
         public string TypeName; public string SavedTypeName;
+        public string TypeConvertMySQL; public string SavedTypeConvertMySQL;
         public string TypeCs; public string SavedTypeCs;
         public string RecordingData; public string SavedRecordingData;
         public int MaxLength; public int SavedMaxLength;
@@ -8608,6 +8616,7 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("HistoryEnabled")) HistoryEnabled = propertyCollection["HistoryEnabled"].ToBool(); else HistoryEnabled = false;
             if (propertyCollection.ContainsKey("ExportColumn")) ExportColumn = propertyCollection["ExportColumn"].ToBool(); else ExportColumn = false;
             if (propertyCollection.ContainsKey("TypeName")) TypeName = propertyCollection["TypeName"].ToString(); else TypeName = string.Empty;
+            if (propertyCollection.ContainsKey("TypeConvertMySQL")) TypeConvertMySQL = propertyCollection["TypeConvertMySQL"].ToString(); else TypeConvertMySQL = string.Empty;
             if (propertyCollection.ContainsKey("TypeCs")) TypeCs = propertyCollection["TypeCs"].ToString(); else TypeCs = string.Empty;
             if (propertyCollection.ContainsKey("RecordingData")) RecordingData = propertyCollection["RecordingData"].ToString(); else RecordingData = string.Empty;
             if (propertyCollection.ContainsKey("MaxLength")) MaxLength = propertyCollection["MaxLength"].ToInt(); else MaxLength = 0;
@@ -8749,6 +8758,7 @@ namespace Implem.DefinitionAccessor
                     case "HistoryEnabled": return HistoryEnabled;
                     case "ExportColumn": return ExportColumn;
                     case "TypeName": return TypeName;
+                    case "TypeConvertMySQL": return TypeConvertMySQL;
                     case "TypeCs": return TypeCs;
                     case "RecordingData": return RecordingData;
                     case "MaxLength": return MaxLength;
@@ -8890,6 +8900,7 @@ namespace Implem.DefinitionAccessor
             HistoryEnabled = SavedHistoryEnabled;
             ExportColumn = SavedExportColumn;
             TypeName = SavedTypeName;
+            TypeConvertMySQL = SavedTypeConvertMySQL;
             TypeCs = SavedTypeCs;
             RecordingData = SavedRecordingData;
             MaxLength = SavedMaxLength;
