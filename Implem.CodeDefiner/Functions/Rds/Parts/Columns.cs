@@ -104,6 +104,7 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
                     commandText += "({0})".Params(columnDefinition.MaxLength);
                 }
             }
+            //MySQLの場合はここではなくCreateModifyColumnで、identityに代えてauto_incrementを設定する。
             if (Parameters.Rds.Dbms != "MySQL" && !noIdentity && columnDefinition.Identity)
             {
                 commandText += factory.Sqls.GenerateIdentity.Params(columnDefinition.Seed == 0 ? 1 : columnDefinition.Seed);
@@ -117,6 +118,34 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
                 commandText += " not null";
             }
             return factory.SqlDataType.Convert(commandText);
+        }
+
+        internal static void CreateModifyColumn(
+            this SqlStatement sqlStatement,
+            ISqlObjectFactory factory,
+            string sourceTableName,
+            IEnumerable<ColumnDefinition> columnDefinitionCollection)
+        {
+            //MySQL専用のSQLコマンド文字列を生成する。
+            if (Parameters.Rds.Dbms != "MySQL") return;
+            sqlStatement.CommandText = sqlStatement.CommandText.Replace(
+                "#ModifyColumn#", columnDefinitionCollection
+                    .Where(o => !o.Default.IsNullOrEmpty() || o.Identity)
+                    .Select(o => Def.Sql.ModifyColumn
+                        .Replace("#ColumnDefinition#", Sql_Create(
+                            factory: factory,
+                            columnDefinition: o,
+                            noIdentity: false))
+                        .Replace("#Default#", !o.Default.IsNullOrEmpty() &&
+                            !(sourceTableName.EndsWith("_history") && o.ColumnName == "Ver")
+                                ? " default " + Constraints.DefaultDefinition(factory, o)
+                                : string.Empty)
+                        .Replace("#AutoIncrement#", o.Identity &&
+                            !sourceTableName.EndsWith("_history") &&
+                            !sourceTableName.EndsWith("_deleted")
+                                ? " auto_increment"
+                                : string.Empty))
+                    .JoinReturn());
         }
     }
 }

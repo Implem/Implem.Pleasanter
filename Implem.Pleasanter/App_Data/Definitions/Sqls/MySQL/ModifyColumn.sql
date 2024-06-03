@@ -1,0 +1,1 @@
+﻿alter table "#TableName#" modify column #ColumnDefinition##Default##AutoIncrement#;

@@ -13600,6 +13600,7 @@ namespace Implem.DefinitionAccessor
         public string RefreshAllChildMembers;
         public string LdapUpdateGroupMembersAndChildren;
         public string AdGroupDeleteToDisable;
+        public string ModifyColumn;
     }
 
     /// <summary>
@@ -13654,5 +13655,6 @@ namespace Implem.DefinitionAccessor
         public SqlDefinition CreateUserForPostgres = new SqlDefinition();
         public SqlDefinition ChangeDatabaseOwnerForPostgres = new SqlDefinition();
         public SqlDefinition GrantDatabaseForPostgres = new SqlDefinition();
+        public SqlDefinition ModifyColumn = new SqlDefinition();
     }
 }
