@@ -96,7 +96,6 @@
 /* 全体共通 */
 * {
     font-family: 'メイリオ', 'Meiryo', 'Hiragino Kaku Gothic ProN', 'ヒラギノ角ゴ ProN W3', sans-serif;
-    font-size: 13px;
 }
 
 a, a:link {
@@ -105,6 +104,7 @@ a, a:link {
 
 body {
     background-color: #333333;
+    font-size: 13px;
 }
 
 /* コンテンツ */
