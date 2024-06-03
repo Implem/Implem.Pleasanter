@@ -31,7 +31,10 @@ namespace Implem.Pleasanter.Libraries.Server
                 }
                 Names[name].Add(id);
             }
-            Items.Add(new SiteNameTreeItem(id, parentId, type));
+            Items.Add(new SiteNameTreeItem(
+                id: id,
+                parentId: parentId,
+                type: type));
         }
 
         public long Find(long startId, string name)
@@ -41,15 +44,21 @@ namespace Implem.Pleasanter.Libraries.Server
             // 同一名称が無い場合は探索しないでそのまま返す
             if (nameIdList.Count == 1) return nameIdList[0];
             // キャッシュ内を探す
-            var cacheNode = FindCaches(name, startId);
+            var cacheNode = FindCaches(
+                name: name,
+                triggerId: startId);
             if (cacheNode.name != null)
             {
                 cacheNode.ticks = DateTime.UtcNow.Ticks;
                 return cacheNode.nameId;
             }
-            var triggerNode = SearchItem(startId);
+            var triggerNode = SearchItem(startId: startId);
             if (triggerNode == null) return -1;
-            var foundNode = FindSameLevel(nameIdList, triggerNode.ParentId, triggerNode.Id, false);
+            var foundNode = FindSameLevel(
+                nameIdList: nameIdList,
+                folderId: triggerNode.ParentId,
+                id: triggerNode.Id,
+                isUp: false);
             if (Caches.Count > 1024)
             {
                 Caches.RemoveAt(Caches.Select((v, index) => (v, index)).MinBy(v => v.v.ticks).index);
@@ -67,14 +76,14 @@ namespace Implem.Pleasanter.Libraries.Server
 
         private SiteNameTreeItem SearchItem(long startId)
         {
-            var idx = Items.BinarySearch(SiteNameTreeItem.SearchKey(startId));
+            var idx = Items.BinarySearch(SiteNameTreeItem.SearchKey(id: startId));
             return (idx >= 0) ? Items[idx] : null;
         }
 
-        private SiteNameTreeItem FindSameLevel(List<long> nameIdList, long folderId, long Id, bool isUp)
+        private SiteNameTreeItem FindSameLevel(List<long> nameIdList, long folderId, long id, bool isUp)
         {
             // 自分と同じ階層を探索(OrderByは自分を一番に調べる為)
-            var sameLevel = Items.Where(v => v.ParentId == folderId).OrderBy((p) => p.Id == Id ? -1 : p.Id).ToArray();
+            var sameLevel = Items.Where(v => v.ParentId == folderId).OrderBy((p) => p.Id == id ? -1 : p.Id).ToArray();
             var foundNode = sameLevel.FirstOrDefault(v1 => nameIdList.Any(v2 => v2 == v1.Id));
             if (foundNode != null)
             {
@@ -83,15 +92,23 @@ namespace Implem.Pleasanter.Libraries.Server
             // 自分より下の階層を探索
             foreach (var item in sameLevel.Where(v => v.Type == SiteNameTreeItem.SiteType.Folder))
             {
-                if (Id == item.Id && isUp) continue;
-                var sameFolder = FindSameLevel(nameIdList, item.Id, -1, false);
+                if (id == item.Id && isUp) continue;
+                var sameFolder = FindSameLevel(
+                    nameIdList: nameIdList,
+                    folderId: item.Id,
+                    id: -1,
+                    isUp: false);
                 if (sameFolder != null) return sameFolder;
             }
             // 自分より上の階層を探索
-            if (!isUp && Id == -1) return null;
-            var parentNode = SearchItem(folderId);
+            if (!isUp && id == -1) return null;
+            var parentNode = SearchItem(startId: folderId);
             return (parentNode != null)
-                    ? FindSameLevel(nameIdList, parentNode.ParentId, parentNode.Id, true)
+                    ? FindSameLevel(
+                        nameIdList: nameIdList,
+                        folderId: parentNode.ParentId,
+                        id: parentNode.Id,
+                        isUp: true)
                     : null;
         }
     }
@@ -139,7 +156,10 @@ namespace Implem.Pleasanter.Libraries.Server
 
         public static SiteNameTreeItem SearchKey(long id)
         {
-            return new SiteNameTreeItem(id, 0, SiteType.Results);
+            return new SiteNameTreeItem(
+                id: id,
+                parentId: 0,
+                type: SiteType.Results);
         }
 
         int IComparable<SiteNameTreeItem>.CompareTo(SiteNameTreeItem other)
@@ -149,9 +169,9 @@ namespace Implem.Pleasanter.Libraries.Server
 
         public override bool Equals(object obj)
         {
-            return obj is SiteNameTreeItem item &&
-                   Id == item.Id &&
-                   ParentId == item.ParentId;
+            return obj is SiteNameTreeItem item
+                && Id == item.Id
+                && ParentId == item.ParentId;
         }
 
         public override int GetHashCode()
