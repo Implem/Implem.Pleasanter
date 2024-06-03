@@ -1664,7 +1664,7 @@ body#login #MainContainer #Application #PortalLink{
     padding-right: 0;
 }
 
-#Logins div #Tenant select {
+#Logins div #Tenants select {
     height: 48px;
     border: 1px solid #CECECE;
     border-radius: 4px;
