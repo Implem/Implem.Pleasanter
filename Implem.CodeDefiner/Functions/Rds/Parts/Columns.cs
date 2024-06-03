@@ -128,21 +128,28 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
         {
             //MySQL専用のSQLコマンド文字列を生成する。
             if (Parameters.Rds.Dbms != "MySQL") return;
+            bool needsDefault(ColumnDefinition o) {
+                return !o.Default.IsNullOrEmpty() &&
+                    !(sourceTableName.EndsWith("_history") && o.ColumnName == "Ver");
+            }
+            bool needsAutoIncrement(ColumnDefinition o)
+            {
+                return o.Identity &&
+                    !sourceTableName.EndsWith("_history") &&
+                    !sourceTableName.EndsWith("_deleted");
+            }
             sqlStatement.CommandText = sqlStatement.CommandText.Replace(
                 "#ModifyColumn#", columnDefinitionCollection
-                    .Where(o => !o.Default.IsNullOrEmpty() || o.Identity)
+                    .Where(o => needsDefault(o) || needsAutoIncrement(o))
                     .Select(o => Def.Sql.ModifyColumn
                         .Replace("#ColumnDefinition#", Sql_Create(
                             factory: factory,
                             columnDefinition: o,
                             noIdentity: false))
-                        .Replace("#Default#", !o.Default.IsNullOrEmpty() &&
-                            !(sourceTableName.EndsWith("_history") && o.ColumnName == "Ver")
+                        .Replace("#Default#", needsDefault(o)
                                 ? " default " + Constraints.DefaultDefinition(factory, o)
                                 : string.Empty)
-                        .Replace("#AutoIncrement#", o.Identity &&
-                            !sourceTableName.EndsWith("_history") &&
-                            !sourceTableName.EndsWith("_deleted")
+                        .Replace("#AutoIncrement#", needsAutoIncrement(o)
                                 ? " auto_increment"
                                 : string.Empty))
                     .JoinReturn());
