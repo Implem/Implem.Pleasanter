@@ -3234,9 +3234,9 @@ input[type="password"]::-ms-reveal {
     white-space: nowrap;
 }
 
-    .ui-multiselect-checkboxes input {
-        margin: 0px 5px;
-    }
+.ui-multiselect-checkboxes input {
+    margin: 0px 5px;
+}
 
 .ui-corner-all.ui-state-hover {
     border-radius: 2px;
