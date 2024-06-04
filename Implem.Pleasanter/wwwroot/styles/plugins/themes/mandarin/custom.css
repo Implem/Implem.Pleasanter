@@ -92,17 +92,14 @@
 }
 
 /* 全体共通 */
-* {
-    font-family: 'メイリオ', 'Meiryo', 'Hiragino Kaku Gothic ProN', 'ヒラギノ角ゴ ProN W3', sans-serif;
-}
-
 a, a:link {
     color: #666666;
 }
 
-body {
+html body {
     background-color: #E7E7E7;
     font-size: 13px;
+    font-family: 'メイリオ', 'Meiryo', 'Hiragino Kaku Gothic ProN', 'ヒラギノ角ゴ ProN W3', sans-serif;
 }
 
 /* コンテンツ */
