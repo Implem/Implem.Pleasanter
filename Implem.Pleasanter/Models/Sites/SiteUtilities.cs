@@ -17177,7 +17177,8 @@ namespace Implem.Pleasanter.Models
             var startCanRead = context.CanRead(
                 ss: SiteSettingsUtilities.Get(
                     context: context,
-                    siteId: id),
+                    siteId: id,
+                    referenceId: id),
                 site: true);
             var tenantCache = SiteInfo.TenantCaches[context.TenantId];
             foreach (var siteName in findSiteNames)
