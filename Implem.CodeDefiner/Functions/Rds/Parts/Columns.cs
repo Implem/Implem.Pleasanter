@@ -75,9 +75,8 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
             var sqlCreateColumnCollection = new List<string>();
             columnDefinitionCollection.ForEach(columnDefinition =>
                 sqlCreateColumnCollection.Add(Sql_Create(
-                    factory: factory,
-                    sourceTableName: sourceTableName,
-                    columnDefinition: columnDefinition,
+                    factory,
+                    columnDefinition,
                     noIdentity:
                         sourceTableName.EndsWith("_history")
                         || sourceTableName.EndsWith("_deleted"))));
@@ -87,21 +86,17 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
 
         private static string Sql_Create(
             ISqlObjectFactory factory,
-            string sourceTableName,
             ColumnDefinition columnDefinition,
             bool noIdentity)
         {
             bool NeedReduce()
             {
                 if (!columnDefinition.Default.IsNullOrEmpty()) return true;
+                //_deleteおよび_historyでデータ型の差異が生じないよう通常テーブルのIndex情報を参照する
                 foreach (IndexInfo i in Indexes.IndexInfoCollection(
                     factory: factory,
-                    generalTableName: sourceTableName
-                        .Replace("_deleted", "")
-                        .Replace("_history", ""),
-                    sourceTableName: sourceTableName
-                        .Replace("_deleted", "")
-                        .Replace("_history", ""),
+                    generalTableName: columnDefinition.TableName,
+                    sourceTableName: columnDefinition.TableName,
                     tableType: TableTypes.Normal))
                 {
                     foreach (IndexInfo.Column c in i.ColumnCollection)
@@ -176,7 +171,6 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
                     .Select(o => Def.Sql.ModifyColumn
                         .Replace("#ColumnDefinition#", Sql_Create(
                             factory: factory,
-                            sourceTableName: sourceTableName,
                             columnDefinition: o,
                             noIdentity: false))
                         .Replace("#Default#", NeedsDefault(o)
