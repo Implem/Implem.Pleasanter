@@ -1361,25 +1361,28 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         {
             if (siteName.IsNullOrEmpty()) return null;
             var startId = id ?? context.SiteId;
-            var startSs = SiteSettingsUtilities.Get(
-                context: context,
-                siteId: startId);
-            if (!context.CanRead(ss: startSs)) return null;
+            if (context.CanRead(
+                ss: SiteSettingsUtilities.Get(
+                    context: context,
+                    siteId: startId,
+                    referenceId: startId),
+                site: true) == false) return null;
             var tenantCache = SiteInfo.TenantCaches[context.TenantId];
             var findId = tenantCache.SiteNameTree.Find(
                 startId: startId,
                 name: siteName);
             if (findId == -1) return null;
-            var findSs = SiteSettingsUtilities.Get(
-                context: context,
-                siteId: findId);
-            if (!context.CanRead(ss: findSs)) return null;
-            var ret = GetSite(
+            if (context.CanRead(
+                ss: SiteSettingsUtilities.Get(
+                    context: context,
+                    siteId: findId,
+                    referenceId: findId),
+                site: true) == false) return null;
+            return GetSite(
                 context: context,
                 id: findId,
                 apiRequestBody: string.Empty)
                     .FirstOrDefault();
-            return ret;
         }
 
         public static bool Create(Context context, long id, object model)
