@@ -17,7 +17,7 @@
     "TypeCs": "Time",
     "RecordingData": ".Value",
     "Ix1": "1",
-    "Ix1Orderby": "desc",
+    "Ix1OrderBy": "desc",
     "Default": "now",
     "DefaultCs": "null",
     "Required": "1",

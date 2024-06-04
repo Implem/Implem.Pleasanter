@@ -1,1 +1,1 @@
-﻿select indexname as "Name" from pg_indexes where tablename='#TableName#';
+﻿select index_name from information_schema.statistics where table_name = '#TableName#';

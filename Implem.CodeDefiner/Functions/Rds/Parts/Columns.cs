@@ -168,7 +168,7 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
             string SetSeed(ColumnDefinition o)
             {
                 var seed = o.Seed == 0 ? 1 : o.Seed;
-                return $"alter table \"#TableName#\" auto_increment = {seed};";
+                return $"\r\nalter table \"#TableName#\" auto_increment = {seed};";
             }
             sqlStatement.CommandText = sqlStatement.CommandText.Replace(
                 "#ModifyColumn#", columnDefinitionCollection

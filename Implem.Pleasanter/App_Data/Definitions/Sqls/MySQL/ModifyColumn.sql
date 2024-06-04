@@ -1,2 +1,1 @@
-﻿alter table "#TableName#" modify column #ColumnDefinition##Default##AutoIncrement#;
-#SetSeed#;
+﻿alter table "#TableName#" modify column #ColumnDefinition##Default##AutoIncrement#;#SetSeed#
