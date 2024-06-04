@@ -531,6 +531,7 @@ namespace Implem.Pleasanter.Libraries.Server
                 sites.AddOrUpdate(dataRow.Long("SiteId"), dataRow);
             }
             tenantCache.Sites = sites;
+            tenantCache.SiteNameTree = new SiteNameTree(sites);
         }
 
         private static void SetSiteMenu(Context context, TenantCache tenantCache, EnumerableRowCollection<DataRow> dataRows)
@@ -631,6 +632,7 @@ namespace Implem.Pleasanter.Libraries.Server
                 sites.Add(data.Key, data.Value));
             sites.RemoveAll((key, value) => siteIds.Contains(key));
             tenantCache.Sites = sites;
+            tenantCache.SiteNameTree = new SiteNameTree(sites);
         }
 
         private static void DeleteSiteMenu(TenantCache tenantCache, List<long> siteIds)
