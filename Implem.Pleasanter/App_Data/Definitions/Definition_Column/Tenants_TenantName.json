@@ -9,7 +9,6 @@
     "History": "101",
     "TypeName": "nvarchar",
     "MaxLength": "1024",
-    "TypeConvertMySQL": "varchar(760)",
     "Ix1": "1",
     "Like": "1",
     "Required": "1",

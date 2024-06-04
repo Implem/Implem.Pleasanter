@@ -25,7 +25,6 @@
     "HistoryEnabled": "bool",
     "ExportColumn": "bool",
     "TypeName": "string",
-    "TypeConvertMySQL": "string",
     "TypeCs": "string",
     "RecordingData": "string",
     "MaxLength": "int",

@@ -9,7 +9,6 @@
     "History": "111",
     "TypeName": "nvarchar",
     "MaxLength": "1024",
-    "TypeConvertMySQL": "varchar(760)",
     "Default": "[ProductName]",
     "Like": "1",
     "Required": "1",
