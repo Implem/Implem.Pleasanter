@@ -672,12 +672,23 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
             switch (context.Action)
             {
-                case "index":
-                    return false;
-                case "dashboardpart":
-                    return false;
-                default:
+                case "copy":
+                case "delete":
+                case "deletecomment":
+                case "deletehistory":
+                case "edit":
+                case "histories":
+                case "history":
+                case "permissions":
+                case "restore":
+                case "restorefromhistory":
+                case "searchdropdown":
+                case "selectsearchdropdown":
+                case "setsitesettings":
+                case "update":
                     return true;
+                default:
+                    return false;
             }
         }
 
