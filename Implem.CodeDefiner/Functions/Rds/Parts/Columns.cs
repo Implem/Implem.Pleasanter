@@ -165,6 +165,11 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
                     !sourceTableName.EndsWith("_history") &&
                     !sourceTableName.EndsWith("_deleted");
             }
+            string SetSeed(ColumnDefinition o)
+            {
+                var seed = o.Seed == 0 ? 1 : o.Seed;
+                return $"alter table \"#TableName#\" auto_increment = {seed};";
+            }
             sqlStatement.CommandText = sqlStatement.CommandText.Replace(
                 "#ModifyColumn#", columnDefinitionCollection
                     .Where(o => NeedsDefault(o) || NeedsAutoIncrement(o))
@@ -178,6 +183,9 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
                                 : string.Empty)
                         .Replace("#AutoIncrement#", NeedsAutoIncrement(o)
                                 ? " auto_increment"
+                                : string.Empty)
+                        .Replace("#SetSeed#", NeedsAutoIncrement(o)
+                                ? SetSeed(o)
                                 : string.Empty))
                     .JoinReturn());
         }
