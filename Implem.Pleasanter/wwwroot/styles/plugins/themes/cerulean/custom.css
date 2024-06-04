@@ -92,17 +92,14 @@
 }
 
 /* 全体共通 */
-* {
-    font-family: 'メイリオ', 'Meiryo', 'Hiragino Kaku Gothic ProN', 'ヒラギノ角ゴ ProN W3', sans-serif;
-    font-size: 13px;
-}
-
 a, a:link {
     color: #106EBE;
 }
 
-body {
+html body {
     background-color: #E7E7E7;
+    font-size: 13px;
+    font-family: 'メイリオ', 'Meiryo', 'Hiragino Kaku Gothic ProN', 'ヒラギノ角ゴ ProN W3', sans-serif;
 }
 
 /* コンテンツ */
@@ -1664,7 +1661,7 @@ body#login #MainContainer #Application #PortalLink{
     padding-right: 0;
 }
 
-#Logins div #Tenant select {
+#Logins div #Tenants select {
     height: 48px;
     border: 1px solid #CECECE;
     border-radius: 4px;
@@ -1774,10 +1771,24 @@ body#login #MainContainer #Application #PortalLink{
 #CalendarBody tbody {
     background-color: #fff;
 }
-}
 
 .fieldset .generate-password,
 .ui-dialog .generate-password {
     color: #666666;
     font-weight: lighter;
+}
+
+.md {
+    h1{
+        font-size: 2em;
+    }
+    h2 {
+        font-size: 1.5em;
+    }
+    h3 {
+        font-size: 1.17em;
+    }
+    strong{
+        font-size: inherit;
+    }
 }
