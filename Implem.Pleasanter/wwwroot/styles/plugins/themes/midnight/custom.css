@@ -1293,6 +1293,11 @@ table.grid tbody td > input {
     background-color: #FFF9E3;
 }
 
+#Application #ReduceGuides .ui-icon,
+#Application #ExpandGuides .ui-icon{
+    background-image: url("images/ui-icons_3d3d3d_256x240.png");
+}
+
 #HeaderTitleContainer #HeaderTitle {
     font-size: 16px;
     color: #FFFFFF;
@@ -1776,7 +1781,7 @@ section.accordion {
     cursor: pointer;
 }
 
-.menulabel::before {
+label.menulabel::before {
     content: "";
     width: 6px;
     height: 6px;
@@ -1825,7 +1830,7 @@ section.accordion {
     width: 52px;
 }
 
-.menubox label {
+.menubox .menulabel {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -1837,8 +1842,15 @@ section.accordion {
     background-color: #333333;
 }
 
-.menubox label span:first-child {
-    padding: 10px;
+.menubox .menulabel span:first-child {
+    width: 52px;
+    height: 52px;
+    justify-content: center;
+}
+
+.menubox .menulabel span:first-child img{
+    width: initial;
+    margin: auto;
 }
 
 .menubox-sub {
@@ -1866,6 +1878,28 @@ section.accordion {
 .menubox label span {
     display: flex;
     align-items: center;
+}
+
+.menubox-sub .sub-menu .sub-menu > ul {
+    margin-bottom: 15px;
+}
+
+.menubox-sub .sub-menu .sub-menu > ul li {
+    padding-left: 52px;
+}
+
+.menubox-sub .sub-menu .sub-menu > ul > li > a {
+    position: relative;
+    padding: 3px 1.5em;
+    font-size: 12px;
+    word-break: break-all;
+}
+
+.menubox-sub .sub-menu .sub-menu > ul > li > a::before {
+    position: absolute;
+    top: 3px;
+    left: 0;
+    content: '・';
 }
 
 /* ログイン画面 */
