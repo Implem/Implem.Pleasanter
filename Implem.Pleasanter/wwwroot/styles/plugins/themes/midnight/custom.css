@@ -1293,6 +1293,11 @@ table.grid tbody td > input {
     background-color: #FFF9E3;
 }
 
+#Application #ReduceGuides .ui-icon,
+#Application #ExpandGuides .ui-icon{
+    background-image: url("images/ui-icons_3d3d3d_256x240.png");
+}
+
 #HeaderTitleContainer #HeaderTitle {
     font-size: 16px;
     color: #FFFFFF;
