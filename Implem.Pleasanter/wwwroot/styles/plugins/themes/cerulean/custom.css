@@ -1774,10 +1774,24 @@ body#login #MainContainer #Application #PortalLink{
 #CalendarBody tbody {
     background-color: #fff;
 }
-}
 
 .fieldset .generate-password,
 .ui-dialog .generate-password {
     color: #666666;
     font-weight: lighter;
+}
+
+.md {
+    h1{
+        font-size: 2em;
+    }
+    h2 {
+        font-size: 1.5em;
+    }
+    h3 {
+        font-size: 1.17em;
+    }
+    strong{
+        font-size: inherit;
+    }
 }
