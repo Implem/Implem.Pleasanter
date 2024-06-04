@@ -1961,8 +1961,20 @@ body#login #MainContainer #Application #PortalLink{
     border: solid 1px #f00;
 }
 
-#Logins div #Tenants {
+#Logins div #Tenants:empty {
     display: none;
+}
+
+#Logins div #Tenants.field-wide {
+    padding-right: 0;
+}
+
+#Logins div #Tenants select {
+    height: 48px;
+    border: 1px solid #CECECE;
+    border-radius: 4px;
+    padding: 4px 20px;
+    font-size: 16px;
 }
 
 #Logins #SsoLogin .ssoLoginMessage {
