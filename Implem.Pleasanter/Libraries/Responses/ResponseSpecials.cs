@@ -100,6 +100,30 @@ namespace Implem.Pleasanter.Libraries.Responses
         }
     }
 
+    public class ExportSettingsResponseCollection : ResponseCollection
+    {
+        public ExportSettingModel ExportSettingModel;
+
+        public ExportSettingsResponseCollection(
+            Context context,
+            ExportSettingModel exportSettingModel) : base(context: context)
+        {
+            ExportSettingModel = exportSettingModel;
+        }
+
+        public ExportSettingsResponseCollection Val(string selector, string value)
+        {
+            base.Val(selector, value);
+            return this;
+        }
+
+        public ExportSettingsResponseCollection ValAndFormData(string selector, string value)
+        {
+            base.ValAndFormData(selector, value);
+            return this;
+        }
+    }
+
     public class ExtensionsResponseCollection : ResponseCollection
     {
         public ExtensionModel ExtensionModel;
@@ -1728,6 +1752,446 @@ namespace Implem.Pleasanter.Libraries.Responses
             this DeptsResponseCollection res, Context context, string value)
         {
             return res.ValAndFormData("#Depts_Timestamp", value);
+        }
+
+        public static ExportSettingsResponseCollection ReferenceType(
+            this ExportSettingsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#ExportSettings_ReferenceType",
+                res.ExportSettingModel.ReferenceType.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "ReferenceType")));
+        }
+
+        public static ExportSettingsResponseCollection ReferenceType(
+            this ExportSettingsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#ExportSettings_ReferenceType", value);
+        }
+
+        public static ExportSettingsResponseCollection ReferenceType_FormData(
+            this ExportSettingsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#ExportSettings_ReferenceType",
+                res.ExportSettingModel.ReferenceType.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "ReferenceType")));
+        }
+
+        public static ExportSettingsResponseCollection ReferenceType_FormData(
+            this ExportSettingsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#ExportSettings_ReferenceType", value);
+        }
+
+        public static ExportSettingsResponseCollection ReferenceId(
+            this ExportSettingsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#ExportSettings_ReferenceId",
+                res.ExportSettingModel.ReferenceId.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "ReferenceId")));
+        }
+
+        public static ExportSettingsResponseCollection ReferenceId(
+            this ExportSettingsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#ExportSettings_ReferenceId", value);
+        }
+
+        public static ExportSettingsResponseCollection ReferenceId_FormData(
+            this ExportSettingsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#ExportSettings_ReferenceId",
+                res.ExportSettingModel.ReferenceId.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "ReferenceId")));
+        }
+
+        public static ExportSettingsResponseCollection ReferenceId_FormData(
+            this ExportSettingsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#ExportSettings_ReferenceId", value);
+        }
+
+        public static ExportSettingsResponseCollection Title(
+            this ExportSettingsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#ExportSettings_Title",
+                res.ExportSettingModel.Title.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Title")));
+        }
+
+        public static ExportSettingsResponseCollection Title(
+            this ExportSettingsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#ExportSettings_Title", value);
+        }
+
+        public static ExportSettingsResponseCollection Title_FormData(
+            this ExportSettingsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#ExportSettings_Title",
+                res.ExportSettingModel.Title.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Title")));
+        }
+
+        public static ExportSettingsResponseCollection Title_FormData(
+            this ExportSettingsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#ExportSettings_Title", value);
+        }
+
+        public static ExportSettingsResponseCollection ExportSettingId(
+            this ExportSettingsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#ExportSettings_ExportSettingId",
+                res.ExportSettingModel.ExportSettingId.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "ExportSettingId")));
+        }
+
+        public static ExportSettingsResponseCollection ExportSettingId(
+            this ExportSettingsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#ExportSettings_ExportSettingId", value);
+        }
+
+        public static ExportSettingsResponseCollection ExportSettingId_FormData(
+            this ExportSettingsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#ExportSettings_ExportSettingId",
+                res.ExportSettingModel.ExportSettingId.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "ExportSettingId")));
+        }
+
+        public static ExportSettingsResponseCollection ExportSettingId_FormData(
+            this ExportSettingsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#ExportSettings_ExportSettingId", value);
+        }
+
+        public static ExportSettingsResponseCollection Ver(
+            this ExportSettingsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#ExportSettings_Ver",
+                res.ExportSettingModel.Ver.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Ver")));
+        }
+
+        public static ExportSettingsResponseCollection Ver(
+            this ExportSettingsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#ExportSettings_Ver", value);
+        }
+
+        public static ExportSettingsResponseCollection Ver_FormData(
+            this ExportSettingsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#ExportSettings_Ver",
+                res.ExportSettingModel.Ver.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Ver")));
+        }
+
+        public static ExportSettingsResponseCollection Ver_FormData(
+            this ExportSettingsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#ExportSettings_Ver", value);
+        }
+
+        public static ExportSettingsResponseCollection AddHeader(
+            this ExportSettingsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#ExportSettings_AddHeader",
+                res.ExportSettingModel.AddHeader.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "AddHeader")));
+        }
+
+        public static ExportSettingsResponseCollection AddHeader(
+            this ExportSettingsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#ExportSettings_AddHeader", value);
+        }
+
+        public static ExportSettingsResponseCollection AddHeader_FormData(
+            this ExportSettingsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#ExportSettings_AddHeader",
+                res.ExportSettingModel.AddHeader.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "AddHeader")));
+        }
+
+        public static ExportSettingsResponseCollection AddHeader_FormData(
+            this ExportSettingsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#ExportSettings_AddHeader", value);
+        }
+
+        public static ExportSettingsResponseCollection Comments(
+            this ExportSettingsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#ExportSettings_Comments",
+                res.ExportSettingModel.Comments.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Comments")));
+        }
+
+        public static ExportSettingsResponseCollection Comments(
+            this ExportSettingsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#ExportSettings_Comments", value);
+        }
+
+        public static ExportSettingsResponseCollection Comments_FormData(
+            this ExportSettingsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#ExportSettings_Comments",
+                res.ExportSettingModel.Comments.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Comments")));
+        }
+
+        public static ExportSettingsResponseCollection Comments_FormData(
+            this ExportSettingsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#ExportSettings_Comments", value);
+        }
+
+        public static ExportSettingsResponseCollection CreatedTime(
+            this ExportSettingsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#ExportSettings_CreatedTime",
+                res.ExportSettingModel.CreatedTime.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "CreatedTime")));
+        }
+
+        public static ExportSettingsResponseCollection CreatedTime(
+            this ExportSettingsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#ExportSettings_CreatedTime", value);
+        }
+
+        public static ExportSettingsResponseCollection CreatedTime_FormData(
+            this ExportSettingsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#ExportSettings_CreatedTime",
+                res.ExportSettingModel.CreatedTime.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "CreatedTime")));
+        }
+
+        public static ExportSettingsResponseCollection CreatedTime_FormData(
+            this ExportSettingsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#ExportSettings_CreatedTime", value);
+        }
+
+        public static ExportSettingsResponseCollection UpdatedTime(
+            this ExportSettingsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#ExportSettings_UpdatedTime",
+                res.ExportSettingModel.UpdatedTime.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "UpdatedTime")));
+        }
+
+        public static ExportSettingsResponseCollection UpdatedTime(
+            this ExportSettingsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#ExportSettings_UpdatedTime", value);
+        }
+
+        public static ExportSettingsResponseCollection UpdatedTime_FormData(
+            this ExportSettingsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#ExportSettings_UpdatedTime",
+                res.ExportSettingModel.UpdatedTime.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "UpdatedTime")));
+        }
+
+        public static ExportSettingsResponseCollection UpdatedTime_FormData(
+            this ExportSettingsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#ExportSettings_UpdatedTime", value);
+        }
+
+        public static ExportSettingsResponseCollection Timestamp(
+            this ExportSettingsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#ExportSettings_Timestamp",
+                res.ExportSettingModel.Timestamp.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Timestamp")));
+        }
+
+        public static ExportSettingsResponseCollection Timestamp(
+            this ExportSettingsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#ExportSettings_Timestamp", value);
+        }
+
+        public static ExportSettingsResponseCollection Timestamp_FormData(
+            this ExportSettingsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#ExportSettings_Timestamp",
+                res.ExportSettingModel.Timestamp.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Timestamp")));
+        }
+
+        public static ExportSettingsResponseCollection Timestamp_FormData(
+            this ExportSettingsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#ExportSettings_Timestamp", value);
         }
 
         public static ExtensionsResponseCollection Ver(

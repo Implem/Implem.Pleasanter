@@ -128,6 +128,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "binaries": return BinariesSiteSettings(context: context);
                 case "demos": return DemosSiteSettings(context: context);
                 case "depts": return DeptsSiteSettings(context: context);
+                case "exportsettings": return ExportSettingsSiteSettings(context: context);
                 case "extensions": return ExtensionsSiteSettings(context: context);
                 case "groupchildren": return GroupChildrenSiteSettings(context: context);
                 case "groupmembers": return GroupMembersSiteSettings(context: context);
@@ -198,6 +199,17 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.SetLinks(context: context);
             ss.SetChoiceHash(context: context, withLink: false);
             ss.PermissionType = Permissions.Admins(context: context);
+            ss.TableType = tableTypes;
+            return ss;
+        }
+
+        public static SiteSettings ExportSettingsSiteSettings(Context context, Sqls.TableTypes tableTypes = Sqls.TableTypes.Normal)
+        {
+            var ss = new SiteSettings()
+            {
+                ReferenceType = "ExportSettings"
+            };
+            ss.Init(context: context);
             ss.TableType = tableTypes;
             return ss;
         }
