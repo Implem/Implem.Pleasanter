@@ -252,10 +252,18 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         private static HtmlBuilder Li(this HtmlBuilder hb, string href, string text)
         {
-            return hb.Li(css: "item", action: () => hb
-                .A(href: href, text: text)
-                .Span(css: "separator", action: () => hb
-                    .Text(text: ">")));
+            return hb.Li(
+                css: "item",
+                action: () => hb.A(
+                    href: href,
+                    dataName: text,
+                    action: () => hb.Span(
+                        css: "label",
+                        action: () => hb.Text(text: text))
+                )
+                .Span(
+                    css: "separator",
+                    action: () => hb.Text(text: ">")));
         }
 
         public static HtmlBuilder TrashBox(this HtmlBuilder hb, Context context, SiteSettings ss)
