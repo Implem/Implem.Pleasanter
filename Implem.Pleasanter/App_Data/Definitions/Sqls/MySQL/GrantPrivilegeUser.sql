@@ -1,1 +1,1 @@
-﻿grant select, insert, update, delete on all tables in schema "#SchemaName#" to "#Uid#";
+﻿grant select, insert, update, delete on "#ServiceName#".* to "#Uid#"@"localhost";

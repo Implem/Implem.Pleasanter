@@ -18,7 +18,7 @@ namespace Implem.CodeDefiner.Functions.Rds
                 TablesConfigurator.Configure(factory: factory);
                 if (Environments.RdsProvider == "Local")
                 {
-                    //PrivilegeConfigurator.Configure(factory: factory);
+                    PrivilegeConfigurator.Configure(factory: factory);
                 }
             }
             catch (System.Data.SqlClient.SqlException e)

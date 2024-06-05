@@ -1,1 +1,1 @@
-﻿alter role "#Uid#";
+﻿grant all on "#ServiceName#".* to "#Uid#"@"localhost";
