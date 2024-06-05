@@ -73,6 +73,17 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             return ret;
         }
 
+        public ServerScriptModelApiModel GetClosestSite(
+            object siteName,
+            object id = null)
+        {
+            var ret = ServerScriptUtilities.GetClosestSite(
+                context: Context,
+                id: id?.ToLong(),
+                siteName: siteName?.ToString() ?? string.Empty);
+            return ret;
+        }
+
         public ServerScriptModelApiModel New()
         {
             return NewIssue();
