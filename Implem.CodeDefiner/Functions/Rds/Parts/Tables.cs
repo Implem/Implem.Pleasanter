@@ -155,7 +155,8 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
                 factory: factory,
                 commandText: Def.Sql.ExistsTable
                     .Replace("#TableName#", sourceTableName)
-                    .Replace("#SchemaName#", factory.SqlDefinitionSetting.SchemaName))
+                    .Replace("#SchemaName#", factory.SqlDefinitionSetting.SchemaName)
+                    .Replace("#InitialCatalog#", Environments.ServiceName))
                 .Rows.Count == 1;
         }
 
