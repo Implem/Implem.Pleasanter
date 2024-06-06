@@ -1023,7 +1023,7 @@ namespace Implem.DefinitionAccessor
         {
             Environments.TimeZoneInfoDefault = TimeZoneInfo.GetSystemTimeZones()
                 .FirstOrDefault(o => o.Id == Parameters.Service.TimeZoneDefault)
-                ?? TimeZoneInfo.Utc;
+                    ?? TimeZoneInfo.Utc;
             Def.ColumnDefinitionCollection
                 .FirstOrDefault(o => o.Id == "Users_TimeZone").Default = Environments.TimeZoneInfoDefault.Id;
         }
