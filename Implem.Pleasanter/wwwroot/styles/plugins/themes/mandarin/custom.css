@@ -467,7 +467,7 @@ font-family: 'メイリオ', 'Meiryo', 'Hiragino Kaku Gothic ProN', 'ヒラギ�
 }
 
 .field-control .control-attachments-upload {
-    border: 2px dotted #EB9151;
+    border-color: #EB9151!important;
 }
 
 fieldset .command-left {
@@ -546,8 +546,16 @@ fieldset .command-left > button {
 }
 
 .field-control .container-normal .control-attachments-item {
-    border: 1px solid #EB9151;
+    border-color: #EB9151;
 }
+
+.field-control .container-normal .progress-bar {
+    border-color: #EB9151;
+    > div{
+        background-color: #EB9151;
+    }
+}
+
 
 .field-control .container-normal .already-attachments.preparation-delete {
     background-color: #ECECEC;
