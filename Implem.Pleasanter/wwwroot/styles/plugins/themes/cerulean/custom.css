@@ -272,7 +272,7 @@ nav.both.cf {
                     line-height: 1.5;
                     padding: 0;
                     background: rgba(0,0,0,.7);
-                    content: attr(data-name);
+                    content: attr(data-tooltip);
                     border-radius: 5px;
                 }
                 &::before,

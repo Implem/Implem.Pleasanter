@@ -257,7 +257,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 action: () => hb
                     .A(
                         href: href,
-                        dataName: text,
+                        dataTooltip: text,
                         action: () => hb.Span(
                             css: "label",
                             action: () => hb.Text(text: text)))
