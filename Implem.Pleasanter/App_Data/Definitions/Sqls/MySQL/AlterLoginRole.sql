@@ -1,1 +1,1 @@
-﻿select 1 as dummy;
+﻿alter user "#Uid#"@"localhost" identified by '#Pwd#';
