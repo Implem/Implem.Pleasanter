@@ -9,7 +9,6 @@ namespace Implem.MySql
             return name
                 .Replace("nchar", "char")
                 .Replace("nvarchar(max)", "longtext")
-                .Replace("nvarchar(1024)", "text")
                 .Replace("nvarchar", "varchar")
                 .Replace("bit", "tinyint(1)")
                 .Replace("image", "blob");
@@ -17,17 +16,14 @@ namespace Implem.MySql
 
         public string ConvertBack(string name)
         {
-            return name
-                .Replace("int4", "int")
-                .Replace("int8", "bigint")
-                .Replace("float8", "float")
-                .Replace("numeric", "decimal")
-                .Replace("bpchar", "nchar")
-                .Replace("varchar", "nvarchar")
-                .Replace("text", "nvarchar")
-                .Replace("bool", "bit")
-                .Replace("bytea", "image")
-                .Replace("timestamp", "datetime");
+            return name == "char"
+                ? "nchar"
+                : name
+                    .Replace("varchar", "nvarchar")
+                    .Replace("longtext", "nvarchar")
+                    .Replace("text", "nvarchar")
+                    .Replace("tinyint", "bit")
+                    .Replace("blob", "image");
         }
 
         public string DefaultDefinition(object dbRawValue)

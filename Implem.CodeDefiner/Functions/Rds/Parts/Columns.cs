@@ -54,6 +54,10 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
             {
                 return true;
             }
+            if (ColumnSize.HasChangesMySql(factory: factory, rdsColumn: rdsColumn, columnDefinition: columnDefinition))
+            {
+                return true;
+            }
             if (rdsColumn["is_nullable"].ToBool() != columnDefinition.Nullable)
             {
                 return true;
@@ -90,31 +94,15 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
             ColumnDefinition columnDefinition,
             bool noIdentity)
         {
-            bool NeedReduce()
-            {
-                if (!columnDefinition.Default.IsNullOrEmpty()) return true;
-                //_deleteおよび_historyでデータ型の差異が生じないよう通常テーブルのIndex情報を参照する
-                foreach (IndexInfo i in Indexes.IndexInfoCollection(
-                    factory: factory,
-                    generalTableName: columnDefinition.TableName,
-                    sourceTableName: columnDefinition.TableName,
-                    tableType: TableTypes.Normal))
-                {
-                    foreach (IndexInfo.Column c in i.ColumnCollection)
-                    {
-                        if (c.ColumnName == columnDefinition.ColumnName) return true;
-                    }
-                }
-                return false;
-            }
             var fullTypeText = columnDefinition.TypeName;
             if (Parameters.Rds.Dbms == "MySQL" &&
                 columnDefinition.TypeName == "nvarchar" &&
-                columnDefinition.MaxLength >= 1024 &&
-                NeedReduce())
+                columnDefinition.MaxLength >= 1024)
             {
-                //MySQLにおいてtext型を指定するとエラーになるカラムはvarchar(760)に変換する。
-                fullTypeText = "varchar(760)";
+                //MySQLにおいてtext型を指定するとエラーになる1024以上のカラムはvarchar(760)に変換する。
+                fullTypeText = NeedReduce(factory: factory, columnDefinition: columnDefinition)
+                    ? "varchar(760)"
+                    : "text";
             }
             else if (columnDefinition.MaxLength == -1)
             {
@@ -148,14 +136,32 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
             return factory.SqlDataType.Convert(commandText);
         }
 
+        internal static bool NeedReduce(
+            ISqlObjectFactory factory,
+            ColumnDefinition columnDefinition)
+        {
+            if (!columnDefinition.Default.IsNullOrEmpty()) return true;
+            //_deleteおよび_historyでデータ型の差異が生じないよう通常テーブルのIndex情報を参照する
+            foreach (IndexInfo i in Indexes.IndexInfoCollection(
+                factory: factory,
+                generalTableName: columnDefinition.TableName,
+                sourceTableName: columnDefinition.TableName,
+                tableType: TableTypes.Normal))
+            {
+                foreach (IndexInfo.Column c in i.ColumnCollection)
+                {
+                    if (c.ColumnName == columnDefinition.ColumnName) return true;
+                }
+            }
+            return false;
+        }
+
         internal static void CreateModifyColumn(
             this SqlStatement sqlStatement,
             ISqlObjectFactory factory,
             string sourceTableName,
             IEnumerable<ColumnDefinition> columnDefinitionCollection)
         {
-            //MySQL専用のSQLコマンド文字列を生成する。
-            if (Parameters.Rds.Dbms != "MySQL") return;
             bool NeedsDefault(ColumnDefinition o) {
                 return !o.Default.IsNullOrEmpty() &&
                     !(sourceTableName.EndsWith("_history") && o.ColumnName == "Ver");
@@ -171,6 +177,8 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
                 var seed = o.Seed == 0 ? 1 : o.Seed;
                 return $"\r\nalter table \"#TableName#\" auto_increment = {seed};";
             }
+            //MySQL専用のSQLコマンド文字列を生成する。
+            if (Parameters.Rds.Dbms != "MySQL") return;
             sqlStatement.CommandText = sqlStatement.CommandText.Replace(
                 "#ModifyColumn#", columnDefinitionCollection
                     .Where(o => NeedsDefault(o) || NeedsAutoIncrement(o))

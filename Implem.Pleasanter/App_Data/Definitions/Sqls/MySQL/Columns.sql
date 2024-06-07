@@ -3,8 +3,7 @@
     "cl"."column_name" as "ColumnName",
     "cl"."data_type" as "TypeName",
     case
-        when "cl"."data_type" in ('char', 'varchar') then "cl"."character_maximum_length"
-        when "cl"."data_type" = 'tinyint' then 1
+        when "cl"."data_type" in ('char', 'varchar') then "cl"."character_octet_length"
         else 0
     end as "max_length",
     case
