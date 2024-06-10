@@ -140,6 +140,7 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
             ISqlObjectFactory factory,
             ColumnDefinition columnDefinition)
         {
+            //MySQLにおいてtext型を指定するとエラーになる条件に当てはまるか判定する
             if (!columnDefinition.Default.IsNullOrEmpty()) return true;
             //_deleteおよび_historyでデータ型の差異が生じないよう通常テーブルのIndex情報を参照する
             foreach (IndexInfo i in Indexes.IndexInfoCollection(

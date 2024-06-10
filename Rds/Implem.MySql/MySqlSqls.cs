@@ -8,9 +8,9 @@ namespace Implem.MySql
 {
     internal class MySqlSqls : ISqls
     {
-        public string TrueString { get; } = "true";
+        public string TrueString { get; } = "1";
 
-        public string FalseString { get; } = "false";
+        public string FalseString { get; } = "0";
 
         public string IsNotTrue { get; } = " is not true ";
 
