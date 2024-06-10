@@ -28,9 +28,8 @@ namespace Implem.MySql
 
         public string DefaultDefinition(object dbRawValue)
         {
-            string s = dbRawValue.ToString();
-            s = Regex.Replace(s, @"^(?<str>'.+')::.+$", "${str}");
-            return s;
+            //MySQLではこのメソッドではなくDefaultDefinitionMySqlを使用する。
+            return string.Empty;
         }
     }
 }

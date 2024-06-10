@@ -25,6 +25,29 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
             string sourceTableName,
             IEnumerable<ColumnDefinition> columnDefinitionCollection)
         {
+            string ConvertDefaultValueByDb(DataRow o)
+            {
+                return Parameters.Rds.Dbms == "MySQL"
+                    ? DefaultDefinitionMySql(o)
+                    : factory.SqlDataType.DefaultDefinition(o["column_default"]);
+            }
+            string DefaultDefinitionMySql(DataRow o)
+            {
+                //MySQLではinformation_schema.columnsで取得したデフォルト値について、データ型も考慮して加工する必要があるため、
+                //SQLServerおよびPostgreSQLとは異なる箇所でデフォルト値に該当する文字列の操作を行っている。
+                switch (o["data_type"].ToString())
+                {
+                    case "char":
+                    case "varchar":
+                    case "text":
+                    case "longtext":
+                        return "'" + o["column_default"].ToString() + "'";
+                    case "decimal":
+                        return o["column_default"].ToString().TrimEnd('0').TrimEnd('.'); ;
+                    default:
+                        return o["column_default"].ToString();
+                }
+            }
             return
                 columnDefinitionCollection
                     .Where(o => !o.Default.IsNullOrEmpty())
@@ -35,7 +58,7 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
                 Get(factory: factory, sourceTableName: sourceTableName)
                     .Where(o => !(sourceTableName.EndsWith("_history") && o["column_name"].ToString() == "Ver"))
                     .OrderBy(o => o["column_name"])
-                    .Select(o => o["column_name"] + "," + factory.SqlDataType.DefaultDefinition(o["column_default"]))
+                    .Select(o => o["column_name"] + "," + ConvertDefaultValueByDb(o))
                     .JoinReturn();
         }
 
