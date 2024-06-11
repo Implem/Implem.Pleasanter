@@ -1,0 +1,13 @@
+﻿case "#ColumnName#":
+    #ColumnName# ??= new Time();
+    value = ss.ReadColumnAccessControls.Allowed(
+        context: context,
+        ss: ss,
+        column: column,
+        mine: mine)
+            ? #ColumnName#.ToExport(
+                context: context,
+                column: column,
+                exportColumn: exportColumn)
+            : string.Empty;
+    break;
