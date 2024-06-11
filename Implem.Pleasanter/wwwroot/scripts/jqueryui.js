@@ -85,6 +85,7 @@ $p.apply = function () {
                     });
             }
         },
+        filter: ".ui-widget-content",
         stop: function () {
             $p.setData($(this));
         }

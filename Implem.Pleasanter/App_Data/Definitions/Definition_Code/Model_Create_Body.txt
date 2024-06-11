@@ -22,7 +22,6 @@
 
 <!--Model_OnCreatingExtendedSqls-->
 <!--Model_OnCreatingGroupMembers-->
-<!--Model_WriteAttachmentsExecute_Create-->
 <!--Model_OnCreatingGroupChildren-->
 
     statements.AddRange(CreateStatements(

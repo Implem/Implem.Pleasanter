@@ -220,6 +220,11 @@ namespace Implem.Pleasanter.NetCore
                     }
                 });
             }
+            services.AddOutputCache(options =>
+            {
+                options.AddBasePolicy(builder => builder.NoCache());
+                options.AddPolicy("imageCache", builder => builder.Expire(System.TimeSpan.FromSeconds(Parameters.OutputCache.OutputCacheControl.OutputCacheDuration)));
+            });
         }
 
         private IEnumerable<string> GetExtendedLibraryPaths()
@@ -275,6 +280,11 @@ namespace Implem.Pleasanter.NetCore
             app.UseCookiePolicy();
             app.UseRouting();
             app.UseCors();
+
+            if (Parameters.OutputCache.OutputCacheControl != null && !Parameters.OutputCache.OutputCacheControl.NoOutputCache)
+            {
+                 app.UseOutputCache();
+            }
             app.UseSession();
             app.UseAuthentication();
             app.UseAuthorization();

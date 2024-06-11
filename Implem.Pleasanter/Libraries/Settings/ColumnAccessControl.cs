@@ -2,6 +2,7 @@
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
+using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Models;
 using System;
 using System.Collections.Generic;
@@ -81,7 +82,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 return true;
             }
-            else if (Depts?.Contains(context.DeptId) == true)
+            else if (DeptContains(context: context))
             {
                 return true;
             }
@@ -89,8 +90,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 return true;
             }
-            else if (Users?.Contains(context.UserId) == true
-                || (Users?.Contains(-1) == true && context.Authenticated))
+            else if (UserContains(context: context))
             {
                 return true;
             }
@@ -116,11 +116,37 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
+        private bool DeptContains(Context context)
+        {
+            if (Depts?.Contains(context.DeptId) != true) return false;
+            var dept = SiteInfo.Dept(
+                tenantId: context.TenantId,
+                deptId: context.DeptId);
+            return dept?.Id == context.DeptId && dept?.Disabled == false;
+        }
+
         private bool GroupContains(Context context)
         {
             return Groups?.Any() == true
-                ? context.Groups?.Any(o => Groups.Contains(o)) ?? false
-                : false;
+                && context.Groups?.Any() == true
+                && Groups.Intersect(context.Groups)
+                    .Any(o =>
+                    {
+                        var group = SiteInfo.Group(
+                            tenantId: context.TenantId,
+                            groupId: o);
+                        return group?.Id == o && group?.Disabled == false;
+                    });
+        }
+
+        private bool UserContains(Context context)
+        {
+            if (Users?.Contains(-1) == true && context.Authenticated) return true;
+            if (Users?.Contains(context.UserId) != true) return false;
+            var user = SiteInfo.User(
+                context: context,
+                userId: context.UserId);
+            return user?.Id == context.UserId && user?.Disabled == false;
         }
 
         public List<Permission> GetPermissions(SiteSettings ss)
