@@ -182,11 +182,13 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
         {
             return Def.SqlIoByAdmin(factory: factory).ExecuteTable(
                 factory: factory,
-                commandText: Def.Sql.Indexes.Replace("#TableName#", sourceTableName))
-                    .AsEnumerable()
-                    .Select(o => o["Name"].ToString())
-                    .Distinct()
-                    .OrderBy(o => o);
+                commandText: Def.Sql.Indexes
+                    .Replace("#TableName#", sourceTableName)
+                    .Replace("#InitialCatalog#", Environments.ServiceName))
+                        .AsEnumerable()
+                        .Select(o => o["Name"].ToString())
+                        .Distinct()
+                        .OrderBy(o => o);
         }
 
         internal static bool HasChanges(
@@ -195,6 +197,8 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
             string sourceTableName,
             Sqls.TableTypes tableType)
         {
+            //MySQLの場合はここではなくHasChangesMySqlメソッドでインデックスの変更を検知する。
+            if (Parameters.Rds.Dbms == "MySQL") return false;
             return !Parameters.Rds.DisableIndexChangeDetection
                 && IndexInfoCollection(
                     factory: factory,
@@ -208,6 +212,64 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
                             factory: factory,
                             sourceTableName: sourceTableName)
                         .Join(",");
+        }
+
+        internal static bool HasChangesMySql(
+            ISqlObjectFactory factory,
+            string generalTableName,
+            string sourceTableName,
+            Sqls.TableTypes tableType)
+        {
+            bool PkHasChange(
+                IEnumerable<IndexInfo> defIndexColumnCollection,
+                EnumerableRowCollection<DataRow> dbIndexColumnCollection)
+            {
+                //PkのColumnName,OrderType, ... の列挙で生成した文字列が一致するか比較し、差分を検知する。
+                return defIndexColumnCollection
+                    .Where(o => o.IndexName().StartsWith("Pk"))
+                    .FirstOrDefault()
+                    .IndexInfoString() != dbIndexColumnCollection
+                        .Where(o => o["Name"].ToString() == "PRIMARY")
+                        .OrderBy(o => o["No"].ToInt())
+                        .Select(o => o["ColumnName"] + "," + o["OrderType"].ToString())
+                        .Join(",");
+            }
+            bool IxHasChange(
+                IEnumerable<IndexInfo> defIndexColumnCollection,
+                EnumerableRowCollection< DataRow > dbIndexColumnCollection)
+            {
+                //非Pkのインデックス名, ... の列挙で生成した文字列が一致するか比較し、差分を検知する。
+                return defIndexColumnCollection
+                    .Where(o => !o.IndexName().StartsWith("Pk"))
+                    .Select(o => o.IndexName())
+                    .Distinct()
+                    .OrderBy(o => o)
+                    .Join(",") != dbIndexColumnCollection
+                        .Where(o => o["Name"].ToString() != "PRIMARY")
+                        .Select(o => o["Name"].ToString())
+                        .Distinct()
+                        .OrderBy(o => o)
+                        .Join(",");
+            }
+            if (Parameters.Rds.Dbms != "MySQL" || Parameters.Rds.DisableIndexChangeDetection) return false;
+            var defIndexColumnCollection = IndexInfoCollection(
+                factory: factory,
+                generalTableName: generalTableName,
+                sourceTableName: sourceTableName,
+                tableType: tableType);
+            var dbIndexColumnCollection = Def.SqlIoByAdmin(factory: factory)
+                .ExecuteTable(factory: factory,
+                    commandText: Def.Sql.Indexes
+                        .Replace("#TableName#", sourceTableName)
+                        .Replace("#InitialCatalog#", Environments.ServiceName))
+                            .AsEnumerable();
+            //MySQLの場合はDB上の主キー名が'PRIMARY'固定となり、Sha512Cngハッシュを使用した命名ができない。
+            //そのためSQLServerおよびPostgreSQLとは異なり、
+            //Pk情報比較処理（PkHasChange）と、非PkのIndex名比較処理（IxHasChange）に分割して差分を検知をする。
+            return PkHasChange(defIndexColumnCollection: defIndexColumnCollection,
+                dbIndexColumnCollection: dbIndexColumnCollection) ||
+                    IxHasChange(defIndexColumnCollection: defIndexColumnCollection,
+                        dbIndexColumnCollection: dbIndexColumnCollection);
         }
 
         private static string Sql_CreateIx(
