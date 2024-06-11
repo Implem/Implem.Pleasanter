@@ -1322,13 +1322,12 @@ namespace Implem.Pleasanter.Models
                             : string.Empty;
                     break;
                 case "UpdatedTime":
-                    UpdatedTime ??= new Time();
                     value = ss.ReadColumnAccessControls.Allowed(
                         context: context,
                         ss: ss,
                         column: column,
                         mine: mine)
-                            ? UpdatedTime.ToExport(
+                            ? UpdatedTime?.ToExport(
                                 context: context,
                                 column: column,
                                 exportColumn: exportColumn)
