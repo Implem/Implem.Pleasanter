@@ -1003,7 +1003,7 @@ namespace Implem.Pleasanter.Models
                     : groupModel.Title.MessageDisplay(context: context),
                 script: groupModel.MethodType != BaseModel.MethodTypes.New
                     ? "$p.setPaging('CurrentMembers'); $p.setPaging('SelectableMembers');"
-                      + "$p.setPaging('CurrentChildren'); $p.setPaging('SelectableChildren');"
+                        + "$p.setPaging('CurrentChildren'); $p.setPaging('SelectableChildren');"
                     : null,
                 action: () => hb
                     .Editor(
@@ -3365,7 +3365,7 @@ namespace Implem.Pleasanter.Models
                         where: Rds.GroupMembersWhere()
                             .GroupId(groupId)
                             .ChildGroup(false)
-                            .Add(or: Rds.GroupMembersWhere()
+                            .Add(and: Rds.GroupMembersWhere()
                                 .ChildGroup(false)
                                 .DeptId(deptId, _using: deptId > 0)
                                 .UserId(userId, _using: userId > 0))

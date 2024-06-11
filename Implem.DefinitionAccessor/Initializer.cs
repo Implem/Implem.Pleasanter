@@ -134,6 +134,7 @@ namespace Implem.DefinitionAccessor
             Parameters.Validation = Read<Validation>();
             Parameters.Dashboard = Read<Dashboard>();
             Parameters.GroupChildren = Read<GroupChildren>();
+            Parameters.OutputCache = Read<OutputCache>();
             Parameters.Rds.SaConnectionString = Strings.CoalesceEmpty(
                 Parameters.Rds.SaConnectionString,
                 Environment.GetEnvironmentVariable($"{Parameters.Service.EnvironmentName}_Rds_SaConnectionString"),
