@@ -198,7 +198,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public Context(ICollection<IFormFile> files, string apiRequestBody = null, string contentType = null, bool api = false)
         {
             Set(apiRequestBody: apiRequestBody, contentType: contentType);
-            SetPostedFiles(files: files);
+            SetPostedFiles(context: this, files: files);
             Api = api;
         }
 
@@ -564,13 +564,13 @@ namespace Implem.Pleasanter.Libraries.Requests
             }
         }
 
-        private void SetPostedFiles(ICollection<IFormFile> files)
+        private void SetPostedFiles(Context context, ICollection<IFormFile> files)
         {
             files?.ForEach(file =>
             {
                 PostedFiles.Add(new PostedFile()
                 {
-                    Guid = new HttpPostedFile(file).WriteToTemp(),
+                    Guid = new HttpPostedFile(file).WriteToTemp(context),
                     FileName = file.FileName.Split(System.IO.Path.DirectorySeparatorChar).Last(),
                     Extension = new HttpPostedFile(file).Extension(),
                     Size = file.Length,
