@@ -8,5 +8,6 @@
                 context: context,
                 column: column,
                 exportColumn: exportColumn)
+                    ?? String.Empty
             : string.Empty;
     break;

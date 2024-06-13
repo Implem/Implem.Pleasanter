@@ -1331,6 +1331,7 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 column: column,
                                 exportColumn: exportColumn)
+                                    ?? String.Empty
                             : string.Empty;
                     break;
                 default:
