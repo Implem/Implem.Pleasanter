@@ -598,6 +598,10 @@ namespace Implem.Pleasanter.Libraries.Requests
 
         public CultureInfo CultureInfo()
         {
+            if(Language == "vn")
+            {
+                return new CultureInfo("vi");
+            }
             return new CultureInfo(Language);
         }
 
