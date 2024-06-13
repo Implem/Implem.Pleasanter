@@ -262,7 +262,7 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
                     commandText: Def.Sql.Indexes
                         .Replace("#TableName#", sourceTableName)
                         .Replace("#InitialCatalog#", Environments.ServiceName))
-                            .AsEnumerable();
+                .AsEnumerable();
             //MySQLの場合はDB上の主キー名が'PRIMARY'固定となり、Sha512Cngハッシュを使用した命名ができない。
             //そのためSQLServerおよびPostgreSQLとは異なり、
             //Pk情報比較処理（PkHasChange）と、非PkのIndex名比較処理（IxHasChange）に分割して差分を検知をする。
