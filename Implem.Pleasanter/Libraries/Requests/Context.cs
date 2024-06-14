@@ -598,6 +598,7 @@ namespace Implem.Pleasanter.Libraries.Requests
 
         public CultureInfo CultureInfo()
         {
+            //CultureInfoがvnに対応していないので、引数をviとすることで対応。
             if(Language == "vn")
             {
                 return new CultureInfo("vi");
