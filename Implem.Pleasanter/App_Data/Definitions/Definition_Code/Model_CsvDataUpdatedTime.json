@@ -1,8 +1,8 @@
 ﻿{
-    "Id": "Model_CsvDataCases",
+    "Id": "Model_CsvDataUpdatedTime",
     "RepeatType": "Column",
     "Indent": "4",
     "Separator": "\\r\\n",
     "Select": "1",
-    "Exclude": "PasswordHistries,UpdatedTime"
+    "Include": "UpdatedTime"
 }
