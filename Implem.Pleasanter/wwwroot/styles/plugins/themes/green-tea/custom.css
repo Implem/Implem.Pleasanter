@@ -674,6 +674,14 @@ fieldset .command-left > button {
 #FieldSetMailAddresses .field-vertical .command-left > input {
     margin: 8px 4px 0 0;
 }
+
+#FieldSetSiteAccessControl{
+    select.control-dropdown{
+        max-width: 500px;
+        width: auto;
+    }
+}
+
 /* ボタン */
 .ui-button {
     background: #FFFFFF;

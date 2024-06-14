@@ -756,6 +756,13 @@ fieldset .command-left > button {
     color: #FFFFFF;
 }
 
+#FieldSetSiteAccessControl{
+    select.control-dropdown{
+        max-width: 500px;
+        width: auto;
+    }
+}
+
 /* ボタン */
 .ui-button {
     background: #666666;
