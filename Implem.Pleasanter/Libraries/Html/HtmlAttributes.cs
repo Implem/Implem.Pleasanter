@@ -721,5 +721,15 @@ namespace Implem.Pleasanter.Libraries.Html
             }
             return this;
         }
+
+        public HtmlAttributes DataTooltip(string value, bool _using = true)
+        {
+            if (!value.IsNullOrEmpty() && _using)
+            {
+                Add("data-tooltip");
+                Add(value);
+            }
+            return this;
+        }
     }
 }
