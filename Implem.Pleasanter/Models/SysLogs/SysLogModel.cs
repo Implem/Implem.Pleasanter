@@ -1157,10 +1157,11 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         column: column,
                         mine: mine)
-                            ? UpdatedTime.ToExport(
+                            ? UpdatedTime?.ToExport(
                                 context: context,
                                 column: column,
                                 exportColumn: exportColumn)
+                                    ?? String.Empty
                             : string.Empty;
                     break;
                 default:

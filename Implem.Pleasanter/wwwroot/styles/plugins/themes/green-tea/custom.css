@@ -163,72 +163,178 @@ nav.both.cf {
 }
 
 /* パンくず */
-#Application nav #Breadcrumb .separator {
-    display: none;
-}
-
-#Application nav #Breadcrumb {
+#Application #Breadcrumb {
     display: flex;
     margin: 0;
     background-color: #FFFFFF;
     width: 100%;
     box-shadow: 0 2px 2px rgba(0,0,0,.2);
-    position: relative;
-}
+    li {
+        position: relative;
+        display: flex;
+        align-items: center;
+        list-style: none;
+        font-size: 12px;
+        padding: 0 15px 0 0;
+        height: 40px;
+        line-height: 1.5;
+        a{
+            position: relative;
+            z-index: 2;
+            padding: 0 20px;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            &:hover{
+                text-decoration: none;
+            }
+        }
+        .separator {
+            position: absolute;
+            top: 0;
+            right: 0;
+            z-index: 1;
+            display: block;
+            text-indent: -9999px;
+            width: 15px;
+            overflow: hidden;
+            height: 40px;
+            &::before,
+            &::after{
+                content: "";
+                display: block;
+                position: absolute;
+                top: 0;
+                border-top: 20px solid transparent;
+                border-right: 24px solid transparent;
+                border-bottom: 20px solid transparent;
+            }
+            &::before {
+                right: -24px;
+                border-left: 15px solid #ccc;
+            }
+            &::after {
+                right: -23px;
+                border-left: 15px solid #fff;
+            }
+        }
+        &:nth-last-child(n + 6):not(:first-child){
+            max-width: 100PX;
+            padding: 0;
+            line-height: 1;
+            a{
+                display: block;
+                position: relative;
+                z-index: 5;
+                text-indent: -9999px;
+                width: 1em;
+                margin-top: .2em;
+                margin-right: 1em;
+                .label{
+                    &::after{
+                        position: absolute;
+                        left: 50%;
+                        top: 50%;
+                        transform: translate(-50%, -50%);
+                        display: block;
+                        content: '…';
+                        text-indent: 0;
+                        font-weight: bold;
+                    }
+                }
 
-#Application nav #Breadcrumb li {
-    list-style: none;
-    font-size: 14px;
-    height: 40px;
-    line-height: 30px;
-    margin-right: 28px;
-    position: relative;
-    padding: 0 16px;
-}
-
-#Application nav #Breadcrumb li:first-child {
-    padding-left: 36px;
-}
-
-#Application nav #Breadcrumb li:before,
-#Application nav #Breadcrumb li:after {
-    content: "";
-    display: block;
-    position: absolute;
-    top: 0;
-    border-top: 20px solid transparent;
-    border-right: 24px solid transparent;
-    border-bottom: 20px solid transparent;
-}
-
-#Application nav #Breadcrumb li:last-child {
-    background-color: #058266;
-}
-
-#Application nav #Breadcrumb li:nth-last-child(2)::after {
-    background-color: #058266;
-}
-
-#Application nav #Breadcrumb li:last-child::after {
-    border-left: 15px solid #058266;
-}
-
-#Application nav #Breadcrumb li:before {
-    right: -39px;
-    border-left: 15px solid #ccc;
-}
-
-#Application nav #Breadcrumb li:after {
-    right: -38px;
-    border-left: 15px solid #fff;
-}
-
-#Application nav #Breadcrumb li:last-child a {
-    color: #fff;
-}
-
-#Application nav #Breadcrumb .item {
-    padding: 4px 24px 4px 12px;
+                &::before{
+                    position: absolute;
+                    top: 60%;
+                    left: 50%;
+                    height: 8px;
+                    width: 16px;
+                    clip-path: polygon(50% 0, 100% 100%, 0 100%);
+                    content: '';
+                    margin-left: 1px;
+                    background: rgba(0,0,0,.7);
+                }
+                &::after{
+                    overflow: hidden;
+                    position: absolute;
+                    top: 60%;
+                    left: 50%;
+                    margin-top: 8px;
+                    display: block;
+                    width: max-content;
+                    max-width: 200px;
+                    max-height: 0;
+                    color: #fff;
+                    text-indent: 0;
+                    font-size: 11px;
+                    line-height: 1.5;
+                    padding: 0;
+                    background: rgba(0,0,0,.7);
+                    content: attr(data-tooltip);
+                    border-radius: 5px;
+                }
+                &::before,
+                &::after{
+                    opacity: 0;
+                    transform: translate(-50%, 10px);
+                    transition: opacity 180ms ease-out,
+                    transform 0ms ease-out 180ms,
+                    padding 0ms ease-out 180ms,
+                    max-height 0ms ease-out 180ms;
+            }
+                &:hover{
+                    &::after{
+                        padding: 10px 15px;
+                        max-height: 1000px;
+                    }
+                    &::before,
+                    &::after{
+                        opacity: 1;
+                        transform: translate(-50%, 0);
+                        transition: opacity 300ms ease-out, transform 300ms ease-out;
+                    }
+                }
+            }
+        }
+        &:first-child {
+            white-space: nowrap;
+            a{
+                padding-left: 36px;
+            }
+        }
+        &:nth-last-child(2){
+            z-index: 3;
+        }
+        &:not(:last-child){
+            .label{
+                overflow: hidden;
+                display: -webkit-box;
+                text-overflow: ellipsis;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 2;
+            }
+        }
+        &:last-child{
+            z-index: 2;
+            margin-left: -15px;
+            margin-right: 15px;
+            padding-left: 15px;
+            padding-right: 0;
+            background-color: #058266;
+            a{
+                width: max-content;
+                color: #fff;
+            }
+            .separator{
+                right: -15px;
+                &::after{
+                    border-left: 15px solid #058266;
+                }
+            }
+        }
+    }
 }
 
 /* 横断検索 */
@@ -467,7 +573,7 @@ font-family: 'メイリオ', 'Meiryo', 'Hiragino Kaku Gothic ProN', 'ヒラギ�
 }
 
 .field-control .control-attachments-upload {
-    border: 2px dotted #058266;
+    border-color: #058266!important;
 }
 
 fieldset .command-left {
@@ -546,7 +652,14 @@ fieldset .command-left > button {
 }
 
 .field-control .container-normal .control-attachments-item {
-    border: 1px solid #058266;
+    border-color: #058266;
+}
+
+.field-control .container-normal .progress-bar {
+    border-color: #058266;
+    > div{
+        background-color: #058266;
+    }
 }
 
 .field-control .container-normal .already-attachments.preparation-delete {
@@ -561,6 +674,14 @@ fieldset .command-left > button {
 #FieldSetMailAddresses .field-vertical .command-left > input {
     margin: 8px 4px 0 0;
 }
+
+#FieldSetSiteAccessControl{
+    select.control-dropdown{
+        max-width: 500px;
+        width: auto;
+    }
+}
+
 /* ボタン */
 .ui-button {
     background: #FFFFFF;
