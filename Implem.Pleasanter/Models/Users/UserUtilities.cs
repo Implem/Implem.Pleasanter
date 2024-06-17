@@ -3603,7 +3603,7 @@ namespace Implem.Pleasanter.Models
                             if (userModel.TimeZone.IsNullOrEmpty())
                             {
                                 userModel.TimeZone = tenantModel.TimeZone.IsNullOrEmpty()
-                                ? Parameters.Service.DefaultLanguage
+                                ? Parameters.Service.TimeZoneDefault
                                 : tenantModel.TimeZone;
                             }
                             break;
