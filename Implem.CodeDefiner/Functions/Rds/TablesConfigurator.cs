@@ -36,6 +36,9 @@ namespace Implem.CodeDefiner.Functions.Rds
                     case "SQLServer":
                         ConfigureFullTextIndex(factory: factory);
                         break;
+                    case "MySQL":
+                        ConfigureFullTextIndexMySql(factory: factory);
+                        break;
                 }
             }
             catch (System.Data.SqlClient.SqlException e)
@@ -66,6 +69,28 @@ namespace Implem.CodeDefiner.Functions.Rds
                     commandText: Def.Sql.CreateFullText
                         .Replace("#PKItems#", pkItems)
                         .Replace("#PKBinaries#", pkBinaries));
+        }
+
+        private static void ConfigureFullTextIndexMySql(ISqlObjectFactory factory)
+        {
+            bool Exists()
+            {
+                return Def.SqlIoBySa(factory: factory, initialCatalog: Environments.ServiceName)
+                    .ExecuteTable(
+                        factory: factory,
+                        commandText: Def.Sql.ExistsFullText
+                            .Replace("#InitialCatalog#", Environments.ServiceName))
+                    .Rows.Count == 1;
+            }
+            if (!Exists())
+            {
+                Def.SqlIoBySa(factory: factory, initialCatalog: Environments.ServiceName)
+                    .ExecuteNonQuery(
+                        factory: factory,
+                        dbTransaction: null,
+                        dbConnection: null,
+                        commandText: Def.Sql.CreateFullText);
+            }
         }
 
         private static void ConfigureTableSet(ISqlObjectFactory factory, string generalTableName)

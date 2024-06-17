@@ -13578,6 +13578,7 @@ namespace Implem.DefinitionAccessor
         public string Identity;
         public string Spaceused;
         public string SelectPkName;
+        public string ExistsFullText;
         public string CreateFullText;
         public string ExistsLoginRole;
         public string DropLoginRole;
