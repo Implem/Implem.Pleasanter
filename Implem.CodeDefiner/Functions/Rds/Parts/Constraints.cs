@@ -117,6 +117,7 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
             this SqlStatement sqlStatement,
             ISqlObjectFactory factory,
             string sourceTableName,
+            IEnumerable<ColumnDefinition> columnDefinitionCollection,
             IEnumerable<IndexInfo> tableIndexCollection)
         {
             sqlStatement.CommandText = sqlStatement.CommandText
@@ -129,6 +130,22 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
                         .Replace("#SourceTableName#", sourceTableName)
                         .Replace("#IndexName#", o.IndexName()))
                     .Join("\r\n"));
+            if (Parameters.Rds.Dbms == "MySQL")
+            {
+                //MySQLに、PKに紐づくインデックスの名称が'PRIMARY'固定になる仕様がある。
+                //該当テーブルに'PRIMARY'というインデックスが存在する場合はPK制約削除用のコマンドを追記する。
+                sqlStatement.CommandText = sqlStatement.CommandText.Replace("#DropPRIMARY#",
+                    Indexes.Get(factory: factory, sourceTableName: sourceTableName).Contains("PRIMARY")
+                        ? Def.Sql.DropConstraint.Replace("#SourceTableName#", sourceTableName)
+                        : string.Empty);
+                //auto_incrementがついているカラムについては、dropの前にalter tableでauto_incrementを除去する。
+                sqlStatement.CommandText = sqlStatement.CommandText.Replace(
+                    "#DropAutoIncrement#", Columns.GetModifyColumnSqls(
+                        factory: factory,
+                        sourceTableName: sourceTableName,
+                        columnDefinitionCollection: columnDefinitionCollection,
+                        dropAutoIncrement: true));
+            }
         }
 
         private static string Sql_Drop(IndexInfo o)

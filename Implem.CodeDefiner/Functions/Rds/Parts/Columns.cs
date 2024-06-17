@@ -163,7 +163,29 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
             string sourceTableName,
             IEnumerable<ColumnDefinition> columnDefinitionCollection)
         {
-            bool NeedsDefault(ColumnDefinition o) {
+            //MySQL専用のSQLコマンド文字列を置換する。
+            if (Parameters.Rds.Dbms != "MySQL") return;
+            sqlStatement.CommandText = sqlStatement.CommandText.Replace(
+                "#ModifyColumn#", GetModifyColumnSqls(
+                    factory: factory,
+                    sourceTableName: sourceTableName,
+                    columnDefinitionCollection: columnDefinitionCollection));
+        }
+
+        internal static string GetModifyColumnSqls(
+            ISqlObjectFactory factory,
+            string sourceTableName,
+            IEnumerable<ColumnDefinition> columnDefinitionCollection,
+            bool dropAutoIncrement = false)
+        {
+            bool NeedsModify(ColumnDefinition o)
+            {
+                return dropAutoIncrement
+                    ? NeedsAutoIncrement(o)
+                    : NeedsAutoIncrement(o) || NeedsDefault(o);
+            }
+            bool NeedsDefault(ColumnDefinition o)
+            {
                 return !o.Default.IsNullOrEmpty() &&
                     !(sourceTableName.EndsWith("_history") && o.ColumnName == "Ver");
             }
@@ -178,26 +200,27 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
                 var seed = o.Seed == 0 ? 1 : o.Seed;
                 return $"\r\nalter table \"#TableName#\" auto_increment = {seed};";
             }
-            //MySQL専用のSQLコマンド文字列を生成する。
-            if (Parameters.Rds.Dbms != "MySQL") return;
-            sqlStatement.CommandText = sqlStatement.CommandText.Replace(
-                "#ModifyColumn#", columnDefinitionCollection
-                    .Where(o => NeedsDefault(o) || NeedsAutoIncrement(o))
-                    .Select(o => Def.Sql.ModifyColumn
-                        .Replace("#ColumnDefinition#", Sql_Create(
-                            factory: factory,
-                            columnDefinition: o,
-                            noIdentity: false))
-                        .Replace("#Default#", NeedsDefault(o)
-                                ? " default " + Constraints.DefaultDefinition(factory, o)
-                                : string.Empty)
-                        .Replace("#AutoIncrement#", NeedsAutoIncrement(o)
-                                ? " auto_increment"
-                                : string.Empty)
-                        .Replace("#SetSeed#", NeedsAutoIncrement(o)
-                                ? SetSeed(o)
-                                : string.Empty))
-                    .JoinReturn());
+            return columnDefinitionCollection
+                .Where(o => NeedsModify(o))
+                .Select(o => Def.Sql.ModifyColumn
+                    .Replace("#ColumnDefinition#", Sql_Create(
+                        factory: factory,
+                        columnDefinition: o,
+                        noIdentity: false))
+                    .Replace("#Default#", NeedsDefault(o)
+                        ? " default " + Constraints.DefaultDefinition(factory, o)
+                        : string.Empty)
+                    .Replace("#AutoIncrement#", !dropAutoIncrement && NeedsAutoIncrement(o)
+                        ? " auto_increment"
+                        : string.Empty)
+                    .Replace("#SetSeed#", !dropAutoIncrement && NeedsAutoIncrement(o)
+                        ? SetSeed(o)
+                        : string.Empty)
+                    .Replace("#TableName#", dropAutoIncrement
+                        ? sourceTableName
+                        : "#TableName#"))
+                .JoinReturn();
         }
+
     }
 }

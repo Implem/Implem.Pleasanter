@@ -1,4 +1,6 @@
-﻿    create table "#TableName#"
+﻿#DropConstraint#
+#DropPRIMARY#
+    create table "#TableName#"
     (
 #Columns#
     );

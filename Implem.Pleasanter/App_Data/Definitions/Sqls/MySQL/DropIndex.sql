@@ -1,1 +1,1 @@
-﻿drop index "#IndexName#" cascade;
+﻿drop index "#IndexName#" on "#SourceTableName#";

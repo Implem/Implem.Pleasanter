@@ -191,6 +191,16 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
                         .OrderBy(o => o);
         }
 
+        public static IEnumerable<DataRow> GetByMySql(ISqlObjectFactory factory, string sourceTableName)
+        {
+            return Def.SqlIoByAdmin(factory: factory).ExecuteTable(
+                factory: factory,
+                commandText: Def.Sql.Indexes
+                    .Replace("#TableName#", sourceTableName)
+                    .Replace("#InitialCatalog#", Environments.ServiceName))
+                        .AsEnumerable();
+        }
+
         internal static bool HasChanges(
             ISqlObjectFactory factory,
             string generalTableName,
@@ -222,7 +232,7 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
         {
             bool PkHasChange(
                 IEnumerable<IndexInfo> defIndexColumnCollection,
-                EnumerableRowCollection<DataRow> dbIndexColumnCollection)
+                IEnumerable<DataRow> dbIndexColumnCollection)
             {
                 //PkのColumnName,OrderType, ... の列挙で生成した文字列が一致するか比較し、差分を検知する。
                 return defIndexColumnCollection
@@ -236,7 +246,7 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
             }
             bool IxHasChange(
                 IEnumerable<IndexInfo> defIndexColumnCollection,
-                EnumerableRowCollection< DataRow > dbIndexColumnCollection)
+                IEnumerable<DataRow> dbIndexColumnCollection)
             {
                 //非Pkのインデックス名, ... の列挙で生成した文字列が一致するか比較し、差分を検知する。
                 return defIndexColumnCollection
@@ -257,12 +267,9 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
                 generalTableName: generalTableName,
                 sourceTableName: sourceTableName,
                 tableType: tableType);
-            var dbIndexColumnCollection = Def.SqlIoByAdmin(factory: factory)
-                .ExecuteTable(factory: factory,
-                    commandText: Def.Sql.Indexes
-                        .Replace("#TableName#", sourceTableName)
-                        .Replace("#InitialCatalog#", Environments.ServiceName))
-                .AsEnumerable();
+            var dbIndexColumnCollection = GetByMySql(
+                factory: factory,
+                sourceTableName: sourceTableName);
             //MySQLの場合はDB上の主キー名が'PRIMARY'固定となり、Sha512Cngハッシュを使用した命名ができない。
             //そのためSQLServerおよびPostgreSQLとは異なり、
             //Pk情報比較処理（PkHasChange）と、非PkのIndex名比較処理（IxHasChange）に分割して差分を検知をする。

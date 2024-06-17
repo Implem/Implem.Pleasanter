@@ -1,1 +1,2 @@
-﻿alter table "#SourceTableName#" drop constraint "#IndexName#";
+﻿#DropAutoIncrement#
+alter table "#SourceTableName#" drop primary key;
