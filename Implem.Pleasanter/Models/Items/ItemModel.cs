@@ -2671,7 +2671,7 @@ namespace Implem.Pleasanter.Models
             SetSite(
                 context: context,
                 initSiteSettings: true,
-                tableType: Sqls.TableTypes.History);
+                tableType: Sqls.TableTypes.NormalAndHistory);
             if (SiteId == ReferenceId)
             {
                 return SiteUtilities.DeleteHistory(
