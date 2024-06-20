@@ -6,7 +6,6 @@ namespace Implem.IRds
     {
         string Convert(string name);
         string ConvertBack(string name);
-        string DefaultDefinition(object dbRawValue);
-        string DefaultDefinitionByDataType(DataRow dataRow);
+        string DefaultDefinition(DataRow dataRow);
     }
 }

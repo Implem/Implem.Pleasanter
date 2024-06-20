@@ -35,9 +35,7 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
                 Get(factory: factory, sourceTableName: sourceTableName)
                     .Where(o => !(sourceTableName.EndsWith("_history") && o["column_name"].ToString() == "Ver"))
                     .OrderBy(o => o["column_name"])
-                    .Select(o => o["column_name"] + "," + (Parameters.Rds.Dbms == "MySQL"
-                        ? factory.SqlDataType.DefaultDefinitionByDataType(o)
-                        : factory.SqlDataType.DefaultDefinition(o["column_default"])))
+                    .Select(o => o["column_name"] + "," + factory.SqlDataType.DefaultDefinition(o))
                     .JoinReturn();
         }
 

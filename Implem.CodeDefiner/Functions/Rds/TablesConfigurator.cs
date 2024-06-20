@@ -148,10 +148,7 @@ namespace Implem.CodeDefiner.Functions.Rds
                         factory: factory,
                         generalTableName: generalTableName,
                         sourceTableName: sourceTableName,
-                        tableType: tableType),
-                    rdsColumnCollection: Columns.Get(
-                        factory: factory,
-                        sourceTableName: sourceTableName));
+                        tableType: tableType));
             }
             else
             {

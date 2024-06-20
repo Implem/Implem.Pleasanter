@@ -16,19 +16,13 @@ namespace Implem.SqlServer
             return name;
         }
 
-        public string DefaultDefinition(object dbRawValue)
+        public string DefaultDefinition(DataRow dataRow)
         {
-            string s = dbRawValue.ToString();
+            string s = dataRow["column_default"].ToString();
             s = Regex.Replace(s, @"^\(\((?<num>.+)\)\)$", "${num}");
             s = Regex.Replace(s, @"^\((?<str>'.+')\)$", "${str}");
             s = Regex.Replace(s, @"^\((?<other>.+)\)$", "${other}");
             return s;
-        }
-
-        public string DefaultDefinitionByDataType(DataRow dataRow)
-        {
-            //MySQL専用の処理であるためSQLServerでは使用しない。
-            return string.Empty;
         }
     }
 }

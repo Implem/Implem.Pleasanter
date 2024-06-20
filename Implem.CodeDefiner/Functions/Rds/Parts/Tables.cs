@@ -16,7 +16,6 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
             Sqls.TableTypes tableType,
             IEnumerable<ColumnDefinition> columnDefinitionCollection,
             IEnumerable<IndexInfo> tableIndexCollection,
-            EnumerableRowCollection<DataRow> rdsColumnCollection,
             string tableNameTemp = "")
         {
             Consoles.Write(sourceTableName, Consoles.Types.Info);
@@ -54,7 +53,6 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
                 tableType: tableType,
                 columnDefinitionCollection: columnDefinitionCollection,
                 tableIndexCollection: tableIndexCollection,
-                rdsColumnCollection: null,
                 tableNameTemp: destinationTableName);
             if (Def.ExistsTable(generalTableName, o => o.Identity &&
                 !sourceTableName.EndsWith("_history") &&
