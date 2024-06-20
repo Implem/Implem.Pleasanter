@@ -2502,6 +2502,12 @@ _::-webkit-full-page-media, _:future, :root .field-normal .control-checkbox + la
         table-layout: fixed;
     }
 
+    .grid > thead {
+        position: sticky;
+        top: 0;
+        z-index: 90;
+    }
+
     .grid > thead > tr > caption {
         margin: 0px 0px 5px 0px;
     }
