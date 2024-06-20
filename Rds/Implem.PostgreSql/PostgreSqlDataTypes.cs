@@ -1,4 +1,5 @@
 ﻿using Implem.IRds;
+using System.Data;
 using System.Text.RegularExpressions;
 namespace Implem.PostgreSql
 {
@@ -35,6 +36,12 @@ namespace Implem.PostgreSql
             string s = dbRawValue.ToString();
             s = Regex.Replace(s, @"^(?<str>'.+')::.+$", "${str}");
             return s;
+        }
+
+        public string DefaultDefinitionByDataType(DataRow dataRow)
+        {
+            //MySQL専用の処理であるためPostgreSQLでは使用しない。
+            return string.Empty;
         }
     }
 }
