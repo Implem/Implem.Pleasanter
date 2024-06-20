@@ -67,6 +67,10 @@
     color: black;
 }
 
+.field-control .ui-multiselect-open + span {
+    color: black;
+}
+
 .field-control .ui-multiselect .ui-icon.ui-icon-triangle-1-s {
     background-image: url("images/ui-icons_3d3d3d_256x240.png");
 }
