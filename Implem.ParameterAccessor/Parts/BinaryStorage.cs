@@ -29,6 +29,7 @@
         public decimal LocalFolderTotalMaxSize;
         public bool UseStorageSelect;
         public string DefaultBinaryStorageProvider;
+        public string TemporaryBinaryStorageProvider;
         public string ImagesProvider;
         public string SiteImageProvider;
 

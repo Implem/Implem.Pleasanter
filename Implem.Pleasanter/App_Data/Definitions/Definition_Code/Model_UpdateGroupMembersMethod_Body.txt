@@ -12,6 +12,7 @@
             statements: Rds.PhysicalDeleteGroupMembers(
                 where: Rds.GroupMembersWhere()
                     .GroupId(GroupId)
+                    .ChildGroup(false)
                     .Or(Rds.GroupMembersWhere()
                         .UserId_In(userIdIn, _using: userIdIn.Any())
                         .DeptId_In(deptIdIn, _using: deptIdIn.Any()))));
@@ -74,7 +75,8 @@ private void RenewGroupMembers(Context context, List<string> groupMembers)
         transactional: true,
         statements: Rds.PhysicalDeleteGroupMembers(
             where: Rds.GroupMembersWhere()
-                .GroupId(GroupId)));
+                .GroupId(GroupId)
+                .ChildGroup(false)));
     }
     groupMembers?.ForEach(data =>
     {

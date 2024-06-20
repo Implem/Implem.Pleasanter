@@ -10,6 +10,7 @@ using Implem.Pleasanter.Models;
 using System;
 using System.Collections.Generic;
 using System.DirectoryServices;
+using System.Linq;
 namespace Implem.Pleasanter.Libraries.DataSources
 {
     public static class LdapDs
@@ -58,6 +59,10 @@ namespace Implem.Pleasanter.Libraries.DataSources
                             extendedErrorMessage: e.ExtendedErrorMessage,
                             e: e);
                     }
+                    else
+                    {
+                        continue;
+                    }
                     return false;
                 }
                 catch (Exception e)
@@ -89,6 +94,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     : $"({ldap.LdapSearchProperty}={loginId.Split_2nd('\\')})";
                 try
                 {
+                    SetPropertiesToLoad(searcher, ldap);
                     SearchResult result = searcher.FindOne();
                     UpdateOrInsert(
                         context: context,
@@ -219,6 +225,16 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 statements: statements.ToArray());
         }
 
+        private class GroupItem
+        {
+            public string DisplayName;
+            public string ADsPath;
+            public string LdapObjectGUID;
+            public Implem.ParameterAccessor.Parts.Ldap Ldap;
+            public string Pattern;
+            public int GraphIdx;
+        }
+
         public static void Sync(Context context)
         {
             // "DateTime.Now"はミリ秒が6桁まで取れる
@@ -233,51 +249,77 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 minute: now.Minute,
                 second: now.Second,
                 millisecond: now.Millisecond);
+            var users = new Dictionary<string,string>();
+            var groups = new Dictionary<string, GroupItem>();
             Parameters.Authentication.LdapParameters
-                .ForEach(ldap => ldap.LdapSyncPatterns?
-                    .ForEach(pattern =>
-                    {
-                        Sync(
-                          context: context,
-                          ldap: ldap,
-                          pattern: pattern,
-                          synchronizedTime: synchronizedTime);
-                        if (ldap.AutoDisable)
+                .ForEach(ldap =>
+                {
+                    ldap.LdapSyncPatterns?
+                        .ForEach(pattern =>
                         {
-                            Repository.ExecuteNonQuery(
+                            // Uers用Ldap同期処理
+                            // 既存の振る舞いを変えたくない為にLdapSyncPatternsとLdapSyncGroupPatternsに分け、ここではユーザのみ取得する。
+                            Sync(
                                 context: context,
-                                statements: Rds.UpdateUsers(
-                                    param: Rds.UsersParam().Disabled(true),
-                                    where: Rds.UsersWhere()
-                                        .Disabled(false)
-                                        .LdapSearchRoot(ldap.LdapSearchRoot)
-                                        .SynchronizedTime(_operator: " is not null")
-                                        .SynchronizedTime(synchronizedTime, _operator: "<>"),
-                                    addUpdatorParam: false,
-                                    addUpdatedTimeParam: false));
-                        }
-                        if (ldap.AutoEnable)
+                                ldap: ldap,
+                                pattern: pattern,
+                                synchronizedTime: synchronizedTime,
+                                users: users);
+                            if (ldap.AutoDisable)
+                            {
+                                Repository.ExecuteNonQuery(
+                                    context: context,
+                                    statements: Rds.UpdateUsers(
+                                        param: Rds.UsersParam().Disabled(true),
+                                        where: Rds.UsersWhere()
+                                            .Disabled(false)
+                                            .LdapSearchRoot(ldap.LdapSearchRoot)
+                                            .SynchronizedTime(_operator: " is not null")
+                                            .SynchronizedTime(synchronizedTime, _operator: "<>"),
+                                        addUpdatorParam: false,
+                                        addUpdatedTimeParam: false));
+                            }
+                            if (ldap.AutoEnable)
+                            {
+                                Repository.ExecuteNonQuery(
+                                    context: context,
+                                    statements: Rds.UpdateUsers(
+                                        param: Rds.UsersParam().Disabled(false),
+                                        where: Rds.UsersWhere()
+                                            .Disabled(true)
+                                            .LdapSearchRoot(ldap.LdapSearchRoot)
+                                            .SynchronizedTime(_operator: " is not null")
+                                            .SynchronizedTime(synchronizedTime),
+                                        addUpdatorParam: false,
+                                        addUpdatedTimeParam: false));
+                            }
+                        });
+                    ldap.LdapSyncGroupPatterns?
+                        .ForEach(pattern =>
                         {
-                            Repository.ExecuteNonQuery(
+                            // Group用Ldap同期処理
+                            Sync(
                                 context: context,
-                                statements: Rds.UpdateUsers(
-                                    param: Rds.UsersParam().Disabled(false),
-                                    where: Rds.UsersWhere()
-                                        .Disabled(true)
-                                        .LdapSearchRoot(ldap.LdapSearchRoot)
-                                        .SynchronizedTime(_operator: " is not null")
-                                        .SynchronizedTime(synchronizedTime),
-                                    addUpdatorParam: false,
-                                    addUpdatedTimeParam: false));
-                        }
-                    }));
+                                ldap: ldap,
+                                pattern: pattern,
+                                synchronizedTime: synchronizedTime,
+                                groups: groups);
+                        });
+                });
+            UpdateGroup(
+                context: context,
+                groups: groups,
+                users: users,
+                synchronizedTime: synchronizedTime);
         }
 
         private static void Sync(
             Context context,
             ParameterAccessor.Parts.Ldap ldap,
             string pattern,
-            DateTime synchronizedTime)
+            DateTime synchronizedTime,
+            Dictionary<string, string> users = null,
+            Dictionary<string, GroupItem> groups = null)
         {
             var logs = new Logs()
             {
@@ -298,18 +340,46 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 {
                     directorySearcher.PageSize = ldap.LdapSyncPageSize;
                 }
+                SetPropertiesToLoad(directorySearcher, ldap);
                 var results = directorySearcher.FindAll();
                 logs.Add("results", results.Count.ToString());
                 foreach (SearchResult result in results)
                 {
-                    if (Enabled(result, ldap))
+                    if (users != null)
                     {
-                        logs.Add("result", result.Path);
-                        UpdateOrInsert(
-                            context: context,
-                            result: result,
-                            ldap: ldap,
-                            synchronizedTime: synchronizedTime);
+                        // LdapSyncPatterns用
+                        if (Enabled(result, ldap))
+                        {
+                            logs.Add("result", result.Path);
+                            UpdateOrInsert(
+                                context: context,
+                                result: result,
+                                ldap: ldap,
+                                synchronizedTime: synchronizedTime);
+                            if (!result.IsGroup(context: context) && !users.ContainsKey(result.Path))
+                            {
+                                users.Add(
+                                    result.Path,
+                                    LoginId(context: context, ldap: ldap, result: result));
+                            }
+                        }
+                    }
+                    else
+                    {
+                        // LdapSyncGroupPatterns用
+                        if (result.IsGroup(context: context))
+                        {
+                            var groupItem = NewGroupItem(
+                                context: context,
+                                result: result,
+                                ldap: ldap,
+                                pattern: pattern,
+                                graphIdx: groups.Count);
+                            if (groupItem != null && !groups.ContainsKey(groupItem.ADsPath))
+                            {
+                                groups.Add(groupItem.ADsPath, groupItem);
+                            }
+                        }
                     }
                 }
             }
@@ -324,6 +394,262 @@ namespace Implem.Pleasanter.Libraries.DataSources
             {
                 new SysLogModel(context: context, e: e, logs: logs);
             }
+        }
+
+        private static GroupItem NewGroupItem(
+            Context context,
+            SearchResult result,
+            ParameterAccessor.Parts.Ldap ldap,
+            string pattern,
+            int graphIdx)
+        {
+            var displayName = result.Property(context: context, name: ldap.LdapGroupName, pattern: ldap.LdapGroupNamePattern);
+            if (displayName.IsNullOrEmpty()) return null;
+            return new GroupItem()
+            {
+                DisplayName = displayName,
+                ADsPath = result.Path,
+                LdapObjectGUID = result.PropertyGUID(context: context, name: "objectGUID"),
+                Ldap = ldap,
+                Pattern = pattern,
+                GraphIdx = graphIdx
+            };
+        }
+
+        private static void UpdateGroup(
+            Context context,
+            Dictionary<string ,GroupItem> groups,
+            Dictionary<string, string> users,
+            DateTime synchronizedTime)
+        {
+            var logs = new Logs()
+            {
+                new Log("SyncGroup", "")
+            };
+            try
+            {
+                var groupGraph = new Dictionary<int, int[]>();
+                var statusUpdateTimer = DateTime.Now.AddSeconds(60);
+                // グループ作成
+                groups.Values
+                    .ForEach(group =>
+                    {
+                        Repository.ExecuteNonQuery(
+                            context: context,
+                            transactional: true,
+                            statements: new SqlStatement[]
+                            {
+                                Rds.UpdateOrInsertGroups(
+                                    param: Rds.GroupsParam()
+                                        .TenantId(group.Ldap.LdapTenantId)
+                                        .GroupName(group.DisplayName)
+                                        .Disabled(false)
+                                        .LdapSync(true)
+                                        .LdapGuid(group.LdapObjectGUID)
+                                        .LdapSearchRoot(group.Ldap.LdapSearchRoot)
+                                        .SynchronizedTime(synchronizedTime),
+                                    where: Rds.GroupsWhere().LdapGuid(group.LdapObjectGUID))
+                            });
+                        // 一旦、ステータステーブルを更新
+                        if (statusUpdateTimer < DateTime.Now)
+                        {
+                            statusUpdateTimer = DateTime.Now.AddSeconds(60);
+                            Repository.ExecuteNonQuery(
+                                context: context,
+                                transactional: true,
+                                statements: new SqlStatement[]
+                                {
+                                    StatusUtilities.UpdateStatus(
+                                        tenantId: group.Ldap.LdapTenantId, type: StatusUtilities.Types.GroupsUpdated)
+                                });
+                        }
+
+                    });
+                // 以前AD連携された 子グループ削除＆グループメンバー削除
+                var groupIds = Rds.SelectGroups(
+                    column: Rds.GroupsColumn().GroupId(),
+                    where: Rds.GroupsWhere()
+                        .SynchronizedTime(_operator: " is not null")
+                        .SynchronizedTime(value: synchronizedTime));
+                Repository.ExecuteNonQuery(
+                    context: context,
+                    transactional: true,
+                    statements: new SqlStatement[]
+                    {
+                        Rds.PhysicalDeleteGroupMembers(
+                            where: Rds.GroupMembersWhere()
+                                .GroupId_In(
+                                    sub: groupIds)),
+                        Rds.PhysicalDeleteGroupChildren(
+                            where: Rds.GroupChildrenWhere()
+                                .GroupId_In(
+                                    sub: groupIds)),
+                        // 削除されたグループのDisableをOnにする。
+                        new SqlStatement(
+                            commandText: Def.Sql.AdGroupDeleteToDisable,
+                            param: new SqlParamCollection {
+                                { "SynchronizedTime", synchronizedTime }
+                            }),
+                    });
+                // 一旦、ステータステーブルを更新
+                groups
+                    .Select(group => group.Value.Ldap.LdapTenantId)
+                    .Distinct()
+                    .ForEach(tenantId =>
+                    {
+                        Repository.ExecuteNonQuery(
+                            context: context,
+                            transactional: true,
+                            statements: new SqlStatement[]
+                            {
+                                StatusUtilities.UpdateStatus(
+                                    tenantId: tenantId, type: StatusUtilities.Types.GroupsUpdated)
+                            });
+                    });
+                // 子グループ追加＆グループメンバー追加
+                groups.Values
+                    .ForEach(groupItem =>
+                    {
+                        var directorySearcher = DirectorySearcher(
+                            loginId: groupItem.Ldap.LdapSyncUser,
+                            password: groupItem.Ldap.LdapSyncPassword,
+                            ldap: groupItem.Ldap,
+                            ldapSearchRoot: groupItem.ADsPath);
+                        var ldapUrl = groupItem.ADsPath.Substring(0, groupItem.ADsPath.LastIndexOf('/') + 1);
+                        var userLoginIds = new List<string>();
+                        var groupChild = new List<GroupItem>();
+                        var groupChildAll = new List<GroupItem>();
+                        var memberLow = 0;
+                        var memberSize = 1000;
+                        var firstTime = true;
+                        var isLoop = true;
+                        while (isLoop)
+                        {
+                            directorySearcher.PropertiesToLoad.Clear();
+                            directorySearcher.PropertiesToLoad.Add($"member;range={memberLow}-{memberLow + memberSize - 1}");
+                            var result = directorySearcher.FindOne();
+                            logs.Add("result", result?.Path);
+                            if (result == null) break;
+                            isLoop = false;
+                            foreach (string name in result.Properties.PropertyNames)
+                            {
+                                if (!name.StartsWith("member;range=")) continue;
+                                foreach (string item in result.Properties[name])
+                                {
+                                    var key = ldapUrl + item;
+                                    if (users.ContainsKey(key)) userLoginIds.Add(users[key]);
+                                    if (groups.ContainsKey(key)) groupChild.Add(groups[key]);
+                                }
+                                if (name.IndexOf("*") < 0)
+                                {
+                                    memberLow += memberSize;
+                                    isLoop = true;
+                                }
+                            }
+                            // メンバー全削除＆追加・子グループ全削除＆追加
+                            if (userLoginIds.Any() || groupChild.Any())
+                            {
+                                Repository.ExecuteNonQuery(
+                                    context: context,
+                                    transactional: true,
+                                    statements: new SqlStatement[]
+                                    {
+                                        new SqlStatement(
+                                            commandText: Def.Sql.LdapUpdateGroupMembersAndChildren
+                                                .Replace("{{userLoginIds_condition}}",
+                                                    userLoginIds.Any()
+                                                        ? $" \"t3\".\"LoginId\" in ({userLoginIds.Select(s => $"'{s}'").Join()}) "
+                                                        : "(1=0)")
+                                                .Replace("{{groupGuids_condition}}",
+                                                    groupChild.Any()
+                                                        ? $" \"t5\".\"LdapGuid\" in ({groupChild.Select(s => $"'{s.LdapObjectGUID}'").Join()}) "
+                                                        : "(1=0)"),
+                                            param: new SqlParamCollection {
+                                                { "TenantId", groupItem.Ldap.LdapTenantId },
+                                                { "LdapObjectGUID", groupItem.LdapObjectGUID },
+                                                { "isFirstTime",  firstTime },
+                                                { "isMemberInsert", userLoginIds.Any() },
+                                                { "isChildInsert", groupChild.Any() },
+                                            })
+                                    });
+                            }
+                            firstTime = false;
+                            groupChildAll.AddRange(groupChild);
+                            groupChild.Clear();
+                            userLoginIds.Clear();
+                        }
+                        if (groupChildAll.Any())
+                        {
+                            groupGraph.Add(groupItem.GraphIdx, groupChildAll.Select(v => v.GraphIdx).ToArray());
+                        }
+                    });
+                var checkCycle = GroupChildUtilities.CheckGroupChildCycle(graph: groupGraph, lvMax: Parameters.General.GroupsDepthMax);
+                if (checkCycle.status != Error.Types.None)
+                {
+                    new SysLogModel(
+                        context: context,
+                        method: "LdapSyncGroup",
+                        message: checkCycle.status == Error.Types.CircularGroupChild
+                            ? "Failed to import LDAP group.Groups in LDAP are circular references." +
+                                $"({groups.Where(v => v.Value.GraphIdx == checkCycle.groupIdx)
+                                    .Select(v => v.Value.ADsPath)
+                                    .FirstOrDefault()})"
+                            : "Failed to import LDAP group.LDAP groups are nested too deeply.",
+                        sysLogType: SysLogModel.SysLogTypes.UserError);
+                    return;
+                }
+                // テナントの子グループユーザ再構成
+                groups
+                    .Select(group => group.Value.Ldap.LdapTenantId)
+                    .Distinct()
+                    .ForEach(tenantId =>
+                    {
+                        Repository.ExecuteNonQuery(
+                            context: context,
+                            transactional: true,
+                            statements: new SqlStatement[]
+                            {
+                                GroupMemberUtilities.RefreshAllChildMembers(tenantId),
+                                StatusUtilities.UpdateStatus(
+                                    tenantId: tenantId, type: StatusUtilities.Types.GroupsUpdated)
+                            });
+                    });
+            }
+            catch (DirectoryServicesCOMException e)
+            {
+                new SysLogModel(
+                    context: context,
+                    extendedErrorMessage: e.ExtendedErrorMessage,
+                    e: e);
+            }
+            catch (Exception e)
+            {
+                new SysLogModel(context: context, e: e, logs: logs);
+            }
+        }
+
+        private static void SetPropertiesToLoad(DirectorySearcher directorySearcher, ParameterAccessor.Parts.Ldap ldap)
+        {
+            // ActiveDirectoryから取得するプロパティを指定。(指定しないと全部取得される為)
+            var list = new List<string>
+            {
+                "ADsPath",
+                "UserAccountControl",
+                "sAMAccountName",
+                "groupType",
+                "objectGUID",
+                ldap.LdapDeptCode,
+                ldap.LdapDeptName,
+                ldap.LdapUserCode,
+                ldap.LdapMailAddress,
+                ldap.LdapSearchProperty,
+                ldap.LdapLastName,
+                ldap.LdapFirstName,
+                ldap.LdapGroupName,
+                ldap.LdapGroupNamePattern,
+            };
+            ldap.LdapExtendedAttributes?.ForEach(attribute => list.Add(attribute.Name));
+            directorySearcher.PropertiesToLoad.AddRange(list.Where(word => !word.IsNullOrEmpty()).ToArray());
         }
 
         private static bool Enabled(SearchResult result, ParameterAccessor.Parts.Ldap ldap)
@@ -342,7 +668,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         private static DirectorySearcher DirectorySearcher(
-            string loginId, string password, ParameterAccessor.Parts.Ldap ldap)
+            string loginId, string password, ParameterAccessor.Parts.Ldap ldap, string ldapSearchRoot = null)
         {
             if (!Enum.TryParse(ldap.LdapAuthenticationType, out AuthenticationTypes type)
                 || !Enum.IsDefined(typeof(AuthenticationTypes), type))
@@ -350,8 +676,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 type = AuthenticationTypes.Secure;
             }
             return new DirectorySearcher(loginId == null || password == null
-                ? new DirectoryEntry(ldap.LdapSearchRoot)
-                : new DirectoryEntry(ldap.LdapSearchRoot, loginId, password, type));
+                ? new DirectoryEntry(ldapSearchRoot ?? ldap.LdapSearchRoot)
+                : new DirectoryEntry(ldapSearchRoot ?? ldap.LdapSearchRoot, loginId, password, type));
         }
 
         private static string Property(
@@ -387,6 +713,18 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 }
             }
             return string.Empty;
+        }
+
+        private static string PropertyGUID(
+            this SearchResult result, Context context, string name)
+        {
+            return new Guid((Byte[])result.Properties[name][0]).ToString("N");
+        }
+
+        private static bool IsGroup(
+            this SearchResult result, Context context)
+        {
+            return result.Properties.Contains("groupType");
         }
 
         private static string LoginId(

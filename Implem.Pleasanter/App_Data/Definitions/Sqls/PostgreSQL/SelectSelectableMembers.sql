@@ -19,6 +19,7 @@ from(
                 "GroupMembers" as "GroupMembers"
             where 
                 ("GroupMembers"."GroupId"=@GroupId) 
+                and ("GroupMembers"."ChildGroup" = 'false')
                 -- 削除メンバーを除く
                 {0}
                 -- and "GroupMembers"."DeptId" not in ( {0} )
@@ -54,7 +55,8 @@ from(
             from 
                 "GroupMembers" as "GroupMembers"
             where 
-                "GroupMembers"."GroupId"= @GroupId 
+                ("GroupMembers"."GroupId"=@GroupId) 
+                and ("GroupMembers"."ChildGroup" = 'false')
                 -- 削除メンバーを除く
                 {2}
                 -- and "GroupMembers"."UserId" not in ( {0} ) 

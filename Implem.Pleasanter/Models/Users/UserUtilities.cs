@@ -4604,7 +4604,7 @@ namespace Implem.Pleasanter.Models
                         new HtmlBuilder().ApiEditor(
                             context: context,
                             userModel: userModel))
-                    .Message(Messages.ApiKeyCreated(context: context))
+                    .Message(Messages.ApiKeyDeleted(context: context))
                     .ToJson();
             }
         }
@@ -5536,6 +5536,38 @@ namespace Implem.Pleasanter.Models
                         .UsersCount(),
                     where: Rds.UsersWhere()
                         .UserId_In(value: ids)));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string GeneratePassword(string passwordObject, string passwordValidateObject)
+        {
+            var password = "";
+            var regex = "";
+            var defaultRegex = Parameters.Security.PasswordPolicies[0].Enabled
+                ? Parameters.Security.PasswordPolicies[0].Regex
+                : "[!-~]{ 6,}";
+            foreach(var policy in Parameters.Security.PasswordPolicies.Skip(1).Where(o => o.Enabled))
+            {
+                regex += "(?=.*?" + policy.Regex + ")";
+            }
+            regex += defaultRegex;
+            var xeger = new Fare.Xeger(defaultRegex, new Random());
+            while(!System.Text.RegularExpressions.Regex.IsMatch(password, $"^{regex}$"))
+            {
+                password = xeger.Generate();
+            }
+            return new ResponseCollection()
+                .Val(
+                    target: passwordObject,
+                    value: password)
+                .Val(
+                    target: passwordValidateObject,
+                    value: password)
+                .SetData(target: passwordObject)
+                .SetData(target: passwordValidateObject)
+                .ToJson();
         }
     }
 }
