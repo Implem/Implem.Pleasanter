@@ -107,7 +107,7 @@ html body {
 }
 
 /* コンテンツ */
-#MainContainer {
+#MainContainer:has(#NavigationsUpperRight) {
     margin-left: 52px;
 }
 
