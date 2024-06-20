@@ -944,6 +944,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-error");
         }
 
+        public static Message invalidUpsertKey(Context context, params string[] data)
+        {
+            return Get(
+                id: "invalidUpsertKey",
+                text: Displays.invalidUpsertKey(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
         public static Message InviteMessage(Context context, params string[] data)
         {
             return Get(
@@ -2670,6 +2680,17 @@ namespace Implem.Pleasanter.Libraries.Responses
             return ResponseMessage(
                 context: context,
                 message: InvalidSsoCode(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseinvalidUpsertKey(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: invalidUpsertKey(
                     context: context,
                     data: data),
                 target: target);
