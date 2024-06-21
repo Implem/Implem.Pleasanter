@@ -67,6 +67,10 @@
     color: black;
 }
 
+.field-control .ui-multiselect-open + span {
+    color: black;
+}
+
 .field-control .ui-multiselect .ui-icon.ui-icon-triangle-1-s {
     background-image: url("images/ui-icons_3d3d3d_256x240.png");
 }
@@ -103,7 +107,7 @@ html body {
 }
 
 /* コンテンツ */
-#MainContainer {
+#MainContainer:has(#NavigationsUpperRight) {
     margin-left: 52px;
 }
 
@@ -153,13 +157,38 @@ nav.both.cf {
     position: absolute;
     top: 8px;
     left: 8px;
-    z-index: 1;
+    z-index: 3;
 }
 
 #CopyDirectUrlToClipboard {
     border: 1px solid #CECECE;
     padding: 0 2px;
     border-radius: 4px;
+}
+
+body:has(#Publish[value="1"]) {
+    #PublishWarning {
+        clear: both;
+        width: auto;
+        margin: 0;
+        border-radius: 0;
+        float: none;
+        overflow: hidden;
+        padding: 8px;
+        background: #E03E3E;
+    }
+    &:has(#Action[value="index"]) {
+        #MainCommandsContainer,
+        #BottomMargin{
+            display: none;
+        }
+    }
+    &:has(#Action[value="edit"]) {
+        #PublishWarning{
+            margin: 8px 16px;
+            border-radius: 5px;
+        }
+    }
 }
 
 /* パンくず */

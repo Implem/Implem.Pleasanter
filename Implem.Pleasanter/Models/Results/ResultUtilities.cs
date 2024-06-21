@@ -4431,24 +4431,41 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     errorData: new ErrorData(type: Error.Types.InvalidJsonData));
             }
+            var error = new ErrorData(Error.Types.None);
             api.View = api.View ?? new View();
             api.Keys.ForEach(columnName =>
             {
+                if (error.Type != Error.Types.None) return;
                 var objectValue = data.ObjectValue(columnName: columnName);
                 if (objectValue != null)
                 {
+                    var column = ss.GetColumn(
+                        context: context,
+                        columnName: columnName);
+                    if (column?.TypeName == "datetime"
+                        && objectValue.ToDateTime().InRange() == false)
+                    {
+                        error = new ErrorData(
+                            type: Error.Types.invalidUpsertKey,
+                            data: $"('{columnName}'='{objectValue.ToStr()}')");
+                        return;
+                    }
                     api.View.AddColumnFilterHash(
                         context: context,
                         ss: ss,
-                        column: ss.GetColumn(
-                            context: context,
-                            columnName: columnName),
+                        column: column,
                         objectValue: objectValue);
                     api.View.AddColumnFilterSearchTypes(
                         columnName: columnName,
                         searchType: Column.SearchTypes.ExactMatch);
                 }
             });
+            if (error.Type != Error.Types.None)
+            {
+                return ApiResults.Error(
+                    context: context,
+                    errorData: error);
+            }
             var resultApiModel = context.RequestDataString.Deserialize<ResultApiModel>();
             if (resultApiModel == null)
             {
@@ -4544,12 +4561,23 @@ namespace Implem.Pleasanter.Models
                 context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
                 return false;
             }
+            var error = Error.Types.None;
             api.View = api.View ?? new View();
             api.Keys.ForEach(columnName =>
             {
+                if (error != Error.Types.None) return;
                 var objectValue = resultApiModel.ObjectValue(columnName: columnName);
                 if (objectValue != null)
                 {
+                    var column = ss.GetColumn(
+                        context: context,
+                        columnName: columnName);
+                    if (column?.TypeName == "datetime"
+                        && objectValue.ToDateTime().InRange() == false)
+                    {
+                        error = Error.Types.invalidUpsertKey;
+                        return;
+                    }
                     api.View.AddColumnFilterHash(
                         context: context,
                         ss: ss,
@@ -4562,6 +4590,10 @@ namespace Implem.Pleasanter.Models
                         searchType: Column.SearchTypes.ExactMatch);
                 }
             });
+            if (error != Error.Types.None)
+            {
+                return false;
+            }
             var resultModel = new ResultModel(
                 context: context,
                 ss: ss,
