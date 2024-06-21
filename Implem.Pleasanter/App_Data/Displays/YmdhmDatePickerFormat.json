@@ -19,7 +19,7 @@
         },
         {
             "Language": "ko",
-            "Body": "Y.m.d H:i"
+            "Body": "Y.m.d. H:i"
         },
         {
             "Language": "es",

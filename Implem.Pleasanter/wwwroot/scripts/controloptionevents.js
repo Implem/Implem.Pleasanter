@@ -10,6 +10,9 @@
         case 'Y.m.d':
             dateTime = moment().utcOffset(timeZoneOffset).format('YYYY.MM.DD');
             break;
+        case 'Y.m.d.':
+            dateTime = moment().utcOffset(timeZoneOffset).format('YYYY.MM.DD.');
+            break;
         case 'm/d/Y':
             dateTime = moment().utcOffset(timeZoneOffset).format('MM/DD/YYYY');
             break;
@@ -19,6 +22,9 @@
         case 'Y.m.d H:i':
             dateTime = moment().utcOffset(timeZoneOffset).format('YYYY.MM.DD HH:mm');
             break;
+        case 'Y.m.d. H:i':
+            dateTime = moment().utcOffset(timeZoneOffset).format('YYYY.MM.DD. HH:mm');
+            break;
         case 'm/d/Y H:i':
             dateTime = moment().utcOffset(timeZoneOffset).format('MM/DD/YYYY HH:mm');
             break;
@@ -27,6 +33,9 @@
             break;
         case 'Y.m.d H:i:s':
             dateTime = moment().utcOffset(timeZoneOffset).format('YYYY.MM.DD HH:mm:ss');
+            break;
+        case 'Y.m.d. H:i:s':
+            dateTime = moment().utcOffset(timeZoneOffset).format('YYYY.MM.DD. HH:mm:ss');
             break;
         case 'm/d/Y H:i:s':
             dateTime = moment().utcOffset(timeZoneOffset).format('MM/DD/YYYY HH:mm:ss');
