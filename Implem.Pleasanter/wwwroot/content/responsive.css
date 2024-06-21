@@ -123,7 +123,7 @@
 #RecordInfo div p { font-size: 2.6vw; }
 
 #Application {
-    padding-top: 10%;
+    padding-top: 0;
     padding-bottom: 15%;
 }
 #MainForm { display: flex; flex-direction: column; }
