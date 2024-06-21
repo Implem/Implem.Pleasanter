@@ -61,6 +61,7 @@ namespace Implem.Pleasanter.Libraries.General
             InvalidMemberType,
             InvalidRequest,
             InvalidSsoCode,
+            invalidUpsertKey,
             ItemsLimit,
             JoeAccountCheck,
             LockedRecord,
@@ -333,6 +334,10 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.InvalidSsoCode:
                     return Messages.InvalidSsoCode(
+                        context: context,
+                        data: data);
+                case Types.invalidUpsertKey:
+                    return Messages.invalidUpsertKey(
                         context: context,
                         data: data);
                 case Types.ItemsLimit:
