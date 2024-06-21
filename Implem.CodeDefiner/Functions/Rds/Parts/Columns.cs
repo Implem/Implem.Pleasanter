@@ -100,7 +100,8 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
                 columnDefinition.MaxLength >= 1024)
             {
                 //MySQLにおいてtext型を指定するとエラーになる1024以上のカラムはvarchar(760)に変換する。
-                fullTypeText = NeedReduce(factory: factory, columnDefinition: columnDefinition)
+                fullTypeText =  NeedReduceByDefault(columnDefinition: columnDefinition) ||
+                    NeedReduceByIndex(factory: factory, columnDefinition: columnDefinition)
                     ? "varchar(760)"
                     : "text";
             }
@@ -136,12 +137,18 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
             return factory.SqlDataType.Convert(commandText);
         }
 
-        internal static bool NeedReduce(
+        internal static bool NeedReduceByDefault(
+            ColumnDefinition columnDefinition)
+        {
+            //MySQLにおいてtext型を指定するとエラーになる条件に当てはまるか判定する
+            return !columnDefinition.Default.IsNullOrEmpty();
+        }
+
+        internal static bool NeedReduceByIndex(
             ISqlObjectFactory factory,
             ColumnDefinition columnDefinition)
         {
             //MySQLにおいてtext型を指定するとエラーになる条件に当てはまるか判定する
-            if (!columnDefinition.Default.IsNullOrEmpty()) return true;
             //_deleteおよび_historyでデータ型の差異が生じないよう通常テーブルのIndex情報を参照する
             foreach (IndexInfo i in Indexes.IndexInfoCollection(
                 factory: factory,

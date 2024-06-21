@@ -38,6 +38,10 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
             DataRow rdsColumn,
             ColumnDefinition columnDefinition)
         {
+            bool IsRdsReduced() {
+                return rdsColumn["TypeName"].ToString() == "varchar" && rdsColumn["max_length"].ToString()
+                    == (760 * factory.SqlDefinitionSetting.NationalCharacterStoredSizeCoefficient).ToString();
+            }
             bool VarcharMySql()
             {
                 if (columnDefinition.MaxLength == -1)
@@ -54,16 +58,30 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
                             coefficient: factory.SqlDefinitionSetting.NationalCharacterStoredSizeCoefficient)
                         : true;
                 }
+                else if (Columns.NeedReduceByDefault(columnDefinition: columnDefinition))
+                {
+                    return IsRdsReduced()
+                        ? false
+                        : true;
+                }
+                else if (Parameters.Rds.DisableIndexChangeDetection)
+                {
+                    //前提：Definition_ColumnのMaxlengthがnvarchar(1024)以上かつデフォルト値の指定がない場合、
+                    //MySQLのcreate tableではvarchar(760)又はtextをカラムのデータ型に指定する。
+                    //→その分岐条件は「Index指定の有無」であるため、Indexの差分でMigrateさせない環境下では、
+                    //現在のDBの状態がどちらかのデータ型であればMigrateを実施しないと判定する。
+                    return IsRdsReduced() || rdsColumn["TypeName"].ToString() == "text"
+                        ? false
+                        : true;
+                }
                 else
                 {
-                    return Columns.NeedReduce(factory: factory, columnDefinition: columnDefinition) &&
-                        rdsColumn["TypeName"].ToString() == "varchar" &&
-                        rdsColumn["max_length"].ToString()
-                            == (760 * factory.SqlDefinitionSetting.NationalCharacterStoredSizeCoefficient).ToString()
-                              ? false
-                              : rdsColumn["TypeName"].ToString() == "text"
-                                ? false
-                                : true;
+                    return Columns.NeedReduceByIndex(factory: factory, columnDefinition: columnDefinition) &&
+                        IsRdsReduced() ||
+                            !Columns.NeedReduceByIndex(factory: factory, columnDefinition: columnDefinition) &&
+                                rdsColumn["TypeName"].ToString() == "text"
+                        ? false
+                        : true;
                 }
             }
             //MySQL専用サイズ変更有無の判定をここで行う。

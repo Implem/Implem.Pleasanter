@@ -256,6 +256,7 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
                     .OrderBy(o => o)
                     .Join(",") != dbIndexColumnCollection
                         .Where(o => o["Name"].ToString() != "PRIMARY")
+                        .Where(o => o["Name"].ToString() != "ftx")
                         .Select(o => o["Name"].ToString())
                         .Distinct()
                         .OrderBy(o => o)
