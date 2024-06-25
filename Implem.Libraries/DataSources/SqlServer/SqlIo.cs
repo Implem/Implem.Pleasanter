@@ -53,6 +53,7 @@ namespace Implem.Libraries.DataSources.SqlServer
 
         private void SetCommandText(ISqlObjectFactory factory)
         {
+            CommandText.AppendLine(factory.SqlCommandText.BeforeAllCommand());
             SqlContainer.SqlStatementCollection
                 .Select((o, i) => new
                 {

@@ -7,6 +7,11 @@ namespace Implem.PostgreSql
 {
     internal class PostgreSqlCommandText : ISqlCommandText
     {
+        public string BeforeAllCommand()
+        {
+            return string.Empty;
+        }
+
         public string CreateDelete(string template)
         {
             return template + " RETURNING * ";

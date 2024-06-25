@@ -5,6 +5,8 @@ namespace Implem.IRds
 {
     public interface ISqlCommandText
     {
+        string BeforeAllCommand();
+
         string CreateSelectIdentity(
             string dataTableName,
             string template,

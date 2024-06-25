@@ -7,6 +7,10 @@ namespace Implem.MySql
 {
     internal class MySqlCommandText : ISqlCommandText
     {
+        public string BeforeAllCommand()
+        {
+            return "set session sql_mode = 'ansi_quotes';";
+        }
         public string CreateDelete(string template)
         {
             return template + " RETURNING * ";
