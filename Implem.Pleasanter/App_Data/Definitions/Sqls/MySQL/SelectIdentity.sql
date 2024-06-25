@@ -1,1 +1,1 @@
-﻿ RETURNING '{{"DataTableName":"{0}","Id":' || {1} || '}}' 
+﻿; select concat('{{"DataTableName":"{0}","Id":',last_insert_id(),'}}');

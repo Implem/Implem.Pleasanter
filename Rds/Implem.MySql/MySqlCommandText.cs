@@ -11,6 +11,7 @@ namespace Implem.MySql
         {
             return "set session sql_mode = 'ansi_quotes';";
         }
+
         public string CreateDelete(string template)
         {
             return template + " RETURNING * ";
@@ -69,21 +70,11 @@ namespace Implem.MySql
             var commandText = new StringBuilder();
 
             commandText
-                .Append(" with CTE1 as ( ")
-                .Append("update ")
+                .Append("insert into ")
                 .Append(tableBracket)
-                .Append(setClause);
-            sqlWhereAppender(commandText);
-            commandText
-                .Append(" returning 0 ")
-                .Append(" ) ")
-                .Append(" insert into ")
-                .Append(tableBracket)
-                .Append(" ( ")
-                .Append(intoClause)
-                .Append(" ) select ")
-                .Append(valueClause)
-                .Append(" where not exists(select * from CTE1) ");
+                .Append($"({intoClause}) values({valueClause})")
+                .Append(" on duplicate key update ")
+                .Append(setClause.Replace(" set ", string.Empty));
             return commandText.ToString();
         }
 
