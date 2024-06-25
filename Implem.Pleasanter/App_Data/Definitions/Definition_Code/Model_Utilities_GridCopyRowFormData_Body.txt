@@ -24,23 +24,12 @@
                 .Where(column => !columns.Any(p =>
                     p.ColumnName == column.ColumnName))
                 .ForEach(column =>
-                {
-                    var value = #modelName#Model.ControlValue(
-                        context: context,
-                        ss: ss,
-                        column: column);
-                    if(value != null)
-                    {
-                        //数値項目の場合、「単位」を値に連結する
-                        value += #modelName#Model.NumUnit(
-                            context: context,
-                            ss: ss,
-                            column: column);
-                    }
                     res.SetFormData(
                         $"{ss.ReferenceType}_{column.ColumnName}_{ss.SiteId}_{newRowId}",
-                        value);
-                });
+                        #modelName#Model.ControlValue(
+                            context: context,
+                            ss: ss,
+                            column: column)));
     }
     return res;
 }

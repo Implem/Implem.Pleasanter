@@ -459,11 +459,6 @@ public static HtmlBuilder Field(
         column: column);
     if (value != null)
     {
-        //数値項目の場合、「単位」を値に連結する
-        value += #modelName#Model.NumUnit(
-            context: context,
-            ss: ss,
-            column: column);
         SetChoiceHashByFilterExpressions(
             context: context,
             ss: ss,
@@ -753,27 +748,6 @@ private static HtmlAttributes TabActive(
         name: "tab-active",
         value: tabIndex.ToString(),
         _using: tabIndex > 0);
-}
-
-public static string NumUnit(
-    this #ModelName#Model #modelName#Model,
-    Context context,
-    SiteSettings ss,
-    Column column)
-{
-    if (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty) != "Num"
-        || column.ControlType == "Spinner")
-    {
-        return string.Empty;
-    }
-    return (column.GetEditorReadOnly()
-        || Permissions.ColumnPermissionType(
-            context: context,
-            ss: ss,
-            column: column,
-            baseModel: #modelName#Model) != Permissions.ColumnPermissionTypes.Update
-                ? column.Unit
-                : string.Empty);
 }
 
 public static string ControlValue(
