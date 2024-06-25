@@ -142,7 +142,8 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         {
             if (Added == true)
             {
-                if (Parameters.BinaryStorage.TemporaryBinaryStorageProvider == "Rds")
+                if (Parameters.BinaryStorage.TemporaryBinaryStorageProvider == "Rds"
+                    && context.Ajax != false)
                 {
                     // Binariesテーブルにアップロードした一時的なレコードを更新する
                     // 一時的なレコードのBinaryTypeをTemporaryからAttachmentsに変更する
@@ -333,7 +334,8 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 }
             }
             else
-            {   if (Parameters.BinaryStorage.TemporaryBinaryStorageProvider == "Rds")
+            {   if (Parameters.BinaryStorage.TemporaryBinaryStorageProvider == "Rds"
+                    && context.Ajax != false)
                 {
                     var hash = Repository.ExecuteScalar_bytes(
                         context: context,
