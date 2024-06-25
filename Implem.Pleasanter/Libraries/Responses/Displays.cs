@@ -3899,6 +3899,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string FailedBulkUpsert(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "FailedBulkUpsert",
+                data: data);
+        }
+
         public static string FailedReadFile(
             Context context,
             params string[] data)

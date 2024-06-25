@@ -380,6 +380,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_BulkProcessCases": Code.Model_BulkProcessCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_BulkProcessCases, definitionRow, CodeXls); break;
                     case "Model_BulkUpdateCases": Code.Model_BulkUpdateCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_BulkUpdateCases, definitionRow, CodeXls); break;
                     case "Model_BulkUpdateSelectChangedCases": Code.Model_BulkUpdateSelectChangedCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_BulkUpdateSelectChangedCases, definitionRow, CodeXls); break;
+                    case "Model_BulkUpsertByApiCases": Code.Model_BulkUpsertByApiCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_BulkUpsertByApiCases, definitionRow, CodeXls); break;
                     case "Model_BurnDownCases": Code.Model_BurnDownCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_BurnDownCases, definitionRow, CodeXls); break;
                     case "Model_BurnDownJsonCases": Code.Model_BurnDownJsonCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_BurnDownJsonCases, definitionRow, CodeXls); break;
                     case "Model_BurnDownRecordDetailsJsonCases": Code.Model_BurnDownRecordDetailsJsonCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_BurnDownRecordDetailsJsonCases, definitionRow, CodeXls); break;
@@ -758,6 +759,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_BulkProcess": Code.Model_Utilities_BulkProcess = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_BulkProcess, definitionRow, CodeXls); break;
                     case "Model_Utilities_BulkUpdate": Code.Model_Utilities_BulkUpdate = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_BulkUpdate, definitionRow, CodeXls); break;
                     case "Model_Utilities_BulkUpdate_ColumnCases": Code.Model_Utilities_BulkUpdate_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_BulkUpdate_ColumnCases, definitionRow, CodeXls); break;
+                    case "Model_Utilities_BulkUpsertByApi": Code.Model_Utilities_BulkUpsertByApi = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_BulkUpsertByApi, definitionRow, CodeXls); break;
                     case "Model_Utilities_BurnDown": Code.Model_Utilities_BurnDown = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_BurnDown, definitionRow, CodeXls); break;
                     case "Model_Utilities_Calendar": Code.Model_Utilities_Calendar = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Calendar, definitionRow, CodeXls); break;
                     case "Model_Utilities_CancelNewRow": Code.Model_Utilities_CancelNewRow = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CancelNewRow, definitionRow, CodeXls); break;
@@ -6892,6 +6894,7 @@ namespace Implem.DefinitionAccessor
         public string Model_BulkProcessCases;
         public string Model_BulkUpdateCases;
         public string Model_BulkUpdateSelectChangedCases;
+        public string Model_BulkUpsertByApiCases;
         public string Model_BurnDownCases;
         public string Model_BurnDownJsonCases;
         public string Model_BurnDownRecordDetailsJsonCases;
@@ -7270,6 +7273,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_BulkProcess;
         public string Model_Utilities_BulkUpdate;
         public string Model_Utilities_BulkUpdate_ColumnCases;
+        public string Model_Utilities_BulkUpsertByApi;
         public string Model_Utilities_BurnDown;
         public string Model_Utilities_Calendar;
         public string Model_Utilities_CancelNewRow;
@@ -7733,6 +7737,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_BulkProcessCases = new CodeDefinition();
         public CodeDefinition Model_BulkUpdateCases = new CodeDefinition();
         public CodeDefinition Model_BulkUpdateSelectChangedCases = new CodeDefinition();
+        public CodeDefinition Model_BulkUpsertByApiCases = new CodeDefinition();
         public CodeDefinition Model_BurnDownCases = new CodeDefinition();
         public CodeDefinition Model_BurnDownJsonCases = new CodeDefinition();
         public CodeDefinition Model_BurnDownRecordDetailsJsonCases = new CodeDefinition();
@@ -8111,6 +8116,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_BulkProcess = new CodeDefinition();
         public CodeDefinition Model_Utilities_BulkUpdate = new CodeDefinition();
         public CodeDefinition Model_Utilities_BulkUpdate_ColumnCases = new CodeDefinition();
+        public CodeDefinition Model_Utilities_BulkUpsertByApi = new CodeDefinition();
         public CodeDefinition Model_Utilities_BurnDown = new CodeDefinition();
         public CodeDefinition Model_Utilities_Calendar = new CodeDefinition();
         public CodeDefinition Model_Utilities_CancelNewRow = new CodeDefinition();

@@ -4656,6 +4656,228 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public static ContentResultInheritance BulkUpsertByApi(
+            Context context,
+            SiteSettings ss)
+        {
+            if (!Mime.ValidateOnApi(contentType: context.ContentType))
+            {
+                return ApiResults.BadRequest(context: context);
+            }
+            var api = context.RequestDataString.Deserialize<Api>();
+            var list = context.RequestDataString.Deserialize<Results.ResultBulkUpsertApiModel>();
+            if (list?.Data == null)
+            {
+                return ApiResults.Error(
+                    context: context,
+                    errorData: new ErrorData(type: Error.Types.InvalidJsonData));
+            }
+            if (Parameters.General.BulkUpsertMax > 0 && Parameters.General.BulkUpsertMax < list.Data.Count)
+            {
+                return ApiResults.Get(new ApiResponse(
+                    id: context.Id,
+                    statusCode: 500,
+                    message: Error.Types.ImportMax.Message(
+                        context: context,
+                        data: Parameters.General.BulkUpsertMax.ToString()).Text));
+            }
+            var recodeCount = 0;
+            var insertCount = 0;
+            var updateCount = 0;
+            var error = new ErrorData(type: Error.Types.None);
+            foreach (var resultApiModel in list.Data)
+            {
+                recodeCount++;
+                var view = api.View ?? new View();
+                api.Keys?.ForEach(columnName =>
+                {
+                    if (error.Type != Error.Types.None) return;
+                    var objectValue = resultApiModel.ObjectValue(columnName: columnName);
+                    if (objectValue != null)
+                    {
+                        var column = ss.GetColumn(
+                            context: context,
+                            columnName: columnName);
+                        if (column?.TypeName == "datetime"
+                            && objectValue.ToDateTime().InRange() == false)
+                        {
+                            error = new ErrorData(
+                                type: Error.Types.invalidUpsertKey,
+                                data: $"('{columnName}'='{objectValue.ToStr()}')");
+                            return;
+                        }
+                        view.AddColumnFilterHash(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            objectValue: objectValue);
+                        view.AddColumnFilterSearchTypes(
+                            columnName: columnName,
+                            searchType: Column.SearchTypes.ExactMatch);
+                    }
+                });
+                if (error.Type != Error.Types.None) break;
+                var resultModel = new ResultModel(
+                    context: context,
+                    ss: ss,
+                    resultId: 0,
+                    view: api.Keys?.Any() != true ? null : view,
+                    resultApiModel: resultApiModel);
+                switch (resultModel.AccessStatus)
+                {
+                    case Databases.AccessStatuses.Selected:
+                    case Databases.AccessStatuses.NotFound:
+                        break;
+                    case Databases.AccessStatuses.Overlap:
+                        error = new ErrorData(type: Error.Types.Overlap);
+                        break;
+                    default:
+                        error = new ErrorData(type: Error.Types.NotFound);
+                        break;
+                }
+                if (error.Type != Error.Types.None) break;
+                if (resultModel.AccessStatus == Databases.AccessStatuses.Selected)
+                {
+                    // Keysの指定があり、該当レコードがある場合に更新
+                    error = ResultValidators.OnUpdating(
+                        context: context,
+                        ss: ss,
+                        resultModel: resultModel,
+                        api: true,
+                        serverScript: true);
+                    if (error.Type != Error.Types.None) break;
+                    resultModel.SiteId = ss.SiteId;
+                    resultModel.SetTitle(
+                        context: context,
+                        ss: ss);
+                    resultModel.VerUp = Versions.MustVerUp(
+                        context: context,
+                        ss: ss,
+                        baseModel: resultModel);
+                    error = resultModel.Update(
+                        context: context,
+                        ss: ss,
+                        notice: true);
+                    BinaryUtilities.UploadImage(
+                        context: context,
+                        ss: ss,
+                        id: resultModel.ResultId,
+                        postedFileHash: resultModel.PostedImageHash);
+                    if (error.Type != Error.Types.None) break;
+                    updateCount++;
+                }
+                else if (resultModel.AccessStatus == Databases.AccessStatuses.NotFound
+                    && (api.Keys?.Any() != true || list.KeyNotFoundCreate != false))
+                {
+                    // Keysの指定が無い場合は全て新規作成。
+                    // Keysの指定があり、該当レコードがなく KeyNotFoundCreate =true の場合に新規作成
+                    error = ResultValidators.OnCreating(
+                        context: context,
+                        ss: ss,
+                        resultModel: resultModel,
+                        api: true);
+                    if (error.Type != Error.Types.None) break;
+                    resultModel.SiteId = ss.SiteId;
+                    resultModel.SetTitle(
+                        context: context,
+                        ss: ss);
+                    var errorData = resultModel.Create(
+                        context: context,
+                        ss: ss,
+                        notice: true);
+                    BinaryUtilities.UploadImage(
+                        context: context,
+                        ss: ss,
+                        id: resultModel.ResultId,
+                        postedFileHash: resultModel.PostedImageHash);
+                    if (error.Type != Error.Types.None) break;
+                    insertCount++;
+                }
+            }
+            if (error.Type != Error.Types.None)
+            {
+                // エラー時の戻り
+                var errMessage = error.Data?.Any() == true
+                        ? Displays.Get(
+                            context: context,
+                            id: error.Type.ToString()).Params(error.Data)
+                        : Displays.Get(
+                            context: context,
+                            id: error.Type.ToString());
+                if (error.Type == Error.Types.Duplicated)
+                {
+                    var duplicatedColumn = ss.GetColumn(
+                        context: context,
+                        columnName: error.ColumnName);
+                    errMessage = duplicatedColumn?.MessageWhenDuplicated.IsNullOrEmpty() != false
+                        ? Displays.Duplicated(
+                            context: context,
+                            data: duplicatedColumn?.LabelText)
+                        : duplicatedColumn?.MessageWhenDuplicated;
+                }
+                var recodeIndex = recodeCount.ToString();
+                if(api.Keys?.Any() != false)
+                {
+                    var resultApiModel = list.Data[recodeCount - 1];
+                    recodeIndex += "("
+                        + api.Keys.Select(
+                                columnName => $"{columnName}={resultApiModel.ObjectValue(columnName: columnName) ?? string.Empty}"
+                            ).Join()
+                        + ")";
+                }
+                return ApiResults.Get(new ApiResponse(
+                    id: context.Id,
+                    statusCode: 500,
+                    message: Displays.FailedBulkUpsert(
+                        context: context,
+                        data: new string[]
+                        {
+                            ss.Title,
+                            insertCount.ToString(),
+                            updateCount.ToString(),
+                            recodeIndex,
+                            errMessage
+                        })));
+            }
+            ss.Notifications.ForEach(notification =>
+            {
+                var body = new System.Text.StringBuilder();
+                body.Append(Locations.ItemIndexAbsoluteUri(
+                    context: context,
+                    ss.SiteId) + "\n");
+                body.Append(
+                    $"{Displays.Results_Updator(context: context)}: ",
+                    $"{context.User.Name}\n");
+                if (notification.AfterImport != false)
+                {
+                    notification.Send(
+                        context: context,
+                        ss: ss,
+                        title: Displays.Imported(
+                            context: context,
+                            data: new string[]
+                            {
+                                ss.Title,
+                                insertCount.ToString(),
+                                updateCount.ToString()
+                            }),
+                        body: body.ToString());
+                }
+            });
+            return ApiResults.Success(
+                id: context.Id,
+                limitPerDate: context.ContractSettings.ApiLimit(),
+                limitRemaining: context.ContractSettings.ApiLimit() - ss.ApiCount,
+                message: Messages.Imported(
+                    context: context,
+                    data: new string[]
+                    {
+                        ss.Title,
+                        insertCount.ToString(),
+                        updateCount.ToString()
+                    }).Text);
+        }
+
         public static string Copy(Context context, SiteSettings ss, long resultId)
         {
             if (context.ContractSettings.ItemsLimit(context: context, siteId: ss.SiteId))
