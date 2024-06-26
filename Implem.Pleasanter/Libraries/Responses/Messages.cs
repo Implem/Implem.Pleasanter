@@ -594,6 +594,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-error");
         }
 
+        public static Message FailedBulkUpsert(Context context, params string[] data)
+        {
+            return Get(
+                id: "FailedBulkUpsert",
+                text: Displays.FailedBulkUpsert(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
         public static Message FailedReadFile(Context context, params string[] data)
         {
             return Get(
@@ -2295,6 +2305,17 @@ namespace Implem.Pleasanter.Libraries.Responses
             return ResponseMessage(
                 context: context,
                 message: ExternalMailAddress(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseFailedBulkUpsert(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: FailedBulkUpsert(
                     context: context,
                     data: data),
                 target: target);

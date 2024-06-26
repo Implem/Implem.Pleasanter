@@ -36,6 +36,7 @@ namespace Implem.Pleasanter.Libraries.General
             Expired,
             ExportNotSetEmail,
             ExternalMailAddress,
+            FailedBulkUpsert,
             FailedReadFile,
             FailedWriteFile,
             FileNotFound,
@@ -234,6 +235,10 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.ExternalMailAddress:
                     return Messages.ExternalMailAddress(
+                        context: context,
+                        data: data);
+                case Types.FailedBulkUpsert:
+                    return Messages.FailedBulkUpsert(
                         context: context,
                         data: data);
                 case Types.FailedReadFile:
