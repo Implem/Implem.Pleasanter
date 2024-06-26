@@ -1,0 +1,33 @@
+﻿{
+    "Id": "FailedBulkUpsert",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "{0}:An error has occurred. Added {1} items and updated {2} items.\nIndex:{3}\nError details:{4}"
+        },
+        {
+            "Language": "zh",
+            "Body": "{0}:发生了错误。添加了 {1} 项并更新了 {2} 项。\n索引：{3}\n错误详细信息：{4}"
+        },
+        {
+            "Language": "ja",
+            "Body": "{0}:エラーが発生しました。{1} 件追加し、{2} 件更新。\nIndex:{3}\nエラー内容:{4}"
+        },
+        {
+            "Language": "de",
+            "Body": "{0}:Ein Fehler ist aufgetreten. {1} Elemente hinzugefügt und {2} Elemente aktualisiert.\nIndex:{3}\nFehlerdetails:{4}"
+        },
+        {
+            "Language": "ko",
+            "Body": "{0}:오류가 발생했습니다. {1} 건 추가하고 {2} 건 업데이트.\nIndex:{3}\n오류 내용:{4}"
+        },
+        {
+            "Language": "es",
+            "Body": "{0}:Se ha producido un error. Se agregaron {1} elementos y se actualizaron {2}.\nÍndice:{3}\nDetalles del error:{4}"
+        },
+        {
+            "Language": "vn",
+            "Body": "{0}:Một lỗi đã xảy ra. Đã thêm {1} mục và cập nhật {2} mục.\nChỉ mục:{3}\nChi tiết lỗi:{4}"
+        }
+    ]
+}

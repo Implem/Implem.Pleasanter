@@ -2004,6 +2004,33 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public ContentResultInheritance BulkUpsertByApi(Context context)
+        {
+            SetSite(
+                context: context,
+                initSiteSettings: true);
+            if (!Site.WithinApiLimits(context: context))
+            {
+                return ApiResults.Get(ApiResponses.OverLimitApi(
+                    context: context,
+                    siteId: Site.SiteId,
+                    limitPerSite: context.ContractSettings.ApiLimit()));
+            }
+            switch (Site.SiteSettings.ReferenceType)
+            {
+                case "Issues":
+                    return IssueUtilities.BulkUpsertByApi(
+                        context: context,
+                        ss: Site.SiteSettings);
+                case "Results":
+                    return ResultUtilities.BulkUpsertByApi(
+                        context: context,
+                        ss: Site.SiteSettings);
+                default:
+                    return ApiResults.Get(ApiResponses.NotFound(context: context));
+            }
+        }
+
         public string UpdateByGrid(Context context)
         {
             SetSite(

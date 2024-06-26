@@ -51,7 +51,8 @@ $p.drawGantt = function () {
         return;
     }
     $gantt.show();
-    var justTime = new Date();
+    var TimeZoneOffset = $('#TimeZoneOffset').val();
+    var justTime = new Date(moment().utcOffset(TimeZoneOffset).format('YYYY/MM/DD HH:mm:ss'));
     var axis = d3.select('#GanttAxis');
     var svg = d3.select('#Gantt');
     var padding = 20;

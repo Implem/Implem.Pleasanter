@@ -1,1 +1,134 @@
-﻿null
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "ClassA",
+        "TitleBody",
+        "ClassB",
+        "ClassC",
+        "DateA",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "ClassA",
+        "Title",
+        "ClassB",
+        "ClassC",
+        "Body",
+        "DescriptionA",
+        "DescriptionB",
+        "DescriptionC",
+        "DescriptionD",
+        "DateA",
+        "Owner",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "ClassA",
+        "Title",
+        "ClassB",
+        "ClassC",
+        "DateA",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Title",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attachments"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Product/Service",
+            "ChoicesText": "Product/Service 1\nProduct/Service 2\nProduct/Service 3\nProduct/Service 4\nProduct/Service 5"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "Customer Name"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "Industry",
+            "ChoicesText": "A,Agriculture and Forestry\nB,Fishery\nC,Mining, Quarrying, and Gravel Extraction\nD,Construction\nE,Manufacturing\nF,Electricity, Gas, Heat Supply, and Water Supply\nG,Information and Communication\nH,Transportation and Postal Services\nI,Wholesale and Retail Trade\nJ,Financial and Insurance Services\nK,Real Estate and Rental and Leasing\nL,Scientific Research and Professional and Technical Services\nM,Accommodation and Food Services\nN,Other Services Related to Daily Life and Entertainment\nO,Education and Learning Support\nP,Medical and Welfare\nQ,Composite Services Business\nR,Services (Not Classified Elsewhere)\nS,Public Service (Excluding Other Classifications)\nT,Industries Not Otherwise Classified"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "Department"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "Overview"
+        },
+        {
+            "ColumnName": "DescriptionA",
+            "LabelText": "Customer Issue"
+        },
+        {
+            "ColumnName": "DescriptionB",
+            "LabelText": "Solution"
+        },
+        {
+            "ColumnName": "DescriptionC",
+            "LabelText": "Effectiveness"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "Registration Date"
+        },
+        {
+            "ColumnName": "Owner",
+            "LabelText": "Registered By"
+        },
+        {
+            "ColumnName": "DescriptionD",
+            "LabelText": "Key to Winning Orders"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassA",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassB",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 3,
+            "GroupBy": "ClassC",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "Standard",
+            "CrosstabGroupByX": "DateA",
+            "CrosstabGroupByY": "ClassA",
+            "CrosstabAggregateType": "Count",
+            "TimeSeriesGroupBy": "ClassA"
+        }
+    ],
+    "EnableKamban": false,
+    "TitleSeparator": ")"
+}
