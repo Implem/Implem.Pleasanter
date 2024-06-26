@@ -1,1 +1,1 @@
-﻿create fulltext index "ftx" on "Implem.Pleasanter"."items"("fulltext");
+﻿create fulltext index "ftx" on "items"("fulltext");
