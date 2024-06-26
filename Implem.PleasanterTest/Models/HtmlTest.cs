@@ -14,7 +14,8 @@
             Attribute,
             NotFoundMessage,
             HasNotPermissionMessage,
-            Text
+            Text,
+            SelectedOption
         }
 
         public Types Type { get; set; }
