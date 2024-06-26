@@ -708,22 +708,12 @@ namespace Implem.Pleasanter.Libraries.Requests
                     switch (lang)
                     {
                         case "en":
-                            language = "en";
-                            break;
                         case "zh":
-                            language = "zh";
-                            break;
                         case "ja":
-                            language = "ja";
-                            break;
                         case "de":
-                            language = "de";
-                            break;
                         case "ko":
-                            language = "ko";
-                            break;
                         case "es":
-                            language = "es";
+                            language = lang;
                             break;
                         case "vi":
                             language = "vn";
