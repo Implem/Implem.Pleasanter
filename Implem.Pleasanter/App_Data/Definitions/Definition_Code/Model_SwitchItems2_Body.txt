@@ -832,7 +832,7 @@ public string DeleteHistory(Context context)
     SetSite(
         context: context,
         initSiteSettings: true,
-        tableType: Sqls.TableTypes.History);
+        tableType: Sqls.TableTypes.NormalAndHistory);
     if (SiteId == ReferenceId)
     {
         return SiteUtilities.DeleteHistory(

@@ -5269,6 +5269,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string invalidUpsertKey(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "invalidUpsertKey",
+                data: data);
+        }
+
         public static string InvitationMailBody(
             Context context,
             params string[] data)
