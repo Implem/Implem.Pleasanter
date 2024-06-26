@@ -4,12 +4,15 @@ using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Exceptions;
 using Implem.Libraries.Utilities;
 using Implem.ParameterAccessor.Parts;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace Implem.DefinitionAccessor
 {
     public class Initializer
@@ -19,6 +22,8 @@ namespace Implem.DefinitionAccessor
         public static List<Exception> Initialize(
             string path,
             string assemblyVersion,
+            string setLanguage = null,
+            string setTimeZone = null,
             bool codeDefiner = false,
             bool pleasanterTest = false,
             bool setSaPassword = false,
@@ -43,7 +48,9 @@ namespace Implem.DefinitionAccessor
                 Assembly.GetExecutingAssembly().ManifestModule.Name.FileNameOnly();
             Environments.AssemblyVersion = assemblyVersion;
             SetDefinitions();
+            WriteToServiceJson(setTimeZone, setLanguage);
             SetTimeZone();
+            SetLanguage();
             SetSqls();
             DateTimes.FirstDayOfWeek = Parameters.General.FirstDayOfWeek;
             DateTimes.FirstMonth = Parameters.General.FirstMonth;
@@ -959,15 +966,78 @@ namespace Implem.DefinitionAccessor
                 o.Id == "Users_EnableSecretKey").UpdateAccessControl = "ManageService";
         }
 
+        private static bool TimeZoneIsValid(string setTimeZone)
+        {
+            if (setTimeZone.IsNullOrEmpty())
+            {
+                return false;
+            }
+            if (!TimeZoneInfo.GetSystemTimeZones().Any(o => o.Id == setTimeZone))
+            {
+                throw new InvalidTimeZoneException("/z " + setTimeZone);
+            }
+            return true;
+        }
+
+        private static bool LanguageIsValid(string setLanguage)
+        {
+            if (setLanguage.IsNullOrEmpty())
+            {
+                return false;
+            }
+            if (!Def.ColumnTable.Users_Language.ChoicesText
+                .SplitReturn()
+                .Select(o => o.Split_1st())
+                .Any(o => o == setLanguage))
+            {
+                throw new InvalidLanguageException("/l " + setLanguage);
+            }
+            return true;
+        }
+
+        private static void WriteToServiceJson(string setTimeZone, string setLanguage)
+        {
+            var isValidTimeZone = TimeZoneIsValid(setTimeZone);
+            var isValidLanguage = LanguageIsValid(setLanguage);
+            if (isValidLanguage || isValidTimeZone)
+            {
+                var json = Files.Read(JsonFilePath("Service"));
+                var jObject = JObject.Parse(json);
+                if (isValidTimeZone)
+                {
+                    jObject["TimeZoneDefault"] = setTimeZone;
+                    Parameters.Service.TimeZoneDefault = setTimeZone;
+                }
+                if (isValidLanguage)
+                {
+                    jObject["DefaultLanguage"] = setLanguage;
+                    Parameters.Service.DefaultLanguage = setLanguage;
+                }
+                File.WriteAllText(
+                    JsonFilePath("Service"),
+                    JsonConvert.SerializeObject(jObject, Formatting.Indented));
+            }
+        }
+
         private static void SetTimeZone()
         {
             Environments.TimeZoneInfoDefault = TimeZoneInfo.GetSystemTimeZones()
                 .FirstOrDefault(o => o.Id == Parameters.Service.TimeZoneDefault)
-                    ?? TimeZoneInfo.Local;
+                    ?? TimeZoneInfo.Utc;
             Def.ColumnDefinitionCollection
                 .FirstOrDefault(o => o.Id == "Users_TimeZone").Default = Environments.TimeZoneInfoDefault.Id;
         }
 
+        private static void SetLanguage()
+        {
+            var language = Def.ColumnTable.Users_Language.ChoicesText
+                    .SplitReturn()
+                    .Select(o => o.Split_1st())
+                    .FirstOrDefault(o => o == Parameters.Service.DefaultLanguage) ?? "en";
+            Def.ColumnDefinitionCollection
+                .FirstOrDefault(o => o.Id == "Users_Language").Default = language;
+        }
+       
         private static void SetSqls()
         {
             Sqls.LogsPath = Directories.Logs();
@@ -990,7 +1060,7 @@ namespace Implem.DefinitionAccessor
                 Directories.Wwwroot(),
                 "content",
                 "responsive.css");
-            if (Files.Exists(responsivePath)) 
+            if (Files.Exists(responsivePath))
             {
                 Environments.BundlesVersions.Add("responsive.css", Files.Read(responsivePath).Sha512Cng());
             }
