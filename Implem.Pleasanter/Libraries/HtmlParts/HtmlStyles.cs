@@ -153,6 +153,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .Link(
                     href: Responses.Locations.Get(
                         context: context,
+                        parts: "Styles/responsive.custom.css"),
+                    rel: "stylesheet",
+                    _using: Parameters.Mobile.Responsive
+                        && context.Mobile
+                        && context.Responsive
+                        && (ss == null || ss.Responsive != false))
+                .Link(
+                    href: Responses.Locations.Get(
+                        context: context,
                         parts: "favicon.ico"),
                     rel: "shortcut icon");
         }

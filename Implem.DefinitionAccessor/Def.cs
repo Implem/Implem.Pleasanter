@@ -410,6 +410,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_CrosstabJsonCases": Code.Model_CrosstabJsonCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CrosstabJsonCases, definitionRow, CodeXls); break;
                     case "Model_CsvData": Code.Model_CsvData = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CsvData, definitionRow, CodeXls); break;
                     case "Model_CsvDataCases": Code.Model_CsvDataCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CsvDataCases, definitionRow, CodeXls); break;
+                    case "Model_CsvDataUpdatedTime": Code.Model_CsvDataUpdatedTime = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CsvDataUpdatedTime, definitionRow, CodeXls); break;
                     case "Model_DashboardGridRowsCases": Code.Model_DashboardGridRowsCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_DashboardGridRowsCases, definitionRow, CodeXls); break;
                     case "Model_DashboardsCopyAndInit": Code.Model_DashboardsCopyAndInit = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_DashboardsCopyAndInit, definitionRow, CodeXls); break;
                     case "Model_Delete": Code.Model_Delete = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Delete, definitionRow, CodeXls); break;
@@ -6924,6 +6925,7 @@ namespace Implem.DefinitionAccessor
         public string Model_CrosstabJsonCases;
         public string Model_CsvData;
         public string Model_CsvDataCases;
+        public string Model_CsvDataUpdatedTime;
         public string Model_DashboardGridRowsCases;
         public string Model_DashboardsCopyAndInit;
         public string Model_Delete;
@@ -7765,6 +7767,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_CrosstabJsonCases = new CodeDefinition();
         public CodeDefinition Model_CsvData = new CodeDefinition();
         public CodeDefinition Model_CsvDataCases = new CodeDefinition();
+        public CodeDefinition Model_CsvDataUpdatedTime = new CodeDefinition();
         public CodeDefinition Model_DashboardGridRowsCases = new CodeDefinition();
         public CodeDefinition Model_DashboardsCopyAndInit = new CodeDefinition();
         public CodeDefinition Model_Delete = new CodeDefinition();
