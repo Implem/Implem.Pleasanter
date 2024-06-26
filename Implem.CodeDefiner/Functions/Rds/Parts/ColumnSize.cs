@@ -39,30 +39,26 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
             ColumnDefinition columnDefinition)
         {
             bool IsRdsReduced() {
-                return rdsColumn["TypeName"].ToString() == "varchar" && rdsColumn["max_length"].ToString()
-                    == (760 * factory.SqlDefinitionSetting.NationalCharacterStoredSizeCoefficient).ToString();
+                return rdsColumn["TypeName"].ToString() == "varchar" &&
+                    rdsColumn["max_length"].ToInt() == (760 * factory.SqlDefinitionSetting.NationalCharacterStoredSizeCoefficient).ToInt();
             }
             bool VarcharMySql()
             {
                 if (columnDefinition.MaxLength == -1)
                 {
-                    return rdsColumn["TypeName"].ToString() == "longtext"
-                        ? false
-                        : true;
+                    return rdsColumn["TypeName"].ToString() != "longtext";
                 }
                 else if (columnDefinition.MaxLength < 1024)
                 {
-                    return rdsColumn["TypeName"].ToString() == "varchar"
-                        ? Char(
-                            columnDefinition, rdsColumn,
-                            coefficient: factory.SqlDefinitionSetting.NationalCharacterStoredSizeCoefficient)
-                        : true;
+                    return rdsColumn["TypeName"].ToString() != "varchar" ||
+                        Char(
+                            columnDefinition: columnDefinition,
+                            rdsColumn: rdsColumn,
+                            coefficient: factory.SqlDefinitionSetting.NationalCharacterStoredSizeCoefficient);
                 }
                 else if (Columns.NeedReduceByDefault(columnDefinition: columnDefinition))
                 {
-                    return IsRdsReduced()
-                        ? false
-                        : true;
+                    return !IsRdsReduced();
                 }
                 else if (Parameters.Rds.DisableIndexChangeDetection)
                 {
@@ -70,18 +66,15 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
                     //MySQLのcreate tableではvarchar(760)又はtextをカラムのデータ型に指定する。
                     //→その分岐条件は「Index指定の有無」であるため、Indexの差分でMigrateさせない環境下では、
                     //現在のDBの状態がどちらかのデータ型であればMigrateを実施しないと判定する。
-                    return IsRdsReduced() || rdsColumn["TypeName"].ToString() == "text"
-                        ? false
-                        : true;
+                    return !IsRdsReduced() &&
+                        rdsColumn["TypeName"].ToString() != "text";
                 }
                 else
                 {
-                    return Columns.NeedReduceByIndex(factory: factory, columnDefinition: columnDefinition) &&
+                    return !(Columns.NeedReduceByIndex(factory: factory, columnDefinition: columnDefinition) &&
                         IsRdsReduced() ||
                             !Columns.NeedReduceByIndex(factory: factory, columnDefinition: columnDefinition) &&
-                                rdsColumn["TypeName"].ToString() == "text"
-                        ? false
-                        : true;
+                                rdsColumn["TypeName"].ToString() == "text");
                 }
             }
             //MySQL専用サイズ変更有無の判定をここで行う。
@@ -90,7 +83,8 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
             {
                 case "nchar":
                     return Char(
-                        columnDefinition, rdsColumn,
+                        columnDefinition: columnDefinition,
+                        rdsColumn: rdsColumn,
                         coefficient: factory.SqlDefinitionSetting.NationalCharacterStoredSizeCoefficient);
                 case "decimal":
                     return Decimal(
