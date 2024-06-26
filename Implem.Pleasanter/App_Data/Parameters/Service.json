@@ -1,10 +1,10 @@
 ﻿{
     "Name": "Implem.Pleasanter",
-    "TimeZoneDefault": "Asia/Tokyo",
+    "TimeZoneDefault": "UTC",
     "DefaultPassword": "pleasanter",
     "DeploymentEnvironment": null,
     "WithoutChangeDefaultPassword": false,
-    "DefaultLanguage": "ja",
+    "DefaultLanguage": "en",
     "AbsoluteUri": null,
     "MaxRequestBodySize": 30000000,
     "RequireHttps": false,

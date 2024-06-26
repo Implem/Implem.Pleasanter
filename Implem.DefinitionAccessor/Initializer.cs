@@ -1031,13 +1031,13 @@ namespace Implem.DefinitionAccessor
         private static void SetLanguage()
         {
             var language = Def.ColumnTable.Users_Language.ChoicesText
-                    .SplitReturn()
-                    .Select(o => o.Split_1st())
-                    .FirstOrDefault(o => o == Parameters.Service.DefaultLanguage) ?? "en";
+                .SplitReturn()
+                .Select(o => o.Split_1st())
+                .FirstOrDefault(o => o == Parameters.Service.DefaultLanguage) ?? "en";
             Def.ColumnDefinitionCollection
                 .FirstOrDefault(o => o.Id == "Users_Language").Default = language;
         }
-       
+
         private static void SetSqls()
         {
             Sqls.LogsPath = Directories.Logs();

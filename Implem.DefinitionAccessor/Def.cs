@@ -663,6 +663,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_SetSwitchTargets": Code.Model_SetSwitchTargets = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetSwitchTargets, definitionRow, CodeXls); break;
                     case "Model_SetTenantId": Code.Model_SetTenantId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetTenantId, definitionRow, CodeXls); break;
                     case "Model_SetTenantIdByContext": Code.Model_SetTenantIdByContext = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetTenantIdByContext, definitionRow, CodeXls); break;
+                    case "Model_SetTimeZoneAndLanguage": Code.Model_SetTimeZoneAndLanguage = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetTimeZoneAndLanguage, definitionRow, CodeXls); break;
                     case "Model_SetTitle": Code.Model_SetTitle = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetTitle, definitionRow, CodeXls); break;
                     case "Model_SetTitleExec": Code.Model_SetTitleExec = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetTitleExec, definitionRow, CodeXls); break;
                     case "Model_SetUserId": Code.Model_SetUserId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetUserId, definitionRow, CodeXls); break;
@@ -1910,11 +1911,13 @@ namespace Implem.DefinitionAccessor
                     case "Tenants_HtmlTitleRecord": Column.Tenants_HtmlTitleRecord = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_HtmlTitleRecord, definitionRow, ColumnXls); break;
                     case "Tenants_HtmlTitleSite": Column.Tenants_HtmlTitleSite = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_HtmlTitleSite, definitionRow, ColumnXls); break;
                     case "Tenants_HtmlTitleTop": Column.Tenants_HtmlTitleTop = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_HtmlTitleTop, definitionRow, ColumnXls); break;
+                    case "Tenants_Language": Column.Tenants_Language = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_Language, definitionRow, ColumnXls); break;
                     case "Tenants_LogoType": Column.Tenants_LogoType = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_LogoType, definitionRow, ColumnXls); break;
                     case "Tenants_TenantId": Column.Tenants_TenantId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_TenantId, definitionRow, ColumnXls); break;
                     case "Tenants_TenantName": Column.Tenants_TenantName = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_TenantName, definitionRow, ColumnXls); break;
                     case "Tenants_TenantSettings": Column.Tenants_TenantSettings = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_TenantSettings, definitionRow, ColumnXls); break;
                     case "Tenants_Theme": Column.Tenants_Theme = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_Theme, definitionRow, ColumnXls); break;
+                    case "Tenants_TimeZone": Column.Tenants_TimeZone = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_TimeZone, definitionRow, ColumnXls); break;
                     case "Tenants_Title": Column.Tenants_Title = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_Title, definitionRow, ColumnXls); break;
                     case "Tenants_TopDashboards": Column.Tenants_TopDashboards = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_TopDashboards, definitionRow, ColumnXls); break;
                     case "Tenants_TopScript": Column.Tenants_TopScript = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_TopScript, definitionRow, ColumnXls); break;
@@ -7175,6 +7178,7 @@ namespace Implem.DefinitionAccessor
         public string Model_SetSwitchTargets;
         public string Model_SetTenantId;
         public string Model_SetTenantIdByContext;
+        public string Model_SetTimeZoneAndLanguage;
         public string Model_SetTitle;
         public string Model_SetTitleExec;
         public string Model_SetUserId;
@@ -8016,6 +8020,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_SetSwitchTargets = new CodeDefinition();
         public CodeDefinition Model_SetTenantId = new CodeDefinition();
         public CodeDefinition Model_SetTenantIdByContext = new CodeDefinition();
+        public CodeDefinition Model_SetTimeZoneAndLanguage = new CodeDefinition();
         public CodeDefinition Model_SetTitle = new CodeDefinition();
         public CodeDefinition Model_SetTitleExec = new CodeDefinition();
         public CodeDefinition Model_SetUserId = new CodeDefinition();
@@ -9290,11 +9295,13 @@ namespace Implem.DefinitionAccessor
         public string Tenants_HtmlTitleRecord;
         public string Tenants_HtmlTitleSite;
         public string Tenants_HtmlTitleTop;
+        public string Tenants_Language;
         public string Tenants_LogoType;
         public string Tenants_TenantId;
         public string Tenants_TenantName;
         public string Tenants_TenantSettings;
         public string Tenants_Theme;
+        public string Tenants_TimeZone;
         public string Tenants_Title;
         public string Tenants_TopDashboards;
         public string Tenants_TopScript;
@@ -9868,11 +9875,13 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Tenants_HtmlTitleRecord = new ColumnDefinition();
         public ColumnDefinition Tenants_HtmlTitleSite = new ColumnDefinition();
         public ColumnDefinition Tenants_HtmlTitleTop = new ColumnDefinition();
+        public ColumnDefinition Tenants_Language = new ColumnDefinition();
         public ColumnDefinition Tenants_LogoType = new ColumnDefinition();
         public ColumnDefinition Tenants_TenantId = new ColumnDefinition();
         public ColumnDefinition Tenants_TenantName = new ColumnDefinition();
         public ColumnDefinition Tenants_TenantSettings = new ColumnDefinition();
         public ColumnDefinition Tenants_Theme = new ColumnDefinition();
+        public ColumnDefinition Tenants_TimeZone = new ColumnDefinition();
         public ColumnDefinition Tenants_Title = new ColumnDefinition();
         public ColumnDefinition Tenants_TopDashboards = new ColumnDefinition();
         public ColumnDefinition Tenants_TopScript = new ColumnDefinition();

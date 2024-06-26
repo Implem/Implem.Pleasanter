@@ -13479,6 +13479,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Tenants_Language(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Tenants_Language",
+                data: data);
+        }
+
         public static string Tenants_LogoType(
             Context context,
             params string[] data)
@@ -13526,6 +13536,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Tenants_Theme",
+                data: data);
+        }
+
+        public static string Tenants_TimeZone(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Tenants_TimeZone",
                 data: data);
         }
 

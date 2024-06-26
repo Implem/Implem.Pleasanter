@@ -1,20 +1,44 @@
 ﻿$(document).on('click', '.current-time', function () {
     var $control = $(this).prev();
     var date = new Date();
-    var dateTime = date.getFullYear()
-        + '/' + ('0' + (date.getMonth() + 1)).slice(-2)
-        + '/' + ('0' + date.getDate()).slice(-2);
+    var timeZoneOffset = $('#TimeZoneOffset').val();
+    var dateTime;
     switch ($control.attr('data-format')) {
+        case 'Y/m/d':
+            dateTime = moment().utcOffset(timeZoneOffset).format('YYYY/MM/DD');
+            break;
+        case 'Y.m.d':
+            dateTime = moment().utcOffset(timeZoneOffset).format('YYYY.MM.DD');
+            break;
+        case 'Y.m.d.':
+            dateTime = moment().utcOffset(timeZoneOffset).format('YYYY.MM.DD.');
+            break;
+        case 'm/d/Y':
+            dateTime = moment().utcOffset(timeZoneOffset).format('MM/DD/YYYY');
+            break;
         case 'Y/m/d H:i':
-            dateTime
-                += ' ' + ('0' + date.getHours()).slice(-2)
-                + ':' + ('0' + date.getMinutes()).slice(-2);
+            dateTime = moment().utcOffset(timeZoneOffset).format('YYYY/MM/DD HH:mm');
+            break;
+        case 'Y.m.d H:i':
+            dateTime = moment().utcOffset(timeZoneOffset).format('YYYY.MM.DD HH:mm');
+            break;
+        case 'Y.m.d. H:i':
+            dateTime = moment().utcOffset(timeZoneOffset).format('YYYY.MM.DD. HH:mm');
+            break;
+        case 'm/d/Y H:i':
+            dateTime = moment().utcOffset(timeZoneOffset).format('MM/DD/YYYY HH:mm');
             break;
         case 'Y/m/d H:i:s':
-            dateTime
-                += ' ' + ('0' + date.getHours()).slice(-2)
-                + ':' + ('0' + date.getMinutes()).slice(-2)
-                + ':' + ('0' + date.getSeconds()).slice(-2);
+            dateTime = moment().utcOffset(timeZoneOffset).format('YYYY/MM/DD HH:mm:ss');
+            break;
+        case 'Y.m.d H:i:s':
+            dateTime = moment().utcOffset(timeZoneOffset).format('YYYY.MM.DD HH:mm:ss');
+            break;
+        case 'Y.m.d. H:i:s':
+            dateTime = moment().utcOffset(timeZoneOffset).format('YYYY.MM.DD. HH:mm:ss');
+            break;
+        case 'm/d/Y H:i:s':
+            dateTime = moment().utcOffset(timeZoneOffset).format('MM/DD/YYYY HH:mm:ss');
             break;
     }
     $p.set($control, dateTime);
