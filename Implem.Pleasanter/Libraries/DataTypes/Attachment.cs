@@ -143,7 +143,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             if (Added == true)
             {
                 if (Parameters.BinaryStorage.TemporaryBinaryStorageProvider == "Rds"
-                    && context.Ajax != false)
+                    && context.Api != true)
                 {
                     // Binariesテーブルにアップロードした一時的なレコードを更新する
                     // 一時的なレコードのBinaryTypeをTemporaryからAttachmentsに変更する
