@@ -335,7 +335,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             }
             else
             {   if (Parameters.BinaryStorage.TemporaryBinaryStorageProvider == "Rds"
-                    && context.Ajax != false)
+                    && context.Api != true)
                 {
                     var hash = Repository.ExecuteScalar_bytes(
                         context: context,
