@@ -1,1 +1,224 @@
-﻿null
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "DateA",
+        "TitleBody",
+        "Comments",
+        "ClassA",
+        "Status",
+        "NumD",
+        "NumA",
+        "NumB",
+        "NumC",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "DateA",
+        "Title",
+        "ClassB",
+        "ClassE",
+        "ClassC",
+        "ClassD",
+        "Status",
+        "ClassA",
+        "NumD",
+        "Body",
+        "NumA",
+        "DescriptionA",
+        "NumB",
+        "DescriptionB",
+        "NumC",
+        "DescriptionC",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "DateA",
+        "Title",
+        "ClassB",
+        "ClassA",
+        "Status",
+        "NumD",
+        "NumA",
+        "NumB",
+        "NumC",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Title",
+        "Status",
+        "NumD",
+        "NumA",
+        "NumB",
+        "NumC",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attachments"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "Name",
+            "FieldCss": "field-normal"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": "100,Entry\n150,First Interview\n200,Second Interview\n250,Final Interview\n900,Hired\n910,Not Hired\n920,Pending"
+        },
+        {
+            "ColumnName": "Manager",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "Owner",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "Phonetic"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "Phone"
+        },
+        {
+            "ColumnName": "ClassD",
+            "LabelText": "Email"
+        },
+        {
+            "ColumnName": "ClassE",
+            "LabelText": "Address",
+            "FieldCss": "field-wide"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "Summary"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "New Graduate/Mid-career",
+            "ChoicesText": "New Graduate\nMid-career"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "Motivation (Evaluation)",
+            "ControlType": "Spinner",
+            "Min": 1.0,
+            "Max": 5.0
+        },
+        {
+            "ColumnName": "NumB",
+            "LabelText": "Skill (Evaluation)",
+            "DefaultInput": "1",
+            "ControlType": "Spinner",
+            "Min": 1.0,
+            "Max": 5.0
+        },
+        {
+            "ColumnName": "NumC",
+            "LabelText": "Attitude (Evaluation)",
+            "DefaultInput": "1",
+            "ControlType": "Spinner",
+            "Min": 1.0,
+            "Max": 5.0
+        },
+        {
+            "ColumnName": "NumD",
+            "LabelText": "Total Evaluation",
+            "EditorReadOnly": true
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "Entry Date"
+        },
+        {
+            "ColumnName": "DescriptionA",
+            "LabelText": "Motivation (Content)"
+        },
+        {
+            "ColumnName": "DescriptionB",
+            "LabelText": "Skill (Content)"
+        },
+        {
+            "ColumnName": "DescriptionC",
+            "LabelText": "Attitude (Content)"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassA",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "Status",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "Formulas": [
+        {
+            "Target": "NumD",
+            "Formula": {
+                "OperatorType": 0,
+                "Children": [
+                    {
+                        "OperatorType": 0
+                    },
+                    {
+                        "OperatorType": 0,
+                        "Children": [
+                            {
+                                "ColumnName": "NumA",
+                                "OperatorType": 0
+                            }
+                        ]
+                    },
+                    {
+                        "OperatorType": 1,
+                        "Children": [
+                            {
+                                "ColumnName": "NumB",
+                                "OperatorType": 0
+                            }
+                        ]
+                    },
+                    {
+                        "OperatorType": 1,
+                        "Children": [
+                            {
+                                "ColumnName": "NumC",
+                                "OperatorType": 0
+                            }
+                        ]
+                    }
+                ]
+            },
+            "Id": 1
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "Standard",
+            "CalendarColumn": "DateA",
+            "KambanGroupByY": "ClassA",
+            "KambanAggregationView": true
+        }
+    ],
+    "TitleSeparator": ")"
+}

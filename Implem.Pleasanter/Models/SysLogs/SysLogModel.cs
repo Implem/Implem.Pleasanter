@@ -3444,14 +3444,31 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private string MaskApiData(string requestData)
         {
-            var data = requestData;
-            var apiKey = data?.RegexFirst("\"ApiKey\":[ ]*\"[a-zA-Z0-9]+?\"");
-            var base64 = data?.RegexFirst("\"Base64\":[ ]*\".+?\"");
-            var password = data?.RegexFirst("\"Password\":[ ]*\".+?\"");
-            if (!apiKey.IsNullOrEmpty()) data = data.Replace(apiKey, "\"ApiKey\": \"*\"");
-            if (!base64.IsNullOrEmpty()) data = data.Replace(base64, "\"base64\": \"*\"");
-            if (!password.IsNullOrEmpty()) data = data.Replace(password, "\"Password\": \"*\"");
-            return data;
+            var data = requestData ?? string.Empty;
+            // Regexはコストが高いので事前にIndexOfで絞り込みを行う
+            if (data.IndexOf("ApiKey", StringComparison.OrdinalIgnoreCase) < 0
+                && data.IndexOf("Password", StringComparison.OrdinalIgnoreCase) < 0
+                && data.IndexOf("Base64", StringComparison.OrdinalIgnoreCase) < 0)
+            {
+                return data;
+            }
+            var stringBuilder = new System.Text.StringBuilder(data);
+            var apiKey = data.RegexFirst(
+                pattern: "(\"ApiKey\"|'ApiKey'|\\sApiKey)(|\\s*):(|\\s*)(\"|')[a-zA-Z0-9]+?(\"|')",
+                regexOptions: System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+            if (!apiKey.IsNullOrEmpty()) stringBuilder.Replace(apiKey, "\"ApiKey\": \"*\"");
+            var password = data.RegexFirst(
+                pattern: "(\"Password\"|'Password'|\\sPassword)(|\\s*):(|\\s*)(\"|').+?(\"|')",
+                regexOptions: System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+            if (!password.IsNullOrEmpty()) stringBuilder.Replace(password, "\"Password\": \"*\"");
+            var base64 = data.RegexMatches(
+                pattern: "(\"Base64\"|'Base64'|\\sBase64)(|\\s*):(|\\s*)(\"|').+?(\"|')",
+                regexOptions: System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+            foreach (System.Text.RegularExpressions.Match m in base64)
+            {
+                stringBuilder.Replace(m.Value, "\"base64\": \"*\"");
+            }
+            return stringBuilder.ToString();
         }
 
         /// <summary>

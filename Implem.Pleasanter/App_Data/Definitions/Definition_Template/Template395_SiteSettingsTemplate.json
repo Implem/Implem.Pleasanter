@@ -1,1 +1,138 @@
-﻿null
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "TitleBody",
+        "DateA",
+        "NumA",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "NumB",
+        "ClassD",
+        "ClassE",
+        "ClassF",
+        "ClassG",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "Title",
+        "DateA",
+        "NumA",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "ClassD",
+        "NumB",
+        "ClassE",
+        "ClassF",
+        "ClassG",
+        "Body",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "Title",
+        "DateA",
+        "NumA",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "NumB",
+        "ClassD",
+        "ClassE",
+        "ClassF",
+        "ClassG",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Title",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attachments"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "Release Date"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "Price",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Artist"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "Genre",
+            "ChoicesText": "Japanese Music\nWestern Music\nK-POP\nDance Music\nRap\nReggae\nJazz\nClassical"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "Publisher"
+        },
+        {
+            "ColumnName": "ClassD",
+            "LabelText": "Distributor"
+        },
+        {
+            "ColumnName": "NumB",
+            "LabelText": "Number of Songs",
+            "Unit": "songs"
+        },
+        {
+            "ColumnName": "ClassE",
+            "LabelText": "Recording Time"
+        },
+        {
+            "ColumnName": "ClassF",
+            "LabelText": "Manufacturer Part Number"
+        },
+        {
+            "ColumnName": "ClassG",
+            "LabelText": "JAN Code"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "Recording Contents"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassA",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassB",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "Standard",
+            "CrosstabAggregateType": "Count",
+            "TimeSeriesGroupBy": "ClassB"
+        }
+    ],
+    "EnableKamban": false,
+    "TitleSeparator": ")"
+}

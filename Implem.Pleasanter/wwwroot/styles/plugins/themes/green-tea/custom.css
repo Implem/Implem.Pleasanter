@@ -1368,6 +1368,7 @@ fieldset .field-vertical > .field-label {
     flex-direction: row;
     align-items: flex-start;
     justify-content: flex-start;
+    font-size: 13px;
 }
 
 #Application .nav-site .conditions span:nth-of-type(2) {
