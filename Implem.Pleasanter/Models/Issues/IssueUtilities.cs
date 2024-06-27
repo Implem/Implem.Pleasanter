@@ -4676,6 +4676,7 @@ namespace Implem.Pleasanter.Models
                 default:
                     return ApiResults.Get(ApiResponses.NotFound(context: context));
             }
+            // サイトの書き込み権限で可否判定を行い、レコード単位のアクセス権はチェックは行わない。
             var invalid = IssueValidators.OnUpdating(
                 context: context,
                 ss: ss,
@@ -4800,6 +4801,7 @@ namespace Implem.Pleasanter.Models
                 default:
                     return false;
             }
+            // サイトの書き込み権限で可否判定を行い、レコード単位のアクセス権はチェックは行わない。
             var invalid = IssueValidators.OnUpdating(
                 context: context,
                 ss: ss,
@@ -4927,6 +4929,7 @@ namespace Implem.Pleasanter.Models
                 if (issueModel.AccessStatus == Databases.AccessStatuses.Selected)
                 {
                     // Keysの指定があり、該当レコードがある場合に更新
+                    // サイトの書き込み権限で可否判定を行い、レコード単位のアクセス権はチェックは行わない。
                     error = IssueValidators.OnUpdating(
                         context: context,
                         ss: ss,

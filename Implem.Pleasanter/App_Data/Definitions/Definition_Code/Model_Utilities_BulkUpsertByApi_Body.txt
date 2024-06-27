@@ -81,6 +81,7 @@
         if (#modelName#Model.AccessStatus == Databases.AccessStatuses.Selected)
         {
             // Keysの指定があり、該当レコードがある場合に更新
+            // サイトの書き込み権限で可否判定を行い、レコード単位のアクセス権はチェックは行わない。
             error = #ModelName#Validators.OnUpdating(
                 context: context,
                 ss: ss,
