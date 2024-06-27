@@ -627,6 +627,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         value: context.Token(),
                         _using: Parameters.Security.TokenCheck)
                     .Hidden(controlId: "Language", value: context.Language)
+                    .Hidden(
+                        controlId: "TimeZoneOffset",
+                        value: context.TimeZoneInfoOffset())
                     .Hidden(controlId: "YmdFormat", value: Displays.YmdFormat(context: context))
                     .Hidden(
                         controlId: "YmdDatePickerFormat",
