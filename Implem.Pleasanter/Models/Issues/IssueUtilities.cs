@@ -4676,6 +4676,7 @@ namespace Implem.Pleasanter.Models
                 default:
                     return ApiResults.Get(ApiResponses.NotFound(context: context));
             }
+            // サイトの書き込み権限で可否判定を行い、レコード単位のアクセス権はチェックは行わない。
             var invalid = IssueValidators.OnUpdating(
                 context: context,
                 ss: ss,
@@ -4800,6 +4801,7 @@ namespace Implem.Pleasanter.Models
                 default:
                     return false;
             }
+            // サイトの書き込み権限で可否判定を行い、レコード単位のアクセス権はチェックは行わない。
             var invalid = IssueValidators.OnUpdating(
                 context: context,
                 ss: ss,
@@ -4842,6 +4844,229 @@ namespace Implem.Pleasanter.Models
                 default:
                     return false;
             }
+        }
+
+        public static ContentResultInheritance BulkUpsertByApi(
+            Context context,
+            SiteSettings ss)
+        {
+            if (!Mime.ValidateOnApi(contentType: context.ContentType))
+            {
+                return ApiResults.BadRequest(context: context);
+            }
+            var api = context.RequestDataString.Deserialize<Api>();
+            var list = context.RequestDataString.Deserialize<Issues.IssueBulkUpsertApiModel>();
+            if (list?.Data == null)
+            {
+                return ApiResults.Error(
+                    context: context,
+                    errorData: new ErrorData(type: Error.Types.InvalidJsonData));
+            }
+            if (Parameters.General.BulkUpsertMax > 0 && Parameters.General.BulkUpsertMax < list.Data.Count)
+            {
+                return ApiResults.Get(new ApiResponse(
+                    id: context.Id,
+                    statusCode: 500,
+                    message: Error.Types.ImportMax.Message(
+                        context: context,
+                        data: Parameters.General.BulkUpsertMax.ToString()).Text));
+            }
+            var recodeCount = 0;
+            var insertCount = 0;
+            var updateCount = 0;
+            var error = new ErrorData(type: Error.Types.None);
+            foreach (var issueApiModel in list.Data)
+            {
+                recodeCount++;
+                var view = api.View ?? new View();
+                api.Keys?.ForEach(columnName =>
+                {
+                    if (error.Type != Error.Types.None) return;
+                    var objectValue = issueApiModel.ObjectValue(columnName: columnName);
+                    if (objectValue != null)
+                    {
+                        var column = ss.GetColumn(
+                            context: context,
+                            columnName: columnName);
+                        if (column?.TypeName == "datetime"
+                            && objectValue.ToDateTime().InRange() == false)
+                        {
+                            error = new ErrorData(
+                                type: Error.Types.invalidUpsertKey,
+                                data: $"('{columnName}'='{objectValue.ToStr()}')");
+                            return;
+                        }
+                        view.AddColumnFilterHash(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            objectValue: objectValue);
+                        view.AddColumnFilterSearchTypes(
+                            columnName: columnName,
+                            searchType: Column.SearchTypes.ExactMatch);
+                    }
+                });
+                if (error.Type != Error.Types.None) break;
+                var issueModel = new IssueModel(
+                    context: context,
+                    ss: ss,
+                    issueId: 0,
+                    view: api.Keys?.Any() != true ? null : view,
+                    issueApiModel: issueApiModel);
+                switch (issueModel.AccessStatus)
+                {
+                    case Databases.AccessStatuses.Selected:
+                    case Databases.AccessStatuses.NotFound:
+                        break;
+                    case Databases.AccessStatuses.Overlap:
+                        error = new ErrorData(type: Error.Types.Overlap);
+                        break;
+                    default:
+                        error = new ErrorData(type: Error.Types.NotFound);
+                        break;
+                }
+                if (error.Type != Error.Types.None) break;
+                if (issueModel.AccessStatus == Databases.AccessStatuses.Selected)
+                {
+                    // Keysの指定があり、該当レコードがある場合に更新
+                    // サイトの書き込み権限で可否判定を行い、レコード単位のアクセス権はチェックは行わない。
+                    error = IssueValidators.OnUpdating(
+                        context: context,
+                        ss: ss,
+                        issueModel: issueModel,
+                        api: true,
+                        serverScript: true);
+                    if (error.Type != Error.Types.None) break;
+                    issueModel.SiteId = ss.SiteId;
+                    issueModel.SetTitle(
+                        context: context,
+                        ss: ss);
+                    issueModel.VerUp = Versions.MustVerUp(
+                        context: context,
+                        ss: ss,
+                        baseModel: issueModel);
+                    error = issueModel.Update(
+                        context: context,
+                        ss: ss,
+                        notice: true);
+                    BinaryUtilities.UploadImage(
+                        context: context,
+                        ss: ss,
+                        id: issueModel.IssueId,
+                        postedFileHash: issueModel.PostedImageHash);
+                    if (error.Type != Error.Types.None) break;
+                    updateCount++;
+                }
+                else if (issueModel.AccessStatus == Databases.AccessStatuses.NotFound
+                    && (api.Keys?.Any() != true || list.KeyNotFoundCreate != false))
+                {
+                    // Keysの指定が無い場合は全て新規作成。
+                    // Keysの指定があり、該当レコードがなく KeyNotFoundCreate =true の場合に新規作成
+                    error = IssueValidators.OnCreating(
+                        context: context,
+                        ss: ss,
+                        issueModel: issueModel,
+                        api: true);
+                    if (error.Type != Error.Types.None) break;
+                    issueModel.SiteId = ss.SiteId;
+                    issueModel.SetTitle(
+                        context: context,
+                        ss: ss);
+                    var errorData = issueModel.Create(
+                        context: context,
+                        ss: ss,
+                        notice: true);
+                    BinaryUtilities.UploadImage(
+                        context: context,
+                        ss: ss,
+                        id: issueModel.IssueId,
+                        postedFileHash: issueModel.PostedImageHash);
+                    if (error.Type != Error.Types.None) break;
+                    insertCount++;
+                }
+            }
+            if (error.Type != Error.Types.None)
+            {
+                // エラー時の戻り
+                var errMessage = error.Data?.Any() == true
+                        ? Displays.Get(
+                            context: context,
+                            id: error.Type.ToString()).Params(error.Data)
+                        : Displays.Get(
+                            context: context,
+                            id: error.Type.ToString());
+                if (error.Type == Error.Types.Duplicated)
+                {
+                    var duplicatedColumn = ss.GetColumn(
+                        context: context,
+                        columnName: error.ColumnName);
+                    errMessage = duplicatedColumn?.MessageWhenDuplicated.IsNullOrEmpty() != false
+                        ? Displays.Duplicated(
+                            context: context,
+                            data: duplicatedColumn?.LabelText)
+                        : duplicatedColumn?.MessageWhenDuplicated;
+                }
+                var recodeIndex = recodeCount.ToString();
+                if(api.Keys?.Any() != false)
+                {
+                    var issueApiModel = list.Data[recodeCount - 1];
+                    recodeIndex += "("
+                        + api.Keys.Select(
+                                columnName => $"{columnName}={issueApiModel.ObjectValue(columnName: columnName) ?? string.Empty}"
+                            ).Join()
+                        + ")";
+                }
+                return ApiResults.Get(new ApiResponse(
+                    id: context.Id,
+                    statusCode: 500,
+                    message: Displays.FailedBulkUpsert(
+                        context: context,
+                        data: new string[]
+                        {
+                            ss.Title,
+                            insertCount.ToString(),
+                            updateCount.ToString(),
+                            recodeIndex,
+                            errMessage
+                        })));
+            }
+            ss.Notifications.ForEach(notification =>
+            {
+                var body = new System.Text.StringBuilder();
+                body.Append(Locations.ItemIndexAbsoluteUri(
+                    context: context,
+                    ss.SiteId) + "\n");
+                body.Append(
+                    $"{Displays.Issues_Updator(context: context)}: ",
+                    $"{context.User.Name}\n");
+                if (notification.AfterImport != false)
+                {
+                    notification.Send(
+                        context: context,
+                        ss: ss,
+                        title: Displays.Imported(
+                            context: context,
+                            data: new string[]
+                            {
+                                ss.Title,
+                                insertCount.ToString(),
+                                updateCount.ToString()
+                            }),
+                        body: body.ToString());
+                }
+            });
+            return ApiResults.Success(
+                id: context.Id,
+                limitPerDate: context.ContractSettings.ApiLimit(),
+                limitRemaining: context.ContractSettings.ApiLimit() - ss.ApiCount,
+                message: Messages.Imported(
+                    context: context,
+                    data: new string[]
+                    {
+                        ss.Title,
+                        insertCount.ToString(),
+                        updateCount.ToString()
+                    }).Text);
         }
 
         public static string Copy(Context context, SiteSettings ss, long issueId)

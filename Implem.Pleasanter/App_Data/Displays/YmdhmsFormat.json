@@ -1,9 +1,9 @@
-{
+﻿{
     "Id": "YmdhmsFormat",
     "Type": 130,
     "Languages": [
         {
-            "Body": "yyyy/MM/dd HH:mm:ss"
+            "Body": "MM/dd/yyyy HH:mm:ss"
         },
         {
             "Language": "zh",
@@ -15,11 +15,11 @@
         },
         {
             "Language": "de",
-            "Body": "JJJJ-MM-TT HH:mm:ss"
+            "Body": "yyyy.MM.dd HH:mm:ss"
         },
         {
             "Language": "ko",
-            "Body": "yyyy/MM/dd HH:mm:ss"
+            "Body": "yyyy.MM.dd. HH:mm:ss"
         },
         {
             "Language": "es",

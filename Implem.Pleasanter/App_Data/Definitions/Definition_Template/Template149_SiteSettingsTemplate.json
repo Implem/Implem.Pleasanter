@@ -1,5 +1,5 @@
 ﻿{
-    "Version": 1.011,
+    "Version": 1.017,
     "ReferenceType": "Results",
     "GridView": 1,
     "GridColumns": [
@@ -17,22 +17,39 @@
         "Updator",
         "UpdatedTime"
     ],
-    "EditorColumns": [
-        "ResultId",
-        "Ver",
-        "Title",
-        "ClassA",
-        "Manager",
-        "Owner",
-        "Status",
-        "NumA",
-        "DateA",
-        "Body",
-        "DescriptionA",
-        "DateB",
-        "DescriptionB",
-        "AttachmentsA",
-        "Comments"
+    "EditorColumnHash": {
+        "General": [
+            "ResultId",
+            "Ver",
+            "Status",
+            "_Section-1",
+            "Title",
+            "Owner",
+            "DateA",
+            "NumA",
+            "Body",
+            "AttachmentsA",
+            "_Section-2",
+            "Manager",
+            "DateB",
+            "DescriptionA",
+            "Comments"
+        ]
+    },
+    "SectionLatestId": 2,
+    "Sections": [
+        {
+            "Id": 1,
+            "LabelText": "申請者欄",
+            "AllowExpand": false,
+            "Expand": true
+        },
+        {
+            "Id": 2,
+            "LabelText": "承認者欄",
+            "AllowExpand": false,
+            "Expand": true
+        }
     ],
     "LinkColumns": [
         "ResultId",
@@ -62,32 +79,39 @@
             "ChoicesText": "100,起票,起\n900,承認,承\n920,否決,否\n930,条件付き承認,条\n940,保留,留"
         },
         {
-            "ColumnName": "ClassA",
-            "LabelText": "部門",
-            "ChoicesText": "部門1\n部門2\n部門3\n部門4\n部門5"
-        },
-        {
             "ColumnName": "NumA",
             "LabelText": "金額",
             "Format": "C"
         },
         {
             "ColumnName": "DateA",
-            "LabelText": "起案日",
+            "LabelText": "申請日",
             "ExportFormat": "Ymda"
         },
         {
             "ColumnName": "DateB",
-            "LabelText": "決裁日",
+            "LabelText": "承認日",
             "ExportFormat": "Ymda"
         },
         {
             "ColumnName": "DescriptionA",
-            "LabelText": "起案理由"
+            "LabelText": "承認コメント"
         },
         {
-            "ColumnName": "DescriptionB",
-            "LabelText": "条件内容"
+            "ColumnName": "Title",
+            "LabelText": "件名"
+        },
+        {
+            "ColumnName": "Manager",
+            "LabelText": "承認者"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "申請内容"
+        },
+        {
+            "ColumnName": "Owner",
+            "LabelText": "申請者"
         }
     ],
     "Aggregations": [
