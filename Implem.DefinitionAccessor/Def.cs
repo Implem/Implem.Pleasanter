@@ -13667,6 +13667,7 @@ namespace Implem.DefinitionAccessor
         public SqlDefinition Identity = new SqlDefinition();
         public SqlDefinition Spaceused = new SqlDefinition();
         public SqlDefinition SelectPkName = new SqlDefinition();
+        public SqlDefinition ExistsFullText = new SqlDefinition();
         public SqlDefinition CreateFullText = new SqlDefinition();
         public SqlDefinition ExistsSchema = new SqlDefinition();
         public SqlDefinition CreateSchema = new SqlDefinition();

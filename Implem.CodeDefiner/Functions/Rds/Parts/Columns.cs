@@ -102,7 +102,7 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
                 //MySQLにおいてtext型を指定するとエラーになる1024以上のカラムはvarchar(760)に変換する。
                 fullTypeText =  NeedReduceByDefault(columnDefinition: columnDefinition) ||
                     NeedReduceByIndex(factory: factory, columnDefinition: columnDefinition)
-                    ? "varchar(760)"
+                    ? "varchar(" + factory.SqlDefinitionSetting.ReducedVarcharLength.ToString() + ")"
                     : "text";
             }
             else if (columnDefinition.MaxLength == -1)
@@ -170,8 +170,6 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
             string sourceTableName,
             IEnumerable<ColumnDefinition> columnDefinitionCollection)
         {
-            //MySQL専用のSQLコマンド文字列を置換する。
-            if (Parameters.Rds.Dbms != "MySQL") return;
             sqlStatement.CommandText = sqlStatement.CommandText.Replace(
                 "#ModifyColumn#", GetModifyColumnSqls(
                     factory: factory,

@@ -46,8 +46,6 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
             IEnumerable<ColumnDefinition> columnDefinitionCollection,
             string tableNameTemp = "")
         {
-            //MySQLの場合はここではなくCreateModifyColumnで既定値を設定する。
-            if (Parameters.Rds.Dbms == "MySQL") return;
             sqlStatement.CommandText = sqlStatement.CommandText.Replace(
                 "#Defaults#", columnDefinitionCollection
                     .Where(o => !o.Default.IsNullOrEmpty())

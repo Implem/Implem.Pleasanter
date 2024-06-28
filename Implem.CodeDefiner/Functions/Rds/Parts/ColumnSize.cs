@@ -40,7 +40,9 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
         {
             bool IsRdsReduced() {
                 return rdsColumn["TypeName"].ToString() == "varchar" &&
-                    rdsColumn["max_length"].ToInt() == 760 * factory.SqlDefinitionSetting.NationalCharacterStoredSizeCoefficient;
+                    rdsColumn["max_length"].ToInt() ==
+                        factory.SqlDefinitionSetting.ReducedVarcharLength *
+                        factory.SqlDefinitionSetting.NationalCharacterStoredSizeCoefficient;
             }
             bool VarcharMySql()
             {

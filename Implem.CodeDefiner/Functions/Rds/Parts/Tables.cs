@@ -29,8 +29,14 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
             sqlStatement.CreateColumn(factory, sourceTableName, columnDefinitionCollection);
             sqlStatement.CreatePk(sourceTableName, columnDefinitionCollection, tableIndexCollection);
             sqlStatement.CreateIx(factory: factory, generalTableName: generalTableName, sourceTableName: sourceTableName, tableType: tableType, columnDefinitionCollection: columnDefinitionCollection);
-            sqlStatement.CreateDefault(factory, tableNameTemp, columnDefinitionCollection);
-            sqlStatement.CreateModifyColumn(factory: factory, sourceTableName: sourceTableName, columnDefinitionCollection: columnDefinitionCollection);
+            if (Parameters.Rds.Dbms == "MySQL")
+            {
+                sqlStatement.CreateModifyColumn(factory: factory, sourceTableName: sourceTableName, columnDefinitionCollection: columnDefinitionCollection);
+            }
+            else
+            {
+                sqlStatement.CreateDefault(factory, tableNameTemp, columnDefinitionCollection);
+            }
             sqlStatement.DropConstraint(factory: factory, sourceTableName: sourceTableName, columnDefinitionCollection: columnDefinitionCollection, tableIndexCollection: tableIndexCollection);
             sqlStatement.CommandText = sqlStatement.CommandText.Replace("#TableName#", tableNameTemp);
             Def.SqlIoByAdmin(factory: factory, transactional: true).ExecuteNonQuery(factory: factory, dbTransaction: null, dbConnection: null, sqlStatement: sqlStatement);
