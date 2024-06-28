@@ -11,7 +11,7 @@
     "HistoryColumn": "109",
     "TypeName": "nvarchar",
     "MaxLength": "32",
-    "Ix2": "1",
+    "Ix1": "1",
     "Required": "1",
     "LabelText_en": "Pass phrase",
     "LabelText_zh": "通行短语",

@@ -17,7 +17,7 @@
     "HistoryColumn": "101",
     "TypeName": "nvarchar",
     "MaxLength": "1024",
-    "Ix2": "1",
+    "Ix1": "1",
     "Like": "1",
     "Required": "1",
     "ControlCss": " focus",

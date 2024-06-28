@@ -16,7 +16,7 @@
     "LinkColumn": "106",
     "HistoryColumn": "106",
     "TypeName": "bit",
-    "Ix3": "3",
+    "Ix2": "3",
     "Default": "0",
     "ReadAccessControl": "ManageTenant",
     "CreateAccessControl": "ManageTenant",
