@@ -35,6 +35,9 @@ caption, th {
     text-align: left;
 }
 
+td p{
+    font-weight: inherit;
+}
 a:focus {
     outline: none;
 }
