@@ -7,6 +7,7 @@ using Implem.Pleasanter.Models;
 using System;
 using System.Dynamic;
 using System.Linq;
+
 namespace Implem.Pleasanter.Libraries.ServerScripts
 {
     public class ServerScriptModelApiModel : DynamicObject
@@ -99,6 +100,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         case nameof(siteModel.SiteId):
                             result = siteModel.SiteId;
                             return true;
+                        case nameof(siteModel.SiteName):
+                            result = siteModel.SiteName;
+                            return true;
                         case nameof(siteModel.SiteGroupName):
                             result = siteModel.SiteGroupName;
                             return true;
@@ -122,6 +126,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                             return true;
                         case nameof(siteModel.TimeSeriesGuide):
                             result = siteModel.TimeSeriesGuide;
+                            return true;
+                        case nameof(siteModel.AnalyGuide):
+                            result = siteModel.AnalyGuide;
                             return true;
                         case nameof(siteModel.KambanGuide):
                             result = siteModel.KambanGuide;
@@ -257,6 +264,81 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 case nameof(BaseItemModel.Title):
                     Model.Title.Value = value.ToStr();
                     return true;
+            }
+            if (Model is SiteModel siteModel)
+            {
+                switch (name)
+                {
+                    case nameof(siteModel.SiteName):
+                        siteModel.SiteName = value.ToStr();
+                        return true;
+                    case nameof(siteModel.SiteGroupName):
+                        siteModel.SiteGroupName = value.ToStr();
+                        return true;
+                    case nameof(SiteModel.GridGuide):
+                        siteModel.GridGuide = value.ToStr();
+                        return true;
+                    case nameof(SiteModel.EditorGuide):
+                        siteModel.EditorGuide = value.ToStr();
+                        return true;
+                    case nameof(SiteModel.CalendarGuide):
+                        siteModel.CalendarGuide = value.ToStr();
+                        return true;
+                    case nameof(SiteModel.CrosstabGuide):
+                        siteModel.CrosstabGuide = value.ToStr();
+                        return true;
+                    case nameof(SiteModel.GanttGuide):
+                        siteModel.GanttGuide = value.ToStr();
+                        return true;
+                    case nameof(SiteModel.BurnDownGuide):
+                        siteModel.BurnDownGuide = value.ToStr();
+                        return true;
+                    case nameof(SiteModel.TimeSeriesGuide):
+                        siteModel.TimeSeriesGuide = value.ToStr();
+                        return true;
+                    case nameof(SiteModel.AnalyGuide):
+                        siteModel.AnalyGuide = value.ToStr();
+                        return true;
+                    case nameof(SiteModel.KambanGuide):
+                        siteModel.KambanGuide = value.ToStr();
+                        return true;
+                    case nameof(SiteModel.ImageLibGuide):
+                        siteModel.ImageLibGuide = value.ToStr();
+                        return true;
+                    case nameof(SiteModel.ReferenceType):
+                        siteModel.ReferenceType = value.ToStr();
+                        return true;
+                    case nameof(SiteModel.ParentId):
+                        siteModel.ParentId = value.ToInt();
+                        return true;
+                    case nameof(SiteModel.InheritPermission):
+                        siteModel.InheritPermission = value.ToInt();
+                        return true;
+                    case nameof(SiteModel.SiteSettings):
+                        siteModel.SiteSettings = value.ToStr().Deserialize<SiteSettings>() ?? new SiteSettings();
+                        siteModel.SiteSettings.Init(context: Context);
+                        return true;
+                    case nameof(SiteModel.Publish):
+                        siteModel.Publish = value.ToBool();
+                        return true;
+                    case nameof(SiteModel.DisableCrossSearch):
+                        siteModel.DisableCrossSearch = value.ToBool();
+                        return true;
+                    case nameof(SiteModel.LockedTime):
+                        siteModel.LockedTime = new DataTypes.Time();
+                        return true;
+                    case nameof(SiteModel.LockedUser):
+                        siteModel.LockedUser = SiteInfo.User(
+                            context: Context,
+                            userId: value.ToInt());
+                        return true;
+                    case nameof(SiteModel.ApiCountDate):
+                        siteModel.ApiCountDate = value.ToDateTime();
+                        return true;
+                    case nameof(SiteModel.ApiCount):
+                        siteModel.ApiCount = value.ToInt();
+                        return true;
+                }
             }
             if (Model is IssueModel issueModel)
             {

@@ -15,7 +15,7 @@ namespace Implem.Pleasanter.Libraries.Security
             NumberAndLetter
         }
 
-        public static string SignIn(Context context, string returnUrl, bool noHttpContext = false)
+        public static string SignIn(Context context, string returnUrl, bool isAuthenticationByMail = false, bool noHttpContext = false)
         {
             return new UserModel(
                 context: context,
@@ -24,7 +24,8 @@ namespace Implem.Pleasanter.Libraries.Security
                     .Authenticate(
                         context: context,
                         returnUrl: returnUrl,
-                        noHttpContext: noHttpContext);
+                        noHttpContext: noHttpContext,
+                        isAuthenticationByMail: isAuthenticationByMail);
         }
 
         public static bool Try(Context context, string loginId, string password)
@@ -46,14 +47,21 @@ namespace Implem.Pleasanter.Libraries.Security
 
         private static void SignOutLog(Context context)
         {
-            if (Parameters.SysLog.SignOut)
+            if (Parameters.SysLog.SignOut || Parameters.SysLog.ClientId)
             {
+                var loginId = Parameters.SysLog.SignOut
+                    ? context.LoginId
+                    : null;
+                var clientId = Parameters.SysLog.ClientId
+                    ? AspNetCoreCurrentRequestContext.AspNetCoreHttpContext.Current?.Request.Cookies["Pleasanter_ClientId"]
+                    : null;
                 new SysLogModel(
                     context: context,
                     method: nameof(SignOut),
                     message: new
                     {
-                        LoginId = context.LoginId
+                        LoginId = loginId,
+                        ClientId = clientId
                     }.ToJson());
             }
         }

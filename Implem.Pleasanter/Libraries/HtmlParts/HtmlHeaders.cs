@@ -25,20 +25,25 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool useSearch,
             ServerScriptModelRow serverScriptModelRow)
         {
-            return hb.Header(id: "Header", action: () => hb
-                .Announcement(context: context)
-                .HeaderLogo(
-                    context: context,
-                    ss: ss)
-                .NavigationMenu(
-                    context: context,
-                    ss: ss,
-                    siteId: siteId,
-                    referenceType: referenceType,
-                    errorType: errorType,
-                    useNavigationMenu: useNavigationMenu,
-                    useSearch: useSearch,
-                    serverScriptModelRow: serverScriptModelRow));
+            return hb.Announcement(context: context)
+                .Header(
+                    id: "Header",
+                    action: () => hb
+                        .HeaderLogo(
+                            context: context,
+                            ss: ss,
+                            _using: context.ThemeVersionOver2_0() && context.Action == "login"
+                                ? false
+                                : true)
+                        .NavigationMenu(
+                            context: context,
+                            ss: ss,
+                            siteId: siteId,
+                            referenceType: referenceType,
+                            errorType: errorType,
+                            useNavigationMenu: useNavigationMenu,
+                            useSearch: useSearch,
+                            serverScriptModelRow: serverScriptModelRow));
         }
 
         public static HtmlBuilder Announcement(this HtmlBuilder hb, Context context)
@@ -58,19 +63,23 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Status(_operator: $"<{Parameters.General.CompletionCode}")
                         .StartTime(now, _operator: "<=")
                         .CompletionTime(now, _operator: ">="));
-                foreach (var issueModel in issueCollection)
-                {
-                    if (!IsHiddenAnnouncement(
-                        context: context,
-                        issueModel: issueModel))
+                hb.Div(
+                    attributes: new HtmlAttributes()
+                        .Id("AnnouncementModule")
+                        .Class("announcements"),
+                    action: () => issueCollection.ForEach(issueModel =>
                     {
-                        hb.Div(
-                            attributes: new HtmlAttributes()
-                                .Id($"AnnouncementContainer_{issueModel.IssueId}")
-                                .Class("annonymous", _using: !context.Authenticated),
-                            action: () =>hb.Raw(text: issueModel.Body));
-                    }
-                }
+                        if (!IsHiddenAnnouncement(
+                            context: context,
+                            issueModel: issueModel))
+                        {
+                            hb.Div(
+                                attributes: new HtmlAttributes()
+                                    .Id($"AnnouncementContainer_{issueModel.IssueId}")
+                                    .Class("annonymous", _using: !context.Authenticated),
+                                action: () => hb.Raw(text: issueModel.Body));
+                        }
+                    }));
             }
             return hb;
         }
@@ -100,7 +109,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder HeaderLogo(
             this HtmlBuilder hb,
             Context context,
-            SiteSettings ss)
+            SiteSettings ss,
+            bool _using = true)
         {
             var existsImage = BinaryUtilities.ExistsTenantImage(
                 context: context,
@@ -108,24 +118,26 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 referenceId: context.TenantId,
                 sizeType: Images.ImageData.SizeTypes.Logo);
             var title = Title(context: context);
-            return hb.H(number: 2, id: "Logo", action: () => hb
-                .A(
-                    attributes: new HtmlAttributes().Href(context.Publish
-                        ? ss.ReferenceType == "Wikis"
-                            ? Locations.ItemEdit(
+            return _using
+                ? hb.H(number: 2, id: "Logo", action: () => hb
+                    .A(
+                        attributes: new HtmlAttributes().Href(context.Publish
+                            ? ss.ReferenceType == "Wikis"
+                                ? Locations.ItemEdit(
+                                    context: context,
+                                    id: context.Id)
+                                : Locations.ItemIndex(
+                                    context: context,
+                                    id: context.SiteId)
+                            : Locations.Top(context: context)),
+                        action: () => hb
+                            .LogoImage(
                                 context: context,
-                                id: context.Id)
-                            : Locations.ItemIndex(
-                                context: context,
-                                id: context.SiteId)
-                        : Locations.Top(context: context)),
-                    action: () => hb
-                        .LogoImage(
-                            context: context,
-                            showTitle: !title.IsNullOrEmpty(),
-                            existsTenantImage: existsImage)
-                        .Span(id: "ProductLogo", action: () => hb
-                        .Text(text: title))));
+                                showTitle: !title.IsNullOrEmpty(),
+                                existsTenantImage: existsImage)
+                            .Span(id: "ProductLogo", action: () => hb
+                            .Text(text: title))))
+                : hb;
         }
 
         private static HtmlBuilder LogoImage(

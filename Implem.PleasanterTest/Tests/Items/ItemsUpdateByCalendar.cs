@@ -43,7 +43,7 @@ namespace Implem.PleasanterTest.Tests.Items
             var baseTests = BaseData.Tests(
                 JsonData.ExistsOne(
                     method: "Html",
-                    target: "#CalendarBody"),
+                    target: "#FullCalendarBody"),
                 JsonData.ExistsOne(
                     method: "ClearFormData",
                     target: "View"),
@@ -61,7 +61,7 @@ namespace Implem.PleasanterTest.Tests.Items
                     target: "#Guide"),
                 JsonData.ExistsOne(
                     method: "ReplaceAll",
-                    target: "#CopyDirectUrlToClipboard"),
+                    target: "#CopyToClipboards"),
                 JsonData.ExistsOne(
                     method: "ReplaceAll",
                     target: "#Aggregations"),

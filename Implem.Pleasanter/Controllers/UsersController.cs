@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Sustainsys.Saml2.AspNetCore2;
+using System;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
@@ -399,7 +400,7 @@ namespace Implem.Pleasanter.Controllers
         /// </summary>
         [AllowAnonymous]
         [HttpPost]
-        public string Authenticate(string returnUrl)
+        public string Authenticate(string returnUrl, int isAuthenticationByMail = 0)
         {
             var context = new Context();
             var log = new SysLogModel(context: context);
@@ -407,7 +408,8 @@ namespace Implem.Pleasanter.Controllers
                 context: context,
                 returnUrl: Url.IsLocalUrl(returnUrl)
                     ? returnUrl
-                    : string.Empty);
+                    : string.Empty,
+                isAuthenticationByMail: Convert.ToBoolean(isAuthenticationByMail));
             log.Finish(
                 context: context,
                 responseSize: json.Length);
@@ -652,6 +654,88 @@ namespace Implem.Pleasanter.Controllers
             var context = new Context();
             var log = new SysLogModel(context: context);
             var json = UserUtilities.CloseAnnouncement(context: context);
+            log.Finish(context: context, responseSize: json.Length);
+            return json;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        [AcceptVerbs(HttpVerbs.Get, HttpVerbs.Post)]
+        public ActionResult TrashBox()
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            if (!context.Ajax)
+            {
+                var html = UserUtilities.TrashBox(
+                    context: context,
+                    ss: SiteSettingsUtilities.UsersSiteSettings(
+                        context: context,
+                        tableTypes: Implem.Libraries.DataSources.SqlServer.Sqls.TableTypes.Deleted));
+                ViewBag.HtmlBody = html;
+                log.Finish(context: context, responseSize: html.Length);
+                return context.RedirectData.Url.IsNullOrEmpty()
+                    ? View()
+                    : Redirect(context.RedirectData.Url);
+            }
+            else
+            {
+                var json = UserUtilities.TrashBoxJson(
+                    context: context,
+                    ss: SiteSettingsUtilities.UsersSiteSettings(
+                        context: context,
+                        tableTypes: Implem.Libraries.DataSources.SqlServer.Sqls.TableTypes.Deleted));
+                log.Finish(context: context, responseSize: json.Length);
+                return Content(json);
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        [HttpPost]
+        public string Restore(long id)
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = UserUtilities.Restore(
+                context: context,
+                ss: SiteSettingsUtilities.UsersSiteSettings(
+                    context: context,
+                    tableTypes: Implem.Libraries.DataSources.SqlServer.Sqls.TableTypes.Deleted));
+            log.Finish(context: context, responseSize: json.Length);
+            return json;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        [HttpDelete]
+        public string PhysicalDelete(long id)
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = UserUtilities.PhysicalBulkDelete(
+                context: context,
+                ss: SiteSettingsUtilities.UsersSiteSettings(
+                    context: context,
+                    tableTypes: Implem.Libraries.DataSources.SqlServer.Sqls.TableTypes.Deleted));
+            log.Finish(context: context, responseSize: json.Length);
+            return json;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        [HttpPost]
+        public string GeneratePassword(string passwordObject, string passwordValidateObject)
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = UserUtilities.GeneratePassword(
+                    passwordObject,
+                    passwordValidateObject);
             log.Finish(context: context, responseSize: json.Length);
             return json;
         }

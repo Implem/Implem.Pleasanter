@@ -1,11 +1,16 @@
 ﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
+using Implem.Pleasanter.Libraries.Web;
 using Implem.Pleasanter.Models;
 using Implem.PleasanterFilters;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+
 namespace Implem.Pleasanter.Controllers.Api
 {
     [CheckApiContextAttributes]
@@ -123,6 +128,24 @@ namespace Implem.Pleasanter.Controllers.Api
             var log = new SysLogModel(context: context);
             var result = context.Authenticated
                 ? new ItemModel(context: context, referenceId: id).BulkDeleteByApi(context: context)
+                : ApiResults.Unauthorized(context: context);
+            log.Finish(context: context, responseSize: result.Content.Length);
+            return result.ToHttpResponse(request: Request);
+        }
+
+        [HttpPost("{id}/Import")]
+        public ContentResult Import(long id)
+        {
+            var body = Request.Form["parameters"];
+            var contentType = Request.ContentType.Split(';')[0].Trim();
+            var context = new Context(
+                apiRequestBody: body,
+                files: Request.Form.Files.ToList(),
+                contentType: contentType,
+                api: true);
+            var log = new SysLogModel(context: context);
+            var result = context.Authenticated
+                ? new ItemModel(context: context, referenceId: id).ImportByApi(context: context)
                 : ApiResults.Unauthorized(context: context);
             log.Finish(context: context, responseSize: result.Content.Length);
             return result.ToHttpResponse(request: Request);
@@ -271,6 +294,46 @@ namespace Implem.Pleasanter.Controllers.Api
                     context: context,
                     referenceId: id).SynchronizeSummariesByApi(context: context);
             }
+        }
+
+        [HttpPost("{id}/updatesitesettings")]
+        public ContentResult UpdateSiteSettings(long id)
+        {
+            var body = default(string);
+            using (var reader = new StreamReader(Request.Body)) body = reader.ReadToEnd();
+            var context = new Context(
+                sessionStatus: User?.Identity?.IsAuthenticated == true,
+                sessionData: User?.Identity?.IsAuthenticated == true,
+                apiRequestBody: body,
+                contentType: Request.ContentType,
+                api: true);
+            var log = new SysLogModel(context: context);
+            var result = context.Authenticated
+                ? new ItemModel(context: context, referenceId: id).UpdateSiteSettingsByApi(context: context)
+                : ApiResults.Unauthorized(context: context);
+            log.Finish(context: context, responseSize: result.Content.Length);
+            return result.ToHttpResponse(request: Request);
+        }
+
+        [HttpPost("{id}/GetClosestSiteId")]
+        public ContentResult GetClosestSiteId(long id)
+        {
+            var body = default(string);
+            using (var reader = new StreamReader(Request.Body)) body = reader.ReadToEnd();
+            var context = new Context(
+                sessionStatus: User?.Identity?.IsAuthenticated == true,
+                sessionData: User?.Identity?.IsAuthenticated == true,
+                apiRequestBody: body,
+                contentType: Request.ContentType,
+                api: true);
+            var log = new SysLogModel(context: context);
+            var result = context.Authenticated
+                ? SiteUtilities.GetClosestSiteIdByApi(
+                    context: context,
+                    id: id)
+                : ApiResults.Unauthorized(context: context);
+            log.Finish(context: context, responseSize: result.Content.Length);
+            return result.ToHttpResponse(request: Request);
         }
     }
 }

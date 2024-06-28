@@ -164,11 +164,11 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     controlId: "InheritPermission",
                     fieldCss: "field-auto-thin",
-                    controlCss: " auto-postback",
+                    controlCss: " auto-postback search",
                     labelText: Displays.InheritPermission(context: context),
                     optionCollection: InheritTargets(
                         context: context,
-                        ss: siteModel.SiteSettings),
+                        ss: siteModel.SiteSettings).OptionCollection,
                     selectedValue: siteModel.InheritPermission.ToString(),
                     action: "SetPermissions",
                     method: "post")
@@ -178,42 +178,81 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static Dictionary<string, ControlData> InheritTargets(
-            Context context, SiteSettings ss)
+        public static (Dictionary<string, ControlData> OptionCollection, int TotalCount) InheritTargets(
+            Context context,
+            SiteSettings ss,
+            int offset = 0,
+            int pageSize = 0,
+            string searchText = "")
         {
-            return new Dictionary<string, ControlData>
+            Dictionary<string, ControlData> dictionary = new Dictionary<string, ControlData>();
+            if (offset == 0)
             {
-                { ss.SiteId.ToString(), new ControlData(Displays.NotInheritPermission(context: context)) },
-            }.AddRange(InheritTargetsDataRows(context: context, ss: ss)
-                .ToDictionary(
+                dictionary.Add(ss.SiteId.ToString(), new ControlData(Displays.NotInheritPermission(context: context)));
+            }
+            var (dataRows, totalCount) = InheritTargetsDataRows(
+                context: context,
+                ss: ss,
+                offset: offset,
+                pageSize: pageSize,
+                searchText: searchText);
+            dictionary.AddRange(
+                dataRows.ToDictionary(
                     o => o["SiteId"].ToString(),
                     o => new ControlData($"[{o["SiteId"]}] {o["Title"]}")));
+            return (dictionary, totalCount);
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static EnumerableRowCollection<DataRow> InheritTargetsDataRows(
-            Context context, SiteSettings ss)
+        public static (EnumerableRowCollection<DataRow> DataRows, int TotalCount) InheritTargetsDataRows(
+            Context context,
+            SiteSettings ss,
+            int offset = 0,
+            int pageSize = 0,
+            string searchText = "")
         {
-            return Repository.ExecuteTable(
-                context: context,
-                statements: Rds.SelectSites(
+            var where = Rds.SitesWhere()
+                .TenantId(context.TenantId)
+                .SiteId(ss.SiteId, _operator: "<>")
+                .InheritPermission(raw: "\"Sites\".\"SiteId\"")
+                .Add(
+                    raw: Def.Sql.CanReadSites,
+                    _using: !context.HasPrivilege)
+                .SqlWhereLike(
+                    tableName: "Sites",
+                    name: "SearchText",
+                    searchText: searchText,
+                    clauseCollection: new List<string>()
+                    {
+                        Rds.Sites_Title_WhereLike(factory: context),
+                        Rds.Sites_SiteId_WhereLike(factory: context)
+                    });
+            var statements = new List<SqlStatement>()
+            {
+                Rds.SelectSites(
+                    offset: offset,
+                    pageSize: pageSize,
+                    dataTableName: "Main",
                     column: Rds.SitesColumn()
                         .SiteId()
                         .Title(),
                     join: Rds.SitesJoinDefault(),
-                    where: Rds.SitesWhere()
-                        .TenantId(context.TenantId)
-                        .SiteId(ss.SiteId, _operator: "<>")
-                        .InheritPermission(raw: "\"Sites\".\"SiteId\"")
-                        .Add(
-                            raw: Def.Sql.CanReadSites,
-                            _using: !context.HasPrivilege),
+                    where: where,
                     orderBy: Rds.SitesOrderBy()
                         .Title()
-                        .SiteId()))
-                            .AsEnumerable();
+                        .SiteId()),
+                Rds.SelectCount(
+                    tableName: "Sites",
+                    join: Rds.SitesJoinDefault(),
+                    where: where)
+            };
+            var dataSet = Repository.ExecuteDataSet(
+                context: context,
+                statements: statements.ToArray());
+            var totalCount = Rds.Count(dataSet);
+            return (dataSet.Tables["Main"].AsEnumerable(), totalCount);
         }
 
         /// <summary>
@@ -652,13 +691,16 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static List<int> Groups(Context context)
+        public static List<int> Groups(Context context, bool enableOnly = false)
         {
             if (context.Authenticated)
             {
+                var sql = enableOnly
+                    ? context.Sqls.GetEnabledGroup
+                    : context.Sqls.GetGroup;
                 return Repository.ExecuteTable(
                     context: context,
-                    statements: new SqlStatement(context.Sqls.GetGroup))
+                    statements: new SqlStatement(sql))
                         .AsEnumerable()
                         .Select(o => o.Int("GroupId"))
                         .ToList();
@@ -1088,14 +1130,14 @@ namespace Implem.Pleasanter.Models
                             disabled: disableRecordPermission,
                             controlId: "ChangePermissions",
                             text: Displays.Change(context: context),
-                            controlCss: "button-icon validate",
+                            controlCss: "button-icon validate button-positive",
                             onClick: "$p.changePermissions($(this));",
                             icon: "ui-icon-disk",
                             action: "SetPermissions",
                             method: "post")
                         .Button(
                             text: Displays.Cancel(context: context),
-                            controlCss: "button-icon",
+                            controlCss: "button-icon button-neutral",
                             onClick: "$p.closeDialog($(this));",
                             icon: "ui-icon-cancel")));
         }
@@ -1664,14 +1706,14 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlId: "ChangePermissionForCreating",
                             text: Displays.Change(context: context),
-                            controlCss: "button-icon validate",
+                            controlCss: "button-icon validate button-positive",
                             onClick: "$p.changePermissionForCreating($(this));",
                             icon: "ui-icon-disk",
                             action: "SetPermissionForCreating",
                             method: "post")
                         .Button(
                             text: Displays.Cancel(context: context),
-                            controlCss: "button-icon",
+                            controlCss: "button-icon button-neutral",
                             onClick: "$p.closeDialog($(this));",
                             icon: "ui-icon-cancel")));
         }
@@ -1876,14 +1918,14 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlId: "ChangePermissionForUpdating",
                             text: Displays.Change(context: context),
-                            controlCss: "button-icon validate",
+                            controlCss: "button-icon validate button-positive",
                             onClick: "$p.changePermissionForUpdating($(this));",
                             icon: "ui-icon-disk",
                             action: "SetPermissionForUpdating",
                             method: "post")
                         .Button(
                             text: Displays.Cancel(context: context),
-                            controlCss: "button-icon",
+                            controlCss: "button-icon button-neutral",
                             onClick: "$p.closeDialog($(this));",
                             icon: "ui-icon-cancel")));
         }
@@ -2193,14 +2235,14 @@ namespace Implem.Pleasanter.Models
                     .Div(css: "command-center", action: () => hb
                         .Button(
                             text: Displays.Change(context: context),
-                            controlCss: "button-icon validate",
+                            controlCss: "button-icon validate button-positive",
                             onClick: "$p.changeColumnAccessControl($(this), '" + type + "');",
                             icon: "ui-icon-disk",
                             action: "SetColumnAccessControl",
                             method: "post")
                         .Button(
                             text: Displays.Cancel(context: context),
-                            controlCss: "button-icon",
+                            controlCss: "button-icon button-neutral",
                             onClick: "$p.closeDialog($(this));",
                             icon: "ui-icon-cancel"))
                     .Hidden(controlId: "ColumnAccessControlType", value: type)

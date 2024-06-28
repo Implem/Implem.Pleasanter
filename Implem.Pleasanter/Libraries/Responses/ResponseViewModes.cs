@@ -22,14 +22,22 @@ namespace Implem.Pleasanter.Libraries.Responses
             bool bodyOnly = false,
             string bodySelector = null,
             ServerScriptModelRow serverScriptModelRow = null,
-            HtmlBuilder body = null)
+            HtmlBuilder body = null,
+            bool replaceAllBody = false)
         {
             return res
                 .Html(
                     target: !bodyOnly
                         ? "#ViewModeContainer"
                         : bodySelector,
-                    value: body)
+                    value: body,
+                    _using: !replaceAllBody || !bodyOnly)
+                .ReplaceAll(
+                    target: !bodyOnly
+                        ? "#ViewModeContainer"
+                        : bodySelector,
+                    value: body,
+                    _using: replaceAllBody && bodyOnly)
                 .View(
                     context: context,
                     ss: ss,
@@ -49,8 +57,9 @@ namespace Implem.Pleasanter.Libraries.Responses
                 .ReplaceAll("#Guide", new HtmlBuilder()
                     .Guide(
                         context: context,
-                        ss: ss))
-                .ReplaceAll("#CopyDirectUrlToClipboard", new HtmlBuilder()
+                        ss: ss,
+                        view: view))
+                .ReplaceAll("#CopyToClipboards", new HtmlBuilder()
                     .CopyDirectUrlToClipboard(
                         context: context,
                         view: view))

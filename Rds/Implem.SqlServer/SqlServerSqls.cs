@@ -210,6 +210,24 @@ namespace Implem.SqlServer
             where ""Users"".""TenantId""=@_T
                 and ""Users"".""UserId""=@_U;";
 
+        public string GetEnabledGroup { get; } = @"
+            select ""Groups"".""GroupId"" 
+            from ""Groups"" as ""Groups""
+                inner join ""GroupMembers"" on ""Groups"".""GroupId""=""GroupMembers"".""GroupId""
+                inner join ""Depts"" on ""GroupMembers"".""DeptId""=""Depts"".""DeptId""
+            where ""Groups"".""Disabled""='false'
+                and ""Depts"".""TenantId""=@_T
+                and ""Depts"".""DeptId""=@_D
+                and ""Depts"".""Disabled""='false'
+            union all
+            select ""Groups"".""GroupId"" 
+            from ""Groups"" as ""Groups""
+                inner join ""GroupMembers"" on ""Groups"".""GroupId""=""GroupMembers"".""GroupId""
+                inner join ""Users"" on ""GroupMembers"".""UserId""=""Users"".""UserId""
+            where ""Groups"".""Disabled""='false'
+                and ""Users"".""TenantId""=@_T
+                and ""Users"".""UserId""=@_U;";
+
         public string PermissionsWhere { get; } = @"
             (
                 exists
@@ -390,5 +408,68 @@ namespace Implem.SqlServer
                         and {PermissionsWhere}
                 )";
         }
+
+        public string UpsertBinary { get; } = @"
+            merge into ""Binaries"" as ""Target""
+            using
+            (
+                select 
+                    @_T as ""TenantId""
+                    ,@ReferenceId as ""ReferenceId""
+                    ,@Guid as ""Guid""
+                    ,@BinaryType as ""BinaryType""
+                    ,@Title as ""Title""
+                    ,@Bin as ""Bin""
+                    ,@FileName as ""FileName""
+                    ,@_U as ""Creator""
+                    ,@_U as ""Updator""
+            ) as ""Temp""
+            on ""Target"".""TenantId"" = @_T
+                and ""Target"".""Guid"" = ""Temp"".""Guid""
+                and ""Target"".""BinaryType"" = ""Temp"".""BinaryType""
+            when matched
+            then
+                update set 
+                    ""Bin"" = concat(cast(""Target"".""Bin"" as varbinary(max)), cast(""Temp"".""Bin"" as varbinary(max)))
+                    ,""Updator"" = @_U
+                    ,""UpdatedTime"" = current_timestamp
+            when not matched
+            then
+                insert
+                (
+                    ""TenantId""
+                    ,""ReferenceId""
+                    ,""Guid""
+                    ,""Ver""
+                    ,""BinaryType""
+                    ,""Title""
+                    ,""Bin""
+                    ,""FileName""
+                    ,""Creator""
+                    ,""Updator""
+                    ,""CreatedTime""
+                    ,""UpdatedTime""
+                )
+                values
+                (
+                    @_T
+                    ,@ReferenceId
+                    ,@Guid
+                    ,1
+                    ,@BinaryType
+                    ,@Title
+                    ,@Bin
+                    ,@FileName
+                    ,@_U
+                    ,@_U
+                    ,current_timestamp
+                    ,current_timestamp
+                );";
+
+        public string GetBinaryHash { get; } = @"
+            select hashbytes(@Algorithm, cast(""Bin"" as varbinary(max)))
+            from ""Binaries""
+            where ""TenantId"" = @_T
+                and ""Guid"" = @Guid;";
     }
 }

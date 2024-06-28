@@ -17,6 +17,7 @@ namespace Implem.PleasanterTest.Models
         public string ApiRequestBody { get; set; }
         public List<BaseTest> BaseTests { get; set; }
         public UserModel UserModel { get; set; }
+        public Dictionary<string, string> ExtendedParams {  get; set; }
 
         public TestPart(
             string title = null,
@@ -27,7 +28,8 @@ namespace Implem.PleasanterTest.Models
             string guid = null,
             string fileName = null,
             List<BaseTest> baseTests = null,
-            UserData.UserTypes userType = UserData.UserTypes.General1)
+            UserData.UserTypes userType = UserData.UserTypes.General1,
+            Dictionary<string, string> extendedParams = null)
         {
             Title = title;
             RouteData = routeData;
@@ -38,6 +40,7 @@ namespace Implem.PleasanterTest.Models
             ApiRequestBody = apiRequestBody.ToJson();
             BaseTests = baseTests;
             UserModel = UserData.Get(userType: userType);
+            ExtendedParams = extendedParams;
         }
     }
 }

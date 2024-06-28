@@ -83,7 +83,7 @@ If necessary, run the Docker command with sudo when executing it.
    docker run --rm --network pleasanter-net \
        --name pleasanter \
        --env-file env-list \
-       -p 50001:80 \
+       -p 50001:8080 \
        implem/pleasanter
    ```
 
@@ -107,12 +107,12 @@ Click [here](https://demo.pleasanter.org) to enter your email address and start 
 
 ## Requirements
 
-Pleasanter work on it`.NET6`. A Database can be PostgreSQL or SQL Server.
+Pleasanter work on it`.NET8`. A Database can be PostgreSQL or SQL Server.
 
 |item|choice|
 |:----|:----|
 |OS|Windows / Linux|
-|Framework|.NET6|
+|Framework|.NET8|
 |Database|PostgreSQL / SQL Server|
 
 ## Documentation

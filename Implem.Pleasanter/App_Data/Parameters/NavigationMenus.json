@@ -50,6 +50,12 @@
                 "Function": "PostBack"
             },
             {
+                "MenuId": "ViewModelMenu_Analy",
+                "Name": "Analy",
+                "Icon": "ui-icon ui-icon-triangle-1-e",
+                "Function": "PostBack"
+            },
+            {
                 "MenuId": "ViewModelMenu_Kamban",
                 "Name": "Kamban",
                 "Icon": "ui-icon ui-icon-triangle-1-e",
@@ -146,6 +152,24 @@
                 "Name": "TrashBox",
                 "Icon": "ui-icon ui-icon-trash",
                 "LinkParams": [ "Items", "{SiteId}", "TrashBox" ]
+            },
+            {
+                "MenuId": "SettingsMenu_GroupTrashBox",
+                "Name": "TrashBox",
+                "Icon": "ui-icon ui-icon-trash",
+                "LinkParams": [ "Groups", "TrashBox" ]
+            },
+            {
+                "MenuId": "SettingsMenu_DeptTrashBox",
+                "Name": "TrashBox",
+                "Icon": "ui-icon ui-icon-trash",
+                "LinkParams": [ "Depts", "TrashBox" ]
+            },
+            {
+                "MenuId": "SettingsMenu_UserTrashBox",
+                "Name": "TrashBox",
+                "Icon": "ui-icon ui-icon-trash",
+                "LinkParams": [ "Users", "TrashBox" ]
             }
         ]
     },

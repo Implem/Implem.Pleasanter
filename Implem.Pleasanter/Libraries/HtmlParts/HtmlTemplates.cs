@@ -36,6 +36,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string script = null,
             string userScript = null,
             string userStyle = null,
+            BaseModel.MethodTypes methodType = BaseModel.MethodTypes.NotSet,
             ServerScriptModelRow serverScriptModelRow = null,
             Action action = null)
         {
@@ -43,6 +44,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 context: context,
                 ss: ss,
                 body: body,
+                methodType: methodType,
                 action: () => hb
                     .Raw(HtmlHtmls.ExtendedHtmls(
                         context: context,
@@ -77,11 +79,21 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         context: context,
                         ss: ss,
                         userStyle: userStyle)
+                    .Htmls(
+                        context: context,
+                        ss: ss,
+                        positionType: Settings.Html.PositionTypes.BodyScriptTop,
+                        methodType: methodType)
                     .Scripts(
                         context: context,
                         ss: ss,
                         script: script,
                         userScript: userScript)
+                    .Htmls(
+                        context: context,
+                        ss: ss,
+                        positionType: Settings.Html.PositionTypes.BodyScriptBottom,
+                        methodType: methodType)
                     .Raw(HtmlHtmls.ExtendedHtmls(
                         context: context,
                         id: "HtmlBodyBottom")));
@@ -92,6 +104,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Context context,
             SiteSettings ss,
             string body,
+            BaseModel.MethodTypes methodType,
             Action action)
         {
             if (!context.Ajax)
@@ -102,6 +115,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Raw(HtmlHtmls.ExtendedHtmls(
                             context: context,
                             id: "HtmlHeaderTop"))
+                        .Htmls(
+                            context: context,
+                            ss: ss,
+                            positionType: Settings.Html.PositionTypes.HeadTop,
+                            methodType: methodType)
                         .Meta(httpEquiv: "X-UA-Compatible", content: "IE=edge")
                         .Meta(charset: "utf-8")
                         .Meta(name: "keywords", content: Parameters.General.HtmlHeadKeywords)
@@ -119,16 +137,65 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 context: context,
                                 ss: ss)))
                         .ExtendedHeader(ss: ss)
+                        .Htmls(
+                            context: context,
+                            ss: ss,
+                            positionType: Settings.Html.PositionTypes.HeadBottom,
+                            methodType: methodType)
                         .Raw(HtmlHtmls.ExtendedHtmls(
                             context: context,
                             id: "HtmlHeaderBottom")))
-                    .Body(style: "visibility:hidden", action: action));
+                    .Body(
+                        id: context.Action == "login"
+                            ? "login"
+                            : string.Empty,
+                        css: context.ThemeVersion1_0()
+                            ? "theme-version-1_0"
+                            : string.Empty,
+                        style: "visibility:hidden",
+                        action: action));
             }
             else
             {
                 action?.Invoke();
                 return hb;
             }
+        }
+
+        private static HtmlBuilder Htmls(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            Settings.Html.PositionTypes positionType,
+            BaseModel.MethodTypes methodType)
+        {
+            if (context.ContractSettings.Html == false) return hb;
+            hb.Raw(ss.GetHtmlBody(
+                context: context,
+                peredicate: o => o.All == true,
+                positionType: positionType));
+            var htmlBody = string.Empty;
+            switch (methodType)
+            {
+                case BaseModel.MethodTypes.New:
+                    htmlBody = ss.GetHtmlBody(
+                        context: context,
+                        peredicate: o => o.New == true,
+                        positionType: positionType);
+                    break;
+                case BaseModel.MethodTypes.Edit:
+                    htmlBody = ss.GetHtmlBody(
+                        context: context,
+                        peredicate: o => o.Edit == true,
+                        positionType: positionType);
+                    break;
+                default:
+                    htmlBody = ss.ViewModeHtmls(
+                        context: context,
+                        positionType: positionType);
+                    break;
+            }
+            return hb.Raw(htmlBody);
         }
 
         private static string Description(SiteSettings ss, string body)
@@ -231,7 +298,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             _using: useBreadcrumb))
                         .Guide(
                             context: context,
-                            ss: ss)
+                            ss: ss,
+                            view: view)
                         .Title(
                             context: context,
                             ss: ss,
@@ -281,13 +349,28 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string title,
             bool useTitle)
         {
-            return useTitle
-                ? hb.Title(
-                    context: context,
-                    ss: ss,
-                    siteId: siteId,
-                    text: title)
-                : hb;
+            if (useTitle)
+            {
+                if (context.ThemeVersionOver2_0())
+                {
+                    return hb.Div(
+                        id: "TitleContainer",
+                        action: () => hb.Title(
+                            context: context,
+                            ss: ss,
+                            siteId: siteId,
+                            text: title));
+                }
+                else
+                {
+                    return hb.Title(
+                        context: context,
+                        ss: ss,
+                        siteId: siteId,
+                        text: title);
+                }
+            }
+            return hb;
         }
 
         public static HtmlBuilder Warnings(
@@ -481,6 +564,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return context.Authenticated
                 && context.ContractSettings.Attachments() != false
                 && !context.Mobile
+                && !context.Ajax
                     ? hb
                         .Div(
                             attributes: new HtmlAttributes()
@@ -494,12 +578,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 .Div(css: "command-center", action: () => hb
                                     .Button(
                                         text: Displays.ToShoot(context: context),
-                                        controlCss: "button-icon",
+                                        controlCss: "button-icon button-positive",
                                         onClick: "$p.toShoot($(this));",
                                         icon: "ui-icon-video")
                                     .Button(
                                         text: Displays.Cancel(context: context),
-                                        controlCss: "button-icon",
+                                        controlCss: "button-icon button-neutral",
                                         onClick: "$p.closeDialog($(this));",
                                         icon: "ui-icon-cancel")))
                         .Canvas(id: "Canvas")
@@ -543,6 +627,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         value: context.Token(),
                         _using: Parameters.Security.TokenCheck)
                     .Hidden(controlId: "Language", value: context.Language)
+                    .Hidden(
+                        controlId: "TimeZoneOffset",
+                        value: context.TimeZoneInfoOffset())
                     .Hidden(controlId: "YmdFormat", value: Displays.YmdFormat(context: context))
                     .Hidden(
                         controlId: "YmdDatePickerFormat",
@@ -550,6 +637,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Hidden(controlId: "DeptId", value: context.DeptId.ToString())
                     .Hidden(controlId: "UserId", value: context.UserId.ToString())
                     .Hidden(controlId: "LoginId", value: context.LoginId)
+                    .Hidden(controlId: "Theme", value: context.Theme())
                     .Hidden(controlId: "Publish", value: "1", _using: context.Publish)
                     .Hidden(controlId: "Responsive", value: "1", _using: context.Responsive)
                     .Hidden(controlId: "TableName", value: ss?.ReferenceType)
@@ -627,6 +715,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 context: context,
                 ss: ss,
                 body: null,
+                methodType: BaseModel.MethodTypes.NotSet,
                 action: () => hb
                     .MainContainer(
                         context: context,

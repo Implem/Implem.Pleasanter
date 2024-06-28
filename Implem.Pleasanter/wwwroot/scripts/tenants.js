@@ -6,3 +6,10 @@
         data,
         $control);
 }
+
+$p.openServerScriptScheduleDialog = function ($control) {
+    $p.data.ServerScriptScheduleForm = {};
+    $p.openSiteSettingsDialog($control, '#ServerScriptScheduleDialog');
+    // JQueryUIのui-multiselect-menuのz-indexが固定値の為に書き換える。
+    $('div.ui-multiselect-menu').css('z-index', 110);
+}

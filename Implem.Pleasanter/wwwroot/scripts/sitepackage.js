@@ -6,6 +6,9 @@
             width: '520px'
         });
     }
+    if ($p.responsive() && screen.width < 1025) {
+        $p.openResponsiveMenu();
+    }
 }
 
 $p.importSitePackage = function ($control) {
@@ -43,6 +46,9 @@ $p.openExportSitePackageDialog = function ($control) {
                 $li.append('<span class="include-data">(' + $p.display('IncludeData') + ')</span>');
             }
         });
+    }
+    if ($p.responsive() && screen.width < 1025) {
+        $p.openResponsiveMenu();
     }
 }
 

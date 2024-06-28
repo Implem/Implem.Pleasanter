@@ -163,7 +163,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .DataValidateEmail(validateEmail)
                         .DataValidateEqualTo(validateEqualTo)
                         .DataValidateMaxLength(validateMaxLength)
-                        .Add(attributes));
+                        .Add(attributes)
+                        .Add("data-passwordgenerator", Implem.DefinitionAccessor.Parameters.Security.PasswordGenerator ? "1" : "0"));
                 case HtmlTypes.TextTypes.File:
                     return hb.Input(attributes: new HtmlAttributes()
                         .Id(controlId)
@@ -256,7 +257,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     .DataValidateRegex(validateRegex)
                                     .DataValidateRegexErrorMessage(validateRegexErrorMessage)
                                     .DataReadOnly(readOnly)
-                                    .Add(attributes),
+                                    .Add(attributes)
+                        .Add("data-enablelightbox", Implem.DefinitionAccessor.Parameters.General.EnableLightBox ? "1" : "0"),
                     text: text)
                 .MarkDownCommands(
                     context: context,
@@ -782,6 +784,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool alwaysDataValue = false,
             string action = null,
             string method = null,
+            bool setSearchOptionButton = false,
+            string searchOptionId = null,
+            string searchOptionFunction = null,
             bool _using = true)
         {
             return _using
@@ -797,6 +802,27 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             alwaysDataValue: alwaysDataValue,
                             action: action,
                             method: method))
+                    .SearchOptionButton(
+                        setSearchOptionButton: setSearchOptionButton,
+                        searchOptionId: searchOptionId,
+                        searchOptionFunction: searchOptionFunction)
+                : hb;
+        }
+
+        public static HtmlBuilder SearchOptionButton(
+            this HtmlBuilder hb,
+            bool setSearchOptionButton = false,
+            string searchOptionId = null,
+            string searchOptionFunction = null)
+        {
+            return setSearchOptionButton
+                ? hb.Div(
+                    attributes: new HtmlAttributes()
+                        .Id(searchOptionId)
+                        .Class("ui-icon ui-icon-search lower-search-ui")
+                        .OnClick(searchOptionFunction)
+                        .DataAction("SetSiteSettings")
+                        .DataMethod("post"))
                 : hb;
         }
 
@@ -899,7 +925,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool preview = false,
             bool _using = true,
             bool validateRequired = false,
-            int validateMaxLength = 0)
+            int validateMaxLength = 0,
+            string inputGuide = null)
         {
             if (preview) controlId = Strings.NewGuid();
             var attachments = value.Deserialize<Attachments>();
@@ -921,7 +948,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .DataAction("binaries/multiupload")
                             .DataValidateMaxLength(validateMaxLength),
                         action: () => hb
-                            .Text(text: Displays.FileDragDrop(context: context))
+                            .Text(text: inputGuide.IsNullOrEmpty()
+                                ? Displays.FileDragDrop(context: context)
+                                : inputGuide)
                             .Input(attributes: new HtmlAttributes()
                                 .Id(columnName + ".input")
                                 .Class("hidden")

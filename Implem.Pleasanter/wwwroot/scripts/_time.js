@@ -31,8 +31,60 @@ $p.dateTimeString = function (date) {
     if (date === undefined) date = new Date();
     return $p.shortDateString(date) +
         (date.getHours() + date.getMinutes() !== 0
-            ? ' ' + date.getHours() + ':' + date.getMinutes()
+            ? ' ' + ('0' + date.getHours()).slice(-2) + ':' + ('0' + date.getMinutes()).slice(-2)
             : '');
+}
+
+$p.dateTimeFormatString = function (date, dateFormat) {
+    if (date === undefined) date = new Date();
+    switch (dateFormat) {
+        case 'MM/dd/yyyy':
+             return (date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear();
+            break;
+        case 'yyyy/MM/dd':
+             return date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate();
+            break;
+        case 'yyyy.MM.dd.':
+            return date.getFullYear() + '.' + (date.getMonth() + 1) + '.' + date.getDate() + '. ';
+            break;
+        case 'yyyy.MM.dd':
+             return date.getFullYear() + '.' + (date.getMonth() + 1) + '.' + date.getDate();
+            break;
+        case 'MM/dd/yyyy HH:mm':
+             return (date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear()
+                + ' ' + ('0' + date.getHours()).slice(-2) + ':' + ('0' + date.getMinutes()).slice(-2);
+            break;
+        case 'yyyy/MM/dd HH:mm':
+            return date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate()
+                + ' ' + ('0' + date.getHours()).slice(-2) + ':' + ('0' + date.getMinutes()).slice(-2);
+            break;
+        case 'yyyy.MM.dd. HH:mm':
+            return date.getFullYear() + '.' + (date.getMonth() + 1) + '.' + date.getDate()
+                + '. ' + ('0' + date.getHours()).slice(-2) + ':' + ('0' + date.getMinutes()).slice(-2);
+            break;
+        case 'yyyy.MM.dd HH:mm':
+            return date.getFullYear() + '.' + (date.getMonth() + 1) + '.' + date.getDate()
+                + ' ' + ('0' + date.getHours()).slice(-2) + ':' + ('0' + date.getMinutes()).slice(-2);
+            break;
+        case 'MM/dd/yyyy HH:mm:ss':
+             return (date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear()
+                + ' ' + ('0' + date.getHours()).slice(-2) + ':' + ('0' + date.getMinutes()).slice(-2) + ':' + ('0' + date.getSeconds()).slice(-2);
+            break;
+        case 'yyyy/MM/dd HH:mm:ss':
+            return date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate()
+                + ' ' + ('0' + date.getHours()).slice(-2) + ':' + ('0' + date.getMinutes()).slice(-2) + ':' + ('0' + date.getSeconds()).slice(-2);
+            break;
+        case 'yyyy.MM.dd. HH:mm:ss':
+             return date.getFullYear() + '.' + (date.getMonth() + 1) + '.' + date.getDate()
+                + '. ' + ('0' + date.getHours()).slice(-2) + ':' + ('0' + date.getMinutes()).slice(-2) + ':' + ('0' + date.getSeconds()).slice(-2);
+            break;
+        case 'yyyy.MM.dd HH:mm:ss':
+            return date.getFullYear() + '.' + (date.getMonth() + 1) + '.' + date.getDate()
+                + ' ' + ('0' + date.getHours()).slice(-2) + ':' + ('0' + date.getMinutes()).slice(-2) + ':' + ('0' + date.getSeconds()).slice(-2);
+        default:
+            (date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear()
+                + ' ' + ('0' + date.getHours()).slice(-2) + ':' + ('0' + date.getMinutes()).slice(-2) + ':' + ('0' + date.getSeconds()).slice(-2);
+    }
 }
 
 $p.transferedDate = function (format, datetimeString) {

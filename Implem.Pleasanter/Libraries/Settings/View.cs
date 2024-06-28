@@ -46,6 +46,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public List<string> GridColumns;
         public List<string> FilterColumns;
         public DisplayTypes? FiltersDisplayType;
+        public bool? GuidesReduced;
         public bool? FiltersReduced;
         public DisplayTypes? AggregationsDisplayType;
         public bool? AggregationsReduced;
@@ -81,11 +82,23 @@ namespace Implem.Pleasanter.Libraries.Settings
         public Dictionary<string, ApiColumn> ApiColumnHash;
         public ApiColumn.KeyDisplayTypes ApiColumnKeyDisplayType;
         public ApiColumn.ValueDisplayTypes ApiColumnValueDisplayType;
+        public string CalendarSuffix;
+        public long CalendarSiteId;
         public string CalendarTimePeriod;
         public string CalendarFromTo;
         public DateTime? CalendarDate;
+        public DateTime? CalendarStart;
+        public DateTime? CalendarEnd;
+        public string CalendarType;
+        public string CalendarViewType;
         public string CalendarGroupBy;
         public bool? CalendarShowStatus;
+        public Dictionary<string, DateTime?> CalendarDateHash;
+        public Dictionary<string, DateTime?> CalendarStartHash;
+        public Dictionary<string, DateTime?> CalendarEndHash;
+        public Dictionary<string, string> CalendarViewTypeHash;
+        public Dictionary<string, DashboardPartLayout> DashboardPartLayoutHash;
+        public string IndexSuffix;
         public string CrosstabGroupByX;
         public string CrosstabGroupByY;
         public string CrosstabColumns;
@@ -103,6 +116,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string TimeSeriesValue;
         public string TimeSeriesChartType;
         public string TimeSeriesHorizontalAxis;
+        public List<AnalyPartSetting> AnalyPartSettings;
         public string KambanGroupByX;
         public string KambanGroupByY;
         public string KambanAggregateType;
@@ -110,6 +124,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public int? KambanColumns;
         public bool? KambanAggregationView;
         public bool? KambanShowStatus;
+        public string KambanSuffix;
         public List<int> Depts;
         public List<int> Groups;
         public List<int> Users;
@@ -157,6 +172,15 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
         }
 
+        public long GetCalendarSiteId(SiteSettings ss)
+        {
+            if (ss.DashboardParts.Count != 0)
+            {
+                return CalendarSiteId;
+            }
+            return ss.SiteId;
+        }
+
         public string GetCalendarTimePeriod(SiteSettings ss)
         {
             if (CalendarTimePeriod.IsNullOrEmpty())
@@ -187,7 +211,61 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public DateTime GetCalendarDate()
         {
+            if (!CalendarSuffix.IsNullOrEmpty()
+                && CalendarDateHash?.TryGetValue($"CalendarDate{CalendarSuffix}", out var calendarDate) == true)
+            {
+                return calendarDate ?? DateTime.Now;
+            }
             return CalendarDate ?? DateTime.Now;
+        }
+
+        public DateTime? GetCalendarStart()
+        {
+            if (!CalendarSuffix.IsNullOrEmpty()
+                && CalendarStartHash?.TryGetValue($"CalendarStart{CalendarSuffix}", out var calendarStart) == true)
+            {
+                return calendarStart;
+            }
+            return CalendarStart;
+        }
+
+        public DateTime? GetCalendarEnd()
+        {
+            if (!CalendarSuffix.IsNullOrEmpty()
+                && CalendarEndHash?.TryGetValue($"CalendarEnd{CalendarSuffix}", out var calendarEnd) == true)
+            {
+                return calendarEnd;
+            }
+            return CalendarEnd;
+        }
+
+        public string GetCalendarViewType()
+        {
+            if (!CalendarSuffix.IsNullOrEmpty()
+                && CalendarViewTypeHash?.TryGetValue($"CalendarViewType{CalendarSuffix}", out var calendarViewType) == true)
+            {
+                return calendarViewType ?? "dayGridMonth";
+            }
+            return CalendarViewType ?? "dayGridMonth";
+        }
+
+        public string GetCalendarType(SiteSettings ss)
+        {
+            if (ss.DashboardParts.Count != 0)
+            {
+                return CalendarType;
+            }
+            return ss.CalendarType.ToString();
+        }
+
+        public string GetCalendarSuffix()
+        {
+            return CalendarSuffix;
+        }
+
+        public bool GetCalendarShowStatus()
+        {
+            return CalendarShowStatus ?? false;
         }
 
         public string GetCalendarGroupBy()
@@ -195,6 +273,11 @@ namespace Implem.Pleasanter.Libraries.Settings
             return !CalendarGroupBy.IsNullOrEmpty()
                 ? CalendarGroupBy
                 : string.Empty;
+        }
+
+        public string GetIndexSuffix()
+        {
+            return IndexSuffix;
         }
 
         public string GetCrosstabGroupByX(Context context, SiteSettings ss)
@@ -348,6 +431,32 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
+        public string GetAnalyGroupBy(Context context, SiteSettings ss, string value)
+        {
+            var options = ss.AnalyGroupByOptions(context: context);
+            var ret = value;
+            if (value.IsNullOrEmpty())
+            {
+                ret = options.ContainsKey(Definition(ss, "TimeSeries")?.Option1)
+                    ? Definition(ss, "TimeSeries")?.Option1
+                    : options.FirstOrDefault().Key;
+            }
+            return ret;
+        }
+
+        public string GetAnalyAggregationTarget(Context context, SiteSettings ss, string value)
+        {
+            var options = ss.AnalyAggregationTargetOptions(context: context);
+            var ret = value;
+            if (value.IsNullOrEmpty())
+            {
+                ret = options.ContainsKey(Definition(ss, "TimeSeries")?.Option1)
+                    ? Definition(ss, "TimeSeries")?.Option1
+                    : options.FirstOrDefault().Key;
+            }
+            return ret;
+        }
+
         public string GetKambanGroupByX(Context context, SiteSettings ss)
         {
             var options = ss.KambanGroupByOptions(context: context);
@@ -401,6 +510,11 @@ namespace Implem.Pleasanter.Libraries.Settings
             return KambanColumns ?? Parameters.General.KambanColumns;
         }
 
+        public string GetKambanSuffix()
+        {
+            return KambanSuffix;
+        }
+
         private ViewModeDefinition Definition(SiteSettings ss, string name)
         {
             return Def.ViewModeDefinitionCollection.FirstOrDefault(o =>
@@ -418,6 +532,12 @@ namespace Implem.Pleasanter.Libraries.Settings
             var columnViewExtensionPrefix = $"{prefix}ViewExtensions__";
             switch (context.Forms.ControlId())
             {
+                case "ReduceGuides":
+                    GuidesReduced = true;
+                    break;
+                case "ExpandGuides":
+                    GuidesReduced = false;
+                    break;
                 case "ReduceViewFilters":
                     FiltersReduced = true;
                     break;
@@ -436,7 +556,14 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "ViewSorters_Reset":
                     ResetViewSorters(ss: ss);
                     break;
+                case "AddAnalyPart":
+                    AddAnalyPart(context: context);
+                    break;
                 default:
+                    if (context.Forms.ControlId().StartsWith("DeleteAnalyPart_"))
+                    {
+                        DeleteAnalyPart(context: context);
+                    }
                     foreach (var controlId in context.Forms.Keys)
                     {
                         switch (ControlIdWithOutPrefix(
@@ -652,6 +779,23 @@ namespace Implem.Pleasanter.Libraries.Settings
                                     context: context,
                                     controlId: controlId);
                                 break;
+                            case "CalendarStart":
+                                CalendarStart = Time(
+                                    context: context,
+                                    controlId: controlId,
+                                    useDateFormat: false);
+                                break;
+                            case "CalendarEnd":
+                                CalendarEnd = Time(
+                                    context: context,
+                                    controlId: controlId,
+                                    useDateFormat: false);
+                                break;
+                            case "CalendarViewType":
+                                CalendarViewType = String(
+                                    context: context,
+                                    controlId: controlId);
+                                break;
                             case "CalendarGroupBy":
                                 CalendarGroupBy = String(
                                     context: context,
@@ -786,6 +930,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                                     context: context,
                                     controlId: controlId);
                                 break;
+                            case "DashboardPartLayout":
+                                AddDashboardPartLayoutHash(context: context);
+                                break;
                             default:
                                 if (controlId.StartsWith(columnFilterPrefix))
                                 {
@@ -821,6 +968,51 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 }
                                 break;
                         }
+                    }
+                    if (ss.DashboardParts?.Count.Equals(1) == true && ss.DashboardParts.First().Type.ToString() == "Calendar")
+                    {
+                        var dashboardPart = ss.DashboardParts.FirstOrDefault();
+
+                        CalendarSiteId = dashboardPart.SiteId;
+                        CalendarSuffix = $"_{dashboardPart.Id}";
+                        CalendarTimePeriod = dashboardPart.CalendarTimePeriod;
+                        CalendarFromTo = dashboardPart.CalendarFromTo;
+                        CalendarType = dashboardPart.CalendarType.ToString();
+                        CalendarShowStatus = dashboardPart.CalendarShowStatus;
+                        CalendarGroupBy = dashboardPart.CalendarGroupBy;
+                        if (context.Forms.Keys.Contains($"CalendarDate{CalendarSuffix}"))
+                        {
+                            AddCalendarDateHash(value: context.Forms.DateTime($"CalendarDate{CalendarSuffix}"), key: $"CalendarDate{CalendarSuffix}");
+                        }
+                        if (context.Forms.Keys.Contains($"CalendarStart{CalendarSuffix}"))
+                        {
+                            AddCalendarStartHash(value: context.Forms.DateTime($"CalendarStart{CalendarSuffix}"), key: $"CalendarStart{CalendarSuffix}");
+                        }
+                        if (context.Forms.Keys.Contains($"CalendarEnd{CalendarSuffix}"))
+                        {
+                            AddCalendarEndHash(value: context.Forms.DateTime($"CalendarEnd{CalendarSuffix}"), key: $"CalendarEnd{CalendarSuffix}");
+                        }
+                        if (context.Forms.Keys.Contains($"CalendarViewType{CalendarSuffix}"))
+                        {
+                            AddCalendarViewTypeHash(value: context.Forms.Data($"CalendarViewType{CalendarSuffix}"), key: $"CalendarViewType{CalendarSuffix}");
+                        }
+                    }
+                    if (ss.DashboardParts?.FirstOrDefault()?.Type == DashboardPartType.Kamban)
+                    {
+                        var dashboardPart = ss.DashboardParts.FirstOrDefault();
+                        KambanSuffix = $"_{dashboardPart.Id}";
+                        KambanGroupByX = dashboardPart.KambanGroupByX;
+                        KambanGroupByY = dashboardPart.KambanGroupByY;
+                        KambanAggregateType = dashboardPart.KambanAggregateType;
+                        KambanValue = dashboardPart.KambanValue;
+                        KambanColumns = dashboardPart.KambanColumns.ToInt();
+                        KambanAggregationView = dashboardPart.KambanAggregationView;
+                        KambanShowStatus = dashboardPart.KambanShowStatus;
+                    }
+                    if (ss.DashboardParts?.FirstOrDefault()?.Type == DashboardPartType.Index)
+                    {
+                        var dashboardPart = ss.DashboardParts.FirstOrDefault();
+                        IndexSuffix = $"_{dashboardPart.Id}";
                     }
                     break;
             }
@@ -1074,6 +1266,62 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
+        private void AddCalendarDateHash(DateTime? value, string key)
+        {
+            if (CalendarDateHash == null)
+            {
+                CalendarDateHash = new Dictionary<string, DateTime?>();
+            }
+            CalendarDateHash.AddOrUpdate(key: key, value: value);
+        }
+
+        private void AddCalendarStartHash(DateTime? value, string key)
+        {
+            if (CalendarStartHash == null)
+            {
+                CalendarStartHash = new Dictionary<string, DateTime?>();
+            }
+            CalendarStartHash.AddOrUpdate(key: key, value: value);
+        }
+
+        private void AddCalendarEndHash(DateTime? value, string key)
+        {
+            if (CalendarEndHash == null)
+            {
+                CalendarEndHash = new Dictionary<string, DateTime?>();
+            }
+            CalendarEndHash.AddOrUpdate(key: key, value: value);
+        }
+
+        private void AddCalendarViewTypeHash(string value, string key)
+        {
+            if (CalendarViewTypeHash == null)
+            {
+                CalendarViewTypeHash = new Dictionary<string, string>();
+            }
+            CalendarViewTypeHash.AddOrUpdate(key: key, value: value);
+        }
+
+        private void AddDashboardPartLayoutHash(Context context)
+        {
+            if(DashboardPartLayoutHash == null)
+            {
+                DashboardPartLayoutHash = new Dictionary<string, DashboardPartLayout>();
+            }
+            var dashboardPartLayouts = context.Forms.Data("DashboardPartLayout")
+                ?.Deserialize<List<DashboardPartLayout>>();
+            foreach (var dashboardPartLayout in dashboardPartLayouts)
+            {
+                var value = new DashboardPartLayout();
+                value.X = dashboardPartLayout.X;
+                value.Y = dashboardPartLayout.Y;
+                value.W = dashboardPartLayout.W;
+                value.H = dashboardPartLayout.H;
+                value.Id = dashboardPartLayout.Id;
+                DashboardPartLayoutHash.AddOrUpdate(key: value.Id.ToString(), value: value);
+            }
+        }
+
         private void SetSorters(Context context, SiteSettings ss, string prefix = "")
         {
             ColumnSorterHash = new Dictionary<string, SqlOrderBy.Types>();
@@ -1216,6 +1464,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (FiltersDisplayType != DisplayTypes.Displayed)
             {
                 view.FiltersDisplayType = FiltersDisplayType;
+            }
+            if (GuidesReduced != null)
+            {
+                view.GuidesReduced = GuidesReduced;
             }
             if (FiltersReduced != null)
             {
@@ -1420,6 +1672,18 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 view.CalendarDate = CalendarDate;
             }
+            if (CalendarStart?.InRange() == true)
+            {
+                view.CalendarStart = CalendarStart;
+            }
+            if (CalendarEnd?.InRange() == true)
+            {
+                view.CalendarEnd = CalendarEnd;
+            }
+            if (!CalendarViewType.IsNullOrEmpty())
+            {
+                view.CalendarViewType = CalendarViewType;
+            }
             if (!CalendarGroupBy.IsNullOrEmpty())
             {
                 view.CalendarGroupBy = CalendarGroupBy;
@@ -1427,6 +1691,26 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (CalendarShowStatus == true)
             {
                 view.CalendarShowStatus = CalendarShowStatus;
+            }
+            if (CalendarDateHash?.Any() == true)
+            {
+                view.CalendarDateHash = CalendarDateHash;
+            }
+            if (CalendarStartHash?.Any() == true)
+            {
+                view.CalendarStartHash = CalendarStartHash;
+            }
+            if (CalendarEndHash?.Any() == true)
+            {
+                view.CalendarEndHash = CalendarEndHash;
+            }
+            if (CalendarViewTypeHash?.Any() == true)
+            {
+                view.CalendarViewTypeHash = CalendarViewTypeHash;
+            }
+            if(DashboardPartLayoutHash?.Any() == true)
+            {
+                view.DashboardPartLayoutHash = DashboardPartLayoutHash;
             }
             if (!CrosstabGroupByX.IsNullOrEmpty())
             {
@@ -1489,6 +1773,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (!TimeSeriesHorizontalAxis.IsNullOrEmpty())
             {
                 view.TimeSeriesHorizontalAxis = TimeSeriesHorizontalAxis;
+            }
+            if (AnalyPartSettings?.Any() == true)
+            {
+                view.AnalyPartSettings = AnalyPartSettings;
             }
             if (!KambanGroupByX.IsNullOrEmpty())
             {
@@ -3380,6 +3668,32 @@ namespace Implem.Pleasanter.Libraries.Settings
                 o => o.Key,
                 o => o.Value)
                     ?? new Dictionary<string, Column.SearchTypes>();
+        }
+
+        public void AddAnalyPart(Context context)
+        {
+            var analyPartSetting = new AnalyPartSetting()
+            {
+                Id = AnalyPartSettings?.Max(o => o.Id) + 1 ?? 1,
+                GroupBy = context.Forms.Data("AnalyPartGroupBy"),
+                TimePeriodValue = context.Forms.Decimal(
+                    context: context,
+                    key: "AnalyPartTimePeriodValue"),
+                TimePeriod = context.Forms.Data("AnalyPartTimePeriod"),
+                AggregationType = context.Forms.Data("AnalyPartAggregationType"),
+                AggregationTarget = context.Forms.Data("AnalyPartAggregationTarget")
+            };
+            if (AnalyPartSettings == null)
+            {
+                AnalyPartSettings = new List<AnalyPartSetting>();
+            }
+            AnalyPartSettings.Add(analyPartSetting);
+        }
+
+        public void DeleteAnalyPart(Context context)
+        {
+            var controlId = context.Forms.ControlId();
+            AnalyPartSettings.RemoveAll(o => o.Id == controlId.Split_2nd('_').ToInt());
         }
     }
 }

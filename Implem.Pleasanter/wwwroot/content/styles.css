@@ -204,6 +204,59 @@ pre {
     clear: both;
 }
 
+#AuthenticationByMail {
+    float: left;
+    padding: 0px 0px 10px 50px;
+}
+
+#TotpQRCode {
+    width: 38%;
+    height: 160px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#TotpQRCodeText {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#qrCodeText {
+    font-size: 1.3em;
+}
+
+.annonymous .close-announcement {
+    display: none;
+}
+
+#TotpAuthenticationCodeSeparate {
+    width: 150px;
+    display: flex;
+    padding: 0 0 10px 40px;
+}
+
+#TotpAuthenticationCodeSeparate > .field-normal > .field-control {
+    margin-left: unset;
+}
+
+#TotpAuthenticationCodeSeparate > .field-normal > .field-control > .container-normal {
+    margin-left: 10px;
+}
+
+.totp-authentication-code {
+    height: 25px;
+    width: 25px;
+    border: none;
+    outline: none;
+    border-bottom: 2px solid black;
+    font-size: 125%;
+    text-align: center;
+}
+
+.totp-form {
+    visibility: hidden;
+}
+
 #Demo {
     width: 500px;
     margin: 0px auto;
@@ -253,6 +306,22 @@ pre {
     border-radius: 5px;
 }
 
+#Guide > .with-icon-close {
+    padding: 10px 5px 10px;
+}
+
+#Guide > div > #ReduceGuides {
+    float: left;
+    cursor: pointer;
+    padding-right: 5px;
+}
+
+#Guide > #ExpandGuides {
+    font-weight: bold;
+    cursor: pointer;
+    padding: 10px 5px 10px;
+}
+
 #CopyToClipboards > .display-control {
     float: left;
     cursor: pointer;
@@ -267,14 +336,14 @@ pre {
     clear: both;
 }
 
-#Navigations {
+.theme-version-1_0 #Navigations, #NavigationsUpperRight {
     height: 30px;
     margin: 0px 0px 5px 0px;
     padding: 0px 5px 0px 15px;
     border: none;
     top: 0px;
     right: 5px;
-    border-radius: 20px 5px 5px 20px;
+    border-radius: 20px 0 0 20px;
     float: right;
 }
 
@@ -321,7 +390,7 @@ pre {
         top: 30px;
         right: 0px;
         border-radius: 0px 0px 5px 5px;
-        z-index: 3;
+        z-index: 4;
     }
 
         #NavigationMenu .menu > li > a {
@@ -645,15 +714,15 @@ pre {
     color: red;
 }
 
-#CalendarDate {
+.CalendarDate {
     margin-right: 10px;
 }
 
-#CalendarBody table {
+.CalendarBody table {
     table-layout: fixed;
 }
 
-#CalendarBody thead th {
+div.Calendar > .CalendarBody > .grid > thead > tr > th {
     padding: 5px;
     text-align: center;
     border: solid 1px silver;
@@ -664,38 +733,38 @@ th.calendar-header {
     background-color: white;
 }
 
-#CalendarBody .saturday {
+.CalendarBody .saturday {
     background-color: lightblue;
 }
 
-#CalendarBody .sunday {
+.CalendarBody .sunday {
     background-color: pink;
 }
 
-#CalendarBody td {
+.CalendarBody td {
     padding: 0px;
     border: solid 1px silver;
 }
 
-    #CalendarBody td > div {
+    .CalendarBody td > div {
         min-height: 50px;
         padding: 5px;
     }
 
-    #CalendarBody td.hover {
+    .CalendarBody td.hover {
         background-color: whitesmoke;
     }
 
-#CalendarBody .other-month {
+.CalendarBody .other-month {
     background-color: gainsboro;
 }
 
-#CalendarBody .today {
+.CalendarBody .today {
     border: solid 2px blue;
     z-index: 20;
 }
 
-#CalendarBody .item {
+.CalendarBody .item {
     height: 25px;
     margin: 5px 0px 0px 0px;
     background-color: lightgoldenrodyellow;
@@ -703,18 +772,18 @@ th.calendar-header {
     border-radius: 3px;
 }
 
-    #CalendarBody .item.hover {
+    .CalendarBody .item.hover {
         background-color: white;
         border: solid 1px orange;
     }
 
-    #CalendarBody .item.changed {
+    .CalendarBody .item.changed {
         font-weight: bold;
         background-color: yellow;
         border: solid 1px orange;
     }
 
-    #CalendarBody .item .connection {
+    .CalendarBody .item .connection {
         width: 14px;
         height: 25px;
         background-color: lightgoldenrodyellow;
@@ -725,20 +794,20 @@ th.calendar-header {
         left: -14px;
     }
 
-        #CalendarBody .item .connection.hover {
+        .CalendarBody .item .connection.hover {
             background-color: white;
             border-top: solid 1px orange;
             border-bottom: solid 1px orange;
         }
 
-        #CalendarBody .item .connection.changed {
+        .CalendarBody .item .connection.changed {
             font-weight: bold;
             background-color: yellow;
             border-top: solid 1px orange;
             border-bottom: solid 1px orange;
         }
 
-    #CalendarBody .item .title {
+    .CalendarBody .item .title {
         padding: 5px 0px;
         position: absolute;
         overflow: hidden;
@@ -746,15 +815,15 @@ th.calendar-header {
         z-index: 30;
     }
 
-        #CalendarBody .item .title.sub {
+        .CalendarBody .item .title.sub {
             display: none;
         }
 
-        #CalendarBody .item .title > span:not(.ui-icon) {
+        .CalendarBody .item .title > span:not(.ui-icon) {
             margin-right: 3px;
         }
 
-#CalendarBody .dragging {
+.CalendarBody .dragging {
     height: 25px;
     padding: 5px;
     background-color: lightgoldenrodyellow;
@@ -762,9 +831,13 @@ th.calendar-header {
     z-index: 50;
 }
 
-#CalendarBody .dummy {
+.CalendarBody .dummy {
     height: 25px;
     margin: 5px 0px 0px 0px;
+}
+
+.fc .fc-scrollgrid-section-sticky > * {
+    z-index: 2;
 }
 
 #Crosstab .crosstab-row {
@@ -982,23 +1055,27 @@ th.calendar-header {
         fill: black;
     }
 
-#KambanBody .kamban-row {
+.kambanbody .kamban-row {
     border-bottom: dotted 1px silver;
 }
 
-#KambanBody .kamban-container > div {
+.kambanbody .kamban-container{
+    background-color: white;
+}
+
+.kambanbody .kamban-container > div {
     min-height: 30px;
 }
 
-#KambanBody .kamban-container.hover {
+.kambanbody .kamban-container.hover {
     background-color: whitesmoke;
 }
 
-#KambanBody .kamban-container .kamban-item:last-child {
+.kambanbody .kamban-container .kamban-item:last-child {
     margin: 3px 3px 30px 3px;
 }
 
-#KambanBody .kamban-item {
+.kambanbody .kamban-item {
     margin: 3px;
     padding: 4px 16px 4px 5px;
     background-color: lightgoldenrodyellow;
@@ -1006,39 +1083,56 @@ th.calendar-header {
     position: relative;
     cursor: pointer;
     border-radius: 5px;
+    overflow: hidden;
 }
 
-    #KambanBody .kamban-item:hover {
+    .kambanbody .kamban-item:hover {
         background-color: white;
         border: solid 1px orange;
     }
 
-    #KambanBody .kamban-item.changed {
+    .kambanbody .kamban-item.changed {
         font-weight: bold;
         background-color: yellow;
         border: solid 1px orange;
     }
 
-    #KambanBody .kamban-item .ui-icon {
+    .kambanbody .kamban-item .ui-icon {
         position: absolute;
         top: 0px;
         right: 0px;
     }
 
-    #KambanBody .kamban-item > span {
+    .kambanbody .kamban-item > span {
         margin-right: 3px;
     }
 
-#ImageLib .item {
-    width: 250px;
-    height: 250px;
-    float: left;
-    margin: 10px 10px 0px 0px;
-    padding: 10px;
-    border: solid 1px silver;
-    position: relative;
-    overflow: hidden;
+    .kambanbody .dragging {
+        padding: 5px;
+        background-color: lightgoldenrodyellow;
+        border-radius: 3px;
+        z-index: 50;
+    }
+
+.dashboard-kamban-header {
+    position: sticky;
+    top: -20px;
+    z-index: 1;
 }
+    .dashboard-kamban-header > th {
+        overflow-x: hidden;
+    }
+
+    #ImageLib .item {
+        width: 250px;
+        height: 250px;
+        float: left;
+        margin: 10px 10px 0px 0px;
+        padding: 10px;
+        border: solid 1px silver;
+        position: relative;
+        overflow: hidden;
+    }
 
     #ImageLib .item .image {
         width: 100%;
@@ -1258,6 +1352,10 @@ th.calendar-header {
                 font-weight: bold;
             }
 
+                #SearchResults .result > h3 > a > span {
+                    font-weight: bold;
+                }
+
         #SearchResults .result > p {
             display: block;
             float: left;
@@ -1268,6 +1366,10 @@ th.calendar-header {
             border: solid 1px orange;
             cursor: pointer;
         }
+
+.highlight {
+    background: #ff0;
+}
 
 #MainCommandsContainer {
     width: 100%;
@@ -2378,6 +2480,11 @@ _::-webkit-full-page-media, _:future, :root .field-normal .control-checkbox + la
     text-align-last: right;
 }
 
+.center-align {
+    text-align: center;
+    text-align-last: center;
+}
+
 .tooltip {
     display: none;
     position: absolute;
@@ -2393,6 +2500,12 @@ _::-webkit-full-page-media, _:future, :root .field-normal .control-checkbox + la
 
     .grid.fixed {
         table-layout: fixed;
+    }
+
+    .grid > thead {
+        position: sticky;
+        top: 0;
+        z-index: 90;
     }
 
     .grid > thead > tr > caption {
@@ -2536,8 +2649,26 @@ _::-webkit-full-page-media, _:future, :root .field-normal .control-checkbox + la
         padding: 8px 0px 0px 10px;
     }
 
+.dashboard-grid-header {
+    position: sticky;
+    top: -20px;
+    z-index: 3;
+}
+
 .links {
     padding: 0px 10px;
+}
+
+#Links > .fieldset{
+  display: grid;
+}
+
+#Links > .fieldset > div{
+  overflow: auto;
+}
+
+#Links > .fieldset > div .grid{
+  width: max-content; min-width: 100%;
 }
 
 .link-creations button {
@@ -2827,6 +2958,26 @@ h3.title-header {
         fill: darkseagreen;
     }
 
+.show-password {
+    position: absolute;
+    top: 4px;
+    right: -27px;
+    cursor: pointer;
+    z-index: 10;
+}
+
+#passwordGenerateicon {
+    position: absolute;
+    top: 4px;
+    right: -60px;
+    cursor: pointer;
+    z-index: 10;
+}
+
+input[type="password"]::-ms-reveal {
+    display: none;
+}
+
 .axis {
     fill: none;
     stroke: gray;
@@ -3057,18 +3208,48 @@ h3.title-header {
     border: solid 1px silver;
     overflow: hidden;
     border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.ui-widget.ui-state-default.ui-multiselect .ui-multiselect-open {
+    display: block;
+    order: 2;
+}
+
+.ui-widget.ui-state-default.ui-multiselect .ui-multiselect-open + span {
+    display: block;
+    order: 1;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.ui-multiselect-menu {
+    width: auto !important;
+    min-width: 225px;
+    max-width: 450px;
 }
 
 .ui-multiselect-checkboxes {
     min-height: 300px;
 }
 
-    .ui-multiselect-checkboxes input {
-        margin: 0px 5px;
-    }
+.ui-multiselect-checkboxes label {
+    white-space: nowrap;
+}
+
+.ui-multiselect-checkboxes input {
+    margin: 0px 5px;
+}
 
 .ui-corner-all.ui-state-hover {
     border-radius: 2px;
+}
+
+.ui-icon-white {
+    background-image: url(../styles/plugins/images/ui-icons_ffffff_256x240.png);
 }
 
 div.field-control .ui-multiselect.ui-state-disabled {
@@ -3322,6 +3503,10 @@ textarea:focus {
     flex-direction: column;
 }
 
+.grid-stack > .grid-stack-item > .grid-stack-item-content {
+    overflow-x: auto;
+}
+
 .dashboard-part-title {
     font-size: 1.2em;
     color: #333333;
@@ -3379,6 +3564,55 @@ textarea:focus {
     color: inherit;
     width: 100%;
 }
+
+.dashboard-part-refresh {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    border: none;
+    color: #636363;
+    background-color: transparent;
+    opacity: 0;
+    padding-top: 0;
+    padding-left: 0;
+    z-index: 5;
+}
+
+@keyframes custom-spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.dashboard-part-road {
+    position: absolute;
+    left: calc(50% - 25px);
+    top: calc(50% - 25px);
+    font-size: 50px;
+    color: #636363;
+    display: inline-block;
+    animation: custom-spin 1s linear infinite;
+}
+
+#AnalyPartTimePeriodValueField {
+    width: 230px;
+}
+
+#AnalyPartTimePeriodField {
+    width: 110px;
+}
+
+    #AnalyPartTimePeriodField .field-label {
+        display: none;
+    }
+
+    #AnalyPartTimePeriodField div.container-normal {
+        margin-left: 0px;
+    }
 
 .gs-20 > .grid-stack-item {
     width: 5%;
@@ -3541,3 +3775,7 @@ textarea:focus {
     .gs-20 > .grid-stack-item[gs-w="20"] {
         width: 100%;
     }
+
+div.lower-search-ui {
+    margin: 4px 0px 0px 0px;
+}

@@ -1,0 +1,34 @@
+﻿{
+    "Id": "SecondsAgoNoArgs",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "seconds ago"
+        },
+        {
+            "Language": "zh",
+            "Body": "几秒钟前"
+        },
+        {
+            "Language": "ja",
+            "Body": "秒前"
+        },
+        {
+            "Language": "de",
+            "Body": "Sekunden zuvor"
+        },
+        {
+            "Language": "ko",
+            "Body": "초 전"
+        },
+        {
+            "Language": "es",
+            "Body": "hace segundos"
+        },
+        {
+            "Language": "vn",
+            "Body": "Cách đây vài giây"
+        }
+    ]
+}

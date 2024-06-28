@@ -79,7 +79,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         parts: "Scripts/Plugins/moment.min.js"))
                     .Script(src: Responses.Locations.Get(
                         context: context,
+                        parts: "Scripts/Plugins/lightbox.min.js"))
+                    .Script(src: Responses.Locations.Get(
+                        context: context,
                         parts: "Scripts/Plugins/gridstack.js/gridstack-all.min.js"))
+                    .Script(src: Responses.Locations.Get(
+                        context: context,
+                        parts: "Scripts/Plugins/fullcalendar/index.global.min.js"))
+                    .Script(src: Responses.Locations.Get(
+                        context: context,
+                        parts: "Scripts/Plugins/qrcode.min.js"))
                     .Generals(context: context)
                     .Script(
                         src: Responses.Locations.Get(
@@ -106,6 +115,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Script(script: "$p.initDashboard();",
                         _using: ss.ReferenceType == "Dashboards"
                             && context.Action == "index")
+                    .Script(script: "$p.setCalendar();",
+                        _using: ss.ReferenceType == "Dashboards" &&
+                             ss.DashboardParts?.Any(part=>part.Type == DashboardPartType.Calendar) == true)
+                    .Script(script: "$p.setKamban();",
+                        _using: ss.ReferenceType == "Dashboards" &&
+                             ss.DashboardParts?.Any(part => part.Type == DashboardPartType.Kamban) == true)
+                    .Script(script: "$p.setDashboardAsync();",
+                        _using: ss.ReferenceType == "Dashboards")
+                    .Script(script: "$p.setDashboardGrid();",
+                        _using: ss.ReferenceType == "Dashboards")
                     .OnEditorLoad(context: context);
             }
             else
@@ -198,6 +217,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     break;
                 case "timeseries":
                     hb.Script(script: "$p.execEvents('on_timeseries_load','');");
+                    break;
+                case "analy":
+                    hb.Script(script: "$p.execEvents('on_analy_load','');");
                     break;
                 case "kamban":
                     hb.Script(script: "$p.execEvents('on_kamban_load','');");

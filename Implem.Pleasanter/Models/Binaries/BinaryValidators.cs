@@ -50,7 +50,7 @@ namespace Implem.Pleasanter.Models
             }
             try
             {
-                System.Drawing.Image.FromStream(new System.IO.MemoryStream(bin));
+                SixLabors.ImageSharp.Image.Load<SixLabors.ImageSharp.PixelFormats.Rgba32>(new System.IO.MemoryStream(bin));
             }
             catch (System.Exception)
             {
@@ -76,7 +76,7 @@ namespace Implem.Pleasanter.Models
             }
             try
             {
-                System.Drawing.Image.FromStream(new System.IO.MemoryStream(bin));
+                SixLabors.ImageSharp.Image.Load<SixLabors.ImageSharp.PixelFormats.Rgba32>(new System.IO.MemoryStream(bin));
             }
             catch (System.Exception)
             {
@@ -254,6 +254,13 @@ namespace Implem.Pleasanter.Models
                     limitQuantity: column.LimitQuantity))
                 {
                     return Error.Types.OverLimitQuantity;
+                }
+                var errorType = OverLimitSize(
+                    attachments: attachments,
+                    column: column);
+                if (errorType != Error.Types.None)
+                {
+                    return errorType;
                 }
                 switch (BinaryUtilities.BinaryStorageProvider(column))
                 {

@@ -1,5 +1,6 @@
 ﻿{
     "AllowIpAddresses": null,
+    "IpRestrictionExcludeMembers": null,
     "MimeTypeCheckOnApi": false,
     "PrivilegedUsers": null,
     "RevealUserDisabled": false,
@@ -80,9 +81,11 @@
             ]
         }
     ],
+    "PasswordGenerator": true,
     "SecondaryAuthentication": {
         "Mode": "None",
         "NotificationType": "Mail",
+        "CountTolerances": 1,
         "NotificationMailBcc": false,
         "AuthenticationCodeCharacterType": "Number",
         "AuthenticationCodeLength": 8,
@@ -91,7 +94,8 @@
     "AspNetCoreDataProtection": {
         "BlobContainerUri": null,
         "KeyIdentifier": null,
-        "KeyFileName": "Keys.xml"
+        "KeyFileName": "Keys.xml",
+        "XmlAesKey": null
     },
     "HttpStrictTransportSecurity": {
         "Enabled": false,

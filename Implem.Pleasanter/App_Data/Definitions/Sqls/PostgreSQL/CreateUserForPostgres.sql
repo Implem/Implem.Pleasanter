@@ -1,7 +1,14 @@
-﻿CREATE USER "#Uid_Owner#" WITH LOGIN PASSWORD '#Pwd_Owner#' valid until 'infinity';
+﻿do $$
+begin
+  if not exists (select * from pg_user where usename = '#Uid_Owner#') then
+     create user "#Uid_Owner#" with login password '#Pwd_Owner#' valid until 'infinity';
+     create user "#Uid_User#" with login password '#Pwd_User#' valid until 'infinity';
+  end if;
+end $$
+;
 
-ALTER ROLE "#Uid_Owner#";
-CREATE USER "#Uid_User#" WITH LOGIN PASSWORD '#Pwd_User#' valid until 'infinity';
+alter role "#Uid_Owner#";
 
-ALTER USER "#Uid_Owner#" SET search_path TO "#SchemaName#";
-ALTER USER "#Uid_User#" SET search_path TO "#SchemaName#";
+alter user "#Uid_Owner#" set search_path to "#SchemaName#";
+alter user "#Uid_User#" set search_path to "#SchemaName#";
+

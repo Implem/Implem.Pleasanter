@@ -17,15 +17,17 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string referenceType,
             string siteReferenceType)
         {
+            var encoder = System.Text.Encodings.Web.HtmlEncoder.Default;
             return !context.Ajax
                 ? hb.Hidden(
                     controlId: "BackUrl",
-                    rawValue: BackUrl(
-                        context: context,
-                        siteId: siteId,
-                        parentId: parentId,
-                        referenceType: referenceType,
-                        siteReferenceType: siteReferenceType))
+                    rawValue: encoder.Encode(
+                        BackUrl(
+                            context: context,
+                            siteId: siteId,
+                            parentId: parentId,
+                            referenceType: referenceType,
+                            siteReferenceType: siteReferenceType)))
                 : hb;
         }
 
@@ -66,6 +68,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             return referer != null
                                 ? referer
                                 : Locations.Top(context: context);
+                        case "trashbox":
+                            return Locations.Get(
+                                    context: context,
+                                    parts: context.Controller);
                         default:
                             return AdminsOrTop(context: context);
                     }

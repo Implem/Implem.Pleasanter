@@ -4,6 +4,7 @@ using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Models;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using static Implem.PleasanterTest.Utilities.UserData;
@@ -32,6 +33,7 @@ namespace Implem.PleasanterTest.Utilities
             string userHostName = "::1",
             string userHostAddress = "::1",
             string userAgent = "Implem.PleasanterTest",
+            string userTimeZone = null,
             QueryStrings queryStrings = null,
             Forms forms = null,
             decimal? apiVersion = null,
@@ -66,10 +68,7 @@ namespace Implem.PleasanterTest.Utilities
                     context: context,
                     userId: context.UserId);
                 context.Language = userModel.Language;
-                context.Theme = Strings.CoalesceEmpty(
-                    userModel.Theme,
-                    Parameters.User.Theme,
-                    "sunny");
+                context.UserTheme = userModel.Theme;
                 context.Developer = userModel.Developer;
                 context.TimeZoneInfo = userModel.TimeZoneInfo;
                 context.UserSettings = userModel.UserSettings;
@@ -98,6 +97,9 @@ namespace Implem.PleasanterTest.Utilities
             context.UserAgent = userAgent;
             context.QueryStrings = queryStrings ?? new QueryStrings();
             context.Forms = forms ?? new Forms();
+            context.TimeZoneInfo = userTimeZone.IsNullOrEmpty()
+                ? null
+                : TimeZoneInfo.FindSystemTimeZoneById(userTimeZone);
             if (apiVersion != null)
             {
                 context.ApiVersion = apiVersion.ToDecimal();

@@ -818,7 +818,7 @@ namespace Implem.TestAutomation
                 VisibleItem(driver, "Footer");
                 VisibleItem(driver, "Message");
                 Screenshot screenshot = (driver as ITakesScreenshot).GetScreenshot();
-                screenshot.SaveAsFile(file, ScreenshotImageFormat.Png);
+                screenshot.SaveAsFile(file);
                 VisibleItem(driver, "MainCommandsContainer");
                 VisibleItem(driver, "Footer");
                 VisibleItem(driver, "Message");

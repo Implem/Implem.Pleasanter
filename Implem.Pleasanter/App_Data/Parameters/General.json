@@ -57,6 +57,7 @@
     "CalendarEnd": 120,
     "CalendarLimit": 300,
     "CalendarYLimit": 100,
+    "DefaultCalendarType": 2,
     "CrosstabBegin": -120,
     "CrosstabEnd": 120,
     "CrosstabXLimit": 50,
@@ -66,6 +67,8 @@
     "GanttPeriodMax": 180,
     "BurnDownLimit": 1000,
     "TimeSeriesLimit": 1000,
+    "AnalyPartPeriodValueMin": 0,
+    "AnalyPartPeriodValueMax": 99999,
     "KambanLimit": 1000,
     "KambanXLimit": 50,
     "KambanYLimit": 300,
@@ -92,5 +95,7 @@
     "DateTimeStep": 10,
     "HideCurrentTimeIcon": false,
     "HideCurrentUserIcon": false,
-    "HideCurrentDeptIcon": false
+    "HideCurrentDeptIcon": false,
+    "EnableLightBox": true,
+    "GroupsDepthMax": 30
 }

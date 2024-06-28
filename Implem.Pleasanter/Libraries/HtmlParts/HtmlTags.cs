@@ -83,13 +83,18 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder Body(
             this HtmlBuilder hb,
             string style,
+            string id = null,
+            string css = null,
             bool _using = true,
             Action action = null)
         {
             return _using
                 ? hb.Append(
                     tag: "body",
+                    id: id,
+                    css: css,
                     attributes: new HtmlAttributes()
+                        .Id(id)
                         .Add("style", style),
                     action: action)
                 : hb;
@@ -579,6 +584,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string css = null,
             string href = null,
             string target = null,
+            string dataTooltip = null,
             HtmlAttributes attributes = null,
             string text = null,
             bool _using = true,
@@ -593,6 +599,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Id(id)
                         .Class(css)
                         .Href(href)
+                        .DataTooltip(dataTooltip)
                         .Target(target),
                     action: action != null
                         ? action

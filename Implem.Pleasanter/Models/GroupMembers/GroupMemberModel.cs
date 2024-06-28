@@ -29,10 +29,12 @@ namespace Implem.Pleasanter.Models
         public int GroupId = 0;
         public int DeptId = 0;
         public int UserId = 0;
+        public bool ChildGroup = false;
         public bool Admin = false;
         public int SavedGroupId = 0;
         public int SavedDeptId = 0;
         public int SavedUserId = 0;
+        public bool SavedChildGroup = false;
         public bool SavedAdmin = false;
 
         public bool GroupId_Updated(Context context, bool copy = false, Column column = null)
@@ -69,6 +71,18 @@ namespace Implem.Pleasanter.Models
                 &&  (column == null
                     || column.DefaultInput.IsNullOrEmpty()
                     || column.GetDefaultInput(context: context).ToInt() != UserId);
+        }
+
+        public bool ChildGroup_Updated(Context context, bool copy = false, Column column = null)
+        {
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToBool() != ChildGroup;
+            }
+            return ChildGroup != SavedChildGroup
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToBool() != ChildGroup);
         }
 
         public bool Admin_Updated(Context context, bool copy = false, Column column = null)
@@ -146,6 +160,7 @@ namespace Implem.Pleasanter.Models
             GroupId = groupMemberModel.GroupId;
             DeptId = groupMemberModel.DeptId;
             UserId = groupMemberModel.UserId;
+            ChildGroup = groupMemberModel.ChildGroup;
             Admin = groupMemberModel.Admin;
             Comments = groupMemberModel.Comments;
             Creator = groupMemberModel.Creator;
@@ -205,6 +220,13 @@ namespace Implem.Pleasanter.Models
                             {
                                 UserId = dataRow[column.ColumnName].ToInt();
                                 SavedUserId = UserId;
+                            }
+                            break;
+                        case "ChildGroup":
+                            if (dataRow[column.ColumnName] != DBNull.Value)
+                            {
+                                ChildGroup = dataRow[column.ColumnName].ToBool();
+                                SavedChildGroup = ChildGroup;
                             }
                             break;
                         case "Ver":
@@ -306,6 +328,43 @@ namespace Implem.Pleasanter.Models
                 || GroupId_Updated(context: context)
                 || DeptId_Updated(context: context)
                 || UserId_Updated(context: context)
+                || ChildGroup_Updated(context: context)
+                || Ver_Updated(context: context)
+                || Admin_Updated(context: context)
+                || Comments_Updated(context: context)
+                || Creator_Updated(context: context)
+                || Updator_Updated(context: context);
+        }
+
+        private bool UpdatedWithColumn(Context context, SiteSettings ss)
+        {
+            return ClassHash.Any(o => Class_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || NumHash.Any(o => Num_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || DateHash.Any(o => Date_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || DescriptionHash.Any(o => Description_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || CheckHash.Any(o => Check_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || AttachmentsHash.Any(o => Attachments_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)));
+        }
+
+        public bool Updated(Context context, SiteSettings ss)
+        {
+            return UpdatedWithColumn(context: context, ss: ss)
+                || GroupId_Updated(context: context)
+                || DeptId_Updated(context: context)
+                || UserId_Updated(context: context)
+                || ChildGroup_Updated(context: context)
                 || Ver_Updated(context: context)
                 || Admin_Updated(context: context)
                 || Comments_Updated(context: context)

@@ -89,6 +89,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public string HtmlTitleRecord { get; set; }
         public string TopStyle { get; set; }
         public string TopScript { get; set; }
+        public string TenantTheme { get; set; }
         public int DeptId { get; set; }
         public int UserId { get; set; }
         public string LoginId { get; set; }
@@ -98,7 +99,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public string UserHostAddress { get; set; }
         public string UserAgent { get; set; }
         public string Language { get; set; } = Parameters.Service.DefaultLanguage;
-        public string Theme { get; set; } = Parameters.User.Theme;
+        public string UserTheme { get; set; } = Parameters.User.Theme;
         public bool Developer { get; set; }
         public TimeZoneInfo TimeZoneInfo { get; set; } = Environments.TimeZoneInfoDefault;
         public UserSettings UserSettings { get; set; }
@@ -119,6 +120,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public IEnumerable<Claim> UserClaims { get; set; }
         public string IdentityType { get; set; }
         public bool Request { get; set; }
+        public bool BackgroundServerScript { get; set; }
 
         public Context(
             bool request = true,
@@ -186,15 +188,16 @@ namespace Implem.Pleasanter.Libraries.Requests
             UserHostAddress = HasRoute
                 ? GetUserHostAddress()
                 : null;
+            HasPrivilege = Permissions.PrivilegedUsers(User.LoginId);
             SetTenantProperties();
             if (context?.Request != false) SetPublish();
             SetPermissions();
             SetTenantCaches();
         }
 
-        public Context(ICollection<IFormFile> files, string apiRequestBody = null, bool api = false)
+        public Context(ICollection<IFormFile> files, string apiRequestBody = null, string contentType = null, bool api = false)
         {
-            Set(apiRequestBody: apiRequestBody);
+            Set(apiRequestBody: apiRequestBody, contentType: contentType);
             SetPostedFiles(files: files);
             Api = api;
         }
@@ -318,36 +321,40 @@ namespace Implem.Pleasanter.Libraries.Requests
             {
                 switch (Controller)
                 {
+                    case "binaries":
                     case "items":
                     case "publishes":
-                        Repository.ExecuteTable(
-                            context: this,
-                            statements: Rds.SelectItems(
-                                column: Rds.ItemsColumn()
-                                    .SiteId()
-                                    .ReferenceId()
-                                    .Title(),
-                                where: Rds.ItemsWhere()
-                                    .Add(or: Rds.ItemsWhere()
-                                        .ReferenceId(Id)
-                                        .ReferenceId(sub: Rds.SelectItems(
-                                            column: Rds.ItemsColumn().SiteId(),
-                                            where: Rds.ItemsWhere().ReferenceId(Id)))),
-                                distinct: true))
-                                    .AsEnumerable()
-                                    .ForEach(dataRow =>
-                                    {
-                                        if (dataRow.Long("SiteId") == dataRow.Long("ReferenceId"))
+                        if (Id > 0)
+                        {
+                            Repository.ExecuteTable(
+                                context: this,
+                                statements: Rds.SelectItems(
+                                    column: Rds.ItemsColumn()
+                                        .SiteId()
+                                        .ReferenceId()
+                                        .Title(),
+                                    where: Rds.ItemsWhere()
+                                        .Add(or: Rds.ItemsWhere()
+                                            .ReferenceId(Id)
+                                            .ReferenceId(sub: Rds.SelectItems(
+                                                column: Rds.ItemsColumn().SiteId(),
+                                                where: Rds.ItemsWhere().ReferenceId(Id)))),
+                                    distinct: true))
+                                        .AsEnumerable()
+                                        .ForEach(dataRow =>
                                         {
-                                            SiteId = dataRow.Long("ReferenceId");
-                                            SiteTitle = dataRow.String("Title");
-                                        }
-                                        else
-                                        {
-                                            RecordTitle = dataRow.String("Title");
-                                        }
-                                        TargetTenantId = dataRow.Int("TenantId");
-                                    });
+                                            if (dataRow.Long("SiteId") == dataRow.Long("ReferenceId"))
+                                            {
+                                                SiteId = dataRow.Long("ReferenceId");
+                                                SiteTitle = dataRow.String("Title");
+                                            }
+                                            else
+                                            {
+                                                RecordTitle = dataRow.String("Title");
+                                            }
+                                            TargetTenantId = dataRow.Int("TenantId");
+                                        });
+                        }
                         Page = Controller + "/"
                             + SiteId
                             + (TrashboxActions()
@@ -360,6 +367,11 @@ namespace Implem.Pleasanter.Libraries.Requests
                     case "groups":
                         Page = Controller;
                         ExtendedFields = GroupUtilities.GetExtendedFields(context: this);
+                        break;
+                    case "users":
+                        Page = Id > 0
+                            ? $"{Controller}/{Id}"
+                            : Controller;
                         break;
                     default:
                         Page = Controller;
@@ -415,7 +427,7 @@ namespace Implem.Pleasanter.Libraries.Requests
 
         private void SetApiVersion(Api api)
         {
-            
+
             if (Parameters.Api.Compatibility_1_3_12)
             {
                 // ApiKeyを指定しない場合にAPIバージョンがセットできない不具合のある状態で
@@ -453,7 +465,6 @@ namespace Implem.Pleasanter.Libraries.Requests
         {
             if (userModel.AccessStatus == Databases.AccessStatuses.Selected)
             {
-                LoginId = userModel.LoginId;
                 SwitchUser = SessionData.Get("SwitchLoginId") != null;
                 Authenticated = true;
                 TenantId = userModel.TenantId;
@@ -462,7 +473,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                 Dept = SiteInfo.Dept(tenantId: TenantId, deptId: DeptId);
                 User = SiteInfo.User(context: this, userId: UserId);
                 Language = userModel.Language;
-                Theme = Strings.CoalesceEmpty(userModel.Theme, Parameters.User.Theme, "sunny");
+                UserTheme = userModel.Theme;
                 UserHostAddress = noHttpContext
                     ? string.Empty
                     : GetUserHostAddress();
@@ -473,9 +484,9 @@ namespace Implem.Pleasanter.Libraries.Requests
             }
         }
 
-        private void SetTenantProperties()
+        public void SetTenantProperties(bool force = false)
         {
-            if (HasRoute)
+            if (HasRoute || force)
             {
                 var dataRow = Repository.ExecuteTable(
                     context: this,
@@ -492,7 +503,8 @@ namespace Implem.Pleasanter.Libraries.Requests
                             .HtmlTitleSite()
                             .HtmlTitleRecord()
                             .TopStyle()
-                            .TopScript(),
+                            .TopScript()
+                            .Theme(),
                         where: Rds.TenantsWhere().TenantId(TenantId)))
                             .AsEnumerable()
                             .FirstOrDefault();
@@ -511,6 +523,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                     HtmlTitleRecord = dataRow.String("HtmlTitleRecord");
                     TopStyle = dataRow.String("TopStyle");
                     TopScript = dataRow.String("TopScript");
+                    TenantTheme = dataRow.String("Theme");
                 }
             }
         }
@@ -585,6 +598,11 @@ namespace Implem.Pleasanter.Libraries.Requests
 
         public CultureInfo CultureInfo()
         {
+            //CultureInfoがvnに対応していないので、引数をviとすることで対応。
+            if (Language == "vn")
+            {
+                return new CultureInfo("vi");
+            }
             return new CultureInfo(Language);
         }
 
@@ -686,12 +704,19 @@ namespace Implem.Pleasanter.Libraries.Requests
                 }
                 else
                 {
-                    switch (HttpAcceptLanguage())
+                    var lang = HttpAcceptLanguage()?.Split_1st('-');
+                    switch (lang)
                     {
                         case "en":
-                        case "en-GB":
-                        case "en-US":
-                            language = "en";
+                        case "zh":
+                        case "ja":
+                        case "de":
+                        case "ko":
+                        case "es":
+                            language = lang;
+                            break;
+                        case "vi":
+                            language = "vn";
                             break;
                         default:
                             language = Parameters.Service?.DefaultLanguage;
@@ -864,7 +889,7 @@ namespace Implem.Pleasanter.Libraries.Requests
             }
             return column;
         }
-        
+
         public ISqlCommand CreateSqlCommand()
         {
             return GetSqlObjectFactory().CreateSqlCommand();
@@ -942,7 +967,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                 return GetSqlObjectFactory().SqlDefinitionSetting;
             }
         }
-        
+
         static bool IsAjax()
         {
             return IsAjaxRequest(AspNetCoreHttpContext.Current.Request);
@@ -1089,7 +1114,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                 .Select(o => o.Split_1st(';').Split_1st('=').Trim());
             var responceCookies = AspNetCoreHttpContext.Current.Response.Cookies;
             foreach (var requestCookie in AspNetCoreHttpContext.Current.Request.Cookies
-                .Where(o => !setCookieNames.Contains(o.Key)))
+                .Where(o => !setCookieNames.Contains(o.Key) && !o.Key.StartsWith("Pleasanter_")))
             {
                 responceCookies.Delete(requestCookie.Key);
             }
@@ -1113,23 +1138,91 @@ namespace Implem.Pleasanter.Libraries.Requests
         {
             return _sqlObjectFactory.Value;
         }
-        
+
         public CultureInfo CultureInfoCurrency(string language)
         {
             switch (language)
             {
+                case "en":
+                    return new CultureInfo("en-US");
+                case "zh":
+                    return new CultureInfo("zh-CN");
                 case "ja":
                     return new CultureInfo("ja-JP");
+                case "de":
+                    return new CultureInfo("de-DE");
+                case "ko":
+                    return new CultureInfo("ko-KR");
+                case "es":
+                    return new CultureInfo("es-ES");
+                case "vn":
+                    return new CultureInfo("vi-VN");
                 default:
                     return new CultureInfo(language);
             }
         }
-        
+
+        public string TimeZoneInfoOffset()
+        {
+            return TimeZoneInfo != null
+                ? (TimeZoneInfo.BaseUtcOffset >= TimeSpan.Zero ? "+" : "-") + TimeZoneInfo.BaseUtcOffset.ToString(@"hh\:mm")
+                : "00:00";
+        }
+
         public string Token()
         {
             return Request
                 ? AspNetCoreHttpContext.Current?.Request?.Cookies[".AspNetCore.Session"]?.Sha512Cng()
                 : string.Empty;
+        }
+
+        public string Theme()
+        {
+            var theme = Strings.CoalesceEmpty(
+                UserTheme,
+                TenantTheme,
+                Parameters.User.Theme,
+                "cerulean");
+            return theme;
+        }
+
+        public decimal ThemeVersion()
+        {
+            if (Mobile) { return 1.0M; }
+            switch (Theme())
+            {
+                case "cerulean":
+                case "green-tea":
+                case "mandarin":
+                case "midnight":
+                    return 2.0M;
+                default:
+                    return 1.0M;
+            }
+        }
+
+        public decimal ThemeVersionForCss()
+        {
+            switch (Theme())
+            {
+                case "cerulean":
+                case "green-tea":
+                case "mandarin":
+                case "midnight":
+                    return 2.0M;
+                default:
+                    return 1.0M;
+            }
+        }
+
+        public bool ThemeVersion1_0()
+        {
+            return ThemeVersion() == 1.0M;
+        }
+
+        public bool ThemeVersionOver2_0()
+        {
+            return ThemeVersion() >= 2.0M;
         }
     }
 }

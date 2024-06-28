@@ -1,0 +1,33 @@
+{
+    "id": "TimeZone",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Time zone"
+        },
+        {
+            "Language": "zh",
+            "Body": "时区"
+        },
+        {
+            "Language": "ja",
+            "Body": "タイムゾーン"
+        },
+        {
+            "Language": "de",
+            "Body": "Zeitzone"
+        },
+        {
+            "Language": "ko",
+            "Body": "표준시간대"
+        },
+        {
+            "Language": "es",
+            "Body": "Zona horaria"
+        },
+        {
+            "Language": "vn",
+            "Body": "Múi giờ"
+        }
+    ]
+}

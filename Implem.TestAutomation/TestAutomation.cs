@@ -52,9 +52,9 @@ namespace Implem.TestAutomation
                                 ResultFileName: autoTestScenario.ResultFileName,
                                 resultInitial: true);
                             TestAutomationOperate.WriteLog(
-                                logFileName : Parameters.ExtendedAutoTestSettings.LogFileName,
-                                logMessage : $"Start case:{ autoTestScenario.CaseName}",
-                                logInitial : true
+                                logFileName: Parameters.ExtendedAutoTestSettings.LogFileName,
+                                logMessage: $"Start case:{autoTestScenario.CaseName}",
+                                logInitial: true
                                 );
                             autoTestScenario.TestCases
                                 .SelectMany(testCase => Parameters.ExtendedAutoTestOperations
@@ -83,7 +83,10 @@ namespace Implem.TestAutomation
                     logFileName: Parameters.ExtendedAutoTestSettings.LogFileName,
                     logMessage: ex.Message
                     );
-                Console.ReadKey(intercept: true);
+                if (!Console.IsInputRedirected && Console.KeyAvailable)
+                {
+                    Console.ReadKey(intercept: true);
+                }
             }
             catch (Exception ex)
             {
@@ -95,7 +98,10 @@ namespace Implem.TestAutomation
                     logFileName: Parameters.ExtendedAutoTestSettings.LogFileName,
                     logMessage: ex.Message
                     );
-                Console.ReadKey(intercept: true);
+                if (!Console.IsInputRedirected && Console.KeyAvailable)
+                {
+                    Console.ReadKey(intercept: true);
+                }
             }
         }
 
@@ -181,6 +187,7 @@ namespace Implem.TestAutomation
                 case BrowserTypes.Chrome:
                     var opt = new ChromeOptions();
                     opt.AddArgument("--headless");
+                    opt.AddArgument("--disable-gpu");
                     opt.AddArgument("--no-sandbox");
                     opt.AddArgument("--disable-dev-shm-usage");
                     return new ChromeDriver(options: opt);

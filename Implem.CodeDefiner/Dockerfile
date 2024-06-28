@@ -1,9 +1,7 @@
 ﻿#See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
-FROM mcr.microsoft.com/dotnet/runtime:6.0 AS base
-RUN apt-get update && apt-get install -y curl
-
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+FROM mcr.microsoft.com/dotnet/runtime:8.0 AS base
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 COPY ["Implem.CodeDefiner/Implem.CodeDefiner.csproj", "Implem.CodeDefiner/"]
 COPY ["Implem.DefinitionAccessor/Implem.DefinitionAccessor.csproj", "Implem.DefinitionAccessor/"]
@@ -21,10 +19,13 @@ RUN dotnet build "Implem.CodeDefiner/Implem.CodeDefiner.csproj" -c Release -o /a
 RUN dotnet build "Implem.Pleasanter/Implem.Pleasanter.csproj" -c Release -o /app/build/Implem.Pleasanter
 
 FROM build AS publish
+RUN apt-get update && apt-get install -y jq \
+ && apt-get clean \
+ && rm -rf /var/lib/apt/lists/*
+
 RUN dotnet publish "Implem.CodeDefiner/Implem.CodeDefiner.csproj" -c Release -o /app/publish/Implem.CodeDefiner
 RUN dotnet publish "Implem.Pleasanter/Implem.Pleasanter.csproj" -c Release -o /app/publish/Implem.Pleasanter
-RUN curl -o /usr/bin/jq -L https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64 && chmod +x /usr/bin/jq && \
-    cat Implem.Pleasanter/App_Data/Parameters/Rds.json \
+RUN cat Implem.Pleasanter/App_Data/Parameters/Rds.json \
     | jq '.Dbms|="PostgreSQL" | .SaConnectionString|=null | .OwnerConnectionString|=null | .UserConnectionString|=null' \
     > /app/publish/Implem.Pleasanter/App_Data/Parameters/Rds.json
 

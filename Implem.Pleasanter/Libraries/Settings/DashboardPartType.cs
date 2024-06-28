@@ -5,6 +5,9 @@
         QuickAccess = 0,
         TimeLine = 1,
         Custom = 2,
-        CustomHtml = 3
+        CustomHtml = 3,
+        Calendar = 4,
+        Kamban = 5,
+        Index = 6
     }
 }

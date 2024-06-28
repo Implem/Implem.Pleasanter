@@ -304,6 +304,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-error");
         }
 
+        public static Message CannotMoveMultipleSitesData(Context context, params string[] data)
+        {
+            return Get(
+                id: "CannotMoveMultipleSitesData",
+                text: Displays.CannotMoveMultipleSitesData(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
         public static Message CanNotPerformed(Context context, params string[] data)
         {
             return Get(
@@ -342,6 +352,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                     context: context,
                     data: data),
                 css: "alert-success");
+        }
+
+        public static Message CircularGroupChild(Context context, params string[] data)
+        {
+            return Get(
+                id: "CircularGroupChild",
+                text: Displays.CircularGroupChild(
+                    context: context,
+                    data: data),
+                css: "alert-error");
         }
 
         public static Message CodeDefinerBackupCompleted(Context context, params string[] data)
@@ -584,6 +604,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-error");
         }
 
+        public static Message FailedWriteFile(Context context, params string[] data)
+        {
+            return Get(
+                id: "FailedWriteFile",
+                text: Displays.FailedWriteFile(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
         public static Message FileDeleteCompleted(Context context, params string[] data)
         {
             return Get(
@@ -622,6 +652,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                     context: context,
                     data: data),
                 css: "alert-success");
+        }
+
+        public static Message GroupDepthMax(Context context, params string[] data)
+        {
+            return Get(
+                id: "GroupDepthMax",
+                text: Displays.GroupDepthMax(
+                    context: context,
+                    data: data),
+                css: "alert-error");
         }
 
         public static Message GroupImported(Context context, params string[] data)
@@ -692,6 +732,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                     context: context,
                     data: data),
                 css: "alert-success");
+        }
+
+        public static Message ImportInvalidUserIdAndLoginId(Context context, params string[] data)
+        {
+            return Get(
+                id: "ImportInvalidUserIdAndLoginId",
+                text: Displays.ImportInvalidUserIdAndLoginId(
+                    context: context,
+                    data: data),
+                css: "alert-error");
         }
 
         public static Message ImportMax(Context context, params string[] data)
@@ -774,6 +824,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-error");
         }
 
+        public static Message IncorrectUser(Context context, params string[] data)
+        {
+            return Get(
+                id: "IncorrectUser",
+                text: Displays.IncorrectUser(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
         public static Message InputMailAddress(Context context, params string[] data)
         {
             return Get(
@@ -799,6 +859,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 id: "InvalidCsvData",
                 text: Displays.InvalidCsvData(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
+        public static Message InvalidDateHhMmFormat(Context context, params string[] data)
+        {
+            return Get(
+                id: "InvalidDateHhMmFormat",
+                text: Displays.InvalidDateHhMmFormat(
                     context: context,
                     data: data),
                 css: "alert-error");
@@ -869,6 +939,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 id: "InvalidSsoCode",
                 text: Displays.InvalidSsoCode(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
+        public static Message invalidUpsertKey(Context context, params string[] data)
+        {
+            return Get(
+                id: "invalidUpsertKey",
+                text: Displays.invalidUpsertKey(
                     context: context,
                     data: data),
                 css: "alert-error");
@@ -1214,6 +1294,26 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-success");
         }
 
+        public static Message PleaseInputData(Context context, params string[] data)
+        {
+            return Get(
+                id: "PleaseInputData",
+                text: Displays.PleaseInputData(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
+        public static Message PleaseUncheck(Context context, params string[] data)
+        {
+            return Get(
+                id: "PleaseUncheck",
+                text: Displays.PleaseUncheck(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
         public static Message ReadOnlyBecausePreviousVer(Context context, params string[] data)
         {
             return Get(
@@ -1279,6 +1379,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 id: "RequireManagePermission",
                 text: Displays.RequireManagePermission(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
+        public static Message RequireSecondAuthenticationByMail(Context context, params string[] data)
+        {
+            return Get(
+                id: "RequireSecondAuthenticationByMail",
+                text: Displays.RequireSecondAuthenticationByMail(
                     context: context,
                     data: data),
                 css: "alert-error");
@@ -1871,6 +1981,17 @@ namespace Implem.Pleasanter.Libraries.Responses
                 target: target);
         }
 
+        public static ResponseCollection ResponseCannotMoveMultipleSitesData(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: CannotMoveMultipleSitesData(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
         public static ResponseCollection ResponseCanNotPerformed(
             Context context, string target = null, params string[] data)
         {
@@ -1910,6 +2031,17 @@ namespace Implem.Pleasanter.Libraries.Responses
             return ResponseMessage(
                 context: context,
                 message: ChangingPasswordComplete(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseCircularGroupChild(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: CircularGroupChild(
                     context: context,
                     data: data),
                 target: target);
@@ -2179,6 +2311,17 @@ namespace Implem.Pleasanter.Libraries.Responses
                 target: target);
         }
 
+        public static ResponseCollection ResponseFailedWriteFile(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: FailedWriteFile(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
         public static ResponseCollection ResponseFileDeleteCompleted(
             Context context, string target = null, params string[] data)
         {
@@ -2218,6 +2361,17 @@ namespace Implem.Pleasanter.Libraries.Responses
             return ResponseMessage(
                 context: context,
                 message: FileUpdateCompleted(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseGroupDepthMax(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: GroupDepthMax(
                     context: context,
                     data: data),
                 target: target);
@@ -2295,6 +2449,17 @@ namespace Implem.Pleasanter.Libraries.Responses
             return ResponseMessage(
                 context: context,
                 message: Imported(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseImportInvalidUserIdAndLoginId(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: ImportInvalidUserIdAndLoginId(
                     context: context,
                     data: data),
                 target: target);
@@ -2388,6 +2553,17 @@ namespace Implem.Pleasanter.Libraries.Responses
                 target: target);
         }
 
+        public static ResponseCollection ResponseIncorrectUser(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: IncorrectUser(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
         public static ResponseCollection ResponseInputMailAddress(
             Context context, string target = null, params string[] data)
         {
@@ -2416,6 +2592,17 @@ namespace Implem.Pleasanter.Libraries.Responses
             return ResponseMessage(
                 context: context,
                 message: InvalidCsvData(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseInvalidDateHhMmFormat(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: InvalidDateHhMmFormat(
                     context: context,
                     data: data),
                 target: target);
@@ -2493,6 +2680,17 @@ namespace Implem.Pleasanter.Libraries.Responses
             return ResponseMessage(
                 context: context,
                 message: InvalidSsoCode(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseinvalidUpsertKey(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: invalidUpsertKey(
                     context: context,
                     data: data),
                 target: target);
@@ -2872,6 +3070,28 @@ namespace Implem.Pleasanter.Libraries.Responses
                 target: target);
         }
 
+        public static ResponseCollection ResponsePleaseInputData(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: PleaseInputData(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponsePleaseUncheck(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: PleaseUncheck(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
         public static ResponseCollection ResponseReadOnlyBecausePreviousVer(
             Context context, string target = null, params string[] data)
         {
@@ -2944,6 +3164,17 @@ namespace Implem.Pleasanter.Libraries.Responses
             return ResponseMessage(
                 context: context,
                 message: RequireManagePermission(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseRequireSecondAuthenticationByMail(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: RequireSecondAuthenticationByMail(
                     context: context,
                     data: data),
                 target: target);

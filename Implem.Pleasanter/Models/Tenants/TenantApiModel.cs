@@ -23,6 +23,10 @@ namespace Implem.Pleasanter.Models
         public string TopStyle { get; set; }
         public string TopScript { get; set; }
         public string TopDashboards { get; set; }
+        public string Theme { get; set; }
+        public string Language { get; set; }
+        public string TimeZone { get; set; }
+        public string TenantSettings { get; set; }
         public string Comments { get; set; }
         public int? Creator { get; set; }
         public int? Updator { get; set; }
@@ -54,6 +58,10 @@ namespace Implem.Pleasanter.Models
                 case "TopStyle": return TopStyle;
                 case "TopScript": return TopScript;
                 case "TopDashboards": return TopDashboards;
+                case "Theme": return Theme;
+                case "Language": return Language;
+                case "TimeZone": return TimeZone;
+                case "TenantSettings": return TenantSettings;
                 case "Comments": return Comments;
                 case "Creator": return Creator;
                 case "Updator": return Updator;

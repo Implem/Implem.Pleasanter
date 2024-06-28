@@ -564,7 +564,9 @@ namespace Implem.Pleasanter.Models
                 : hb.Template(
                     context: context,
                     ss: ss,
-                    view: null,
+                    view: Views.GetBySession(
+                        context: context,
+                        ss: ss),
                     siteId: wikiModel.SiteId,
                     parentId: ss.ParentId,
                     referenceType: "Wikis",
@@ -579,6 +581,7 @@ namespace Implem.Pleasanter.Models
                         context: context, methodType: wikiModel.MethodType),
                     userStyle: ss.EditorStyles(
                         context: context, methodType: wikiModel.MethodType),
+                    methodType: wikiModel.MethodType,
                     serverScriptModelRow: serverScriptModelRow,
                     action: () => hb
                         .Editor(
@@ -734,7 +737,8 @@ namespace Implem.Pleasanter.Models
                             _using: !context.Ajax || context.Action == "create")
                         .Hidden(
                             controlId: "TriggerRelatingColumns_Editor", 
-                            value: Jsons.ToJson(ss.RelatingColumns)))
+                            value: Jsons.ToJson(ss.RelatingColumns))
+                        .PostInitHiddenData(context: context))
                 .OutgoingMailsForm(
                     context: context,
                     ss: ss,
@@ -746,6 +750,21 @@ namespace Implem.Pleasanter.Models
                     ss: ss)
                 .MoveDialog(context: context)
                 .OutgoingMailDialog());
+        }
+
+        private static HtmlBuilder PostInitHiddenData(
+            this HtmlBuilder hb,
+            Context context)
+        {
+            var postInitData = context.Forms.Where(o => o.Key.StartsWith("PostInit_"));
+            postInitData.ForEach(data =>
+            {
+                hb.Hidden(
+                    controlId: data.Key,
+                    value: data.Value,
+                    css: "always-send");
+            });
+            return hb;
         }
 
         private static HtmlBuilder EditorTabs(
@@ -1394,9 +1413,13 @@ namespace Implem.Pleasanter.Models
                                                     controlId: $"Wikis_{column.Name}",
                                                     columnName: column.ColumnName,
                                                     fieldCss: column.FieldCss
-                                                        + (column.TextAlign == SiteSettings.TextAlignTypes.Right
-                                                            ? " right-align"
-                                                            : string.Empty),
+                                                        + (
+                                                            column.TextAlign switch
+                                                            {
+                                                                SiteSettings.TextAlignTypes.Right => " right-align",
+                                                                SiteSettings.TextAlignTypes.Center => " center-align",
+                                                                _ => string.Empty
+                                                            }),
                                                     fieldDescription: column.Description,
                                                     labelText: column.LabelText,
                                                     value: wikiModel.GetAttachments(columnName: column.Name).ToJson(),
@@ -1407,7 +1430,8 @@ namespace Implem.Pleasanter.Models
                                                         baseModel: wikiModel)
                                                             != Permissions.ColumnPermissionTypes.Update,
                                                     allowDelete: column.AllowDeleteAttachments != false,
-                                                    validateRequired: column.ValidateRequired != false),
+                                                    validateRequired: column.ValidateRequired != false,
+                                                    inputGuide: column.InputGuide),
                                             options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                         break;
                                 }

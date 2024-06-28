@@ -81,6 +81,60 @@ namespace Implem.Pleasanter.Models
                                     value: string.Empty,
                                     tabIndex: tabIndex,
                                     serverScriptModelColumn: serverScriptModelColumn);
+                    case "Theme":
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: tenantModel.Theme,
+                                    tabIndex: tabIndex,
+                                    serverScriptModelColumn: serverScriptModelColumn)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty,
+                                    tabIndex: tabIndex,
+                                    serverScriptModelColumn: serverScriptModelColumn);
+                    case "Language":
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: tenantModel.Language,
+                                    tabIndex: tabIndex,
+                                    serverScriptModelColumn: serverScriptModelColumn)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty,
+                                    tabIndex: tabIndex,
+                                    serverScriptModelColumn: serverScriptModelColumn);
+                    case "TimeZone":
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: tenantModel.TimeZone,
+                                    tabIndex: tabIndex,
+                                    serverScriptModelColumn: serverScriptModelColumn)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty,
+                                    tabIndex: tabIndex,
+                                    serverScriptModelColumn: serverScriptModelColumn);
                     case "Comments":
                         return ss.ReadColumnAccessControls.Allowed(
                             context: context,
@@ -305,6 +359,15 @@ namespace Implem.Pleasanter.Models
                     case "Ver": value = tenantModel.Ver.GridText(
                         context: context,
                         column: column); break;
+                    case "Theme": value = tenantModel.Theme.GridText(
+                        context: context,
+                        column: column); break;
+                    case "Language": value = tenantModel.Language.GridText(
+                        context: context,
+                        column: column); break;
+                    case "TimeZone": value = tenantModel.TimeZone.GridText(
+                        context: context,
+                        column: column); break;
                     case "Comments": value = tenantModel.Comments.GridText(
                         context: context,
                         column: column); break;
@@ -406,6 +469,9 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: SiteSettingsUtilities.TenantsSiteSettings(context: context),
                 tenantId: tenantId);
+            tenantModel.Session_TenantSettings(
+                context: context,
+                value: tenantModel.TenantSettings.RecordingJson(context: context));
             return Editor(context: context, ss: ss, tenantModel: tenantModel);
         }
 
@@ -486,6 +552,7 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     tenantModel: tenantModel)
                                 .FieldSetGeneral(context: context, ss: ss, tenantModel: tenantModel)
+                                .FieldSetServerScript(context: context, tenantModel: tenantModel)
                                 .FieldSet(
                                     attributes: new HtmlAttributes()
                                         .Id("FieldSetHistories")
@@ -521,7 +588,8 @@ namespace Implem.Pleasanter.Models
                             controlId: "SwitchTargets",
                             css: "always-send",
                             value: tenantModel.SwitchTargets?.Join(),
-                            _using: !context.Ajax))
+                            _using: !context.Ajax)
+                        )
                 .OutgoingMailsForm(
                     context: context,
                     ss: ss,
@@ -532,6 +600,8 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss)
                 .OutgoingMailDialog()
+                .ServerScriptDialog(context: context)
+                .ServerScriptScheduleDialog(context: context)
                 .EditorExtensions(
                     context: context,
                     tenantModel: tenantModel,
@@ -548,7 +618,16 @@ namespace Implem.Pleasanter.Models
                 .Li(action: () => hb
                     .A(
                         href: "#FieldSetGeneral",
-                        text: Displays.General(context: context))));
+                        text: Displays.General(context: context)))
+                .Li(
+                    action: () => hb
+                        .A(
+                            href: "#FieldSetServerScript",
+                            text: Displays.ServerScript(context: context)),
+                    _using: context.HasPrivilege != false
+                                && context.ContractSettings.ServerScript != false
+                                && Parameters.Script.ServerScript != false
+                                && Parameters.Script.BackgroundServerScript != false));
         }
 
         private static HtmlBuilder FieldSetGeneral(
@@ -579,6 +658,7 @@ namespace Implem.Pleasanter.Models
             var htmlTitleRecordColumn = ss.GetColumn(context, "HtmlTitleRecord");
             var topStyleColumn = ss.GetColumn(context, "TopStyle");
             var topScriptColumn = ss.GetColumn(context, "TopScript");
+            var TenantSettings = ss.GetColumn(context, "TenantSettings");
             var UsedStorageCapacity = ((BinaryUtilities.UsedTenantStorageSize(context: context) / 1024) / 1024) / 1024;
             return hb.FieldSet(id: "FieldSetGeneralColumns", action: () => hb
                 .Field(
@@ -613,6 +693,36 @@ namespace Implem.Pleasanter.Models
                         ?.Deserialize<long?[]>()
                         ?.FirstOrDefault()
                         ?.ToString())
+                .FieldDropDown(
+                    context: context,
+                    controlId: "Tenants_Theme",
+                    controlCss: " always-send",
+                    labelText: Displays.Tenants_Theme(context),
+                    optionCollection: ss.GetColumn(
+                        context: context,
+                        columnName: "Theme").EditChoices(context: context),
+                    selectedValue: tenantModel.Theme,
+                    insertBlank: true)
+                .FieldDropDown(
+                    context: context,
+                    controlId: "Tenants_Language",
+                    controlCss: " always-send",
+                    labelText: Displays.Tenants_Language(context),
+                    optionCollection: ss.GetColumn(
+                        context: context,
+                        columnName: "Language").EditChoices(context: context),
+                    selectedValue: tenantModel.Language,
+                    insertBlank: true)
+                .FieldDropDown(
+                    context: context,
+                    controlId: "Tenants_TimeZone",
+                    controlCss: " always-send",
+                    labelText: Displays.Tenants_TimeZone(context),
+                    optionCollection: ss.GetColumn(
+                        context: context,
+                        columnName: "TimeZone").EditChoices(context: context),
+                    selectedValue: tenantModel.TimeZone,
+                    insertBlank: true)
                 .FieldSet(
                     id: "PermissionsField",
                     css: " enclosed",
@@ -743,7 +853,7 @@ namespace Implem.Pleasanter.Models
                     action: () => hb
                         .Button(
                             controlId: "TenantSyncByLdap",
-                            controlCss: "button-icon",
+                            controlCss: "button-icon button-positive",
                             text: Displays.SyncByLdap(context: context),
                             onClick: "$p.send($(this));",
                             icon: "ui-icon-disk",
@@ -800,6 +910,24 @@ namespace Implem.Pleasanter.Models
             {
                 case "Ver":
                     return tenantModel.Ver
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Theme":
+                    return tenantModel.Theme
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Language":
+                    return tenantModel.Language
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "TimeZone":
+                    return tenantModel.TimeZone
                         .ToControl(
                             context: context,
                             ss: ss,
@@ -1078,6 +1206,24 @@ namespace Implem.Pleasanter.Models
                                     value: tenantModel.TopDashboards.ToResponse(context: context, ss: ss, column: column),
                                     options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                 break;
+                            case "Theme":
+                                res.Val(
+                                    target: "#Tenants_Theme" + idSuffix,
+                                    value: tenantModel.Theme.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "Language":
+                                res.Val(
+                                    target: "#Tenants_Language" + idSuffix,
+                                    value: tenantModel.Language.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "TimeZone":
+                                res.Val(
+                                    target: "#Tenants_TimeZone" + idSuffix,
+                                    value: tenantModel.TimeZone.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
                             default:
                                 switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
                                 {
@@ -1133,9 +1279,13 @@ namespace Implem.Pleasanter.Models
                                                     controlId: $"Tenants_{column.Name}",
                                                     columnName: column.ColumnName,
                                                     fieldCss: column.FieldCss
-                                                        + (column.TextAlign == SiteSettings.TextAlignTypes.Right
-                                                            ? " right-align"
-                                                            : string.Empty),
+                                                        + (
+                                                            column.TextAlign switch
+                                                            {
+                                                                SiteSettings.TextAlignTypes.Right => " right-align",
+                                                                SiteSettings.TextAlignTypes.Center => " center-align",
+                                                                _ => string.Empty
+                                                            }),
                                                     fieldDescription: column.Description,
                                                     labelText: column.LabelText,
                                                     value: tenantModel.GetAttachments(columnName: column.Name).ToJson(),
@@ -1146,7 +1296,8 @@ namespace Implem.Pleasanter.Models
                                                         baseModel: tenantModel)
                                                             != Permissions.ColumnPermissionTypes.Update,
                                                     allowDelete: column.AllowDeleteAttachments != false,
-                                                    validateRequired: column.ValidateRequired != false),
+                                                    validateRequired: column.ValidateRequired != false,
+                                                    inputGuide: column.InputGuide),
                                             options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                         break;
                                 }
@@ -1535,6 +1686,79 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        private static HtmlBuilder FieldSetServerScript(
+            this HtmlBuilder hb,
+            Context context,
+            TenantModel tenantModel)
+        {
+            return hb.FieldSet(id: "FieldSetServerScript",
+                action: () => hb
+                    .ServerScriptsSettingsEditor(
+                        context: context, tenantModel: tenantModel),
+                _using: context.ContractSettings.ServerScript != false
+                    && Parameters.Script.ServerScript != false
+                    && Parameters.Script.BackgroundServerScript != false);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder ServerScriptsSettingsEditor(
+            this HtmlBuilder hb, Context context, TenantModel tenantModel)
+        {
+            if (context.ContractSettings.ServerScript == false
+                || Parameters.Script.ServerScript == false) return hb;
+            return hb.FieldSet(id: "ServerScriptsSettingsEditor", action: () => hb
+                .Div(css: "command-left", action: () => hb
+                    .Button(
+                        controlId: "MoveUpServerScripts",
+                        controlCss: "button-icon",
+                        text: Displays.MoveUp(context: context),
+                        onClick: "$p.setAndSend('#EditServerScript', $(this));",
+                        icon: "ui-icon-circle-triangle-n",
+                        action: "SetBGServerScript",
+                        method: "post")
+                    .Button(
+                        controlId: "MoveDownServerScripts",
+                        controlCss: "button-icon",
+                        text: Displays.MoveDown(context: context),
+                        onClick: "$p.setAndSend('#EditServerScript', $(this));",
+                        icon: "ui-icon-circle-triangle-s",
+                        action: "SetBGServerScript",
+                        method: "post")
+                    .Button(
+                        controlId: "NewServerScript",
+                        text: Displays.New(context: context),
+                        controlCss: "button-icon",
+                        onClick: "$p.openServerScriptDialog($(this));",
+                        icon: "ui-icon-gear",
+                        action: "SetBGServerScript",
+                        method: "put")
+                    .Button(
+                        controlId: "CopyServerScripts",
+                        text: Displays.Copy(context: context),
+                        controlCss: "button-icon",
+                        onClick: "$p.setAndSend('#EditServerScript', $(this));",
+                        icon: "ui-icon-copy",
+                        action: "SetBGServerScript",
+                        method: "post")
+                    .Button(
+                        controlId: "DeleteServerScripts",
+                        text: Displays.Delete(context: context),
+                        controlCss: "button-icon",
+                        onClick: "$p.setAndSend('#EditServerScript', $(this));",
+                        icon: "ui-icon-trash",
+                        action: "SetBGServerScript",
+                        method: "delete",
+                        confirm: Displays.ConfirmDelete(context: context)))
+                .EditServerScript(
+                    context: context,
+                    tenantModel: tenantModel));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static Dictionary<string,string> GetDashboardSelectOptions(Context context)
         {
             var dashboards = new SiteCollection(
@@ -1641,14 +1865,14 @@ namespace Implem.Pleasanter.Models
                             labelText: Displays.File(context: context))
                         .Button(
                             controlId: "SetTenantImage",
-                            controlCss: "button-icon",
+                            controlCss: "button-icon button-positive",
                             text: Displays.Upload(context: context),
                             onClick: "$p.uploadTenantImage($(this));",
                             icon: "ui-icon-disk",
                             action: "binaries/updatetenantimage",
                             method: "post")
                         .Button(
-                            controlCss: "button-icon",
+                            controlCss: "button-icon button-negative",
                             text: Displays.Delete(context: context),
                             onClick: "$p.send($(this));",
                             icon: "ui-icon-trash",
@@ -1680,6 +1904,827 @@ namespace Implem.Pleasanter.Models
                 ?? new ContractSettings();
             contractSettings.Deadline = dataRow?.DateTime("ContractDeadline");
             return contractSettings;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        /// <returns></returns>
+        public static string SetBGServerScript(Context context, SiteSettings ss, long tenantId)
+        {
+            var tenantModel = new TenantModel(
+                context: context,
+                ss: ss,
+                dataRow: null,
+                formData: context.Forms);
+            return tenantModel.SetBGServerScript(
+                context: context,
+                setSiteSettingsPropertiesBySession: false);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder ServerScriptDialog(
+            Context context, TenantModel tenantModel, string controlId, BackgroundServerScript script)
+        {
+            var hb = new HtmlBuilder();
+            var outputDestinationCss = " output-destination-script";
+            var enclosedCss = " enclosed";
+            return hb.Form(
+                attributes: new HtmlAttributes()
+                    .Id("ServerScriptForm")
+                    .Action(Locations.Action(
+                        context: context,
+                        controller: context.Controller,
+                        id: tenantModel.TenantId)),
+                action: () => hb
+                    .FieldText(
+                        controlId: "ServerScriptId",
+                        controlCss: " always-send",
+                        labelText: Displays.Id(context: context),
+                        text: script.Id.ToString())
+                    .FieldTenantUsers(
+                        context: context,
+                        userId: script.UserId,
+                        controlId: "ServerScriptUser",
+                        labelText: Displays.ExecutionUser(context: context))
+                    .Div(
+                        css: "field-normal",
+                        action: () => hb
+                                .Button(
+                                    controlId: "ExecServerScript",
+                                    text: Displays.ExecutionNow(context: context),
+                                    controlCss: "button-icon validate button-positive",
+                                    onClick: "$p.setServerScript($(this));",
+                                    icon: "ui-icon-play",
+                                    action: "SetBGServerScript",
+                                    method: "post"))
+                    .FieldTextBox(
+                        controlId: "ServerScriptTitle",
+                        fieldCss: "field-wide",
+                        controlCss: " always-send",
+                        labelText: Displays.Title(context: context),
+                        text: script.Title,
+                        validateRequired: true,
+                        attributes: new Dictionary<string, string> { ["autofocus"] = "autofocus" }) // ダイアログ開いた後の最初のフォーカス
+                    .FieldTextBox(
+                        controlId: "ServerScriptName",
+                        fieldCss: "field-wide",
+                        controlCss: " always-send",
+                        labelText: Displays.Name(context: context),
+                        text: script.Name)
+                    .FieldTextBox(
+                        textType: HtmlTypes.TextTypes.MultiLine,
+                        controlId: "ServerScriptBody",
+                        fieldCss: "field-wide",
+                        controlCss: " always-send",
+                        labelText: Displays.ServerScript(context: context),
+                        text: script.Body)
+                    .FieldSpinner(
+                        controlId: "ServerScriptTimeOut",
+                        fieldCss: "field-normal",
+                        controlCss: " always-send",
+                        labelText: Displays.TimeOut(context: context),
+                        value: script.TimeOut ?? Parameters.Script.ServerScriptTimeOut,
+                        min: Parameters.Script.ServerScriptTimeOutMin,
+                        max: Parameters.Script.ServerScriptTimeOutMax,
+                        step: 1,
+                        width: 75,
+                        _using: Parameters.Script.ServerScriptTimeOutChangeable)
+                    .Div(
+                        action: () => hb
+                            .FieldCheckBox(
+                                controlId: "ServerScriptDisabled",
+                                fieldCss: outputDestinationCss,
+                                controlCss: " always-send",
+                                labelText: Displays.Disabled(context: context),
+                                _checked: script.Disabled == true)
+                            .FieldCheckBox(
+                                controlId: "ServerScriptShared",
+                                fieldCss: outputDestinationCss,
+                                controlCss: " always-send",
+                                labelText: Displays.Shared(context: context),
+                                _checked: script.Shared == true))
+                    .FieldSet(
+                        css: enclosedCss,
+                        legendText: Displays.Schedule(context: context),
+                        action: () => hb
+                            .ServerScriptsSchedulesEditor(
+                                context: context,
+                                backgroundServerScript: script))
+                    .P(css: "message-dialog")
+                    .Div(css: "command-center", action: () => hb
+                        .Button(
+                            controlId: "AddServerScript",
+                            text: Displays.Add(context: context),
+                            controlCss: "button-icon validate button-positive",
+                            icon: "ui-icon-disk",
+                            onClick: "$p.setServerScript($(this));",
+                            action: "SetBGServerScript",
+                            method: "post",
+                            _using: controlId == "NewServerScript")
+                        .Button(
+                            controlId: "UpdateServerScript",
+                            text: Displays.Change(context: context),
+                            controlCss: "button-icon validate button-positive",
+                            onClick: "$p.setServerScript($(this));",
+                            icon: "ui-icon-disk",
+                            action: "SetBGServerScript",
+                            method: "post",
+                            _using: controlId == "EditServerScript")
+                        .Button(
+                            text: Displays.Cancel(context: context),
+                            controlCss: "button-icon button-neutral",
+                            onClick: "$p.closeDialog($(this));",
+                            icon: "ui-icon-cancel"))
+                        .Hidden(
+                            controlId: "BackgroundSchedule",
+                            value: script.backgoundSchedules.ToJson(),
+                            css: " always-send"))
+                    .DropDownSearchDialog(
+                        context: context,
+                        id: 0)
+                    .Form( // ユーザ選択フィールド横の自アイコンクリック時のイベントのために配置
+                       attributes: new HtmlAttributes()
+                           .Id("MainForm")
+                           .Action(Locations.Get(
+                               context: context,
+                               parts: new string[]
+                               {
+                                   "tenants",
+                                   "_action_"
+                               })));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder FieldTenantUsers(
+            this HtmlBuilder hb, Context context, int userId, string controlId = null, string labelText = null)
+        {
+            // テナントユーザ一覧用フィールド
+            // 別途 DropDownSearchDialog() と Form(attributes: new HtmlAttributes().Id("MainForm")) をhb追加すること
+            var optionCollection = ExecutingUsersOptionCollection(
+                context: context,
+                controlId: controlId,
+                selected: new string[] { userId.ToString() });
+            hb.FieldDropDown(
+                context: context,
+                controlId: controlId,
+                fieldCss: "field-normal",
+                controlCss: " always-send search",
+                labelText: labelText, 
+                optionCollection: optionCollection,
+                controlOption: () => hb.Div(css: "ui-icon ui-icon-person current-user"),
+                selectedValue: userId == 0 ? "" : userId.ToString());
+            return hb;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder EditServerScript(this HtmlBuilder hb, Context context, TenantModel tenantModel)
+        {
+            var selected = context.Forms.IntList("EditServerScript");
+            return hb.Table(
+                id: "EditServerScript",
+                css: "grid",
+                attributes: new HtmlAttributes()
+                    .DataName("ServerScriptId")
+                    .DataFunc("openServerScriptDialog")
+                    .DataAction("SetBGServerScript")
+                    .DataMethod("post"),
+                action: () => hb
+                    .EditServerScriptHeader(
+                        context: context,
+                        tenantModel: tenantModel,
+                        selected: selected)
+                    .EditServerScriptBody(
+                        tenantModel: tenantModel,
+                        selected: selected));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder EditServerScriptHeader(
+            this HtmlBuilder hb, Context context, TenantModel tenantModel, IEnumerable<int> selected)
+        {
+            return hb.THead(action: () => hb
+                .Tr(css: "ui-widget-header", action: () => hb
+                    .Th(action: () => hb
+                        .CheckBox(
+                            controlCss: "select-all",
+                            _checked: tenantModel.TenantSettings.BackgroundServerScripts?.Scripts.All(o =>
+                                selected?.Contains(o.Id) == true) == true))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Id(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Title(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Name(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Disabled(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Shared(context: context)))));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder EditServerScriptBody(
+            this HtmlBuilder hb, TenantModel tenantModel, IEnumerable<int> selected)
+        {
+            return hb.TBody(action: () =>
+                tenantModel.TenantSettings.BackgroundServerScripts?.Scripts.ForEach(script => hb
+                    .Tr(
+                        css: "grid-row",
+                        attributes: new HtmlAttributes()
+                            .DataId(script.Id.ToString()),
+                        action: () => hb
+                            .Td(action: () => hb
+                                .CheckBox(
+                                    controlCss: "select",
+                                    _checked: selected?
+                                        .Contains(script.Id) == true))
+                            .Td(action: () => hb
+                                .Text(text: script.Id.ToString()))
+                            .Td(action: () => hb
+                                .Text(text: script.Title))
+                            .Td(action: () => hb
+                                .Text(text: script.Name))
+                            .Td(action: () => hb
+                                .Span(
+                                    css: "ui-icon ui-icon-circle-check",
+                                    _using: script.Disabled == true))
+                            .Td(action: () => hb
+                                .Span(
+                                    css: "ui-icon ui-icon-circle-check",
+                                    _using: script.Shared == true)))));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder ServerScriptDialog(this HtmlBuilder hb, Context context)
+        {
+            return hb.Div(attributes: new HtmlAttributes()
+                    .Id("ServerScriptDialog")
+                    .Class("dialog")
+                    .Title(Displays.ServerScript(context: context)),
+                _using: context.ContractSettings.ServerScript != false
+                    && Parameters.Script.ServerScript != false);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder ServerScriptScheduleDialog(this HtmlBuilder hb, Context context)
+        {
+            return hb.Div(attributes: new HtmlAttributes()
+                    .Id("ServerScriptScheduleDialog")
+                    .Class("dialog")
+                    .Title(Displays.Schedule(context: context)),
+                _using: context.ContractSettings.ServerScript != false
+                    && Parameters.Script.ServerScript != false);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder ServerScriptsSchedulesEditor(
+            this HtmlBuilder hb, Context context, BackgroundServerScript backgroundServerScript)
+        {
+            if (context.ContractSettings.ServerScript == false
+                || Parameters.Script.ServerScript == false) return hb;
+            return hb
+                // legendでTable部分が閉じないので、divを一段深くする
+                .Div(action: () => hb
+                    .Div(id: "ServerScriptsSchedulesEditor", css: "command-left", action: () => hb
+                        .Button(
+                            controlId: "MoveUpServerScriptSchedules",
+                            controlCss: "button-icon",
+                            text: Displays.MoveUp(context: context),
+                            onClick: "$p.setAndSend('#EditServerScript', $(this));",
+                            icon: "ui-icon-circle-triangle-n",
+                            action: "SetBGServerScript",
+                            method: "post")
+                        .Button(
+                            controlId: "MoveDownServerScriptSchedules",
+                            controlCss: "button-icon",
+                            text: Displays.MoveDown(context: context),
+                            onClick: "$p.setAndSend('#EditServerScript', $(this));",
+                            icon: "ui-icon-circle-triangle-s",
+                            action: "SetBGServerScript",
+                            method: "post")
+                        .Button(
+                            controlId: "NewServerScriptSchedules",
+                            text: Displays.New(context: context),
+                            controlCss: "button-icon",
+                            onClick: "$p.openServerScriptScheduleDialog($(this));",
+                            icon: "ui-icon-gear",
+                            action: "SetBGServerScript",
+                            method: "put")
+                        .Button(
+                            controlId: "CopyServerScriptSchedules",
+                            text: Displays.Copy(context: context),
+                            controlCss: "button-icon",
+                            onClick: "$p.setAndSend('#EditServerScript', $(this));",
+                            icon: "ui-icon-copy",
+                            action: "SetBGServerScript",
+                            method: "post")
+                        .Button(
+                            controlId: "DeleteServerScriptSchedules",
+                            text: Displays.Delete(context: context),
+                            controlCss: "button-icon",
+                            onClick: "$p.setAndSend('#EditServerScript', $(this));",
+                            icon: "ui-icon-trash",
+                            action: "SetBGServerScript",
+                            method: "delete",
+                            confirm: Displays.ConfirmDelete(context: context)))
+                    .EditServerScriptSchedules(
+                        context: context,
+                        backgoundSchedules: backgroundServerScript.backgoundSchedules));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder EditServerScriptSchedules(this HtmlBuilder hb, Context context, SettingList<BackgroundSchedule> backgoundSchedules)
+        {
+            var selected = context.Forms.IntList("EditServerScriptSchedules");
+            return hb.Table(
+                id: "EditServerScriptSchedules",
+                css: "grid",
+                attributes: new HtmlAttributes()
+                    .DataName("ServerScriptScheduleId")
+                    .DataFunc("openServerScriptScheduleDialog")
+                    .DataAction("SetBGServerScript")
+                    .DataMethod("post"),
+                action: () => hb
+                    .EditServerScriptSchedulesHeader(
+                        context: context,
+                        schedules: backgoundSchedules,
+                        selected: selected)
+                    .EditServerScriptSchedulesBody(
+                        schedules: backgoundSchedules,
+                        selected: selected));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder EditServerScriptSchedulesHeader(
+            this HtmlBuilder hb, Context context, IEnumerable<BackgroundSchedule> schedules, IEnumerable<int> selected)
+        {
+            return hb.THead(action: () => hb
+                .Tr(css: "ui-widget-header", action: () => hb
+                    .Th(action: () => hb
+                        .CheckBox(
+                            controlCss: "select-all",
+                            _checked: schedules.All(o =>
+                                selected?.Contains(o.Id) == true) == true))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Id(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Name(context: context)))));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder EditServerScriptSchedulesBody(
+            this HtmlBuilder hb, IEnumerable<BackgroundSchedule> schedules, IEnumerable<int> selected)
+        {
+            return hb.TBody(action: () =>
+                schedules.ForEach(schedule => hb
+                    .Tr(
+                        css: "grid-row",
+                        attributes: new HtmlAttributes()
+                            .DataId(schedule.Id.ToString()),
+                        action: () => hb
+                            .Td(action: () => hb
+                                .CheckBox(
+                                    controlCss: "select",
+                                    _checked: selected?
+                                        .Contains(schedule.Id) == true))
+                            .Td(action: () => hb
+                                .Text(text: schedule.Id.ToString()))
+                            .Td(action: () => hb
+                                .Text(text: schedule.Name)))));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder ServerScriptScheduleDialog(
+            Context context, TenantModel tenantModel, string controlId, SettingList<BackgroundSchedule> schedules, BackgroundSchedule schedule)
+        {
+            var hb = new HtmlBuilder();
+            var validateRegex = "^(([0-1][0-9])|20|21|22|23):[0-5][0-9]$";
+            var validateRegexErrorMessage = Displays.InvalidDateHhMmFormat(context: context);
+            return hb.Form(
+                attributes: new HtmlAttributes()
+                    .Id("ServerScriptScheduleForm")
+                    .Action(Locations.Action(
+                        context: context,
+                        controller: context.Controller,
+                        id: tenantModel.TenantId)),
+                action: () => hb
+                    .FieldText(
+                        controlId: "ServerScriptScheduleId",
+                        controlCss: " always-send",
+                        labelText: Displays.Id(context: context),
+                        text: schedule.Id.ToString(),
+                        _using: controlId == "EditServerScriptSchedules")
+                    .FieldTextBox(
+                        controlId: "ServerScriptScheduleName",
+                        fieldCss: "field-wide",
+                        controlCss: " always-send",
+                        labelText: Displays.Name(context: context),
+                        text: schedule.Name,
+                        validateRequired: true)
+                    .FieldDropDown(
+                        context: context,
+                        controlId: "ServerScriptScheduleType",
+                        controlCss: " always-send",
+                        labelText: Displays.PeriodType(context: context),
+                        optionCollection: new Dictionary<string, string>()
+                        {
+                            ["hourly"]= Displays.Hourly(context: context),
+                            ["daily"] = Displays.Daily(context: context),
+                            ["weekly"] = Displays.Weekly(context: context),
+                            ["monthly"] = Displays.Monthly(context: context),
+                            ["onlyonce"] = Displays.OnlyOnce(context: context),
+                        },
+                        selectedValue: schedule.ScheduleType,
+                        addSelectedValue: false,
+                        onChange: "$p.changeBGServerScriptScheduleType($(this));")
+                    .FieldTimeZoneInfo(
+                        context: context,
+                        value: schedule.ScheduleTimeZoneId,
+                        controlId: "ServerScriptScheduleTimeZoneId")
+                    .Div(
+                        id: "Tenants_BGServerScript_ScheduleInputPanel",
+                        action: () => hb
+                            .FieldSet(
+                                id: "ServerScriptScheduleHourlyField",
+                                css: " enclosed",
+                                legendText: Displays.Hourly(context: context),
+                                action: () => hb
+                                    .FieldDropDown(
+                                        context: context,
+                                        controlId: "ServerScriptScheduleHourlyTime",
+                                        controlCss: " always-send bgss-schedule-houry",
+                                        labelText: Displays.Minute(context: context),
+                                        optionCollection: new Dictionary<string, string>()
+                                        {
+                                            ["00"] = "00",
+                                            ["05"] = "05",
+                                            ["10"] = "10",
+                                            ["15"] = "15",
+                                            ["20"] = "20",
+                                            ["25"] = "25",
+                                            ["30"] = "30",
+                                            ["35"] = "35",
+                                            ["40"] = "40",
+                                            ["45"] = "45",
+                                            ["50"] = "50",
+                                            ["55"] = "55",
+                                        },
+                                        selectedValue: schedule.ScheduleHourlyTime,
+                                        addSelectedValue: false))
+                            .FieldSet(
+                                id: "ServerScriptScheduleDailyField",
+                                css: " enclosed",
+                                legendText: Displays.Daily(context: context),
+                                action: () => hb
+                                    .FieldTextBox(
+                                        controlId: "ServerScriptScheduleDailyTime",
+                                        controlCss: " always-send bgss-schedule-daily",
+                                        labelText: Displays.HourMinute(context: context),
+                                        text: schedule.ScheduleDailyTime,
+                                        validateRegex: validateRegex,
+                                        validateRegexErrorMessage: validateRegexErrorMessage))
+                            .FieldSet(
+                                id: "ServerScriptScheduleWeeklyField",
+                                css: " enclosed",
+                                legendText: Displays.Weekly(context: context),
+                                action: () => hb
+                                    .FieldDropDown(
+                                        context: context,
+                                        controlId: "ServerScriptScheduleWeeklyWeek",
+                                        controlCss: " always-send bgss-schedule-weekly",
+                                        multiple: true,
+                                        labelText: Displays.Week(context: context),
+                                        optionCollection: WeekColumnsOptions(context: context),
+                                        selectedValue: schedule.ScheduleWeeklyWeek,
+                                        addSelectedValue: false)
+                                    .FieldTextBox(
+                                        controlId: "ServerScriptScheduleWeeklyTime",
+                                        controlCss: " always-send bgss-schedule-weekly",
+                                        labelText: Displays.HourMinute(context: context),
+                                        text: schedule.ScheduleWeeklyTime,
+                                        validateRegex: validateRegex,
+                                        validateRegexErrorMessage: validateRegexErrorMessage))
+                            .FieldSet(
+                                id: "ServerScriptScheduleMonthlyField",
+                                css: " enclosed",
+                                legendText: Displays.Monthly(context: context),
+                                action: () => hb
+                                    .FieldDropDown(
+                                        context: context,
+                                        controlId: "ServerScriptScheduleMonthlyMonth",
+                                        controlCss: " always-send bgss-schedule-monthly",
+                                        multiple: true,
+                                        labelText: Displays.Month(context: context),
+                                        optionCollection: MonthColumnsOptions(context: context),
+                                        selectedValue: schedule.ScheduleMonthlyMonth,
+                                        addSelectedValue: false)
+                                    .FieldDropDown(
+                                        context: context,
+                                        controlId: "ServerScriptScheduleMonthlyDay",
+                                        controlCss: " always-send bgss-schedule-monthly",
+                                        multiple: true,
+                                        labelText: Displays.Day(context: context),
+                                        optionCollection: DayColumnsOptions(context: context),
+                                        selectedValue: schedule.ScheduleMonthlyDay,
+                                        addSelectedValue: false)
+                                    .FieldTextBox(
+                                        controlId: "ServerScriptScheduleMonthlyTime",
+                                        controlCss: " always-send bgss-schedule-monthly",
+                                        labelText: Displays.HourMinute(context: context),
+                                        text: schedule.ScheduleMonthlyTime,
+                                        validateRegex: validateRegex,
+                                        validateRegexErrorMessage: validateRegexErrorMessage))
+                            .FieldSet(
+                                id: "ServerScriptScheduleOnlyOnceField",
+                                css: " enclosed",
+                                legendText: Displays.OnlyOnce(context: context),
+                                action: () => hb
+                                    .FieldTextBox(
+                                        textType: HtmlTypes.TextTypes.DateTime,
+                                        controlId: "ServerScriptScheduleOnlyOnceTime",
+                                        controlCss: " always-send bgss-schedule-onlyonce",
+                                        labelText: Displays.StartDateTime(context: context),
+                                        text: schedule.ScheduleOnlyOnceTime,
+                                        format: Displays.YmdhmDatePickerFormat(context: context),
+                                        timepiker: true)))
+                    .P(css: "message-dialog")
+                    .Div(css: "command-center", action: () => hb
+                        .Button(
+                            controlId: "AddServerScriptSchedules",
+                            text: Displays.Add(context: context),
+                            controlCss: "button-icon validate button-positive",
+                            icon: "ui-icon-disk",
+                            onClick: "$p.setServerScript($(this));",
+                            action: "SetBGServerScript",
+                            method: "post",
+                            _using: controlId == "NewServerScriptSchedules")
+                        .Button(
+                            controlId: "UpdateServerScriptSchedules",
+                            text: Displays.Change(context: context),
+                            controlCss: "button-icon validate button-positive",
+                            onClick: "$p.setServerScript($(this));",
+                            icon: "ui-icon-disk",
+                            action: "SetBGServerScript",
+                            method: "post",
+                            _using: controlId == "EditServerScriptSchedules")
+                        .Button(
+                            text: Displays.Cancel(context: context),
+                            controlCss: "button-icon button-neutral",
+                            onClick: "$p.closeDialog($(this));",
+                            icon: "ui-icon-cancel"))
+                    .Hidden(
+                        controlId: "EditServerScriptScheduleList",
+                        value: schedules.ToJson(),
+                        css: " always-send"));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static Dictionary<string, string> WeekColumnsOptions(Context context)
+        {
+            return new Dictionary<string, string>()
+            {
+                ["1"] = Displays.Sunday(context: context),
+                ["2"] = Displays.Monday(context: context),
+                ["3"] = Displays.Tuesday(context: context),
+                ["4"] = Displays.Wednesday(context: context),
+                ["5"] = Displays.Thursday(context: context),
+                ["6"] = Displays.Friday(context: context),
+                ["7"] = Displays.Saturday(context: context),
+            };
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static Dictionary<string, string> MonthColumnsOptions(Context context)
+        {
+            return new Dictionary<string, string>()
+            {
+                ["01"] = Displays.January(context: context),
+                ["02"] = Displays.February(context: context),
+                ["03"] = Displays.March(context: context),
+                ["04"] = Displays.April(context: context),
+                ["05"] = Displays.May(context: context),
+                ["06"] = Displays.June(context: context),
+                ["07"] = Displays.July(context: context),
+                ["08"] = Displays.August(context: context),
+                ["09"] = Displays.September(context: context),
+                ["10"] = Displays.October(context: context),
+                ["11"] = Displays.November(context: context),
+                ["12"] = Displays.December(context: context),
+            };
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static Dictionary<string, string> DayColumnsOptions(Context context)
+        {
+            return new Dictionary<string, string>()
+            {
+                ["01"] = "01",
+                ["02"] = "02",
+                ["03"] = "03",
+                ["04"] = "04",
+                ["05"] = "05",
+                ["06"] = "06",
+                ["07"] = "07",
+                ["08"] = "08",
+                ["09"] = "09",
+                ["10"] = "10",
+                ["11"] = "11",
+                ["12"] = "12",
+                ["13"] = "13",
+                ["14"] = "14",
+                ["15"] = "15",
+                ["16"] = "16",
+                ["17"] = "17",
+                ["18"] = "18",
+                ["19"] = "19",
+                ["20"] = "20",
+                ["21"] = "21",
+                ["22"] = "22",
+                ["23"] = "23",
+                ["24"] = "24",
+                ["25"] = "25",
+                ["26"] = "26",
+                ["27"] = "27",
+                ["28"] = "28",
+                ["29"] = "29",
+                ["30"] = "30",
+                ["31"] = "31",
+                ["32"] = Displays.LastDayOfTheMonth(context: context),
+            };
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder FieldTimeZoneInfo(
+            this HtmlBuilder hb, Context context, string value, string controlId = null, string labelText = null)
+        {
+            var selected = (value != null) ? new string[] { value.ToString() } : null;
+            var column = new Column(controlId);
+            column.ChoicesText = "[[TimeZones]]";
+            column.ChoicesControlType = "DropDown";
+            column.ControlType = "ChoicesText";
+            column.SetChoiceHash(
+                context: context,
+                siteId: context.SiteId);
+            var optionCollection = column?.EditChoices(
+                context: context,
+                addNotSet: true);
+            hb.FieldDropDown(
+                context: context,
+                controlId: controlId,
+                fieldCss: "field-normal",
+                controlCss: " always-send",
+                labelText: labelText ?? Displays.TimeZone(context: context),
+                optionCollection: optionCollection,
+                selectedValue: value.IsNullOrEmpty() ? "" : value.ToString());
+            return hb;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        internal static string SearchDropDown(Context context)
+        {
+            switch (context.Forms.ControlId())
+            {
+                default:
+                    {
+                        var filter = false;
+                        var searchIndexes = context.Forms.Data("DropDownSearchText").IsNullOrEmpty()
+                            ? null
+                            : new List<string>(new string[] { context.Forms.Data("DropDownSearchText") });
+                        var column = new Column("ServerScriptUser");
+                        column.ChoicesText = "[[Users*]]";
+                        column.ChoicesControlType = "DropDown";
+                        column.ControlType = "ChoicesText";
+                        column.SetChoiceHash(context: context, siteId: context.SiteId, searchIndexes: searchIndexes);
+                        var nextOffset = Paging.NextOffset(
+                            offset: 0,
+                            totalCount: column.TotalCount,
+                            pageSize: Parameters.General.DropDownSearchPageSize);
+                        return new ResponseCollection(context: context)
+                            .Html(
+                                "#DropDownSearchDialogBody",
+                                new HtmlBuilder().DropDownSearchDialogBody(
+                                    context: context,
+                                    column: column,
+                                    filter: filter))
+                            .Val("#DropDownSearchResultsOffset", nextOffset)
+                            .ClearFormData("DropDownSearchResults")
+                            .ToJson();
+                    }
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        internal static string SelectSearchDropDown(Context context)
+        {
+            var multiple = false;
+            var filter = false;
+            var controlId = context.Forms.Data("DropDownSearchTarget");
+            var selected = context.Forms.List("DropDownSearchResults");
+            var searchIndexes = context.Forms.Data("DropDownSearchText").IsNullOrEmpty()
+                ? null
+                : new string[] { context.Forms.Data("DropDownSearchText") };
+            var optionCollection = ExecutingUsersOptionCollection(
+                context: context,
+                controlId: controlId,
+                selected: selected,
+                searchIndexes: searchIndexes);
+            return optionCollection?.Any() == true || !selected.Any()
+                ? new ResponseCollection(context: context)
+                    .CloseDialog("#DropDownSearchDialog")
+                    .Html("[id=\"" + controlId + "\"]", new HtmlBuilder()
+                        .OptionCollection(
+                            context: context,
+                            optionCollection: optionCollection,
+                            selectedValue: DropDowns.SelectSearchDropDownSelectedValue(
+                                context: context,
+                                selected: selected,
+                                filter: filter,
+                                multiple: multiple),
+                            multiple: multiple,
+                            insertBlank: !filter))
+                    .Invoke("setDropDownSearch")
+                    .Trigger("#" + controlId, "change")
+                    .ToJson()
+                : new ResponseCollection(context: context)
+                    .Message(Messages.NotFound(context: context))
+                    .ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static Dictionary<string, ControlData> ExecutingUsersOptionCollection(
+            Context context,
+            string controlId,
+            IEnumerable<string> selected,
+            bool filter = false,
+            IEnumerable<string> searchIndexes = null)
+        {
+            var column = new Column(controlId);
+            column.ChoicesText = "[[Users*]]";
+            column.ChoicesControlType = "DropDown";
+            column.ControlType = "ChoicesText";
+            column.SetChoiceHash(
+                context: context,
+                siteId: context.SiteId,
+                searchIndexes: searchIndexes?.ToList());
+            if (!selected.All(o => column.ChoiceHash.ContainsKey(o)))
+            {
+                selected
+                    .Select(userId => SiteInfo.User(
+                        context: context,
+                        userId: userId.ToInt()))
+                    .Where(o => !o.Anonymous())
+                    .ForEach(user =>
+                        column.ChoiceHash.AddIfNotConainsKey(
+                            user.Id.ToString(),
+                            new Choice(
+                                value: user.Id.ToString(),
+                                text: user.Name)));
+            }
+            var optionCollection = column?.EditChoices(
+                context: context,
+                addNotSet: true,
+                own: filter)
+                    ?.Where(o => selected.Contains(o.Key))
+                    .ToDictionary(o => o.Key, o => o.Value);
+            return optionCollection;
         }
     }
 }

@@ -31,11 +31,14 @@ namespace Implem.IRds
         string GetPermissions { get; }
         string GetPermissionsById { get; }
         string GetGroup { get; }
+        string GetEnabledGroup { get; }
         string PermissionsWhere { get; }
         string SiteDeptWhere { get; }
         string SiteGroupWhere { get; }
         string SiteUserWhere { get; }
         string SitePermissionsWhere { get; }
         public string IntegratedSitesPermissionsWhere(string tableName, List<long> sites);
+        string UpsertBinary { get; }
+        string GetBinaryHash { get; }
     }
 }

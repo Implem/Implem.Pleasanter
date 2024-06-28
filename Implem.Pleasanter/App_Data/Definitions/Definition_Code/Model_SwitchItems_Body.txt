@@ -185,7 +185,10 @@ public string CalendarJson(Context context)
         initSiteSettings: true,
         setSiteIntegration: true,
         setAllChoices: true);
-    ViewModes.Set(context: context, siteId: Site.SiteId);
+    if (Site.ReferenceType != "Dashboards")
+    {
+        ViewModes.Set(context: context, siteId: Site.SiteId);
+    }
     switch (Site.ReferenceType)
     {
 
@@ -236,6 +239,31 @@ public string CrosstabJson(Context context)
         default:
             return Messages.ResponseNotFound(context: context).ToJson();
     }
+}
+
+public string DashboardPartJson(Context context,string dashboardPartId)
+{
+    SetSite(
+        context: context,
+        initSiteSettings: true,
+        setSiteIntegration: true,
+        setAllChoices: true);
+    return DashboardUtilities.DashboardPartJson(
+        context: context,
+        ss: Site.SiteSettings,
+        dashboardPartId: dashboardPartId);
+}
+
+public string DashboardPartLayout (Context context)
+{
+    SetSite(
+        context: context,
+        initSiteSettings: true,
+        setSiteIntegration: true,
+        setAllChoices: true);
+    return DashboardUtilities.DashboardPartLayout(
+        context: context,
+        ss: Site.SiteSettings);
 }
 
 public string Gantt(Context context)
@@ -381,6 +409,64 @@ public string TimeSeriesJson(Context context)
     }
 }
 
+public string Analy(Context context)
+{
+    SetSite(
+        context: context,
+        initSiteSettings: true,
+        setSiteIntegration: true,
+        setAllChoices: true);
+    ViewModes.Set(context: context, siteId: Site.SiteId);
+    switch (Site.ReferenceType)
+    {
+
+<!--Model_AnalyCases-->
+
+        default:
+            return HtmlTemplates.Error(
+                context: context,
+                errorData: new ErrorData(
+                    context: context,
+                    type: Error.Types.NotFound,
+                    sysLogsStatus: 404,
+                    sysLogsDescription: Debugs.GetSysLogsDescription()));
+    }
+}
+
+public string AnalyJson(Context context)
+{
+    SetSite(
+        context: context,
+        initSiteSettings: true,
+        setSiteIntegration: true,
+        setAllChoices: true);
+    ViewModes.Set(context: context, siteId: Site.SiteId);
+    switch (Site.ReferenceType)
+    {
+
+<!--Model_AnalyJsonCases-->
+
+        default:
+            return Messages.ResponseNotFound(context: context).ToJson();
+    }
+}
+
+public string OpenAnalyPartDialog(Context context)
+{
+    SetSite(
+        context: context,
+        initSiteSettings: true,
+        setSiteIntegration: true);
+    switch (Site.ReferenceType)
+    {
+
+<!--Model_OpenAnalyPartDialogCases-->
+
+        default:
+            return Messages.ResponseNotFound(context: context).ToJson();
+    }
+}
+
 public string Kamban(Context context)
 {
     SetSite(
@@ -489,13 +575,48 @@ public string New(Context context)
 
 public string NewJson(Context context)
 {
+    SetSite(
+        context: context,
+        siteOnly: true,
+        initSiteSettings: true);
+    var ss = Site.SiteSettings;
+    var referenceType = Site.ReferenceType;
     if (!context.QueryStrings.Bool("control-auto-postback"))
     {
+        Process process = null;
+        if (referenceType == "Issues")
+        {
+            var issueModel = new IssueModel(
+                context: context,
+                ss: ss,
+                issueId: 0);
+            process = Process.GetProcess(
+                context: context,
+                ss: ss,
+                getProcessMatchConditions: (o) => issueModel.GetProcessMatchConditions(
+                    context: context,
+                    ss: ss,
+                    process: o));
+        }
+        else if (referenceType == "Results")
+        {
+            var resultModel = new ResultModel(
+                context: context,
+                ss: ss,
+                resultId: 0);
+            process = Process.GetProcess(
+                context: context,
+                ss: ss,
+                getProcessMatchConditions: (o) => resultModel.GetProcessMatchConditions(
+                    context: context,
+                    ss: ss,
+                    process: o));
+        }
         return new ResponseCollection(context: context)
             .ReplaceAll("#MainContainer", New(context: context))
             .WindowScrollTop()
             .FocusMainForm()
-            .ClearFormData(_using: !context.QueryStrings.Bool("control-auto-postback"))
+            .ClearFormData(_using: process?.ActionType != Libraries.Settings.Process.ActionTypes.PostBack)
             .PushState("Edit", Locations.Get(
                 context: context,
                 parts: new string[]
@@ -509,11 +630,7 @@ public string NewJson(Context context)
     }
     else
     {
-        SetSite(
-            context: context,
-            siteOnly: true,
-            initSiteSettings: true);
-        switch (Site.ReferenceType)
+        switch (referenceType)
         {
 
 <!--Model_NewJsonCases-->
@@ -749,8 +866,8 @@ public string ExportAndMailNotify(Context context)
         userId: context.UserId).IsNullOrEmpty())
     {
         return Messages.ResponseExportNotSetEmail(
-            context: context, 
-            target: null, 
+            context: context,
+            target: null,
             $"{context.User.Name}<{context.User.LoginId}>").ToJson();
     }
     switch (Site.ReferenceType)

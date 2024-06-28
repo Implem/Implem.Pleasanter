@@ -76,7 +76,7 @@ namespace Implem.Pleasanter.Libraries.Security
                 case "Dept":
                     return SiteInfo.Dept(
                         tenantId: context.TenantId,
-                        deptId: Id) != null;
+                        deptId: Id).Id == Id;
                 case "Group":
                     return new GroupModel(
                         context: context,

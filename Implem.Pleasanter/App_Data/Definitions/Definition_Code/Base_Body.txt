@@ -706,6 +706,7 @@ namespace Implem.Pleasanter.Models
                     case "update":
                     case "copy":
                     case "delete":
+                    case "updatesitesettings":
                         return;
                 }
             }
@@ -781,7 +782,10 @@ namespace Implem.Pleasanter.Models
                 {
                     if (scriptColumn.Value.ChoiceHash != null)
                     {
-                        var searchText = context.Forms.Data("DropDownSearchText");
+                        // 該当項目の時のみ絞り込み文字列を適応する
+                        var searchText = context.Forms.Data("DropDownSearchTarget") == column.Id
+                            ? context.Forms.Data("DropDownSearchText")
+                            : null;
                         var searchIndexes = searchText.SearchIndexes();
                         column.ChoiceHash = scriptColumn.Value
                             ?.ChoiceHash
@@ -988,6 +992,65 @@ namespace Implem.Pleasanter.Models
                 ServerScriptModelRow = scriptValues;
             }
             return scriptValues;
+        }
+
+        public void SetExtendedColumnDefaultValue(SiteSettings ss, string formulaScript, string calculationMethod)
+        {
+            var columns = System.Text.RegularExpressions.Regex.Matches(formulaScript, @"\[([^]]*)\]");
+            foreach (var column in columns)
+            {
+                var columnParam = column.ToString()[1..^1];
+                if (ss.FormulaColumn(columnParam, calculationMethod) != null)
+                {
+                    switch (Def.ExtendedColumnTypes.Get(columnParam))
+                    {
+                        case "Num":
+                            if (GetNum(columnParam).Value == null)
+                            {
+                                SetNum(columnParam, new Num(0));
+                            }
+                            break;
+                        case "Check":
+                            SetCheck(columnParam, GetCheck(columnParam));
+                            break;
+                        case "Class":
+                            SetClass(columnParam, GetClass(columnParam));
+                            break;
+                        case "Description":
+                            SetDescription(columnParam, GetDescription(columnParam));
+                            break;
+                    }
+                }
+            }
+            var columnList = ss.FormulaColumnList();
+            foreach (var column in columnList)
+            {
+                var isMatched = System.Text.RegularExpressions.Regex.IsMatch(
+                    input: formulaScript,
+                    pattern: System.Text.RegularExpressions.Regex.Escape(column.LabelText)
+                        + $"(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
+                if (isMatched)
+                {
+                    switch (Def.ExtendedColumnTypes.Get(column.ColumnName))
+                    {
+                        case "Num":
+                            if (GetNum(column).Value == null)
+                            {
+                                SetNum(column, new Num(0));
+                            }
+                            break;
+                        case "Check":
+                            SetCheck(column, GetCheck(column));
+                            break;
+                        case "Class":
+                            SetClass(column, GetClass(column));
+                            break;
+                        case "Description":
+                            SetDescription(column, GetDescription(column));
+                            break;
+                    }
+                }
+            }
         }
     }
 }

@@ -1,0 +1,33 @@
+﻿{
+    "Id": "Past",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Past"
+        },
+        {
+            "Language": "zh",
+            "Body": "过去的"
+        },
+        {
+            "Language": "ja",
+            "Body": "過去"
+        },
+        {
+            "Language": "de",
+            "Body": "Vergangenheit"
+        },
+        {
+            "Language": "ko",
+            "Body": "과거"
+        },
+        {
+            "Language": "es",
+            "Body": "Pasado"
+        },
+        {
+            "Language": "vn",
+            "Body": "Quá khứ"
+        }
+    ]
+}

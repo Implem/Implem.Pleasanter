@@ -1,0 +1,1 @@
+﻿case "CurrentChildrenAll": GroupChildren = ParseGroupChildren(value.ToString()); break;

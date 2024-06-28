@@ -20,6 +20,8 @@ return res
         baseModel: #modelName#Model,
         tableName: "#TableName#"))
 
+<!--Model_Utilities_Response_ResetGroupMembers-->
+<!--Model_Utilities_Response_ResetGroupChildren-->
 <!--Model_Utilities_ResponseLinks-->
 
     .SetMemory("formChanged", false)

@@ -60,7 +60,14 @@ namespace Implem.Pleasanter.Libraries.Settings
         public enum TextAlignTypes : int
         {
             Left = 10,
+            Center = 15,
             Right = 20
+        }
+
+        public enum CalendarTypes : int
+        {
+            Standard = 1,
+            FullCalendar = 2
         }
 
         public decimal Version;
@@ -90,6 +97,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string Title;
         [NonSerialized]
         public string Body;
+        public bool? GuideAllowExpand;
+        public string GuideExpand;
         [NonSerialized]
         public string GridGuide;
         [NonSerialized]
@@ -104,6 +113,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string BurnDownGuide;
         [NonSerialized]
         public string TimeSeriesGuide;
+        [NonSerialized]
+        public string AnalyGuide;
         [NonSerialized]
         public string KambanGuide;
         [NonSerialized]
@@ -187,7 +198,9 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? AllowStandardExport;
         public SettingList<Style> Styles;
         public bool? Responsive;
+        public bool? DashboardPartsAsynchronousLoading;
         public SettingList<Script> Scripts;
+        public SettingList<Html> Htmls;
         public SettingList<ServerScript> ServerScripts;
         public SettingList<BulkUpdateColumn> BulkUpdateColumns;
         public SettingList<RelatingColumn> RelatingColumns;
@@ -207,12 +220,14 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? SwitchCommandButtonsAutoPostBack;
         public bool? DeleteImageWhenDeleting;
         public bool? EnableCalendar;
+        public CalendarTypes? CalendarType;
         public bool? EnableCrosstab;
         public bool? NoDisplayCrosstabGraph;
         public bool? EnableGantt;
         public bool? ShowGanttProgressRate;
         public bool? EnableBurnDown;
         public bool? EnableTimeSeries;
+        public bool? EnableAnaly;
         public bool? EnableKamban;
         public bool? EnableImageLib;
         public int? ImageLibPageSize;
@@ -347,7 +362,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             AllowStandardExport = AllowStandardExport ?? Parameters.General.AllowStandardExport;
             if (Styles == null) Styles = new SettingList<Style>();
             if (Responsive == null) Responsive = Parameters.Mobile.SiteSettingsResponsive;
+            if (DashboardPartsAsynchronousLoading == null) DashboardPartsAsynchronousLoading = Parameters.Dashboard.AsynchronousLoadingDefault;
             if (Scripts == null) Scripts = new SettingList<Script>();
+            if (Htmls == null) Htmls = new SettingList<Html>();
             if (ServerScripts == null) ServerScripts = new SettingList<ServerScript>();
             if (BulkUpdateColumns == null) BulkUpdateColumns = new SettingList<BulkUpdateColumn>();
             if (RelatingColumns == null) RelatingColumns = new SettingList<RelatingColumn>();
@@ -366,12 +383,14 @@ namespace Implem.Pleasanter.Libraries.Settings
             SwitchCommandButtonsAutoPostBack = SwitchCommandButtonsAutoPostBack ?? false;
             DeleteImageWhenDeleting = DeleteImageWhenDeleting ?? true;
             EnableCalendar = EnableCalendar ?? true;
+            CalendarType = CalendarType ?? (CalendarTypes)Parameters.General.DefaultCalendarType;
             EnableCrosstab = EnableCrosstab ?? true;
             NoDisplayCrosstabGraph = NoDisplayCrosstabGraph ?? false;
             EnableGantt = EnableGantt ?? true;
             ShowGanttProgressRate = ShowGanttProgressRate ?? true;
             EnableBurnDown = EnableBurnDown ?? true;
             EnableTimeSeries = EnableTimeSeries ?? true;
+            EnableAnaly = EnableAnaly ?? true;
             EnableKamban = EnableKamban ?? true;
             EnableImageLib = EnableImageLib ?? true;
             ImageLibPageSize = ImageLibPageSize ?? Parameters.General.ImageLibPageSize;
@@ -473,6 +492,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     ss.GanttGuide = dataRow.String("GanttGuide");
                     ss.BurnDownGuide = dataRow.String("BurnDownGuide");
                     ss.TimeSeriesGuide = dataRow.String("TimeSeriesGuide");
+                    ss.AnalyGuide = dataRow.String("AnalyGuide");
                     ss.KambanGuide = dataRow.String("KambanGuide");
                     ss.ImageLibGuide = dataRow.String("ImageLibGuide");
                     ss.ReferenceType = dataRow.String("ReferenceType");
@@ -652,10 +672,23 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
             switch (context.Action)
             {
-                case "index":
-                    return false;
-                default:
+                case "copy":
+                case "delete":
+                case "deletecomment":
+                case "deletehistory":
+                case "edit":
+                case "histories":
+                case "history":
+                case "permissions":
+                case "restore":
+                case "restorefromhistory":
+                case "searchdropdown":
+                case "selectsearchdropdown":
+                case "setsitesettings":
+                case "update":
                     return true;
+                default:
+                    return false;
             }
         }
 
@@ -673,6 +706,18 @@ namespace Implem.Pleasanter.Libraries.Settings
                 Version = Version,
                 ReferenceType = ReferenceType
             };
+            if (GuideAllowExpand == true)
+            {
+                ss.GuideAllowExpand = GuideAllowExpand;
+                if (GuideExpand == "0")
+                {
+                    ss.GuideExpand = GuideExpand;
+                }
+                else
+                {
+                    ss.GuideExpand = "1";
+                }
+            }
             if (NearCompletionTimeAfterDays != param.NearCompletionTimeAfterDays)
             {
                 ss.NearCompletionTimeAfterDays = NearCompletionTimeAfterDays;
@@ -826,6 +871,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 ss.EnableCalendar = EnableCalendar;
             }
+            if (CalendarType != (CalendarTypes)Parameters.General.DefaultCalendarType)
+            {
+                ss.CalendarType = CalendarType;
+            }
             if (EnableCrosstab == false)
             {
                 ss.EnableCrosstab = EnableCrosstab;
@@ -849,6 +898,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (EnableTimeSeries == false)
             {
                 ss.EnableTimeSeries = EnableTimeSeries;
+            }
+            if (EnableAnaly == false)
+            {
+                ss.EnableAnaly = EnableAnaly;
             }
             if (EnableKamban == false)
             {
@@ -1072,6 +1125,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 ss.Responsive = Responsive;
             }
+            if (DashboardPartsAsynchronousLoading != Parameters.Dashboard.AsynchronousLoadingDefault)
+            {
+                ss.DashboardPartsAsynchronousLoading = DashboardPartsAsynchronousLoading;
+            }
             Scripts?.ForEach(script =>
             {
                 if (ss.Scripts == null)
@@ -1079,6 +1136,14 @@ namespace Implem.Pleasanter.Libraries.Settings
                     ss.Scripts = new SettingList<Script>();
                 }
                 ss.Scripts.Add(script.GetRecordingData());
+            });
+            Htmls?.ForEach(html =>
+            {
+                if(ss.Htmls == null)
+                {
+                    ss.Htmls = new SettingList<Html>();
+                }
+                ss.Htmls.Add(html.GetRecordingData());
             });
             ServerScripts?.ForEach(script =>
             {
@@ -2233,14 +2298,38 @@ namespace Implem.Pleasanter.Libraries.Settings
                 o.ColumnName == columnName && o.HistoryColumn);
         }
 
-        public Column FormulaColumn(string name)
+        public Column FormulaColumn(string name, string calculationMethod = null)
+        {
+            return (string.IsNullOrEmpty(calculationMethod) || calculationMethod == FormulaSet.CalculationMethods.Default.ToString()
+                ? Columns
+                    .Where(o => o.ColumnName == name || o.LabelText == name)
+                    .Where(o => o.TypeName == "decimal")
+                    .Where(o => !o.NotUpdate)
+                    .Where(o => !o.Joined)
+                : Columns
+                    .Where(o => o.ColumnName == name || o.LabelText == name)
+                    .Where(o => o.ControlType != "Attachments")
+                    .Where(o => !o.NotUpdate)
+                    .Where(o => !o.Id_Ver)
+                    .Where(o => !o.Joined)
+                    .Where(o => !o.OtherColumn())
+                    .Where(o => o.Name != "SiteId"
+                        && o.Name != "Comments"))
+                .FirstOrDefault();
+        }
+
+        public List<Column> FormulaColumnList()
         {
             return Columns
-                .Where(o => o.ColumnName == name || o.LabelText == name)
-                .Where(o => o.TypeName == "decimal")
+                .Where(o => o.ControlType != "Attachments")
                 .Where(o => !o.NotUpdate)
+                .Where(o => !o.Id_Ver)
                 .Where(o => !o.Joined)
-                .FirstOrDefault();
+                .Where(o => !o.OtherColumn())
+                .Where(o => o.Name != "SiteId"
+                    && o.Name != "Comments")
+                .OrderByDescending(o => o.LabelText.Length)
+                .ToList();
         }
 
         public List<Column> GetGridColumns(
@@ -2429,10 +2518,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Where(c => c.NoDuplication != true)
                 .Where(c => c.ColumnName != "Comments")
                 .Where(column => !Formulas.Any(formulaSet =>
-                    formulaSet.Target == column.ColumnName
-                    || ContainsFormulaColumn(
-                        columnName: column.ColumnName,
-                        children: formulaSet.Formula.Children)))
+                    (string.IsNullOrEmpty(formulaSet.CalculationMethod)
+                        || formulaSet.CalculationMethod == FormulaSet.CalculationMethods.Default.ToString())
+                    && (formulaSet.Target == column.ColumnName
+                        || ContainsFormulaColumn(
+                            columnName: column.ColumnName,
+                            children: formulaSet.Formula.Children))))
                 .Where(column => column.AllowBulkUpdate == true)
                 .Where(column => column.CanUpdate(
                     context: context,
@@ -2485,7 +2576,9 @@ namespace Implem.Pleasanter.Libraries.Settings
         public List<Column> GetHistoryColumns(Context context, bool checkPermission = false)
         {
             return HistoryColumns
-                .Select(columnName => GetColumn(context: context, columnName: columnName))
+                .Select(columnName => GetColumn(
+                    context: context,
+                    columnName: columnName))
                 .Where(column => column != null)
                 .AllowedColumns(
                     context: context,
@@ -2784,7 +2877,10 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         public Dictionary<string, ControlData> EditorSelectableOptions(
-            Context context, bool enabled = true)
+            Context context,
+            bool enabled = true,
+            string selection = "",
+            string keyWord = "")
         {
             return enabled
                 ? ColumnUtilities.SelectableOptions(
@@ -2804,11 +2900,64 @@ namespace Implem.Pleasanter.Libraries.Settings
                     ss: this,
                     columns: ColumnDefinitionHash.EditorDefinitions(context: context)
                         .Where(o => !GetEditorColumnNames().Contains(o.ColumnName))
+                        .Where(o => FilterColumn(
+                            context: context,
+                            ss: this,
+                            def: o,
+                            selection: selection,
+                            keyWord: keyWord))
                         .OrderBy(o => o.EditorColumn)
                         .Select(o => o.ColumnName),
                     order: ColumnDefinitionHash?.EditorDefinitions(context: context)?
                         .OrderBy(o => o.EditorColumn)
                         .Select(o => o.ColumnName).ToList());
+        }
+
+        private bool FilterColumn(
+            Context context,
+            SiteSettings ss,
+            ColumnDefinition def,
+            string selection,
+            string keyWord)
+        {
+            switch (selection)
+            {
+                case "KeyWord":
+                    var keyWords = keyWord.Replace("　", " ").Split(" ");
+                    return keyWords.All(o => def.ColumnName.Contains(
+                        value: o,
+                        comparisonType: StringComparison.OrdinalIgnoreCase))
+                            || keyWords
+                                .All(o => def.LabelText.Contains(
+                                    value: o,
+                                    comparisonType: StringComparison.OrdinalIgnoreCase))
+                            || keyWords
+                                .All(o => ss.GetColumn(context, def.ColumnName).LabelText.Contains(
+                                    value: o,
+                                    comparisonType: StringComparison.OrdinalIgnoreCase));
+                case "Basic":
+                    //「分類」「数値」「日付」「説明」「チェック」「添付ファイル」の
+                    //何れでもないカラムならばTrueを返却する（例「担当者」はTrue）
+                    return new List<string>
+                    {
+                        "Class",
+                        "Num",
+                        "Date",
+                        "Description",
+                        "Check",
+                        "Attachments"
+                    }
+                        .All(o => !def.ColumnName.StartsWith(o));
+                case "Class":
+                case "Num":
+                case "Date":
+                case "Description":
+                case "Check":
+                case "Attachments":
+                    return def.ColumnName.StartsWith(selection);
+                default:
+                    return true;
+            }
         }
 
         public Dictionary<string, ControlData> EditorSelectableOptions(
@@ -3069,12 +3218,22 @@ namespace Implem.Pleasanter.Libraries.Settings
                     o => new ControlData(text: o.Text));
         }
 
-        public Dictionary<string, ControlData> FormulaTargetSelectableOptions()
+        public Dictionary<string, ControlData> FormulaTargetSelectableOptions(string calculationMethod)
         {
-            return Columns
-                .Where(o => o.TypeName == "decimal")
-                .Where(o => !o.NotUpdate)
-                .Where(o => !o.Joined)
+            return (string.IsNullOrEmpty(calculationMethod)
+                || calculationMethod == FormulaSet.CalculationMethods.Default.ToString()
+                    ? Columns
+                        .Where(o => o.TypeName == "decimal")
+                        .Where(o => !o.NotUpdate)
+                        .Where(o => !o.Joined)
+                    : Columns
+                        .Where(o => o.ControlType != "Attachments")
+                        .Where(o => !o.NotUpdate)
+                        .Where(o => !o.Id_Ver)
+                        .Where(o => !o.Joined)
+                        .Where(o => !o.OtherColumn())
+                        .Where(o => o.Name != "SiteId"
+                            && o.Name != "Comments"))
                 .OrderBy(o => o.No)
                 .ToDictionary(o => o.ColumnName, o => new ControlData(o.LabelText));
         }
@@ -3087,6 +3246,21 @@ namespace Implem.Pleasanter.Libraries.Settings
         public Dictionary<string, ControlData> ViewSelectableOptions()
         {
             return Views?.ToDictionary(o => o.Id.ToString(), o => new ControlData(o.Name));
+        }
+
+        public Dictionary<string, ControlData> FormulaCalculationMethodSelectableOptions(Context context)
+        {
+            return Enum.GetValues(typeof(FormulaSet.CalculationMethods))
+               .Cast<FormulaSet.CalculationMethods>()
+               .ToDictionary(
+                    o => o.ToString(),
+                    o => new ControlData(
+                        text: Displays.Get(
+                            context: context,
+                            id: Enum.GetName(typeof(FormulaSet.CalculationMethods), o)),
+                        attributes: new Dictionary<string, string>() { { "data-action", "SetSiteSettings" } }
+                    )
+                );
         }
 
         public Dictionary<string, ControlData> MonitorChangesSelectableOptions(
@@ -3181,6 +3355,32 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
+        public Dictionary<string, string> PeriodOptions(Context context)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "Days", Displays.Days(context: context) },
+                { "Months", Displays.Months(context: context) },
+                { "Years", Displays.Years(context: context) },
+                { "Hours", Displays.Hours(context: context) },
+                { "Minutes", Displays.Minutes(context: context) },
+                { "Seconds", Displays.Seconds(context: context) }
+            };
+        }
+
+        public Dictionary<string, string> AnalyPeriodOptions(Context context)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "DaysAgoNoArgs", Displays.DaysAgoNoArgs(context: context) },
+                { "MonthsAgoNoArgs", Displays.MonthsAgoNoArgs(context: context) },
+                { "YearsAgoNoArgs", Displays.YearsAgoNoArgs(context: context) },
+                { "HoursAgoNoArgs", Displays.HoursAgoNoArgs(context: context) },
+                { "MinutesAgoNoArgs", Displays.MinutesAgoNoArgs(context: context) },
+                { "SecondsAgoNoArgs", Displays.SecondsAgoNoArgs(context: context) }
+            };
+        }
+
         public Dictionary<string, ControlData> AggregationDestination(Context context)
         {
             return Aggregations?
@@ -3248,6 +3448,17 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .OrderBy(o => o.No)
                 .ToDictionary(o => o.ColumnName, o => o.GridLabelText));
             return hash;
+        }
+
+        public Dictionary<string, string> CalendarViewTypeOptions(Context context)
+        {
+            return new Dictionary<string, string>
+            {
+                { "dayGridMonth", Displays.Month(context: context) },
+                { "timeGridWeek", Displays.Week(context: context) },
+                { "timeGridDay", Displays.Day(context: context) },
+                { "listMonth", Displays.List(context: context) }
+            };
         }
 
         public Dictionary<string, string> CrosstabGroupByXOptions(Context context)
@@ -3458,6 +3669,59 @@ namespace Implem.Pleasanter.Libraries.Settings
             return hash;
         }
 
+        public Dictionary<string, string> AnalyGroupByOptions(Context context)
+        {
+            return Columns
+                .Where(o => o.HasChoices())
+                .Where(o => o.MultipleSelections != true)
+                .Where(o => !o.Joined)
+                .Where(o => o.CanRead(
+                    context: context,
+                    ss: this,
+                    mine: null))
+                .OrderBy(o => o.No)
+                .ToDictionary(o => o.ColumnName, o => o.LabelText);
+        }
+
+        public Dictionary<string, string> AnalyAggregationTypeOptions(Context context)
+        {
+            return new Dictionary<string, string>
+            {
+                { "Count", Displays.Count(context: context) },
+                { "Total", Displays.Total(context: context) },
+                { "Average", Displays.Average(context: context) },
+                { "Max", Displays.Max(context: context) },
+                { "Min", Displays.Min(context: context) }
+            };
+        }
+
+        public Dictionary<string, string> AnalyAggregationTargetOptions(Context context)
+        {
+            var hash = new Dictionary<string, string>();
+            JoinOptions().ForEach(join =>
+            {
+                var siteId = ColumnUtilities.GetSiteIdByTableAlias(join.Key, SiteId);
+                var ss = JoinedSsHash.Get(siteId);
+                if (ss != null)
+                {
+                    hash.AddRange(ss.Columns
+                        .Where(o => o.Computable)
+                        .Where(o => o.TypeName != "datetime")
+                        .Where(o => !o.Joined)
+                        .Where(o => ss.GetEditorColumnNames().Contains(o.Name))
+                        .Where(o => o.CanRead(
+                            context: context,
+                            ss: ss,
+                            mine: null))
+                        .OrderBy(o => o.LabelText)
+                        .ToDictionary(
+                            o => ColumnUtilities.ColumnName(join.Key, o.Name),
+                            o => join.Value + " " + o.LabelText));
+                }
+            });
+            return hash;
+        }
+
         public Dictionary<string, string> KambanGroupByOptions(
             Context context, bool addNothing = false)
         {
@@ -3597,6 +3861,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             switch (propertyName)
             {
+                case "GuideAllowExpand": GuideAllowExpand = value.ToBool(); break;
+                case "GuideExpand": GuideExpand = value; break;
                 case "NearCompletionTimeBeforeDays": NearCompletionTimeBeforeDays = value.ToInt(); break;
                 case "NearCompletionTimeAfterDays": NearCompletionTimeAfterDays = value.ToInt(); break;
                 case "GridPageSize": GridPageSize = value.ToInt(); break;
@@ -3610,6 +3876,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "FirstDayOfWeek": FirstDayOfWeek = value.ToInt(); break;
                 case "FirstMonth": FirstMonth = value.ToInt(); break;
                 case "Responsive": Responsive = value.ToBool(); break;
+                case "AsynchronousLoadingDefault": DashboardPartsAsynchronousLoading = value.ToBool(); break;
                 case "AutoVerUpType": AutoVerUpType = (Versions.AutoVerUpTypes)value.ToInt(); break;
                 case "AllowCopy": AllowCopy = value.ToBool(); break;
                 case "AllowReferenceCopy": AllowReferenceCopy = value.ToBool(); break;
@@ -3628,12 +3895,14 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "DefaultImportKey": DefaultImportKey = value; break;
                 case "AllowStandardExport": AllowStandardExport = value.ToBool(); break;
                 case "EnableCalendar": EnableCalendar = value.ToBool(); break;
+                case "CalendarType": CalendarType = value.ToEnum(defaultValue: (CalendarTypes)Parameters.General.DefaultCalendarType); break;
                 case "EnableCrosstab": EnableCrosstab = value.ToBool(); break;
                 case "NoDisplayCrosstabGraph": NoDisplayCrosstabGraph = value.ToBool(); break;
                 case "EnableGantt": EnableGantt = value.ToBool(); break;
                 case "ShowGanttProgressRate": ShowGanttProgressRate = value.ToBool(); break;
                 case "EnableBurnDown": EnableBurnDown = value.ToBool(); break;
                 case "EnableTimeSeries": EnableTimeSeries = value.ToBool(); break;
+                case "EnableAnaly": EnableAnaly = value.ToBool(); break;
                 case "EnableKamban": EnableKamban = value.ToBool(); break;
                 case "EnableImageLib": EnableImageLib = value.ToBool(); break;
                 case "UseFilterButton": UseFilterButton = value.ToBool(); break;
@@ -4739,6 +5008,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "Gantt": return canRead && EnableGantt == true;
                 case "BurnDown": return canRead && EnableBurnDown == true;
                 case "TimeSeries": return canRead && EnableTimeSeries == true;
+                case "Analy": return canRead && EnableAnaly == true;
                 case "Kamban": return canRead && EnableKamban == true;
                 case "ImageLib": return context.ContractSettings.Images()
                     && canRead && EnableImageLib == true;
@@ -4772,6 +5042,14 @@ namespace Implem.Pleasanter.Libraries.Settings
             return PermissionForUpdating?.ContainsKey(key) == true
                 ? new Permission(key, 0, PermissionForUpdating[key])
                 : new Permission(key, 0, Permissions.Types.NotSet, source: true);
+        }
+
+        public void SetDashboardParts(DashboardPart dashboardPart)
+        {
+            DashboardParts = new SettingList<DashboardPart>
+            {
+                dashboardPart
+            };
         }
 
         public void SetSiteIntegration(Context context)
@@ -5057,6 +5335,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "timeseries":
                     return GetStyleBody(
                         context: context, peredicate: o => o.TimeSeries == true);
+                case "analy":
+                    return GetStyleBody(
+                        context: context, peredicate: o => o.Analy == true);
                 case "kamban":
                     return GetStyleBody(
                         context: context, peredicate: o => o.Kamban == true);
@@ -5113,6 +5394,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "timeseries":
                     return GetScriptBody(
                         context: context, peredicate: o => o.TimeSeries == true);
+                case "analy":
+                    return GetScriptBody(
+                        context: context, peredicate: o => o.Analy == true);
                 case "kamban":
                     return GetScriptBody(
                         context: context, peredicate: o => o.Kamban == true);
@@ -5130,6 +5414,71 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ? Scripts?
                     .Where(script => script.Disabled != true
                         && peredicate(script))
+                    .Select(o => o.Body).Join("\n")
+                : null;
+        }
+
+        public string ViewModeHtmls(Context context, Html.PositionTypes positionType)
+        {
+            switch (context.Action)
+            {
+                case "index":
+                    return GetHtmlBody(
+                        context: context,
+                        peredicate: o => o.Index == true,
+                        positionType: positionType);
+                case "calendar":
+                    return GetHtmlBody(
+                        context: context,
+                        peredicate: o => o.Calendar == true,
+                        positionType: positionType);
+                case "crosstab":
+                    return GetHtmlBody(
+                        context: context,
+                        peredicate: o => o.Crosstab == true,
+                        positionType: positionType);
+                case "gantt":
+                    return GetHtmlBody(
+                        context: context,
+                        peredicate: o => o.Gantt == true,
+                        positionType: positionType);
+                case "burndown":
+                    return GetHtmlBody(
+                        context: context,
+                        peredicate: o => o.BurnDown == true,
+                        positionType: positionType);
+                case "timeseries":
+                    return GetHtmlBody(
+                        context: context,
+                        peredicate: o => o.TimeSeries == true,
+                        positionType: positionType);
+                case "analy":
+                    return GetHtmlBody(
+                        context: context,
+                        peredicate: o => o.Analy == true,
+                        positionType: positionType);
+                case "kamban":
+                    return GetHtmlBody(
+                        context: context,
+                        peredicate: o => o.Kamban == true,
+                        positionType: positionType);
+                case "imagelib":
+                    return GetHtmlBody(
+                        context: context,
+                        peredicate: o => o.ImageLib == true,
+                        positionType: positionType);
+                default:
+                    return null;
+            }
+        }
+
+        public string GetHtmlBody(Context context, Func<Html, bool> peredicate, Html.PositionTypes positionType)
+        {
+            return !IsSiteEditor(context: context)
+                ? Htmls
+                    ?.Where(html => html.Disabled != true
+                        && html.PositionType == positionType
+                        && peredicate(html))
                     .Select(o => o.Body).Join("\n")
                 : null;
         }

@@ -247,6 +247,18 @@ namespace Implem.Pleasanter.Libraries.Settings
                             ss: ss,
                             column: column,
                             type: Type);
+                    case "LdapSync":
+                        return groupModel.LdapSync.ToLookup(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: Type);
+                    case "LdapGuid":
+                        return groupModel.LdapGuid.ToLookup(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: Type);
                     case "Comments":
                         return groupModel.Comments.ToLookup(
                             context: context,
@@ -563,6 +575,18 @@ namespace Implem.Pleasanter.Libraries.Settings
                             type: Type);
                     case "Developer":
                         return userModel.Developer.ToLookup(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: Type);
+                    case "SecretKey":
+                        return userModel.SecretKey.ToLookup(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: Type);
+                    case "EnableSecretKey":
+                        return userModel.EnableSecretKey.ToLookup(
                             context: context,
                             ss: ss,
                             column: column,

@@ -4,6 +4,7 @@ namespace Implem.ParameterAccessor.Parts
     public class Security
     {
         public List<string> AllowIpAddresses;
+        public List<string> IpRestrictionExcludeMembers;
         public bool MimeTypeCheckOnApi;
         public List<string> PrivilegedUsers;
         public bool RevealUserDisabled;
@@ -19,6 +20,7 @@ namespace Implem.ParameterAccessor.Parts
         public bool DisableCheckPasswordPolicyIfApi;
         public List<PasswordPolicy> PasswordPolicies;
         public SecondaryAuthentication SecondaryAuthentication;
+        public bool PasswordGenerator;
         public AspNetCoreDataProtection AspNetCoreDataProtection;
         public HttpStrictTransportSecurity HttpStrictTransportSecurity;
         public SecureCacheControl SecureCacheControl;

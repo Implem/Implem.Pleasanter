@@ -62,6 +62,7 @@ namespace Implem.ParameterAccessor.Parts
         public int CalendarEnd;
         public int CalendarLimit;
         public int CalendarYLimit;
+        public int DefaultCalendarType;
         public int CrosstabBegin;
         public int CrosstabEnd;
         public int CrosstabXLimit;
@@ -71,6 +72,8 @@ namespace Implem.ParameterAccessor.Parts
         public int GanttPeriodMax;
         public int BurnDownLimit;
         public int TimeSeriesLimit;
+        public int AnalyPartPeriodValueMin;
+        public int AnalyPartPeriodValueMax;
         public int KambanLimit;
         public int KambanXLimit;
         public int KambanYLimit;
@@ -98,5 +101,7 @@ namespace Implem.ParameterAccessor.Parts
         public bool HideCurrentTimeIcon;
         public bool HideCurrentUserIcon;
         public bool HideCurrentDeptIcon;
+        public bool EnableLightBox;
+        public int GroupsDepthMax;
     }
 }

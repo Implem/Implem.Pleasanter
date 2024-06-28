@@ -1,5 +1,8 @@
 ﻿$p.templates = function ($control) {
     $p.send($control, 'MainForm');
+    if ($p.responsive() && screen.width < 1025) {
+        $p.openResponsiveMenu();
+    }
 }
 
 $p.setTemplate = function () {

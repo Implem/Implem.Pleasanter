@@ -1,8 +1,6 @@
 ﻿private static ResponseCollection EditorResponse(
     Context context,
-
-    <!--Model_SiteSettingsParameter-->
-
+    SiteSettings ss,
     #ModelName#Model #modelName#Model,
     Message message = null,
     string switchTargets = null)
@@ -10,22 +8,34 @@
     #modelName#Model.MethodType = #modelName#Model.#ModelName#Id == 0
         ? BaseModel.MethodTypes.New
         : BaseModel.MethodTypes.Edit;
-    var editInDialog = context.Forms.Bool("EditInDialog");
-    return context.QueryStrings.Bool("control-auto-postback")
-        ? EditorFields(
+    if (context.QueryStrings.Bool("control-auto-postback"))
+    {
+        return EditorFields(
             context: context,
             ss: ss,
-            #modelName#Model: #modelName#Model)
-        : editInDialog
+            #modelName#Model: #modelName#Model);
+    }
+    else
+    {
+        var editInDialog = context.Forms.Bool("EditInDialog");
+        var process = Process.GetProcess(
+            context: context,
+            ss: ss,
+            getProcessMatchConditions: (o) => #modelName#Model.GetProcessMatchConditions(
+                context: context,
+                ss: ss,
+                process: o));
+        var html = Editor(
+            context: context,
+            ss: ss,
+            #modelName#Model: #modelName#Model,
+            editInDialog: editInDialog);
+        return editInDialog
             ? new #TableName#ResponseCollection(
                 context: context,
                 #modelName#Model: #modelName#Model)
                     .Response("id", #modelName#Model.#ModelName#Id.ToString())
-                    .Html("#EditInDialogBody", Editor(
-                        context: context,
-                        ss: ss,
-                        #modelName#Model: #modelName#Model,
-                        editInDialog: editInDialog))
+                    .Html("#EditInDialogBody", html)
                     .Invoke("openEditorDialog")
                     .Messages(context.Messages)
                     .Events("on_editor_load")
@@ -34,22 +44,18 @@
                 #modelName#Model: #modelName#Model)
                     .Response("id", #modelName#Model.#ModelName#Id.ToString())
                     .Invoke("clearDialogs")
-                    .ReplaceAll("#MainContainer", Editor(context, <!--Model_SiteSettings-->#modelName#Model))
+                    .ReplaceAll("#MainContainer", html)
                     .Val("#Id", #modelName#Model.#ModelName#Id.ToString())
                     .Val("#SwitchTargets", switchTargets, _using: switchTargets != null)
                     .SetMemory("formChanged", false)
                     .Invoke("setCurrentIndex")
                     .Invoke("initRelatingColumnEditor")
                     // ?? 以降はプロセスのアクション種別がポストバックの場合にもメッセージを出せるようにする処理
-                    .Message(message ?? ss.Processes
-                        ?.Where(o => $"Process_{o.Id}" == context.Forms.ControlId())
-                        .Where(o => o.Accessable(
-                            context: context,
-                            ss: ss))
-                        .FirstOrDefault(o => o.MatchConditions)?.GetSuccessMessage(context: context))
+                    .Message(message ?? process?.GetSuccessMessage(context: context))
                     .Messages(context.Messages)
-                    .ClearFormData()
+                    .ClearFormData(_using: process?.ActionType != Process.ActionTypes.PostBack)
                     .Events("on_editor_load");
+    }
 }
 
 private static ResponseCollection EditorFields(

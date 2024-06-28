@@ -130,6 +130,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "depts": return DeptsSiteSettings(context: context);
                 case "exportsettings": return ExportSettingsSiteSettings(context: context);
                 case "extensions": return ExtensionsSiteSettings(context: context);
+                case "groupchildren": return GroupChildrenSiteSettings(context: context);
                 case "groupmembers": return GroupMembersSiteSettings(context: context);
                 case "groups": return GroupsSiteSettings(context: context);
                 case "links": return LinksSiteSettings(context: context);
@@ -155,37 +156,40 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
-        public static SiteSettings AutoNumberingsSiteSettings(Context context)
+        public static SiteSettings AutoNumberingsSiteSettings(Context context, Sqls.TableTypes tableTypes = Sqls.TableTypes.Normal)
         {
             var ss = new SiteSettings()
             {
                 ReferenceType = "AutoNumberings"
             };
             ss.Init(context: context);
+            ss.TableType = tableTypes;
             return ss;
         }
 
-        public static SiteSettings BinariesSiteSettings(Context context)
+        public static SiteSettings BinariesSiteSettings(Context context, Sqls.TableTypes tableTypes = Sqls.TableTypes.Normal)
         {
             var ss = new SiteSettings()
             {
                 ReferenceType = "Binaries"
             };
             ss.Init(context: context);
+            ss.TableType = tableTypes;
             return ss;
         }
 
-        public static SiteSettings DemosSiteSettings(Context context)
+        public static SiteSettings DemosSiteSettings(Context context, Sqls.TableTypes tableTypes = Sqls.TableTypes.Normal)
         {
             var ss = new SiteSettings()
             {
                 ReferenceType = "Demos"
             };
             ss.Init(context: context);
+            ss.TableType = tableTypes;
             return ss;
         }
 
-        public static SiteSettings DeptsSiteSettings(Context context)
+        public static SiteSettings DeptsSiteSettings(Context context, Sqls.TableTypes tableTypes = Sqls.TableTypes.Normal)
         {
             var ss = new SiteSettings()
             {
@@ -195,40 +199,55 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.SetLinks(context: context);
             ss.SetChoiceHash(context: context, withLink: false);
             ss.PermissionType = Permissions.Admins(context: context);
+            ss.TableType = tableTypes;
             return ss;
         }
 
-        public static SiteSettings ExportSettingsSiteSettings(Context context)
+        public static SiteSettings ExportSettingsSiteSettings(Context context, Sqls.TableTypes tableTypes = Sqls.TableTypes.Normal)
         {
             var ss = new SiteSettings()
             {
                 ReferenceType = "ExportSettings"
             };
             ss.Init(context: context);
+            ss.TableType = tableTypes;
             return ss;
         }
 
-        public static SiteSettings ExtensionsSiteSettings(Context context)
+        public static SiteSettings ExtensionsSiteSettings(Context context, Sqls.TableTypes tableTypes = Sqls.TableTypes.Normal)
         {
             var ss = new SiteSettings()
             {
                 ReferenceType = "Extensions"
             };
             ss.Init(context: context);
+            ss.TableType = tableTypes;
             return ss;
         }
 
-        public static SiteSettings GroupMembersSiteSettings(Context context)
+        public static SiteSettings GroupChildrenSiteSettings(Context context, Sqls.TableTypes tableTypes = Sqls.TableTypes.Normal)
+        {
+            var ss = new SiteSettings()
+            {
+                ReferenceType = "GroupChildren"
+            };
+            ss.Init(context: context);
+            ss.TableType = tableTypes;
+            return ss;
+        }
+
+        public static SiteSettings GroupMembersSiteSettings(Context context, Sqls.TableTypes tableTypes = Sqls.TableTypes.Normal)
         {
             var ss = new SiteSettings()
             {
                 ReferenceType = "GroupMembers"
             };
             ss.Init(context: context);
+            ss.TableType = tableTypes;
             return ss;
         }
 
-        public static SiteSettings GroupsSiteSettings(Context context)
+        public static SiteSettings GroupsSiteSettings(Context context, Sqls.TableTypes tableTypes = Sqls.TableTypes.Normal)
         {
             var ss = new SiteSettings()
             {
@@ -238,70 +257,77 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.SetLinks(context: context);
             ss.SetChoiceHash(context: context, withLink: false);
             ss.PermissionType = Permissions.Admins(context: context);
+            ss.TableType = tableTypes;
             return ss;
         }
 
-        public static SiteSettings ItemsSiteSettings(Context context)
+        public static SiteSettings ItemsSiteSettings(Context context, Sqls.TableTypes tableTypes = Sqls.TableTypes.Normal)
         {
             var ss = new SiteSettings()
             {
                 ReferenceType = "Items"
             };
             ss.Init(context: context);
+            ss.TableType = tableTypes;
             return ss;
         }
 
-        public static SiteSettings LinksSiteSettings(Context context)
+        public static SiteSettings LinksSiteSettings(Context context, Sqls.TableTypes tableTypes = Sqls.TableTypes.Normal)
         {
             var ss = new SiteSettings()
             {
                 ReferenceType = "Links"
             };
             ss.Init(context: context);
+            ss.TableType = tableTypes;
             return ss;
         }
 
-        public static SiteSettings LoginKeysSiteSettings(Context context)
+        public static SiteSettings LoginKeysSiteSettings(Context context, Sqls.TableTypes tableTypes = Sqls.TableTypes.Normal)
         {
             var ss = new SiteSettings()
             {
                 ReferenceType = "LoginKeys"
             };
             ss.Init(context: context);
+            ss.TableType = tableTypes;
             return ss;
         }
 
-        public static SiteSettings MailAddressesSiteSettings(Context context)
+        public static SiteSettings MailAddressesSiteSettings(Context context, Sqls.TableTypes tableTypes = Sqls.TableTypes.Normal)
         {
             var ss = new SiteSettings()
             {
                 ReferenceType = "MailAddresses"
             };
             ss.Init(context: context);
+            ss.TableType = tableTypes;
             return ss;
         }
 
-        public static SiteSettings OrdersSiteSettings(Context context)
+        public static SiteSettings OrdersSiteSettings(Context context, Sqls.TableTypes tableTypes = Sqls.TableTypes.Normal)
         {
             var ss = new SiteSettings()
             {
                 ReferenceType = "Orders"
             };
             ss.Init(context: context);
+            ss.TableType = tableTypes;
             return ss;
         }
 
-        public static SiteSettings OutgoingMailsSiteSettings(Context context)
+        public static SiteSettings OutgoingMailsSiteSettings(Context context, Sqls.TableTypes tableTypes = Sqls.TableTypes.Normal)
         {
             var ss = new SiteSettings()
             {
                 ReferenceType = "OutgoingMails"
             };
             ss.Init(context: context);
+            ss.TableType = tableTypes;
             return ss;
         }
 
-        public static SiteSettings RegistrationsSiteSettings(Context context)
+        public static SiteSettings RegistrationsSiteSettings(Context context, Sqls.TableTypes tableTypes = Sqls.TableTypes.Normal)
         {
             var ss = new SiteSettings()
             {
@@ -311,40 +337,44 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.SetLinks(context: context);
             ss.SetChoiceHash(context: context, withLink: false);
             ss.PermissionType = Permissions.Admins(context: context);
+            ss.TableType = tableTypes;
             return ss;
         }
 
-        public static SiteSettings ReminderSchedulesSiteSettings(Context context)
+        public static SiteSettings ReminderSchedulesSiteSettings(Context context, Sqls.TableTypes tableTypes = Sqls.TableTypes.Normal)
         {
             var ss = new SiteSettings()
             {
                 ReferenceType = "ReminderSchedules"
             };
             ss.Init(context: context);
+            ss.TableType = tableTypes;
             return ss;
         }
 
-        public static SiteSettings SessionsSiteSettings(Context context)
+        public static SiteSettings SessionsSiteSettings(Context context, Sqls.TableTypes tableTypes = Sqls.TableTypes.Normal)
         {
             var ss = new SiteSettings()
             {
                 ReferenceType = "Sessions"
             };
             ss.Init(context: context);
+            ss.TableType = tableTypes;
             return ss;
         }
 
-        public static SiteSettings StatusesSiteSettings(Context context)
+        public static SiteSettings StatusesSiteSettings(Context context, Sqls.TableTypes tableTypes = Sqls.TableTypes.Normal)
         {
             var ss = new SiteSettings()
             {
                 ReferenceType = "Statuses"
             };
             ss.Init(context: context);
+            ss.TableType = tableTypes;
             return ss;
         }
 
-        public static SiteSettings SysLogsSiteSettings(Context context)
+        public static SiteSettings SysLogsSiteSettings(Context context, Sqls.TableTypes tableTypes = Sqls.TableTypes.Normal)
         {
             var ss = new SiteSettings()
             {
@@ -354,10 +384,13 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.SetLinks(context: context);
             ss.SetChoiceHash(context: context, withLink: false);
             ss.PermissionType = Permissions.Admins(context: context);
+            ss.UseFilterButton = true;
+            ss.AlwaysRequestSearchCondition = true;
+            ss.TableType = tableTypes;
             return ss;
         }
 
-        public static SiteSettings TenantsSiteSettings(Context context)
+        public static SiteSettings TenantsSiteSettings(Context context, Sqls.TableTypes tableTypes = Sqls.TableTypes.Normal)
         {
             var ss = new SiteSettings()
             {
@@ -367,10 +400,11 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.SetLinks(context: context);
             ss.SetChoiceHash(context: context, withLink: false);
             ss.PermissionType = Permissions.Admins(context: context);
+            ss.TableType = tableTypes;
             return ss;
         }
 
-        public static SiteSettings UsersSiteSettings(Context context)
+        public static SiteSettings UsersSiteSettings(Context context, Sqls.TableTypes tableTypes = Sqls.TableTypes.Normal)
         {
             var ss = new SiteSettings()
             {
@@ -380,6 +414,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.SetLinks(context: context);
             ss.SetChoiceHash(context: context, withLink: false);
             ss.PermissionType = Permissions.Admins(context: context);
+            ss.TableType = tableTypes;
             // ContractSettingsでAPIが無効化されている場合は無条件で使用できなくする
             // APIを許可の項目は、APIの無効化が設定されていない場合には使用できなくする
             // APIの無効化はUser.jsonまたはテナントの管理の何れかで設定する
@@ -428,6 +463,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.GanttGuide = siteModel.GanttGuide;
             ss.BurnDownGuide = siteModel.BurnDownGuide;
             ss.TimeSeriesGuide = siteModel.TimeSeriesGuide;
+            ss.AnalyGuide = siteModel.AnalyGuide;
             ss.KambanGuide = siteModel.KambanGuide;
             ss.ImageLibGuide = siteModel.ImageLibGuide;
             ss.ReferenceType = "Sites";
@@ -477,6 +513,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.GanttGuide = siteModel.GanttGuide;
             ss.BurnDownGuide = siteModel.BurnDownGuide;
             ss.TimeSeriesGuide = siteModel.TimeSeriesGuide;
+            ss.AnalyGuide = siteModel.AnalyGuide;
             ss.KambanGuide = siteModel.KambanGuide;
             ss.ImageLibGuide = siteModel.ImageLibGuide;
             ss.ReferenceType = "Dashboards";
@@ -528,6 +565,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.GanttGuide = siteModel.GanttGuide;
             ss.BurnDownGuide = siteModel.BurnDownGuide;
             ss.TimeSeriesGuide = siteModel.TimeSeriesGuide;
+            ss.AnalyGuide = siteModel.AnalyGuide;
             ss.KambanGuide = siteModel.KambanGuide;
             ss.ImageLibGuide = siteModel.ImageLibGuide;
             ss.ReferenceType = "Issues";
@@ -579,6 +617,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.GanttGuide = siteModel.GanttGuide;
             ss.BurnDownGuide = siteModel.BurnDownGuide;
             ss.TimeSeriesGuide = siteModel.TimeSeriesGuide;
+            ss.AnalyGuide = siteModel.AnalyGuide;
             ss.KambanGuide = siteModel.KambanGuide;
             ss.ImageLibGuide = siteModel.ImageLibGuide;
             ss.ReferenceType = "Results";
@@ -630,6 +669,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.GanttGuide = siteModel.GanttGuide;
             ss.BurnDownGuide = siteModel.BurnDownGuide;
             ss.TimeSeriesGuide = siteModel.TimeSeriesGuide;
+            ss.AnalyGuide = siteModel.AnalyGuide;
             ss.KambanGuide = siteModel.KambanGuide;
             ss.ImageLibGuide = siteModel.ImageLibGuide;
             ss.ReferenceType = "Wikis";

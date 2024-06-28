@@ -91,7 +91,7 @@ private static SqlColumnCollection HistoryColumn(List<Column> columns)
         .Ver();
     columns.ForEach(column =>
         sqlColumn.#TableName#Column(columnName: column.ColumnName));
-    return sqlColumn<!--Model_Utilities_Histories_ItemTitleColumn-->;
+    return sqlColumn;
 }
 
 <!--Model_Utilities_History-->

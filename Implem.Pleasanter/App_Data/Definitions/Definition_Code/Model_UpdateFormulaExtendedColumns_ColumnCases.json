@@ -1,0 +1,11 @@
+﻿{
+    "Id": "Model_UpdateFormulaExtendedColumns_ColumnCases",
+    "RepeatType": "Column",
+    "Indent": "7",
+    "Separator": "\\r\\n",
+    "NotIdentity": "1",
+    "NotItemId": "1",
+    "NotCalc": "1",
+    "Form": "1",
+    "Update": "1"
+}

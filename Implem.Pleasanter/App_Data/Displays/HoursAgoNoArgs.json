@@ -1,0 +1,34 @@
+﻿{
+    "Id": "HoursAgoNoArgs",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "hours ago"
+        },
+        {
+            "Language": "zh",
+            "Body": "几小时前"
+        },
+        {
+            "Language": "ja",
+            "Body": "時間前"
+        },
+        {
+            "Language": "de",
+            "Body": "Vor Stunden"
+        },
+        {
+            "Language": "ko",
+            "Body": "몇 시간 전"
+        },
+        {
+            "Language": "es",
+            "Body": "horas atras"
+        },
+        {
+            "Language": "vn",
+            "Body": "nhiều giờ trước"
+        }
+    ]
+}

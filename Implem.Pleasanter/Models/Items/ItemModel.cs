@@ -211,6 +211,46 @@ namespace Implem.Pleasanter.Models
             return ApiResults.Get(ApiResponses.BadRequest(context: context));
         }
 
+        public ContentResultInheritance ImportByApi(Context context)
+        {
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true,
+                setAllChoices: true);
+            if (!Site.WithinApiLimits(context: context))
+            {
+                return ApiResults.Get(ApiResponses.OverLimitApi(
+                    context: context,
+                    siteId: Site.SiteId,
+                    limitPerSite: context.ContractSettings.ApiLimit()));
+            }
+            switch (Site.ReferenceType)
+            {
+                case "Issues":
+                    if (SiteId == ReferenceId)
+                    {
+                        return IssueUtilities.ImportByApi(
+                            context: context,
+                            ss: Site.SiteSettings,
+                            siteModel: Site);
+                    }
+                    break;
+                case "Results":
+                    if (SiteId == ReferenceId)
+                    {
+                        return ResultUtilities.ImportByApi(
+                            context: context,
+                            ss: Site.SiteSettings,
+                            siteModel: Site);
+                    }
+                    break;
+                default:
+                    return ApiResults.Get(ApiResponses.BadRequest(context: context));
+            }
+            return ApiResults.Get(ApiResponses.BadRequest(context: context));
+        }
+
         public string Index(Context context)
         {
             if (ReferenceId == 0)
@@ -272,6 +312,14 @@ namespace Implem.Pleasanter.Models
             ViewModes.Set(context: context, siteId: Site.SiteId);
             switch (Site.ReferenceType)
             {
+                case "Sites":
+                    return SiteUtilities.IndexJson(
+                        context: context,
+                        ss: Site.SiteSettings);
+                case "Dashboards":
+                    return DashboardUtilities.IndexJson(
+                        context: context,
+                        ss: Site.SiteSettings);
                 case "Issues":
                     return IssueUtilities.IndexJson(
                         context: context,
@@ -443,9 +491,16 @@ namespace Implem.Pleasanter.Models
                 initSiteSettings: true,
                 setSiteIntegration: true,
                 setAllChoices: true);
-            ViewModes.Set(context: context, siteId: Site.SiteId);
+            if (Site.ReferenceType != "Dashboards")
+            {
+                ViewModes.Set(context: context, siteId: Site.SiteId);
+            }
             switch (Site.ReferenceType)
             {
+                case "Dashboards":
+                    return DashboardUtilities.CalendarJson(
+                        context: context,
+                        ss: Site.SiteSettings);
                 case "Issues":
                     return IssueUtilities.CalendarJson(
                         context: context,
@@ -509,6 +564,31 @@ namespace Implem.Pleasanter.Models
                 default:
                     return Messages.ResponseNotFound(context: context).ToJson();
             }
+        }
+
+        public string DashboardPartJson(Context context,string dashboardPartId)
+        {
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true,
+                setAllChoices: true);
+            return DashboardUtilities.DashboardPartJson(
+                context: context,
+                ss: Site.SiteSettings,
+                dashboardPartId: dashboardPartId);
+        }
+
+        public string DashboardPartLayout (Context context)
+        {
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true,
+                setAllChoices: true);
+            return DashboardUtilities.DashboardPartLayout(
+                context: context,
+                ss: Site.SiteSettings);
         }
 
         public string Gantt(Context context)
@@ -669,6 +749,79 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public string Analy(Context context)
+        {
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true,
+                setAllChoices: true);
+            ViewModes.Set(context: context, siteId: Site.SiteId);
+            switch (Site.ReferenceType)
+            {
+                case "Issues":
+                    return IssueUtilities.Analy(
+                        context: context,
+                        ss: Site.SiteSettings);
+                case "Results":
+                    return ResultUtilities.Analy(
+                        context: context,
+                        ss: Site.SiteSettings);
+                default:
+                    return HtmlTemplates.Error(
+                        context: context,
+                        errorData: new ErrorData(
+                            context: context,
+                            type: Error.Types.NotFound,
+                            sysLogsStatus: 404,
+                            sysLogsDescription: Debugs.GetSysLogsDescription()));
+            }
+        }
+
+        public string AnalyJson(Context context)
+        {
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true,
+                setAllChoices: true);
+            ViewModes.Set(context: context, siteId: Site.SiteId);
+            switch (Site.ReferenceType)
+            {
+                case "Issues":
+                    return IssueUtilities.AnalyJson(
+                        context: context,
+                        ss: Site.SiteSettings);
+                case "Results":
+                    return ResultUtilities.AnalyJson(
+                        context: context,
+                        ss: Site.SiteSettings);
+                default:
+                    return Messages.ResponseNotFound(context: context).ToJson();
+            }
+        }
+
+        public string OpenAnalyPartDialog(Context context)
+        {
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true);
+            switch (Site.ReferenceType)
+            {
+                case "Issues":
+                    return IssueUtilities.OpenAnalyPartDialog(
+                        context: context,
+                        ss: Site.SiteSettings);
+                case "Results":
+                    return ResultUtilities.OpenAnalyPartDialog(
+                        context: context,
+                        ss: Site.SiteSettings);
+                default:
+                    return Messages.ResponseNotFound(context: context).ToJson();
+            }
+        }
+
         public string Kamban(Context context)
         {
             SetSite(
@@ -806,13 +959,48 @@ namespace Implem.Pleasanter.Models
 
         public string NewJson(Context context)
         {
+            SetSite(
+                context: context,
+                siteOnly: true,
+                initSiteSettings: true);
+            var ss = Site.SiteSettings;
+            var referenceType = Site.ReferenceType;
             if (!context.QueryStrings.Bool("control-auto-postback"))
             {
+                Process process = null;
+                if (referenceType == "Issues")
+                {
+                    var issueModel = new IssueModel(
+                        context: context,
+                        ss: ss,
+                        issueId: 0);
+                    process = Process.GetProcess(
+                        context: context,
+                        ss: ss,
+                        getProcessMatchConditions: (o) => issueModel.GetProcessMatchConditions(
+                            context: context,
+                            ss: ss,
+                            process: o));
+                }
+                else if (referenceType == "Results")
+                {
+                    var resultModel = new ResultModel(
+                        context: context,
+                        ss: ss,
+                        resultId: 0);
+                    process = Process.GetProcess(
+                        context: context,
+                        ss: ss,
+                        getProcessMatchConditions: (o) => resultModel.GetProcessMatchConditions(
+                            context: context,
+                            ss: ss,
+                            process: o));
+                }
                 return new ResponseCollection(context: context)
                     .ReplaceAll("#MainContainer", New(context: context))
                     .WindowScrollTop()
                     .FocusMainForm()
-                    .ClearFormData(_using: !context.QueryStrings.Bool("control-auto-postback"))
+                    .ClearFormData(_using: process?.ActionType != Libraries.Settings.Process.ActionTypes.PostBack)
                     .PushState("Edit", Locations.Get(
                         context: context,
                         parts: new string[]
@@ -826,26 +1014,22 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                SetSite(
-                    context: context,
-                    siteOnly: true,
-                    initSiteSettings: true);
-                switch (Site.ReferenceType)
+                switch (referenceType)
                 {
                     case "Issues":
                         return IssueUtilities.EditorJson(
                             context: context,
-                            ss: Site.SiteSettings,
+                            ss: ss,
                             issueId: 0);
                     case "Results":
                         return ResultUtilities.EditorJson(
                             context: context,
-                            ss: Site.SiteSettings,
+                            ss: ss,
                             resultId: 0);
                     case "Wikis":
                         return WikiUtilities.EditorJson(
                             context: context,
-                            ss: Site.SiteSettings,
+                            ss: ss,
                             wikiId: 0);
                     default:
                         return HtmlTemplates.Error(
@@ -1137,8 +1321,8 @@ namespace Implem.Pleasanter.Models
                 userId: context.UserId).IsNullOrEmpty())
             {
                 return Messages.ResponseExportNotSetEmail(
-                    context: context, 
-                    target: null, 
+                    context: context,
+                    target: null,
                     $"{context.User.Name}<{context.User.LoginId}>").ToJson();
             }
             switch (Site.ReferenceType)
@@ -1221,6 +1405,11 @@ namespace Implem.Pleasanter.Models
                 setSiteIntegration: true);
             switch (Site.ReferenceType)
             {
+                case "Dashboards":
+                    return DashboardUtilities.DashboardIndexGridRows(
+                        context: context,
+                        ss: Site.SiteSettings,
+                        offset: context.Forms.Int("GridOffset"));
                 case "Issues":
                     return IssueUtilities.GridRows(
                         context: context,
@@ -2035,6 +2224,38 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public ContentResultInheritance UpdateSiteSettingsByApi(Context context, string referenceType = null)
+        {
+            SetSite(
+                context: context,
+                initSiteSettings: true);
+            if (!Site.WithinApiLimits(context: context))
+            {
+                return ApiResults.Get(ApiResponses.OverLimitApi(
+                    context: context,
+                    siteId: Site.SiteId,
+                    limitPerSite: context.ContractSettings.ApiLimit()));
+            }
+            if (Site.SiteId == 0)
+            {
+                return ApiResults.Get(ApiResponses.NotFound(context: context));
+            }
+            switch (referenceType ?? Site.ReferenceType)
+            {
+                case "Sites":
+                case "Issues":
+                case "Results":
+                case "Wikis":
+                case "Dashboards":
+                    return SiteUtilities.UpdateSiteSettingsByApi(
+                        context: context,
+                        ss: Site.SiteSettings,
+                        siteModel: Site);
+                default:
+                    return ApiResults.Get(ApiResponses.NotFound(context: context));
+            }
+        }
+
         public bool UpsertByServerScript(Context context, object model)
         {
             SetSite(context: context);
@@ -2450,7 +2671,7 @@ namespace Implem.Pleasanter.Models
             SetSite(
                 context: context,
                 initSiteSettings: true,
-                tableType: Sqls.TableTypes.History);
+                tableType: Sqls.TableTypes.NormalAndHistory);
             if (SiteId == ReferenceId)
             {
                 return SiteUtilities.DeleteHistory(
@@ -2705,6 +2926,10 @@ namespace Implem.Pleasanter.Models
                 setAllChoices: true);
             switch (Site.ReferenceType)
             {
+                case "Dashboards":
+                    return DashboardUtilities.UpdateByCalendar(
+                        context: context,
+                        ss: Site.SiteSettings);
                 case "Issues":
                     return IssueUtilities.UpdateByCalendar(
                         context: context,
@@ -2727,6 +2952,10 @@ namespace Implem.Pleasanter.Models
                 setAllChoices: true);
             switch (Site.ReferenceType)
             {
+                case "Dashboards":
+                    return DashboardUtilities.UpdateByKamban(
+                        context: context,
+                        ss: Site.SiteSettings);
                 case "Issues":
                     return IssueUtilities.UpdateByKamban(
                         context: context,
@@ -3274,6 +3503,43 @@ namespace Implem.Pleasanter.Models
         public bool Updated(Context context)
         {
             return Updated()
+                || ReferenceId_Updated(context: context)
+                || Ver_Updated(context: context)
+                || ReferenceType_Updated(context: context)
+                || SiteId_Updated(context: context)
+                || Title_Updated(context: context)
+                || FullText_Updated(context: context)
+                || SearchIndexCreatedTime_Updated(context: context)
+                || Comments_Updated(context: context)
+                || Creator_Updated(context: context)
+                || Updator_Updated(context: context);
+        }
+
+        private bool UpdatedWithColumn(Context context, SiteSettings ss)
+        {
+            return ClassHash.Any(o => Class_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || NumHash.Any(o => Num_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || DateHash.Any(o => Date_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || DescriptionHash.Any(o => Description_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || CheckHash.Any(o => Check_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || AttachmentsHash.Any(o => Attachments_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)));
+        }
+
+        public bool Updated(Context context, SiteSettings ss)
+        {
+            return UpdatedWithColumn(context: context, ss: ss)
                 || ReferenceId_Updated(context: context)
                 || Ver_Updated(context: context)
                 || ReferenceType_Updated(context: context)

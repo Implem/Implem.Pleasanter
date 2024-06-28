@@ -47,6 +47,10 @@
     color: #383838;
 }
 
+.ui-widget-content .control-text a {
+    color: #383838;
+}
+
 .field-control .control-textbox {
     color: #383838;
 }

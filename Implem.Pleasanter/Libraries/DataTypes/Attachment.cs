@@ -142,22 +142,43 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         {
             if (Added == true)
             {
-                var bin = IsStoreLocalFolder(column) ? default : GetBin();
-                statements.Add(Rds.UpdateOrInsertBinaries(
-                    param: Rds.BinariesParam()
-                        .TenantId(context.TenantId)
-                        .ReferenceId(referenceId, _using: referenceId != 0)
-                        .ReferenceId(raw: Def.Sql.Identity, _using: referenceId == 0)
-                        .Guid(Guid)
-                        .Title(Name ?? FileName)
-                        .BinaryType("Attachments")
-                        .Bin(bin, _using: !IsStoreLocalFolder(column))
-                        .Bin(raw: "NULL", _using: IsStoreLocalFolder(column))
-                        .FileName(Name ?? FileName)
-                        .Extension(Extention)
-                        .Size(Size)
-                        .ContentType(ContentType),
-                    where: Rds.BinariesWhere().Guid(Guid)));
+                if (Parameters.BinaryStorage.TemporaryBinaryStorageProvider == "Rds")
+                {
+                    // Binariesテーブルにアップロードした一時的なレコードを更新する
+                    // 一時的なレコードのBinaryTypeをTemporaryからAttachmentsに変更する
+                    statements.Add(Rds.UpdateBinaries(
+                        param: Rds.BinariesParam()
+                            .TenantId(context.TenantId)
+                            .ReferenceId(referenceId, _using: referenceId != 0)
+                            .ReferenceId(raw: Def.Sql.Identity, _using: referenceId == 0)
+                            .Guid(Guid)
+                            .Title(Name ?? FileName)
+                            .BinaryType("Attachments")
+                            .FileName(Name ?? FileName)
+                            .Extension(Extention)
+                            .Size(Size)
+                            .ContentType(ContentType),
+                        where: Rds.BinariesWhere().Guid(Guid)));
+                }
+                else
+                {
+                    var bin = IsStoreLocalFolder(column) ? default : GetBin(context);
+                    statements.Add(Rds.UpdateOrInsertBinaries(
+                        param: Rds.BinariesParam()
+                            .TenantId(context.TenantId)
+                            .ReferenceId(referenceId, _using: referenceId != 0)
+                            .ReferenceId(raw: Def.Sql.Identity, _using: referenceId == 0)
+                            .Guid(Guid)
+                            .Title(Name ?? FileName)
+                            .BinaryType("Attachments")
+                            .Bin(bin, _using: !IsStoreLocalFolder(column))
+                            .Bin(raw: "NULL", _using: IsStoreLocalFolder(column))
+                            .FileName(Name ?? FileName)
+                            .Extension(Extention)
+                            .Size(Size)
+                            .ContentType(ContentType),
+                        where: Rds.BinariesWhere().Guid(Guid)));
+                }
             }
             else if (Deleted == true && !Overwritten.HasValue)
             {
@@ -260,7 +281,9 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             {
                 WriteToLocal(context: context);
             }
-            var bin = isLocal ? default : GetBin();
+            var bin = isLocal
+                ? default
+                : GetBin(context: context);
             var statements = new List<SqlStatement>();
             statements.Add(Rds.InsertBinaries(
                 selectIdentity: true,
@@ -286,7 +309,10 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 message: this.Guid);
         }
 
-        public void SetHashCode(Column column, byte[] bin = null)
+        public void SetHashCode(
+            Context context,
+            Column column,
+            byte[] bin = null)
         {
             if (IsStoreLocalFolder(column))
             {
@@ -307,14 +333,30 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 }
             }
             else
-            {
-                var bytes = GetBin() ?? bin;
-                var sha = System.Security.Cryptography.SHA256.Create();
-                HashCode = System.Convert.ToBase64String(sha.ComputeHash(bytes));
+            {   if (Parameters.BinaryStorage.TemporaryBinaryStorageProvider == "Rds")
+                {
+                    var hash = Repository.ExecuteScalar_bytes(
+                        context: context,
+                        statements: new SqlStatement(
+                            commandText: context.Sqls.GetBinaryHash,
+                            param: new SqlParamCollection{
+                                { "Algorithm", Parameters.Rds.Dbms == "SQLServer"
+                                    ? "sha2_256"
+                                    : "sha256" },
+                                { "Guid", Guid }
+                            }));
+                    HashCode = System.Convert.ToBase64String(hash);
+                }
+                else
+                {
+                    var bytes = GetBin(context) ?? bin;
+                    var sha = System.Security.Cryptography.SHA256.Create();
+                    HashCode = System.Convert.ToBase64String(sha.ComputeHash(bytes));
+                }
             }
         }
 
-        public byte[] GetBin()
+        public byte[] GetBin(Context context = null)
         {
             var bin = Base64 ?? Base64Binary;
             return bin.IsNullOrEmpty()

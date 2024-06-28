@@ -172,7 +172,11 @@ namespace Implem.Pleasanter.Models
                     .Div(attributes: new HtmlAttributes()
                         .Id("BulkUpdateSelectorDialog")
                         .Class("dialog")
-                        .Title(Displays.BulkUpdate(context: context))))
+                        .Title(Displays.BulkUpdate(context: context)))
+                    .Div(attributes: new HtmlAttributes()
+                        .Id("AnalyPartDialog")
+                        .Class("dialog")
+                        .Title(Displays.AnalyPart(context: context))))
                     .ToString();
         }
 
@@ -227,7 +231,8 @@ namespace Implem.Pleasanter.Models
             GridData gridData,
             View view,
             string action = "GridRows",
-            ServerScriptModelRow serverScriptModelRow = null)
+            ServerScriptModelRow serverScriptModelRow = null,
+            string suffix = "")
         {
             var columns = ss.GetGridColumns(
                 context: context,
@@ -236,7 +241,7 @@ namespace Implem.Pleasanter.Models
             return hb
                 .Table(
                     attributes: new HtmlAttributes()
-                        .Id("Grid")
+                        .Id($"Grid{suffix}")
                         .Class(ss.GridCss(context: context))
                         .DataValue("back", _using: ss?.IntegratedSites?.Any() == true)
                         .DataAction(action)
@@ -249,14 +254,16 @@ namespace Implem.Pleasanter.Models
                             columns: columns,
                             view: view,
                             serverScriptModelRow: serverScriptModelRow,
-                            action: action))
+                            action: action,
+                            suffix: suffix))
                 .GridHeaderMenus(
                     context: context,
                     ss: ss,
                     view: view,
-                    columns: columns)
+                    columns: columns,
+                    suffix: suffix)
                 .Hidden(
-                    controlId: "GridOffset",
+                    controlId: $"GridOffset{suffix}",
                     value: ss.GridNextOffset(
                         0,
                         gridData.DataRows.Count(),
@@ -282,9 +289,12 @@ namespace Implem.Pleasanter.Models
             bool windowScrollTop = false,
             bool clearCheck = false,
             string action = "GridRows",
-            Message message = null)
+            Message message = null,
+            string suffix = "")
         {
-            var view = Views.GetBySession(context: context, ss: ss);
+            var view = Views.GetBySession(
+                context: context,
+                ss: ss);
             var gridData = GetGridData(
                 context: context,
                 ss: ss,
@@ -302,7 +312,7 @@ namespace Implem.Pleasanter.Models
                 .ClearFormData("GridUnCheckedItems", _using: clearCheck)
                 .ClearFormData("GridCheckedItems", _using: clearCheck)
                 .CloseDialog(_using: offset == 0)
-                .ReplaceAll("#CopyDirectUrlToClipboard", new HtmlBuilder()
+                .ReplaceAll("#CopyToClipboards", new HtmlBuilder()
                     .CopyDirectUrlToClipboard(
                         context: context,
                         view: view))
@@ -352,7 +362,8 @@ namespace Implem.Pleasanter.Models
             int offset = 0,
             bool clearCheck = false,
             string action = "GridRows",
-            ServerScriptModelRow serverScriptModelRow = null)
+            ServerScriptModelRow serverScriptModelRow = null,
+            string suffix = "")
         {
             var checkRow = ss.CheckRow(
                 context: context,
@@ -372,7 +383,8 @@ namespace Implem.Pleasanter.Models
                             checkRow: checkRow,
                             checkAll: checkAll,
                             action: action,
-                            serverScriptModelRow: serverScriptModelRow))
+                            serverScriptModelRow: serverScriptModelRow,
+                            suffix: suffix))
                 .TBody(action: () => hb
                     .GridRows(
                         context: context,
@@ -1462,9 +1474,13 @@ namespace Implem.Pleasanter.Models
                                                     controlId: $"Depts_{column.Name}",
                                                     columnName: column.ColumnName,
                                                     fieldCss: column.FieldCss
-                                                        + (column.TextAlign == SiteSettings.TextAlignTypes.Right
-                                                            ? " right-align"
-                                                            : string.Empty),
+                                                        + (
+                                                            column.TextAlign switch
+                                                            {
+                                                                SiteSettings.TextAlignTypes.Right => " right-align",
+                                                                SiteSettings.TextAlignTypes.Center => " center-align",
+                                                                _ => string.Empty
+                                                            }),
                                                     fieldDescription: column.Description,
                                                     labelText: column.LabelText,
                                                     value: deptModel.GetAttachments(columnName: column.Name).ToJson(),
@@ -1475,7 +1491,8 @@ namespace Implem.Pleasanter.Models
                                                         baseModel: deptModel)
                                                             != Permissions.ColumnPermissionTypes.Update,
                                                     allowDelete: column.AllowDeleteAttachments != false,
-                                                    validateRequired: column.ValidateRequired != false),
+                                                    validateRequired: column.ValidateRequired != false,
+                                                    inputGuide: column.InputGuide),
                                             options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                         break;
                                 }
@@ -1918,72 +1935,19 @@ namespace Implem.Pleasanter.Models
                         "DeptName"
                     });
                 if (invalidColumn != null) return invalidColumn;
-                var deptHash = new Dictionary<int, DeptModel>();
-                csv.Rows.Select((o, i) => new { Row = o, Index = i }).ForEach(data =>
-                {
-                    var deptModel = new DeptModel();
-                    if (idColumn > -1)
-                    {
-                        var model = new DeptModel(
-                            context: context,
-                            ss: ss,
-                            deptCode: data.Row[idColumn]);
-                        if (model.AccessStatus == Databases.AccessStatuses.Selected)
-                        {
-                            deptModel = model;
-                        }
-                    }
-                    columnHash.ForEach(column =>
-                    {
-                        var recordingData = ImportRecordingData(
-                            context: context,
-                            column: column.Value.Column,
-                            value: data.Row[column.Key],
-                            inheritPermission: ss.InheritPermission);
-                        switch (column.Value.Column.ColumnName)
-                        {
-                            case "DeptId":
-                                deptModel.DeptId = recordingData.ToInt();
-                                break;
-                            case "DeptCode":
-                                deptModel.DeptCode = recordingData;
-                                break;
-                            case "DeptName":
-                                deptModel.DeptName = recordingData;
-                                break;
-                            case "Body":
-                                deptModel.Body = recordingData;
-                                break;
-                            case "Comments":
-                                if (deptModel.AccessStatus != Databases.AccessStatuses.Selected &&
-                                    !data.Row[column.Key].IsNullOrEmpty())
-                                {
-                                    deptModel.Comments.Prepend(
-                                        context: context,
-                                        ss: ss,
-                                        body: data.Row[column.Key]);
-                                }
-                                break;
-                            case "Disabled":
-                                deptModel.Disabled = recordingData.ToBool();
-                                break;
-                            default:
-                                deptModel.SetValue(
-                                    context: context,
-                                    column: column.Value.Column,
-                                    value: recordingData);
-                                break;
-                        }
-                    });
-                    deptHash.Add(data.Index, deptModel);
-                });
+                var deptHash = CreateDeptHash(
+                    context: context,
+                    ss: ss,
+                    csv: csv,
+                    columnHash: columnHash,
+                    idColumn: idColumn);
                 var insertCount = 0;
                 var updateCount = 0;
                 foreach (var deptModel in deptHash.Values)
                 {
                     if (deptModel.AccessStatus == Databases.AccessStatuses.Selected)
                     {
-                        if (deptModel.Updated(context: context))
+                        if (deptModel.Updated(context: context, ss: ss))
                         {
                             deptModel.VerUp = Versions.MustVerUp(
                                 context: context,
@@ -2045,6 +2009,171 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public static ContentResultInheritance ImportByApi(Context context, SiteSettings ss)
+        {
+            if (!Mime.ValidateOnApi(contentType: context.ContentType, multipart: true))
+            {
+                return ApiResults.BadRequest(context: context);
+            }
+            if (context.ContractSettings.Import == false)
+            {
+                return ApiResults.Get(new ApiResponse(
+                    id: context.Id,
+                    statusCode: 500,
+                    message: Messages.Restricted(context: context).Text));
+            }
+            var invalid = UserValidators.OnImporting(
+                context: context,
+                ss: ss,
+                api: true);
+            switch (invalid.Type)
+            {
+                case Error.Types.None:
+                    break;
+                default:
+                    return ApiResults.Error(
+                        context: context,
+                        errorData: invalid);
+            }
+            var api = context.RequestDataString.Deserialize<ImportApi>();
+            var encoding = api.Encoding;
+            Csv csv;
+            try
+            {
+                csv = new Csv(
+                    csv: context.PostedFiles.FirstOrDefault().Byte(),
+                    encoding: encoding);
+            }
+            catch
+            {
+                return ApiResults.Get(new ApiResponse(
+                    id: context.Id,
+                    statusCode: 500,
+                    message: Messages.FailedReadFile(context: context).Text));
+            }
+            var count = csv.Rows.Count();
+            if (Parameters.General.ImportMax > 0 && Parameters.General.ImportMax < count)
+            {
+                return ApiResults.Get(new ApiResponse(
+                    id: context.Id,
+                    statusCode: 500,
+                    message: Error.Types.ImportMax.Message(
+                        context: context,
+                        data: Parameters.General.ImportMax.ToString()).Text));
+            }
+            if (context.ContractSettings.ItemsLimit(context: context, siteId: ss.SiteId, number: count))
+            {
+                return ApiResults.Get(new ApiResponse(
+                    id: context.Id,
+                    statusCode: 500,
+                    message: Error.Types.ItemsLimit.Message(context: context).Text));
+            }
+            if (csv != null && count > 0)
+            {
+                var columnHash = ImportUtilities.GetColumnHash(ss, csv);
+                var idColumn = columnHash
+                    .Where(o =>
+                        o.Value.Column.ColumnName == "DeptCode")
+                    .Select(o =>
+                        new { Id = o.Key })
+                    .FirstOrDefault()?.Id ?? -1;
+                var invalidColumn = Imports.ApiColumnValidate(
+                    context,
+                    ss,
+                    columnHash.Values.Select(o => o.Column.ColumnName),
+                    columnNames: new string[]
+                    {
+                        "DeptCode",
+                        "DeptName"
+                    });
+                if (invalidColumn != null)
+                {
+                    return ApiResults.Get(new ApiResponse(
+                        id: context.Id,
+                        statusCode: 500,
+                        message: invalidColumn));
+                }
+                var deptHash = CreateDeptHash(
+                    context: context,
+                    ss: ss,
+                    csv: csv,
+                    columnHash: columnHash,
+                    idColumn: idColumn);
+                var insertCount = 0;
+                var updateCount = 0;
+                foreach (var deptModel in deptHash.Values)
+                {
+                    if (deptModel.AccessStatus == Databases.AccessStatuses.Selected)
+                    {
+                        if (deptModel.Updated(context: context, ss: ss))
+                        {
+                            deptModel.VerUp = Versions.MustVerUp(
+                                context: context,
+                                ss: ss,
+                                baseModel: deptModel);
+                            var errorData = deptModel.Update(
+                                context: context,
+                                ss: ss,
+                                refleshSiteInfo: false,
+                                get: false);
+                            switch (errorData.Type)
+                            {
+                                case Error.Types.None:
+                                    break;
+                                default:
+                                    return ApiResults.Error(
+                                        context: context,
+                                        errorData: errorData);
+                            }
+                            updateCount++;
+                        }
+                    }
+                    else
+                    {
+                        var errorData = deptModel.Create(
+                            context: context,
+                            ss: ss,
+                            get: false);
+                        switch (errorData.Type)
+                        {
+                            case Error.Types.None:
+                                break;
+                            default:
+                                return ApiResults.Error(
+                                    context: context,
+                                    errorData: errorData);
+                        }
+                        insertCount++;
+                    }
+                }
+                SiteInfo.Reflesh(
+                    context: context,
+                    force: true);
+                return ApiResults.Success(
+                    id: context.Id,
+                    limitPerDate: context.ContractSettings.ApiLimit(),
+                    limitRemaining: context.ContractSettings.ApiLimit() - ss.ApiCount,
+                    message: Messages.Imported(
+                        context: context,
+                        data: new string[]
+                        {
+                            ss.Title,
+                            insertCount.ToString(),
+                            updateCount.ToString()
+                        }).Text);
+            }
+            else
+            {
+                return ApiResults.Get(new ApiResponse(
+                    id: context.Id,
+                    statusCode: 500,
+                    message: Messages.FileNotFound(context: context).Text));
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private static string ImportRecordingData(
             Context context, Column column, string value, long inheritPermission)
         {
@@ -2053,6 +2182,78 @@ namespace Implem.Pleasanter.Models
                 value: value,
                 siteId: inheritPermission);
             return recordingData;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static Dictionary<int, DeptModel> CreateDeptHash(
+            Context context,
+            SiteSettings ss,
+            Csv csv,
+            Dictionary<int, ImportColumn> columnHash,
+            int idColumn)
+        {
+            var deptHash = new Dictionary<int, DeptModel>();
+            csv.Rows.Select((o, i) => new { Row = o, Index = i }).ForEach(data =>
+            {
+                var deptModel = new DeptModel();
+                if (idColumn > -1)
+                {
+                    var model = new DeptModel(
+                        context: context,
+                        ss: ss,
+                        deptCode: data.Row[idColumn]);
+                    if (model.AccessStatus == Databases.AccessStatuses.Selected)
+                    {
+                        deptModel = model;
+                    }
+                }
+                columnHash.ForEach(column =>
+                {
+                    var recordingData = ImportRecordingData(
+                        context: context,
+                        column: column.Value.Column,
+                        value: data.Row[column.Key],
+                        inheritPermission: ss.InheritPermission);
+                    switch (column.Value.Column.ColumnName)
+                    {
+                        case "DeptId":
+                            deptModel.DeptId = recordingData.ToInt();
+                            break;
+                        case "DeptCode":
+                            deptModel.DeptCode = recordingData;
+                            break;
+                        case "DeptName":
+                            deptModel.DeptName = recordingData;
+                            break;
+                        case "Body":
+                            deptModel.Body = recordingData;
+                            break;
+                        case "Comments":
+                            if (deptModel.AccessStatus != Databases.AccessStatuses.Selected &&
+                                !data.Row[column.Key].IsNullOrEmpty())
+                            {
+                                deptModel.Comments.Prepend(
+                                    context: context,
+                                    ss: ss,
+                                    body: data.Row[column.Key]);
+                            }
+                            break;
+                        case "Disabled":
+                            deptModel.Disabled = recordingData.ToBool();
+                            break;
+                        default:
+                            deptModel.SetValue(
+                                context: context,
+                                column: column.Value.Column,
+                                value: recordingData);
+                            break;
+                    }
+                });
+                deptHash.Add(data.Index, deptModel);
+            });
+            return deptHash;
         }
 
         /// <summary>
@@ -2507,6 +2708,459 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         errorData: errorData);
             }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string BulkDelete(Context context, SiteSettings ss)
+        {
+            if (context.CanDelete(ss: ss))
+            {
+                var selector = new RecordSelector(context: context);
+                var count = 0;
+                if (selector.All == false && selector.Selected.Any() == false)
+                {
+                    return Messages.ResponseSelectTargets(context: context).ToJson();
+                }
+                if (selector.All)
+                {
+                    count = BulkDelete(
+                        context: context,
+                        ss: ss,
+                        selected: selector.Selected,
+                        negative: true);
+                }
+                else
+                {
+                    count = BulkDelete(
+                        context: context,
+                        ss: ss,
+                        selected: selector.Selected);
+                }
+                Summaries.Synchronize(context: context, ss: ss);
+                var data = new string[]
+                {
+                    ss.Title,
+                    count.ToString()
+                };
+                return GridRows(
+                    context: context,
+                    ss: ss,
+                    clearCheck: true,
+                    message: Messages.BulkDeleted(
+                        context: context,
+                        data: data));
+            }
+            else
+            {
+                return Messages.ResponseHasNotPermission(context: context).ToJson();
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static int BulkDelete(
+            Context context,
+            SiteSettings ss,
+            IEnumerable<long> selected,
+            bool negative = false)
+        {
+            var subWhere = Views.GetBySession(
+                context: context,
+                ss: ss)
+                    .Where(
+                        context: context,
+                        ss: ss,
+                        itemJoin: false);
+            var where = Rds.DeptsWhere()
+                .TenantId(context.TenantId)
+                .DeptId_In(
+                    value: selected.Select(o => o.ToInt()).ToList(),
+                    negative: negative,
+                    _using: selected.Any())
+                .DeptId_In(
+                    sub: Rds.SelectDepts(
+                        column: Rds.DeptsColumn().DeptId(),
+                        join: ss.Join(
+                            context: context,
+                            join: new IJoin[]
+                            {
+                                subWhere
+                            }),
+                        where: subWhere));
+            var sub = Rds.SelectDepts(
+                column: Rds.DeptsColumn().DeptId(),
+                where: where);
+            return Repository.ExecuteScalar_response(
+                context: context,
+                transactional: true,
+                statements: new SqlStatement[]
+                {
+                    Rds.DeleteBinaries(
+                        factory: context,
+                        where: Rds.BinariesWhere()
+                            .TenantId(context.TenantId)
+                            .ReferenceId_In(sub: sub)
+                            .BinaryType(value: "TenantManagementImages")),
+                    Rds.DeleteDepts(
+                        factory: context,
+                        where: Rds.DeptsWhere()
+                            .TenantId(context.TenantId)
+                            .DeptId_In(sub: sub)),
+                    Rds.RowCount(),
+                    StatusUtilities.UpdateStatus(
+                        tenantId: context.TenantId,
+                        type: StatusUtilities.Types.DeptsUpdated),
+                }).Count.ToInt();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static SqlWhereCollection BulkDeleteWhere(
+            Context context,
+            SiteSettings ss,
+            IEnumerable<long> selected,
+            bool negative)
+        {
+            return Views.GetBySession(context: context, ss: ss).Where(
+                context: context,
+                ss: ss,
+                where: Rds.DeptsWhere()
+                    .DeptId_In(
+                        value: selected.Select(o => o.ToInt()),
+                        negative: negative,
+                        _using: selected.Any()));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string TrashBox(Context context, SiteSettings ss)
+        {
+            var hb = new HtmlBuilder();
+            var view = Views.GetBySession(context: context, ss: ss);
+            var gridData = GetGridData(context: context, ss: ss, view: view);
+            var viewMode = ViewModes.GetSessionData(
+                context: context,
+                siteId: ss.SiteId);
+            var serverScriptModelRow = ss.GetServerScriptModelRow(
+                context: context,
+                view: view,
+                gridData: gridData);
+            return hb.ViewModeTemplate(
+                context: context,
+                ss: ss,
+                view: view,
+                viewMode: viewMode,
+                serverScriptModelRow: serverScriptModelRow,
+                viewModeBody: () => hb
+                    .TrashBoxCommands(context: context, ss: ss)
+                    .Grid(
+                        context: context,
+                        ss: ss,
+                        gridData: gridData,
+                        view: view,
+                        action: "TrashBoxGridRows",
+                        serverScriptModelRow: serverScriptModelRow));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string TrashBoxJson(Context context, SiteSettings ss)
+        {
+            var view = Views.GetBySession(
+                context: context,
+                ss: ss);
+            var gridData = GetGridData(
+                context: context,
+                ss: ss,
+                view: view);
+            var body = new HtmlBuilder()
+                .TrashBoxCommands(context: context, ss: ss)
+                .Grid(
+                    context: context,
+                    ss: ss,
+                    gridData: gridData,
+                    view: view,
+                    action: "TrashBoxGridRows");
+            return new ResponseCollection(context: context)
+                .ViewMode(
+                    context: context,
+                    ss: ss,
+                    view: view,
+                    invoke: "setGrid",
+                    body: body)
+                .ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string Restore(Context context, SiteSettings ss)
+        {
+            if (!Parameters.Deleted.Restore)
+            {
+                return Error.Types.InvalidRequest.MessageJson(context: context);
+            }
+            else if (Permissions.CanManageTenant(context: context))
+            {
+                var selector = new RecordSelector(context: context);
+                var count = 0;
+                if (selector.All)
+                {
+                    count = Restore(
+                        context: context,
+                        ss: ss,
+                        selected: selector.Selected,
+                        negative: true);
+                }
+                else
+                {
+                    if (selector.Selected.Any())
+                    {
+                        count = Restore(
+                            context: context,
+                            ss: ss,
+                            selected: selector.Selected);
+                    }
+                    else
+                    {
+                        return Messages.ResponseSelectTargets(context: context).ToJson();
+                    }
+                }
+                Summaries.Synchronize(context: context, ss: ss);
+                return GridRows(
+                    context: context,
+                    ss: ss,
+                    clearCheck: true,
+                    message: Messages.BulkRestored(
+                        context: context,
+                        data: count.ToString()));
+            }
+            else
+            {
+                return Messages.ResponseHasNotPermission(context: context).ToJson();
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static int Restore(
+            Context context, SiteSettings ss, List<long> selected, bool negative = false)
+        {
+            var subWhere = Views.GetBySession(
+                context: context,
+                ss: ss)
+                    .Where(
+                        context: context,
+                        ss: ss,
+                        itemJoin: false);
+            var where = Rds.DeptsWhere()
+                .TenantId(
+                    value: context.TenantId,
+                    tableName: "Depts_Deleted")
+                .DeptId_In(
+                    value: selected.Select(o => o.ToInt()).ToList(),
+                    tableName: "Depts_Deleted",
+                    negative: negative,
+                    _using: selected.Any())
+                .DeptId_In(
+                    tableName: "Depts_Deleted",
+                    sub: Rds.SelectDepts(
+                        tableType: Sqls.TableTypes.Deleted,
+                        column: Rds.DeptsColumn().DeptId(),
+                        join: ss.Join(
+                            context: context,
+                            join: new IJoin[]
+                            {
+                                subWhere
+                            }),
+                        where: subWhere));
+            var sub = Rds.SelectDepts(
+                tableType: Sqls.TableTypes.Deleted,
+                _as: "Depts_Deleted",
+                column: Rds.DeptsColumn()
+                    .DeptId(tableName: "Depts_Deleted"),
+                where: where);
+            var count = Repository.ExecuteScalar_response(
+                context: context,
+                connectionString: Parameters.Rds.OwnerConnectionString,
+                transactional: true,
+                statements: new SqlStatement[]
+                {
+                    Rds.RestoreBinaries(
+                        factory: context,
+                        where: Rds.BinariesWhere()
+                            .TenantId(context.TenantId)
+                            .ReferenceId_In(sub: sub)
+                            .BinaryType(value: "TenantManagementImages")),
+                    Rds.RestoreDepts(
+                        factory: context,
+                        where: Rds.DeptsWhere()
+                            .TenantId(context.TenantId)
+                            .DeptId_In(sub: sub)),
+                    Rds.RowCount(),
+                    StatusUtilities.UpdateStatus(
+                        tenantId: context.TenantId,
+                        type: StatusUtilities.Types.DeptsUpdated)
+                }).Count.ToInt();
+            return count;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string PhysicalBulkDelete(Context context, SiteSettings ss)
+        {
+            if (!Parameters.Deleted.PhysicalDelete)
+            {
+                return Error.Types.InvalidRequest.MessageJson(context: context);
+            }
+            if (Permissions.CanManageTenant(context: context))
+            {
+                var selector = new RecordSelector(context: context);
+                var count = 0;
+                if (selector.All)
+                {
+                    count = PhysicalBulkDelete(
+                        context: context,
+                        ss: ss,
+                        selected: selector.Selected,
+                        negative: true);
+                }
+                else
+                {
+                    if (selector.Selected.Any())
+                    {
+                        count = PhysicalBulkDelete(
+                            context: context,
+                            ss: ss,
+                            selected: selector.Selected);
+                    }
+                    else
+                    {
+                        return Messages.ResponseSelectTargets(context: context).ToJson();
+                    }
+                }
+                return GridRows(
+                    context: context,
+                    ss: ss,
+                    clearCheck: true,
+                    message: Messages.PhysicalBulkDeletedFromRecycleBin(
+                        context: context,
+                        data: count.ToString()));
+            }
+            else
+            {
+                return Messages.ResponseHasNotPermission(context: context).ToJson();
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static int PhysicalBulkDelete(
+            Context context,
+            SiteSettings ss,
+            List<long> selected = null,
+            SqlWhereCollection where = null,
+            SqlParamCollection param = null,
+            bool negative = false,
+            Sqls.TableTypes tableType = Sqls.TableTypes.Deleted)
+        {
+            var tableName = string.Empty;
+            switch (tableType)
+            {
+                case Sqls.TableTypes.History:
+                    tableName = "_History";
+                    break;
+                case Sqls.TableTypes.Deleted:
+                    tableName = "_Deleted";
+                    break;
+                default:
+                    break;
+            }
+            where = where ?? Rds.DeptsWhere()
+                .TenantId(
+                    value: context.TenantId,
+                    tableName: "Depts" + tableName)
+                .DeptId_In(
+                    value: selected.Select(o => o.ToInt()).ToList(),
+                    tableName: "Depts" + tableName,
+                    negative: negative,
+                    _using: selected.Any())
+                .DeptId_In(
+                    tableName: "Depts" + tableName,
+                    sub: Rds.SelectDepts(
+                        tableType: tableType,
+                        column: Rds.DeptsColumn().DeptId(),
+                        where: Views.GetBySession(
+                            context: context,
+                            ss: ss)
+                                .Where(
+                                    context: context,
+                                    ss: ss,
+                                    itemJoin: false)));
+            var sub = Rds.SelectDepts(
+                tableType: tableType,
+                _as: "Depts" + tableName,
+                column: Rds.DeptsColumn()
+                    .DeptId(tableName: "Depts" + tableName),
+                where: where,
+                param: param);
+            var dataRows = Rds.ExecuteTable(
+                context: context,
+                statements: Rds.SelectBinaries(
+                    tableType: tableType,
+                    column: Rds.BinariesColumn().Guid().BinaryType(),
+                    where: Rds.BinariesWhere().ReferenceId_In(sub: sub)))
+                        .AsEnumerable();
+            var count = Repository.ExecuteScalar_response(
+                context: context,
+                transactional: true,
+                statements: new SqlStatement[]
+                {
+                    Rds.PhysicalDeleteBinaries(
+                        tableType: tableType,
+                        where: Rds.BinariesWhere()
+                            .TenantId(context.TenantId)
+                            .ReferenceId_In(sub: sub)
+                            .BinaryType(value: "TenantManagementImages")),
+                    Rds.PhysicalDeleteGroupMembers(
+                        tableType: tableType,
+                        where: Rds.GroupMembersWhere()
+                            .DeptId_In(sub: sub)),
+                    Rds.PhysicalDeletePermissions(
+                        tableType: tableType,
+                        where: Rds.PermissionsWhere()
+                            .DeptId_In(sub: sub)),
+                    Rds.PhysicalDeleteDepts(
+                        tableType: tableType,
+                        where: Rds.DeptsWhere()
+                            .TenantId(context.TenantId)
+                            .DeptId_In(sub: sub)),
+                    Rds.RowCount()
+                }).Count.ToInt();
+            return count;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static int CountByIds(Context context, SiteSettings ss, List<int> ids)
+        {
+            return Repository.ExecuteScalar_int(
+                context: context,
+                statements: Rds.SelectDepts(
+                    column: Rds.DeptsColumn()
+                        .DeptsCount(),
+                    where: Rds.DeptsWhere()
+                        .DeptId_In(value: ids)));
         }
     }
 }

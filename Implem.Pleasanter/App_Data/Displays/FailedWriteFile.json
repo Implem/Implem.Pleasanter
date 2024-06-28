@@ -1,0 +1,33 @@
+﻿{
+    "Id": "FailedWriteFile",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "Failed to register attachment. Please delete the attachment and try registering again."
+        },
+        {
+            "Language": "zh",
+            "Body": "附件注册失败。请删除附件，然后重新注册。"
+        },
+        {
+            "Language": "ja",
+            "Body": "添付ファイルの登録に失敗しました。添付ファイルを削除してもう一度登録してください。"
+        },
+        {
+            "Language": "de",
+            "Body": "Anmeldung des Anhangs fehlgeschlagen. Bitte löschen Sie den Anhang und versuchen Sie es erneut zu registrieren."
+        },
+        {
+            "Language": "ko",
+            "Body": "첨부 파일 등록에 실패했습니다. 첨부 파일을 삭제한 후 다시 등록해주세요."
+        },
+        {
+            "Language": "es",
+            "Body": "Error al registrar el archivo adjunto. Por favor, elimine el archivo adjunto e intente registrarlo nuevamente."
+        },
+        {
+            "Language": "vn",
+            "Body": "Không thể đăng ký tệp đính kèm. Vui lòng xóa tệp đính kèm và thử đăng ký lại."
+        }
+    ]
+}

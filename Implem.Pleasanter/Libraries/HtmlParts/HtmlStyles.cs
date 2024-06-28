@@ -99,12 +99,21 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .Link(
                     href: Responses.Locations.Get(
                         context: context,
-                        parts: $"Styles/Plugins/themes/{context.Theme}/jquery-ui.min.css"),
+                        parts: "Styles/Plugins/lightbox.css"),
                     rel: "stylesheet")
                 .Link(
                     href: Responses.Locations.Get(
                         context: context,
-                        parts: $"Styles/Plugins/themes/{context.Theme}/custom.css"),
+                        parts: context.ThemeVersionForCss() >= 2.0M && context.Mobile
+                            ? $"Styles/Plugins/themes/cupertino/jquery-ui.min.css"
+                            : $"Styles/Plugins/themes/{context.Theme()}/jquery-ui.min.css"),
+                    rel: "stylesheet")
+                .Link(
+                    href: Responses.Locations.Get(
+                        context: context,
+                        parts: context.ThemeVersionForCss() >= 2.0M && context.Mobile
+                            ? $"Styles/Plugins/themes/cupertino/custom.css"
+                            : $"Styles/Plugins/themes/{context.Theme()}/custom.css"),
                     rel: "stylesheet")
                 .Link(
                     href: Responses.Locations.Get(
@@ -136,6 +145,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     rel: "stylesheet")
                 .Link(
                     href: context.VirtualPathToAbsolute($"~/content/responsive.min.css?v={Environments.BundlesVersions.Get("responsive.css")}"),
+                    rel: "stylesheet",
+                    _using: Parameters.Mobile.Responsive
+                        && context.Mobile
+                        && context.Responsive
+                        && (ss == null || ss.Responsive != false))
+                .Link(
+                    href: Responses.Locations.Get(
+                        context: context,
+                        parts: "Styles/responsive.custom.css"),
                     rel: "stylesheet",
                     _using: Parameters.Mobile.Responsive
                         && context.Mobile

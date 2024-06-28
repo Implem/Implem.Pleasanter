@@ -23,6 +23,7 @@ namespace Implem.Pleasanter.Models
         public string GanttGuide { get; set; }
         public string BurnDownGuide { get; set; }
         public string TimeSeriesGuide { get; set; }
+        public string AnalyGuide { get; set; }
         public string KambanGuide { get; set; }
         public string ImageLibGuide { get; set; }
         public string ReferenceType { get; set; }
@@ -43,6 +44,7 @@ namespace Implem.Pleasanter.Models
         public string ItemTitle { get; set; }
         public bool? DisableSiteCreatorPermission { get; set; }
         public List<int> SummaryId { get; set; }
+        public List<string> FindSiteNames { get; set; }
 
         public SiteApiModel()
         {

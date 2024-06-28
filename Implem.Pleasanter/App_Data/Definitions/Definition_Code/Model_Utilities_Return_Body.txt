@@ -1,0 +1,12 @@
+﻿return hb.ViewModeTemplate(
+    context: context,
+    ss: ss,
+    view: view,
+    viewMode: viewMode,
+    serverScriptModelRow: serverScriptModelRow,
+    viewModeBody: () => hb.Grid(
+        context: context,
+        gridData: gridData,
+        ss: ss,
+        view: view,
+        serverScriptModelRow: serverScriptModelRow));

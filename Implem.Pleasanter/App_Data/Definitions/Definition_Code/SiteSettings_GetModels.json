@@ -4,5 +4,5 @@
     "Indent": "2",
     "Separator": "\\r\\n",
     "NotItem": "1",
-    "Exclude": "Permissions"
+    "Exclude": "Permissions,Users"
 }

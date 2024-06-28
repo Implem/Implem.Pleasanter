@@ -33,9 +33,22 @@ namespace Implem.Pleasanter.Libraries.Server
         {
             if (value.ToOADate() == 0) return value;
             var timeZoneInfo = context.TimeZoneInfo;
-            return timeZoneInfo != null && timeZoneInfo.Id != TimeZoneInfo.Local.Id
-                ? TimeZoneInfo.ConvertTime(value, timeZoneInfo)
-                : value;
+            if (timeZoneInfo == null || timeZoneInfo.Id == TimeZoneInfo.Local.Id) return value;
+            try
+            {
+                return TimeZoneInfo.ConvertTime(
+                    value,
+                    timeZoneInfo);
+            }
+            catch (ArgumentException)
+            {
+                // 夏時間開始時の存在しない時間帯を引数とした場合の例外の対応
+                return TimeZoneInfo.ConvertTime(
+                    DateTime.SpecifyKind(
+                        value.Add(-TimeZoneInfo.Local.BaseUtcOffset),
+                        DateTimeKind.Utc),
+                    timeZoneInfo);
+            }
         }
 
         public static string ToLocal(this DateTime value, Context context, string format)
@@ -53,9 +66,24 @@ namespace Implem.Pleasanter.Libraries.Server
         {
             if (value.ToOADate() == 0) return value;
             var timeZoneInfo = context.TimeZoneInfo;
-            return timeZoneInfo != null && timeZoneInfo.Id != TimeZoneInfo.Local.Id
-                ? TimeZoneInfo.ConvertTime(value, timeZoneInfo, TimeZoneInfo.Local)
-                : value;
+            if (timeZoneInfo == null || timeZoneInfo.Id == TimeZoneInfo.Local.Id) return value;
+            try
+            {
+                return TimeZoneInfo.ConvertTime(
+                    value,
+                    timeZoneInfo,
+                    TimeZoneInfo.Local);
+            }
+            catch (ArgumentException)
+            {
+                // 夏時間開始時の存在しない時間帯を引数とした場合の例外の対応
+                return TimeZoneInfo.ConvertTime(
+                    DateTime.SpecifyKind(
+                        value.Add(-timeZoneInfo.BaseUtcOffset),
+                        DateTimeKind.Utc),
+                    TimeZoneInfo.Utc,
+                    TimeZoneInfo.Local);
+            }
         }
 
         public static double DateDiff(Types interval, DateTime from, DateTime to)
@@ -136,13 +164,13 @@ namespace Implem.Pleasanter.Libraries.Server
 
         public static string PreviousMonth(Context context, DateTime month)
         {
-            var data = month.ToLocal(context: context).AddMonths(-1);
+            var data = month.AddMonths(-1);
             return new DateTime(data.Year, data.Month, 1).ToString();
         }
 
         public static string NextMonth(Context context, DateTime month)
         {
-            var data = month.ToLocal(context: context).AddMonths(1);
+            var data = month.AddMonths(1);
             return new DateTime(data.Year, data.Month, 1).ToString();
         }
 
@@ -276,6 +304,27 @@ namespace Implem.Pleasanter.Libraries.Server
             return self.InRange()
                 ? self.ToString(format, context.CultureInfo())
                 : string.Empty;
+        }
+
+        public static DateTime DateAdd(this DateTime self, string timePeriod, int timePeriodValue)
+        {
+            switch (timePeriod)
+            {
+                case "DaysAgoNoArgs":
+                    return self.AddDays(timePeriodValue);
+                case "MonthsAgoNoArgs":
+                    return self.AddMonths(timePeriodValue);
+                case "YearsAgoNoArgs":
+                    return self.AddYears(timePeriodValue);
+                case "HoursAgoNoArgs":
+                    return self.AddHours(timePeriodValue);
+                case "MinutesAgoNoArgs":
+                    return self.AddMinutes(timePeriodValue);
+                case "SecondsAgoNoArgs":
+                    return self.AddSeconds(timePeriodValue);
+                default:
+                    return self;
+            }
         }
     }
 }

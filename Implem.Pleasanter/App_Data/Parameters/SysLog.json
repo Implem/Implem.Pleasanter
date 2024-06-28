@@ -4,5 +4,6 @@
     "LoginSuccess": false,
     "LoginFailure": false,
     "SignOut": false,
+    "ClientId": false,
     "ExportLimit": 10000
 }

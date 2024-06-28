@@ -1,6 +1,6 @@
 ﻿{
     "Version": 1.011,
-    "ReferenceType": "Issues",
+    "ReferenceType": "Results",
     "GridView": 1,
     "GridColumns": [
         "IssueId",
@@ -12,8 +12,8 @@
         "NumA",
         "Status",
         "ClassC",
-        "StartTime",
-        "CompletionTime",
+        "DateA",
+        "DateB",
         "Manager",
         "Owner",
         "Updator",
@@ -23,8 +23,8 @@
         "IssueId",
         "Ver",
         "Title",
-        "StartTime",
-        "CompletionTime",
+        "DateA",
+        "DateB",
         "Status",
         "Manager",
         "Owner",
@@ -41,8 +41,8 @@
     "LinkColumns": [
         "IssueId",
         "Title",
-        "StartTime",
-        "CompletionTime",
+        "DateA",
+        "DateB",
         "Status",
         "Manager",
         "Owner",
@@ -58,8 +58,8 @@
         "Ver",
         "Title",
         "Comments",
-        "StartTime",
-        "CompletionTime",
+        "DateA",
+        "DateB",
         "Status",
         "Manager",
         "Owner",
@@ -72,14 +72,13 @@
             "LabelText": "添付資料"
         },
         {
-            "ColumnName": "StartTime",
+            "ColumnName": "DateA",
             "LabelText": "購入日",
             "ExportFormat": "Ymda"
         },
         {
-            "ColumnName": "CompletionTime",
-            "LabelText": "利用期限",
-            "DefaultInput": "365",
+            "ColumnName": "DateB",
+            "LabelText": "廃棄日",
             "ExportFormat": "Ymda"
         },
         {
@@ -115,7 +114,7 @@
         },
         {
             "ColumnName": "Status",
-            "ChoicesText": "100,購入前,前,status-new\n900,購入済み,済,status-closed\n910,保留,留,status-rejected"
+            "ChoicesText": "100,未使用,未,status-new\n900,使用中,使,status-closed\n910,修理中,修,status-rejected\n920,廃棄,廃,status-rejected"
         },
         {
             "ColumnName": "ClassD",

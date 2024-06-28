@@ -1,5 +1,6 @@
 ﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataTypes;
+using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Search;
@@ -39,6 +40,26 @@ namespace Implem.Pleasanter.Controllers
                 log.Finish(context: context, responseSize: json.Length);
                 return Content(json);
             }
+        }
+
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult DashboardPart(long id, string dashboardPartId)
+        {
+            var context = new Context(); 
+            var log = new SysLogModel(context: context);
+            var json = new ItemModel(context: context, referenceId: id).DashboardPartJson(context: context, dashboardPartId: dashboardPartId);
+            log.Finish(context: context, responseSize: json.Length);
+            return Content(json);
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult DashboardPartLayout(long id)
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = new ItemModel(context: context, referenceId: id).DashboardPartLayout(context: context);
+            log.Finish(context: context, responseSize: json.Length);
+            return Content(json);
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
@@ -202,6 +223,39 @@ namespace Implem.Pleasanter.Controllers
                 log.Finish(context: context, responseSize: json.Length);
                 return Content(json);
             }
+        }
+
+        [AcceptVerbs(HttpVerbs.Get, HttpVerbs.Post)]
+        public ActionResult Analy(long id = 0)
+        {
+            var context = new Context();
+            if (!context.Ajax)
+            {
+                var log = new SysLogModel(context: context);
+                var html = new ItemModel(context: context, referenceId: id).Analy(context: context);
+                ViewBag.HtmlBody = html;
+                log.Finish(context: context, responseSize: html.Length);
+                return context.RedirectData.Url.IsNullOrEmpty()
+                    ? View()
+                    : (ActionResult)Redirect(context.RedirectData.Url);
+            }
+            else
+            {
+                var log = new SysLogModel(context: context);
+                var json = new ItemModel(context: context, referenceId: id).AnalyJson(context: context);
+                log.Finish(context: context, responseSize: json.Length);
+                return Content(json);
+            }
+        }
+
+        [HttpPost]
+        public string OpenAnalyPartDialog(long id)
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = new ItemModel(context: context, referenceId: id).OpenAnalyPartDialog(context: context);
+            log.Finish(context: context, responseSize: json.Length);
+            return json;
         }
 
         [AcceptVerbs(HttpVerbs.Get, HttpVerbs.Post)]

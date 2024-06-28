@@ -26,6 +26,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? Mail;
         public bool? Style;
         public bool? Script;
+        public bool? Html;
         public bool? ServerScript;
         public bool? Api;
         public DateTime? Deadline;
@@ -119,10 +120,12 @@ namespace Implem.Pleasanter.Libraries.Settings
             return Parameters.BinaryStorage.Images && Attachments();
         }
 
-        public bool AllowedIpAddress(string ipAddress)
+        public bool AllowedIpAddress(Context context, string ipAddress)
         {
             return IpAddresses.AllowedIpAddress(
+                context: context,
                 allowIpAddresses: AllowIpAddresses,
+                ipRestrictionExcludeMembers: Parameters.Security.IpRestrictionExcludeMembers,
                 ipAddress: ipAddress);
         }
 

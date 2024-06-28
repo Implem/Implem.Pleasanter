@@ -29,6 +29,7 @@ namespace Implem.Pleasanter.Models
 
 <!--Model_ItemProperties_Sites-->
 <!--Model_GroupProperties_GroupMembers-->
+<!--Model_GroupProperties_GroupChildren-->
 <!--Base_Property ( RepeatType = Column, NotBase = 1 ) -->
 <!--Base_PropertyCalc ( RepeatType = Column, NotBase = 1 ) -->
 <!--Base_SavedProperty ( RepeatType = Column, NotBase = 1 ) -->
@@ -93,6 +94,7 @@ namespace Implem.Pleasanter.Models
 <!--Model_Get-->
 <!--Model_GetByApi-->
 <!--Model_ExportByApi-->
+<!--Model_ImportByApi-->
 <!--Model_ToValue-->
 <!--Model_ToValueApiDisplayValue-->
 <!--Model_ToDisplay-->
@@ -250,6 +252,36 @@ namespace Implem.Pleasanter.Models
         public bool Updated(Context context)
         {
             return Updated()
+
+<!--Model_Updated-->;
+
+        }
+
+        private bool UpdatedWithColumn(Context context, SiteSettings ss)
+        {
+            return ClassHash.Any(o => Class_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || NumHash.Any(o => Num_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || DateHash.Any(o => Date_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || DescriptionHash.Any(o => Description_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || CheckHash.Any(o => Check_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || AttachmentsHash.Any(o => Attachments_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)));
+        }
+
+        public bool Updated(Context context, SiteSettings ss)
+        {
+            return UpdatedWithColumn(context: context, ss: ss)
 
 <!--Model_Updated-->;
 

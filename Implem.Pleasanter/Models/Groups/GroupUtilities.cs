@@ -174,7 +174,11 @@ namespace Implem.Pleasanter.Models
                     .Div(attributes: new HtmlAttributes()
                         .Id("BulkUpdateSelectorDialog")
                         .Class("dialog")
-                        .Title(Displays.BulkUpdate(context: context))))
+                        .Title(Displays.BulkUpdate(context: context)))
+                    .Div(attributes: new HtmlAttributes()
+                        .Id("AnalyPartDialog")
+                        .Class("dialog")
+                        .Title(Displays.AnalyPart(context: context))))
                     .ToString();
         }
 
@@ -231,7 +235,8 @@ namespace Implem.Pleasanter.Models
             GridData gridData,
             View view,
             string action = "GridRows",
-            ServerScriptModelRow serverScriptModelRow = null)
+            ServerScriptModelRow serverScriptModelRow = null,
+            string suffix = "")
         {
             var columns = ss.GetGridColumns(
                 context: context,
@@ -240,7 +245,7 @@ namespace Implem.Pleasanter.Models
             return hb
                 .Table(
                     attributes: new HtmlAttributes()
-                        .Id("Grid")
+                        .Id($"Grid{suffix}")
                         .Class(ss.GridCss(context: context))
                         .DataValue("back", _using: ss?.IntegratedSites?.Any() == true)
                         .DataAction(action)
@@ -253,14 +258,16 @@ namespace Implem.Pleasanter.Models
                             columns: columns,
                             view: view,
                             serverScriptModelRow: serverScriptModelRow,
-                            action: action))
+                            action: action,
+                            suffix: suffix))
                 .GridHeaderMenus(
                     context: context,
                     ss: ss,
                     view: view,
-                    columns: columns)
+                    columns: columns,
+                    suffix: suffix)
                 .Hidden(
-                    controlId: "GridOffset",
+                    controlId: $"GridOffset{suffix}",
                     value: ss.GridNextOffset(
                         0,
                         gridData.DataRows.Count(),
@@ -286,9 +293,12 @@ namespace Implem.Pleasanter.Models
             bool windowScrollTop = false,
             bool clearCheck = false,
             string action = "GridRows",
-            Message message = null)
+            Message message = null,
+            string suffix = "")
         {
-            var view = Views.GetBySession(context: context, ss: ss);
+            var view = Views.GetBySession(
+                context: context,
+                ss: ss);
             var gridData = GetGridData(
                 context: context,
                 ss: ss,
@@ -306,7 +316,7 @@ namespace Implem.Pleasanter.Models
                 .ClearFormData("GridUnCheckedItems", _using: clearCheck)
                 .ClearFormData("GridCheckedItems", _using: clearCheck)
                 .CloseDialog(_using: offset == 0)
-                .ReplaceAll("#CopyDirectUrlToClipboard", new HtmlBuilder()
+                .ReplaceAll("#CopyToClipboards", new HtmlBuilder()
                     .CopyDirectUrlToClipboard(
                         context: context,
                         view: view))
@@ -356,7 +366,8 @@ namespace Implem.Pleasanter.Models
             int offset = 0,
             bool clearCheck = false,
             string action = "GridRows",
-            ServerScriptModelRow serverScriptModelRow = null)
+            ServerScriptModelRow serverScriptModelRow = null,
+            string suffix = "")
         {
             var checkRow = ss.CheckRow(
                 context: context,
@@ -376,7 +387,8 @@ namespace Implem.Pleasanter.Models
                             checkRow: checkRow,
                             checkAll: checkAll,
                             action: action,
-                            serverScriptModelRow: serverScriptModelRow))
+                            serverScriptModelRow: serverScriptModelRow,
+                            suffix: suffix))
                 .TBody(action: () => hb
                     .GridRows(
                         context: context,
@@ -573,6 +585,60 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     column: column,
                                     value: groupModel.Disabled,
+                                    tabIndex: tabIndex,
+                                    serverScriptModelColumn: serverScriptModelColumn)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty,
+                                    tabIndex: tabIndex,
+                                    serverScriptModelColumn: serverScriptModelColumn);
+                    case "LdapGuid":
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: groupModel.LdapGuid,
+                                    tabIndex: tabIndex,
+                                    serverScriptModelColumn: serverScriptModelColumn)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty,
+                                    tabIndex: tabIndex,
+                                    serverScriptModelColumn: serverScriptModelColumn);
+                    case "LdapSearchRoot":
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: groupModel.LdapSearchRoot,
+                                    tabIndex: tabIndex,
+                                    serverScriptModelColumn: serverScriptModelColumn)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty,
+                                    tabIndex: tabIndex,
+                                    serverScriptModelColumn: serverScriptModelColumn);
+                    case "SynchronizedTime":
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: groupModel.SynchronizedTime,
                                     tabIndex: tabIndex,
                                     serverScriptModelColumn: serverScriptModelColumn)
                                 : hb.Td(
@@ -817,6 +883,15 @@ namespace Implem.Pleasanter.Models
                     case "Disabled": value = groupModel.Disabled.GridText(
                         context: context,
                         column: column); break;
+                    case "LdapGuid": value = groupModel.LdapGuid.GridText(
+                        context: context,
+                        column: column); break;
+                    case "LdapSearchRoot": value = groupModel.LdapSearchRoot.GridText(
+                        context: context,
+                        column: column); break;
+                    case "SynchronizedTime": value = groupModel.SynchronizedTime.GridText(
+                        context: context,
+                        column: column); break;
                     case "Comments": value = groupModel.Comments.GridText(
                         context: context,
                         column: column); break;
@@ -926,6 +1001,10 @@ namespace Implem.Pleasanter.Models
                 title: groupModel.MethodType == BaseModel.MethodTypes.New
                     ? Displays.Groups(context: context) + " - " + Displays.New(context: context)
                     : groupModel.Title.MessageDisplay(context: context),
+                script: groupModel.MethodType != BaseModel.MethodTypes.New
+                    ? "$p.setPaging('CurrentMembers'); $p.setPaging('SelectableMembers');"
+                        + "$p.setPaging('CurrentChildren'); $p.setPaging('SelectableChildren');"
+                    : null,
                 action: () => hb
                     .Editor(
                         context: context,
@@ -988,6 +1067,9 @@ namespace Implem.Pleasanter.Models
                                     ss: ss,
                                     groupModel: groupModel)
                                 .FieldSetMembers(
+                                    context: context,
+                                    groupModel: groupModel)
+                                .FieldSetGroupChildren(
                                     context: context,
                                     groupModel: groupModel)
                                 .FieldSet(
@@ -1060,6 +1142,11 @@ namespace Implem.Pleasanter.Models
                     .A(
                         href: "#FieldSetMembers",
                         text: Displays.Members(context: context),
+                        _using: groupModel.MethodType != BaseModel.MethodTypes.New))
+                .Li(action: () => hb
+                    .A(
+                        href: "#FieldSetGroupChildren",
+                        text: Displays.GroupChildren(context: context),
                         _using: groupModel.MethodType != BaseModel.MethodTypes.New))
                 .Li(
                     _using: groupModel.MethodType != BaseModel.MethodTypes.New,
@@ -1175,6 +1262,30 @@ namespace Implem.Pleasanter.Models
                             column: column);
                 case "Disabled":
                     return groupModel.Disabled
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "LdapSync":
+                    return groupModel.LdapSync
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "LdapGuid":
+                    return groupModel.LdapGuid
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "LdapSearchRoot":
+                    return groupModel.LdapSearchRoot
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "SynchronizedTime":
+                    return groupModel.SynchronizedTime
                         .ToControl(
                             context: context,
                             ss: ss,
@@ -1399,6 +1510,30 @@ namespace Implem.Pleasanter.Models
                                     value: groupModel.Disabled,
                                     options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                 break;
+                            case "LdapSync":
+                                res.Val(
+                                    target: "#Groups_LdapSync" + idSuffix,
+                                    value: groupModel.LdapSync,
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "LdapGuid":
+                                res.Val(
+                                    target: "#Groups_LdapGuid" + idSuffix,
+                                    value: groupModel.LdapGuid.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "LdapSearchRoot":
+                                res.Val(
+                                    target: "#Groups_LdapSearchRoot" + idSuffix,
+                                    value: groupModel.LdapSearchRoot.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "SynchronizedTime":
+                                res.Val(
+                                    target: "#Groups_SynchronizedTime" + idSuffix,
+                                    value: groupModel.SynchronizedTime.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
                             default:
                                 switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
                                 {
@@ -1454,9 +1589,13 @@ namespace Implem.Pleasanter.Models
                                                     controlId: $"Groups_{column.Name}",
                                                     columnName: column.ColumnName,
                                                     fieldCss: column.FieldCss
-                                                        + (column.TextAlign == SiteSettings.TextAlignTypes.Right
-                                                            ? " right-align"
-                                                            : string.Empty),
+                                                        + (
+                                                            column.TextAlign switch
+                                                            {
+                                                                SiteSettings.TextAlignTypes.Right => " right-align",
+                                                                SiteSettings.TextAlignTypes.Center => " center-align",
+                                                                _ => string.Empty
+                                                            }),
                                                     fieldDescription: column.Description,
                                                     labelText: column.LabelText,
                                                     value: groupModel.GetAttachments(columnName: column.Name).ToJson(),
@@ -1467,7 +1606,8 @@ namespace Implem.Pleasanter.Models
                                                         baseModel: groupModel)
                                                             != Permissions.ColumnPermissionTypes.Update,
                                                     allowDelete: column.AllowDeleteAttachments != false,
-                                                    validateRequired: column.ValidateRequired != false),
+                                                    validateRequired: column.ValidateRequired != false,
+                                                    inputGuide: column.InputGuide),
                                             options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                         break;
                                 }
@@ -1660,6 +1800,26 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         baseModel: groupModel,
                         tableName: "Groups"))
+                .Invoke(
+                    methodName: "clearScrollTop",
+                    args: "CurrentMembersWrapper")
+                .ReloadCurrentMembers(
+                    context: context,
+                    groupId: groupModel.GroupId)
+                .ResetSelectableMembers()
+                .Val(target: "#AddedGroupMembers", value: "[]")
+                .Val(target: "#DeletedGroupMembers", value: "[]")
+                .Val(target: "#ModifiedGroupMembers", value: "[]")
+                .Invoke(
+                    methodName: "clearScrollTop",
+                    args: "CurrentChildrenWrapper")
+                .ReloadCurrentChildren(
+                    context: context,
+                    groupId: groupModel.GroupId)
+                .ResetSelectableChildren()
+                .Val(target: "#AddedGroupChildren", value: "[]")
+                .Val(target: "#DeletedGroupChildren", value: "[]")
+                .Val(target: "#ModifiedGroupChildren", value: "[]")
                     .SetMemory("formChanged", false)
                     .Message(Messages.Updated(
                         context: context,
@@ -2060,15 +2220,13 @@ namespace Implem.Pleasanter.Models
                             }
                         }
                     }
-                    if (!groupModel.MemberType.IsNullOrEmpty())
-                    {
-                        UpdateOrInsertGroupMember(
-                            context: context,
-                            groupModel: groupModel,
-                            insertGroupMemberCount: ref insertGroupMemberCount,
-                            updateGroupMemberCount: ref updateGroupMemberCount);
-                    }
+                    ImportGroupMember(
+                        context: context,
+                        groupModel: groupModel,
+                        insertGroupMemberCount: ref insertGroupMemberCount,
+                        updateGroupMemberCount: ref updateGroupMemberCount);
                 }
+                GroupMemberUtilities.RefreshAllChildMembers(tenantId: context.TenantId);
                 SiteInfo.Reflesh(
                     context: context,
                     force: true);
@@ -2090,6 +2248,316 @@ namespace Implem.Pleasanter.Models
             else
             {
                 return Messages.ResponseFileNotFound(context: context).ToJson();
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static ContentResultInheritance ImportByApi(Context context, SiteSettings ss)
+        {
+            if (!Mime.ValidateOnApi(contentType: context.ContentType, multipart: true))
+            {
+                return ApiResults.BadRequest(context: context);
+            }
+            if (context.ContractSettings.Import == false)
+            {
+                return ApiResults.Get(new ApiResponse(
+                    id: context.Id,
+                    statusCode: 500,
+                    message: Messages.Restricted(context: context).Text));
+            }
+            var invalid = UserValidators.OnImporting(
+                context: context,
+                ss: ss,
+                api: true);
+            switch (invalid.Type)
+            {
+                case Error.Types.None:
+                    break;
+                default:
+                    return ApiResults.Error(
+                        context: context,
+                        errorData: invalid);
+            }
+            var api = context.RequestDataString.Deserialize<ImportApi>();
+            var encoding = api.Encoding;
+            var replaceAllGroupMembers = api.ReplaceAllGroupMembers;
+            Csv csv;
+            try
+            {
+                csv = new Csv(
+                    csv: context.PostedFiles.FirstOrDefault().Byte(),
+                    encoding: encoding);
+            }
+            catch
+            {
+                return ApiResults.Get(new ApiResponse(
+                    id: context.Id,
+                    statusCode: 500,
+                    message: Messages.FailedReadFile(context: context).Text));
+            }
+            var count = csv.Rows.Count();
+            if (Parameters.General.ImportMax > 0 && Parameters.General.ImportMax < count)
+            {
+                return ApiResults.Get(new ApiResponse(
+                    id: context.Id,
+                    statusCode: 500,
+                    message: Error.Types.ImportMax.Message(
+                        context: context,
+                        data: Parameters.General.ImportMax.ToString()).Text));
+            }
+            if (context.ContractSettings.ItemsLimit(context: context, siteId: ss.SiteId, number: count))
+            {
+                return ApiResults.Get(new ApiResponse(
+                    id: context.Id,
+                    statusCode: 500,
+                    message: Error.Types.ItemsLimit.Message(context: context).Text));
+            }
+            if (csv != null && count > 0)
+            {
+                var columnHash = ImportUtilities.GetColumnHash(ss, csv);
+                var idColumn = columnHash
+                    .Where(o =>
+                        o.Value.Column.ColumnName == "GroupId")
+                    .Select(o =>
+                        new { Id = o.Key })
+                    .FirstOrDefault()?.Id ?? -1;
+                var invalidColumn = Imports.ApiColumnValidate(
+                    context,
+                    ss,
+                    columnHash.Values.Select(o => o.Column.ColumnName),
+                    columnNames: "GroupName");
+                if (invalidColumn != null)
+                {
+                    return ApiResults.Get(new ApiResponse(
+                        id: context.Id,
+                        statusCode: 500,
+                        message: invalidColumn));
+                }
+                var groups = new List<GroupModel>();
+                foreach (var data in csv.Rows.Select((o, i) =>
+                    new { Row = o, Index = i }))
+                {
+                    var groupModel = new GroupModel(
+                        context: context,
+                        ss: ss);
+                    if (idColumn > -1)
+                    {
+                        var model = new GroupModel(
+                            context: context,
+                            ss: ss,
+                            groupId: data.Row[idColumn].ToInt());
+                        if (model.AccessStatus == Databases.AccessStatuses.Selected)
+                        {
+                            groupModel = model;
+                        }
+                    }
+                    foreach (var column in columnHash)
+                    {
+                        var recordingData = ImportRecordingData(
+                            context: context,
+                            column: column.Value.Column,
+                            value: data.Row[column.Key],
+                            inheritPermission: ss.InheritPermission);
+                        switch (column.Value.Column.ColumnName)
+                        {
+                            case "GroupId":
+                                groupModel.GroupId = recordingData.ToInt();
+                                break;
+                            case "GroupName":
+                                groupModel.GroupName = recordingData;
+                                break;
+                            case "Body":
+                                groupModel.Body = recordingData;
+                                break;
+                            case "Comments":
+                                if (groupModel.AccessStatus != Databases.AccessStatuses.Selected &&
+                                    !data.Row[column.Key].IsNullOrEmpty())
+                                {
+                                    groupModel.Comments.Prepend(
+                                        context: context,
+                                        ss: ss,
+                                        body: data.Row[column.Key]);
+                                }
+                                break;
+                            case "Disabled":
+                                groupModel.Disabled = recordingData.ToBool();
+                                break;
+                            case "MemberType":
+                                groupModel.MemberType = recordingData.ToString();
+                                break;
+                            case "MemberKey":
+                                groupModel.MemberKey = recordingData.ToString();
+                                break;
+                            case "MemberName":
+                                groupModel.MemberName = recordingData.ToString();
+                                break;
+                            case "MemberIsAdmin":
+                                groupModel.MemberIsAdmin = recordingData.ToBool();
+                                break;
+                            default:
+                                groupModel.SetValue(
+                                    context: context,
+                                    column: column.Value.Column,
+                                    value: recordingData);
+                                break;
+                        }
+                    }
+                    var csvRowForError = data.Index + 2;
+                    if (!ValidateMemberType(memberType: groupModel.MemberType))
+                    {
+                        return ApiResults.Get(new ApiResponse(
+                            id: context.Id,
+                            statusCode: 500,
+                            message: ApiInvalidMemberTypeError(
+                                context: context,
+                                errorCsvRow: csvRowForError)));
+                    }
+                    if (!ValidateMemberKey(
+                        context: context,
+                        memberType: groupModel.MemberType,
+                        memberKey: groupModel.MemberKey))
+                    {
+                        return ApiResults.Get(new ApiResponse(
+                            id: context.Id,
+                            statusCode: 500,
+                            message: ApiInvalidMemberKeyError(
+                                context: context,
+                                errorCsvRow: csvRowForError)));
+                    }
+                    groups.Add(groupModel);
+                };
+                if (replaceAllGroupMembers == true)
+                {
+                    groups
+                        .Select(o => o.GroupId)
+                        .Distinct()
+                        .ForEach(groupId =>
+                            PhysicalDeleteGroupMembers(
+                                context: context,
+                                groupId: groupId));
+                }
+                var insertGroupCount = 0;
+                var updateGroupCount = 0;
+                var insertGroupMemberCount = 0;
+                var updateGroupMemberCount = 0;
+                var newGroups = new Dictionary<string, GroupModel>();
+                foreach (var groupModel in groups)
+                {
+                    if (groupModel.AccessStatus == Databases.AccessStatuses.Selected)
+                    {
+                        var errorData = UpdateGroup(
+                            context: context,
+                            ss: ss,
+                            groupModel: groupModel,
+                            updateGroupCount: ref updateGroupCount);
+                        switch (errorData.Type)
+                        {
+                            case Error.Types.None:
+                                break;
+                            default:
+                                return ApiResults.Error(
+                                    context: context,
+                                    errorData: errorData);
+                        }
+                    }
+                    else
+                    {
+                        if (!newGroups.ContainsKey(groupModel.GroupName))
+                        {
+                            var errorData = groupModel.Create(
+                                context: context,
+                                ss: ss,
+                                get: false);
+                            switch (errorData.Type)
+                            {
+                                case Error.Types.None:
+                                    break;
+                                default:
+                                    return ApiResults.Error(
+                                        context: context,
+                                        errorData: errorData);
+                            }
+                            insertGroupCount++;
+                            newGroups.Add(groupModel.GroupName, groupModel);
+                        }
+                        else
+                        {
+                            groupModel.GroupId = newGroups[groupModel.GroupName].GroupId;
+                            var errorData = UpdateGroup(
+                                context: context,
+                                ss: ss,
+                                groupModel: groupModel,
+                                updateGroupCount: ref updateGroupCount);
+                            switch (errorData.Type)
+                            {
+                                case Error.Types.None:
+                                    break;
+                                default:
+                                    return ApiResults.Error(
+                                        context: context,
+                                        errorData: errorData);
+                            }
+                        }
+                    }
+                    ImportGroupMember(
+                        context: context,
+                        groupModel: groupModel,
+                        insertGroupMemberCount: ref insertGroupMemberCount,
+                        updateGroupMemberCount: ref updateGroupMemberCount);
+                }
+                GroupMemberUtilities.RefreshAllChildMembers(tenantId: context.TenantId);
+                SiteInfo.Reflesh(
+                    context: context,
+                    force: true);
+                return ApiResults.Success(
+                    id: context.Id,
+                    limitPerDate: context.ContractSettings.ApiLimit(),
+                    limitRemaining: context.ContractSettings.ApiLimit() - ss.ApiCount,
+                    message: Messages.Imported(
+                        context: context,
+                        data: new string[]
+                        {
+                            ss.Title,
+                            insertGroupCount.ToString(),
+                            updateGroupCount.ToString(),
+                            insertGroupMemberCount.ToString(),
+                            updateGroupMemberCount.ToString()
+                        }).Text);
+            }
+            else
+            {
+                return ApiResults.Get(new ApiResponse(
+                    id: context.Id,
+                    statusCode: 500,
+                    message: Messages.FileNotFound(context: context).Text));
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static void ImportGroupMember(
+            Context context,
+            GroupModel groupModel,
+            ref int insertGroupMemberCount,
+            ref int updateGroupMemberCount)
+        {
+            switch (groupModel.MemberType)
+            {
+                case "Dept":
+                case "User":
+                    UpdateOrInsertGroupMember(
+                        context: context,
+                        groupModel: groupModel,
+                        insertGroupMemberCount: ref insertGroupMemberCount,
+                        updateGroupMemberCount: ref updateGroupMemberCount);
+                    break;
+                case "Group":
+                    break;
+                default:
+                    break;
             }
         }
 
@@ -2144,6 +2612,16 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        private static string ApiInvalidMemberTypeError(Context context, int errorCsvRow)
+        {
+            return Error.Types.InvalidMemberType.Message(
+                context: context,
+                data: errorCsvRow.ToString()).Text;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private static string InvalidMemberKeyError(Context context, int errorCsvRow)
         {
             return Error.Types.InvalidMemberKey.MessageJson(
@@ -2154,11 +2632,22 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        private static string ApiInvalidMemberKeyError(Context context, int errorCsvRow)
+        {
+            return Error.Types.InvalidMemberKey.Message(
+                context: context,
+                data: errorCsvRow.ToString()).Text;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private static bool ValidateMemberType(string memberType)
         {
             return memberType.IsNullOrEmpty()
                 || memberType == "Dept"
-                || memberType == "User";
+                || memberType == "User"
+                || memberType == "Group";
         }
 
         /// <summary>
@@ -2179,6 +2668,8 @@ namespace Implem.Pleasanter.Models
                     return GetUserId(
                         context: context,
                         loginId: memberKey) > 0;
+                case "Group":
+                    return true;
                 default:
                     return false;
             }
@@ -2236,6 +2727,7 @@ namespace Implem.Pleasanter.Models
                         column: Rds.GroupMembersColumn().GroupMembersCount(),
                         where: Rds.GroupMembersWhere()
                             .GroupId(groupModel.GroupId)
+                            .ChildGroup(false)
                             .DeptId(deptId)
                             .UserId(userId))))
             {
@@ -2247,6 +2739,7 @@ namespace Implem.Pleasanter.Models
                         statements: Rds.UpdateGroupMembers(
                             where: Rds.GroupMembersWhere()
                                 .GroupId(groupModel.GroupId)
+                                .ChildGroup(false)
                                 .DeptId(deptId)
                                 .UserId(userId),
                             param: Rds.GroupMembersParam()
@@ -2370,7 +2863,10 @@ namespace Implem.Pleasanter.Models
                             var members = GroupMembers(
                                 context: context,
                                 groupId: groupModel.GroupId);
-                            if (members.Count() == 0)
+                            var children = GroupChildren(
+                                context: context,
+                                groupId: groupModel.GroupId);
+                            if (members.Count() == 0 && children.Count() == 0)
                             {
                                 AppendGroupColumnsToCsv(
                                     context: context,
@@ -2391,6 +2887,19 @@ namespace Implem.Pleasanter.Models
                                         export: export,
                                         csv: csv);
                                     AppendGroupMemberColumnsToCsv(
+                                        context: context,
+                                        dataRow: dataRow,
+                                        csv: csv);
+                                });
+                                children.ForEach(dataRow =>
+                                {
+                                    AppendGroupColumnsToCsv(
+                                        context: context,
+                                        ss: ss,
+                                        groupModel: groupModel,
+                                        export: export,
+                                        csv: csv);
+                                    AppendGroupChildrenColumnsToCsv(
                                         context: context,
                                         dataRow: dataRow,
                                         csv: csv);
@@ -2440,6 +2949,22 @@ namespace Implem.Pleasanter.Models
             {
                 AppendBlankGroupMemberColumnsToCsv(csv: csv);
             }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static void AppendGroupChildrenColumnsToCsv(Context context, DataRow dataRow, System.Text.StringBuilder csv)
+        {
+            var group = SiteInfo.Group(
+                tenantId: context.TenantId,
+                groupId: dataRow.Int("GroupId"));
+            csv.Append(
+                $",\"Group\"",
+                $",\"{group.Id}\"",
+                $",\"{group.Name}\"",
+                $",\"\"",
+                "\n");
         }
 
         /// <summary>
@@ -2607,6 +3132,96 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public static HtmlBuilder FieldSetGroupChildren(
+            this HtmlBuilder hb, Context context, GroupModel groupModel)
+        {
+            if (groupModel.MethodType == BaseModel.MethodTypes.New) return hb;
+            return hb.FieldSet(id: "FieldSetGroupChildren", action: () => hb
+                .CurrentChildren(
+                    context: context,
+                    groupModel: groupModel)
+                .SelectableChildren(context: context));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string CurrentMembersJson(Context context, int groupId)
+        {
+            var invalid = GroupValidators.OnGet(
+                context: context,
+                ss: SiteSettingsUtilities.GroupsSiteSettings(context: context));
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return invalid.MessageJson(context: context);
+            }
+            var pageSize = Parameters.General.DropDownSearchPageSize;
+            var offset = context.Forms.Int("CurrentMembersOffset") + pageSize;
+            var currentMembers = CurrentMembers(
+                context: context,
+                groupId: groupId,
+                offset: offset,
+                pageSize: pageSize);
+            var nextOffset = (currentMembers.Count < pageSize)
+                ? -1
+                : offset;
+            return new ResponseCollection(context: context)
+                .Append(
+                    target: "#CurrentMembers",
+                    value: new HtmlBuilder()
+                        .SelectableItems(
+                            listItemCollection: currentMembers))
+                .Val(target: "#CurrentMembersOffset", value: nextOffset)
+                .ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static ResponseCollection ReloadCurrentMembers(
+            this ResponseCollection self,
+            Context context,
+            int groupId)
+        {
+            var currentMembers = CurrentMembers(
+                context: context,
+                groupId: groupId,
+                offset: 0,
+                pageSize: Parameters.General.DropDownSearchPageSize);
+            return self
+                .Html(
+                    target: "#CurrentMembers",
+                    value: new HtmlBuilder()
+                        .SelectableItems(
+                            listItemCollection: currentMembers))
+                .Val(
+                    target: "#CurrentMembersOffset",
+                    value: 0);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static ResponseCollection ResetSelectableMembers(this ResponseCollection self)
+        {
+            return self
+                .Html(
+                    "#SelectableMembers",
+                    new HtmlBuilder().SelectableItems(
+                        listItemCollection: new Dictionary<string, ControlData>()))
+                .Val(
+                    target: "#SelectableMembersOffset",
+                    value: 0)
+                .Val(
+                    target: "#SearchMemberText",
+                    value: string.Empty);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static HtmlBuilder CurrentMembers(
             this HtmlBuilder hb, Context context, GroupModel groupModel)
         {
@@ -2619,8 +3234,12 @@ namespace Implem.Pleasanter.Models
                 labelText: Displays.CurrentMembers(context: context),
                 listItemCollection: CurrentMembers(
                     context: context,
-                    groupModel: groupModel),
+                    groupId: groupModel.GroupId,
+                    offset: 0,
+                    pageSize: Parameters.General.DropDownSearchPageSize),
                 selectedValueCollection: null,
+                action: "CurrentMembers",
+                method: "Post",
                 commandOptionPositionIsTop: true,
                 commandOptionAction: () => hb
                     .Div(css: "command-left", action: () => hb
@@ -2639,22 +3258,40 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlCss: "button-icon post",
                             text: Displays.Delete(context: context),
-                            onClick: "$p.deleteSelected($(this));",
+                            onClick: "$p.deleteFromCurrentMembers($(this));",
                             icon: "ui-icon-circle-triangle-e",
                             action: "SelectableMembers",
-                            method: "post")));
+                            method: "post")))
+                .Hidden(
+                    controlId: "AddedGroupMembers",
+                    css: "always-send",
+                    value: "[]")
+                .Hidden(
+                    controlId: "DeletedGroupMembers",
+                    css: "always-send",
+                    value: "[]")
+                .Hidden(
+                    controlId: "ModifiedGroupMembers",
+                    css: "always-send",
+                    value: "[]")
+                .Hidden(
+                    controlId: "CurrentMembersOffset",
+                    css: "always-send",
+                    value: "0");
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
         private static Dictionary<string, ControlData> CurrentMembers(
-            Context context, GroupModel groupModel)
+            Context context, int groupId, int offset = 0, int pageSize = 0)
         {
             var data = new Dictionary<string, ControlData>();
             GroupMembers(
                 context: context,
-                groupId: groupModel.GroupId)
+                groupId: groupId,
+                offset: offset,
+                pageSize: pageSize)
                     .ForEach(dataRow =>
                         data.AddMember(
                             context: context,
@@ -2665,25 +3302,29 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static EnumerableRowCollection<DataRow> GroupMembers(Context context, int groupId)
+        public static EnumerableRowCollection<DataRow> GroupMembers(
+            Context context, int groupId, int offset = 0, int pageSize = 0)
         {
             return Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectGroupMembers(
+                    offset: offset,
+                    pageSize: pageSize,
                     column: Rds.GroupMembersColumn()
                         .DeptId()
                         .UserId()
                         .Admin(),
                     where: Rds.GroupMembersWhere()
                         .GroupId(groupId)
+                        .ChildGroup(false)
                         .Add(or: Rds.GroupMembersWhere()
                             .Sub(sub: Rds.ExistsDepts(where: Rds.DeptsWhere()
                                 .DeptId(raw: "\"GroupMembers\".\"DeptId\"")))
                             .Sub(sub: Rds.ExistsUsers(where: Rds.UsersWhere()
                                 .UserId(raw: "\"GroupMembers\".\"UserId\"")))),
                     orderBy: Rds.GroupMembersOrderBy()
-                        .DeptId()
-                        .UserId()))
+                        .UserId()
+                        .DeptId()))
                             .AsEnumerable();
         }
 
@@ -2723,6 +3364,7 @@ namespace Implem.Pleasanter.Models
                         column: Rds.GroupMembersColumn().GroupId(),
                         where: Rds.GroupMembersWhere()
                             .GroupId(groupId)
+                            .ChildGroup(false)
                             .Add(or: Rds.GroupMembersWhere()
                                 .DeptId(deptId, _using: deptId > 0)
                                 .UserId(userId, _using: userId > 0))
@@ -2742,12 +3384,48 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string SelectableMembersJson(Context context)
         {
-            return new ResponseCollection(context: context).Html(
-                "#SelectableMembers",
-                new HtmlBuilder().SelectableItems(
-                    listItemCollection: SelectableMembers(
-                        context: context)))
-                            .ToJson();
+            var searchText = context.Forms.Data("SearchMemberText");
+            var pageSize = Parameters.General.DropDownSearchPageSize;
+            if (context.Forms.Data("ControlId") != "SelectableMembers")
+            {
+                return new ResponseCollection(context: context)
+                    .Invoke(
+                        methodName: "clearScrollTop",
+                        args: "SelectableMembersWrapper")
+                    .Html(
+                        "#SelectableMembers",
+                        new HtmlBuilder().SelectableItems(
+                            listItemCollection: SelectableMembers(
+                                context: context,
+                                searchText: searchText,
+                                offset: 0,
+                                pageSize: pageSize)))
+                    .Val(
+                        target: "#SelectableMembersOffset",
+                        value: 0)
+                    .ToJson();
+            }
+            else
+            {
+                var offset = context.Forms.Int("SelectableMembersOffset") + pageSize;
+                var selectableMembers = SelectableMembers(
+                    context: context,
+                    searchText: searchText,
+                    offset: offset,
+                    pageSize: pageSize);
+                var nextOffset = (selectableMembers.Count < pageSize)
+                    ? -1
+                    : offset;
+                return new ResponseCollection(context: context)
+                    .Append(
+                        target: "#SelectableMembers",
+                        value: new HtmlBuilder().SelectableItems(
+                            listItemCollection: selectableMembers))
+                    .Val(
+                        target: "#SelectableMembersOffset",
+                        value: nextOffset)
+                    .ToJson();
+            }
         }
 
         /// <summary>
@@ -2759,17 +3437,20 @@ namespace Implem.Pleasanter.Models
             return hb.FieldSelectable(
                 controlId: "SelectableMembers",
                 fieldCss: "field-vertical",
+                controlCss: " always-send send-all",
                 controlContainerCss: "container-selectable",
                 controlWrapperCss: " h300",
                 labelText: Displays.SelectableMembers(context: context),
                 listItemCollection: SelectableMembers(context: context),
+                action: "SelectableMembers",
+                method: "Post",
                 commandOptionPositionIsTop: true,
                 commandOptionAction: () => hb
                     .Div(css: "command-left", action: () => hb
                         .Button(
                             controlCss: "button-icon post",
                             text: Displays.Add(context: context),
-                            onClick: "$p.addSelected($(this), $('#CurrentMembers'));",
+                            onClick: "$p.addToCurrentMembers($(this));",
                             icon: "ui-icon-circle-triangle-w",
                             action: "SelectableMembers",
                             method: "post")
@@ -2779,92 +3460,73 @@ namespace Implem.Pleasanter.Models
                             controlCss: " always-send auto-postback w100",
                             placeholder: Displays.Search(context: context),
                             action: "SelectableMembers",
-                            method: "post")));
+                            method: "post")))
+                .Hidden(
+                    controlId: "SelectableMembersOffset",
+                    css: "always-send",
+                    value: "0");
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static Dictionary<string, ControlData> SelectableMembers(Context context)
+        private static Dictionary<string, ControlData> SelectableMembers(
+            Context context,
+            string searchText = null,
+            int offset = 0,
+            int pageSize = 0)
         {
             var data = new Dictionary<string, ControlData>();
-            var searchText = context.Forms.Data("SearchMemberText");
             if (!searchText.IsNullOrEmpty())
             {
-                var currentMembers = context.Forms.List("CurrentMembersAll");
+                var addedMembers = context.Forms.List("AddedGroupMembers");
+                var addedUsers = addedMembers?
+                    .Where(o => o.StartsWith("User,"))
+                    .Select(o => o.Split_2nd().ToInt());
+                var addedDepts = addedMembers?
+                    .Where(o => o.StartsWith("Dept,"))
+                    .Select(o => o.Split_2nd().ToInt());
+                var deletedMembers = context.Forms.List("DeletedGroupMembers");
+                var deletedUsers = deletedMembers?
+                    .Where(o => o.StartsWith("User,"))
+                    .Select(o => o.Split_2nd().ToInt());
+                var deletedDepts = deletedMembers?
+                    .Where(o => o.StartsWith("Dept,"))
+                    .Select(o => o.Split_2nd().ToInt());
+                var memberDeptsNotIn = deletedDepts?.Any() == true
+                    ? $"and \"GroupMembers\".\"DeptId\" not in ( {deletedDepts.Join()} )"
+                    : string.Empty;
+                var deptsNotIn = addedDepts?.Any() == true
+                    ? $"and \"Depts\".\"DeptId\" not in ( {addedDepts.Join()} )"
+                    : string.Empty;
+                var memberUsersNotIn = deletedUsers?.Any() == true
+                    ? $"and \"GroupMembers\".\"UserId\" not in ( {deletedUsers.Join()} )"
+                    : string.Empty;
+                var usersNotIn = addedUsers?.Any() == true
+                    ? $"and \"Users\".\"UserId\" not in ( {addedUsers.Join()} ) "
+                    : string.Empty;
+                var commandText = Def.Sql.SelectSelectableMembers.Params(
+                    memberDeptsNotIn,
+                    deptsNotIn,
+                    memberUsersNotIn,
+                    usersNotIn);
+                var parameters = new SqlParamCollection {
+                    { "GroupId", context.Id },
+                    { "TenantId", context.TenantId },
+                    { "SearchText", $"%{searchText}%" },
+                    { "Offset", offset },
+                    { "PageSize", pageSize }
+                };
                 Repository.ExecuteTable(
                     context: context,
-                    statements: new SqlStatement[]
-                    {
-                        Rds.SelectDepts(
-                            column: Rds.DeptsColumn()
-                                .DeptId()
-                                .DeptCode()
-                                .Add("0 as \"UserId\"")
-                                .Add("'' as \"UserCode\"")
-                                .Add("0 as \"IsUser\""),
-                            where: Rds.DeptsWhere()
-                                .TenantId(context.TenantId)
-                                .DeptId_In(
-                                    currentMembers?
-                                        .Where(o => o.StartsWith("Dept,"))
-                                        .Select(o => o.Split_2nd().ToInt()),
-                                    negative: true)
-                                .SqlWhereLike(
-                                    tableName: "Depts",
-                                    name: "SearchText",
-                                    searchText: searchText,
-                                    clauseCollection: new List<string>()
-                                    {
-                                        Rds.Depts_DeptCode_WhereLike(factory: context),
-                                        Rds.Depts_DeptName_WhereLike(factory: context)
-                                    })
-                                .Depts_Disabled(false)),
-                        Rds.SelectUsers(
-                            unionType: Sqls.UnionTypes.Union,
-                            column: Rds.UsersColumn()
-                                .Add("0 as \"DeptId\"")
-                                .Add("'' as \"DeptCode\"")
-                                .UserId()
-                                .UserCode()
-                                .Add("1 as \"IsUser\""),
-                            join: Rds.UsersJoin()
-                                .Add(new SqlJoin(
-                                    tableBracket: "\"Depts\"",
-                                    joinType: SqlJoin.JoinTypes.LeftOuter,
-                                    joinExpression: "\"Users\".\"DeptId\"=\"Depts\".\"DeptId\"")),
-                            where: Rds.UsersWhere()
-                                .TenantId(context.TenantId)
-                                .UserId_In(
-                                    currentMembers?
-                                        .Where(o => o.StartsWith("User,"))
-                                        .Select(o => o.Split_2nd().ToInt()),
-                                    negative: true)
-                                .SqlWhereLike(
-                                    tableName: "Users",
-                                    name: "SearchText",
-                                    searchText: searchText,
-                                    clauseCollection: new List<string>()
-                                    {
-                                        Rds.Users_LoginId_WhereLike(factory: context),
-                                        Rds.Users_Name_WhereLike(factory: context),
-                                        Rds.Users_UserCode_WhereLike(factory: context),
-                                        Rds.Users_Body_WhereLike(factory: context),
-                                        Rds.Depts_DeptCode_WhereLike(factory: context),
-                                        Rds.Depts_DeptName_WhereLike(factory: context),
-                                        Rds.Depts_Body_WhereLike(factory: context)
-                                    })
-                                .Users_Disabled(false))
-                    })
-                        .AsEnumerable()
-                        .OrderBy(dataRow => dataRow.Bool("IsUser"))
-                        .ThenBy(dataRow => dataRow.String("DeptCode"))
-                        .ThenBy(dataRow => dataRow.Int("DeptId"))
-                        .ThenBy(dataRow => dataRow.String("UserCode"))
-                        .ForEach(dataRow =>
-                            data.AddMember(
-                                context: context,
-                                dataRow: dataRow));
+                    statements: new SqlStatement(
+                        commandText: commandText,
+                        param: parameters))
+                    .AsEnumerable()
+                    .ForEach(dataRow =>
+                        data.AddMember(
+                            context: context,
+                            dataRow: dataRow));
             }
             return data;
         }
@@ -2906,6 +3568,358 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             format: Parameters.GroupMembers.UserFormat) + manager,
                         title: user?.Tooltip(context: context)));
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string CurrentChildrenJson(Context context, int groupId)
+        {
+            var invalid = GroupValidators.OnGet(
+                context: context,
+                ss: SiteSettingsUtilities.GroupsSiteSettings(context: context));
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return invalid.MessageJson(context: context);
+            }
+            var pageSize = Parameters.General.DropDownSearchPageSize;
+            var offset = context.Forms.Int("CurrentChildrenOffset") + pageSize;
+            var currentChildren = CurrentChildren(
+                context: context,
+                groupId: groupId,
+                offset: offset,
+                pageSize: pageSize);
+            var nextOffset = (currentChildren.Count < pageSize)
+                ? -1
+                : offset;
+            return new ResponseCollection(context: context)
+                .Append(
+                    target: "#CurrentChildren",
+                    value: new HtmlBuilder()
+                        .SelectableItems(
+                            listItemCollection: currentChildren))
+                .Val(target: "#CurrentChildrenOffset", value: nextOffset)
+                .ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static ResponseCollection ReloadCurrentChildren(
+            this ResponseCollection self,
+            Context context,
+            int groupId)
+        {
+            var currentChildren = CurrentChildren(
+                context: context,
+                groupId: groupId,
+                offset: 0,
+                pageSize: Parameters.General.DropDownSearchPageSize);
+            return self
+                .Html(
+                    target: "#CurrentChildren",
+                    value: new HtmlBuilder()
+                        .SelectableItems(
+                            listItemCollection: currentChildren))
+                .Val(
+                    target: "#CurrentChildrenOffset",
+                    value: 0);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static ResponseCollection ResetSelectableChildren(
+            this ResponseCollection self)
+        {
+            return self
+                .Html(
+                    "#SelectableChildren",
+                    new HtmlBuilder().SelectableItems(
+                        listItemCollection: new Dictionary<string, ControlData>()))
+                .Val(
+                    target: "#SelectableChildrenOffset",
+                    value: 0)
+                .Val(
+                    target: "#SearchChildrenText",
+                    value: string.Empty);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder CurrentChildren(
+            this HtmlBuilder hb, Context context, GroupModel groupModel)
+        {
+            return hb.FieldSelectable(
+                controlId: "CurrentChildren",
+                fieldCss: "field-vertical both",
+                controlContainerCss: "container-selectable",
+                controlWrapperCss: " h300",
+                controlCss: " always-send send-all",
+                labelText: Displays.CurrentGroupChildren(context: context),
+                listItemCollection: CurrentChildren(
+                    context: context,
+                    groupId: groupModel.GroupId,
+                    offset: 0,
+                    pageSize: Parameters.General.DropDownSearchPageSize),
+                selectedValueCollection: null,
+                action: "CurrentChildren",
+                method: "Post",
+                commandOptionPositionIsTop: true,
+                commandOptionAction: () => hb
+                    .Div(css: "command-left", action: () => hb
+                        .Button(
+                            controlCss: "button-icon post",
+                            text: Displays.Delete(context: context),
+                            onClick: "$p.deleteFromCurrentChildren($(this));",
+                            icon: "ui-icon-circle-triangle-e",
+                            action: "SelectableChildren",
+                            method: "post")))
+                .Hidden(
+                    controlId: "AddedGroupChildren",
+                    css: "always-send",
+                    value: "[]")
+                .Hidden(
+                    controlId: "DeletedGroupChildren",
+                    css: "always-send",
+                    value: "[]")
+                .Hidden(
+                    controlId: "ModifiedGroupChildren",
+                    css: "always-send",
+                    value: "[]")
+                .Hidden(
+                    controlId: "CurrentChildrenOffset",
+                    css: "always-send",
+                    value: "0");
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static Dictionary<string, ControlData> CurrentChildren(
+            Context context, int groupId, int offset = 0, int pageSize = 0)
+        {
+            var data = new Dictionary<string, ControlData>();
+            GroupChildren(
+                context: context,
+                groupId: groupId,
+                offset: offset,
+                pageSize: pageSize)
+                    .ForEach(dataRow =>
+                        data.AddChild(
+                            context: context,
+                            dataRow: dataRow));
+            return data;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static EnumerableRowCollection<DataRow> GroupChildren(
+            Context context, int groupId, int offset = 0, int pageSize = 0)
+        {
+            return Repository.ExecuteTable(
+                context: context,
+                statements: Rds.SelectGroups(
+                    offset: offset,
+                    pageSize: pageSize,
+                    column: Rds.GroupsColumn()
+                        .GroupId()
+                        .GroupName(),
+                    where: Rds.GroupsWhere()
+                        .GroupId_In(sub: Rds.SelectGroupChildren(
+                            column: Rds.GroupChildrenColumn().ChildId(),
+                            where: Rds.GroupChildrenWhere().GroupId(value: groupId))),
+                    orderBy: Rds.GroupsOrderBy()
+                        .GroupId()))
+                            .AsEnumerable();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static bool Contains(Context context, int groupId, Group child)
+        {
+            return ContainsChildren(
+                context: context,
+                groupId: groupId,
+                childId: child.Id);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static bool ContainsChildren(Context context, int groupId, int childId)
+        {
+            return Repository.ExecuteScalar_int(
+                context: context,
+                statements: Rds.SelectGroupChildren(
+                    column: Rds.GroupChildrenColumn()
+                        .GroupChildrenCount(),
+                    where: Rds.GroupChildrenWhere()
+                        .GroupId(groupId)
+                        .ChildId(childId))) == 1;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string SelectableChildrenJson(Context context)
+        {
+            var searchText = context.Forms.Data("SearchChildText");
+            var pageSize = Parameters.General.DropDownSearchPageSize;
+            if (context.Forms.Data("ControlId") != "SelectableChildren")
+            {
+                return new ResponseCollection(context: context)
+                    .Invoke(
+                        methodName: "clearScrollTop",
+                        args: "SelectableChildrenWrapper")
+                    .Html(
+                        "#SelectableChildren",
+                        new HtmlBuilder().SelectableItems(
+                            listItemCollection: SelectableChildren(
+                                context: context,
+                                searchText: searchText,
+                                offset: 0,
+                                pageSize: pageSize)))
+                    .Val(
+                        target: "#SelectableChildrenOffset",
+                        value: 0)
+                    .ToJson();
+            }
+            else
+            {
+                var offset = context.Forms.Int("SelectableChildrenOffset") + pageSize;
+                var selectableChildren = SelectableChildren(
+                    context: context,
+                    searchText: searchText,
+                    offset: offset,
+                    pageSize: pageSize);
+                var nextOffset = (selectableChildren.Count < pageSize)
+                    ? -1
+                    : offset;
+                return new ResponseCollection(context: context)
+                    .Append(
+                        target: "#SelectableChildren",
+                        value: new HtmlBuilder().SelectableItems(
+                            listItemCollection: selectableChildren))
+                    .Val(
+                        target: "#SelectableChildrenOffset",
+                        value: nextOffset)
+                    .ToJson();
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder SelectableChildren(
+            this HtmlBuilder hb, Context context)
+        {
+            return hb.FieldSelectable(
+                controlId: "SelectableChildren",
+                fieldCss: "field-vertical",
+                controlCss: " always-send send-all",
+                controlContainerCss: "container-selectable",
+                controlWrapperCss: " h300",
+                labelText: Displays.SelectableGroupChildren(context: context),
+                listItemCollection: SelectableChildren(context: context),
+                action: "SelectableChildren",
+                method: "Post",
+                commandOptionPositionIsTop: true,
+                commandOptionAction: () => hb
+                    .Div(css: "command-left", action: () => hb
+                        .Button(
+                            controlCss: "button-icon post",
+                            text: Displays.Add(context: context),
+                            onClick: "$p.addToCurrentChildren($(this));",
+                            icon: "ui-icon-circle-triangle-w",
+                            action: "SelectableChildren",
+                            method: "post")
+                        .Span(css: "ui-icon ui-icon-search")
+                        .TextBox(
+                            controlId: "SearchChildText",
+                            controlCss: " always-send auto-postback w100",
+                            placeholder: Displays.Search(context: context),
+                            action: "SelectableChildren",
+                            method: "post")))
+                .Hidden(
+                    controlId: "SelectableChildrenOffset",
+                    css: "always-send",
+                    value: "0");
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static Dictionary<string, ControlData> SelectableChildren(
+            Context context,
+            string searchText = null,
+            int offset = 0,
+            int pageSize = 0)
+        {
+            var data = new Dictionary<string, ControlData>();
+            if (!searchText.IsNullOrEmpty())
+            {
+                var addedChildren = context.Forms.List("AddedGroupChildren")?
+                    .Where(o => o.StartsWith("Group,"))
+                    .Select(o => o.Split_2nd().ToInt());
+                var deletedChildren = context.Forms.List("DeletedGroupChildren")?
+                    .Where(o => o.StartsWith("Group,"))
+                    .Select(o => o.Split_2nd().ToInt());
+                var childrenGroupNotIn = deletedChildren?.Any() == true
+                    ? $"and \"GroupChildren\".\"ChildId\" not in ( {deletedChildren.Join()} )"
+                    : string.Empty;
+                var groupsNotIn = addedChildren?.Any() == true
+                    ? $"and \"Groups\".\"GroupId\" not in ( {addedChildren.Join()} )"
+                    : string.Empty;
+                var commandText = Def.Sql.SelectSelectableGroupChildren.Params(
+                    childrenGroupNotIn,
+                    groupsNotIn);
+                var parameters = new SqlParamCollection {
+                    { "GroupId", context.Id },
+                    { "TenantId", context.TenantId },
+                    { "SearchText", $"%{searchText}%" },
+                    { "Offset", offset },
+                    { "PageSize", pageSize }
+                };
+                Repository.ExecuteTable(
+                    context: context,
+                    statements: new SqlStatement(
+                        commandText: commandText,
+                        param: parameters))
+                    .AsEnumerable()
+                    .ForEach(dataRow =>
+                        data.AddChild(
+                            context: context,
+                            dataRow: dataRow));
+            }
+            return data;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static void AddChild(
+            this Dictionary<string, ControlData> data, Context context, DataRow dataRow)
+        {
+            var childId = dataRow.Int("GroupId");
+            if (childId > 0)
+            {
+                var group = SiteInfo.Group(
+                    tenantId: context.TenantId,
+                    groupId: childId);
+                data.Add(
+                    $"Group,{childId},", 
+                    new ControlData(
+                        text: group.SelectableText(
+                            context: context,
+                            format: Parameters.GroupChildren.GroupFormat),
+                        title: group?.Tooltip()));
             }
         }
 
@@ -3029,7 +4043,11 @@ namespace Implem.Pleasanter.Models
                                     tableName: "Groups",
                                     subLeft: Rds.SelectGroupMembers(
                                     column: Rds.GroupMembersColumn().GroupMembersCount(),
-                                    where: Rds.GroupMembersWhere().UserId(userId).GroupId(raw: "\"Groups\".\"GroupId\"").Add(raw: "\"Groups\".\"GroupId\">0")),
+                                    where: Rds.GroupMembersWhere()
+                                        .UserId(userId)
+                                        .ChildGroup(false)
+                                        .GroupId(raw: "\"Groups\".\"GroupId\"")
+                                        .Add(raw: "\"Groups\".\"GroupId\">0")),
                                     _operator: ">0",
                                     _using: userId.HasValue),
                         orderBy: view.OrderBy(
@@ -3040,16 +4058,26 @@ namespace Implem.Pleasanter.Models
                         tableType: tableType);
                     groupCollection.ForEach(groupModel =>
                     {
-                        var data = new Dictionary<string, ControlData>();
+                        var member = new Dictionary<string, ControlData>();
                         GroupMembers(
                             context: context,
                             groupId: groupModel.GroupId)
                                 .ForEach(datarow =>
-                                    data.AddMember(
+                                    member.AddMember(
                                         context: context,
                                         dataRow: datarow));
-                        groupModel.GroupMembers = data.Select(
+                        groupModel.GroupMembers = member.Select(
                             groupMember => groupMember.Key).ToList<string>();
+                        var children = new Dictionary<string, ControlData>();
+                        GroupChildren(
+                            context: context,
+                            groupId: groupModel.GroupId)
+                                .ForEach(datarow =>
+                                    children.AddChild(
+                                        context: context,
+                                        dataRow: datarow));
+                        groupModel.GroupChildren = children.Select(
+                            groupChild => groupChild.Key).ToList<string>();
                     });
                     var groups = siteGroups == null
                         ? groupCollection
@@ -3330,6 +4358,488 @@ namespace Implem.Pleasanter.Models
                     After = "Depts"
                 }
             };
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string BulkDelete(Context context, SiteSettings ss)
+        {
+            if (context.CanDelete(ss: ss))
+            {
+                var selector = new RecordSelector(context: context);
+                var count = 0;
+                if (selector.All == false && selector.Selected.Any() == false)
+                {
+                    return Messages.ResponseSelectTargets(context: context).ToJson();
+                }
+                if (selector.All)
+                {
+                    count = BulkDelete(
+                        context: context,
+                        ss: ss,
+                        selected: selector.Selected,
+                        negative: true);
+                }
+                else
+                {
+                    count = BulkDelete(
+                        context: context,
+                        ss: ss,
+                        selected: selector.Selected);
+                }
+                Summaries.Synchronize(context: context, ss: ss);
+                var data = new string[]
+                {
+                    ss.Title,
+                    count.ToString()
+                };
+                return GridRows(
+                    context: context,
+                    ss: ss,
+                    clearCheck: true,
+                    message: Messages.BulkDeleted(
+                        context: context,
+                        data: data));
+            }
+            else
+            {
+                return Messages.ResponseHasNotPermission(context: context).ToJson();
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static int BulkDelete(
+            Context context,
+            SiteSettings ss,
+            IEnumerable<long> selected,
+            bool negative = false)
+        {
+            var subWhere = Views.GetBySession(
+                context: context,
+                ss: ss)
+                    .Where(
+                        context: context,
+                        ss: ss,
+                        itemJoin: false);
+            var where = Rds.GroupsWhere()
+                .TenantId(context.TenantId)
+                .GroupId_In(
+                    value: selected.Select(o => o.ToInt()).ToList(),
+                    negative: negative,
+                    _using: selected.Any())
+                .GroupId_In(
+                    sub: Rds.SelectGroups(
+                        column: Rds.GroupsColumn().GroupId(),
+                        join: ss.Join(
+                            context: context,
+                            join: new IJoin[]
+                            {
+                                subWhere
+                            }),
+                        where: subWhere));
+            var sub = Rds.SelectGroups(
+                column: Rds.GroupsColumn().GroupId(),
+                where: where);
+            return Repository.ExecuteScalar_response(
+                context: context,
+                transactional: true,
+                statements: new SqlStatement[]
+                {
+                    Rds.DeleteBinaries(
+                        factory: context,
+                        where: Rds.BinariesWhere()
+                            .TenantId(context.TenantId)
+                            .ReferenceId_In(sub: sub)
+                            .BinaryType(value: "TenantManagementImages")),
+                    Rds.DeletePermissions(
+                        factory: context,
+                        where: Rds.PermissionsWhere()
+                            .GroupId_In(sub: sub)),
+                    Rds.DeleteGroupMembers(
+                        factory: context,
+                        where: Rds.GroupMembersWhere()
+                            .GroupId_In(sub: sub)),
+                    Rds.DeleteGroups(
+                        factory: context,
+                        where: Rds.GroupsWhere()
+                            .TenantId(context.TenantId)
+                            .GroupId_In(sub: sub)),
+                    Rds.RowCount(),
+                    GroupMemberUtilities.RefreshAllChildMembers(
+                        tenantId: context.TenantId),
+                    StatusUtilities.UpdateStatus(
+                        tenantId: context.TenantId,
+                        type: StatusUtilities.Types.GroupsUpdated),
+                }).Count.ToInt();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static SqlWhereCollection BulkDeleteWhere(
+            Context context,
+            SiteSettings ss,
+            IEnumerable<long> selected,
+            bool negative)
+        {
+            return Views.GetBySession(context: context, ss: ss).Where(
+                context: context,
+                ss: ss,
+                where: Rds.GroupsWhere()
+                    .TenantId(context.TenantId)
+                    .GroupId_In(
+                        value: selected.Select(o => o.ToInt()),
+                        negative: negative,
+                        _using: selected.Any()));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string TrashBox(Context context, SiteSettings ss)
+        {
+            var hb = new HtmlBuilder();
+            var view = Views.GetBySession(context: context, ss: ss);
+            var gridData = GetGridData(context: context, ss: ss, view: view);
+            var viewMode = ViewModes.GetSessionData(
+                context: context,
+                siteId: ss.SiteId);
+            var serverScriptModelRow = ss.GetServerScriptModelRow(
+                context: context,
+                view: view,
+                gridData: gridData);
+            return hb.ViewModeTemplate(
+                context: context,
+                ss: ss,
+                view: view,
+                viewMode: viewMode,
+                serverScriptModelRow: serverScriptModelRow,
+                viewModeBody: () => hb
+                    .TrashBoxCommands(context: context, ss: ss)
+                    .Grid(
+                        context: context,
+                        ss: ss,
+                        gridData: gridData,
+                        view: view,
+                        action: "TrashBoxGridRows",
+                        serverScriptModelRow: serverScriptModelRow));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string TrashBoxJson(Context context, SiteSettings ss)
+        {
+            var view = Views.GetBySession(
+                context: context,
+                ss: ss);
+            var gridData = GetGridData(
+                context: context,
+                ss: ss,
+                view: view);
+            var body = new HtmlBuilder()
+                .TrashBoxCommands(context: context, ss: ss)
+                .Grid(
+                    context: context,
+                    ss: ss,
+                    gridData: gridData,
+                    view: view,
+                    action: "TrashBoxGridRows");
+            return new ResponseCollection(context: context)
+                .ViewMode(
+                    context: context,
+                    ss: ss,
+                    view: view,
+                    invoke: "setGrid",
+                    body: body)
+                .ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string Restore(Context context, SiteSettings ss)
+        {
+            if (!Parameters.Deleted.Restore)
+            {
+                return Error.Types.InvalidRequest.MessageJson(context: context);
+            }
+            else if (Permissions.CanEditGroup(context: context))
+            {
+                var selector = new RecordSelector(context: context);
+                var count = 0;
+                if (selector.All)
+                {
+                    count = Restore(
+                        context: context,
+                        ss: ss,
+                        selected: selector.Selected,
+                        negative: true);
+                }
+                else
+                {
+                    if (selector.Selected.Any())
+                    {
+                        count = Restore(
+                            context: context,
+                            ss: ss,
+                            selected: selector.Selected);
+                    }
+                    else
+                    {
+                        return Messages.ResponseSelectTargets(context: context).ToJson();
+                    }
+                }
+                Summaries.Synchronize(context: context, ss: ss);
+                return GridRows(
+                    context: context,
+                    ss: ss,
+                    clearCheck: true,
+                    message: Messages.BulkRestored(
+                        context: context,
+                        data: count.ToString()));
+            }
+            else
+            {
+                return Messages.ResponseHasNotPermission(context: context).ToJson();
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static int Restore(
+            Context context, SiteSettings ss, List<long> selected, bool negative = false)
+        {
+            var subWhere = Views.GetBySession(
+                context: context,
+                ss: ss)
+                    .Where(
+                        context: context,
+                        ss: ss,
+                        itemJoin: false);
+            var where = Rds.GroupsWhere()
+                .TenantId(
+                    value: context.TenantId,
+                    tableName: "Groups_Deleted")
+                .GroupId_In(
+                    value: selected.Select(o => o.ToInt()).ToList(),
+                    tableName: "Groups_Deleted",
+                    negative: negative,
+                    _using: selected.Any())
+                .GroupId_In(
+                    tableName: "Groups_Deleted",
+                    sub: Rds.SelectGroups(
+                        tableType: Sqls.TableTypes.Deleted,
+                        column: Rds.GroupsColumn().GroupId(),
+                        join: ss.Join(
+                            context: context,
+                            join: new IJoin[]
+                            {
+                                subWhere
+                            }),
+                        where: subWhere));
+            var sub = Rds.SelectGroups(
+                tableType: Sqls.TableTypes.Deleted,
+                _as: "Groups_Deleted",
+                column: Rds.GroupsColumn()
+                    .GroupId(tableName: "Groups_Deleted"),
+                where: where);
+            var count = Repository.ExecuteScalar_response(
+                context: context,
+                connectionString: Parameters.Rds.OwnerConnectionString,
+                transactional: true,
+                statements: new SqlStatement[]
+                {
+                    Rds.RestoreBinaries(
+                        factory: context,
+                        where: Rds.BinariesWhere()
+                            .TenantId(context.TenantId)
+                            .ReferenceId_In(sub: sub)
+                            .BinaryType(value: "TenantManagementImages")),
+                    Rds.RestoreGroupMembers(
+                        factory: context,
+                        where: Rds.GroupMembersWhere()
+                            .GroupId_In(sub: sub)),
+                    Rds.RestoreGroupChildren(
+                        factory: context,
+                        where: Rds.GroupChildrenWhere()
+                            .GroupId_In(sub: sub)),
+                    Rds.RestorePermissions(
+                        factory: context,
+                        where: Rds.PermissionsWhere()
+                            .GroupId_In(sub: sub)),
+                    Rds.RestoreGroups(
+                        factory: context,
+                        where: Rds.GroupsWhere()
+                            .TenantId(context.TenantId)
+                            .GroupId_In(sub: sub)),
+                    Rds.RowCount(),
+                    GroupMemberUtilities.RefreshAllChildMembers(
+                        tenantId: context.TenantId),
+                    StatusUtilities.UpdateStatus(
+                        tenantId: context.TenantId,
+                        type: StatusUtilities.Types.GroupsUpdated)
+                }).Count.ToInt();
+            return count;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string PhysicalBulkDelete(Context context, SiteSettings ss)
+        {
+            if (!Parameters.Deleted.PhysicalDelete)
+            {
+                return Error.Types.InvalidRequest.MessageJson(context: context);
+            }
+            if (Permissions.CanEditGroup(context: context))
+            {
+                var selector = new RecordSelector(context: context);
+                var count = 0;
+                if (selector.All)
+                {
+                    count = PhysicalBulkDelete(
+                        context: context,
+                        ss: ss,
+                        selected: selector.Selected,
+                        negative: true);
+                }
+                else
+                {
+                    if (selector.Selected.Any())
+                    {
+                        count = PhysicalBulkDelete(
+                            context: context,
+                            ss: ss,
+                            selected: selector.Selected);
+                    }
+                    else
+                    {
+                        return Messages.ResponseSelectTargets(context: context).ToJson();
+                    }
+                }
+                return GridRows(
+                    context: context,
+                    ss: ss,
+                    clearCheck: true,
+                    message: Messages.PhysicalBulkDeletedFromRecycleBin(
+                        context: context,
+                        data: count.ToString()));
+            }
+            else
+            {
+                return Messages.ResponseHasNotPermission(context: context).ToJson();
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static int PhysicalBulkDelete(
+            Context context,
+            SiteSettings ss,
+            List<long> selected = null,
+            SqlWhereCollection where = null,
+            SqlParamCollection param = null,
+            bool negative = false,
+            Sqls.TableTypes tableType = Sqls.TableTypes.Deleted)
+        {
+            var tableName = string.Empty;
+            switch (tableType)
+            {
+                case Sqls.TableTypes.History:
+                    tableName = "_History";
+                    break;
+                case Sqls.TableTypes.Deleted:
+                    tableName = "_Deleted";
+                    break;
+                default:
+                    break;
+            }
+            where = where ?? Rds.GroupsWhere()
+                .TenantId(
+                    value: context.TenantId,
+                    tableName: "Groups" + tableName)
+                .GroupId_In(
+                    value: selected.Select(o => o.ToInt()).ToList(),
+                    tableName: "Groups" + tableName,
+                    negative: negative,
+                    _using: selected.Any())
+                .GroupId_In(
+                    tableName: "Groups" + tableName,
+                    sub: Rds.SelectGroups(
+                        tableType: tableType,
+                        column: Rds.GroupsColumn().GroupId(),
+                        where: Views.GetBySession(
+                            context: context,
+                            ss: ss)
+                                .Where(
+                                    context: context,
+                                    ss: ss,
+                                    itemJoin: false)));
+            var sub = Rds.SelectGroups(
+                tableType: tableType,
+                _as: "Groups" + tableName,
+                column: Rds.GroupsColumn()
+                    .GroupId(tableName: "Groups" + tableName),
+                where: where,
+                param: param);
+            var dataRows = Rds.ExecuteTable(
+                context: context,
+                statements: Rds.SelectBinaries(
+                    tableType: tableType,
+                    column: Rds.BinariesColumn().Guid().BinaryType(),
+                    where: Rds.BinariesWhere().ReferenceId_In(sub: sub)))
+                        .AsEnumerable();
+            var count = Repository.ExecuteScalar_response(
+                context: context,
+                transactional: true,
+                statements: new SqlStatement[]
+                {
+                    Rds.PhysicalDeleteBinaries(
+                        tableType: tableType,
+                        where: Rds.BinariesWhere()
+                            .TenantId(context.TenantId)
+                            .ReferenceId_In(sub: sub)
+                            .BinaryType(value: "TenantManagementImages")),
+                    Rds.PhysicalDeleteGroupMembers(
+                        tableType: tableType,
+                        where: Rds.GroupMembersWhere()
+                            .GroupId_In(sub: sub)),
+                    Rds.PhysicalDeletePermissions(
+                        tableType: tableType,
+                        where: Rds.PermissionsWhere()
+                            .GroupId_In(sub: sub)),
+                    Rds.PhysicalDeleteGroupChildren(
+                        tableType: tableType,
+                        where: Rds.GroupChildrenWhere()
+                            .GroupId_In(sub: sub)),
+                    Rds.PhysicalDeleteGroups(
+                        tableType: tableType,
+                        where: Rds.GroupsWhere()
+                            .TenantId(context.TenantId)
+                            .GroupId_In(sub: sub)),
+                    Rds.RowCount()
+                }).Count.ToInt();
+            return count;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static int CountByIds(Context context, SiteSettings ss, List<int> ids)
+        {
+            return Repository.ExecuteScalar_int(
+                context: context,
+                statements: Rds.SelectGroups(
+                    column: Rds.GroupsColumn()
+                        .GroupsCount(),
+                    where: Rds.GroupsWhere()
+                        .GroupId_In(value: ids)));
         }
     }
 }

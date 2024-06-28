@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.DataProtection.KeyManagement;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
@@ -30,6 +31,10 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Implem.Pleasanter.Libraries.Settings;
+using System.Collections.Generic;
+
+
 namespace Implem.Pleasanter.NetCore
 {
     public class Startup
@@ -131,12 +136,19 @@ namespace Implem.Pleasanter.NetCore
                     options.Secure = CookieSecurePolicy.Always;
                 });
             }
-            var extensionDirectory = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), "ExtendedLibraries");
-            if (Directory.Exists(extensionDirectory))
+            foreach (var path in GetExtendedLibraryPaths())
             {
-                foreach (var assembly in Directory.GetFiles(extensionDirectory, "*.dll").Select(dll => Assembly.LoadFrom(dll)).ToArray())
+                if (Directory.Exists(path))
                 {
-                    mvcBuilder.AddApplicationPart(assembly);
+                    foreach (var assembly in Directory.GetFiles(path, "*.dll").Select(dll => Assembly.LoadFrom(dll)).ToArray())
+                    {
+                        mvcBuilder.AddApplicationPart(assembly);
+                        // DLL内にImplem.Pleasanter.NetCore.ExtendedLibrary.ExtendedLibraryクラスInitialize()staticメソッドがあった場合は呼び出す
+                        // 拡張DLL内でbackgrondのworkerスレッドを起動したい場合に使用
+                        assembly.GetType("Implem.Pleasanter.NetCore.ExtendedLibrary.ExtendedLibrary")?
+                            .GetMethod("Initialize")?
+                            .Invoke(null, null);
+                    }
                 }
             }
             services.Configure<FormOptions>(options =>
@@ -170,11 +182,9 @@ namespace Implem.Pleasanter.NetCore
             {
                 services.AddHostedService<ReminderBackgroundService>();
             }
-            if (Parameters.BackgroundService.TimerEnabled(
-                deploymentEnvironment: Parameters.Service.DeploymentEnvironment))
-            {
-                services.AddHostedService<TimerBackgroundService>();
-            }
+            services.AddHostedService<CustomQuartzHostedService>();
+            new TimerBackground().Init();
+            BackgroundServerScriptUtilities.InitSchedule();
             var blobContainerUri = Parameters.Security.AspNetCoreDataProtection?.BlobContainerUri;
             var keyIdentifier = Parameters.Security.AspNetCoreDataProtection?.KeyIdentifier;
             if (!blobContainerUri.IsNullOrEmpty()
@@ -187,6 +197,16 @@ namespace Implem.Pleasanter.NetCore
                     .AddDataProtection()
                     .PersistKeysToAzureBlobStorage(blobClient)
                     .ProtectKeysWithAzureKeyVault(new Uri(keyIdentifier), new DefaultAzureCredential());
+            }
+            else
+            {
+                services
+                    .AddOptions<KeyManagementOptions>()
+                    .Configure<IServiceScopeFactory>((options, factory) =>
+                    {
+                        options.XmlRepository = new AspNetCoreKeyManagementXmlRepository();
+                        options.XmlEncryptor = new AspNetCoreKeyManagementXmlEncryptor();
+                    });
             }
             if (Parameters.Security.HttpStrictTransportSecurity?.Enabled == true)
             {
@@ -204,6 +224,24 @@ namespace Implem.Pleasanter.NetCore
                     }
                 });
             }
+            services.AddOutputCache(options =>
+            {
+                options.AddBasePolicy(builder => builder.NoCache());
+                options.AddPolicy("imageCache", builder => builder.Expire(System.TimeSpan.FromSeconds(Parameters.OutputCache.OutputCacheControl.OutputCacheDuration)));
+            });
+        }
+
+        // 拡張DLLの探索をExtendedLibrariesディレクトリ内の一段下のディレクトリも対象をする。
+        private IEnumerable<string> GetExtendedLibraryPaths()
+        {
+            var list = new List<string>();
+            var basePath = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), "ExtendedLibraries");
+            if (Directory.Exists(basePath))
+            {
+                list.Add(basePath);
+                list.AddRange(Directory.GetDirectories(basePath));
+            }
+            return list;
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -247,6 +285,11 @@ namespace Implem.Pleasanter.NetCore
             app.UseCookiePolicy();
             app.UseRouting();
             app.UseCors();
+
+            if (Parameters.OutputCache.OutputCacheControl != null && !Parameters.OutputCache.OutputCacheControl.NoOutputCache)
+            {
+                 app.UseOutputCache();
+            }
             app.UseSession();
             app.UseAuthentication();
             app.UseAuthorization();
@@ -422,6 +465,7 @@ namespace Implem.Pleasanter.NetCore
             if (!httpContext.Session.Keys.Any(key => key == enabled))
             {
                 AspNetCoreCurrentRequestContext.AspNetCoreHttpContext.Current.Session.Set("SessionGuid", System.Text.Encoding.UTF8.GetBytes(Newtonsoft.Json.JsonConvert.SerializeObject(Strings.NewGuid())));
+                SetClientId();
                 httpContext.Session.Set(enabled, new byte[] { 1 });
                 var context = SessionStartContext();
                 SessionUtilities.SetStartTime(context: context);
@@ -458,6 +502,23 @@ namespace Implem.Pleasanter.NetCore
             };
         }
 
+        private static void SetClientId()
+        {
+            if (Parameters.SysLog.ClientId &&
+                AspNetCoreCurrentRequestContext.AspNetCoreHttpContext.Current?.Request.Cookies["Pleasanter_ClientId"] == null)
+            {
+                // Google ChromeにおけるCookie有効期限の上限400日を設定する
+                AspNetCoreCurrentRequestContext.AspNetCoreHttpContext.Current?.Response.Cookies.Append(
+                    "Pleasanter_ClientId",
+                    Strings.NewGuid(),
+                    new CookieOptions()
+                    {
+                        Expires = DateTime.UtcNow.AddDays(400),
+                        Secure= true
+                    });
+            }
+        }
+
         private static bool WindowsAuthenticated(Context context)
         {
             return Authentications.Windows(context: context)
@@ -485,9 +546,9 @@ namespace Implem.Pleasanter.NetCore
         }
         public Task Invoke(HttpContext context)
         {
-            context.Response.Headers.Add("X-Frame-Options", new StringValues("SAMEORIGIN"));
-            context.Response.Headers.Add("X-Xss-Protection", new StringValues("1; mode=block"));
-            context.Response.Headers.Add("X-Content-Type-Options", new StringValues("nosniff"));
+            context.Response.Headers.Append("X-Frame-Options", new StringValues("SAMEORIGIN"));
+            context.Response.Headers.Append("X-Xss-Protection", new StringValues("1; mode=block"));
+            context.Response.Headers.Append("X-Content-Type-Options", new StringValues("nosniff"));
             if (Parameters.Security.SecureCacheControl != null)
             {
                 if (Parameters.Security.SecureCacheControl.NoCache
@@ -506,7 +567,7 @@ namespace Implem.Pleasanter.NetCore
                 }
                 if (Parameters.Security.SecureCacheControl.PragmaNoCache)
                 {
-                    context.Response.Headers.Add("Pragma", new StringValues("no-cache"));
+                    context.Response.Headers.Append("Pragma", new StringValues("no-cache"));
                 }
             }
             return _next(context);

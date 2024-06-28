@@ -1,3 +1,4 @@
-﻿CREATE SCHEMA "#SchemaName#" AUTHORIZATION "#Uid_Owner#";
-GRANT USAGE ON SCHEMA "#SchemaName#" TO "#Uid_User#";
-CREATE EXTENSION IF NOT EXISTS pg_trgm;
+﻿create schema "#SchemaName#" authorization "#Uid_Owner#";
+grant usage on schema "#SchemaName#" to "#Uid_User#";
+create extension if not exists pg_trgm;
+create extension if not exists pgcrypto;

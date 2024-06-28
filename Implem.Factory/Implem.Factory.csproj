@@ -1,15 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <Copyright>Copyright © Implem Inc 2014 - 2023</Copyright>
-    <AssemblyVersion>1.3.44.0</AssemblyVersion>
-    <FileVersion>1.3.44.0</FileVersion>
-    <Version>1.3.44.0</Version>
+    <TargetFramework>net8.0</TargetFramework>
+    <Copyright>Copyright © Implem Inc 2014 - 2024</Copyright>
+    <AssemblyVersion>1.4.5.0</AssemblyVersion>
+    <FileVersion>1.4.5.0</FileVersion>
+    <Version>1.4.5.0</Version>
     <Nullable>disable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Implem.Libraries\Implem.Libraries.csproj" />
     <ProjectReference Include="..\Rds\Implem.IRds\Implem.IRds.csproj" />
     <ProjectReference Include="..\Rds\Implem.PostgreSql\Implem.PostgreSql.csproj" />
     <ProjectReference Include="..\Rds\Implem.SqlServer\Implem.SqlServer.csproj" />

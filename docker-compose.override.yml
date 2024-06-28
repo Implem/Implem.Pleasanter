@@ -1,8 +1,21 @@
-version: '3.5'
+﻿version: '3.5'
 
 services:
   Implem.Pleasanter:
+    build:
+      target: testing
+  Implem.PleasanterTest:
+    build:
+      context: .
+      dockerfile: ./Implem.PleasanterTest/Dockerfile
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-    ports:
-      - "80"
+        - Implem.Pleasanter_Rds_PostgreSQL_SaConnectionString=${Implem_Pleasanter_Rds_PostgreSQL_SaConnectionString}
+        - Implem.Pleasanter_Rds_PostgreSQL_OwnerConnectionString=${Implem_Pleasanter_Rds_PostgreSQL_OwnerConnectionString}
+        - Implem.Pleasanter_Rds_PostgreSQL_UserConnectionString=${Implem_Pleasanter_Rds_PostgreSQL_UserConnectionString}
+    image: implem.pleasantertest
+    container_name: xunittest
+    depends_on:
+      - db
+    networks:
+      - default
+

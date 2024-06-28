@@ -122,6 +122,8 @@ namespace Implem.Pleasanter.Libraries.Extensions
                             && column.ConvertDateTime(
                                 context: context,
                                 dt: new DateTime(today.Year, 1, 1).AddYears(1)) > value;
+                case "\t":
+                    return !value.InRange();
                 default:
                     return (o.Split_1st().IsNullOrEmpty()
                         || column.ConvertDateTime(
@@ -136,11 +138,10 @@ namespace Implem.Pleasanter.Libraries.Extensions
 
         public static bool Matched(this string value, Context context, Column column, string condition)
         {
-            var param = condition.Deserialize<List<string>>()
-                ?.Select(o => (column.Type == Column.Types.User || column.Type == Column.Types.Dept) && o == "Own"
-                    ? context.UserId.ToString()
-                    : o)
-                .ToList();
+            var param = GetMatchedParam(
+                context: context,
+                column: column,
+                condition: condition);
             if (column.HasChoices())
             {
                 if (column.MultipleSelections == true)
@@ -246,6 +247,24 @@ namespace Implem.Pleasanter.Libraries.Extensions
                             return true;
                     }
                 }
+            }
+        }
+
+        private static List<string> GetMatchedParam(Context context, Column column, string condition)
+        {
+            var param = condition.Deserialize<List<string>>();
+            switch (column.Type)
+            {
+                case Column.Types.User:
+                    return param?.Select(o => o == "Own"
+                        ? context.UserId.ToString()
+                        : o).ToList();
+                case Column.Types.Dept:
+                    return param?.Select(o => o == "Own"
+                        ? context.DeptId.ToString()
+                        : o).ToList();
+                default:
+                    return param?.ToList();
             }
         }
     }

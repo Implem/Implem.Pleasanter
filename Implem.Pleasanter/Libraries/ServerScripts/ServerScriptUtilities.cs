@@ -4,6 +4,7 @@ using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
+using Implem.Pleasanter.Libraries.Extensions;
 using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Security;
@@ -17,6 +18,7 @@ using System.Linq;
 using static Implem.Pleasanter.Libraries.Security.Permissions;
 using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
 using Types = Implem.Libraries.Utilities.Types;
+
 namespace Implem.Pleasanter.Libraries.ServerScripts
 {
     public static class ServerScriptUtilities
@@ -98,7 +100,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         }
 
         public static IEnumerable<(string Name, object Value)> Values(
-            Context context, SiteSettings ss, BaseItemModel model)
+            Context context, SiteSettings ss, BaseItemModel model, bool isFormulaServerScript = false)
         {
             var mine = model?.Mine(context: context);
             var values = new List<(string, object)>
@@ -146,13 +148,17 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     context: context,
                     ss: ss,
                     columnName: nameof(model.CreatedTime),
-                    value: model.CreatedTime?.Value,
+                    value: isFormulaServerScript
+                        ? model.CreatedTime?.Value.ToClientTimeZone(context: context)
+                        : model.CreatedTime?.Value,
                     mine: mine),
                 ReadNameValue(
                     context: context,
                     ss: ss,
                     columnName: nameof(model.UpdatedTime),
-                    value: model.UpdatedTime?.Value,
+                    value: isFormulaServerScript
+                        ? model.UpdatedTime?.Value.ToClientTimeZone(context: context)
+                        : model.UpdatedTime?.Value,
                     mine: mine)
             };
             values.AddRange(model
@@ -183,7 +189,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     context: context,
                     ss: ss,
                     columnName: element.Key,
-                    value: element.Value,
+                    value: isFormulaServerScript
+                        ? element.Value.ToClientTimeZone(context: context)
+                        : element.Value,
                     mine: mine)));
             values.AddRange(model
                 .DescriptionHash
@@ -227,13 +235,23 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     context: context,
                     ss: ss,
                     columnName: nameof(IssueModel.StartTime),
-                    value: issueModel.StartTime,
+                    value: isFormulaServerScript
+                        ? issueModel.StartTime.ToClientTimeZone(context: context)
+                        : issueModel.StartTime,
                     mine: mine));
                 values.Add(ReadNameValue(
                     context: context,
                     ss: ss,
                     columnName: nameof(IssueModel.CompletionTime),
-                    value: issueModel.CompletionTime.Value,
+                    value: isFormulaServerScript
+                        ? issueModel.CompletionTime.Value
+                            .AddDifferenceOfDates(
+                                format: ss.GetColumn(
+                                    context: context,
+                                    columnName: nameof(IssueModel.CompletionTime))?.EditorFormat,
+                                minus: true)
+                            .ToClientTimeZone(context: context)
+                        : issueModel.CompletionTime.Value,
                     mine: mine));
                 values.Add(ReadNameValue(
                     context: context,
@@ -312,6 +330,13 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     mine: mine));
             }
             return values.ToArray();
+        }
+
+        private static string ToClientTimeZone(this DateTime self, Context context)
+        {
+            return self.InRange()
+                ? self.ToLocal(context).ToString("yyyy/MM/dd HH:mm:ss")
+                : string.Empty;
         }
 
         public static IEnumerable<(string Name, object Value)> SavedValues(
@@ -1072,6 +1097,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     try
                     {
                         engine.ContinuationCallback = model.ContinuationCallback;
+                        engine.AddHostType(typeof(Newtonsoft.Json.JsonConvert));
                         engine.AddHostObject("context", model.Context);
                         engine.AddHostObject("grid", model.Grid);
                         engine.AddHostObject("model", model.Model);
@@ -1093,7 +1119,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                             engine.AddHostObject("httpClient", model.HttpClient);
                         }
                         engine.AddHostObject("utilities", model.Utilities);
-                        engine.Execute(scripts.Select(o => o.Body).Join("\n"));
+                        engine.Execute(ServerScriptJsLibraries.Scripts(), debug: false);
+                        engine.Execute(scripts.Select(o => o.Body).Join("\n"), debug: debug);
                     }
                     finally
                     {
@@ -1117,7 +1144,13 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         {
             if (scripts.Any(o => o.TimeOut == 0))
             {
-                return DateTime.MaxValue;
+                // ServerScriptTimeOutChangeable=falseの場合に管理画面入力で
+                // TimeOutに0が入る為に、それを回避するコードを追加した
+                return Parameters.Script.ServerScriptTimeOutChangeable
+                    ? DateTime.MaxValue
+                    : Parameters.Script.ServerScriptTimeOut == 0
+                        ? DateTime.MaxValue
+                        : DateTime.Now.AddMilliseconds(Parameters.Script.ServerScriptTimeOut);
             }
             else
             {
@@ -1138,7 +1171,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             string condition)
         {
             if (!(Parameters.Script.ServerScript != false
-                && context.ContractSettings.ServerScript != false))
+                && context.ContractSettings.ServerScript != false
+                && context.ServerScriptDisabled == false))
             {
                 return null;
             }
@@ -1196,9 +1230,16 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             long id,
             string apiRequestBody)
         {
-            var createdContext = new Context(apiRequestBody: MergedApiRequestBody(
-                context: context,
-                apiRequestBody: apiRequestBody));
+            var createdContext = context.BackgroundServerScript
+                ? new Context(
+                    userId: context.UserId,
+                    deptId: context.DeptId,
+                    tenantId: context.TenantId,
+                    request: false,
+                    setAuthenticated: true)
+                : new Context(apiRequestBody: MergedApiRequestBody(
+                    context: context,
+                    apiRequestBody: apiRequestBody));
             createdContext.LogBuilder = context.LogBuilder;
             createdContext.UserData = context.UserData;
             createdContext.Messages = context.Messages;
@@ -1208,6 +1249,11 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             createdContext.ApiRequestBody = apiRequestBody;
             createdContext.PermissionHash = Permissions.Get(context: createdContext);
             createdContext.ServerScriptDepth = context.ServerScriptDepth + 1;
+            if (context.BackgroundServerScript)
+            {
+                createdContext.BackgroundServerScript = context.BackgroundServerScript;
+                createdContext.SetPermissions();
+            }
             return createdContext;
         }
 
@@ -1306,6 +1352,37 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 model: model,
                 onTesting: false)).ToArray();
             return items;
+        }
+
+        public static ServerScriptModelApiModel GetClosestSite(
+            Context context,
+            long? id = null,
+            string siteName = null)
+        {
+            if (siteName.IsNullOrEmpty()) return null;
+            var startId = id ?? context.SiteId;
+            if (context.CanRead(
+                ss: SiteSettingsUtilities.Get(
+                    context: context,
+                    siteId: startId,
+                    referenceId: startId),
+                site: true) == false) return null;
+            var tenantCache = SiteInfo.TenantCaches[context.TenantId];
+            var findId = tenantCache.SiteNameTree.Find(
+                startId: startId,
+                name: siteName);
+            if (findId == -1) return null;
+            if (context.CanRead(
+                ss: SiteSettingsUtilities.Get(
+                    context: context,
+                    siteId: findId,
+                    referenceId: findId),
+                site: true) == false) return null;
+            return GetSite(
+                context: context,
+                id: findId,
+                apiRequestBody: string.Empty)
+                    .FirstOrDefault();
         }
 
         public static bool Create(Context context, long id, object model)
@@ -1407,6 +1484,12 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     ?.Where(
                         context: apiContext,
                         ss: ss);
+            var join = ss.Join(
+                context: apiContext,
+                join: new IJoin[]
+                {
+                    where
+                });
             var column = ss.GetColumn(
                 context: apiContext,
                 columnName: columnName);
@@ -1428,6 +1511,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                                 column: Rds.IssuesColumn().Add(
                                     column: column,
                                     function: function),
+                                join: join,
                                 where: where));
                     case "Results":
                         return Repository.ExecuteScalar_decimal(
@@ -1436,6 +1520,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                                 column: Rds.ResultsColumn().Add(
                                     column: column,
                                     function: function),
+                                join: join,
                                 where: where));
                 }
             }
@@ -1469,8 +1554,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 {
                     where
                 });
-            if (where != null
-                && apiContext.CanRead(ss: ss))
+            if (where != null)
             {
                 switch (ss.ReferenceType)
                 {

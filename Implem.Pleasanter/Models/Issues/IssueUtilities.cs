@@ -30,9 +30,11 @@ namespace Implem.Pleasanter.Models
         public static string Index(Context context, SiteSettings ss)
         {
             var hb = new HtmlBuilder();
-            var view = Views.GetBySession(
-                context: context,
-                ss: ss);
+            var view = ss.DashboardParts.Any()
+                ? ss.DashboardParts.FirstOrDefault().View
+                : Views.GetBySession(
+                    context: context,
+                    ss: ss);
             var gridData = GetGridData(
                 context: context,
                 ss: ss,
@@ -44,18 +46,37 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 view: view,
                 gridData: gridData);
-            return hb.ViewModeTemplate(
+            var suffix = ss.DashboardParts.Any()
+                ? Views.GetBySession(
+                    context: context,
+                    ss: ss)
+                    .GetIndexSuffix()
+                : "";
+            if (ss.DashboardParts?.Any() != true)
+            {
+                return hb.ViewModeTemplate(
                 context: context,
                 ss: ss,
                 view: view,
                 viewMode: viewMode,
                 serverScriptModelRow: serverScriptModelRow,
                 viewModeBody: () => hb.Grid(
-                   context: context,
-                   gridData: gridData,
-                   ss: ss,
-                   view: view,
-                   serverScriptModelRow: serverScriptModelRow));
+                    context: context,
+                    gridData: gridData,
+                    ss: ss,
+                    view: view,
+                    serverScriptModelRow: serverScriptModelRow));
+            }
+            else
+            {
+                return hb.Grid(
+                    context: context,
+                    ss: ss,
+                    gridData: gridData,
+                    view: view,
+                    serverScriptModelRow: serverScriptModelRow,
+                    suffix: suffix).ToString();
+            }
         }
 
         private static string ViewModeTemplate(
@@ -84,6 +105,7 @@ namespace Implem.Pleasanter.Models
                 siteId: ss.SiteId,
                 parentId: ss.ParentId,
                 referenceType: "Issues",
+                useTitle: false,
                 script: JavaScripts.ViewMode(viewMode),
                 userScript: ss.ViewModeScripts(context: context),
                 userStyle: ss.ViewModeStyles(context: context),
@@ -173,7 +195,11 @@ namespace Implem.Pleasanter.Models
                     .Div(attributes: new HtmlAttributes()
                         .Id("BulkUpdateSelectorDialog")
                         .Class("dialog")
-                        .Title(Displays.BulkUpdate(context: context))))
+                        .Title(Displays.BulkUpdate(context: context)))
+                    .Div(attributes: new HtmlAttributes()
+                        .Id("AnalyPartDialog")
+                        .Class("dialog")
+                        .Title(Displays.AnalyPart(context: context))))
                     .ToString();
         }
 
@@ -227,7 +253,8 @@ namespace Implem.Pleasanter.Models
             GridData gridData,
             View view,
             string action = "GridRows",
-            ServerScriptModelRow serverScriptModelRow = null)
+            ServerScriptModelRow serverScriptModelRow = null,
+            string suffix = "")
         {
             var columns = ss.GetGridColumns(
                 context: context,
@@ -236,7 +263,7 @@ namespace Implem.Pleasanter.Models
             return hb
                 .Table(
                     attributes: new HtmlAttributes()
-                        .Id("Grid")
+                        .Id($"Grid{suffix}")
                         .Class(ss.GridCss(context: context))
                         .DataValue("back", _using: ss?.IntegratedSites?.Any() == true)
                         .DataAction(action)
@@ -250,14 +277,16 @@ namespace Implem.Pleasanter.Models
                             view: view,
                             editRow: context.Forms.Bool("EditOnGrid"),
                             serverScriptModelRow: serverScriptModelRow,
-                            action: action))
+                            action: action,
+                            suffix: suffix))
                 .GridHeaderMenus(
                     context: context,
                     ss: ss,
                     view: view,
-                    columns: columns)
+                    columns: columns,
+                    suffix: suffix)
                 .Hidden(
-                    controlId: "GridOffset",
+                    controlId: $"GridOffset{suffix}",
                     value: ss.GridNextOffset(
                         0,
                         gridData.DataRows.Count(),
@@ -283,9 +312,14 @@ namespace Implem.Pleasanter.Models
             bool windowScrollTop = false,
             bool clearCheck = false,
             string action = "GridRows",
-            Message message = null)
+            Message message = null,
+            string suffix = "")
         {
-            var view = Views.GetBySession(context: context, ss: ss);
+            var view = ss.DashboardParts.Any()
+                ? ss.DashboardParts.FirstOrDefault().View
+                : Views.GetBySession(
+                    context: context,
+                    ss: ss);
             var gridData = GetGridData(
                 context: context,
                 ss: ss,
@@ -339,65 +373,90 @@ namespace Implem.Pleasanter.Models
                         view: view);
                 }
             }
-            return new ResponseCollection(context: context)
-                .WindowScrollTop(_using: windowScrollTop)
-                .Remove(".grid tr", _using: offset == 0)
-                .ClearFormData("GridOffset")
-                .ClearFormData("GridCheckAll", _using: clearCheck)
-                .ClearFormData("GridUnCheckedItems", _using: clearCheck)
-                .ClearFormData("GridCheckedItems", _using: clearCheck)
-                .ClearFormData("OriginalId", _using: newOnGrid)
-                .CloseDialog(_using: offset == 0)
-                .ReplaceAll("#CopyDirectUrlToClipboard", new HtmlBuilder()
-                    .CopyDirectUrlToClipboard(
-                        context: context,
-                        view: view))
-                .ReplaceAll(
-                    "#Aggregations",
-                    new HtmlBuilder().Aggregations(
-                        context: context,
-                        ss: ss,
-                        view: view),
-                    _using: offset == 0)
-                .ReplaceAll(
-                    "#ViewFilters",
-                    new HtmlBuilder()
-                        .ViewFilters(
+            if (suffix.IsNullOrEmpty())
+            {
+                return new ResponseCollection(context: context)
+                    .WindowScrollTop(_using: windowScrollTop)
+                    .Remove(".grid tr", _using: offset == 0)
+                    .ClearFormData("GridOffset")
+                    .ClearFormData("GridCheckAll", _using: clearCheck)
+                    .ClearFormData("GridUnCheckedItems", _using: clearCheck)
+                    .ClearFormData("GridCheckedItems", _using: clearCheck)
+                    .ClearFormData("OriginalId", _using: newOnGrid)
+                    .CloseDialog(_using: offset == 0)
+                    .ReplaceAll("#CopyToClipboards", new HtmlBuilder()
+                        .CopyDirectUrlToClipboard(
+                            context: context,
+                            view: view))
+                    .ReplaceAll(
+                        "#Aggregations",
+                        new HtmlBuilder().Aggregations(
                             context: context,
                             ss: ss,
                             view: view),
-                    _using: context.Forms.ControlId().StartsWith("ViewFiltersOnGridHeader__"))
-                .Append("#Grid", new HtmlBuilder().GridRows(
-                    context: context,
-                    ss: ss,
-                    gridData: gridData,
-                    columns: columns,
-                    view: view,
-                    issueModel: issueModel,
-                    editRow: editRow,
-                    newRowId: newRowId,
-                    offset: offset,
-                    clearCheck: clearCheck,
-                    action: action))
-                .Val("#NewRowId", newRowId, _using: newOnGrid)
-                .CopyRowFormData(
-                    context: context,
-                    ss: ss,
-                    issueModel: issueModel,
-                    columns: columns,
-                    newOnGrid: newOnGrid,
-                    newRowId: newRowId,
-                    originalId: originalId)
-                .Val("#GridOffset", ss.GridNextOffset(
-                    offset,
-                    gridData.DataRows.Count(),
-                    gridData.TotalCount))
-                .Val("#GridRowIds", gridData.DataRows.Select(g => g.Long("IssueId")).ToJson())
-                .Val("#GridColumns", columns.Select(o => o.ColumnName).ToJson())
-                .Paging("#Grid")
-                .Message(message)
-                .Messages(context.Messages)
-                .ToJson();
+                        _using: offset == 0)
+                    .ReplaceAll(
+                        "#ViewFilters",
+                        new HtmlBuilder()
+                            .ViewFilters(
+                                context: context,
+                                ss: ss,
+                                view: view),
+                        _using: context.Forms.ControlId().StartsWith("ViewFiltersOnGridHeader__"))
+                    .Append("#Grid", new HtmlBuilder().GridRows(
+                        context: context,
+                        ss: ss,
+                        gridData: gridData,
+                        columns: columns,
+                        view: view,
+                        issueModel: issueModel,
+                        editRow: editRow,
+                        newRowId: newRowId,
+                        offset: offset,
+                        clearCheck: clearCheck,
+                        action: action))
+                    .Val("#NewRowId", newRowId, _using: newOnGrid)
+                    .CopyRowFormData(
+                        context: context,
+                        ss: ss,
+                        issueModel: issueModel,
+                        columns: columns,
+                        newOnGrid: newOnGrid,
+                        newRowId: newRowId,
+                        originalId: originalId)
+                    .Val("#GridOffset", ss.GridNextOffset(
+                        offset,
+                        gridData.DataRows.Count(),
+                        gridData.TotalCount))
+                    .Val("#GridRowIds", gridData.DataRows.Select(g => g.Long("IssueId")).ToJson())
+                    .Val("#GridColumns", columns.Select(o => o.ColumnName).ToJson())
+                    .Paging("#Grid")
+                    .Message(message)
+                    .Messages(context.Messages)
+                    .ToJson();
+            }
+            else
+            {
+                return new ResponseCollection(context: context)
+                    .ClearFormData("GridOffset")
+                    .Append($"#Grid{suffix}", new HtmlBuilder().GridRows(
+                        context: context,
+                        ss: ss,
+                        gridData: gridData,
+                        columns: columns,
+                        view: view,
+                        issueModel: issueModel,
+                        editRow: editRow,
+                        newRowId: newRowId,
+                        offset: offset,
+                        clearCheck: clearCheck,
+                        action: action))
+                    .Val($"#GridOffset{suffix}", ss.GridNextOffset(
+                        offset,
+                        gridData.DataRows.Count(),
+                        gridData.TotalCount))
+                    .ToJson();
+            }
         }
 
         private static HtmlBuilder GridRows(
@@ -413,11 +472,14 @@ namespace Implem.Pleasanter.Models
             int offset = 0,
             bool clearCheck = false,
             string action = "GridRows",
-            ServerScriptModelRow serverScriptModelRow = null)
+            ServerScriptModelRow serverScriptModelRow = null,
+            string suffix = "")
         {
-            var checkRow = ss.CheckRow(
-                context: context,
-                gridColumns: view.GridColumns);
+            var checkRow = ss.DashboardParts.Any()
+                ? false
+                : ss.CheckRow(
+                    context: context,
+                    gridColumns: view.GridColumns);
             var checkAll = clearCheck
                 ? false
                 : context.Forms.Bool("GridCheckAll");
@@ -426,6 +488,9 @@ namespace Implem.Pleasanter.Models
                 ss: ss);
             return hb
                 .THead(
+                    css: ss.DashboardParts.Any()
+                        ? "dashboard-grid-header"
+                        : "",
                     _using: offset == 0,
                     action: () => hb
                         .GridHeader(
@@ -437,7 +502,8 @@ namespace Implem.Pleasanter.Models
                             checkRow: checkRow,
                             checkAll: checkAll,
                             action: action,
-                            serverScriptModelRow: serverScriptModelRow))
+                            serverScriptModelRow: serverScriptModelRow,
+                            suffix: suffix))
                 .TBody(action: () => hb
                     .GridNewRows(
                         context: context,
@@ -1417,7 +1483,9 @@ namespace Implem.Pleasanter.Models
                 : hb.Template(
                     context: context,
                     ss: ss,
-                    view: null,
+                    view: Views.GetBySession(
+                        context: context,
+                        ss: ss),
                     siteId: issueModel.SiteId,
                     parentId: ss.ParentId,
                     referenceType: "Issues",
@@ -1432,6 +1500,7 @@ namespace Implem.Pleasanter.Models
                         context: context, methodType: issueModel.MethodType),
                     userStyle: ss.EditorStyles(
                         context: context, methodType: issueModel.MethodType),
+                    methodType: issueModel.MethodType,
                     serverScriptModelRow: serverScriptModelRow,
                     action: () => hb
                         .Editor(
@@ -1639,7 +1708,8 @@ namespace Implem.Pleasanter.Models
                             _using: !context.Ajax)
                         .Hidden(
                             controlId: "TriggerRelatingColumns_Editor", 
-                            value: Jsons.ToJson(ss.RelatingColumns)))
+                            value: Jsons.ToJson(ss.RelatingColumns))
+                        .PostInitHiddenData(context: context))
                 .OutgoingMailsForm(
                     context: context,
                     ss: ss,
@@ -1659,6 +1729,21 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     issueModel: issueModel,
                     ss: ss));
+        }
+
+        private static HtmlBuilder PostInitHiddenData(
+            this HtmlBuilder hb,
+            Context context)
+        {
+            var postInitData = context.Forms.Where(o => o.Key.StartsWith("PostInit_"));
+            postInitData.ForEach(data =>
+            {
+                hb.Hidden(
+                    controlId: data.Key,
+                    value: data.Value,
+                    css: "always-send");
+            });
+            return hb;
         }
 
         private static HtmlBuilder EditorTabs(
@@ -2267,7 +2352,7 @@ namespace Implem.Pleasanter.Models
                 issueModel.VerType == Versions.VerTypes.Latest
                     ? hb.Button(
                         text: Displays.Separate(context: context),
-                        controlCss: "button-icon",
+                        controlCss: "button-icon button-positive",
                         onClick: "$p.openSeparateSettingsDialog($(this));",
                         icon: "ui-icon-extlink",
                         action: "EditSeparateSettings",
@@ -2334,22 +2419,34 @@ namespace Implem.Pleasanter.Models
             issueModel.MethodType = issueModel.IssueId == 0
                 ? BaseModel.MethodTypes.New
                 : BaseModel.MethodTypes.Edit;
-            var editInDialog = context.Forms.Bool("EditInDialog");
-            return context.QueryStrings.Bool("control-auto-postback")
-                ? EditorFields(
+            if (context.QueryStrings.Bool("control-auto-postback"))
+            {
+                return EditorFields(
                     context: context,
                     ss: ss,
-                    issueModel: issueModel)
-                : editInDialog
+                    issueModel: issueModel);
+            }
+            else
+            {
+                var editInDialog = context.Forms.Bool("EditInDialog");
+                var process = Process.GetProcess(
+                    context: context,
+                    ss: ss,
+                    getProcessMatchConditions: (o) => issueModel.GetProcessMatchConditions(
+                        context: context,
+                        ss: ss,
+                        process: o));
+                var html = Editor(
+                    context: context,
+                    ss: ss,
+                    issueModel: issueModel,
+                    editInDialog: editInDialog);
+                return editInDialog
                     ? new IssuesResponseCollection(
                         context: context,
                         issueModel: issueModel)
                             .Response("id", issueModel.IssueId.ToString())
-                            .Html("#EditInDialogBody", Editor(
-                                context: context,
-                                ss: ss,
-                                issueModel: issueModel,
-                                editInDialog: editInDialog))
+                            .Html("#EditInDialogBody", html)
                             .Invoke("openEditorDialog")
                             .Messages(context.Messages)
                             .Events("on_editor_load")
@@ -2358,22 +2455,18 @@ namespace Implem.Pleasanter.Models
                         issueModel: issueModel)
                             .Response("id", issueModel.IssueId.ToString())
                             .Invoke("clearDialogs")
-                            .ReplaceAll("#MainContainer", Editor(context, ss, issueModel))
+                            .ReplaceAll("#MainContainer", html)
                             .Val("#Id", issueModel.IssueId.ToString())
                             .Val("#SwitchTargets", switchTargets, _using: switchTargets != null)
                             .SetMemory("formChanged", false)
                             .Invoke("setCurrentIndex")
                             .Invoke("initRelatingColumnEditor")
                             // ?? 以降はプロセスのアクション種別がポストバックの場合にもメッセージを出せるようにする処理
-                            .Message(message ?? ss.Processes
-                                ?.Where(o => $"Process_{o.Id}" == context.Forms.ControlId())
-                                .Where(o => o.Accessable(
-                                    context: context,
-                                    ss: ss))
-                                .FirstOrDefault(o => o.MatchConditions)?.GetSuccessMessage(context: context))
+                            .Message(message ?? process?.GetSuccessMessage(context: context))
                             .Messages(context.Messages)
-                            .ClearFormData()
+                            .ClearFormData(_using: process?.ActionType != Process.ActionTypes.PostBack)
                             .Events("on_editor_load");
+            }
         }
 
         private static ResponseCollection EditorFields(
@@ -2671,9 +2764,13 @@ namespace Implem.Pleasanter.Models
                                                     controlId: $"Issues_{column.Name}",
                                                     columnName: column.ColumnName,
                                                     fieldCss: column.FieldCss
-                                                        + (column.TextAlign == SiteSettings.TextAlignTypes.Right
-                                                            ? " right-align"
-                                                            : string.Empty),
+                                                        + (
+                                                            column.TextAlign switch
+                                                            {
+                                                                SiteSettings.TextAlignTypes.Right => " right-align",
+                                                                SiteSettings.TextAlignTypes.Center => " center-align",
+                                                                _ => string.Empty
+                                                            }),
                                                     fieldDescription: column.Description,
                                                     labelText: column.LabelText,
                                                     value: issueModel.GetAttachments(columnName: column.Name).ToJson(),
@@ -2684,7 +2781,8 @@ namespace Implem.Pleasanter.Models
                                                         baseModel: issueModel)
                                                             != Permissions.ColumnPermissionTypes.Update,
                                                     allowDelete: column.AllowDeleteAttachments != false,
-                                                    validateRequired: column.ValidateRequired != false),
+                                                    validateRequired: column.ValidateRequired != false,
+                                                    inputGuide: column.InputGuide),
                                             options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                         break;
                                 }
@@ -2811,7 +2909,6 @@ namespace Implem.Pleasanter.Models
                                 mine: null)
                             && !column.Id_Ver
                             && column.EditorColumn
-                            && column.TypeCs != "Attachments"
                             && column.GridDesign.IsNullOrEmpty())
                         {
                             hb.Td(action: () => hb
@@ -3120,6 +3217,10 @@ namespace Implem.Pleasanter.Models
             {
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
+            }
+            if (copyFrom > 0)
+            {
+                issueModel.Comments.RemoveAll(o => !o.Created);
             }
             var processes = ss.Processes
                 ?.Where(process => process.IsTarget(context: context))
@@ -3992,6 +4093,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         dataTableName: formData.Id.ToString()));
+                    issueCollection.Add(issueModel);
                 }
                 else
                 {
@@ -4016,6 +4118,14 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 transactional: true,
                 statements: statements.ToArray());
+            issueCollection.ForEach(issueModel =>
+                issueModel.WriteAttachments(
+                    context: context,
+                    ss: ss,
+                    verUp: Versions.VerUp(
+                        context: context,
+                        ss: ss,
+                        verUp: issueModel.VerUp)));
             var response = responses.FirstOrDefault(o => !o.Event.IsNullOrEmpty());
             switch (response?.Event)
             {
@@ -4509,24 +4619,41 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     errorData: new ErrorData(type: Error.Types.InvalidJsonData));
             }
+            var error = new ErrorData(Error.Types.None);
             api.View = api.View ?? new View();
             api.Keys.ForEach(columnName =>
             {
+                if (error.Type != Error.Types.None) return;
                 var objectValue = data.ObjectValue(columnName: columnName);
                 if (objectValue != null)
                 {
+                    var column = ss.GetColumn(
+                        context: context,
+                        columnName: columnName);
+                    if (column?.TypeName == "datetime"
+                        && objectValue.ToDateTime().InRange() == false)
+                    {
+                        error = new ErrorData(
+                            type: Error.Types.invalidUpsertKey,
+                            data: $"('{columnName}'='{objectValue.ToStr()}')");
+                        return;
+                    }
                     api.View.AddColumnFilterHash(
                         context: context,
                         ss: ss,
-                        column: ss.GetColumn(
-                            context: context,
-                            columnName: columnName),
+                        column: column,
                         objectValue: objectValue);
                     api.View.AddColumnFilterSearchTypes(
                         columnName: columnName,
                         searchType: Column.SearchTypes.ExactMatch);
                 }
             });
+            if (error.Type != Error.Types.None)
+            {
+                return ApiResults.Error(
+                    context: context,
+                    errorData: error);
+            }
             var issueApiModel = context.RequestDataString.Deserialize<IssueApiModel>();
             if (issueApiModel == null)
             {
@@ -4622,12 +4749,23 @@ namespace Implem.Pleasanter.Models
                 context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
                 return false;
             }
+            var error = Error.Types.None;
             api.View = api.View ?? new View();
             api.Keys.ForEach(columnName =>
             {
+                if (error != Error.Types.None) return;
                 var objectValue = issueApiModel.ObjectValue(columnName: columnName);
                 if (objectValue != null)
                 {
+                    var column = ss.GetColumn(
+                        context: context,
+                        columnName: columnName);
+                    if (column?.TypeName == "datetime"
+                        && objectValue.ToDateTime().InRange() == false)
+                    {
+                        error = Error.Types.invalidUpsertKey;
+                        return;
+                    }
                     api.View.AddColumnFilterHash(
                         context: context,
                         ss: ss,
@@ -4640,6 +4778,10 @@ namespace Implem.Pleasanter.Models
                         searchType: Column.SearchTypes.ExactMatch);
                 }
             });
+            if (error != Error.Types.None)
+            {
+                return false;
+            }
             var issueModel = new IssueModel(
                 context: context,
                 ss: ss,
@@ -5354,7 +5496,24 @@ namespace Implem.Pleasanter.Models
             new IssueCollection(
                 context: context,
                 ss: ss,
-                column: HistoryColumn(columns),
+                column: HistoryColumn(
+                    context: context,
+                    ss: ss,
+                    columns: columns
+                        // GridDesignに含まれるカラムを追加する。
+                        .Concat(ss.IncludedColumns()
+                            .Select(columnName => ss.GetColumn(
+                                context: context,
+                                columnName: columnName))
+                            .Where(column => column != null)
+                            .AllowedColumns(
+                                context: context,
+                                ss: ss,
+                                checkPermission: true)
+                            .Where(o => context.ContractSettings.Attachments()
+                                || o.ControlType != "Attachments"))
+                        .Distinct()
+                        .ToList()),
                 join: ss.Join(context: context),
                 where: Rds.IssuesWhere().IssueId(issueModel.IssueId),
                 orderBy: Rds.IssuesOrderBy().Ver(SqlOrderBy.Types.desc),
@@ -5391,14 +5550,19 @@ namespace Implem.Pleasanter.Models
                             }));
         }
 
-        private static SqlColumnCollection HistoryColumn(List<Column> columns)
+        private static SqlColumnCollection HistoryColumn(
+            Context context,
+            SiteSettings ss,
+            List<Column> columns)
         {
-            var sqlColumn = new Rds.IssuesColumnCollection()
-                .IssueId()
-                .Ver();
+            var sqlColumn = Rds.IssuesTitleColumn(
+                context: context,
+                ss: ss)
+                    .IssueId()
+                    .Ver();
             columns.ForEach(column =>
                 sqlColumn.IssuesColumn(columnName: column.ColumnName));
-            return sqlColumn.ItemTitle(tableName: "Issues");
+            return sqlColumn;
         }
 
         public static string History(Context context, SiteSettings ss, long issueId)
@@ -6455,14 +6619,7 @@ namespace Implem.Pleasanter.Models
                 }
                 var invalidColumn = Imports.ColumnValidate(context, ss, columnHash.Values.Select(o => o.Column.ColumnName), "CompletionTime");
                 if (invalidColumn != null) return invalidColumn;
-                Repository.ExecuteNonQuery(
-                    context: context,
-                    transactional: true,
-                    statements: new List<SqlStatement>()
-                        .OnImportingExtendedSqls(
-                            context: context,
-                            siteId: ss.SiteId)
-                                .ToArray());
+                ImportUtilities.SetOnImportingExtendedSqls(context, ss);
                 var issueHash = new Dictionary<int, IssueModel>();
                 var importKeyColumnName = context.Forms.Data("Key");
                 var importKeyColumn = columnHash
@@ -6588,7 +6745,7 @@ namespace Implem.Pleasanter.Models
                                     {
                                         case Databases.AccessStatuses.Selected:
                                             // 更新による競合のため再更新
-                                            if (issueModel.Updated(context: context))
+                                            if (issueModel.Updated(context: context, ss: ss))
                                             {
                                                 issueModel.VerUp = Versions.MustVerUp(
                                                     context: context,
@@ -6667,14 +6824,7 @@ namespace Implem.Pleasanter.Models
                         insertCount++;
                     }
                 }
-                Repository.ExecuteNonQuery(
-                    context: context,
-                    transactional: true,
-                    statements: new List<SqlStatement>()
-                        .OnImportedExtendedSqls(
-                            context: context,
-                            siteId: ss.SiteId)
-                                .ToArray());
+                ImportUtilities.SetOnImportedExtendedSqls(context, ss);
                 ss.Notifications.ForEach(notification =>
                 {
                     var body = new System.Text.StringBuilder();
@@ -6716,6 +6866,329 @@ namespace Implem.Pleasanter.Models
             else
             {
                 return Messages.ResponseFileNotFound(context: context).ToJson();
+            }
+        }
+
+        public static ContentResultInheritance ImportByApi(
+            Context context,
+            SiteSettings ss,
+            SiteModel siteModel)
+        {
+            if (!Mime.ValidateOnApi(contentType: context.ContentType, multipart: true))
+            {
+                return ApiResults.BadRequest(context: context);
+            }
+            if (context.ContractSettings.Import == false)
+            {
+                return null;
+            }
+            var invalid = IssueValidators.OnImporting(
+                context: context,
+                ss: ss,
+                api: true);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default:return ApiResults.Error(
+                    context: context,
+                    errorData: invalid);
+            }
+            var api = context.RequestDataString.Deserialize<ImportApi>();
+            var updatableImport = api.UpdatableImport;
+            var encoding = api.Encoding;
+            var key = api.Key;
+            Csv csv;
+            try
+            {
+                csv = new Csv(
+                    csv: context.PostedFiles.FirstOrDefault().Byte(),
+                    encoding: encoding);
+            }
+            catch
+            {
+                return ApiResults.Get(new ApiResponse(
+                    id: context.Id,
+                    statusCode: 500,
+                    message: Messages.FailedReadFile(context: context).Text));
+            }
+            var count = csv.Rows.Count();
+            if (Parameters.General.ImportMax > 0 && Parameters.General.ImportMax < count)
+            {
+                return ApiResults.Get(new ApiResponse(
+                    id: context.Id,
+                    statusCode: 500,
+                    message: Error.Types.ImportMax.Message(
+                        context: context,
+                        data: Parameters.General.ImportMax.ToString()).Text)); 
+            }
+            if (context.ContractSettings.ItemsLimit(
+                context: context,
+                siteId: ss.SiteId,
+                number: count))
+            {
+                return ApiResults.Get(new ApiResponse(
+                    id: context.Id,
+                    statusCode: 500,
+                    message: Error.Types.ItemsLimit.Message(context: context).Text));
+            }
+            if (csv != null && count > 0)
+            {
+                var columnHash = ImportUtilities.GetColumnHash(ss, csv);
+                var idColumn = columnHash
+                    .Where(o => o.Value.Column.ColumnName == "IssueId")
+                    .Select(o => new { Id = o.Key })
+                    .FirstOrDefault()?.Id ?? -1;
+                if (updatableImport && idColumn > -1)
+                {
+                    var exists = ExistsLockedRecord(
+                        context: context,
+                        ss: ss,
+                        targets: csv.Rows.Select(o => o[idColumn].ToLong()).ToList());
+                    switch (exists.Type)
+                    {
+                        case Error.Types.None: break;
+                        default: return ApiResults.Error(
+                            context: context,
+                            errorData: exists);
+                    }
+                }
+                var invalidColumn = Imports.ColumnValidate(context, ss, columnHash.Values.Select(o => o.Column.ColumnName), "CompletionTime");
+                if (invalidColumn != null) return ApiResults.Get(new ApiResponse(
+                    id: context.Id,
+                    statusCode: 500,
+                    message: invalidColumn));
+                ImportUtilities.SetOnImportingExtendedSqls(context, ss);
+                var issueHash = new Dictionary<int, IssueModel>();
+                var importKeyColumnName = key;
+                var importKeyColumn = columnHash
+                    .FirstOrDefault(column => column.Value.Column.ColumnName == importKeyColumnName);
+                if (updatableImport && importKeyColumn.Value == null)
+                {
+                    return ApiResults.Get(new ApiResponse(
+                    id: context.Id,
+                    statusCode: 500,
+                    message: Messages.NotContainKeyColumn(context: context).Text));
+                }
+                var csvRows = csv.Rows
+                    .Select((o, i) => new { Index = i, Row = o })
+                    .ToDictionary(o => o.Index, o => o.Row);
+                foreach (var data in csvRows)
+                {
+                    var issueModel = new IssueModel(
+                        context: context,
+                        ss: ss);
+                    if (updatableImport
+                        && !data.Value[importKeyColumn.Key].IsNullOrEmpty())
+                    {
+                        var view = new View();
+                        view.AddColumnFilterHash(
+                            context: context,
+                            ss: ss,
+                            column: importKeyColumn.Value.Column,
+                            objectValue: data.Value[importKeyColumn.Key]);
+                        view.AddColumnFilterSearchTypes(
+                            columnName: importKeyColumnName,
+                            searchType: Column.SearchTypes.ExactMatch);
+                        var model = new IssueModel(
+                            context: context,
+                            ss: ss,
+                            issueId: 0,
+                            view: view);
+                        if (model.AccessStatus == Databases.AccessStatuses.Selected)
+                        {
+                            issueModel = model;
+                        }
+                        else if (model.AccessStatus == Databases.AccessStatuses.Overlap)
+                        {
+                            return ApiResults.Error(
+                                context: context,
+                                errorData: new ErrorData(
+                                    type: Error.Types.OverlapCsvImport,
+                                    data: new string[] {
+                                        (data.Key + 1).ToString(),
+                                        importKeyColumn.Value.Column.GridLabelText,
+                                        data.Value[importKeyColumn.Key]}));
+                        }
+                    }
+                    issueModel.SetByCsvRow(
+                        context: context,
+                        ss: ss,
+                        columnHash: columnHash,
+                        row: data.Value);
+                    issueHash.Add(data.Key, issueModel);
+                }
+                var inputErrorData = IssueValidators.OnInputValidating(
+                    context: context,
+                    ss: ss,
+                    issueHash: issueHash,
+                    api: true).FirstOrDefault();
+                switch (inputErrorData.Type)
+                {
+                    case Error.Types.None: break;
+                    default: return ApiResults.Error(
+                        context: context,
+                        errorData: inputErrorData);
+                }
+                var insertCount = 0;
+                var updateCount = 0;
+                foreach (var data in issueHash)
+                {
+                    var issueModel = data.Value;
+                    if (issueModel.AccessStatus == Databases.AccessStatuses.Selected)
+                    {
+                        ErrorData errorData = null;
+                        while (errorData?.Type != Error.Types.None)
+                        {
+                            switch (errorData?.Type)
+                            {
+                                case Error.Types.Duplicated:
+                                    var duplicatedColumn = ss.GetColumn(
+                                        context: context,
+                                        columnName: errorData.ColumnName);
+                                    return ApiResults.Duplicated(
+                                        context: context,
+                                        message: duplicatedColumn?.MessageWhenDuplicated.IsNullOrEmpty() != false
+                                            ? Displays.Duplicated(
+                                                context: context,
+                                                data: duplicatedColumn?.LabelText)
+                                            : duplicatedColumn?.MessageWhenDuplicated); 
+                                case null:
+                                case Error.Types.UpdateConflicts:
+                                    // 初回(null)
+                                    // または更新の競合が発生した場合
+                                    issueModel = new IssueModel(
+                                        context: context,
+                                        ss: ss,
+                                        issueId: issueModel.IssueId);
+                                    var previousTitle = issueModel.Title.DisplayValue;
+                                    issueModel.SetByCsvRow(
+                                        context: context,
+                                        ss: ss,
+                                        columnHash: columnHash,
+                                        row: csvRows.Get(data.Key));
+                                    switch (issueModel.AccessStatus)
+                                    {
+                                        case Databases.AccessStatuses.Selected:
+                                            // 更新による競合のため再更新
+                                            if (issueModel.Updated(context: context, ss: ss))
+                                            {
+                                                issueModel.VerUp = Versions.MustVerUp(
+                                                    context: context,
+                                                    ss: ss,
+                                                    baseModel: issueModel);
+                                                errorData = issueModel.Update(
+                                                    context: context,
+                                                    ss: ss,
+                                                    extendedSqls: false,
+                                                    previousTitle: previousTitle,
+                                                    get: false);
+                                                updateCount++;
+                                            }
+                                            else
+                                            {
+                                                errorData = new ErrorData(type: Error.Types.None);
+                                            }
+                                            break;
+                                        case Databases.AccessStatuses.NotFound:
+                                            // 削除による競合のため再作成
+                                            issueModel.IssueId = 0;
+                                            issueModel.Ver = 1;
+                                            errorData = issueModel.Create(
+                                                context: context,
+                                                ss: ss,
+                                                extendedSqls: false);
+                                            insertCount++;
+                                            break;
+                                        default:
+                                            return ApiResults.Get(new ApiResponse(
+                                                id: context.Id,
+                                                statusCode: 500,
+                                                message: Messages.UpdateConflicts(context: context).Text));
+                                    }
+                                    break;
+                                default:
+                                    return ApiResults.Error(
+                                        context: context,
+                                        errorData: errorData);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        issueModel.IssueId = 0;
+                        issueModel.Ver = 1;
+                        var errorData = issueModel.Create(
+                            context: context,
+                            ss: ss,
+                            extendedSqls: false);
+                        switch (errorData.Type)
+                        {
+                            case Error.Types.None:
+                                break;
+                            case Error.Types.Duplicated:
+                                var duplicatedColumn = ss.GetColumn(
+                                    context: context,
+                                    columnName: errorData.ColumnName);
+                                return ApiResults.Duplicated(
+                                    context: context,
+                                    message: duplicatedColumn?.MessageWhenDuplicated.IsNullOrEmpty() != false
+                                        ? Displays.Duplicated(
+                                            context: context,
+                                            data: duplicatedColumn?.LabelText)
+                                        : duplicatedColumn?.MessageWhenDuplicated);                                
+                            default:
+                                return ApiResults.Error(
+                                    context: context,
+                                    errorData: errorData);
+                        }
+                        insertCount++;
+                    }
+                }
+                ImportUtilities.SetOnImportedExtendedSqls(context, ss);
+                ss.Notifications.ForEach(notification =>
+                {
+                    var body = new System.Text.StringBuilder();
+                    body.Append(Locations.ItemIndexAbsoluteUri(
+                        context: context,
+                        ss.SiteId) + "\n");
+                    body.Append(
+                        $"{Displays.Issues_Updator(context: context)}: ",
+                        $"{context.User.Name}\n");
+                    if (notification.AfterImport != false)
+                    {
+                        notification.Send(
+                            context: context,
+                            ss: ss,
+                            title: Displays.Imported(
+                                context: context,
+                                data: new string[]
+                                {
+                                    ss.Title,
+                                    insertCount.ToString(),
+                                    updateCount.ToString()
+                                }),
+                            body: body.ToString());
+                    }
+                });
+                return ApiResults.Success(
+                    id: context.Id,
+                    limitPerDate: context.ContractSettings.ApiLimit(),
+                    limitRemaining: context.ContractSettings.ApiLimit() - ss.ApiCount,
+                    message: Messages.Imported(
+                        context: context,
+                        data: new string[]
+                        {
+                            ss.Title,
+                            insertCount.ToString(),
+                            updateCount.ToString()
+                        }).Text);
+            }
+            else
+            {
+                return ApiResults.Get(new ApiResponse(
+                    id: context.Id,
+                    statusCode: 500,
+                    message: Messages.FileNotFound(context: context).Text));
             }
         }
 
@@ -6888,7 +7361,8 @@ namespace Implem.Pleasanter.Models
             }
             var invalid = IssueValidators.OnExporting(
                 context: context,
-                ss: ss);
+                ss: ss,
+                api: true);
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
@@ -7002,14 +7476,14 @@ namespace Implem.Pleasanter.Models
             var view = Views.GetBySession(context: context, ss: ss);
             var viewMode = ViewModes.GetSessionData(
                 context: context,
-                siteId: ss.SiteId);
+                siteId: view.GetCalendarSiteId(ss: ss));
             var timePeriod = view.GetCalendarTimePeriod(ss: ss);
             var fromColumn = ss.GetColumn(
                 context: context,
-                columnName: view.GetCalendarFromColumn(ss));
+                columnName: view.GetCalendarFromColumn(ss: ss));
             var toColumn = ss.GetColumn(
                 context: context,
-                columnName: view.GetCalendarToColumn(ss));
+                columnName: view.GetCalendarToColumn(ss: ss));
             var date = view.GetCalendarDate();
             var groupBy = ss.GetColumn(
                 context: context,
@@ -7022,14 +7496,20 @@ namespace Implem.Pleasanter.Models
                 .CalendarUtilities.InRangeY(
                     context: context,
                     choices?.Count ?? 0);
+            var calendarType = view.GetCalendarType(ss: ss);
             var begin = Calendars.BeginDate(
                 context: context,
+                ss: ss,
                 date: date,
-                timePeriod: timePeriod);
+                timePeriod: timePeriod,
+                view: view);
             var end = Calendars.EndDate(
                 context: context,
+                ss: ss,
                 date: date,
-                timePeriod: timePeriod);
+                timePeriod: timePeriod,
+                view: view);
+            var CalendarViewType = view.GetCalendarViewType();
             var dataRows = inRangeY
                 ? CalendarDataRows(
                     context: context,
@@ -7049,14 +7529,18 @@ namespace Implem.Pleasanter.Models
             var serverScriptModelRow = ss.GetServerScriptModelRow(
                 context: context,
                 view: view);
-            return hb.ViewModeTemplate(
-                context: context,
-                ss: ss,
-                view: view,
-                viewMode: viewMode,
-                serverScriptModelRow: serverScriptModelRow,
-                viewModeBody: () => hb
-                    .Calendar(
+            var suffix = view.GetCalendarSuffix();
+            var calendarSiteId = view.GetCalendarSiteId(ss: ss);
+            var calendarFromTo = view.GetCalendarFromTo(ss: ss);
+            if (ss.DashboardParts?.Any() != true)
+            {
+                return hb.ViewModeTemplate(
+                    context: context,
+                    ss: ss,
+                    view: view,
+                    viewMode: viewMode,
+                    serverScriptModelRow: serverScriptModelRow,
+                    viewModeBody: () => hb.Calendar(
                         context: context,
                         ss: ss,
                         timePeriod: timePeriod,
@@ -7064,12 +7548,42 @@ namespace Implem.Pleasanter.Models
                         fromColumn: fromColumn,
                         toColumn: toColumn,
                         date: date,
+                        siteId: calendarSiteId,
                         begin: begin,
+                        end: end,
+                        CalendarViewType: CalendarViewType,
                         choices: choices,
                         dataRows: dataRows,
                         bodyOnly: false,
                         showStatus: view.CalendarShowStatus == true,
-                        inRange: inRange));
+                        inRange: inRange,
+                        calendarType: calendarType,
+                        suffix: suffix,
+                        calendarFromTo: calendarFromTo));
+            }
+            else
+            {
+                return hb.Calendar(
+                    context: context,
+                    ss: ss,
+                    timePeriod: timePeriod,
+                    groupBy: groupBy,
+                    fromColumn: fromColumn,
+                    toColumn: toColumn,
+                    date: date,
+                    siteId: calendarSiteId,
+                    begin: begin,
+                    end: end,
+                    CalendarViewType: CalendarViewType,
+                    choices: choices,
+                    dataRows: dataRows,
+                    bodyOnly: false,
+                    showStatus: view.GetCalendarShowStatus(),
+                    inRange: inRange,
+                    calendarType: calendarType,
+                    suffix: suffix,
+                    calendarFromTo: calendarFromTo).ToString();
+            }
         }
 
         public static string UpdateByCalendar(Context context, SiteSettings ss)
@@ -7077,7 +7591,9 @@ namespace Implem.Pleasanter.Models
             var issueModel = new IssueModel(
                 context: context,
                 ss: ss,
-                issueId: context.Forms.Long("Id"),
+                issueId: ss.DashboardParts?.Any() == true
+                    ? context.Forms.Long("EventId")
+                    : context.Forms.Long("Id"),
                 formData: context.Forms);
             var invalid = IssueValidators.OnUpdating(
                 context: context,
@@ -7132,14 +7648,16 @@ namespace Implem.Pleasanter.Models
                 return Messages.ResponseHasNotPermission(context: context).ToJson();
             }
             var view = Views.GetBySession(context: context, ss: ss);
-            var bodyOnly = context.Forms.ControlId().StartsWith("Calendar");
+            var bodyOnly = ss.DashboardParts?.Any() == true
+                ? false
+                : context.Forms.ControlId().StartsWith("Calendar");
             var timePeriod = view.GetCalendarTimePeriod(ss: ss);
             var fromColumn = ss.GetColumn(
                 context: context,
-                columnName: view.GetCalendarFromColumn(ss));
+                columnName: view.GetCalendarFromColumn(ss: ss));
             var toColumn = ss.GetColumn(
                 context: context,
-                columnName: view.GetCalendarToColumn(ss));
+                columnName: view.GetCalendarToColumn(ss: ss));
             var date = view.GetCalendarDate();
             var groupBy = ss.GetColumn(
                 context: context,
@@ -7152,14 +7670,20 @@ namespace Implem.Pleasanter.Models
                 .CalendarUtilities.InRangeY(
                     context: context,
                     choices?.Count ?? 0);
+            var calendarType = view.GetCalendarType(ss: ss);
             var begin = Calendars.BeginDate(
                 context: context,
+                ss: ss,
                 date: date,
-                timePeriod: timePeriod);
+                timePeriod: timePeriod,
+                view: view);
             var end = Calendars.EndDate(
                 context: context,
+                ss: ss,
                 date: date,
-                timePeriod: timePeriod);
+                timePeriod: timePeriod,
+                view: view);
+            var calendarViewType = view.GetCalendarViewType();
             var dataRows = inRangeY 
                 ? CalendarDataRows(
                     context: context,
@@ -7176,6 +7700,9 @@ namespace Implem.Pleasanter.Models
                     .CalendarUtilities.InRange(
                         context: context,
                         dataRows: dataRows);
+            var suffix = view.GetCalendarSuffix();
+            var calendarSiteId = view.GetCalendarSiteId(ss: ss);
+            var calendarFromTo = view.GetCalendarFromTo(ss: ss);
             var body = new HtmlBuilder().Calendar(
                 context: context,
                 ss: ss,
@@ -7184,48 +7711,74 @@ namespace Implem.Pleasanter.Models
                 fromColumn: fromColumn,
                 toColumn: toColumn,
                 date: date,
+                siteId: calendarSiteId,
                 begin: begin,
+                end: end,
+                CalendarViewType: calendarViewType,
                 choices: choices,
                 dataRows: dataRows,
                 bodyOnly: bodyOnly,
-                showStatus: view.CalendarShowStatus == true,
+                showStatus: view.GetCalendarShowStatus(),
                 inRange: inRange,
-                changedItemId: changedItemId);
-            if (inRange)
+                changedItemId: changedItemId,
+                calendarType: calendarType,
+                suffix: suffix,
+                calendarFromTo: calendarFromTo);
+            var CalendarBodyName = "";
+            switch (calendarType)
             {
-                return new ResponseCollection(context: context)
-                    .ViewMode(
-                        context: context,
-                        ss: ss,
-                        view: view,
-                        invoke: "setCalendar",
-                        message: message,
-                        loadScroll: update,
-                        bodyOnly: bodyOnly,
-                        bodySelector: "#CalendarBody",
-                        body: body)
-                    .Events("on_calendar_load")
-                    .ToJson();
+                case "Standard":
+                    CalendarBodyName = "#CalendarBody";
+                    break;
+                case "FullCalendar":
+                    CalendarBodyName = "#FullCalendarBody";
+                    break;
+                default:
+                    CalendarBodyName = "";
+                    break;
+            }
+            if (ss.DashboardParts?.Any() != true)
+            {
+                if (inRange)
+                {
+                    return new ResponseCollection(context: context)
+                        .ViewMode(
+                            context: context,
+                            ss: ss,
+                            view: view,
+                            invoke: "setCalendar",
+                            message: message,
+                            loadScroll: update,
+                            bodyOnly: bodyOnly,
+                            bodySelector: CalendarBodyName,
+                            body: body)
+                        .Events("on_calendar_load")
+                        .ToJson();
+                }
+                else
+                {
+                    return new ResponseCollection(context: context)
+                        .ViewMode(
+                            context: context,
+                            ss: ss,
+                            view: view,
+                            message: inRangeY
+                                ? Messages.TooManyCases(
+                                    context: context,
+                                    data: Parameters.General.CalendarLimit.ToString())
+                                : Messages.TooManyRowCases(
+                                    context: context,
+                                    data: Parameters.General.CalendarYLimit.ToString()),
+                            bodyOnly: bodyOnly,
+                            bodySelector: CalendarBodyName,
+                            body: body)
+                        .Events("on_calendar_load")
+                        .ToJson();
+                }
             }
             else
             {
-                return new ResponseCollection(context: context)
-                    .ViewMode(
-                        context: context,
-                        ss: ss,
-                        view: view,
-                        message: inRangeY
-                            ? Messages.TooManyCases(
-                                context: context,
-                                data: Parameters.General.CalendarLimit.ToString())
-                            : Messages.TooManyRowCases(
-                                context: context,
-                                data: Parameters.General.CalendarYLimit.ToString()),
-                        bodyOnly: bodyOnly,
-                        bodySelector: "#CalendarBody",
-                        body: body)
-                    .Events("on_calendar_load")
-                    .ToJson();
+                return body.ToString();
             }
         }
 
@@ -7239,7 +7792,9 @@ namespace Implem.Pleasanter.Models
             DateTime begin,
             DateTime end)
         {
-            var where = new SqlWhereCollection();
+            var where = ss.DashboardParts?.Any() == true
+                ? ss.DashboardParts[0].View.Where(context: context, ss: ss)
+                : new SqlWhereCollection();
             if (toColumn == null)
             {
                 where.Add(
@@ -7279,6 +7834,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss)
                             .IssueId(_as: "Id")
+                            .SiteId(_as: "SiteId")
                             .Status()
                             .IssuesColumn(
                                 columnName: fromColumn.ColumnName,
@@ -7308,13 +7864,19 @@ namespace Implem.Pleasanter.Models
             Column fromColumn,
             Column toColumn,
             DateTime date,
+            long siteId,
             DateTime begin,
+            DateTime end,
+            string CalendarViewType,
             Dictionary<string, ControlData> choices,
             EnumerableRowCollection<DataRow> dataRows,
             bool bodyOnly,
             bool showStatus,
             bool inRange,
-            long changedItemId = 0)
+            long changedItemId = 0,
+            string calendarType = null,
+            string suffix = null,
+            string calendarFromTo = null)
         {
             return !bodyOnly
                 ? hb.Calendar(
@@ -7325,12 +7887,18 @@ namespace Implem.Pleasanter.Models
                     fromColumn: fromColumn,
                     toColumn: toColumn,
                     date: date,
+                    siteId: siteId,
                     begin: begin,
+                    end: end,
+                    CalendarViewType: CalendarViewType,
                     choices: choices,
                     dataRows: dataRows,
                     showStatus: showStatus,
                     inRange: inRange,
-                    changedItemId: changedItemId)
+                    changedItemId: changedItemId,
+                    calendarType: calendarType,
+                    suffix: suffix,
+                    calendarFromTo: calendarFromTo)
                 : hb.CalendarBody(
                     context: context,
                     ss: ss,
@@ -7339,12 +7907,18 @@ namespace Implem.Pleasanter.Models
                     fromColumn: fromColumn,
                     toColumn: toColumn,
                     date: date,
+                    siteId: siteId,
                     begin: begin,
+                    end: end,
+                    CalendarViewType: CalendarViewType,
                     choices: choices,
                     dataRows: dataRows,
                     showStatus: showStatus,
                     inRange: inRange,
-                    changedItemId: changedItemId);
+                    changedItemId: changedItemId,
+                    calendarType: calendarType,
+                    suffix: suffix,
+                    calendarFromTo: calendarFromTo);
         }
 
         public static string Crosstab(Context context, SiteSettings ss)
@@ -8429,6 +9003,241 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public static string OpenAnalyPartDialog(Context context, SiteSettings ss)
+        {
+            if (context.ContractSettings.Export == false)
+            {
+                return HtmlTemplates.Error(
+                    context: context,
+                    errorData: new ErrorData(type: Error.Types.InvalidRequest));
+            }
+            var invalid = IssueValidators.OnExporting(
+                context: context,
+                ss: ss);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default: return invalid.MessageJson(context: context);
+            }
+            var view = Views.GetBySession(
+                context: context,
+                ss: ss);
+            return new ResponseCollection(context: context)
+                .Html(
+                    "#AnalyPartDialog",
+                    new HtmlBuilder().AnalyPartDialog(
+                        context: context,
+                        ss: ss,
+                        view: view,
+                        analyPartId: context.Forms.Int("AnalyPartId")))
+                .CloseDialog()
+                .ToJson();
+        }
+
+        public static string Analy(Context context, SiteSettings ss)
+        {
+            if (!ss.EnableViewMode(
+                context: context,
+                name: "Analy"))
+            {
+                return HtmlTemplates.Error(
+                    context: context,
+                    errorData: new ErrorData(type: Error.Types.HasNotPermission));
+            }
+            var hb = new HtmlBuilder();
+            var view = Views.GetBySession(
+                context: context,
+                ss: ss);
+            var viewMode = ViewModes.GetSessionData(
+                context: context,
+                siteId: ss.SiteId);
+            var serverScriptModelRow = ss.GetServerScriptModelRow(
+                context: context,
+                view: view);
+            return hb.ViewModeTemplate(
+                context: context,
+                ss: ss,
+                view: view,
+                viewMode: viewMode,
+                serverScriptModelRow: serverScriptModelRow,
+                viewModeBody: () => hb
+                    .Analy(
+                        context: context,
+                        ss: ss,
+                        view: view,
+                        bodyOnly: false,
+                        inRange: true));
+        }
+
+        public static string AnalyJson(Context context, SiteSettings ss)
+        {
+            if (!ss.EnableViewMode(context: context, name: "Analy"))
+            {
+                return Messages.ResponseHasNotPermission(context: context).ToJson();
+            }
+            var view = Views.GetBySession(
+                context: context,
+                ss: ss);
+            var bodyOnly = context.Forms.ControlId().StartsWith("Analy");
+            var body = new HtmlBuilder().Analy(
+                context: context,
+                ss: ss,
+                view: view,
+                bodyOnly: bodyOnly,
+                inRange: true);
+            return new ResponseCollection(context: context)
+                .ViewMode(
+                    context: context,
+                    ss: ss,
+                    view: view,
+                    invoke: "drawAnaly",
+                    bodyOnly: bodyOnly,
+                    bodySelector: "#AnalyBody",
+                    body: body)
+                .Events("on_analy_load")
+                .CloseDialog(_using: context.Forms.ControlId() == "AddAnalyPart")
+                .ToJson();
+        }
+
+        private static HtmlBuilder Analy(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            View view,
+            bool bodyOnly,
+            bool inRange)
+        {
+            var analyDataList = new List<Libraries.ViewModes.AnalyData>();
+            view.AnalyPartSettings?.ForEach(analyPart =>
+            {
+                var groupBy = ss.GetColumn(
+                    context: context,
+                    columnName: view.GetAnalyGroupBy(
+                        context: context,
+                        ss: ss,
+                        value: analyPart.GroupBy));
+                var aggregationTarget = ss.GetColumn(
+                    context: context,
+                    columnName: analyPart.AggregationTarget);
+                var analyData = AnalyDat(
+                    context: context,
+                    ss: ss,
+                    view: view,
+                    analyPartSetting: analyPart,
+                    groupBy: groupBy,
+                    timePeriodValue: analyPart.TimePeriodValue,
+                    timePeriod: analyPart.TimePeriod,
+                    aggregationTarget: aggregationTarget);
+                analyDataList.Add(analyData);
+            });
+            return !bodyOnly
+                ? hb.Analy(
+                    context: context,
+                    ss: ss,
+                    analyDataList: analyDataList,
+                    inRange: inRange)
+                : hb.AnalyBody(
+                    context: context,
+                    ss: ss,
+                    analyDataList: analyDataList,
+                    inRange: inRange);
+        }
+
+        private static Libraries.ViewModes.AnalyData AnalyDat(
+            Context context,
+            SiteSettings ss,
+            View view,
+            AnalyPartSetting analyPartSetting,
+            Column groupBy,
+            decimal timePeriodValue,
+            string timePeriod,
+            Column aggregationTarget)
+        {
+            if (groupBy != null)
+            {
+                var column = Rds.IssuesColumn()
+                    .IssuesColumn(
+                        columnName: Rds.IdColumn(tableName: "Issues"),
+                        _as: "Id")
+                    .IssuesColumn(columnName: "Ver")
+                    .IssuesColumn(
+                        columnName: groupBy.ColumnName,
+                        _as: "GroupBy");
+                if (aggregationTarget != null)
+                {
+                    column.IssuesColumn(
+                        columnName: aggregationTarget.ColumnName,
+                        _as: "Value");
+                }
+                var where = view.Where(
+                    context: context,
+                    ss: ss);
+                if (timePeriodValue > 0)
+                {
+                    where.Issues_UpdatedTime(
+                        value: DateTime.Now.DateAdd(
+                            timePeriod: timePeriod,
+                            timePeriodValue: (timePeriodValue * -1).ToInt()),
+                        _operator: "<=");
+                }
+                var param = view.Param(
+                    context: context,
+                    ss: ss);
+                var join = ss.Join(
+                    context: context,
+                    join: new IJoin[]
+                    {
+                        column,
+                        where
+                    });
+                var dataSet = Repository.ExecuteDataSet(
+                    context: context,
+                    statements: new SqlStatement[]
+                    {
+                        Rds.SelectIssues(
+                            dataTableName: "Normal",
+                            column: column,
+                            join: join,
+                            where: new Rds.IssuesWhereCollection()
+                                .IssueId_In(sub: Rds.SelectIssues(
+                                    column: Rds.IssuesColumn().IssueId(),
+                                    join: join,
+                                    where: where)),
+                            param: param),
+                        Rds.SelectIssues(
+                            dataTableName: "History",
+                            tableType: Sqls.TableTypes.History,
+                            column: column,
+                            join: join,
+                            where: new Rds.IssuesWhereCollection()
+                                .IssueId_In(sub: Rds.SelectIssues(
+                                    column: Rds.IssuesColumn().IssueId(),
+                                    join: join,
+                                    where: where))
+                                .Ver(
+                                    sub: Rds.SelectIssues(
+                                        tableType: Sqls.TableTypes.History,
+                                        _as: "b",
+                                        column: Rds.IssuesColumn().Ver(
+                                            tableName: "b",
+                                            function: Sqls.Functions.Max),
+                                        where: Rds.IssuesWhere().IssueId(
+                                            tableName: "b",
+                                            raw: "\"Issues\".\"IssueId\""),
+                                        groupBy: Rds.IssuesGroupBy().IssueId(tableName: "b"))),
+                            param: param,
+                            _using: timePeriodValue > 0)
+                    });
+                return new Libraries.ViewModes.AnalyData(
+                    analyPartSetting: analyPartSetting,
+                    dataSet: dataSet);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         public static string Kamban(Context context, SiteSettings ss)
         {
             if (!ss.EnableViewMode(context: context, name: "Kamban"))
@@ -8458,19 +9267,31 @@ namespace Implem.Pleasanter.Models
             var serverScriptModelRow = ss.GetServerScriptModelRow(
                 context: context,
                 view: view);
-            return hb.ViewModeTemplate(
-                context: context,
-                ss: ss,
-                view: view,
-                viewMode: viewMode,
-                serverScriptModelRow: serverScriptModelRow,
-                viewModeBody: () => hb
-                    .Kamban(
-                        context: context,
-                        ss: ss,
-                        view: view,
-                        bodyOnly: false,
-                        inRange: inRange));
+            if (ss.DashboardParts?.Any() != true)
+            {
+                return hb.ViewModeTemplate(
+                    context: context,
+                    ss: ss,
+                    view: view,
+                    viewMode: viewMode,
+                    serverScriptModelRow: serverScriptModelRow,
+                    viewModeBody: () => hb
+                        .Kamban(
+                            context: context,
+                            ss: ss,
+                            view: view,
+                            bodyOnly: false,
+                            inRange: inRange));
+            }
+            else
+            {
+                return hb.Kamban(
+                    context: context,
+                    ss: ss,
+                    view: view,
+                    bodyOnly: false,
+                    inRange: inRange).ToString();
+            }
         }
 
         public static string KambanJson(
@@ -8483,59 +9304,79 @@ namespace Implem.Pleasanter.Models
                 return Messages.ResponseHasNotPermission(context: context).ToJson();
             }
             var view = Views.GetBySession(context: context, ss: ss);
-            var bodyOnly = context.Forms.ControlId().StartsWith("Kamban");
+            var bodyOnly = ss.DashboardParts?.Any() == true
+                ? false
+                : context.Forms.ControlId().StartsWith("Kamban");
             var res = new ResponseCollection(context: context);
+            var suffix = view.GetKambanSuffix();
             if (context.ErrorData.Type != Error.Types.None)
             {
                 res.Message(context.ErrorData.Message(context: context));
             }
-            if (InRange(
-                context: context,
-                ss: ss,
-                view: view,
-                limit: Parameters.General.KambanLimit))
+            if (ss.DashboardParts?.Any() != true)
             {
-                var body = new HtmlBuilder().Kamban(
+                if (InRange(
                     context: context,
                     ss: ss,
                     view: view,
-                    bodyOnly: bodyOnly,
-                    changedItemId: updated
-                        ? context.Forms.Long("KambanId")
-                        : 0);
-                return res
-                    .ViewMode(
+                    limit: Parameters.General.KambanLimit))
+                {
+                    var body = new HtmlBuilder().Kamban(
                         context: context,
                         ss: ss,
                         view: view,
-                        invoke: "setKamban",
                         bodyOnly: bodyOnly,
-                        bodySelector: "#KambanBody",
-                        body: body)
-                    .Events("on_kamban_load")
-                    .ToJson();
+                        changedItemId: updated
+                            ? context.Forms.Long("KambanId")
+                            : 0);
+                    return res
+                        .ViewMode(
+                            context: context,
+                            ss: ss,
+                            view: view,
+                            invoke: "setKamban",
+                            bodyOnly: bodyOnly,
+                            bodySelector: $"#KambanBody{suffix}",
+                            body: body,
+                            replaceAllBody: true)
+                        .Events("on_kamban_load")
+                        .ToJson();
+                }
+                else
+                {
+                    var body = new HtmlBuilder().Kamban(
+                        context: context,
+                        ss: ss,
+                        view: view,
+                        bodyOnly: bodyOnly,
+                        inRange: false);
+                    return res
+                        .ViewMode(
+                            context: context,
+                            ss: ss,
+                            view: view,
+                            message: Messages.TooManyCases(
+                                context: context,
+                                data: Parameters.General.KambanLimit.ToString()),
+                            bodyOnly: bodyOnly,
+                            bodySelector: $"#KambanBody{suffix}",
+                            body: body,
+                            replaceAllBody: true)
+                        .Events("on_kamban_load")
+                        .ToJson();
+                }
             }
             else
             {
                 var body = new HtmlBuilder().Kamban(
-                    context: context,
-                    ss: ss,
-                    view: view,
-                    bodyOnly: bodyOnly,
-                    inRange: false);
-                return res
-                    .ViewMode(
                         context: context,
                         ss: ss,
                         view: view,
-                        message: Messages.TooManyCases(
-                            context: context,
-                            data: Parameters.General.KambanLimit.ToString()),
                         bodyOnly: bodyOnly,
-                        bodySelector: "#KambanBody",
-                        body: body)
-                    .Events("on_kamban_load")
-                    .ToJson();
+                        changedItemId: updated
+                            ? context.Forms.Long("KambanId")
+                            : 0);
+                return body.ToString();
             }
         }
 
@@ -8580,6 +9421,7 @@ namespace Implem.Pleasanter.Models
                 groupByX: groupByX,
                 groupByY: groupByY,
                 value: value);
+            var suffix = view.GetKambanSuffix();
             return !bodyOnly
                 ? hb.Kamban(
                     context: context,
@@ -8593,7 +9435,9 @@ namespace Implem.Pleasanter.Models
                     aggregationView: aggregationView,
                     showStatus: showStatus,
                     data: data,
-                    inRange: inRange)
+                    inRange: inRange,
+                    suffix: suffix,
+                    changedItemId: changedItemId)
                 : hb.KambanBody(
                     context: context,
                     ss: ss,
@@ -8606,6 +9450,7 @@ namespace Implem.Pleasanter.Models
                     aggregationView: aggregationView,
                     showStatus: showStatus,
                     data: data,
+                    suffix: suffix,
                     changedItemId: changedItemId,
                     inRange: inRange);
         }
@@ -8620,6 +9465,7 @@ namespace Implem.Pleasanter.Models
         {
             var column = Rds.IssuesColumn()
                 .IssueId()
+                .SiteId()
                 .Status()
                 .ItemTitle(ss.ReferenceType)
                 .Add(
@@ -8631,9 +9477,13 @@ namespace Implem.Pleasanter.Models
                 .Add(
                     context: context,
                     column: value);
-            var where = view.Where(
+            var where = ss.DashboardParts?.Any() == true
+                ? ss.DashboardParts[0].View.Where(context: context, ss: ss)
+                : new SqlWhereCollection();
+            where = view.Where(
                 context: context,
-                ss: ss);
+                ss: ss,
+                where: where);
             var param = view.Param(
                 context: context,
                 ss: ss);
@@ -8654,6 +9504,7 @@ namespace Implem.Pleasanter.Models
                         .Select(o => new Libraries.ViewModes.KambanElement()
                         {
                             Id = o.Long("IssueId"),
+                            SiteId = o.Long("SiteId"),
                             Title = o.String("ItemTitle"),
                             Status = new Status(o.Int("Status")),
                             GroupX = groupByX?.ConvertIfUserColumn(o),

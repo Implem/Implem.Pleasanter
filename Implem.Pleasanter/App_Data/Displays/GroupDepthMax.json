@@ -1,0 +1,33 @@
+﻿{
+    "Id": "GroupDepthMax",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "Child groups cannot be set because the hierarchy is too deep."
+        },
+        {
+            "Language": "zh",
+            "Body": "由于层级太深，无法设置子组。"
+        },
+        {
+            "Language": "ja",
+            "Body": "階層が深すぎまるため、子グループの設定が出来ません。"
+        },
+        {
+            "Language": "de",
+            "Body": "Untergeordnete Gruppen können nicht festgelegt werden, da die Hierarchie zu tief ist."
+        },
+        {
+            "Language": "ko",
+            "Body": "계층이 너무 깊기 때문에 하위 그룹을 설정할 수 없습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "No se pueden establecer grupos secundarios porque la jerarquía es demasiado profunda."
+        },
+        {
+            "Language": "vn",
+            "Body": "Không thể đặt nhóm con vì hệ thống phân cấp quá sâu."
+        }
+    ]
+}

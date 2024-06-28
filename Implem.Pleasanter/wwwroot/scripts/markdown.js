@@ -1,8 +1,9 @@
 ﻿$p.showMarkDownViewer = function ($control) {
     var id = $control.attr('id');
+    var enableLightBox = Boolean($control.data('enablelightbox'));
     var $viewer = $('[id="' + id + '.viewer"]');
     if ($viewer.length === 1) {
-        var markup = $p.markup($control.val());
+        var markup = $p.markup($control.val(), enableLightBox);
         $viewer.html($p.setInputGuide(id, $control.val(), markup));
         $p.resizeEditor($control, $viewer);
         $p.toggleEditor($control, false);
@@ -43,13 +44,13 @@ $p.resizeEditor = function ($control, $viewer) {
     }
 }
 
-$p.markup = function (markdownValue, encoded) {
+$p.markup = function (markdownValue, enableLightBox, encoded, dataId) {
     var text = markdownValue;
     if (!encoded) text = getEncordedHtml(text);
     text = replaceUnc(text);
     return text.indexOf('[md]') === 0
         ? '<div class="md">' + marked(text.substring(4)) + '</div>'
-        : replaceUrl(markedUp(text));
+        : markedUp(replaceUrl(text, enableLightBox, dataId));
 
     function markedUp(text) {
         var $html = $('<pre/>')
@@ -62,14 +63,14 @@ $p.markup = function (markdownValue, encoded) {
         return $html[0].outerHTML;
     }
 
-    function replaceUrl(text) {
+    function replaceUrl(text, enableLightBox, dataId) {
         var regex_i = /(!\[[^\]]+\]\(.+?\))/gi;
         var regex_t = /(\[[^\]]+\]\(.+?\))/gi;
         var regex = /(\b(https?|notes|ftp):\/\/((?!\*|"|<|>|\||&gt;|&lt;).)+"?)/gi;
         var anchorTargetBlank = $('#AnchorTargetBlank').length === 1;
         return text
             .replace(regex_i, function ($1) {
-                return getEncordedImgTag(address($1), title($1));
+                return getEncordedImgTag(address($1), title($1), enableLightBox, dataId);
             })
             .replace(regex_t, function ($1) {
                 return getEncordedATag(address($1), title($1), anchorTargetBlank);
@@ -105,9 +106,14 @@ $p.markup = function (markdownValue, encoded) {
         return $tag.prop('outerHTML');
     }
 
-    function getEncordedImgTag(url, text) {
+    function getEncordedImgTag(url, text, enableLightBox, dataId) {
         let $tag = $('<a/>').attr('href', url).attr('target', '_blank')
             .append($('<img/>').attr('src', url + '?thumbnail=1').attr('alt', text));
+        if (enableLightBox) {
+            dataId
+                ? $tag.attr('data-lightbox', text + '_' + dataId)
+                : $tag.attr('data-lightbox', text);
+        }
         return $tag.prop('outerHTML');
     }
 
@@ -129,7 +135,8 @@ $p.markup = function (markdownValue, encoded) {
 $p.setInputGuide = function (id, text, markup) {
     if (text.length === 0) {
         $('[id="' + id + '.viewer"]').css("color", "darkgray");
-        return $('[id="' + id + '"]').attr('placeholder');
+        var placeholder = $('[id="' + id + '"]').attr('placeholder');
+        return (!placeholder) ? '' : placeholder;
     } else {
         $('[id="' + id + '.viewer"]').css("color", "black");
         return markup;

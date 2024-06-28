@@ -8,6 +8,36 @@
 }
 
 $p.drawGantt = function () {
+    let spacing = 25;
+    let heightPlaned = 23;
+    let heightEarned = 23;
+    let fontSize = 'inherit';
+    let dYText = 16;
+    let heightGantt = 45;
+    let dYFirstLineAxis = 20;
+    let dYSecondLineAxis = 40;
+    let heightAxis = 20;
+    if (window.matchMedia("(max-width: 1024px)").matches) {
+        spacing = 50;
+        heightPlaned = 40;
+        heightEarned = 40;
+        dYText = 29;
+        heightGantt = 60;
+        dYFirstLineAxis = 20;
+        dYSecondLineAxis = 40;
+        heightAxis = 20;
+    }
+    if (window.matchMedia("(max-width: 767px)").matches) {
+        spacing = 30;
+        heightPlaned = 23;
+        heightEarned = 23;
+        fontSize = '2.6vw';
+        dYText = 16;
+        heightGantt = 45;
+        dYFirstLineAxis = 20;
+        dYSecondLineAxis = 40;
+        heightAxis = 20;
+    }
     var $gantt = $('#Gantt');
     var $axis = $('#GanttAxis');
     if ($gantt.length !== 1) {
@@ -21,7 +51,8 @@ $p.drawGantt = function () {
         return;
     }
     $gantt.show();
-    var justTime = new Date();
+    var TimeZoneOffset = $('#TimeZoneOffset').val();
+    var justTime = new Date(moment().utcOffset(TimeZoneOffset).format('YYYY/MM/DD HH:mm:ss'));
     var axis = d3.select('#GanttAxis');
     var svg = d3.select('#Gantt');
     var padding = 20;
@@ -49,10 +80,10 @@ $p.drawGantt = function () {
         .data(days)
         .enter()
         .append('rect')
-        .attr('x', function (d) { return 30 + xScale(d) })
+        .attr('x', function (d) { return 23 + xScale(d) })
         .attr('y', 25)
         .attr('width', xScale(days[1]))
-        .attr('height', 20)
+        .attr('height', heightAxis)
         .attr('class', function (d) {
             switch (d.getDay()) {
                 case 0: return 'sunday';
@@ -62,9 +93,9 @@ $p.drawGantt = function () {
         });
     var currentDate = minDate;
     while (currentDate <= maxDate) {
-        var axisLine = [[30 + xScale(currentDate), 25], [30 + xScale(currentDate), 45]];
+        var axisLine = [[30 + xScale(currentDate), 25], [30 + xScale(currentDate), 60]];
         var line = d3.line()
-            .x(function (d) { return d[0]; })
+            .x(function (d) { return d[0] - 8; })
             .y(function (d) { return d[1]; });
         axis.append('g').attr('class', 'date').append('path').attr('d', line(axisLine));
         currentDate = $p.dateAdd('d', 1, currentDate);
@@ -77,9 +108,10 @@ $p.drawGantt = function () {
         .append('text')
         .attr('text-anchor', 'middle')
         .attr('x', function (d) {
-            return 30 + xScale(d) + (xScale($p.dateAdd('d', 1, d)) - xScale(d)) / 2;
+            return 22 + xScale(d) + (xScale($p.dateAdd('d', 1, d)) - xScale(d)) / 2;
         })
-        .attr('y', 20)
+        .attr('y', dYFirstLineAxis)
+        .style('font-size', fontSize)
         .text(function (d) {
             return d.getMonth() + 1;
         });
@@ -93,9 +125,10 @@ $p.drawGantt = function () {
         .append('text')
         .attr('text-anchor', 'middle')
         .attr('x', function (d) {
-            return 30 + xScale(d) + (xScale($p.dateAdd('d', 1, d)) - xScale(d)) / 2;
+            return 22 + xScale(d) + (xScale($p.dateAdd('d', 1, d)) - xScale(d)) / 2;
         })
-        .attr('y', 40)
+        .attr('y', dYSecondLineAxis)
+        .style('font-size', fontSize)
         .text(function (d) {
             return d.getDate();
         });
@@ -105,9 +138,9 @@ $p.drawGantt = function () {
         : -1;
     $.each(json, function (i, d) {
         if (d.GroupSummary) groupCount++;
-        d.Y = padding + i * 25 + groupCount * 25;
+        d.Y = padding + i * spacing + groupCount * 25;
     });
-    $('#Gantt').css('height', d3.max(json, function (d) { return d.Y }) + 45);
+    $('#Gantt').css('height', d3.max(json, function (d) { return d.Y }) + heightGantt);
     svg.append('g')
         .selectAll('rect')
         .data(days.filter(function (d) {
@@ -150,7 +183,7 @@ $p.drawGantt = function () {
             return xScale($p.transferedDate(format, d.CompletionTime))
                 - xScale($p.transferedDate(format, d.StartTime))
         })
-        .attr('height', 23)
+        .attr('height', heightPlaned)
         .attr('class', function (d) {
             var ret = d.Completed
                 ? 'completed'
@@ -180,12 +213,12 @@ $p.drawGantt = function () {
                 - xScale($p.transferedDate(format, d.StartTime)))
                 * d.ProgressRate * 0.01
         })
-        .attr('height', 23)
+        .attr('height', heightEarned)
         .attr('class', function (d) {
             var ret = d.ProgressRate < 100 &&
                 (padding + xScale($p.transferedDate(format, d.StartTime)) +
-                ((xScale($p.transferedDate(format, d.CompletionTime)) - xScale($p.transferedDate(format, d.StartTime)))
-                * d.ProgressRate * 0.01)) < now
+                    ((xScale($p.transferedDate(format, d.CompletionTime)) - xScale($p.transferedDate(format, d.StartTime)))
+                        * d.ProgressRate * 0.01)) < now
                 ? 'delay'
                 : d.ProgressRate === 100 && d.Completed
                     ? 'completed'
@@ -211,19 +244,19 @@ $p.drawGantt = function () {
                 : padding + xScale($p.transferedDate(format, d.StartTime)) + 5
         })
         .attr('y', function (d) {
-            return d.Y + 16;
+            return d.Y + dYText;
         })
         .attr('width', function (d) {
             return (xScale($p.transferedDate(format, d.CompletionTime))
                 - xScale($p.transferedDate(format, d.StartTime)))
                 * d.ProgressRate * 0.01
         })
-        .attr('height', 23)
+        .attr('height', 50)
         .attr('class', function (d) {
             var ret = d.ProgressRate < 100 &&
                 (padding + xScale($p.transferedDate(format, d.StartTime)) +
-                ((xScale($p.transferedDate(format, d.CompletionTime)) - xScale($p.transferedDate(format, d.StartTime)))
-                * d.ProgressRate * 0.01)) < now &&
+                    ((xScale($p.transferedDate(format, d.CompletionTime)) - xScale($p.transferedDate(format, d.StartTime)))
+                        * d.ProgressRate * 0.01)) < now &&
                 ($('#ShowGanttProgressRate').val() === '1' || !d.Completed)
                 ? 'delay'
                 : '';
@@ -235,8 +268,21 @@ $p.drawGantt = function () {
             return 'start';
         })
         .attr('data-id', function (d) { return d.Id; })
+        .style('font-size', fontSize)
         .text(function (d) {
-            return d.Title;
+            if (window.matchMedia("(max-width: 1024px)").matches) {
+                let labelRange = 0;
+                let span = (xScale($p.transferedDate(format, d.CompletionTime))
+                    - xScale($p.transferedDate(format, d.StartTime)))
+                    * d.ProgressRate * 0.01
+                let task = d.Title;
+                let label;
+                (span > labelRange) ? labelRange = span : labelRange;
+                (task.length * 7 > span) ? label = task.substring(0, 50) + "..." : label = task;
+                return label;
+            } else {
+                return d.Title;
+            }
         })
         .append('title')
         .text(function (d) {

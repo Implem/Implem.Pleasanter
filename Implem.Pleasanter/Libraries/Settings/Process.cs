@@ -121,8 +121,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             string name,
             string displayName,
             ScreenTypes? screenType,
-            int currentStatus,
-            int changedStatus,
+            int? currentStatus,
+            int? changedStatus,
             string description,
             string tooltip,
             string confirmationMessage,
@@ -140,27 +140,90 @@ namespace Implem.Pleasanter.Libraries.Settings
             AutoNumbering autoNumbering,
             SettingList<Notification> notifications)
         {
-            Name = name;
-            DisplayName = displayName;
-            ScreenType = screenType;
-            CurrentStatus = currentStatus;
-            ChangedStatus = changedStatus;
-            Description = description;
-            Tooltip = tooltip;
-            ConfirmationMessage = confirmationMessage;
-            SuccessMessage = successMessage;
-            OnClick = onClick;
-            ExecutionType = executionType;
-            ActionType = actionType;
-            AllowBulkProcessing = allowBulkProcessing;
-            ValidationType = validationType;
-            ValidateInputs = validateInputs;
-            SetPermissions(permissions: permissions);
-            View = view;
-            ErrorMessage = errorMessage;
-            DataChanges = dataChanges;
-            AutoNumbering = autoNumbering;
-            Notifications = notifications;
+            if (name != null)
+            {
+                Name = name;
+            }
+            if (displayName != null)
+            {
+                DisplayName = displayName;
+            }
+            if (screenType != null)
+            {
+                ScreenType = screenType;
+            }
+            if (currentStatus != null)
+            {
+                CurrentStatus = (int)currentStatus;
+            }
+            if (changedStatus != null)
+            {
+                ChangedStatus = (int)changedStatus;
+            }
+            if (description != null)
+            {
+                Description = description;
+            }
+            if (tooltip != null)
+            {
+                Tooltip = tooltip;
+            }
+            if (confirmationMessage != null)
+            {
+                ConfirmationMessage = confirmationMessage;
+            }
+            if (successMessage != null)
+            {
+                SuccessMessage = successMessage;
+            }
+            if (onClick != null)
+            {
+                OnClick = onClick;
+            }
+            if (executionType != null)
+            {
+                ExecutionType = executionType;
+            }
+            if (actionType != null)
+            {
+                ActionType = actionType;
+            }
+            if (allowBulkProcessing != null)
+            {
+                AllowBulkProcessing = allowBulkProcessing;
+            }
+            if (validationType != null)
+            {
+                ValidationType = validationType;
+            }
+            if (validateInputs != null)
+            {
+                ValidateInputs = validateInputs;
+            }
+            if (permissions != null)
+            {
+                SetPermissions(permissions: permissions);
+            }
+            if (view != null)
+            {
+                View = view;
+            }
+            if (errorMessage != null)
+            {
+                ErrorMessage = errorMessage;
+            }
+            if (dataChanges != null)
+            {
+                DataChanges = dataChanges;
+            }
+            if (autoNumbering != null)
+            {
+                AutoNumbering = autoNumbering;
+            }
+            if (notifications != null)
+            {
+                Notifications = notifications;
+            }
         }
 
         private void SetPermissions(List<Permission> permissions)
@@ -422,6 +485,24 @@ namespace Implem.Pleasanter.Libraries.Settings
                 Css = "alert-error"
             };
             return message;
+        }
+
+        public static Process GetProcess(
+            Context context,
+            SiteSettings ss,
+            Func<Process, bool> getProcessMatchConditions)
+        {
+            return ss.Processes
+                ?.Where(o => $"Process_{o.Id}" == context.Forms.ControlId())
+                .Where(o => o.Accessable(
+                    context: context,
+                    ss: ss))
+                .Select(o =>
+                {
+                    o.MatchConditions = getProcessMatchConditions(o);
+                    return o;
+                })
+                .FirstOrDefault(o => o.MatchConditions);
         }
     }
 }

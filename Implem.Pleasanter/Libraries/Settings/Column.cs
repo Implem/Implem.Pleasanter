@@ -1298,10 +1298,14 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 css,
                 ExtendedCellCss,
-                TextAlign == SiteSettings.TextAlignTypes.Right
-                    ? "right-align"
-                    : string.Empty
-            }
+                TextAlign switch
+                {
+                    SiteSettings.TextAlignTypes.Right => " right-align",
+                    SiteSettings.TextAlignTypes.Center => " center-align",
+                    _ => string.Empty
+                }
+        }
+
                 .Select(o => o?.Trim())
                 .Where(o => !o.IsNullOrEmpty())
                 .Join(" ");
@@ -1559,6 +1563,18 @@ namespace Implem.Pleasanter.Libraries.Settings
                         case "Disabled":
                             sql.Groups_Disabled(tableName: path, _as: _as);
                             break;
+                        case "LdapSync":
+                            sql.Groups_LdapSync(tableName: path, _as: _as);
+                            break;
+                        case "LdapGuid":
+                            sql.Groups_LdapGuid(tableName: path, _as: _as);
+                            break;
+                        case "LdapSearchRoot":
+                            sql.Groups_LdapSearchRoot(tableName: path, _as: _as);
+                            break;
+                        case "SynchronizedTime":
+                            sql.Groups_SynchronizedTime(tableName: path, _as: _as);
+                            break;
                         case "Comments":
                             sql.Groups_Comments(tableName: path, _as: _as);
                             break;
@@ -1719,6 +1735,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                             break;
                         case "TimeSeriesGuide":
                             sql.Sites_TimeSeriesGuide(tableName: path, _as: _as);
+                            break;
+                        case "AnalyGuide":
+                            sql.Sites_AnalyGuide(tableName: path, _as: _as);
                             break;
                         case "KambanGuide":
                             sql.Sites_KambanGuide(tableName: path, _as: _as);
@@ -2098,6 +2117,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                             break;
                         case "SynchronizedTime":
                             sql.Users_SynchronizedTime(tableName: path, _as: _as);
+                            break;
+                        case "SecretKey":
+                            sql.Users_SecretKey(tableName: path, _as: _as);
+                            break;
+                        case "EnableSecretKey":
+                            sql.Users_EnableSecretKey(tableName: path, _as: _as);
                             break;
                         case "Comments":
                             sql.Users_Comments(tableName: path, _as: _as);

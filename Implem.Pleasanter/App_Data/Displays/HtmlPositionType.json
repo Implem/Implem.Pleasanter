@@ -1,0 +1,33 @@
+﻿{
+    "Id": "HtmlPositionType",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Insertion potision"
+        },
+        {
+            "Language": "zh",
+            "Body": "插入位置"
+        },
+        {
+            "Language": "ja",
+            "Body": "挿入位置"
+        },
+        {
+            "Language": "de",
+            "Body": "Einfügeposition"
+        },
+        {
+            "Language": "ko",
+            "Body": "삽입 위치"
+        },
+        {
+            "Language": "es",
+            "Body": "Posición de inserción"
+        },
+        {
+            "Language": "vn",
+            "Body": "vị trí chèn"
+        }
+    ]
+}

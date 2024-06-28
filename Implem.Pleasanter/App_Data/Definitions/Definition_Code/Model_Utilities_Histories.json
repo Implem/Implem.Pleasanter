@@ -2,5 +2,5 @@
     "Id": "Model_Utilities_Histories",
     "Indent": "2",
     "GenericUi": "1",
-    "Exclude": "Dashboards"
+    "Exclude": "Dashboards,Issues,Results"
 }

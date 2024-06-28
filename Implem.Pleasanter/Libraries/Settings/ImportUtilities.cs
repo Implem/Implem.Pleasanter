@@ -1,5 +1,9 @@
 ﻿using Implem.Libraries.Classes;
+using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.DataSources;
+using Implem.Pleasanter.Libraries.General;
+using Implem.Pleasanter.Libraries.Requests;
 using System.Collections.Generic;
 using System.Linq;
 namespace Implem.Pleasanter.Libraries.Settings
@@ -88,5 +92,31 @@ namespace Implem.Pleasanter.Libraries.Settings
                     : string.Empty;
             }
         }
+
+        public static int SetOnImportingExtendedSqls(Context context, SiteSettings ss)
+        {
+            return Repository.ExecuteNonQuery(
+                context: context,
+                transactional: true,
+                statements: new List<SqlStatement>()
+                    .OnImportingExtendedSqls(
+                        context: context,
+                        siteId: ss.SiteId)
+                            .ToArray());
+        }
+
+        public static int SetOnImportedExtendedSqls(Context context, SiteSettings ss)
+        {
+            return Repository.ExecuteNonQuery(
+                context: context,
+                transactional: true,
+                statements: new List<SqlStatement>()
+                    .OnImportedExtendedSqls(
+                        context: context,
+                        siteId: ss.SiteId)
+                            .ToArray());
+        }
+
+        
     }
 }

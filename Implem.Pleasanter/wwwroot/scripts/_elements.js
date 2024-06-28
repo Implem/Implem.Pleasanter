@@ -1,5 +1,5 @@
 ﻿$p.responsive = function () {
-    return $('#Responsive').val() === '1';
+    return $('#Responsive[type="hidden"]').val() === '1';
 }
 
 $p.id = function () {
@@ -37,6 +37,10 @@ $p.userId = function () {
 
 $p.userName = function () {
     return $('#AccountUserName').text();
+}
+
+$p.theme = function () {
+    return $('#Theme').val();
 }
 
 $p.referenceType = function () {

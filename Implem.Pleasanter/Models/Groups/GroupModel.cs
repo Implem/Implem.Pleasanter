@@ -27,6 +27,7 @@ namespace Implem.Pleasanter.Models
     public class GroupModel : BaseModel
     {
         public List<string> GroupMembers;
+        public List<string> GroupChildren;
         public int TenantId = 0;
         public int GroupId = 0;
         public string GroupName = string.Empty;
@@ -36,6 +37,10 @@ namespace Implem.Pleasanter.Models
         public string MemberKey = string.Empty;
         public string MemberName = string.Empty;
         public bool? MemberIsAdmin = null;
+        public bool LdapSync = false;
+        public string LdapGuid = string.Empty;
+        public string LdapSearchRoot = string.Empty;
+        public DateTime SynchronizedTime = 0.ToDateTime();
 
         public Title Title
         {
@@ -54,6 +59,10 @@ namespace Implem.Pleasanter.Models
         public string SavedMemberKey = string.Empty;
         public string SavedMemberName = string.Empty;
         public bool? SavedMemberIsAdmin = null;
+        public bool SavedLdapSync = false;
+        public string SavedLdapGuid = string.Empty;
+        public string SavedLdapSearchRoot = string.Empty;
+        public DateTime SavedSynchronizedTime = 0.ToDateTime();
 
         public bool TenantId_Updated(Context context, bool copy = false, Column column = null)
         {
@@ -113,6 +122,54 @@ namespace Implem.Pleasanter.Models
                 &&  (column == null
                     || column.DefaultInput.IsNullOrEmpty()
                     || column.GetDefaultInput(context: context).ToBool() != Disabled);
+        }
+
+        public bool LdapSync_Updated(Context context, bool copy = false, Column column = null)
+        {
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToBool() != LdapSync;
+            }
+            return LdapSync != SavedLdapSync
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToBool() != LdapSync);
+        }
+
+        public bool LdapGuid_Updated(Context context, bool copy = false, Column column = null)
+        {
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != LdapGuid;
+            }
+            return LdapGuid != SavedLdapGuid && LdapGuid != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != LdapGuid);
+        }
+
+        public bool LdapSearchRoot_Updated(Context context, bool copy = false, Column column = null)
+        {
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != LdapSearchRoot;
+            }
+            return LdapSearchRoot != SavedLdapSearchRoot && LdapSearchRoot != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != LdapSearchRoot);
+        }
+
+        public bool SynchronizedTime_Updated(Context context, bool copy = false, Column column = null)
+        {
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToDateTime() != SynchronizedTime;
+            }
+            return SynchronizedTime != SavedSynchronizedTime
+                && (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.DefaultTime(context: context).Date != SynchronizedTime.Date);
         }
 
         public string CsvData(
@@ -198,6 +255,54 @@ namespace Implem.Pleasanter.Models
                                 exportColumn: exportColumn)
                             : string.Empty;
                     break;
+                case "LdapSync":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? LdapSync.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "LdapGuid":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? LdapGuid.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "LdapSearchRoot":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? LdapSearchRoot.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "SynchronizedTime":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? SynchronizedTime.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
                 case "Comments":
                     value = ss.ReadColumnAccessControls.Allowed(
                         context: context,
@@ -252,10 +357,11 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         column: column,
                         mine: mine)
-                            ? UpdatedTime.ToExport(
+                            ? UpdatedTime?.ToExport(
                                 context: context,
                                 column: column,
                                 exportColumn: exportColumn)
+                                    ?? String.Empty
                             : string.Empty;
                     break;
                 default:
@@ -507,6 +613,10 @@ namespace Implem.Pleasanter.Models
                     case "GroupName": data.GroupName = GroupName; break;
                     case "Body": data.Body = Body; break;
                     case "Disabled": data.Disabled = Disabled; break;
+                    case "LdapSync": data.LdapSync = LdapSync; break;
+                    case "LdapGuid": data.LdapGuid = LdapGuid; break;
+                    case "LdapSearchRoot": data.LdapSearchRoot = LdapSearchRoot; break;
+                    case "SynchronizedTime": data.SynchronizedTime = SynchronizedTime.ToLocal(context: context); break;
                     case "Creator": data.Creator = Creator.Id; break;
                     case "Updator": data.Updator = Updator.Id; break;
                     case "CreatedTime": data.CreatedTime = CreatedTime.Value.ToLocal(context: context); break;
@@ -524,6 +634,7 @@ namespace Implem.Pleasanter.Models
                 }
             });
             if (GroupMembers != null) { data.GroupMembers = GroupMembers; }
+            if (GroupChildren != null) { data.GroupChildren = GroupChildren; }
             return data;
         }
 
@@ -561,6 +672,26 @@ namespace Implem.Pleasanter.Models
                         column: column);
                 case "Disabled":
                     return Disabled.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "LdapSync":
+                    return LdapSync.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "LdapGuid":
+                    return LdapGuid.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "LdapSearchRoot":
+                    return LdapSearchRoot.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "SynchronizedTime":
+                    return SynchronizedTime.ToDisplay(
                         context: context,
                         ss: ss,
                         column: column);
@@ -705,6 +836,26 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column);
+                case "LdapSync":
+                    return LdapSync.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "LdapGuid":
+                    return LdapGuid.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "LdapSearchRoot":
+                    return LdapSearchRoot.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "SynchronizedTime":
+                    return SynchronizedTime.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
                 case "Comments":
                     return Comments.ToApiDisplayValue(
                         context: context,
@@ -846,6 +997,26 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column);
+                case "LdapSync":
+                    return LdapSync.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "LdapGuid":
+                    return LdapGuid.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "LdapSearchRoot":
+                    return LdapSearchRoot.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "SynchronizedTime":
+                    return SynchronizedTime.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
                 case "Comments":
                     return Comments.ToApiValue(
                         context: context,
@@ -936,6 +1107,9 @@ namespace Implem.Pleasanter.Models
                 ? GroupMembers
                 : context.Forms.List("CurrentMembersAll");
             var addMyselfGroupmembers = groupApiModel == null || groupMembers == null;
+            var groupChildren = groupApiModel != null
+                ? GroupChildren
+                : context.Forms.List("CurrentChildrenAll");
             statements.AddRange(CreateStatements(
                 context: context,
                 ss: ss,
@@ -974,6 +1148,22 @@ namespace Implem.Pleasanter.Models
                                 .Admin(data.Split_3rd().ToBool())));
                 }
             });
+            groupChildren?.ForEach(data =>
+            {
+                if (data.StartsWith("Group,"))
+                {
+                    Repository.ExecuteNonQuery(
+                        context: context,
+                        transactional: true,
+                        statements: Rds.InsertGroupChildren(
+                            param: Rds.GroupChildrenParam()
+                                .GroupId(GroupId)
+                                .ChildId(data.Split_2nd().ToInt())));
+                }
+            });
+            GroupMemberUtilities.SyncGroupMembers(
+                context: context,
+                groupId: GroupId);
             if (get) Get(context: context, ss: ss);
             return new ErrorData(type: Error.Types.None);
         }
@@ -1019,6 +1209,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             bool refleshSiteInfo = true,
             bool updateGroupMembers = true,
+            bool updateGroupChildren = true,
             GroupApiModel groupApiModel = null,
             SqlParamCollection param = null,
             List<SqlStatement> additionalStatements = null,
@@ -1054,50 +1245,39 @@ namespace Implem.Pleasanter.Models
                     type: Error.Types.UpdateConflicts,
                     id: GroupId);
             }
+            var disabledUpdated = Disabled_Updated(context: context);
             if (get)
             {
                 Get(context: context, ss: ss);
             }
             if (updateGroupMembers)
             {
-                var groupMembers = groupApiModel != null
-                    ? GroupMembers
-                    : context.Forms.List("CurrentMembersAll");
-                if (groupMembers != null)
+                if (groupApiModel != null)
                 {
-                    Repository.ExecuteNonQuery(
-                    context: context,
-                    transactional: true,
-                    statements: Rds.PhysicalDeleteGroupMembers(
-                        where: Rds.GroupMembersWhere()
-                            .GroupId(GroupId)));
-                }            
-                groupMembers?.ForEach(data =>
+                    RenewGroupMembers(context, GroupMembers);
+                }
+                else
                 {
-                    if (data.StartsWith("Dept,"))
-                    {
-                        Repository.ExecuteNonQuery(
-                            context: context,
-                            transactional: true,
-                            statements: Rds.InsertGroupMembers(
-                                param: Rds.GroupMembersParam()
-                                    .GroupId(GroupId)
-                                    .DeptId(data.Split_2nd().ToInt())
-                                    .Admin(data.Split_3rd().ToBool())));
-                    }
-                    if (data.StartsWith("User,"))
-                    {
-                        Repository.ExecuteNonQuery(
-                            context: context,
-                            transactional: true,
-                            statements: Rds.InsertGroupMembers(
-                                param: Rds.GroupMembersParam()
-                                    .GroupId(GroupId)
-                                    .UserId(data.Split_2nd().ToInt())
-                                    .Admin(data.Split_3rd().ToBool())));
-                    }
-                });
+                    UpdateGroupMembers(context);
+                }
             }
+            if (updateGroupChildren)
+            {
+                if (groupApiModel != null)
+                {
+                    RenewGroupChildren(context, GroupChildren);
+                }
+                else
+                {
+                    UpdateGroupChildren(context);
+                }
+            }
+            if (updateGroupMembers || updateGroupChildren || disabledUpdated)
+            {
+                GroupMemberUtilities.SyncGroupMembers(
+                    context: context,
+                    groupId: GroupId);
+            }        
             if (refleshSiteInfo)
             {
                 SiteInfo.Reflesh(context: context);
@@ -1173,6 +1353,200 @@ namespace Implem.Pleasanter.Models
             };
         }
 
+        private void UpdateGroupMembers(Context context)
+        {
+            var deletedMembers = ParseGroupMembers(members: context.Forms.List("DeletedGroupMembers"));
+            var updateMembers = GetUpdateGroupMembers(context: context);
+            if (deletedMembers?.Any() == true)
+            {
+                var userIdIn = deletedMembers.Where(o => o.UserId != 0).Select(o => o.UserId);
+                var deptIdIn = deletedMembers.Where(o => o.DeptId != 0).Select(o => o.DeptId);
+                Repository.ExecuteNonQuery(
+                    context: context,
+                    transactional: true,
+                    statements: Rds.PhysicalDeleteGroupMembers(
+                        where: Rds.GroupMembersWhere()
+                            .GroupId(GroupId)
+                            .ChildGroup(false)
+                            .Or(Rds.GroupMembersWhere()
+                                .UserId_In(userIdIn, _using: userIdIn.Any())
+                                .DeptId_In(deptIdIn, _using: deptIdIn.Any()))));
+            }
+            updateMembers?.ForEach(data =>
+            {
+                Repository.ExecuteNonQuery(
+                    context: context,
+                    transactional: true,
+                    statements: new SqlStatement(
+                        commandText: Def.Sql.UpsertGroupMember,
+                        param: new SqlParamCollection
+                            {
+                                { "GroupId", GroupId },
+                                { "UserId", data.UserId },
+                                { "DeptId", data.DeptId },
+                                { "Admin", data.Admin }
+                            }));
+            });
+        }
+
+        public static IEnumerable<(int UserId, int DeptId, bool Admin)> GetUpdateGroupMembers(Context context)
+        {
+            var addedMembers = ParseGroupMembers(context.Forms.List("AddedGroupMembers")).ToList();
+            var modifiedMembers = ParseGroupMembers(context.Forms.List("ModifiedGroupMembers"));
+            modifiedMembers.ForEach(modified =>
+            {
+                var item = addedMembers.FirstOrDefault(added =>
+                    added.DeptId == modified.DeptId
+                    && added.UserId == modified.UserId);
+                if (item != default)
+                {
+                    addedMembers.Remove(item);    
+                }
+                addedMembers.Add(modified);
+            });
+            return addedMembers;
+        }
+
+        private static IEnumerable<(int UserId, int DeptId, bool Admin)> ParseGroupMembers(List<string> members)
+        {
+            return members?.Select(o =>
+            (
+                o.StartsWith("User,")
+                    ? o.Split_2nd().ToInt()
+                    : 0,
+                o.StartsWith("Dept,")
+                    ? o.Split_2nd().ToInt()
+                    : 0,
+                o.Split_3rd().ToBool()
+            ))?? Enumerable.Empty<(int UserId, int DeptId, bool Admin)>();
+        }
+
+        private void RenewGroupMembers(Context context, List<string> groupMembers)
+        {
+            if (groupMembers != null)
+            {
+                Repository.ExecuteNonQuery(
+                context: context,
+                transactional: true,
+                statements: Rds.PhysicalDeleteGroupMembers(
+                    where: Rds.GroupMembersWhere()
+                        .GroupId(GroupId)
+                        .ChildGroup(false)));
+            }
+            groupMembers?.ForEach(data =>
+            {
+                if (data.StartsWith("Dept,"))
+                {
+                    Repository.ExecuteNonQuery(
+                        context: context,
+                        transactional: true,
+                        statements: Rds.InsertGroupMembers(
+                            param: Rds.GroupMembersParam()
+                                .GroupId(GroupId)
+                                .DeptId(data.Split_2nd().ToInt())
+                                .Admin(data.Split_3rd().ToBool())));
+                }
+                if (data.StartsWith("User,"))
+                {
+                    Repository.ExecuteNonQuery(
+                        context: context,
+                        transactional: true,
+                        statements: Rds.InsertGroupMembers(
+                            param: Rds.GroupMembersParam()
+                                .GroupId(GroupId)
+                                .UserId(data.Split_2nd().ToInt())
+                                .Admin(data.Split_3rd().ToBool())));
+                }
+            });
+        }
+
+        private void UpdateGroupChildren(Context context)
+        {
+            var deletedChildren = ParseGroupChildren(children: context.Forms.List("DeletedGroupChildren"));
+            var updateChildren = GetUpdateGroupChildren(context: context);
+            if (deletedChildren?.Any() == true)
+            {
+                Repository.ExecuteNonQuery(
+                    context: context,
+                    transactional: true,
+                    statements: Rds.PhysicalDeleteGroupChildren(
+                        where: Rds.GroupChildrenWhere()
+                            .GroupId(GroupId)
+                            .Or(Rds.GroupChildrenWhere()
+                                .ChildId_In(deletedChildren, _using: deletedChildren.Any()))));
+            }
+            updateChildren?.ForEach(childId =>
+            {
+                Repository.ExecuteNonQuery(
+                    context: context,
+                    transactional: true,
+                    statements: new SqlStatement(
+                        commandText: Def.Sql.UpsertGroupChild,
+                        param: new SqlParamCollection
+                            {
+                                { "GroupId", GroupId },
+                                { "ChildId", childId }
+                            }));
+            });
+        }
+
+        public static IEnumerable<int> GetUpdateGroupChildren(Context context)
+        {
+            var addedChildren = ParseGroupChildren(context.Forms.List("AddedGroupChildren")).ToList();
+            var modifiedChildren = ParseGroupChildren(context.Forms.List("ModifiedGroupChildren"));
+            modifiedChildren.ForEach(modified =>
+            {
+                var item = addedChildren.FirstOrDefault(added => added == modified);
+                if (item != default)
+                {
+                    addedChildren.Remove(item);    
+                }
+                addedChildren.Add(modified);
+            });
+            return addedChildren;
+        }
+
+        private static IEnumerable<int> ParseGroupChildren(List<string> children)
+        {
+            return children?.Select(o =>
+            (
+                o.StartsWith("Group,")
+                    ? o.Split_2nd().ToInt()
+                    : 0
+            )) ?? Enumerable.Empty<int>();
+        }
+
+        private static List<string> ParseGroupChildren(string children)
+        {
+            return System.Text.Json.JsonSerializer.Deserialize<List<string>>(children ?? "[]");
+        }
+
+        private void RenewGroupChildren(Context context, List<string> groupChildren)
+        {
+            if (groupChildren != null)
+            {
+                Repository.ExecuteNonQuery(
+                context: context,
+                transactional: true,
+                statements: Rds.PhysicalDeleteGroupChildren(
+                    where: Rds.GroupChildrenWhere()
+                        .GroupId(GroupId)));
+            }
+            groupChildren?.ForEach(data =>
+            {
+                if (data.StartsWith("Group,"))
+                {
+                    Repository.ExecuteNonQuery(
+                        context: context,
+                        transactional: true,
+                        statements: Rds.InsertGroupChildren(
+                            param: Rds.GroupChildrenParam()
+                                .GroupId(GroupId)
+                                .ChildId(data.Split_2nd().ToInt())));
+                }
+            });
+        }
+
         public ErrorData UpdateOrCreate(
             Context context,
             SiteSettings ss,
@@ -1212,12 +1586,26 @@ namespace Implem.Pleasanter.Models
             var where = Rds.GroupsWhere().GroupId(GroupId);
             statements.AddRange(new List<SqlStatement>
             {
+                Rds.DeleteBinaries(
+                    factory: context,
+                    where: Rds.BinariesWhere()
+                        .TenantId(context.TenantId)
+                        .ReferenceId(GroupId)
+                        .BinaryType(value: "TenantManagementImages")),
+                Rds.DeleteGroupMembers(
+                    factory: context,
+                    where: Rds.GroupMembersWhere()
+                        .GroupId(GroupId)),
+                Rds.DeleteGroupChildren(
+                    factory: context,
+                    where: Rds.GroupChildrenWhere()
+                        .GroupId(GroupId)),
+                GroupMemberUtilities.DeleteGroupMembers(
+                    context: context,
+                    groupId: GroupId),
                 Rds.DeleteGroups(
                     factory: context,
                     where: where),
-                Rds.PhysicalDeleteGroupMembers(
-                    where: Rds.GroupMembersWhere()
-                        .GroupId(GroupId)),
                 StatusUtilities.UpdateStatus(
                     tenantId: context.TenantId,
                     type: StatusUtilities.Types.GroupsUpdated),
@@ -1265,6 +1653,26 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             Dictionary<string, string> formData)
         {
+            SetByFormData(
+                context: context,
+                ss: ss,
+                formData: formData);
+            if (context.QueryStrings.ContainsKey("ver"))
+            {
+                Ver = context.QueryStrings.Int("ver");
+            }
+            if (context.Action == "deletecomment")
+            {
+                DeleteCommentId = formData.Get("ControlId")?
+                    .Split(',')
+                    ._2nd()
+                    .ToInt() ?? 0;
+                Comments.RemoveAll(o => o.CommentId == DeleteCommentId);
+            }
+        }
+
+        private void SetByFormData(Context context, SiteSettings ss, Dictionary<string, string> formData)
+        {
             formData.ForEach(data =>
             {
                 var key = data.Key;
@@ -1275,12 +1683,17 @@ namespace Implem.Pleasanter.Models
                     case "Groups_GroupName": GroupName = value.ToString(); break;
                     case "Groups_Body": Body = value.ToString(); break;
                     case "Groups_Disabled": Disabled = value.ToBool(); break;
+                    case "Groups_LdapSync": LdapSync = value.ToBool(); break;
+                    case "Groups_LdapGuid": LdapGuid = value.ToString(); break;
+                    case "Groups_LdapSearchRoot": LdapSearchRoot = value.ToString(); break;
+                    case "Groups_SynchronizedTime": SynchronizedTime = value.ToDateTime().ToUniversal(context: context); break;
                     case "Groups_Timestamp": Timestamp = value.ToString(); break;
                     case "Comments": Comments.Prepend(
                         context: context,
                         ss: ss,
                         body: value); break;
                     case "VerUp": VerUp = value.ToBool(); break;
+                    case "CurrentChildrenAll": GroupChildren = ParseGroupChildren(value.ToString()); break;
                     default:
                         if (key.RegexExists("Comment[0-9]+"))
                         {
@@ -1335,18 +1748,6 @@ namespace Implem.Pleasanter.Models
                         break;
                 }
             });
-            if (context.QueryStrings.ContainsKey("ver"))
-            {
-                Ver = context.QueryStrings.Int("ver");
-            }
-            if (context.Action == "deletecomment")
-            {
-                DeleteCommentId = formData.Get("ControlId")?
-                    .Split(',')
-                    ._2nd()
-                    .ToInt() ?? 0;
-                Comments.RemoveAll(o => o.CommentId == DeleteCommentId);
-            }
         }
 
         public void SetByModel(GroupModel groupModel)
@@ -1359,6 +1760,10 @@ namespace Implem.Pleasanter.Models
             MemberKey = groupModel.MemberKey;
             MemberName = groupModel.MemberName;
             MemberIsAdmin = groupModel.MemberIsAdmin;
+            LdapSync = groupModel.LdapSync;
+            LdapGuid = groupModel.LdapGuid;
+            LdapSearchRoot = groupModel.LdapSearchRoot;
+            SynchronizedTime = groupModel.SynchronizedTime;
             Comments = groupModel.Comments;
             Creator = groupModel.Creator;
             Updator = groupModel.Updator;
@@ -1380,7 +1785,12 @@ namespace Implem.Pleasanter.Models
             if (data.GroupName != null) GroupName = data.GroupName.ToString().ToString();
             if (data.Body != null) Body = data.Body.ToString().ToString();
             if (data.Disabled != null) Disabled = data.Disabled.ToBool().ToBool();
+            if (data.LdapSync != null) LdapSync = data.LdapSync.ToBool().ToBool();
+            if (data.LdapGuid != null) LdapGuid = data.LdapGuid.ToString().ToString();
+            if (data.LdapSearchRoot != null) LdapSearchRoot = data.LdapSearchRoot.ToString().ToString();
+            if (data.SynchronizedTime != null) SynchronizedTime = data.SynchronizedTime.ToDateTime().ToDateTime().ToUniversal(context: context);
             if (data.GroupMembers != null) GroupMembers = data.GroupMembers;
+            if (data.GroupChildren != null) GroupChildren = data.GroupChildren;
             if (data.Comments != null) Comments.Prepend(context: context, ss: ss, body: data.Comments);
             if (data.VerUp != null) VerUp = data.VerUp.ToBool();
             data.ClassHash?.ForEach(o => SetClass(
@@ -1552,6 +1962,22 @@ namespace Implem.Pleasanter.Models
                             Disabled = dataRow[column.ColumnName].ToBool();
                             SavedDisabled = Disabled;
                             break;
+                        case "LdapSync":
+                            LdapSync = dataRow[column.ColumnName].ToBool();
+                            SavedLdapSync = LdapSync;
+                            break;
+                        case "LdapGuid":
+                            LdapGuid = dataRow[column.ColumnName].ToString();
+                            SavedLdapGuid = LdapGuid;
+                            break;
+                        case "LdapSearchRoot":
+                            LdapSearchRoot = dataRow[column.ColumnName].ToString();
+                            SavedLdapSearchRoot = LdapSearchRoot;
+                            break;
+                        case "SynchronizedTime":
+                            SynchronizedTime = dataRow[column.ColumnName].ToDateTime();
+                            SavedSynchronizedTime = SynchronizedTime;
+                            break;
                         case "Comments":
                             Comments = dataRow[column.ColumnName].ToString().Deserialize<Comments>() ?? new Comments();
                             SavedComments = Comments.ToJson();
@@ -1646,6 +2072,50 @@ namespace Implem.Pleasanter.Models
                 || GroupName_Updated(context: context)
                 || Body_Updated(context: context)
                 || Disabled_Updated(context: context)
+                || LdapSync_Updated(context: context)
+                || LdapGuid_Updated(context: context)
+                || LdapSearchRoot_Updated(context: context)
+                || SynchronizedTime_Updated(context: context)
+                || Comments_Updated(context: context)
+                || Creator_Updated(context: context)
+                || Updator_Updated(context: context);
+        }
+
+        private bool UpdatedWithColumn(Context context, SiteSettings ss)
+        {
+            return ClassHash.Any(o => Class_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || NumHash.Any(o => Num_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || DateHash.Any(o => Date_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || DescriptionHash.Any(o => Description_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || CheckHash.Any(o => Check_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)))
+                || AttachmentsHash.Any(o => Attachments_Updated(
+                    columnName: o.Key,
+                    column: ss.GetColumn(context: context, o.Key)));
+        }
+
+        public bool Updated(Context context, SiteSettings ss)
+        {
+            return UpdatedWithColumn(context: context, ss: ss)
+                || TenantId_Updated(context: context)
+                || GroupId_Updated(context: context)
+                || Ver_Updated(context: context)
+                || GroupName_Updated(context: context)
+                || Body_Updated(context: context)
+                || Disabled_Updated(context: context)
+                || LdapSync_Updated(context: context)
+                || LdapGuid_Updated(context: context)
+                || LdapSearchRoot_Updated(context: context)
+                || SynchronizedTime_Updated(context: context)
                 || Comments_Updated(context: context)
                 || Creator_Updated(context: context)
                 || Updator_Updated(context: context);

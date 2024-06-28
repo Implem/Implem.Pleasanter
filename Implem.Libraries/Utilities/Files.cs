@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Imaging;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Formats;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -83,7 +83,7 @@ namespace Implem.Libraries.Utilities
         public static void Write(
             this Image self,
             string filePath,
-            ImageFormat format,
+            IImageEncoder format,
             int reTryCount = 100)
         {
             var successful = false;

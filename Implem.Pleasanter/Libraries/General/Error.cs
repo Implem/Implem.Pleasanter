@@ -24,8 +24,10 @@ namespace Implem.Pleasanter.Libraries.General
             CanNotDisabled,
             CanNotInherit,
             CanNotLink,
+            CannotMoveMultipleSitesData,
             CanNotPerformed,
             CantSetAtTopOfSite,
+            CircularGroupChild,
             CustomError,
             DefinitionNotFound,
             DeleteConflicts,
@@ -35,18 +37,23 @@ namespace Implem.Pleasanter.Libraries.General
             ExportNotSetEmail,
             ExternalMailAddress,
             FailedReadFile,
+            FailedWriteFile,
             FileNotFound,
+            GroupDepthMax,
             HasNotChangeColumnPermission,
             HasNotPermission,
+            ImportInvalidUserIdAndLoginId,
             ImportMax,
             InCircleInvalidToken,
             IncorrectCurrentPassword,
             IncorrectFileFormat,
             IncorrectServerScript,
             IncorrectSiteDeleting,
+            IncorrectUser,
             InputMailAddress,
             InternalServerError,
             InvalidCsvData,
+            InvalidDateHhMmFormat,
             InvalidFormula,
             InvalidIpAddress,
             InvalidJsonData,
@@ -54,6 +61,7 @@ namespace Implem.Pleasanter.Libraries.General
             InvalidMemberType,
             InvalidRequest,
             InvalidSsoCode,
+            invalidUpsertKey,
             ItemsLimit,
             JoeAccountCheck,
             LockedRecord,
@@ -80,10 +88,13 @@ namespace Implem.Pleasanter.Libraries.General
             PasswordNotChanged,
             PasswordPolicyViolation,
             PermissionNotSelfChange,
+            PleaseInputData,
+            PleaseUncheck,
             ReminderErrorContent,
             ReminderErrorTitle,
             RequireMailAddresses,
             RequireManagePermission,
+            RequireSecondAuthenticationByMail,
             RequireTo,
             Restricted,
             SamlLoginFailed,
@@ -177,12 +188,20 @@ namespace Implem.Pleasanter.Libraries.General
                     return Messages.CanNotLink(
                         context: context,
                         data: data);
+                case Types.CannotMoveMultipleSitesData:
+                    return Messages.CannotMoveMultipleSitesData(
+                        context: context,
+                        data: data);
                 case Types.CanNotPerformed:
                     return Messages.CanNotPerformed(
                         context: context,
                         data: data);
                 case Types.CantSetAtTopOfSite:
                     return Messages.CantSetAtTopOfSite(
+                        context: context,
+                        data: data);
+                case Types.CircularGroupChild:
+                    return Messages.CircularGroupChild(
                         context: context,
                         data: data);
                 case Types.CustomError:
@@ -221,8 +240,16 @@ namespace Implem.Pleasanter.Libraries.General
                     return Messages.FailedReadFile(
                         context: context,
                         data: data);
+                case Types.FailedWriteFile:
+                    return Messages.FailedWriteFile(
+                        context: context,
+                        data: data);
                 case Types.FileNotFound:
                     return Messages.FileNotFound(
+                        context: context,
+                        data: data);
+                case Types.GroupDepthMax:
+                    return Messages.GroupDepthMax(
                         context: context,
                         data: data);
                 case Types.HasNotChangeColumnPermission:
@@ -231,6 +258,10 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.HasNotPermission:
                     return Messages.HasNotPermission(
+                        context: context,
+                        data: data);
+                case Types.ImportInvalidUserIdAndLoginId:
+                    return Messages.ImportInvalidUserIdAndLoginId(
                         context: context,
                         data: data);
                 case Types.ImportMax:
@@ -257,6 +288,10 @@ namespace Implem.Pleasanter.Libraries.General
                     return Messages.IncorrectSiteDeleting(
                         context: context,
                         data: data);
+                case Types.IncorrectUser:
+                    return Messages.IncorrectUser(
+                        context: context,
+                        data: data);
                 case Types.InputMailAddress:
                     return Messages.InputMailAddress(
                         context: context,
@@ -267,6 +302,10 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.InvalidCsvData:
                     return Messages.InvalidCsvData(
+                        context: context,
+                        data: data);
+                case Types.InvalidDateHhMmFormat:
+                    return Messages.InvalidDateHhMmFormat(
                         context: context,
                         data: data);
                 case Types.InvalidFormula:
@@ -295,6 +334,10 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.InvalidSsoCode:
                     return Messages.InvalidSsoCode(
+                        context: context,
+                        data: data);
+                case Types.invalidUpsertKey:
+                    return Messages.invalidUpsertKey(
                         context: context,
                         data: data);
                 case Types.ItemsLimit:
@@ -401,6 +444,14 @@ namespace Implem.Pleasanter.Libraries.General
                     return Messages.PermissionNotSelfChange(
                         context: context,
                         data: data);
+                case Types.PleaseInputData:
+                    return Messages.PleaseInputData(
+                        context: context,
+                        data: data);
+                case Types.PleaseUncheck:
+                    return Messages.PleaseUncheck(
+                        context: context,
+                        data: data);
                 case Types.ReminderErrorContent:
                     return Messages.ReminderErrorContent(
                         context: context,
@@ -415,6 +466,10 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.RequireManagePermission:
                     return Messages.RequireManagePermission(
+                        context: context,
+                        data: data);
+                case Types.RequireSecondAuthenticationByMail:
+                    return Messages.RequireSecondAuthenticationByMail(
                         context: context,
                         data: data);
                 case Types.RequireTo:
