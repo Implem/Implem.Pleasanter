@@ -16,13 +16,13 @@ namespace Implem.MySql
 
         public string CurrentDateTime { get; } = " CURRENT_TIMESTAMP ";
 
-        public string Like { get; } = " ilike ";
+        public string Like { get; } = " like ";
 
-        public string NotLike { get; } = " not ilike ";
+        public string NotLike { get; } = " not like ";
 
-        public string LikeWithEscape { get; } = " ilike {0} escape '|'";
+        public string LikeWithEscape { get; } = " like {0} escape '|'";
 
-        public string NotLikeWithEscape { get; } = " not ilike {0} escape '|'";
+        public string NotLikeWithEscape { get; } = " not like {0} escape '|'";
 
         public string Escape { get; } = " escape '|'";
 

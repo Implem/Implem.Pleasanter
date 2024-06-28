@@ -1,6 +1,5 @@
 ﻿using Implem.IRds;
 using System.Data;
-using System.Text.RegularExpressions;
 namespace Implem.MySql
 {
     internal class MySqlDataType : ISqlDataType
