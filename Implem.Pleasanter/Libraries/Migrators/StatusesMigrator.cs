@@ -14,13 +14,6 @@ namespace Implem.Pleasanter.Libraries.Migrators
                     context: context,
                     version: "0.37.10.0");
             }
-            if (LowerThan(context: context, version: "0.39.22.0"))
-            {
-                Statuses.Version00_039_022.Migrate(context: context);
-                StatusUtilities.UpdateAssemblyVersion(
-                    context: context,
-                    version: "0.39.22.0");
-            }
             if (LowerThan(context: context, version: "0.43.52.0"))
             {
                 Statuses.Version00_043_052.Migrate(context: context);
