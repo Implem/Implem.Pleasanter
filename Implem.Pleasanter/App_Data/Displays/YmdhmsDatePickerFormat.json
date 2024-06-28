@@ -3,7 +3,7 @@
     "Type": 110,
     "Languages": [
         {
-            "Body": "Y/m/d H:i:s"
+            "Body": "m/d/Y H:i:s"
         },
         {
             "Language": "zh",
@@ -15,11 +15,11 @@
         },
         {
             "Language": "de",
-            "Body": "J/M/T H:i:s"
+            "Body": "Y.m.d H:i:s"
         },
         {
             "Language": "ko",
-            "Body": "Y/m/d H:i:s"
+            "Body": "Y.m.d. H:i:s"
         },
         {
             "Language": "es",

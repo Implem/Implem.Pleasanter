@@ -594,6 +594,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-error");
         }
 
+        public static Message FailedBulkUpsert(Context context, params string[] data)
+        {
+            return Get(
+                id: "FailedBulkUpsert",
+                text: Displays.FailedBulkUpsert(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
         public static Message FailedReadFile(Context context, params string[] data)
         {
             return Get(
@@ -939,6 +949,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 id: "InvalidSsoCode",
                 text: Displays.InvalidSsoCode(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
+        public static Message invalidUpsertKey(Context context, params string[] data)
+        {
+            return Get(
+                id: "invalidUpsertKey",
+                text: Displays.invalidUpsertKey(
                     context: context,
                     data: data),
                 css: "alert-error");
@@ -2290,6 +2310,17 @@ namespace Implem.Pleasanter.Libraries.Responses
                 target: target);
         }
 
+        public static ResponseCollection ResponseFailedBulkUpsert(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: FailedBulkUpsert(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
         public static ResponseCollection ResponseFailedReadFile(
             Context context, string target = null, params string[] data)
         {
@@ -2670,6 +2701,17 @@ namespace Implem.Pleasanter.Libraries.Responses
             return ResponseMessage(
                 context: context,
                 message: InvalidSsoCode(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseinvalidUpsertKey(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: invalidUpsertKey(
                     context: context,
                     data: data),
                 target: target);

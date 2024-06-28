@@ -414,6 +414,28 @@ public string BulkUpdate(Context context)
     }
 }
 
+public ContentResultInheritance BulkUpsertByApi(Context context)
+{
+    SetSite(
+        context: context,
+        initSiteSettings: true);
+    if (!Site.WithinApiLimits(context: context))
+    {
+        return ApiResults.Get(ApiResponses.OverLimitApi(
+            context: context,
+            siteId: Site.SiteId,
+            limitPerSite: context.ContractSettings.ApiLimit()));
+    }
+    switch (Site.SiteSettings.ReferenceType)
+    {
+
+<!--Model_BulkUpsertByApiCases-->
+
+        default:
+            return ApiResults.Get(ApiResponses.NotFound(context: context));
+    }
+}
+
 public string UpdateByGrid(Context context)
 {
     SetSite(
@@ -832,7 +854,7 @@ public string DeleteHistory(Context context)
     SetSite(
         context: context,
         initSiteSettings: true,
-        tableType: Sqls.TableTypes.History);
+        tableType: Sqls.TableTypes.NormalAndHistory);
     if (SiteId == ReferenceId)
     {
         return SiteUtilities.DeleteHistory(

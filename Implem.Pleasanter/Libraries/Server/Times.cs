@@ -164,13 +164,13 @@ namespace Implem.Pleasanter.Libraries.Server
 
         public static string PreviousMonth(Context context, DateTime month)
         {
-            var data = month.ToLocal(context: context).AddMonths(-1);
+            var data = month.AddMonths(-1);
             return new DateTime(data.Year, data.Month, 1).ToString();
         }
 
         public static string NextMonth(Context context, DateTime month)
         {
-            var data = month.ToLocal(context: context).AddMonths(1);
+            var data = month.AddMonths(1);
             return new DateTime(data.Year, data.Month, 1).ToString();
         }
 

@@ -280,18 +280,6 @@ namespace Implem.Pleasanter.Models
                                 exportColumn: exportColumn)
                             : string.Empty;
                     break;
-                case "UpdatedTime":
-                    value = ss.ReadColumnAccessControls.Allowed(
-                        context: context,
-                        ss: ss,
-                        column: column,
-                        mine: mine)
-                            ? UpdatedTime.ToExport(
-                                context: context,
-                                column: column,
-                                exportColumn: exportColumn)
-                            : string.Empty;
-                    break;
                 case "ResultId":
                     value = ss.ReadColumnAccessControls.Allowed(
                         context: context,
@@ -458,6 +446,19 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 column: column,
                                 exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "UpdatedTime":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? UpdatedTime?.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                                    ?? String.Empty
                             : string.Empty;
                     break;
                 default:
