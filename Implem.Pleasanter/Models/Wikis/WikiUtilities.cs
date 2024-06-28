@@ -870,6 +870,11 @@ namespace Implem.Pleasanter.Models
                 column: column);
             if (value != null)
             {
+                //数値項目の場合、「単位」を値に連結する
+                value += wikiModel.NumUnit(
+                    context: context,
+                    ss: ss,
+                    column: column);
                 SetChoiceHashByFilterExpressions(
                     context: context,
                     ss: ss,
@@ -1156,6 +1161,27 @@ namespace Implem.Pleasanter.Models
                 name: "tab-active",
                 value: tabIndex.ToString(),
                 _using: tabIndex > 0);
+        }
+
+        public static string NumUnit(
+            this WikiModel wikiModel,
+            Context context,
+            SiteSettings ss,
+            Column column)
+        {
+            if (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty) != "Num"
+                || column.ControlType == "Spinner")
+            {
+                return string.Empty;
+            }
+            return (column.GetEditorReadOnly()
+                || Permissions.ColumnPermissionType(
+                    context: context,
+                    ss: ss,
+                    column: column,
+                    baseModel: wikiModel) != Permissions.ColumnPermissionTypes.Update
+                        ? column.Unit
+                        : string.Empty);
         }
 
         public static string ControlValue(

@@ -593,12 +593,23 @@ namespace Implem.Pleasanter.Models
                         .Where(column => !columns.Any(p =>
                             p.ColumnName == column.ColumnName))
                         .ForEach(column =>
-                            res.SetFormData(
-                                $"{ss.ReferenceType}_{column.ColumnName}_{ss.SiteId}_{newRowId}",
-                                resultModel.ControlValue(
+                        {
+                            var value = resultModel.ControlValue(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                            if(value != null)
+                            {
+                                //数値項目の場合、「単位」を値に連結する
+                                value += resultModel.NumUnit(
                                     context: context,
                                     ss: ss,
-                                    column: column)));
+                                    column: column);
+                            }
+                            res.SetFormData(
+                                $"{ss.ReferenceType}_{column.ColumnName}_{ss.SiteId}_{newRowId}",
+                                value);
+                        });
             }
             return res;
         }
@@ -1807,6 +1818,11 @@ namespace Implem.Pleasanter.Models
                 column: column);
             if (value != null)
             {
+                //数値項目の場合、「単位」を値に連結する
+                value += resultModel.NumUnit(
+                    context: context,
+                    ss: ss,
+                    column: column);
                 SetChoiceHashByFilterExpressions(
                     context: context,
                     ss: ss,
@@ -2097,6 +2113,27 @@ namespace Implem.Pleasanter.Models
                 name: "tab-active",
                 value: tabIndex.ToString(),
                 _using: tabIndex > 0);
+        }
+
+        public static string NumUnit(
+            this ResultModel resultModel,
+            Context context,
+            SiteSettings ss,
+            Column column)
+        {
+            if (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty) != "Num"
+                || column.ControlType == "Spinner")
+            {
+                return string.Empty;
+            }
+            return (column.GetEditorReadOnly()
+                || Permissions.ColumnPermissionType(
+                    context: context,
+                    ss: ss,
+                    column: column,
+                    baseModel: resultModel) != Permissions.ColumnPermissionTypes.Update
+                        ? column.Unit
+                        : string.Empty);
         }
 
         public static string ControlValue(
