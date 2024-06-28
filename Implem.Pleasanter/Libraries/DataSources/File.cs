@@ -43,10 +43,15 @@ namespace Implem.Pleasanter.Libraries.DataSources
             }
         }
 
-        public static string WriteToTemp(this IHttpPostedFile file)
+        public static string WriteToTemp(this IHttpPostedFile file, Context context)
         {
             var guid = Strings.NewGuid();
-            if (Parameters.BinaryStorage.TemporaryBinaryStorageProvider == "Rds") return guid;
+            if (Parameters.BinaryStorage.TemporaryBinaryStorageProvider == "Rds"
+                && context.Controller == "binaries"
+                && context.Action == "upload")
+            {
+                return guid;
+            }
             var folderPath = Path.Combine(Path.Combine(Directories.Temp(), guid));
             if (!folderPath.Exists()) Directory.CreateDirectory(folderPath);
             var filePath = Path.Combine(
