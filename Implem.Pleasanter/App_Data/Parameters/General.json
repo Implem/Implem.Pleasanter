@@ -97,5 +97,6 @@
     "HideCurrentUserIcon": false,
     "HideCurrentDeptIcon": false,
     "EnableLightBox": true,
-    "GroupsDepthMax": 30
+    "GroupsDepthMax": 30,
+    "BulkUpsertMax" : 0
 }

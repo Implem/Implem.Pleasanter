@@ -1,1 +1,240 @@
-﻿null
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "Title",
+        "ClassB",
+        "NumA",
+        "NumB",
+        "ClassA",
+        "CheckA",
+        "CheckB",
+        "CheckC",
+        "CheckD",
+        "CheckE",
+        "CheckF",
+        "CheckG",
+        "CheckH",
+        "NumC",
+        "DateA",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "FilterColumns": [
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "ClassD",
+        "ClassE",
+        "ClassF",
+        "ClassG",
+        "ClassH",
+        "ClassI",
+        "ClassJ",
+        "ClassK",
+        "ClassL",
+        "ClassM",
+        "ClassN",
+        "ClassO",
+        "ClassP",
+        "ClassQ",
+        "ClassR",
+        "ClassS",
+        "ClassT",
+        "ClassU",
+        "ClassV",
+        "ClassW",
+        "ClassX",
+        "ClassY",
+        "ClassZ",
+        "CheckA",
+        "CheckB",
+        "CheckC",
+        "CheckD",
+        "CheckE",
+        "CheckF",
+        "CheckG",
+        "CheckH",
+        "CheckI",
+        "CheckJ",
+        "CheckK",
+        "CheckL",
+        "CheckM",
+        "CheckN",
+        "CheckO",
+        "CheckP",
+        "CheckQ",
+        "CheckR",
+        "CheckS",
+        "CheckT",
+        "CheckU",
+        "CheckV",
+        "CheckW",
+        "CheckX",
+        "CheckY",
+        "CheckZ",
+        "SiteTitle"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "Title",
+        "ClassB",
+        "DateA",
+        "NumA",
+        "NumB",
+        "ClassA",
+        "CheckA",
+        "CheckB",
+        "CheckC",
+        "CheckD",
+        "CheckE",
+        "CheckF",
+        "CheckG",
+        "CheckH",
+        "NumC",
+        "Body",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "Title",
+        "ClassB",
+        "NumA",
+        "NumB",
+        "ClassA",
+        "CheckA",
+        "CheckB",
+        "CheckC",
+        "CheckD",
+        "CheckE",
+        "CheckF",
+        "CheckG",
+        "CheckH",
+        "NumC",
+        "DateA",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Title",
+        "NumC",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attachments"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "Product Name"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "Manager",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "Owner",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Supported OS"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "Update Period",
+            "Unit": "year"
+        },
+        {
+            "ColumnName": "NumB",
+            "LabelText": "Number of Installable Units",
+            "Unit": "units"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "Release Date"
+        },
+        {
+            "ColumnName": "CheckA",
+            "LabelText": "Virus/Spyware Measures"
+        },
+        {
+            "ColumnName": "CheckB",
+            "LabelText": "Firewall"
+        },
+        {
+            "ColumnName": "CheckC",
+            "LabelText": "Backup"
+        },
+        {
+            "ColumnName": "CheckD",
+            "LabelText": "PC Tune-up"
+        },
+        {
+            "ColumnName": "CheckE",
+            "LabelText": "Spam Measures"
+        },
+        {
+            "ColumnName": "CheckF",
+            "LabelText": "Harmful Site Regulation"
+        },
+        {
+            "ColumnName": "CheckG",
+            "LabelText": "Phishing Fraud Measures"
+        },
+        {
+            "ColumnName": "CheckH",
+            "LabelText": "Personal Information Protection"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "Remarks"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "Manufacturer",
+            "ChoicesText": "Manufacturer1\nManufacturer2\nManufacturer3\nManufacturer4\nManufacturer5"
+        },
+        {
+            "ColumnName": "NumC",
+            "LabelText": "Price",
+            "Format": "C"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassB",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassB",
+            "Type": 2,
+            "Target": "NumC"
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "Standard",
+            "CalendarColumn": "DateA",
+            "KambanAggregateType": "Average",
+            "KambanValue": "NumC",
+            "KambanAggregationView": true
+        }
+    ],
+    "TitleSeparator": ")"
+}

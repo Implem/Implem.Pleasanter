@@ -1,1 +1,149 @@
-﻿null
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "ResultId",
+        "TitleBody",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "ClassD",
+        "Status",
+        "ClassE",
+        "NumA",
+        "DateA",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "ClassD",
+        "Title",
+        "Status",
+        "ClassE",
+        "NumA",
+        "DateA",
+        "Owner",
+        "Body",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "ResultId",
+        "Title",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "ClassD",
+        "Status",
+        "ClassE",
+        "NumA",
+        "DateA",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Title",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "ClassD",
+        "Status",
+        "ClassE",
+        "NumA",
+        "DateA",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attachments"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Industry",
+            "ChoicesText": "A,Agriculture, Forestry\nB,Fisheries\nC,Mining, Quarrying, Gravel extraction\nD,Construction\nE,Manufacturing\nF,Electricity, Gas, Heat supply, Water supply\nG,Information and Communications\nH,Transportation, Postal\nI,Wholesale, Retail\nJ,Finance, Insurance\nK,Real Estate, Goods rental\nL,Academic research, Professional & Technical services\nM,Accommodation, Food service\nN,Lifestyle-related services, Entertainment\nO,Education, Learning support\nP,Medical, Welfare\nQ,Composite services\nR,Services (not classified elsewhere)\nS,Public service (excluding those classified elsewhere)\nT,Unclassifiable industry"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "Company Name"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "Address",
+            "FieldCss": "field-wide"
+        },
+        {
+            "ColumnName": "ClassD",
+            "LabelText": "Phone Number"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "Name",
+            "FieldCss": "field-normal"
+        },
+        {
+            "ColumnName": "Status",
+            "LabelText": "Status",
+            "ChoicesText": "100,Untreated\n150,Absent\n200,Send documents\n900,Appointment established\n910,Appointment NG"
+        },
+        {
+            "ColumnName": "ClassE",
+            "LabelText": "NG Reason",
+            "ChoicesText": "Busy\nSales refusal\nUnnecessary\nPurchased other company's product"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "Number of Appointments",
+            "ControlType": "Spinner",
+            "Max": 100.0,
+            "Unit": "times"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "Appointment Date and Time",
+            "GridFormat": "Ymdahm",
+            "EditorFormat": "Ymdhm"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "Remarks"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 2,
+            "GroupBy": "Status",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 1,
+            "GroupBy": "ClassE",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "Standard",
+            "CrosstabGroupByX": "Owner",
+            "TimeSeriesGroupBy": "ClassE",
+            "KambanGroupByY": "Owner"
+        }
+    ],
+    "TitleSeparator": ")"
+}

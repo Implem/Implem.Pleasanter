@@ -1,4 +1,5 @@
-﻿using Implem.Libraries.Utilities;
+﻿using AngleSharp.Html.Dom;
+using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.PleasanterTest.Models;
@@ -193,6 +194,18 @@ namespace Implem.PleasanterTest.Utilities
                         {
                             return false;
                         }
+                        break;
+                    case HtmlTest.Types.SelectedOption:
+                        if (nodes.Count() != 1)
+                        {
+                            return false;
+                        }
+                        var value = (nodes[0] as AngleSharp.Html.Dom.IHtmlSelectElement).SelectedOptions[0].Value;
+                        if (value != htmlTest.Value)
+                        {
+                            return false;
+                        }
+
                         break;
                     default:
                         return false;

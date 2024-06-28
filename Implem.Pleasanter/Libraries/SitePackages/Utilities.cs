@@ -550,7 +550,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                     param.Add(
                         columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
-                        value: o.Value));
+                        value: (object)o.Value ?? DBNull.Value));
             model.DateHash
                 ?.Where(o => ss.ColumnDefinitionHash.ContainsKey(o.Key))
                 .ForEach(o =>
@@ -620,7 +620,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                     param.Add(
                         columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
-                        value: o.Value));
+                        value: (object)o.Value ?? DBNull.Value));
             model.DateHash
                 ?.Where(o => ss.ColumnDefinitionHash.ContainsKey(o.Key))
                 .ForEach(o =>

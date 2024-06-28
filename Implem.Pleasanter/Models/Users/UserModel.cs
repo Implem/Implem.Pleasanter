@@ -40,8 +40,8 @@ namespace Implem.Pleasanter.Models
         public string FirstName = string.Empty;
         public Time Birthday = new Time();
         public string Gender = string.Empty;
-        public string Language = "ja";
-        public string TimeZone = "Tokyo Standard Time";
+        public string Language = "en";
+        public string TimeZone = "UTC";
         public string DeptCode = string.Empty;
         public int DeptId = 0;
         public string Theme = string.Empty;
@@ -120,8 +120,8 @@ namespace Implem.Pleasanter.Models
         public string SavedFirstName = string.Empty;
         public DateTime SavedBirthday = 0.ToDateTime();
         public string SavedGender = string.Empty;
-        public string SavedLanguage = "ja";
-        public string SavedTimeZone = "Tokyo Standard Time";
+        public string SavedLanguage = "en";
+        public string SavedTimeZone = "UTC";
         public string SavedDeptCode = string.Empty;
         public int SavedDeptId = 0;
         public string SavedTheme = string.Empty;
@@ -1437,6 +1437,10 @@ namespace Implem.Pleasanter.Models
         {
             OnConstructing(context: context);
             TenantId = context.TenantId;
+            SetTimeZoneAndLanguage(
+                            context: context,
+                            ss: ss,
+                            methodType: methodType);
             if (formData != null)
             {
                 SetByForm(
@@ -1466,6 +1470,10 @@ namespace Implem.Pleasanter.Models
             OnConstructing(context: context);
             TenantId = context.TenantId;
             UserId = userId;
+            SetTimeZoneAndLanguage(
+                            context: context,
+                            ss: ss,
+                            methodType: methodType);
             if (context.QueryStrings.ContainsKey("ver"))
             {
                 Get(
@@ -3832,6 +3840,29 @@ namespace Implem.Pleasanter.Models
                 MineCache = mine;
             }
             return MineCache;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public void SetTimeZoneAndLanguage(
+            Context context,
+            SiteSettings ss,
+            MethodTypes methodType)
+        {
+            if (methodType == MethodTypes.New)
+            {
+                var tenantModel = new TenantModel(
+                    context: context,
+                    ss: ss,
+                    tenantId: TenantId);
+                Language = tenantModel.Language.IsNullOrEmpty()
+                    ? Parameters.Service.DefaultLanguage
+                    : tenantModel.Language;
+                TimeZone = tenantModel.TimeZone.IsNullOrEmpty()
+                    ? Parameters.Service.TimeZoneDefault
+                    : tenantModel.TimeZone;
+            }
         }
 
         /// <summary>

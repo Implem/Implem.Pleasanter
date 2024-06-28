@@ -72,6 +72,7 @@
         default:
             return ApiResults.Get(ApiResponses.NotFound(context: context));
     }
+    // サイトの書き込み権限で可否判定を行い、レコード単位のアクセス権はチェックは行わない。
     var invalid = #ModelName#Validators.OnUpdating(
         context: context,
         ss: ss,

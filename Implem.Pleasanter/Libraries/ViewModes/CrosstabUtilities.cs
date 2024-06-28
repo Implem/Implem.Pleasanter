@@ -339,7 +339,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             Context context, Column groupByX, View view, string timePeriod, DateTime month)
         {
             return groupByX?.TypeName == "datetime"
-                ? CorrectedChoices(groupByX, timePeriod, month)
+                ? CorrectedChoices(context, groupByX, timePeriod, month)
                 : groupByX?.EditChoices(
                     context: context,
                     insertBlank: true,
@@ -349,13 +349,13 @@ namespace Implem.Pleasanter.Libraries.ViewModes
         }
 
         private static Dictionary<string, ControlData> CorrectedChoices(
-            Column groupBy, string timePeriod, DateTime date)
+            Context context,Column groupBy, string timePeriod, DateTime date)
         {
             switch (timePeriod)
             {
                 case "Yearly": return Yearly(date);
-                case "Monthly": return Monthly(date);
-                case "Weekly": return Weekly(date);
+                case "Monthly": return Monthly(context,date);
+                case "Weekly": return Weekly(context, date);
                 case "Daily": return Daily(date);
                 default: return null;
             }
@@ -372,18 +372,20 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             return hash;
         }
 
-        private static Dictionary<string, ControlData> Monthly(DateTime date)
+        private static Dictionary<string, ControlData> Monthly(Context context,DateTime date)
         {
             var hash = new Dictionary<string, ControlData>();
             for (var i = -11; i <= 0; i++)
             {
                 var day = date.AddMonths(i);
-                hash.Add(day.ToString("yyyy/MM"), new ControlData(day.ToString("yyyy/MM")));
+                hash.Add(day.ToString("yyyy/MM"),new ControlData(day.ToString(Displays.Get(
+                    context: context,
+                    id: "YmFormat"))));
             }
             return hash;
         }
 
-        private static Dictionary<string, ControlData> Weekly(DateTime date)
+        private static Dictionary<string, ControlData> Weekly(Context context, DateTime date)
         {
             var hash = new Dictionary<string, ControlData>();
             var end = WeeklyEndDate(date);
@@ -394,7 +396,9 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                     ? 8 - (int)(new DateTime(day.Year, 1, 1).DayOfWeek)
                     : 0;
                 var key = day.Year * 100 + ((day.DayOfYear + append) / 7) + 1;
-                hash.Add(key.ToString(), new ControlData(day.ToString("MM/dd")));
+                hash.Add(key.ToString(), new ControlData(day.ToString(Displays.Get(
+                    context: context,
+                    id: "MdFormat"))));
             }
             return hash;
         }

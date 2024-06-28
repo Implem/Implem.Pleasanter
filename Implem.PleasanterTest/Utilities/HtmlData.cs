@@ -62,5 +62,15 @@ namespace Implem.PleasanterTest.Utilities
                 Type = HtmlTest.Types.HasNotPermissionMessage,
             };
         }
+
+        public static HtmlTest SelectedOption(string selector, string value)
+        {
+            return new HtmlTest()
+            {
+                Type = HtmlTest.Types.SelectedOption,
+                Selector = selector,
+                Value = value
+            };
+        }
     }
 }
