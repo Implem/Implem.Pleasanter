@@ -13578,12 +13578,9 @@ namespace Implem.DefinitionAccessor
     /// </summary>
     public class SqlColumn2nd
     {
-        public string BeginTransaction;
-        public string CommitTransaction;
         public string HasPermission;
         public string CanReadSites;
         public string CanRead;
-        public string SiteDepts;
         public string ProgressRateDelay;
         public string MoveTarget;
         public string StartTimeColumn;
@@ -13591,7 +13588,6 @@ namespace Implem.DefinitionAccessor
         public string IfDuplicated;
         public string IfConflicted;
         public string SelectIdentity;
-        public string TruncateTemplate;
         public string ExistsDatabase;
         public string CreateDatabase;
         public string SpWho;
@@ -13614,16 +13610,11 @@ namespace Implem.DefinitionAccessor
         public string DropIndex;
         public string MigrateTableWithIdentity;
         public string MigrateTable;
-        public string BulkInsert;
         public string Identity;
         public string Spaceused;
         public string SelectPkName;
         public string ExistsFullText;
         public string CreateFullText;
-        public string ExistsLoginRole;
-        public string DropLoginRole;
-        public string DropUser;
-        public string CreateLoginRole;
         public string ExistsSchema;
         public string CreateSchema;
         public string CreateDatabaseForPostgres;
@@ -13649,12 +13640,9 @@ namespace Implem.DefinitionAccessor
     /// </summary>
     public class SqlTable
     {
-        public SqlDefinition BeginTransaction = new SqlDefinition();
-        public SqlDefinition CommitTransaction = new SqlDefinition();
         public SqlDefinition HasPermission = new SqlDefinition();
         public SqlDefinition CanReadSites = new SqlDefinition();
         public SqlDefinition CanRead = new SqlDefinition();
-        public SqlDefinition SiteDepts = new SqlDefinition();
         public SqlDefinition ProgressRateDelay = new SqlDefinition();
         public SqlDefinition MoveTarget = new SqlDefinition();
         public SqlDefinition StartTimeColumn = new SqlDefinition();
@@ -13662,7 +13650,6 @@ namespace Implem.DefinitionAccessor
         public SqlDefinition IfDuplicated = new SqlDefinition();
         public SqlDefinition IfConflicted = new SqlDefinition();
         public SqlDefinition SelectIdentity = new SqlDefinition();
-        public SqlDefinition TruncateTemplate = new SqlDefinition();
         public SqlDefinition ExistsDatabase = new SqlDefinition();
         public SqlDefinition CreateDatabase = new SqlDefinition();
         public SqlDefinition SpWho = new SqlDefinition();
@@ -13685,7 +13672,6 @@ namespace Implem.DefinitionAccessor
         public SqlDefinition DropIndex = new SqlDefinition();
         public SqlDefinition MigrateTableWithIdentity = new SqlDefinition();
         public SqlDefinition MigrateTable = new SqlDefinition();
-        public SqlDefinition BulkInsert = new SqlDefinition();
         public SqlDefinition Identity = new SqlDefinition();
         public SqlDefinition Spaceused = new SqlDefinition();
         public SqlDefinition SelectPkName = new SqlDefinition();
