@@ -1267,25 +1267,53 @@ table.grid tbody td > input {
 }
 
 /* 編集画面 */
-#Editor {
-    overflow: hidden;
+#Editor{
+    #MainForm{
+        position: relative;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        &:after{
+            position: absolute;
+            top: 50px;
+            right: 0;
+            z-index: 0;
+            width: 27%;
+            height: calc(100% - 50px);
+            content: "";
+            background-color: #1F1F1F;
+        }
+        #EditorComments,
+        #EditorTabsContainer{
+            position: sticky;
+            top: 0;
+        }
+        #EditorComments{
+            order: 1;
+        }
+        #EditorTabsContainer{
+            z-index: 1;
+        }
+        #Comments{
+            min-height: 100px;
+        }
+    }
 }
 
 #Editor #EditorComments{
     background: #1F1F1F;
-    padding-top: 16px;
-    padding-left: 16px;
-    padding-right: 16px;
-    padding-bottom: 10000px;
-    margin-bottom: -10000px;
+    padding: 16px;
+    margin-bottom: 0;
     color: #FFFFFF;
 }
 
 #Editor #EditorComments .comment {
     border: 0;
-    border-bottom: 1px solid #8F8F8F;
     background: none;
     color: #FFFFFF;
+    + .comment{
+        border-top: 1px solid #8F8F8F;
+    }
 }
 
 #Editor #EditorComments .control-textarea {
