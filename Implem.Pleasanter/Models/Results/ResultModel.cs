@@ -2924,6 +2924,7 @@ namespace Implem.Pleasanter.Models
                 if (ss.ColumnHash.Get(o.Key).AllowImage == true)
                 {
                     SetPostedFile(
+                        context: context,
                         file: file,
                         columnName: o.Key,
                         image: o.Value);
@@ -2940,6 +2941,7 @@ namespace Implem.Pleasanter.Models
         }
 
         public void SetPostedFile(
+            Context context,
             Microsoft.AspNetCore.Http.IFormFile file,
             string columnName,
             Shared._ImageApiModel image)
@@ -2948,7 +2950,7 @@ namespace Implem.Pleasanter.Models
                 columnName,
                 new PostedFile()
                 {
-                    Guid = new HttpPostedFile(file).WriteToTemp(),
+                    Guid = new HttpPostedFile(file).WriteToTemp(context),
                     FileName = file.FileName.Split(System.IO.Path.DirectorySeparatorChar).Last(),
                     Extension = image.Extension,
                     Size = file.Length,
