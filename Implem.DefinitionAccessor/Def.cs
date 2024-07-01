@@ -2380,10 +2380,10 @@ namespace Implem.DefinitionAccessor
                                 data.ToInt();
                             newColumnDefinition.SavedPk = newColumnDefinition.Pk;
                             break;
-                        case "PkMySQL":
-                            newColumnDefinition.PkMySQL = customDefinitionRow.Get("PkMySQL")?.ToInt() ??
+                        case "PkMySql":
+                            newColumnDefinition.PkMySql = customDefinitionRow.Get("PkMySql")?.ToInt() ??
                                 data.ToInt();
-                            newColumnDefinition.SavedPkMySQL = newColumnDefinition.PkMySQL;
+                            newColumnDefinition.SavedPkMySql = newColumnDefinition.PkMySql;
                             break;
                         case "PkOrderBy":
                             newColumnDefinition.PkOrderBy = customDefinitionRow.Get("PkOrderBy")?.ToString() ??
@@ -2395,10 +2395,10 @@ namespace Implem.DefinitionAccessor
                                 data.ToInt();
                             newColumnDefinition.SavedPkHistory = newColumnDefinition.PkHistory;
                             break;
-                        case "PkHistoryMySQL":
-                            newColumnDefinition.PkHistoryMySQL = customDefinitionRow.Get("PkHistoryMySQL")?.ToInt() ??
+                        case "PkHistoryMySql":
+                            newColumnDefinition.PkHistoryMySql = customDefinitionRow.Get("PkHistoryMySql")?.ToInt() ??
                                 data.ToInt();
-                            newColumnDefinition.SavedPkHistoryMySQL = newColumnDefinition.PkHistoryMySQL;
+                            newColumnDefinition.SavedPkHistoryMySql = newColumnDefinition.PkHistoryMySql;
                             break;
                         case "PkHistoryOrderBy":
                             newColumnDefinition.PkHistoryOrderBy = customDefinitionRow.Get("PkHistoryOrderBy")?.ToString() ??
@@ -2945,10 +2945,10 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("MaxLength")) { definition.MaxLength = definitionRow["MaxLength"].ToInt(); definition.SavedMaxLength = definition.MaxLength; }
             if (definitionRow.ContainsKey("Size")) { definition.Size = definitionRow["Size"].ToString(); definition.SavedSize = definition.Size; }
             if (definitionRow.ContainsKey("Pk")) { definition.Pk = definitionRow["Pk"].ToInt(); definition.SavedPk = definition.Pk; }
-            if (definitionRow.ContainsKey("PkMySQL")) { definition.PkMySQL = definitionRow["PkMySQL"].ToInt(); definition.SavedPkMySQL = definition.PkMySQL; }
+            if (definitionRow.ContainsKey("PkMySql")) { definition.PkMySql = definitionRow["PkMySql"].ToInt(); definition.SavedPkMySql = definition.PkMySql; }
             if (definitionRow.ContainsKey("PkOrderBy")) { definition.PkOrderBy = definitionRow["PkOrderBy"].ToString(); definition.SavedPkOrderBy = definition.PkOrderBy; }
             if (definitionRow.ContainsKey("PkHistory")) { definition.PkHistory = definitionRow["PkHistory"].ToInt(); definition.SavedPkHistory = definition.PkHistory; }
-            if (definitionRow.ContainsKey("PkHistoryMySQL")) { definition.PkHistoryMySQL = definitionRow["PkHistoryMySQL"].ToInt(); definition.SavedPkHistoryMySQL = definition.PkHistoryMySQL; }
+            if (definitionRow.ContainsKey("PkHistoryMySql")) { definition.PkHistoryMySql = definitionRow["PkHistoryMySql"].ToInt(); definition.SavedPkHistoryMySql = definition.PkHistoryMySql; }
             if (definitionRow.ContainsKey("PkHistoryOrderBy")) { definition.PkHistoryOrderBy = definitionRow["PkHistoryOrderBy"].ToString(); definition.SavedPkHistoryOrderBy = definition.PkHistoryOrderBy; }
             if (definitionRow.ContainsKey("Ix1")) { definition.Ix1 = definitionRow["Ix1"].ToInt(); definition.SavedIx1 = definition.Ix1; }
             if (definitionRow.ContainsKey("Ix1OrderBy")) { definition.Ix1OrderBy = definitionRow["Ix1OrderBy"].ToString(); definition.SavedIx1OrderBy = definition.Ix1OrderBy; }
@@ -5753,10 +5753,10 @@ namespace Implem.DefinitionAccessor
                         case "MaxLength": columnDefinition.MaxLength = optionValue.ToInt(); break;
                         case "Size": columnDefinition.Size = optionValue.ToString(); break;
                         case "Pk": columnDefinition.Pk = optionValue.ToInt(); break;
-                        case "PkMySQL": columnDefinition.PkMySQL = optionValue.ToInt(); break;
+                        case "PkMySql": columnDefinition.PkMySql = optionValue.ToInt(); break;
                         case "PkOrderBy": columnDefinition.PkOrderBy = optionValue.ToString(); break;
                         case "PkHistory": columnDefinition.PkHistory = optionValue.ToInt(); break;
-                        case "PkHistoryMySQL": columnDefinition.PkHistoryMySQL = optionValue.ToInt(); break;
+                        case "PkHistoryMySql": columnDefinition.PkHistoryMySql = optionValue.ToInt(); break;
                         case "PkHistoryOrderBy": columnDefinition.PkHistoryOrderBy = optionValue.ToString(); break;
                         case "Ix1": columnDefinition.Ix1 = optionValue.ToInt(); break;
                         case "Ix1OrderBy": columnDefinition.Ix1OrderBy = optionValue.ToString(); break;
@@ -8500,10 +8500,10 @@ namespace Implem.DefinitionAccessor
         public int MaxLength; public int SavedMaxLength;
         public string Size; public string SavedSize;
         public int Pk; public int SavedPk;
-        public int PkMySQL; public int SavedPkMySQL;
+        public int PkMySql; public int SavedPkMySql;
         public string PkOrderBy; public string SavedPkOrderBy;
         public int PkHistory; public int SavedPkHistory;
-        public int PkHistoryMySQL; public int SavedPkHistoryMySQL;
+        public int PkHistoryMySql; public int SavedPkHistoryMySql;
         public string PkHistoryOrderBy; public string SavedPkHistoryOrderBy;
         public int Ix1; public int SavedIx1;
         public string Ix1OrderBy; public string SavedIx1OrderBy;
@@ -8643,10 +8643,10 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("MaxLength")) MaxLength = propertyCollection["MaxLength"].ToInt(); else MaxLength = 0;
             if (propertyCollection.ContainsKey("Size")) Size = propertyCollection["Size"].ToString(); else Size = string.Empty;
             if (propertyCollection.ContainsKey("Pk")) Pk = propertyCollection["Pk"].ToInt(); else Pk = 0;
-            if (propertyCollection.ContainsKey("PkMySQL")) PkMySQL = propertyCollection["PkMySQL"].ToInt(); else PkMySQL = 0;
+            if (propertyCollection.ContainsKey("PkMySql")) PkMySql = propertyCollection["PkMySql"].ToInt(); else PkMySql = 0;
             if (propertyCollection.ContainsKey("PkOrderBy")) PkOrderBy = propertyCollection["PkOrderBy"].ToString(); else PkOrderBy = string.Empty;
             if (propertyCollection.ContainsKey("PkHistory")) PkHistory = propertyCollection["PkHistory"].ToInt(); else PkHistory = 0;
-            if (propertyCollection.ContainsKey("PkHistoryMySQL")) PkHistoryMySQL = propertyCollection["PkHistoryMySQL"].ToInt(); else PkHistoryMySQL = 0;
+            if (propertyCollection.ContainsKey("PkHistoryMySql")) PkHistoryMySql = propertyCollection["PkHistoryMySql"].ToInt(); else PkHistoryMySql = 0;
             if (propertyCollection.ContainsKey("PkHistoryOrderBy")) PkHistoryOrderBy = propertyCollection["PkHistoryOrderBy"].ToString(); else PkHistoryOrderBy = string.Empty;
             if (propertyCollection.ContainsKey("Ix1")) Ix1 = propertyCollection["Ix1"].ToInt(); else Ix1 = 0;
             if (propertyCollection.ContainsKey("Ix1OrderBy")) Ix1OrderBy = propertyCollection["Ix1OrderBy"].ToString(); else Ix1OrderBy = string.Empty;
@@ -8786,10 +8786,10 @@ namespace Implem.DefinitionAccessor
                     case "MaxLength": return MaxLength;
                     case "Size": return Size;
                     case "Pk": return Pk;
-                    case "PkMySQL": return PkMySQL;
+                    case "PkMySql": return PkMySql;
                     case "PkOrderBy": return PkOrderBy;
                     case "PkHistory": return PkHistory;
-                    case "PkHistoryMySQL": return PkHistoryMySQL;
+                    case "PkHistoryMySql": return PkHistoryMySql;
                     case "PkHistoryOrderBy": return PkHistoryOrderBy;
                     case "Ix1": return Ix1;
                     case "Ix1OrderBy": return Ix1OrderBy;
@@ -8929,10 +8929,10 @@ namespace Implem.DefinitionAccessor
             MaxLength = SavedMaxLength;
             Size = SavedSize;
             Pk = SavedPk;
-            PkMySQL = SavedPkMySQL;
+            PkMySql = SavedPkMySql;
             PkOrderBy = SavedPkOrderBy;
             PkHistory = SavedPkHistory;
-            PkHistoryMySQL = SavedPkHistoryMySQL;
+            PkHistoryMySql = SavedPkHistoryMySql;
             PkHistoryOrderBy = SavedPkHistoryOrderBy;
             Ix1 = SavedIx1;
             Ix1OrderBy = SavedIx1OrderBy;

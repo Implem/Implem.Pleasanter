@@ -1,4 +1,5 @@
-﻿using Implem.DefinitionAccessor;
+﻿using Implem.CodeDefiner.Functions.Rds.Parts.MySql;
+using Implem.DefinitionAccessor;
 using Implem.IRds;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
@@ -16,28 +17,59 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
             Sqls.TableTypes tableType)
         {
             var tableIndexCollection = new List<IndexInfo>();
-            switch (tableType)
+            switch (Parameters.Rds.Dbms)
             {
-                case Sqls.TableTypes.Normal:
-                    General(factory: factory,
-                        generalTableName: generalTableName,
-                        sourceTableName: sourceTableName,
-                        tableIndexCollection: tableIndexCollection);
-                    Unique(factory: factory,
-                        generalTableName: generalTableName,
-                        tableIndexCollection: tableIndexCollection);
+                case "MySQL":
+                    switch (tableType)
+                    {
+                        case Sqls.TableTypes.Normal:
+                            MySqlIndexes.General(factory: factory,
+                                generalTableName: generalTableName,
+                                sourceTableName: sourceTableName,
+                                tableIndexCollection: tableIndexCollection);
+                            Unique(factory: factory,
+                                generalTableName: generalTableName,
+                                tableIndexCollection: tableIndexCollection);
+                            break;
+                        case Sqls.TableTypes.Deleted:
+                            MySqlIndexes.General(factory: factory,
+                                generalTableName: generalTableName,
+                                sourceTableName: sourceTableName,
+                                tableIndexCollection: tableIndexCollection);
+                            break;
+                        case Sqls.TableTypes.History:
+                            MySqlIndexes.History(factory: factory,
+                                generalTableName: generalTableName,
+                                sourceTableName: sourceTableName,
+                                tableIndexCollection: tableIndexCollection);
+                            break;
+                    }
                     break;
-                case Sqls.TableTypes.Deleted:
-                    General(factory: factory,
-                        generalTableName: generalTableName,
-                        sourceTableName: sourceTableName,
-                        tableIndexCollection: tableIndexCollection);
-                    break;
-                case Sqls.TableTypes.History:
-                    History(factory: factory,
-                        generalTableName: generalTableName,
-                        sourceTableName: sourceTableName,
-                        tableIndexCollection: tableIndexCollection);
+                default:
+                    switch (tableType)
+                    {
+                        case Sqls.TableTypes.Normal:
+                            General(factory: factory,
+                                generalTableName: generalTableName,
+                                sourceTableName: sourceTableName,
+                                tableIndexCollection: tableIndexCollection);
+                            Unique(factory: factory,
+                                generalTableName: generalTableName,
+                                tableIndexCollection: tableIndexCollection);
+                            break;
+                        case Sqls.TableTypes.Deleted:
+                            General(factory: factory,
+                                generalTableName: generalTableName,
+                                sourceTableName: sourceTableName,
+                                tableIndexCollection: tableIndexCollection);
+                            break;
+                        case Sqls.TableTypes.History:
+                            History(factory: factory,
+                                generalTableName: generalTableName,
+                                sourceTableName: sourceTableName,
+                                tableIndexCollection: tableIndexCollection);
+                            break;
+                    }
                     break;
             }
             return tableIndexCollection;
