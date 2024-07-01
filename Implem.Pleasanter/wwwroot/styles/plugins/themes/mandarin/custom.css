@@ -1,4 +1,8 @@
-﻿.nav-site {
+﻿td{
+    color: #222222;
+}
+
+.nav-site {
     background-color: white;
     border: solid 2px silver;
 }
@@ -909,7 +913,6 @@ fieldset .legend{
 #EditorTabsContainer .grid > tbody > tr > td {
     border-left: 1px solid #ECECEC;
     border-right: 1px solid #ECECEC;
-    color: #222222;
 }
 
 #ViewModeContainer .grid-row .comment,
