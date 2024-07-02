@@ -1,4 +1,5 @@
-﻿using Implem.DefinitionAccessor;
+﻿using Implem.CodeDefiner.Functions.Rds.Parts.MySql;
+using Implem.DefinitionAccessor;
 using Implem.IRds;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
@@ -29,15 +30,8 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
             sqlStatement.CreateColumn(factory, sourceTableName, columnDefinitionCollection);
             sqlStatement.CreatePk(sourceTableName, columnDefinitionCollection, tableIndexCollection);
             sqlStatement.CreateIx(factory: factory, generalTableName: generalTableName, sourceTableName: sourceTableName, tableType: tableType, columnDefinitionCollection: columnDefinitionCollection);
-            if (Parameters.Rds.Dbms == "MySQL")
-            {
-                sqlStatement.CreateModifyColumn(factory: factory, sourceTableName: sourceTableName, columnDefinitionCollection: columnDefinitionCollection);
-            }
-            else
-            {
-                sqlStatement.CreateDefault(factory, tableNameTemp, columnDefinitionCollection);
-            }
-            sqlStatement.DropConstraint(factory: factory, sourceTableName: sourceTableName, columnDefinitionCollection: columnDefinitionCollection, tableIndexCollection: tableIndexCollection);
+            sqlStatement.CreateDefault(factory, tableNameTemp, columnDefinitionCollection);
+            sqlStatement.DropConstraint(factory: factory, sourceTableName: sourceTableName, tableIndexCollection: tableIndexCollection);
             sqlStatement.CommandText = sqlStatement.CommandText.Replace("#TableName#", tableNameTemp);
             Def.SqlIoByAdmin(factory: factory, transactional: true).ExecuteNonQuery(factory: factory, dbTransaction: null, dbConnection: null, sqlStatement: sqlStatement);
         }
@@ -186,11 +180,6 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
                         sourceTableName: sourceTableName,
                         columnDefinitionCollection: columnDefinitionCollection) ||
                     Indexes.HasChanges(
-                        factory: factory,
-                        generalTableName: generalTableName,
-                        sourceTableName: sourceTableName,
-                        tableType: tableType) ||
-                    Indexes.HasChangesMySql(
                         factory: factory,
                         generalTableName: generalTableName,
                         sourceTableName: sourceTableName,

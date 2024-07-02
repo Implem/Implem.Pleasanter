@@ -1,4 +1,5 @@
-﻿using Implem.DefinitionAccessor;
+﻿using Implem.CodeDefiner.Functions.Rds.Parts.MySql;
+using Implem.DefinitionAccessor;
 using Implem.IRds;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
@@ -46,7 +47,29 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
             IEnumerable<ColumnDefinition> columnDefinitionCollection,
             string tableNameTemp = "")
         {
-            sqlStatement.CommandText = sqlStatement.CommandText.Replace(
+            sqlStatement.CommandText = Parameters.Rds.Dbms == "MySQL"
+                ? MySqlConstraints.CreateModifyColumnCommand(
+                    factory: factory,
+                    sourceTableName: sourceTableName,
+                    columnDefinitionCollection: columnDefinitionCollection,
+                    tableNameTemp: tableNameTemp,
+                    command: sqlStatement.CommandText)
+                : CreateDefaultCommand(
+                    factory: factory,
+                    sourceTableName: sourceTableName,
+                    columnDefinitionCollection: columnDefinitionCollection,
+                    tableNameTemp: tableNameTemp,
+                    command: sqlStatement.CommandText);
+        }
+
+        private static string CreateDefaultCommand(
+            ISqlObjectFactory factory,
+            string sourceTableName,
+            IEnumerable<ColumnDefinition> columnDefinitionCollection,
+            string tableNameTemp,
+            string command)
+        {
+            return command.Replace(
                 "#Defaults#", columnDefinitionCollection
                     .Where(o => !o.Default.IsNullOrEmpty())
                     .Where(o => !(sourceTableName.EndsWith("_history") && o.ColumnName == "Ver"))
@@ -92,10 +115,28 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
             this SqlStatement sqlStatement,
             ISqlObjectFactory factory,
             string sourceTableName,
-            IEnumerable<ColumnDefinition> columnDefinitionCollection,
             IEnumerable<IndexInfo> tableIndexCollection)
         {
-            sqlStatement.CommandText = sqlStatement.CommandText
+            sqlStatement.CommandText = Parameters.Rds.Dbms == "MySQL"
+                ? MySqlConstraints.DropConstraintCommand(
+                    factory: factory,
+                    sourceTableName: sourceTableName,
+                    tableIndexCollection: tableIndexCollection,
+                    command: sqlStatement.CommandText)
+                : DropConstraintCommand(
+                    factory: factory,
+                    sourceTableName: sourceTableName,
+                    tableIndexCollection: tableIndexCollection,
+                    command: sqlStatement.CommandText);
+        }
+
+        private static string DropConstraintCommand(
+            ISqlObjectFactory factory,
+            string sourceTableName,
+            IEnumerable<IndexInfo> tableIndexCollection,
+            string command)
+        {
+            return command
                 .Replace("#DropConstraint#", tableIndexCollection
                     .Where(o => Indexes.Get(
                         factory: factory,
@@ -105,25 +146,9 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
                         .Replace("#SourceTableName#", sourceTableName)
                         .Replace("#IndexName#", o.IndexName()))
                     .Join("\r\n"));
-            if (Parameters.Rds.Dbms == "MySQL")
-            {
-                //MySQLに、PKに紐づくインデックスの名称が'PRIMARY'固定になる仕様がある。
-                //該当テーブルに'PRIMARY'というインデックスが存在する場合はPK制約削除用のコマンドを追記する。
-                sqlStatement.CommandText = sqlStatement.CommandText.Replace("#DropPRIMARY#",
-                    Indexes.Get(factory: factory, sourceTableName: sourceTableName).Contains("PRIMARY")
-                        ? Def.Sql.DropConstraint.Replace("#SourceTableName#", sourceTableName)
-                        : string.Empty);
-                //auto_incrementがついているカラムについては、dropの前にalter tableでauto_incrementを除去する。
-                sqlStatement.CommandText = sqlStatement.CommandText.Replace(
-                    "#DropAutoIncrement#", Columns.GetModifyColumnSqls(
-                        factory: factory,
-                        sourceTableName: sourceTableName,
-                        columnDefinitionCollection: columnDefinitionCollection,
-                        dropAutoIncrement: true));
-            }
         }
 
-        private static string Sql_Drop(IndexInfo o)
+        internal static string Sql_Drop(IndexInfo o)
         {
             return o.Type == IndexInfo.Types.Pk
                 ? Def.Sql.DropConstraint

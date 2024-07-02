@@ -1,11 +1,11 @@
-﻿using Implem.DefinitionAccessor;
+﻿using Implem.CodeDefiner.Functions.Rds.Parts.MySql;
+using Implem.DefinitionAccessor;
 using Implem.IRds;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using static Implem.Libraries.DataSources.SqlServer.Sqls;
 namespace Implem.CodeDefiner.Functions.Rds.Parts
 {
     internal static class Columns
@@ -50,11 +50,13 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
             {
                 return true;
             }
-            if (ColumnSize.HasChanges(factory: factory, rdsColumn: rdsColumn, columnDefinition: columnDefinition))
+            if (Parameters.Rds.Dbms == "MySQL" &&
+                MySqlColumnSize.HasChanges(factory: factory, rdsColumn: rdsColumn, columnDefinition: columnDefinition))
             {
                 return true;
             }
-            if (ColumnSize.HasChangesMySql(factory: factory, rdsColumn: rdsColumn, columnDefinition: columnDefinition))
+            if (Parameters.Rds.Dbms != "MySQL" &&
+                ColumnSize.HasChanges(factory: factory, rdsColumn: rdsColumn, columnDefinition: columnDefinition))
             {
                 return true;
             }
@@ -79,12 +81,16 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
         {
             var sqlCreateColumnCollection = new List<string>();
             columnDefinitionCollection.ForEach(columnDefinition =>
-                sqlCreateColumnCollection.Add(Sql_Create(
-                    factory,
-                    columnDefinition,
-                    noIdentity:
-                        sourceTableName.EndsWith("_history")
-                        || sourceTableName.EndsWith("_deleted"))));
+                sqlCreateColumnCollection.Add(Parameters.Rds.Dbms == "MySQL"
+                    ? MySqlColumns.Sql_Create(
+                        factory: factory,
+                        columnDefinition: columnDefinition)
+                    : Sql_Create(
+                        factory: factory,
+                        columnDefinition: columnDefinition,
+                        noIdentity:
+                            sourceTableName.EndsWith("_history")
+                            || sourceTableName.EndsWith("_deleted"))));
             sqlStatement.CommandText = sqlStatement.CommandText.Replace(
                 "#Columns#", sqlCreateColumnCollection.Join(","));
         }
@@ -94,35 +100,23 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
             ColumnDefinition columnDefinition,
             bool noIdentity)
         {
-            var fullTypeText = columnDefinition.TypeName;
-            if (Parameters.Rds.Dbms == "MySQL" &&
-                columnDefinition.TypeName == "nvarchar" &&
-                columnDefinition.MaxLength >= 1024)
+            var commandText = "\"{0}\" {1}".Params(columnDefinition.ColumnName, columnDefinition.TypeName);
+            if (columnDefinition.MaxLength == -1)
             {
-                //MySQLにおいてtext型を指定するとエラーになる1024以上のカラムはvarchar(760)に変換する。
-                fullTypeText =  NeedReduceByDefault(columnDefinition: columnDefinition) ||
-                    NeedReduceByIndex(factory: factory, columnDefinition: columnDefinition)
-                    ? "varchar(" + factory.SqlDefinitionSetting.ReducedVarcharLength.ToString() + ")"
-                    : "text";
-            }
-            else if (columnDefinition.MaxLength == -1)
-            {
-                fullTypeText += "(max)";
+                commandText += "(max)";
             }
             else if (columnDefinition.TypeName == "decimal")
             {
-                fullTypeText += "(" + columnDefinition.Size + ")";
+                commandText += "(" + columnDefinition.Size + ")";
             }
             else
             {
                 if (columnDefinition.MaxLength != 0)
                 {
-                    fullTypeText += "({0})".Params(columnDefinition.MaxLength);
+                    commandText += "({0})".Params(columnDefinition.MaxLength);
                 }
             }
-            var commandText = "\"{0}\" {1}".Params(columnDefinition.ColumnName, fullTypeText);
-            //MySQLの場合はここではなくCreateModifyColumnで、identityに代えてauto_incrementを設定する。
-            if (Parameters.Rds.Dbms != "MySQL" && !noIdentity && columnDefinition.Identity)
+            if (!noIdentity && columnDefinition.Identity)
             {
                 commandText += factory.Sqls.GenerateIdentity.Params(columnDefinition.Seed == 0 ? 1 : columnDefinition.Seed);
             }
@@ -136,96 +130,5 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
             }
             return factory.SqlDataType.Convert(commandText);
         }
-
-        internal static bool NeedReduceByDefault(
-            ColumnDefinition columnDefinition)
-        {
-            //MySQLにおいてtext型を指定するとエラーになる条件に当てはまるか判定する
-            return !columnDefinition.Default.IsNullOrEmpty();
-        }
-
-        internal static bool NeedReduceByIndex(
-            ISqlObjectFactory factory,
-            ColumnDefinition columnDefinition)
-        {
-            //MySQLにおいてtext型を指定するとエラーになる条件に当てはまるか判定する
-            //_deleteおよび_historyでデータ型の差異が生じないよう通常テーブルのIndex情報を参照する
-            foreach (IndexInfo i in Indexes.IndexInfoCollection(
-                factory: factory,
-                generalTableName: columnDefinition.TableName,
-                sourceTableName: columnDefinition.TableName,
-                tableType: TableTypes.Normal))
-            {
-                foreach (IndexInfo.Column c in i.ColumnCollection)
-                {
-                    if (c.ColumnName == columnDefinition.ColumnName) return true;
-                }
-            }
-            return false;
-        }
-
-        internal static void CreateModifyColumn(
-            this SqlStatement sqlStatement,
-            ISqlObjectFactory factory,
-            string sourceTableName,
-            IEnumerable<ColumnDefinition> columnDefinitionCollection)
-        {
-            sqlStatement.CommandText = sqlStatement.CommandText.Replace(
-                "#ModifyColumn#", GetModifyColumnSqls(
-                    factory: factory,
-                    sourceTableName: sourceTableName,
-                    columnDefinitionCollection: columnDefinitionCollection));
-        }
-
-        internal static string GetModifyColumnSqls(
-            ISqlObjectFactory factory,
-            string sourceTableName,
-            IEnumerable<ColumnDefinition> columnDefinitionCollection,
-            bool dropAutoIncrement = false)
-        {
-            bool NeedsModify(ColumnDefinition o)
-            {
-                return dropAutoIncrement
-                    ? NeedsAutoIncrement(o)
-                    : NeedsAutoIncrement(o) || NeedsDefault(o);
-            }
-            bool NeedsDefault(ColumnDefinition o)
-            {
-                return !o.Default.IsNullOrEmpty() &&
-                    !(sourceTableName.EndsWith("_history") && o.ColumnName == "Ver");
-            }
-            bool NeedsAutoIncrement(ColumnDefinition o)
-            {
-                return o.Identity &&
-                    !sourceTableName.EndsWith("_history") &&
-                    !sourceTableName.EndsWith("_deleted");
-            }
-            string SetSeed(ColumnDefinition o)
-            {
-                var seed = o.Seed == 0 ? 1 : o.Seed;
-                return $"\r\nalter table \"#TableName#\" auto_increment = {seed};";
-            }
-            return columnDefinitionCollection
-                .Where(o => NeedsModify(o))
-                .Select(o => Def.Sql.ModifyColumn
-                    .Replace("#ColumnDefinition#", Sql_Create(
-                        factory: factory,
-                        columnDefinition: o,
-                        noIdentity: false))
-                    .Replace("#Default#", NeedsDefault(o)
-                        ? " default " + Constraints.DefaultDefinition(factory, o)
-                        : string.Empty)
-                    .Replace("#AutoIncrement#", !dropAutoIncrement && NeedsAutoIncrement(o)
-                        ? " auto_increment"
-                        : string.Empty)
-                    .Replace("#SetSeed#", !dropAutoIncrement && NeedsAutoIncrement(o)
-                        ? SetSeed(o)
-                        : string.Empty)
-                    .Replace("#TableName#", dropAutoIncrement
-                        ? sourceTableName
-                        : "#TableName#"))
-                .JoinReturn();
-        }
-
     }
 }

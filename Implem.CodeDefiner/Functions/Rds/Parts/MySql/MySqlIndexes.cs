@@ -1,13 +1,15 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.IRds;
+using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 namespace Implem.CodeDefiner.Functions.Rds.Parts.MySql
 {
-    //MySQL用の処理のみ集めた部品クラス。
+    //MySQL用の処理のみを集めた部品クラス。
     //MySQLはSQLServer・PostgreSQLとは異なる制約を多く有しているため、専用のクラスに独自の処理をまとめた。
-    internal class MySqlIndexes
+    internal static class MySqlIndexes
     {
         internal static void General(
             ISqlObjectFactory factory,
@@ -15,10 +17,10 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts.MySql
             string sourceTableName,
             List<IndexInfo> tableIndexCollection)
         {
-            //MySQLではauto_incrementの制約により、いくつかのテーブルの主キーを他のDBMSと異なる定義※にする必要がある。
-            //(※…auto_incrementを設定するカラムによる単独の主キー)
-            //他のDBMSと異なる主キーを定義するかは、PkMySqlを設定済みのカラムが存在するか否かで判定する。
-            //主キーを変える必要がないテーブルは、他のDBMSと同様の方法で主キーを定義する。
+            //MySQLの以下の制約下で、主キーおよびインデックス生成のコマンドを生成する。
+            //・auto_incrementの制約→複合主キーかつ2番目以下に指定することは不可。
+            //言い換えると、単独主キーとするか、複合主キーの先頭に指定する必要がある。
+            //したがって、該当するカラムがあるテーブルでは、SQLServe・PostgresSQLとは異なる主キーおよびインデックスを生成する。
             var needChangePk = Def.ColumnDefinitionCollection.Any(o =>
                 o.TableName == generalTableName &&
                 o.PkMySql > 0);
@@ -51,8 +53,8 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts.MySql
                             o.ColumnName, o.Pk, o.PkOrderBy))
                         .ToList()));
             }
-            //他のDBMSと異なる主キーを定義するテーブルでは、インデックスの構成も他のDBMSとは異なり、
-            //Definition_ColumnのPkの内容をIx1に定義し、Definition_ColumnのIx1～の内容を+1ずつシフトして定義する。
+            //auto_incrementを指定するために単独主キーを生成するテーブルでは、インデックスの構成も他のDBMSとは異なり、
+            //Definition_ColumnのPkの内容をIx1として生成し、Definition_ColumnのIx1～の内容を+1ずつシフトして生成する。
             if (needChangePk)
             {
                 tableIndexCollection.Add(new IndexInfo(
@@ -145,10 +147,7 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts.MySql
             string sourceTableName,
             List<IndexInfo> tableIndexCollection)
         {
-            //MySQLではauto_incrementの制約により、いくつかのテーブルの主キーを他のDBMSと異なる定義※にする必要がある。
-            //(※…auto_incrementを設定するカラムによる単独の主キー)
-            //該当テーブルの_historyテーブルは、PkHistoryMySqlの値を参照して独自の主キーを定義する。
-            //主キーを変える必要がないテーブルは、他のDBMSと同様の方法で主キーを定義する。
+            //SQLServe・PostgresSQLとは異なる主キーを指定したテーブルは、_historyテーブルでもMySQL専用の主キーを指定する。
             var needChangePk = Def.ColumnDefinitionCollection.Any(o =>
                 o.TableName == generalTableName &&
                 o.PkMySql > 0);
@@ -161,9 +160,9 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts.MySql
                     name: "PkHistory",
                     columnCollection: Def.ColumnDefinitionCollection
                         .Where(o => o.TableName == generalTableName)
-                        .Where(o => o.PkHistoryMySql < 0 || o.PkHistoryMySql > 0)
+                        .Where(o => o.PkHistoryMySql > 0)
                         .Select(o => new IndexInfo.Column(
-                            o.ColumnName, o.PkHistoryMySql < 0 ? -(o.PkHistoryMySql) : o.PkHistoryMySql, o.PkHistoryOrderBy))
+                            o.ColumnName, o.PkHistoryMySql, o.PkHistoryOrderBy))
                         .ToList()));
             }
             else if (Def.ColumnDefinitionCollection.Any(o => o.TableName == generalTableName && o.Pk > 0))
@@ -182,6 +181,72 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts.MySql
                             o.ColumnName, o.PkHistory, o.PkHistoryOrderBy))
                         .ToList()));
             }
+        }
+
+        private static IEnumerable<DataRow> Get(ISqlObjectFactory factory, string sourceTableName)
+        {
+            return Def.SqlIoByAdmin(factory: factory).ExecuteTable(
+                factory: factory,
+                commandText: Def.Sql.Indexes
+                    .Replace("#TableName#", sourceTableName)
+                    .Replace("#InitialCatalog#", Environments.ServiceName))
+                        .AsEnumerable();
+
+        }
+
+        internal static bool HasChangesPkIx(
+            ISqlObjectFactory factory,
+            string generalTableName,
+            string sourceTableName,
+            Sqls.TableTypes tableType)
+        {
+            bool PkHasChange(
+                IEnumerable<IndexInfo> defIndexColumnCollection,
+                IEnumerable<DataRow> dbIndexColumnCollection)
+            {
+                return defIndexColumnCollection
+                    .Where(o => o.IndexName().StartsWith("Pk"))
+                    .FirstOrDefault()
+                    .IndexInfoString() != dbIndexColumnCollection
+                        .Where(o => o["Name"].ToString() == "PRIMARY")
+                        .OrderBy(o => o["No"].ToInt())
+                        .Select(o => o["ColumnName"] + "," + o["OrderType"].ToString())
+                        .Join(",");
+            }
+            bool IxHasChange(
+                IEnumerable<IndexInfo> defIndexColumnCollection,
+                IEnumerable<DataRow> dbIndexColumnCollection)
+            {
+                return defIndexColumnCollection
+                    .Where(o => !o.IndexName().StartsWith("Pk"))
+                    .Select(o => o.IndexName())
+                    .Distinct()
+                    .OrderBy(o => o)
+                    .Join(",") != dbIndexColumnCollection
+                        .Where(o => o["Name"].ToString() != "PRIMARY")
+                        .Where(o => o["Name"].ToString() != "ftx")
+                        .Select(o => o["Name"].ToString())
+                        .Distinct()
+                        .OrderBy(o => o)
+                        .Join(",");
+            }
+            //MySQLの以下の制約下で、主キーおよびインデックス定義を突合する。
+            //・主キー制約の名称→'PRIMARY'という固定名称で命名される。
+            //・fulltext indexはインデックスとしてDBのメタデータから抽出される。
+            //→上記1点目の通り、主キーではSha512Cngハッシュを使用した命名ができないため、カラム名＋OrderBy値を並べた文字列を生成して変更を検知する。
+            if (Parameters.Rds.DisableIndexChangeDetection) return false;
+            var defIndexColumnCollection = Indexes.IndexInfoCollection(
+                factory: factory,
+                generalTableName: generalTableName,
+                sourceTableName: sourceTableName,
+                tableType: tableType);
+            var dbIndexColumnCollection = Get(
+                factory: factory,
+                sourceTableName: sourceTableName);
+            return PkHasChange(defIndexColumnCollection: defIndexColumnCollection,
+                dbIndexColumnCollection: dbIndexColumnCollection) ||
+                    IxHasChange(defIndexColumnCollection: defIndexColumnCollection,
+                        dbIndexColumnCollection: dbIndexColumnCollection);
         }
     }
 }

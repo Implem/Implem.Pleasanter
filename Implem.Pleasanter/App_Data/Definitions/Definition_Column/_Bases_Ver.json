@@ -17,7 +17,7 @@
     "HistoryEnabled": "1",
     "TypeName": "int",
     "PkHistory": "3",
-    "PkHistoryMySql": "-3",
+    "PkHistoryMySql": "3",
     "Default": "1",
     "Required": "1",
     "CreateAccessControl": "ManageService",
