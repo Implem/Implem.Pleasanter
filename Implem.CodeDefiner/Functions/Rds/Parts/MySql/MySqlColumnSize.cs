@@ -63,7 +63,7 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts.MySql
             {
                 case "nchar":
                     return ColumnSize.Char(
-                        columnDefinition, rdsColumn, coefficient: 1);
+                        columnDefinition, rdsColumn, coefficient: factory.SqlDefinitionSetting.NationalCharacterStoredSizeCoefficient);
                 case "nvarchar":
                     return VarcharMySql();
                 case "decimal":

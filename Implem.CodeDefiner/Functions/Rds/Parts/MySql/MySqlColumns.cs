@@ -15,35 +15,35 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts.MySql
             //MySQLの以下の制約下で、データ型・最大サイズ・Null制約指定のコマンドを生成する。
             //・text型→デフォルト値の指定は不可。また、インデックス指定時にサイズ制限が発生する。
             //該当するカラムの場合は、varchar型で最大サイズは元の定義よりも縮小して指定する。
-            string fullTypeText;
+            string dataTypeSize;
             if (columnDefinition.TypeName == "nvarchar" &&
                 columnDefinition.MaxLength >= 1024)
             {
-                fullTypeText = NeedReduceByDefault(columnDefinition: columnDefinition) ||
+                dataTypeSize = NeedReduceByDefault(columnDefinition: columnDefinition) ||
                     NeedReduceByIndex(factory: factory, columnDefinition: columnDefinition)
                     ? "varchar(" + factory.SqlDefinitionSetting.ReducedVarcharLength.ToString() + ")"
                     : "text";
             }
             else
             {
-                fullTypeText = columnDefinition.TypeName;
-            }
-            if (columnDefinition.MaxLength == -1)
-            {
-                fullTypeText += "(max)";
-            }
-            else if (columnDefinition.TypeName == "decimal")
-            {
-                fullTypeText += "(" + columnDefinition.Size + ")";
-            }
-            else
-            {
-                if (columnDefinition.MaxLength != 0)
+                dataTypeSize = columnDefinition.TypeName;
+                if (columnDefinition.MaxLength == -1)
                 {
-                    fullTypeText += "({0})".Params(columnDefinition.MaxLength);
+                    dataTypeSize += "(max)";
+                }
+                else if (columnDefinition.TypeName == "decimal")
+                {
+                    dataTypeSize += "(" + columnDefinition.Size + ")";
+                }
+                else
+                {
+                    if (columnDefinition.MaxLength != 0)
+                    {
+                        dataTypeSize += "({0})".Params(columnDefinition.MaxLength);
+                    }
                 }
             }
-            var commandText = "\"{0}\" {1}".Params(columnDefinition.ColumnName, fullTypeText);
+            var commandText = "\"{0}\" {1}".Params(columnDefinition.ColumnName, dataTypeSize);
             if (columnDefinition.Nullable)
             {
                 commandText += " null";
