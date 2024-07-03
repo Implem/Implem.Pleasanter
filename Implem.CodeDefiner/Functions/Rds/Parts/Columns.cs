@@ -42,6 +42,32 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
             DataRow rdsColumn,
             ColumnDefinition columnDefinition)
         {
+            bool columnSizeHasChanges()
+            {
+                switch (Parameters.Rds.Dbms)
+                {
+                    case "SQLServer":
+                    case "PostgreSQL":
+                        if (ColumnSize.HasChanges(
+                            factory: factory,
+                            rdsColumn: rdsColumn,
+                            columnDefinition: columnDefinition))
+                        {
+                            return true;
+                        }
+                        break;
+                    case "MySQL":
+                        if (MySqlColumnSize.HasChanges(
+                            factory: factory,
+                            rdsColumn: rdsColumn,
+                            columnDefinition: columnDefinition))
+                        {
+                            return true;
+                        }
+                        break;
+                }
+                return false;
+            }
             if (!(rdsColumn["ColumnName"].ToString() == columnDefinition.ColumnName))
             {
                 return true;
@@ -50,13 +76,7 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
             {
                 return true;
             }
-            if (Parameters.Rds.Dbms == "MySQL" &&
-                MySqlColumnSize.HasChanges(factory: factory, rdsColumn: rdsColumn, columnDefinition: columnDefinition))
-            {
-                return true;
-            }
-            if (Parameters.Rds.Dbms != "MySQL" &&
-                ColumnSize.HasChanges(factory: factory, rdsColumn: rdsColumn, columnDefinition: columnDefinition))
+            if (columnSizeHasChanges())
             {
                 return true;
             }
@@ -80,17 +100,25 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
             IEnumerable<ColumnDefinition> columnDefinitionCollection)
         {
             var sqlCreateColumnCollection = new List<string>();
-            columnDefinitionCollection.ForEach(columnDefinition =>
-                sqlCreateColumnCollection.Add(Parameters.Rds.Dbms == "MySQL"
-                    ? MySqlColumns.Sql_Create(
-                        factory: factory,
-                        columnDefinition: columnDefinition)
-                    : Sql_Create(
-                        factory: factory,
-                        columnDefinition: columnDefinition,
-                        noIdentity:
-                            sourceTableName.EndsWith("_history")
-                            || sourceTableName.EndsWith("_deleted"))));
+            switch (Parameters.Rds.Dbms)
+            {
+                case "SQLServer":
+                case "PostgreSQL":
+                    columnDefinitionCollection.ForEach(columnDefinition =>
+                        sqlCreateColumnCollection.Add(Sql_Create(
+                            factory: factory,
+                            columnDefinition: columnDefinition,
+                            noIdentity:
+                                sourceTableName.EndsWith("_history")
+                                || sourceTableName.EndsWith("_deleted"))));
+                    break;
+                case "MySQL":
+                    columnDefinitionCollection.ForEach(columnDefinition =>
+                        sqlCreateColumnCollection.Add(MySqlColumns.Sql_Create(
+                            factory: factory,
+                            columnDefinition: columnDefinition)));
+                    break;
+            }
             sqlStatement.CommandText = sqlStatement.CommandText.Replace(
                 "#Columns#", sqlCreateColumnCollection.Join(","));
         }

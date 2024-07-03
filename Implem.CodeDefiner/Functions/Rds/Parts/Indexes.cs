@@ -19,32 +19,6 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
             var tableIndexCollection = new List<IndexInfo>();
             switch (Parameters.Rds.Dbms)
             {
-                case "MySQL":
-                    switch (tableType)
-                    {
-                        case Sqls.TableTypes.Normal:
-                            MySqlIndexes.General(factory: factory,
-                                generalTableName: generalTableName,
-                                sourceTableName: sourceTableName,
-                                tableIndexCollection: tableIndexCollection);
-                            Unique(factory: factory,
-                                generalTableName: generalTableName,
-                                tableIndexCollection: tableIndexCollection);
-                            break;
-                        case Sqls.TableTypes.Deleted:
-                            MySqlIndexes.General(factory: factory,
-                                generalTableName: generalTableName,
-                                sourceTableName: sourceTableName,
-                                tableIndexCollection: tableIndexCollection);
-                            break;
-                        case Sqls.TableTypes.History:
-                            MySqlIndexes.History(factory: factory,
-                                generalTableName: generalTableName,
-                                sourceTableName: sourceTableName,
-                                tableIndexCollection: tableIndexCollection);
-                            break;
-                    }
-                    break;
                 case "SQLServer":
                 case "PostgreSQL":
                     switch (tableType)
@@ -66,6 +40,32 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
                             break;
                         case Sqls.TableTypes.History:
                             History(factory: factory,
+                                generalTableName: generalTableName,
+                                sourceTableName: sourceTableName,
+                                tableIndexCollection: tableIndexCollection);
+                            break;
+                    }
+                    break;
+                case "MySQL":
+                    switch (tableType)
+                    {
+                        case Sqls.TableTypes.Normal:
+                            MySqlIndexes.General(factory: factory,
+                                generalTableName: generalTableName,
+                                sourceTableName: sourceTableName,
+                                tableIndexCollection: tableIndexCollection);
+                            Unique(factory: factory,
+                                generalTableName: generalTableName,
+                                tableIndexCollection: tableIndexCollection);
+                            break;
+                        case Sqls.TableTypes.Deleted:
+                            MySqlIndexes.General(factory: factory,
+                                generalTableName: generalTableName,
+                                sourceTableName: sourceTableName,
+                                tableIndexCollection: tableIndexCollection);
+                            break;
+                        case Sqls.TableTypes.History:
+                            MySqlIndexes.History(factory: factory,
                                 generalTableName: generalTableName,
                                 sourceTableName: sourceTableName,
                                 tableIndexCollection: tableIndexCollection);
@@ -230,17 +230,24 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
             string sourceTableName,
             Sqls.TableTypes tableType)
         {
-            return Parameters.Rds.Dbms == "MySQL"
-                ? MySqlIndexes.HasChangesPkIx(
-                    factory: factory,
-                    generalTableName: generalTableName,
-                    sourceTableName: sourceTableName,
-                    tableType: tableType)
-                : HasChangesPkIx(
-                    factory: factory,
-                    generalTableName: generalTableName,
-                    sourceTableName: sourceTableName,
-                    tableType: tableType);
+            switch (Parameters.Rds.Dbms)
+            {
+                case "SQLServer":
+                case "PostgreSQL":
+                    return HasChangesPkIx(
+                        factory: factory,
+                        generalTableName: generalTableName,
+                        sourceTableName: sourceTableName,
+                        tableType: tableType);
+                case "MySQL":
+                    return MySqlIndexes.HasChangesPkIx(
+                        factory: factory,
+                        generalTableName: generalTableName,
+                        sourceTableName: sourceTableName,
+                        tableType: tableType);
+                default:
+                    return false;
+            }
         }
 
         private static bool HasChangesPkIx(
