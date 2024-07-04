@@ -32,6 +32,12 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static Dictionary<string, string> Get(Context context, bool includeUserArea = false, string sessionGuid = null)
         {
+            var where = Rds.SessionsWhere()
+                            .SessionGuid(sessionGuid ?? context.SessionGuid)
+                            .Add(raw: $"((\"UserArea\" is null) or (\"UserArea\" {context.Sqls.IsNotTrue}))", _using: !includeUserArea)
+                            .Add(or: Rds.SessionsWhere()
+                                .Page(context.Page, _using: context.Page != null)
+                                .Page(raw: "''"));
             return Repository.ExecuteTable(
                 context: context,
                 statements: new SqlStatement[]

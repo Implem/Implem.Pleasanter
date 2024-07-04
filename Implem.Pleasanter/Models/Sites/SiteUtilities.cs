@@ -4262,6 +4262,12 @@ namespace Implem.Pleasanter.Models
                             .Hidden(
                                 controlId: "TemplateId",
                                 css: " always-send")
+                            .Div(css: "command-center", action: () => hb
+                                .CheckBox(controlId: "DisableCalendar")
+                                .Label(action: () => hb.Text(text: Displays.DisableCalendar(context: context)))
+                                .CheckBox(controlId: "DisableKamban")
+                                .Label(action: () => hb.Text(text: Displays.DisableKamban(context: context)))
+                            )
                             .P(css: "message-dialog")
                             .Div(css: "command-center", action: () => hb
                                 .Button(
@@ -12667,7 +12673,6 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 id: "YmdhmFormat"))
                             : null,
-                        format: Displays.YmdhmDatePickerFormat(context: context),
                         timepiker: true,
                         validateRequired: true,
                         validateDate: true)

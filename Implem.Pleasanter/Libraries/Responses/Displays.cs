@@ -3209,6 +3209,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string DisableCalendar(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "DisableCalendar",
+                data: data);
+        }
+
         public static string Disabled(
             Context context,
             params string[] data)
@@ -3216,6 +3226,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Disabled",
+                data: data);
+        }
+
+        public static string DisableKamban(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "DisableKamban",
                 data: data);
         }
 
