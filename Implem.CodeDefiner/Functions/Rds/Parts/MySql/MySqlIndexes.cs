@@ -230,9 +230,9 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts.MySql
                         .OrderBy(o => o)
                         .Join(",");
             }
-            //MySQLの以下の制約下で、主キーおよびインデックス定義を突合する。
-            //・主キー制約の名称→'PRIMARY'という固定名称で命名される。
-            //・fulltext indexはインデックスとしてDBのメタデータから抽出される。
+            //MySQLの以下の制約下で、主キーおよびインデックスを突合する。
+            //・主キー制約の名称→'PRIMARY'という固定名称で命名され、DBのインデックス情報に登録される。
+            //・fulltext indexはDBのインデックス情報に登録される。
             //→上記1点目の通り、主キーではSha512Cngハッシュを使用した命名ができないため、カラム名＋OrderBy値を並べた文字列を生成して変更を検知する。
             if (Parameters.Rds.DisableIndexChangeDetection) return false;
             var defIndexColumnCollection = Indexes.IndexInfoCollection(

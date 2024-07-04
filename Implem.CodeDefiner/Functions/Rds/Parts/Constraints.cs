@@ -134,7 +134,6 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
                     sqlStatement.CommandText = MySqlConstraints.DropConstraintCommand(
                         factory: factory,
                         sourceTableName: sourceTableName,
-                        tableIndexCollection: tableIndexCollection,
                         command: sqlStatement.CommandText);
                     break;
             }

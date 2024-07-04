@@ -1,5 +1,4 @@
 ﻿#DropConstraint#
-#DropPRIMARY#
     create table "#TableName#"
     (
 #Columns#
