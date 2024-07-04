@@ -27,6 +27,30 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts.MySql
                     !tableNameTemp.EndsWith("_history") &&
                     !tableNameTemp.EndsWith("_deleted");
             }
+            string GetModifyColumnSqls(
+                ISqlObjectFactory factory,
+                ColumnDefinition columnDefinition,
+                bool needsDefault,
+                bool needsAutoIncrement,
+                int seed)
+            {
+                //alter table ... modify columnは、カラム再定義のコマンドである。
+                //alter table ... alter columnでは追加する属性のみコマンドに設定すれば実行可能であるのに対し、
+                //modify columnの場合は追加する属性だけでなく、データ型を含む全属性の情報を記述する必要がある。
+                return Def.Sql.ModifyColumn
+                    .Replace("#ColumnDefinition#", MySqlColumns.Sql_Create(
+                        factory: factory,
+                        columnDefinition: columnDefinition))
+                    .Replace("#Default#", needsDefault
+                        ? " default " + Constraints.DefaultDefinition(factory, columnDefinition)
+                        : string.Empty)
+                    .Replace("#AutoIncrement#", needsAutoIncrement
+                        ? " auto_increment"
+                        : string.Empty)
+                    .Replace("#SetSeed#", needsAutoIncrement
+                        ? $"\r\nalter table \"#TableName#\" auto_increment = {seed};"
+                        : string.Empty);
+            }
             //MySQLの以下の制約下で、デフォルト値と自動採番機能を追加するためのコマンドを生成する。
             //・デフォルト値→デフォルト値が関数の場合はalter table ... alter columnの実行時にエラーになる。
             //・自動採番機能(auto_increment)→alter table ... alter columnでは追加や削除が不可。modify columnで追加する必要がある。
@@ -42,31 +66,6 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts.MySql
                         needsAutoIncrement: NeedsAutoIncrement(o),
                         seed: o.Seed == 0 ? 1 : o.Seed))
                     .JoinReturn());
-        }
-
-        private static string GetModifyColumnSqls(
-            ISqlObjectFactory factory,
-            ColumnDefinition columnDefinition,
-            bool needsDefault,
-            bool needsAutoIncrement,
-            int seed)
-        {
-            //alter table ... modify columnは、カラム再定義のコマンドである。
-            //alter table ... alter columnでは追加する属性のみコマンドに設定すれば実行可能であるのに対し、
-            //modify columnの場合は追加する属性だけでなく、データ型を含む全属性の情報を記述する必要がある。
-            return Def.Sql.ModifyColumn
-                .Replace("#ColumnDefinition#", MySqlColumns.Sql_Create(
-                    factory: factory,
-                    columnDefinition: columnDefinition))
-                .Replace("#Default#", needsDefault
-                    ? " default " + Constraints.DefaultDefinition(factory, columnDefinition)
-                    : string.Empty)
-                .Replace("#AutoIncrement#", needsAutoIncrement
-                    ? " auto_increment"
-                    : string.Empty)
-                .Replace("#SetSeed#", needsAutoIncrement
-                    ? $"\r\nalter table \"#TableName#\" auto_increment = {seed};"
-                    : string.Empty);
         }
 
         internal static string DropConstraintCommand(

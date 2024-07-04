@@ -44,7 +44,7 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts.MySql
                     //前提：Definition_ColumnのMaxlengthがnvarchar(1024)以上かつデフォルト値の指定がない場合、
                     //MySQLのcreate tableではvarchar(760)又はtextをカラムのデータ型に指定する。
                     //→その分岐条件に「Index指定の有無」があるため、Indexの差分でMigrateさせない環境下では、
-                    //現在のDBの状態がどちらかのデータ型であればMigrateを実施しないと判定する。
+                    //現在のDBの状態がvarchar(760)又はtextのどちらかのデータ型であれば、Migrateを実施しないと判定する。
                     return !IsRdsReduced() &&
                         rdsColumn["TypeName"].ToString() != "text";
                 }
@@ -57,18 +57,21 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts.MySql
                 }
             }
             //MySQLの以下の制約下で、カラムの最大サイズを突合する。
-            //・MySqlColumnsでも対策した通り、SQLServerのnvarchar(1024)のカラムは、MySQLのtext型に統一ができない。
+            //・MySqlColumnsで対策した通り、SQLServerのnvarchar(1024)のカラムは、MySQLのtext型に統一ができない。
             //そのため一部テーブルのカラムではvarchar(760)が指定されている。
             switch (columnDefinition.TypeName)
             {
                 case "nchar":
                     return ColumnSize.Char(
-                        columnDefinition, rdsColumn, coefficient: factory.SqlDefinitionSetting.NationalCharacterStoredSizeCoefficient);
+                        columnDefinition: columnDefinition,
+                        rdsColumn: rdsColumn,
+                        coefficient: factory.SqlDefinitionSetting.NationalCharacterStoredSizeCoefficient);
                 case "nvarchar":
                     return VarcharMySql();
                 case "decimal":
                     return ColumnSize.Decimal(
-                        columnDefinition, rdsColumn);
+                        columnDefinition: columnDefinition,
+                        rdsColumn: rdsColumn);
                 default:
                     return false;
             }

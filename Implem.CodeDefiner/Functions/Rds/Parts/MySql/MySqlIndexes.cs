@@ -20,7 +20,7 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts.MySql
             //MySQLの以下の制約下で、主キーおよびインデックス生成のコマンドを生成する。
             //・auto_incrementの制約→複合主キーかつ2番目以下に指定することは不可。
             //言い換えると、単独主キーとするか、複合主キーの先頭に指定する必要がある。
-            //したがって、該当するカラムがあるテーブルでは、SQLServe・PostgresSQLとは異なる主キーおよびインデックスを生成する。
+            //したがって、該当するカラムがあるテーブルでは、SQLServe・PostgresSQLとは異なる主キーを生成する。
             var needChangePk = Def.ColumnDefinitionCollection.Any(o =>
                 o.TableName == generalTableName &&
                 o.PkMySql > 0);
@@ -220,13 +220,11 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts.MySql
                 return defIndexColumnCollection
                     .Where(o => !o.IndexName().StartsWith("Pk"))
                     .Select(o => o.IndexName())
-                    .Distinct()
                     .OrderBy(o => o)
                     .Join(",") != dbIndexColumnCollection
                         .Where(o => o["Name"].ToString() != "PRIMARY")
                         .Where(o => o["Name"].ToString() != "ftx")
                         .Select(o => o["Name"].ToString())
-                        .Distinct()
                         .OrderBy(o => o)
                         .Join(",");
             }

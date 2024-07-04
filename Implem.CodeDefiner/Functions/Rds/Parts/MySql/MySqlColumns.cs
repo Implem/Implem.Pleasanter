@@ -13,8 +13,9 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts.MySql
             ColumnDefinition columnDefinition)
         {
             //MySQLの以下の制約下で、データ型・最大サイズ・Null制約指定のコマンドを生成する。
+            //・varchar(1024)→該当のデータ型を多用しようとすると、テーブルの生成処理がエラー終了する。このエラーはvarchar(1024)ではなくtext型にすることで回避可能。
             //・text型→デフォルト値の指定は不可。また、インデックス指定時にサイズ制限が発生する。
-            //該当するカラムの場合は、varchar型で最大サイズは元の定義よりも縮小して指定する。
+            //2番目の制限に該当するカラムの場合はtext型を指定できないため、varchar型かつ最大サイズを元の定義よりも縮小することで問題を回避する。
             string dataTypeSize;
             if (columnDefinition.TypeName == "nvarchar" &&
                 columnDefinition.MaxLength >= 1024)
