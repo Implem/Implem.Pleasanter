@@ -4215,6 +4215,10 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         process: process);
+                    resultModel.VerUp = Versions.MustVerUp(
+                        context: context,
+                        ss: ss,
+                        baseModel: resultModel);
                     var errorData = resultModel.Update(
                         context: context,
                         ss: ss,
