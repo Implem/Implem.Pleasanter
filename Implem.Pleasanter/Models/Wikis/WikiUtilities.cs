@@ -938,7 +938,7 @@ namespace Implem.Pleasanter.Models
                     id: $"FieldSetTab{data.tab.Id}",
                     css: " fieldset cf ui-tabs-panel ui-corner-bottom ui-widget-content ",
                     action: () => hb.Div(
-                        css: "fieldset_inner",
+                        css: "fieldset-inner",
                         action: () => hb.Fields(
                             context: context,
                             ss: ss,
