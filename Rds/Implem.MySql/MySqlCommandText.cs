@@ -85,8 +85,8 @@ namespace Implem.MySql
             bool negative)
         {
             return (negative
-                ? $"(not (coalesce(\"{itemsTableName}\".\"FullText\",'') %> @{paramName}#CommandCount#))"
-                : $"(\"{itemsTableName}\".\"FullText\" %> @{paramName}#CommandCount#)");
+                ? $"not match(\"{itemsTableName}\".\"FullText\") against (@{paramName}#CommandCount#)"
+                : $"match(\"{itemsTableName}\".\"FullText\") against (@{paramName}#CommandCount#)");
         }
 
         public string CreateFullTextWhereBinary(
@@ -94,9 +94,7 @@ namespace Implem.MySql
             string paramName,
             bool negative)
         {
-            return (negative
-                ? $"(not exists(select * from \"Binaries\" where \"Binaries\".\"ReferenceId\"=\"{itemsTableName}\".\"ReferenceId\" and (encode(\"Bin\", 'escape') %> @{paramName}#CommandCount#)))"
-                : $"(exists(select * from \"Binaries\" where \"Binaries\".\"ReferenceId\"=\"{itemsTableName}\".\"ReferenceId\" and (encode(\"Bin\", 'escape') %> @{paramName}#CommandCount#)))");
+            return string.Empty;
         }
 
         public Dictionary<string, string> CreateSearchTextWords(
