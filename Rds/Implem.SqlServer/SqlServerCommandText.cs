@@ -1,4 +1,5 @@
-﻿using Implem.IRds;
+﻿using Implem.DefinitionAccessor;
+using Implem.IRds;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -101,6 +102,15 @@ namespace Implem.SqlServer
             string searchText)
         {
             return words;
+        }
+
+        public string CreateDataRangeCommand(int? commandCount)
+        {
+            return $"offset {Parameters.Parameter.SqlParameterPrefix}Offset" +
+                commandCount.ToString() +
+                $" rows fetch next {Parameters.Parameter.SqlParameterPrefix}PageSize" +
+                commandCount.ToString() +
+                " rows only ";
         }
     }
 }

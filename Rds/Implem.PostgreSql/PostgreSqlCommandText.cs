@@ -1,4 +1,5 @@
-﻿using Implem.IRds;
+﻿using Implem.DefinitionAccessor;
+using Implem.IRds;
 using Implem.Libraries.Utilities;
 using System;
 using System.Collections.Generic;
@@ -113,6 +114,15 @@ namespace Implem.PostgreSql
             string searchText)
         {
             return new Dictionary<string, string> { [Strings.NewGuid()] = searchText };
+        }
+
+        public string CreateDataRangeCommand(int? commandCount)
+        {
+            return $"offset {Parameters.Parameter.SqlParameterPrefix}Offset" +
+                commandCount.ToString() +
+                $" rows fetch next {Parameters.Parameter.SqlParameterPrefix}PageSize" +
+                commandCount.ToString() +
+                " rows only ";
         }
     }
 }

@@ -38,5 +38,7 @@ namespace Implem.IRds
         string CreateFullTextWhereBinary(string itemsTableName, string paramName, bool negative);
 
         Dictionary<string,string> CreateSearchTextWords(Dictionary<string,string> words, string searchText);
+
+        string CreateDataRangeCommand(int? commandCount);
     }
 }

@@ -42,7 +42,7 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
             DataRow rdsColumn,
             ColumnDefinition columnDefinition)
         {
-            bool columnSizeHasChanges()
+            bool ColumnSizeHasChanges()
             {
                 switch (Parameters.Rds.Dbms)
                 {
@@ -76,7 +76,7 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
             {
                 return true;
             }
-            if (columnSizeHasChanges())
+            if (ColumnSizeHasChanges())
             {
                 return true;
             }

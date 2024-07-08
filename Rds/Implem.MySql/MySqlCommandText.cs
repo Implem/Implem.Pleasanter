@@ -1,4 +1,5 @@
-﻿using Implem.IRds;
+﻿using Implem.DefinitionAccessor;
+using Implem.IRds;
 using Implem.Libraries.Utilities;
 using System;
 using System.Collections.Generic;
@@ -14,12 +15,12 @@ namespace Implem.MySql
 
         public string CreateDelete(string template)
         {
-            return template + " RETURNING * ";
+            return template + " ; select row_count() ";
         }
 
         public string CreateRestore(string template)
         {
-            return template + " RETURNING * ";
+            return template + " ; select row_count() ";
         }
 
         public string CreateIdentityInsert(string template)
@@ -103,6 +104,14 @@ namespace Implem.MySql
             string searchText)
         {
             return new Dictionary<string, string> { [Strings.NewGuid()] = searchText };
+        }
+
+        public string CreateDataRangeCommand(int? commandCount)
+        {
+            return $"limit {Parameters.Parameter.SqlParameterPrefix}PageSize" +
+                commandCount.ToString() +
+                $" offset {Parameters.Parameter.SqlParameterPrefix}Offset" +
+                commandCount.ToString();
         }
     }
 }
