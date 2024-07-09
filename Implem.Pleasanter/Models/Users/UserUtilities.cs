@@ -3100,6 +3100,11 @@ namespace Implem.Pleasanter.Models
                     {
                         idColumn = data.Index;
                     }
+                    if (column?.ColumnName == "TimeZoneInfo")
+                    {
+                        column = ss.Columns
+                        .FirstOrDefault(o => o.ColumnName == "TimeZone");
+                    }
                     if (column != null) columnHash.Add(data.Index, column);
                 });
                 var invalidColumn = Imports.ColumnValidate(
@@ -3518,6 +3523,10 @@ namespace Implem.Pleasanter.Models
             int idColumn)
         {
             var userHash = new Dictionary<int, UserModel>();
+            var tenantModel = new TenantModel(
+                context: context,
+                ss: ss,
+                tenantId: context.TenantId);
             csv.Rows.Select((o, i) => new { Row = o, Index = i }).ForEach(data =>
             {
                 var userModel = new UserModel();
@@ -3579,9 +3588,21 @@ namespace Implem.Pleasanter.Models
                             break;
                         case "Language":
                             userModel.Language = recordingData.ToString();
+                            if (userModel.Language.IsNullOrEmpty())
+                            {                                
+                                userModel.Language = tenantModel.Language.IsNullOrEmpty()
+                                ? Parameters.Service.DefaultLanguage
+                                : tenantModel.Language;
+                            }                            
                             break;
                         case "TimeZone":
                             userModel.TimeZone = recordingData.ToString();
+                            if (userModel.TimeZone.IsNullOrEmpty())
+                            {
+                                userModel.TimeZone = tenantModel.TimeZone.IsNullOrEmpty()
+                                ? Parameters.Service.TimeZoneDefault
+                                : tenantModel.TimeZone;
+                            }
                             break;
                         case "DeptId":
                             userModel.DeptId = recordingData.ToInt();
@@ -4919,7 +4940,8 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 userId: 0,
-                userApiModel: userApiModel);
+                userApiModel: userApiModel,
+                methodType: BaseModel.MethodTypes.New);
             var invalid = UserValidators.OnCreating(
                 context: context,
                 ss: ss,

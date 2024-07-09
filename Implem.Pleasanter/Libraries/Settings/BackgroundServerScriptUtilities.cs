@@ -47,6 +47,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             foreach (var dataRow in dataTable.AsEnumerable())
             {
                 var tenant = new TenantModel(context: context, ss: ss, dataRow: dataRow);
+                if (tenant.TenantSettings.BackgroundServerScripts == null) continue;
                 await RescheduleAsync(tenant.TenantSettings.BackgroundServerScripts);
             }
         }

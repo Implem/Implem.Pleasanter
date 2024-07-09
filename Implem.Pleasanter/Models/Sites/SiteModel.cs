@@ -5351,7 +5351,7 @@ namespace Implem.Pleasanter.Models
                 OpenProcessDataChangeDialog(
                     context: context,
                     res: res,
-                    dataChange: new DataChange());
+                    dataChange: new DataChange() { Type = DataChange.Types.CopyValue });
             }
             else
             {

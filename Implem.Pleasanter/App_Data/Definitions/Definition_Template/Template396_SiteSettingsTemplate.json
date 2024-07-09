@@ -1,1 +1,169 @@
-﻿null
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "Title",
+        "ClassA",
+        "ClassB",
+        "NumA",
+        "NumB",
+        "NumC",
+        "NumD",
+        "ClassC",
+        "ClassD",
+        "NumE",
+        "DateA",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "Title",
+        "ClassA",
+        "DateA",
+        "ClassB",
+        "NumA",
+        "NumB",
+        "NumC",
+        "NumD",
+        "NumF",
+        "ClassC",
+        "ClassD",
+        "NumE",
+        "Body",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "Title",
+        "ClassA",
+        "ClassB",
+        "NumA",
+        "NumB",
+        "NumC",
+        "NumD",
+        "ClassC",
+        "ClassD",
+        "NumE",
+        "DateA",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Title",
+        "NumE",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attachments"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "Product Name"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Model Number"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "Manufacturer",
+            "ChoicesText": "Manufacturer1\nManufacturer2\nManufacturer3\nManufacturer4\nManufacturer5"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "Color"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "Weight",
+            "DecimalPlaces": 1,
+            "Unit": "kg"
+        },
+        {
+            "ColumnName": "NumB",
+            "LabelText": "Size (Width)",
+            "Unit": "mm"
+        },
+        {
+            "ColumnName": "NumC",
+            "LabelText": "Size (Height)",
+            "Unit": "mm"
+        },
+        {
+            "ColumnName": "NumD",
+            "LabelText": "Size (Depth)",
+            "Unit": "mm"
+        },
+        {
+            "ColumnName": "Manager",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "Owner",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "NumE",
+            "LabelText": "Price",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "Release Date"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "Remarks"
+        },
+        {
+            "ColumnName": "ClassD",
+            "LabelText": "Type",
+            "ChoicesText": "Hand Truck\nBasket Cart"
+        },
+        {
+            "ColumnName": "NumF",
+            "LabelText": "Load Capacity",
+            "DecimalPlaces": 1,
+            "Unit": "kg"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassB",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassB",
+            "Type": 2,
+            "Target": "NumE"
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "Standard",
+            "CalendarColumn": "DateA",
+            "KambanGroupByY": "ClassD",
+            "KambanAggregateType": "Average",
+            "KambanValue": "NumE",
+            "KambanAggregationView": true
+        }
+    ],
+    "TitleSeparator": ")"
+}

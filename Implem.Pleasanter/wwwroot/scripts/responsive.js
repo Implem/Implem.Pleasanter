@@ -38,28 +38,9 @@ $(document).ready(function () {
                     'box-shadow': 'unset'
                 });
             } else if (scrollPosition > heightHeader) {
-                const $headerDummyIndex = $('body thead .ui-widget-header');
                 $('#Header').css({
                     'box-shadow': 'rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px'
                 });
-                if (window.location.pathname.includes('index') && $('#TableName').val() !== 'Dashboards') {
-                    $('body thead').css({
-                        'top': `${heightHeader}px`
-                    });
-                    $(document).ajaxComplete(function () {
-                        if ($headerDummyIndex.length > 1) {
-                            $($headerDummyIndex[1]).css({
-                                'top': '0px',
-                                'display': 'none'
-                            });
-                        } else {
-                            $($headerDummyIndex[0]).css({
-                                'top': '0px',
-                                'display': 'none'
-                            });
-                        }
-                    });
-                }
             }
         });
     }
@@ -130,18 +111,24 @@ $(document).ready(function () {
 });
 
 if ($p.responsive() && screen.width < 1025) {
-    $('#ViewModeContainer').on('scroll', function () {
-        let scrollLeft = $(this).scrollLeft();
-        if ($(this).scrollLeft() > 0) {
-            $('body > thead').css({
-                'left': `calc(5vw - ${scrollLeft}px)`
-            });
+    $('#ViewModeContainer').scroll(function (event) {
+        if(event.target.scrollHeight >= event.target.scrollTop + event.target.clientHeight){
+            var selector = '#Grid';
+            var $control = $(selector);
+            var $offset = $(selector + 'Offset');
+            if ($control.length) {
+                if ($offset.val() !== '-1') {
+                    $p.setData($offset);
+                    $offset.val('-1');
+                    $p.send($control);
+                }
+            }
         }
     });
 }
 
 if(navigator.userAgent.indexOf('iPhone') > -1 ) {
     document
-      .querySelector("[name=viewport]")
-      .setAttribute("content","width=device-width, initial-scale=1, maximum-scale=1");
+        .querySelector("[name=viewport]")
+        .setAttribute("content","width=device-width, initial-scale=1, maximum-scale=1");
 }

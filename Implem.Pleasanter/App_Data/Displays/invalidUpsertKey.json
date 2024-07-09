@@ -1,0 +1,33 @@
+﻿{
+    "Id": "invalidUpsertKey",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "Upsert Key is invalid.{0}"
+        },
+        {
+            "Language": "zh",
+            "Body": "更新插入密钥无效。{0}"
+        },
+        {
+            "Language": "ja",
+            "Body": "UpsertのKeyが無効です。{0}"
+        },
+        {
+            "Language": "de",
+            "Body": "Upsert-Schlüssel ist ungültig.{0}"
+        },
+        {
+            "Language": "ko",
+            "Body": "Upsert 키가 잘못되었습니다.{0}"
+        },
+        {
+            "Language": "es",
+            "Body": "La clave de inserción no es válida.{0}"
+        },
+        {
+            "Language": "vn",
+            "Body": "Khóa Upsert không hợp lệ.{0}"
+        }
+    ]
+}

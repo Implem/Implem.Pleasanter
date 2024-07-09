@@ -5,9 +5,9 @@
     <Copyright>Copyright © Implem Inc 2014 - 2024</Copyright>
     <Description>Business application platform</Description>
     <AssemblyName>Implem.Pleasanter</AssemblyName>
-    <AssemblyVersion>1.4.5.0</AssemblyVersion>
-    <FileVersion>1.4.5.0</FileVersion>
-    <Version>1.4.5.0</Version>
+    <AssemblyVersion>1.4.6.0</AssemblyVersion>
+    <FileVersion>1.4.6.0</FileVersion>
+    <Version>1.4.6.0</Version>
     <Nullable>disable</Nullable>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
@@ -34,10 +34,10 @@
     <PackageReference Include="AspNetCoreCurrentRequestContext" Version="2.0.0" />
     <PackageReference Include="Azure.Extensions.AspNetCore.DataProtection.Blobs" Version="1.3.4" />
     <PackageReference Include="Azure.Extensions.AspNetCore.DataProtection.Keys" Version="1.2.3" />
-    <PackageReference Include="Azure.Identity" Version="1.11.4" />
+    <PackageReference Include="Azure.Identity" Version="1.12.0" />
     <PackageReference Include="BuildBundlerMinifier" Version="3.2.449" />
 	  <PackageReference Include="Fare" Version="2.2.1" />
-    <PackageReference Include="MailKit" Version="4.5.0" />
+    <PackageReference Include="MailKit" Version="4.6.0" />
     <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.3.0">
       <NoWarn>NU1701</NoWarn>
     </PackageReference>
@@ -101,6 +101,7 @@
     <Content Remove="App_Data\Definitions\Definition_Code\Model_ImportByApi.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_SetCopyDefault.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_SetCopyDefaultParameter.json" />
+    <Content Remove="App_Data\Definitions\Definition_Code\Model_SetTimeZoneAndLanguage.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_ApiCreatedMessage.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_ApiCreatedMessage_Table.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_ApiUpdatedMessage.json" />
@@ -118,6 +119,9 @@
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_Response_ResetGroupMembers.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_Return.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_View.json" />
+    <Content Remove="App_Data\Definitions\Definition_Code\Model_WriteAttachmentsExecute_Create.json" />
+    <Content Remove="App_Data\Definitions\Definition_Column\Tenants_Language.json" />
+    <Content Remove="App_Data\Definitions\Definition_Column\Tenants_TimeZone.json" />
   </ItemGroup>
 
   <ItemGroup>
