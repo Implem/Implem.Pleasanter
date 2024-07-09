@@ -1,4 +1,5 @@
-﻿using Implem.DefinitionAccessor;
+﻿using CsvHelper;
+using Implem.DefinitionAccessor;
 using Implem.Factory;
 using Implem.IRds;
 using Implem.Libraries.Classes;
@@ -12,6 +13,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Xml.Xsl;
 namespace Implem.CodeDefiner
 {
     public class Starter
@@ -35,9 +37,7 @@ namespace Implem.CodeDefiner
                     Consoles.Write("UnhandledException: " + e.ExceptionObject, Consoles.Types.Error, true);
                 }
             };
-            var argList = args.Select(o => o.Trim());
-            ValidateArgs(argList);
-            var argHash = new TextData(argList.Skip(1).Join(string.Empty), '/', 1);
+            var argHash = ArgsType(args);
             var action = args[0];
             var path = argHash.Get("p")?.Replace('\\', System.IO.Path.DirectorySeparatorChar);
             var target = argHash.Get("t");
@@ -46,6 +46,8 @@ namespace Implem.CodeDefiner
                 Initializer.Initialize(
                     path,
                     assemblyVersion: Assembly.GetExecutingAssembly().GetName().Version.ToString(),
+                    setLanguage: argHash.Get("l"),
+                    setTimeZone: argHash.Get("z"),
                     codeDefiner: true,
                     setSaPassword: argHash.ContainsKey("s"),
                     setRandomPassword: argHash.ContainsKey("r"));
@@ -111,6 +113,18 @@ namespace Implem.CodeDefiner
                     "ParametersIllegalSyntaxException : " + e.Message,
                     Consoles.Types.Error);
             }
+            catch (InvalidTimeZoneException e)
+            {
+                Consoles.Write(
+                    "InvalidTimeZoneException : " + e.Message,
+                    Consoles.Types.Error);
+            }
+            catch(InvalidLanguageException e)
+            {
+                Consoles.Write(
+                    "InvalidLanguageException : " + e.Message,
+                    Consoles.Types.Error);
+            }
             catch (Exception e)
             {
                 Consoles.Write(
@@ -118,6 +132,26 @@ namespace Implem.CodeDefiner
                     Consoles.Types.Error);
             }
             WaitConsole(args);
+        }
+
+        public static Dictionary<string, string> ArgsType(string[] args)
+        {
+            var argsDictionary = new Dictionary<string, string>();
+            for(int i = 1; i < args.Length; i++)
+            {
+                if (args[i].StartsWith("/"))
+                {
+                    string key = args[i].Replace("/","");
+                    string value = "";
+                    if (i + 1 < args.Length && !args[i + 1].StartsWith("/"))
+                    {
+                        value = args[i + 1];
+                        i++;
+                    }
+                    argsDictionary[key] = value;
+                }
+            }
+            return argsDictionary;
         }
 
         private static void ValidateArgs(IEnumerable<string> argList)
