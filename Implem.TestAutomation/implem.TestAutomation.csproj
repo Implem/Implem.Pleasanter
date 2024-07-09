@@ -4,9 +4,9 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>net8.0</TargetFramework>
     <Copyright>Copyright © Implem Inc 2014 - 2024</Copyright>
-    <AssemblyVersion>1.4.6.0</AssemblyVersion>
-    <FileVersion>1.4.6.0</FileVersion>
-    <Version>1.4.6.0</Version>
+    <AssemblyVersion>1.4.6.1</AssemblyVersion>
+    <FileVersion>1.4.6.1</FileVersion>
+    <Version>1.4.6.1</Version>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>  
   </PropertyGroup>
 
