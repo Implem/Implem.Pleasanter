@@ -653,7 +653,7 @@ fieldset .command-left > button {
     background-color: #FFF9E3;
 }
 
-.field-control label,
+.field-control label:not(.error),
 .field-control textarea {
     color: #222222;
 }
