@@ -3,5 +3,6 @@
     "RepeatType": "Column",
     "Indent": "6",
     "Separator": "\\r\\n",
-    "FilterColumn": "1"
+    "FilterColumn": "1",
+    "Exclude": "Owner,Manager,Updator,Creator"
 }
