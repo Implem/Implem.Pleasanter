@@ -3959,20 +3959,20 @@ namespace Implem.Pleasanter.Models
                                 column: column,
                                 condition: filter.Value) == true;
                             break;
-                case "Manager":
-                    match = Manager.Id.Matched(
+                        case "Manager":
+                            match = Manager.Id.Matched(
                                 context: context,
-                        column: column,
-                        condition: filter.Value);
-                    match = Manager.Id == 0 && filter.Value == "[\"\\t\"]" ? true : match;
-                    break;
-                case "Owner":
-                    match = Owner.Id.Matched(
+                                column: column,
+                                condition: filter.Value);
+                            match = Manager.Id == 0 && filter.Value == "[\"\\t\"]" ? true : match;
+                            break;
+                        case "Owner":
+                            match = Owner.Id.Matched(
                                 context: context,
-                        column: column,
-                        condition: filter.Value);
-                    match = Owner.Id == 0 && filter.Value == "[\"\\t\"]" ? true : match;
-                    break;
+                                column: column,
+                                condition: filter.Value);
+                            match = Owner.Id == 0 && filter.Value == "[\"\\t\"]" ? true : match;
+                            break;
                         default:
                             switch (Def.ExtendedColumnTypes.Get(filter.Key ?? string.Empty))
                             {
