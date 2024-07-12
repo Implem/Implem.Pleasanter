@@ -3941,6 +3941,18 @@ namespace Implem.Pleasanter.Models
                                 column: column,
                                 condition: filter.Value);
                             break;
+                        case "Creator":
+                            match = Creator.Id.Matched(
+                                context: context,
+                                column: column,
+                                condition: filter.Value);
+                            break;
+                        case "Updator":
+                            match = Updator.Id.Matched(
+                                context: context,
+                                column: column,
+                                condition: filter.Value);
+                            break;
                         case "CreatedTime":
                             match = CreatedTime?.Value.Matched(
                                 context: context,
@@ -3960,20 +3972,6 @@ namespace Implem.Pleasanter.Models
                         column: column,
                         condition: filter.Value);
                     match = Owner.Id == 0 && filter.Value == "[\"\\t\"]" ? true : match;
-                    break;
-                case "Creator":
-                    match = Creator.Id.Matched(
-                                context: context,
-                        column: column,
-                        condition: filter.Value);
-                    match = Creator.Id == 0 && filter.Value == "[\"\\t\"]" ? true : match;
-                    break;
-                case "Updator":
-                    match = Updator.Id.Matched(
-                                context: context,
-                        column: column,
-                        condition: filter.Value);
-                    match = Updator.Id == 0 && filter.Value == "[\"\\t\"]" ? true : match;
                     break;
                         default:
                             switch (Def.ExtendedColumnTypes.Get(filter.Key ?? string.Empty))

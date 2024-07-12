@@ -3,5 +3,5 @@
     "RepeatType": "Column",
     "Indent": "4",
     "Separator": "\\r\\n",
-    "Include": "Owner,Manager,Updator,Creator"
+    "Include": "Owner,Manager"
 }
