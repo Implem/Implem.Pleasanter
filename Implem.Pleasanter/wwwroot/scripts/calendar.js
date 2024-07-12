@@ -373,7 +373,11 @@ function addItem(group, hash, element, current, calendarSuffix, sub, rank, yearl
     hash[id]++;
 }
 function removeTimeZoneSuffix(datetime_str) {
-    return datetime_str.replace("Z", "");
+    if (datetime_str === undefined) {
+        return datetime_str;
+    } else {
+        return datetime_str.replace("Z", "");
+    }
 }
 
 function margeTime(date, dateTime) {
