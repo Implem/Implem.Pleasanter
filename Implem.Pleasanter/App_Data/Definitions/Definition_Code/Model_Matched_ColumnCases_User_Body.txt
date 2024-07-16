@@ -1,9 +1,12 @@
 ﻿case "#ColumnName#":
-    match = #ColumnName##RecordingData#.Matched(
-
-<!--Model_Matched_ColumnCases_Context-->
-
-        column: column,
-        condition: filter.Value);
-    match = #ColumnName##RecordingData# == 0 && filter.Value == "[\"\\t\"]" ? true : match;
+    if (#ColumnName##RecordingData# == 0 && filter.Value == "[\"\\t\"]")
+    {
+        match = true;
+    } else
+    {
+        match = #ColumnName##RecordingData#.Matched(
+            context: context,
+            column: column,
+            condition: filter.Value);
+    }
     break;
