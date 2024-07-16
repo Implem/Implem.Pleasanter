@@ -336,6 +336,7 @@ pre {
     padding: 0px 6px;
     border: none;
     position: relative;
+    z-index: 2;
     clear: both;
 }
 
@@ -493,6 +494,7 @@ pre {
     margin: 10px 0px 0px 0px;
     padding: 0px 10px 120px 10px;
     position: relative;
+    z-index: 1;
     clear: both;
 }
 
