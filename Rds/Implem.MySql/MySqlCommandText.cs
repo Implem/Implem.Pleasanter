@@ -94,7 +94,8 @@ namespace Implem.MySql
             string paramName,
             bool negative)
         {
-            return string.Empty;
+            //MySQL版はBinaries.BinにFullTextIndexを付けていないので、バイナリ検索機能は提供不可。
+            return "0=1";
         }
 
         public Dictionary<string, string> CreateSearchTextWords(

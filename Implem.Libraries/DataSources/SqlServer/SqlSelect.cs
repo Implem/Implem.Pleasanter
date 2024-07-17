@@ -248,9 +248,60 @@ namespace Implem.Libraries.DataSources.SqlServer
             Sqls.TableTypes tableType,
             Sqls.UnionTypes unionType,
             bool orderBy,
-            int? commandCount)
+            int? commandCount,
+            bool selectFromSelect = false)
         {
             if (!Using) return;
+            if (selectFromSelect)
+            {
+                //select ... from (select ... from ...) as "仮テーブル名" 形式のコマンドを生成する必要がある場合。
+                //用途は主に副問い合わせ。MySQLでelse側の書き方ではエラーになってしまう場合の対策として追加した。
+                GetSelectFromSelectCommand(
+                    commandText: commandText);
+            }
+            else
+            {
+                GetSelectFromTableCommand(
+                    factory: factory,
+                    sqlContainer: sqlContainer,
+                    sqlCommand: sqlCommand,
+                    commandText: commandText,
+                    tableType: tableType,
+                    unionType: unionType,
+                    orderBy: orderBy,
+                    commandCount: commandCount);
+            }
+        }
+
+        private void GetSelectFromSelectCommand(
+            StringBuilder commandText)
+        {
+            
+            //以下のSQLコマンドを生成する場合を例に、処理設計を記載する。
+            //select "VerMax" from (select max("Ver") as "VerMax" from "Issues_history" where ("IssueId"=@IssueId_sub)) as "Issues"
+
+            //【処理設計】
+            //１．subQueryText => select "VerMax" とする。
+            //２．temporaryTableというstring変数 => ()の中の"select～where ("IssueId"=@IssueId_sub)"を、以下の手順で組んで戻す。
+            //    ２－１．select max("Ver")　　←おそらく　SqlColumnCollection?.BuildCommandText
+            //    ２－２．from"Issues_history"　　←おそらく　SqlSelect.From
+            //    ２－３．where ("IssueId"=@IssueId_sub)　　←おそらく　SqlWhereCollection?.BuildCommandText
+            //※他のSELCT文用の要素（Group by、Having、Join、Order By、SQLParam）も考慮必要か、後程検討。
+            //３．仮テーブル名部分を生成する。　as "Issues"
+            //４．１．～３．を合体。subQueryText => select "VerMax" + "from (" + temporaryTable + ")" + as "Issues"
+            //５．commandText.Append(subQueryText);　メソッド終了。
+        }
+
+        private void GetSelectFromTableCommand(
+            ISqlObjectFactory factory,
+            SqlContainer sqlContainer,
+            ISqlCommand sqlCommand,
+            StringBuilder commandText,
+            Sqls.TableTypes tableType,
+            Sqls.UnionTypes unionType,
+            bool orderBy,
+            int? commandCount)
+        {
             AddUnion(commandText, unionType);
             SqlColumnCollection?.BuildCommandText(
                 factory: factory,
