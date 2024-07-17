@@ -57,8 +57,8 @@ namespace Implem.Pleasanter.Libraries.Responses
                     size: dataRow.Long("Size"),
                     creator: dataRow.Long("Creator"),
                     updator: dataRow.Long("Updator"),
-                    createdTime: dataRow.String("CreatedTime"),
-                    updatedTime: dataRow.String("UpdatedTime"))
+                    createdTime: dataRow.DateTime("CreatedTime"),
+                    updatedTime: dataRow.DateTime("UpdatedTime"))
                 : ApiResults.Error(
                     context: context,
                     errorData: new ErrorData(type: Error.Types.NotFound));
