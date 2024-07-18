@@ -4,9 +4,9 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>net8.0</TargetFramework>
     <Copyright>Copyright © Implem Inc 2014 - 2024</Copyright>
-    <AssemblyVersion>1.4.6.1</AssemblyVersion>
-    <FileVersion>1.4.6.1</FileVersion>
-    <Version>1.4.6.1</Version>
+    <AssemblyVersion>1.4.6.3</AssemblyVersion>
+    <FileVersion>1.4.6.3</FileVersion>
+    <Version>1.4.6.3</Version>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>  
   </PropertyGroup>
 
@@ -22,14 +22,14 @@
 
   <ItemGroup>
     <PackageReference Include="AspNetCoreCurrentRequestContext" Version="2.0.0" />
-    <PackageReference Include="CsvHelper" Version="33.0.1" />
+    <PackageReference Include="CsvHelper" Version="32.0.3" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.20.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="Selenium.Support" Version="4.22.0" />
-    <PackageReference Include="Selenium.WebDriver" Version="4.22.0" />
-    <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="126.0.6478.6300" />
+    <PackageReference Include="Selenium.Support" Version="4.20.0" />
+    <PackageReference Include="Selenium.WebDriver" Version="4.20.0" />
+    <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="124.0.6367.20700" />
     <PackageReference Include="Selenium.WebDriver.IEDriver" Version="4.14.0" />
-    <PackageReference Include="Selenium.WebDriver.MSEdgeDriver" Version="126.0.2592.61" />
+    <PackageReference Include="Selenium.WebDriver.MSEdgeDriver" Version="123.0.2420.65" />
     <PackageReference Include="Selenium.WebDriverBackedSelenium" Version="4.1.0" />
     <PackageReference Include="SixLabors.ImageSharp" Version="3.1.4" />
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
