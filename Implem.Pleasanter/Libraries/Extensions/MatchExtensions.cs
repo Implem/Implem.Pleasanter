@@ -169,11 +169,14 @@ namespace Implem.Pleasanter.Libraries.Extensions
                                 return value?.IndexOf(condition) == 0;
                             }
                         default:
-                            if (param?.Any() == true)
+                            if (param?.Count() == 1 && param.FirstOrDefault() == "\t")
                             {
-                                var x = param.All(o =>
+                                return value == "[]";
+                            }
+                            else if (param?.Any() == true)
+                            {
+                                return param.All(o =>
                                     value?.Contains(o.StringInJson()) == true);
-                                return x;
                             }
                             return true;
                     }
@@ -184,9 +187,9 @@ namespace Implem.Pleasanter.Libraries.Extensions
                     {
                         case Column.SearchTypes.ExactMatch:
                         case Column.SearchTypes.ExactMatchMultiple:
-                            return param.Any(o => o == (!value.IsNullOrEmpty()
-                                ? value
-                                : "\t"));
+                            return param.Any(o => value.IsNullOrEmpty() || (column.Nullable == false && value == "0")
+                                ? o == "\t"
+                                : o == value);
                         case Column.SearchTypes.ForwardMatch:
                         case Column.SearchTypes.ForwardMatchMultiple:
                             return param.Any(o => !value.IsNullOrEmpty()
