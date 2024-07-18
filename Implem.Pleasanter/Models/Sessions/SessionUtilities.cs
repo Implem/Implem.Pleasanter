@@ -135,7 +135,7 @@ namespace Implem.Pleasanter.Models
                         where: Rds.SessionsWhere()
                             .SessionGuid(sessionGuid ?? context.SessionGuid)
                             .Key(key)
-                            .Page(context.Page, _using: page)));
+                            .Page(context.Page ?? string.Empty, _using: page)));
             }
             else
             {

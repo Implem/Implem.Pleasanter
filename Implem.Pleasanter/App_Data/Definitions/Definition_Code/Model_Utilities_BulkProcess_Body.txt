@@ -73,6 +73,10 @@
                 context: context,
                 ss: ss,
                 process: process);
+            #modelName#Model.VerUp = Versions.MustVerUp(
+                context: context,
+                ss: ss,
+                baseModel: #modelName#Model);
             var errorData = #modelName#Model.Update(
                 context: context,
                 ss: ss,
