@@ -22,45 +22,65 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
                     await AddTimer(timer: DeleteSysLogsTimer.GetParam());
                     await AddTimer(timer: DeleteTemporaryFilesTimer.GetParam());
                     await AddTimer(timer: DeleteTrashBoxTimer.GetParam());
+                    await AddTimer(timer: ReminderBackgroundTimer.GetParam());
                 });
             }
         }
 
         private async Task AddTimer(IExecutionTimerBaseParam timer)
         {
+            var context = new Context(
+                request: false,
+                sessionStatus: false,
+                sessionData: false,
+                user: false,
+                item: false);
+            context.Controller = timer.JobName;
             try
             {
                 if (!timer.Enabled) return;
+                new SysLogModel(
+                    context: context,
+                    method: "ExecuteAsync",
+                    message: $"{timer.JobName} ExecuteAsync() Started",
+                    sysLogType: SysLogModel.SysLogTypes.Info);
                 var scheduler = CustomQuartzHostedService.Scheduler;
                 var job = JobBuilder.Create(timer.JobType)
                     .WithIdentity(timer.JobKey)
                     .StoreDurably()
                     .Build();
                 await scheduler.AddJob(job, true);
-                var timeZone = TimeZoneInfo.FindSystemTimeZoneById(
-                    !Parameters.Service.TimeZoneDefault.IsNullOrEmpty()
-                        ? Parameters.Service.TimeZoneDefault
-                        : TimeZoneInfo.Utc.Id);
-                foreach (var hhmm in timer.TimeList)
+                if (timer.TimeList != null)
                 {
-                    if (DateTime.TryParse($"2020-01-01T{hhmm}:00.00", out var date))
+                    var timeZone = TimeZoneInfo.FindSystemTimeZoneById(
+                        !Parameters.Service.TimeZoneDefault.IsNullOrEmpty()
+                            ? Parameters.Service.TimeZoneDefault
+                            : TimeZoneInfo.Utc.Id);
+                    foreach (var hhmm in timer.TimeList)
                     {
-                        var trigger = TriggerBuilder.Create()
-                            .ForJob(timer.JobKey)
-                            .WithCronSchedule(
-                                $"0 {date.Minute} {date.Hour} * * ? *",
-                                (s) => s.InTimeZone(timeZone))
-                            .Build();
-                        await scheduler.ScheduleJob(trigger);
+                        if (DateTime.TryParse($"2020-01-01T{hhmm}:00.00", out var date))
+                        {
+                            var trigger = TriggerBuilder.Create()
+                                .ForJob(timer.JobKey)
+                                .WithCronSchedule(
+                                    $"0 {date.Minute} {date.Hour} * * ? *",
+                                    (s) => s.InTimeZone(timeZone))
+                                .Build();
+                            await scheduler.ScheduleJob(trigger);
+                        }
                     }
+                }
+                else
+                {
+                    await timer.SetCustomTimer(scheduler: scheduler);
                 }
             }
             catch (Exception e)
             {
                 new SysLogModel(
-                    context: new Context(request: false),
+                    context: context,
                     e: e,
-                    extendedErrorMessage: $" / Fail {timer.JobKey.Group}");
+                    extendedErrorMessage: $"{timer.JobName} ExecuteAsync() Failed to start");
             }
         }
     }

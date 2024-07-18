@@ -15,7 +15,8 @@
             NotFoundMessage,
             HasNotPermissionMessage,
             Text,
-            SelectedOption
+            SelectedOption,
+            HasInformationMessage
         }
 
         public Types Type { get; set; }
