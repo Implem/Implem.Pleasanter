@@ -22,7 +22,10 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
             public IEnumerable<string> TimeList => Parameters.BackgroundService.DeleteTrashBoxTime;
             public bool Enabled => Parameters.BackgroundService.DeleteTrashBox;
             public JobKey JobKey => jobKey;
+            public string JobName => "DeleteTrashBoxService";
+            public Task<bool> SetCustomTimer(IScheduler scheduler) => Task.FromResult(false);
         }
+
         public override async Task Execute(IJobExecutionContext context)
         {
             await Task.Run(() =>
@@ -35,6 +38,7 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
                 log.Finish(context: context);
             }, context.CancellationToken);
         }
+
         internal static IExecutionTimerBaseParam GetParam()
         {
             return new Param();

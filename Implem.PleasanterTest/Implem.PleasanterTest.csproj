@@ -3,9 +3,9 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <IsPackable>false</IsPackable>
-    <AssemblyVersion>1.4.6.2</AssemblyVersion>
-    <FileVersion>1.4.6.2</FileVersion>
-    <Version>1.4.6.2</Version>
+    <AssemblyVersion>1.4.6.3</AssemblyVersion>
+    <FileVersion>1.4.6.3</FileVersion>
+    <Version>1.4.6.3</Version>
     <Nullable>disable</Nullable>
   </PropertyGroup>
 
@@ -21,11 +21,11 @@
     
   <ItemGroup>
     <PackageReference Include="AngleSharp" Version="1.1.2" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.10.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.9.0" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.20.1" />
-    <PackageReference Include="xunit" Version="2.8.1" />
+    <PackageReference Include="xunit" Version="2.8.0" />
     <PackageReference Include="Xunit.DependencyInjection" Version="9.3.0" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.8.1">
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.8.0">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
