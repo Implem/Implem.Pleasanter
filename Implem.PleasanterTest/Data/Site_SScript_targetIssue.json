@@ -4,7 +4,6 @@
     "Type": "Sites",
     "ParentId": "ServerScriptFolder",
     "Title": "TargetIssue",
-    "SiteName": "ServerScriptIssueApiModel",
     "ClassA": "Issues",
     "Creator": "User2",
     "Updator": "User2",
