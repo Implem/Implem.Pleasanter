@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Site_SScript_TargetIssue",
+    "Language": "ja",
+    "Type": "Sites",
+    "ParentId": "ServerScriptFolder",
+    "Title": "TargetIssue",
+    "SiteName": "ServerScriptIssueApiModel",
+    "ClassA": "Issues",
+    "Creator": "User2",
+    "Updator": "User2",
+    "CreatedTime": "36640",
+    "UpdatedTime": "36640"
+}
