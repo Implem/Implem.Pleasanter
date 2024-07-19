@@ -321,7 +321,7 @@ namespace Implem.Pleasanter.Controllers.Api
                 FileName = file.FileName,
                 ReferenceId = referenceId,
                 Size = file.ContentRange?.Length ?? file.Size,
-                Extention = Path.GetExtension(file.FileName),
+                Extension = Path.GetExtension(file.FileName),
                 ContentType = file.ContentType,
                 Added = true
             };
