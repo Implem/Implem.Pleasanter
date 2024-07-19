@@ -1,12 +1,33 @@
 ﻿using Implem.Libraries.DataSources.SqlServer;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Models;
 using Implem.PleasanterTest.Models;
 
 namespace Implem.PleasanterTest.Utilities
 {
     public static class RdsUtilities
     {
+
+        /// <summary>
+        /// 指定したタイトルを持つIssueレコードのBodyを取得します。
+        /// </summary>
+        public static string GetIssueBody(Context context, string title)
+        {
+            return Repository.ExecuteScalar_string(
+                context: context,
+                statements: Rds.SelectIssues(
+                    column: Rds.IssuesColumn()
+                        .Issues_Body(),
+                    join: [new SqlJoin(
+                            tableBracket:"\"Sites\"",
+                            joinExpression: "\"Sites\".\"SiteId\"=\"Issues\".\"SiteId\"")],
+                    where: Rds.IssuesWhere()
+                        .Title(title)
+                        .Sites_TenantId(context.TenantId)));
+        }
+
+
         /// <summary>
         /// 指定したタイトルを持つサイト数を取得します。
         /// </summary>
