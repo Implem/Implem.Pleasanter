@@ -1,8 +1,8 @@
 ﻿using Implem.Libraries.DataSources.SqlServer;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Requests;
-using Implem.Pleasanter.Models;
-using Implem.PleasanterTest.Models;
+using System.Collections.Generic;
+using System.Data;
 
 namespace Implem.PleasanterTest.Utilities
 {
@@ -10,23 +10,48 @@ namespace Implem.PleasanterTest.Utilities
     {
 
         /// <summary>
-        /// 指定したタイトルを持つIssueレコードのBodyを取得します。
+        /// 指定したタイトルを持つIssueレコードのDataRowを取得
         /// </summary>
-        public static string GetIssueBody(Context context, string title)
+        public static IEnumerable<DataRow> SelectIssueRows(Context context, string siteTitle, SqlWhereCollection where = null)
         {
-            return Repository.ExecuteScalar_string(
+            if (where == null) where = Rds.IssuesWhere();
+            var dataset = Repository.ExecuteDataSet(
                 context: context,
                 statements: Rds.SelectIssues(
-                    column: Rds.IssuesColumn()
-                        .Issues_Body(),
+                    column: Rds.IssuesDefaultColumns(),
                     join: [new SqlJoin(
                             tableBracket:"\"Sites\"",
                             joinExpression: "\"Sites\".\"SiteId\"=\"Issues\".\"SiteId\"")],
-                    where: Rds.IssuesWhere()
-                        .Title(title)
+                    where: where
+                        .Sites_Title(siteTitle)
                         .Sites_TenantId(context.TenantId)));
+            foreach (DataRow row in dataset.Tables[0].Rows)
+            {
+                yield return row;
+            }
         }
 
+        /// <summary>
+        /// 指定したタイトルを持つIssueレコードのDataRowを取得
+        /// </summary>
+        public static IEnumerable<DataRow> SelectResultRows(Context context, string siteTitle, SqlWhereCollection where = null)
+        {
+            if (where == null) where = Rds.ResultsWhere();
+            var dataset = Repository.ExecuteDataSet(
+                context: context,
+                statements: Rds.SelectResults(
+                    column: Rds.ResultsDefaultColumns(),
+                    join: [new SqlJoin(
+                            tableBracket:"\"Sites\"",
+                            joinExpression: "\"Sites\".\"SiteId\"=\"Results\".\"SiteId\"")],
+                    where: where
+                        .Sites_Title(siteTitle)
+                        .Sites_TenantId(context.TenantId)));
+            foreach (DataRow row in dataset.Tables[0].Rows)
+            {
+                yield return row;
+            }
+        }
 
         /// <summary>
         /// 指定したタイトルを持つサイト数を取得します。
@@ -63,7 +88,6 @@ namespace Implem.PleasanterTest.Utilities
         /// </summary>
         public static int ResultsCount(Context context, string title)
         {
-
             return Repository.ExecuteScalar_int(
                 context: context,
                 statements: Rds.SelectResults(
