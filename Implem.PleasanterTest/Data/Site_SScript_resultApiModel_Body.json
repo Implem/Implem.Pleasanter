@@ -1,0 +1,14 @@
+﻿{
+    "Version": 1.017,
+    "ReferenceType": "Results",
+    "ServerScripts": [
+        {
+            "Title": "ResultApiModel",
+            "Name": "",
+            "BeforeOpeningPage": true,
+            "Body": "try {\n    var site = items.GetSiteByTitle('TargetResult')[0];\n    const resultA = items.NewResult();\n    resultA.Title = 'Result_A';\n    const resultB = items.NewResult();\n    resultB.Title = 'Result_B';\n    const resultC = items.NewResult();\n    resultC.Title = 'Result_C';\n\n    if (!resultA.Create(site.SiteId)) {\n        context.AddMessage('faild Create ResultA', 'alert-error');\n    } else {\n        context.AddMessage(resultA.Title, 'alert-information');\n    }\n    if (!resultB.Create(site.SiteId)) {\n        context.AddMessage('faild Create ResultB', 'alert-error');\n    } else {\n        context.AddMessage(resultB.Title, 'alert-information');\n    }\n    if (!resultC.Create(site.SiteId)) {\n        context.AddMessage('faild Create ResultC', 'alert-error');\n    } else {\n        context.AddMessage(resultC.Title, 'alert-information');\n    }\n\n    resultB.Body = 'Updated ResultB!!';\n    if (!resultB.Update()) {\n        context.AddMessage('faild Update ResultB', 'alert-error');\n    } else {\n        context.AddMessage('Updated', 'alert-information');\n    }\n\n    if (!resultC.Delete()) {\n        context.AddMessage('faild Delete ResultC', 'alert-error');\n    } else {\n        context.AddMessage('Deleted', 'alert-information');\n    }\n\n} catch (e) {\n    context.AddMessage(e.stack, 'alert-error');\n}",
+            "Id": 1
+        }
+    ],
+    "NoDisplayIfReadOnly": false
+}
