@@ -26,7 +26,7 @@ try {
     issueE.Title = 'Issue_E';
 
     if (items.Count(site.SiteId) != 3) {
-        context.AddMessage('Count is not 600', 'alert-error');
+        context.AddMessage('Count is not 3', 'alert-error');
     } else {
         context.AddMessage(String(items.Count(site.SiteId)), 'alert-information');
         issueA.NumA = items.Count(site.SiteId);
@@ -47,7 +47,7 @@ try {
         issueC.Create(aggregateSite.SiteId);
     }
     if (items.Min(site.SiteId,'NumA') != 100) {
-        context.AddMessage('Manimum value is not 300', 'alert-error');
+        context.AddMessage('Manimum value is not 100', 'alert-error');
     } else {
         context.AddMessage(String(items.Min(site.SiteId,'NumA')), 'alert-information');
         issueD.NumA = items.Min(site.SiteId,'NumA');
