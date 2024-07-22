@@ -1,0 +1,12 @@
+﻿case "#ColumnName#":
+    if (#ColumnName##RecordingData# == 0 && filter.Value == "[\"\\t\"]")
+    {
+        match = true;
+    } else
+    {
+        match = #ColumnName##RecordingData#.Matched(
+            context: context,
+            column: column,
+            condition: filter.Value);
+    }
+    break;

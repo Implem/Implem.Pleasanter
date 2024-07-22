@@ -1,0 +1,21 @@
+﻿{
+    "Version": 1.017,
+    "ReferenceType": "Results",
+    "ServerScripts": [
+        {
+            "Title": "items.NewResult",
+            "Name": "",
+            "BeforeOpeningPage": true,
+            "Body": "try {\r    const newResults = items.NewSite('Results');\r    newResults.Title = 'Result_001';\r    if (!items.Create(0, newResults)) {\r        context.AddMessage('failed CreateSite Result_001', 'alert-error');\r    } else {\r        context.AddMessage('Result_001', 'alert-information');\r        let resultItem = items.NewResult();\r        resultItem.Title = 'NewResult';\r        if (!items.Create(newResults.SiteId, resultItem)) {\r            context.AddMessage('failed CreateResult', 'alert-error');\r        } else {\r            context.AddMessage('NewResult', 'alert-information');\r        }\r    }\r} catch (e) {\r    context.AddMessage(e.stack, 'alert-error');\r}",
+            "Id": 1
+        },
+        {
+            "Title": "items.NewIssue",
+            "Name": "",
+            "BeforeOpeningPage": true,
+            "Body": "try {\r    const newIssues = items.NewSite('Issues');\r    newIssues.Title = 'Issue_001';\r    if (!items.Create(0, newIssues)) {\r        context.AddMessage('failed CreateSite Issue_001', 'alert-error');\r    } else {\r        context.AddMessage('Issue_001', 'alert-information');\r        let issueItem = items.NewIssue();\r        issueItem.Title = 'NewIssue';\r        if (!items.Create(newIssues.SiteId, issueItem)) {\r            context.AddMessage('failed CreateIssue', 'alert-error');\r        } else {\r            context.AddMessage('NewIssue', 'alert-information');\r        }\r    }\r\r} catch (e) {\r    context.AddMessage(e.stack, 'alert-error');\r}",
+            "Id": 2
+        }
+    ],
+    "NoDisplayIfReadOnly": false
+}
