@@ -1729,6 +1729,10 @@ namespace Implem.Pleasanter.Models
                     res.Message(invalid.Message(context: context));
                     return;
             }
+            if (TenantSettings.BackgroundServerScripts == null)
+            {
+                TenantSettings.BackgroundServerScripts = new BackgroundServerScripts(context: context);
+            }
             script.Id = TenantSettings.BackgroundServerScripts.Scripts.MaxOrDefault(o => o.Id) + 1;
             TenantSettings.BackgroundServerScripts.Scripts.Add(script);
             Session_TenantSettings(
@@ -1994,7 +1998,9 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void SetByAfterUpdateBackgroundServerScript(Context context, SiteSettings ss)
         {
-            BackgroundServerScriptUtilities.Reschedule(backgroundServerScripts: TenantSettings.BackgroundServerScripts);
+            BackgroundServerScriptUtilities.Reschedule(
+                tenantId: TenantId,
+                backgroundServerScripts: TenantSettings.BackgroundServerScripts);
         }
     }
 }
