@@ -3,9 +3,9 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <Copyright>Copyright © Implem Inc 2014 - 2024</Copyright>
-    <AssemblyVersion>1.4.5.0</AssemblyVersion>
-    <FileVersion>1.4.5.0</FileVersion>
-    <Version>1.4.5.0</Version>
+    <AssemblyVersion>1.4.6.2</AssemblyVersion>
+    <FileVersion>1.4.6.2</FileVersion>
+    <Version>1.4.6.2</Version>
     <Nullable>disable</Nullable>
   </PropertyGroup>
 

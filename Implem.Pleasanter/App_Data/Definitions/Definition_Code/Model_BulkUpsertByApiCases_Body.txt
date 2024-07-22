@@ -1,0 +1,4 @@
+﻿case "#TableName#":
+    return #ModelName#Utilities.BulkUpsertByApi(
+        context: context,
+        ss: Site.SiteSettings);
