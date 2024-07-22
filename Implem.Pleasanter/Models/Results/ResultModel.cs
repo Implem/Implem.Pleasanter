@@ -280,18 +280,6 @@ namespace Implem.Pleasanter.Models
                                 exportColumn: exportColumn)
                             : string.Empty;
                     break;
-                case "UpdatedTime":
-                    value = ss.ReadColumnAccessControls.Allowed(
-                        context: context,
-                        ss: ss,
-                        column: column,
-                        mine: mine)
-                            ? UpdatedTime.ToExport(
-                                context: context,
-                                column: column,
-                                exportColumn: exportColumn)
-                            : string.Empty;
-                    break;
                 case "ResultId":
                     value = ss.ReadColumnAccessControls.Allowed(
                         context: context,
@@ -458,6 +446,19 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 column: column,
                                 exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "UpdatedTime":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? UpdatedTime?.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                                    ?? String.Empty
                             : string.Empty;
                     break;
                 default:
@@ -1407,6 +1408,18 @@ namespace Implem.Pleasanter.Models
                 tableType: tableType,
                 param: param,
                 otherInitValue: otherInitValue));
+            try
+            {
+                WriteAttachmentsToLocal(
+                    context: context,
+                    ss: ss);
+            }
+            catch
+            {
+                return new ErrorData(
+                    type: Error.Types.FailedWriteFile,
+                    id: ResultId);
+            }
             var response = Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
@@ -1419,7 +1432,7 @@ namespace Implem.Pleasanter.Models
                     id: ResultId,
                     columnName: response.ColumnName);
             }
-            WriteAttachments(
+            DeleteTempOrLocalAttachments(
                 context: context,
                 ss: ss);
             ResultId = (response.Id ?? ResultId).ToLong();
@@ -1817,7 +1830,9 @@ namespace Implem.Pleasanter.Models
         {
             ss.Columns
                 .Where(column => column.ColumnName.StartsWith("Attachments"))
-                .ForEach(column => GetAttachments(column.ColumnName).SetData(column: column));
+                .ForEach(column => GetAttachments(column.ColumnName).SetData(
+                    context: context,
+                    column: column));
             var timestamp = Timestamp.ToDateTime();
             var statements = new List<SqlStatement>();
             var where = Rds.ResultsWhereDefault(
@@ -1931,6 +1946,35 @@ namespace Implem.Pleasanter.Models
                 .Where(columnName => Attachments_Updated(columnName: columnName))
                 .ForEach(columnName =>
                     GetAttachments(columnName: columnName).Write(
+                        context: context,
+                        ss: ss,
+                        column: ss.GetColumn(
+                            context: context,
+                            columnName: columnName),
+                        referenceId: ResultId,
+                        verUp: verUp));
+        }
+
+        public void WriteAttachmentsToLocal(Context context, SiteSettings ss)
+        {
+            ColumnNames()
+                .Where(columnName => columnName.StartsWith("Attachments"))
+                .Where(columnName => Attachments_Updated(columnName: columnName))
+                .ForEach(columnName =>
+                    GetAttachments(columnName: columnName).WriteToLocal(
+                        context: context,
+                        column: ss.GetColumn(
+                            context: context,
+                            columnName: columnName)));
+        }
+
+        public void DeleteTempOrLocalAttachments(Context context, SiteSettings ss, bool verUp = false)
+        {
+            ColumnNames()
+                .Where(columnName => columnName.StartsWith("Attachments"))
+                .Where(columnName => Attachments_Updated(columnName: columnName))
+                .ForEach(columnName =>
+                    GetAttachments(columnName: columnName).DeleteTempOrLocalAttachment(
                         context: context,
                         ss: ss,
                         column: ss.GetColumn(
@@ -2880,6 +2924,7 @@ namespace Implem.Pleasanter.Models
                 if (ss.ColumnHash.Get(o.Key).AllowImage == true)
                 {
                     SetPostedFile(
+                        context: context,
                         file: file,
                         columnName: o.Key,
                         image: o.Value);
@@ -2896,6 +2941,7 @@ namespace Implem.Pleasanter.Models
         }
 
         public void SetPostedFile(
+            Context context,
             Microsoft.AspNetCore.Http.IFormFile file,
             string columnName,
             Shared._ImageApiModel image)
@@ -2904,7 +2950,7 @@ namespace Implem.Pleasanter.Models
                 columnName,
                 new PostedFile()
                 {
-                    Guid = new HttpPostedFile(file).WriteToTemp(),
+                    Guid = new HttpPostedFile(file).WriteToTemp(context),
                     FileName = file.FileName.Split(System.IO.Path.DirectorySeparatorChar).Last(),
                     Extension = image.Extension,
                     Size = file.Length,
@@ -3510,18 +3556,6 @@ namespace Implem.Pleasanter.Models
                                 column: column,
                                 condition: filter.Value);
                             break;
-                        case "Manager":
-                            match = Manager.Id.Matched(
-                                context: context,
-                                column: column,
-                                condition: filter.Value);
-                            break;
-                        case "Owner":
-                            match = Owner.Id.Matched(
-                                context: context,
-                                column: column,
-                                condition: filter.Value);
-                            break;
                         case "Locked":
                             match = Locked.Matched(
                                 column: column,
@@ -3549,6 +3583,30 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 column: column,
                                 condition: filter.Value) == true;
+                            break;
+                        case "Manager":
+                            if (Manager.Id == 0 && filter.Value == "[\"\\t\"]")
+                            {
+                                match = true;
+                            } else
+                            {
+                                match = Manager.Id.Matched(
+                                    context: context,
+                                    column: column,
+                                    condition: filter.Value);
+                            }
+                            break;
+                        case "Owner":
+                            if (Owner.Id == 0 && filter.Value == "[\"\\t\"]")
+                            {
+                                match = true;
+                            } else
+                            {
+                                match = Owner.Id.Matched(
+                                    context: context,
+                                    column: column,
+                                    condition: filter.Value);
+                            }
                             break;
                         default:
                             switch (Def.ExtendedColumnTypes.Get(filter.Key ?? string.Empty))

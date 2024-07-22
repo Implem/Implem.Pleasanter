@@ -298,7 +298,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             _using: useBreadcrumb))
                         .Guide(
                             context: context,
-                            ss: ss)
+                            ss: ss,
+                            view: view)
                         .Title(
                             context: context,
                             ss: ss,
@@ -563,6 +564,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return context.Authenticated
                 && context.ContractSettings.Attachments() != false
                 && !context.Mobile
+                && !context.Ajax
                     ? hb
                         .Div(
                             attributes: new HtmlAttributes()
@@ -625,6 +627,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         value: context.Token(),
                         _using: Parameters.Security.TokenCheck)
                     .Hidden(controlId: "Language", value: context.Language)
+                    .Hidden(
+                        controlId: "TimeZoneOffset",
+                        value: context.TimeZoneInfoOffset())
                     .Hidden(controlId: "YmdFormat", value: Displays.YmdFormat(context: context))
                     .Hidden(
                         controlId: "YmdDatePickerFormat",

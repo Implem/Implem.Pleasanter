@@ -211,11 +211,37 @@ namespace Implem.Pleasanter.Controllers
         /// Fixed:
         /// </summary>
         [HttpPost]
+        public string SelectableChildren(int id)
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = GroupUtilities.SelectableChildrenJson(context: context);
+            log.Finish(context: context, responseSize: json.Length);
+            return json;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        [HttpPost]
         public string CurrentMembers(int id)
         {
             var context = new Context();
             var log = new SysLogModel(context: context);
             var json = GroupUtilities.CurrentMembersJson(context: context, groupId: id);
+            log.Finish(context: context, responseSize: json.Length);
+            return json;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        [HttpPost]
+        public string CurrentChildren(int id)
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = GroupUtilities.CurrentChildrenJson(context: context, groupId: id);
             log.Finish(context: context, responseSize: json.Length);
             return json;
         }

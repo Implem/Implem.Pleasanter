@@ -1084,9 +1084,14 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             RegistrationModel registrationModel)
         {
-            return hb.FieldSet(id: "FieldSetGeneral", action: () => hb
-                .FieldSetGeneralColumns(
-                    context: context, ss: ss, registrationModel: registrationModel));
+            return hb.FieldSet(
+                id: "FieldSetGeneral",
+                action: () => hb.Div(
+                    css: "fieldset-inner",
+                    action: () => hb.FieldSetGeneralColumns(
+                        context: context,
+                        ss: ss,
+                        registrationModel: registrationModel)));
         }
 
         /// <summary>
@@ -2010,24 +2015,26 @@ namespace Implem.Pleasanter.Models
                 return Error.Types.HasNotPermission.MessageJson(context: context);
             }
             var hb = new HtmlBuilder();
-            hb
-                .HistoryCommands(context: context, ss: ss)
-                .Table(
-                    attributes: new HtmlAttributes().Class("grid history"),
-                    action: () => hb
-                        .THead(action: () => hb
-                            .GridHeader(
-                                context: context,
-                                ss: ss,
-                                columns: columns,
-                                sort: false,
-                                checkRow: true))
-                        .TBody(action: () => hb
-                            .HistoriesTableBody(
-                                context: context,
-                                ss: ss,
-                                columns: columns,
-                                registrationModel: registrationModel)));
+            hb.Div(
+                css: "fieldset-inner",
+                action: () => hb
+                    .HistoryCommands(context: context, ss: ss)
+                    .Table(
+                        attributes: new HtmlAttributes().Class("grid history"),
+                        action: () => hb
+                            .THead(action: () => hb
+                                .GridHeader(
+                                    context: context,
+                                    ss: ss,
+                                    columns: columns,
+                                    sort: false,
+                                    checkRow: true))
+                            .TBody(action: () => hb
+                                .HistoriesTableBody(
+                                    context: context,
+                                    ss: ss,
+                                    columns: columns,
+                                    registrationModel: registrationModel))));
             return new RegistrationsResponseCollection(
                 context: context,
                 registrationModel: registrationModel)

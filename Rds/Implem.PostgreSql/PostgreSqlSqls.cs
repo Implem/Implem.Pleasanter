@@ -412,5 +412,77 @@ namespace Implem.PostgreSql
                         and {PermissionsWhere}
                 )";
         }
+
+        public string UpsertBinary { get; } = @"
+            update ""Binaries"" as ""Target""
+            set
+                ""Bin"" = ""Target"".""Bin"" || ""Temp"".""Bin""
+                ,""Updator"" = ""Temp"".""Updator""
+                ,""UpdatedTime"" = current_timestamp
+            from (
+                select
+                    @ipT as ""TenantId""
+                    ,@ReferenceId as ""ReferenceId""
+                    ,@Guid as ""Guid""
+                    ,@BinaryType as ""BinaryType""
+                    ,@Title as ""Title""
+                    ,@Bin as ""Bin""
+                    ,@FileName as ""FileName""
+                    ,@ipU as ""Creator""
+                    ,@ipU as ""Updator""
+            ) as ""Temp""
+            where ""Target"".""TenantId"" = ""Temp"".""TenantId""
+                and ""Target"".""Guid"" = ""Temp"".""Guid""
+                and ""Target"".""BinaryType"" = ""Temp"".""BinaryType"";
+            insert into ""Binaries"" (
+                ""TenantId""
+                ,""ReferenceId""
+                ,""Guid""
+                ,""Ver""
+                ,""BinaryType""
+                ,""Title""
+                ,""Bin""
+                ,""FileName""
+                ,""Creator""
+                ,""Updator""
+                ,""CreatedTime""
+                ,""UpdatedTime""
+            )
+            select
+                ""Temp"".""TenantId""
+                ,""Temp"".""ReferenceId""
+                ,""Temp"".""Guid""
+                ,1 as ""Ver""
+                ,""Temp"".""BinaryType""
+                ,""Temp"".""Title""
+                ,""Temp"".""Bin""
+                ,""Temp"".""FileName""
+                ,""Temp"".""Creator""
+                ,""Temp"".""Updator""
+                ,current_timestamp as ""CreatedTime""
+                ,current_timestamp as ""UpdatedTime""
+            from (
+                select
+                    @ipT as ""TenantId""
+                    ,@ReferenceId as ""ReferenceId""
+                    ,@Guid as ""Guid""
+                    ,@BinaryType as ""BinaryType""
+                    ,@Title as ""Title""
+                    ,@Bin as ""Bin""
+                    ,@FileName as ""FileName""
+                    ,@ipU as ""Creator""
+                    ,@ipU as ""Updator""
+            ) as ""Temp""
+            left join ""Binaries"" as ""Target"" 
+                on ""Target"".""TenantId"" = ""Temp"".""TenantId""
+                and ""Target"".""Guid"" = ""Temp"".""Guid""
+                and ""Target"".""BinaryType"" = ""Temp"".""BinaryType""
+            where ""Target"".""Guid"" is null;";
+
+        public string GetBinaryHash { get; } = @"
+            select digest(""Bin"", @Algorithm)
+            from ""Binaries""
+            where ""TenantId"" = @ipT
+                and ""Guid"" = @Guid;";
     }
 }

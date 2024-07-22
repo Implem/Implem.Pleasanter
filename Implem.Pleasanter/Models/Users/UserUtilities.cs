@@ -1631,9 +1631,14 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             UserModel userModel)
         {
-            return hb.FieldSet(id: "FieldSetGeneral", action: () => hb
-                .FieldSetGeneralColumns(
-                    context: context, ss: ss, userModel: userModel));
+            return hb.FieldSet(
+                id: "FieldSetGeneral",
+                action: () => hb.Div(
+                    css: "fieldset-inner",
+                    action: () => hb.FieldSetGeneralColumns(
+                        context: context,
+                        ss: ss,
+                        userModel: userModel)));
         }
 
         private static HtmlBuilder FieldSetGeneralColumns(
@@ -2787,24 +2792,26 @@ namespace Implem.Pleasanter.Models
                 return Error.Types.HasNotPermission.MessageJson(context: context);
             }
             var hb = new HtmlBuilder();
-            hb
-                .HistoryCommands(context: context, ss: ss)
-                .Table(
-                    attributes: new HtmlAttributes().Class("grid history"),
-                    action: () => hb
-                        .THead(action: () => hb
-                            .GridHeader(
-                                context: context,
-                                ss: ss,
-                                columns: columns,
-                                sort: false,
-                                checkRow: true))
-                        .TBody(action: () => hb
-                            .HistoriesTableBody(
-                                context: context,
-                                ss: ss,
-                                columns: columns,
-                                userModel: userModel)));
+            hb.Div(
+                css: "fieldset-inner",
+                action: () => hb
+                    .HistoryCommands(context: context, ss: ss)
+                    .Table(
+                        attributes: new HtmlAttributes().Class("grid history"),
+                        action: () => hb
+                            .THead(action: () => hb
+                                .GridHeader(
+                                    context: context,
+                                    ss: ss,
+                                    columns: columns,
+                                    sort: false,
+                                    checkRow: true))
+                            .TBody(action: () => hb
+                                .HistoriesTableBody(
+                                    context: context,
+                                    ss: ss,
+                                    columns: columns,
+                                    userModel: userModel))));
             return new UsersResponseCollection(
                 context: context,
                 userModel: userModel)
@@ -3100,6 +3107,13 @@ namespace Implem.Pleasanter.Models
                     if (column?.ColumnName == "LoginId")
                     {
                         idColumn = data.Index;
+                    }
+                    //海外言語設定のユーザでは、columnはTimeZoneInfoのLabelTextを参照して抽出しているため、
+                    //ColumnNameがTimeZoneのものを抽出する。
+                    if (column?.ColumnName == "TimeZoneInfo")
+                    {
+                        column = ss.Columns
+                        .FirstOrDefault(o => o.ColumnName == "TimeZone");
                     }
                     if (column != null) columnHash.Add(data.Index, column);
                 });
@@ -3519,6 +3533,10 @@ namespace Implem.Pleasanter.Models
             int idColumn)
         {
             var userHash = new Dictionary<int, UserModel>();
+            var tenantModel = new TenantModel(
+                context: context,
+                ss: ss,
+                tenantId: context.TenantId);
             csv.Rows.Select((o, i) => new { Row = o, Index = i }).ForEach(data =>
             {
                 var userModel = new UserModel();
@@ -3580,9 +3598,21 @@ namespace Implem.Pleasanter.Models
                             break;
                         case "Language":
                             userModel.Language = recordingData.ToString();
+                            if (userModel.Language.IsNullOrEmpty())
+                            {                                
+                                userModel.Language = tenantModel.Language.IsNullOrEmpty()
+                                ? Parameters.Service.DefaultLanguage
+                                : tenantModel.Language;
+                            }                            
                             break;
                         case "TimeZone":
                             userModel.TimeZone = recordingData.ToString();
+                            if (userModel.TimeZone.IsNullOrEmpty())
+                            {
+                                userModel.TimeZone = tenantModel.TimeZone.IsNullOrEmpty()
+                                ? Parameters.Service.TimeZoneDefault
+                                : tenantModel.TimeZone;
+                            }
                             break;
                         case "DeptId":
                             userModel.DeptId = recordingData.ToInt();
@@ -4417,34 +4447,37 @@ namespace Implem.Pleasanter.Models
             userModel.Session_MailAddresses(
                 context: context,
                 value: listItemCollection.Keys.ToList().ToJson());
-            return hb.FieldSet(id: "FieldSetMailAddresses", action: () => hb
-                .FieldSelectable(
-                    controlId: "MailAddresses",
-                    fieldCss: "field-vertical w500",
-                    controlContainerCss: "container-selectable",
-                    controlWrapperCss: " h350",
-                    labelText: Displays.MailAddresses(context: context),
-                    listItemCollection: listItemCollection,
-                    commandOptionAction: () => hb
-                        .Div(css: "command-left", action: () => hb
-                            .TextBox(
-                                controlId: "MailAddress",
-                                controlCss: " w200")
-                            .Button(
-                                text: Displays.Add(context: context),
-                                controlCss: "button-icon",
-                                onClick: "$p.send($(this));",
-                                icon: "ui-icon-disk",
-                                action: "AddMailAddress",
-                                method: "post")
-                            .Button(
-                                controlId: "DeleteMailAddresses",
-                                controlCss: "button-icon",
-                                text: Displays.Delete(context: context),
-                                onClick: "$p.send($(this));",
-                                icon: "ui-icon-image",
-                                action: "DeleteMailAddresses",
-                                method: "put"))));
+            return hb.FieldSet(
+                id: "FieldSetMailAddresses",
+                action: () => hb.Div(
+                    css: "fieldset-inner",
+                    action: () => hb.FieldSelectable(
+                        controlId: "MailAddresses",
+                        fieldCss: "field-vertical w500",
+                        controlContainerCss: "container-selectable",
+                        controlWrapperCss: " h350",
+                        labelText: Displays.MailAddresses(context: context),
+                        listItemCollection: listItemCollection,
+                        commandOptionAction: () => hb
+                            .Div(css: "command-left", action: () => hb
+                                .TextBox(
+                                    controlId: "MailAddress",
+                                    controlCss: " w200")
+                                .Button(
+                                    text: Displays.Add(context: context),
+                                    controlCss: "button-icon",
+                                    onClick: "$p.send($(this));",
+                                    icon: "ui-icon-disk",
+                                    action: "AddMailAddress",
+                                    method: "post")
+                                .Button(
+                                    controlId: "DeleteMailAddresses",
+                                    controlCss: "button-icon",
+                                    text: Displays.Delete(context: context),
+                                    onClick: "$p.send($(this));",
+                                    icon: "ui-icon-image",
+                                    action: "DeleteMailAddresses",
+                                    method: "put")))));
         }
 
         /// <summary>
@@ -4514,12 +4547,15 @@ namespace Implem.Pleasanter.Models
                             .A(
                                 href: "#FieldSetGeneral",
                                 text: Displays.General(context: context))))
-                    .FieldSet(id: "FieldSetGeneral", action: () => hb
-                        .FieldText(
-                            controlId: "ApiKey",
-                            fieldCss: "field-wide",
-                            labelText: Displays.ApiKey(context: context),
-                            text: userModel.ApiKey))
+                    .FieldSet(
+                        id: "FieldSetGeneral",
+                        action: () => hb.Div(
+                            css: "fieldset-inner",
+                            action: () => hb.FieldText(
+                                controlId: "ApiKey",
+                                fieldCss: "field-wide",
+                                labelText: Displays.ApiKey(context: context),
+                                text: userModel.ApiKey)))
                     .Div(
                         id: "ApiEditorCommands",
                         action: () => hb
@@ -4604,7 +4640,7 @@ namespace Implem.Pleasanter.Models
                         new HtmlBuilder().ApiEditor(
                             context: context,
                             userModel: userModel))
-                    .Message(Messages.ApiKeyCreated(context: context))
+                    .Message(Messages.ApiKeyDeleted(context: context))
                     .ToJson();
             }
         }
@@ -4630,8 +4666,8 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default:
                     return ApiResults.Error(
-                       context: context,
-                       errorData: invalid);
+                        context: context,
+                        errorData: invalid);
             }
             var api = context.RequestDataString.Deserialize<Api>();
             if (api == null && !context.RequestDataString.IsNullOrEmpty())
@@ -4920,7 +4956,8 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 userId: 0,
-                userApiModel: userApiModel);
+                userApiModel: userApiModel,
+                methodType: BaseModel.MethodTypes.New);
             var invalid = UserValidators.OnCreating(
                 context: context,
                 ss: ss,
@@ -5013,8 +5050,8 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default:
                     return ApiResults.Error(
-                       context: context,
-                       errorData: invalid);
+                        context: context,
+                        errorData: invalid);
             }
             if (Parameters.Security.JoeAccountCheck
                 && (context.RequestDataString.Deserialize<UserApiModel>()?.Password ?? string.Empty) == userModel.LoginId)
@@ -5118,8 +5155,8 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default:
                     return ApiResults.Error(
-                       context: context,
-                       errorData: invalid);
+                        context: context,
+                        errorData: invalid);
             }
             var errorData = userModel.Delete(context: context, ss: ss);
             switch (errorData.Type)
@@ -5536,6 +5573,38 @@ namespace Implem.Pleasanter.Models
                         .UsersCount(),
                     where: Rds.UsersWhere()
                         .UserId_In(value: ids)));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string GeneratePassword(string passwordObject, string passwordValidateObject)
+        {
+            var password = "";
+            var regex = "";
+            var defaultRegex = Parameters.Security.PasswordPolicies[0].Enabled
+                ? Parameters.Security.PasswordPolicies[0].Regex
+                : "[!-~]{ 6,}";
+            foreach(var policy in Parameters.Security.PasswordPolicies.Skip(1).Where(o => o.Enabled))
+            {
+                regex += "(?=.*?" + policy.Regex + ")";
+            }
+            regex += defaultRegex;
+            var xeger = new Fare.Xeger(defaultRegex, new Random());
+            while(!System.Text.RegularExpressions.Regex.IsMatch(password, $"^{regex}$"))
+            {
+                password = xeger.Generate();
+            }
+            return new ResponseCollection()
+                .Val(
+                    target: passwordObject,
+                    value: password)
+                .Val(
+                    target: passwordValidateObject,
+                    value: password)
+                .SetData(target: passwordObject)
+                .SetData(target: passwordValidateObject)
+                .ToJson();
         }
     }
 }

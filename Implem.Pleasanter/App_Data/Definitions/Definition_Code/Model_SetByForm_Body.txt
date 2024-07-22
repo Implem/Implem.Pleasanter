@@ -53,6 +53,7 @@ private void SetByFormData(Context context, SiteSettings ss, Dictionary<string, 
 
 <!--Model_SetByForm_RecordPermissions-->
 <!--Model_SetByForm_RecordPermissions_Sites-->
+<!--Model_SetByForm_GroupModel_GroupChildren-->
 
             default:
                 if (key.RegexExists("Comment[0-9]+"))

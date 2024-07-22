@@ -1,0 +1,17 @@
+﻿{
+    "Id": "items_Aggregate_IssueB",
+    "Language": "ja",
+    "Type": "Issues",
+    "ParentId": "Site_SScript_Items_TargetIssue",
+    "Title": "IssueB",
+    "ClassA": "Issues",
+    "NumA": 200,
+    "Manager": "User2",
+    "Owner": "User2",
+    "Creator": "User2",
+    "Updator": "User2",
+    "StartTime": "36696",
+    "CompletionTime": "36707",
+    "CreatedTime": "36643.705555555556",
+    "UpdatedTime": "36656.47152777778"
+}

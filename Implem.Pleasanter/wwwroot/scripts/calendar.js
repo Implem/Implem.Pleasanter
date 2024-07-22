@@ -109,27 +109,32 @@ const getEventsDatas = function (calendarSuffix) {
                 let eventData = JSON.parse($('#CalendarJson' + calendarSuffix).val())[0]['items'];
                 successCallback(
                     eventData.map((item) => {
-                        var endDate = new Date(item.end);
-                        if ($('#CalendarEditorFormat' + calendarSuffix).val() === 'Ymd') {
+                        var endDate = new Date(removeTimeZoneSuffix(item.end));
+                        if ($('#CalendarEditorFormat' + calendarSuffix).val() === 'Ymd' ) {                         
                             endDate.setDate(endDate.getDate() + 1);
+                            endDate.setHours(0, 0, 0, 0);
                         }
                         if (item.StatusHtml) {
                             return {
                                 id: item.id,
                                 title: item.title,
-                                start: item.start,
+                                start: removeTimeZoneSuffix(item.start),
                                 end: endDate,
                                 StatusHtml: item.StatusHtml,
-                                siteId: item.siteId
+                                siteId: item.siteId,
+                                format: item.DateFormat,
+                                tooltipEnd: item.end
                             }
                         }
                         else {
                             return {
                                 id: item.id,
                                 title: item.title,
-                                start: item.start,
+                                start: removeTimeZoneSuffix(item.start),
                                 end: endDate,
-                                siteId: item.siteId
+                                siteId: item.siteId,
+                                format: item.DateFormat,
+                                tooltipEnd: item.end
                             }
                         }
                     }))
@@ -161,6 +166,8 @@ function setCalendarGroup(group, data, calendarSuffix) {
 
 function setYearly(group, data, hash, begin, end, calendarSuffix) {
     data.forEach(function (element) {
+        element.From = removeTimeZoneSuffix(element.From);
+        element.To = removeTimeZoneSuffix(element.To);
         var current = $p.beginningMonth(new Date(element.From))
         if (current < begin) {
             current = new Date(begin);
@@ -198,6 +205,8 @@ function setYearly(group, data, hash, begin, end, calendarSuffix) {
 
 function setMonthly(group, data, hash, begin, end, calendarSuffix) {
     data.forEach(function (element) {
+        element.From = removeTimeZoneSuffix(element.From);
+        element.To = removeTimeZoneSuffix(element.To);
         var current = new Date(element.From);
         if (current < begin) {
             current = new Date(begin);
@@ -286,7 +295,6 @@ function Rank(hash, id) {
 }
 
 function addItem(group, hash, element, current, calendarSuffix, sub, rank, yearly) {
-
     var id = $p.shortDateString(current);
     var groupSelector = (group === undefined)
         ? ''
@@ -349,9 +357,9 @@ function addItem(group, hash, element, current, calendarSuffix, sub, rank, yearl
         })
         .addClass(sub ? 'sub' : '')
         .attr('title', htmlEncode(element.Title) + ' -- ' +
-            $p.dateTimeString(new Date(element.From)) +
+        $p.dateTimeFormatString(new Date(element.From), element.DateFormat) +
             (element.To !== undefined && element.To !== element.From
-                ? ' - ' + $p.dateTimeString(new Date(element.To))
+            ? ' - ' + $p.dateTimeFormatString(new Date(element.To), element.DateFormat)
                 : ''))
         .append($('<span />').addClass('ui-icon ui-icon-pencil'))
         .append((element.Time !== undefined
@@ -363,6 +371,13 @@ function addItem(group, hash, element, current, calendarSuffix, sub, rank, yearl
             + htmlEncode(element.Title)));
     $cell.append(item);
     hash[id]++;
+}
+function removeTimeZoneSuffix(datetime_str) {
+    if (datetime_str === undefined) {
+        return datetime_str;
+    } else {
+        return datetime_str.replace("Z", "");
+    }
 }
 
 function margeTime(date, dateTime) {
@@ -439,14 +454,11 @@ function setFullCalendar(calendarSuffix, calendarEl) {
         eventResize: updateRecord(calendarSuffix),
         eventDidMount: function (info) {
             var eventElement = $(info.el);
-            var endDate = new Date(info.event.end);
-            if ($('#CalendarEditorFormat' + calendarSuffix).val() === 'Ymd') {
-                endDate.setDate(endDate.getDate() - 1);
-            }
+            var endDate = new Date(removeTimeZoneSuffix(info.event.extendedProps.tooltipEnd));
             eventElement.attr('title', htmlEncode(info.event.title) + ' -- ' +
-                $p.dateTimeString(new Date(info.event.start)) +
+                $p.dateTimeFormatString(new Date(info.event.start), info.event.extendedProps.format) +
                 (info.event.end !== null && endDate.toLocaleString() !== info.event.start.toLocaleString()
-                    ? ' - ' + $p.dateTimeString(new Date(endDate))
+                ? ' - ' + $p.dateTimeFormatString(new Date(endDate), info.event.extendedProps.format)
                     : ''))
                 + htmlEncode(info.event.title);
             if (info.event.extendedProps.StatusHtml) {

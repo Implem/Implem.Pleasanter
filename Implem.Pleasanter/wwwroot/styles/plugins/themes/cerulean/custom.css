@@ -1,4 +1,8 @@
-﻿.nav-site {
+﻿td{
+    color: #222222;
+}
+
+.nav-site {
     background-color: white;
     border: solid 2px silver;
 }
@@ -67,6 +71,10 @@
     color: black;
 }
 
+.field-control .ui-multiselect-open + span {
+    color: black;
+}
+
 .field-control .ui-multiselect .ui-icon.ui-icon-triangle-1-s {
     background-image: url("images/ui-icons_3d3d3d_256x240.png");
 }
@@ -92,21 +100,18 @@
 }
 
 /* 全体共通 */
-* {
-    font-family: 'メイリオ', 'Meiryo', 'Hiragino Kaku Gothic ProN', 'ヒラギノ角ゴ ProN W3', sans-serif;
-    font-size: 13px;
-}
-
 a, a:link {
     color: #106EBE;
 }
 
-body {
+html body {
     background-color: #E7E7E7;
+    font-size: 13px;
+    font-family: 'メイリオ', 'Meiryo', 'Hiragino Kaku Gothic ProN', 'ヒラギノ角ゴ ProN W3', sans-serif;
 }
 
 /* コンテンツ */
-#MainContainer {
+#MainContainer:has(#NavigationsUpperRight) {
     margin-left: 52px;
 }
 
@@ -156,7 +161,7 @@ nav.both.cf {
     position: absolute;
     top: 8px;
     left: 8px;
-    z-index: 1;
+    z-index: 3;
 }
 
 #CopyDirectUrlToClipboard {
@@ -165,73 +170,207 @@ nav.both.cf {
     border-radius: 4px;
 }
 
-/* パンくず */
-#Application nav #Breadcrumb .separator {
-    display: none;
+body:has(#Publish[value="1"]) {
+    #CopyDirectUrlToClipboard .ui-icon-link{
+        background-image: url(images/ui-icons_ffffff_256x240.png);
+    }
+    #PublishWarning {
+        clear: both;
+        width: auto;
+        margin: 0;
+        border-radius: 0;
+        float: none;
+        overflow: hidden;
+        padding: 8px;
+        background: #E03E3E;
+    }
+    &:has(#Action[value="index"]) {
+        #MainCommandsContainer,
+        #BottomMargin{
+            display: none;
+        }
+    }
+    &:has(#Action[value="edit"]) {
+        #PublishWarning{
+            margin: 8px 16px;
+            border-radius: 5px;
+        }
+    }
 }
 
-#Application nav #Breadcrumb {
+/* パンくず */
+#Application #Breadcrumb {
     display: flex;
     margin: 0;
     background-color: #FFFFFF;
     width: 100%;
     box-shadow: 0 2px 2px rgba(0,0,0,.2);
-    position: relative;
-}
+    li {
+        position: relative;
+        display: flex;
+        align-items: center;
+        list-style: none;
+        font-size: 12px;
+        padding: 0 15px 0 0;
+        height: 40px;
+        line-height: 1.5;
+        a{
+            position: relative;
+            z-index: 2;
+            padding: 0 20px;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            &:hover{
+                text-decoration: none;
+            }
+        }
+        .separator {
+            position: absolute;
+            top: 0;
+            right: 0;
+            z-index: 1;
+            display: block;
+            text-indent: -9999px;
+            width: 15px;
+            overflow: hidden;
+            height: 40px;
+            &::before,
+            &::after{
+                content: "";
+                display: block;
+                position: absolute;
+                top: 0;
+                border-top: 20px solid transparent;
+                border-right: 24px solid transparent;
+                border-bottom: 20px solid transparent;
+            }
+            &::before {
+                right: -24px;
+                border-left: 15px solid #ccc;
+            }
+            &::after {
+                right: -23px;
+                border-left: 15px solid #fff;
+            }
+        }
+        &:nth-last-child(n + 6):not(:first-child){
+            max-width: 100PX;
+            padding: 0;
+            line-height: 1;
+            a{
+                display: block;
+                position: relative;
+                z-index: 5;
+                text-indent: -9999px;
+                width: 1em;
+                margin-top: .2em;
+                margin-right: 1em;
+                .label{
+                    &::after{
+                        position: absolute;
+                        left: 50%;
+                        top: 50%;
+                        transform: translate(-50%, -50%);
+                        display: block;
+                        content: '…';
+                        text-indent: 0;
+                        font-weight: bold;
+                    }
+                }
 
-#Application nav #Breadcrumb li {
-    list-style: none;
-    font-size: 14px;
-    height: 40px;
-    line-height: 30px;
-    margin-right: 28px;
-    position: relative;
-    padding: 0 16px;
-}
-
-#Application nav #Breadcrumb li:first-child {
-    padding-left: 36px;
-}
-
-#Application nav #Breadcrumb li:before,
-#Application nav #Breadcrumb li:after {
-    content: "";
-    display: block;
-    position: absolute;
-    top: 0;
-    border-top: 20px solid transparent;
-    border-right: 24px solid transparent;
-    border-bottom: 20px solid transparent;
-}
-
-#Application nav #Breadcrumb li:last-child {
-    background-color: #106EBE;
-}
-
-#Application nav #Breadcrumb li:nth-last-child(2)::after {
-    background-color: #106EBE;
-}
-
-#Application nav #Breadcrumb li:last-child::after {
-    border-left: 15px solid #106EBE;
-}
-
-#Application nav #Breadcrumb li:before {
-    right: -40px;
-    border-left: 15px solid #ccc;
-}
-
-#Application nav #Breadcrumb li:after {
-    right: -39px;
-    border-left: 15px solid #fff;
-}
-
-#Application nav #Breadcrumb li:last-child a {
-    color: #fff;
-}
-
-#Application nav #Breadcrumb .item {
-    padding: 4px 24px 4px 12px;
+                &::before{
+                    position: absolute;
+                    top: 60%;
+                    left: 50%;
+                    height: 8px;
+                    width: 16px;
+                    clip-path: polygon(50% 0, 100% 100%, 0 100%);
+                    content: '';
+                    margin-left: 1px;
+                    background: rgba(0,0,0,.7);
+                }
+                &::after{
+                    overflow: hidden;
+                    position: absolute;
+                    top: 60%;
+                    left: 50%;
+                    margin-top: 8px;
+                    display: block;
+                    width: max-content;
+                    max-width: 200px;
+                    max-height: 0;
+                    color: #fff;
+                    text-indent: 0;
+                    font-size: 11px;
+                    line-height: 1.5;
+                    padding: 0;
+                    background: rgba(0,0,0,.7);
+                    content: attr(data-tooltip);
+                    border-radius: 5px;
+                }
+                &::before,
+                &::after{
+                    opacity: 0;
+                    transform: translate(-50%, 10px);
+                    transition: opacity 180ms ease-out,
+                    transform 0ms ease-out 180ms,
+                    padding 0ms ease-out 180ms,
+                    max-height 0ms ease-out 180ms;
+            }
+                &:hover{
+                    &::after{
+                        padding: 10px 15px;
+                        max-height: 1000px;
+                    }
+                    &::before,
+                    &::after{
+                        opacity: 1;
+                        transform: translate(-50%, 0);
+                        transition: opacity 300ms ease-out, transform 300ms ease-out;
+                    }
+                }
+            }
+        }
+        &:first-child {
+            white-space: nowrap;
+            a{
+                padding-left: 36px;
+            }
+        }
+        &:nth-last-child(2){
+            z-index: 3;
+        }
+        &:not(:last-child){
+            .label{
+                overflow: hidden;
+                display: -webkit-box;
+                text-overflow: ellipsis;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 2;
+            }
+        }
+        &:last-child{
+            z-index: 2;
+            margin-left: -15px;
+            margin-right: 15px;
+            padding-left: 15px;
+            padding-right: 0;
+            background-color: #106EBE;
+            a{
+                width: max-content;
+                color: #fff;
+            }
+            .separator{
+                right: -15px;
+                &::after{
+                    border-left: 15px solid #106EBE;
+                }
+            }
+        }
+    }
 }
 
 /* 横断検索 */
@@ -391,6 +530,10 @@ thead th:has(.control-checkbox) {
     border: 1px solid #CECECE;
 }
 
+.field-control .control-textbox.error {
+    border: solid 1px #f00;
+}
+
 #SearchField .control-textbox:focus{
     border: 1px solid #666666;
 }
@@ -421,6 +564,13 @@ thead th:has(.control-checkbox) {
 .field-control .control-textbox {
     border-radius: 4px;
     padding: 4px 8px 4px 8px;
+}
+
+.field-control span.control-text.status-preparation,
+.field-control span.control-text.status-inprogress,
+.field-control span.control-text.status-closed,
+.field-control span.control-text.status-rejected {
+    color: #fff;
 }
 
 .field-control pre {
@@ -459,7 +609,7 @@ font-family: 'メイリオ', 'Meiryo', 'Hiragino Kaku Gothic ProN', 'ヒラギ�
 }
 
 .field-control .control-attachments-upload {
-    border: 2px dotted #106EBE;
+    border-color: #106EBE!important;
 }
 
 fieldset .command-left {
@@ -506,9 +656,13 @@ fieldset .command-left > button {
     background-color: #FFF9E3;
 }
 
-.field-control label,
+.field-control label:not(.error),
 .field-control textarea {
     color: #222222;
+}
+
+.field-control label.error {
+    z-index: 3;
 }
 
 .ui-widget.ui-state-default.ui-multiselect {
@@ -534,8 +688,16 @@ fieldset .command-left > button {
 }
 
 .field-control .container-normal .control-attachments-item {
-    border: 1px solid #106EBE;
+    border-color: #106EBE;
 }
+
+.field-control .container-normal .progress-bar {
+    border-color: #106EBE;
+    > div{
+        background-color: #106EBE;
+    }
+}
+
 
 .field-control .container-normal .already-attachments.preparation-delete {
     background-color: #ECECEC;
@@ -549,6 +711,14 @@ fieldset .command-left > button {
 #FieldSetMailAddresses .field-vertical .command-left > input {
     margin: 8px 4px 0 0;
 }
+
+#FieldSetSiteAccessControl{
+    select.control-dropdown{
+        max-width: 500px;
+        width: auto;
+    }
+}
+
 /* ボタン */
 .ui-button {
     background: #FFFFFF;
@@ -575,6 +745,10 @@ fieldset .command-left > button {
 .ui-widget.ui-widget-content {
     border: 1px solid #CECECE;
     border-radius: 4px;
+}
+
+.ui-widget.ui-widget-content.ui-spinner:has(.ui-spinner-input:focus) {
+    background-color: #FFF9E3;
 }
 
 .ui-tabs .ui-tabs-nav {
@@ -742,7 +916,6 @@ fieldset .legend{
 #EditorTabsContainer .grid > tbody > tr > td {
     border-left: 1px solid #ECECEC;
     border-right: 1px solid #ECECEC;
-    color: #222222;
 }
 
 #ViewModeContainer .grid-row .comment,
@@ -796,6 +969,11 @@ fieldset .legend{
     margin: 16px;
 }
 
+#ViewModeContainer #GanttAxis {
+    margin-left: -2px;
+    width: calc(100% + 2px);
+}
+
 #Editor #RecordHeader {
     position: relative;
     margin: 0;
@@ -837,7 +1015,7 @@ table.grid tbody td > input {
 }
 
 #Editor #EditorTabsContainer.ui-tabs .ui-tabs-panel {
-    padding: 16px 16px 6px;
+    padding: 16px 16px 28px;
 }
 
 #SummariesSettingsEditor .grid > thead > tr > th:nth-child(3),
@@ -846,25 +1024,53 @@ table.grid tbody td > input {
 }
 
 /* 編集画面 */
-#Editor {
-    overflow: hidden;
+#Editor{
+    #MainForm{
+        position: relative;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        &:after{
+            position: absolute;
+            top: 50px;
+            right: 0;
+            z-index: 0;
+            width: 27%;
+            height: calc(100% - 50px);
+            content: "";
+            background-color: #DEECF9;
+        }
+        #EditorComments,
+        #EditorTabsContainer{
+            position: sticky;
+            top: 0;
+        }
+        #EditorComments{
+            order: 1;
+        }
+        #EditorTabsContainer{
+            z-index: 1;
+        }
+        #Comments{
+            min-height: 100px;
+        }
+    }
 }
 
 #Editor #EditorComments{
     background: #DEECF9;
-    padding-top: 16px;
-    padding-left: 16px;
-    padding-right: 16px;
-    padding-bottom: 10000px;
-    margin-bottom: -10000px;
+    padding: 16px;
+    margin-bottom: 0;
     color: #222222;
 }
 
 #Editor #EditorComments .comment {
     border: 0;
-    border-bottom: 1px solid #CECECE;
     background: none;
     color: #222222;
+    + .comment{
+        border-top: 1px solid #CECECE;
+    }
 }
 
 #Application #TemplateTabsContainer {
@@ -1090,6 +1296,10 @@ fieldset .field-vertical > .field-label {
     border: none;
 }
 
+.message-dialog .alert-error {
+    background-color: #E03E3E;
+}
+
 /* フッタボタン */
 #Application #MainCommandsContainer {
     height: 63px;
@@ -1186,6 +1396,7 @@ fieldset .field-vertical > .field-label {
     flex-direction: row;
     align-items: flex-start;
     justify-content: flex-start;
+    font-size: 13px;
 }
 
 #Application .nav-site .conditions span:nth-of-type(2) {
@@ -1448,7 +1659,7 @@ section.accordion {
     cursor: pointer;
 }
 
-.menulabel::before {
+label.menulabel::before {
     content: "";
     width: 6px;
     height: 6px;
@@ -1497,7 +1708,7 @@ section.accordion {
     width: 52px;
 }
 
-.menubox label {
+.menubox .menulabel {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -1509,8 +1720,15 @@ section.accordion {
     background-color: #DEECF9;
 }
 
-.menubox label span:first-child {
-    padding: 10px;
+.menubox .menulabel span:first-child {
+    width: 52px;
+    height: 52px;
+    justify-content: center;
+}
+
+.menubox .menulabel span:first-child img{
+    width: initial;
+    margin: auto;
 }
 
 .menubox-sub {
@@ -1540,6 +1758,28 @@ section.accordion {
     align-items: center;
 }
 
+.menubox-sub .sub-menu .sub-menu > ul {
+    margin-bottom: 15px;
+}
+
+.menubox-sub .sub-menu .sub-menu > ul li {
+    padding-left: 52px;
+}
+
+.menubox-sub .sub-menu .sub-menu > ul > li > a {
+    position: relative;
+    padding: 3px 1.5em;
+    font-size: 12px;
+    word-break: break-all;
+}
+
+.menubox-sub .sub-menu .sub-menu > ul > li > a::before {
+    position: absolute;
+    top: 3px;
+    left: 0;
+    content: '・';
+}
+
 /* ログイン画面 */
 body#login {
     background-color: #F8F8F8;
@@ -1554,7 +1794,7 @@ body#login #MainContainer #Application #PortalLink{
 }
 
 #MainContainer #Header {
-    height: 39px;
+    min-height: 39px;
 }
 
 #LoginLogo {
@@ -1589,15 +1829,35 @@ body#login #MainContainer #Application #PortalLink{
 
 #Logins div .field-wide .field-control .container-normal input {
     height: 48px;
-    border: none;
     border: 1px solid #CECECE;
     border-radius: 4px;
     padding: 4px 20px;
     font-size: 16px;
 }
 
-#Logins div #Tenants {
+#Logins div .field-wide .field-control .container-normal input.error{
+    border: solid 1px #f00;
+}
+
+#Logins div #Tenants:empty {
     display: none;
+}
+
+#Logins div #Tenants.field-wide {
+    padding-right: 0;
+}
+
+#Logins div #Tenants select {
+    height: 48px;
+    border: 1px solid #CECECE;
+    border-radius: 4px;
+    padding: 4px 20px;
+    font-size: 16px;
+}
+
+#Logins #SsoLogin .ssoLoginMessage {
+    margin: 10px 0;
+    padding: 6px 0;
 }
 
 #login #Users_LoginIdField p,
@@ -1607,10 +1867,11 @@ body#login #MainContainer #Application #PortalLink{
 
 #login #Users_LoginIdField .field-control .container-normal label.error,
 #login #Users_PasswordField .field-control .container-normal label.error {
-    background-color: #ffccd5;
+    background-color: transparent;
     border-radius: 0;
     border: none;
     padding: 4px 8px;
+    top: 0;
 }
 
 #login #Users_PasswordField div .show-password {
@@ -1652,4 +1913,68 @@ body#login #MainContainer #Application #PortalLink{
 .ui-dialog .show-password {
     color: #666666;
     font-weight: lighter;
+}
+
+#LoginFieldSet #TotpRegister {
+    text-align: center;
+}
+
+#LoginFieldSet #TotpRegister #qrCodeText {
+    font-size: 1.2rem;
+}
+
+#FullCalendar th {
+    padding: 8px 0;
+}
+
+#FullCalendar td {
+    padding: 0;
+}
+
+#FullCalendar tbody {
+    background: #fff;
+}
+
+#FullCalendar th[role="presentation"],
+#FullCalendar td[role="presentation"] {
+    padding: 0;
+}
+
+#FullCalendar .fc-daygrid-day-top {
+    padding: 8px;
+}
+
+#FullCalendar .fc-event-time {
+    padding: 0 8px;
+}
+
+#ViewModeContainer #CalendarBody th,
+#ViewModeContainer #CalendarBody td {
+    padding: 8px 0;
+    border: 1px solid #8F8F8F;
+}
+
+#CalendarBody tbody {
+    background-color: #fff;
+}
+
+.fieldset .generate-password,
+.ui-dialog .generate-password {
+    color: #666666;
+    font-weight: lighter;
+}
+
+.md {
+    h1{
+        font-size: 2em;
+    }
+    h2 {
+        font-size: 1.5em;
+    }
+    h3 {
+        font-size: 1.17em;
+    }
+    strong{
+        font-size: inherit;
+    }
 }

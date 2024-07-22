@@ -6,6 +6,7 @@
     if (ss.ColumnHash.Get(o.Key).AllowImage == true)
     {
         SetPostedFile(
+            context: context,
             file: file,
             columnName: o.Key,
             image: o.Value);

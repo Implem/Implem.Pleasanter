@@ -35,6 +35,9 @@ caption, th {
     text-align: left;
 }
 
+td p{
+    font-weight: inherit;
+}
 a:focus {
     outline: none;
 }
@@ -306,6 +309,22 @@ pre {
     border-radius: 5px;
 }
 
+#Guide > .with-icon-close {
+    padding: 10px 5px 10px;
+}
+
+#Guide > div > #ReduceGuides {
+    float: left;
+    cursor: pointer;
+    padding-right: 5px;
+}
+
+#Guide > #ExpandGuides {
+    font-weight: bold;
+    cursor: pointer;
+    padding: 10px 5px 10px;
+}
+
 #CopyToClipboards > .display-control {
     float: left;
     cursor: pointer;
@@ -317,6 +336,7 @@ pre {
     padding: 0px 6px;
     border: none;
     position: relative;
+    z-index: 2;
     clear: both;
 }
 
@@ -327,7 +347,7 @@ pre {
     border: none;
     top: 0px;
     right: 5px;
-    border-radius: 20px 5px 5px 20px;
+    border-radius: 20px 0 0 20px;
     float: right;
 }
 
@@ -474,6 +494,7 @@ pre {
     margin: 10px 0px 0px 0px;
     padding: 0px 10px 120px 10px;
     position: relative;
+    z-index: 1;
     clear: both;
 }
 
@@ -2486,6 +2507,12 @@ _::-webkit-full-page-media, _:future, :root .field-normal .control-checkbox + la
         table-layout: fixed;
     }
 
+    .grid > thead {
+        position: sticky;
+        top: 0;
+        z-index: 90;
+    }
+
     .grid > thead > tr > caption {
         margin: 0px 0px 5px 0px;
     }
@@ -2635,6 +2662,18 @@ _::-webkit-full-page-media, _:future, :root .field-normal .control-checkbox + la
 
 .links {
     padding: 0px 10px;
+}
+
+#Links > .fieldset{
+  display: grid;
+}
+
+#Links > .fieldset > div{
+  overflow: auto;
+}
+
+#Links > .fieldset > div .grid{
+  width: max-content; min-width: 100%;
 }
 
 .link-creations button {
@@ -2932,7 +2971,15 @@ h3.title-header {
     z-index: 10;
 }
 
-input[type="password"]::-ms-reveal{
+#passwordGenerateicon {
+    position: absolute;
+    top: 4px;
+    right: -60px;
+    cursor: pointer;
+    z-index: 10;
+}
+
+input[type="password"]::-ms-reveal {
     display: none;
 }
 
@@ -3166,18 +3213,48 @@ input[type="password"]::-ms-reveal{
     border: solid 1px silver;
     overflow: hidden;
     border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.ui-widget.ui-state-default.ui-multiselect .ui-multiselect-open {
+    display: block;
+    order: 2;
+}
+
+.ui-widget.ui-state-default.ui-multiselect .ui-multiselect-open + span {
+    display: block;
+    order: 1;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.ui-multiselect-menu {
+    width: auto !important;
+    min-width: 225px;
+    max-width: 450px;
 }
 
 .ui-multiselect-checkboxes {
     min-height: 300px;
 }
 
-    .ui-multiselect-checkboxes input {
-        margin: 0px 5px;
-    }
+.ui-multiselect-checkboxes label {
+    white-space: nowrap;
+}
+
+.ui-multiselect-checkboxes input {
+    margin: 0px 5px;
+}
 
 .ui-corner-all.ui-state-hover {
     border-radius: 2px;
+}
+
+.ui-icon-white {
+    background-image: url(../styles/plugins/images/ui-icons_ffffff_256x240.png);
 }
 
 div.field-control .ui-multiselect.ui-state-disabled {

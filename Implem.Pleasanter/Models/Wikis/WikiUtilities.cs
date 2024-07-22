@@ -564,7 +564,9 @@ namespace Implem.Pleasanter.Models
                 : hb.Template(
                     context: context,
                     ss: ss,
-                    view: null,
+                    view: Views.GetBySession(
+                        context: context,
+                        ss: ss),
                     siteId: wikiModel.SiteId,
                     parentId: ss.ParentId,
                     referenceType: "Wikis",
@@ -810,14 +812,17 @@ namespace Implem.Pleasanter.Models
             bool editInDialog = false)
         {
             var mine = wikiModel.Mine(context: context);
-            return hb.FieldSet(id: "FieldSetGeneral", action: () => hb
-                .FieldSetGeneralColumns(
-                    context: context,
-                    ss: ss,
-                    wikiModel: wikiModel,
-                    dataSet: dataSet,
-                    links: links,
-                    editInDialog: editInDialog));
+            return hb.FieldSet(
+                id: "FieldSetGeneral",
+                action: () => hb.Div(
+                    css: "fieldset-inner",
+                    action: () => hb.FieldSetGeneralColumns(
+                        context: context,
+                        ss: ss,
+                        wikiModel: wikiModel,
+                        dataSet: dataSet,
+                        links: links,
+                        editInDialog: editInDialog)));
         }
 
         public static HtmlBuilder FieldSetGeneralColumns(
@@ -868,6 +873,11 @@ namespace Implem.Pleasanter.Models
                 column: column);
             if (value != null)
             {
+                //数値項目の場合、「単位」を値に連結する
+                value += wikiModel.NumUnit(
+                    context: context,
+                    ss: ss,
+                    column: column);
                 SetChoiceHashByFilterExpressions(
                     context: context,
                     ss: ss,
@@ -927,17 +937,19 @@ namespace Implem.Pleasanter.Models
                 hb.FieldSet(
                     id: $"FieldSetTab{data.tab.Id}",
                     css: " fieldset cf ui-tabs-panel ui-corner-bottom ui-widget-content ",
-                    action: () => hb.Fields(
-                        context: context,
-                        ss: ss,
-                        id: id,
-                        tab: data.tab,
-                        dataSet: dataSet,
-                        links: links,
-                        preview: preview,
-                        editInDialog: editInDialog,
-                        wikiModel: wikiModel,
-                        tabIndex: data.index));
+                    action: () => hb.Div(
+                        css: "fieldset-inner",
+                        action: () => hb.Fields(
+                            context: context,
+                            ss: ss,
+                            id: id,
+                            tab: data.tab,
+                            dataSet: dataSet,
+                            links: links,
+                            preview: preview,
+                            editInDialog: editInDialog,
+                            wikiModel: wikiModel,
+                            tabIndex: data.index)));
             });
             return hb;
         }
@@ -1154,6 +1166,27 @@ namespace Implem.Pleasanter.Models
                 name: "tab-active",
                 value: tabIndex.ToString(),
                 _using: tabIndex > 0);
+        }
+
+        public static string NumUnit(
+            this WikiModel wikiModel,
+            Context context,
+            SiteSettings ss,
+            Column column)
+        {
+            if (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty) != "Num"
+                || column.ControlType == "Spinner")
+            {
+                return string.Empty;
+            }
+            return (column.GetEditorReadOnly()
+                || Permissions.ColumnPermissionType(
+                    context: context,
+                    ss: ss,
+                    column: column,
+                    baseModel: wikiModel) != Permissions.ColumnPermissionTypes.Update
+                        ? column.Unit
+                        : string.Empty);
         }
 
         public static string ControlValue(
@@ -2586,24 +2619,26 @@ namespace Implem.Pleasanter.Models
                 return Error.Types.HasNotPermission.MessageJson(context: context);
             }
             var hb = new HtmlBuilder();
-            hb
-                .HistoryCommands(context: context, ss: ss)
-                .Table(
-                    attributes: new HtmlAttributes().Class("grid history"),
-                    action: () => hb
-                        .THead(action: () => hb
-                            .GridHeader(
-                                context: context,
-                                ss: ss,
-                                columns: columns,
-                                sort: false,
-                                checkRow: true))
-                        .TBody(action: () => hb
-                            .HistoriesTableBody(
-                                context: context,
-                                ss: ss,
-                                columns: columns,
-                                wikiModel: wikiModel)));
+            hb.Div(
+                css: "fieldset-inner",
+                action: () => hb
+                    .HistoryCommands(context: context, ss: ss)
+                    .Table(
+                        attributes: new HtmlAttributes().Class("grid history"),
+                        action: () => hb
+                            .THead(action: () => hb
+                                .GridHeader(
+                                    context: context,
+                                    ss: ss,
+                                    columns: columns,
+                                    sort: false,
+                                    checkRow: true))
+                            .TBody(action: () => hb
+                                .HistoriesTableBody(
+                                    context: context,
+                                    ss: ss,
+                                    columns: columns,
+                                    wikiModel: wikiModel))));
             return new WikisResponseCollection(
                 context: context,
                 wikiModel: wikiModel)

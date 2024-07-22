@@ -1,3 +1,4 @@
 ﻿script: #modelName#Model.MethodType != BaseModel.MethodTypes.New
     ? "$p.setPaging('CurrentMembers'); $p.setPaging('SelectableMembers');"
+        + "$p.setPaging('CurrentChildren'); $p.setPaging('SelectableChildren');"
     : null,

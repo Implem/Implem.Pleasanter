@@ -11,12 +11,23 @@
         context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
         return false;
     }
+    var error = Error.Types.None;
     api.View = api.View ?? new View();
     api.Keys.ForEach(columnName =>
     {
+        if (error != Error.Types.None) return;
         var objectValue = #modelName#ApiModel.ObjectValue(columnName: columnName);
         if (objectValue != null)
         {
+            var column = ss.GetColumn(
+                context: context,
+                columnName: columnName);
+            if (column?.TypeName == "datetime"
+                && objectValue.ToDateTime().InRange() == false)
+            {
+                error = Error.Types.invalidUpsertKey;
+                return;
+            }
             api.View.AddColumnFilterHash(
                 context: context,
                 ss: ss,
@@ -29,6 +40,10 @@
                 searchType: Column.SearchTypes.ExactMatch);
         }
     });
+    if (error != Error.Types.None)
+    {
+        return false;
+    }
     var #modelName#Model = new #ModelName#Model(
         context: context,
         ss: ss,
@@ -47,6 +62,7 @@
         default:
             return false;
     }
+    // サイトの書き込み権限で可否判定を行い、レコード単位のアクセス権はチェックは行わない。
     var invalid = #ModelName#Validators.OnUpdating(
         context: context,
         ss: ss,

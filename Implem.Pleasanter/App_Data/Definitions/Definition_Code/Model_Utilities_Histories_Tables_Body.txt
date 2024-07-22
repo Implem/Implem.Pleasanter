@@ -6,24 +6,26 @@
         return Error.Types.HasNotPermission.MessageJson(context: context);
     }
     var hb = new HtmlBuilder();
-    hb
-        .HistoryCommands(context: context, ss: ss)
-        .Table(
-            attributes: new HtmlAttributes().Class("grid history"),
-            action: () => hb
-                .THead(action: () => hb
-                    .GridHeader(
-                        context: context,
-                        ss: ss,
-                        columns: columns,
-                        sort: false,
-                        checkRow: true))
-                .TBody(action: () => hb
-                    .HistoriesTableBody(
-                        context: context,
-                        ss: ss,
-                        columns: columns,
-                        #modelName#Model: #modelName#Model)));
+    hb.Div(
+        css: "fieldset-inner",
+        action: () => hb
+            .HistoryCommands(context: context, ss: ss)
+            .Table(
+                attributes: new HtmlAttributes().Class("grid history"),
+                action: () => hb
+                    .THead(action: () => hb
+                        .GridHeader(
+                            context: context,
+                            ss: ss,
+                            columns: columns,
+                            sort: false,
+                            checkRow: true))
+                    .TBody(action: () => hb
+                        .HistoriesTableBody(
+                            context: context,
+                            ss: ss,
+                            columns: columns,
+                            #modelName#Model: #modelName#Model))));
     return new #TableName#ResponseCollection(
         context: context,
         #modelName#Model: #modelName#Model)
@@ -48,7 +50,21 @@ private static void HistoriesTableBody(
         column: HistoryColumn(
             context: context,
             ss: ss,
-            columns: columns),
+            columns: columns
+                // GridDesignに含まれるカラムを追加する。
+                .Concat(ss.IncludedColumns()
+                    .Select(columnName => ss.GetColumn(
+                        context: context,
+                        columnName: columnName))
+                    .Where(column => column != null)
+                    .AllowedColumns(
+                        context: context,
+                        ss: ss,
+                        checkPermission: true)
+                    .Where(o => context.ContractSettings.Attachments()
+                        || o.ControlType != "Attachments"))
+                .Distinct()
+                .ToList()),
 
         <!--Model_Utilities_Histories_Join-->
 

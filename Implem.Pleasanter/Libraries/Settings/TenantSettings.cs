@@ -25,7 +25,12 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         internal string RecordingJson(Context context)
         {
-            return this.ToJson();
+            var obj = this.ToJson().Deserialize<TenantSettings>();
+            if ((obj.BackgroundServerScripts?.Scripts?.Count ?? 0) == 0)
+            {
+                obj.BackgroundServerScripts = null;
+            }
+            return obj.ToJson();
         }
 
         internal TenantSettings GetTenantSettings(Context context, string value)

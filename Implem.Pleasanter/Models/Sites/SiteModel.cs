@@ -5366,7 +5366,7 @@ namespace Implem.Pleasanter.Models
                 OpenProcessDataChangeDialog(
                     context: context,
                     res: res,
-                    dataChange: new DataChange());
+                    dataChange: new DataChange() { Type = DataChange.Types.CopyValue });
             }
             else
             {
@@ -8414,8 +8414,10 @@ namespace Implem.Pleasanter.Models
                 quickAccessSites: context.Forms.Data("DashboardPartQuickAccessSites"),
                 quickAccessLayout: context.Forms.Data("DashboardPartQuickAccessLayout").ToEnum<QuickAccessLayout>(),
                 timeLineSites: context.Forms.Data("DashboardPartTimeLineSites"),
-                timeLineTitle: context.Forms.Data("DashboardPartTimeLineTitle"),
-                timeLineBody: context.Forms.Data("DashboardPartTimeLineBody"),
+                timeLineTitle: SiteSettings.LabelTextToColumnName(
+                    text: context.Forms.Data("DashboardPartTimeLineTitle")),
+                timeLineBody: SiteSettings.LabelTextToColumnName(
+                    text: context.Forms.Data("DashboardPartTimeLineBody")),
                 timeLineItemCount: context.Forms.Int("DashboardPartTimeLineItemCount"),
                 content: context.Forms.Data("DashboardPartContent"),
                 htmlContent: context.Forms.Data("DashboardPartHtmlContent"),
@@ -8490,8 +8492,10 @@ namespace Implem.Pleasanter.Models
                 quickAccessSites: context.Forms.Data("DashboardPartQuickAccessSites"),
                 quickAccessLayout: context.Forms.Data("DashboardPartQuickAccessLayout").ToEnum<QuickAccessLayout>(),
                 timeLineSites: context.Forms.Data("DashboardPartTimeLineSites"),
-                timeLineTitle: context.Forms.Data("DashboardPartTimeLineTitle"),
-                timeLineBody: context.Forms.Data("DashboardPartTimeLineBody"),
+                timeLineTitle: SiteSettings.LabelTextToColumnName(
+                    text: context.Forms.Data("DashboardPartTimeLineTitle")),
+                timeLineBody: SiteSettings.LabelTextToColumnName(
+                    text: context.Forms.Data("DashboardPartTimeLineBody")),
                 timeLineItemCount: context.Forms.Int("DashboardPartTimeLineItemCount"),
                 content: context.Forms.Data("DashboardPartContent"),
                 htmlContent: context.Forms.Data("DashboardPartHtmlContent"),
