@@ -1,0 +1,27 @@
+﻿{
+    "Version": 1.017,
+    "ReferenceType": "Issues",
+    "GridColumns": [
+        "IssueId",
+        "TitleBody",
+        "NumA"
+    ],
+    "EditorColumnHash": {
+        "General": [
+            "IssueId",
+            "Title",
+            "Body",
+            "NumA"
+        ]
+    },
+    "ServerScripts": [
+        {
+            "Title": "ItemsAggregate",
+            "Name": "",
+            "BeforeOpeningPage": true,
+            "Body": "try {\r    var site = items.GetSiteByTitle('ItemsTargetIssue')[0];\r    var aggregateSite = items.GetSiteByTitle('サーバスクリプト-Items.Aggregate')[0];\r    const issueA = items.NewIssue();\r    issueA.Title = 'Issue_A';\r    const issueB = items.NewIssue();\r    issueB.Title = 'Issue_B';\r    const issueC = items.NewIssue();\r    issueC.Title = 'Issue_C';\r    const issueD = items.NewIssue();\r    issueD.Title = 'Issue_D';\r    const issueE = items.NewIssue();\r    issueE.Title = 'Issue_E';\r\r    if (items.Count(site.SiteId) != 3) {\r        context.AddMessage('Count is not 600', 'alert-error');\r    } else {\r        context.AddMessage(String(items.Count(site.SiteId)), 'alert-information');\r        issueA.NumA = items.Count(site.SiteId);\r        issueA.Create(aggregateSite.SiteId);\r    }\r    if (items.Sum(site.SiteId,'NumA') != 600) {\r        context.AddMessage('Total is not 600', 'alert-error');\r    } else {\r        context.AddMessage(String(items.Sum(site.SiteId,'NumA')), 'alert-information');\r        issueB.NumA = items.Sum(site.SiteId,'NumA');\r        issueB.Create(aggregateSite.SiteId);\r    }\r    if (items.Max(site.SiteId,'NumA') != 300) {\r        context.AddMessage('Maximum value is not 300', 'alert-error');\r    } else {\r        context.AddMessage(String(items.Max(site.SiteId,'NumA')), 'alert-information');\r        issueC.NumA = items.Max(site.SiteId,'NumA');\r        issueC.Create(aggregateSite.SiteId);\r    }\r    if (items.Min(site.SiteId,'NumA') != 100) {\r        context.AddMessage('Manimum value is not 300', 'alert-error');\r    } else {\r        context.AddMessage(String(items.Min(site.SiteId,'NumA')), 'alert-information');\r        issueD.NumA = items.Min(site.SiteId,'NumA');\r        issueD.Create(aggregateSite.SiteId);\r    }\r    if (items.Average(site.SiteId,'NumA') != 200) {\r        context.AddMessage('Average is not 200', 'alert-error');\r    } else {\r        context.AddMessage(String(items.Average(site.SiteId,'NumA')), 'alert-information');\r        issueE.NumA = items.Average(site.SiteId,'NumA');\r        issueE.Create(aggregateSite.SiteId);\r    }\r} catch (e) {\r    context.AddMessage(e.stack, 'alert-error');\r}",
+            "Id": 1
+        }
+    ],
+    "NoDisplayIfReadOnly": false
+}
