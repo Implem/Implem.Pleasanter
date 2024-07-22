@@ -183,13 +183,20 @@ namespace Implem.Pleasanter.Libraries.Extensions
                 }
                 else if (param?.Any() == true)
                 {
+                    // 「状況項目」で「未選択」時の処理
+                    if (column.TypeName.CsTypeSummary() == Types.CsNumeric
+                        && column.Nullable == false
+                        && value == "0")
+                    {
+                        return param.Any(o => o == "\t");
+                    }
                     switch (column.SearchType)
                     {
                         case Column.SearchTypes.ExactMatch:
                         case Column.SearchTypes.ExactMatchMultiple:
-                            return param.Any(o => value.IsNullOrEmpty() || (column.Nullable == false && value == "0")
-                                ? o == "\t"
-                                : o == value);
+                            return param.Any(o => !value.IsNullOrEmpty()
+                                ? o == value
+                                : o == "\t");
                         case Column.SearchTypes.ForwardMatch:
                         case Column.SearchTypes.ForwardMatchMultiple:
                             return param.Any(o => !value.IsNullOrEmpty()
