@@ -2366,8 +2366,7 @@ namespace Implem.Pleasanter.Models
                             ["onlyonce"] = Displays.OnlyOnce(context: context),
                         },
                         selectedValue: schedule.ScheduleType,
-                        addSelectedValue: false,
-                        onChange: "$p.changeBGServerScriptScheduleType($(this));")
+                        addSelectedValue: false)
                     .FieldTimeZoneInfo(
                         context: context,
                         value: schedule.ScheduleTimeZoneId,

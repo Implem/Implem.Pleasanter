@@ -1,1 +1,1 @@
-﻿
+﻿create index if not exists "ftx" on "Items" using gin ("FullText" gin_trgm_ops);
