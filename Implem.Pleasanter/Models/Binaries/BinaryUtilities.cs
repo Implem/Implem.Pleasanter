@@ -635,7 +635,9 @@ namespace Implem.Pleasanter.Models
             {
                 return null;
             }
-            return FileContentResults.DownloadTemp(guid.ToUpper());
+            return FileContentResults.DownloadTemp(
+                context: context,
+                guid: guid.ToUpper());
         }
 
         /// <summary>
@@ -648,8 +650,12 @@ namespace Implem.Pleasanter.Models
                 return null;
             }
             var guid = context.Forms.Data("Guid");
-            RemoveTempFileSession(context: context, guid: guid);
-            Libraries.DataSources.File.DeleteTemp(guid);
+            RemoveTempFileSession(
+                context: context,
+                guid: guid);
+            Libraries.DataSources.File.DeleteTemp(
+                context: context,
+                guid: guid);
             return "[]";
         }
 
@@ -774,7 +780,7 @@ namespace Implem.Pleasanter.Models
         public static string UploadFile(
             Context context,
             long id,
-            System.Net.Http.Headers.ContentRangeHeaderValue contentRange )
+            System.Net.Http.Headers.ContentRangeHeaderValue contentRange)
         {
             var itemModel = new ItemModel(context, id);
             itemModel.SetSite(
@@ -831,36 +837,101 @@ namespace Implem.Pleasanter.Models
             var fileNames = context.Forms.Get("fileNames")?.Deserialize<string[]>();
             var fileSizes = context.Forms.Get("fileSizes")?.Deserialize<string[]>();
             var fileTypes = context.Forms.Get("fileTypes")?.Deserialize<string[]>();
-            var resultFileNames = new List<KeyValuePair<PostedFile, System.IO.FileInfo>>();
-            for (int filesIndex = 0; filesIndex < context.PostedFiles.Count; ++filesIndex)
-            {
-                var file = context.PostedFiles[filesIndex];
-                var saveFile = GetTempFileInfo(fileUuid[filesIndex], file.FileName);
-                Save(file, saveFile);
-                resultFileNames.Add(
-                    new KeyValuePair<PostedFile, System.IO.FileInfo>(
-                        file,
-                        saveFile));
-                SaveTempFileSession(context: context, guid: fileUuid[filesIndex]);
-            }
-            {
-                var invalid = ValidateFileHash(resultFileNames[0].Value, contentRange, fileHash);
-                if (invalid != Error.Types.None) return invalid.MessageJson(context);
-            }
             // 一覧編集画面からアップロードが行われた場合、ControlIdにSuffixが付与される
             // Suffixが付与されている場合にはcontrolOnlyをtrueにしてLabelTextが出力されないようにする
             var controlOnly = !context.Forms.ControlId().RegexFirst("_\\d+_-?\\d+$").IsNullOrEmpty();
-            return CreateResult(resultFileNames, CreateResponseJson(
-                context: context,
-                fileUuids: fileUuids,
-                fileNames: fileNames,
-                fileSizes: fileSizes,
-                fileTypes: fileTypes,
-                ss: ss,
-                column: column,
-                controlId: controlId,
-                attachments: attachments,
-                controlOnly: controlOnly));
+            if (Parameters.BinaryStorage.TemporaryBinaryStorageProvider == "Rds")
+            {
+                var resultFileNames = new List<dynamic>();
+                // Binariesテーブルに直接アップロードしてきたバイナリデータを登録する
+                for (int filesIndex = 0; filesIndex < context.PostedFiles.Count; ++filesIndex)
+                {
+                    using (var memory = new System.IO.MemoryStream())
+                    {
+                        var file = context.PostedFiles[filesIndex];
+                        file.InputStream.CopyTo(memory);
+                        Repository.ExecuteNonQuery(
+                            context: context,
+                            statements: new SqlStatement(
+                                commandText: context.Sqls.UpsertBinary,
+                                param: new SqlParamCollection{
+                                    { "ReferenceId", context.Id },
+                                    { "Guid", fileUuid[filesIndex] },
+                                    { "BinaryType", "Temporary" },
+                                    { "Title",  file.FileName },
+                                    { "Bin", memory.ToArray() },
+                                    { "FileName", file.FileName }
+                                }));
+                        resultFileNames.Add(new { name = file.FileName });
+                    }
+                    SaveTempFileSession(
+                        context: context,
+                        guid: fileUuid[filesIndex]);
+                    var tempBinaryHash = Repository.ExecuteScalar_bytes(
+                            context: context,
+                            statements: new SqlStatement(
+                                commandText: context.Sqls.GetBinaryHash,
+                                param: new SqlParamCollection{
+                                    { "Algorithm", "md5" },
+                                    { "Guid", fileUuid[filesIndex] }
+                                }));
+                    var invalid = ValidateFileHash(
+                        tempBinaryHash: tempBinaryHash,
+                        contentRange: contentRange,
+                        hash: fileHash);
+                    if (invalid != Error.Types.None) return invalid.MessageJson(context);
+                }
+                return CreateResult(
+                    resultFileNames: resultFileNames.ToArray(),
+                    responseJson: CreateResponseJson(
+                        context: context,
+                        fileUuids: fileUuids,
+                        fileNames: fileNames,
+                        fileSizes: fileSizes,
+                        fileTypes: fileTypes,
+                        ss: ss,
+                        column: column,
+                        controlId: controlId,
+                        attachments: attachments,
+                        controlOnly: controlOnly));
+            }
+            else
+            {
+                var resultFileNames = new List<KeyValuePair<PostedFile, System.IO.FileInfo>>();
+                for (int filesIndex = 0; filesIndex < context.PostedFiles.Count; ++filesIndex)
+                {
+                    var file = context.PostedFiles[filesIndex];
+                    var saveFile = GetTempFileInfo(fileUuid[filesIndex], file.FileName);
+                    Save(file, saveFile);
+                    resultFileNames.Add(
+                        new KeyValuePair<PostedFile, System.IO.FileInfo>(
+                            file,
+                            saveFile));
+                    SaveTempFileSession(
+                        context: context,
+                        guid: fileUuid[filesIndex]);
+                }
+                var invalid = ValidateFileHash(
+                    fileInfo: resultFileNames[0].Value,
+                    contentRange: contentRange,
+                    hash: fileHash);
+                if (invalid != Error.Types.None) return invalid.MessageJson(context);
+                return CreateResult(
+                    resultFileNames: resultFileNames
+                        .Select(file => new { name = file.Value.Name })
+                        .ToArray(),
+                    responseJson: CreateResponseJson(
+                        context: context,
+                        fileUuids: fileUuids,
+                        fileNames: fileNames,
+                        fileSizes: fileSizes,
+                        fileTypes: fileTypes,
+                        ss: ss,
+                        column: column,
+                        controlId: controlId,
+                        attachments: attachments,
+                        controlOnly: controlOnly));
+            }
         }
 
         /// <summary>
@@ -911,14 +982,13 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static string CreateResult(
-            List<KeyValuePair<PostedFile, System.IO.FileInfo>> resultFileNames,
+            dynamic[] resultFileNames,
             string responseJson)
         {
             return Newtonsoft.Json.JsonConvert.SerializeObject(
                 new
                 {
-                    files = resultFileNames.Select(
-                    file => new { name = file.Value.Name }).ToArray(),
+                    files = resultFileNames,
                     ResponseJson = responseJson
                 });
         }
@@ -956,7 +1026,7 @@ namespace Implem.Pleasanter.Models
                     Guid = fileUuids.Skip(index).First(),
                     Name = fileName,
                     Size = fileSizes.Skip(index).First().ToLong(),
-                    Extention = System.IO.Path.GetExtension(fileNames.Skip(index).First()),
+                    Extension = System.IO.Path.GetExtension(fileNames.Skip(index).First()),
                     ContentType = fileTypes.Skip(index).First(),
                     Added = true,
                     Deleted = false
@@ -1002,7 +1072,32 @@ namespace Implem.Pleasanter.Models
                 hashValue = System.Security.Cryptography.MD5.Create().ComputeHash(fileStream);
                 fileStream.Close();
             }
-            var fileHash = string.Join(string.Empty, hashValue.Select(h => h.ToString("x2")));
+            return CompareFileHash(
+                hash: hash,
+                bytes: hashValue);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static Error.Types ValidateFileHash(
+            byte[] tempBinaryHash,
+            System.Net.Http.Headers.ContentRangeHeaderValue contentRange,
+            string hash)
+        {
+            if (string.IsNullOrEmpty(hash)) return Error.Types.None;
+            if (contentRange.Length > (contentRange.To + 1)) return Error.Types.None;
+            return CompareFileHash(
+                hash: hash,
+                bytes: tempBinaryHash);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static Error.Types CompareFileHash(string hash, byte[] bytes)
+        {
+            var fileHash = string.Join(string.Empty, bytes.Select(h => h.ToString("x2")));
             return hash == fileHash ? Error.Types.None : Error.Types.InvalidRequest;
         }
 

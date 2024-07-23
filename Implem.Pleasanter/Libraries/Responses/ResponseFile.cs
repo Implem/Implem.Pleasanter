@@ -69,8 +69,8 @@ namespace Implem.Pleasanter.Libraries.Responses
             long size,
             long creator,
             long updator,
-            string createdTime,
-            string updatedTime)
+            DateTime createdTime,
+            DateTime updatedTime)
         {
             return ApiResults.Get(new
             {

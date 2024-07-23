@@ -177,11 +177,6 @@ namespace Implem.Pleasanter.NetCore
                 // BackgroundServiceで例外発生してもWebアプリケーション自体は終了させない設定
                 options.BackgroundServiceExceptionBehavior = BackgroundServiceExceptionBehavior.Ignore;
             });
-            if (Parameters.BackgroundService.ReminderEnabled(
-                deploymentEnvironment: Parameters.Service.DeploymentEnvironment))
-            {
-                services.AddHostedService<ReminderBackgroundService>();
-            }
             services.AddHostedService<CustomQuartzHostedService>();
             new TimerBackground().Init();
             BackgroundServerScriptUtilities.InitSchedule();
@@ -224,6 +219,11 @@ namespace Implem.Pleasanter.NetCore
                     }
                 });
             }
+            services.AddOutputCache(options =>
+            {
+                options.AddBasePolicy(builder => builder.NoCache());
+                options.AddPolicy("imageCache", builder => builder.Expire(System.TimeSpan.FromSeconds(Parameters.OutputCache.OutputCacheControl.OutputCacheDuration)));
+            });
         }
 
         // 拡張DLLの探索をExtendedLibrariesディレクトリ内の一段下のディレクトリも対象をする。
@@ -280,6 +280,11 @@ namespace Implem.Pleasanter.NetCore
             app.UseCookiePolicy();
             app.UseRouting();
             app.UseCors();
+
+            if (Parameters.OutputCache.OutputCacheControl != null && !Parameters.OutputCache.OutputCacheControl.NoOutputCache)
+            {
+                 app.UseOutputCache();
+            }
             app.UseSession();
             app.UseAuthentication();
             app.UseAuthorization();

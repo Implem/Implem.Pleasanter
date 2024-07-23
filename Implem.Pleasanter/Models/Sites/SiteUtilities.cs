@@ -1576,24 +1576,26 @@ namespace Implem.Pleasanter.Models
                 return Error.Types.HasNotPermission.MessageJson(context: context);
             }
             var hb = new HtmlBuilder();
-            hb
-                .HistoryCommands(context: context, ss: ss)
-                .Table(
-                    attributes: new HtmlAttributes().Class("grid history"),
-                    action: () => hb
-                        .THead(action: () => hb
-                            .GridHeader(
-                                context: context,
-                                ss: ss,
-                                columns: columns,
-                                sort: false,
-                                checkRow: true))
-                        .TBody(action: () => hb
-                            .HistoriesTableBody(
-                                context: context,
-                                ss: ss,
-                                columns: columns,
-                                siteModel: siteModel)));
+            hb.Div(
+                css: "fieldset-inner",
+                action: () => hb
+                    .HistoryCommands(context: context, ss: ss)
+                    .Table(
+                        attributes: new HtmlAttributes().Class("grid history"),
+                        action: () => hb
+                            .THead(action: () => hb
+                                .GridHeader(
+                                    context: context,
+                                    ss: ss,
+                                    columns: columns,
+                                    sort: false,
+                                    checkRow: true))
+                            .TBody(action: () => hb
+                                .HistoriesTableBody(
+                                    context: context,
+                                    ss: ss,
+                                    columns: columns,
+                                    siteModel: siteModel))));
             return new SitesResponseCollection(
                 context: context,
                 siteModel: siteModel)
@@ -6815,7 +6817,9 @@ namespace Implem.Pleasanter.Models
                                                     labelText: Displays.Nullable(context: context),
                                                     _checked: column.Nullable.ToBool(),
                                                     _using: !column.Id_Ver
-                                                        && !column.NotUpdate)
+                                                        && !column.NotUpdate
+                                                        && column.ColumnName != "WorkValue"
+                                                        && column.ColumnName != "ProgressRate")
                                                 .FieldTextBox(
                                                     controlId: "Unit",
                                                     controlCss: " w50",
@@ -12665,6 +12669,7 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 id: "YmdhmFormat"))
                             : null,
+                        format: Displays.YmdhmDatePickerFormat(context: context),
                         timepiker: true,
                         validateRequired: true,
                         validateDate: true)
@@ -17155,6 +17160,61 @@ namespace Implem.Pleasanter.Models
                             controlCss: "button-icon button-neutral",
                             onClick: "$p.closeDialog($(this));",
                             icon: "ui-icon-cancel")));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static ContentResultInheritance GetClosestSiteIdByApi(Context context, long id)
+        {
+            var findSiteNames = context.RequestDataString.Deserialize<SiteApiModel>()?.FindSiteNames;
+            if (findSiteNames == null)
+            {
+                return ApiResults.BadRequest(context: context);
+            }
+            if (!Mime.ValidateOnApi(contentType: context.ContentType))
+            {
+                return ApiResults.BadRequest(context: context);
+            }
+            var resultCollection = new List<object>();
+            var startCanRead = context.CanRead(
+                ss: SiteSettingsUtilities.Get(
+                    context: context,
+                    siteId: id,
+                    referenceId: id),
+                site: true);
+            var tenantCache = SiteInfo.TenantCaches[context.TenantId];
+            foreach (var siteName in findSiteNames)
+            {
+                if (siteName.IsNullOrEmpty() || startCanRead == false)
+                {
+                    resultCollection.Add(new { SiteName = siteName, SiteId = -1 });
+                }
+                else
+                {
+                    var foundId = tenantCache.SiteNameTree.Find(
+                        startId: id,
+                        name: siteName);
+                    if (foundId != -1)
+                    {
+                        if (context.CanRead(
+                            ss: SiteSettingsUtilities.Get(
+                                context: context,
+                                siteId: foundId,
+                                referenceId: foundId),
+                            site: true) == false)
+                        {
+                            foundId = -1;
+                        }
+                    }
+                    resultCollection.Add(new { SiteName = siteName, SiteId = foundId });
+                }
+            }
+            return ApiResults.Get(apiResponse: new
+            {
+                SiteId = id,
+                Data = resultCollection
+            }.ToJson());
         }
     }
 }

@@ -22,6 +22,7 @@
 
 <!--Model_OnCreatingExtendedSqls-->
 <!--Model_OnCreatingGroupMembers-->
+<!--Model_OnCreatingGroupChildren-->
 
     statements.AddRange(CreateStatements(
         context: context,
@@ -38,12 +39,14 @@
 <!--Model_InsertIdentity-->
 <!--Model_InsertIdentity ( HasIdentity = false, ItemOnly = true ) -->
 <!--Model_IfDuplicatedReturn-->
+<!--Model_DeleteTempOrLocalAttachments-->
 <!--Model_InsertIdentitySet-->
 <!--Model_ForceSynchronizeSummaryExecute-->
 <!--Model_Insert_ExecuteAutomaticNumberingExec-->
 <!--Model_CreatedNotice-->
 <!--Model_Insert_User-->
 <!--Model_Insert_GroupMembers-->
+<!--Model_Insert_GroupChildren-->
 
     if (get) Get(context: context<!--Model_SiteSettingsBeforeComma-->);
 

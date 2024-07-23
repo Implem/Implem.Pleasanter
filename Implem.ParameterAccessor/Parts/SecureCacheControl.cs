@@ -6,6 +6,6 @@
         public bool NoStore;
         public bool Private;
         public bool MustRevalidate;
-        public bool PragmaNoCache;       
+        public bool PragmaNoCache;
     }
 }

@@ -27,6 +27,7 @@ namespace Implem.Pleasanter.Libraries.General
             CannotMoveMultipleSitesData,
             CanNotPerformed,
             CantSetAtTopOfSite,
+            CircularGroupChild,
             CustomError,
             DefinitionNotFound,
             DeleteConflicts,
@@ -35,9 +36,11 @@ namespace Implem.Pleasanter.Libraries.General
             Expired,
             ExportNotSetEmail,
             ExternalMailAddress,
+            FailedBulkUpsert,
             FailedReadFile,
             FailedWriteFile,
             FileNotFound,
+            GroupDepthMax,
             HasNotChangeColumnPermission,
             HasNotPermission,
             ImportInvalidUserIdAndLoginId,
@@ -59,6 +62,7 @@ namespace Implem.Pleasanter.Libraries.General
             InvalidMemberType,
             InvalidRequest,
             InvalidSsoCode,
+            invalidUpsertKey,
             ItemsLimit,
             JoeAccountCheck,
             LockedRecord,
@@ -197,6 +201,10 @@ namespace Implem.Pleasanter.Libraries.General
                     return Messages.CantSetAtTopOfSite(
                         context: context,
                         data: data);
+                case Types.CircularGroupChild:
+                    return Messages.CircularGroupChild(
+                        context: context,
+                        data: data);
                 case Types.CustomError:
                     return Messages.CustomError(
                         context: context,
@@ -229,6 +237,10 @@ namespace Implem.Pleasanter.Libraries.General
                     return Messages.ExternalMailAddress(
                         context: context,
                         data: data);
+                case Types.FailedBulkUpsert:
+                    return Messages.FailedBulkUpsert(
+                        context: context,
+                        data: data);
                 case Types.FailedReadFile:
                     return Messages.FailedReadFile(
                         context: context,
@@ -239,6 +251,10 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.FileNotFound:
                     return Messages.FileNotFound(
+                        context: context,
+                        data: data);
+                case Types.GroupDepthMax:
+                    return Messages.GroupDepthMax(
                         context: context,
                         data: data);
                 case Types.HasNotChangeColumnPermission:
@@ -323,6 +339,10 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.InvalidSsoCode:
                     return Messages.InvalidSsoCode(
+                        context: context,
+                        data: data);
+                case Types.invalidUpsertKey:
+                    return Messages.invalidUpsertKey(
                         context: context,
                         data: data);
                 case Types.ItemsLimit:

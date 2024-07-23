@@ -499,8 +499,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                     ss.ParentId = dataRow.Long("ParentId");
                     ss.InheritPermission = dataRow.Long("InheritPermission");
                     ss.Linked = true;
-                    if (previously == null) previously = new List<long>();
-                    previously.Add(ss.SiteId);
                     switch (direction)
                     {
                         case "Destinations":
@@ -521,7 +519,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 joinedSsHash: joinedSsHash,
                                 destinations: true,
                                 sources: false,
-                                previously: previously);
+                                previously: previously
+                                    ?? new List<long>() { ss.SiteId });
                             break;
                         case "Sources":
                             ss.Links
@@ -541,7 +540,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 joinedSsHash: joinedSsHash,
                                 destinations: false,
                                 sources: true,
-                                previously: previously);
+                                previously: previously
+                                    ?? new List<long>() { ss.SiteId });
                             break;
                     }
                     hash.Add(ss.SiteId, ss);
@@ -672,12 +672,23 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
             switch (context.Action)
             {
-                case "index":
-                    return false;
-                case "dashboardpart":
-                    return false;
-                default:
+                case "copy":
+                case "delete":
+                case "deletecomment":
+                case "deletehistory":
+                case "edit":
+                case "histories":
+                case "history":
+                case "permissions":
+                case "restore":
+                case "restorefromhistory":
+                case "searchdropdown":
+                case "selectsearchdropdown":
+                case "setsitesettings":
+                case "update":
                     return true;
+                default:
+                    return false;
             }
         }
 

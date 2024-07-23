@@ -1,4 +1,5 @@
-﻿using Implem.Libraries.Utilities;
+﻿using AngleSharp.Html.Dom;
+using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.PleasanterTest.Models;
@@ -181,6 +182,17 @@ namespace Implem.PleasanterTest.Utilities
                             return false;
                         }
                         break;
+                    case HtmlTest.Types.HasInformationMessage:
+                        if (nodes.Count() != 1)
+                        {
+                            return false;
+                        }
+                        else
+                        {
+                            var valueText = nodes[0].GetAttribute("value");
+                            var messages = JsonConvert.DeserializeAnonymousType(valueText, new[] { new { Text = "", Css = "" } });
+                            return messages?.Any(m => m.Css == "alert-information" && m.Text == htmlTest.Value) ?? false;
+                        }
                     case HtmlTest.Types.Text:
                         if (nodes.Count() != 1)
                         {
@@ -193,6 +205,18 @@ namespace Implem.PleasanterTest.Utilities
                         {
                             return false;
                         }
+                        break;
+                    case HtmlTest.Types.SelectedOption:
+                        if (nodes.Count() != 1)
+                        {
+                            return false;
+                        }
+                        var value = (nodes[0] as AngleSharp.Html.Dom.IHtmlSelectElement).SelectedOptions[0].Value;
+                        if (value != htmlTest.Value)
+                        {
+                            return false;
+                        }
+
                         break;
                     default:
                         return false;
@@ -209,6 +233,7 @@ namespace Implem.PleasanterTest.Utilities
             {
                 case HtmlTest.Types.NotFoundMessage:
                 case HtmlTest.Types.HasNotPermissionMessage:
+                case HtmlTest.Types.HasInformationMessage:
                     return doc.QuerySelectorAll("#MessageData");
                 default:
                     return doc.QuerySelectorAll(htmlTest.Selector);

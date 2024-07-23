@@ -96,5 +96,7 @@
     "HideCurrentTimeIcon": false,
     "HideCurrentUserIcon": false,
     "HideCurrentDeptIcon": false,
-    "EnableLightBox": true
+    "EnableLightBox": true,
+    "GroupsDepthMax": 30,
+    "BulkUpsertMax" : 0
 }

@@ -6,11 +6,24 @@ namespace Implem.Pleasanter.Libraries.DataSources
 {
     public static class File
     {
-        public static void DeleteTemp(string guid)
+        public static void DeleteTemp(Context context, string guid)
         {
-            if (Directory.Exists(Path.Combine(Directories.Temp(), guid)))
+            if (Parameters.BinaryStorage.TemporaryBinaryStorageProvider == "Rds")
             {
-                Directory.Delete(Path.Combine(Directories.Temp(), guid), true);
+                Repository.ExecuteNonQuery(
+                    context: context,
+                    statements: Rds.DeleteBinaries(
+                        factory: context,
+                        where: Rds.BinariesWhere()
+                            .BinaryType("Temporary")
+                            .Guid(guid)));
+            }
+            else
+            {
+                if (Directory.Exists(Path.Combine(Directories.Temp(), guid)))
+                {
+                    Directory.Delete(Path.Combine(Directories.Temp(), guid), true);
+                }
             }
         }
         public static string Extension(this IHttpPostedFile file)
@@ -30,9 +43,15 @@ namespace Implem.Pleasanter.Libraries.DataSources
             }
         }
 
-        public static string WriteToTemp(this IHttpPostedFile file)
+        public static string WriteToTemp(this IHttpPostedFile file, Context context)
         {
             var guid = Strings.NewGuid();
+            if (Parameters.BinaryStorage.TemporaryBinaryStorageProvider == "Rds"
+                && context.Controller == "binaries"
+                && context.Action == "upload")
+            {
+                return guid;
+            }
             var folderPath = Path.Combine(Path.Combine(Directories.Temp(), guid));
             if (!folderPath.Exists()) Directory.CreateDirectory(folderPath);
             var filePath = Path.Combine(
