@@ -34,41 +34,68 @@ namespace Implem.CodeDefiner.Functions.Rds
                 switch (Parameters.Rds.Dbms)
                 {
                     case "SQLServer":
-                        ConfigureFullTextIndex(factory: factory);
+                        ConfigureFullTextIndexSqlServer(factory: factory);
+                        break;
+                    case "PostgreSQL":
+                        ConfigureFullTextIndexPostgreSql(factory: factory);
                         break;
                     case "MySQL":
                         ConfigureFullTextIndexMySql(factory: factory);
                         break;
                 }
             }
-            catch (System.Data.SqlClient.SqlException e)
-            {
-                Consoles.Write($"[{e.Number}] {e.Message}", Consoles.Types.Error);
-            }
             catch (System.Exception e)
             {
-                Consoles.Write($"[{nameof(ConfigureFullTextIndex)}]: {e}", Consoles.Types.Error);
+                Consoles.Write($"{e.Message}", Consoles.Types.Error);
             }
         }
 
-        private static void ConfigureFullTextIndex(ISqlObjectFactory factory)
+        private static void ConfigureFullTextIndexSqlServer(ISqlObjectFactory factory)
         {
-            var pkItems = Def.SqlIoByAdmin(
-                factory: factory,
-                statements: new SqlStatement(Def.Sql.SelectPkName.Replace("#TableName#", "Items")))
-                    .ExecuteScalar_string(factory: factory, dbTransaction: null, dbConnection: null);
-            var pkBinaries = Def.SqlIoByAdmin(
-                factory: factory,
-                statements: new SqlStatement(Def.Sql.SelectPkName.Replace("#TableName#", "Binaries")))
-                    .ExecuteScalar_string(factory: factory, dbTransaction: null, dbConnection: null);
-            Def.SqlIoBySa(factory: factory, initialCatalog: Environments.ServiceName)
-                .ExecuteNonQuery(
+            try
+            {
+                var pkItems = Def.SqlIoByAdmin(
                     factory: factory,
-                    dbTransaction: null,
-                    dbConnection: null,
-                    commandText: Def.Sql.CreateFullText
-                        .Replace("#PKItems#", pkItems)
-                        .Replace("#PKBinaries#", pkBinaries));
+                    statements: new SqlStatement(Def.Sql.SelectPkName.Replace("#TableName#", "Items")))
+                        .ExecuteScalar_string(factory: factory, dbTransaction: null, dbConnection: null);
+                var pkBinaries = Def.SqlIoByAdmin(
+                    factory: factory,
+                    statements: new SqlStatement(Def.Sql.SelectPkName.Replace("#TableName#", "Binaries")))
+                        .ExecuteScalar_string(factory: factory, dbTransaction: null, dbConnection: null);
+                Def.SqlIoBySa(factory: factory, initialCatalog: Environments.ServiceName)
+                    .ExecuteNonQuery(
+                        factory: factory,
+                        dbTransaction: null,
+                        dbConnection: null,
+                        commandText: Def.Sql.CreateFullText
+                            .Replace("#PKItems#", pkItems)
+                            .Replace("#PKBinaries#", pkBinaries));
+            }
+            catch (System.Data.SqlClient.SqlException e)
+            {
+                Consoles.Write($"[{e.Number}] [{nameof(ConfigureFullTextIndexSqlServer)}]: {e}", Consoles.Types.Error);
+            }
+        }
+
+        private static void ConfigureFullTextIndexPostgreSql(ISqlObjectFactory factory)
+        {
+            try
+            {
+                if (!factory.SqlDefinitionSetting.IsCreatingDb)
+                {
+                    return;
+                }
+                Def.SqlIoByAdmin(factory: factory)
+                    .ExecuteNonQuery(
+                        factory: factory,
+                        dbTransaction: null,
+                        dbConnection: null,
+                        commandText: Def.Sql.CreateFullText);
+            }
+            catch (System.Data.SqlClient.SqlException e)
+            {
+                Consoles.Write($"[{e.Number}] [{nameof(ConfigureFullTextIndexPostgreSql)}]: {e}", Consoles.Types.Error);
+            }
         }
 
         private static void ConfigureFullTextIndexMySql(ISqlObjectFactory factory)
