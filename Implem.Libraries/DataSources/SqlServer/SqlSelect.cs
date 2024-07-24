@@ -1,6 +1,7 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.IRds;
 using Implem.Libraries.Utilities;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 namespace Implem.Libraries.DataSources.SqlServer
@@ -252,10 +253,12 @@ namespace Implem.Libraries.DataSources.SqlServer
             int? commandCount)
         {
             if (!Using) return;
+            var tableBrackets = new List<string> { TableBracket };
+            SqlJoinCollection?.ForEach(o => tableBrackets.Add(o.TableBracket));
             if (Parameters.Rds.Dbms == "MySQL" &&
                 !MainQueryInfo.sqlClass.IsNullOrEmpty() &&
                 tableType == MainQueryInfo.sqlType &&
-                TableBracket == MainQueryInfo.tableBracket)
+                tableBrackets.Contains(MainQueryInfo.tableBracket))
             {
                 //MySQLにおいて副問い合わせのselect文の生成時、メインのクエリと同一テーブルを参照する場合は、
                 //select ... from (select ... from ...) as "仮テーブル名" 形式のコマンドを生成する。
