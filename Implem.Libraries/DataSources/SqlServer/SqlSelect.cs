@@ -249,14 +249,16 @@ namespace Implem.Libraries.DataSources.SqlServer
             Sqls.TableTypes tableType,
             Sqls.UnionTypes unionType,
             bool orderBy,
-            int? commandCount,
-            bool selectFromSelect = false)
+            int? commandCount)
         {
             if (!Using) return;
-            if (selectFromSelect)
+            if (Parameters.Rds.Dbms == "MySQL" &&
+                !MainQueryInfo.sqlClass.IsNullOrEmpty() &&
+                tableType == MainQueryInfo.sqlType &&
+                TableBracket == MainQueryInfo.tableBracket)
             {
-                //select ... from (select ... from ...) as "仮テーブル名" 形式のコマンドを生成する必要がある場合。
-                //用途は副問い合わせ。MySQLでelse側の書き方ではエラーになってしまう場合の対策として追加した。
+                //MySQLにおいて副問い合わせのselect文の生成時、メインのクエリと同一テーブルを参照する場合は、
+                //select ... from (select ... from ...) as "仮テーブル名" 形式のコマンドを生成する。
                 GetSelectFromSelectCommand(
                     factory: factory,
                     sqlContainer: sqlContainer,
@@ -323,7 +325,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                 commandCount: commandCount);
             commandText.Append(subQueryEnd);
         }
-        
+
         private void GetSelectFromTableCommand(
             ISqlObjectFactory factory,
             SqlContainer sqlContainer,
