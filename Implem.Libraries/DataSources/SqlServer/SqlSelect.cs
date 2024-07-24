@@ -1,6 +1,7 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.IRds;
 using Implem.Libraries.Utilities;
+using System.Linq;
 using System.Text;
 namespace Implem.Libraries.DataSources.SqlServer
 {
@@ -255,9 +256,16 @@ namespace Implem.Libraries.DataSources.SqlServer
             if (selectFromSelect)
             {
                 //select ... from (select ... from ...) as "仮テーブル名" 形式のコマンドを生成する必要がある場合。
-                //用途は主に副問い合わせ。MySQLでelse側の書き方ではエラーになってしまう場合の対策として追加した。
+                //用途は副問い合わせ。MySQLでelse側の書き方ではエラーになってしまう場合の対策として追加した。
                 GetSelectFromSelectCommand(
-                    commandText: commandText);
+                    factory: factory,
+                    sqlContainer: sqlContainer,
+                    sqlCommand: sqlCommand,
+                    commandText: commandText,
+                    tableType: tableType,
+                    unionType: unionType,
+                    orderBy: orderBy,
+                    commandCount: commandCount);
             }
             else
             {
@@ -274,24 +282,48 @@ namespace Implem.Libraries.DataSources.SqlServer
         }
 
         private void GetSelectFromSelectCommand(
-            StringBuilder commandText)
+            ISqlObjectFactory factory,
+            SqlContainer sqlContainer,
+            ISqlCommand sqlCommand,
+            StringBuilder commandText,
+            Sqls.TableTypes tableType,
+            Sqls.UnionTypes unionType,
+            bool orderBy,
+            int? commandCount)
         {
-            
-            //以下のSQLコマンドを生成する場合を例に、処理設計を記載する。
-            //select "VerMax" from (select max("Ver") as "VerMax" from "Issues_history" where ("IssueId"=@IssueId_sub)) as "Issues"
-
-            //【処理設計】
-            //１．subQueryText => select "VerMax" とする。
-            //２．temporaryTableというstring変数 => ()の中の"select～where ("IssueId"=@IssueId_sub)"を、以下の手順で組んで戻す。
-            //    ２－１．select max("Ver")　　←おそらく　SqlColumnCollection?.BuildCommandText
-            //    ２－２．from"Issues_history"　　←おそらく　SqlSelect.From
-            //    ２－３．where ("IssueId"=@IssueId_sub)　　←おそらく　SqlWhereCollection?.BuildCommandText
-            //※他のSELCT文用の要素（Group by、Having、Join、Order By、SQLParam）も考慮必要か、後程検討。
-            //３．仮テーブル名部分を生成する。　as "Issues"
-            //４．１．～３．を合体。subQueryText => select "VerMax" + "from (" + temporaryTable + ")" + as "Issues"
-            //５．commandText.Append(subQueryText);　メソッド終了。
+            var subQueryStart = new StringBuilder("select ");
+            var temporaryTableBracket = As.IsNullOrEmpty()
+                ? TableBracket.Remove(TableBracket.Length - 1) + "Temp\""
+                : "\"" + As + "Temp\"";
+            subQueryStart.Append(temporaryTableBracket);
+            subQueryStart.Append('.');
+            var columnAsBracket = SqlColumnCollection.FirstOrDefault().AsBracket();
+            if (columnAsBracket.IsNullOrEmpty())
+            {
+                subQueryStart.Append("\"");
+                subQueryStart.Append(SqlColumnCollection.FirstOrDefault().ColumnName);
+                subQueryStart.Append("\"");
+            }
+            else
+            {
+                subQueryStart.Append(columnAsBracket.Replace(" as ", string.Empty));
+            }
+            subQueryStart.Append(" from (");
+            var subQueryEnd = new StringBuilder(") as ");
+            subQueryEnd.Append(temporaryTableBracket);
+            commandText.Append(subQueryStart);
+            GetSelectFromTableCommand(
+                factory: factory,
+                sqlContainer: sqlContainer,
+                sqlCommand: sqlCommand,
+                commandText: commandText,
+                tableType: tableType,
+                unionType: unionType,
+                orderBy: orderBy,
+                commandCount: commandCount);
+            commandText.Append(subQueryEnd);
         }
-
+        
         private void GetSelectFromTableCommand(
             ISqlObjectFactory factory,
             SqlContainer sqlContainer,
