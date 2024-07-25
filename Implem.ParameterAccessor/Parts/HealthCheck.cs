@@ -4,7 +4,6 @@
     {
         public string HealthQuery;
         public string[] RequireHosts;
-        public bool Encrypt;
         public bool EnableDetailedResponse;
     }
 }
