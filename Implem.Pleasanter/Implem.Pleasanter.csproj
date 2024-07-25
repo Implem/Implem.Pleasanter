@@ -5,9 +5,9 @@
     <Copyright>Copyright © Implem Inc 2014 - 2024</Copyright>
     <Description>Business application platform</Description>
     <AssemblyName>Implem.Pleasanter</AssemblyName>
-    <AssemblyVersion>1.4.6.3</AssemblyVersion>
-    <FileVersion>1.4.6.3</FileVersion>
-    <Version>1.4.6.3</Version>
+    <AssemblyVersion>1.4.6.4</AssemblyVersion>
+    <FileVersion>1.4.6.4</FileVersion>
+    <Version>1.4.6.4</Version>
     <Nullable>disable</Nullable>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
@@ -66,7 +66,7 @@
     <PackageReference Include="Otp.NET" Version="1.4.0" />
     <PackageReference Include="Sendgrid" Version="9.29.3" />
     <PackageReference Include="SendGrid.SmtpApi" Version="1.4.6" />
-    <PackageReference Include="SixLabors.ImageSharp" Version="3.1.4" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="3.1.5" />
     <PackageReference Include="Sustainsys.Saml2" Version="2.9.2" />
     <PackageReference Include="Sustainsys.Saml2.AspNetCore2" Version="2.9.2" />
     <PackageReference Include="System.Diagnostics.PerformanceCounter" Version="8.0.0" />
