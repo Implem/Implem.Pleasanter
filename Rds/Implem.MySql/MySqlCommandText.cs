@@ -56,9 +56,18 @@ namespace Implem.MySql
 
         public string CreateTryCast(string left, string name, string from, string to)
         {
-            return from == "int"
-                ? $"\"{left}\".\"{name}\""
-                : $"(CASE WHEN \"{left}\".\"{name}\"~E'^\\\\d+$' THEN \"{left}\".\"{name}\"::{to} ELSE null END)";
+            //今後toがとる値のバリエーションが増えた場合、case文の追加が必要。
+            string type;
+            switch (to)
+            {
+                case "bigint":
+                    type = "signed";
+                    break;
+                default:
+                    type = to;
+                    break;
+            }
+            return $"cast(\"{left}\".\"{name}\" as {type})";
         }
 
         public string CreateUpdateOrInsert(

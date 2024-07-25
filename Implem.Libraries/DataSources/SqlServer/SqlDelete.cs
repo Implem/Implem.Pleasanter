@@ -19,7 +19,6 @@ namespace Implem.Libraries.DataSources.SqlServer
         {
             if (!Using) return;
             Build_If(commandText: commandText);
-            SetMainQueryInfoForSub();
             Build_DeleteStatement(
                 factory: factory,
                 sqlContainer: sqlContainer,
@@ -52,18 +51,6 @@ namespace Implem.Libraries.DataSources.SqlServer
                     sqlContainer: sqlContainer,
                     sqlCommand: sqlCommand,
                     commandCount: commandCount))));
-        }
-
-        private void SetMainQueryInfoForSub()
-        {
-            //サブクエリのselect文生成を行う際に、メイン（本クラスのこと）のクエリの情報を取得できるように、
-            //あらかじめ情報をセットする処理
-            SqlWhereCollection
-                .Where(o => o.Sub != null)
-                .ForEach(o => o.Sub.SetMainQueryInfo(
-                    sqlClass: GetType().ToString(),
-                    sqlType: TableType,
-                    tableBracket: TableBracket));
         }
     }
 }

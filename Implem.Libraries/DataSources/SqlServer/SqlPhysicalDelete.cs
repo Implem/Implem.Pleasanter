@@ -1,4 +1,6 @@
 ﻿using Implem.IRds;
+using Implem.Libraries.Utilities;
+using System.Linq;
 using System.Text;
 namespace Implem.Libraries.DataSources.SqlServer
 {
@@ -18,6 +20,7 @@ namespace Implem.Libraries.DataSources.SqlServer
             if (!Using) return;
             Build_If(commandText);
             commandText.Append(Statement(commandCount));
+            SetMainQueryInfoForSub();
             SqlWhereCollection?.BuildCommandText(
                 factory: factory,
                 sqlContainer: sqlContainer,
@@ -45,6 +48,18 @@ namespace Implem.Libraries.DataSources.SqlServer
                 default:
                    return string.Empty;
             }
+        }
+
+        private void SetMainQueryInfoForSub()
+        {
+            //サブクエリのselect文生成を行う際に、メイン（本クラスのこと）のクエリの情報を取得できるように、
+            //あらかじめ情報をセットする処理
+            SqlWhereCollection
+                .Where(o => o.Sub != null)
+                .ForEach(o => o.Sub.SetMainQueryInfo(
+                    sqlClass: GetType().ToString(),
+                    sqlType: TableType,
+                    tableBracket: TableBracket));
         }
     }
 }

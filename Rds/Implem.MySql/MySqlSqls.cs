@@ -58,17 +58,17 @@ namespace Implem.MySql
 
         public string IntegerColumnLike(string tableName, string columnName)
         {
-            return "(cast(\"" + tableName + "\".\"" + columnName + "\" as text) like ";
+            return "(cast(\"" + tableName + "\".\"" + columnName + "\" as char) like ";
         }
 
         public string DateAddDay(int day, string columnBracket)
         {
-            return $"\"{columnBracket}\" + cast('{day} days' as interval)";
+            return $"date_add({columnBracket},interval {day} day)";
         }
 
         public string DateAddHour(int hour, string columnBracket)
         {
-            return $"{columnBracket} + interval '{hour} hour'";
+            return $"date_add({columnBracket},interval {hour} hour)";
         }
 
         public string DateGroupYearly { get; } = "to_char({0}, 'YYYY')";
