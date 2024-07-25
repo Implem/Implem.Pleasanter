@@ -114,7 +114,6 @@
     "HealthCheck": {
         "HealthQuery": null,
         "RequireHosts": null,
-        "Encrypt": false,
         "EnableDetailedResponse": false
     }
 }

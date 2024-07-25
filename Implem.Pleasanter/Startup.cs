@@ -167,26 +167,22 @@ namespace Implem.Pleasanter.NetCore
                 options.Limits.MaxRequestBodySize = Parameters.Service.MaxRequestBodySize;
             })
             .Configure<KestrelServerOptions>(configuration.GetSection("Kestrel"));
-            var builder = new System.Data.Common.DbConnectionStringBuilder();
-            builder.ConnectionString = Parameters.Rds.UserConnectionString;
+            var conStr = Parameters.Rds.UserConnectionString;
             var healthQuery = Parameters.Security.HealthCheck.HealthQuery ?? "select 1;";
             switch (Parameters.Rds.Dbms)
             {
                 case "SQLServer":
-                    builder.Add(
-                        keyword: "encrypt",
-                        value: Parameters.Security.HealthCheck.Encrypt);
                     services
                         .AddHealthChecks()
                         .AddSqlServer(
-                            connectionString: builder.ConnectionString,
+                            connectionString: conStr,
                             healthQuery: healthQuery);
                     break;
                 case "PostgreSQL":
                     services
                         .AddHealthChecks()
                         .AddNpgSql(
-                            connectionString: builder.ConnectionString,
+                            connectionString: conStr,
                             healthQuery: healthQuery);
                     break;
             }
