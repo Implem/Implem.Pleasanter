@@ -26,6 +26,10 @@ namespace Implem.Libraries.DataSources.SqlServer
             StringBuilder commandText,
             int? commandCount = null)
         {
+            if (!MainQueryInfo.sqlClass.IsNullOrEmpty())
+            {
+                SetMainQueryInfoForSub();
+            }
             switch (TableType)
             {
                 case Sqls.TableTypes.History:
@@ -253,12 +257,11 @@ namespace Implem.Libraries.DataSources.SqlServer
             int? commandCount)
         {
             if (!Using) return;
-            var tableBrackets = new List<string> { TableBracket };
-            SqlJoinCollection?.ForEach(o => tableBrackets.Add(o.TableBracket));
+            var tableBrackets = new List<string> { GetTableBracketText(tableType).ToLower() };
+            SqlJoinCollection?.ForEach(o => tableBrackets.Add(o.TableBracket.ToLower()));
             if (Parameters.Rds.Dbms == "MySQL" &&
                 !MainQueryInfo.sqlClass.IsNullOrEmpty() &&
-                tableType == MainQueryInfo.sqlType &&
-                tableBrackets.Contains(MainQueryInfo.tableBracket))
+                tableBrackets.Contains(MainQueryInfo.tableBracket.ToLower()))
             {
                 //MySQLにおいて副問い合わせのselect文の生成時、メインのクエリと同一テーブルを参照する場合は、
                 //select ... from (select ... from ...) as "仮テーブル名" 形式のコマンドを生成する。
@@ -407,19 +410,33 @@ namespace Implem.Libraries.DataSources.SqlServer
 
         private string From(Sqls.TableTypes tableType, string _as)
         {
-            var tableBlacket = TableBracket;
+            return "from " + GetTableBracketText(tableType) + (!_as.IsNullOrEmpty()
+                ? " as \"" + _as + "\""
+                : " as " + TableBracket) + "\n";
+        }
+
+        private string GetTableBracketText(Sqls.TableTypes tableType)
+        {
             switch (tableType)
             {
                 case Sqls.TableTypes.History:
-                    tableBlacket = HistoryTableBracket;
-                    break;
+                    return HistoryTableBracket;
                 case Sqls.TableTypes.Deleted:
-                    tableBlacket = DeletedTableBracket;
-                    break;
+                    return DeletedTableBracket;
+                default:
+                    return TableBracket;
             }
-            return "from " + tableBlacket + (!_as.IsNullOrEmpty()
-                ? " as \"" + _as + "\""
-                : " as " + TableBracket) + "\n";
+        }
+
+        private void SetMainQueryInfoForSub()
+        {
+            //もし現在処理中のselect文がサブクエリである場合（メインのupdateやdeleteのクエリの情報が設定済みの場合）、かつ、
+            //現在のselect文のさらに配下にサブクエリが存在する場合に、配下のサブクエリにメインの情報を設定する
+            SqlWhereCollection
+                .Where(o => o.Sub != null)
+                .ForEach(o => o.Sub.SetMainQueryInfo(
+                    sqlClass: MainQueryInfo.sqlClass,
+                    tableBracket: MainQueryInfo.tableBracket));
         }
     }
 }

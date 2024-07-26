@@ -19,7 +19,7 @@ namespace Implem.Libraries.DataSources.SqlServer
         {
             if (!Using) return;
             Build_If(commandText);
-            commandText.Append(Statement(commandCount));
+            commandText.Append(Statement());
             SetMainQueryInfoForSub();
             SqlWhereCollection?.BuildCommandText(
                 factory: factory,
@@ -35,18 +35,21 @@ namespace Implem.Libraries.DataSources.SqlServer
             Build_EndIf(commandText);
         }
 
-        private string Statement(int? commandCount)
+        private string Statement()
+        {
+            return "delete from " + GetTableBracketText() + " ";
+        }
+
+        private string GetTableBracketText()
         {
             switch (TableType)
             {
-                case Sqls.TableTypes.Normal:
-                    return "delete from " + TableBracket + " ";
                 case Sqls.TableTypes.History:
-                    return "delete from " + HistoryTableBracket + " ";
+                    return HistoryTableBracket;
                 case Sqls.TableTypes.Deleted:
-                    return "delete from " + DeletedTableBracket + " ";
+                    return DeletedTableBracket;
                 default:
-                   return string.Empty;
+                    return TableBracket;
             }
         }
 
@@ -58,8 +61,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                 .Where(o => o.Sub != null)
                 .ForEach(o => o.Sub.SetMainQueryInfo(
                     sqlClass: GetType().ToString(),
-                    sqlType: TableType,
-                    tableBracket: TableBracket));
+                    tableBracket: GetTableBracketText()));
         }
     }
 }

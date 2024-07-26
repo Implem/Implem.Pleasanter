@@ -53,12 +53,7 @@ namespace Implem.Libraries.DataSources.SqlServer
             StringBuilder commandText,
             int? commandCount)
         {
-            var tableBracket = TableBracket;
-            switch (TableType)
-            {
-                case Sqls.TableTypes.History: tableBracket = HistoryTableBracket; break;
-                case Sqls.TableTypes.Deleted: tableBracket = DeletedTableBracket; break;
-            }
+            var tableBracket = GetTableBracketText();
             var columnNameCollection = new List<string>();
             if (AddUpdatorParam) columnNameCollection.Add($"\"Updator\" = {Parameters.Parameter.SqlParameterPrefix}U");
             if (AddUpdatedTimeParam) columnNameCollection.Add($"\"UpdatedTime\" = {factory.Sqls.CurrentDateTime} ");
@@ -102,11 +97,17 @@ namespace Implem.Libraries.DataSources.SqlServer
                 " set ", columnNameCollection.Join(), " ");
         }
 
-        private void Build_CopyToHistoryStatement(
-            StringBuilder commandText, string commandText_MoveToHistory, int? commandCount)
+        private string GetTableBracketText()
         {
-            commandText.Append(commandText_MoveToHistory
-                .Replace("[[CommandCount]]", commandCount.ToString()));
+            switch (TableType)
+            {
+                case Sqls.TableTypes.History:
+                    return HistoryTableBracket;
+                case Sqls.TableTypes.Deleted:
+                    return DeletedTableBracket;
+                default:
+                    return TableBracket;
+            }
         }
 
         private void SetMainQueryInfoForSub()
@@ -117,8 +118,14 @@ namespace Implem.Libraries.DataSources.SqlServer
                 .Where(o => o.Sub != null)
                 .ForEach(o => o.Sub.SetMainQueryInfo(
                     sqlClass: GetType().ToString(),
-                    sqlType: TableType,
-                    tableBracket: TableBracket));
+                    tableBracket: GetTableBracketText()));
+        }
+
+        private void Build_CopyToHistoryStatement(
+            StringBuilder commandText, string commandText_MoveToHistory, int? commandCount)
+        {
+            commandText.Append(commandText_MoveToHistory
+                .Replace("[[CommandCount]]", commandCount.ToString()));
         }
     }
 }

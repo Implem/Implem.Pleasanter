@@ -34,7 +34,7 @@ namespace Implem.Libraries.DataSources.SqlServer
         public bool IsRowCount = false;
         public long? Id;
         public IEnumerable<SqlParam> AdditionalParams;
-        public (string sqlClass, Sqls.TableTypes sqlType, string tableBracket) MainQueryInfo;
+        public (string sqlClass, string tableBracket) MainQueryInfo;
 
         public SqlStatement()
         {
@@ -266,11 +266,9 @@ namespace Implem.Libraries.DataSources.SqlServer
 
         public void SetMainQueryInfo(
             string sqlClass,
-            Sqls.TableTypes sqlType,
             string tableBracket)
         {
             MainQueryInfo.sqlClass = sqlClass;
-            MainQueryInfo.sqlType = sqlType;
             MainQueryInfo.tableBracket = tableBracket;
         }
     }
