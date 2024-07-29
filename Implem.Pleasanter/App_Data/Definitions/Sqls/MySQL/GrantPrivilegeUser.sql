@@ -1,1 +1,1 @@
-﻿grant select, insert, update, delete on "#ServiceName#".* to "#Uid#"@"localhost";
+﻿grant select, insert, update, delete, create routine, alter routine on "#ServiceName#".* to "#Uid#"@"localhost";
