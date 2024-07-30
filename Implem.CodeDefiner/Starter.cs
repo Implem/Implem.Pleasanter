@@ -55,10 +55,16 @@ namespace Implem.CodeDefiner
                 switch (action)
                 {
                     case "_rds":
-                        ConfigureDatabase(factory: factory);
+                        ConfigureDatabase(
+                            factory: factory,
+                            force: argHash.ContainsKey("f"),
+                            noInput : argHash.ContainsKey("n"));
                         break;
                     case "rds":
-                        ConfigureDatabase(factory: factory);
+                        ConfigureDatabase(
+                            factory: factory,
+                            force: argHash.ContainsKey("f"),
+                            noInput: argHash.ContainsKey("n"));
                         CreateDefinitionAccessorCode();
                         CreateMvcCode(target);
                         break;
@@ -76,7 +82,10 @@ namespace Implem.CodeDefiner
                         CreateSolutionBackup();
                         break;
                     case "migrate":
-                        ConfigureDatabase(factory: factory);
+                        ConfigureDatabase(
+                            factory: factory,
+                            force: argHash.ContainsKey("f"),
+                            noInput: argHash.ContainsKey("n"));
                         MigrateDatabase();
                         break;
                     case "ConvertTime":
@@ -169,16 +178,42 @@ namespace Implem.CodeDefiner
             }
         }
 
-        private static void ConfigureDatabase(ISqlObjectFactory factory)
+        private static void ConfigureDatabase(
+            ISqlObjectFactory factory,
+            bool force = false,
+            bool noInput = false)
         {
-            TryOpenConnections(factory);
-            Functions.Rds.Configurator.Configure(factory);
-            Consoles.Write(
-                DisplayAccessor.Displays.Get("CodeDefinerRdsCompleted"),
-                Consoles.Types.Success);
+            try
+            {
+                TryOpenConnections(factory);
+                var completed = Functions.Rds.Configurator.Configure(
+                    factory: factory,
+                    force: force,
+                    noInput: noInput);
+                if (completed)
+                {
+                    Consoles.Write(
+                        text: DisplayAccessor.Displays.Get("CodeDefinerRdsCompleted"),
+                        type: Consoles.Types.Success);
+                }
+            }
+            catch (System.Data.SqlClient.SqlException e)
+            {
+                Consoles.Write(
+                    text: $"[{e.Number}] {e.Message}",
+                    type: Consoles.Types.Error,
+                    abort: true);
+            }
+            catch (System.Exception e)
+            {
+                Consoles.Write(
+                    text: e.ToString(),
+                    type: Consoles.Types.Error,
+                    abort: true);
+            }
         }
 
-        private static void TryOpenConnections(ISqlObjectFactory factory)
+            private static void TryOpenConnections(ISqlObjectFactory factory)
         {
             int number;
             string message;
