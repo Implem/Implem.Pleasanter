@@ -12,13 +12,7 @@ values
     ,@ipU
     ,@ipU
 )
-on conflict
-(
-    "GroupId"
-    ,"ChildId"
-)
-do update
-set
+on duplicate key update
     "GroupId" = @GroupId
     ,"ChildId" = @ChildId
     ,"Updator" = @ipU;
