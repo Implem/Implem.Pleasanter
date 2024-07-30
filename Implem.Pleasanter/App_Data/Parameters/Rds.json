@@ -1,9 +1,9 @@
 ﻿{
-    "Dbms": "MySQL",
+    "Dbms": "SQLServer",
     "Provider": "Local",
-    "SaConnectionString": "Server=localhost;Port=3306;Database=mysql;UID=root;PWD=pleasanter",
-    "OwnerConnectionString": "Server=localhost;Port=3306;Database=#ServiceName#;UID=#ServiceName#_Owner;PWD=SetAdminsPWD",
-    "UserConnectionString": "Server=localhost;Port=3306;Database=#ServiceName#;UID=#ServiceName#_User;PWD=SetUsersPWD",
+    "SaConnectionString": null,
+    "OwnerConnectionString": null,
+    "UserConnectionString": null,
     "SqlCommandTimeOut": 0,
     "MinimumTime": 3,
     "DeadlockRetryCount": 4,

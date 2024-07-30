@@ -11,16 +11,25 @@
 values
 (
     @GroupId
-    ,0
+    ,false
     ,@DeptId
     ,@UserId
     ,@Admin
     ,@ipU
     ,@ipU
 )
-on duplicate key update
+on conflict
+(
+    "GroupId"
+    ,"ChildGroup"
+    ,"DeptId"
+    ,"UserId"
+)
+do update
+set
     "GroupId" = @GroupId
     ,"DeptId" = @DeptId
     ,"UserId" = @UserId
     ,"Admin" = @Admin
-    ,"Updator" = @ipU;
+    ,"Updator" = @ipU
+;

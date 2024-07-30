@@ -1,4 +1,4 @@
-﻿drop procedure if exists "refresh_all_member";
+﻿drop procedure if exists refresh_all_member;
 create procedure "refresh_all_member"(
     in "v_tenantid" int,
     in "v_depth_max" int,

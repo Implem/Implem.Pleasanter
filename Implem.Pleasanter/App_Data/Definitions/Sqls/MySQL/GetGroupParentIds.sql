@@ -22,7 +22,7 @@
         inner join "Groups" as "t3" on "t2"."GroupId" = "t3"."GroupId"
     where "t3"."TenantId" = @ipT
         and "t1"."Lv" < @GroupsDepthMax 
-        and "t3"."Disabled" = 0 
+        and "t3"."Disabled" = false 
         and "t1"."GroupId" = "t2"."ChildId"
 ) 
 select
