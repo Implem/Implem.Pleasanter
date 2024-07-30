@@ -19,20 +19,18 @@ from(
                 "GroupMembers" as "GroupMembers"
             where 
                 ("GroupMembers"."GroupId"=@GroupId) 
-                and ("GroupMembers"."ChildGroup" = 'false')
+                and ("GroupMembers"."ChildGroup" = 0)
                 -- 削除メンバーを除く
                 {0}
-                -- and "GroupMembers"."DeptId" not in ( {0} )
         )
         -- 追加したメンバーは含めない
         {1}
-        -- and "Depts"."DeptId" not in ( {0} ) 
         and 
         (
-            "Depts"."DeptCode" ilike @SearchText
-            or "Depts"."DeptName" ilike @SearchText
+            "Depts"."DeptCode" like @SearchText
+            or "Depts"."DeptName" like @SearchText
         ) 
-        and "Depts"."Disabled" = 'false'
+        and "Depts"."Disabled" = 0
 
     union 
         select 0 as "DeptId"
@@ -56,29 +54,27 @@ from(
                 "GroupMembers" as "GroupMembers"
             where 
                 ("GroupMembers"."GroupId"=@GroupId) 
-                and ("GroupMembers"."ChildGroup" = 'false')
+                and ("GroupMembers"."ChildGroup" = 0)
                 -- 削除メンバーを除く
                 {2}
-                -- and "GroupMembers"."UserId" not in ( {0} ) 
         ) 
         -- 追加したメンバーは含めない
         {3}
-        -- and "Users"."UserId" not in ( {0} ) 
         and (
-            "Users"."LoginId" ilike @SearchText
-            or "Users"."Name" ilike @SearchText
-            or "Users"."UserCode" ilike @SearchText
-            or "Users"."Body" ilike @SearchText
-            or "Depts"."DeptCode" ilike @SearchText 
-            or "Depts"."DeptName" ilike @SearchText
-            or "Depts"."Body" ilike @SearchText
+            "Users"."LoginId" like @SearchText
+            or "Users"."Name" like @SearchText
+            or "Users"."UserCode" like @SearchText
+            or "Users"."Body" like @SearchText
+            or "Depts"."DeptCode" like @SearchText 
+            or "Depts"."DeptName" like @SearchText
+            or "Depts"."Body" like @SearchText
         ) 
-        and "Users"."Disabled"= 'false'
+        and "Users"."Disabled"= 0
 ) as "items"
 order by
     "items"."IsUser" asc
     ,"items"."DeptCode" asc
     ,"items"."DeptId" asc
-    , "items"."UserCode" asc
-    , "items"."UserId" asc
+    ,"items"."UserCode" asc
+    ,"items"."UserId" asc
 limit @PageSize offset @Offset;

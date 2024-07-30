@@ -20,16 +20,14 @@ from(
                 "GroupChildren"."GroupId"=@GroupId
                 -- 削除メンバーを除く
                 {0}
-                -- and "GroupChildren"."ChildId" not in ( {0} )
         )
         -- 追加したメンバーは含めない
         {1}
-        -- and "Groups"."Groups" not in ( {0} ) 
         and 
         (
             "Groups"."GroupName" like @SearchText
         ) 
-        and "Groups"."Disabled" = false
+        and "Groups"."Disabled" = 0
 ) as "items"
 order by
     "items"."GroupName" asc
