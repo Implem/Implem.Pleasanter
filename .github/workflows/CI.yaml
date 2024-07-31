@@ -28,14 +28,6 @@ jobs:
             COMPOSE_DOCKER_CLI_BUILD: true
         steps:
             - uses: actions/checkout@v3
-            - name: Deploy Started Notification
-              uses: mikesprague/teams-incoming-webhook-action@v1
-              with:
-                github-token: ${{ github.token }}
-                webhook-url: ${{ secrets.MS_TEAMS_WEBHOOK_URL }}
-                deploy-card: true
-                title: "Build and Test Started"
-                color: "info"
             - name: Setup .NET Core SDK ${{ env.DOTNET_CORE_VERSION }}
               uses: actions/setup-dotnet@v3
               with:
@@ -58,30 +50,3 @@ jobs:
             - name: clean up on docker-compose
               run: docker-compose down
               working-directory: ./
-            - name: Cancelled Notification
-              if: ${{ cancelled() }}
-              uses: mikesprague/teams-incoming-webhook-action@v1
-              with:
-                github-token: ${{ github.token }}
-                webhook-url: ${{ secrets.MS_TEAMS_WEBHOOK_URL }}
-                deploy-card: true
-                title: "Build Cancelled"
-                color: "warning"
-            - name: Failure Notification
-              if: ${{ failure() }}
-              uses: mikesprague/teams-incoming-webhook-action@v1
-              with:
-                github-token: ${{ github.token }}
-                webhook-url: ${{ secrets.MS_TEAMS_WEBHOOK_URL }}
-                deploy-card: true
-                title: "Build or Test Failed"
-                color: "failure"
-            - name: Success Notification
-              if: ${{ success() }}
-              uses: mikesprague/teams-incoming-webhook-action@v1
-              with:
-                github-token: ${{ github.token }}
-                webhook-url: ${{ secrets.MS_TEAMS_WEBHOOK_URL }}
-                deploy-card: true
-                title: "Build and Test Successful"
-                color: "success"
