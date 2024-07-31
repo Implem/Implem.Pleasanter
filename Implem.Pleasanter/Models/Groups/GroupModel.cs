@@ -1341,7 +1341,7 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         groupModel: this,
                         otherInitValue: otherInitValue)),
-                new SqlStatement(Def.Sql.IfConflicted.Params(GroupId))
+                new SqlStatement()
                 {
                     DataTableName = dataTableName,
                     IfConflicted = true,

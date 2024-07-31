@@ -1188,7 +1188,7 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         dashboardModel: this,
                         otherInitValue: otherInitValue)),
-                new SqlStatement(Def.Sql.IfConflicted.Params(DashboardId))
+                new SqlStatement(string.Empty)
                 {
                     DataTableName = dataTableName,
                     IfConflicted = true,

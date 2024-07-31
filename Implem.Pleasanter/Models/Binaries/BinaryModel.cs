@@ -491,7 +491,7 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         binaryModel: this,
                         otherInitValue: otherInitValue)),
-                new SqlStatement(Def.Sql.IfConflicted.Params(BinaryId))
+                new SqlStatement()
                 {
                     DataTableName = dataTableName,
                     IfConflicted = true,

@@ -1298,7 +1298,7 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         siteModel: this,
                         otherInitValue: otherInitValue)),
-                new SqlStatement(Def.Sql.IfConflicted.Params(SiteId))
+                new SqlStatement()
                 {
                     DataTableName = dataTableName,
                     IfConflicted = true,

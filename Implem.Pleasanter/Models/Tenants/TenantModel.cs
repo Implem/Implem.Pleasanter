@@ -843,7 +843,7 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         tenantModel: this,
                         otherInitValue: otherInitValue)),
-                new SqlStatement(Def.Sql.IfConflicted.Params(TenantId))
+                new SqlStatement()
                 {
                     DataTableName = dataTableName,
                     IfConflicted = true,

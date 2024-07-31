@@ -13589,7 +13589,6 @@ namespace Implem.DefinitionAccessor
         public string StartTimeColumn;
         public string CompletionTimeColumn;
         public string IfDuplicated;
-        public string IfConflicted;
         public string SelectIdentity;
         public string ExistsDatabase;
         public string CreateDatabase;
@@ -13651,7 +13650,6 @@ namespace Implem.DefinitionAccessor
         public SqlDefinition StartTimeColumn = new SqlDefinition();
         public SqlDefinition CompletionTimeColumn = new SqlDefinition();
         public SqlDefinition IfDuplicated = new SqlDefinition();
-        public SqlDefinition IfConflicted = new SqlDefinition();
         public SqlDefinition SelectIdentity = new SqlDefinition();
         public SqlDefinition ExistsDatabase = new SqlDefinition();
         public SqlDefinition CreateDatabase = new SqlDefinition();

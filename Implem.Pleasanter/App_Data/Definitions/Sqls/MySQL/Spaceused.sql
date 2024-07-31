@@ -1,1 +1,3 @@
-﻿SELECT CAST(mb as bigint) || to_char(mb % 1, 'FM9.99') || ' MB' AS database_size FROM (SELECT CAST(pg_database_size(current_database()) AS NUMERIC)/1024/1024 AS mb) a
+﻿select concat(cast(round((sum(data_length + index_length) /1024 /1024),2) as char),' MB') as "database_size"
+from information_schema.tables
+where table_schema = '#InitialCatalog#';

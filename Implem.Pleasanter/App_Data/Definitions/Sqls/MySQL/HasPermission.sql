@@ -10,7 +10,7 @@
                 select * from "Depts"
                 where "Depts"."TenantId"=@ipT
                     and "Depts"."DeptId"=@ipD
-                    and "Depts"."Disabled"='false'
+                    and "Depts"."Disabled"=0
                     and "Permissions"."DeptId"="Depts"."DeptId"
                     and @ipD<>0
             )
@@ -21,7 +21,7 @@
                     select *
                     from "Groups" inner join "GroupMembers" on "Groups"."GroupId"="GroupMembers"."GroupId"
                     where "Groups"."TenantId"=@ipT
-                        and "Groups"."Disabled"='false'
+                        and "Groups"."Disabled"=0
                         and "Permissions"."GroupId"="Groups"."GroupId"
                         and
                         (
@@ -30,7 +30,7 @@
                                 select * from "Depts"
                                 where "Depts"."TenantId"=@ipT
                                     and "Depts"."DeptId"=@ipD
-                                    and "Depts"."Disabled"='false'
+                                    and "Depts"."Disabled"=0
                                     and "GroupMembers"."DeptId"="Depts"."DeptId"
                                     and @ipD<>0
                             )
