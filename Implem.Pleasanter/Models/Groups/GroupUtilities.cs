@@ -1162,9 +1162,14 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             GroupModel groupModel)
         {
-            return hb.FieldSet(id: "FieldSetGeneral", action: () => hb
-                .FieldSetGeneralColumns(
-                    context: context, ss: ss, groupModel: groupModel));
+            return hb.FieldSet(
+                id: "FieldSetGeneral",
+                action: () => hb.Div(
+                    css: "fieldset-inner",
+                    action: () => hb.FieldSetGeneralColumns(
+                        context: context,
+                        ss: ss,
+                        groupModel: groupModel)));
         }
 
         private static HtmlBuilder FieldSetGeneralColumns(
@@ -1903,24 +1908,26 @@ namespace Implem.Pleasanter.Models
                 return Error.Types.HasNotPermission.MessageJson(context: context);
             }
             var hb = new HtmlBuilder();
-            hb
-                .HistoryCommands(context: context, ss: ss)
-                .Table(
-                    attributes: new HtmlAttributes().Class("grid history"),
-                    action: () => hb
-                        .THead(action: () => hb
-                            .GridHeader(
-                                context: context,
-                                ss: ss,
-                                columns: columns,
-                                sort: false,
-                                checkRow: true))
-                        .TBody(action: () => hb
-                            .HistoriesTableBody(
-                                context: context,
-                                ss: ss,
-                                columns: columns,
-                                groupModel: groupModel)));
+            hb.Div(
+                css: "fieldset-inner",
+                action: () => hb
+                    .HistoryCommands(context: context, ss: ss)
+                    .Table(
+                        attributes: new HtmlAttributes().Class("grid history"),
+                        action: () => hb
+                            .THead(action: () => hb
+                                .GridHeader(
+                                    context: context,
+                                    ss: ss,
+                                    columns: columns,
+                                    sort: false,
+                                    checkRow: true))
+                            .TBody(action: () => hb
+                                .HistoriesTableBody(
+                                    context: context,
+                                    ss: ss,
+                                    columns: columns,
+                                    groupModel: groupModel))));
             return new GroupsResponseCollection(
                 context: context,
                 groupModel: groupModel)
@@ -3122,11 +3129,15 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb, Context context, GroupModel groupModel)
         {
             if (groupModel.MethodType == BaseModel.MethodTypes.New) return hb;
-            return hb.FieldSet(id: "FieldSetMembers", action: () => hb
-                .CurrentMembers(
-                    context: context,
-                    groupModel: groupModel)
-                .SelectableMembers(context: context));
+            return hb.FieldSet(
+                id: "FieldSetMembers",
+                action: () => hb.Div(
+                    css: "fieldset-inner",
+                    action: () => hb
+                        .CurrentMembers(
+                            context: context,
+                            groupModel: groupModel)
+                        .SelectableMembers(context: context)));
         }
 
         /// <summary>
@@ -3136,11 +3147,15 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb, Context context, GroupModel groupModel)
         {
             if (groupModel.MethodType == BaseModel.MethodTypes.New) return hb;
-            return hb.FieldSet(id: "FieldSetGroupChildren", action: () => hb
-                .CurrentChildren(
-                    context: context,
-                    groupModel: groupModel)
-                .SelectableChildren(context: context));
+            return hb.FieldSet(
+                id: "FieldSetGroupChildren",
+                action: () => hb.Div(
+                    css: "fieldset-inner",
+                    action: () => hb
+                        .CurrentChildren(
+                            context: context,
+                            groupModel: groupModel)
+                        .SelectableChildren(context: context)));
         }
 
         /// <summary>
@@ -3365,8 +3380,7 @@ namespace Implem.Pleasanter.Models
                         where: Rds.GroupMembersWhere()
                             .GroupId(groupId)
                             .ChildGroup(false)
-                            .Add(and: Rds.GroupMembersWhere()
-                                .ChildGroup(false)
+                            .Add(or: Rds.GroupMembersWhere()
                                 .DeptId(deptId, _using: deptId > 0)
                                 .UserId(userId, _using: userId > 0))
                             .Add(or: Rds.GroupMembersWhere()

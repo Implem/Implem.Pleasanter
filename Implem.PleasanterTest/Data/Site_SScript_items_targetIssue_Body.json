@@ -1,0 +1,18 @@
+﻿{
+    "Version": 1.017,
+    "ReferenceType": "Issues",
+    "GridColumns": [
+        "IssueId",
+        "TitleBody",
+        "NumA"
+    ],
+    "EditorColumnHash": {
+        "General": [
+            "IssueId",
+            "Title",
+            "Body",
+            "NumA"
+        ]
+    },
+    "NoDisplayIfReadOnly": false
+}

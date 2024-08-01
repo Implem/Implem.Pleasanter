@@ -1,1 +1,173 @@
-﻿null
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Issues",
+    "GridView": 1,
+    "GridColumns": [
+        "IssueId",
+        "ClassA",
+        "TitleBody",
+        "Comments",
+        "ClassB",
+        "ClassC",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "Manager",
+        "ClassD",
+        "NumA",
+        "NumB",
+        "NumC",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "IssueId",
+        "Ver",
+        "Title",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "Manager",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "ClassD",
+        "NumA",
+        "NumB",
+        "NumC",
+        "Body",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "IssueId",
+        "Title",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "Manager",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Title",
+        "Comments",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "Manager",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attachments"
+        },
+        {
+            "ColumnName": "StartTime",
+            "LabelText": "Purchase Date",
+            "ExportFormat": "Ymda"
+        },
+        {
+            "ColumnName": "CompletionTime",
+            "LabelText": "Expiration Date",
+            "DefaultInput": "365",
+            "ExportFormat": "Ymda"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": "150,Before Purchase,Before,status-preparation\n200,In Use,Use,status-inprogress\n900,Cancellation,Cancel,status-rejected"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Manufacturer"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "Version"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "Serial No"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "Unit Price",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "NumB",
+            "LabelText": "License Quantity",
+            "DefaultInput": "1"
+        },
+        {
+            "ColumnName": "NumC",
+            "LabelText": "Total Amount",
+            "Format": "C",
+            "EditorReadOnly": true
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "Product Name"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "Remarks"
+        },
+        {
+            "ColumnName": "ClassD",
+            "LabelText": "Installation Destination",
+            "ChoicesText": "PC\nServer\nMobile\nOthers"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassD",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassD",
+            "Type": 1,
+            "Target": "NumC"
+        }
+    ],
+    "Formulas": [
+        {
+            "Target": "NumC",
+            "Formula": {
+                "OperatorType": 0,
+                "Children": [
+                    {
+                        "ColumnName": "NumA",
+                        "OperatorType": 0
+                    },
+                    {
+                        "ColumnName": "NumB",
+                        "OperatorType": 3
+                    }
+                ]
+            },
+            "Id": 1
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "Standard",
+            "TimeSeriesGroupBy": "ClassD",
+            "TimeSeriesAggregateType": "Total",
+            "TimeSeriesValue": "NumC"
+        }
+    ],
+    "EnableGantt": false,
+    "EnableBurnDown": false,
+    "EnableTimeSeries": false,
+    "EnableKamban": false,
+    "TitleSeparator": ")"
+}

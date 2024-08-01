@@ -184,15 +184,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 : column.Display(
                     context: context,
                     value: Value,
-                    format: column.Format == "C" || column.Format == "N")
-                        + (column.GetEditorReadOnly()
-                            || Permissions.ColumnPermissionType(
-                                context: context,
-                                ss: ss,
-                                column: column,
-                                baseModel: null) != Permissions.ColumnPermissionTypes.Update
-                                    ? column.Unit
-                                    : string.Empty);
+                    format: column.Format == "C" || column.Format == "N");
         }
 
         public void FullText(
@@ -207,7 +199,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 case Column.FullTextTypes.ValueAndDisplayName:
                     fullText
                         .Append(" ")
-                        .Append(Value?.ToString());
+                    .Append(Value?.ToString());
                     break;
             }
         }

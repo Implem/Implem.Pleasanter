@@ -1,1 +1,175 @@
-﻿null
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "ResultId",
+        "ClassF",
+        "Title",
+        "ClassH",
+        "ClassA",
+        "ClassB",
+        "ClassD",
+        "DateC",
+        "NumA",
+        "NumB",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "ClassF",
+        "Title",
+        "ClassH",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "ClassD",
+        "ClassE",
+        "ClassG",
+        "Body",
+        "DateC",
+        "NumA",
+        "NumB",
+        "NumC",
+        "DateA",
+        "DateB",
+        "DescriptionB",
+        "DescriptionA",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "ResultId",
+        "Title",
+        "ClassH",
+        "DateA",
+        "DateB",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Title",
+        "Comments",
+        "ClassH",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attachments"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "Company Name",
+            "FieldCss": "field-normal"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Postal Code"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "Address",
+            "FieldCss": "field-wide"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "Representative"
+        },
+        {
+            "ColumnName": "ClassD",
+            "LabelText": "Phone"
+        },
+        {
+            "ColumnName": "ClassE",
+            "LabelText": "Fax"
+        },
+        {
+            "ColumnName": "ClassF",
+            "LabelText": "Industry",
+            "ChoicesText": "A,Agriculture and Forestry\nB,Fishery\nC,Mining, Quarrying, and Gravel Extraction\nD,Construction\nE,Manufacturing\nF,Electricity, Gas, Heat Supply, and Water Supply\nG,Information and Communication\nH,Transportation and Postal Services\nI,Wholesale and Retail Trade\nJ,Financial and Insurance Services\nK,Real Estate and Rental and Leasing\nL,Scientific Research and Professional and Technical Services\nM,Accommodation and Food Services\nN,Other Services Related to Daily Life and Entertainment\nO,Education and Learning Support\nP,Medical and Welfare\nQ,Composite Services Business\nR,Services (Not Classified Elsewhere)\nS,Public Service (Excluding Other Classifications)\nT,Industries Not Otherwise Classified"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "Start Date of Transactions"
+        },
+        {
+            "ColumnName": "DateB",
+            "LabelText": "End Date of Transactions"
+        },
+        {
+            "ColumnName": "DescriptionA",
+            "LabelText": "Special Notes"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "Company Overview"
+        },
+        {
+            "ColumnName": "ClassG",
+            "LabelText": "Email"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "Capital",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "NumB",
+            "LabelText": "Number of Employees"
+        },
+        {
+            "ColumnName": "DateC",
+            "LabelText": "Establishment Date"
+        },
+        {
+            "ColumnName": "NumC",
+            "LabelText": "Revenue",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "DescriptionB",
+            "LabelText": "Company Website"
+        },
+        {
+            "ColumnName": "ClassH",
+            "LabelText": "Customer Rank",
+            "ChoicesText": "A\nB\nC\nD"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassH",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassF",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "Standard",
+            "CrosstabGroupByX": "DateA",
+            "CrosstabAggregateType": "Count",
+            "TimeSeriesGroupBy": "ClassH",
+            "KambanGroupByX": "ClassH",
+            "KambanColumns": 15
+        }
+    ],
+    "TitleSeparator": ")"
+}

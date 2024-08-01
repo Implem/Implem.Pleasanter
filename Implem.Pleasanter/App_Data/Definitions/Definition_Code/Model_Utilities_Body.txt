@@ -58,6 +58,7 @@ namespace Implem.Pleasanter.Models
 <!--Model_Utilities_UpdateByApi-->
 <!--Model_Utilities_UpsertByApi-->
 <!--Model_Utilities_UpsertByServerScript-->
+<!--Model_Utilities_BulkUpsertByApi-->
 <!--Model_Utilities_Copy-->
 <!--Model_Utilities_Copy_Sites-->
 <!--Model_Utilities_Move-->

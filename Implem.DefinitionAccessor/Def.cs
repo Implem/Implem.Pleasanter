@@ -380,6 +380,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_BulkProcessCases": Code.Model_BulkProcessCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_BulkProcessCases, definitionRow, CodeXls); break;
                     case "Model_BulkUpdateCases": Code.Model_BulkUpdateCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_BulkUpdateCases, definitionRow, CodeXls); break;
                     case "Model_BulkUpdateSelectChangedCases": Code.Model_BulkUpdateSelectChangedCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_BulkUpdateSelectChangedCases, definitionRow, CodeXls); break;
+                    case "Model_BulkUpsertByApiCases": Code.Model_BulkUpsertByApiCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_BulkUpsertByApiCases, definitionRow, CodeXls); break;
                     case "Model_BurnDownCases": Code.Model_BurnDownCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_BurnDownCases, definitionRow, CodeXls); break;
                     case "Model_BurnDownJsonCases": Code.Model_BurnDownJsonCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_BurnDownJsonCases, definitionRow, CodeXls); break;
                     case "Model_BurnDownRecordDetailsJsonCases": Code.Model_BurnDownRecordDetailsJsonCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_BurnDownRecordDetailsJsonCases, definitionRow, CodeXls); break;
@@ -517,6 +518,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Matched": Code.Model_Matched = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Matched, definitionRow, CodeXls); break;
                     case "Model_Matched_ColumnCases": Code.Model_Matched_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Matched_ColumnCases, definitionRow, CodeXls); break;
                     case "Model_Matched_ColumnCases_Context": Code.Model_Matched_ColumnCases_Context = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Matched_ColumnCases_Context, definitionRow, CodeXls); break;
+                    case "Model_Matched_ColumnCases_User": Code.Model_Matched_ColumnCases_User = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Matched_ColumnCases_User, definitionRow, CodeXls); break;
                     case "Model_Matched_Incomplete": Code.Model_Matched_Incomplete = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Matched_Incomplete, definitionRow, CodeXls); break;
                     case "Model_Matched_Issues": Code.Model_Matched_Issues = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Matched_Issues, definitionRow, CodeXls); break;
                     case "Model_Matched_NullCondition": Code.Model_Matched_NullCondition = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Matched_NullCondition, definitionRow, CodeXls); break;
@@ -663,6 +665,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_SetSwitchTargets": Code.Model_SetSwitchTargets = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetSwitchTargets, definitionRow, CodeXls); break;
                     case "Model_SetTenantId": Code.Model_SetTenantId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetTenantId, definitionRow, CodeXls); break;
                     case "Model_SetTenantIdByContext": Code.Model_SetTenantIdByContext = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetTenantIdByContext, definitionRow, CodeXls); break;
+                    case "Model_SetTimeZoneAndLanguage": Code.Model_SetTimeZoneAndLanguage = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetTimeZoneAndLanguage, definitionRow, CodeXls); break;
                     case "Model_SetTitle": Code.Model_SetTitle = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetTitle, definitionRow, CodeXls); break;
                     case "Model_SetTitleExec": Code.Model_SetTitleExec = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetTitleExec, definitionRow, CodeXls); break;
                     case "Model_SetUserId": Code.Model_SetUserId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetUserId, definitionRow, CodeXls); break;
@@ -758,6 +761,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_BulkProcess": Code.Model_Utilities_BulkProcess = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_BulkProcess, definitionRow, CodeXls); break;
                     case "Model_Utilities_BulkUpdate": Code.Model_Utilities_BulkUpdate = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_BulkUpdate, definitionRow, CodeXls); break;
                     case "Model_Utilities_BulkUpdate_ColumnCases": Code.Model_Utilities_BulkUpdate_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_BulkUpdate_ColumnCases, definitionRow, CodeXls); break;
+                    case "Model_Utilities_BulkUpsertByApi": Code.Model_Utilities_BulkUpsertByApi = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_BulkUpsertByApi, definitionRow, CodeXls); break;
                     case "Model_Utilities_BurnDown": Code.Model_Utilities_BurnDown = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_BurnDown, definitionRow, CodeXls); break;
                     case "Model_Utilities_Calendar": Code.Model_Utilities_Calendar = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Calendar, definitionRow, CodeXls); break;
                     case "Model_Utilities_CancelNewRow": Code.Model_Utilities_CancelNewRow = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CancelNewRow, definitionRow, CodeXls); break;
@@ -1910,11 +1914,13 @@ namespace Implem.DefinitionAccessor
                     case "Tenants_HtmlTitleRecord": Column.Tenants_HtmlTitleRecord = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_HtmlTitleRecord, definitionRow, ColumnXls); break;
                     case "Tenants_HtmlTitleSite": Column.Tenants_HtmlTitleSite = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_HtmlTitleSite, definitionRow, ColumnXls); break;
                     case "Tenants_HtmlTitleTop": Column.Tenants_HtmlTitleTop = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_HtmlTitleTop, definitionRow, ColumnXls); break;
+                    case "Tenants_Language": Column.Tenants_Language = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_Language, definitionRow, ColumnXls); break;
                     case "Tenants_LogoType": Column.Tenants_LogoType = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_LogoType, definitionRow, ColumnXls); break;
                     case "Tenants_TenantId": Column.Tenants_TenantId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_TenantId, definitionRow, ColumnXls); break;
                     case "Tenants_TenantName": Column.Tenants_TenantName = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_TenantName, definitionRow, ColumnXls); break;
                     case "Tenants_TenantSettings": Column.Tenants_TenantSettings = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_TenantSettings, definitionRow, ColumnXls); break;
                     case "Tenants_Theme": Column.Tenants_Theme = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_Theme, definitionRow, ColumnXls); break;
+                    case "Tenants_TimeZone": Column.Tenants_TimeZone = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_TimeZone, definitionRow, ColumnXls); break;
                     case "Tenants_Title": Column.Tenants_Title = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_Title, definitionRow, ColumnXls); break;
                     case "Tenants_TopDashboards": Column.Tenants_TopDashboards = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_TopDashboards, definitionRow, ColumnXls); break;
                     case "Tenants_TopScript": Column.Tenants_TopScript = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_TopScript, definitionRow, ColumnXls); break;
@@ -6892,6 +6898,7 @@ namespace Implem.DefinitionAccessor
         public string Model_BulkProcessCases;
         public string Model_BulkUpdateCases;
         public string Model_BulkUpdateSelectChangedCases;
+        public string Model_BulkUpsertByApiCases;
         public string Model_BurnDownCases;
         public string Model_BurnDownJsonCases;
         public string Model_BurnDownRecordDetailsJsonCases;
@@ -7029,6 +7036,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Matched;
         public string Model_Matched_ColumnCases;
         public string Model_Matched_ColumnCases_Context;
+        public string Model_Matched_ColumnCases_User;
         public string Model_Matched_Incomplete;
         public string Model_Matched_Issues;
         public string Model_Matched_NullCondition;
@@ -7175,6 +7183,7 @@ namespace Implem.DefinitionAccessor
         public string Model_SetSwitchTargets;
         public string Model_SetTenantId;
         public string Model_SetTenantIdByContext;
+        public string Model_SetTimeZoneAndLanguage;
         public string Model_SetTitle;
         public string Model_SetTitleExec;
         public string Model_SetUserId;
@@ -7270,6 +7279,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_BulkProcess;
         public string Model_Utilities_BulkUpdate;
         public string Model_Utilities_BulkUpdate_ColumnCases;
+        public string Model_Utilities_BulkUpsertByApi;
         public string Model_Utilities_BurnDown;
         public string Model_Utilities_Calendar;
         public string Model_Utilities_CancelNewRow;
@@ -7733,6 +7743,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_BulkProcessCases = new CodeDefinition();
         public CodeDefinition Model_BulkUpdateCases = new CodeDefinition();
         public CodeDefinition Model_BulkUpdateSelectChangedCases = new CodeDefinition();
+        public CodeDefinition Model_BulkUpsertByApiCases = new CodeDefinition();
         public CodeDefinition Model_BurnDownCases = new CodeDefinition();
         public CodeDefinition Model_BurnDownJsonCases = new CodeDefinition();
         public CodeDefinition Model_BurnDownRecordDetailsJsonCases = new CodeDefinition();
@@ -7870,6 +7881,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Matched = new CodeDefinition();
         public CodeDefinition Model_Matched_ColumnCases = new CodeDefinition();
         public CodeDefinition Model_Matched_ColumnCases_Context = new CodeDefinition();
+        public CodeDefinition Model_Matched_ColumnCases_User = new CodeDefinition();
         public CodeDefinition Model_Matched_Incomplete = new CodeDefinition();
         public CodeDefinition Model_Matched_Issues = new CodeDefinition();
         public CodeDefinition Model_Matched_NullCondition = new CodeDefinition();
@@ -8016,6 +8028,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_SetSwitchTargets = new CodeDefinition();
         public CodeDefinition Model_SetTenantId = new CodeDefinition();
         public CodeDefinition Model_SetTenantIdByContext = new CodeDefinition();
+        public CodeDefinition Model_SetTimeZoneAndLanguage = new CodeDefinition();
         public CodeDefinition Model_SetTitle = new CodeDefinition();
         public CodeDefinition Model_SetTitleExec = new CodeDefinition();
         public CodeDefinition Model_SetUserId = new CodeDefinition();
@@ -8111,6 +8124,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_BulkProcess = new CodeDefinition();
         public CodeDefinition Model_Utilities_BulkUpdate = new CodeDefinition();
         public CodeDefinition Model_Utilities_BulkUpdate_ColumnCases = new CodeDefinition();
+        public CodeDefinition Model_Utilities_BulkUpsertByApi = new CodeDefinition();
         public CodeDefinition Model_Utilities_BurnDown = new CodeDefinition();
         public CodeDefinition Model_Utilities_Calendar = new CodeDefinition();
         public CodeDefinition Model_Utilities_CancelNewRow = new CodeDefinition();
@@ -9290,11 +9304,13 @@ namespace Implem.DefinitionAccessor
         public string Tenants_HtmlTitleRecord;
         public string Tenants_HtmlTitleSite;
         public string Tenants_HtmlTitleTop;
+        public string Tenants_Language;
         public string Tenants_LogoType;
         public string Tenants_TenantId;
         public string Tenants_TenantName;
         public string Tenants_TenantSettings;
         public string Tenants_Theme;
+        public string Tenants_TimeZone;
         public string Tenants_Title;
         public string Tenants_TopDashboards;
         public string Tenants_TopScript;
@@ -9868,11 +9884,13 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Tenants_HtmlTitleRecord = new ColumnDefinition();
         public ColumnDefinition Tenants_HtmlTitleSite = new ColumnDefinition();
         public ColumnDefinition Tenants_HtmlTitleTop = new ColumnDefinition();
+        public ColumnDefinition Tenants_Language = new ColumnDefinition();
         public ColumnDefinition Tenants_LogoType = new ColumnDefinition();
         public ColumnDefinition Tenants_TenantId = new ColumnDefinition();
         public ColumnDefinition Tenants_TenantName = new ColumnDefinition();
         public ColumnDefinition Tenants_TenantSettings = new ColumnDefinition();
         public ColumnDefinition Tenants_Theme = new ColumnDefinition();
+        public ColumnDefinition Tenants_TimeZone = new ColumnDefinition();
         public ColumnDefinition Tenants_Title = new ColumnDefinition();
         public ColumnDefinition Tenants_TopDashboards = new ColumnDefinition();
         public ColumnDefinition Tenants_TopScript = new ColumnDefinition();

@@ -38,6 +38,7 @@ namespace Implem.PleasanterTest.Utilities
                 path: null,
                 assemblyVersion: Assembly.GetExecutingAssembly().GetName().Version.ToString(),
                 pleasanterTest: true);
+            Parameters.Service.DefaultLanguage = "ja";
             Context = ContextData.Get(
                 userType: UserData.UserTypes.Anonymous,
                 httpMethod: "post",

@@ -19,7 +19,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         public string Name;
         public long? ReferenceId;
         public long? Size;
-        public string Extention;
+        public string Extension;
         public string ContentType;
         public bool? Added;
         public bool? Deleted;
@@ -42,7 +42,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 var bin = GetBin();
                 Guid = Strings.NewGuid();
                 Size = bin.Length;
-                Extention = Path.GetExtension(Name ?? FileName);
+                Extension = Path.GetExtension(Name ?? FileName);
                 ContentType = Strings.CoalesceEmpty(ContentType, "text/plain");
                 Added = true;
                 if (Files.ValidateFileName(Name ?? FileName))
@@ -142,7 +142,8 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         {
             if (Added == true)
             {
-                if (Parameters.BinaryStorage.TemporaryBinaryStorageProvider == "Rds")
+                if (Parameters.BinaryStorage.TemporaryBinaryStorageProvider == "Rds"
+                    && context.Api != true)
                 {
                     // Binariesテーブルにアップロードした一時的なレコードを更新する
                     // 一時的なレコードのBinaryTypeをTemporaryからAttachmentsに変更する
@@ -155,7 +156,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                             .Title(Name ?? FileName)
                             .BinaryType("Attachments")
                             .FileName(Name ?? FileName)
-                            .Extension(Extention)
+                            .Extension(Extension)
                             .Size(Size)
                             .ContentType(ContentType),
                         where: Rds.BinariesWhere().Guid(Guid)));
@@ -174,7 +175,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                             .Bin(bin, _using: !IsStoreLocalFolder(column))
                             .Bin(raw: "NULL", _using: IsStoreLocalFolder(column))
                             .FileName(Name ?? FileName)
-                            .Extension(Extention)
+                            .Extension(Extension)
                             .Size(Size)
                             .ContentType(ContentType),
                         where: Rds.BinariesWhere().Guid(Guid)));
@@ -296,7 +297,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                     .Bin(bin, _using: !isLocal)
                     .Bin(raw: "NULL", _using: isLocal)
                     .FileName(Name ?? FileName)
-                    .Extension(Extention)
+                    .Extension(Extension)
                     .Size(Size)
                     .ContentType(ContentType)));
             var response = Repository.ExecuteScalar_response(
@@ -333,7 +334,8 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 }
             }
             else
-            {   if (Parameters.BinaryStorage.TemporaryBinaryStorageProvider == "Rds")
+            {   if (Parameters.BinaryStorage.TemporaryBinaryStorageProvider == "Rds"
+                    && context.Api != true)
                 {
                     var hash = Repository.ExecuteScalar_bytes(
                         context: context,

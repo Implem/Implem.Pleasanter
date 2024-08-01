@@ -1,4 +1,8 @@
-﻿.nav-site {
+﻿td{
+    color: #222222;
+}
+
+.nav-site {
     background-color: white;
     border: solid 2px silver;
 }
@@ -67,6 +71,10 @@
     color: black;
 }
 
+.field-control .ui-multiselect-open + span {
+    color: black;
+}
+
 .field-control .ui-multiselect .ui-icon.ui-icon-triangle-1-s {
     background-image: url("images/ui-icons_3d3d3d_256x240.png");
 }
@@ -103,7 +111,7 @@ html body {
 }
 
 /* コンテンツ */
-#MainContainer {
+#MainContainer:has(#NavigationsUpperRight) {
     margin-left: 52px;
 }
 
@@ -153,13 +161,38 @@ nav.both.cf {
     position: absolute;
     top: 8px;
     left: 8px;
-    z-index: 1;
+    z-index: 3;
 }
 
 #CopyDirectUrlToClipboard {
     border: 1px solid #CECECE;
     padding: 0 2px;
     border-radius: 4px;
+}
+
+body:has(#Publish[value="1"]) {
+    #PublishWarning {
+        clear: both;
+        width: auto;
+        margin: 0;
+        border-radius: 0;
+        float: none;
+        overflow: hidden;
+        padding: 8px;
+        background: #E03E3E;
+    }
+    &:has(#Action[value="index"]) {
+        #MainCommandsContainer,
+        #BottomMargin{
+            display: none;
+        }
+    }
+    &:has(#Action[value="edit"]) {
+        #PublishWarning{
+            margin: 8px 16px;
+            border-radius: 5px;
+        }
+    }
 }
 
 /* パンくず */
@@ -620,7 +653,7 @@ fieldset .command-left > button {
     background-color: #FFF9E3;
 }
 
-.field-control label,
+.field-control label:not(.error),
 .field-control textarea {
     color: #222222;
 }
@@ -880,7 +913,6 @@ fieldset .legend{
 #EditorTabsContainer .grid > tbody > tr > td {
     border-left: 1px solid #ECECEC;
     border-right: 1px solid #ECECEC;
-    color: #222222;
 }
 
 #ViewModeContainer .grid-row .comment,
@@ -989,25 +1021,53 @@ table.grid tbody td > input {
 }
 
 /* 編集画面 */
-#Editor {
-    overflow: hidden;
+#Editor{
+    #MainForm{
+        position: relative;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        &:after{
+            position: absolute;
+            top: 50px;
+            right: 0;
+            z-index: 0;
+            width: 27%;
+            height: calc(100% - 50px);
+            content: "";
+            background-color: #FFF9EA;
+        }
+        #EditorComments,
+        #EditorTabsContainer{
+            position: sticky;
+            top: 0;
+        }
+        #EditorComments{
+            order: 1;
+        }
+        #EditorTabsContainer{
+            z-index: 1;
+        }
+        #Comments{
+            min-height: 100px;
+        }
+    }
 }
 
 #Editor #EditorComments{
     background: #FFF9EA;
-    padding-top: 16px;
-    padding-left: 16px;
-    padding-right: 16px;
-    padding-bottom: 10000px;
-    margin-bottom: -10000px;
+    padding: 16px;
+    margin-bottom: 0;
     color: #222222;
 }
 
 #Editor #EditorComments .comment {
     border: 0;
-    border-bottom: 1px solid #CECECE;
     background: none;
     color: #222222;
+    + .comment{
+        border-top: 1px solid #CECECE;
+    }
 }
 
 #Application #TemplateTabsContainer {
@@ -1337,6 +1397,7 @@ fieldset .field-vertical > .field-label {
     flex-direction: row;
     align-items: flex-start;
     justify-content: flex-start;
+    font-size: 13px;
 }
 
 #Application .nav-site .conditions span:nth-of-type(2) {
