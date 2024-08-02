@@ -24,7 +24,7 @@ jobs:
             DOCKER_BUILDKIT: 1
             COMPOSE_DOCKER_CLI_BUILD: true
         steps:
-            - uses: actions/checkout@v3
+            - uses: actions/checkout@v4
             - name: build on docker-compose
               working-directory: ./
               run: docker-compose build Implem.CodeDefiner Implem.PleasanterTest
