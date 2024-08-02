@@ -11,6 +11,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? DisableTopSiteCreation;
         public bool? DisableGroupAdmin;
         public bool? DisableGroupCreation;
+        public bool? DisableMovingFromTopSite;
         public bool? DisableApi;
         public bool? DisableStartGuide;
 
@@ -32,6 +33,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (DisableStartGuide == true)
             {
                 us.DisableStartGuide = DisableStartGuide;
+            }
+            if (DisableMovingFromTopSite == true)
+            {
+                us.DisableMovingFromTopSite = DisableMovingFromTopSite;
             }
             return us.ToJson();
         }
@@ -84,6 +89,14 @@ namespace Implem.Pleasanter.Libraries.Settings
             return (!Parameters.User.DisableGroupCreation
                 || context.User.AllowGroupCreation)
                     && DisableGroupCreation != true;
+        }
+
+        public bool AllowMovingFromTopSite(Context context)
+        {
+            if (context.HasPrivilege) return true;
+            return (!Parameters.User.DisableMovingFromTopSite
+                || context.User.AllowMovingFromTopSite)
+                    && DisableMovingFromTopSite != true;
         }
 
         public bool AllowApi(Context context)
