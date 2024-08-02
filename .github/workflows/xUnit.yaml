@@ -7,11 +7,12 @@ on:
       - opened
       - synchronize
       - reopened
+      - ready_for_review
   workflow_dispatch:
 jobs:
     run_xunit_test:
         name: Run xUnit test
-        if: github.repository == 'Implem/Implem.Pleasanter.NetCore.Private'
+        if: github.repository == 'Implem/Implem.Pleasanter.NetCore.Private' && github.event.pull_request.draft == false
         runs-on: ubuntu-latest
         env:
             Implem_Pleasanter_Rds_PostgreSQL_SaConnectionString: ${{ secrets.PLEASANTER_RDS_SA_CONN }}
@@ -23,15 +24,7 @@ jobs:
             DOCKER_BUILDKIT: 1
             COMPOSE_DOCKER_CLI_BUILD: true
         steps:
-            - uses: actions/checkout@v3
-            - name: xUnit Test Started Notification
-              uses: mikesprague/teams-incoming-webhook-action@v1
-              with:
-                github-token: ${{ github.token }}
-                webhook-url: ${{ secrets.MS_TEAMS_WEBHOOK_URL }}
-                deploy-card: true
-                title: "xUnit Test Started"
-                color: "info"
+            - uses: actions/checkout@v4
             - name: build on docker-compose
               working-directory: ./
               run: docker-compose build Implem.CodeDefiner Implem.PleasanterTest
@@ -44,30 +37,3 @@ jobs:
             - name: clean up on docker-compose
               run: docker-compose down
               working-directory: ./
-            - name: Cancelled Notification
-              if: ${{ cancelled() }}
-              uses: mikesprague/teams-incoming-webhook-action@v1
-              with:
-                github-token: ${{ github.token }}
-                webhook-url: ${{ secrets.MS_TEAMS_WEBHOOK_URL }}
-                deploy-card: true
-                title: "xUnit test Cancelled"
-                color: "warning"
-            - name: Failure Notification
-              if: ${{ failure() }}
-              uses: mikesprague/teams-incoming-webhook-action@v1
-              with:
-                github-token: ${{ github.token }}
-                webhook-url: ${{ secrets.MS_TEAMS_WEBHOOK_URL }}
-                deploy-card: true
-                title: "xUnit test Failed"
-                color: "failure"
-            - name: Success Notification
-              if: ${{ success() }}
-              uses: mikesprague/teams-incoming-webhook-action@v1
-              with:
-                github-token: ${{ github.token }}
-                webhook-url: ${{ secrets.MS_TEAMS_WEBHOOK_URL }}
-                deploy-card: true
-                title: "xUnit test Successful"
-                color: "success"

@@ -7,7 +7,6 @@ namespace Implem.ParameterAccessor.Parts
     {
         public List<string> EnvironmentVariables;
         public bool Reminder;
-        public int ReminderIgnoreConsecutiveExceptionCount;
         public bool SyncByLdap;
         public List<string> SyncByLdapTime;
         public bool DeleteSysLogs;
@@ -25,12 +24,8 @@ namespace Implem.ParameterAccessor.Parts
                 && (SyncByLdap
                 || DeleteSysLogs
                 || DeleteTemporaryFiles
-                || DeleteTrashBox);
-        }
-
-        public bool ReminderEnabled(string deploymentEnvironment)
-        {
-            return Reminder && ServiceEnabled(deploymentEnvironment);
+                || DeleteTrashBox
+                || Reminder);
         }
 
         private bool ServiceEnabled(string deploymentEnvironment)
