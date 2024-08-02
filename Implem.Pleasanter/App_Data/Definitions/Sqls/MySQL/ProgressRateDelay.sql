@@ -1,22 +1,22 @@
 ﻿(
   case
-    when #TableBracket#."CompletionTime" < CURRENT_TIMESTAMP then
+    when #TableBracket#."CompletionTime" < current_timestamp then
       100
     else
       case 
         when #TableBracket#."StartTime" is null then
           case
-            when (EXTRACT(epoch from #TableBracket#."CompletionTime")-EXTRACT(epoch from #TableBracket#."CreatedTime")) <> 0 then
-                (EXTRACT(epoch from CURRENT_TIMESTAMP) - EXTRACT(epoch from #TableBracket#."CreatedTime")) /
-                (EXTRACT(epoch from #TableBracket#."CompletionTime") - EXTRACT(epoch from #TableBracket#."CreatedTime")) * 100
+            when timediff(#TableBracket#."CreatedTime", #TableBracket#."CompletionTime") <> 0 then
+              cast(timediff(#TableBracket#."CreatedTime", current_timestamp) as float) /
+              cast(timediff(#TableBracket#."CreatedTime", #TableBracket#."CompletionTime") as float) * 100
             else
               0
           end
         else
           case
-            when (EXTRACT(epoch from #TableBracket#."CompletionTime")-EXTRACT(epoch from #TableBracket#."StartTime")) <> 0 then
-                (EXTRACT(epoch from CURRENT_TIMESTAMP) - EXTRACT(epoch from #TableBracket#."StartTime")) /
-                (EXTRACT(epoch from #TableBracket#."CompletionTime") - EXTRACT(epoch from #TableBracket#."StartTime")) * 100
+            when timediff(#TableBracket#."StartTime", #TableBracket#."CompletionTime") <> 0 then
+              cast(timediff(#TableBracket#."StartTime", current_timestamp) as float) /
+              cast(timediff(#TableBracket#."StartTime", #TableBracket#."CompletionTime") as float) * 100
             else
               0
           end

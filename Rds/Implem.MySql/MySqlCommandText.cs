@@ -40,13 +40,12 @@ namespace Implem.MySql
         {
             return string.Format(
                 template,
-                dataTableName ?? string.Empty,
-                identityColumnName);
+                dataTableName ?? string.Empty);
         }
 
         public string CreateSelectStatementTerminator(bool selectIdentity)
         {
-            return selectIdentity ? "" : ";";
+            return ";";
         }
 
         public string CreateTopClause(int top)

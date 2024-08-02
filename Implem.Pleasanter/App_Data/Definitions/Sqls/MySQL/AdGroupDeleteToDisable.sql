@@ -1,5 +1,5 @@
 ﻿update "Groups" 
-set "Disabled" = true, "Updator" = @ipU, "UpdatedTime" = CURRENT_TIMESTAMP
+set "Disabled" = 1, "Updator" = @ipU, "UpdatedTime" = CURRENT_TIMESTAMP
 where ("TenantId" = @ipT)
     and ("Disabled" = false)
     and ("SynchronizedTime" is not null)

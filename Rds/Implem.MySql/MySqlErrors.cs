@@ -6,8 +6,8 @@ namespace Implem.MySql
 {
     internal class MySqlErrors : ISqlErrors
     {
-        public int ErrorCodeDuplicateKey { get; } = 23505;
-        public int ErrorCodeDuplicatePk { get; } = 23505;
+        public int ErrorCodeDuplicateKey { get; } = 23000;
+        public int ErrorCodeDuplicatePk { get; } = 23000;
         public int ErrorCodeDeadLocked { get; } = 40001;
 
         public int ErrorCode(DbException dbException)

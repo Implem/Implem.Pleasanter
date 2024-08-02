@@ -1,17 +1,17 @@
 ﻿drop procedure if exists "refresh_all_member";
 create procedure "refresh_all_member"(
-    in "v_tenantid" int,
-    in "v_depth_max" int,
-    in "v_ipu" int)
+    in "v_tenantid" int
+    ,in "v_depth_max" int
+    ,in "v_ipu" int)
 begin
-    declare done int default false;
+    declare done int default 0;
     declare v_groupid int;
     declare v_row_cnt int;
     declare cur cursor for
         select "GroupId" 
         from "Groups"
         where "TenantId" = v_tenantid
-        and ({{groupid_search_condition}});
+            and ({{groupid_search_condition}});
     declare continue handler for not found set done = 1;
     open cur;
     read_loop: loop
@@ -19,9 +19,11 @@ begin
         if done = 1 then
             leave read_loop;
         end if;
-        delete from "GroupMembers" where "GroupId" = v_groupid and "ChildGroup" = 1;
+        delete from "GroupMembers"
+        where "GroupId" = v_groupid
+            and "ChildGroup" = 1;
         insert 
-        into "GroupMembers" ( 
+        into "GroupMembers" (
             "GroupId"
             ,"DeptId"
             ,"UserId"
@@ -78,5 +80,8 @@ begin
     end loop;
     close cur;
 end;
-call refresh_all_member(@TenantId#CommandCount#, @GroupsDepthMax#CommandCount#, @ipU);
+call refresh_all_member(
+    @TenantId#CommandCount#
+    ,@GroupsDepthMax#CommandCount#
+    ,@ipU);
 drop procedure "refresh_all_member";
