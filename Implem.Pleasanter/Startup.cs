@@ -167,24 +167,27 @@ namespace Implem.Pleasanter.NetCore
                 options.Limits.MaxRequestBodySize = Parameters.Service.MaxRequestBodySize;
             })
             .Configure<KestrelServerOptions>(configuration.GetSection("Kestrel"));
-            var conStr = Parameters.Rds.UserConnectionString;
-            var healthQuery = Parameters.Security.HealthCheck.HealthQuery ?? "select 1;";
-            switch (Parameters.Rds.Dbms)
+            if (Parameters.Security.HealthCheck.Enabled)
             {
-                case "SQLServer":
-                    services
-                        .AddHealthChecks()
-                        .AddSqlServer(
-                            connectionString: conStr,
-                            healthQuery: healthQuery);
-                    break;
-                case "PostgreSQL":
-                    services
-                        .AddHealthChecks()
-                        .AddNpgSql(
-                            connectionString: conStr,
-                            healthQuery: healthQuery);
-                    break;
+                var conStr = Parameters.Rds.UserConnectionString;
+                var healthQuery = Parameters.Security.HealthCheck.HealthQuery ?? "select 1;";
+                switch (Parameters.Rds.Dbms)
+                {
+                    case "SQLServer":
+                        services
+                            .AddHealthChecks()
+                            .AddSqlServer(
+                                connectionString: conStr,
+                                healthQuery: healthQuery);
+                        break;
+                    case "PostgreSQL":
+                        services
+                            .AddHealthChecks()
+                            .AddNpgSql(
+                                connectionString: conStr,
+                                healthQuery: healthQuery);
+                        break;
+                }
             }
             services.Configure<ForwardedHeadersOptions>(options =>
             {
@@ -316,20 +319,22 @@ namespace Implem.Pleasanter.NetCore
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
-                if (Parameters.Security.HealthCheck.EnableDetailedResponse)
-                {
-                    endpoints
-                        .MapHealthChecks("/healthz", new HealthCheckOptions()
-                        {
-                            ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse,
-                        })
-                        .RequireHost(Parameters.Security.HealthCheck.RequireHosts ?? Array.Empty<string>());
-                }
-                else
-                {
-                    endpoints
-                        .MapHealthChecks("/healthz")
-                        .RequireHost(Parameters.Security.HealthCheck.RequireHosts ?? Array.Empty<string>());
+                if (Parameters.Security.HealthCheck.Enabled) {
+                    if (Parameters.Security.HealthCheck.EnableDetailedResponse)
+                    {
+                        endpoints
+                            .MapHealthChecks("/healthz", new HealthCheckOptions()
+                            {
+                                ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse,
+                            })
+                            .RequireHost(Parameters.Security.HealthCheck.RequireHosts ?? Array.Empty<string>());
+                    }
+                    else
+                    {
+                        endpoints
+                            .MapHealthChecks("/healthz")
+                            .RequireHost(Parameters.Security.HealthCheck.RequireHosts ?? Array.Empty<string>());
+                    }
                 }
                 endpoints.MapControllerRoute(
                     name: "Default",
