@@ -25,12 +25,8 @@ namespace Implem.ParameterAccessor.Parts
                 && (SyncByLdap
                 || DeleteSysLogs
                 || DeleteTemporaryFiles
-                || DeleteTrashBox);
-        }
-
-        public bool ReminderEnabled(string deploymentEnvironment)
-        {
-            return Reminder && ServiceEnabled(deploymentEnvironment);
+                || DeleteTrashBox
+                || Reminder);
         }
 
         private bool ServiceEnabled(string deploymentEnvironment)

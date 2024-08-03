@@ -27,12 +27,14 @@ namespace Implem.Pleasanter.Libraries.Settings
             });
         }
 
-        public static void Reschedule(BackgroundServerScripts backgroundServerScripts)
+        public static void Reschedule(int tenantId, BackgroundServerScripts backgroundServerScripts)
         {
             // Tenantが変更された場合にスケジュールを再設定する
             Task.Run(async () =>
             {
-                await RescheduleAsync(backgroundServerScripts);
+                await RescheduleAsync(
+                    tenantId: tenantId,
+                    backgroundServerScripts: backgroundServerScripts);
             });
         }
 
@@ -46,26 +48,27 @@ namespace Implem.Pleasanter.Libraries.Settings
                 context: context,
                 statements: Rds.SelectTenants(
                     tableType: Sqls.TableTypes.Normal,
-                    column: TenantsColumn().TenantSettings()));
+                    column: TenantsColumn().TenantId().TenantSettings()));
             foreach (var dataRow in dataTable.AsEnumerable())
             {
                 var tenant = new TenantModel(context: context, ss: ss, dataRow: dataRow);
-                if (tenant.TenantSettings.BackgroundServerScripts == null) continue;
-                await RescheduleAsync(tenant.TenantSettings.BackgroundServerScripts);
+                await RescheduleAsync(
+                    tenantId: tenant.TenantId,
+                    backgroundServerScripts: tenant.TenantSettings.BackgroundServerScripts);
             }
         }
 
-        private static async Task RescheduleAsync(BackgroundServerScripts backgroundServerScripts)
+        private static async Task RescheduleAsync(int tenantId, BackgroundServerScripts backgroundServerScripts)
         {
             // BackgroundServerScripts用スケジュール登録メソッド
             // 今あるスケジュールを削除して、スケジュールを作り直す(テナント単位で実行)
             if (Parameters.Script.ServerScript != true || Parameters.Script.BackgroundServerScript != true) return;
             var scheduler = CustomQuartzHostedService.Scheduler;
-            string groupKey = $"BGServerScript_TenantId_{backgroundServerScripts.TenantId}";
+            string groupKey = $"BGServerScript_TenantId_{tenantId}";
             // TenantIdのjobを一度全部削除
             await scheduler.DeleteJobs(await scheduler.GetJobKeys(GroupMatcher<JobKey>.GroupContains(groupKey)));
             // TenantIdの全てのjob登録
-            backgroundServerScripts.Scripts
+            backgroundServerScripts?.Scripts?
                 .Where(v => v.Disabled != true && v.Background == true && v.Shared == false)
                 .Where(v => v.backgoundSchedules.Count > 0)
                 .ForEach(script =>

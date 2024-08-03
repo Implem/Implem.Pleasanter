@@ -78,7 +78,7 @@ namespace Implem.PleasanterTest.Tests.PublishBinaries
                         Guid = uuid,
                         Name = "Attachments.txt",
                         Size = 15,
-                        Extention = "txt",
+                        Extension = "txt",
                         ContentType = "text/plain",
                         Added = true,
                         Deleted = false

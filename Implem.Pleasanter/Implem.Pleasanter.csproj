@@ -5,9 +5,9 @@
     <Copyright>Copyright © Implem Inc 2014 - 2024</Copyright>
     <Description>Business application platform</Description>
     <AssemblyName>Implem.Pleasanter</AssemblyName>
-    <AssemblyVersion>1.4.6.3</AssemblyVersion>
-    <FileVersion>1.4.6.3</FileVersion>
-    <Version>1.4.6.3</Version>
+    <AssemblyVersion>1.4.6.4</AssemblyVersion>
+    <FileVersion>1.4.6.4</FileVersion>
+    <Version>1.4.6.4</Version>
     <Nullable>disable</Nullable>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
@@ -40,7 +40,7 @@
     <PackageReference Include="Azure.Identity" Version="1.12.0" />
     <PackageReference Include="BuildBundlerMinifier" Version="3.2.449" />
 	  <PackageReference Include="Fare" Version="2.2.1" />
-    <PackageReference Include="MailKit" Version="4.6.0" />
+    <PackageReference Include="MailKit" Version="4.7.1.1" />
     <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.3.0">
       <NoWarn>NU1701</NoWarn>
     </PackageReference>
@@ -59,18 +59,18 @@
       <NoWarn>NU1701</NoWarn>
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="8.0.5" />
-    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.20.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
     <PackageReference Include="Microsoft.Web.Infrastructure" Version="2.0.0">
       <NoWarn>NU1701</NoWarn>
     </PackageReference>
     <PackageReference Include="MimeKit" Version="4.7.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Novell.Directory.Ldap.NETStandard" Version="3.6.0" />
-    <PackageReference Include="Quartz.AspNetCore" Version="3.9.0" />
+    <PackageReference Include="Quartz.AspNetCore" Version="3.11.0" />
     <PackageReference Include="Otp.NET" Version="1.4.0" />
     <PackageReference Include="Sendgrid" Version="9.29.3" />
     <PackageReference Include="SendGrid.SmtpApi" Version="1.4.6" />
-    <PackageReference Include="SixLabors.ImageSharp" Version="3.1.4" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="3.1.5" />
     <PackageReference Include="Sustainsys.Saml2" Version="2.9.2" />
     <PackageReference Include="Sustainsys.Saml2.AspNetCore2" Version="2.9.2" />
     <PackageReference Include="System.Diagnostics.PerformanceCounter" Version="8.0.0" />
