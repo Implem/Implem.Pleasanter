@@ -142,7 +142,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         private bool UserContains(Context context)
         {
-            // 項目のアクセス制御で全てのユーザー(UserId: -1)が選択されている場合、認証されているユーザーであれば許可する
+            // 項目のアクセス制御で全てのユーザ(UserId: -1)が選択されている場合、認証されているユーザであれば許可する
             // 情報公開機能を使用して匿名アクセスしたユーザには許可しない
             if (Users?.Contains(-1) == true && context.Authenticated) return true;
             if (Users?.Contains(context.UserId) != true) return false;

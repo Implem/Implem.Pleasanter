@@ -1,5 +1,6 @@
 ﻿using Azure.Identity;
 using Azure.Storage.Blobs;
+using HealthChecks.UI.Client;
 using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.BackgroundServices;
@@ -9,6 +10,7 @@ using Implem.Pleasanter.Libraries.Migrators;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
+using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using Implem.PleasanterFilters;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -16,6 +18,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.DataProtection.KeyManagement;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
@@ -27,13 +30,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Primitives;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using Implem.Pleasanter.Libraries.Settings;
-using System.Collections.Generic;
-
 
 namespace Implem.Pleasanter.NetCore
 {
@@ -166,7 +167,28 @@ namespace Implem.Pleasanter.NetCore
                 options.Limits.MaxRequestBodySize = Parameters.Service.MaxRequestBodySize;
             })
             .Configure<KestrelServerOptions>(configuration.GetSection("Kestrel"));
-            services.AddHealthChecks();
+            if (Parameters.Security.HealthCheck.Enabled)
+            {
+                var conStr = Parameters.Rds.UserConnectionString;
+                var healthQuery = Parameters.Security.HealthCheck.HealthQuery ?? "select 1;";
+                switch (Parameters.Rds.Dbms)
+                {
+                    case "SQLServer":
+                        services
+                            .AddHealthChecks()
+                            .AddSqlServer(
+                                connectionString: conStr,
+                                healthQuery: healthQuery);
+                        break;
+                    case "PostgreSQL":
+                        services
+                            .AddHealthChecks()
+                            .AddNpgSql(
+                                connectionString: conStr,
+                                healthQuery: healthQuery);
+                        break;
+                }
+            }
             services.Configure<ForwardedHeadersOptions>(options =>
             {
                 options.ForwardedHeaders =
@@ -292,6 +314,24 @@ namespace Implem.Pleasanter.NetCore
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
+                if (Parameters.Security.HealthCheck.Enabled)
+                {
+                    if (Parameters.Security.HealthCheck.EnableDetailedResponse)
+                    {
+                        endpoints
+                            .MapHealthChecks("/healthz", new HealthCheckOptions()
+                            {
+                                ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse,
+                            })
+                            .RequireHost(Parameters.Security.HealthCheck.RequireHosts ?? Array.Empty<string>());
+                    }
+                    else
+                    {
+                        endpoints
+                            .MapHealthChecks("/healthz")
+                            .RequireHost(Parameters.Security.HealthCheck.RequireHosts ?? Array.Empty<string>());
+                    }
+                }
                 endpoints.MapControllerRoute(
                     name: "Default",
                     pattern: "{controller}/{action}",

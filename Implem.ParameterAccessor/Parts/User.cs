@@ -5,6 +5,7 @@
         public bool DisableTopSiteCreation;
         public bool DisableGroupAdmin;
         public bool DisableGroupCreation;
+        public bool DisableMovingFromTopSite;
         public bool DisableApi;
         public SelectorToolTipKind? SelectorToolTip;
         public string Theme;
