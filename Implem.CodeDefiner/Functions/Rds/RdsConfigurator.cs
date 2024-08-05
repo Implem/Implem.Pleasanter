@@ -50,7 +50,7 @@ namespace Implem.CodeDefiner.Functions.Rds
         }
 
         /// <summary>
-        /// PostgreSQLの場合かつ、DBが既に存在する場合かつ、ユーザーがない場合にはユーザの作成を行う。またDBのオーナ変更を行う。
+        /// PostgreSQLの場合かつ、DBが既に存在する場合かつ、ユーザがない場合にはユーザの作成を行う。またDBのオーナ変更を行う。
         /// SQLServerおよびMySQLではダミーのSQLが実行される。
         /// </summary>
         /// <param name="factory"></param>

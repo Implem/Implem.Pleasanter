@@ -1925,6 +1925,7 @@ namespace Implem.DefinitionAccessor
                     case "Users_AllowCreationAtTopSite": Column.Users_AllowCreationAtTopSite = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_AllowCreationAtTopSite, definitionRow, ColumnXls); break;
                     case "Users_AllowGroupAdministration": Column.Users_AllowGroupAdministration = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_AllowGroupAdministration, definitionRow, ColumnXls); break;
                     case "Users_AllowGroupCreation": Column.Users_AllowGroupCreation = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_AllowGroupCreation, definitionRow, ColumnXls); break;
+                    case "Users_AllowMovingFromTopSite": Column.Users_AllowMovingFromTopSite = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_AllowMovingFromTopSite, definitionRow, ColumnXls); break;
                     case "Users_ApiKey": Column.Users_ApiKey = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_ApiKey, definitionRow, ColumnXls); break;
                     case "Users_Birthday": Column.Users_Birthday = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_Birthday, definitionRow, ColumnXls); break;
                     case "Users_Body": Column.Users_Body = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_Body, definitionRow, ColumnXls); break;
@@ -9323,6 +9324,7 @@ namespace Implem.DefinitionAccessor
         public string Users_AllowCreationAtTopSite;
         public string Users_AllowGroupAdministration;
         public string Users_AllowGroupCreation;
+        public string Users_AllowMovingFromTopSite;
         public string Users_ApiKey;
         public string Users_Birthday;
         public string Users_Body;
@@ -9889,6 +9891,7 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Users_AllowCreationAtTopSite = new ColumnDefinition();
         public ColumnDefinition Users_AllowGroupAdministration = new ColumnDefinition();
         public ColumnDefinition Users_AllowGroupCreation = new ColumnDefinition();
+        public ColumnDefinition Users_AllowMovingFromTopSite = new ColumnDefinition();
         public ColumnDefinition Users_ApiKey = new ColumnDefinition();
         public ColumnDefinition Users_Birthday = new ColumnDefinition();
         public ColumnDefinition Users_Body = new ColumnDefinition();

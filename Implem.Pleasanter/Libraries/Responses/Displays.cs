@@ -13599,6 +13599,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Users_AllowMovingFromTopSite(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Users_AllowMovingFromTopSite",
+                data: data);
+        }
+
         public static string Users_ApiKey(
             Context context,
             params string[] data)

@@ -2079,6 +2079,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                         case "AllowApi":
                             sql.Users_AllowApi(tableName: path, _as: _as);
                             break;
+                        case "AllowMovingFromTopSite":
+                            sql.Users_AllowMovingFromTopSite(tableName: path, _as: _as);
+                            break;
                         case "EnableSecondaryAuthentication":
                             sql.Users_EnableSecondaryAuthentication(tableName: path, _as: _as);
                             break;

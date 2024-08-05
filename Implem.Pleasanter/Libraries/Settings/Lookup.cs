@@ -543,6 +543,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                             ss: ss,
                             column: column,
                             type: Type);
+                    case "AllowMovingFromTopSite":
+                        return userModel.AllowMovingFromTopSite.ToLookup(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: Type);
                     case "EnableSecondaryAuthentication":
                         return userModel.EnableSecondaryAuthentication.ToLookup(
                             context: context,
