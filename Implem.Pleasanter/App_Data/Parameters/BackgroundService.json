@@ -1,7 +1,6 @@
 ﻿{
     "EnvironmentVariables": null,
     "Reminder": false,
-    "ReminderIgnoreConsecutiveExceptionCount": 30,
     "SyncByLdap": false,
     "SyncByLdapTime": [ "02:00" ],
     "DeleteSysLogs": false,

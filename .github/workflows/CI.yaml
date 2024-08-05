@@ -27,27 +27,19 @@ jobs:
             DOCKER_BUILDKIT: 1
             COMPOSE_DOCKER_CLI_BUILD: true
         steps:
-            - uses: actions/checkout@v3
-            - name: Deploy Started Notification
-              uses: mikesprague/teams-incoming-webhook-action@v1
-              with:
-                github-token: ${{ github.token }}
-                webhook-url: ${{ secrets.MS_TEAMS_WEBHOOK_URL }}
-                deploy-card: true
-                title: "Build and Test Started"
-                color: "info"
+            - uses: actions/checkout@v4
             - name: Setup .NET Core SDK ${{ env.DOTNET_CORE_VERSION }}
-              uses: actions/setup-dotnet@v3
+              uses: actions/setup-dotnet@v4
               with:
                 dotnet-version: ${{ env.DOTNET_CORE_VERSION }}
-            - name: build on docker-compose
+            - name: build on docker compose
               working-directory: ./
-              run: docker-compose build
-            - name: run Implem.CodeDefiner on docker-compose
-              run: docker-compose run --rm --name codedefiner Implem.CodeDefiner _rds
+              run: docker compose build
+            - name: run Implem.CodeDefiner on docker compose
+              run: docker compose run --rm --name codedefiner Implem.CodeDefiner _rds
               working-directory: ./
-            - name: run Implem.Pleasanter on docker-compose
-              run: docker-compose run -d -p 50001:80 --rm --name pleasanter Implem.Pleasanter
+            - name: run Implem.Pleasanter on docker compose
+              run: docker compose run -d -p 50001:80 --rm --name pleasanter Implem.Pleasanter
               working-directory: ./
             - name: build Implem.TestAutomation
               run: dotnet build "Implem.TestAutomation.csproj" -c Release
@@ -55,33 +47,6 @@ jobs:
             - name: run Implem.TestAutomation
               run: dotnet Implem.TestAutomation.dll /p . /s
               working-directory: ${{ env.WORKING_DIR_TESTAUTOMATION }}/bin/${{ env.CONFIGURATION }}/${{ env.DOTNET_CORE_DIR }}
-            - name: clean up on docker-compose
-              run: docker-compose down
+            - name: clean up on docker compose
+              run: docker compose down
               working-directory: ./
-            - name: Cancelled Notification
-              if: ${{ cancelled() }}
-              uses: mikesprague/teams-incoming-webhook-action@v1
-              with:
-                github-token: ${{ github.token }}
-                webhook-url: ${{ secrets.MS_TEAMS_WEBHOOK_URL }}
-                deploy-card: true
-                title: "Build Cancelled"
-                color: "warning"
-            - name: Failure Notification
-              if: ${{ failure() }}
-              uses: mikesprague/teams-incoming-webhook-action@v1
-              with:
-                github-token: ${{ github.token }}
-                webhook-url: ${{ secrets.MS_TEAMS_WEBHOOK_URL }}
-                deploy-card: true
-                title: "Build or Test Failed"
-                color: "failure"
-            - name: Success Notification
-              if: ${{ success() }}
-              uses: mikesprague/teams-incoming-webhook-action@v1
-              with:
-                github-token: ${{ github.token }}
-                webhook-url: ${{ secrets.MS_TEAMS_WEBHOOK_URL }}
-                deploy-card: true
-                title: "Build and Test Successful"
-                color: "success"

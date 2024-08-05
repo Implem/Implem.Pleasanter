@@ -127,6 +127,7 @@
     <Content Remove="App_Data\Definitions\Definition_Code\Model_WriteAttachmentsExecute_Create.json" />
     <Content Remove="App_Data\Definitions\Definition_Column\Tenants_Language.json" />
     <Content Remove="App_Data\Definitions\Definition_Column\Tenants_TimeZone.json" />
+    <Content Remove="App_Data\Definitions\Definition_Column\Users_AllowMovingFromTopSite.json" />
   </ItemGroup>
 
   <ItemGroup>
