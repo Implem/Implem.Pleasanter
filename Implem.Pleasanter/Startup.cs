@@ -314,7 +314,8 @@ namespace Implem.Pleasanter.NetCore
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
-                if (Parameters.Security.HealthCheck.Enabled) {
+                if (Parameters.Security.HealthCheck.Enabled)
+                {
                     if (Parameters.Security.HealthCheck.EnableDetailedResponse)
                     {
                         endpoints
