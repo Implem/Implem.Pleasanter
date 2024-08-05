@@ -25,15 +25,15 @@ jobs:
             COMPOSE_DOCKER_CLI_BUILD: true
         steps:
             - uses: actions/checkout@v4
-            - name: build on docker-compose
+            - name: build on docker compose
               working-directory: ./
-              run: docker-compose build Implem.CodeDefiner Implem.PleasanterTest
-            - name: run Implem.CodeDefiner on docker-compose
-              run: docker-compose run --rm --name codedefiner Implem.CodeDefiner _rds
+              run: docker compose build Implem.CodeDefiner Implem.PleasanterTest
+            - name: run Implem.CodeDefiner on docker compose
+              run: docker compose run --rm --name codedefiner Implem.CodeDefiner _rds
               working-directory: ./
-            - name: run Implem.PleasanterTest on docker-compose
-              run: docker-compose run --rm --name testrunner Implem.PleasanterTest
+            - name: run Implem.PleasanterTest on docker compose
+              run: docker compose run --rm --name testrunner Implem.PleasanterTest
               working-directory: ./
-            - name: clean up on docker-compose
-              run: docker-compose down
+            - name: clean up on docker compose
+              run: docker compose down
               working-directory: ./
