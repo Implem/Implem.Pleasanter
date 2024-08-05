@@ -63,18 +63,18 @@
                 };
             };
             if ($childElement.prop('tagName') === 'SELECT') {
-                c_change(tablename);
+                c_change(tablename, true);
                 $(document).on(
                     'change',
                     '#' + tablename + '_' + prnt,
                     debounce(function () {
-                        c_change(tablename);
+                        c_change(tablename, false);
                     }, 500));
             }
         });
         var $parentElement = $('#' + tablename + '_' + prnt);
         var $childElement = $('#' + tablename + '_' + chld);
-        var c_change = function (tablename) {
+        var c_change = function (tablename, isInitDisplay) {
             var parentIds = [];
             if ($parentElement.prop('tagName') === 'SELECT') {
                 var $parent = $('#' + tablename + '_' + prnt + ' option:selected');
@@ -102,6 +102,7 @@
             formData['RelatingDropDownSelected'] = JSON.stringify(childIds);
             formData['RelatingDropDownParentClass'] = linkedClass;
             formData['RelatingDropDownParentDataId'] = JSON.stringify(parentIds);
+            formData['IsInitDisplay'] = isInitDisplay;
             $trigger.attr('parent-data-class', linkedClass);
             $trigger.attr('parent-data-id', JSON.stringify(parentIds));
             $trigger.attr('data-action', 'RelatingDropDown');
