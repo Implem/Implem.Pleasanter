@@ -7,7 +7,6 @@ namespace Implem.ParameterAccessor.Parts
     {
         public List<string> EnvironmentVariables;
         public bool Reminder;
-        public int ReminderIgnoreConsecutiveExceptionCount;
         public bool SyncByLdap;
         public List<string> SyncByLdapTime;
         public bool DeleteSysLogs;

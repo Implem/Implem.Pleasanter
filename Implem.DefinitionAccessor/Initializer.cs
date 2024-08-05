@@ -909,6 +909,15 @@ namespace Implem.DefinitionAccessor
                 Def.ColumnDefinitionCollection.FirstOrDefault(o =>
                     o.Id == "Users_AllowGroupCreation").UpdateAccessControl = "ManageService";
             }
+            if (!Parameters.User.DisableMovingFromTopSite)
+            {
+                Def.ColumnDefinitionCollection.FirstOrDefault(o =>
+                    o.Id == "Users_AllowMovingFromTopSite").CreateAccessControl = "ManageService";
+                Def.ColumnDefinitionCollection.FirstOrDefault(o =>
+                    o.Id == "Users_AllowMovingFromTopSite").ReadAccessControl = "ManageService";
+                Def.ColumnDefinitionCollection.FirstOrDefault(o =>
+                    o.Id == "Users_AllowMovingFromTopSite").UpdateAccessControl = "ManageService";
+            }
             switch (Parameters.Security.SecondaryAuthentication?.Mode)
             {
                 case SecondaryAuthentication.SecondaryAuthenticationMode.None:
