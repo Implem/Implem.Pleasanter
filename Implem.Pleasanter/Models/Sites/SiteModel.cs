@@ -4923,6 +4923,7 @@ namespace Implem.Pleasanter.Models
             {
                 SiteSettings.Processes.MoveUpOrDown(
                     ColumnUtilities.ChangeCommand(controlId), selected);
+                SiteSettings.GetColumn(context, "Status").SetChoiceHash(context, SiteSettings.SiteId);
                 res.Html("#EditProcess", new HtmlBuilder()
                     .EditProcess(
                         context: context,
@@ -5749,6 +5750,7 @@ namespace Implem.Pleasanter.Models
             {
                 SiteSettings.StatusControls.MoveUpOrDown(
                     ColumnUtilities.ChangeCommand(controlId), selected);
+                SiteSettings.GetColumn(context, "Status").SetChoiceHash(context, SiteSettings.SiteId);
                 res.Html("#EditStatusControl", new HtmlBuilder()
                     .EditStatusControl(
                         context: context,
