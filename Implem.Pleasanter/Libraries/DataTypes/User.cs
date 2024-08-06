@@ -36,6 +36,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         public bool AllowGroupAdministration;
         public bool AllowGroupCreation;
         public bool AllowApi;
+        public bool AllowMovingFromTopSite;
         public bool Disabled;
 
         public User()
@@ -64,6 +65,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                             .AllowGroupAdministration()
                             .AllowGroupCreation()
                             .AllowApi()
+                            .AllowMovingFromTopSite()
                             .Disabled(),
                         where: Rds.UsersWhere()
                             .UserId(userId)));
@@ -106,6 +108,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             AllowGroupAdministration = dataRow.Bool("AllowGroupAdministration");
             AllowGroupCreation = dataRow.Bool("AllowGroupCreation");
             AllowApi = dataRow.Bool("AllowApi");
+            AllowMovingFromTopSite = dataRow.Bool("AllowMovingFromTopSite");
             Disabled = dataRow.Bool("Disabled");
         }
 

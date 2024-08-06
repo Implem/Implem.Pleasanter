@@ -36,6 +36,7 @@ namespace Implem.Pleasanter.Models
         public bool? AllowGroupAdministration { get; set; }
         public bool? AllowGroupCreation { get; set; }
         public bool? AllowApi { get; set; }
+        public bool? AllowMovingFromTopSite { get; set; }
         public bool? EnableSecondaryAuthentication { get; set; }
         public bool? DisableSecondaryAuthentication { get; set; }
         public bool? Disabled { get; set; }
@@ -95,6 +96,7 @@ namespace Implem.Pleasanter.Models
                 case "AllowGroupAdministration": return AllowGroupAdministration;
                 case "AllowGroupCreation": return AllowGroupCreation;
                 case "AllowApi": return AllowApi;
+                case "AllowMovingFromTopSite": return AllowMovingFromTopSite;
                 case "EnableSecondaryAuthentication": return EnableSecondaryAuthentication;
                 case "DisableSecondaryAuthentication": return DisableSecondaryAuthentication;
                 case "Disabled": return Disabled;

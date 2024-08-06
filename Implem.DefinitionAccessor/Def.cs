@@ -518,6 +518,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Matched": Code.Model_Matched = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Matched, definitionRow, CodeXls); break;
                     case "Model_Matched_ColumnCases": Code.Model_Matched_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Matched_ColumnCases, definitionRow, CodeXls); break;
                     case "Model_Matched_ColumnCases_Context": Code.Model_Matched_ColumnCases_Context = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Matched_ColumnCases_Context, definitionRow, CodeXls); break;
+                    case "Model_Matched_ColumnCases_User": Code.Model_Matched_ColumnCases_User = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Matched_ColumnCases_User, definitionRow, CodeXls); break;
                     case "Model_Matched_Incomplete": Code.Model_Matched_Incomplete = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Matched_Incomplete, definitionRow, CodeXls); break;
                     case "Model_Matched_Issues": Code.Model_Matched_Issues = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Matched_Issues, definitionRow, CodeXls); break;
                     case "Model_Matched_NullCondition": Code.Model_Matched_NullCondition = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Matched_NullCondition, definitionRow, CodeXls); break;
@@ -1930,6 +1931,7 @@ namespace Implem.DefinitionAccessor
                     case "Users_AllowCreationAtTopSite": Column.Users_AllowCreationAtTopSite = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_AllowCreationAtTopSite, definitionRow, ColumnXls); break;
                     case "Users_AllowGroupAdministration": Column.Users_AllowGroupAdministration = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_AllowGroupAdministration, definitionRow, ColumnXls); break;
                     case "Users_AllowGroupCreation": Column.Users_AllowGroupCreation = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_AllowGroupCreation, definitionRow, ColumnXls); break;
+                    case "Users_AllowMovingFromTopSite": Column.Users_AllowMovingFromTopSite = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_AllowMovingFromTopSite, definitionRow, ColumnXls); break;
                     case "Users_ApiKey": Column.Users_ApiKey = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_ApiKey, definitionRow, ColumnXls); break;
                     case "Users_Birthday": Column.Users_Birthday = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_Birthday, definitionRow, ColumnXls); break;
                     case "Users_Body": Column.Users_Body = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_Body, definitionRow, ColumnXls); break;
@@ -7035,6 +7037,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Matched;
         public string Model_Matched_ColumnCases;
         public string Model_Matched_ColumnCases_Context;
+        public string Model_Matched_ColumnCases_User;
         public string Model_Matched_Incomplete;
         public string Model_Matched_Issues;
         public string Model_Matched_NullCondition;
@@ -7879,6 +7882,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Matched = new CodeDefinition();
         public CodeDefinition Model_Matched_ColumnCases = new CodeDefinition();
         public CodeDefinition Model_Matched_ColumnCases_Context = new CodeDefinition();
+        public CodeDefinition Model_Matched_ColumnCases_User = new CodeDefinition();
         public CodeDefinition Model_Matched_Incomplete = new CodeDefinition();
         public CodeDefinition Model_Matched_Issues = new CodeDefinition();
         public CodeDefinition Model_Matched_NullCondition = new CodeDefinition();
@@ -9318,6 +9322,7 @@ namespace Implem.DefinitionAccessor
         public string Users_AllowCreationAtTopSite;
         public string Users_AllowGroupAdministration;
         public string Users_AllowGroupCreation;
+        public string Users_AllowMovingFromTopSite;
         public string Users_ApiKey;
         public string Users_Birthday;
         public string Users_Body;
@@ -9898,6 +9903,7 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Users_AllowCreationAtTopSite = new ColumnDefinition();
         public ColumnDefinition Users_AllowGroupAdministration = new ColumnDefinition();
         public ColumnDefinition Users_AllowGroupCreation = new ColumnDefinition();
+        public ColumnDefinition Users_AllowMovingFromTopSite = new ColumnDefinition();
         public ColumnDefinition Users_ApiKey = new ColumnDefinition();
         public ColumnDefinition Users_Birthday = new ColumnDefinition();
         public ColumnDefinition Users_Body = new ColumnDefinition();
