@@ -812,14 +812,17 @@ namespace Implem.Pleasanter.Models
             bool editInDialog = false)
         {
             var mine = wikiModel.Mine(context: context);
-            return hb.FieldSet(id: "FieldSetGeneral", action: () => hb
-                .FieldSetGeneralColumns(
-                    context: context,
-                    ss: ss,
-                    wikiModel: wikiModel,
-                    dataSet: dataSet,
-                    links: links,
-                    editInDialog: editInDialog));
+            return hb.FieldSet(
+                id: "FieldSetGeneral",
+                action: () => hb.Div(
+                    css: "fieldset-inner",
+                    action: () => hb.FieldSetGeneralColumns(
+                        context: context,
+                        ss: ss,
+                        wikiModel: wikiModel,
+                        dataSet: dataSet,
+                        links: links,
+                        editInDialog: editInDialog)));
         }
 
         public static HtmlBuilder FieldSetGeneralColumns(
@@ -933,17 +936,19 @@ namespace Implem.Pleasanter.Models
                 hb.FieldSet(
                     id: $"FieldSetTab{data.tab.Id}",
                     css: " fieldset cf ui-tabs-panel ui-corner-bottom ui-widget-content ",
-                    action: () => hb.Fields(
-                        context: context,
-                        ss: ss,
-                        id: id,
-                        tab: data.tab,
-                        dataSet: dataSet,
-                        links: links,
-                        preview: preview,
-                        editInDialog: editInDialog,
-                        wikiModel: wikiModel,
-                        tabIndex: data.index));
+                    action: () => hb.Div(
+                        css: "fieldset-inner",
+                        action: () => hb.Fields(
+                            context: context,
+                            ss: ss,
+                            id: id,
+                            tab: data.tab,
+                            dataSet: dataSet,
+                            links: links,
+                            preview: preview,
+                            editInDialog: editInDialog,
+                            wikiModel: wikiModel,
+                            tabIndex: data.index)));
             });
             return hb;
         }
@@ -2613,24 +2618,26 @@ namespace Implem.Pleasanter.Models
                 return Error.Types.HasNotPermission.MessageJson(context: context);
             }
             var hb = new HtmlBuilder();
-            hb
-                .HistoryCommands(context: context, ss: ss)
-                .Table(
-                    attributes: new HtmlAttributes().Class("grid history"),
-                    action: () => hb
-                        .THead(action: () => hb
-                            .GridHeader(
-                                context: context,
-                                ss: ss,
-                                columns: columns,
-                                sort: false,
-                                checkRow: true))
-                        .TBody(action: () => hb
-                            .HistoriesTableBody(
-                                context: context,
-                                ss: ss,
-                                columns: columns,
-                                wikiModel: wikiModel)));
+            hb.Div(
+                css: "fieldset-inner",
+                action: () => hb
+                    .HistoryCommands(context: context, ss: ss)
+                    .Table(
+                        attributes: new HtmlAttributes().Class("grid history"),
+                        action: () => hb
+                            .THead(action: () => hb
+                                .GridHeader(
+                                    context: context,
+                                    ss: ss,
+                                    columns: columns,
+                                    sort: false,
+                                    checkRow: true))
+                            .TBody(action: () => hb
+                                .HistoriesTableBody(
+                                    context: context,
+                                    ss: ss,
+                                    columns: columns,
+                                    wikiModel: wikiModel))));
             return new WikisResponseCollection(
                 context: context,
                 wikiModel: wikiModel)

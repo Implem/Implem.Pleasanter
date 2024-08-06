@@ -1,0 +1,7 @@
+﻿{
+    "Id": "Model_Matched_ColumnCases_User",
+    "RepeatType": "Column",
+    "Indent": "6",
+    "Separator": "\\r\\n",
+    "Include": "Owner,Manager"
+}

@@ -560,6 +560,8 @@ namespace Implem.Pleasanter.Models
                                     .SiteId(raw: Def.Sql.Identity)
                                     .Title(demoDefinition.Title)
                                     .ReferenceType(demoDefinition.ClassA)
+                                    .SiteName(demoDefinition.ClassB)
+                                    .SiteGroupName(demoDefinition.ClassC)
                                     .ParentId(idHash.ContainsKey(demoDefinition.ParentId)
                                         ? idHash.Get(demoDefinition.ParentId)
                                         : 0)

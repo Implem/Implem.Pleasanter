@@ -33,7 +33,7 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
                 {
                     var ss = SiteSettingsUtilities.TenantsSiteSettings(context: sqlContext);
                     var inScripts = paramScripts ?? GetScriptsFromDB(
-                        tenatId: tenatId,
+                        tenantId: tenatId,
                         sqlContext: sqlContext,
                         ss: ss);
                     if (inScripts != null)
@@ -84,7 +84,7 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
         }
 
         private static BackgroundServerScripts GetScriptsFromDB(
-            int tenatId,
+            int tenantId,
             Context sqlContext,
             SiteSettings ss)
         {
@@ -93,7 +93,7 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
                 statements: Rds.SelectTenants(
                     tableType: Sqls.TableTypes.Normal,
                     column: Rds.TenantsColumn(),
-                    where: Rds.TenantsWhere().TenantId(tenatId)))
+                    where: Rds.TenantsWhere().TenantId(tenantId)))
                         .AsEnumerable()
                         .FirstOrDefault();
             var tenant = new TenantModel(context: sqlContext, ss: ss, dataRow: dataRow);

@@ -173,11 +173,6 @@ namespace Implem.Pleasanter.NetCore
             {
                 options.BackgroundServiceExceptionBehavior = BackgroundServiceExceptionBehavior.Ignore;
             });
-            if (Parameters.BackgroundService.ReminderEnabled(
-                deploymentEnvironment: Parameters.Service.DeploymentEnvironment))
-            {
-                services.AddHostedService<ReminderBackgroundService>();
-            }
             services.AddHostedService<CustomQuartzHostedService>();
             new TimerBackground().Init();
             BackgroundServerScriptUtilities.InitSchedule();

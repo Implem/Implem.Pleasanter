@@ -15,6 +15,8 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
             public IEnumerable<string> TimeList => Parameters.BackgroundService.DeleteTemporaryFilesTime;
             public bool Enabled => Parameters.BackgroundService.DeleteTemporaryFiles;
             public JobKey JobKey => jobKey;
+            public string JobName => "DeleteTemporaryFilesService";
+            public Task<bool> SetCustomTimer(IScheduler scheduler) => Task.FromResult(false);
         }
 
         public override async Task Execute(IJobExecutionContext context)

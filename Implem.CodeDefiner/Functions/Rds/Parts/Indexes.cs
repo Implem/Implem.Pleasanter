@@ -195,19 +195,31 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
             string sourceTableName,
             Sqls.TableTypes tableType)
         {
-            return !Parameters.Rds.DisableIndexChangeDetection
-                && IndexInfoCollection(
-                    factory: factory,
-                    generalTableName: generalTableName,
-                    sourceTableName: sourceTableName,
-                    tableType: tableType)
-                        .Select(o => o.IndexName())
-                        .Distinct()
-                        .OrderBy(o => o)
-                        .Join(",") != Get(
-                            factory: factory,
-                            sourceTableName: sourceTableName)
-                        .Join(",");
+            if (Parameters.Rds.DisableIndexChangeDetection)
+            {
+                return false;
+            }
+            var defIndexInfoCollection = IndexInfoCollection(
+                factory: factory,
+                generalTableName: generalTableName,
+                sourceTableName: sourceTableName,
+                tableType: tableType)
+                    .Select(o => o.IndexName())
+                    .Distinct()
+                    .OrderBy(o => o);
+            var dbIndexColumnCollection = Get(
+                factory: factory,
+                sourceTableName: sourceTableName);
+            if (Parameters.Rds.Dbms == "PostgreSQL")
+            {
+                dbIndexColumnCollection = dbIndexColumnCollection.Where(o => !Check_FullTextIndex(o));
+            }
+            return defIndexInfoCollection.Join(",") != dbIndexColumnCollection.Join(",");
+        }
+
+        private static bool Check_FullTextIndex(string indexName)
+        {
+            return indexName == "ftx";
         }
 
         private static string Sql_CreateIx(

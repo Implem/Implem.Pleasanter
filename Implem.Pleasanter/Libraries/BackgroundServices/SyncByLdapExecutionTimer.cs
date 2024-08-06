@@ -16,7 +16,10 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
             public IEnumerable<string> TimeList => Parameters.BackgroundService.SyncByLdapTime;
             public bool Enabled => Parameters.BackgroundService.SyncByLdap;
             public JobKey JobKey => jobKey;
+            public string JobName => "SyncByLdapExecutionService";
+            public Task<bool> SetCustomTimer(IScheduler scheduler) => Task.FromResult(false);
         }
+
         public override async Task Execute(IJobExecutionContext context)
         {
             await Task.Run(() =>

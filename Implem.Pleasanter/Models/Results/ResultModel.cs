@@ -3551,18 +3551,6 @@ namespace Implem.Pleasanter.Models
                                 column: column,
                                 condition: filter.Value);
                             break;
-                        case "Manager":
-                            match = Manager.Id.Matched(
-                                context: context,
-                                column: column,
-                                condition: filter.Value);
-                            break;
-                        case "Owner":
-                            match = Owner.Id.Matched(
-                                context: context,
-                                column: column,
-                                condition: filter.Value);
-                            break;
                         case "Locked":
                             match = Locked.Matched(
                                 column: column,
@@ -3590,6 +3578,30 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 column: column,
                                 condition: filter.Value) == true;
+                            break;
+                        case "Manager":
+                            if (Manager.Id == 0 && filter.Value == "[\"\\t\"]")
+                            {
+                                match = true;
+                            } else
+                            {
+                                match = Manager.Id.Matched(
+                                    context: context,
+                                    column: column,
+                                    condition: filter.Value);
+                            }
+                            break;
+                        case "Owner":
+                            if (Owner.Id == 0 && filter.Value == "[\"\\t\"]")
+                            {
+                                match = true;
+                            } else
+                            {
+                                match = Owner.Id.Matched(
+                                    context: context,
+                                    column: column,
+                                    condition: filter.Value);
+                            }
                             break;
                         default:
                             switch (Def.ExtendedColumnTypes.Get(filter.Key ?? string.Empty))
