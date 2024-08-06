@@ -122,7 +122,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             string diffText = "";
             diff_match_patch dmp = new diff_match_patch();
             dmp.Diff_Timeout = 0;
-            List<Diff> results = dmp.diff_main(saved, self);
+            List<Diff> results = dmp.diff_main(saved, self ?? "");
             foreach (Diff diff in results)
             {
                 string start = diff.text.StartsWith("\n") ? "\n" + startBracket : startBracket;
