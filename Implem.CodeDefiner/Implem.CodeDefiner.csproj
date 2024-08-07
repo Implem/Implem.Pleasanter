@@ -5,9 +5,9 @@
     <TargetFramework>net8.0</TargetFramework>
     <Copyright>Copyright © Implem Inc 2014 - 2024</Copyright>
     <Description>This program does the automatic code creation and merging of existing code based on the definition. Also it will make the configuration change of sql server database.</Description>
-    <AssemblyVersion>1.4.7.0</AssemblyVersion>
-    <FileVersion>1.4.7.0</FileVersion>
-    <Version>1.4.7.0</Version>
+    <AssemblyVersion>1.4.7.1</AssemblyVersion>
+    <FileVersion>1.4.7.1</FileVersion>
+    <Version>1.4.7.1</Version>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
 
