@@ -1,4 +1,15 @@
-﻿insert into "GroupMembers"
+﻿update "GroupMembers"
+set
+    "GroupId" = @GroupId
+    ,"DeptId" = @DeptId
+    ,"UserId" = @UserId
+    ,"Admin" = @Admin
+    ,"Updator" = @ipU
+where "GroupId" = @GroupId
+    and "ChildGroup" = 0
+    and "DeptId" = @DeptId
+    and "UserId" = @UserId;
+insert into "GroupMembers"
 (
     "GroupId"
     ,"ChildGroup"
@@ -8,19 +19,24 @@
     ,"Updator"
     ,"Creator"
 )
-values
+select * from
 (
-    @GroupId
-    ,0
-    ,@DeptId
-    ,@UserId
-    ,@Admin
-    ,@ipU
-    ,@ipU
+    select
+        @GroupId as "GroupId"
+        ,0 as "ChildGroup"
+        ,@DeptId as "DeptId"
+        ,@UserId as "UserId"
+        ,@Admin as "Admin"
+        ,@ipU as "Updator"
+        ,@ipU as "Creator"
 )
-on duplicate key update
-    "GroupId" = @GroupId
-    ,"DeptId" = @DeptId
-    ,"UserId" = @UserId
-    ,"Admin" = @Admin
-    ,"Updator" = @ipU;
+as tmp
+where not exists
+(
+    select 1
+    from "GroupMembers"
+    where "GroupId"= @GroupId
+        and "ChildGroup" = 0
+        and "DeptId" = @DeptId
+        and "UserId" = @UserId
+);

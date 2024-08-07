@@ -19,7 +19,8 @@ namespace Implem.IRds
             string setClause,
             Action<StringBuilder> sqlWhereAppender,
             string intoClause,
-            string valueClause);
+            string valueClause,
+            string selectClauseForMySql);
 
         string CreateTopClause(int top);
 

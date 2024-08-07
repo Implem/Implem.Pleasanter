@@ -1,18 +1,30 @@
-﻿insert into "GroupChildren"
+﻿update "GroupChildren"
+set
+    "GroupId" = @GroupId
+    ,"ChildId" = @ChildId
+    ,"Updator" = @ipU
+where "GroupId" = @GroupId
+    and "ChildId" = @ChildId;
+insert into "GroupChildren"
 (
     "GroupId"
     ,"ChildId"
     ,"Updator"
     ,"Creator"
 )
-values
+select * from 
 (
-    @GroupId
-    ,@ChildId
-    ,@ipU
-    ,@ipU
+    select
+        @GroupId as "GroupId"
+        ,@ChildId as "ChildId"
+        ,@ipU as "Updator"
+        ,@ipU as "Creator"
 )
-on duplicate key update
-    "GroupId" = @GroupId
-    ,"ChildId" = @ChildId
-    ,"Updator" = @ipU;
+as tmp
+where not exists
+(
+    select 1
+    from "GroupChildren"
+    where "GroupId" = @GroupId
+        and "ChildId" = @ChildId
+);

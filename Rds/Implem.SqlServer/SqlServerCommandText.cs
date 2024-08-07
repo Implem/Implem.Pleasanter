@@ -62,7 +62,8 @@ namespace Implem.SqlServer
             string setClause,
             Action<StringBuilder> sqlWhereAppender,
             string intoClause,
-            string valueClause)
+            string valueClause,
+            string selectClauseForMySql)
         {
             var commandText = new StringBuilder();
             commandText

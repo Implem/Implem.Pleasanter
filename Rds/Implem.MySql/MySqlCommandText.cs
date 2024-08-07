@@ -74,16 +74,35 @@ namespace Implem.MySql
             string setClause,
             Action<StringBuilder> sqlWhereAppender,
             string intoClause,
-            string valueClause)
+            string valueClause,
+            string selectClauseForMySql)
         {
             var commandText = new StringBuilder();
-
+            //MySQLには一文でUpsertを実行可能な構文がないため、同じwhere句含むupdate～;とinsert～;の2件のコマンドの組み合わせで実現する。
             commandText
+                .Append("update ")
+                .Append(tableBracket)
+                .Append(setClause);
+            sqlWhereAppender(commandText);
+            commandText
+                .Append("; ")
                 .Append("insert into ")
                 .Append(tableBracket)
-                .Append($"({intoClause}) values({valueClause})")
-                .Append(" on duplicate key update ")
-                .Append(setClause.Replace(" set ", string.Empty));
+                .Append(" ( ")
+                .Append(intoClause)
+                .Append(" ) ")
+                .Append("select * from ")
+                .Append("( ")
+                .Append("select ")
+                .Append(selectClauseForMySql)
+                .Append(" ) as tmp ")
+                .Append("where not exists ")
+                .Append("( select 1 from ")
+                .Append(tableBracket)
+                .Append(" ");
+            sqlWhereAppender(commandText);
+            commandText
+                .Append(" )");
             return commandText.ToString();
         }
 
