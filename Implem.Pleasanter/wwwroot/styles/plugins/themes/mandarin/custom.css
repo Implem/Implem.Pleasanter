@@ -1973,3 +1973,11 @@ body#login #MainContainer #Application #PortalLink{
         font-size: inherit;
     }
 }
+
+#Notes{
+    width: 100%;
+    position: relative;
+    z-index: 1;
+    background: #E7E7E7;
+    padding: 8px 16px;
+}
