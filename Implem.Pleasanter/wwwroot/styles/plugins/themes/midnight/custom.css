@@ -1416,7 +1416,7 @@ table.grid tbody td > input {
 }
 
 .ui-dialog.ui-widget.ui-widget-content .ui-dialog-content.ui-widget-content{
-    background-color: #1F1F1F; 
+    background-color: #1F1F1F;
 }
 
 .ui-dialog.ui-widget.ui-widget-content .ui-widget-header {
@@ -2261,4 +2261,12 @@ body#login #MainContainer #Application #PortalLink{
     strong{
         font-size: inherit;
     }
+}
+
+#Notes{
+    width: 100%;
+    position: relative;
+    z-index: 1;
+    background: #333333;
+    padding: 8px 16px;
 }
