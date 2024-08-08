@@ -11,7 +11,8 @@ namespace Implem.MySql
                 .Replace("nvarchar(max)", "longtext")
                 .Replace("nvarchar", "varchar")
                 .Replace("bit", "tinyint(1)")
-                .Replace("image", "longblob");
+                .Replace("image", "longblob")
+                .Replace("datetime", "datetime(3)");
         }
 
         public string ConvertBack(string name)

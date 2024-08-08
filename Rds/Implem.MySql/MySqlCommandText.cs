@@ -78,7 +78,7 @@ namespace Implem.MySql
             string selectClauseForMySql)
         {
             var commandText = new StringBuilder();
-            //MySQLには一文でUpsertを実行可能な構文がないため、同じwhere句含むupdate～;とinsert～;の2件のコマンドの組み合わせで実現する。
+            //MySQLには一文でUpsertを実行可能な構文がないため、同一のwhere条件を含むupdate～;とinsert～;の2件を組み合わせて実現する。
             commandText
                 .Append("update ")
                 .Append(tableBracket)

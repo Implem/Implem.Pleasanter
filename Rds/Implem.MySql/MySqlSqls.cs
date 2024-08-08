@@ -14,7 +14,7 @@ namespace Implem.MySql
 
         public string IsNotTrue { get; } = " is not true ";
 
-        public string CurrentDateTime { get; } = " CURRENT_TIMESTAMP ";
+        public string CurrentDateTime { get; } = " current_timestamp(3) ";
 
         public string Like { get; } = " like ";
 
@@ -419,7 +419,7 @@ namespace Implem.MySql
             set
                 ""Bin"" = ""Target"".""Bin"" || ""Temp"".""Bin""
                 ,""Updator"" = ""Temp"".""Updator""
-                ,""UpdatedTime"" = current_timestamp
+                ,""UpdatedTime"" = current_timestamp(3)
             from (
                 select
                     @ipT as ""TenantId""
@@ -460,8 +460,8 @@ namespace Implem.MySql
                 ,""Temp"".""FileName""
                 ,""Temp"".""Creator""
                 ,""Temp"".""Updator""
-                ,current_timestamp as ""CreatedTime""
-                ,current_timestamp as ""UpdatedTime""
+                ,current_timestamp(3) as ""CreatedTime""
+                ,current_timestamp(3) as ""UpdatedTime""
             from (
                 select
                     @ipT as ""TenantId""
