@@ -1022,7 +1022,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 .Href(Locations.ShowFile(
                                     context: context,
                                     guid: guid,
-                                    temp: added == true)),
+                                    temp: added == true))
+                                .Target("_blank")
+                                .Rel("noopenner noreferrer"),
                             action: () => hb
                                 .Span(css: "ui-icon ui-icon-circle-zoomin show-file"))
                         .A(
@@ -1031,7 +1033,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 .Href(Locations.DownloadFile(
                                     context: context,
                                     guid: guid,
-                                    temp: added == true)),
+                                    temp: added == true))
+                                .Target("_blank")
+                                .Rel("noopenner noreferrer"),
                             action: () => hb
                                 .Text(text: fileName + "　(" + displaySize + ")"))
                         .Div(
