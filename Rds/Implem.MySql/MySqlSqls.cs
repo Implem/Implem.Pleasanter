@@ -12,7 +12,7 @@ namespace Implem.MySql
 
         public string FalseString { get; } = "0";
 
-        public string IsNotTrue { get; } = " is not true ";
+        public string IsNotTrue { get; } = " <> 1 ";
 
         public string CurrentDateTime { get; } = " current_timestamp(3) ";
 
@@ -34,7 +34,7 @@ namespace Implem.MySql
                 .Replace("%", "|%");
         }
 
-        public string IsNull { get; } = "coalesce";
+        public string IsNull { get; } = "ifnull";
 
         public string WhereLikeTemplateForward { get; } = "'%' || ";
 
@@ -44,11 +44,7 @@ namespace Implem.MySql
 
         public object DateTimeValue(object value)
         {
-            return value != null &&
-                !(value is DateTime) &&
-                DateTime.TryParse(value.ToString(), out var data)
-                ? data
-                : value;
+            return value;
         }
 
         public string BooleanString(string bit)
@@ -71,15 +67,15 @@ namespace Implem.MySql
             return $"date_add({columnBracket},interval {hour} hour)";
         }
 
-        public string DateGroupYearly { get; } = "to_char({0}, 'YYYY')";
+        public string DateGroupYearly { get; } = "date_format({0}, '%Y')";
 
-        public string DateGroupMonthly { get; } = "to_char({0}, 'YYYY/MM')";
+        public string DateGroupMonthly { get; } = "date_format({0}, '%Y/%m')";
 
         public string DateGroupWeeklyPart { get; } = "case date_part('dow',{0}) when 0 then {0} + '-6 days' else {0} + CAST((1-date_part('dow',{0})) || 'days' as interval) end";
 
         public string DateGroupWeekly { get; } = "date_part('year',{0}) * 100 + date_part('week',{0})";
 
-        public string DateGroupDaily { get; } = "to_char({0}, 'YYYY/MM/DD')";
+        public string DateGroupDaily { get; } = "date_format({0}, '%Y/%m/%d')";
 
         public string GetPermissions { get; } = @"
             select distinct
