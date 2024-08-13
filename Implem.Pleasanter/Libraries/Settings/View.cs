@@ -3294,7 +3294,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     .Params(
                         tableName,
                         column.Name,
-                        context.Sqls.WhereLikeTemplateForward,
+                        context.Sqls.WhereLikeTemplateForward(forward: false),
                         name,
                         context.Sqls.WhereLikeTemplate)
                     .ToSingleList());

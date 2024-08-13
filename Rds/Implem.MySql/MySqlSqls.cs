@@ -36,9 +36,15 @@ namespace Implem.MySql
 
         public string IsNull { get; } = "ifnull";
 
-        public string WhereLikeTemplateForward { get; } = "'%' || ";
+        public string WhereLikeTemplateForward(bool forward)
+        {
+            //forwardは「前方一致」の場合はtrue、「部分一致」の場合はfalse
+            return forward
+                ? "concat("
+                : "concat('%',";
+        }
 
-        public string WhereLikeTemplate { get; } = "#ParamCount#_#CommandCount# || '%'";
+        public string WhereLikeTemplate { get; } = "#ParamCount#_#CommandCount#,'%')";
 
         public string GenerateIdentity { get; } = string.Empty;
 
@@ -71,9 +77,9 @@ namespace Implem.MySql
 
         public string DateGroupMonthly { get; } = "date_format({0}, '%Y/%m')";
 
-        public string DateGroupWeeklyPart { get; } = "case date_part('dow',{0}) when 0 then {0} + '-6 days' else {0} + CAST((1-date_part('dow',{0})) || 'days' as interval) end";
+        public string DateGroupWeeklyPart { get; } = "case weekday({0}) when 6 then date_add({0},interval -6 day) else date_add({0},interval (0-weekday({0})) day) end";
 
-        public string DateGroupWeekly { get; } = "date_part('year',{0}) * 100 + date_part('week',{0})";
+        public string DateGroupWeekly { get; } = "yearweek({0}, 3)";
 
         public string DateGroupDaily { get; } = "date_format({0}, '%Y/%m/%d')";
 
@@ -86,7 +92,7 @@ namespace Implem.MySql
                 inner join ""Depts"" on ""Permissions"".""DeptId""=""Depts"".""DeptId""
             where ""Sites"".""TenantId""=@ipT
                 and ""Depts"".""DeptId""=@ipD
-                and ""Depts"".""Disabled""='false'
+                and ""Depts"".""Disabled""=0
             union all
             select distinct
                 ""Sites"".""SiteId"" as ""ReferenceId"",
@@ -97,9 +103,9 @@ namespace Implem.MySql
                 inner join ""GroupMembers"" on ""Groups"".""GroupId""=""GroupMembers"".""GroupId""
                 inner join ""Depts"" on ""GroupMembers"".""DeptId""=""Depts"".""DeptId""
             where ""Sites"".""TenantId""=@ipT
-                and ""Groups"".""Disabled""='false'
+                and ""Groups"".""Disabled""=0
                 and ""Depts"".""DeptId""=@ipD
-                and ""Depts"".""Disabled""='false'
+                and ""Depts"".""Disabled""=0
             union all
             select distinct
                 ""Sites"".""SiteId"" as ""ReferenceId"",
@@ -110,9 +116,9 @@ namespace Implem.MySql
                 inner join ""GroupMembers"" on ""Groups"".""GroupId""=""GroupMembers"".""GroupId""
                 inner join ""Users"" on ""GroupMembers"".""UserId""=""Users"".""UserId""
             where ""Sites"".""TenantId""=@ipT
-                and ""Groups"".""Disabled""='false'
+                and ""Groups"".""Disabled""=0
                 and ""Users"".""UserId""=@ipU
-                and ""Users"".""Disabled""='false'
+                and ""Users"".""Disabled""=0
             union all
             select distinct
                 ""Sites"".""SiteId"" as ""ReferenceId"",
@@ -143,7 +149,7 @@ namespace Implem.MySql
             where ""Items"".""ReferenceId""=@ReferenceId
                 and ""Sites"".""TenantId""=@ipT
                 and ""Depts"".""DeptId""=@ipD
-                and ""Depts"".""Disabled""='false'
+                and ""Depts"".""Disabled""=0
             union all
             select distinct
                 ""Items"".""ReferenceId"",
@@ -156,9 +162,9 @@ namespace Implem.MySql
                 inner join ""Depts"" on ""GroupMembers"".""DeptId""=""Depts"".""DeptId""
             where ""Items"".""ReferenceId""=@ReferenceId
                 and ""Sites"".""TenantId""=@ipT
-                and ""Groups"".""Disabled""='false'
+                and ""Groups"".""Disabled""=0
                 and ""Depts"".""DeptId""=@ipD
-                and ""Depts"".""Disabled""='false'
+                and ""Depts"".""Disabled""=0
             union all
             select distinct
                 ""Items"".""ReferenceId"",
@@ -171,9 +177,9 @@ namespace Implem.MySql
                 inner join ""Users"" on ""GroupMembers"".""UserId""=""Users"".""UserId""
             where ""Items"".""ReferenceId""=@ReferenceId
                 and ""Sites"".""TenantId""=@ipT
-                and ""Groups"".""Disabled""='false'
+                and ""Groups"".""Disabled""=0
                 and ""Users"".""UserId""=@ipU
-                and ""Users"".""Disabled""='false'
+                and ""Users"".""Disabled""=0
             union all
             select distinct
                 ""Items"".""ReferenceId"",
@@ -216,16 +222,16 @@ namespace Implem.MySql
             from ""Groups"" as ""Groups""
                 inner join ""GroupMembers"" on ""Groups"".""GroupId""=""GroupMembers"".""GroupId""
                 inner join ""Depts"" on ""GroupMembers"".""DeptId""=""Depts"".""DeptId""
-            where ""Groups"".""Disabled""='false'
+            where ""Groups"".""Disabled""=0
                 and ""Depts"".""TenantId""=@ipT
                 and ""Depts"".""DeptId""=@ipD
-                and ""Depts"".""Disabled""='false'
+                and ""Depts"".""Disabled""=0
             union all
             select ""Groups"".""GroupId"" 
             from ""Groups"" as ""Groups""
                 inner join ""GroupMembers"" on ""Groups"".""GroupId""=""GroupMembers"".""GroupId""
                 inner join ""Users"" on ""GroupMembers"".""UserId""=""Users"".""UserId""
-            where ""Groups"".""Disabled""='false'
+            where ""Groups"".""Disabled""=0
                 and ""Users"".""TenantId""=@ipT
                 and ""Users"".""UserId""=@ipU;";
 
@@ -237,14 +243,14 @@ namespace Implem.MySql
                     from ""Depts""
                     where ""Depts"".""TenantId""=@ipT
                         and ""Depts"".""DeptId""=@ipD
-                        and ""Depts"".""Disabled""='false'
+                        and ""Depts"".""Disabled""=0
                         and ""Permissions"".""DeptId""=""Depts"".""DeptId""
                         and @ipD<>0
                     union all
                     select ""Groups"".""GroupId"" as ""Id""
                     from ""Groups"" inner join ""GroupMembers"" on ""Groups"".""GroupId""=""GroupMembers"".""GroupId""
                     where ""Groups"".""TenantId""=@ipT
-                        and ""Groups"".""Disabled""='false'
+                        and ""Groups"".""Disabled""=0
                         and ""Permissions"".""GroupId""=""Groups"".""GroupId""
                         and exists
                         (
@@ -252,7 +258,7 @@ namespace Implem.MySql
                             from ""Depts""
                             where ""Depts"".""TenantId""=@ipT
                                 and ""Depts"".""DeptId""=@ipD
-                                and ""Depts"".""Disabled""='false'
+                                and ""Depts"".""Disabled""=0
                                 and ""GroupMembers"".""DeptId""=""Depts"".""DeptId""
                                 and @ipD<>0
                         )
@@ -260,7 +266,7 @@ namespace Implem.MySql
                     select ""Groups"".""GroupId"" as ""Id""
                     from ""Groups"" inner join ""GroupMembers"" on ""Groups"".""GroupId""=""GroupMembers"".""GroupId""
                     where ""Groups"".""TenantId""=@ipT
-                        and ""Groups"".""Disabled""='false'
+                        and ""Groups"".""Disabled""=0
                         and ""Permissions"".""GroupId""=""Groups"".""GroupId""
                         and ""GroupMembers"".""UserId""=@ipU
                         and @ipU<>0
@@ -294,15 +300,15 @@ namespace Implem.MySql
                         and
                         (
                             (
-                                ""Depts"".""Disabled""='false'
+                                ""Depts"".""Disabled""=0
                                 and ""Depts"".""DeptId""=""Depts"".""DeptId""
                             )
                             or 
                             (
-                                ""Groups"".""Disabled""='false' and 
+                                ""Groups"".""Disabled""=0 and 
                                 (
                                     (
-                                        ""GroupMemberDepts"".""Disabled""='false'
+                                        ""GroupMemberDepts"".""Disabled""=0
                                         and ""GroupMemberDepts"".""DeptId""=""Depts"".""DeptId""
                                     )
                                 )
@@ -319,7 +325,7 @@ namespace Implem.MySql
                     from ""Permissions""
                     where
                         ""Permissions"".""ReferenceId""={0}
-                        and ""Groups"".""Disabled""='false'
+                        and ""Groups"".""Disabled""=0
                         and ""Permissions"".""GroupId""=""Groups"".""GroupId""
                         and ""Groups"".""GroupId"">0
                 )
@@ -336,8 +342,8 @@ namespace Implem.MySql
                         inner join ""Users"" on ""PermissionUsers"".""UserId"" = ""Users"".""UserId""
                     where
                         ""Permissions"".""ReferenceId""={0}
-                        and ""PermissionDepts"".""Disabled""='false'
-                        and ""PermissionUsers"".""Disabled""='false'
+                        and ""PermissionDepts"".""Disabled""=0
+                        and ""PermissionUsers"".""Disabled""=0
                     union all
                     select ""Users"".""UserId""
                     from ""Permissions""
@@ -348,9 +354,9 @@ namespace Implem.MySql
                         inner join ""Users"" on ""GroupMemberUsers"".""UserId"" = ""Users"".""UserId""
                     where
                         ""Permissions"".""ReferenceId""={0}
-                        and ""Groups"".""Disabled""='false'
-                        and ""GroupMemberDepts"".""Disabled""='false'
-                        and ""GroupMemberUsers"".""Disabled""='false'
+                        and ""Groups"".""Disabled""=0
+                        and ""GroupMemberDepts"".""Disabled""=0
+                        and ""GroupMemberUsers"".""Disabled""=0
                     union all
                     select ""Users"".""UserId""
                     from ""Permissions""
@@ -360,17 +366,17 @@ namespace Implem.MySql
                         inner join ""Users"" on ""GroupMemberUsers"".""UserId"" = ""Users"".""UserId""
                     where
                         ""Permissions"".""ReferenceId""={0}
-                        and ""Groups"".""Disabled""='false'
-                        and ""GroupMemberUsers"".""Disabled""='false'
+                        and ""Groups"".""Disabled""=0
+                        and ""GroupMemberUsers"".""Disabled""=0
                     union all
                     select ""Users"".""UserId""
                     from ""Permissions""
                         inner join ""Users"" as ""PermissionUsers"" on ""Permissions"".""UserId""=""PermissionUsers"".""UserId""
-                        inner join ""Users"" on ""Users"".""Disabled""='false'
+                        inner join ""Users"" on ""Users"".""Disabled""=0
                     where
                         ""Permissions"".""ReferenceId""={0}
                         and ""PermissionUsers"".""UserId""=""Users"".""UserId""
-                        and ""PermissionUsers"".""Disabled""='false'
+                        and ""PermissionUsers"".""Disabled""=0
                 )
             )";
 
@@ -477,7 +483,7 @@ namespace Implem.MySql
             where ""Target"".""Guid"" is null;";
 
         public string GetBinaryHash { get; } = @"
-            select digest(""Bin"", @Algorithm)
+            select hashbytes(@Algorithm,""Bin"")
             from ""Binaries""
             where ""TenantId"" = @ipT
                 and ""Guid"" = @Guid;";

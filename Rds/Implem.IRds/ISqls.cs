@@ -15,7 +15,7 @@ namespace Implem.IRds
         string Escape { get; }
         string EscapeValue(string value);
         string IsNull { get; }
-        string WhereLikeTemplateForward { get; }
+        string WhereLikeTemplateForward(bool forward);
         string WhereLikeTemplate { get; }
         string GenerateIdentity { get; }
         object DateTimeValue(object value);
