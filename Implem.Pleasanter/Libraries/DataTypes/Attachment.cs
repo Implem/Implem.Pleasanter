@@ -340,7 +340,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                     var hash = Repository.ExecuteScalar_bytes(
                         context: context,
                         statements: new SqlStatement(
-                            commandText: context.Sqls.GetBinaryHash,
+                            commandText: context.Sqls.GetBinaryHash(algorithm: "sha256"),
                             param: new SqlParamCollection{
                                 { "Algorithm", Parameters.Rds.Dbms == "SQLServer"
                                     ? "sha2_256"

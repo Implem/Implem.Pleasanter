@@ -485,10 +485,14 @@ namespace Implem.PostgreSql
                 and ""Target"".""BinaryType"" = ""Temp"".""BinaryType""
             where ""Target"".""Guid"" is null;";
 
-        public string GetBinaryHash { get; } = @"
-            select digest(""Bin"", @Algorithm)
-            from ""Binaries""
-            where ""TenantId"" = @ipT
-                and ""Guid"" = @Guid;";
+        public string GetBinaryHash(string algorithm)
+        {
+            //引数algorithmはMySQLのみメソッドの処理中に参照する
+            return @"
+                select digest(""Bin"", @Algorithm)
+                from ""Binaries""
+                where ""TenantId"" = @ipT
+                    and ""Guid"" = @Guid;";
+        }
     }
 }

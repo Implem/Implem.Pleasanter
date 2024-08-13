@@ -416,28 +416,18 @@ namespace Implem.MySql
                 )";
         }
 
+        //"Bin"の更新値：@Bin(System.Byte[])のかわりにいったんnull
         public string UpsertBinary { get; } = @"
-            update ""Binaries"" as ""Target""
+            update ""Binaries""
             set
-                ""Bin"" = ""Target"".""Bin"" || ""Temp"".""Bin""
-                ,""Updator"" = ""Temp"".""Updator""
+                ""Bin"" = null
+                ,""Updator"" = @ipU
                 ,""UpdatedTime"" = current_timestamp(3)
-            from (
-                select
-                    @ipT as ""TenantId""
-                    ,@ReferenceId as ""ReferenceId""
-                    ,@Guid as ""Guid""
-                    ,@BinaryType as ""BinaryType""
-                    ,@Title as ""Title""
-                    ,@Bin as ""Bin""
-                    ,@FileName as ""FileName""
-                    ,@ipU as ""Creator""
-                    ,@ipU as ""Updator""
-            ) as ""Temp""
-            where ""Target"".""TenantId"" = ""Temp"".""TenantId""
-                and ""Target"".""Guid"" = ""Temp"".""Guid""
-                and ""Target"".""BinaryType"" = ""Temp"".""BinaryType"";
-            insert into ""Binaries"" (
+            where ""Binaries"".""TenantId"" = @ipT
+                and ""Binaries"".""Guid"" = @Guid
+                and ""Binaries"".""BinaryType"" = @BinaryType;
+            insert into ""Binaries""
+            (
                 ""TenantId""
                 ,""ReferenceId""
                 ,""Guid""
@@ -451,41 +441,52 @@ namespace Implem.MySql
                 ,""CreatedTime""
                 ,""UpdatedTime""
             )
-            select
-                ""Temp"".""TenantId""
-                ,""Temp"".""ReferenceId""
-                ,""Temp"".""Guid""
-                ,1 as ""Ver""
-                ,""Temp"".""BinaryType""
-                ,""Temp"".""Title""
-                ,""Temp"".""Bin""
-                ,""Temp"".""FileName""
-                ,""Temp"".""Creator""
-                ,""Temp"".""Updator""
-                ,current_timestamp(3) as ""CreatedTime""
-                ,current_timestamp(3) as ""UpdatedTime""
-            from (
+            select *
+            from
+            (
                 select
                     @ipT as ""TenantId""
                     ,@ReferenceId as ""ReferenceId""
                     ,@Guid as ""Guid""
+                    ,1 as ""Ver""
                     ,@BinaryType as ""BinaryType""
                     ,@Title as ""Title""
-                    ,@Bin as ""Bin""
+                    ,null as ""Bin""
                     ,@FileName as ""FileName""
                     ,@ipU as ""Creator""
                     ,@ipU as ""Updator""
-            ) as ""Temp""
-            left join ""Binaries"" as ""Target"" 
-                on ""Target"".""TenantId"" = ""Temp"".""TenantId""
-                and ""Target"".""Guid"" = ""Temp"".""Guid""
-                and ""Target"".""BinaryType"" = ""Temp"".""BinaryType""
-            where ""Target"".""Guid"" is null;";
+                    ,current_timestamp(3) as ""CreatedTime""
+                    ,current_timestamp(3) as ""UpdatedTime""
+            )
+            as tmp
+            where not exists
+            (
+                select 1
+                from ""Binaries""
+                where ""Binaries"".""TenantId"" = @ipT
+                    and ""Binaries"".""Guid"" = @Guid
+                    and ""Binaries"".""BinaryType"" = @BinaryType
+            );";
 
-        public string GetBinaryHash { get; } = @"
-            select hashbytes(@Algorithm,""Bin"")
-            from ""Binaries""
-            where ""TenantId"" = @ipT
-                and ""Guid"" = @Guid;";
+        public string GetBinaryHash(string algorithm)
+        {
+            switch (algorithm)
+            {
+                case "md5":
+                    return @"
+                        select md5(""Bin"")
+                        from ""Binaries""
+                        where ""TenantId"" = @ipT
+                            and ""Guid"" = @Guid;";
+                case "sha256":
+                    return @"
+                        select sha2(""Bin"",256)
+                        from ""Binaries""
+                        where ""TenantId"" = @ipT
+                            and ""Guid"" = @Guid;";
+                default:
+                    return string.Empty;
+            }
+        }
     }
 }
