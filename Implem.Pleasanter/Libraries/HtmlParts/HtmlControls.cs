@@ -1033,9 +1033,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 .Href(Locations.DownloadFile(
                                     context: context,
                                     guid: guid,
-                                    temp: added == true))
-                                .Target("_blank")
-                                .Rel("noopenner noreferrer"),
+                                    temp: added == true)),
                             action: () => hb
                                 .Text(text: fileName + "　(" + displaySize + ")"))
                         .Div(
