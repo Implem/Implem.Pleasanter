@@ -35,13 +35,7 @@ namespace Implem.SqlServer
 
         public string IsNull { get; } = "isnull";
 
-        public string WhereLikeTemplateForward(bool forward)
-        {
-            //forwardは「前方一致」の場合はtrue、「部分一致」の場合はfalse
-            return forward
-                ? string.Empty
-                : "'%' + ";
-        }
+        public string WhereLikeTemplateForward { get; } = "'%' + ";
 
         public string WhereLikeTemplate { get; } = "#ParamCount#_#CommandCount# + '%'";
 

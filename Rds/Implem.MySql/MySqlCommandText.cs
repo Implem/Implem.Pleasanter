@@ -10,7 +10,7 @@ namespace Implem.MySql
     {
         public string BeforeAllCommand()
         {
-            return "set session sql_mode = 'ansi_quotes';";
+            return "set session sql_mode = 'ansi_quotes,pipes_as_concat';";
         }
 
         public string CreateDelete(string template)

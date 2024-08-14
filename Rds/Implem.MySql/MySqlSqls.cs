@@ -36,15 +36,9 @@ namespace Implem.MySql
 
         public string IsNull { get; } = "ifnull";
 
-        public string WhereLikeTemplateForward(bool forward)
-        {
-            //forwardは「前方一致」の場合はtrue、「部分一致」の場合はfalse
-            return forward
-                ? "concat("
-                : "concat('%',";
-        }
+        public string WhereLikeTemplateForward { get; } = "'%' || ";
 
-        public string WhereLikeTemplate { get; } = "#ParamCount#_#CommandCount#,'%')";
+        public string WhereLikeTemplate { get; } = "#ParamCount#_#CommandCount# || '%'";
 
         public string GenerateIdentity { get; } = string.Empty;
 
@@ -417,10 +411,11 @@ namespace Implem.MySql
         }
 
         //"Bin"の更新値：@Bin(System.Byte[])のかわりにいったんnull
+        //Updateは@Binではない、連結処理も必要。
         public string UpsertBinary { get; } = @"
             update ""Binaries""
             set
-                ""Bin"" = null
+                ""Bin"" = @Bin
                 ,""Updator"" = @ipU
                 ,""UpdatedTime"" = current_timestamp(3)
             where ""Binaries"".""TenantId"" = @ipT
@@ -451,7 +446,7 @@ namespace Implem.MySql
                     ,1 as ""Ver""
                     ,@BinaryType as ""BinaryType""
                     ,@Title as ""Title""
-                    ,null as ""Bin""
+                    ,@Bin as ""Bin""
                     ,@FileName as ""FileName""
                     ,@ipU as ""Creator""
                     ,@ipU as ""Updator""
