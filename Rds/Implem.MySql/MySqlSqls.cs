@@ -410,12 +410,22 @@ namespace Implem.MySql
                 )";
         }
 
-        //"Bin"の更新値：@Bin(System.Byte[])のかわりにいったんnull
-        //Updateは@Binではない、連結処理も必要。
         public string UpsertBinary { get; } = @"
             update ""Binaries""
             set
-                ""Bin"" = @Bin
+                ""Bin"" =
+                    (
+                    select ""subbin"".""Bin""
+                    from
+                        (
+                        select ""Bin""
+                        from ""Binaries""
+                        where ""TenantId"" = @ipT
+                            and ""Guid"" = @Guid
+                            and ""BinaryType"" = @BinaryType
+                        )
+                        as ""subbin""
+                    ) || @Bin
                 ,""Updator"" = @ipU
                 ,""UpdatedTime"" = current_timestamp(3)
             where ""Binaries"".""TenantId"" = @ipT
@@ -469,13 +479,13 @@ namespace Implem.MySql
             {
                 case "md5":
                     return @"
-                        select md5(""Bin"")
+                        select unhex(md5(""Bin""))
                         from ""Binaries""
                         where ""TenantId"" = @ipT
                             and ""Guid"" = @Guid;";
                 case "sha256":
                     return @"
-                        select sha2(""Bin"",256)
+                        select unhex(sha2(""Bin"",256))
                         from ""Binaries""
                         where ""TenantId"" = @ipT
                             and ""Guid"" = @Guid;";
