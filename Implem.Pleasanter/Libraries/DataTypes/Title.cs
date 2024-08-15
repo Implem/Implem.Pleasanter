@@ -14,6 +14,7 @@ using System.Data;
 using System.Linq;
 using Implem.Libraries.DataSources.SqlServer;
 using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
+using Org.BouncyCastle.Ocsp;
 namespace Implem.Pleasanter.Libraries.DataTypes
 {
     [Serializable]
@@ -319,21 +320,35 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 .Join("&");
             if (Id > 0
                 && column.SiteSettings?.TableType == Sqls.TableTypes.Normal
-                && column.SiteSettings?.GetNoDisplayIfReadOnly(context: context) != true
-                && column.SiteSettings?.DisableLinkToEdit != true)
+                && column.SiteSettings?.GetNoDisplayIfReadOnly(context: context) != true)
             {
-                hb.A(
-                    href: Locations.ItemEdit(
-                        context: context,
-                        id: Id)
-                        + ((queryString == string.Empty)
-                            ? string.Empty
-                            : "?" + queryString),
-                    text: DisplayValue);
-            }
-            else
-            {
-                hb.Text(text: DisplayValue);
+                if (column.SiteSettings?.DisableLinkToEdit == true)
+                {
+                    hb.Text(text: DisplayValue);
+                }
+                else if (column.SiteSettings?.OpenEditInNewTab == true)
+                {
+                    hb.A(
+                        href: Locations.ItemEdit(
+                            context: context,
+                            id: Id)
+                            + ((queryString == string.Empty)
+                                ? string.Empty
+                                : "?" + queryString),
+                        target: "_blank",
+                        text: DisplayValue);
+                }
+                else
+                {
+                    hb.A(
+                        href: Locations.ItemEdit(
+                            context: context,
+                            id: Id)
+                            + ((queryString == string.Empty)
+                               ? string.Empty
+                               : "?" + queryString),
+                        text: DisplayValue);
+                }
             }
         }
 
