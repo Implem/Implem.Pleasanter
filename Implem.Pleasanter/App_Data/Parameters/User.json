@@ -1,5 +1,6 @@
 ﻿{
     "DisableTopSiteCreation": false,
+    "DisableMovingFromTopSite": false,
     "DisableGroupAdmin": false,
     "DisableGroupCreation": false,
     "DisableApi": false,
