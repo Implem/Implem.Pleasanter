@@ -399,7 +399,7 @@ body:has(#Publish[value="1"]) {
     top: 5px;
 }
 
-/* フィルター */
+/* フィルタ */
 #MainForm #ViewFilters {
     margin: 0;
     padding: 8px 16px 0;
@@ -1977,4 +1977,12 @@ body#login #MainContainer #Application #PortalLink{
     strong{
         font-size: inherit;
     }
+}
+
+#Notes{
+    width: 100%;
+    position: relative;
+    z-index: 1;
+    background: #E7E7E7;
+    padding: 8px 16px;
 }
