@@ -1,1 +1,1 @@
-﻿create database "#InitialCatalog#" collate utf8mb4_0900_as_ci;
+﻿create database "#InitialCatalog#" collate utf8mb4_general_ci;
