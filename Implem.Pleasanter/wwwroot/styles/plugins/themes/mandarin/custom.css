@@ -396,7 +396,7 @@ body:has(#Publish[value="1"]) {
     top: 5px;
 }
 
-/* フィルター */
+/* フィルタ */
 #MainForm #ViewFilters {
     margin: 0;
     padding: 8px 16px 0;
