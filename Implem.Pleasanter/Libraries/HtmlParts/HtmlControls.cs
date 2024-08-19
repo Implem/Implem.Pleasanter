@@ -1023,8 +1023,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     context: context,
                                     guid: guid,
                                     temp: added == true))
-                                .Target("_blank")
-                                .Rel("noopenner noreferrer"),
+                                .Target("_blank"),
                             action: () => hb
                                 .Span(css: "ui-icon ui-icon-circle-zoomin show-file"))
                         .A(
