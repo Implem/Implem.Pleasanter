@@ -4924,7 +4924,7 @@ namespace Implem.Pleasanter.Models
                     message: LoginMessage(
                         success: Parameters.SysLog.LoginFailure
                             ? false
-                            : null)); 
+                            : null));
             }
         }
 
