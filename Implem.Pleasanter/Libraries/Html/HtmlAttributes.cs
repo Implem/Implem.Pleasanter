@@ -228,6 +228,10 @@ namespace Implem.Pleasanter.Libraries.Html
             {
                 Add("target");
                 Add(value);
+                if (value == "_blank")
+                {
+                    Rel(value: "noopener noreferrer");
+                }
             }
             return this;
         }
