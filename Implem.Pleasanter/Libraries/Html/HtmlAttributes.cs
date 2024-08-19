@@ -224,13 +224,12 @@ namespace Implem.Pleasanter.Libraries.Html
 
         public HtmlAttributes Target(string value, bool _using = true)
         {
-            if (!value.IsNullOrEmpty())
+            if (_using)
             {
-                if (_using)
-                {
-                    Add("target");
-                    Add(value);
-                }
+                return this;
+            }
+            else if (!value.IsNullOrEmpty())
+            {
                 if (value == "_blank")
                 {
                     Rel(value: "noopener noreferrer");
