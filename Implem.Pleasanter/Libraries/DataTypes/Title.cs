@@ -14,7 +14,6 @@ using System.Data;
 using System.Linq;
 using Implem.Libraries.DataSources.SqlServer;
 using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
-using Org.BouncyCastle.Ocsp;
 namespace Implem.Pleasanter.Libraries.DataTypes
 {
     [Serializable]
