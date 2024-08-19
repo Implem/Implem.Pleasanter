@@ -1,4 +1,5 @@
 ﻿using CsvHelper;
+using Implem.CodeDefiner.Settings;
 using Implem.DefinitionAccessor;
 using Implem.Factory;
 using Implem.IRds;
@@ -6,14 +7,19 @@ using Implem.Libraries.Classes;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Exceptions;
 using Implem.Libraries.Utilities;
+using Implem.ParameterAccessor.Parts;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using System.Xml.Xsl;
+
 namespace Implem.CodeDefiner
 {
     public class Starter
@@ -91,6 +97,11 @@ namespace Implem.CodeDefiner
                     case "ConvertTime":
                         ConvertTime(factory: factory);
                         break;
+                    case "merge":
+                        MergeParameters(
+                            backUpPath: argHash.Get("b"),
+                            installPath: argHash.Get("i"));
+                        break;
                     default:
                         WriteErrorToConsole(args);
                         break;
@@ -134,6 +145,18 @@ namespace Implem.CodeDefiner
                     "InvalidLanguageException : " + e.Message,
                     Consoles.Types.Error);
             }
+            catch(InvalidVersionException e)
+            {
+                Consoles.Write(
+                    "InvalidVersionException : " + e.Message,
+                    Consoles.Types.Error);
+            }
+            catch (ArgumentNullException e)
+            {
+                Consoles.Write(
+                    "ArgumentNullException : " + e.Message,
+                    Consoles.Types.Error);
+            }
             catch (Exception e)
             {
                 Consoles.Write(
@@ -161,6 +184,115 @@ namespace Implem.CodeDefiner
                 }
             }
             return argsDictionary;
+        }
+
+        private static void MergeParameters(
+            string installPath  = "",
+            string backUpPath = "")
+        {
+            if (backUpPath.IsNullOrEmpty())
+            {
+                throw new ArgumentNullException("/b");
+            }
+            if (installPath.IsNullOrEmpty())
+            {
+                installPath = GetDefaultInstallDir();
+            }
+            var parametersDir = Path.Combine(
+                installPath,
+                "Implem.Pleasanter",
+                "App_Data",
+                "Parameters");
+            var backUpParameterDir = Path.Combine(
+                backUpPath,
+                "Implem.Pleasanter",
+                "App_Data",
+                "Parameters");
+            var newVersion = ReplaceVersion(
+                FileVersionInfo.GetVersionInfo(
+                Path.Combine(
+                    installPath,
+                    "Implem.Pleasanter",
+                    "Implem.Pleasanter.dll")).FileVersion);
+            var currentVersion = ReplaceVersion(
+                FileVersionInfo.GetVersionInfo(
+                Path.Combine(
+                    backUpPath,
+                    "Implem.Pleasanter",
+                    "Implem.Pleasanter.dll")).FileVersion);
+            CheckVersion(newVersion, currentVersion, installPath);
+            CopyDirectory(backUpParameterDir, parametersDir, true);
+            Functions.Patch.PatchParameters.ApplyToPatch(installPath, parametersDir, newVersion, currentVersion);
+        }
+
+        private static string GetDefaultInstallDir()
+        {
+            var defaultPath = new DefaultParameters();
+            return Environment.OSVersion.Platform == PlatformID.Win32NT
+                ? defaultPath.InstallDirForWindows
+                : defaultPath.InstallDirForLinux;
+        }
+        public static string ReplaceVersion(string versionInfo)
+        {
+            var pattern = @"(\d+)\.(\d+)\.(\d+)\.(\d+)";
+            return Regex.Replace(versionInfo, pattern, "0$1.0$2.0$3.0$4");
+        }
+
+        public static void CheckVersion(string newVersion,string currentVersion ,string installPath)
+        {
+            var patchSource = Path.Combine(
+                    installPath,
+                    "PleasanterPatch");
+            var patchDir = new DirectoryInfo(patchSource);
+            var newVersionObj = new System.Version(newVersion);
+            var currentVersionObj = new System.Version(currentVersion);
+            DirectoryInfo[] dirs = patchDir.GetDirectories();
+            if(newVersionObj < currentVersionObj)
+            {
+                throw new InvalidVersionException("Invalid Version" + $" From:{currentVersionObj}" + $" To:{newVersionObj}");
+            }
+            if(!dirs.Any(o => o.Name == currentVersion))
+            {
+                throw new InvalidVersionException("Invalid Version:" + currentVersionObj);
+            }
+            if (!dirs.Any(o => o.Name == newVersion))
+            {
+                throw new InvalidVersionException("Invalid Version:" + newVersionObj);
+            }
+        }
+
+        static void CopyDirectory(
+            string sourceDir,
+            string destinationDir,
+            bool recursive)
+        {
+            var dir = new DirectoryInfo(sourceDir);
+            if (!dir.Exists)
+            {
+                throw new DirectoryNotFoundException($"Source directory not found: {dir.FullName}");
+            }
+            DirectoryInfo[] dirs = dir.GetDirectories();
+            Directory.CreateDirectory(destinationDir);
+            foreach (FileInfo file in dir.GetFiles())
+            {
+                string targetFilePath = Path.Combine(
+                    destinationDir,
+                    file.Name);
+                file.CopyTo(targetFilePath, true);
+            }
+            if (recursive)
+            {
+                foreach (DirectoryInfo subDir in dirs)
+                {
+                    string newDestinationDir = Path.Combine(
+                        destinationDir,
+                        subDir.Name);
+                    CopyDirectory(
+                        subDir.FullName,
+                        newDestinationDir,
+                        true);
+                }
+            }
         }
 
         private static void ValidateArgs(IEnumerable<string> argList)
