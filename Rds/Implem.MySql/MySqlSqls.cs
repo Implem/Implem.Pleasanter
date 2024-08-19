@@ -14,7 +14,8 @@ namespace Implem.MySql
 
         public string IsNotTrue { get; } = " <> 1 ";
 
-        public string CurrentDateTime { get; } = " current_timestamp(3) ";
+        //CURRENT_TIMESTAMPは、デフォルト値の設定をselectする際に大文字が取得されるため、ここでも大文字で定義する必要がある
+        public string CurrentDateTime { get; } = " CURRENT_TIMESTAMP(3) ";
 
         public string Like { get; } = " like ";
 
