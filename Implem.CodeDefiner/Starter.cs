@@ -178,7 +178,7 @@ namespace Implem.CodeDefiner
                 {
                     string key = args[i].Replace("/","");
                     string value = "";
-                    if (pathParameters.Any(o => o == key) && i + 1 < args.Length && args[i + 1].Length != 2)
+                    if (pathParameters.Any(o => o == key) && i + 1 < args.Length)
                     {
                         value = args[i + 1];
                         argsDictionary[key] = value;
@@ -326,8 +326,8 @@ namespace Implem.CodeDefiner
                 WriteErrorToConsole(args);
             }
             var argNames = args.Skip(1)
-                .Where(o => o.Length == 2)
-                .Where(o => o.Contains('/'));
+                .Where(o => o.StartsWith('/'))
+                .Where(o => o.Length == 2);
             if (argNames.Count() != argNames.Distinct().Count())
             {
                 WriteErrorToConsole(args);
