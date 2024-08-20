@@ -66,13 +66,13 @@ namespace Implem.CodeDefiner
                         ConfigureDatabase(
                             factory: factory,
                             force: argHash.ContainsKey("f"),
-                            noInput : argHash.ContainsKey("n"));
+                            noInput : argHash.ContainsKey("y"));
                         break;
                     case "rds":
                         ConfigureDatabase(
                             factory: factory,
                             force: argHash.ContainsKey("f"),
-                            noInput: argHash.ContainsKey("n"));
+                            noInput: argHash.ContainsKey("y"));
                         CreateDefinitionAccessorCode();
                         CreateMvcCode(target);
                         break;
@@ -93,7 +93,7 @@ namespace Implem.CodeDefiner
                         ConfigureDatabase(
                             factory: factory,
                             force: argHash.ContainsKey("f"),
-                            noInput: argHash.ContainsKey("n"));
+                            noInput: argHash.ContainsKey("y"));
                         MigrateDatabase();
                         break;
                     case "ConvertTime":
@@ -199,7 +199,7 @@ namespace Implem.CodeDefiner
         private static void MergeParameters(
             string installPath  = "",
             string backUpPath = "",
-            string patchSourcePath = "")
+            string patchSourceZip = "")
         {
             if (backUpPath.IsNullOrEmpty())
             {
@@ -208,13 +208,13 @@ namespace Implem.CodeDefiner
             if (installPath.IsNullOrEmpty())
             {
                 installPath = GetDefaultInstallDir();
-                patchSourcePath = GetDefaultPatchDir();
+                patchSourceZip = GetDefaultPatchDir();
             }
             else
             {
-                patchSourcePath = Path.Combine(
+                patchSourceZip = Path.Combine(
                     installPath,
-                    "PleasanterPatch");
+                    "ParametersPatch.zip");
             }
             var parametersDir = Path.Combine(
                 installPath,
@@ -238,9 +238,26 @@ namespace Implem.CodeDefiner
                     backUpPath,
                     "Implem.Pleasanter",
                     "Implem.Pleasanter.dll")).FileVersion);
-            CheckVersion(newVersion, currentVersion, patchSourcePath);
-            CopyDirectory(backUpParameterDir, parametersDir, true);
-            Functions.Patch.PatchParameters.ApplyToPatch(patchSourcePath, parametersDir, newVersion, currentVersion);
+            ZipFile.ExtractToDirectory(
+                    patchSourceZip,
+                    installPath,
+                    true);
+            var patchSourcePath = Path.Combine(
+                installPath,
+                "ParametersPatch");
+            CheckVersion(
+                newVersion,
+                currentVersion,
+                patchSourcePath);
+            CopyDirectory(
+                backUpParameterDir,
+                parametersDir,
+                true);
+            Functions.Patch.PatchParameters.ApplyToPatch(
+                patchSourcePath,
+                parametersDir,
+                newVersion,
+                currentVersion);
         }
 
         private static string GetDefaultInstallDir()
@@ -255,8 +272,8 @@ namespace Implem.CodeDefiner
         {
             var defaultPath = new DefaultParameters();
             return Environment.OSVersion.Platform == PlatformID.Win32NT
-                ? defaultPath.PatchDirectoryPathForWindows
-                : defaultPath.PatchDirectoryPathForLinux;
+                ? defaultPath.PatchZipPathForWindows
+                : defaultPath.PatchZIpPathForLinux;
         }
 
         public static string ReplaceVersion(string versionInfo)

@@ -14,7 +14,7 @@ namespace Implem.CodeDefiner.Functions.Patch
     {
         public static void ApplyToPatch(string patchSourcePath, string parameterDir, string newVersion, string currentVersion)
         {
-            //最新バージョンに同梱されているPleasanterPatchフォルダを参照する
+            //ParametersPatchフォルダを参照する
             var patchDir = new DirectoryInfo(patchSourcePath);
             DirectoryInfo[] dirs = patchDir.GetDirectories();
             var targetDir = dirs
