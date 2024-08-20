@@ -5199,7 +5199,12 @@ namespace Implem.Pleasanter.Models
                     controlId: "DisableLinkToEdit",
                     fieldCss: "field-auto-thin",
                     labelText: Displays.DisableLinkToEdit(context: context),
-                    _checked: ss.DisableLinkToEdit == true));
+                    _checked: ss.DisableLinkToEdit == true)
+                .FieldCheckBox(
+                    controlId: "OpenEditInNewTab",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.OpenEditInNewTab(context: context),
+                    _checked: ss.OpenEditInNewTab == true));
         }
 
         /// <summary>
