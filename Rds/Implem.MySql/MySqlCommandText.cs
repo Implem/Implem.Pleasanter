@@ -121,7 +121,7 @@ namespace Implem.MySql
             string paramName,
             bool negative)
         {
-            //MySQL版はBinaries.BinにFullTextIndexを付けていないので、バイナリ検索機能は提供不可。
+            //MySQL版はBinaries.BinにFullTextIndexを付けることができないので、バイナリ検索機能は提供不可。
             return "0=1";
         }
 
@@ -129,7 +129,7 @@ namespace Implem.MySql
             Dictionary<string, string> words,
             string searchText)
         {
-            return new Dictionary<string, string> { [Strings.NewGuid()] = searchText };
+            return words;
         }
 
         public string CreateDataRangeCommand(int? commandCount)
