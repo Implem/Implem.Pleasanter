@@ -10,5 +10,7 @@ namespace Implem.CodeDefiner.Settings
     {
         public readonly string InstallDirForWindows = "C:\\web\\pleasanter";
         public readonly string InstallDirForLinux = "/web/pleasanter";
+        public readonly string PatchDirectoryPathForWindows = "C:\\web\\pleasanter\\PleasanterPatch";
+        public readonly string PatchDirectoryPathForLinux = "/web/pleasanter/PleasanterPatch";
     }
 }

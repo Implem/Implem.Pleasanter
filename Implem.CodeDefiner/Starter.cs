@@ -1,4 +1,5 @@
 ﻿using CsvHelper;
+using Implem.CodeDefiner.Functions.Patch;
 using Implem.CodeDefiner.Settings;
 using Implem.DefinitionAccessor;
 using Implem.Factory;
@@ -43,6 +44,7 @@ namespace Implem.CodeDefiner
                     Consoles.Write("UnhandledException: " + e.ExceptionObject, Consoles.Types.Error, true);
                 }
             };
+            ValidateArgs(args);
             var argHash = ArgsType(args);
             var action = args[0];
             var path = argHash.Get("p")?.Replace('\\', System.IO.Path.DirectorySeparatorChar);
@@ -169,12 +171,20 @@ namespace Implem.CodeDefiner
         public static Dictionary<string, string> ArgsType(string[] args)
         {
             var argsDictionary = new Dictionary<string, string>();
-            for(int i = 1; i < args.Length; i++)
+            string[] pathParameters = ["p", "b", "i"];
+            for (int i = 1; i < args.Length; i++)
             {
                 if (args[i].StartsWith("/"))
                 {
                     string key = args[i].Replace("/","");
                     string value = "";
+                    if (pathParameters.Any(o => o == key) && i + 1 < args.Length && args[i + 1].Length != 2)
+                    {
+                        value = args[i + 1];
+                        argsDictionary[key] = value;
+                        i++;
+                        continue;
+                    }
                     if (i + 1 < args.Length && !args[i + 1].StartsWith("/"))
                     {
                         value = args[i + 1];
@@ -188,7 +198,8 @@ namespace Implem.CodeDefiner
 
         private static void MergeParameters(
             string installPath  = "",
-            string backUpPath = "")
+            string backUpPath = "",
+            string patchSourcePath = "")
         {
             if (backUpPath.IsNullOrEmpty())
             {
@@ -197,6 +208,13 @@ namespace Implem.CodeDefiner
             if (installPath.IsNullOrEmpty())
             {
                 installPath = GetDefaultInstallDir();
+                patchSourcePath = GetDefaultPatchDir();
+            }
+            else
+            {
+                patchSourcePath = Path.Combine(
+                    installPath,
+                    "PleasanterPatch");
             }
             var parametersDir = Path.Combine(
                 installPath,
@@ -220,9 +238,9 @@ namespace Implem.CodeDefiner
                     backUpPath,
                     "Implem.Pleasanter",
                     "Implem.Pleasanter.dll")).FileVersion);
-            CheckVersion(newVersion, currentVersion, installPath);
+            CheckVersion(newVersion, currentVersion, patchSourcePath);
             CopyDirectory(backUpParameterDir, parametersDir, true);
-            Functions.Patch.PatchParameters.ApplyToPatch(installPath, parametersDir, newVersion, currentVersion);
+            Functions.Patch.PatchParameters.ApplyToPatch(patchSourcePath, parametersDir, newVersion, currentVersion);
         }
 
         private static string GetDefaultInstallDir()
@@ -232,20 +250,26 @@ namespace Implem.CodeDefiner
                 ? defaultPath.InstallDirForWindows
                 : defaultPath.InstallDirForLinux;
         }
+
+        private static string GetDefaultPatchDir()
+        {
+            var defaultPath = new DefaultParameters();
+            return Environment.OSVersion.Platform == PlatformID.Win32NT
+                ? defaultPath.PatchDirectoryPathForWindows
+                : defaultPath.PatchDirectoryPathForLinux;
+        }
+
         public static string ReplaceVersion(string versionInfo)
         {
             var pattern = @"(\d+)\.(\d+)\.(\d+)\.(\d+)";
             return Regex.Replace(versionInfo, pattern, "0$1.0$2.0$3.0$4");
         }
 
-        public static void CheckVersion(string newVersion,string currentVersion ,string installPath)
+        public static void CheckVersion(string newVersion,string currentVersion ,string patchSourcePath)
         {
-            var patchSource = Path.Combine(
-                    installPath,
-                    "PleasanterPatch");
-            var patchDir = new DirectoryInfo(patchSource);
             var newVersionObj = new System.Version(newVersion);
             var currentVersionObj = new System.Version(currentVersion);
+            var patchDir = new DirectoryInfo(patchSourcePath);
             DirectoryInfo[] dirs = patchDir.GetDirectories();
             if(newVersionObj < currentVersionObj)
             {
@@ -295,18 +319,18 @@ namespace Implem.CodeDefiner
             }
         }
 
-        private static void ValidateArgs(IEnumerable<string> argList)
+        private static void ValidateArgs(IEnumerable<string> args)
         {
-            if (argList.Count() == 0)
+            if (args.Count() == 0)
             {
-                WriteErrorToConsole(argList);
+                WriteErrorToConsole(args);
             }
-            var argNames = argList.Skip(1)
-                .Where(o => o.Length >= 2)
-                .Select(o => o.Substring(0, 2));
+            var argNames = args.Skip(1)
+                .Where(o => o.Length == 2)
+                .Where(o => o.Contains('/'));
             if (argNames.Count() != argNames.Distinct().Count())
             {
-                WriteErrorToConsole(argList);
+                WriteErrorToConsole(args);
             }
         }
 
@@ -345,7 +369,7 @@ namespace Implem.CodeDefiner
             }
         }
 
-            private static void TryOpenConnections(ISqlObjectFactory factory)
+        private static void TryOpenConnections(ISqlObjectFactory factory)
         {
             int number;
             string message;

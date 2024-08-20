@@ -12,13 +12,10 @@ namespace Implem.CodeDefiner.Functions.Patch
 {
     internal class PatchParameters
     {
-        public static void ApplyToPatch(string installDir, string parameterDir, string newVersion, string currentVersion)
+        public static void ApplyToPatch(string patchSourcePath, string parameterDir, string newVersion, string currentVersion)
         {
             //最新バージョンに同梱されているPleasanterPatchフォルダを参照する
-            var patchSource = Path.Combine(
-                    installDir,
-                    "PleasanterPatch");
-            var patchDir = new DirectoryInfo(patchSource);
+            var patchDir = new DirectoryInfo(patchSourcePath);
             DirectoryInfo[] dirs = patchDir.GetDirectories();
             var targetDir = dirs
                 .OrderBy(o => o.Name)
