@@ -7239,6 +7239,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string OpenEditInNewTab(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "OpenEditInNewTab",
+                data: data);
+        }
+
         public static string Operations(
             Context context,
             params string[] data)
