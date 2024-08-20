@@ -113,6 +113,7 @@
     },
     "HealthCheck": {
         "Enabled": false,
+        "EnableDatabaseCheck": false,
         "HealthQuery": null,
         "RequireHosts": null,
         "EnableDetailedResponse": false

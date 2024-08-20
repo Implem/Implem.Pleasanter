@@ -1,0 +1,33 @@
+﻿{
+    "Id": "OpenEditInNewTab",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Open edit in new tab"
+        },
+        {
+            "Language": "zh",
+            "Body": "在單獨的選項卡中開啟編輯螢幕"
+        },
+        {
+            "Language": "ja",
+            "Body": "編集画面を別タブで開く"
+        },
+        {
+            "Language": "de",
+            "Body": "Öffnen Sie den Bearbeitungsbildschirm in einem separaten Tab"
+        },
+        {
+            "Language": "ko",
+            "Body": "편집 화면을 다른 탭에서 열기"
+        },
+        {
+            "Language": "es",
+            "Body": "Abra la pantalla de edición en una pestaña separada"
+        },
+        {
+            "Language": "vn",
+            "Body": "Mở màn hình chỉnh sửa trong một tab riêng"
+        }
+    ]
+}
