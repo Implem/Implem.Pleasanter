@@ -13964,7 +13964,7 @@ namespace Implem.Pleasanter.Models
                         labelText: Displays.Style(context: context),
                         text: style.Body)
                     .FieldCheckBox(
-                        fieldId: "StyleDisabled",
+                        fieldId: "StyleDisabledField",
                         controlId: "StyleDisabled",
                         controlCss: " always-send",
                         labelText: Displays.Disabled(context: context),
@@ -14782,7 +14782,7 @@ namespace Implem.Pleasanter.Models
                         labelText: Displays.Html(context: context),
                         text: html.Body)
                     .FieldCheckBox(
-                        fieldId: "HtmlDisabled",
+                        fieldId: "HtmlDisabledField",
                         controlId: "HtmlDisabled",
                         controlCss: " always-send",
                         labelText: Displays.Disabled(context: context),
