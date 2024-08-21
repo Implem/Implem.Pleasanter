@@ -514,6 +514,21 @@ namespace Implem.Pleasanter.Models
                                 sysLogsDescription: Debugs.GetSysLogsDescription());
                         }
                         break;
+                    case "AllowMovingFromTopSite":
+                        if (userModel.AllowMovingFromTopSite_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
+                        {
+                            return new ErrorData(
+                                context: context,
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText,
+                                api: api,
+                                sysLogsStatus: 403,
+                                sysLogsDescription: Debugs.GetSysLogsDescription());
+                        }
+                        break;
                     case "EnableSecondaryAuthentication":
                         if (userModel.EnableSecondaryAuthentication_Updated(
                             context: context,
@@ -1218,6 +1233,18 @@ namespace Implem.Pleasanter.Models
                         break;
                     case "AllowApi":
                         if (userModel.AllowApi_Updated(context: context))
+                        {
+                            return new ErrorData(
+                                context: context,
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText,
+                                api: api,
+                                sysLogsStatus: 403,
+                                sysLogsDescription: Debugs.GetSysLogsDescription());
+                        }
+                        break;
+                    case "AllowMovingFromTopSite":
+                        if (userModel.AllowMovingFromTopSite_Updated(context: context))
                         {
                             return new ErrorData(
                                 context: context,

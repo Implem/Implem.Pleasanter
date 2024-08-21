@@ -354,6 +354,7 @@ namespace Implem.Pleasanter.Libraries.Models
             string parentClass = context.Forms.Data("RelatingDropDownParentClass");
             var selectedValue = context.Forms.Data("RelatingDropDownSelected");
             var parentDataId = context.Forms.Data("RelatingDropDownParentDataId");
+            var isInitDisplay = context.Forms.Bool("IsInitDisplay");
             var parentIds = parentDataId.Deserialize<List<long>>();
             return RelatingDropDown(
                 context: context,
@@ -363,6 +364,7 @@ namespace Implem.Pleasanter.Libraries.Models
                 selectedValue: selectedValue,
                 searchText: string.Empty,
                 filter: filter,
+                isInitDisplay: isInitDisplay,
                 parentClass: parentClass,
                 parentIds: parentIds);
         }
@@ -375,6 +377,7 @@ namespace Implem.Pleasanter.Libraries.Models
             string searchText,
             string selectedValue,
             bool filter,
+            bool isInitDisplay,
             string parentClass = "",
             List<long> parentIds = null)
         {
@@ -388,6 +391,18 @@ namespace Implem.Pleasanter.Libraries.Models
                 parentIds: parentIds,
                 searchColumnOnly: false,
                 searchFormat: false);
+            if (isInitDisplay)
+            {
+                selectedValue.Deserialize<string[]>().ForEach(o =>
+                {
+                    if (!column.ChoiceHash?.ContainsKey(o) == true)
+                    {
+                        column.AddToChoiceHash(
+                            context: context,
+                            value: o);
+                    }
+                });
+            }
             Dictionary<string, ControlData> optionCollection
                 = new Dictionary<string, ControlData>();
             var multiple = (column.MultipleSelections ?? false) || filter;
