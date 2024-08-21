@@ -8,5 +8,6 @@ namespace Implem.ParameterAccessor.Parts
         public SPOptions SPOptions;
         public List<IdentityProvider> IdentityProviders;
         public bool? DisableOverwriteName;
+        public bool? NotCreatePersistentCookie;
     }
 }

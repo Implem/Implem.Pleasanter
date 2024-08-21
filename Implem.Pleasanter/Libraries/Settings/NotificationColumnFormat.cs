@@ -1,4 +1,7 @@
 ﻿using Implem.Libraries.Utilities;
+using DiffMatchPatch;
+using System.Collections.Generic;
+
 namespace Implem.Pleasanter.Libraries.Settings
 {
     public class NotificationColumnFormat
@@ -7,6 +10,13 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string Prefix;
         public string Delimiter;
         public string Allow;
+        public string DiffTypes;
+        public string StartBracket;
+        public string EndBracket;
+        public string DeletePrefixSymbol;
+        public string DeleteSuffixSymbol;
+        public string AddPrefixSymbol;
+        public string AddSuffixSymbol;
         public bool? Always;
         public ValueDisplayTypes? DisplayTypes;
         public bool? ValueOnly;
@@ -60,7 +70,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case ValueDisplayTypes.BeforeAndAfterChange:
                 case null:
                 default:
-                    return $"{Header(column)}{saved}{SeperateLine(column)}{GetAllow()}{SeperateLine(column)}{Self(self)}";
+                    return GetDiffTypes() == "DiffMatchPatch" ?
+                        Self(GetDiff(column, saved, self)) :
+                        $"{Header(column)}{saved}{SeperateLine(column)}{GetAllow()}{SeperateLine(column)}{Self(self)}";
             }
         }
 
@@ -87,11 +99,48 @@ namespace Implem.Pleasanter.Libraries.Settings
             return Strings.CoalesceEmpty(Allow, " => ");
         }
 
+        private string GetDiffTypes()
+        {
+            return Strings.CoalesceEmpty(DiffTypes, "standard");
+        }
+
         private string Self(string self)
         {
             return self?.EndsWith("\n") == true
                 ? self
                 : self + "\n";
+        }
+
+        private string GetDiff(Column column, string saved, string self)
+        {
+            string startBracket = Strings.CoalesceEmpty(StartBracket, "(");
+            string endBracket = Strings.CoalesceEmpty(EndBracket, ")");
+            string deletePrefixSymbol = Strings.CoalesceEmpty(DeletePrefixSymbol, "-");
+            string deleteSuffixSymbol = Strings.CoalesceEmpty(DeleteSuffixSymbol, "");
+            string addPrefixSymbol = Strings.CoalesceEmpty(AddPrefixSymbol, "+");
+            string addSuffixSymbol = Strings.CoalesceEmpty(AddSuffixSymbol, "");
+            string diffText = "";
+            diff_match_patch dmp = new diff_match_patch();
+            dmp.Diff_Timeout = 0;
+            List<Diff> results = dmp.diff_main(saved, self ?? "");
+            foreach (Diff diff in results)
+            {
+                string start = diff.text.StartsWith("\n") ? "\n" + startBracket : startBracket;
+                string end = diff.text.EndsWith("\n") ? endBracket + "\n" : endBracket;
+                switch (diff.operation)
+                {
+                    case Operation.EQUAL:
+                        diffText += diff.text;
+                        break;
+                    case Operation.DELETE:
+                        diffText += $"{start}{deletePrefixSymbol}{diff.text.Trim('\n')}{deleteSuffixSymbol}{end}";
+                        break;
+                    case Operation.INSERT:
+                        diffText += $"{start}{addPrefixSymbol}{diff.text.Trim('\n')}{addSuffixSymbol}{end}";
+                        break;
+                }
+            }
+            return $"{Header(column)}{Self(diffText)}";
         }
     }
 }

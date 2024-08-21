@@ -62,6 +62,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     case "Check":
                         result = Model.GetCheck(name);
                         return true;
+                    case "Attachments":
+                        result = Model.GetAttachments(name);
+                        return true;
                 }
                 switch (name)
                 {
