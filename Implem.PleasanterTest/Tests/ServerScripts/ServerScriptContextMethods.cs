@@ -57,9 +57,12 @@ namespace Implem.PleasanterTest.Tests.ServerScript
 
         public static IEnumerable<object[]> GetData()
         {
+            string newLineEscaped = System.Environment.NewLine == "\r\n" ? "\\r\\n" : "\\n";
+            string logValue = $"{{\"Log\":\"OK{newLineEscaped}\"}}";
             var hasMessages = BaseData.Tests(
                 HtmlData.HasInformationMessage(message: "OK"),
-                HtmlData.Attribute(name: "value", selector: "#Log", value: "{\"Log\":\"OK\\r\\n\"}"));
+                HtmlData.Attribute(name: "value", selector: "#Log", value: logValue));
+
 
             var testParts = new List<TestPart>()
             {
