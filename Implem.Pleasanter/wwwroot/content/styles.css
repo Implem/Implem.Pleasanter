@@ -336,7 +336,7 @@ pre {
     padding: 0px 6px;
     border: none;
     position: relative;
-    z-index: 10;
+    z-index: 99;
     clear: both;
 }
 
@@ -816,7 +816,7 @@ th.calendar-header {
         position: absolute;
         overflow: hidden;
         white-space: nowrap;
-        z-index: 30;
+        z-index: 2;
     }
 
         .CalendarBody .item .title.sub {
@@ -1383,7 +1383,7 @@ th.calendar-header {
     position: fixed;
     left: 0px;
     bottom: 30px;
-    z-index: 100;
+    z-index: 90;
 }
 
 #MainCommands {
@@ -1431,7 +1431,7 @@ th.calendar-header {
     position: fixed;
     left: 0px;
     bottom: 0px;
-    z-index: 100;
+    z-index: 90;
 }
 
     #Footer a {
@@ -2728,7 +2728,7 @@ _::-webkit-full-page-media, _:future, :root .field-normal .control-checkbox + la
     position: fixed;
     left: 0px;
     bottom: 78px;
-    z-index: 100;
+    z-index: 90;
 }
 
     .message .body {
