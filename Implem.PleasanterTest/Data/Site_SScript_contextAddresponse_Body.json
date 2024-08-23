@@ -1,0 +1,20 @@
+﻿{
+    "Version": 1.017,
+    "ReferenceType": "Results",
+    "EditorColumnHash": {
+        "General": [
+            "Title",
+            "NumA"
+        ]
+    },
+    "ServerScripts": [
+        {
+            "Title": "test",
+            "Name": "",
+            "BeforeOpeningPage": true,
+            "Body": "try{\n    context.AddResponse('ReplaceAll','#Results_TitleField','<div class=\"field-normal\" style=\"color:red\">PleasanterTitle</div>');\n    context.AddResponse('Set','NumA',123);\n    if(model.Num === 123){\n        context.AddMessage(\"OK\",'alert-information');\n    } else {\n        context.AddMessage(\"NG\",'alert-error');\n    }\n} catch (e) {\n    context.AddMessage(e.stack, 'alert-error');\n}",
+            "Id": 1
+        }
+    ],
+    "NoDisplayIfReadOnly": false
+}
