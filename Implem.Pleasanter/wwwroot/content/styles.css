@@ -788,14 +788,14 @@ th.calendar-header {
     }
 
     .CalendarBody .item .connection {
-        width: 14px;
+        width: 30px;
         height: 25px;
         background-color: lightgoldenrodyellow;
         border-top: solid 1px silver;
         border-bottom: solid 1px silver;
         position: relative;
         top: -1px;
-        left: -14px;
+        left: -30px;
     }
 
         .CalendarBody .item .connection.hover {
