@@ -1,0 +1,43 @@
+﻿{
+    "Version": 1.017,
+    "ReferenceType": "Results",
+    "GridColumns": [
+        "ResultId",
+        "TitleBody",
+        "NumA"
+    ],
+    "EditorColumnHash": {
+        "General": [
+            "ResultId",
+            "Ver",
+            "Title",
+            "NumA",
+            "ClassA"
+        ]
+    },
+    "ServerScripts": [
+        {
+            "Title": "サイト1 - ビュー処理時",
+            "Name": "",
+            "WhenViewProcessing": true,
+            "Body": "// サイト1\n// 対象機能\n// 1. view.Sorters\n// 1. view.AlwaysGetColumns\n// 1. view.Id\n\n// 処理概要\n// 1-1.「条件：ビュー処理時」で「view.Sorters」により「数値A(NumA)：昇順」をもとにデータを並び替え\n// 1-2.「条件：ビュー処理時」で「view.AlwaysGetColumns()」により一覧に表示されていない「分類A：ClassA」を追加\n// 1-3.「条件：行表示の前」で「model.ClassA」に値が設定されいているか確認\n// 1-4.「条件：画面表示の前」で「items.Get()」により並び替えしたデータを確認\n// 1-5.「条件：画面表示の前」で「view.Id」により選択しているビューIDを確認\n\n// サーバスクリプト(ID：1)：ServerScriptWhenViewProcessing\n// 1-1.「条件：ビュー処理時」で「view.Sorters」により「数値A(NumA)：昇順」をもとにデータを並び替え\nview.Sorters.NumA = 'asc';\n// 1-2.「条件：ビュー処理時」で「view.AlwaysGetColumns()」により一覧に表示されていない「分類A：ClassA」を追加\nview.AlwaysGetColumns.Add('ClassA');",
+            "Id": 1
+        },
+        {
+            "Title": "サイト1 - 行表示の前",
+            "Name": "",
+            "BeforeOpeningRow": true,
+            "Body": "// サイト1\n// 対象機能\n// 1. view.Sorters\n// 1. view.AlwaysGetColumns\n// 1. view.Id\n\n// 処理概要\n// 1-1.「条件：ビュー処理時」で「view.Sorters」により「数値A(NumA)：昇順」をもとにデータを並び替え\n// 1-2.「条件：ビュー処理時」で「view.AlwaysGetColumns()」により一覧に表示されていない「分類A：ClassA」を追加\n// 1-3.「条件：行表示の前」で「model.ClassA」に値が設定されいているか確認\n// 1-4.「条件：画面表示の前」で「items.Get()」により並び替えしたデータを確認\n// 1-5.「条件：画面表示の前」で「view.Id」により選択しているビューIDを確認\n\ntry {\n    context.Log('【DEBUG】xUnit処理：開始');\n    var result;\n    const siteId = context.SiteId;\n    var tmp;\n    var data = '';\n    // サーバスクリプト(ID：2)：ServerScriptBeforeOpeningRow\n    // 1-3.「条件：行表示の前」で「model.ClassA」に値が設定されいているか確認\n    targetFunction = 'view.AlwaysGetColumns()';\n    result = (typeof model.ClassA !== 'undefined');\n    judgeResult(result, targetFunction);\n\n    // 成功 or 失敗を判定\n    //  - 引数 -\n    // condition：判定条件\n    // targetFunction：対象機能名\n    function judgeResult(condition, targetFunction) {\n        context.Log('【DEBUG】' + targetFunction + '判定処理：開始');\n        try {\n            // 成功メッセージ\n            const successMessage = '：成功';\n            // 失敗メッセージ\n            const failureMessage = '：失敗';\n            // 成功CSS\n            const successCSS = 'alert-information';\n            // 失敗CSS\n            const failureCSS = 'alert-error';\n            context.Log('【INFO 】条件：' + condition);\n            if (condition) {\n                context.Log('【DEBUG】判定結果：成功');\n                context.AddMessage(targetFunction + successMessage, successCSS);\n            } else {\n                context.Log('【DEBUG】判定結果：失敗');\n                context.AddMessage(targetFunction + failureMessage, failureCSS);\n            }\n        } catch (ex) {\n            context.Log('【DEBUG】' + targetFunction + '判定処理：実装エラー');\n            context.Log(ex.stack);\n        } finally {\n            context.Log('【DEBUG】' + targetFunction + '判定処理：終了');\n        }\n    }\n} catch (ex) {\n    context.Log('【DEBUG】xUnit処理：実装エラー');\n    context.Log(ex.stack);\n} finally {\n    context.Log('【DEBUG】xUnit処理：終了');\n}",
+            "Id": 2
+        },
+        {
+            "Title": "サイト1 - 画面表示の前",
+            "Name": "",
+            "BeforeOpeningPage": true,
+            "Body": "// サイト1\n// 対象機能\n// 1. view.Sorters\n// 1. view.AlwaysGetColumns\n// 1. view.Id\n\n// 処理概要\n// 1-1.「条件：ビュー処理時」で「view.Sorters」により「数値A(NumA)：昇順」をもとにデータを並び替え\n// 1-2.「条件：ビュー処理時」で「view.AlwaysGetColumns()」により一覧に表示されていない「分類A：ClassA」を追加\n// 1-3.「条件：行表示の前」で「model.ClassA」に値が設定されいているか確認\n// 1-4.「条件：画面表示の前」で「items.Get()」により並び替えしたデータを確認\n// 1-5.「条件：画面表示の前」で「view.Id」により選択しているビューIDを確認\n\ntry {\n    context.Log('【DEBUG】xUnit処理：開始');\n    var result;\n    const siteId = context.SiteId;\n    var tmp;\n    var data = '';\n    // サーバスクリプト(ID：3)：ServerScriptBeforeOpeningPage\n    // 1-4.「条件：画面表示の前」で「items.Get()」により並び替えしたデータを確認\n    targetFunction = 'view.Sorters';\n    tmp = items.Get(siteId);\n    for (const datum of tmp) data += datum.NumA;\n    result = data === '1234567';\n    judgeResult(result, targetFunction);\n    // 1-5.「条件：画面表示の前」で「view.Id」により選択しているビューIDを確認\n    targetFunction = 'view.Id';\n    result = view.Id === 0;\n    judgeResult(result, targetFunction);\n\n    // 成功 or 失敗を判定\n    //  - 引数 -\n    // condition：判定条件\n    // targetFunction：対象機能名\n    function judgeResult(condition, targetFunction) {\n        context.Log('【DEBUG】' + targetFunction + '判定処理：開始');\n        try {\n            // 成功メッセージ\n            const successMessage = '：成功';\n            // 失敗メッセージ\n            const failureMessage = '：失敗';\n            // 成功CSS\n            const successCSS = 'alert-information';\n            // 失敗CSS\n            const failureCSS = 'alert-error';\n            context.Log('【INFO 】条件：' + condition);\n            if (condition) {\n                context.Log('【DEBUG】判定結果：成功');\n                context.AddMessage(targetFunction + successMessage, successCSS);\n            } else {\n                context.Log('【DEBUG】判定結果：失敗');\n                context.AddMessage(targetFunction + failureMessage, failureCSS);\n            }\n        } catch (ex) {\n            context.Log('【DEBUG】' + targetFunction + '判定処理：実装エラー');\n            context.Log(ex.stack);\n        } finally {\n            context.Log('【DEBUG】' + targetFunction + '判定処理：終了');\n        }\n    }\n} catch (ex) {\n    context.Log('【DEBUG】xUnit処理：実装エラー');\n    context.Log(ex.stack);\n} finally {\n    context.Log('【DEBUG】xUnit処理：終了');\n}",
+            "Id": 3
+        }
+    ],
+    "UseNegativeFilters": true,
+    "NoDisplayIfReadOnly": false
+}
