@@ -1,9 +1,9 @@
 ﻿{
-    "Id": "Site_SScript_View_Site",
+    "Id": "Site_SScript_View_Sorters_AlwaysGetColumns_Id",
     "Language": "ja",
     "Type": "Sites",
     "ParentId": "ServerScriptFolder",
-    "Title": "ServerScript - View",
+    "Title": "View_Sorters_AlwaysGetColumns_Id",
     "ClassA": "Results",
     "Creator": "User2",
     "Updator": "User2",
