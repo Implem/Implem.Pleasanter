@@ -1452,6 +1452,10 @@ th.calendar-header {
         line-height: 30px;
     }
 
+#SummarySetZeroWhenOutOfConditionField {
+    display: none;
+}
+
 .template {
     width: 100%;
     display: block;
