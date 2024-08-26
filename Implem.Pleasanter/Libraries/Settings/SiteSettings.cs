@@ -500,6 +500,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                     ss.ParentId = dataRow.Long("ParentId");
                     ss.InheritPermission = dataRow.Long("InheritPermission");
                     ss.Linked = true;
+                    previously = (previously == null)
+                        ? new List<long>()
+                        : previously.Copy();
+                    previously.Add(ss.SiteId);
                     switch (direction)
                     {
                         case "Destinations":
@@ -520,8 +524,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 joinedSsHash: joinedSsHash,
                                 destinations: true,
                                 sources: false,
-                                previously: previously
-                                    ?? new List<long>() { ss.SiteId });
+                                previously: previously);
                             break;
                         case "Sources":
                             ss.Links
@@ -541,8 +544,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 joinedSsHash: joinedSsHash,
                                 destinations: false,
                                 sources: true,
-                                previously: previously
-                                    ?? new List<long>() { ss.SiteId });
+                                previously: previously);
                             break;
                     }
                     hash.Add(ss.SiteId, ss);
