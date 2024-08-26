@@ -80,4 +80,5 @@ TestResults/
 Env.json
 .env
 *.env
-*.min.css
+styles.min.css
+responsive.min.css
