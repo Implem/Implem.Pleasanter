@@ -3211,14 +3211,19 @@ input[type="password"]::-ms-reveal {
 }
 
 .ui-widget.ui-state-default.ui-multiselect {
-    height: 30px;
     background: white;
     border: solid 1px silver;
     overflow: hidden;
     border-radius: 5px;
+    height: 30px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+}
+
+.field-wide .ui-widget.ui-state-default.ui-multiselect {
+    height: auto;
+    min-height: 30px;
 }
 
 .ui-widget.ui-state-default.ui-multiselect .ui-multiselect-open {
@@ -3229,9 +3234,17 @@ input[type="password"]::-ms-reveal {
 .ui-widget.ui-state-default.ui-multiselect .ui-multiselect-open + span {
     display: block;
     order: 1;
-    overflow: hidden;
-    white-space: nowrap;
     text-overflow: ellipsis;
+    overflow: hidden;
+}
+.field-normal .ui-widget.ui-state-default.ui-multiselect .ui-multiselect-open + span {
+    white-space: nowrap;
+}
+.field-wide .ui-widget.ui-state-default.ui-multiselect .ui-multiselect-open + span {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    max-height: 4.7em;
 }
 
 .ui-multiselect-menu {
