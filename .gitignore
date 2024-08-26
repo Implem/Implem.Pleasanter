@@ -80,3 +80,4 @@ TestResults/
 Env.json
 .env
 *.env
+*.min.css
