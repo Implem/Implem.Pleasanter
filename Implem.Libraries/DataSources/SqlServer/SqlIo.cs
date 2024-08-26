@@ -89,7 +89,7 @@ namespace Implem.Libraries.DataSources.SqlServer
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:SQL It has been confirmed that the vulnerability on the query of security does not exist")]
         private void SetSqlCommand(ISqlObjectFactory factory)
         {
-            var commandTextReplaced = new Regex(";(| |;);").Replace(CommandText.ToString(), ";");
+            var commandTextReplaced = new Regex(";(| |;)+;").Replace(CommandText.ToString(), ";");
             SqlCommand.CommandType = CommandType.Text;
             SqlCommand.CommandText = commandTextReplaced;
             SqlCommand.CommandTimeout = SqlContainer.CommandTimeOut;

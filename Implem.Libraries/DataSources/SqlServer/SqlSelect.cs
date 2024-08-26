@@ -299,27 +299,33 @@ namespace Implem.Libraries.DataSources.SqlServer
             bool orderBy,
             int? commandCount)
         {
-            var subQueryStart = new StringBuilder("select ");
+            //本クエリだけで使用する仮名称を命名し""を付けて取得する。"TablenameTemp"等
             var temporaryTableBracket = As.IsNullOrEmpty()
                 ? TableBracket.Remove(TableBracket.Length - 1) + "Temp\""
                 : "\"" + As + "Temp\"";
-            subQueryStart.Append(temporaryTableBracket);
-            subQueryStart.Append('.');
+            var subQueryStart = new StringBuilder("select ")
+                .Append(temporaryTableBracket)
+                .Append('.');
             var columnAsBracket = SqlColumnCollection.FirstOrDefault().AsBracket();
+            //サブクエリの本体で取得するカラムにasで別名の指定がない場合："実カラム名"を指定する
+            //サブクエリの本体で取得するカラムにasで別名の指定がある場合："カラムの別名"を指定する
+            //    （.AsBracket()の結果についてきたasは除去して名称部分のみを使う）
             if (columnAsBracket.IsNullOrEmpty())
             {
-                subQueryStart.Append("\"");
-                subQueryStart.Append(SqlColumnCollection.FirstOrDefault().ColumnName);
-                subQueryStart.Append("\"");
+                subQueryStart.Append("\"")
+                    .Append(SqlColumnCollection.FirstOrDefault().ColumnName)
+                    .Append("\"");
             }
             else
             {
                 subQueryStart.Append(columnAsBracket.Replace(" as ", string.Empty));
             }
             subQueryStart.Append(" from (");
-            var subQueryEnd = new StringBuilder(") as ");
-            subQueryEnd.Append(temporaryTableBracket);
+            var subQueryEnd = new StringBuilder(") as ")
+                .Append(temporaryTableBracket);
+            //commandTextに追記：select "TablenameTemp"."Columnname" from (
             commandText.Append(subQueryStart);
+            //commandTextに追記：サブクエリの本体
             GetSelectFromTableCommand(
                 factory: factory,
                 sqlContainer: sqlContainer,
@@ -329,6 +335,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                 unionType: unionType,
                 orderBy: orderBy,
                 commandCount: commandCount);
+            //commandTextに追記：) as "TablenameTemp"
             commandText.Append(subQueryEnd);
         }
 
