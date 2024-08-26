@@ -159,6 +159,12 @@ namespace Implem.CodeDefiner
                     "ArgumentNullException : " + e.Message,
                     Consoles.Types.Error);
             }
+            catch (FileNotFoundException e)
+            {
+                Consoles.Write(
+                    "FileNotFoundException : " + e.Message,
+                    Consoles.Types.Error);
+            }
             catch (Exception e)
             {
                 Consoles.Write(
@@ -215,6 +221,10 @@ namespace Implem.CodeDefiner
                 patchSourceZip = Path.Combine(
                     installPath,
                     "ParametersPatch.zip");
+            }
+            if (!File.Exists(patchSourceZip))
+            {
+                throw new FileNotFoundException($"The file '{patchSourceZip}' does not exist.");
             }
             var parametersDir = Path.Combine(
                 installPath,

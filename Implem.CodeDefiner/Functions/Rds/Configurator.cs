@@ -2,6 +2,7 @@
 using Implem.CodeDefiner.Functions.Rds.Parts;
 using Implem.DefinitionAccessor;
 using Implem.IRds;
+using Implem.Libraries.Classes;
 using Implem.Libraries.Utilities;
 using System;
 using System.Collections.Generic;
@@ -105,11 +106,12 @@ namespace Implem.CodeDefiner.Functions.Rds
 
         private static void OutputLicenseInfo()
         {
+            var scn = new TextData(Parameters.Rds.SaConnectionString, ';', '=');
             Consoles.Write(
                 string.Format(
                     DisplayAccessor.Displays.Get("CodeDefinerLicenseInfo"),
-                    new SqlConnectionStringBuilder(Parameters.Rds.SaConnectionString).DataSource,
-                    new SqlConnectionStringBuilder(Parameters.Rds.OwnerConnectionString).InitialCatalog,
+                    scn["server"],
+                    scn["database"],
                     Parameters.LicenseDeadline().ToString("d"),
                     Parameters.Licensee() ?? String.Empty,
                     Parameters.LicensedUsers()),
