@@ -393,8 +393,8 @@ namespace Implem.PleasanterTest.Tests.ServerScript
             var hasMessagesSortersAlwaysGetColumnsId = new List<BaseTest> { };
             foreach (var message in messageListSortersAlwaysGetColumnsId)
             {
-            hasMessagesSortersAlwaysGetColumnsId = BaseData.Tests(
-                HtmlData.HasInformationMessage(message: message));
+                hasMessagesSortersAlwaysGetColumnsId = BaseData.Tests(
+                    HtmlData.HasInformationMessage(message: message));
             }
             // 「Id：Site_SScript_View_Filters」を対象としたメッセージの設定
             var hasMessagesFilters = BaseData.Tests(
@@ -463,7 +463,7 @@ namespace Implem.PleasanterTest.Tests.ServerScript
             var serverScriptModelApiItems = new ServerScriptModelApiItems(context, false);
             foreach (string element in data)
             {
-            serverScriptModelApiItems.Create(context.Id, element);
+                serverScriptModelApiItems.Create(context.Id, element);
             }
             var itemModel = Initializer.ItemIds.Get(context.Id);
             return itemModel.Index(context: context);
