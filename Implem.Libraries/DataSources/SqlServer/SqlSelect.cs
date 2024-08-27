@@ -299,32 +299,18 @@ namespace Implem.Libraries.DataSources.SqlServer
             bool orderBy,
             int? commandCount)
         {
-            //本クエリだけで使用する仮名称を命名し""を付けて取得する。"TablenameTemp"等
-            var temporaryTableBracket = As.IsNullOrEmpty()
-                ? TableBracket.Remove(TableBracket.Length - 1) + "Temp\""
-                : "\"" + As + "Temp\"";
-            var subQueryStart = new StringBuilder("select ")
-                .Append(temporaryTableBracket)
-                .Append('.');
-            var columnAsBracket = SqlColumnCollection.FirstOrDefault().AsBracket();
-            //サブクエリの本体で取得するカラムにasで別名の指定がない場合："実カラム名"を指定する
-            //サブクエリの本体で取得するカラムにasで別名の指定がある場合："カラムの別名"を指定する
-            //    （.AsBracket()の結果についてきたasは除去して名称部分のみを使う）
-            if (columnAsBracket.IsNullOrEmpty())
-            {
-                subQueryStart.Append("\"")
-                    .Append(SqlColumnCollection.FirstOrDefault().ColumnName)
-                    .Append("\"");
-            }
-            else
-            {
-                subQueryStart.Append(columnAsBracket.Replace(" as ", string.Empty));
-            }
-            subQueryStart.Append(" from (");
-            var subQueryEnd = new StringBuilder(") as ")
-                .Append(temporaryTableBracket);
+            var subQueryStart = "select #TablenameTemp#.#Columnname# from (";
+            var subQueryEnd = ") as #TablenameTemp#";
+            var tablenameTemp = As.IsNullOrEmpty()
+                ? $@"""{TableBracket.Replace(@"""",string.Empty)}Temp"""
+                : $@"""{As}Temp""";
+            var columnname = SqlColumnCollection.FirstOrDefault().AsBracket().IsNullOrEmpty()
+                ? $@"""{SqlColumnCollection.FirstOrDefault().ColumnName}"""
+                : SqlColumnCollection.FirstOrDefault().AsBracket().Replace(" as ", string.Empty);
             //commandTextに追記：select "TablenameTemp"."Columnname" from (
-            commandText.Append(subQueryStart);
+            commandText.Append(subQueryStart
+                .Replace("#TablenameTemp#", tablenameTemp)
+                .Replace("#Columnname#", columnname));
             //commandTextに追記：サブクエリの本体
             GetSelectFromTableCommand(
                 factory: factory,
@@ -336,7 +322,8 @@ namespace Implem.Libraries.DataSources.SqlServer
                 orderBy: orderBy,
                 commandCount: commandCount);
             //commandTextに追記：) as "TablenameTemp"
-            commandText.Append(subQueryEnd);
+            commandText.Append(subQueryEnd
+                .Replace("#TablenameTemp#", tablenameTemp));
         }
 
         private void GetSelectFromTableCommand(
