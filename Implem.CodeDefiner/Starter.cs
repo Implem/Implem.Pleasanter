@@ -165,6 +165,12 @@ namespace Implem.CodeDefiner
                     "FileNotFoundException : " + e.Message,
                     Consoles.Types.Error);
             }
+            catch (DirectoryNotFoundException e)
+            {
+                Consoles.Write(
+                    "DirectoryNotFoundException : " + e.Message,
+                    Consoles.Types.Error);
+            }
             catch (Exception e)
             {
                 Consoles.Write(
@@ -286,13 +292,13 @@ namespace Implem.CodeDefiner
                 : defaultPath.PatchZIpPathForLinux;
         }
 
-        public static string ReplaceVersion(string versionInfo)
+        private static string ReplaceVersion(string versionInfo)
         {
             var pattern = @"(\d+)\.(\d+)\.(\d+)\.(\d+)";
             return Regex.Replace(versionInfo, pattern, "0$1.0$2.0$3.0$4");
         }
 
-        public static void CheckVersion(string newVersion,string currentVersion ,string patchSourcePath)
+        private static void CheckVersion(string newVersion,string currentVersion ,string patchSourcePath)
         {
             var newVersionObj = new System.Version(newVersion);
             var currentVersionObj = new System.Version(currentVersion);
