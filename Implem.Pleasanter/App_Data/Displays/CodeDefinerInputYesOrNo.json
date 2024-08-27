@@ -1,0 +1,9 @@
+﻿{
+    "Id": "CodeDefinerInputYesOrNo",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "Type \"y\" (yes) if the license is correct, otherwise type \"n\" (no)."
+        }
+    ]
+}

@@ -1,0 +1,9 @@
+﻿{
+    "Id": "CodeDefinerCommunityEdition",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "This license is \"Community Edition\"."
+        }
+    ]
+}
