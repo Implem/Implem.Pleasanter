@@ -11,7 +11,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         public string Encoding { get; set; } = "utf-8";
         public string MediaType { get; set; } = "application/json";
         public Dictionary<string, string> RequestHeaders { get; set; } = new Dictionary<string, string>();
-        public Dictionary<string, IEnumerable<string>> ResponseHeaders { get; set; } = new Dictionary<string, IEnumerable<string>>();
+        public Dictionary<string, IList<string>> ResponseHeaders { get; set; } = new Dictionary<string, IList<string>>();
         public int StatusCode { get; private set; }
         public bool IsSuccess { get; private set; }
         static ServerScriptModelHttpClient()
