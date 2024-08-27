@@ -1,0 +1,9 @@
+﻿{
+    "Id": "CodeDefinerSkipUserInput",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "Skipped user input to determine whether to perform subsequent processing."
+        }
+    ]
+}

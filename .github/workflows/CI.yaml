@@ -36,7 +36,7 @@ jobs:
               working-directory: ./
               run: docker compose build
             - name: run Implem.CodeDefiner on docker compose
-              run: docker compose run --rm --name codedefiner Implem.CodeDefiner _rds
+              run: docker compose run --rm --name codedefiner Implem.CodeDefiner _rds /y
               working-directory: ./
             - name: run Implem.Pleasanter on docker compose
               run: docker compose run -d -p 50001:80 --rm --name pleasanter Implem.Pleasanter
