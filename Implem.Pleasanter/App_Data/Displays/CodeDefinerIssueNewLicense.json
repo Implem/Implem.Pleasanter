@@ -1,0 +1,9 @@
+﻿{
+    "Id": "CodeDefinerIssueNewLicense",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "This license has expired. Please issue a new license."
+        }
+    ]
+}

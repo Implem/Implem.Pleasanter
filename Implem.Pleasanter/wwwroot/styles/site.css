@@ -1452,8 +1452,8 @@ th.calendar-header {
         line-height: 30px;
     }
 
-#SummarySetZeroWhenOutOfConditionField {
-    display: none;
+#SummaryForm .field-normal[style="display: none;"] + #SummarySetZeroWhenOutOfConditionField{
+    display: none!important;
 }
 
 .template {
