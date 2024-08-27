@@ -1022,7 +1022,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 .Href(Locations.ShowFile(
                                     context: context,
                                     guid: guid,
-                                    temp: added == true)),
+                                    temp: added == true))
+                                .Target("_blank"),
                             action: () => hb
                                 .Span(css: "ui-icon ui-icon-circle-zoomin show-file"))
                         .A(
