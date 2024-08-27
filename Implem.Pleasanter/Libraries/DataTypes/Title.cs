@@ -319,21 +319,35 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 .Join("&");
             if (Id > 0
                 && column.SiteSettings?.TableType == Sqls.TableTypes.Normal
-                && column.SiteSettings?.GetNoDisplayIfReadOnly(context: context) != true
-                && column.SiteSettings?.DisableLinkToEdit != true)
+                && column.SiteSettings?.GetNoDisplayIfReadOnly(context: context) != true)
             {
-                hb.A(
-                    href: Locations.ItemEdit(
-                        context: context,
-                        id: Id)
-                        + ((queryString == string.Empty)
-                            ? string.Empty
-                            : "?" + queryString),
-                    text: DisplayValue);
-            }
-            else
-            {
-                hb.Text(text: DisplayValue);
+                if (column.SiteSettings?.DisableLinkToEdit == true)
+                {
+                    hb.Text(text: DisplayValue);
+                }
+                else if (column.SiteSettings?.OpenEditInNewTab == true)
+                {
+                    hb.A(
+                        href: Locations.ItemEdit(
+                            context: context,
+                            id: Id)
+                            + ((queryString == string.Empty)
+                                ? string.Empty
+                                : "?" + queryString),
+                        target: "_blank",
+                        text: DisplayValue);
+                }
+                else
+                {
+                    hb.A(
+                        href: Locations.ItemEdit(
+                            context: context,
+                            id: Id)
+                            + ((queryString == string.Empty)
+                               ? string.Empty
+                               : "?" + queryString),
+                        text: DisplayValue);
+                }
             }
         }
 

@@ -5199,7 +5199,12 @@ namespace Implem.Pleasanter.Models
                     controlId: "DisableLinkToEdit",
                     fieldCss: "field-auto-thin",
                     labelText: Displays.DisableLinkToEdit(context: context),
-                    _checked: ss.DisableLinkToEdit == true));
+                    _checked: ss.DisableLinkToEdit == true)
+                .FieldCheckBox(
+                    controlId: "OpenEditInNewTab",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.OpenEditInNewTab(context: context),
+                    _checked: ss.OpenEditInNewTab == true));
         }
 
         /// <summary>
@@ -13959,7 +13964,7 @@ namespace Implem.Pleasanter.Models
                         labelText: Displays.Style(context: context),
                         text: style.Body)
                     .FieldCheckBox(
-                        fieldId: "StyleDisabled",
+                        fieldId: "StyleDisabledField",
                         controlId: "StyleDisabled",
                         controlCss: " always-send",
                         labelText: Displays.Disabled(context: context),
@@ -14777,7 +14782,7 @@ namespace Implem.Pleasanter.Models
                         labelText: Displays.Html(context: context),
                         text: html.Body)
                     .FieldCheckBox(
-                        fieldId: "HtmlDisabled",
+                        fieldId: "HtmlDisabledField",
                         controlId: "HtmlDisabled",
                         controlCss: " always-send",
                         labelText: Displays.Disabled(context: context),
