@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 namespace Implem.Pleasanter.Libraries.ServerScripts
 {
@@ -29,7 +30,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 IsSuccess = response.IsSuccessStatusCode;
                 foreach (var header in response.Headers)
                 {
-                    ResponseHeaders.Add(header.Key, header.Value);
+                    ResponseHeaders.Add(header.Key, header.Value.ToArray());
                 }
                 var responseContent = response.Content.ReadAsStringAsync().Result;
                 return responseContent;
