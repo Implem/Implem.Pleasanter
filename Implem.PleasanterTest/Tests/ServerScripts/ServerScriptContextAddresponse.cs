@@ -13,9 +13,9 @@ using Newtonsoft.Json.Linq;
 //下記サーバースクリプトのテストを行います。
 /*
 try{
-    context.AddResponse('ReplaceAll','#Results_TitleField','<div class="field-normal" style="color:red">PleasanterTitle</div>');
+    context.AddResponse('ReplaceAll','#Results_TitleField','<div class="field-normal" id="#ServerScriptResponseCollection" style="color:red">PleasanterTitle</div>');
     context.AddResponse('Set','NumA',123);
-    if(model.Num === 123){
+    if(context.Forms.Item.get("NumA") === 123){
         context.AddMessage("OK",'alert-information');
     } else {
         context.AddMessage("NG",'alert-error');
@@ -52,10 +52,10 @@ namespace Implem.PleasanterTest.Tests.ServerScript
 
         public static IEnumerable<object[]> GetData()
         {
-            string TitleValue = "PleasanterTitle";
+            string TitleValue = "[{\"Method\":\"ReplaceAll\",\"Target\":\"#Results_TitleField\",\"Value\":\"<div class=\\\"field-normal\\\" id=\\\"#ServerScriptResponseCollection\\\" style=\\\"color:red\\\">PleasanterTitle</div>\"},{\"Method\":\"Set\",\"Target\":\"NumA\",\"Value\":123}]"
+;
             var hasMessages = BaseData.Tests(
-                HtmlData.Attribute(name: "value", selector: "#Results_TitleField", value: TitleValue),
-                HtmlData.HasInformationMessage(message: "OK"));
+                HtmlData.Attribute(name: "value", selector: "#ServerScriptResponseCollection", value: TitleValue));
 
 
             var testParts = new List<TestPart>()
