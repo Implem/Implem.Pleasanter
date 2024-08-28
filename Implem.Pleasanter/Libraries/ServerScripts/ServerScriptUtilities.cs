@@ -857,6 +857,16 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 getter: column => Bool(
                     data: data,
                     name: column.Name));
+            SetValue(
+                columnName: nameof(IssueModel.Comments),
+                columns: columns,
+                setter: value => issueModel.Comments.Prepend(
+                    context: context,
+                    ss: ss,
+                    body: value),
+                getter: column => String(
+                    data: data,
+                    columnName: column.ColumnName));
             issueModel.SetTitle(
                 context: context,
                 ss: ss);
@@ -931,6 +941,16 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 getter: column => Bool(
                     data: data,
                     name: column.Name));
+            SetValue(
+                columnName: nameof(ResultModel.Comments),
+                columns: columns,
+                setter: value => resultModel.Comments.Prepend(
+                    context: context,
+                    ss: ss,
+                    body: value),
+                getter: column => String(
+                    data: data,
+                    columnName: column.ColumnName));
             resultModel.SetTitle(
                 context: context,
                 ss: ss);
