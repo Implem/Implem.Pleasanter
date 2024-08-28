@@ -1,1 +1,1 @@
-﻿create fulltext index "ftx" on "items"("fulltext");
+﻿create fulltext index "ftx" on "items"("fulltext") with parser "ngram";

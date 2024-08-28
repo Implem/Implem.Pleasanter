@@ -112,8 +112,8 @@ namespace Implem.MySql
             bool negative)
         {
             return (negative
-                ? $"not match(\"{itemsTableName}\".\"FullText\") against (@{paramName}#CommandCount#)"
-                : $"match(\"{itemsTableName}\".\"FullText\") against (@{paramName}#CommandCount#)");
+                ? $"not match(\"{itemsTableName}\".\"FullText\") against (@{paramName}#CommandCount# in boolean mode)"
+                : $"match(\"{itemsTableName}\".\"FullText\") against (@{paramName}#CommandCount# in boolean mode)");
         }
 
         public string CreateFullTextWhereBinary(
