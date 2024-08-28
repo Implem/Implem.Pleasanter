@@ -1,0 +1,9 @@
+﻿{
+    "Id": "CodeDefinerReducedColumnList",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "The following \"{0}\" table columns are reduced."
+        }
+    ]
+}

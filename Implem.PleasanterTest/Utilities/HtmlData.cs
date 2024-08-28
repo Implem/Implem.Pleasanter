@@ -91,5 +91,16 @@ namespace Implem.PleasanterTest.Utilities
                 Value = value
             };
         }
+        public static HtmlTest Attribute(string selector, string name, string value)
+        {
+            return new HtmlTest()
+            {
+                Name = name,
+                Type = HtmlTest.Types.Attribute,
+                Selector = selector,
+                Value = value
+            };
+        }
+
     }
 }
