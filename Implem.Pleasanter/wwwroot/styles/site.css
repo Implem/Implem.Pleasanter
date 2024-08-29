@@ -1452,8 +1452,8 @@ th.calendar-header {
         line-height: 30px;
     }
 
-#SummarySetZeroWhenOutOfConditionField {
-    display: none;
+#SummaryForm .field-normal[style="display: none;"] + #SummarySetZeroWhenOutOfConditionField{
+    display: none!important;
 }
 
 .template {
@@ -2258,6 +2258,10 @@ label.required:after {
     .md ul {
         margin: 0px 10px 10px 32px;
         list-style-type: disc;
+    }
+
+    .md li p {
+        float: none;
     }
 
 .control-markdown {

@@ -1,0 +1,16 @@
+﻿{
+    "Id": "Site_SScript_elementsDisplayType_ResultsA",
+    "Language": "ja",
+    "Type": "Results",
+    "ParentId": "Site_SScript_elementsDisplayType",
+    "Title": "ResultsA_elements",
+    "ClassA": "Results",
+    "Manager": "User2",
+    "Owner": "User2",
+    "Creator": "User2",
+    "Updator": "User2",
+    "StartTime": "36696",
+    "CompletionTime": "36707",
+    "CreatedTime": "36643.705555555556",
+    "UpdatedTime": "36656.47152777778"
+}
