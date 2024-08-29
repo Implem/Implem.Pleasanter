@@ -1,0 +1,32 @@
+﻿{
+    "Version": 1.017,
+    "ReferenceType": "Results",
+    "GridColumns": [
+        "IssueId",
+        "TitleBody",
+        "ClassA"
+    ],
+    "EditorColumnHash": {
+        "General": [
+            "ResultId",
+            "Title",
+            "DateA"
+        ]
+    },
+    "Columns": [
+        {
+            "ColumnName": "DateA",
+            "EditorFormat": "Ymdhms"
+        }
+    ],
+    "ServerScripts": [
+        {
+            "Title": "xUnit-utilities",
+            "Name": "",
+            "BeforeOpeningPage": true,
+            "Body": "try{\n    model.Title =  utilities.ConvertToBase64String(\"プリザンター\");\n    model.DateA = utilities.Today();\n    if (utilities.InRange(model.DateA)) {\n        context.Log('OK');\n    }\n}catch{\n    context.Log(ex.stack);\n}",
+            "Id": 1
+        }
+    ],
+    "NoDisplayIfReadOnly": false
+}
