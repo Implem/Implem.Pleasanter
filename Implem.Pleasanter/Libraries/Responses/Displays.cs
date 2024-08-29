@@ -8249,6 +8249,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Registered(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Registered",
+                data: data);
+        }
+
         public static string RegisteredDemo(
             Context context,
             params string[] data)
@@ -10499,6 +10509,26 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string UserTemplate(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "UserTemplate",
+                data: data);
+        }
+
+        public static string UserTemplateLimit(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "UserTemplateLimit",
+                data: data);
+        }
+
         public static string UseSearch(
             Context context,
             params string[] data)
@@ -11526,6 +11556,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Extensions_ExtensionType",
+                data: data);
+        }
+
+        public static string Extensions_TenantId(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Extensions_TenantId",
                 data: data);
         }
 
