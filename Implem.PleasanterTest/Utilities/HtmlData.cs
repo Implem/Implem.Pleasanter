@@ -33,6 +33,15 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
+        public static HtmlTest Disabled(string selector)
+        {
+            return new HtmlTest()
+            {
+                Type = HtmlTest.Types.Disabled,
+                Selector = selector,
+            };
+        }
+
         public static HtmlTest InnerHtml(string selector, string value)
         {
             return new HtmlTest()
