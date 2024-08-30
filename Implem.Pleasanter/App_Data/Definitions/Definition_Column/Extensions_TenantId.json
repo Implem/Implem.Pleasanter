@@ -10,7 +10,7 @@
     "LinkColumn": "2",
     "HistoryColumn": "2",
     "TypeName": "int",
-    "Required": "1",
+    "Default": "0",
     "Ix2": "1",
     "LabelText_en": "Tenant ID",
     "LabelText_zh": "租户ID",
