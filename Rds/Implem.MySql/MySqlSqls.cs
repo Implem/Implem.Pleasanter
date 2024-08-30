@@ -56,7 +56,7 @@ namespace Implem.MySql
 
         public string IntegerColumnLike(string tableName, string columnName)
         {
-            return "(cast(\"" + tableName + "\".\"" + columnName + "\" as char) like ";
+            return $@"(cast(""{tableName}"".""{columnName}"" as char) like ";
         }
 
         public string DateAddDay(int day, string columnBracket)

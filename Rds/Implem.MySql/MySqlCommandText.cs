@@ -66,7 +66,7 @@ namespace Implem.MySql
                     type = to;
                     break;
             }
-            return $"cast(\"{left}\".\"{name}\" as {type})";
+            return $@"cast(""{left}"".""{name}"" as {type})";
         }
 
         public string CreateUpdateOrInsert(
@@ -77,33 +77,19 @@ namespace Implem.MySql
             string valueClause,
             string selectClauseForMySql)
         {
-            var commandText = new StringBuilder();
-            //MySQLには一文でUpsertを実行可能な構文がないため、同一のwhere条件を含むupdate～;とinsert～;の2件を組み合わせて実現する。
-            commandText
-                .Append("update ")
-                .Append(tableBracket)
-                .Append(setClause);
-            sqlWhereAppender(commandText);
-            commandText
-                .Append("; ")
-                .Append("insert into ")
-                .Append(tableBracket)
-                .Append(" ( ")
-                .Append(intoClause)
-                .Append(" ) ")
-                .Append("select * from ")
-                .Append("( ")
-                .Append("select ")
-                .Append(selectClauseForMySql)
-                .Append(" ) as tmp ")
-                .Append("where not exists ")
-                .Append("( select 1 from ")
-                .Append(tableBracket)
-                .Append(" ");
-            sqlWhereAppender(commandText);
-            commandText
-                .Append(" )");
-            return commandText.ToString();
+            //MySQLには一文でUpsertを実行可能な構文がないため、
+            //同一のwhere条件文を使ったupdate～;とinsert～;の2件を組み合わせて実現する。
+            var update = new StringBuilder($@"
+                update {tableBracket} {setClause}");
+            sqlWhereAppender(update);
+            update.Append("; ");
+            var insert = new StringBuilder($@"
+                insert into {tableBracket} ({intoClause})
+                select * from (select {selectClauseForMySql} ) as tmp
+                where not exists (select 1 from {tableBracket}");
+            sqlWhereAppender(insert);
+            insert.Append(")");
+            return String.Concat(update.ToString(), insert.ToString());
         }
 
         public string CreateFullTextWhereItem(
@@ -112,8 +98,8 @@ namespace Implem.MySql
             bool negative)
         {
             return (negative
-                ? $"not match(\"{itemsTableName}\".\"FullText\") against (@{paramName}#CommandCount# in boolean mode)"
-                : $"match(\"{itemsTableName}\".\"FullText\") against (@{paramName}#CommandCount# in boolean mode)");
+                ? $@"not match(""{itemsTableName}"".""FullText"") against (@{paramName}#CommandCount# in boolean mode)"
+                : $@"match(""{itemsTableName}"".""FullText"") against (@{paramName}#CommandCount# in boolean mode)");
         }
 
         public string CreateFullTextWhereBinary(
