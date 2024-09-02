@@ -8,22 +8,23 @@ using Implem.PleasanterTest.Utilities;
 using System.Collections.Generic;
 using Xunit;
 using System.Linq;
+using Newtonsoft.Json.Linq;
+using Implem.Pleasanter.Libraries.ServerScripts;
+using System.ComponentModel.DataAnnotations;
 
 //下記サーバースクリプトのテストを行います。
 /*
 try{
-    for (let i = 1; i <= 3; i++) {
-        columns.ClassA.AddChoiceHash(i, 'TEST' + i);
+    context.Error('条件に該当したため、更新をキャンセルしました。');
+    } catch (e) {
+        context.Log(e.stack);
     }
-    columns.ClassB.ClearChoiceHash();
-}catch{
-    context.Log(ex.stack);
 }
 */
 
 namespace Implem.PleasanterTest.Tests.ServerScript
 {
-    public class ServerScriptcolumnsAddChoiceHash
+    public class ServerScriptContextError
     {
 
         [Theory]
@@ -40,28 +41,20 @@ namespace Implem.PleasanterTest.Tests.ServerScript
 
             context.BackgroundServerScript = true; //サーバースクリプトのテスト実施時は必須
 
-            var results = Results(context: context);
-            Assert.True(Tester.Test(
-                context: context,
-                results: results,
-                baseTests: baseTests));
+            Assert.True(Results(context: context));
         }
 
         public static IEnumerable<object[]> GetData()
         {
-            string htmlClassA = "<option value=\"\" selected=\"selected\"></option><option value=\"1\">TEST1</option><option value=\"2\">TEST2</option><option value=\"3\">TEST3</option>";
-            string htmlClassB = "<option value=\"\" selected=\"selected\"></option>";
             var hasMessages = BaseData.Tests(
-                HtmlData.InnerHtml(selector: "#Results_ClassA",value: htmlClassA),
-                HtmlData.InnerHtml(selector: "#Results_ClassB", value: htmlClassB));
+                HtmlData.HasInformationMessage(message: "条件に該当したため、更新をキャンセルしました。"));
 
             var testParts = new List<TestPart>()
             {
                 new TestPart(
-                    title: "サーバスクリプト-columnsAddChoiceHash",
+                    title: "xUnit_contextError",
                     baseTests: hasMessages,
                     userType: UserData.UserTypes.Privileged),
-
             };
             foreach (var testPart in testParts)
             {
@@ -85,10 +78,15 @@ namespace Implem.PleasanterTest.Tests.ServerScript
             };
         }
 
-        private static string Results(Context context)
+        private static bool Results(Context context)
         {
             var itemModel = Initializer.ItemIds.Get(context.Id);
-            return itemModel.New(context: context);
+            var stringObject = itemModel.Create(context: context);
+            if (stringObject.Contains("条件に該当したため、更新をキャンセルしました。") && stringObject.Contains("alert-error")) {
+                return true;
+            } else {
+                return false;
+            }
         }
     }
 }

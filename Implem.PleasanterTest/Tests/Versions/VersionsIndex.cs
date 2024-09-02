@@ -1,4 +1,5 @@
-﻿using Implem.Pleasanter.Libraries.Html;
+﻿using Implem.DefinitionAccessor;
+using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
@@ -35,7 +36,9 @@ namespace Implem.PleasanterTest.Tests.Versions
                 new TestPart(
                     baseTests: BaseData.Tests(HtmlData.TextContains(
                         selector: "#Versions",
-                        value: Displays.AGPL(context: Initializer.Context))))
+                        value: Parameters.CommercialLicense()
+                            ? Displays.CommercialLicense(context: Utilities.Initializer.Context)
+                            : Displays.AGPL(context: Utilities.Initializer.Context))))
             };
             foreach (var testPart in testParts)
             {
