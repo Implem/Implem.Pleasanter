@@ -4,6 +4,7 @@ using Implem.DefinitionAccessor;
 using Implem.IRds;
 using Implem.Libraries.Classes;
 using Implem.Libraries.Utilities;
+using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -106,12 +107,28 @@ namespace Implem.CodeDefiner.Functions.Rds
 
         private static void OutputLicenseInfo()
         {
-            var scn = new TextData(Parameters.Rds.SaConnectionString, ';', '=');
+            string serverName = string.Empty;
+            string database = string.Empty;
+            switch (Parameters.Rds.Dbms)
+            {
+                case "SQLServer":
+                    serverName = new SqlConnectionStringBuilder(Parameters.Rds.SaConnectionString).DataSource;
+                    database = new SqlConnectionStringBuilder(Parameters.Rds.SaConnectionString).InitialCatalog;
+                    break;
+                case "PostgreSQL":
+                    serverName = new NpgsqlConnectionStringBuilder(Parameters.Rds.SaConnectionString).Host;
+                    database = new NpgsqlConnectionStringBuilder(Parameters.Rds.SaConnectionString).Database;
+                    break;
+                default:
+                    serverName = new SqlConnectionStringBuilder(Parameters.Rds.SaConnectionString).DataSource;
+                    database = new SqlConnectionStringBuilder(Parameters.Rds.SaConnectionString).InitialCatalog;
+                    break;
+            }
             Consoles.Write(
                 string.Format(
                     DisplayAccessor.Displays.Get("CodeDefinerLicenseInfo"),
-                    scn["server"],
-                    scn["database"],
+                    serverName,
+                    database,
                     Parameters.LicenseDeadline().ToString("d"),
                     Parameters.Licensee() ?? String.Empty,
                     Parameters.LicensedUsers()),
