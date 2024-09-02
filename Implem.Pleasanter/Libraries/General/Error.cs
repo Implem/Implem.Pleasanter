@@ -113,7 +113,8 @@ namespace Implem.Pleasanter.Libraries.General
             UserDisabled,
             UserLockout,
             UserNotSelfDelete,
-            UsersLimit
+            UsersLimit,
+            UserTemplateLimit
         }
 
         public static bool Has(this Types type)
@@ -547,6 +548,10 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.UsersLimit:
                     return Messages.UsersLimit(
+                        context: context,
+                        data: data);
+                case Types.UserTemplateLimit:
+                    return Messages.UserTemplateLimit(
                         context: context,
                         data: data);
                 default: return null;
