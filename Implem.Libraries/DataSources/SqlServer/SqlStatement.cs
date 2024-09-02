@@ -34,7 +34,7 @@ namespace Implem.Libraries.DataSources.SqlServer
         public bool IsRowCount = false;
         public long? Id;
         public IEnumerable<SqlParam> AdditionalParams;
-        public (string sqlClass, string tableBracket) MainQueryInfo;
+        public (string sqlClass, List<string> allTableBrackets) MainQueryInfo;
 
         public SqlStatement()
         {
@@ -266,10 +266,18 @@ namespace Implem.Libraries.DataSources.SqlServer
 
         public void SetMainQueryInfo(
             string sqlClass,
-            string tableBracket)
+            List<string> allTableBrackets)
         {
+            //使い方：呼び出し元はSqlUpdateやSqlDelete等のメインのクエリ。
+            //SubにセットされているSqlSelectに対して本メソッドを呼び出し、フィールドの更新をおこなう。
+            //（SqlSelect側からはメインの値を参照することができないため、事前にセットしておくという措置をとる）
             MainQueryInfo.sqlClass = sqlClass;
-            MainQueryInfo.tableBracket = tableBracket;
+            MainQueryInfo.allTableBrackets = allTableBrackets;
+        }
+
+        public List<string> GetAllTableBrackets()
+        {
+            return [TableBracket, HistoryTableBracket, DeletedTableBracket];
         }
     }
 }

@@ -53,7 +53,12 @@ namespace Implem.Libraries.DataSources.SqlServer
             StringBuilder commandText,
             int? commandCount)
         {
-            var tableBracket = GetTableBracketText();
+            var tableBracket = TableBracket;
+            switch (TableType)
+            {
+                case Sqls.TableTypes.History: tableBracket = HistoryTableBracket; break;
+                case Sqls.TableTypes.Deleted: tableBracket = DeletedTableBracket; break;
+            }
             var columnNameCollection = new List<string>();
             if (AddUpdatorParam) columnNameCollection.Add($"\"Updator\" = {Parameters.Parameter.SqlParameterPrefix}U");
             if (AddUpdatedTimeParam) columnNameCollection.Add($"\"UpdatedTime\" = {factory.Sqls.CurrentDateTime} ");
@@ -97,19 +102,6 @@ namespace Implem.Libraries.DataSources.SqlServer
                 " set ", columnNameCollection.Join(), " ");
         }
 
-        private string GetTableBracketText()
-        {
-            switch (TableType)
-            {
-                case Sqls.TableTypes.History:
-                    return HistoryTableBracket;
-                case Sqls.TableTypes.Deleted:
-                    return DeletedTableBracket;
-                default:
-                    return TableBracket;
-            }
-        }
-
         private void SetMainQueryInfoForSub()
         {
             //サブクエリのselect文生成を行う際に、メイン（本クラスのこと）のクエリの情報を取得できるように、
@@ -118,7 +110,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                 .Where(o => o.Sub != null)
                 .ForEach(o => o.Sub.SetMainQueryInfo(
                     sqlClass: GetType().ToString(),
-                    tableBracket: GetTableBracketText()));
+                    allTableBrackets: GetAllTableBrackets()));
         }
 
         private void Build_CopyToHistoryStatement(

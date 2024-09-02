@@ -1,7 +1,6 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.IRds;
 using Implem.Libraries.Utilities;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 namespace Implem.Libraries.DataSources.SqlServer
@@ -257,11 +256,14 @@ namespace Implem.Libraries.DataSources.SqlServer
             int? commandCount)
         {
             if (!Using) return;
-            var tableBrackets = new List<string> { GetTableBracketText(tableType).ToLower() };
-            SqlJoinCollection?.ForEach(o => tableBrackets.Add(o.TableBracket.ToLower()));
+            //2つの文字列リストを突合して一致する文字列があるか突合する。
+            //・メインのクエリ側（MainQueryInfo.allTableBrackets）：Normal、Deleted、Historyの各TableBracketのリスト
+            //・副問い合わせ側（tableBrackets）：このSelect自身のNormal、Deleted、Historyの各TableBracketのリスト + JoinのTableBracket
+            var tableBrackets = GetAllTableBrackets();
+            SqlJoinCollection?.ForEach(o => tableBrackets.Add(o.TableBracket));
             if (Parameters.Rds.Dbms == "MySQL" &&
                 !MainQueryInfo.sqlClass.IsNullOrEmpty() &&
-                tableBrackets.Contains(MainQueryInfo.tableBracket.ToLower()))
+                tableBrackets.FindAll(MainQueryInfo.allTableBrackets.Contains) != null)
             {
                 //MySQLにおいて副問い合わせのselect文の生成時、メインのクエリと同一テーブルを参照する場合は、
                 //select ... from (select ... from ...) as "仮テーブル名" 形式のコマンドを生成する。
@@ -404,22 +406,19 @@ namespace Implem.Libraries.DataSources.SqlServer
 
         private string From(Sqls.TableTypes tableType, string _as)
         {
-            return "from " + GetTableBracketText(tableType) + (!_as.IsNullOrEmpty()
-                ? " as \"" + _as + "\""
-                : " as " + TableBracket) + "\n";
-        }
-
-        private string GetTableBracketText(Sqls.TableTypes tableType)
-        {
+            var tableBlacket = TableBracket;
             switch (tableType)
             {
                 case Sqls.TableTypes.History:
-                    return HistoryTableBracket;
+                    tableBlacket = HistoryTableBracket;
+                    break;
                 case Sqls.TableTypes.Deleted:
-                    return DeletedTableBracket;
-                default:
-                    return TableBracket;
+                    tableBlacket = DeletedTableBracket;
+                    break;
             }
+            return "from " + tableBlacket + (!_as.IsNullOrEmpty()
+                ? " as \"" + _as + "\""
+                : " as " + TableBracket) + "\n";
         }
 
         private void SetMainQueryInfoForSub()
@@ -430,7 +429,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                 .Where(o => o.Sub != null)
                 .ForEach(o => o.Sub.SetMainQueryInfo(
                     sqlClass: MainQueryInfo.sqlClass,
-                    tableBracket: MainQueryInfo.tableBracket));
+                    allTableBrackets: GetAllTableBrackets()));
         }
     }
 }

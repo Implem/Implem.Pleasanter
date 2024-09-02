@@ -75,7 +75,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                 .Where(o => o.Sub != null)
                 .ForEach(o => o.Sub.SetMainQueryInfo(
                     sqlClass: GetType().ToString(),
-                    tableBracket: GetTableBracketText()));
+                    allTableBrackets: GetAllTableBrackets()));
         }
     }
 }
