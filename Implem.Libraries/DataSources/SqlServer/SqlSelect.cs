@@ -429,7 +429,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                 .Where(o => o.Sub != null)
                 .ForEach(o => o.Sub.SetMainQueryInfo(
                     sqlClass: MainQueryInfo.sqlClass,
-                    allTableBrackets: GetAllTableBrackets()));
+                    allTableBrackets: MainQueryInfo.allTableBrackets));
         }
     }
 }
