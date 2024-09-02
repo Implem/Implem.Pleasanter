@@ -1702,6 +1702,7 @@ namespace Implem.DefinitionAccessor
                     case "Extensions_ExtensionName": Column.Extensions_ExtensionName = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Extensions_ExtensionName, definitionRow, ColumnXls); break;
                     case "Extensions_ExtensionSettings": Column.Extensions_ExtensionSettings = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Extensions_ExtensionSettings, definitionRow, ColumnXls); break;
                     case "Extensions_ExtensionType": Column.Extensions_ExtensionType = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Extensions_ExtensionType, definitionRow, ColumnXls); break;
+                    case "Extensions_TenantId": Column.Extensions_TenantId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Extensions_TenantId, definitionRow, ColumnXls); break;
                     case "GroupChildren_ChildId": Column.GroupChildren_ChildId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.GroupChildren_ChildId, definitionRow, ColumnXls); break;
                     case "GroupChildren_GroupId": Column.GroupChildren_GroupId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.GroupChildren_GroupId, definitionRow, ColumnXls); break;
                     case "GroupMembers_Admin": Column.GroupMembers_Admin = definitionRow[1].ToString(); SetColumnTable(ColumnTable.GroupMembers_Admin, definitionRow, ColumnXls); break;
@@ -5410,6 +5411,11 @@ namespace Implem.DefinitionAccessor
                                 data.ToInt();
                             newTemplateDefinition.SavedClassification = newTemplateDefinition.Classification;
                             break;
+                        case "UserTemplate":
+                            newTemplateDefinition.UserTemplate = customDefinitionRow.Get("UserTemplate")?.ToInt() ??
+                                data.ToInt();
+                            newTemplateDefinition.SavedUserTemplate = newTemplateDefinition.UserTemplate;
+                            break;
                         default: break;
                     }
                 });
@@ -5444,6 +5450,7 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("LegalAffairs")) { definition.LegalAffairs = definitionRow["LegalAffairs"].ToInt(); definition.SavedLegalAffairs = definition.LegalAffairs; }
             if (definitionRow.ContainsKey("ProductList")) { definition.ProductList = definitionRow["ProductList"].ToInt(); definition.SavedProductList = definition.ProductList; }
             if (definitionRow.ContainsKey("Classification")) { definition.Classification = definitionRow["Classification"].ToInt(); definition.SavedClassification = definition.Classification; }
+            if (definitionRow.ContainsKey("UserTemplate")) { definition.UserTemplate = definitionRow["UserTemplate"].ToInt(); definition.SavedUserTemplate = definition.UserTemplate; }
         }
 
         private static void ConstructTemplateDefinitions()
@@ -6062,6 +6069,7 @@ namespace Implem.DefinitionAccessor
                         case "LegalAffairs": templateDefinition.LegalAffairs = optionValue.ToInt(); break;
                         case "ProductList": templateDefinition.ProductList = optionValue.ToInt(); break;
                         case "Classification": templateDefinition.Classification = optionValue.ToInt(); break;
+                        case "UserTemplate": templateDefinition.UserTemplate = optionValue.ToInt(); break;
                     }
                 });
         }
@@ -9101,6 +9109,7 @@ namespace Implem.DefinitionAccessor
         public string Extensions_ExtensionName;
         public string Extensions_ExtensionSettings;
         public string Extensions_ExtensionType;
+        public string Extensions_TenantId;
         public string GroupChildren_ChildId;
         public string GroupChildren_GroupId;
         public string GroupMembers_Admin;
@@ -9668,6 +9677,7 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Extensions_ExtensionName = new ColumnDefinition();
         public ColumnDefinition Extensions_ExtensionSettings = new ColumnDefinition();
         public ColumnDefinition Extensions_ExtensionType = new ColumnDefinition();
+        public ColumnDefinition Extensions_TenantId = new ColumnDefinition();
         public ColumnDefinition GroupChildren_ChildId = new ColumnDefinition();
         public ColumnDefinition GroupChildren_GroupId = new ColumnDefinition();
         public ColumnDefinition GroupMembers_Admin = new ColumnDefinition();
@@ -12532,6 +12542,7 @@ namespace Implem.DefinitionAccessor
         public int LegalAffairs; public int SavedLegalAffairs;
         public int ProductList; public int SavedProductList;
         public int Classification; public int SavedClassification;
+        public int UserTemplate; public int SavedUserTemplate;
 
         public TemplateDefinition()
         {
@@ -12564,6 +12575,7 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("LegalAffairs")) LegalAffairs = propertyCollection["LegalAffairs"].ToInt(); else LegalAffairs = 0;
             if (propertyCollection.ContainsKey("ProductList")) ProductList = propertyCollection["ProductList"].ToInt(); else ProductList = 0;
             if (propertyCollection.ContainsKey("Classification")) Classification = propertyCollection["Classification"].ToInt(); else Classification = 0;
+            if (propertyCollection.ContainsKey("UserTemplate")) UserTemplate = propertyCollection["UserTemplate"].ToInt(); else UserTemplate = 0;
         }
 
         public object this[string key]
@@ -12596,6 +12608,7 @@ namespace Implem.DefinitionAccessor
                     case "LegalAffairs": return LegalAffairs;
                     case "ProductList": return ProductList;
                     case "Classification": return Classification;
+                    case "UserTemplate": return UserTemplate;
                     default: return null;
                 }
             }
@@ -12628,6 +12641,7 @@ namespace Implem.DefinitionAccessor
             LegalAffairs = SavedLegalAffairs;
             ProductList = SavedProductList;
             Classification = SavedClassification;
+            UserTemplate = SavedUserTemplate;
         }
     }
 
