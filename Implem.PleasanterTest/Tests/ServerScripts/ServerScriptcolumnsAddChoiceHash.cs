@@ -49,8 +49,8 @@ namespace Implem.PleasanterTest.Tests.ServerScript
 
         public static IEnumerable<object[]> GetData()
         {
-            string htmlClassA = "<option value=\"\" selected=\"selected\">&nbsp;</option><option value=\"1\">TEST1</option><option value=\"2\">TEST2</option><option value=\"3\">TEST3</option>";
-            string htmlClassB = "<option value=\"\" selected=\"selected\">&nbsp;</option>";
+            string htmlClassA = "<option value=\"\" selected=\"selected\"></option><option value=\"1\">TEST1</option><option value=\"2\">TEST2</option><option value=\"3\">TEST3</option>";
+            string htmlClassB = "<option value=\"\" selected=\"selected\"></option>";
             var hasMessages = BaseData.Tests(
                 HtmlData.InnerHtml(selector: "#Results_ClassA",value: htmlClassA),
                 HtmlData.InnerHtml(selector: "#Results_ClassB", value: htmlClassB));

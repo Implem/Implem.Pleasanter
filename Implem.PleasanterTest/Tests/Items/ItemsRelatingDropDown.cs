@@ -44,7 +44,7 @@ namespace Implem.PleasanterTest.Tests.Items
                 JsonData.Value(
                     method: "Html",
                     target: "#Results_ClassA",
-                    value: $"<option value=\"\" selected=\"selected\">&nbsp;</option><option value=\"{Initializer.Titles.Get("グループウェアのクラウド環境への移行")}\">グループウェアのクラウド環境への移行</option>"),
+                    value: $"<option value=\"\" selected=\"selected\"></option><option value=\"{Initializer.Titles.Get("グループウェアのクラウド環境への移行")}\">グループウェアのクラウド環境への移行</option>"),
                 JsonData.ExistsOne(
                     method: "Invoke",
                     target: "callbackRelatingColumn"),

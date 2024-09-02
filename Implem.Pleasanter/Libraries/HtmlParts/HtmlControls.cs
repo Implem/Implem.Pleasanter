@@ -428,17 +428,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 .Add(htmlData.Value.Attributes),
                             action: () =>
                             {
-                                var text = Strings.CoalesceEmpty(
+                                hb.Text(text: Strings.CoalesceEmpty(
                                     htmlData.Value.Text,
-                                    htmlData.Key);
-                                if (text.IsNullOrEmpty())
-                                {
-                                    hb.Raw(text: "&nbsp;");
-                                }
-                                else
-                                {
-                                    hb.Text(text: text);
-                                }
+                                    htmlData.Key));
                             }));
             }
             return hb;
