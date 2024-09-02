@@ -256,7 +256,7 @@ namespace Implem.Libraries.DataSources.SqlServer
             int? commandCount)
         {
             if (!Using) return;
-            //2つの文字列リストを突合して一致する文字列があるか突合する。
+            //MySQLかつサブクエリの場合、2つの文字列リストを比較して一致する文字列があるか突合する。
             //・メインのクエリ側（MainQueryInfo.allTableBrackets）：Normal、Deleted、Historyの各TableBracketのリスト
             //・副問い合わせ側（tableBrackets）：このSelect自身のNormal、Deleted、Historyの各TableBracketのリスト + JoinのTableBracket
             var tableBrackets = GetAllTableBrackets();
