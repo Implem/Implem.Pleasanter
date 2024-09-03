@@ -15,18 +15,24 @@ using Newtonsoft.Json.Linq;
 try{
     context.AddResponse('ReplaceAll','#Results_TitleField','<div class="field-normal" id="#ServerScriptResponseCollection" style="color:red">PleasanterTitle</div>');
     context.AddResponse('Set','NumA',123);
-    if(context.Forms.Item.get("NumA") === 123){
+    context.ResponseSet('NumB',456)
+for (let key of context.Forms.Keys){
+context.Log(key);
+    context.Log(key + ': ' + context.Forms.Item.get(key));
+}
+    if(context.Forms.Item.get('NumA') == 123 && context.Forms.Item.get('NumB') == 456){
         context.AddMessage("OK",'alert-information');
     } else {
         context.AddMessage("NG",'alert-error');
     }
 } catch (e) {
     context.AddMessage(e.stack, 'alert-error');
-}*/
+}
+*/
 
 namespace Implem.PleasanterTest.Tests.ServerScript
 {
-    public class ServerScriptContextAddresponse
+    public class ServerScriptContextResponseMethod
     {
 
         [Theory]
@@ -52,7 +58,7 @@ namespace Implem.PleasanterTest.Tests.ServerScript
 
         public static IEnumerable<object[]> GetData()
         {
-            string TitleValue = "[{\"Method\":\"ReplaceAll\",\"Target\":\"#Results_TitleField\",\"Value\":\"<div class=\\\"field-normal\\\" id=\\\"#ServerScriptResponseCollection\\\" style=\\\"color:red\\\">PleasanterTitle</div>\"},{\"Method\":\"Set\",\"Target\":\"NumA\",\"Value\":123}]"
+            string TitleValue = "[{\"Method\":\"ReplaceAll\",\"Target\":\"#Results_TitleField\",\"Value\":\"<div class=\\\"field-normal\\\" id=\\\"#ServerScriptResponseCollection\\\" style=\\\"color:red\\\">PleasanterTitle</div>\"},{\"Method\":\"Set\",\"Target\":\"NumA\",\"Value\":123},{\"Method\":\"Set\",\"Target\":\"NumB\",\"Value\":456}]"
 ;
             var hasMessages = BaseData.Tests(
                 HtmlData.Attribute(name: "value", selector: "#ServerScriptResponseCollection", value: TitleValue));
@@ -60,7 +66,7 @@ namespace Implem.PleasanterTest.Tests.ServerScript
 
             var testParts = new List<TestPart>()
             {
-                new TestPart(title: "xUnit_contextAddresponse", baseTests: hasMessages,userType: UserData.UserTypes.Privileged),
+                new TestPart(title: "xUnit_contextResponseMethod", baseTests: hasMessages,userType: UserData.UserTypes.Privileged),
             };
             foreach (var testPart in testParts)
             {
