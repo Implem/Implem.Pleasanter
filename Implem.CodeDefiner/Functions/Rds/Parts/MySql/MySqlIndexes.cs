@@ -225,6 +225,7 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts.MySql
                         .Where(o => o["Name"].ToString() != "PRIMARY")
                         .Where(o => o["Name"].ToString() != "ftx")
                         .Select(o => o["Name"].ToString())
+                        .Distinct()
                         .OrderBy(o => o)
                         .Join(",");
             }
