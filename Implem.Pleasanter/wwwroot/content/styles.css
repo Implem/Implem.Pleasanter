@@ -2260,6 +2260,10 @@ label.required:after {
         list-style-type: disc;
     }
 
+    .md li p {
+        float: none;
+    }
+
 .control-markdown {
     width: 100%;
     display: none;

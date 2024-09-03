@@ -1,0 +1,33 @@
+﻿{
+    "Id": "UserTemplate",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "User Template"
+        },
+        {
+            "Language": "zh-CN",
+            "Body": "用户模板"
+        },
+        {
+            "Language": "ja",
+            "Body": "ユーザテンプレート"
+        },
+        {
+            "Language": "de",
+            "Body": "Benutzervorlage"
+        },
+        {
+            "Language": "ko",
+            "Body": "사용자 템플릿"
+        },
+        {
+            "Language": "es",
+            "Body": "Plantilla de usuario"
+        },
+        {
+            "Language": "vi",
+            "Body": "Mẫu người dùng"
+        }
+    ]
+}

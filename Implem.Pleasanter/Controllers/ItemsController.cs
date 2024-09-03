@@ -1267,5 +1267,80 @@ namespace Implem.Pleasanter.Controllers
                 responseSize: json.Length);
             return json;
         }
+
+        [HttpPost]
+        public string ImportUserTemplate(long id, ICollection<IFormFile> file)
+        {
+            var context = new Context(files: file);
+            var log = new SysLogModel(context: context);
+            var json = new ItemModel(
+                context: context,
+                referenceId: id)
+                    .ImportUserTemplate(context: context);
+            log.Finish(
+                context: context,
+                responseSize: json.Length);
+            return json;
+        }
+
+        [HttpPost]
+        public string DeleteUserTemplate(long id)
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = new ItemModel(
+                context: context,
+                referenceId: id)
+                    .DeleteUserTemplate(context: context);
+            log.Finish(
+                context: context,
+                responseSize: json.Length);
+            return json;
+        }
+
+        [HttpPost]
+        public string UpdateUserTemplate(long id)
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = new ItemModel(
+                context: context,
+                referenceId: id)
+                    .UpdateUserTemplate(context: context);
+            log.Finish(
+                context: context,
+                responseSize: json.Length);
+            return json;
+        }
+
+        [HttpPost]
+        public string SearchUserTemplate(long id)
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = new ItemModel(
+                context: context,
+                referenceId: id)
+                    .SearchUserTemplate(context: context);
+            log.Finish(
+                context: context,
+                responseSize: json.Length);
+            return json;
+        }
+
+        [HttpPost]
+        public string OpenEditUserTemplateDialog(long id)
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = new ItemModel(
+                context: context,
+                referenceId: id)
+                    .OpenEditUserTemplateDialog(context: context);
+            log.Finish(
+                context: context,
+                responseSize: json.Length);
+            return json;
+        }
     }
 }
