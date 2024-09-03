@@ -586,6 +586,8 @@ html .ui-button.ui-state-disabled:active {
     .control-dropdown {
         max-width: 500px;
         width: auto;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 }
 
