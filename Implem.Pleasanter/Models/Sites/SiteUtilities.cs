@@ -2914,7 +2914,7 @@ namespace Implem.Pleasanter.Models
             {
                 return Messages.ResponseHasNotPermission(context: context).ToJson();
             }
-            if (Parameters.UserTemplate.UserTemplateMax > 0
+            if (Parameters.UserTemplate.CustomAppsMax > 0
                 && Repository.ExecuteScalar_int(
                     context: context,
                     statements: Rds.SelectExtensions(
@@ -2922,7 +2922,7 @@ namespace Implem.Pleasanter.Models
                         where: Rds.ExtensionsWhere()
                             .TenantId(context.TenantId)
                             .ExtensionType("CustomApps")
-                            .Disabled(false))) >= Parameters.UserTemplate.UserTemplateMax)
+                            .Disabled(false))) >= Parameters.UserTemplate.CustomAppsMax)
             {
                 return Messages.ResponseCustomAppsLimit(context: context).ToJson();
             }

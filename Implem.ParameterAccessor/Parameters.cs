@@ -52,7 +52,7 @@ namespace Implem.DefinitionAccessor
         public static SitePackage SitePackage;
         public static SysLog SysLog;
         public static User User;
-        public static UserTemplate UserTemplate;
+        public static CustomApps UserTemplate;
         public static ParameterAccessor.Parts.Version Version;
         public static Validation Validation;
         public static Dashboard Dashboard;
