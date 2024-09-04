@@ -31,7 +31,7 @@ namespace Implem.PleasanterTest.Tests.Items
                 forms: forms);
             var results = Results(context: context);
             Initializer.SaveResults(results);
-			Assert.True(Tester.Test(
+            Assert.True(Tester.Test(
                 context: context,
                 results: results,
                 baseTests: baseTests));

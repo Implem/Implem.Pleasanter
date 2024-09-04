@@ -27,7 +27,7 @@ namespace Implem.PleasanterTest.Tests.Groups
                 context: context,
                 id: id);
             Initializer.SaveResults(results);
-			Assert.True(Tester.Test(
+            Assert.True(Tester.Test(
                 context: context,
                 results: results,
                 baseTests: baseTests));

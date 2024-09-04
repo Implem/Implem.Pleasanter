@@ -26,7 +26,7 @@ namespace Implem.PleasanterTest.Tests.Items
                 routeData: RouteData.ItemsTrashBox(id: siteId));
             var results = Results(context: context);
             Initializer.SaveResults(results);
-			Assert.True(Tester.Test(
+            Assert.True(Tester.Test(
                 context: context,
                 results: results,
                 baseTests: baseTests));

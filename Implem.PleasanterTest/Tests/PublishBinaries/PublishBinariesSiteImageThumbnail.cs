@@ -20,7 +20,7 @@ namespace Implem.PleasanterTest.Tests.PublishBinaries
                 userType: UserData.UserTypes.Anonymous,
                 routeData: RouteData.PublishBinariesSiteImageThumbnail(id: id));
             var results = Results(context: context);
-			Assert.True(results);
+            Assert.True(results);
         }
 
         public static IEnumerable<object[]> GetData()

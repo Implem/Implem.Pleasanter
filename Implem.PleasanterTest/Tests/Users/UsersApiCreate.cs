@@ -25,7 +25,7 @@ namespace Implem.PleasanterTest.Tests.Users
                 apiRequestBody: apiRequestBody);
             var results = GetResults(context: context);
             Initializer.SaveResults(results.Content);
-			Assert.True(Tester.Test(
+            Assert.True(Tester.Test(
                 context: context,
                 results: results,
                 baseTests: baseTests));

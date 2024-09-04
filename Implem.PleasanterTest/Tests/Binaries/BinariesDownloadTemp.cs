@@ -28,7 +28,7 @@ namespace Implem.PleasanterTest.Tests.Binaries
             var results = Results(
                 context: context,
                 guid: guid);
-			Assert.True(results);
+            Assert.True(results);
         }
 
         public static IEnumerable<object[]> GetData()

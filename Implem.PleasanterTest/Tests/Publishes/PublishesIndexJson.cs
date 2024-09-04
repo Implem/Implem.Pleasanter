@@ -24,7 +24,7 @@ namespace Implem.PleasanterTest.Tests.Publishes
                 routeData: RouteData.PublishesIndex(id: siteId));
             var results = Results(context: context);
             Initializer.SaveResults(results);
-			Assert.True(Tester.Test(
+            Assert.True(Tester.Test(
                 context: context,
                 results: results,
                 baseTests: baseTests));

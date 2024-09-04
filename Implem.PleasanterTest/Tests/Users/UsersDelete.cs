@@ -25,7 +25,7 @@ namespace Implem.PleasanterTest.Tests.Users
                 routeData: RouteData.UsersDelete(id: id));
             var results = Results(context: context);
             Initializer.SaveResults(results);
-			Assert.True(Tester.Test(
+            Assert.True(Tester.Test(
                 context: context,
                 results: results,
                 baseTests: baseTests));

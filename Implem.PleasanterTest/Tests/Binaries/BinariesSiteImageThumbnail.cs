@@ -22,7 +22,7 @@ namespace Implem.PleasanterTest.Tests.Binaries
                 userId: userModel.UserId,
                 routeData: RouteData.BinariesSiteImageThumbnail(id: id));
             var results = Results(context: context);
-			Assert.True(results);
+            Assert.True(results);
         }
 
         public static IEnumerable<object[]> GetData()

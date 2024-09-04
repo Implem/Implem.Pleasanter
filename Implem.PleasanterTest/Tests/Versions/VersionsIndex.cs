@@ -24,7 +24,7 @@ namespace Implem.PleasanterTest.Tests.Versions
                 routeData: RouteData.VersionsIndex());
             var results = Results(context: context);
             Utilities.Initializer.SaveResults(results);
-			Assert.True(Tester.Test(
+            Assert.True(Tester.Test(
                 context: context,
                 results: results,
                 baseTests: baseTests));
