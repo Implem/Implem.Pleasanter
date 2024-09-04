@@ -25,6 +25,7 @@ namespace Implem.PleasanterTest.Tests.Users
                 context: context,
                 returnUrl: returnUrl,
                 noHttpContext: true);
+            Initializer.SaveResults(results);
             Assert.True(Tester.Test(
                 context: context,
                 results: results,

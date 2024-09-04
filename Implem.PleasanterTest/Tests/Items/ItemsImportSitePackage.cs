@@ -30,6 +30,7 @@ namespace Implem.PleasanterTest.Tests.Items
                 fileName: fileName,
                 contentType: "text/json");
             var results = Results(context: context);
+            Initializer.SaveResults(results);
             Assert.True(Tester.Test(
                 context: context,
                 results: results,
