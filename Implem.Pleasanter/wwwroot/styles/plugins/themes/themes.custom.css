@@ -504,7 +504,33 @@ html .ui-button.ui-state-disabled:active {
 .highlight{
     color: var(--nonColor02);
 }
-
+.md{
+    color: var(--base-text);
+    table{
+        margin: 1em 0;
+    }
+    tbody {
+        tr{
+            &:nth-child(odd){
+                background-color: var(--grid-cell-bg);
+            }
+        }
+        tr{
+            &:nth-child(even){
+                background-color: var(--grid-cell-hover);
+            }
+        }
+    }
+    th {
+        color: var(--invert-text);
+        background-color: var(--primaryColor);
+        border: solid 1px var(--grid-cell-border);
+    }
+    td {
+        color: var(--base-text);
+        border: solid 1px var(--grid-cell-border);
+    }
+}
 
 /* FieldLayaut ---------------------------------------------------------------- */
 /* fieldset */
@@ -1600,9 +1626,6 @@ body {
                 background-color: var(--editor-bg);
                 border-color: var(--editor-border);
             }
-            .md{
-                color: var(--base-text);
-            }
         }
     }
     #EditorTabsContainer {
@@ -1866,8 +1889,8 @@ body:not(:has(#Editor)){
 
 /* gridTable */
 .grid {
-    thead {
-        tr:first-child {
+    > thead {
+        > tr:first-child {
             th:first-child,
             th:last-child {
                 border-radius: 0;
@@ -1881,10 +1904,10 @@ body:not(:has(#Editor)){
     #ProcessTabsContainer &,
     #EditorTabsContainer &,
     #ViewModeContainer & {
-        thead,
-        tbody {
-            th,
-            td {
+        > thead,
+        > tbody {
+            > th,
+            > td {
                 & {
                     border-left: 1px solid var(--grid-cell-vborder);
                     border-right: 1px solid var(--grid-cell-vborder);
@@ -1900,18 +1923,18 @@ body:not(:has(#Editor)){
                 }
             }
         }
-        thead {
-            td,
-            th {
+        > thead {
+            > td,
+            > th {
                 color: var(--invert-text);
             }
         }
-        tbody {
-            th {
+        > tbody {
+            > th {
                 background-color: var(--grid-cell-heading);
                 border-top: solid 1px var(--grid-cell-border);
             }
-            tr {
+            > tr {
                 background-color: var(--grid-cell-bg);
                 &:hover {
                     background-color: var(--grid-cell-hover);
@@ -1920,7 +1943,7 @@ body:not(:has(#Editor)){
                     }
                 }
             }
-            td {
+            > td {
                 border-top: solid 1px var(--grid-cell-border);
             }
         }
