@@ -2778,7 +2778,7 @@ namespace Implem.Pleasanter.Models
             string templateId = null)
         {
             var column = Rds.ExtensionsColumn().ExtensionId().ExtensionName();
-            var where = Rds.ExtensionsWhere().TenantId(context.TenantId).ExtensionType("UserTemplate").Disabled(false);
+            var where = Rds.ExtensionsWhere().TenantId(context.TenantId).ExtensionType("CustomApps").Disabled(false);
             if (!templateId.IsNullOrEmpty())
             {
                 var id = -1;
@@ -2921,7 +2921,7 @@ namespace Implem.Pleasanter.Models
                         column: Rds.ExtensionsColumn().ExtensionsCount(),
                         where: Rds.ExtensionsWhere()
                             .TenantId(context.TenantId)
-                            .ExtensionType("UserTemplate")
+                            .ExtensionType("CustomApps")
                             .Disabled(false))) >= Parameters.UserTemplate.UserTemplateMax)
             {
                 return Messages.ResponseCustomAppsLimit(context: context).ToJson();
@@ -2939,7 +2939,7 @@ namespace Implem.Pleasanter.Models
             var searchText = context.Forms.Data("SearchText");
             var extension = new ExtensionModel(context: context);
             extension.ExtensionName = title;
-            extension.ExtensionType = "UserTemplate";
+            extension.ExtensionType = "CustomApps";
             extension.Description = context.Forms.Data("Description");
             extension.ExtensionSettings = sitePackage.ToJson();
             // テナント毎に管理するのでTemplateDefinition.Languageの指定はなし
