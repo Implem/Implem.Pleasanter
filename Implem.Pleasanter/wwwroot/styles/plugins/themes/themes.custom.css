@@ -504,6 +504,7 @@ html .ui-button.ui-state-disabled:active {
 .highlight{
     color: var(--nonColor02);
 }
+
 .md{
     color: var(--base-text);
     table{
