@@ -1809,6 +1809,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string ChildGroup(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ChildGroup",
+                data: data);
+        }
+
         public static string CircularGroupChild(
             Context context,
             params string[] data)
@@ -4476,16 +4486,6 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "GroupByY",
-                data: data);
-        }
-
-        public static string GroupChildren(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "GroupChildren",
                 data: data);
         }
 
@@ -24406,6 +24406,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Extensions",
+                data: data);
+        }
+
+        public static string GroupChildren(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "GroupChildren",
                 data: data);
         }
 

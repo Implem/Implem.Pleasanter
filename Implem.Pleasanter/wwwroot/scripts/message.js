@@ -50,6 +50,7 @@ $p.clearMessage = function () {
 }
 
 $p.setServerErrorMessage = function (responseJSON) {
+    $p.clearMessage();
     var messages = responseJSON.filter(function (i) {
         return i.Method === 'Message' && JSON.parse(i.Value).Css === 'alert-error';
     });
