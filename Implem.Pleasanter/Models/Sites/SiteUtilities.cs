@@ -2763,7 +2763,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             name: "UserTemplate",
                             templates: templates
-                                .Where(o => o.UserTemplate > 0)
+                                .Where(o => o.CustomApps > 0)
                                 .OrderBy(o => o.Id),
                             isUserTemplate: true,
                             _using: Parameters.UserTemplate.Enabled));
@@ -2811,7 +2811,7 @@ namespace Implem.Pleasanter.Models
                     Id = $"UserTemplate{o.ExtensionId}",
                     Title = o.ExtensionName,
                     Description = o.Description,
-                    UserTemplate = o.ExtensionId
+                    CustomApps = o.ExtensionId
                 });
         }
 
@@ -4681,7 +4681,7 @@ namespace Implem.Pleasanter.Models
         public static string PreviewTemplate(
             Context context, TemplateDefinition template, string controlId)
         {
-            if (template.UserTemplate > 0)
+            if (template.CustomApps > 0)
             {
                 return PreviewUserTemplate(
                     context: context,
