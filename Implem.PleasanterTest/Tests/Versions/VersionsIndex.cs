@@ -23,7 +23,8 @@ namespace Implem.PleasanterTest.Tests.Versions
                 userId: userModel.UserId,
                 routeData: RouteData.VersionsIndex());
             var results = Results(context: context);
-            Assert.True(Tester.Test(
+            Utilities.Initializer.SaveResults(results);
+			Assert.True(Tester.Test(
                 context: context,
                 results: results,
                 baseTests: baseTests));

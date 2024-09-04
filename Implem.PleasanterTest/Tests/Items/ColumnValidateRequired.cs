@@ -21,7 +21,7 @@ namespace Implem.PleasanterTest.Tests.Items
         public void Test(List<BaseTest> baseTests)
         {
             Init();
-            Assert.True(Tester.Test(
+			Assert.True(Tester.Test(
                 context: Context,
                 results: Html,
                 baseTests: baseTests));

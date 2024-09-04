@@ -25,7 +25,8 @@ namespace Implem.PleasanterTest.Tests.Groups
                 userId: userModel.UserId,
                 routeData: RouteData.GroupsApiUpdate(id: id));
             var results = GetResults(context: context);
-            Assert.True(Tester.Test(
+            Initializer.SaveResults(results.Content);
+			Assert.True(Tester.Test(
                 context: context,
                 results: results,
                 baseTests: baseTests));

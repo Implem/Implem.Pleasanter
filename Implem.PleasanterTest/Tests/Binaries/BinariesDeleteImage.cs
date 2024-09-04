@@ -28,7 +28,8 @@ namespace Implem.PleasanterTest.Tests.Binaries
             var results = Results(
                 context: context,
                 guid: guid);
-            Assert.True(Tester.Test(
+            Initializer.SaveResults(results);
+			Assert.True(Tester.Test(
                 context: context,
                 results: results,
                 baseTests: baseTests));

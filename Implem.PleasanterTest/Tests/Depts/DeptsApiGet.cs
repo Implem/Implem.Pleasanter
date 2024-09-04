@@ -25,7 +25,8 @@ namespace Implem.PleasanterTest.Tests.Depts
                 userId: userModel.UserId,
                 routeData: RouteData.DeptsApiGet(id: id));
             var results = Results(context: context);
-            Assert.True(Tester.Test(
+            Initializer.SaveResults(results.Content);
+			Assert.True(Tester.Test(
                 context: context,
                 results: results,
                 baseTests: baseTests));

@@ -27,7 +27,8 @@ namespace Implem.PleasanterTest.Tests.Items
                 routeData: RouteData.ItemsApiCreateSite(id: id),
                 apiRequestBody: apiRequestBody);
             var results = GetResults(context: context);
-            Assert.True(Tester.Test(
+            Initializer.SaveResults(results.Content);
+			Assert.True(Tester.Test(
                 context: context,
                 results: results,
                 baseTests: baseTests));

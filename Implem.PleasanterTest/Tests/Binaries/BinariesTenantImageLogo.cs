@@ -18,7 +18,7 @@ namespace Implem.PleasanterTest.Tests.Binaries
                 userId: userModel.UserId,
                 routeData: RouteData.BinariesTenantImageLogo(id: Initializer.TenantId));
             var results = Results(context: context);
-            Assert.True(results);
+			Assert.True(results);
         }
 
         public static IEnumerable<object[]> GetData()

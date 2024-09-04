@@ -23,7 +23,8 @@ namespace Implem.PleasanterTest.Tests.Users
                 routeData: RouteData.UsersCreate(),
                 forms: forms);
             var results = Results(context: context);
-            Assert.True(Tester.Test(
+            Initializer.SaveResults(results);
+			Assert.True(Tester.Test(
                 context: context,
                 results: results,
                 baseTests: baseTests));

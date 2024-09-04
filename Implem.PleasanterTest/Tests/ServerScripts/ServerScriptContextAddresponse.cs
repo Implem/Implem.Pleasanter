@@ -44,7 +44,8 @@ namespace Implem.PleasanterTest.Tests.ServerScript
             context.BackgroundServerScript = true; //サーバースクリプトのテスト実施時は必須
 
             var results = Results(context: context);
-            Assert.True(Tester.Test(
+            Initializer.SaveResults(results);
+			Assert.True(Tester.Test(
                 context: context,
                 results: results,
                 baseTests: baseTests));

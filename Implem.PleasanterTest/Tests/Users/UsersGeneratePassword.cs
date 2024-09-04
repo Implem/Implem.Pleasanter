@@ -25,7 +25,7 @@ namespace Implem.PleasanterTest.Tests.Users
                 var minLength = 6;
                 var pw = GeneratedPassword();
                 //生成されるパスワードが6文字以上あること
-                Assert.True(pw.Length >= minLength);
+			    Assert.True(pw.Length >= minLength);
             }
         }
 

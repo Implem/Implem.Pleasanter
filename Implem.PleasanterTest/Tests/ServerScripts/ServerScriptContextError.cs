@@ -41,7 +41,7 @@ namespace Implem.PleasanterTest.Tests.ServerScript
 
             context.BackgroundServerScript = true; //サーバースクリプトのテスト実施時は必須
 
-            Assert.True(Results(context: context));
+			Assert.True(Results(context: context));
         }
 
         public static IEnumerable<object[]> GetData()

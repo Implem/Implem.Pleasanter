@@ -26,7 +26,8 @@ namespace Implem.PleasanterTest.Tests.Users
             var results = Results(
                 context: context,
                 id: id);
-            Assert.True(Tester.Test(
+            Initializer.SaveResults(results);
+			Assert.True(Tester.Test(
                 context: context,
                 results: results,
                 baseTests: baseTests));

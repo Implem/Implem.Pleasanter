@@ -7,8 +7,10 @@ using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using Implem.PleasanterTest.Models;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 namespace Implem.PleasanterTest.Utilities
 {
     /// <summary>
@@ -30,6 +32,21 @@ namespace Implem.PleasanterTest.Utilities
         public static Dictionary<string, Dictionary<string, WikiModel>> Wikis;
         public static Dictionary<string, long> Titles = new Dictionary<string, long>();
         public static Dictionary<long, ItemModel> ItemIds = new Dictionary<long, ItemModel>();
+        
+        //実行結果を保存する場合に保存先のフォルダ名を指定
+        private static readonly string resultsSaveDir;
+        
+
+        public static void SaveResults(string result, [CallerFilePath] string callerFilePath="")
+        {
+            if (resultsSaveDir.IsNullOrEmpty())
+            {
+                return; 
+            }
+            Directory.CreateDirectory(resultsSaveDir);
+            var fileName = Path.Combine(resultsSaveDir, Path.GetFileName(callerFilePath));
+            System.IO.File.WriteAllText(fileName, result.Replace(">", ">" + System.Environment.NewLine));
+        }
 
         public static void Initialize()
         {

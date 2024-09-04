@@ -26,7 +26,7 @@ namespace Implem.PleasanterTest.Tests.Items
                 userId: userModel.UserId,
                 routeData: RouteData.ItemsExport(id: id));
             var results = Results(context: context);
-            Assert.True(Tester.Test(
+			Assert.True(Tester.Test(
                 context: context,
                 results: results,
                 baseTests: baseTests));

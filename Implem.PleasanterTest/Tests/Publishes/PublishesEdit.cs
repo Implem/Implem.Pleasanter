@@ -22,7 +22,8 @@ namespace Implem.PleasanterTest.Tests.Publishes
                 userType: UserData.UserTypes.Anonymous,
                 routeData: RouteData.PublishesEdit(id: id));
             var results = Results(context: context);
-            Assert.True(Tester.Test(
+            Initializer.SaveResults(results);
+			Assert.True(Tester.Test(
                 context: context,
                 results: results,
                 baseTests: baseTests));

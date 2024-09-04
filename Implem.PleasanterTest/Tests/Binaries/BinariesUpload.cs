@@ -33,7 +33,8 @@ namespace Implem.PleasanterTest.Tests.Binaries
                 fileName: fileName,
                 contentType: "text/json");
             var results = Results(context: context);
-            Assert.True(Tester.Test(
+            Initializer.SaveResults(results);
+			Assert.True(Tester.Test(
                 context: context,
                 results: results,
                 baseTests: baseTests));
