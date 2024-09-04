@@ -29,6 +29,7 @@ namespace Implem.PleasanterTest.Tests.Items
                 fileName: fileName,
                 contentType: "text/csv");
             var results = Results(context: context);
+            Initializer.SaveResults(results);
             Assert.True(Tester.Test(
                 context: context,
                 results: results,

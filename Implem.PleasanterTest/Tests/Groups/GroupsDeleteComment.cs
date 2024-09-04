@@ -26,6 +26,7 @@ namespace Implem.PleasanterTest.Tests.Groups
                 routeData: RouteData.GroupsDeleteComment(id: id),
                 forms: forms);
             var results = Results(context: context);
+            Initializer.SaveResults(results);
             Assert.True(Tester.Test(
                 context: context,
                 results: results,

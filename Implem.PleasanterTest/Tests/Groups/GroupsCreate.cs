@@ -20,6 +20,7 @@ namespace Implem.PleasanterTest.Tests.Groups
                 userId: userModel.UserId,
                 routeData: RouteData.GroupsCreate());
             var results = Results(context: context);
+            Initializer.SaveResults(results);
             Assert.True(Tester.Test(
                 context: context,
                 results: results,

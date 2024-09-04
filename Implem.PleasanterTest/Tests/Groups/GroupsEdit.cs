@@ -26,6 +26,7 @@ namespace Implem.PleasanterTest.Tests.Groups
             var results = Results(
                 context: context,
                 id: id);
+            Initializer.SaveResults(results);
             Assert.True(Tester.Test(
                 context: context,
                 results: results,

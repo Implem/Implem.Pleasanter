@@ -23,6 +23,7 @@ namespace Implem.PleasanterTest.Tests.Items
                 userId: userModel.UserId,
                 routeData: RouteData.ItemsTrashBoxGridRows(id: siteId));
             var results = Results(context: context);
+            Initializer.SaveResults(results);
             Assert.True(Tester.Test(
                 context: context,
                 results: results,

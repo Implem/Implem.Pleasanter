@@ -24,6 +24,7 @@ namespace Implem.PleasanterTest.Tests.Items
                 routeData: RouteData.ItemsTemplates(id: id),
                 httpMethod: "POST");
             var results = Results(context: context);
+            Initializer.SaveResults(results);
             Assert.True(Tester.Test(
                 context: context,
                 results: results,
