@@ -1,33 +1,33 @@
 ﻿{
-    "Id": "UserTemplate",
+    "Id": "CustomApps",
     "Type": 110,
     "Languages": [
         {
-            "Body": "User Template"
+            "Body": "CustomApps"
         },
         {
             "Language": "zh-CN",
-            "Body": "用户模板"
+            "Body": "定制应用程序"
         },
         {
             "Language": "ja",
-            "Body": "ユーザテンプレート"
+            "Body": "カスタムアプリ"
         },
         {
             "Language": "de",
-            "Body": "Benutzervorlage"
+            "Body": "Benutzerdefinierte Anwendung"
         },
         {
             "Language": "ko",
-            "Body": "사용자 템플릿"
+            "Body": "맞춤형 애플리케이션"
         },
         {
             "Language": "es",
-            "Body": "Plantilla de usuario"
+            "Body": "Aplicación personalizada"
         },
         {
             "Language": "vi",
-            "Body": "Mẫu người dùng"
+            "Body": "Ứng dụng tùy chỉnh"
         }
     ]
 }

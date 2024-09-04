@@ -2649,7 +2649,7 @@ namespace Implem.Pleasanter.Models
                                 action: () => hb
                                     .A(
                                         href: "#FieldSetUserTemplate",
-                                        text: Displays.UserTemplate(context: context)),
+                                        text: Displays.CustomApps(context: context)),
                                 _using: Parameters.UserTemplate.Enabled))
                         .TemplateTab(
                             context: context,
@@ -2924,7 +2924,7 @@ namespace Implem.Pleasanter.Models
                             .ExtensionType("UserTemplate")
                             .Disabled(false))) >= Parameters.UserTemplate.UserTemplateMax)
             {
-                return Messages.ResponseUserTemplateLimit(context: context).ToJson();
+                return Messages.ResponseCustomAppsLimit(context: context).ToJson();
             }
             var sitePackage = Libraries.SitePackages.Utilities.GetSitePackageFromPostedFile(context: context);
             if (sitePackage == null)
@@ -17731,7 +17731,7 @@ namespace Implem.Pleasanter.Models
                 attributes: new HtmlAttributes()
                     .Id("CreateUserTemplateDialog")
                     .Class("dialog")
-                    .Title(Displays.UserTemplate(context: context)),
+                    .Title(Displays.CustomApps(context: context)),
                 action: () => hb
                     .Div(
                         action: () => hb
