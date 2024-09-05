@@ -5411,10 +5411,10 @@ namespace Implem.DefinitionAccessor
                                 data.ToInt();
                             newTemplateDefinition.SavedClassification = newTemplateDefinition.Classification;
                             break;
-                        case "UserTemplate":
-                            newTemplateDefinition.UserTemplate = customDefinitionRow.Get("UserTemplate")?.ToInt() ??
+                        case "CustomApps":
+                            newTemplateDefinition.CustomApps = customDefinitionRow.Get("CustomApps")?.ToInt() ??
                                 data.ToInt();
-                            newTemplateDefinition.SavedUserTemplate = newTemplateDefinition.UserTemplate;
+                            newTemplateDefinition.SavedCustomApps = newTemplateDefinition.CustomApps;
                             break;
                         default: break;
                     }
@@ -5450,7 +5450,7 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("LegalAffairs")) { definition.LegalAffairs = definitionRow["LegalAffairs"].ToInt(); definition.SavedLegalAffairs = definition.LegalAffairs; }
             if (definitionRow.ContainsKey("ProductList")) { definition.ProductList = definitionRow["ProductList"].ToInt(); definition.SavedProductList = definition.ProductList; }
             if (definitionRow.ContainsKey("Classification")) { definition.Classification = definitionRow["Classification"].ToInt(); definition.SavedClassification = definition.Classification; }
-            if (definitionRow.ContainsKey("UserTemplate")) { definition.UserTemplate = definitionRow["UserTemplate"].ToInt(); definition.SavedUserTemplate = definition.UserTemplate; }
+            if (definitionRow.ContainsKey("CustomApps")) { definition.CustomApps = definitionRow["CustomApps"].ToInt(); definition.SavedCustomApps = definition.CustomApps; }
         }
 
         private static void ConstructTemplateDefinitions()
@@ -6069,7 +6069,7 @@ namespace Implem.DefinitionAccessor
                         case "LegalAffairs": templateDefinition.LegalAffairs = optionValue.ToInt(); break;
                         case "ProductList": templateDefinition.ProductList = optionValue.ToInt(); break;
                         case "Classification": templateDefinition.Classification = optionValue.ToInt(); break;
-                        case "UserTemplate": templateDefinition.UserTemplate = optionValue.ToInt(); break;
+                        case "CustomApps": templateDefinition.CustomApps = optionValue.ToInt(); break;
                     }
                 });
         }
@@ -12542,7 +12542,7 @@ namespace Implem.DefinitionAccessor
         public int LegalAffairs; public int SavedLegalAffairs;
         public int ProductList; public int SavedProductList;
         public int Classification; public int SavedClassification;
-        public int UserTemplate; public int SavedUserTemplate;
+        public int CustomApps; public int SavedCustomApps;
 
         public TemplateDefinition()
         {
@@ -12575,7 +12575,7 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("LegalAffairs")) LegalAffairs = propertyCollection["LegalAffairs"].ToInt(); else LegalAffairs = 0;
             if (propertyCollection.ContainsKey("ProductList")) ProductList = propertyCollection["ProductList"].ToInt(); else ProductList = 0;
             if (propertyCollection.ContainsKey("Classification")) Classification = propertyCollection["Classification"].ToInt(); else Classification = 0;
-            if (propertyCollection.ContainsKey("UserTemplate")) UserTemplate = propertyCollection["UserTemplate"].ToInt(); else UserTemplate = 0;
+            if (propertyCollection.ContainsKey("CustomApps")) CustomApps = propertyCollection["CustomApps"].ToInt(); else CustomApps = 0;
         }
 
         public object this[string key]
@@ -12608,7 +12608,7 @@ namespace Implem.DefinitionAccessor
                     case "LegalAffairs": return LegalAffairs;
                     case "ProductList": return ProductList;
                     case "Classification": return Classification;
-                    case "UserTemplate": return UserTemplate;
+                    case "CustomApps": return CustomApps;
                     default: return null;
                 }
             }
@@ -12641,7 +12641,7 @@ namespace Implem.DefinitionAccessor
             LegalAffairs = SavedLegalAffairs;
             ProductList = SavedProductList;
             Classification = SavedClassification;
-            UserTemplate = SavedUserTemplate;
+            CustomApps = SavedCustomApps;
         }
     }
 

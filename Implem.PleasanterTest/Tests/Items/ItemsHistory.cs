@@ -26,6 +26,7 @@ namespace Implem.PleasanterTest.Tests.Items
                 routeData: RouteData.ItemsHistory(id: id),
                 forms: forms);
             var results = Results(context: context);
+            Initializer.SaveResults(results);
             Assert.True(Tester.Test(
                 context: context,
                 results: results,

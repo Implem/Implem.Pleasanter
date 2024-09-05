@@ -2709,6 +2709,26 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string CustomApps(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "CustomApps",
+                data: data);
+        }
+
+        public static string CustomAppsLimit(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "CustomAppsLimit",
+                data: data);
+        }
+
         public static string CustomDesign(
             Context context,
             params string[] data)
@@ -10506,26 +10526,6 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "UserSwitched",
-                data: data);
-        }
-
-        public static string UserTemplate(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "UserTemplate",
-                data: data);
-        }
-
-        public static string UserTemplateLimit(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "UserTemplateLimit",
                 data: data);
         }
 
