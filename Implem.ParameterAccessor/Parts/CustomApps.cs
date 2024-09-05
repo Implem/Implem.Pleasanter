@@ -1,9 +1,9 @@
 ﻿using System;
 namespace Implem.ParameterAccessor.Parts
 {
-    public class UserTemplate
+    public class CustomApps
     {
         public bool Enabled;
-        public int UserTemplateMax;
+        public int CustomAppsMax;
     }
 }
