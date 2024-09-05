@@ -1892,11 +1892,12 @@ body:not(:has(#Editor)){
 .grid {
     > thead {
         > tr:first-child {
+            th,
             th:first-child,
             th:last-child {
                 border-radius: 0;
-            }
-            th {
+                border-left: 1px solid var(--grid-cell-vborder);
+                border-right: 1px solid var(--grid-cell-vborder);
                 border-top: 1px solid var(--grid-cell-border);
             }
         }
@@ -1910,8 +1911,6 @@ body:not(:has(#Editor)){
             > th,
             > td {
                 & {
-                    border-left: 1px solid var(--grid-cell-vborder);
-                    border-right: 1px solid var(--grid-cell-vborder);
                     input {
                         margin: 0 auto;
                         width: 100%;
@@ -1927,14 +1926,12 @@ body:not(:has(#Editor)){
         > thead {
             > td,
             > th {
+                border-left: 1px solid var(--grid-cell-vborder);
+                border-right: 1px solid var(--grid-cell-vborder);
                 color: var(--invert-text);
             }
         }
         > tbody {
-            > th {
-                background-color: var(--grid-cell-heading);
-                border-top: solid 1px var(--grid-cell-border);
-            }
             > tr {
                 background-color: var(--grid-cell-bg);
                 &:hover {
@@ -1943,9 +1940,15 @@ body:not(:has(#Editor)){
                         background: var(--grid-comment-bg);
                     }
                 }
-            }
-            > td {
-                border-top: solid 1px var(--grid-cell-border);
+                > th {
+                    background-color: var(--grid-cell-heading);
+                }
+                > th,
+                > td {
+                    border-top: solid 1px var(--grid-cell-border);
+                    border-left: solid 1px var(--grid-cell-vborder);
+                    border-right: solid 1px var(--grid-cell-vborder);
+                }
             }
         }
         .grid-row[data-history] {
