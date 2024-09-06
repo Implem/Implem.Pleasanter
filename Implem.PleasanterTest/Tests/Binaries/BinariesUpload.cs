@@ -14,6 +14,7 @@ using Xunit;
 
 namespace Implem.PleasanterTest.Tests.Binaries
 {
+    [Collection(nameof(BinariesUpload))]
     public class BinariesUpload
     {
         [Theory]

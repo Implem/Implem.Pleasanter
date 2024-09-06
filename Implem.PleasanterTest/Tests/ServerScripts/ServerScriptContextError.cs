@@ -24,6 +24,7 @@ try{
 
 namespace Implem.PleasanterTest.Tests.ServerScript
 {
+    [Collection(nameof(ServerScriptContextError))]
     public class ServerScriptContextError
     {
 

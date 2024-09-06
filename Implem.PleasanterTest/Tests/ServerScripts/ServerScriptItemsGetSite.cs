@@ -71,6 +71,7 @@ try {
 
 namespace Implem.PleasanterTest.Tests.ServerScript
 {
+    [Collection(nameof(ServerScriptItemsGetSite))]
     public class ServerScriptItemsGetSite
     {
 
