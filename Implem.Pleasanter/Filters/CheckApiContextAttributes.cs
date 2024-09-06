@@ -69,6 +69,16 @@ namespace Implem.PleasanterFilters
                     });
                 return;
             }
+            if (context.InvalidJsonData)
+            {
+                filterContext.HttpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
+                filterContext.Result = new JsonResult(
+                    new
+                    {   
+                        Message = Displays.InvalidJsonData(context: context)
+                    });
+                return;
+            }
             if (Parameters.Security.TokenCheck
                 && filterContext.HttpContext.User?.Identity?.IsAuthenticated == true)
             {
