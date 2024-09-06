@@ -26,6 +26,7 @@ try{
 
 namespace Implem.PleasanterTest.Tests.ServerScript
 {
+    [Collection(nameof(ServerScriptContextAddresponse))]
     public class ServerScriptContextAddresponse
     {
 

@@ -23,6 +23,7 @@ try{
 
 namespace Implem.PleasanterTest.Tests.ServerScript
 {
+    [Collection(nameof(ServerScriptelementsDisplayType))]
     public class ServerScriptelementsDisplayType
     {
 

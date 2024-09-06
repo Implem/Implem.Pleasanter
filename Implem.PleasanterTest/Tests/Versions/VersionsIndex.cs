@@ -11,6 +11,7 @@ using Xunit;
 
 namespace Implem.PleasanterTest.Tests.Versions
 {
+    [Collection(nameof(VersionsIndex))]
     public class VersionsIndex
     {
         [Theory]

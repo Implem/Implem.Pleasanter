@@ -9,6 +9,7 @@ using Xunit;
 
 namespace Implem.PleasanterTest.Tests.Users
 {
+    [Collection(nameof(UsersResetPassword))]
     public class UsersResetPassword
     {
         [Theory]

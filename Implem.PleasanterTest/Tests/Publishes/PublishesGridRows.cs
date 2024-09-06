@@ -9,6 +9,7 @@ using Xunit;
 
 namespace Implem.PleasanterTest.Tests.Publishes
 {
+    [Collection(nameof(PublishesGridRows))]
     public class PublishesGridRows
     {
         [Theory]
