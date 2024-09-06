@@ -15,6 +15,7 @@ using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.ServerScripts;
 using Implem.Pleasanter.Libraries.Settings;
+using Implem.Pleasanter.Models.SysLogs;
 using NLog;
 using System;
 using System.Collections.Generic;
@@ -1452,7 +1453,7 @@ namespace Implem.Pleasanter.Models
                     case "Updator": data.Updator = Updator.Id; break;
                     case "UpdatedTime": data.UpdatedTime = UpdatedTime.Value.ToLocal(context: context); break;
                     case "Comments": data.Comments = Comments.ToLocal(context: context).ToJson(); break;
-                    default: 
+                    default:
                         data.Value(
                             context: context,
                             column: column,
@@ -3229,7 +3230,8 @@ namespace Implem.Pleasanter.Models
             {
                 // Textize
                 logger.ForInfoEvent()
-                    .Property("syslog", this)
+                    .Message("UpdateSysLog")
+                    .Property("syslog", ToLogModel(this))
                     .Log();
                 Repository.ExecuteNonQuery(
                     context: context,
@@ -3355,6 +3357,11 @@ namespace Implem.Pleasanter.Models
                         selectIdentity: true,
                         param: SysLogParam(context: context)))
                             .Id.ToLong();
+                // Textize
+                logger.ForInfoEvent()
+                    .Message("WriteSysLog")
+                    .Property("syslog", ToLogModel(this))
+                    .Log();
             }
         }
 
@@ -3528,6 +3535,56 @@ namespace Implem.Pleasanter.Models
             return Parameters.SysLog.NotLoggingIp
                 .Select(addr => IpRange.FromCidr(addr))
                 .Any(range => range.InRange(ipAddress));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static SysLogLogModel ToLogModel(SysLogModel s)
+        {
+            return new SysLogLogModel
+            {
+                CreatedTime = s.CreatedTime?.Value ?? DateTime.Now,
+                SysLogId = s.SysLogId,
+                Ver = s.Ver,
+                SysLogType = s.SysLogType.ToInt(),
+                OnAzure = s.OnAzure,
+                MachineName = s.MachineName,
+                ServiceName = s.ServiceName,
+                TenantName = s.TenantName,
+                Application = s.Application,
+                Class = s.Class,
+                Method = s.Method,
+                RequestData = s.RequestData,
+                HttpMethod = s.HttpMethod,
+                RequestSize = s.RequestSize,
+                ResponseSize = s.ResponseSize,
+                Elapsed = s.Elapsed,
+                ApplicationAge = s.ApplicationAge,
+                ApplicationRequestInterval = s.ApplicationRequestInterval,
+                SessionAge = s.SessionAge,
+                SessionRequestInterval = s.SessionRequestInterval,
+                WorkingSet64 = s.WorkingSet64,
+                VirtualMemorySize64 = s.VirtualMemorySize64,
+                ProcessId = s.ProcessId,
+                ProcessName = s.ProcessName,
+                BasePriority = s.BasePriority,
+                Url = s.Url,
+                UrlReferer = s.UrlReferer,
+                UserHostName = s.UserHostName,
+                UserHostAddress = s.UserHostAddress,
+                UserLanguage = s.UserLanguage,
+                UserAgent = s.UserAgent,
+                SessionGuid = s.SessionGuid,
+                ErrMessage = s.ErrMessage,
+                ErrStackTrace = s.ErrStackTrace,
+                InDebug = s.InDebug,
+                AssemblyVersion = s.AssemblyVersion,
+                Comments = s.Comments.ToJson(),
+                Creator = s.Creator.Id,
+                Updator = s.Updator.Id,
+                UpdatedTime = s.UpdatedTime?.Value ?? DateTime.Now,
+            };
         }
     }
 }

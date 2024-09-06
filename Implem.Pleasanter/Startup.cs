@@ -66,47 +66,7 @@ namespace Implem.Pleasanter.NetCore
             }
             LogManager.Setup()
                 .LoadConfigurationFromAppSettings()
-                .SetupSerialization(ss => ss.RegisterObjectTransformation<SysLogModel>(s => new SysLogLogModel {
-                    CreatedTime = s.CreatedTime?.Value??DateTime.Now,
-                    Ver = s.Ver,
-                    SysLogType = s.SysLogType.ToInt(),
-                    OnAzure = s.OnAzure,
-                    MachineName = s.MachineName.MaxLength(64),
-                    ServiceName = s.ServiceName.MaxLength(64),
-                    TenantName = s.TenantName.MaxLength(64),
-                    Application = s.Application.MaxLength(64),
-                    Class = s.Class.MaxLength(256),
-                    Method = s.Method.MaxLength(256),
-                    RequestData = s.RequestData,
-                    HttpMethod = s.HttpMethod.MaxLength(8),
-                    RequestSize = s.RequestSize,
-                    ResponseSize = s.ResponseSize,
-                    Elapsed = s.Elapsed,
-                    ApplicationAge = s.ApplicationAge,
-                    ApplicationRequestInterval = s.ApplicationRequestInterval,
-                    SessionAge = s.SessionAge,
-                    SessionRequestInterval = s.SessionRequestInterval,
-                    WorkingSet64 = s.WorkingSet64,
-                    VirtualMemorySize64 = s.VirtualMemorySize64,
-                    ProcessId = s.ProcessId,
-                    ProcessName = s.ProcessName.MaxLength(256),
-                    BasePriority = s.BasePriority,
-                    Url = s.Url,
-                    UrlReferer = s.UrlReferer,
-                    UserHostName = s.UserHostName.MaxLength(32),
-                    UserHostAddress = s.UserHostAddress.MaxLength(16),
-                    UserLanguage = s.UserLanguage.MaxLength(32),
-                    UserAgent = s.UserAgent,
-                    SessionGuid = s.SessionGuid.MaxLength(34),
-                    ErrMessage = s.ErrMessage.MaxLength(256),
-                    ErrStackTrace = s.ErrStackTrace,
-                    InDebug = s.InDebug,
-                    AssemblyVersion = s.AssemblyVersion.MaxLength(32),
-                    Comments = s.Comments.ToJson(),
-                    Creator = s.Creator.Id,
-                    Updator = s.Updator.Id,
-                    UpdatedTime = s.UpdatedTime?.Value??DateTime.Now,
-                }));
+                .SetupSerialization(ss => ss.RegisterObjectTransformation<SysLogModel>(s => SysLogModel.ToLogModel(s)));
         }
 
         public void ConfigureServices(IServiceCollection services)

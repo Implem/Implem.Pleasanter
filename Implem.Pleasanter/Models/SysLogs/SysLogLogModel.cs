@@ -3,7 +3,7 @@ namespace Implem.Pleasanter.Models.SysLogs;
 
 [Serializable]
 public readonly record struct SysLogLogModel(
-    DateTime? CreatedTime,
+    DateTime CreatedTime,
     long? SysLogId,
     int? Ver,
     int? SysLogType,
@@ -48,5 +48,5 @@ public readonly record struct SysLogLogModel(
     string Comments,
     int? Creator,
     int? Updator,
-    DateTime? UpdatedTime
+    DateTime UpdatedTime
     );
