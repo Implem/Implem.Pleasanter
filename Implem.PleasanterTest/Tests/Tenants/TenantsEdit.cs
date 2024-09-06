@@ -9,6 +9,7 @@ using Xunit;
 
 namespace Implem.PleasanterTest.Tests.Tenants
 {
+    [Collection(nameof(TenantsEdit))]
     public class TenantsEdit
     {
         [Theory]

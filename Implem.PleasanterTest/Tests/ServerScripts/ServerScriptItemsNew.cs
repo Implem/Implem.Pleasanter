@@ -55,6 +55,7 @@ try {
 
 namespace Implem.PleasanterTest.Tests.ServerScript
 {
+    [Collection(nameof(ServerScriptItemsNew))]
     public class ServerScriptItemsNew
     {
         private static readonly string IssuesSiteTitle = "Issue_001";

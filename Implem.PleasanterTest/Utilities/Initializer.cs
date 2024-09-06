@@ -33,7 +33,7 @@ namespace Implem.PleasanterTest.Utilities
         public static Dictionary<string, long> Titles = new Dictionary<string, long>();
         public static Dictionary<long, ItemModel> ItemIds = new Dictionary<long, ItemModel>();
         //実行結果を保存する場合に保存先のフォルダ名を指定
-        private static readonly string resultsSaveDir;
+        private static readonly string resultsSaveDir = string.Empty;
 
         //実行結果の日付、GUID、トークンをマスクする正規表現
         [System.Text.RegularExpressions.GeneratedRegex(@"\d{4}-\d{1,2}-\d{1,2}")]

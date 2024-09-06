@@ -352,6 +352,7 @@ try {
 
 namespace Implem.PleasanterTest.Tests.ServerScript
 {
+    [Collection(nameof(ServerScriptView))]
     public class ServerScriptView
     {
 

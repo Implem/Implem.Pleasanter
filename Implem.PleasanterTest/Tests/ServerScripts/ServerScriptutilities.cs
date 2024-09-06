@@ -25,6 +25,7 @@ try{
 
 namespace Implem.PleasanterTest.Tests.ServerScript
 {
+    [Collection(nameof(ServerScriptutilities))]
     public class ServerScriptutilities
     {
 

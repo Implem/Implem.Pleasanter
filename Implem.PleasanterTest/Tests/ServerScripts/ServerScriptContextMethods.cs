@@ -30,6 +30,7 @@ try{
 
 namespace Implem.PleasanterTest.Tests.ServerScript
 {
+    [Collection(nameof(ServerScriptContextMethods))]
     public class ServerScriptContextMethods
     {
 

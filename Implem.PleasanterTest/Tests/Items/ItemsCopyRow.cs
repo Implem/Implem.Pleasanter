@@ -9,6 +9,7 @@ using Xunit;
 
 namespace Implem.PleasanterTest.Tests.Items
 {
+    [Collection(nameof(ItemsCopyRow))]
     public class ItemsCopyRow
     {
         [Theory]
