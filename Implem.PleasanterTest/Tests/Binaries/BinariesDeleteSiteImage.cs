@@ -9,6 +9,7 @@ using Xunit;
 
 namespace Implem.PleasanterTest.Tests.Binaries
 {
+    [Collection(nameof(BinariesDeleteSiteImage))]
     public class BinariesDeleteSiteImage
     {
         [Theory]

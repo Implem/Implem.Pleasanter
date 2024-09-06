@@ -11,6 +11,7 @@ using Xunit;
 
 namespace Implem.PleasanterTest.Tests.Groups
 {
+    [Collection(nameof(GroupsApiGet))]
     public class GroupsApiGet
     {
         [Theory]

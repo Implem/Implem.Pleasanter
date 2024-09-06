@@ -10,6 +10,7 @@ namespace Implem.PleasanterTest.Tests.Users
     /// <summary>
     /// ログインページのテストです。
     /// </summary>
+    [Collection(nameof(Login))]
     public class Login
     {
         [Theory]

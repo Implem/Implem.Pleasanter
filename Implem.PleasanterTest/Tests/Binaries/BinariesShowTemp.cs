@@ -9,6 +9,7 @@ using Xunit;
 
 namespace Implem.PleasanterTest.Tests.Binaries
 {
+    [Collection(nameof(BinariesShowTemp))]
     public class BinariesShowTemp
     {
         [Theory]

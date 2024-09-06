@@ -11,6 +11,7 @@ using Xunit;
 
 namespace Implem.PleasanterTest.Tests.Users
 {
+    [Collection(nameof(UsersApiUpdate))]
     public class UsersApiUpdate
     {
         [Theory]

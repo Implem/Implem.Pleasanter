@@ -9,6 +9,7 @@ using Xunit;
 
 namespace Implem.PleasanterTest.Tests.Items
 {
+    [Collection(nameof(ItemsBurnDownJson))]
     public class ItemsBurnDownJson
     {
         [Theory]

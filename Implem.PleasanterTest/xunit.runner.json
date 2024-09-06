@@ -3,5 +3,5 @@
     "diagnosticMessages": false,
     "internalDiagnosticMessages": true,
     "parallelizeAssembly": false,
-    "ParallelizeTestCollections": false
+    "parallelizeTestCollections": false
 }

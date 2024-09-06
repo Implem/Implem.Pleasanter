@@ -11,6 +11,7 @@ using Xunit;
 
 namespace Implem.PleasanterTest.Tests.Items
 {
+    [Collection(nameof(ItemsExportSitePackage))]
     public class ItemsExportSitePackage
     {
         [Theory]

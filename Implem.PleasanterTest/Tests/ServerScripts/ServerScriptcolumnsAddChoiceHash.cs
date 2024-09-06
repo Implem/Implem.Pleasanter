@@ -23,6 +23,7 @@ try{
 
 namespace Implem.PleasanterTest.Tests.ServerScript
 {
+    [Collection(nameof(ServerScriptcolumnsAddChoiceHash))]
     public class ServerScriptcolumnsAddChoiceHash
     {
 
