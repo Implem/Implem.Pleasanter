@@ -161,6 +161,7 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts.MySql
                     columnCollection: Def.ColumnDefinitionCollection
                         .Where(o => o.TableName == generalTableName)
                         .Where(o => o.PkHistoryMySql > 0)
+                        .OrderBy(o => o.PkHistoryMySql)
                         .Select(o => new IndexInfo.Column(
                             o.ColumnName, o.PkHistoryMySql, o.PkHistoryOrderBy))
                         .ToList()));
