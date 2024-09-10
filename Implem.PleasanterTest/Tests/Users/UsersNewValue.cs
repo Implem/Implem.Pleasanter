@@ -13,6 +13,7 @@ using Xunit;
 
 namespace Implem.PleasanterTest.Tests.Users
 {
+    [Collection(nameof(UsersNewValue))]
     public class UsersNewValue
     {
         [Theory]

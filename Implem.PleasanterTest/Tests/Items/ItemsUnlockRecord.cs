@@ -9,6 +9,7 @@ using Xunit;
 
 namespace Implem.PleasanterTest.Tests.Items
 {
+    [Collection(nameof(ItemsUnlockRecord))]
     public class ItemsUnlockRecord
     {
         [Theory]

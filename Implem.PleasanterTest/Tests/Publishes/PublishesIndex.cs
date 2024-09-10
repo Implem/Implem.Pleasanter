@@ -9,6 +9,7 @@ using Xunit;
 
 namespace Implem.PleasanterTest.Tests.Publishes
 {
+    [Collection(nameof(PublishesIndex))]
     public class PublishesIndex
     {
         [Theory]

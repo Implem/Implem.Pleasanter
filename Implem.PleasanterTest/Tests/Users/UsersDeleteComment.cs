@@ -10,6 +10,7 @@ using Xunit;
 
 namespace Implem.PleasanterTest.Tests.Users
 {
+    [Collection(nameof(UsersDeleteComment))]
     public class UsersDeleteComment
     {
         [Theory]

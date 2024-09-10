@@ -11,6 +11,7 @@ using Xunit;
 
 namespace Implem.PleasanterTest.Tests.Tenants
 {
+    [Collection(nameof(TenantsUpdateValue))]
     public class TenantsUpdateValue : IDisposable
     {
         private static string timeZone = "Asia/Ho_Chi_Minh";

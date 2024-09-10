@@ -9,6 +9,7 @@ using Xunit;
 
 namespace Implem.PleasanterTest.Tests.Items
 {
+    [Collection(nameof(ItemsPreviewTemplate))]
     public class ItemsPreviewTemplate
     {
         [Theory]

@@ -9,6 +9,7 @@ using Xunit;
 
 namespace Implem.PleasanterTest.Tests.Tenants
 {
+    [Collection(nameof(TenantsSyncByLdap))]
     public class TenantsSyncByLdap
     {
         [Theory]

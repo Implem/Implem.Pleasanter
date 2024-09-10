@@ -67,6 +67,7 @@ try {
 
 namespace Implem.PleasanterTest.Tests.ServerScript
 {
+    [Collection(nameof(ServerScriptItemsAggregate))]
     public class ServerScriptItemsAggregate
     {
 
