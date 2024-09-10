@@ -495,7 +495,7 @@ namespace Implem.Pleasanter.Models
                 transactional: true,
                 statements: Rds.PhysicalDeleteExportSettings(
                     tableType: tableType,
-                    param: Rds.ExportSettingsParam().ExportSettingId(ExportSettingId)));
+                    where: Rds.ExportSettingsWhere().ExportSettingId(ExportSettingId)));
             return new ErrorData(type: Error.Types.None);
         }
 

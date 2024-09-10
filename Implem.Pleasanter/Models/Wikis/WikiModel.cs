@@ -1124,7 +1124,7 @@ namespace Implem.Pleasanter.Models
                 transactional: true,
                 statements: Rds.PhysicalDeleteWikis(
                     tableType: tableType,
-                    param: Rds.WikisParam().SiteId(SiteId).WikiId(WikiId)));
+                    where: Rds.WikisWhere().SiteId(SiteId).WikiId(WikiId)));
             return new ErrorData(type: Error.Types.None);
         }
 

@@ -1386,7 +1386,7 @@ namespace Implem.Pleasanter.Models
                 transactional: true,
                 statements: Rds.PhysicalDeleteDashboards(
                     tableType: tableType,
-                    param: Rds.DashboardsParam().SiteId(SiteId).DashboardId(DashboardId)));
+                    where: Rds.DashboardsWhere().SiteId(SiteId).DashboardId(DashboardId)));
             return new ErrorData(type: Error.Types.None);
         }
 
