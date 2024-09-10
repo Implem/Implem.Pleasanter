@@ -1,4 +1,5 @@
-﻿using Implem.Pleasanter.Libraries.Html;
+﻿using Implem.DefinitionAccessor;
+using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
@@ -10,6 +11,7 @@ using Xunit;
 
 namespace Implem.PleasanterTest.Tests.Versions
 {
+    [Collection(nameof(VersionsIndex))]
     public class VersionsIndex
     {
         [Theory]
@@ -22,6 +24,7 @@ namespace Implem.PleasanterTest.Tests.Versions
                 userId: userModel.UserId,
                 routeData: RouteData.VersionsIndex());
             var results = Results(context: context);
+            Utilities.Initializer.SaveResults(results);
             Assert.True(Tester.Test(
                 context: context,
                 results: results,
@@ -35,7 +38,9 @@ namespace Implem.PleasanterTest.Tests.Versions
                 new TestPart(
                     baseTests: BaseData.Tests(HtmlData.TextContains(
                         selector: "#Versions",
-                        value: Displays.AGPL(context: Initializer.Context))))
+                        value: Parameters.CommercialLicense()
+                            ? Displays.CommercialLicense(context: Utilities.Initializer.Context)
+                            : Displays.AGPL(context: Utilities.Initializer.Context))))
             };
             foreach (var testPart in testParts)
             {

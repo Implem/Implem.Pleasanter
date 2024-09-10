@@ -1708,6 +1708,7 @@ namespace Implem.DefinitionAccessor
                     case "Extensions_ExtensionName": Column.Extensions_ExtensionName = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Extensions_ExtensionName, definitionRow, ColumnXls); break;
                     case "Extensions_ExtensionSettings": Column.Extensions_ExtensionSettings = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Extensions_ExtensionSettings, definitionRow, ColumnXls); break;
                     case "Extensions_ExtensionType": Column.Extensions_ExtensionType = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Extensions_ExtensionType, definitionRow, ColumnXls); break;
+                    case "Extensions_TenantId": Column.Extensions_TenantId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Extensions_TenantId, definitionRow, ColumnXls); break;
                     case "GroupChildren_ChildId": Column.GroupChildren_ChildId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.GroupChildren_ChildId, definitionRow, ColumnXls); break;
                     case "GroupChildren_GroupId": Column.GroupChildren_GroupId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.GroupChildren_GroupId, definitionRow, ColumnXls); break;
                     case "GroupMembers_Admin": Column.GroupMembers_Admin = definitionRow[1].ToString(); SetColumnTable(ColumnTable.GroupMembers_Admin, definitionRow, ColumnXls); break;
@@ -1931,6 +1932,7 @@ namespace Implem.DefinitionAccessor
                     case "Users_AllowCreationAtTopSite": Column.Users_AllowCreationAtTopSite = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_AllowCreationAtTopSite, definitionRow, ColumnXls); break;
                     case "Users_AllowGroupAdministration": Column.Users_AllowGroupAdministration = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_AllowGroupAdministration, definitionRow, ColumnXls); break;
                     case "Users_AllowGroupCreation": Column.Users_AllowGroupCreation = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_AllowGroupCreation, definitionRow, ColumnXls); break;
+                    case "Users_AllowMovingFromTopSite": Column.Users_AllowMovingFromTopSite = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_AllowMovingFromTopSite, definitionRow, ColumnXls); break;
                     case "Users_ApiKey": Column.Users_ApiKey = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_ApiKey, definitionRow, ColumnXls); break;
                     case "Users_Birthday": Column.Users_Birthday = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_Birthday, definitionRow, ColumnXls); break;
                     case "Users_Body": Column.Users_Body = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_Body, definitionRow, ColumnXls); break;
@@ -5411,6 +5413,11 @@ namespace Implem.DefinitionAccessor
                                 data.ToInt();
                             newTemplateDefinition.SavedClassification = newTemplateDefinition.Classification;
                             break;
+                        case "CustomApps":
+                            newTemplateDefinition.CustomApps = customDefinitionRow.Get("CustomApps")?.ToInt() ??
+                                data.ToInt();
+                            newTemplateDefinition.SavedCustomApps = newTemplateDefinition.CustomApps;
+                            break;
                         default: break;
                     }
                 });
@@ -5445,6 +5452,7 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("LegalAffairs")) { definition.LegalAffairs = definitionRow["LegalAffairs"].ToInt(); definition.SavedLegalAffairs = definition.LegalAffairs; }
             if (definitionRow.ContainsKey("ProductList")) { definition.ProductList = definitionRow["ProductList"].ToInt(); definition.SavedProductList = definition.ProductList; }
             if (definitionRow.ContainsKey("Classification")) { definition.Classification = definitionRow["Classification"].ToInt(); definition.SavedClassification = definition.Classification; }
+            if (definitionRow.ContainsKey("CustomApps")) { definition.CustomApps = definitionRow["CustomApps"].ToInt(); definition.SavedCustomApps = definition.CustomApps; }
         }
 
         private static void ConstructTemplateDefinitions()
@@ -6061,6 +6069,7 @@ namespace Implem.DefinitionAccessor
                         case "LegalAffairs": templateDefinition.LegalAffairs = optionValue.ToInt(); break;
                         case "ProductList": templateDefinition.ProductList = optionValue.ToInt(); break;
                         case "Classification": templateDefinition.Classification = optionValue.ToInt(); break;
+                        case "CustomApps": templateDefinition.CustomApps = optionValue.ToInt(); break;
                     }
                 });
         }
@@ -9098,6 +9107,7 @@ namespace Implem.DefinitionAccessor
         public string Extensions_ExtensionName;
         public string Extensions_ExtensionSettings;
         public string Extensions_ExtensionType;
+        public string Extensions_TenantId;
         public string GroupChildren_ChildId;
         public string GroupChildren_GroupId;
         public string GroupMembers_Admin;
@@ -9321,6 +9331,7 @@ namespace Implem.DefinitionAccessor
         public string Users_AllowCreationAtTopSite;
         public string Users_AllowGroupAdministration;
         public string Users_AllowGroupCreation;
+        public string Users_AllowMovingFromTopSite;
         public string Users_ApiKey;
         public string Users_Birthday;
         public string Users_Body;
@@ -9678,6 +9689,7 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Extensions_ExtensionName = new ColumnDefinition();
         public ColumnDefinition Extensions_ExtensionSettings = new ColumnDefinition();
         public ColumnDefinition Extensions_ExtensionType = new ColumnDefinition();
+        public ColumnDefinition Extensions_TenantId = new ColumnDefinition();
         public ColumnDefinition GroupChildren_ChildId = new ColumnDefinition();
         public ColumnDefinition GroupChildren_GroupId = new ColumnDefinition();
         public ColumnDefinition GroupMembers_Admin = new ColumnDefinition();
@@ -9901,6 +9913,7 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Users_AllowCreationAtTopSite = new ColumnDefinition();
         public ColumnDefinition Users_AllowGroupAdministration = new ColumnDefinition();
         public ColumnDefinition Users_AllowGroupCreation = new ColumnDefinition();
+        public ColumnDefinition Users_AllowMovingFromTopSite = new ColumnDefinition();
         public ColumnDefinition Users_ApiKey = new ColumnDefinition();
         public ColumnDefinition Users_Birthday = new ColumnDefinition();
         public ColumnDefinition Users_Body = new ColumnDefinition();
@@ -12549,6 +12562,7 @@ namespace Implem.DefinitionAccessor
         public int LegalAffairs; public int SavedLegalAffairs;
         public int ProductList; public int SavedProductList;
         public int Classification; public int SavedClassification;
+        public int CustomApps; public int SavedCustomApps;
 
         public TemplateDefinition()
         {
@@ -12581,6 +12595,7 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("LegalAffairs")) LegalAffairs = propertyCollection["LegalAffairs"].ToInt(); else LegalAffairs = 0;
             if (propertyCollection.ContainsKey("ProductList")) ProductList = propertyCollection["ProductList"].ToInt(); else ProductList = 0;
             if (propertyCollection.ContainsKey("Classification")) Classification = propertyCollection["Classification"].ToInt(); else Classification = 0;
+            if (propertyCollection.ContainsKey("CustomApps")) CustomApps = propertyCollection["CustomApps"].ToInt(); else CustomApps = 0;
         }
 
         public object this[string key]
@@ -12613,6 +12628,7 @@ namespace Implem.DefinitionAccessor
                     case "LegalAffairs": return LegalAffairs;
                     case "ProductList": return ProductList;
                     case "Classification": return Classification;
+                    case "CustomApps": return CustomApps;
                     default: return null;
                 }
             }
@@ -12645,6 +12661,7 @@ namespace Implem.DefinitionAccessor
             LegalAffairs = SavedLegalAffairs;
             ProductList = SavedProductList;
             Classification = SavedClassification;
+            CustomApps = SavedCustomApps;
         }
     }
 

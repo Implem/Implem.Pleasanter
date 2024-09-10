@@ -10158,6 +10158,50 @@ namespace Implem.Pleasanter.Libraries.Responses
             return res.ValAndFormData("#Users_AllowApi", value);
         }
 
+        public static UsersResponseCollection AllowMovingFromTopSite(
+            this UsersResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Users_AllowMovingFromTopSite",
+                res.UserModel.AllowMovingFromTopSite.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "AllowMovingFromTopSite")));
+        }
+
+        public static UsersResponseCollection AllowMovingFromTopSite(
+            this UsersResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Users_AllowMovingFromTopSite", value);
+        }
+
+        public static UsersResponseCollection AllowMovingFromTopSite_FormData(
+            this UsersResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Users_AllowMovingFromTopSite",
+                res.UserModel.AllowMovingFromTopSite.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "AllowMovingFromTopSite")));
+        }
+
+        public static UsersResponseCollection AllowMovingFromTopSite_FormData(
+            this UsersResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Users_AllowMovingFromTopSite", value);
+        }
+
         public static UsersResponseCollection EnableSecondaryAuthentication(
             this UsersResponseCollection res,
             Context context,

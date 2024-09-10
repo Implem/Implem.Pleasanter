@@ -1,0 +1,40 @@
+﻿{
+    "Version": 1.017,
+    "ReferenceType": "Results",
+    "GridColumns": [
+        "IssueId",
+        "TitleBody",
+        "ClassA"
+    ],
+    "EditorColumnHash": {
+        "General": [
+            "IssueId",
+            "Title",
+            "Body",
+            "ClassA",
+            "ClassB"
+        ]
+    },
+    "Columns": [
+        {
+            "ColumnName": "ClassA",
+            "ChoicesText": "1",
+            "SearchType": "PartialMatch"
+        },
+        {
+            "ColumnName": "ClassB",
+            "ChoicesText": "TEST1,\nTEST2,\nTEST3",
+            "SearchType": "PartialMatch"
+        }
+    ],
+    "ServerScripts": [
+        {
+            "Title": "ItemsAggregate",
+            "Name": "",
+            "BeforeOpeningPage": true,
+            "Body": "try{\r    for (let i = 1; i <= 3; i++) {\r        columns.ClassA.AddChoiceHash(i, 'TEST' + i);\r    }\r    columns.ClassB.ClearChoiceHash();\r}catch{\r    context.Log(ex.stack);\r}",
+            "Id": 1
+        }
+    ],
+    "NoDisplayIfReadOnly": false
+}

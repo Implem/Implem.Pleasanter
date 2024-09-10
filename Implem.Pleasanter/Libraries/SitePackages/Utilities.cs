@@ -88,6 +88,31 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                     context: context,
                     ss: ss,
                     apiData: apiData);
+            return ImportSitePackage(
+                context: context,
+                ss: ss,
+                sitePackage: sitePackage,
+                apiData: apiData,
+                includeData: includeData,
+                includeSitePermission: includeSitePermission,
+                includeRecordPermission: includeRecordPermission,
+                includeColumnPermission: includeColumnPermission,
+                includeNotifications: includeNotifications,
+                includeReminders: includeReminders);
+        }
+
+        public static string ImportSitePackage(
+            Context context,
+            SiteSettings ss,
+            SitePackage sitePackage,
+            SitePackageApiModel apiData = null,
+            bool includeData = true,
+            bool includeSitePermission = true,
+            bool includeRecordPermission = true,
+            bool includeColumnPermission = true,
+            bool includeNotifications = true,
+            bool includeReminders = true)
+        {
             if (sitePackage == null)
             {
                 return Messages.ResponseInvalidRequest(context: context).ToJson();
@@ -422,7 +447,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
             }
         }
 
-        private static SitePackage GetSitePackageFromPostedFile(Context context)
+        public static SitePackage GetSitePackageFromPostedFile(Context context)
         {
             var serializer = new JsonSerializer();
             using (var ms = new System.IO.MemoryStream(
@@ -756,7 +781,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
             return file;
         }
 
-        private static SitePackage GetSitePackage(Context context, SiteSettings ss, SitePackageApiModel apiData = null)
+        public static SitePackage GetSitePackage(Context context, SiteSettings ss, SitePackageApiModel apiData = null)
         {
             if (!Parameters.SitePackage.Export
                 || !context.CanManageSite(ss: ss))

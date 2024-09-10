@@ -9,6 +9,7 @@ using Xunit;
 
 namespace Implem.PleasanterTest.Tests.Publishes
 {
+    [Collection(nameof(PublishesGridRows))]
     public class PublishesGridRows
     {
         [Theory]
@@ -22,6 +23,7 @@ namespace Implem.PleasanterTest.Tests.Publishes
                 userType: UserData.UserTypes.Anonymous,
                 routeData: RouteData.PublishesGridRows(id: id));
             var results = Results(context: context);
+            Initializer.SaveResults(results);
             Assert.True(Tester.Test(
                 context: context,
                 results: results,

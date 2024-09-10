@@ -1809,6 +1809,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string ChildGroup(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ChildGroup",
+                data: data);
+        }
+
         public static string CircularGroupChild(
             Context context,
             params string[] data)
@@ -1879,6 +1889,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string CodeDefinerCommunityEdition(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "CodeDefinerCommunityEdition",
+                data: data);
+        }
+
         public static string CodeDefinerCompleted(
             Context context,
             params string[] data)
@@ -1909,6 +1929,26 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string CodeDefinerEnterpriseEdition(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "CodeDefinerEnterpriseEdition",
+                data: data);
+        }
+
+        public static string CodeDefinerErrorColumnsShrinked(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "CodeDefinerErrorColumnsShrinked",
+                data: data);
+        }
+
         public static string CodeDefinerErrorCount(
             Context context,
             params string[] data)
@@ -1919,6 +1959,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string CodeDefinerInputYesOrNo(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "CodeDefinerInputYesOrNo",
+                data: data);
+        }
+
         public static string CodeDefinerInsertTestDataCompleted(
             Context context,
             params string[] data)
@@ -1926,6 +1976,26 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "CodeDefinerInsertTestDataCompleted",
+                data: data);
+        }
+
+        public static string CodeDefinerIssueNewLicense(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "CodeDefinerIssueNewLicense",
+                data: data);
+        }
+
+        public static string CodeDefinerLicenseInfo(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "CodeDefinerLicenseInfo",
                 data: data);
         }
 
@@ -1949,6 +2019,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string CodeDefinerRdsCanceled(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "CodeDefinerRdsCanceled",
+                data: data);
+        }
+
         public static string CodeDefinerRdsCompleted(
             Context context,
             params string[] data)
@@ -1956,6 +2036,26 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "CodeDefinerRdsCompleted",
+                data: data);
+        }
+
+        public static string CodeDefinerReducedColumnList(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "CodeDefinerReducedColumnList",
+                data: data);
+        }
+
+        public static string CodeDefinerSkipUserInput(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "CodeDefinerSkipUserInput",
                 data: data);
         }
 
@@ -2606,6 +2706,26 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Custom",
+                data: data);
+        }
+
+        public static string CustomApps(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "CustomApps",
+                data: data);
+        }
+
+        public static string CustomAppsLimit(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "CustomAppsLimit",
                 data: data);
         }
 
@@ -4386,16 +4506,6 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "GroupByY",
-                data: data);
-        }
-
-        public static string GroupChildren(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "GroupChildren",
                 data: data);
         }
 
@@ -7239,6 +7349,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string OpenEditInNewTab(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "OpenEditInNewTab",
+                data: data);
+        }
+
         public static string Operations(
             Context context,
             params string[] data)
@@ -8146,6 +8266,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Register",
+                data: data);
+        }
+
+        public static string Registered(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Registered",
                 data: data);
         }
 
@@ -11429,6 +11559,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Extensions_TenantId(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Extensions_TenantId",
+                data: data);
+        }
+
         public static string GroupChildren_ChildId(
             Context context,
             params string[] data)
@@ -13656,6 +13796,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Users_AllowGroupCreation",
+                data: data);
+        }
+
+        public static string Users_AllowMovingFromTopSite(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Users_AllowMovingFromTopSite",
                 data: data);
         }
 
@@ -24396,6 +24546,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Extensions",
+                data: data);
+        }
+
+        public static string GroupChildren(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "GroupChildren",
                 data: data);
         }
 

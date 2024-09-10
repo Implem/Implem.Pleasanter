@@ -24,7 +24,7 @@ namespace Implem.PleasanterTest.Tests.Libraries.Server
                     userId: userModel.UserId,
                     userTimeZone: srcTimeZone);
                 var date = DateTime.Parse(srcDate).ToUniversal(context);
-                Assert.True(dstDate == date.ToStr(), $"param:\"{dstDate}\" == calc:\"{date.ToStr()}\" (os:\"{TimeZoneInfo.Local.Id}\")");
+            Assert.True(dstDate == date.ToStr(), $"param:\"{dstDate}\" == calc:\"{date.ToStr()}\" (os:\"{TimeZoneInfo.Local.Id}\")");
             }
         }
     }

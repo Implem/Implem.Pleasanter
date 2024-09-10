@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Text;
 namespace Implem.Pleasanter.Libraries.SitePackages
 {
     public class SitePackage
@@ -332,7 +333,65 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                                 break;
                         }
                     });
+                var IsUpdated = false;
+                ss?.Views?
+                    .ForEach(view =>
+                    {
+                        IsUpdated |= ConvertFilterHashDataId(
+                            filterHash: view.ColumnFilterHash,
+                            idHash: idHash); 
+                    });
+                ss?.StatusControls?
+                    .ForEach(statusControl =>
+                    {
+                        IsUpdated |= ConvertFilterHashDataId(
+                            filterHash: statusControl.View?.ColumnFilterHash,
+                            idHash: idHash);
+                    });
+                ss?.Processes?
+                    .ForEach(process =>
+                    {
+                        IsUpdated |= ConvertFilterHashDataId(
+                            filterHash: process.View?.ColumnFilterHash,
+                            idHash: idHash);
+                    });
+                if(IsUpdated == true)
+                {
+                    ss.Init(context: context);
+                    Repository.ExecuteNonQuery(
+                        context: context,
+                        statements: Rds.UpdateSites(
+                            where: Rds.SitesWhere()
+                                .TenantId(context.TenantId)
+                                .SiteId(savedSiteId),
+                            param: Rds.SitesParam()
+                                .SiteSettings(ss.RecordingJson(
+                                    context: context))));
+                }
             }
+        }
+
+        private bool ConvertFilterHashDataId(
+            Dictionary<string, string> filterHash,
+            Dictionary<long, long> idHash)
+        {
+            if (filterHash == null) return false;
+            var IsUpdated = false;
+            foreach (var key in filterHash.Keys)
+            {
+                var sb = new StringBuilder(filterHash[key]);
+                foreach (var hash in idHash)
+                {
+                    sb.Replace($"\"{hash.Key}\"", $"\"{hash.Value}\txx\t\"");
+                }
+                var newValue = sb.Replace("\txx\t\"", "\"").ToString();
+                if(filterHash[key] != newValue)
+                {
+                    IsUpdated = true;
+                    filterHash[key] = newValue;
+                }
+            }
+            return IsUpdated;
         }
 
         public Dictionary<long, long> GetIdHashFromConverters()

@@ -428,17 +428,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 .Add(htmlData.Value.Attributes),
                             action: () =>
                             {
-                                var text = Strings.CoalesceEmpty(
+                                hb.Text(text: Strings.CoalesceEmpty(
                                     htmlData.Value.Text,
-                                    htmlData.Key);
-                                if (text.IsNullOrEmpty())
-                                {
-                                    hb.Raw(text: "&nbsp;");
-                                }
-                                else
-                                {
-                                    hb.Text(text: text);
-                                }
+                                    htmlData.Key));
                             }));
             }
             return hb;
@@ -1022,7 +1014,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 .Href(Locations.ShowFile(
                                     context: context,
                                     guid: guid,
-                                    temp: added == true)),
+                                    temp: added == true))
+                                .Target("_blank"),
                             action: () => hb
                                 .Span(css: "ui-icon ui-icon-circle-zoomin show-file"))
                         .A(
