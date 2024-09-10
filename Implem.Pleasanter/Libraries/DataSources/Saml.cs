@@ -667,10 +667,10 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     return (Responses.Locations.UserLockout(context: context), null);
                 }
                 context.LoginId = userModel.LoginId;
-                var redirectResultUrl = userModel.AllowAfterUrl(    
+                var redirectResultUrl = userModel.AllowAfterUrl(
                     context: context,
                     returnUrl: returnUrl,
-                    createPersistentCookie: true);
+                    createPersistentCookie: !(Parameters.Authentication.SamlParameters.NotCreatePersistentCookie ?? false));
                 return (redirectResultUrl, null);
             }
             else

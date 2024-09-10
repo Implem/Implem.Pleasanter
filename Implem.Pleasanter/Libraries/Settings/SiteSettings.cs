@@ -165,6 +165,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? HistoryOnGrid;
         public bool? AlwaysRequestSearchCondition;
         public bool? DisableLinkToEdit;
+        public bool? OpenEditInNewTab;
         public int? LinkTableView;
         public int? FirstDayOfWeek;
         public int? FirstMonth;
@@ -748,6 +749,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (DisableLinkToEdit == true)
             {
                 ss.DisableLinkToEdit = DisableLinkToEdit;
+            }
+            if (OpenEditInNewTab == true)
+            {
+                ss.OpenEditInNewTab = OpenEditInNewTab;
             }
             if (LinkTableView != 0)
             {
@@ -3861,6 +3866,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "HistoryOnGrid": HistoryOnGrid = value.ToBool(); break;
                 case "AlwaysRequestSearchCondition": AlwaysRequestSearchCondition = value.ToBool(); break;
                 case "DisableLinkToEdit": DisableLinkToEdit = value.ToBool(); break;
+                case "OpenEditInNewTab": OpenEditInNewTab = value.ToBool(); break;
                 case "LinkTableView": LinkTableView = value.ToInt(); break;
                 case "FirstDayOfWeek": FirstDayOfWeek = value.ToInt(); break;
                 case "FirstMonth": FirstMonth = value.ToInt(); break;
@@ -5478,7 +5484,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                             ? " confirm-unload not-link"
                             : DisableLinkToEdit == true
                                 ? " not-link"
-                                : string.Empty);
+                                : OpenEditInNewTab == true
+                                    ? " new-tab"
+                                    : string.Empty);
             }
         }
 

@@ -4,7 +4,7 @@
     "TableName": "Sessions",
     "Label": "セッション",
     "ColumnName": "UserArea",
-    "LabelText": "ユーザー領域",
+    "LabelText": "ユーザ領域",
     "No": "6",
     "History": "6",
     "TypeName": "bit",

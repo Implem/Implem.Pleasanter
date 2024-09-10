@@ -909,6 +909,24 @@ namespace Implem.Pleasanter.Models
                                     value: string.Empty,
                                     tabIndex: tabIndex,
                                     serverScriptModelColumn: serverScriptModelColumn);
+                    case "AllowMovingFromTopSite":
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: userModel.AllowMovingFromTopSite,
+                                    tabIndex: tabIndex,
+                                    serverScriptModelColumn: serverScriptModelColumn)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty,
+                                    tabIndex: tabIndex,
+                                    serverScriptModelColumn: serverScriptModelColumn);
                     case "EnableSecondaryAuthentication":
                         return ss.ReadColumnAccessControls.Allowed(
                             context: context,
@@ -1341,6 +1359,9 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         column: column); break;
                     case "AllowApi": value = userModel.AllowApi.GridText(
+                        context: context,
+                        column: column); break;
+                    case "AllowMovingFromTopSite": value = userModel.AllowMovingFromTopSite.GridText(
                         context: context,
                         column: column); break;
                     case "EnableSecondaryAuthentication": value = userModel.EnableSecondaryAuthentication.GridText(
@@ -1866,6 +1887,12 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: column);
+                case "AllowMovingFromTopSite":
+                    return userModel.AllowMovingFromTopSite
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
                 case "EnableSecondaryAuthentication":
                     return userModel.EnableSecondaryAuthentication
                         .ToControl(
@@ -2348,6 +2375,12 @@ namespace Implem.Pleasanter.Models
                                 res.Val(
                                     target: "#Users_AllowApi" + idSuffix,
                                     value: userModel.AllowApi,
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "AllowMovingFromTopSite":
+                                res.Val(
+                                    target: "#Users_AllowMovingFromTopSite" + idSuffix,
+                                    value: userModel.AllowMovingFromTopSite,
                                     options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                 break;
                             case "EnableSecondaryAuthentication":

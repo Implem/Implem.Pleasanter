@@ -1,0 +1,33 @@
+﻿{
+    "Id": "Registered",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "\" {0} \" has been registered."
+        },
+        {
+            "Language": "zh-CN",
+            "Body": "\" {0} \"已注册。"
+        },
+        {
+            "Language": "ja",
+            "Body": "\" {0} \"を登録しました。"
+        },
+        {
+            "Language": "de",
+            "Body": "\" {0} \" wurde registriert."
+        },
+        {
+            "Language": "ko",
+            "Body": "\" {0} \"을 등록했습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "\" {0} \" ha sido registrado."
+        },
+        {
+            "Language": "vi",
+            "Body": "\" {0} \" đã được đăng ký."
+        }
+    ]
+}

@@ -1,0 +1,9 @@
+﻿{
+    "Id": "CodeDefinerEnterpriseEdition",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "This edition is \"Enterprise Edition\"."
+        }
+    ]
+}

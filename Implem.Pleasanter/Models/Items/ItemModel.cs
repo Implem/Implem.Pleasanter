@@ -3127,6 +3127,111 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public string ImportUserTemplate(Context context)
+        {
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true);
+            switch (Site.ReferenceType)
+            {
+                case "Sites":
+                    return SiteUtilities.ImportUserTemplate(
+                        context: context,
+                        ss: Site.SiteSettings);
+                case "Issues":
+                case "Results":
+                case "Wikis":
+                case "Dashboards":
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+
+        public string DeleteUserTemplate(Context context)
+        {
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true);
+            switch (Site.ReferenceType)
+            {
+                case "Sites":
+                    return SiteUtilities.DeleteUserTemplate(
+                        context: context,
+                        ss: Site.SiteSettings);
+                case "Issues":
+                case "Results":
+                case "Wikis":
+                case "Dashboards":
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+
+        public string UpdateUserTemplate(Context context)
+        {
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true);
+            switch (Site.ReferenceType)
+            {
+                case "Sites":
+                    return SiteUtilities.UpdateUserTemplate(
+                        context: context,
+                        ss: Site.SiteSettings);
+                case "Issues":
+                case "Results":
+                case "Wikis":
+                case "Dashboards":
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+
+        public string SearchUserTemplate(Context context)
+        {
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true);
+            switch (Site.ReferenceType)
+            {
+                case "Sites":
+                    return SiteUtilities.SearchUserTemplate(
+                        context: context,
+                        ss: Site.SiteSettings);
+                case "Issues":
+                case "Results":
+                case "Wikis":
+                case "Dashboards":
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+
+        public string OpenEditUserTemplateDialog(Context context)
+        {
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true);
+            switch (Site.ReferenceType)
+            {
+                case "Sites":
+                    return SiteUtilities.OpenEditUserTemplateDialog(
+                        context: context,
+                        ss: Site.SiteSettings);
+                case "Issues":
+                case "Results":
+                case "Wikis":
+                case "Dashboards":
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+
         public (Plugins.PdfData pdfData, string error) Pdf(Context context, int reportId)
         {
             SetSite(

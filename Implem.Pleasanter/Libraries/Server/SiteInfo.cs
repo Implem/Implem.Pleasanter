@@ -72,6 +72,7 @@ namespace Implem.Pleasanter.Libraries.Server
                                 .AllowGroupAdministration()
                                 .AllowGroupCreation()
                                 .AllowApi()
+                                .AllowMovingFromTopSite()
                                 .Disabled(),
                             where: Rds.UsersWhere().TenantId(context.TenantId),
                             _using: monitor.UsersUpdated || force)
