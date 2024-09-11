@@ -9,6 +9,7 @@ using Xunit;
 
 namespace Implem.PleasanterTest.Tests.Publishes
 {
+    [Collection(nameof(PublishesEditJson))]
     public class PublishesEditJson
     {
         [Theory]

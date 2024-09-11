@@ -10,6 +10,7 @@ using Xunit;
 
 namespace Implem.PleasanterTest.Tests.Depts
 {
+    [Collection(nameof(DeptsHistories))]
     public class DeptsHistories
     {
         [Theory]

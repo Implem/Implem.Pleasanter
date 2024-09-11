@@ -10,6 +10,7 @@ using Xunit;
 
 namespace Implem.PleasanterTest.Tests.Items
 {
+    [Collection(nameof(ItemsOpenBulkUpdateSelectorDialog))]
     public class ItemsOpenBulkUpdateSelectorDialog
     {
         [Theory]

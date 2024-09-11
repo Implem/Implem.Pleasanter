@@ -10,6 +10,7 @@ using Xunit;
 
 namespace Implem.PleasanterTest.Tests.Users
 {
+    [Collection(nameof(UsersApiCreate))]
     public class UsersApiCreate
     {
         [Theory]

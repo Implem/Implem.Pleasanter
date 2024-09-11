@@ -11,6 +11,7 @@ using static Implem.PleasanterTest.Utilities.ItemData;
 
 namespace Implem.PleasanterTest.Tests.Items
 {
+    [Collection(nameof(ItemsApiCreateSite))]
     public class ItemsApiCreateSite
     {
         [Theory]
