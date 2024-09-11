@@ -56,6 +56,7 @@ try {
 
 namespace Implem.PleasanterTest.Tests.ServerScript
 {
+    [Collection(nameof(ServerScriptIssueApiModel))]
     public class ServerScriptIssueApiModel
     {
 

@@ -9,6 +9,7 @@ using Xunit;
 
 namespace Implem.PleasanterTest.Tests.Items
 {
+    [Collection(nameof(ItemsUpdateByKamban))]
     public class ItemsUpdateByKamban
     {
         [Theory]

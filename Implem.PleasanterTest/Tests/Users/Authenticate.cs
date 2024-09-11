@@ -12,6 +12,7 @@ namespace Implem.PleasanterTest.Tests.Users
     /// <summary>
     /// ログイン操作のテストです。
     /// </summary>
+    [Collection(nameof(Authenticate))]
     public class Authenticate
     {
         [Theory]

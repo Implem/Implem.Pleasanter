@@ -9,6 +9,7 @@ using Xunit;
 
 namespace Implem.PleasanterTest.Tests.Items
 {
+    [Collection(nameof(ItemsTrashBox))]
     public class ItemsTrashBox
     {
         [Theory]

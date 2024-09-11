@@ -161,6 +161,7 @@ try {
 
 namespace Implem.PleasanterTest.Tests.ServerScript
 {
+    [Collection(nameof(ServerScriptItemsGetUpdateDelete))]
     public class ServerScriptItemsGetUpdateDelete
     {
 
