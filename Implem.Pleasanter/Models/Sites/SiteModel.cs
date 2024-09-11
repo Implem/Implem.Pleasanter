@@ -5644,6 +5644,8 @@ namespace Implem.Pleasanter.Models
                         Type = (Notification.Types)context.Forms.Int("ProcessNotificationType"),
                         Subject = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationSubject")),
                         Address = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationAddress")),
+                        CcAddress = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationCcAddress")),
+                        BccAddress = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationBccAddress")),
                         Token = context.Forms.Data("ProcessNotificationToken"),
                         Body = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationBody"))
                     });
@@ -5682,6 +5684,8 @@ namespace Implem.Pleasanter.Models
                     notification.Type = (Notification.Types)context.Forms.Int("ProcessNotificationType");
                     notification.Subject = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationSubject"));
                     notification.Address = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationAddress"));
+                    notification.CcAddress = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationCcAddress"));
+                    notification.BccAddress = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationBccAddress"));
                     notification.Token = context.Forms.Data("ProcessNotificationToken");
                     notification.Body = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationBody"));
                     res
@@ -6268,6 +6272,8 @@ namespace Implem.Pleasanter.Models
                             prefix: context.Forms.Data("NotificationPrefix"),
                             subject: SiteSettings.LabelTextToColumnName(context.Forms.Data("NotificationSubject")),
                             address: SiteSettings.LabelTextToColumnName(context.Forms.Data("NotificationAddress")),
+                            ccaddress: SiteSettings.LabelTextToColumnName(context.Forms.Data("NotificationCcAddress")),
+                            bccaddress: SiteSettings.LabelTextToColumnName(context.Forms.Data("NotificationBccAddress")),
                             token: context.Forms.Data("NotificationToken"),
                             methodType: (Notification.MethodTypes)context.Forms.Int("NotificationMethodType"),
                             encoding: context.Forms.Data("NotificationEncoding"),
@@ -6325,6 +6331,8 @@ namespace Implem.Pleasanter.Models
                                 prefix: context.Forms.Data("NotificationPrefix"),
                                 subject: SiteSettings.LabelTextToColumnName(context.Forms.Data("NotificationSubject")),
                                 address: SiteSettings.LabelTextToColumnName(context.Forms.Data("NotificationAddress")),
+                                ccaddress: SiteSettings.LabelTextToColumnName(context.Forms.Data("NotificationCcAddress")),
+                                bccaddress: SiteSettings.LabelTextToColumnName(context.Forms.Data("NotificationBccAddress")),
                                 token: context.Forms.Data("NotificationToken"),
                                 methodType: (Notification.MethodTypes)context.Forms.Int("NotificationMethodType"),
                                 encoding: context.Forms.Data("NotificationEncoding"),
@@ -6537,6 +6545,10 @@ namespace Implem.Pleasanter.Models
                             from: context.Forms.Data("ReminderFrom"),
                             to: SiteSettings.LabelTextToColumnName(
                                 context.Forms.Data("ReminderTo")),
+                            cc: SiteSettings.LabelTextToColumnName(
+                                context.Forms.Data("ReminderCc")),
+                            bcc: SiteSettings.LabelTextToColumnName(
+                                context.Forms.Data("ReminderBcc")),
                             token: context.Forms.Data("ReminderToken"),
                             column: context.Forms.Data("ReminderColumn"),
                             startDateTime: context.Forms.DateTime("ReminderStartDateTime"),
@@ -6592,6 +6604,10 @@ namespace Implem.Pleasanter.Models
                                 from: context.Forms.Data("ReminderFrom"),
                                 to: SiteSettings.LabelTextToColumnName(
                                     context.Forms.Data("ReminderTo")),
+                                cc: SiteSettings.LabelTextToColumnName(
+                                    context.Forms.Data("ReminderCc")),
+                                bcc: SiteSettings.LabelTextToColumnName(
+                                    context.Forms.Data("ReminderBcc")),
                                 token: context.Forms.Data("ReminderToken"),
                                 column: context.Forms.Data("ReminderColumn"),
                                 startDateTime: context.Forms.DateTime("ReminderStartDateTime"),

@@ -9819,6 +9819,26 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Cc(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Cc",
+                data: data);
+        }
+
+        public static string Bcc(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Bcc",
+                data: data);
+        }
+
         public static string Today(
             Context context,
             params string[] data)

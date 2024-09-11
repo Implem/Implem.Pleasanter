@@ -10012,6 +10012,20 @@ namespace Implem.Pleasanter.Models
                         text: ss.ColumnNameToLabelText(notification.Address),
                         validateRequired: true)
                     .FieldTextBox(
+                        controlId: "ProcessNotificationCcAddress",
+                        fieldCss: "field-wide",
+                        controlCss: " always-send",
+                        labelText: Displays.Cc(context: context),
+                        text: ss.ColumnNameToLabelText(notification.CcAddress),
+                        validateRequired: false)
+                    .FieldTextBox(
+                        controlId: "ProcessNotificationBccAddress",
+                        fieldCss: "field-wide",
+                        controlCss: " always-send",
+                        labelText: Displays.Bcc(context: context),
+                        text: ss.ColumnNameToLabelText(notification.BccAddress),
+                        validateRequired: false)
+                    .FieldTextBox(
                         fieldId: "ProcessNotificationTokenField",
                         controlId: "ProcessNotificationToken",
                         fieldCss: "field-wide" + (!NotificationUtilities.RequireToken(notification)
@@ -12122,6 +12136,20 @@ namespace Implem.Pleasanter.Models
                         text: ss.ColumnNameToLabelText(notification.Address),
                         validateRequired: true)
                     .FieldTextBox(
+                        controlId: "NotificationCcAddress",
+                        fieldCss: "field-wide",
+                        controlCss: " always-send",
+                        labelText: Displays.Cc(context: context),
+                        text: ss.ColumnNameToLabelText(notification.CcAddress),
+                        validateRequired: false)
+                    .FieldTextBox(
+                        controlId: "NotificationBccAddress",
+                        fieldCss: "field-wide",
+                        controlCss: " always-send",
+                        labelText: Displays.Bcc(context: context),
+                        text: ss.ColumnNameToLabelText(notification.BccAddress),
+                        validateRequired: false)
+                    .FieldTextBox(
                         fieldId: "NotificationTokenField",
                         controlId: "NotificationToken",
                         fieldCss: "field-wide" + (!NotificationUtilities.RequireToken(notification)
@@ -12642,6 +12670,20 @@ namespace Implem.Pleasanter.Models
                         labelText: Displays.To(context: context),
                         text: ss.ColumnNameToLabelText(reminder.To),
                         validateRequired: true)
+                    .FieldTextBox(
+                        controlId: "ReminderCc",
+                        fieldCss: "field-wide",
+                        controlCss: " always-send",
+                        labelText: Displays.Cc(context: context),
+                        text: ss.ColumnNameToLabelText(reminder.Cc),
+                        validateRequired: false)
+                    .FieldTextBox(
+                        controlId: "ReminderBcc",
+                        fieldCss: "field-wide",
+                        controlCss: " always-send",
+                        labelText: Displays.Bcc(context: context),
+                        text: ss.ColumnNameToLabelText(reminder.Bcc),
+                        validateRequired: false)
                     .FieldTextBox(
                         fieldId: "ReminderTokenField",
                         controlId: "ReminderToken",

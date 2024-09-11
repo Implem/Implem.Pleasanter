@@ -30,6 +30,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string Line;
         public string From;
         public string To;
+        public string Cc;
+        public string Bcc;
         public string Token;
         public string Column;
         public DateTime StartDateTime;
@@ -74,6 +76,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             string line,
             string from,
             string to,
+            string cc,
+            string bcc,
             string token,
             string column,
             DateTime startDateTime,
@@ -93,6 +97,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             Line = line;
             From = from;
             To = to;
+            Cc = cc;
+            Bcc = bcc;
             Token = token;
             Column = column;
             StartDateTime = startDateTime;
@@ -113,6 +119,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             string line,
             string from,
             string to,
+            string cc,
+            string bcc,
             string token,
             string column,
             DateTime startDateTime,
@@ -131,6 +139,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             Line = line;
             From = from;
             To = to;
+            Cc = cc;
+            Bcc = bcc;
             Token = token;
             Column = column;
             StartDateTime = startDateTime;
