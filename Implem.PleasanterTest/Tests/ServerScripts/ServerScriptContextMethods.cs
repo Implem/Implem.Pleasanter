@@ -30,6 +30,7 @@ try{
 
 namespace Implem.PleasanterTest.Tests.ServerScript
 {
+    [Collection(nameof(ServerScriptContextMethods))]
     public class ServerScriptContextMethods
     {
 
@@ -49,6 +50,7 @@ namespace Implem.PleasanterTest.Tests.ServerScript
             context.BackgroundServerScript = true; //サーバースクリプトのテスト実施時は必須
 
             var results = Results(context: context);
+            Initializer.SaveResults(results);
             Assert.True(Tester.Test(
                 context: context,
                 results: results,

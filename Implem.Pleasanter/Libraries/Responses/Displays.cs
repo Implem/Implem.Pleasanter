@@ -1809,6 +1809,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string ChildGroup(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ChildGroup",
+                data: data);
+        }
+
         public static string CircularGroupChild(
             Context context,
             params string[] data)
@@ -2696,6 +2706,26 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Custom",
+                data: data);
+        }
+
+        public static string CustomApps(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "CustomApps",
+                data: data);
+        }
+
+        public static string CustomAppsLimit(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "CustomAppsLimit",
                 data: data);
         }
 
@@ -4476,16 +4506,6 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "GroupByY",
-                data: data);
-        }
-
-        public static string GroupChildren(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "GroupChildren",
                 data: data);
         }
 
@@ -8249,6 +8269,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Registered(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Registered",
+                data: data);
+        }
+
         public static string RegisteredDemo(
             Context context,
             params string[] data)
@@ -11526,6 +11556,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Extensions_ExtensionType",
+                data: data);
+        }
+
+        public static string Extensions_TenantId(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Extensions_TenantId",
                 data: data);
         }
 
@@ -24506,6 +24546,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Extensions",
+                data: data);
+        }
+
+        public static string GroupChildren(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "GroupChildren",
                 data: data);
         }
 

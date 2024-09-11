@@ -1,9 +1,9 @@
-{
-    "Id": "GroupChildren",
+﻿{
+    "Id": "ChildGroup",
     "Type": 110,
     "Languages": [
         {
-            "Body": "child grou"
+            "Body": "Child group"
         },
         {
             "Language": "zh",

@@ -505,6 +505,33 @@ html .ui-button.ui-state-disabled:active {
     color: var(--nonColor02);
 }
 
+.md{
+    color: var(--base-text);
+    table{
+        margin: 1em 0;
+    }
+    tbody {
+        tr{
+            &:nth-child(odd){
+                background-color: var(--grid-cell-bg);
+            }
+        }
+        tr{
+            &:nth-child(even){
+                background-color: var(--grid-cell-hover);
+            }
+        }
+    }
+    th {
+        color: var(--invert-text);
+        background-color: var(--primaryColor);
+        border: solid 1px var(--grid-cell-border);
+    }
+    td {
+        color: var(--base-text);
+        border: solid 1px var(--grid-cell-border);
+    }
+}
 
 /* FieldLayaut ---------------------------------------------------------------- */
 /* fieldset */
@@ -1600,9 +1627,6 @@ body {
                 background-color: var(--editor-bg);
                 border-color: var(--editor-border);
             }
-            .md{
-                color: var(--base-text);
-            }
         }
     }
     #EditorTabsContainer {
@@ -1866,13 +1890,14 @@ body:not(:has(#Editor)){
 
 /* gridTable */
 .grid {
-    thead {
-        tr:first-child {
+    > thead {
+        > tr:first-child {
+            th,
             th:first-child,
             th:last-child {
                 border-radius: 0;
-            }
-            th {
+                border-left: 1px solid var(--grid-cell-vborder);
+                border-right: 1px solid var(--grid-cell-vborder);
                 border-top: 1px solid var(--grid-cell-border);
             }
         }
@@ -1881,13 +1906,11 @@ body:not(:has(#Editor)){
     #ProcessTabsContainer &,
     #EditorTabsContainer &,
     #ViewModeContainer & {
-        thead,
-        tbody {
-            th,
-            td {
+        > thead,
+        > tbody {
+            > th,
+            > td {
                 & {
-                    border-left: 1px solid var(--grid-cell-vborder);
-                    border-right: 1px solid var(--grid-cell-vborder);
                     input {
                         margin: 0 auto;
                         width: 100%;
@@ -1900,18 +1923,16 @@ body:not(:has(#Editor)){
                 }
             }
         }
-        thead {
-            td,
-            th {
+        > thead {
+            > td,
+            > th {
+                border-left: 1px solid var(--grid-cell-vborder);
+                border-right: 1px solid var(--grid-cell-vborder);
                 color: var(--invert-text);
             }
         }
-        tbody {
-            th {
-                background-color: var(--grid-cell-heading);
-                border-top: solid 1px var(--grid-cell-border);
-            }
-            tr {
+        > tbody {
+            > tr {
                 background-color: var(--grid-cell-bg);
                 &:hover {
                     background-color: var(--grid-cell-hover);
@@ -1919,9 +1940,15 @@ body:not(:has(#Editor)){
                         background: var(--grid-comment-bg);
                     }
                 }
-            }
-            td {
-                border-top: solid 1px var(--grid-cell-border);
+                > th {
+                    background-color: var(--grid-cell-heading);
+                }
+                > th,
+                > td {
+                    border-top: solid 1px var(--grid-cell-border);
+                    border-left: solid 1px var(--grid-cell-vborder);
+                    border-right: solid 1px var(--grid-cell-vborder);
+                }
             }
         }
         .grid-row[data-history] {

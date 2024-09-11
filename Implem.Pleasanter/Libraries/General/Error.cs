@@ -28,6 +28,7 @@ namespace Implem.Pleasanter.Libraries.General
             CanNotPerformed,
             CantSetAtTopOfSite,
             CircularGroupChild,
+            CustomAppsLimit,
             CustomError,
             DefinitionNotFound,
             DeleteConflicts,
@@ -203,6 +204,10 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.CircularGroupChild:
                     return Messages.CircularGroupChild(
+                        context: context,
+                        data: data);
+                case Types.CustomAppsLimit:
+                    return Messages.CustomAppsLimit(
                         context: context,
                         data: data);
                 case Types.CustomError:

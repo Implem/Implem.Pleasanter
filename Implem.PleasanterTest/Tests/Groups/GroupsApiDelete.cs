@@ -11,6 +11,7 @@ using Xunit;
 
 namespace Implem.PleasanterTest.Tests.Groups
 {
+    [Collection(nameof(GroupsApiDelete))]
     public class GroupsApiDelete
     {
         [Theory]
@@ -25,6 +26,7 @@ namespace Implem.PleasanterTest.Tests.Groups
                 userId: userModel.UserId,
                 routeData: RouteData.GroupsApiDelete(id: id));
             var results = GetResults(context: context);
+            Initializer.SaveResults(results.Content);
             Assert.True(Tester.Test(
                 context: context,
                 results: results,

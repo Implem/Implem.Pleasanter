@@ -9,6 +9,7 @@ using Xunit;
 
 namespace Implem.PleasanterTest.Tests.Items
 {
+    [Collection(nameof(ItemsImport))]
     public class ItemsImport
     {
         [Theory]
@@ -29,6 +30,7 @@ namespace Implem.PleasanterTest.Tests.Items
                 fileName: fileName,
                 contentType: "text/csv");
             var results = Results(context: context);
+            Initializer.SaveResults(results);
             Assert.True(Tester.Test(
                 context: context,
                 results: results,

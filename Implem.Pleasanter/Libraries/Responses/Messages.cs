@@ -574,6 +574,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-success");
         }
 
+        public static Message CustomAppsLimit(Context context, params string[] data)
+        {
+            return Get(
+                id: "CustomAppsLimit",
+                text: Displays.CustomAppsLimit(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
         public static Message CustomError(Context context, params string[] data)
         {
             return Get(
@@ -1429,6 +1439,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 id: "RebuildingCompleted",
                 text: Displays.RebuildingCompleted(
+                    context: context,
+                    data: data),
+                css: "alert-success");
+        }
+
+        public static Message Registered(Context context, params string[] data)
+        {
+            return Get(
+                id: "Registered",
+                text: Displays.Registered(
                     context: context,
                     data: data),
                 css: "alert-success");
@@ -2378,6 +2398,17 @@ namespace Implem.Pleasanter.Libraries.Responses
                 target: target);
         }
 
+        public static ResponseCollection ResponseCustomAppsLimit(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: CustomAppsLimit(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
         public static ResponseCollection ResponseCustomError(
             Context context, string target = null, params string[] data)
         {
@@ -3319,6 +3350,17 @@ namespace Implem.Pleasanter.Libraries.Responses
             return ResponseMessage(
                 context: context,
                 message: RebuildingCompleted(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseRegistered(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: Registered(
                     context: context,
                     data: data),
                 target: target);

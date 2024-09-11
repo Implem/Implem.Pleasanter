@@ -10,6 +10,7 @@ using Xunit;
 
 namespace Implem.PleasanterTest.Tests.Depts
 {
+    [Collection(nameof(DeptsDelete))]
     public class DeptsDelete
     {
         [Theory]
@@ -24,6 +25,7 @@ namespace Implem.PleasanterTest.Tests.Depts
                 userId: userModel.UserId,
                 routeData: RouteData.DeptsDelete(id: id));
             var results = Results(context: context);
+            Initializer.SaveResults(results);
             Assert.True(Tester.Test(
                 context: context,
                 results: results,
