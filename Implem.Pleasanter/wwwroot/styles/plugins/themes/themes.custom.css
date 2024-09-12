@@ -1725,7 +1725,7 @@ body:not(:has(#Editor)){
     padding: 0 16px !important;
     .fieldset {
         margin: 0;
-        + .fieldset {
+        + .fieldset:not(.ui-tabs-panel) {
             margin-top: 16px;
         }
         &.enclosed-half {
