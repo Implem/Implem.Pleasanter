@@ -476,7 +476,7 @@ namespace Implem.Pleasanter.Models
                 transactional: true,
                 statements: Rds.PhysicalDeleteExtensions(
                     tableType: tableType,
-                    param: Rds.ExtensionsParam().ExtensionId(ExtensionId)));
+                    where: Rds.ExtensionsWhere().ExtensionId(ExtensionId)));
             return new ErrorData(type: Error.Types.None);
         }
 

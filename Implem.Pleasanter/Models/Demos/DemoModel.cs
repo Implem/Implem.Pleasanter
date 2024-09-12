@@ -467,7 +467,7 @@ namespace Implem.Pleasanter.Models
                 transactional: true,
                 statements: Rds.PhysicalDeleteDemos(
                     tableType: tableType,
-                    param: Rds.DemosParam().DemoId(DemoId)));
+                    where: Rds.DemosWhere().DemoId(DemoId)));
             return new ErrorData(type: Error.Types.None);
         }
 

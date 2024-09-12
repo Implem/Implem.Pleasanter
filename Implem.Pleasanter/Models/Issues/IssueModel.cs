@@ -2529,7 +2529,7 @@ namespace Implem.Pleasanter.Models
                 transactional: true,
                 statements: Rds.PhysicalDeleteIssues(
                     tableType: tableType,
-                    param: Rds.IssuesParam().SiteId(SiteId).IssueId(IssueId)));
+                    where: Rds.IssuesWhere().SiteId(SiteId).IssueId(IssueId)));
             return new ErrorData(type: Error.Types.None);
         }
 

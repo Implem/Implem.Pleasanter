@@ -3076,7 +3076,7 @@ namespace Implem.Pleasanter.Models
                 transactional: true,
                 statements: Rds.PhysicalDeleteUsers(
                     tableType: tableType,
-                    param: Rds.UsersParam().UserId(UserId)));
+                    where: Rds.UsersWhere().UserId(UserId)));
             return new ErrorData(type: Error.Types.None);
         }
 

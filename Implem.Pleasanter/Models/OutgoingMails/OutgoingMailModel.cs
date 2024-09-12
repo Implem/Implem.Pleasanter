@@ -546,7 +546,7 @@ namespace Implem.Pleasanter.Models
                 transactional: true,
                 statements: Rds.PhysicalDeleteOutgoingMails(
                     tableType: tableType,
-                    param: Rds.OutgoingMailsParam().OutgoingMailId(OutgoingMailId)));
+                    where: Rds.OutgoingMailsWhere().OutgoingMailId(OutgoingMailId)));
             return new ErrorData(type: Error.Types.None);
         }
 

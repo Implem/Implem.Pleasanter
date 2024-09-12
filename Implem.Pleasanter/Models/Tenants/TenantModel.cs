@@ -928,7 +928,7 @@ namespace Implem.Pleasanter.Models
                 transactional: true,
                 statements: Rds.PhysicalDeleteTenants(
                     tableType: tableType,
-                    param: Rds.TenantsParam().TenantId(TenantId)));
+                    where: Rds.TenantsWhere().TenantId(TenantId)));
             return new ErrorData(type: Error.Types.None);
         }
 

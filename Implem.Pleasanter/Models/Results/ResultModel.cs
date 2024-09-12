@@ -2284,7 +2284,7 @@ namespace Implem.Pleasanter.Models
                 transactional: true,
                 statements: Rds.PhysicalDeleteResults(
                     tableType: tableType,
-                    param: Rds.ResultsParam().SiteId(SiteId).ResultId(ResultId)));
+                    where: Rds.ResultsWhere().SiteId(SiteId).ResultId(ResultId)));
             return new ErrorData(type: Error.Types.None);
         }
 

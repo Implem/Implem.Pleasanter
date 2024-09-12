@@ -1206,7 +1206,7 @@ namespace Implem.Pleasanter.Models
                 transactional: true,
                 statements: Rds.PhysicalDeleteDepts(
                     tableType: tableType,
-                    param: Rds.DeptsParam().DeptId(DeptId)));
+                    where: Rds.DeptsWhere().DeptId(DeptId)));
             return new ErrorData(type: Error.Types.None);
         }
 

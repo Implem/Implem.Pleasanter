@@ -571,7 +571,7 @@ namespace Implem.Pleasanter.Models
                 transactional: true,
                 statements: Rds.PhysicalDeleteBinaries(
                     tableType: tableType,
-                    param: Rds.BinariesParam().BinaryId(BinaryId)));
+                    where: Rds.BinariesWhere().BinaryId(BinaryId)));
             return new ErrorData(type: Error.Types.None);
         }
 
