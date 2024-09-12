@@ -398,6 +398,14 @@ html .ui-button.ui-state-disabled:active {
     }
 }
 
+/* dropdown */
+.control-dropdown{
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+
+}
+
 /* input-field */
 .control-textbox {
     position: relative;
@@ -606,14 +614,6 @@ html .ui-button.ui-state-disabled:active {
         background-image: url("../images/ui-icons_ffffff_256x240.png");
     }
     */
-}
-
-/* field-auto-thin */
-.field-auto-thin {
-    .control-dropdown {
-        max-width: 500px;
-        width: auto;
-    }
 }
 
 .field-normal {
@@ -1725,7 +1725,7 @@ body:not(:has(#Editor)){
     padding: 0 16px !important;
     .fieldset {
         margin: 0;
-        + .fieldset {
+        + .fieldset:not(.ui-tabs-panel) {
             margin-top: 16px;
         }
         &.enclosed-half {
