@@ -163,7 +163,7 @@ namespace Implem.Pleasanter.Models
                 ? hb.FieldDropDown(
                     context: context,
                     controlId: "InheritPermission",
-                    fieldCss: "field-auto-thin",
+                    fieldCss: "field-auto",
                     controlCss: " auto-postback search",
                     labelText: Displays.InheritPermission(context: context),
                     optionCollection: InheritTargets(
