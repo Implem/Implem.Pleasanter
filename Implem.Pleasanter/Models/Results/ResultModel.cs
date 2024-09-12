@@ -2512,7 +2512,8 @@ namespace Implem.Pleasanter.Models
                 Ver = context.QueryStrings.Int("ver");
             }
             var formsSiteId = context.RequestData("FromSiteId").ToLong();
-            if (formsSiteId > 0)
+            var notReturnParentRecord = context.RequestData("NotReturnParentRecord").ToBool();
+            if (formsSiteId > 0 && !notReturnParentRecord)
             {
                 var column = ss.GetColumn(
                     context: context,
