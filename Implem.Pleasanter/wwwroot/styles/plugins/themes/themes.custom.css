@@ -1231,6 +1231,15 @@ body {
         .ui-icon {
             background-image: url("../images/ui-icons_3d3d3d_256x240.png");
         }
+        .md{
+            color: var(--guide-text);
+            p{
+                margin-bottom: 0;
+                +{
+                    margin-top: 10px;
+                }
+            }
+        }
     }
 }
 

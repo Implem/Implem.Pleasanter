@@ -325,6 +325,10 @@ pre {
     padding: 10px 5px 10px;
 }
 
+#Guide .markup{
+    overflow: hidden;
+}
+
 #CopyToClipboards > .display-control {
     float: left;
     cursor: pointer;
