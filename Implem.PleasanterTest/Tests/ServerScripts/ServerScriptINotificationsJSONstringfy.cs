@@ -20,7 +20,7 @@ using System;
 //下記サーバースクリプトのテストを行います。
 /*
 // 事前準備
-//
+//「タイトル：notifications.Get()」の通知を設定する
 
 // 対象機能
 // 1. notifications.Get
