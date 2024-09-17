@@ -318,7 +318,10 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                             context: context,
                             statements: Rds.SelectItems(
                                 column: Rds.ItemsColumn().ReferenceType(),
-                                where: Rds.ItemsWhere().SiteId(link.SiteId)));
+                                where: Rds.ItemsWhere()
+                                    .SiteId(link.SiteId)
+                                    .ReferenceType("Sites", _operator: "!="),
+                                top: 1));
                         switch (destinationType)
                         {
                             case "Issues":
