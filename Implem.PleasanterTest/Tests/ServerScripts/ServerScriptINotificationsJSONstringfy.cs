@@ -20,7 +20,7 @@ using System;
 //下記サーバースクリプトのテストを行います。
 /*
 // 事前準備
-// 「タイトル：notifications.Get()」の通知を設定する
+//
 
 // 対象機能
 // 1. notifications.Get
@@ -52,7 +52,7 @@ try {
     // 1-1. 「notifications.Get()」で設定されている通知情報を取得
     const response = notifications.Get(1);
     // 1-2. 設定されている「タイトル」を確認
-    result = response.Title = 'notifications.Get()';
+    result = response.Title === 'notifications.Get()';
     judgeResult(result, targetFunction);
 
     // 2. notifications.New
