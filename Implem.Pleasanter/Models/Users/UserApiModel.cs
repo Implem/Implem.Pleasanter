@@ -51,6 +51,8 @@ namespace Implem.Pleasanter.Models
         public DateTime? SynchronizedTime { get; set; }
         public string SecretKey { get; set; }
         public bool? EnableSecretKey { get; set; }
+        public DateTime? LoginExpirationLimit { get; set; }
+        public int? LoginExpirationPeriod { get; set; }
         public string Comments { get; set; }
         public int? Creator { get; set; }
         public int? Updator { get; set; }
@@ -111,6 +113,8 @@ namespace Implem.Pleasanter.Models
                 case "SynchronizedTime": return SynchronizedTime;
                 case "SecretKey": return SecretKey;
                 case "EnableSecretKey": return EnableSecretKey;
+                case "LoginExpirationLimit": return LoginExpirationLimit;
+                case "LoginExpirationPeriod": return LoginExpirationPeriod;
                 case "Comments": return Comments;
                 case "Creator": return Creator;
                 case "Updator": return Updator;

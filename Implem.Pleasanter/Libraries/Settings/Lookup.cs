@@ -597,6 +597,18 @@ namespace Implem.Pleasanter.Libraries.Settings
                             ss: ss,
                             column: column,
                             type: Type);
+                    case "LoginExpirationLimit":
+                        return userModel.LoginExpirationLimit.ToLookup(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: Type);
+                    case "LoginExpirationPeriod":
+                        return userModel.LoginExpirationPeriod.ToLookup(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: Type);
                     case "Comments":
                         return userModel.Comments.ToLookup(
                             context: context,

@@ -1071,6 +1071,42 @@ namespace Implem.Pleasanter.Models
                                     value: string.Empty,
                                     tabIndex: tabIndex,
                                     serverScriptModelColumn: serverScriptModelColumn);
+                    case "LoginExpirationLimit":
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: userModel.LoginExpirationLimit,
+                                    tabIndex: tabIndex,
+                                    serverScriptModelColumn: serverScriptModelColumn)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty,
+                                    tabIndex: tabIndex,
+                                    serverScriptModelColumn: serverScriptModelColumn);
+                    case "LoginExpirationPeriod":
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: userModel.LoginExpirationPeriod,
+                                    tabIndex: tabIndex,
+                                    serverScriptModelColumn: serverScriptModelColumn)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty,
+                                    tabIndex: tabIndex,
+                                    serverScriptModelColumn: serverScriptModelColumn);
                     case "Comments":
                         return ss.ReadColumnAccessControls.Allowed(
                             context: context,
@@ -1386,6 +1422,12 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         column: column); break;
                     case "EnableSecretKey": value = userModel.EnableSecretKey.GridText(
+                        context: context,
+                        column: column); break;
+                    case "LoginExpirationLimit": value = userModel.LoginExpirationLimit.GridText(
+                        context: context,
+                        column: column); break;
+                    case "LoginExpirationPeriod": value = userModel.LoginExpirationPeriod.GridText(
                         context: context,
                         column: column); break;
                     case "Comments": value = userModel.Comments.GridText(
@@ -1977,6 +2019,18 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: column);
+                case "LoginExpirationLimit":
+                    return userModel.LoginExpirationLimit
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "LoginExpirationPeriod":
+                    return userModel.LoginExpirationPeriod
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
                 default:
                     switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
                     {
@@ -2453,6 +2507,18 @@ namespace Implem.Pleasanter.Models
                                 res.Val(
                                     target: "#Users_EnableSecretKey" + idSuffix,
                                     value: userModel.EnableSecretKey,
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "LoginExpirationLimit":
+                                res.Val(
+                                    target: "#Users_LoginExpirationLimit" + idSuffix,
+                                    value: userModel.LoginExpirationLimit.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "LoginExpirationPeriod":
+                                res.Val(
+                                    target: "#Users_LoginExpirationPeriod" + idSuffix,
+                                    value: userModel.LoginExpirationPeriod.ToResponse(context: context, ss: ss, column: column),
                                     options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                 break;
                             default:

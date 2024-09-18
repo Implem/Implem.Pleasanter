@@ -1,0 +1,33 @@
+﻿{
+    "Id": "LoginExpired",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "The login expiration date or the login expiration period has been exceeded."
+        },
+        {
+            "Language": "zh",
+            "Body": "已超过登录到期日期或登录到期时间。"
+        },
+        {
+            "Language": "ja",
+            "Body": "ログイン有効期限またはログイン有効期間を超過しています。"
+        },
+        {
+            "Language": "de",
+            "Body": "Das Ablaufdatum des Logins oder die Gültigkeitsdauer des Logins wurde überschritten."
+        },
+        {
+            "Language": "ko",
+            "Body": "로그인 만료일 또는 로그인 만료 기간이 초과되었습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Se ha superado la fecha de caducidad de inicio de sesión o el periodo de caducidad de inicio de sesión."
+        },
+        {
+            "Language": "vn",
+            "Body" :"Ngày hết hạn đăng nhập hoặc thời gian hết hạn đăng nhập đã bị vượt quá."
+        }
+    ]
+}

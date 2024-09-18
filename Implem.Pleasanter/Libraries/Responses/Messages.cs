@@ -1124,6 +1124,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-error");
         }
 
+        public static Message LoginExpired(Context context, params string[] data)
+        {
+            return Get(
+                id: "LoginExpired",
+                text: Displays.LoginExpired(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
         public static Message LoginIdAlreadyUse(Context context, params string[] data)
         {
             return Get(
@@ -2998,6 +3008,17 @@ namespace Implem.Pleasanter.Libraries.Responses
             return ResponseMessage(
                 context: context,
                 message: LockedTable(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseLoginExpired(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: LoginExpired(
                     context: context,
                     data: data),
                 target: target);
