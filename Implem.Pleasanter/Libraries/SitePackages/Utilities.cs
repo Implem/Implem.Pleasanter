@@ -193,6 +193,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                     permissionIdList: sitePackage.PermissionIdList,
                     includeNotifications: includeNotifications,
                     includeReminders: includeReminders);
+                conv.SiteSettings = packageSiteModel.SiteSettings;
                 Repository.ExecuteScalar_response(
                     context: context,
                     transactional: true,
@@ -341,6 +342,19 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                             }
                         }
                     }
+                    if (conv.Updated)
+                    {
+                        conv.SiteSettings.Init(context: context);
+                        Repository.ExecuteNonQuery(
+                            context: context,
+                            statements: Rds.UpdateSites(
+                                where: Rds.SitesWhere()
+                                    .TenantId(context.TenantId)
+                                    .SiteId(conv.SavedSiteId),
+                                param: Rds.SitesParam()
+                                    .SiteSettings(conv.SiteSettings.RecordingJson(
+                                        context: context))));
+                    }
                 }
                 var response = Repository.ExecuteScalar_response(
                     context: context,
@@ -416,6 +430,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                 statements: StatusUtilities.UpdateStatus(
                     tenantId: context.TenantId,
                     type: StatusUtilities.Types.UsersUpdated));
+            SiteInfo.Reflesh(context: context);
             if (apiData == null)
             {
                 SessionUtilities.Set(
