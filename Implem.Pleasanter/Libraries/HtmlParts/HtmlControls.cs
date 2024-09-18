@@ -26,6 +26,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool alwaysSend = false,
             string accept = null,
             string dataId = null,
+            string dataLang = null,
             string onChange = null,
             string autoComplete = null,
             bool openAnchorNewTab = false,
@@ -142,6 +143,29 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .DataValidateMaxLength(validateMaxLength)
                             .DataAction(action)
                             .DataMethod(method)
+                            .Add(attributes),
+                        text: text);
+                case HtmlTypes.TextTypes.CodeEditor:
+                    return hb.CodeEditor(
+                        attributes: new HtmlAttributes()
+                            .Id(controlId)
+                            .Name(controlId)
+                            .Class(controlCss)
+                            .Placeholder(placeholder)
+                            .Disabled(disabled)
+                            .DataAlwaysSend(alwaysSend)
+                            .DataId(dataId)
+                            .OnChange(onChange)
+                            .AutoComplete(autoComplete)
+                            .DataValidateRequired(validateRequired)
+                            .DataValidateNumber(validateNumber)
+                            .DataValidateDate(validateDate)
+                            .DataValidateEmail(validateEmail)
+                            .DataValidateEqualTo(validateEqualTo)
+                            .DataValidateMaxLength(validateMaxLength)
+                            .DataAction(action)
+                            .DataMethod(method)
+                            .DataLang(dataLang)
                             .Add(attributes),
                         text: text);
                 case HtmlTypes.TextTypes.Password:

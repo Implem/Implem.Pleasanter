@@ -14381,10 +14381,11 @@ namespace Implem.Pleasanter.Models
                         text: style.Title,
                         validateRequired: true)
                     .FieldTextBox(
-                        textType: HtmlTypes.TextTypes.MultiLine,
+                        textType: HtmlTypes.TextTypes.CodeEditor,
                         controlId: "StyleBody",
                         fieldCss: "field-wide",
                         controlCss: " always-send",
+                        dataLang: "css",
                         labelText: Displays.Style(context: context),
                         text: style.Body)
                     .FieldCheckBox(
@@ -14764,10 +14765,11 @@ namespace Implem.Pleasanter.Models
                         text: script.Title,
                         validateRequired: true)
                     .FieldTextBox(
-                        textType: HtmlTypes.TextTypes.MultiLine,
+                        textType: HtmlTypes.TextTypes.CodeEditor,
                         controlId: "ScriptBody",
                         fieldCss: "field-wide",
                         controlCss: " always-send",
+                        dataLang: "javascript",
                         labelText: Displays.Script(context: context),
                         text: script.Body)
                     .FieldCheckBox(
@@ -15199,10 +15201,11 @@ namespace Implem.Pleasanter.Models
                         selectedValue: html.PositionType.ToInt().ToString(),
                         insertBlank: false)
                     .FieldTextBox(
-                        textType: HtmlTypes.TextTypes.MultiLine,
+                        textType: HtmlTypes.TextTypes.CodeEditor,
                         controlId: "HtmlBody",
                         fieldCss: "field-wide",
                         controlCss: " always-send",
+                        dataLang: "html",
                         labelText: Displays.Html(context: context),
                         text: html.Body)
                     .FieldCheckBox(

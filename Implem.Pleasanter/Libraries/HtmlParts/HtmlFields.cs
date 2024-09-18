@@ -1197,6 +1197,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string validateRegexErrorMessage = null,
             string action = null,
             string method = null,
+            string dataLang = null,
             Dictionary<string, string> attributes = null,
             string extendedHtmlBeforeLabel = null,
             string extendedHtmlBetweenLabelAndControl = null,
@@ -1250,6 +1251,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             validateRegexErrorMessage: validateRegexErrorMessage,
                             action: action,
                             method: method,
+                            dataLang: dataLang,
                             attributes: attributes);
                         if (textType == HtmlTypes.TextTypes.Password)
                         {
