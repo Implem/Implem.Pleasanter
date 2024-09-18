@@ -15,6 +15,10 @@ $p.moveColumns = function (event, $control, columnHeader, isKeepSource, isJoin, 
         isKeepSource,
         isJoin !== undefined && isJoin === true ? columnHeader + 'Join' : undefined);
 };
+$p.moveAllColumns = function (event, $control, columnHeader, isKeepSource, isJoin, type) {
+    $control.closest(".container-selectable").find(".ui-selectee").addClass("ui-selected");
+    $p.moveColumns(event, $control, columnHeader, isKeepSource, isJoin, type);
+}
 $p.moveColumnsById = function (event, $control, columnsId, srcColumnsId, isKeepSource, joinId) {
     if ($p.outsideDialog($control)) {
         alert("outsideDialog");
