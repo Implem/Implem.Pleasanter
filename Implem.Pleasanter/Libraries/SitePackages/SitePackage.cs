@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 namespace Implem.Pleasanter.Libraries.SitePackages
 {
     public class SitePackage
@@ -250,6 +251,10 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                 public string Order;
                 [NonSerialized]
                 public long? SavedSiteId;
+                [NonSerialized]
+                public bool Updated;
+                [NonSerialized]
+                public SiteSettings SiteSettings;
             }
 
             internal void Add(
@@ -302,27 +307,12 @@ namespace Implem.Pleasanter.Libraries.SitePackages
             foreach (var conv in HeaderInfo.Convertors)
             {
                 var savedSiteId = conv.SavedSiteId.ToLong();
-                var ss = Rds.ExecuteScalar_string(
-                    context: context,
-                    statements: Rds.SelectSites(
-                        column: Rds.SitesColumn().SiteSettings(),
-                        where: Rds.SitesWhere()
-                            .TenantId(context.TenantId)
-                            .SiteId(savedSiteId)))
-                                .Deserialize<SiteSettings>();
+                var ss = conv.SiteSettings;
                 ss?.Links
                     ?.Where(link => link.SiteId > 0)
                     .ForEach(link =>
                     {
-                        var destinationType = Rds.ExecuteScalar_string(
-                            context: context,
-                            statements: Rds.SelectItems(
-                                column: Rds.ItemsColumn().ReferenceType(),
-                                where: Rds.ItemsWhere()
-                                    .SiteId(link.SiteId)
-                                    .ReferenceType("Sites", _operator: "!="),
-                                top: 1));
-                        switch (destinationType)
+                        switch (ss.ReferenceType)
                         {
                             case "Issues":
                             case "Results":
@@ -336,65 +326,59 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                                 break;
                         }
                     });
-                var IsUpdated = false;
                 ss?.Views?
                     .ForEach(view =>
                     {
-                        IsUpdated |= ConvertFilterHashDataId(
+                        conv.Updated |= ConvertFilterHashDataId(
+                            ss: ss,
                             filterHash: view.ColumnFilterHash,
                             idHash: idHash); 
                     });
                 ss?.StatusControls?
                     .ForEach(statusControl =>
                     {
-                        IsUpdated |= ConvertFilterHashDataId(
+                        conv.Updated |= ConvertFilterHashDataId(
+                            ss: ss,
                             filterHash: statusControl.View?.ColumnFilterHash,
                             idHash: idHash);
                     });
                 ss?.Processes?
                     .ForEach(process =>
                     {
-                        IsUpdated |= ConvertFilterHashDataId(
+                        conv.Updated |= ConvertFilterHashDataId(
+                            ss: ss,
                             filterHash: process.View?.ColumnFilterHash,
                             idHash: idHash);
                     });
-                if(IsUpdated == true)
-                {
-                    ss.Init(context: context);
-                    Repository.ExecuteNonQuery(
-                        context: context,
-                        statements: Rds.UpdateSites(
-                            where: Rds.SitesWhere()
-                                .TenantId(context.TenantId)
-                                .SiteId(savedSiteId),
-                            param: Rds.SitesParam()
-                                .SiteSettings(ss.RecordingJson(
-                                    context: context))));
-                }
             }
         }
 
+        private static Regex RegexId = new Regex(@"\b(?<!\.)\d+(?!\.)\b");
+
         private bool ConvertFilterHashDataId(
+            SiteSettings ss,
             Dictionary<string, string> filterHash,
             Dictionary<long, long> idHash)
         {
             if (filterHash == null) return false;
-            var IsUpdated = false;
+            var isUpdated = false;
             foreach (var key in filterHash.Keys)
             {
-                var sb = new StringBuilder(filterHash[key]);
-                foreach (var hash in idHash)
+                if (ss.Columns.FirstOrDefault(o => o.ColumnName == key)?.ChoicesText?
+                    .RegexExists(
+                        pattern: @"(?<=\[\[).+(?=\]\])",
+                        regexOptions: RegexOptions.Multiline) != true) continue;
+                var orgStr = filterHash[key];
+                var newStr = RegexId.Replace(
+                    orgStr,
+                    new MatchEvaluator((Match matchId) => idHash.Get(matchId.Value.ToLong()).ToStr()));
+                if (newStr != orgStr)
                 {
-                    sb.Replace($"\"{hash.Key}\"", $"\"{hash.Value}\txx\t\"");
-                }
-                var newValue = sb.Replace("\txx\t\"", "\"").ToString();
-                if(filterHash[key] != newValue)
-                {
-                    IsUpdated = true;
-                    filterHash[key] = newValue;
+                    isUpdated = true;
+                    filterHash[key] = newStr;
                 }
             }
-            return IsUpdated;
+            return isUpdated;
         }
 
         public Dictionary<long, long> GetIdHashFromConverters()
