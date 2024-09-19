@@ -223,35 +223,32 @@ namespace Implem.Pleasanter.Libraries.Settings
                         if (Parameters.Reminder.Mail)
                         {
                             GetDataHash(
-                                context: context,
-                                ss: ss,
-                                dataTable: dataTable,
-                                toColumns: toColumns,
-                                fixedTo: fixedTo)
-                                    .Where(data => !data.Key.IsNullOrEmpty())
-                                    .Where(data => data.Value.Count > 0
-                                        || NotSendIfNotApplicable != true)
-                                    .ForEach(data =>
-                                    {
-                                        new OutgoingMailModel()
-                                        {
-                                            Title = GetSubject(
-                                                context: context,
-                                                ss: ss,
-                                                dataRows: data.Value.Values.ToList(),
-                                                test: test),
-                                            Body = GetBody(
-                                                context: context,
-                                                ss: ss,
-                                                dataRows: data.Value.Values.ToList()),
-                                            From = MimeKit.MailboxAddress.Parse(Strings.CoalesceEmpty(
-                                                Parameters.Mail.FixedFrom,
-                                                From)),
-                                            To = data.Key
-                                        }.Send(
-                                            context: context,
-                                            ss: ss);
-                                    });
+                                    context: context,
+                                    ss: ss,
+                                    dataTable: dataTable,
+                                    toColumns: toColumns,
+                                    fixedTo: fixedTo)
+                            .Where(data => !data.Key.IsNullOrEmpty())
+                            .Where(data => data.Value.Count > 0 || NotSendIfNotApplicable != true)
+                            .ForEach(data =>
+                            {
+                                new OutgoingMailModel()
+                                {
+                                    Title = GetSubject(
+                                        context: context,
+                                        ss: ss,
+                                        dataRows: data.Value.Values.ToList(),
+                                        test: test),
+                                    Body = GetBody(
+                                        context: context,
+                                        ss: ss,
+                                        dataRows: data.Value.Values.ToList()),
+                                    From = MimeKit.MailboxAddress.Parse(Strings.CoalesceEmpty(Parameters.Mail.FixedFrom, From)),
+                                    To = data.Key,
+                                    Cc = Cc,
+                                    Bcc = Bcc,
+                                }.Send(context: context, ss: ss);
+                            });
                         }
                         break;
                     case ReminderTypes.Slack:
@@ -421,9 +418,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                         Addresses.Get(
                             context: context,
                             addresses: Addresses.ReplacedAddress(
-                                context: context,
-                                column: toColumn,
-                                value: dataRow.String(toColumn.ColumnName)))
+                                                context: context,
+                                                column: toColumn,
+                                                value: dataRow.String(toColumn.ColumnName)))
                                     .ForEach(mailAddress =>
                                     {
                                         if (!hash.ContainsKey(mailAddress))
@@ -683,6 +680,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             reminder.Line = Line;
             reminder.From = From;
             reminder.To = To;
+            reminder.Cc = Cc;
+            reminder.Bcc = Bcc;
             reminder.Token = Token;
             reminder.Column = Column;
             reminder.StartDateTime = StartDateTime;

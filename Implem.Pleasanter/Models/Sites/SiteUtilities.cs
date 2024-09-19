@@ -12503,6 +12503,10 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .Text(text: Displays.To(context: context)))
                     .Th(action: () => hb
+                        .Text(text: Displays.Cc(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Bcc(context: context)))
+                    .Th(action: () => hb
                         .Text(text: Displays.Column(context: context)))
                     .Th(action: () => hb
                         .Text(text: Displays.StartDateTime(context: context)))
@@ -12562,6 +12566,10 @@ namespace Implem.Pleasanter.Models
                                 _using: Parameters.Mail.FixedFrom.IsNullOrEmpty())
                             .Td(action: () => hb
                                 .Text(text: ss.ColumnNameToLabelText(reminder.To)))
+                            .Td(action: () => hb
+                                .Text(text: ss.ColumnNameToLabelText(reminder.Cc)))
+                            .Td(action: () => hb
+                                .Text(text: ss.ColumnNameToLabelText(reminder.Bcc)))
                             .Td(action: () => hb
                                 .Text(text: ss.GetColumn(
                                     context: context,
