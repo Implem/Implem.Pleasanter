@@ -102,7 +102,7 @@ namespace Implem.CodeDefiner.Functions.Rds
         {
             bool Exists()
             {
-                return Def.SqlIoBySa(factory: factory, initialCatalog: Environments.ServiceName)
+                return Def.SqlIoByAdmin(factory: factory)
                     .ExecuteTable(
                         factory: factory,
                         commandText: Def.Sql.ExistsFullText
@@ -111,7 +111,7 @@ namespace Implem.CodeDefiner.Functions.Rds
             }
             if (!Exists())
             {
-                Def.SqlIoBySa(factory: factory, initialCatalog: Environments.ServiceName)
+                Def.SqlIoByAdmin(factory: factory)
                     .ExecuteNonQuery(
                         factory: factory,
                         dbTransaction: null,
