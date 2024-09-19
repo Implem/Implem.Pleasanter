@@ -319,13 +319,10 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 .Join("&");
             if (Id > 0
                 && column.SiteSettings?.TableType == Sqls.TableTypes.Normal
-                && column.SiteSettings?.GetNoDisplayIfReadOnly(context: context) != true)
+                && column.SiteSettings?.GetNoDisplayIfReadOnly(context: context) != true
+                && column.SiteSettings?.DisableLinkToEdit != true)
             {
-                if (column.SiteSettings?.DisableLinkToEdit == true)
-                {
-                    hb.Text(text: DisplayValue);
-                }
-                else if (column.SiteSettings?.OpenEditInNewTab == true)
+                if (column.SiteSettings?.OpenEditInNewTab == true)
                 {
                     hb.A(
                         href: Locations.ItemEdit(
@@ -348,6 +345,10 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                                : "?" + queryString),
                         text: DisplayValue);
                 }
+            }
+            else
+            {
+                hb.Text(text: DisplayValue);
             }
         }
 
