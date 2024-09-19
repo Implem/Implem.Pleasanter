@@ -392,6 +392,7 @@ namespace Implem.Pleasanter.Libraries.Requests
             {
                 if (setData) SetData();
                 var api = RequestDataString.Deserialize<Api>();
+                InvalidJsonData = !RequestDataString.IsNullOrEmpty() && api is null;
                 SetApiVersion(api: api);
                 if (api?.ApiKey.IsNullOrEmpty() == false)
                 {
