@@ -3226,13 +3226,12 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public void Update(Context context, bool writeSqlToDebugLog)
         {
-            if (NotLoggingIp(UserHostAddress) != true)
+            if (NotLoggingIp(UserHostAddress))
             {
-                // Textize
-                logger.ForInfoEvent()
-                    .Message("UpdateSysLog")
-                    .Property("syslog", ToLogModel(this))
-                    .Log();
+                return;
+            }
+            if (Parameters.SysLog.EnableLoggingToDatabase)
+            {
                 Repository.ExecuteNonQuery(
                     context: context,
                     transactional: true,
@@ -3242,6 +3241,13 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             sysLogModel: this),
                         param: SysLogParam(context: context)));
+            }
+            if (Parameters.SysLog.EnableLoggingToFile)
+            {
+                logger.ForInfoEvent()
+                    .Message("UpdateSysLog")
+                    .Property("syslog", ToLogModel(this))
+                    .Log();
             }
         }
 
@@ -3344,11 +3350,15 @@ namespace Implem.Pleasanter.Models
             Context context,
             SysLogTypes sysLogType)
         {
+            if (NotLoggingIp(UserHostAddress))
+            {
+                return;
+            }
             StartTime = DateTime.Now;
             SetProperties(
                 context: context,
                 sysLogType: sysLogType);
-            if (NotLoggingIp(UserHostAddress) != true)
+            if (Parameters.SysLog.EnableLoggingToDatabase)
             {
                 SysLogId = Repository.ExecuteScalar_response(
                     context: context,
@@ -3357,6 +3367,9 @@ namespace Implem.Pleasanter.Models
                         selectIdentity: true,
                         param: SysLogParam(context: context)))
                             .Id.ToLong();
+            }
+            if (Parameters.SysLog.EnableLoggingToFile)
+            {
                 // Textize
                 logger.ForInfoEvent()
                     .Message("WriteSysLog")
