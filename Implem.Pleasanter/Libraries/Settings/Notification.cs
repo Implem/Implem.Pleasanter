@@ -91,8 +91,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             string prefix,
             string subject,
             string address,
-            string ccaddress,
-            string bccaddress,
+            string ccAddress,
+            string bccAddress,
             string token,
             MethodTypes methodType,
             string encoding,
@@ -118,8 +118,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             Prefix = prefix;
             Subject = subject;
             Address = address;
-            CcAddress = ccaddress;
-            BccAddress = bccaddress;
+            CcAddress = ccAddress;
+            BccAddress = bccAddress;
             Token = token;
             MethodType = methodType;
             Encoding = encoding;
@@ -157,8 +157,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             string prefix,
             string subject,
             string address,
-            string ccaddress,
-            string bccaddress,
+            string ccAddress,
+            string bccAddress,
             string token,
             MethodTypes methodType,
             string encoding,
@@ -183,8 +183,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             Prefix = prefix;
             Subject = subject;
             Address = address;
-            CcAddress = ccaddress;
-            BccAddress = bccaddress;
+            CcAddress = ccAddress;
+            BccAddress = bccAddress;
             Token = token;
             MethodType = methodType;
             Encoding = encoding;
