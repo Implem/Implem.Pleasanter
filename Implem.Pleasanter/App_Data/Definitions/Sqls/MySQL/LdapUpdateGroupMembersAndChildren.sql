@@ -1,7 +1,7 @@
 ﻿drop procedure if exists "LdapUpdateGroupMembersAndChildren";
 create procedure "LdapUpdateGroupMembersAndChildren"(
     in v_tenantid int
-    ,in v_ldap_object_guid text
+    ,in v_ldap_object_guid text charset utf8mb4 collate utf8mb4_general_ci
     ,in v_is_member_insert boolean
     ,in v_is_child_insert boolean
     ,in v_is_first_time boolean
