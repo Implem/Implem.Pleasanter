@@ -182,7 +182,7 @@ namespace Implem.DefinitionAccessor
                 Parameters.CommercialLicense()
                     ? "ee"
                     : "com");
-            if(Parameters.Security.AspNetCoreDataProtection == null)
+            if (Parameters.Security.AspNetCoreDataProtection == null)
             {
                 Parameters.Security.AspNetCoreDataProtection = new AspNetCoreDataProtection();
             }
@@ -491,7 +491,7 @@ namespace Implem.DefinitionAccessor
             path = path ?? Path.Combine(
                 ParametersPath,
                 "ExtendedScripts");
-            foreach (var file in new DirectoryInfo(path).GetFiles("*.js"))
+            foreach (var file in new DirectoryInfo(path).GetFiles("*.js").OrderBy(file => file.Name))
             {
                 var script = Files.Read(file.FullName);
                 if (script != null)
@@ -504,7 +504,7 @@ namespace Implem.DefinitionAccessor
                     });
                 }
             }
-            foreach (var dir in new DirectoryInfo(path).GetDirectories())
+            foreach (var dir in new DirectoryInfo(path).GetDirectories().OrderBy(dir => dir.Name))
             {
                 list = ExtendedScripts(dir.FullName, list);
             }
@@ -612,7 +612,7 @@ namespace Implem.DefinitionAccessor
             path = path ?? Path.Combine(
                 ParametersPath,
                 "ExtendedStyles");
-            foreach (var file in new DirectoryInfo(path).GetFiles("*.css"))
+            foreach (var file in new DirectoryInfo(path).GetFiles("*.css").OrderBy(file => file.Name))
             {
                 var style = Files.Read(file.FullName);
                 if (style != null)
@@ -625,7 +625,7 @@ namespace Implem.DefinitionAccessor
                     });
                 }
             }
-            foreach (var dir in new DirectoryInfo(path).GetDirectories())
+            foreach (var dir in new DirectoryInfo(path).GetDirectories().OrderBy(dir => dir.Name))
             {
                 list = ExtendedStyles(dir.FullName, list);
             }
@@ -936,7 +936,7 @@ namespace Implem.DefinitionAccessor
                     SetManageServiceToDisableSecondaryAuthentication();
                     break;
             }
-            if((Parameters.Security.SecondaryAuthentication?.Mode
+            if ((Parameters.Security.SecondaryAuthentication?.Mode
                 is null
                 or SecondaryAuthentication.SecondaryAuthenticationMode.None)
                     || Parameters.Security.SecondaryAuthentication?.NotificationType
