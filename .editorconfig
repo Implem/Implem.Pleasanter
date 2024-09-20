@@ -19,6 +19,21 @@ dotnet_naming_rule.publicフィールド_should_be_camel_case.severity = warning
 dotnet_naming_rule.publicフィールド_should_be_camel_case.symbols = publicフィールド
 dotnet_naming_rule.publicフィールド_should_be_camel_case.style = pascal_case
 
+#dotnet_naming_rule.internalフィールド_should_be_camel_case.severity = error
+dotnet_naming_rule.internalフィールド_should_be_camel_case.severity = warning
+dotnet_naming_rule.internalフィールド_should_be_camel_case.symbols = internalフィールド
+dotnet_naming_rule.internalフィールド_should_be_camel_case.style = pascal_case
+
+#dotnet_naming_rule.protectedフィールド_should_be_camel_case.severity = error
+dotnet_naming_rule.protectedフィールド_should_be_camel_case.severity = warning
+dotnet_naming_rule.protectedフィールド_should_be_camel_case.symbols = protectedフィールド
+dotnet_naming_rule.protectedフィールド_should_be_camel_case.style = pascal_case
+
+#dotnet_naming_rule.privateフィールド_should_be_camel_case.severity = error
+dotnet_naming_rule.privateフィールド_should_be_camel_case.severity = warning
+dotnet_naming_rule.privateフィールド_should_be_camel_case.symbols = privateフィールド
+dotnet_naming_rule.privateフィールド_should_be_camel_case.style = pascal_case
+
 #dotnet_naming_rule.staticフィールド_should_be_begin_with_s_.severity = error
 dotnet_naming_rule.staticフィールド_should_be_begin_with_s_.severity = warning
 dotnet_naming_rule.staticフィールド_should_be_begin_with_s_.symbols = staticフィールド
@@ -56,6 +71,18 @@ dotnet_naming_symbols.staticフィールド.required_modifiers = static
 dotnet_naming_symbols.publicフィールド.applicable_kinds = field
 dotnet_naming_symbols.publicフィールド.applicable_accessibilities = public
 dotnet_naming_symbols.publicフィールド.required_modifiers = 
+
+dotnet_naming_symbols.internalフィールド.applicable_kinds = field
+dotnet_naming_symbols.internalフィールド.applicable_accessibilities = internal
+dotnet_naming_symbols.internalフィールド.required_modifiers = 
+
+dotnet_naming_symbols.protectedフィールド.applicable_kinds = field
+dotnet_naming_symbols.protectedフィールド.applicable_accessibilities = protected
+dotnet_naming_symbols.protectedフィールド.required_modifiers = 
+
+dotnet_naming_symbols.privateフィールド.applicable_kinds = field
+dotnet_naming_symbols.privateフィールド.applicable_accessibilities = private
+dotnet_naming_symbols.privateフィールド.required_modifiers = 
 
 dotnet_naming_symbols.all.applicable_kinds = *
 dotnet_naming_symbols.all.applicable_accessibilities = *
