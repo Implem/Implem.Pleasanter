@@ -491,7 +491,10 @@ namespace Implem.DefinitionAccessor
             path = path ?? Path.Combine(
                 ParametersPath,
                 "ExtendedScripts");
-            foreach (var file in new DirectoryInfo(path).GetFiles("*.js").OrderBy(file => file.Name))
+            var files = new DirectoryInfo(path)
+                .GetFiles("*.js")
+                .OrderBy(file => file.Name);
+            foreach (var file in files)
             {
                 var script = Files.Read(file.FullName);
                 if (script != null)
@@ -504,7 +507,10 @@ namespace Implem.DefinitionAccessor
                     });
                 }
             }
-            foreach (var dir in new DirectoryInfo(path).GetDirectories().OrderBy(dir => dir.Name))
+            var dirs = new DirectoryInfo(path)
+                .GetDirectories()
+                .OrderBy(dir => dir.Name);
+            foreach (var dir in dirs)
             {
                 list = ExtendedScripts(dir.FullName, list);
             }
@@ -612,7 +618,10 @@ namespace Implem.DefinitionAccessor
             path = path ?? Path.Combine(
                 ParametersPath,
                 "ExtendedStyles");
-            foreach (var file in new DirectoryInfo(path).GetFiles("*.css").OrderBy(file => file.Name))
+            var files = new DirectoryInfo(path)
+                .GetFiles("*.css")
+                .OrderBy(file => file.Name);
+            foreach (var file in files)
             {
                 var style = Files.Read(file.FullName);
                 if (style != null)
@@ -625,7 +634,10 @@ namespace Implem.DefinitionAccessor
                     });
                 }
             }
-            foreach (var dir in new DirectoryInfo(path).GetDirectories().OrderBy(dir => dir.Name))
+            var dirs = new DirectoryInfo(path)
+                .GetDirectories()
+                .OrderBy(dir => dir.Name);
+            foreach (var dir in dirs)
             {
                 list = ExtendedStyles(dir.FullName, list);
             }
