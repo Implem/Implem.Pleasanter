@@ -3524,7 +3524,8 @@ namespace Implem.Pleasanter.Models
                 Description = context.SysLogsDescription;
             }
             if (responseSize > 0) { ResponseSize = responseSize; }
-            Elapsed = (DateTime.Now - StartTime).TotalMilliseconds;
+            EndTime = DateTime.Now;
+            Elapsed = (EndTime - StartTime).TotalMilliseconds;
             var currentProcess = Debugs.CurrentProcess();
             WorkingSet64 = currentProcess.WorkingSet64;
             VirtualMemorySize64 = currentProcess.VirtualMemorySize64;
@@ -3557,7 +3558,7 @@ namespace Implem.Pleasanter.Models
         {
             return new SysLogLogModel
             {
-                CreatedTime = s.CreatedTime?.Value ?? DateTime.Now,
+                CreatedTime = s.StartTime,
                 SysLogId = s.SysLogId,
                 Ver = s.Ver,
                 SysLogType = s.SysLogType.ToInt(),
@@ -3596,7 +3597,7 @@ namespace Implem.Pleasanter.Models
                 Comments = s.Comments.ToJson(),
                 Creator = s.Creator.Id,
                 Updator = s.Updator.Id,
-                UpdatedTime = s.UpdatedTime?.Value ?? DateTime.Now,
+                UpdatedTime = s.EndTime.Equals(0.ToDateTime()) ? s.StartTime : s.EndTime
             };
         }
     }
