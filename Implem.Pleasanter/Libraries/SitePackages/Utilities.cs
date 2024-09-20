@@ -514,8 +514,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                                     (long.TryParse(matchId.Value, out var id)
                                         && idHash.ContainsKey(id))
                                         ? idHash[id].ToString()
-                                        : matchId.Value
-                                ))
+                                        : matchId.Value))
                             + matchSection.Groups["post"].Value));
         }
 
