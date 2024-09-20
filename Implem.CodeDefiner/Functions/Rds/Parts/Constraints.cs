@@ -1,4 +1,5 @@
-﻿using Implem.DefinitionAccessor;
+﻿using Implem.CodeDefiner.Functions.Rds.Parts.MySql;
+using Implem.DefinitionAccessor;
 using Implem.IRds;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
@@ -35,22 +36,47 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
                 Get(factory: factory, sourceTableName: sourceTableName)
                     .Where(o => !(sourceTableName.EndsWith("_history") && o["column_name"].ToString() == "Ver"))
                     .OrderBy(o => o["column_name"])
-                    .Select(o => o["column_name"] + "," + factory.SqlDataType.DefaultDefinition(o["column_default"]))
+                    .Select(o => o["column_name"] + "," + factory.SqlDataType.DefaultDefinition(o))
                     .JoinReturn();
         }
 
         internal static void CreateDefault(
             this SqlStatement sqlStatement,
             ISqlObjectFactory factory,
-            string sourceTableName,
-            IEnumerable<ColumnDefinition> columnDefinitionCollection,
-            string tableNameTemp = "")
+            string tableNameTemp,
+            IEnumerable<ColumnDefinition> columnDefinitionCollection)
         {
-            sqlStatement.CommandText = sqlStatement.CommandText.Replace(
+            switch (Parameters.Rds.Dbms)
+            {
+                case "SQLServer":
+                case "PostgreSQL":
+                    sqlStatement.CommandText = CreateDefaultCommand(
+                        factory: factory,
+                        tableNameTemp: tableNameTemp,
+                        columnDefinitionCollection: columnDefinitionCollection,
+                        command: sqlStatement.CommandText);
+                    break;
+                case "MySQL":
+                    sqlStatement.CommandText = MySqlConstraints.CreateModifyColumnCommand(
+                        factory: factory,
+                        tableNameTemp: tableNameTemp,
+                        columnDefinitionCollection: columnDefinitionCollection,
+                        command: sqlStatement.CommandText);
+                    break;
+            }
+        }
+
+        private static string CreateDefaultCommand(
+            ISqlObjectFactory factory,
+            string tableNameTemp,
+            IEnumerable<ColumnDefinition> columnDefinitionCollection,
+            string command)
+        {
+            return command.Replace(
                 "#Defaults#", columnDefinitionCollection
                     .Where(o => !o.Default.IsNullOrEmpty())
-                    .Where(o => !(sourceTableName.EndsWith("_history") && o.ColumnName == "Ver"))
-                    .Select(o => Sql_Create(factory, Def.Sql.CreateDefault, Strings.CoalesceEmpty(tableNameTemp, sourceTableName), o))
+                    .Where(o => !(tableNameTemp.EndsWith("_history") && o.ColumnName == "Ver"))
+                    .Select(o => Sql_Create(factory, Def.Sql.CreateDefault, tableNameTemp, o))
                     .JoinReturn());
         }
 
@@ -66,7 +92,7 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
                 .Replace("#DefaultValue#", DefaultDefinition(factory, columnDefinition));
         }
 
-        private static string DefaultDefinition(ISqlObjectFactory factory, ColumnDefinition columnDefinition)
+        internal static string DefaultDefinition(ISqlObjectFactory factory, ColumnDefinition columnDefinition)
         {
             switch (columnDefinition.TypeName.CsTypeSummary())
             {
@@ -94,7 +120,32 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
             string sourceTableName,
             IEnumerable<IndexInfo> tableIndexCollection)
         {
-            sqlStatement.CommandText = sqlStatement.CommandText
+            switch (Parameters.Rds.Dbms)
+            {
+                case "SQLServer":
+                case "PostgreSQL":
+                    sqlStatement.CommandText = DropConstraintCommand(
+                        factory: factory,
+                        sourceTableName: sourceTableName,
+                        tableIndexCollection: tableIndexCollection,
+                        command: sqlStatement.CommandText);
+                    break;
+                case "MySQL":
+                    sqlStatement.CommandText = MySqlConstraints.DropConstraintCommand(
+                        factory: factory,
+                        sourceTableName: sourceTableName,
+                        command: sqlStatement.CommandText);
+                    break;
+            }
+        }
+
+        private static string DropConstraintCommand(
+            ISqlObjectFactory factory,
+            string sourceTableName,
+            IEnumerable<IndexInfo> tableIndexCollection,
+            string command)
+        {
+            return command
                 .Replace("#DropConstraint#", tableIndexCollection
                     .Where(o => Indexes.Get(
                         factory: factory,
@@ -106,7 +157,7 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
                     .Join("\r\n"));
         }
 
-        private static string Sql_Drop(IndexInfo o)
+        internal static string Sql_Drop(IndexInfo o)
         {
             return o.Type == IndexInfo.Types.Pk
                 ? Def.Sql.DropConstraint

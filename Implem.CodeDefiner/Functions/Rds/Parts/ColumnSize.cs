@@ -30,7 +30,7 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
             }
         }
 
-        private static bool Char(
+        internal static bool Char(
             ColumnDefinition columnDefinition, DataRow rdsColumn, int coefficient)
         {
             return rdsColumn["max_length"].ToInt() == -1 && columnDefinition.MaxLength == -1
@@ -40,7 +40,7 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
                     : false;
         }
 
-        private static bool Decimal(
+        internal static bool Decimal(
             ColumnDefinition columnDefinition, DataRow rdsColumn)
         {
             return rdsColumn["Size"].ToString() != columnDefinition.Size;

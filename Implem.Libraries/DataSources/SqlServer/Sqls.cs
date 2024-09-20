@@ -10,8 +10,6 @@ namespace Implem.Libraries.DataSources.SqlServer
     {
         public static string LogsPath;
         public static string SelectIdentity;
-        public static string BeginTransaction;
-        public static string CommitTransaction;
 
         public enum TableTypes
         {
