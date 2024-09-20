@@ -1064,8 +1064,6 @@ namespace Implem.DefinitionAccessor
         {
             Sqls.LogsPath = Directories.Logs();
             Sqls.SelectIdentity = Def.Sql.SelectIdentity;
-            Sqls.BeginTransaction = Def.Sql.BeginTransaction;
-            Sqls.CommitTransaction = Def.Sql.CommitTransaction;
         }
 
         private static void SetBundleVersions()

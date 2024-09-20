@@ -9,6 +9,7 @@ namespace Implem.ParameterAccessor.Parts
         [OnDeserialized]
         private void OnDeserialized(StreamingContext streamingContext)
         {
+            //PostgreSQLとMySQLは同じプレフィクスを使用する
             SqlParameterPrefix = string.IsNullOrWhiteSpace(SqlParameterPrefix)
                 ? Parameters.Rds.Dbms == "SQLServer"
                     ? "@_"
