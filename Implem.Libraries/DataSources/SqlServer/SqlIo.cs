@@ -7,6 +7,7 @@ using System.Data;
 using System.Data.Common;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 namespace Implem.Libraries.DataSources.SqlServer
 {
     public class SqlIo : IDisposable
@@ -53,6 +54,7 @@ namespace Implem.Libraries.DataSources.SqlServer
 
         private void SetCommandText(ISqlObjectFactory factory)
         {
+            CommandText.AppendLine(factory.SqlCommandText.BeforeAllCommand());
             SqlContainer.SqlStatementCollection
                 .Select((o, i) => new
                 {
@@ -87,8 +89,9 @@ namespace Implem.Libraries.DataSources.SqlServer
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:SQL It has been confirmed that the vulnerability on the query of security does not exist")]
         private void SetSqlCommand(ISqlObjectFactory factory)
         {
+            var commandTextReplaced = new Regex(";(| |;)+;").Replace(CommandText.ToString(), ";");
             SqlCommand.CommandType = CommandType.Text;
-            SqlCommand.CommandText = CommandText.ToString();
+            SqlCommand.CommandText = commandTextReplaced;
             SqlCommand.CommandTimeout = SqlContainer.CommandTimeOut;
         }
 

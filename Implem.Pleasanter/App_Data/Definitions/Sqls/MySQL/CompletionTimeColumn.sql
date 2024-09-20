@@ -1,0 +1,1 @@
+﻿date_add("Issues"."CompletionTime",interval #DifferenceOfDates# day)

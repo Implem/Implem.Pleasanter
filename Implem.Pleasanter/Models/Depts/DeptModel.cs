@@ -1103,7 +1103,7 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         deptModel: this,
                         otherInitValue: otherInitValue)),
-                new SqlStatement(Def.Sql.IfConflicted.Params(DeptId))
+                new SqlStatement()
                 {
                     DataTableName = dataTableName,
                     IfConflicted = true,
