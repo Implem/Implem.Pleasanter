@@ -396,7 +396,7 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         extensionModel: this,
                         otherInitValue: otherInitValue)),
-                new SqlStatement(Def.Sql.IfConflicted.Params(ExtensionId))
+                new SqlStatement()
                 {
                     DataTableName = dataTableName,
                     IfConflicted = true,
