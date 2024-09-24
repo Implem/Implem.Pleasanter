@@ -1,0 +1,1 @@
+﻿select id as "spid" from information_schema.processlist where user = '#Uid#';
