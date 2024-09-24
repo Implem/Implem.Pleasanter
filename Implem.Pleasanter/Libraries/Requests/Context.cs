@@ -1189,7 +1189,6 @@ namespace Implem.Pleasanter.Libraries.Requests
 
         public decimal ThemeVersion()
         {
-            if (Mobile) { return 1.0M; }
             switch (Theme())
             {
                 case "cerulean":
