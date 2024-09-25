@@ -1942,7 +1942,6 @@ body:not(:has(#Editor)){
         }
         > tbody {
             > tr {
-                background-color: var(--grid-cell-bg);
                 &:hover {
                     background-color: var(--grid-cell-hover);
                     .comment {
@@ -1954,7 +1953,6 @@ body:not(:has(#Editor)){
                 }
                 > th,
                 > td {
-                    border-top: solid 1px var(--grid-cell-border);
                     border-left: solid 1px var(--grid-cell-vborder);
                     border-right: solid 1px var(--grid-cell-vborder);
                 }
@@ -2037,7 +2035,11 @@ body:not(:has(#Editor)){
         }
     }
 }
-
+.grid-row {
+    border-top: solid 1px var(--grid-cell-border);
+    border-bottom: solid 1px var(--grid-cell-border);
+    background-color: var(--grid-cell-bg);
+}
 
 /* Component ---------------------------------------------------------------- */
 /* focus-inform */
@@ -2834,6 +2836,13 @@ body:has(input#Controller[value="syslogs"]){
         background-color: var(--grid-cell-bg);
         &.hover {
             background-color: var(--grid-cell-hover);
+        }
+    }
+    .kamban-row {
+        border-top: solid 1px var(--grid-cell-border);
+        border-bottom: solid 1px var(--grid-cell-border);
+        th{
+            border-bottom: solid 1px var(--grid-cell-border);
         }
     }
     .kamban-item {
