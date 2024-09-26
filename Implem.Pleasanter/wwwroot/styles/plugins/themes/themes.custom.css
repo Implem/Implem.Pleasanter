@@ -355,13 +355,10 @@ html .ui-button.ui-state-disabled:active {
         }
     }
     &:not(.has-css) {
-        color: var(--control-text);
-        background-color: var(--control-bg);
         &:focus {
             background-color: var(--control-bg-focus);
         }
         &.not-send{
-            background: var(--control-bg);
             &:not(:has(+ .button-edit-markdown)){
                 background: var(--control-bg-read);
                 pre{
@@ -380,6 +377,23 @@ html .ui-button.ui-state-disabled:active {
         }
     }
 }
+
+textarea,
+select,
+input{
+    color: var(--control-text);
+    background-color: var(--control-bg);
+    &:focus {
+        &:not(.control-spinner) {
+            border: 1px solid var(--control-border-focus);
+        }
+    }
+}
+.ui-widget.ui-state-default.ui-multiselect {
+    color: var(--control-text);
+    background-color: var(--control-bg);
+}
+
 
 /* dummy-field */
 .control-text,
