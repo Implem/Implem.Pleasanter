@@ -341,9 +341,20 @@ namespace Implem.Pleasanter.Models
                 case "Class":
                     Class(
                         columnName: columnName,
-                        value: idHash.Get(ClassHash.Get(columnName).ToLong()));
+                        value: ReplaceClassIdHash(ClassHash.Get(columnName),idHash));
                     break;
             }
+        }
+
+        private static System.Text.RegularExpressions.Regex RegexIdPattern = new System.Text.RegularExpressions.Regex(@"\b(?<!\.)\d+(?!\.)\b");
+
+        private object ReplaceClassIdHash(object v, Dictionary<long, long> idHash)
+        {
+            return (v == null)
+                ? null
+                : RegexIdPattern.Replace(
+                    v.ToStr(),
+                    new System.Text.RegularExpressions.MatchEvaluator(m => idHash.Get(m.Value.ToLong()).ToStr()));
         }
     }
 }
