@@ -927,7 +927,7 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         wikiModel: this,
                         otherInitValue: otherInitValue)),
-                new SqlStatement(Def.Sql.IfConflicted.Params(WikiId))
+                new SqlStatement()
                 {
                     DataTableName = dataTableName,
                     IfConflicted = true,

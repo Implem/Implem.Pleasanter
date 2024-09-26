@@ -15,6 +15,7 @@ COPY ["Implem.Pleasanter/Implem.Pleasanter.csproj", "Implem.Pleasanter/"]
 COPY ["Implem.Factory/Implem.Factory.csproj", "Implem.Factory/"]
 COPY ["Rds/Implem.PostgreSql/Implem.PostgreSql.csproj", "Rds/Implem.PostgreSql/"]
 COPY ["Rds/Implem.SqlServer/Implem.SqlServer.csproj", "Rds/Implem.SqlServer/"]
+COPY ["Rds/Implem.MySql/Implem.MySql.csproj", "Rds/Implem.MySql/"]
 RUN dotnet restore "Implem.TestAutomation/Implem.TestAutomation.csproj"
 COPY . .
 WORKDIR "/src/Implem.TestAutomation"

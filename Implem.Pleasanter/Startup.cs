@@ -625,6 +625,10 @@ namespace Implem.Pleasanter.NetCore
                     return services.AddNpgSql(
                         connectionString: conStr,
                         healthQuery: healthQuery);
+                case "MySQL":
+                    return services.AddMySql(
+                        connectionString: conStr,
+                        healthQuery: healthQuery);
                 default:
                     return services;
             }

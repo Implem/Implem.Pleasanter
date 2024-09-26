@@ -15,6 +15,7 @@ COPY ["Implem.Plugins/Implem.Plugins.csproj", "Implem.Plugins/"]
 COPY ["Implem.Factory/Implem.Factory.csproj", "Implem.Factory/"]
 COPY ["Rds/Implem.PostgreSql/Implem.PostgreSql.csproj", "Rds/Implem.PostgreSql/"]
 COPY ["Rds/Implem.SqlServer/Implem.SqlServer.csproj", "Rds/Implem.SqlServer/"]
+COPY ["Rds/Implem.MySql/Implem.MySql.csproj", "Rds/Implem.MySql/"]
 RUN dotnet restore Implem.PleasanterTest
 COPY . .
 RUN cat Implem.Pleasanter/App_Data/Parameters/Rds.json | jq '.Dbms|="PostgreSQL"' > /tmp/Rds.json \
