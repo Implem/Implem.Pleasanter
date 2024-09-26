@@ -59,6 +59,9 @@ namespace Implem.CodeDefiner
                     codeDefiner: true,
                     setSaPassword: argHash.ContainsKey("s"),
                     setRandomPassword: argHash.ContainsKey("r"));
+                Consoles.Write(
+                    text: $"Implem.CodeDefiner {Environments.AssemblyVersion}",
+                    type: Consoles.Types.Info);
                 // CodeDefinerではSqlCommandTimeOutを無制限とする。
                 Parameters.Rds.SqlCommandTimeOut = 0;
                 factory = RdsFactory.Create(Parameters.Rds.Dbms);
