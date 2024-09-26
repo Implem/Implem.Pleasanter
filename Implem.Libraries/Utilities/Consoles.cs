@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 namespace Implem.Libraries.Utilities
 {
-    public static class Consoles
+    public static partial class Consoles
     {
         public static int ErrorCount { get; private set; } = 0;
         public enum Types
@@ -12,21 +14,31 @@ namespace Implem.Libraries.Utilities
             Error
         }
 
-        public static void Write(string text, Types type, bool abort = false)
+        public static void Write(
+            string text,
+            Types type,
+            bool abort = false,
+            [CallerFilePath] string callerFilePath = "",
+            [CallerMemberName] string callerMemberName = "")
         {
-            var method = new StackFrame(1).GetMethod();
-            var publisher = method.ReflectedType.Name + "." + method.Name;
+            var match = GetFileNameRegex().Match(callerFilePath);
+            var className = match.Success ? match.Value : "";
+
+            var publisher = $"{className}.{callerMemberName}";
             Trace.WriteLine("<{0}> {1}: {2}".Params(
                 type.ToString().ToUpper(),
                 publisher,
                 text));
             Trace.Flush();
-            if(type == Types.Error) ErrorCount++;
+            if (type == Types.Error) ErrorCount++;
             if (abort)
             {
                 Console.ReadKey();
                 Environment.Exit(-1);
             }
         }
+
+        [GeneratedRegex(@"[^\\/]+(?=\.[^\\/]+$)")]
+        private static partial Regex GetFileNameRegex();
     }
 }

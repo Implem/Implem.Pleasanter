@@ -345,7 +345,7 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         mailAddressModel: this,
                         otherInitValue: otherInitValue)),
-                new SqlStatement(Def.Sql.IfConflicted.Params(MailAddressId))
+                new SqlStatement()
                 {
                     DataTableName = dataTableName,
                     IfConflicted = true,
