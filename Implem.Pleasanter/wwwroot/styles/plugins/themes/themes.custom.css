@@ -1550,6 +1550,7 @@ body {
         margin: 0;
         padding: 16px;
         display: flex;
+        gap: 0 20px;
         align-items: center;
         color: var(--base-text);
         background-color: var(--page-bg);
@@ -1558,10 +1559,13 @@ body {
         flex: 1;
         float: none;
         display: flex;
+        gap: 8px 48px;
+        flex-wrap: wrap;
         div,
         p,
         span {
             gap: 8px;
+            margin-right: 0;
             float: none;
             display: flex;
             align-items: center;
