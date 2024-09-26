@@ -3,15 +3,16 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <Copyright>Copyright © Implem Inc 2014 - 2024</Copyright>
-    <AssemblyVersion>1.4.8.0</AssemblyVersion>
-    <FileVersion>1.4.8.0</FileVersion>
-    <Version>1.4.8.0</Version>
+    <AssemblyVersion>1.4.8.1</AssemblyVersion>
+    <FileVersion>1.4.8.1</FileVersion>
+    <Version>1.4.8.1</Version>
     <Nullable>disable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Implem.Libraries\Implem.Libraries.csproj" />
     <ProjectReference Include="..\Rds\Implem.IRds\Implem.IRds.csproj" />
+    <ProjectReference Include="..\Rds\Implem.MySql\Implem.MySql.csproj" />
     <ProjectReference Include="..\Rds\Implem.PostgreSql\Implem.PostgreSql.csproj" />
     <ProjectReference Include="..\Rds\Implem.SqlServer\Implem.SqlServer.csproj" />
   </ItemGroup>

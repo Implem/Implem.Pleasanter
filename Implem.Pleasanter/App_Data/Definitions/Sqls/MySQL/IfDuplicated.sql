@@ -1,0 +1,1 @@
+﻿select 1 from "{0}" where "{0}"."SiteId"={1} and "{0}"."{4}"=@{4}_#CommandCount# and "{0}"."{2}"<>{3};

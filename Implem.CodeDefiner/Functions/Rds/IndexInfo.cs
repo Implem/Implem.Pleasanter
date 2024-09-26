@@ -67,5 +67,14 @@ namespace Implem.CodeDefiner.Functions.Rds
                     .Sha512Cng()
                     .MaxLength(factory.SqlDefinitionSetting.IdentifierPostfixLength);
         }
+
+        internal string IndexInfoString()
+        {
+            //MySQLの場合のPk変更検知処理専用のメソッド
+            return ColumnCollection
+                .Where(o => o.No > 0)
+                .Select(o => o.ColumnName + "," + o.OrderType.ToString())
+                .Join(","); 
+        }
     }
 }

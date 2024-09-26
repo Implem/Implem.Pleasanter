@@ -674,7 +674,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
             else
             {
-                QuickAccessSites = QuickAccessSitesData.Select(o => o.Id).Join("\n");
+                QuickAccessSites = QuickAccessSitesData.Select(o => o.Id).Join(",");
             }
         }
 
