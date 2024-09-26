@@ -350,6 +350,14 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                             filterHash: process.View?.ColumnFilterHash,
                             idHash: idHash);
                     });
+                ss?.DashboardParts?
+                    .ForEach(part =>
+                    {
+                        conv.Updated |= ConvertFilterHashDataId(
+                            ss: HeaderInfo.Convertors.FirstOrDefault(o => o.SavedSiteId == part.SiteId)?.SiteSettings,
+                            filterHash: part.View?.ColumnFilterHash,
+                            idHash: idHash);
+                    });
             }
         }
 
@@ -360,7 +368,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
             Dictionary<string, string> filterHash,
             Dictionary<long, long> idHash)
         {
-            if (filterHash == null) return false;
+            if (filterHash == null || ss?.Columns == null) return false;
             var isUpdated = false;
             foreach (var key in filterHash.Keys)
             {
