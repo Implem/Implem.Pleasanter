@@ -2052,6 +2052,13 @@ body:not(:has(#Editor)){
     border-top: solid 1px var(--grid-cell-border);
     border-bottom: solid 1px var(--grid-cell-border);
     background-color: var(--grid-cell-bg);
+
+    /* 一括編集設定 */
+    .ui-widget.ui-state-default.ui-multiselect{
+        width: 100%;
+        white-space: nowrap;
+        max-width: 200px;
+    }
 }
 
 /* Component ---------------------------------------------------------------- */
