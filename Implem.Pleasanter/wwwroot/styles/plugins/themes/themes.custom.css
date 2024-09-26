@@ -408,6 +408,7 @@ html .ui-button.ui-state-disabled:active {
         padding-right: 24px;
         + .ui-icon{
             right: 4px;
+            z-index: 2;
         }
     }
 }
@@ -428,6 +429,7 @@ html .ui-button.ui-state-disabled:active {
         padding-right: 24px;
         + .ui-icon{
             right: 4px;
+            z-index: 2;
         }
     }
 }
