@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Security.Policy;
 using System.Text;
 namespace Implem.Pleasanter.Libraries.Settings
 {
@@ -222,16 +223,68 @@ namespace Implem.Pleasanter.Libraries.Settings
                     case ReminderTypes.Mail:
                         if (Parameters.Reminder.Mail)
                         {
-                            GetDataHash(
+                            var getDat = GetDataHash(
                                     context: context,
                                     ss: ss,
                                     dataTable: dataTable,
                                     toColumns: toColumns,
                                     fixedTo: fixedTo)
                             .Where(data => !data.Key.IsNullOrEmpty())
-                            .Where(data => data.Value.Count > 0 || NotSendIfNotApplicable != true)
-                            .ForEach(data =>
+                            .Where(data => data.Value.Count > 0 || NotSendIfNotApplicable != true);
+
+                            getDat.ForEach(data =>
                             {
+                                var ccColumns = ss.IncludedColumns(Cc);
+                                var bccColumns = ss.IncludedColumns(Bcc);
+                                var fixedCc = GetFixedCc(
+                                    context: context,
+                                    ccColumns: ccColumns);
+                                var fixedBcc = GetFixedBcc(
+                                    context: context,
+                                    bccColumns: bccColumns);
+                                var ccList = new List<string>();
+                                var bccList = new List<string>();
+                                ccColumns.ForEach(cc => ccList.Add(
+                                    Addresses.ReplacedAddress(context: context, column: cc, value: fixedCc)
+                                    ));
+                                bccColumns.ForEach(bcc => bccList.Add(
+                                    Addresses.ReplacedAddress(context: context, column: bcc, value: fixedBcc)
+                                    ));
+                                var dataTableCc = GetDataTable(
+                                    context: context,
+                                    ss: ss,
+                                    toColumns: ccColumns,
+                                    subjectColumns: subjectColumns,
+                                    bodyColumns: bodyColumns,
+                                    scheduledTime: scheduledTime);
+                                var dataTableBcc = GetDataTable(
+                                    context: context,
+                                    ss: ss,
+                                    toColumns: bccColumns,
+                                    subjectColumns: subjectColumns,
+                                    bodyColumns: bodyColumns,
+                                    scheduledTime: scheduledTime);
+                                var getDatCc = GetDataHashCc(
+                                        context: context,
+                                        ss: ss,
+                                        dataTable: dataTableCc,
+                                        ccColumns: ccColumns,
+                                        fixedCc: fixedCc)
+                                .Where(data => !data.Key.IsNullOrEmpty())
+                                .Where(data => data.Value.Count > 0 || NotSendIfNotApplicable != true);
+                                var getDatBcc = GetDataHashBcc(
+                                        context: context,
+                                        ss: ss,
+                                        dataTable: dataTableBcc,
+                                        bccColumns: bccColumns,
+                                        fixedBcc: fixedBcc)
+                                .Where(data => !data.Key.IsNullOrEmpty())
+                                .Where(data => data.Value.Count > 0 || NotSendIfNotApplicable != true);
+                                ccList.Clear();
+                                getDatCc.ForEach(cc => ccList.Add(cc.Key));
+                                bccList.Clear();
+                                getDatBcc.ForEach(bcc => bccList.Add(bcc.Key));
+
                                 new OutgoingMailModel()
                                 {
                                     Title = GetSubject(
@@ -245,8 +298,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                                         dataRows: data.Value.Values.ToList()),
                                     From = MimeKit.MailboxAddress.Parse(Strings.CoalesceEmpty(Parameters.Mail.FixedFrom, From)),
                                     To = data.Key,
-                                    Cc = Cc,
-                                    Bcc = Bcc,
+                                    Cc = ccList.Join(),
+                                    Bcc = bccList.Join(),
                                 }.Send(context: context, ss: ss);
                             });
                         }
@@ -394,6 +447,30 @@ namespace Implem.Pleasanter.Libraries.Settings
             return to;
         }
 
+        private string GetFixedCc(Context context, List<Column> ccColumns)
+        {
+            var cc = Cc;
+            ccColumns.ForEach(toColumn =>
+                cc = cc.Replace($"[{toColumn.ColumnName}]", string.Empty));
+            cc = Addresses.Get(
+                context: context,
+                addresses: cc)
+                    .Join(",");
+            return cc;
+        }
+
+        private string GetFixedBcc(Context context, List<Column> bccColumns)
+        {
+            var bcc = Bcc;
+            bccColumns.ForEach(toColumn =>
+                bcc = bcc.Replace($"[{toColumn.ColumnName}]", string.Empty));
+            bcc = Addresses.Get(
+                context: context,
+                addresses: bcc)
+                    .Join(",");
+            return bcc;
+        }
+
         private Dictionary<string, Dictionary<long, DataRow>> GetDataHash(
             Context context,
             SiteSettings ss,
@@ -421,6 +498,88 @@ namespace Implem.Pleasanter.Libraries.Settings
                                                 context: context,
                                                 column: toColumn,
                                                 value: dataRow.String(toColumn.ColumnName)))
+                                    .ForEach(mailAddress =>
+                                    {
+                                        if (!hash.ContainsKey(mailAddress))
+                                        {
+                                            hash.Add(
+                                                mailAddress,
+                                                new Dictionary<long, DataRow>());
+                                        }
+                                        hash[mailAddress].AddIfNotConainsKey(id, dataRow);
+                                    }));
+                });
+            return hash;
+        }
+
+        private Dictionary<string, Dictionary<long, DataRow>> GetDataHashCc(
+            Context context,
+            SiteSettings ss,
+            DataTable dataTable,
+            List<Column> ccColumns,
+            string fixedCc)
+        {
+            var hash = new Dictionary<string, Dictionary<long, DataRow>>()
+            {
+                {
+                    fixedCc,
+                    new Dictionary<long, DataRow>()
+                }
+            };
+            dataTable
+                .AsEnumerable()
+                .ForEach(dataRow =>
+                {
+                    var id = dataRow.Long(Rds.IdColumn(ss.ReferenceType));
+                    hash[fixedCc].AddIfNotConainsKey(id, dataRow);
+                    ccColumns.ForEach(ccColumn =>
+                        Addresses.Get(
+                            context: context,
+                            addresses: Addresses.ReplacedAddress(
+                                                context: context,
+                                                column: ccColumn,
+                                                value: dataRow.String(ccColumn.ColumnName)))
+                                    .ForEach(mailAddress =>
+                                    {
+                                        if (!hash.ContainsKey(mailAddress))
+                                        {
+                                            hash.Add(
+                                                mailAddress,
+                                                new Dictionary<long, DataRow>());
+                                        }
+                                        hash[mailAddress].AddIfNotConainsKey(id, dataRow);
+                                    }));
+                });
+            return hash;
+        }
+
+        private Dictionary<string, Dictionary<long, DataRow>> GetDataHashBcc(
+            Context context,
+            SiteSettings ss,
+            DataTable dataTable,
+            List<Column> bccColumns,
+            string fixedBcc)
+        {
+            var hash = new Dictionary<string, Dictionary<long, DataRow>>()
+            {
+                {
+                    fixedBcc,
+                    new Dictionary<long, DataRow>()
+                }
+            };
+            dataTable
+                .AsEnumerable()
+                .ForEach(dataRow =>
+                {
+                    var id = dataRow.Long(Rds.IdColumn(ss.ReferenceType));
+                    hash[fixedBcc].AddIfNotConainsKey(id, dataRow);
+                    bccColumns.ForEach(bccColumn =>
+                        Addresses.Get(
+                            context: context,
+                            addresses: Addresses.ReplacedAddress(
+                                                context: context,
+                                                column: bccColumn,
+                                                value: dataRow.String(bccColumn.ColumnName)))
                                     .ForEach(mailAddress =>
                                     {
                                         if (!hash.ContainsKey(mailAddress))
