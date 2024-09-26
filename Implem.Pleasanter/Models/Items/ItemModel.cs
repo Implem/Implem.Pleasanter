@@ -1262,6 +1262,13 @@ namespace Implem.Pleasanter.Models
                 var column = Site.SiteSettings.GetColumn(
                     context: context,
                     columnName: columnName);
+                if (column == null)
+                {
+                    Parameters.ExtendedFields.ForEach(extendedField =>
+                    {
+                        if (extendedField.Name == columnName) column = new Implem.Pleasanter.Libraries.Settings.Column(extendedField.Name);
+                    });
+                }
                 return new ResponseCollection(context: context)
                     .Html(
                         "#SetDateRangeDialog",
