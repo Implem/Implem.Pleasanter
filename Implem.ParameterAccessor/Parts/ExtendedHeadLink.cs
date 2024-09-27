@@ -2,6 +2,6 @@
 {
     public class ExtendedHeadLink : ExtendedBase
     {
-        public string Style;
+        public string Link;
     }
 }
