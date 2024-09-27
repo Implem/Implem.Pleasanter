@@ -4889,8 +4889,7 @@ namespace Implem.Pleasanter.Models
                         .NumberOfDenial(raw: "\"Users\".\"NumberOfDenial\"+1")
                         .LastLoginTime(
                             value: disableUpdateLastLoginTime ? null : DateTime.Now,
-                            raw: disableUpdateLastLoginTime ? "\"Users\".\"LastLoginTime\"" : null
-                        ),
+                            raw: disableUpdateLastLoginTime ? "\"Users\".\"LastLoginTime\"" : null),
                     addUpdatorParam: false,
                     addUpdatedTimeParam: false));
         }
