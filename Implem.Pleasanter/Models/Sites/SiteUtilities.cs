@@ -14380,8 +14380,8 @@ namespace Implem.Pleasanter.Models
                         labelText: Displays.Title(context: context),
                         text: style.Title,
                         validateRequired: true)
-                    .FieldTextBox(
-                        textType: HtmlTypes.TextTypes.CodeEditor,
+                    .FieldCodeEditor(
+                        context: context,
                         controlId: "StyleBody",
                         fieldCss: "field-wide",
                         controlCss: " always-send",
@@ -14764,8 +14764,8 @@ namespace Implem.Pleasanter.Models
                         labelText: Displays.Title(context: context),
                         text: script.Title,
                         validateRequired: true)
-                    .FieldTextBox(
-                        textType: HtmlTypes.TextTypes.CodeEditor,
+                    .FieldCodeEditor(
+                        context: context,
                         controlId: "ScriptBody",
                         fieldCss: "field-wide",
                         controlCss: " always-send",
@@ -15200,8 +15200,8 @@ namespace Implem.Pleasanter.Models
                         },
                         selectedValue: html.PositionType.ToInt().ToString(),
                         insertBlank: false)
-                    .FieldTextBox(
-                        textType: HtmlTypes.TextTypes.CodeEditor,
+                    .FieldCodeEditor(
+                        context: context,
                         controlId: "HtmlBody",
                         fieldCss: "field-wide",
                         controlCss: " always-send",
@@ -15573,8 +15573,8 @@ namespace Implem.Pleasanter.Models
                         controlCss: " always-send",
                         labelText: Displays.Name(context: context),
                         text: script.Name)
-                    .FieldTextBox(
-                        textType: HtmlTypes.TextTypes.CodeEditor,
+                    .FieldCodeEditor(
+                        context: context,
                         controlId: "ServerScriptBody",
                         fieldCss: "field-wide",
                         controlCss: " always-send",
