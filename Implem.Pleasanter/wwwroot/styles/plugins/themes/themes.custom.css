@@ -417,13 +417,22 @@ input{
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
-
+    &:has(+ .current-user){
+        appearance: none;
+        padding-right: 24px;
+        + .ui-icon{
+            right: 4px;
+            z-index: 2;
+        }
+    }
 }
 
 /* input-field */
 .control-textbox {
     position: relative;
-    padding: 4px 8px 4px 8px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
     &.error {
         border: solid 1px var(--warning-color);
     }
@@ -431,8 +440,10 @@ input{
         padding: 1px;
     }
     &.datepicker{
+        padding-right: 24px;
         + .ui-icon{
-            right: 2px;
+            right: 4px;
+            z-index: 2;
         }
     }
 }
@@ -490,6 +501,8 @@ input{
         border: 1px solid var(--control-border);
     }
     .control-markup {
+        color: var(--control-text);
+        background-color: var(--control-bg);
         .md,
         pre {
             color: var(--control-text);
@@ -2057,6 +2070,13 @@ body:not(:has(#Editor)){
     border-top: solid 1px var(--grid-cell-border);
     border-bottom: solid 1px var(--grid-cell-border);
     background-color: var(--grid-cell-bg);
+
+    /* 一括編集設定 */
+    .ui-widget.ui-state-default.ui-multiselect{
+        width: 100%;
+        white-space: nowrap;
+        max-width: 200px;
+    }
 }
 
 /* Component ---------------------------------------------------------------- */
