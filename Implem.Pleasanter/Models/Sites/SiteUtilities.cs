@@ -15574,10 +15574,11 @@ namespace Implem.Pleasanter.Models
                         labelText: Displays.Name(context: context),
                         text: script.Name)
                     .FieldTextBox(
-                        textType: HtmlTypes.TextTypes.MultiLine,
+                        textType: HtmlTypes.TextTypes.CodeEditor,
                         controlId: "ServerScriptBody",
                         fieldCss: "field-wide",
                         controlCss: " always-send",
+                        dataLang: "javascript",
                         labelText: Displays.Script(context: context),
                         text: script.Body)
                     .FieldSpinner(
