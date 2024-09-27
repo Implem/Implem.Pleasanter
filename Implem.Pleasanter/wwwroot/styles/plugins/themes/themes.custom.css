@@ -501,6 +501,8 @@ input{
         border: 1px solid var(--control-border);
     }
     .control-markup {
+        color: var(--control-text);
+        background-color: var(--control-bg);
         .md,
         pre {
             color: var(--control-text);
