@@ -3244,7 +3244,7 @@ namespace Implem.Pleasanter.Models
             }
             if (Parameters.SysLog.EnableLoggingToFile)
             {
-                logger.ForInfoEvent()
+                logger.ForLogEvent(SysLogType != SysLogTypes.Info ? LogLevel.Error : LogLevel.Info)
                     .Message("UpdateSysLog")
                     .Property("syslog", ToLogModel(this))
                     .Log();
@@ -3371,7 +3371,7 @@ namespace Implem.Pleasanter.Models
             if (Parameters.SysLog.EnableLoggingToFile)
             {
                 // Textize
-                logger.ForInfoEvent()
+                logger.ForLogEvent(sysLogType != SysLogTypes.Info ? LogLevel.Error : LogLevel.Info)
                     .Message("WriteSysLog")
                     .Property("syslog", ToLogModel(this))
                     .Log();
