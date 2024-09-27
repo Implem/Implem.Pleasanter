@@ -1,0 +1,1 @@
+﻿show databases where "database" = '#InitialCatalog#';
