@@ -1428,7 +1428,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string extendedHtmlAfterControl = null,
             bool _using = true)
         {
-            var textType = context.ThemeVersionForCss() >= 2.0M
+            var textType = context.ThemeVersionForCss() >= 2.0M && Parameters.General.EnableCodeEditor
                 ? HtmlTypes.TextTypes.CodeEditor
                 : HtmlTypes.TextTypes.MultiLine;
             return _using
