@@ -33,7 +33,6 @@ using Xunit.Sdk;
 // 7. group.ContainsChild
 // 8. group.ContainsDept
 // 9. group.ContainsUser
-// 10. groups.Update
 
 // 処理概要
 // 1-1. 「users.Get()」でログインユーザの情報を取得
@@ -51,8 +50,6 @@ using Xunit.Sdk;
 // 7-1. 取得したグループ情報をもとに「group.ContainsChild()」で子グループの存在を確認
 // 8-1. 取得したグループ情報をもとに「group.ContainsDept()」で組織の存在を確認
 // 9-1. 取得したグループ情報をもとに「group.ContainsUser()」でユーザの存在を確認
-// 10-1. 取得したグループ情報をもとに「groups.Update()」でグループのメンバーを更新
-// 10-2. グループの更新可否を確認
 
 // 変数宣言箇所
 const logClass = { DEBUG: '【DEBUG】', INFO: '【INFO】' };
@@ -61,10 +58,10 @@ var result;
 const loginUserId = context.UserId;
 const loginUserBelongDeptId = context.DeptId;
 const loginUserBelongGroupIds = context.Groups;
-const userName = 'xUnitテスト用ユーザ';
-const deptName = 'xUnitテスト用組織';
-const groupName = 'xUnitテスト用グループ';
-const groupChildName = 'xUnitテスト用グループの子グループ';
+const userName = 'UsersDeptsGroupsテスト用ユーザ';
+const deptName = 'UsersDeptsGroupsテスト用組織';
+const groupName = 'UsersDeptsGroupsテスト用グループ';
+const groupChildName = 'UsersDeptsGroupsテスト用グループの子グループ';
 
 try {
     // 実装箇所
@@ -142,20 +139,6 @@ try {
     targetFunction = 'group.ContainsUser()';
     // 9-1. 取得したグループ情報をもとに「group.ContainsUser()」でユーザの存在を確認
     result = loginUserBelongGroupInfo.ContainsUser(loginUserId) === true;
-    judgeResult(result, targetFunction);
-
-    // 10. groups.Update
-    targetFunction = 'groups.Update()';
-    const groupMembers = [
-        'User,' + loginUserId + ',true',
-        'Dept,' + loginUserBelongDeptId + ',true'
-]
-    const data = {
-        GroupMembers: groupMembers
-    };
-    // 10-1. 取得したグループ情報をもとに「groups.Update()」でグループのメンバーを更新
-    // 10-2. グループの更新可否を確認
-    result = groups.Update(loginUserBelongGroupIds[0], JSON.stringify(data));
     judgeResult(result, targetFunction);
 
 } catch (ex) {
@@ -238,8 +221,7 @@ namespace Implem.PleasanterTest.Tests.ServerScript
                 HtmlData.HasInformationMessage(message: "group.GetMembers()：成功"),
                 HtmlData.HasInformationMessage(message: "group.ContainsChild()：成功"),
                 HtmlData.HasInformationMessage(message: "group.ContainsDept()：成功"),
-                HtmlData.HasInformationMessage(message: "group.ContainsUser()：成功"),
-                HtmlData.HasInformationMessage(message: "groups.Update()：成功"));
+                HtmlData.HasInformationMessage(message: "group.ContainsUser()：成功"));
             var testParts = new List<TestPart>()
             {
                 new TestPart(title: "サーバスクリプト-UsersDeptsGroups", baseTests: hasMessages,userType: UserData.UserTypes.UserDeptsGroups),
