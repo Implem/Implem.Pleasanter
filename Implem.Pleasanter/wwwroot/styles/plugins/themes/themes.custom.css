@@ -448,6 +448,11 @@ input{
     }
 }
 
+/* input-spinner */
+.control-spinner{
+    color: var(--control-text);
+}
+
 /* fileUpload */
 .control-attachments-upload {
     border-color: var(--primaryColor) !important;
