@@ -1897,7 +1897,8 @@ namespace Implem.Pleasanter.Models
             //基準となるサイトからSiteSettingsを取得
             var ss = SiteSettingsUtilities.Get(
                 context: context,
-                siteId: dashboardPart.SiteId);
+                siteId: dashboardPart.SiteId,
+                setSiteIntegration: true);
             //対象サイトをサイト統合の仕組みで登録
             ss.IntegratedSites = dashboardPart.TimeLineSitesData;
             ss.SetSiteIntegration(context: context);
@@ -2130,7 +2131,9 @@ namespace Implem.Pleasanter.Models
             //基準となるサイトからSiteSettingsを取得
             var currentSs = SiteSettingsUtilities.Get(
                 context: context,
-                siteId: dashboardPart.SiteId);
+                siteId: dashboardPart.SiteId,
+                setSiteIntegration: true,
+                setAllChoices: true);
             //対象サイトをサイト統合の仕組みで登録
             currentSs.IntegratedSites = dashboardPart.CalendarSitesData;
             currentSs.SetSiteIntegration(context: context);
@@ -2164,7 +2167,9 @@ namespace Implem.Pleasanter.Models
             }
             var currentSs = SiteSettingsUtilities.Get(
                 context: context,
-                siteId: dashboardPart.SiteId);
+                siteId: dashboardPart.SiteId,
+                setSiteIntegration: true,
+                setAllChoices: true);
             //対象サイトをサイト統合の仕組みで登録
             currentSs.IntegratedSites = dashboardPart.CalendarSitesData;
             currentSs.SetSiteIntegration(context: context);
@@ -2231,7 +2236,9 @@ namespace Implem.Pleasanter.Models
             DashboardPart dashboardPart = ss.DashboardParts.FirstOrDefault(x => x.Id == context.Forms.Data(matchingKey).ToInt());
             var currentSs = SiteSettingsUtilities.Get(
                 context: context,
-                siteId: context.Forms.Long("SiteId"));
+                siteId: context.Forms.Long("SiteId"),
+                setSiteIntegration: true,
+                setAllChoices: true);
             //対象サイトをサイト統合の仕組みで登録
             currentSs.IntegratedSites = dashboardPart.CalendarSitesData;
             currentSs.SetSiteIntegration(context: context);
@@ -2410,6 +2417,7 @@ namespace Implem.Pleasanter.Models
             var currentSs = SiteSettingsUtilities.Get(
                 context: context,
                 siteId: dashboardPart.SiteId,
+                setSiteIntegration: true,
                 setAllChoices: true);
             //対象サイトをサイト統合の仕組みで登録
             currentSs.IntegratedSites = dashboardPart.KambanSitesData;
@@ -2442,6 +2450,7 @@ namespace Implem.Pleasanter.Models
             var currentSs = SiteSettingsUtilities.Get(
                 context: context,
                 siteId: context.Forms.Long("SiteId"),
+                setSiteIntegration: true,
                 setAllChoices: true);
             //対象サイトをサイト統合の仕組みで登録
             currentSs.IntegratedSites = dashboardPart.KambanSitesData;
@@ -2596,7 +2605,8 @@ namespace Implem.Pleasanter.Models
         {
             var currentSs = SiteSettingsUtilities.Get(
                 context: context,
-                siteId: dashboardPart.SiteId);
+                siteId: dashboardPart.SiteId,
+                setSiteIntegration: true);
             //対象サイトをサイト統合の仕組みで登録
             currentSs.IntegratedSites = dashboardPart.IndexSitesData;
             currentSs.SetSiteIntegration(context: context);
@@ -2625,7 +2635,8 @@ namespace Implem.Pleasanter.Models
             DashboardPart dashboardPart = ss.DashboardParts.FirstOrDefault(x => x.Id == suffix.Replace("_", "").ToInt());
             var currentSs = SiteSettingsUtilities.Get(
                 context: context,
-                siteId: dashboardPart.SiteId);
+                siteId: dashboardPart.SiteId,
+                setSiteIntegration: true);
             //対象サイトをサイト統合の仕組みで登録
             currentSs.IntegratedSites = dashboardPart.IndexSitesData;
             currentSs.SetSiteIntegration(context: context);
