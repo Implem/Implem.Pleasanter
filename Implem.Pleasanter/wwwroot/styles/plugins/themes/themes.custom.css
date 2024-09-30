@@ -627,6 +627,11 @@ input{
             color: var(--control-error);
         }
     }
+    .control-spinner{
+        ~ .error{
+            top: -10px;
+        }
+    }
 }
 
 /* field-section */
