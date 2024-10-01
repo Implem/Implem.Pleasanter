@@ -448,6 +448,11 @@ input{
     }
 }
 
+/* input-spinner */
+.control-spinner{
+    color: var(--control-text);
+}
+
 /* fileUpload */
 .control-attachments-upload {
     border-color: var(--primaryColor) !important;
@@ -620,6 +625,11 @@ input{
             padding: 4px 8px;
             top: 0;
             color: var(--control-error);
+        }
+    }
+    .control-spinner{
+        ~ .error{
+            top: -10px;
         }
     }
 }
