@@ -56,7 +56,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                         + AsBracket();
         }
 
-        private string AsBracket()
+        internal string AsBracket()
         {
             return As != null
                 ? " as \"" + As + "\""
