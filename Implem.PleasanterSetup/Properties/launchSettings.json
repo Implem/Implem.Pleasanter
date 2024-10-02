@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Implem.PleasanterSetup": {
+      "commandName": "Project",
+      "commandLineArgs": "C:\\test\\Pleasanterバージョン\\Pleasanter_1.4.6.4.zip -d C:\\test\\pleasanter"
+    }
+  }
+}

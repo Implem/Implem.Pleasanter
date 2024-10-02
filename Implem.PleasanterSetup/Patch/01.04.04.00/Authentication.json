@@ -1,0 +1,16 @@
+{
+  "LdapParameters": {
+    "_t": "a",
+    "0": {
+      "LdapGroupName": [
+        "cn"
+      ],
+      "LdapGroupNamePattern": [
+        null
+      ],
+      "LdapSyncGroupPatterns": [
+        null
+      ]
+    }
+  }
+}

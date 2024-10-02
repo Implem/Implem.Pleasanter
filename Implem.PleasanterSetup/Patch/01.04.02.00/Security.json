@@ -1,0 +1,10 @@
+{
+  "SecondaryAuthentication": {
+    "CountTolerances": [
+      1
+    ]
+  },
+  "IpRestrictionExcludeMembers": [
+    null
+  ]
+}
