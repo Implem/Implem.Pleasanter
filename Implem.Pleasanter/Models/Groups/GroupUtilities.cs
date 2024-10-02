@@ -1146,7 +1146,7 @@ namespace Implem.Pleasanter.Models
                 .Li(action: () => hb
                     .A(
                         href: "#FieldSetGroupChildren",
-                        text: Displays.GroupChildren(context: context),
+                        text: Displays.ChildGroup(context: context),
                         _using: groupModel.MethodType != BaseModel.MethodTypes.New))
                 .Li(
                     _using: groupModel.MethodType != BaseModel.MethodTypes.New,

@@ -10,6 +10,7 @@ using Xunit;
 
 namespace Implem.PleasanterTest.Tests.Users
 {
+    [Collection(nameof(UsersEdit))]
     public class UsersEdit
     {
         [Theory]
@@ -26,6 +27,7 @@ namespace Implem.PleasanterTest.Tests.Users
             var results = Results(
                 context: context,
                 id: id);
+            Initializer.SaveResults(results);
             Assert.True(Tester.Test(
                 context: context,
                 results: results,
