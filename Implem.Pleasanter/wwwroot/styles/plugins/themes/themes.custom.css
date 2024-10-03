@@ -448,6 +448,11 @@ input{
     }
 }
 
+/* input-spinner */
+.control-spinner{
+    color: var(--control-text);
+}
+
 /* fileUpload */
 .control-attachments-upload {
     border-color: var(--primaryColor) !important;
@@ -521,10 +526,36 @@ input{
     font-weight: lighter;
 }
 
+/* status-color */
 .status-new,
 .status-review {
     color: var(--nonColor02);
 }
+.status-preparation,
+.status-inprogress,
+.status-closed,
+.status-rejected {
+    color: var(--nonColor16);
+}
+.status-new {
+    background: #fff
+}
+.status-preparation {
+    background: #ff8c00
+}
+.status-inprogress {
+    background: #008000
+}
+.status-review {
+    background: #ff0
+}
+.status-closed {
+    background: #00f
+}
+.status-rejected {
+    background: #808080
+}
+
 
 /* user */
 .user {
@@ -620,6 +651,11 @@ input{
             padding: 4px 8px;
             top: 0;
             color: var(--control-error);
+        }
+    }
+    .control-spinner{
+        ~ .error{
+            top: -10px;
         }
     }
 }
