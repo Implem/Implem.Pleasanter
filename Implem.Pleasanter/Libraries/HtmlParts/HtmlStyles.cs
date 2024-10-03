@@ -142,14 +142,23 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     _using: Parameters.Mobile.Responsive
                         && context.Mobile
                         && context.Responsive
+                        && context.ThemeVersionForCss() < 2.0M
                         && (ss == null || ss.Responsive != false))
                 .Link(
                     href: Responses.Locations.Get(
                         context: context,
-                        parts: context.ThemeVersionForCss() >= 2.0M && context.Mobile
-                            ? $"Styles/Plugins/themes/cupertino/custom.css"
-                            : $"Styles/Plugins/themes/{context.Theme()}/custom.css"),
+                        parts: $"Styles/Plugins/themes/{context.Theme()}/custom.css"),
                     rel: "stylesheet")
+                .Link(
+                    href: Responses.Locations.Get(
+                        context: context,
+                        parts: "Styles/Plugins/themes/responsive.css"),
+                    rel: "stylesheet",
+                    _using: Parameters.Mobile.Responsive
+                        && context.Mobile
+                        && context.Responsive
+                        && context.ThemeVersionForCss() >= 2.0M && context.Mobile
+                        && (ss == null || ss.Responsive != false))
                 .Link(
                     href: Responses.Locations.Get(
                         context: context,
