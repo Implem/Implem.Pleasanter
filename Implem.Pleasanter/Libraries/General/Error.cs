@@ -28,6 +28,7 @@ namespace Implem.Pleasanter.Libraries.General
             CanNotPerformed,
             CantSetAtTopOfSite,
             CircularGroupChild,
+            CustomAppsLimit,
             CustomError,
             DefinitionNotFound,
             DeleteConflicts,
@@ -113,8 +114,7 @@ namespace Implem.Pleasanter.Libraries.General
             UserDisabled,
             UserLockout,
             UserNotSelfDelete,
-            UsersLimit,
-            UserTemplateLimit
+            UsersLimit
         }
 
         public static bool Has(this Types type)
@@ -204,6 +204,10 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.CircularGroupChild:
                     return Messages.CircularGroupChild(
+                        context: context,
+                        data: data);
+                case Types.CustomAppsLimit:
+                    return Messages.CustomAppsLimit(
                         context: context,
                         data: data);
                 case Types.CustomError:
@@ -548,10 +552,6 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.UsersLimit:
                     return Messages.UsersLimit(
-                        context: context,
-                        data: data);
-                case Types.UserTemplateLimit:
-                    return Messages.UserTemplateLimit(
                         context: context,
                         data: data);
                 default: return null;

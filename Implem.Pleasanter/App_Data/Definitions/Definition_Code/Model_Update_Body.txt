@@ -140,7 +140,7 @@ private List<SqlStatement> UpdateStatements(
                 ss: ss,
                 #modelName#Model: this,
                 otherInitValue: otherInitValue)),
-        new SqlStatement(Def.Sql.IfConflicted.Params(#ModelName#Id))
+        new SqlStatement()
         {
             DataTableName = dataTableName,
             IfConflicted = true,

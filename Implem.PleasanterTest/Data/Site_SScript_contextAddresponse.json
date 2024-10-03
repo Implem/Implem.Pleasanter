@@ -1,9 +1,9 @@
 ﻿{
-    "Id": "Site_SScript_contextAddresponse",
+    "Id": "Site_SScript_contextResponseMethod",
     "Language": "ja",
     "Type": "Sites",
     "ParentId": "ServerScriptFolder",
-    "Title": "xUnit_contextAddresponse",
+    "Title": "xUnit_contextResponseMethod",
     "ClassA": "Results",
     "Creator": "User2",
     "Updator": "User2",

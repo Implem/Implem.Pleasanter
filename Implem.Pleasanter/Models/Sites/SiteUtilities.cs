@@ -2649,7 +2649,7 @@ namespace Implem.Pleasanter.Models
                                 action: () => hb
                                     .A(
                                         href: "#FieldSetUserTemplate",
-                                        text: Displays.UserTemplate(context: context)),
+                                        text: Displays.CustomApps(context: context)),
                                 _using: Parameters.UserTemplate.Enabled))
                         .TemplateTab(
                             context: context,
@@ -2763,7 +2763,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             name: "UserTemplate",
                             templates: templates
-                                .Where(o => o.UserTemplate > 0)
+                                .Where(o => o.CustomApps > 0)
                                 .OrderBy(o => o.Id),
                             isUserTemplate: true,
                             _using: Parameters.UserTemplate.Enabled));
@@ -2778,7 +2778,7 @@ namespace Implem.Pleasanter.Models
             string templateId = null)
         {
             var column = Rds.ExtensionsColumn().ExtensionId().ExtensionName();
-            var where = Rds.ExtensionsWhere().TenantId(context.TenantId).ExtensionType("UserTemplate").Disabled(false);
+            var where = Rds.ExtensionsWhere().TenantId(context.TenantId).ExtensionType("CustomApps").Disabled(false);
             if (!templateId.IsNullOrEmpty())
             {
                 var id = -1;
@@ -2811,7 +2811,7 @@ namespace Implem.Pleasanter.Models
                     Id = $"UserTemplate{o.ExtensionId}",
                     Title = o.ExtensionName,
                     Description = o.Description,
-                    UserTemplate = o.ExtensionId
+                    CustomApps = o.ExtensionId
                 });
         }
 
@@ -2914,17 +2914,17 @@ namespace Implem.Pleasanter.Models
             {
                 return Messages.ResponseHasNotPermission(context: context).ToJson();
             }
-            if (Parameters.UserTemplate.UserTemplateMax > 0
+            if (Parameters.UserTemplate.CustomAppsMax > 0
                 && Repository.ExecuteScalar_int(
                     context: context,
                     statements: Rds.SelectExtensions(
                         column: Rds.ExtensionsColumn().ExtensionsCount(),
                         where: Rds.ExtensionsWhere()
                             .TenantId(context.TenantId)
-                            .ExtensionType("UserTemplate")
-                            .Disabled(false))) >= Parameters.UserTemplate.UserTemplateMax)
+                            .ExtensionType("CustomApps")
+                            .Disabled(false))) >= Parameters.UserTemplate.CustomAppsMax)
             {
-                return Messages.ResponseUserTemplateLimit(context: context).ToJson();
+                return Messages.ResponseCustomAppsLimit(context: context).ToJson();
             }
             var sitePackage = Libraries.SitePackages.Utilities.GetSitePackageFromPostedFile(context: context);
             if (sitePackage == null)
@@ -2939,7 +2939,7 @@ namespace Implem.Pleasanter.Models
             var searchText = context.Forms.Data("SearchText");
             var extension = new ExtensionModel(context: context);
             extension.ExtensionName = title;
-            extension.ExtensionType = "UserTemplate";
+            extension.ExtensionType = "CustomApps";
             extension.Description = context.Forms.Data("Description");
             extension.ExtensionSettings = sitePackage.ToJson();
             // テナント毎に管理するのでTemplateDefinition.Languageの指定はなし
@@ -4681,7 +4681,7 @@ namespace Implem.Pleasanter.Models
         public static string PreviewTemplate(
             Context context, TemplateDefinition template, string controlId)
         {
-            if (template.UserTemplate > 0)
+            if (template.CustomApps > 0)
             {
                 return PreviewUserTemplate(
                     context: context,
@@ -14380,11 +14380,12 @@ namespace Implem.Pleasanter.Models
                         labelText: Displays.Title(context: context),
                         text: style.Title,
                         validateRequired: true)
-                    .FieldTextBox(
-                        textType: HtmlTypes.TextTypes.MultiLine,
+                    .FieldCodeEditor(
+                        context: context,
                         controlId: "StyleBody",
                         fieldCss: "field-wide",
                         controlCss: " always-send",
+                        dataLang: "css",
                         labelText: Displays.Style(context: context),
                         text: style.Body)
                     .FieldCheckBox(
@@ -14763,11 +14764,12 @@ namespace Implem.Pleasanter.Models
                         labelText: Displays.Title(context: context),
                         text: script.Title,
                         validateRequired: true)
-                    .FieldTextBox(
-                        textType: HtmlTypes.TextTypes.MultiLine,
+                    .FieldCodeEditor(
+                        context: context,
                         controlId: "ScriptBody",
                         fieldCss: "field-wide",
                         controlCss: " always-send",
+                        dataLang: "javascript",
                         labelText: Displays.Script(context: context),
                         text: script.Body)
                     .FieldCheckBox(
@@ -15198,11 +15200,12 @@ namespace Implem.Pleasanter.Models
                         },
                         selectedValue: html.PositionType.ToInt().ToString(),
                         insertBlank: false)
-                    .FieldTextBox(
-                        textType: HtmlTypes.TextTypes.MultiLine,
+                    .FieldCodeEditor(
+                        context: context,
                         controlId: "HtmlBody",
                         fieldCss: "field-wide",
                         controlCss: " always-send",
+                        dataLang: "html",
                         labelText: Displays.Html(context: context),
                         text: html.Body)
                     .FieldCheckBox(
@@ -15570,11 +15573,12 @@ namespace Implem.Pleasanter.Models
                         controlCss: " always-send",
                         labelText: Displays.Name(context: context),
                         text: script.Name)
-                    .FieldTextBox(
-                        textType: HtmlTypes.TextTypes.MultiLine,
+                    .FieldCodeEditor(
+                        context: context,
                         controlId: "ServerScriptBody",
                         fieldCss: "field-wide",
                         controlCss: " always-send",
+                        dataLang: "javascript",
                         labelText: Displays.Script(context: context),
                         text: script.Body)
                     .FieldSpinner(
@@ -17731,7 +17735,7 @@ namespace Implem.Pleasanter.Models
                 attributes: new HtmlAttributes()
                     .Id("CreateUserTemplateDialog")
                     .Class("dialog")
-                    .Title(Displays.UserTemplate(context: context)),
+                    .Title(Displays.CustomApps(context: context)),
                 action: () => hb
                     .Div(
                         action: () => hb

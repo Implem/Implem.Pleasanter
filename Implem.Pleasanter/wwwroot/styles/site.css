@@ -325,6 +325,10 @@ pre {
     padding: 10px 5px 10px;
 }
 
+#Guide .markup{
+    overflow: hidden;
+}
+
 #CopyToClipboards > .display-control {
     float: left;
     cursor: pointer;
@@ -1890,6 +1894,7 @@ td > .field-normal, td > .field-wide {
 }
 
 .field-auto {
+    display: flex;
     width: auto;
     height: 45px;
     float: left;
@@ -1910,6 +1915,7 @@ td > .field-normal, td > .field-wide {
     .field-auto > .field-control {
         width: auto;
         float: left;
+        flex: 1;
     }
 
 .field-auto-thin {

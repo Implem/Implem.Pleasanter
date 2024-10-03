@@ -136,7 +136,7 @@ namespace Implem.DefinitionAccessor
             Parameters.SitePackage = Read<SitePackage>();
             Parameters.SysLog = Read<SysLog>();
             Parameters.User = Read<User>();
-            Parameters.UserTemplate = Read<UserTemplate>();
+            Parameters.UserTemplate = Read<CustomApps>();
             Parameters.Parameter = Read<Parameter>();
             Parameters.Locations = Read<Locations>();
             Parameters.Validation = Read<Validation>();
@@ -1052,8 +1052,6 @@ namespace Implem.DefinitionAccessor
         {
             Sqls.LogsPath = Directories.Logs();
             Sqls.SelectIdentity = Def.Sql.SelectIdentity;
-            Sqls.BeginTransaction = Def.Sql.BeginTransaction;
-            Sqls.CommitTransaction = Def.Sql.CommitTransaction;
         }
 
         private static void SetBundleVersions()

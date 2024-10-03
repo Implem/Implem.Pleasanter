@@ -9,6 +9,7 @@ using Xunit;
 
 namespace Implem.PleasanterTest.Tests.Items
 {
+    [Collection(nameof(setTemplate))]
     public class setTemplate
     {
         [Theory]
@@ -24,6 +25,7 @@ namespace Implem.PleasanterTest.Tests.Items
                 routeData: RouteData.ItemsTemplates(id: id),
                 httpMethod: "POST");
             var results = Results(context: context);
+            Initializer.SaveResults(results);
             Assert.True(Tester.Test(
                 context: context,
                 results: results,

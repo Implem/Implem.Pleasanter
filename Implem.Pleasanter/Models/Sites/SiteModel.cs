@@ -1298,7 +1298,7 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         siteModel: this,
                         otherInitValue: otherInitValue)),
-                new SqlStatement(Def.Sql.IfConflicted.Params(SiteId))
+                new SqlStatement()
                 {
                     DataTableName = dataTableName,
                     IfConflicted = true,
@@ -1486,7 +1486,7 @@ namespace Implem.Pleasanter.Models
                 transactional: true,
                 statements: Rds.PhysicalDeleteSites(
                     tableType: tableType,
-                    param: Rds.SitesParam().TenantId(TenantId).SiteId(SiteId)));
+                    where: Rds.SitesWhere().TenantId(TenantId).SiteId(SiteId)));
             return new ErrorData(type: Error.Types.None);
         }
 

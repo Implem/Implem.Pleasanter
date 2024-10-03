@@ -11,6 +11,7 @@ using Xunit;
 
 namespace Implem.PleasanterTest.Tests.Versions
 {
+    [Collection(nameof(VersionsIndex))]
     public class VersionsIndex
     {
         [Theory]
@@ -23,6 +24,7 @@ namespace Implem.PleasanterTest.Tests.Versions
                 userId: userModel.UserId,
                 routeData: RouteData.VersionsIndex());
             var results = Results(context: context);
+            Utilities.Initializer.SaveResults(results);
             Assert.True(Tester.Test(
                 context: context,
                 results: results,

@@ -1809,6 +1809,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string ChildGroup(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ChildGroup",
+                data: data);
+        }
+
         public static string CircularGroupChild(
             Context context,
             params string[] data)
@@ -2696,6 +2706,26 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Custom",
+                data: data);
+        }
+
+        public static string CustomApps(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "CustomApps",
+                data: data);
+        }
+
+        public static string CustomAppsLimit(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "CustomAppsLimit",
                 data: data);
         }
 
@@ -4476,16 +4506,6 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "GroupByY",
-                data: data);
-        }
-
-        public static string GroupChildren(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "GroupChildren",
                 data: data);
         }
 
@@ -10509,26 +10529,6 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
-        public static string UserTemplate(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "UserTemplate",
-                data: data);
-        }
-
-        public static string UserTemplateLimit(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "UserTemplateLimit",
-                data: data);
-        }
-
         public static string UseSearch(
             Context context,
             params string[] data)
@@ -11426,66 +11426,6 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Depts_Title",
-                data: data);
-        }
-
-        public static string ExportSettings_AddHeader(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "ExportSettings_AddHeader",
-                data: data);
-        }
-
-        public static string ExportSettings_ExportColumns(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "ExportSettings_ExportColumns",
-                data: data);
-        }
-
-        public static string ExportSettings_ExportSettingId(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "ExportSettings_ExportSettingId",
-                data: data);
-        }
-
-        public static string ExportSettings_ReferenceId(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "ExportSettings_ReferenceId",
-                data: data);
-        }
-
-        public static string ExportSettings_ReferenceType(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "ExportSettings_ReferenceType",
-                data: data);
-        }
-
-        public static string ExportSettings_Title(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "ExportSettings_Title",
                 data: data);
         }
 
@@ -14786,86 +14726,6 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Depts_VerUp",
-                data: data);
-        }
-
-        public static string ExportSettings_Comments(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "ExportSettings_Comments",
-                data: data);
-        }
-
-        public static string ExportSettings_CreatedTime(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "ExportSettings_CreatedTime",
-                data: data);
-        }
-
-        public static string ExportSettings_Creator(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "ExportSettings_Creator",
-                data: data);
-        }
-
-        public static string ExportSettings_Timestamp(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "ExportSettings_Timestamp",
-                data: data);
-        }
-
-        public static string ExportSettings_UpdatedTime(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "ExportSettings_UpdatedTime",
-                data: data);
-        }
-
-        public static string ExportSettings_Updator(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "ExportSettings_Updator",
-                data: data);
-        }
-
-        public static string ExportSettings_Ver(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "ExportSettings_Ver",
-                data: data);
-        }
-
-        public static string ExportSettings_VerUp(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "ExportSettings_VerUp",
                 data: data);
         }
 
@@ -24546,6 +24406,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Extensions",
+                data: data);
+        }
+
+        public static string GroupChildren(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "GroupChildren",
                 data: data);
         }
 
