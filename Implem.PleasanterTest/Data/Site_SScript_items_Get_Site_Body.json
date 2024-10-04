@@ -1,0 +1,14 @@
+﻿{
+    "Version": 1.017,
+    "ReferenceType": "Results",
+    "ServerScripts": [
+        {
+            "Title": "test",
+            "Name": "",
+            "BeforeOpeningPage": true,
+            "Body": "try {\r    // 判定により表示されるメッセージのcssを設定\r    const successScc = 'alert-information';\r    const errorScc = 'alert-error';\r\r    // 判定により表示されるメッセージ内容を設定\r    const successMessage = '：テスト成功';\r    const errorMessage = '：テスト失敗';\r\r    var condition;\r    var title;\r    var data;\r\r    //1. items.GetClosestSite\r    title = 'items.GetClosestSite()';\r    condition = 'items.GetClosestSite';\r    data = items.GetClosestSite('GetSiteBySiteName');\r    judgeCondition(data.Title, condition);\r\r    //2. items.GetSite\r    title = 'items.NewSite()';\r    condition = title;\r    var item = items.NewSite(\"Results\");\r    item.Title = title;\r    items.Create(0, item);\r    judgeCondition(item.Title, condition);\r    title = 'items.GetSite()';\r    data = items.GetSite(item.SiteId)[0].Model;\r    judgeCondition(data.SavedTitle, condition);\r\r    //3. items.GetSiteByGroupName\r    condition = 'items.GetSiteByGroupName';\r    title = 'items.GetSiteByGroupName()';\r    data = items.GetSiteByGroupName('items.GetSiteByGroupName')[0].Model;\r    judgeCondition(data.SavedTitle, condition);\r\r    //4. items.GetSiteByName\r    condition = 2;\r    title = 'items.GetSiteByName()';\r    data = items.GetSiteByName('GetSiteBySiteName');\r    judgeCondition(data.Length, condition);\r\r    function judgeCondition(formula, condition) {\r        if (formula === condition) {\r            context.AddMessage(title + successMessage, successScc);\r        } else {\r            context.AddMessage(title + errorMessage, errorScc);\r        }\r    }\r} catch (ex) {\r    context.Log(ex.stack);\r}\r",
+            "Id": 1
+        }
+    ],
+    "NoDisplayIfReadOnly": false
+}

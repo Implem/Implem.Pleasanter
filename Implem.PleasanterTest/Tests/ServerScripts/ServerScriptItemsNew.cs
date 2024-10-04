@@ -55,6 +55,7 @@ try {
 
 namespace Implem.PleasanterTest.Tests.ServerScript
 {
+    [Collection(nameof(ServerScriptItemsNew))]
     public class ServerScriptItemsNew
     {
         private static readonly string IssuesSiteTitle = "Issue_001";
@@ -76,6 +77,7 @@ namespace Implem.PleasanterTest.Tests.ServerScript
                 routeData: RouteData.ItemsIndex(id: siteId));
             context.BackgroundServerScript = true;
             var results = Results(context: context);
+            Initializer.SaveResults(results);
             Assert.True(Tester.Test(
                 context: context,
                 results: results,

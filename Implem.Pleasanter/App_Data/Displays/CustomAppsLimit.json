@@ -1,0 +1,33 @@
+﻿{
+    "Id": "CustomAppsLimit",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "The number of CustomApps has reached its limit."
+        },
+        {
+            "Language": "zh-CN",
+            "Body": "自定义应用程序的数量已达到极限。"
+        },
+        {
+            "Language": "ja",
+            "Body": "カスタムアプリ数が上限に達しました。"
+        },
+        {
+            "Language": "de",
+            "Body": "Die Anzahl der benutzerdefinierten Anwendungen hat ihr Limit erreicht."
+        },
+        {
+            "Language": "ko",
+            "Body": "맞춤 애플리케이션 수가 한도에 도달했습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "El número de aplicaciones personalizadas ha llegado a su límite."
+        },
+        {
+            "Language": "vi",
+            "Body": "Số lượng ứng dụng tùy chỉnh đã đạt đến giới hạn."
+        }
+    ]
+}

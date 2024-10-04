@@ -23,5 +23,6 @@
     "Logistics": "int",
     "LegalAffairs": "int",
     "ProductList": "int",
-    "Classification": "int"
+    "Classification": "int",
+    "CustomApps": "int"
 }

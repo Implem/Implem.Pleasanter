@@ -24,5 +24,6 @@ namespace Implem.ParameterAccessor.Parts
         public AspNetCoreDataProtection AspNetCoreDataProtection;
         public HttpStrictTransportSecurity HttpStrictTransportSecurity;
         public SecureCacheControl SecureCacheControl;
+        public HealthCheck HealthCheck;
     }
 }

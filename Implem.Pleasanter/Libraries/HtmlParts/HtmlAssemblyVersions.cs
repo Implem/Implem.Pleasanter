@@ -125,10 +125,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     context: context,
                     connectionString: Parameters.Rds.OwnerConnectionString,
                     statements: new SqlStatement(
-                        commandText: Def.Sql.Spaceused))
-                            .AsEnumerable()
-                            .FirstOrDefault()
-                            .String("database_size");
+                        commandText: Def.Sql.Spaceused
+                            .Replace("#InitialCatalog#", Environments.ServiceName)))
+                                .AsEnumerable()
+                                .FirstOrDefault()
+                                .String("database_size");
             }
             catch (Exception)
             {

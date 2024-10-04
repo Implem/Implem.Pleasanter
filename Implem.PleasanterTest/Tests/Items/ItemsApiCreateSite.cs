@@ -11,6 +11,7 @@ using static Implem.PleasanterTest.Utilities.ItemData;
 
 namespace Implem.PleasanterTest.Tests.Items
 {
+    [Collection(nameof(ItemsApiCreateSite))]
     public class ItemsApiCreateSite
     {
         [Theory]
@@ -27,6 +28,7 @@ namespace Implem.PleasanterTest.Tests.Items
                 routeData: RouteData.ItemsApiCreateSite(id: id),
                 apiRequestBody: apiRequestBody);
             var results = GetResults(context: context);
+            Initializer.SaveResults(results.Content);
             Assert.True(Tester.Test(
                 context: context,
                 results: results,

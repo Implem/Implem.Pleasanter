@@ -1,0 +1,9 @@
+﻿{
+    "Id": "CodeDefinerRdsCanceled",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "Database configuration canceled."
+        }
+    ]
+}

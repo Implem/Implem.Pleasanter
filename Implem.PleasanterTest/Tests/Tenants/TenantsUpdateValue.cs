@@ -11,6 +11,7 @@ using Xunit;
 
 namespace Implem.PleasanterTest.Tests.Tenants
 {
+    [Collection(nameof(TenantsUpdateValue))]
     public class TenantsUpdateValue : IDisposable
     {
         private static string timeZone = "Asia/Ho_Chi_Minh";
@@ -56,6 +57,7 @@ namespace Implem.PleasanterTest.Tests.Tenants
                 userId: userModel.UserId,
                 routeData: RouteData.TenantsEdit());
             var results = Results(context: context);
+            Initializer.SaveResults(results);
             Assert.True(Tester.Test(
                 context: context,
                 results: results,
