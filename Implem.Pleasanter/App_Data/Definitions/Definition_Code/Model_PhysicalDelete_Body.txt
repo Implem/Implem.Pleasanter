@@ -6,6 +6,6 @@
         transactional: true,
         statements: Rds.PhysicalDelete#TableName#(
             tableType: tableType,
-            param: Rds.#TableName#Param()<!--Model_AddSqlParamIdentity--><!--Model_AddSqlParamPk-->));
+            where: Rds.#TableName#Where()<!--Model_AddSqlParamIdentity--><!--Model_AddSqlParamPk-->));
     return new ErrorData(type: Error.Types.None);
 }

@@ -1298,7 +1298,7 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         siteModel: this,
                         otherInitValue: otherInitValue)),
-                new SqlStatement(Def.Sql.IfConflicted.Params(SiteId))
+                new SqlStatement()
                 {
                     DataTableName = dataTableName,
                     IfConflicted = true,
@@ -1486,7 +1486,7 @@ namespace Implem.Pleasanter.Models
                 transactional: true,
                 statements: Rds.PhysicalDeleteSites(
                     tableType: tableType,
-                    param: Rds.SitesParam().TenantId(TenantId).SiteId(SiteId)));
+                    where: Rds.SitesWhere().TenantId(TenantId).SiteId(SiteId)));
             return new ErrorData(type: Error.Types.None);
         }
 
@@ -4923,6 +4923,7 @@ namespace Implem.Pleasanter.Models
             {
                 SiteSettings.Processes.MoveUpOrDown(
                     ColumnUtilities.ChangeCommand(controlId), selected);
+                SiteSettings.GetColumn(context, "Status").SetChoiceHash(context, SiteSettings.SiteId);
                 res.Html("#EditProcess", new HtmlBuilder()
                     .EditProcess(
                         context: context,
@@ -5366,7 +5367,7 @@ namespace Implem.Pleasanter.Models
                 OpenProcessDataChangeDialog(
                     context: context,
                     res: res,
-                    dataChange: new DataChange());
+                    dataChange: new DataChange() { Type = DataChange.Types.CopyValue });
             }
             else
             {
@@ -5749,6 +5750,7 @@ namespace Implem.Pleasanter.Models
             {
                 SiteSettings.StatusControls.MoveUpOrDown(
                     ColumnUtilities.ChangeCommand(controlId), selected);
+                SiteSettings.GetColumn(context, "Status").SetChoiceHash(context, SiteSettings.SiteId);
                 res.Html("#EditStatusControl", new HtmlBuilder()
                     .EditStatusControl(
                         context: context,
@@ -8414,8 +8416,10 @@ namespace Implem.Pleasanter.Models
                 quickAccessSites: context.Forms.Data("DashboardPartQuickAccessSites"),
                 quickAccessLayout: context.Forms.Data("DashboardPartQuickAccessLayout").ToEnum<QuickAccessLayout>(),
                 timeLineSites: context.Forms.Data("DashboardPartTimeLineSites"),
-                timeLineTitle: context.Forms.Data("DashboardPartTimeLineTitle"),
-                timeLineBody: context.Forms.Data("DashboardPartTimeLineBody"),
+                timeLineTitle: SiteSettings.LabelTextToColumnName(
+                    text: context.Forms.Data("DashboardPartTimeLineTitle")),
+                timeLineBody: SiteSettings.LabelTextToColumnName(
+                    text: context.Forms.Data("DashboardPartTimeLineBody")),
                 timeLineItemCount: context.Forms.Int("DashboardPartTimeLineItemCount"),
                 content: context.Forms.Data("DashboardPartContent"),
                 htmlContent: context.Forms.Data("DashboardPartHtmlContent"),
@@ -8490,8 +8494,10 @@ namespace Implem.Pleasanter.Models
                 quickAccessSites: context.Forms.Data("DashboardPartQuickAccessSites"),
                 quickAccessLayout: context.Forms.Data("DashboardPartQuickAccessLayout").ToEnum<QuickAccessLayout>(),
                 timeLineSites: context.Forms.Data("DashboardPartTimeLineSites"),
-                timeLineTitle: context.Forms.Data("DashboardPartTimeLineTitle"),
-                timeLineBody: context.Forms.Data("DashboardPartTimeLineBody"),
+                timeLineTitle: SiteSettings.LabelTextToColumnName(
+                    text: context.Forms.Data("DashboardPartTimeLineTitle")),
+                timeLineBody: SiteSettings.LabelTextToColumnName(
+                    text: context.Forms.Data("DashboardPartTimeLineBody")),
                 timeLineItemCount: context.Forms.Int("DashboardPartTimeLineItemCount"),
                 content: context.Forms.Data("DashboardPartContent"),
                 htmlContent: context.Forms.Data("DashboardPartHtmlContent"),

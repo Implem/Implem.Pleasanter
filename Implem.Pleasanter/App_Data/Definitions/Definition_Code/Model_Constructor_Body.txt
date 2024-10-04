@@ -17,6 +17,7 @@ public #ModelName#Model(
 
 <!--Model_SetDefaultExec-->
 <!--Model_SetTenantId-->
+<!--Model_SetTimeZoneAndLanguage-->
 <!--Model_SetSiteId-->
 <!--Model_SetParentId-->
 <!--Model_SetInheritPermission-->
@@ -52,6 +53,7 @@ public #ModelName#Model(
 <!--Model_SetDefaultExec-->
 <!--Model_SetTenantId-->
 <!--Model_SetId-->
+<!--Model_SetTimeZoneAndLanguage-->
 <!--Model_SetSiteId-->
 <!--Model_GetHistory-->
 <!--Model_GetNormal-->

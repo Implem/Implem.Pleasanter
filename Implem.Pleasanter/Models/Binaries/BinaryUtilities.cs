@@ -870,7 +870,7 @@ namespace Implem.Pleasanter.Models
                     var tempBinaryHash = Repository.ExecuteScalar_bytes(
                             context: context,
                             statements: new SqlStatement(
-                                commandText: context.Sqls.GetBinaryHash,
+                                commandText: context.Sqls.GetBinaryHash(algorithm: "md5"),
                                 param: new SqlParamCollection{
                                     { "Algorithm", "md5" },
                                     { "Guid", fileUuid[filesIndex] }
@@ -1026,7 +1026,7 @@ namespace Implem.Pleasanter.Models
                     Guid = fileUuids.Skip(index).First(),
                     Name = fileName,
                     Size = fileSizes.Skip(index).First().ToLong(),
-                    Extention = System.IO.Path.GetExtension(fileNames.Skip(index).First()),
+                    Extension = System.IO.Path.GetExtension(fileNames.Skip(index).First()),
                     ContentType = fileTypes.Skip(index).First(),
                     Added = true,
                     Deleted = false

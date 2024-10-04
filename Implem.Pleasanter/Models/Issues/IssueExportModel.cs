@@ -37,7 +37,7 @@ namespace Implem.Pleasanter.Models
         public User Updator { get; set; }
         public Time CreatedTime { get; set; }
         public Dictionary<string, object> ClassHash = new Dictionary<string, object>();
-        public Dictionary<string, decimal> NumHash = new Dictionary<string, decimal>();
+        public Dictionary<string, decimal?> NumHash = new Dictionary<string, decimal?>();
         public Dictionary<string, DateTime> DateHash = new Dictionary<string, DateTime>();
         public Dictionary<string, string> DescriptionHash = new Dictionary<string, string>();
         public Dictionary<string, bool> CheckHash = new Dictionary<string, bool>();
@@ -74,24 +74,24 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public decimal Num(Column column)
+        public decimal? Num(Column column)
         {
             return Num(columnName: column.ColumnName);
         }
 
-        public decimal Num(string columnName)
+        public decimal? Num(string columnName)
         {
             return NumHash.Get(columnName);
         }
 
-        public void Num(Column column, decimal value)
+        public void Num(Column column, decimal? value)
         {
             Num(
                 columnName: column.ColumnName,
                 value: value);
         }
 
-        public void Num(string columnName, decimal value)
+        public void Num(string columnName, decimal? value)
         {
             if (!NumHash.ContainsKey(columnName))
             {
@@ -282,9 +282,14 @@ namespace Implem.Pleasanter.Models
                                         value: dataRow[column.ColumnName].ToString());
                                     break;
                                 case "Num":
+                                    var nullable = ss.GetColumn(
+                                        context: context,
+                                        columnName: column.ColumnName)?.Nullable ?? false;
                                     Num(
                                         columnName: column.Name,
-                                        value: dataRow[column.ColumnName].ToDecimal());
+                                        value: (nullable && dataRow[column.ColumnName] is DBNull)
+                                            ? null
+                                            : dataRow[column.ColumnName].ToDecimal());
                                     break;
                                 case "Date":
                                     Date(
@@ -336,9 +341,20 @@ namespace Implem.Pleasanter.Models
                 case "Class":
                     Class(
                         columnName: columnName,
-                        value: idHash.Get(ClassHash.Get(columnName).ToLong()));
+                        value: ReplaceClassIdHash(ClassHash.Get(columnName),idHash));
                     break;
             }
+        }
+
+        private static System.Text.RegularExpressions.Regex RegexIdPattern = new System.Text.RegularExpressions.Regex(@"\b(?<!\.)\d+(?!\.)\b");
+
+        private object ReplaceClassIdHash(object v, Dictionary<long, long> idHash)
+        {
+            return (v == null)
+                ? null
+                : RegexIdPattern.Replace(
+                    v.ToStr(),
+                    new System.Text.RegularExpressions.MatchEvaluator(m => idHash.Get(m.Value.ToLong()).ToStr()));
         }
     }
 }

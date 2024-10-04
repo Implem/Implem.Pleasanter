@@ -1262,6 +1262,13 @@ namespace Implem.Pleasanter.Models
                 var column = Site.SiteSettings.GetColumn(
                     context: context,
                     columnName: columnName);
+                if (column == null)
+                {
+                    Parameters.ExtendedFields.ForEach(extendedField =>
+                    {
+                        if (extendedField.Name == columnName) column = new Implem.Pleasanter.Libraries.Settings.Column(extendedField.Name);
+                    });
+                }
                 return new ResponseCollection(context: context)
                     .Html(
                         "#SetDateRangeDialog",
@@ -2004,6 +2011,33 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public ContentResultInheritance BulkUpsertByApi(Context context)
+        {
+            SetSite(
+                context: context,
+                initSiteSettings: true);
+            if (!Site.WithinApiLimits(context: context))
+            {
+                return ApiResults.Get(ApiResponses.OverLimitApi(
+                    context: context,
+                    siteId: Site.SiteId,
+                    limitPerSite: context.ContractSettings.ApiLimit()));
+            }
+            switch (Site.SiteSettings.ReferenceType)
+            {
+                case "Issues":
+                    return IssueUtilities.BulkUpsertByApi(
+                        context: context,
+                        ss: Site.SiteSettings);
+                case "Results":
+                    return ResultUtilities.BulkUpsertByApi(
+                        context: context,
+                        ss: Site.SiteSettings);
+                default:
+                    return ApiResults.Get(ApiResponses.NotFound(context: context));
+            }
+        }
+
         public string UpdateByGrid(Context context)
         {
             SetSite(
@@ -2671,7 +2705,7 @@ namespace Implem.Pleasanter.Models
             SetSite(
                 context: context,
                 initSiteSettings: true,
-                tableType: Sqls.TableTypes.History);
+                tableType: Sqls.TableTypes.NormalAndHistory);
             if (SiteId == ReferenceId)
             {
                 return SiteUtilities.DeleteHistory(
@@ -3097,6 +3131,111 @@ namespace Implem.Pleasanter.Models
                         });
                 default:
                     return null;
+            }
+        }
+
+        public string ImportUserTemplate(Context context)
+        {
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true);
+            switch (Site.ReferenceType)
+            {
+                case "Sites":
+                    return SiteUtilities.ImportUserTemplate(
+                        context: context,
+                        ss: Site.SiteSettings);
+                case "Issues":
+                case "Results":
+                case "Wikis":
+                case "Dashboards":
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+
+        public string DeleteUserTemplate(Context context)
+        {
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true);
+            switch (Site.ReferenceType)
+            {
+                case "Sites":
+                    return SiteUtilities.DeleteUserTemplate(
+                        context: context,
+                        ss: Site.SiteSettings);
+                case "Issues":
+                case "Results":
+                case "Wikis":
+                case "Dashboards":
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+
+        public string UpdateUserTemplate(Context context)
+        {
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true);
+            switch (Site.ReferenceType)
+            {
+                case "Sites":
+                    return SiteUtilities.UpdateUserTemplate(
+                        context: context,
+                        ss: Site.SiteSettings);
+                case "Issues":
+                case "Results":
+                case "Wikis":
+                case "Dashboards":
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+
+        public string SearchUserTemplate(Context context)
+        {
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true);
+            switch (Site.ReferenceType)
+            {
+                case "Sites":
+                    return SiteUtilities.SearchUserTemplate(
+                        context: context,
+                        ss: Site.SiteSettings);
+                case "Issues":
+                case "Results":
+                case "Wikis":
+                case "Dashboards":
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+
+        public string OpenEditUserTemplateDialog(Context context)
+        {
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true);
+            switch (Site.ReferenceType)
+            {
+                case "Sites":
+                    return SiteUtilities.OpenEditUserTemplateDialog(
+                        context: context,
+                        ss: Site.SiteSettings);
+                case "Issues":
+                case "Results":
+                case "Wikis":
+                case "Dashboards":
+                default:
+                    throw new NotImplementedException();
             }
         }
 

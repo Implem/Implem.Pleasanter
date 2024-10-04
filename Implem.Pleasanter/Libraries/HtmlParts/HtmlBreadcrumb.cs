@@ -28,6 +28,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         ss: ss,
                         controller: context.Controller);
                 case "depts":
+                    hb.CopyDirectUrlToClipboard(
+                        context: context,
+                        view: view);
                     return Breadcrumb(
                         hb: hb,
                         context: context,
@@ -39,6 +42,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         context: context,
                         ss: ss);
                 case "groups":
+                    hb.CopyDirectUrlToClipboard(
+                        context: context,
+                        view: view);
                     return Permissions.CanManageTenant(context: context)
                         ? Breadcrumb(
                             hb: hb,
@@ -71,6 +77,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     }
                                 });
                         default:
+                            hb.CopyDirectUrlToClipboard(
+                                context: context,
+                                view: view);
                             return Permissions.CanManageTenant(context: context)
                                 ? Breadcrumb(
                                     hb: hb,
@@ -84,6 +93,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     ss: ss);
                     }
                 case "syslogs":
+                    hb.CopyDirectUrlToClipboard(
+                        context: context,
+                        view: view);
                     return Breadcrumb(
                         hb: hb,
                         context: context,
@@ -252,10 +264,18 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         private static HtmlBuilder Li(this HtmlBuilder hb, string href, string text)
         {
-            return hb.Li(css: "item", action: () => hb
-                .A(href: href, text: text)
-                .Span(css: "separator", action: () => hb
-                    .Text(text: ">")));
+            return hb.Li(
+                css: "item",
+                action: () => hb
+                    .A(
+                        href: href,
+                        dataTooltip: text,
+                        action: () => hb.Span(
+                            css: "label",
+                            action: () => hb.Text(text: text)))
+                    .Span(
+                        css: "separator",
+                        action: () => hb.Text(text: ">")));
         }
 
         public static HtmlBuilder TrashBox(this HtmlBuilder hb, Context context, SiteSettings ss)

@@ -1,0 +1,36 @@
+﻿{
+    "Version": 1.017,
+    "ReferenceType": "Results",
+    "GridColumns": [
+        "ResultId",
+        "TitleBody",
+        "NumA"
+    ],
+    "EditorColumnHash": {
+        "General": [
+            "ResultId",
+            "Ver",
+            "Title",
+            "NumA",
+            "ClassA"
+        ]
+    },
+    "ServerScripts": [
+        {
+            "Title": "サイト3 - ビュー処理時",
+            "Name": "",
+            "WhenViewProcessing": true,
+            "Body": "// サイト3\n// 対象機能\n// 3. view.SearchTypes\n\n// 処理概要\n// 3-1.「条件：ビュー処理時」で「view.SearchTypes」により「タイトル(Title)：完全一致」をもとにデータを検索\n// 3-2.「条件：画面表示の前」で「items.Get()」により検索したデータを確認\n\n// サーバスクリプト(ID：1)：ServerScriptWhenViewProcessing\n// 3-1.「条件：ビュー処理時」で「view.SearchTypes」により「タイトル(Title)：完全一致」をもとにデータを検索\nview.Filters.Title = '中野';\nview.SearchTypes.Title = 'ExactMatch';",
+            "Id": 1
+        },
+        {
+            "Title": "サイト3 - 画面表示の前",
+            "Name": "",
+            "BeforeOpeningPage": true,
+            "Body": "// サイト3\n// 対象機能\n// 3. view.SearchTypes\n\n// 処理概要\n// 3-1.「条件：ビュー処理時」で「view.SearchTypes」により「タイトル(Title)：完全一致」をもとにデータを検索\n// 3-2.「条件：画面表示の前」で「items.Get()」により検索したデータを確認\n\ntry {\n    context.Log('【DEBUG】xUnit処理：開始');\n    var result;\n    const siteId = context.SiteId;\n    var tmp;\n    var data = '';\n    // サーバスクリプト(ID：2)：ServerScriptBeforeOpeningPage\n    // 2-2.「条件：画面表示の前」で「items.Get()」により絞り込みしたデータを確認\n    targetFunction = 'view.SearchTypes';\n    result = items.Get(siteId).Length === 1;\n    judgeResult(result, targetFunction);\n\n    // 成功 or 失敗を判定\n    //  - 引数 -\n    // condition：判定条件\n    // targetFunction：対象機能名\n    function judgeResult(condition, targetFunction) {\n        context.Log('【DEBUG】' + targetFunction + '判定処理：開始');\n        try {\n            // 成功メッセージ\n            const successMessage = '：成功';\n            // 失敗メッセージ\n            const failureMessage = '：失敗';\n            // 成功CSS\n            const successCSS = 'alert-information';\n            // 失敗CSS\n            const failureCSS = 'alert-error';\n            context.Log('【INFO 】条件：' + condition);\n            if (condition) {\n                context.Log('【DEBUG】判定結果：成功');\n                context.AddMessage(targetFunction + successMessage, successCSS);\n            } else {\n                context.Log('【DEBUG】判定結果：失敗');\n                context.AddMessage(targetFunction + failureMessage, failureCSS);\n            }\n        } catch (ex) {\n            context.Log('【DEBUG】' + targetFunction + '判定処理：実装エラー');\n            context.Log(ex.stack);\n        } finally {\n            context.Log('【DEBUG】' + targetFunction + '判定処理：終了');\n        }\n    }\n} catch (ex) {\n    context.Log('【DEBUG】xUnit処理：実装エラー');\n    context.Log(ex.stack);\n} finally {\n    context.Log('【DEBUG】xUnit処理：終了');\n}",
+            "Id": 2
+        }
+    ],
+    "UseNegativeFilters": true,
+    "NoDisplayIfReadOnly": false
+}

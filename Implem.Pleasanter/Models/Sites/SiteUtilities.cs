@@ -1576,24 +1576,26 @@ namespace Implem.Pleasanter.Models
                 return Error.Types.HasNotPermission.MessageJson(context: context);
             }
             var hb = new HtmlBuilder();
-            hb
-                .HistoryCommands(context: context, ss: ss)
-                .Table(
-                    attributes: new HtmlAttributes().Class("grid history"),
-                    action: () => hb
-                        .THead(action: () => hb
-                            .GridHeader(
-                                context: context,
-                                ss: ss,
-                                columns: columns,
-                                sort: false,
-                                checkRow: true))
-                        .TBody(action: () => hb
-                            .HistoriesTableBody(
-                                context: context,
-                                ss: ss,
-                                columns: columns,
-                                siteModel: siteModel)));
+            hb.Div(
+                css: "fieldset-inner",
+                action: () => hb
+                    .HistoryCommands(context: context, ss: ss)
+                    .Table(
+                        attributes: new HtmlAttributes().Class("grid history"),
+                        action: () => hb
+                            .THead(action: () => hb
+                                .GridHeader(
+                                    context: context,
+                                    ss: ss,
+                                    columns: columns,
+                                    sort: false,
+                                    checkRow: true))
+                            .TBody(action: () => hb
+                                .HistoriesTableBody(
+                                    context: context,
+                                    ss: ss,
+                                    columns: columns,
+                                    siteModel: siteModel))));
             return new SitesResponseCollection(
                 context: context,
                 siteModel: siteModel)
@@ -2494,7 +2496,21 @@ namespace Implem.Pleasanter.Models
                                 text: Displays.Create(context: context),
                                 controlCss: "button-icon hidden button-positive",
                                 onClick: "$p.openSiteTitleDialog($(this));",
-                                icon: "ui-icon-disk")))
+                                icon: "ui-icon-disk"))
+                    .Div(
+                        attributes: new HtmlAttributes()
+                            .Id("ImportUserTemplateDialog")
+                            .Class("dialog")
+                            .Title(Displays.ImportSitePackage(context: context)),
+                        action: () => hb.ImportUserTemplateDialog(context: context, ss: ss))
+                    .Div(
+                        attributes: new HtmlAttributes()
+                            .Id("EditUserTemplateDialog")
+                            .Class("dialog")
+                            .Title(Displays.AdvancedSetting(context: context)))
+                    .CreateUserTemplateDialog(
+                        context: context,
+                        ss: siteModel.SiteSettings))
                 .Invoke("setTemplate")
                 .ToJson();
         }
@@ -2508,6 +2524,7 @@ namespace Implem.Pleasanter.Models
             var templates = Def.TemplateDefinitionCollection
                 .Where(o => o.Language == context.Language)
                 .ToList();
+            templates.AddRange(GetUserTemplates(context: context));
             if (!templates.Any())
             {
                 templates = Def.TemplateDefinitionCollection
@@ -2627,7 +2644,13 @@ namespace Implem.Pleasanter.Models
                                     .A(
                                         href: "#FieldSetClassification",
                                         text: Displays.Classification(context: context)),
-                                _using: templates.Any(o => o.Classification > 0)))
+                                _using: templates.Any(o => o.Classification > 0))
+                            .Li(
+                                action: () => hb
+                                    .A(
+                                        href: "#FieldSetUserTemplate",
+                                        text: Displays.CustomApps(context: context)),
+                                _using: Parameters.UserTemplate.Enabled))
                         .TemplateTab(
                             context: context,
                             name: "Standard",
@@ -2735,7 +2758,61 @@ namespace Implem.Pleasanter.Models
                             name: "Classification",
                             templates: templates
                                 .Where(o => o.Classification > 0)
-                                .OrderBy(o => o.Classification)));
+                                .OrderBy(o => o.Classification))
+                        .TemplateTab(
+                            context: context,
+                            name: "UserTemplate",
+                            templates: templates
+                                .Where(o => o.CustomApps > 0)
+                                .OrderBy(o => o.Id),
+                            isUserTemplate: true,
+                            _using: Parameters.UserTemplate.Enabled));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static IEnumerable<TemplateDefinition> GetUserTemplates(
+            Context context,
+            string searchText = null,
+            string templateId = null)
+        {
+            var column = Rds.ExtensionsColumn().ExtensionId().ExtensionName();
+            var where = Rds.ExtensionsWhere().TenantId(context.TenantId).ExtensionType("CustomApps").Disabled(false);
+            if (!templateId.IsNullOrEmpty())
+            {
+                var id = -1;
+                if (!templateId.StartsWith("UserTemplate")
+                    || int.TryParse(templateId.Substring("UserTemplate".Length), out id) == false)
+                {
+                    return new List<TemplateDefinition>();
+                }
+                where.ExtensionId(id);
+                column.Description();
+            }
+            else if (!searchText.IsNullOrEmpty())
+            {
+                where
+                    .SqlWhereLike(
+                        tableName: "Extensions",
+                        name: "SearchText",
+                        searchText: searchText,
+                        clauseCollection: new List<string>()
+                        {
+                            Rds.Extensions_ExtensionName_WhereLike(factory: context)
+                        });
+            }
+            return new ExtensionCollection(
+                context: context,
+                column: column,
+                where: where)
+                .Select(o => new TemplateDefinition()
+                {
+                    Id = $"UserTemplate{o.ExtensionId}",
+                    Title = o.ExtensionName,
+                    Description = o.Description,
+                    CustomApps = o.ExtensionId
+                });
         }
 
         /// <summary>
@@ -2745,9 +2822,13 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb,
             Context context,
             string name,
-            IEnumerable<TemplateDefinition> templates)
+            IEnumerable<TemplateDefinition> templates,
+            bool isUserTemplate = false,
+            string searchText = null,
+            bool _using = true)
         {
-            return templates.Any()
+            if (_using != true) return hb;
+            return templates.Any() || isUserTemplate
                 ? hb.FieldSet(id: "FieldSet" + name, css: "template", action: () => hb
                     .Div(
                         id: name + "TemplatesViewer",
@@ -2767,8 +2848,284 @@ namespace Implem.Pleasanter.Models
                             listItemCollection: templates.ToDictionary(
                                 o => o.Id, o => new ControlData(o.Title)),
                             action: "PreviewTemplate",
-                            method: "post")))
+                            method: "post",
+                            commandOptionPositionIsTop: true,
+                            commandOptionAction: () =>
+                            {
+                                if (isUserTemplate)
+                                {
+                                    hb
+                                        .Div(css: "command-left", action: () => hb
+                                            .Button(
+                                                controlId: "AddTemplateButton",
+                                                text: Displays.Import(context: context),
+                                                controlCss: "button-icon",
+                                                icon: "ui-icon-arrowreturnthick-1-e",
+                                                onClick: "$p.openImportUserTemplateDialog($(this));")
+                                            .Button(
+                                                controlId: "EditTemplateButton",
+                                                text: Displays.AdvancedSetting(context: context),
+                                                controlCss: "button-icon",
+                                                icon: "ui-icon-gear",
+                                                onClick: "$p.send($(this));",
+                                                method: "post",
+                                                action: "OpenEditUserTemplateDialog")
+                                            .Button(
+                                                controlId: "DeleteTemplateButton",
+                                                text: Displays.Delete(context: context),
+                                                controlCss: "button-icon",
+                                                onClick: "$p.send($(this));",
+                                                method: "post",
+                                                icon: "ui-icon-trash",
+                                                confirm: "ConfirmDelete",
+                                                action: "DeleteUserTemplate"),
+                                            _using: Permissions.CanManageTenant(context: context))
+                                        .Div(css: "command-left", action: () => hb
+                                            .TextBox(
+                                                controlId: "Template_SearchText",
+                                                controlCss: " auto-postback always-send w200",
+                                                action: "SearchUserTemplate",
+                                                method: "post",
+                                                text: searchText ?? string.Empty)
+                                            .Button(
+                                                text: Displays.Search(context: context),
+                                                controlCss: "button-icon",
+                                                onClick: "$p.send($('#Template_SearchText'));",
+                                                icon: "ui-icon-search"))
+                                        .Hidden(
+                                            controlId: "Template_Title",
+                                            css: " always-send")
+                                        .Hidden(
+                                            controlId: "Template_Id",
+                                            css: " always-send");
+                                }
+                            })))
                 : hb;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string ImportUserTemplate(
+            Context context,
+            SiteSettings ss)
+        {
+            if (Permissions.CanManageTenant(context: context) != true || Parameters.UserTemplate.Enabled != true)
+            {
+                return Messages.ResponseHasNotPermission(context: context).ToJson();
+            }
+            if (Parameters.UserTemplate.CustomAppsMax > 0
+                && Repository.ExecuteScalar_int(
+                    context: context,
+                    statements: Rds.SelectExtensions(
+                        column: Rds.ExtensionsColumn().ExtensionsCount(),
+                        where: Rds.ExtensionsWhere()
+                            .TenantId(context.TenantId)
+                            .ExtensionType("CustomApps")
+                            .Disabled(false))) >= Parameters.UserTemplate.CustomAppsMax)
+            {
+                return Messages.ResponseCustomAppsLimit(context: context).ToJson();
+            }
+            var sitePackage = Libraries.SitePackages.Utilities.GetSitePackageFromPostedFile(context: context);
+            if (sitePackage == null)
+            {
+                return Messages.ResponseFailedReadFile(context: context).ToJson();
+            }
+            var title = context.Forms.Data("Title");
+            if (title.IsNullOrEmpty())
+            {
+                return Messages.ResponseInvalidRequest(context: context).ToJson();
+            }
+            var searchText = context.Forms.Data("SearchText");
+            var extension = new ExtensionModel(context: context);
+            extension.ExtensionName = title;
+            extension.ExtensionType = "CustomApps";
+            extension.Description = context.Forms.Data("Description");
+            extension.ExtensionSettings = sitePackage.ToJson();
+            // テナント毎に管理するのでTemplateDefinition.Languageの指定はなし
+            extension.Create(context: context, ss: null);
+            return new ResponseCollection(context: context)
+                .CloseDialog()
+                .ReplaceAll(
+                    target: "#FieldSetUserTemplate",
+                    value: new HtmlBuilder().TemplateTab(
+                        context: context,
+                        name: "UserTemplate",
+                        templates: GetUserTemplates(
+                            context: context,
+                            searchText: searchText),
+                        searchText: searchText,
+                        isUserTemplate: true))
+                .Invoke("setTemplate")
+                .Invoke("refreshTemplateSelector")
+                .Message(Messages.Registered(
+                    context: context,
+                    data: title))
+                .ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string DeleteUserTemplate(
+            Context context,
+            SiteSettings ss)
+        {
+            if (Permissions.CanManageTenant(context: context) != true)
+            {
+                return Messages.ResponseHasNotPermission(context: context).ToJson();
+            }
+            var templateTitle = context.Forms.Data("Template_Title");
+            var templateId = context.Forms.Data("Template_Id");
+            var searchText = context.Forms.Data("SearchText");
+            int id = -1;
+            if (templateId.IsNullOrEmpty())
+            {
+                return Messages.ResponseSelectTargets(context: context).ToJson();
+            }
+            if (!templateId.StartsWith("UserTemplate")
+                || int.TryParse(templateId.Substring("UserTemplate".Length), out id) == false)
+            {
+                return Messages.ResponseInvalidRequest(context: context).ToJson();
+            }
+            Repository.ExecuteNonQuery(
+                context: context,
+                transactional: true,
+                statements: Rds.PhysicalDeleteExtensions(
+                    where: Rds.ExtensionsWhere().ExtensionId(id)));
+            return new ResponseCollection(context: context)
+                .CloseDialog()
+                .ReplaceAll(
+                    target: "#FieldSetUserTemplate",
+                    value: new HtmlBuilder().TemplateTab(
+                        context: context,
+                        name: "UserTemplate",
+                        templates: GetUserTemplates(
+                            context: context,
+                            searchText: searchText),
+                        isUserTemplate: true,
+                        searchText: searchText))
+                .Invoke("setTemplate")
+                .Invoke("refreshTemplateSelector")
+                .Message(Messages.Deleted(
+                    context: context,
+                    data: templateTitle))
+                .ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string SearchUserTemplate(
+            Context context,
+            SiteSettings ss)
+        {
+            var searchText = context.Forms["Template_SearchText"].ToString();
+            return new ResponseCollection(context: context)
+                .ReplaceAll(
+                    target: "#FieldSetUserTemplate",
+                    value: new HtmlBuilder().TemplateTab(
+                        context: context,
+                        name: "UserTemplate",
+                        templates: GetUserTemplates(
+                            context: context,
+                            searchText: searchText),
+                        isUserTemplate: true,
+                        searchText: searchText))
+                .Invoke("setTemplate")
+                .Invoke("refreshTemplateSelector")
+                .ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string UpdateUserTemplate(
+            Context context,
+            SiteSettings ss)
+        {
+            if (Permissions.CanManageTenant(context: context) != true)
+            {
+                return Messages.ResponseHasNotPermission(context: context).ToJson();
+            }
+            var templateTitle = context.Forms.Data("UpdateUserTemplate_Title");
+            var templateDescription = context.Forms.Data("UpdateUserTemplate_Description");
+            var templateId = context.Forms.Data("UpdateUserTemplate_Id");
+            var searchText = context.Forms.Data("UpdateUserTemplate_SearchText");
+            int id = -1;
+            if (templateId.IsNullOrEmpty())
+            {
+                return Messages.ResponseSelectTargets(context: context).ToJson();
+            }
+            if (!templateId.StartsWith("UserTemplate")
+                || int.TryParse(templateId.Substring("UserTemplate".Length), out id) == false)
+            {
+                return Messages.ResponseInvalidRequest(context: context).ToJson();
+            }
+            var extensionModel = new ExtensionModel(
+                context: context,
+                extensionId: id);
+            extensionModel.VerUp = false;
+            extensionModel.ExtensionName = templateTitle;
+            extensionModel.Description = templateDescription;
+            if (extensionModel.AccessStatus != Databases.AccessStatuses.Selected)
+            {
+                return Messages.ResponseDeleteConflicts(context: context).ToJson();
+            }
+            var errorData = extensionModel.Update(context: context, ss: ss);
+            switch (errorData.Type)
+            {
+                case Error.Types.None:
+                    return new ResponseCollection(context: context)
+                        .ReplaceAll(
+                            target: "#FieldSetUserTemplate",
+                            value: new HtmlBuilder().TemplateTab(
+                                context: context,
+                                name: "UserTemplate",
+                                templates: GetUserTemplates(
+                                    context: context,
+                                    searchText: searchText),
+                                isUserTemplate: true,
+                                searchText: searchText))
+                        .CloseDialog()
+                        .Invoke("setTemplate")
+                        .Invoke("refreshTemplateSelector")
+                        .Message(Messages.Updated(
+                            context: context,
+                            data: templateTitle))
+                        .ToJson();
+                default:
+                    return errorData.MessageJson(context: context);
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string OpenEditUserTemplateDialog(
+            Context context,
+            SiteSettings ss)
+        {
+            var templateId = context.Forms["Template_Id"];
+            var searchText = context.Forms["Template_SearchText"];
+            if (templateId.IsNullOrEmpty())
+            {
+                return Messages.ResponseSelectTargets(context: context).ToJson();
+            }
+            var template = GetUserTemplates(context: context, templateId: templateId).FirstOrDefault();
+            if (template == null)
+            {
+                return Messages.ResponseDeleteConflicts(context: context).ToJson();
+            }
+            return new ResponseCollection(context: context)
+                .Html(
+                    "#EditUserTemplateDialog",
+                    new HtmlBuilder().ImportUserTemplateDialog(
+                        context: context,
+                        ss: ss,
+                        template: template))
+                .Invoke("openEditUserTemplateDialog")
+                .ToJson();
         }
 
         /// <summary>
@@ -2801,26 +3158,45 @@ namespace Implem.Pleasanter.Models
             {
                 return Error.Types.SelectTargets.MessageJson(context: context);
             }
-            var templateDefinition = Def.TemplateDefinitionCollection
-                .FirstOrDefault(o => o.Id == id);
-            if (templateDefinition == null)
+            if (id.StartsWith("UserTemplate"))
             {
-                return Error.Types.NotFound.MessageJson(context: context);
+                var extension = new ExtensionModel().Get(
+                    context: context,
+                    where: Rds.ExtensionsWhere().ExtensionId(int.Parse(id.Substring("UserTemplate".Length))).Disabled(false));
+                var sitePackage = extension.ExtensionSettings.Deserialize<Libraries.SitePackages.SitePackage>();
+                if (sitePackage == null)
+                {
+                    return Error.Types.InternalServerError.MessageJson(context: context);
+                }
+                ss.SiteId = parentId;
+                return Libraries.SitePackages.Utilities.ImportSitePackage(
+                    context: context,
+                    ss: ss,
+                    sitePackage: sitePackage);
             }
-            var templateSs = templateDefinition.SiteSettingsTemplate
-                .DeserializeSiteSettings(context: context);
-            if (templateSs == null)
+            else
             {
-                return Error.Types.NotFound.MessageJson(context: context);
+                var templateDefinition = Def.TemplateDefinitionCollection
+                    .FirstOrDefault(o => o.Id == id);
+                if (templateDefinition == null)
+                {
+                    return Error.Types.NotFound.MessageJson(context: context);
+                }
+                var templateSs = templateDefinition.SiteSettingsTemplate
+                    .DeserializeSiteSettings(context: context);
+                if (templateSs == null)
+                {
+                    return Error.Types.NotFound.MessageJson(context: context);
+                }
+                siteModel.ReferenceType = templateSs.ReferenceType;
+                siteModel.Title = new Title(context.Forms.Data("SiteTitle"));
+                siteModel.Body = templateDefinition.Body;
+                siteModel.SiteSettings = templateSs;
+                siteModel.Create(context: context, otherInitValue: true);
+                return SiteMenuResponse(
+                    context: context,
+                    siteModel: new SiteModel(context: context, siteId: parentId));
             }
-            siteModel.ReferenceType = templateSs.ReferenceType;
-            siteModel.Title = new Title(context.Forms.Data("SiteTitle"));
-            siteModel.Body = templateDefinition.Body;
-            siteModel.SiteSettings = templateSs;
-            siteModel.Create(context: context, otherInitValue: true);
-            return SiteMenuResponse(
-                context: context,
-                siteModel: new SiteModel(context: context, siteId: parentId));
         }
 
         /// <summary>
@@ -4285,8 +4661,10 @@ namespace Implem.Pleasanter.Models
         public static string PreviewTemplate(Context context)
         {
             var controlId = context.Forms.ControlId();
-            var template = Def.TemplateDefinitionCollection
-                .FirstOrDefault(o => o.Id == context.Forms.List(controlId).FirstOrDefault());
+            var templateId = context.Forms.List(controlId).FirstOrDefault();
+            var template = templateId?.StartsWith("UserTemplate") == true
+                ? GetUserTemplates(context: context, templateId: templateId).FirstOrDefault()
+                : Def.TemplateDefinitionCollection.FirstOrDefault(o => o.Id == templateId);
             return template != null
                 ? PreviewTemplate(context: context, template: template, controlId: controlId)
                 : new ResponseCollection(context: context)
@@ -4303,6 +4681,13 @@ namespace Implem.Pleasanter.Models
         public static string PreviewTemplate(
             Context context, TemplateDefinition template, string controlId)
         {
+            if (template.CustomApps > 0)
+            {
+                return PreviewUserTemplate(
+                    context: context,
+                    template: template,
+                    controlId: controlId);
+            }
             var hb = new HtmlBuilder();
             var ss = template.SiteSettingsTemplate.DeserializeSiteSettings(context: context);
             ss.Init(context: context);
@@ -4337,6 +4722,47 @@ namespace Implem.Pleasanter.Models
                     "#" + controlId + "Viewer .description",
                     hb.Text(text: Strings.CoalesceEmpty(
                         template.Description, template.Title)))
+                .Html("#" + controlId + "Viewer .viewer", html)
+                .Invoke("setTemplateViewer")
+                .Toggle("#" + controlId + "Viewer .viewer", true)
+                .ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string PreviewUserTemplate(
+            Context context, TemplateDefinition template, string controlId)
+        {
+            var hb = new HtmlBuilder();
+            var name = Strings.NewGuid();
+            var html = hb
+                .Div(css: "samples-displayed", action: () => hb
+                    .Text(text: Displays.SamplesDisplayed(context: context)))
+                .Div(css: "template-tab-container", action: () => hb
+                    .Ul(action: () => hb
+                        .Li(action: () => hb
+                            .A(
+                                href: "#" + name + "Editor",
+                                text: Displays.Menu(context: context))))
+                    .FieldSet(
+                        id: name + "Editor",
+                        action: () => hb
+                            .Div(action: () => hb
+                                .FieldMarkDown(
+                                    context: context,
+                                    ss: null,
+                                    controlId: "Description",
+                                    fieldCss: "field-wide",
+                                    labelText: Displays.Description(context: context),
+                                    text: template.Description,
+                                    readOnly: true))
+                                .Div(css: "heading", _using: true)))
+                .ToString();
+            return new ResponseCollection(context: context)
+                .Html(
+                    "#" + controlId + "Viewer .description",
+                    new HtmlBuilder().Text(template.Title))
                 .Html("#" + controlId + "Viewer .viewer", html)
                 .Invoke("setTemplateViewer")
                 .Toggle("#" + controlId + "Viewer .viewer", true)
@@ -5197,7 +5623,12 @@ namespace Implem.Pleasanter.Models
                     controlId: "DisableLinkToEdit",
                     fieldCss: "field-auto-thin",
                     labelText: Displays.DisableLinkToEdit(context: context),
-                    _checked: ss.DisableLinkToEdit == true));
+                    _checked: ss.DisableLinkToEdit == true)
+                .FieldCheckBox(
+                    controlId: "OpenEditInNewTab",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.OpenEditInNewTab(context: context),
+                    _checked: ss.OpenEditInNewTab == true));
         }
 
         /// <summary>
@@ -6815,7 +7246,9 @@ namespace Implem.Pleasanter.Models
                                                     labelText: Displays.Nullable(context: context),
                                                     _checked: column.Nullable.ToBool(),
                                                     _using: !column.Id_Ver
-                                                        && !column.NotUpdate)
+                                                        && !column.NotUpdate
+                                                        && column.ColumnName != "WorkValue"
+                                                        && column.ColumnName != "ProgressRate")
                                                 .FieldTextBox(
                                                     controlId: "Unit",
                                                     controlCss: " w50",
@@ -12665,6 +13098,7 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 id: "YmdhmFormat"))
                             : null,
+                        format: Displays.YmdhmDatePickerFormat(context: context),
                         timepiker: true,
                         validateRequired: true,
                         validateDate: true)
@@ -13946,15 +14380,16 @@ namespace Implem.Pleasanter.Models
                         labelText: Displays.Title(context: context),
                         text: style.Title,
                         validateRequired: true)
-                    .FieldTextBox(
-                        textType: HtmlTypes.TextTypes.MultiLine,
+                    .FieldCodeEditor(
+                        context: context,
                         controlId: "StyleBody",
                         fieldCss: "field-wide",
                         controlCss: " always-send",
+                        dataLang: "css",
                         labelText: Displays.Style(context: context),
                         text: style.Body)
                     .FieldCheckBox(
-                        fieldId: "StyleDisabled",
+                        fieldId: "StyleDisabledField",
                         controlId: "StyleDisabled",
                         controlCss: " always-send",
                         labelText: Displays.Disabled(context: context),
@@ -14329,11 +14764,12 @@ namespace Implem.Pleasanter.Models
                         labelText: Displays.Title(context: context),
                         text: script.Title,
                         validateRequired: true)
-                    .FieldTextBox(
-                        textType: HtmlTypes.TextTypes.MultiLine,
+                    .FieldCodeEditor(
+                        context: context,
                         controlId: "ScriptBody",
                         fieldCss: "field-wide",
                         controlCss: " always-send",
+                        dataLang: "javascript",
                         labelText: Displays.Script(context: context),
                         text: script.Body)
                     .FieldCheckBox(
@@ -14764,15 +15200,16 @@ namespace Implem.Pleasanter.Models
                         },
                         selectedValue: html.PositionType.ToInt().ToString(),
                         insertBlank: false)
-                    .FieldTextBox(
-                        textType: HtmlTypes.TextTypes.MultiLine,
+                    .FieldCodeEditor(
+                        context: context,
                         controlId: "HtmlBody",
                         fieldCss: "field-wide",
                         controlCss: " always-send",
+                        dataLang: "html",
                         labelText: Displays.Html(context: context),
                         text: html.Body)
                     .FieldCheckBox(
-                        fieldId: "HtmlDisabled",
+                        fieldId: "HtmlDisabledField",
                         controlId: "HtmlDisabled",
                         controlCss: " always-send",
                         labelText: Displays.Disabled(context: context),
@@ -15136,11 +15573,12 @@ namespace Implem.Pleasanter.Models
                         controlCss: " always-send",
                         labelText: Displays.Name(context: context),
                         text: script.Name)
-                    .FieldTextBox(
-                        textType: HtmlTypes.TextTypes.MultiLine,
+                    .FieldCodeEditor(
+                        context: context,
                         controlId: "ServerScriptBody",
                         fieldCss: "field-wide",
                         controlCss: " always-send",
+                        dataLang: "javascript",
                         labelText: Displays.Script(context: context),
                         text: script.Body)
                     .FieldSpinner(
@@ -17155,6 +17593,170 @@ namespace Implem.Pleasanter.Models
                             controlCss: "button-icon button-neutral",
                             onClick: "$p.closeDialog($(this));",
                             icon: "ui-icon-cancel")));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static ContentResultInheritance GetClosestSiteIdByApi(Context context, long id)
+        {
+            var findSiteNames = context.RequestDataString.Deserialize<SiteApiModel>()?.FindSiteNames;
+            if (findSiteNames == null)
+            {
+                return ApiResults.BadRequest(context: context);
+            }
+            if (!Mime.ValidateOnApi(contentType: context.ContentType))
+            {
+                return ApiResults.BadRequest(context: context);
+            }
+            var resultCollection = new List<object>();
+            var startCanRead = context.CanRead(
+                ss: SiteSettingsUtilities.Get(
+                    context: context,
+                    siteId: id,
+                    referenceId: id),
+                site: true);
+            var tenantCache = SiteInfo.TenantCaches[context.TenantId];
+            foreach (var siteName in findSiteNames)
+            {
+                if (siteName.IsNullOrEmpty() || startCanRead == false)
+                {
+                    resultCollection.Add(new { SiteName = siteName, SiteId = -1 });
+                }
+                else
+                {
+                    var foundId = tenantCache.SiteNameTree.Find(
+                        startId: id,
+                        name: siteName);
+                    if (foundId != -1)
+                    {
+                        if (context.CanRead(
+                            ss: SiteSettingsUtilities.Get(
+                                context: context,
+                                siteId: foundId,
+                                referenceId: foundId),
+                            site: true) == false)
+                        {
+                            foundId = -1;
+                        }
+                    }
+                    resultCollection.Add(new { SiteName = siteName, SiteId = foundId });
+                }
+            }
+            return ApiResults.Get(apiResponse: new
+            {
+                SiteId = id,
+                Data = resultCollection
+            }.ToJson());
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder ImportUserTemplateDialog(
+            this HtmlBuilder hb, Context context, SiteSettings ss, TemplateDefinition template = null)
+        {
+            var type = template == null ? "Import" : "Update";
+            return hb.Form(
+                attributes: new HtmlAttributes()
+                    .Id(type + "UserTemplateForm")
+                    .Action(Locations.ItemAction(
+                        context: context,
+                        id: ss.SiteId)),
+                action: () => hb
+                    .FieldTextBox(
+                        textType: HtmlTypes.TextTypes.File,
+                        controlId: type + "UserTemplate_Import",
+                        fieldCss: "field-wide",
+                        labelText: Displays.SitePackage(context: context),
+                        validateRequired: true,
+                        _using: template == null)
+                    .FieldTextBox(
+                        textType: HtmlTypes.TextTypes.Normal,
+                        controlId: type + "UserTemplate_Title",
+                        fieldCss: "field-wide",
+                        labelText: Displays.Title(context: context),
+                        text: template?.Title,
+                        alwaysSend: true,
+                        validateRequired: true)
+                    .FieldMarkDown(
+                        context: context,
+                        ss: null,
+                        controlId: type + "UserTemplate_Description",
+                        fieldCss: "field-wide",
+                        labelText: Displays.Description(context: context),
+                        text: template?.Description,
+                        alwaysSend: true,
+                        allowImage: false)
+                    .P(css: "message-dialog")
+                    .Div(
+                        css: "command-center",
+                        action: () => hb
+                            .Button(
+                                text: Displays.Import(context: context),
+                                controlCss: "button-icon button-positive validate",
+                                onClick: "$p.importUserTemplate($(this));",
+                                icon: "ui-icon-arrowreturnthick-1-e",
+                                action: "ImportUserTemplate",
+                                method: "post",
+                                _using: template == null)
+                            .Button(
+                                text: Displays.Update(context: context),
+                                controlCss: "button-icon button-positive validate",
+                                onClick: "$p.send($(this));",
+                                icon: "ui-icon-copy",
+                                action: "UpdateUserTemplate",
+                                method: "post",
+                                _using: template != null)
+                            .Button(
+                                text: Displays.Cancel(context: context),
+                                controlCss: "button-icon button-neutral",
+                                onClick: "$p.closeDialog($(this));",
+                                icon: "ui-icon-cancel"))
+                    .Hidden(
+                        controlId: type + "UserTemplate_Id",
+                        css: "always-send",
+                        value: template?.Id,
+                        _using: template != null)
+                    .Hidden(
+                        controlId: type + "UserTemplate_SearchText",
+                        css: "always-send",
+                        value: context.Forms.Data("SearchText"),
+                        _using: template != null));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder CreateUserTemplateDialog(
+            this HtmlBuilder hb, Context context, SiteSettings ss)
+        {
+            return hb.Div(
+                attributes: new HtmlAttributes()
+                    .Id("CreateUserTemplateDialog")
+                    .Class("dialog")
+                    .Title(Displays.CustomApps(context: context)),
+                action: () => hb
+                    .Div(
+                        action: () => hb
+                            .FieldText(
+                                controlId: "CreateUserTemplate_Title",
+                                controlCss: " focus always-send",
+                                labelText: Displays.Title(context: context))
+                            .Div(css: "command-center", action: () => hb
+                                .Button(
+                                    controlId: "CreateByTemplate",
+                                    text: Displays.Create(context: context),
+                                    controlCss: "button-icon validate button-positive",
+                                    onClick: "$p.send($(this), 'SiteTitleForm');",
+                                    icon: "ui-icon-gear",
+                                    action: "CreateByTemplate",
+                                    method: "post")
+                                .Button(
+                                    text: Displays.Cancel(context: context),
+                                    controlCss: "button-icon button-neutral",
+                                    onClick: "$p.closeDialog($(this));",
+                                    icon: "ui-icon-cancel"))));
         }
     }
 }

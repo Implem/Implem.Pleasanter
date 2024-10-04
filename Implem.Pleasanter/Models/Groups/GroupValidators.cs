@@ -178,6 +178,20 @@ namespace Implem.Pleasanter.Models
                         sysLogsStatus: 403,
                         sysLogsDescription: Debugs.GetSysLogsDescription());
             }
+            var checkCircularGroup = GroupChildUtilities.CheckCircularGroup(
+                context: context,
+                groupId: groupModel.GroupId,
+                disabled: groupModel.Disabled,
+                children: groupModel.GroupChildren);
+            if (Error.Types.None != checkCircularGroup)
+            {
+                return new ErrorData(
+                    context: context,
+                    type: checkCircularGroup,
+                    api: api,
+                    sysLogsStatus: 400,
+                    sysLogsDescription: Debugs.GetSysLogsDescription());
+            }
             foreach (var column in ss.Columns
                 .Where(o => !o.CanCreate(
                     context: context,
@@ -235,6 +249,66 @@ namespace Implem.Pleasanter.Models
                         break;
                     case "Disabled":
                         if (groupModel.Disabled_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
+                        {
+                            return new ErrorData(
+                                context: context,
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText,
+                                api: api,
+                                sysLogsStatus: 403,
+                                sysLogsDescription: Debugs.GetSysLogsDescription());
+                        }
+                        break;
+                    case "LdapSync":
+                        if (groupModel.LdapSync_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
+                        {
+                            return new ErrorData(
+                                context: context,
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText,
+                                api: api,
+                                sysLogsStatus: 403,
+                                sysLogsDescription: Debugs.GetSysLogsDescription());
+                        }
+                        break;
+                    case "LdapGuid":
+                        if (groupModel.LdapGuid_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
+                        {
+                            return new ErrorData(
+                                context: context,
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText,
+                                api: api,
+                                sysLogsStatus: 403,
+                                sysLogsDescription: Debugs.GetSysLogsDescription());
+                        }
+                        break;
+                    case "LdapSearchRoot":
+                        if (groupModel.LdapSearchRoot_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
+                        {
+                            return new ErrorData(
+                                context: context,
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText,
+                                api: api,
+                                sysLogsStatus: 403,
+                                sysLogsDescription: Debugs.GetSysLogsDescription());
+                        }
+                        break;
+                    case "SynchronizedTime":
+                        if (groupModel.SynchronizedTime_Updated(
                             context: context,
                             column: column,
                             copy: copy))
@@ -404,6 +478,20 @@ namespace Implem.Pleasanter.Models
                         sysLogsStatus: 403,
                         sysLogsDescription: Debugs.GetSysLogsDescription());
             }
+            var checkCircularGroup = GroupChildUtilities.CheckCircularGroup(
+                context: context,
+                groupId: groupModel.GroupId,
+                disabled: groupModel.Disabled,
+                children: groupModel.GroupChildren);
+            if (Error.Types.None != checkCircularGroup)
+            {
+                return new ErrorData(
+                    context: context,
+                    type: checkCircularGroup,
+                    api: api,
+                    sysLogsStatus: 400,
+                    sysLogsDescription: Debugs.GetSysLogsDescription());
+            }
             foreach (var column in ss.Columns
                 .Where(o => !o.CanUpdate(
                     context: context,
@@ -451,6 +539,54 @@ namespace Implem.Pleasanter.Models
                         break;
                     case "Disabled":
                         if (groupModel.Disabled_Updated(context: context))
+                        {
+                            return new ErrorData(
+                                context: context,
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText,
+                                api: api,
+                                sysLogsStatus: 403,
+                                sysLogsDescription: Debugs.GetSysLogsDescription());
+                        }
+                        break;
+                    case "LdapSync":
+                        if (groupModel.LdapSync_Updated(context: context))
+                        {
+                            return new ErrorData(
+                                context: context,
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText,
+                                api: api,
+                                sysLogsStatus: 403,
+                                sysLogsDescription: Debugs.GetSysLogsDescription());
+                        }
+                        break;
+                    case "LdapGuid":
+                        if (groupModel.LdapGuid_Updated(context: context))
+                        {
+                            return new ErrorData(
+                                context: context,
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText,
+                                api: api,
+                                sysLogsStatus: 403,
+                                sysLogsDescription: Debugs.GetSysLogsDescription());
+                        }
+                        break;
+                    case "LdapSearchRoot":
+                        if (groupModel.LdapSearchRoot_Updated(context: context))
+                        {
+                            return new ErrorData(
+                                context: context,
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText,
+                                api: api,
+                                sysLogsStatus: 403,
+                                sysLogsDescription: Debugs.GetSysLogsDescription());
+                        }
+                        break;
+                    case "SynchronizedTime":
+                        if (groupModel.SynchronizedTime_Updated(context: context))
                         {
                             return new ErrorData(
                                 context: context,

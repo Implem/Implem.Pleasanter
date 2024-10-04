@@ -22,6 +22,7 @@
 
 <!--Model_OnCreatingExtendedSqls-->
 <!--Model_OnCreatingGroupMembers-->
+<!--Model_OnCreatingGroupChildren-->
 
     statements.AddRange(CreateStatements(
         context: context,
@@ -45,6 +46,7 @@
 <!--Model_CreatedNotice-->
 <!--Model_Insert_User-->
 <!--Model_Insert_GroupMembers-->
+<!--Model_Insert_GroupChildren-->
 
     if (get) Get(context: context<!--Model_SiteSettingsBeforeComma-->);
 

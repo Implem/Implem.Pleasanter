@@ -1563,6 +1563,18 @@ namespace Implem.Pleasanter.Libraries.Settings
                         case "Disabled":
                             sql.Groups_Disabled(tableName: path, _as: _as);
                             break;
+                        case "LdapSync":
+                            sql.Groups_LdapSync(tableName: path, _as: _as);
+                            break;
+                        case "LdapGuid":
+                            sql.Groups_LdapGuid(tableName: path, _as: _as);
+                            break;
+                        case "LdapSearchRoot":
+                            sql.Groups_LdapSearchRoot(tableName: path, _as: _as);
+                            break;
+                        case "SynchronizedTime":
+                            sql.Groups_SynchronizedTime(tableName: path, _as: _as);
+                            break;
                         case "Comments":
                             sql.Groups_Comments(tableName: path, _as: _as);
                             break;
@@ -2066,6 +2078,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                             break;
                         case "AllowApi":
                             sql.Users_AllowApi(tableName: path, _as: _as);
+                            break;
+                        case "AllowMovingFromTopSite":
+                            sql.Users_AllowMovingFromTopSite(tableName: path, _as: _as);
                             break;
                         case "EnableSecondaryAuthentication":
                             sql.Users_EnableSecondaryAuthentication(tableName: path, _as: _as);

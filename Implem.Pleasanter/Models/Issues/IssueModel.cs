@@ -366,18 +366,6 @@ namespace Implem.Pleasanter.Models
                                 exportColumn: exportColumn)
                             : string.Empty;
                     break;
-                case "UpdatedTime":
-                    value = ss.ReadColumnAccessControls.Allowed(
-                        context: context,
-                        ss: ss,
-                        column: column,
-                        mine: mine)
-                            ? UpdatedTime.ToExport(
-                                context: context,
-                                column: column,
-                                exportColumn: exportColumn)
-                            : string.Empty;
-                    break;
                 case "IssueId":
                     value = ss.ReadColumnAccessControls.Allowed(
                         context: context,
@@ -604,6 +592,19 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 column: column,
                                 exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "UpdatedTime":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? UpdatedTime?.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                                    ?? String.Empty
                             : string.Empty;
                     break;
                 default:
@@ -2155,7 +2156,7 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         issueModel: this,
                         otherInitValue: otherInitValue)),
-                new SqlStatement(Def.Sql.IfConflicted.Params(IssueId))
+                new SqlStatement()
                 {
                     DataTableName = dataTableName,
                     IfConflicted = true,
@@ -2528,7 +2529,7 @@ namespace Implem.Pleasanter.Models
                 transactional: true,
                 statements: Rds.PhysicalDeleteIssues(
                     tableType: tableType,
-                    param: Rds.IssuesParam().SiteId(SiteId).IssueId(IssueId)));
+                    where: Rds.IssuesWhere().SiteId(SiteId).IssueId(IssueId)));
             return new ErrorData(type: Error.Types.None);
         }
 
@@ -3241,6 +3242,7 @@ namespace Implem.Pleasanter.Models
                 if (ss.ColumnHash.Get(o.Key).AllowImage == true)
                 {
                     SetPostedFile(
+                        context: context,
                         file: file,
                         columnName: o.Key,
                         image: o.Value);
@@ -3257,6 +3259,7 @@ namespace Implem.Pleasanter.Models
         }
 
         public void SetPostedFile(
+            Context context,
             Microsoft.AspNetCore.Http.IFormFile file,
             string columnName,
             Shared._ImageApiModel image)
@@ -3265,7 +3268,7 @@ namespace Implem.Pleasanter.Models
                 columnName,
                 new PostedFile()
                 {
-                    Guid = new HttpPostedFile(file).WriteToTemp(),
+                    Guid = new HttpPostedFile(file).WriteToTemp(context),
                     FileName = file.FileName.Split(System.IO.Path.DirectorySeparatorChar).Last(),
                     Extension = image.Extension,
                     Size = file.Length,
@@ -3928,18 +3931,6 @@ namespace Implem.Pleasanter.Models
                                 column: column,
                                 condition: filter.Value);
                             break;
-                        case "Manager":
-                            match = Manager.Id.Matched(
-                                context: context,
-                                column: column,
-                                condition: filter.Value);
-                            break;
-                        case "Owner":
-                            match = Owner.Id.Matched(
-                                context: context,
-                                column: column,
-                                condition: filter.Value);
-                            break;
                         case "Locked":
                             match = Locked.Matched(
                                 column: column,
@@ -3967,6 +3958,30 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 column: column,
                                 condition: filter.Value) == true;
+                            break;
+                        case "Manager":
+                            if (Manager.Id == 0 && filter.Value == "[\"\\t\"]")
+                            {
+                                match = true;
+                            } else
+                            {
+                                match = Manager.Id.Matched(
+                                    context: context,
+                                    column: column,
+                                    condition: filter.Value);
+                            }
+                            break;
+                        case "Owner":
+                            if (Owner.Id == 0 && filter.Value == "[\"\\t\"]")
+                            {
+                                match = true;
+                            } else
+                            {
+                                match = Owner.Id.Matched(
+                                    context: context,
+                                    column: column,
+                                    condition: filter.Value);
+                            }
                             break;
                         default:
                             switch (Def.ExtendedColumnTypes.Get(filter.Key ?? string.Empty))

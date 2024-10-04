@@ -1,0 +1,21 @@
+/* [_Parts] ------------------------------------------------------ */
+/* StatusColor */
+.status-rejected {
+    background-color: var(--nonColor02);
+}
+/* dialogCloseButton */
+.ui-dialog-titlebar-close {
+    background: transparent;
+}
+
+/* [.grid]  ------------------------------------------------------ */
+.grid {
+    /* IssuesTableItem */
+    svg.svg-work-value text,
+    svg.svg-progress-rate text {
+        fill: var(--nonColor16);
+    }
+    .svg-progress-rate.warning text {
+        fill: var(--control-error);
+    }
+}

@@ -4,5 +4,5 @@
     "Indent": "4",
     "Separator": "\\r\\n",
     "Select": "1",
-    "Exclude": "PasswordHistries"
+    "Exclude": "PasswordHistries,UpdatedTime"
 }

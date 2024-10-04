@@ -228,6 +228,10 @@ namespace Implem.Pleasanter.Libraries.Html
             {
                 Add("target");
                 Add(value);
+                if (value == "_blank")
+                {
+                    Rel(value: "noopener noreferrer");
+                }
             }
             return this;
         }
@@ -721,5 +725,34 @@ namespace Implem.Pleasanter.Libraries.Html
             }
             return this;
         }
+
+        public HtmlAttributes DataTooltip(string value, bool _using = true)
+        {
+            if (!value.IsNullOrEmpty() && _using)
+            {
+                Add("data-tooltip");
+                Add(value);
+            }
+            return this;
+        }
+        public HtmlAttributes DataLang(string value, bool _using = true)
+        {
+            if (!value.IsNullOrEmpty() && _using)
+            {
+                Add("data-lang");
+                Add(value);
+            }
+            return this;
+        }
+
+        public HtmlAttributes Crossorigin(bool value, bool _using = true)
+        {
+            if (value && _using)
+            {
+                Add("crossorigin");
+            }
+            return this;
+        }
+
     }
 }

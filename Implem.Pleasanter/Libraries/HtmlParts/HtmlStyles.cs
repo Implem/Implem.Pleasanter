@@ -111,13 +111,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .Link(
                     href: Responses.Locations.Get(
                         context: context,
-                        parts: context.ThemeVersionForCss() >= 2.0M && context.Mobile
-                            ? $"Styles/Plugins/themes/cupertino/custom.css"
-                            : $"Styles/Plugins/themes/{context.Theme()}/custom.css"),
-                    rel: "stylesheet")
-                .Link(
-                    href: Responses.Locations.Get(
-                        context: context,
                         parts: "Styles/Plugins/jquery.datetimepicker.min.css"),
                     rel: "stylesheet")
                 .Link(
@@ -153,8 +146,19 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .Link(
                     href: Responses.Locations.Get(
                         context: context,
-                        parts: "favicon.ico"),
-                    rel: "shortcut icon");
+                        parts: context.ThemeVersionForCss() >= 2.0M && context.Mobile
+                            ? $"Styles/Plugins/themes/cupertino/custom.css"
+                            : $"Styles/Plugins/themes/{context.Theme()}/custom.css"),
+                    rel: "stylesheet")
+                .Link(
+                    href: Responses.Locations.Get(
+                        context: context,
+                        parts: "Styles/responsive.custom.css"),
+                    rel: "stylesheet",
+                    _using: Parameters.Mobile.Responsive
+                        && context.Mobile
+                        && context.Responsive
+                        && (ss == null || ss.Responsive != false));
         }
     }
 }

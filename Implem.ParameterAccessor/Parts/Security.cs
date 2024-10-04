@@ -20,8 +20,10 @@ namespace Implem.ParameterAccessor.Parts
         public bool DisableCheckPasswordPolicyIfApi;
         public List<PasswordPolicy> PasswordPolicies;
         public SecondaryAuthentication SecondaryAuthentication;
+        public bool PasswordGenerator;
         public AspNetCoreDataProtection AspNetCoreDataProtection;
         public HttpStrictTransportSecurity HttpStrictTransportSecurity;
         public SecureCacheControl SecureCacheControl;
+        public HealthCheck HealthCheck;
     }
 }

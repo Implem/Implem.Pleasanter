@@ -13,7 +13,6 @@
         "NumB",
         "NumC",
         "NumD",
-        "DateA",
         "StartTime",
         "CompletionTime",
         "Status",
@@ -34,7 +33,6 @@
         "NumB",
         "NumC",
         "NumD",
-        "DateA",
         "StartTime",
         "CompletionTime",
         "Status",
@@ -131,15 +129,11 @@
         {
             "ColumnName": "ClassC",
             "LabelText": "商品区分",
-            "ChoicesText": "商品区分1\n商品区分2\n商品区分3\n商品区分4\n商品区分5"
+            "ChoicesText": "システム開発\nソフトウェア販売\nコンサルティング"
         },
         {
             "ColumnName": "StartTime",
             "LabelText": "商談開始日"
-        },
-        {
-            "ColumnName": "DateA",
-            "DateFilterSetMode": 2
         }
     ],
     "Aggregations": [
@@ -208,8 +202,10 @@
             "Id": 1,
             "Name": "標準",
             "CrosstabGroupByX": "CompletionTime",
-            "CrosstabGroupByY": "Columns",
-            "CrosstabColumns": "[\"NumA\",\"NumB\",\"NumC\"]",
+            "CrosstabGroupByY": "ClassC",
+            "CrosstabColumns": "[\"NumA\",\"NumB\",\"NumC\",\"NumD\"]",
+            "CrosstabAggregateType": "Total",
+            "CrosstabValue": "NumA",
             "TimeSeriesAggregateType": "Total",
             "TimeSeriesValue": "NumA",
             "KambanGroupByX": "Status",

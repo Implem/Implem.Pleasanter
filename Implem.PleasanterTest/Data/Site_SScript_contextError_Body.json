@@ -1,0 +1,26 @@
+﻿{
+    "Version": 1.017,
+    "ReferenceType": "Results",
+    "EditorColumnHash": {
+        "General": [
+            "ResultId",
+            "Title"
+        ]
+    },
+    "Columns": [
+        {
+            "ColumnName": "Title",
+            "ValidateRequired": false
+        }
+    ],
+    "ServerScripts": [
+        {
+            "Title": "test",
+            "Name": "",
+            "BeforeCreate": true,
+            "Body": "try{\ncontext.Error('条件に該当したため、更新をキャンセルしました。');\n} catch (e) {\n    context.Log(e.stack);\n}",
+            "Id": 1
+        }
+    ],
+    "NoDisplayIfReadOnly": false
+}

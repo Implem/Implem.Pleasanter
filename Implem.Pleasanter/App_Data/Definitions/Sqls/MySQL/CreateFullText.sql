@@ -1,0 +1,1 @@
+﻿create fulltext index "ftx" on "Items"("fulltext") with parser "ngram";

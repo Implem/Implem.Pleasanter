@@ -138,11 +138,10 @@ namespace Implem.Pleasanter.Libraries.Extensions
 
         public static bool Matched(this string value, Context context, Column column, string condition)
         {
-            var param = condition.Deserialize<List<string>>()
-                ?.Select(o => (column.Type == Column.Types.User || column.Type == Column.Types.Dept) && o == "Own"
-                    ? context.UserId.ToString()
-                    : o)
-                .ToList();
+            var param = GetMatchedParam(
+                context: context,
+                column: column,
+                condition: condition);
             if (column.HasChoices())
             {
                 if (column.MultipleSelections == true)
@@ -170,24 +169,34 @@ namespace Implem.Pleasanter.Libraries.Extensions
                                 return value?.IndexOf(condition) == 0;
                             }
                         default:
-                            if (param?.Any() == true)
+                            if (param?.Count() == 1 && param.FirstOrDefault() == "\t")
                             {
-                                var x = param.All(o =>
+                                return value == "[]";
+                            }
+                            else if (param?.Any() == true)
+                            {
+                                return param.All(o =>
                                     value?.Contains(o.StringInJson()) == true);
-                                return x;
                             }
                             return true;
                     }
                 }
                 else if (param?.Any() == true)
                 {
+                    // 「状況項目」で「未選択」時の処理
+                    if (column.TypeName.CsTypeSummary() == Types.CsNumeric
+                        && column.Nullable == false
+                        && value == "0")
+                    {
+                        return param.Any(o => o == "\t");
+                    }
                     switch (column.SearchType)
                     {
                         case Column.SearchTypes.ExactMatch:
                         case Column.SearchTypes.ExactMatchMultiple:
-                            return param.Any(o => o == (!value.IsNullOrEmpty()
-                                ? value
-                                : "\t"));
+                            return param.Any(o => !value.IsNullOrEmpty()
+                                ? o == value
+                                : o == "\t");
                         case Column.SearchTypes.ForwardMatch:
                         case Column.SearchTypes.ForwardMatchMultiple:
                             return param.Any(o => !value.IsNullOrEmpty()
@@ -248,6 +257,24 @@ namespace Implem.Pleasanter.Libraries.Extensions
                             return true;
                     }
                 }
+            }
+        }
+
+        private static List<string> GetMatchedParam(Context context, Column column, string condition)
+        {
+            var param = condition.Deserialize<List<string>>();
+            switch (column.Type)
+            {
+                case Column.Types.User:
+                    return param?.Select(o => o == "Own"
+                        ? context.UserId.ToString()
+                        : o).ToList();
+                case Column.Types.Dept:
+                    return param?.Select(o => o == "Own"
+                        ? context.DeptId.ToString()
+                        : o).ToList();
+                default:
+                    return param?.ToList();
             }
         }
     }

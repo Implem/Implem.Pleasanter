@@ -198,7 +198,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public Context(ICollection<IFormFile> files, string apiRequestBody = null, string contentType = null, bool api = false)
         {
             Set(apiRequestBody: apiRequestBody, contentType: contentType);
-            SetPostedFiles(files: files);
+            SetPostedFiles(context: this, files: files);
             Api = api;
         }
 
@@ -427,7 +427,7 @@ namespace Implem.Pleasanter.Libraries.Requests
 
         private void SetApiVersion(Api api)
         {
-            
+
             if (Parameters.Api.Compatibility_1_3_12)
             {
                 // ApiKeyを指定しない場合にAPIバージョンがセットできない不具合のある状態で
@@ -564,13 +564,13 @@ namespace Implem.Pleasanter.Libraries.Requests
             }
         }
 
-        private void SetPostedFiles(ICollection<IFormFile> files)
+        private void SetPostedFiles(Context context, ICollection<IFormFile> files)
         {
             files?.ForEach(file =>
             {
                 PostedFiles.Add(new PostedFile()
                 {
-                    Guid = new HttpPostedFile(file).WriteToTemp(),
+                    Guid = new HttpPostedFile(file).WriteToTemp(context),
                     FileName = file.FileName.Split(System.IO.Path.DirectorySeparatorChar).Last(),
                     Extension = new HttpPostedFile(file).Extension(),
                     Size = file.Length,
@@ -598,6 +598,11 @@ namespace Implem.Pleasanter.Libraries.Requests
 
         public CultureInfo CultureInfo()
         {
+            //CultureInfoがvnに対応していないので、引数をviとすることで対応。
+            if (Language == "vn")
+            {
+                return new CultureInfo("vi");
+            }
             return new CultureInfo(Language);
         }
 
@@ -699,12 +704,19 @@ namespace Implem.Pleasanter.Libraries.Requests
                 }
                 else
                 {
-                    switch (HttpAcceptLanguage())
+                    var lang = HttpAcceptLanguage()?.Split_1st('-');
+                    switch (lang)
                     {
                         case "en":
-                        case "en-GB":
-                        case "en-US":
-                            language = "en";
+                        case "zh":
+                        case "ja":
+                        case "de":
+                        case "ko":
+                        case "es":
+                            language = lang;
+                            break;
+                        case "vi":
+                            language = "vn";
                             break;
                         default:
                             language = Parameters.Service?.DefaultLanguage;
@@ -877,7 +889,7 @@ namespace Implem.Pleasanter.Libraries.Requests
             }
             return column;
         }
-        
+
         public ISqlCommand CreateSqlCommand()
         {
             return GetSqlObjectFactory().CreateSqlCommand();
@@ -955,7 +967,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                 return GetSqlObjectFactory().SqlDefinitionSetting;
             }
         }
-        
+
         static bool IsAjax()
         {
             return IsAjaxRequest(AspNetCoreHttpContext.Current.Request);
@@ -1126,7 +1138,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         {
             return _sqlObjectFactory.Value;
         }
-        
+
         public CultureInfo CultureInfoCurrency(string language)
         {
             switch (language)
@@ -1149,7 +1161,14 @@ namespace Implem.Pleasanter.Libraries.Requests
                     return new CultureInfo(language);
             }
         }
-        
+
+        public string TimeZoneInfoOffset()
+        {
+            return TimeZoneInfo != null
+                ? (TimeZoneInfo.BaseUtcOffset >= TimeSpan.Zero ? "+" : "-") + TimeZoneInfo.BaseUtcOffset.ToString(@"hh\:mm")
+                : "00:00";
+        }
+
         public string Token()
         {
             return Request
@@ -1173,6 +1192,9 @@ namespace Implem.Pleasanter.Libraries.Requests
             switch (Theme())
             {
                 case "cerulean":
+                case "green-tea":
+                case "mandarin":
+                case "midnight":
                     return 2.0M;
                 default:
                     return 1.0M;
@@ -1184,6 +1206,9 @@ namespace Implem.Pleasanter.Libraries.Requests
             switch (Theme())
             {
                 case "cerulean":
+                case "green-tea":
+                case "mandarin":
+                case "midnight":
                     return 2.0M;
                 default:
                     return 1.0M;

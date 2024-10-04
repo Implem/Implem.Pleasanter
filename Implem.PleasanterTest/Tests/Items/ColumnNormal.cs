@@ -9,6 +9,7 @@ using Xunit;
 
 namespace Implem.PleasanterTest.Tests.Items
 {
+    [Collection(nameof(ColumnNormal))]
     public class ColumnNormal
     {
         private Context Context;

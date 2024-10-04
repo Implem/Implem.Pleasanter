@@ -857,6 +857,16 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 getter: column => Bool(
                     data: data,
                     name: column.Name));
+            SetValue(
+                columnName: nameof(IssueModel.Comments),
+                columns: columns,
+                setter: value => issueModel.Comments.Prepend(
+                    context: context,
+                    ss: ss,
+                    body: value),
+                getter: column => String(
+                    data: data,
+                    columnName: column.ColumnName));
             issueModel.SetTitle(
                 context: context,
                 ss: ss);
@@ -931,6 +941,16 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 getter: column => Bool(
                     data: data,
                     name: column.Name));
+            SetValue(
+                columnName: nameof(ResultModel.Comments),
+                columns: columns,
+                setter: value => resultModel.Comments.Prepend(
+                    context: context,
+                    ss: ss,
+                    body: value),
+                getter: column => String(
+                    data: data,
+                    columnName: column.ColumnName));
             resultModel.SetTitle(
                 context: context,
                 ss: ss);
@@ -1352,6 +1372,37 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 model: model,
                 onTesting: false)).ToArray();
             return items;
+        }
+
+        public static ServerScriptModelApiModel GetClosestSite(
+            Context context,
+            long? id = null,
+            string siteName = null)
+        {
+            if (siteName.IsNullOrEmpty()) return null;
+            var startId = id ?? context.SiteId;
+            if (context.CanRead(
+                ss: SiteSettingsUtilities.Get(
+                    context: context,
+                    siteId: startId,
+                    referenceId: startId),
+                site: true) == false) return null;
+            var tenantCache = SiteInfo.TenantCaches[context.TenantId];
+            var findId = tenantCache.SiteNameTree.Find(
+                startId: startId,
+                name: siteName);
+            if (findId == -1) return null;
+            if (context.CanRead(
+                ss: SiteSettingsUtilities.Get(
+                    context: context,
+                    siteId: findId,
+                    referenceId: findId),
+                site: true) == false) return null;
+            return GetSite(
+                context: context,
+                id: findId,
+                apiRequestBody: string.Empty)
+                    .FirstOrDefault();
         }
 
         public static bool Create(Context context, long id, object model)

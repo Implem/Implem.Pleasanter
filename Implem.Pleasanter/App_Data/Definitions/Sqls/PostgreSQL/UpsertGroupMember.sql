@@ -1,6 +1,7 @@
 ﻿insert into "GroupMembers"
 (
     "GroupId"
+    ,"ChildGroup"
     ,"DeptId"
     ,"UserId"
     ,"Admin"
@@ -10,6 +11,7 @@
 values
 (
     @GroupId
+    ,false
     ,@DeptId
     ,@UserId
     ,@Admin
@@ -19,6 +21,7 @@ values
 on conflict
 (
     "GroupId"
+    ,"ChildGroup"
     ,"DeptId"
     ,"UserId"
 )
