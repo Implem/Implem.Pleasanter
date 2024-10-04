@@ -13,6 +13,7 @@ namespace Implem.Pleasanter.Libraries.Settings
     public class QuickAccessSite
     {
         public string Id { get; set; }
+        public string Url { get; set; }
         public string ViewMode { get; set; }
         public string Title { get; set; }
         public string Icon { get; set; }
@@ -516,8 +517,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public static IList<(long Id, QuickAccessSite　Settings)> GetQuickAccessSites(Context context, IEnumerable<QuickAccessSite> sites)
         {
             return sites?.SelectMany(site =>
-                long.TryParse(site.Id, out var siteId)
-                    ? new[] { (siteId, site) }
+                long.TryParse(site.Id, out var siteId) || !site.Url.IsNullOrEmpty()
+                    ? [(siteId, site)]
                     : SiteInfo.Sites(context: context).Values
                         .Where(row => row.String("SiteName") == site.Id
                             || row.String("SiteGroupName") == site.Id)

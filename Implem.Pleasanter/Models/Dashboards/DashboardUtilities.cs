@@ -1701,48 +1701,61 @@ namespace Implem.Pleasanter.Models
                                     action: () => QuickAccessSites(context: context, sites: sites)
                                         .ForEach(quickAccess =>
                                         {
-                                            if (quickAccess.Model.SiteId == 0)
-                                            {
-                                                quickAccess.Model.Title = new Title() { DisplayValue = Displays.Top(context: context) };
-                                                quickAccess.Model.ReferenceType = "Sites";
-                                            }
-                                            var itemTypeCss = string.Empty;
-                                            var iconName = string.Empty;
                                             var href = string.Empty;
-                                            href = GetQuickAccessHref(context, quickAccess);
-                                            switch (quickAccess.Model.ReferenceType)
+                                            var text = string.Empty;
+                                            var iconName = string.Empty;
+                                            var itemTypeCss = string.Empty;
+                                            //Urlが指定されている場合はそちらを優先
+                                            if (!quickAccess.Settings.Url.IsNullOrEmpty())
                                             {
-                                                case "Sites":
-                                                    itemTypeCss = " dashboard-part-nav-folder " + quickAccess.Settings.Css;
-                                                    iconName = Strings.CoalesceEmpty(quickAccess.Settings.Icon, "folder");
-                                                    break;
-                                                case "Dashboards":
-                                                    itemTypeCss = " dashboard-part-nav-dashboard " + quickAccess.Settings.Css;
-                                                    iconName = Strings.CoalesceEmpty(quickAccess.Settings.Icon, "dashboard");
-                                                    break;
-                                                case "Wikis":
-                                                    itemTypeCss = " dashboard-part-nav-wiki " + quickAccess.Settings.Css;
-                                                    iconName = Strings.CoalesceEmpty(quickAccess.Settings.Icon, "text_snippet");
+                                                href = quickAccess.Settings.Url;
+                                                text = Strings.CoalesceEmpty(quickAccess.Settings.Title, quickAccess.Settings.Url);
+                                                iconName = Strings.CoalesceEmpty(quickAccess.Settings.Icon, "language");
+                                                itemTypeCss = " dashboard-part-nav-external " + quickAccess.Settings.Css;
+                                            }
+                                            else
+                                            {
+                                                //サイトID:0 とした場合Top画面のタイトル文字列とReferenceTypeをModelに設定する
+                                                if (quickAccess.Model.SiteId == 0)
+                                                {
+                                                    quickAccess.Model.Title = new Title() { DisplayValue = Displays.Top(context: context) };
+                                                    quickAccess.Model.ReferenceType = "Sites";
+                                                }
+                                                text = Strings.CoalesceEmpty(quickAccess.Settings.Title, quickAccess.Model.Title.DisplayValue);
+                                                href = GetQuickAccessHref(context, quickAccess);
+                                                switch (quickAccess.Model.ReferenceType)
+                                                {
+                                                    case "Sites":
+                                                        itemTypeCss = " dashboard-part-nav-folder " + quickAccess.Settings.Css;
+                                                        iconName = Strings.CoalesceEmpty(quickAccess.Settings.Icon, "folder");
+                                                        break;
+                                                    case "Dashboards":
+                                                        itemTypeCss = " dashboard-part-nav-dashboard " + quickAccess.Settings.Css;
+                                                        iconName = Strings.CoalesceEmpty(quickAccess.Settings.Icon, "dashboard");
+                                                        break;
+                                                    case "Wikis":
+                                                        itemTypeCss = " dashboard-part-nav-wiki " + quickAccess.Settings.Css;
+                                                        iconName = Strings.CoalesceEmpty(quickAccess.Settings.Icon, "text_snippet");
 
-                                                    break;
-                                                default:
-                                                    itemTypeCss = " dashboard-part-nav-table " + quickAccess.Settings.Css;
-                                                    iconName = Strings.CoalesceEmpty(quickAccess.Settings.Icon, "table");
-                                                    break;
+                                                        break;
+                                                    default:
+                                                        itemTypeCss = " dashboard-part-nav-table " + quickAccess.Settings.Css;
+                                                        iconName = Strings.CoalesceEmpty(quickAccess.Settings.Icon, "table");
+                                                        break;
+                                                }
                                             }
                                             hb.Li(css: "dashboard-part-nav-item" + itemTypeCss.TrimEnd(),
-                                                action: () => hb
-                                                    .Span(css: "material-symbols-outlined",
-                                                        action: () => hb.Text(iconName))
-                                                    .A(
-                                                        css: "dashboard-part-nav-link",
-                                                        text: quickAccess.Settings.Title.IsNullOrEmpty()
-                                                            ? quickAccess.Model.Title.DisplayValue
-                                                            : quickAccess.Settings.Title,
-                                                        href: href,
-                                                        target: quickAccess.Settings.OpenInNewTab
-                                                            ? "_blank"
-                                                            : null));
+                                                   action: () => hb
+                                                       .Span(css: "material-symbols-outlined",
+                                                           action: () => hb.Text(iconName))
+                                                       .A(
+                                                           css: "dashboard-part-nav-link",
+                                                           text: text,
+                                                           href: href,
+                                                           target: quickAccess.Settings.OpenInNewTab
+                                                               ? "_blank"
+                                                               : null));
+
                                         })));
                 });
         }
@@ -1761,19 +1774,11 @@ namespace Implem.Pleasanter.Models
                     id: quickAccess.Model.SiteId,
                     quickAccess.Settings.ViewMode);
             }
-            if (quickAccess.Model.ReferenceType == "Wikis")
-            {
-                return Locations.ItemEdit(
-                    context: context,
-                    id: Repository.ExecuteScalar_long(
-                        context: context,
-                        statements: Rds.SelectWikis(
-                            column: Rds.WikisColumn().WikiId(),
-                            where: Rds.WikisWhere().SiteId(quickAccess.Model.SiteId))));
-            }
-            return Locations.ItemIndex(
+            return SiteUtilities.SiteHref(
                 context: context,
-                id: quickAccess.Model.SiteId);
+                ss: quickAccess.Model.SiteSettings,
+                siteId: quickAccess.Model.SiteId,
+                referenceType: quickAccess.Model.ReferenceType);
         }
 
         /// <summary>
@@ -1797,18 +1802,22 @@ namespace Implem.Pleasanter.Models
                         raw: Def.Sql.HasPermission,
                         _using: !context.HasPrivilege));
             return sites
-                .Select(o => o.Id == 0
-                    ? new QuickAccessSiteModel()
-                    {
-                        Model = new SiteModel(context: context, siteId: 0),
-                        Settings = o.Settings
-                    }
-                    : new QuickAccessSiteModel()
-                    {
-                        Model = siteModels.FirstOrDefault(model => model.SiteId == o.Id),
-                        Settings = o.Settings
-                    })
-                .Where(model => model.Model != null);
+                .Select(o =>
+                    !o.Settings.Url.IsNullOrEmpty()
+                        ? new QuickAccessSiteModel()
+                        {
+                            Model = null,
+                            Settings = o.Settings
+                        }
+                        : new QuickAccessSiteModel()
+                        {
+                            Model = o.Id == 0
+                                ? new SiteModel(context: context, siteId: 0)
+                                : siteModels.FirstOrDefault(model => model.SiteId == o.Id),
+                            Settings = o.Settings
+                        })
+                .Where(model => model.Model != null
+                    || !model.Settings.Url.IsNullOrEmpty());
         }
 
         /// <summary>
