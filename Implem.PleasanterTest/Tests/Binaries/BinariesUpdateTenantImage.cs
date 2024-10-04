@@ -8,6 +8,7 @@ using Xunit;
 
 namespace Implem.PleasanterTest.Tests.Binaries
 {
+    [Collection(nameof(BinariesUpdateTenantImage))]
     public class BinariesUpdateTenantImage
     {
         [Theory]
@@ -26,6 +27,7 @@ namespace Implem.PleasanterTest.Tests.Binaries
                 fileName: fileName,
                 contentType: "image/png");
             var results = Results(context: context);
+            Initializer.SaveResults(results);
             Assert.True(Tester.Test(
                 context: context,
                 results: results,

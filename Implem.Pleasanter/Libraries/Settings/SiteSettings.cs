@@ -97,6 +97,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string Title;
         [NonSerialized]
         public string Body;
+        public bool? GuideAllowExpand;
+        public string GuideExpand;
         [NonSerialized]
         public string GridGuide;
         [NonSerialized]
@@ -163,6 +165,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? HistoryOnGrid;
         public bool? AlwaysRequestSearchCondition;
         public bool? DisableLinkToEdit;
+        public bool? OpenEditInNewTab;
         public int? LinkTableView;
         public int? FirstDayOfWeek;
         public int? FirstMonth;
@@ -497,7 +500,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                     ss.ParentId = dataRow.Long("ParentId");
                     ss.InheritPermission = dataRow.Long("InheritPermission");
                     ss.Linked = true;
-                    if (previously == null) previously = new List<long>();
+                    previously = (previously == null)
+                        ? new List<long>()
+                        : previously.Copy();
                     previously.Add(ss.SiteId);
                     switch (direction)
                     {
@@ -670,12 +675,23 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
             switch (context.Action)
             {
-                case "index":
-                    return false;
-                case "dashboardpart":
-                    return false;
-                default:
+                case "copy":
+                case "delete":
+                case "deletecomment":
+                case "deletehistory":
+                case "edit":
+                case "histories":
+                case "history":
+                case "permissions":
+                case "restore":
+                case "restorefromhistory":
+                case "searchdropdown":
+                case "selectsearchdropdown":
+                case "setsitesettings":
+                case "update":
                     return true;
+                default:
+                    return false;
             }
         }
 
@@ -693,6 +709,18 @@ namespace Implem.Pleasanter.Libraries.Settings
                 Version = Version,
                 ReferenceType = ReferenceType
             };
+            if (GuideAllowExpand == true)
+            {
+                ss.GuideAllowExpand = GuideAllowExpand;
+                if (GuideExpand == "0")
+                {
+                    ss.GuideExpand = GuideExpand;
+                }
+                else
+                {
+                    ss.GuideExpand = "1";
+                }
+            }
             if (NearCompletionTimeAfterDays != param.NearCompletionTimeAfterDays)
             {
                 ss.NearCompletionTimeAfterDays = NearCompletionTimeAfterDays;
@@ -728,6 +756,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (DisableLinkToEdit == true)
             {
                 ss.DisableLinkToEdit = DisableLinkToEdit;
+            }
+            if (OpenEditInNewTab == true)
+            {
+                ss.OpenEditInNewTab = OpenEditInNewTab;
             }
             if (LinkTableView != 0)
             {
@@ -2551,9 +2583,6 @@ namespace Implem.Pleasanter.Libraries.Settings
         public List<Column> GetHistoryColumns(Context context, bool checkPermission = false)
         {
             return HistoryColumns
-                // GridDesignに含まれるカラムを追加する。
-                .Concat(IncludedColumns())
-                .Distinct()
                 .Select(columnName => GetColumn(
                     context: context,
                     columnName: columnName))
@@ -3839,6 +3868,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             switch (propertyName)
             {
+                case "GuideAllowExpand": GuideAllowExpand = value.ToBool(); break;
+                case "GuideExpand": GuideExpand = value; break;
                 case "NearCompletionTimeBeforeDays": NearCompletionTimeBeforeDays = value.ToInt(); break;
                 case "NearCompletionTimeAfterDays": NearCompletionTimeAfterDays = value.ToInt(); break;
                 case "GridPageSize": GridPageSize = value.ToInt(); break;
@@ -3848,6 +3879,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "HistoryOnGrid": HistoryOnGrid = value.ToBool(); break;
                 case "AlwaysRequestSearchCondition": AlwaysRequestSearchCondition = value.ToBool(); break;
                 case "DisableLinkToEdit": DisableLinkToEdit = value.ToBool(); break;
+                case "OpenEditInNewTab": OpenEditInNewTab = value.ToBool(); break;
                 case "LinkTableView": LinkTableView = value.ToInt(); break;
                 case "FirstDayOfWeek": FirstDayOfWeek = value.ToInt(); break;
                 case "FirstMonth": FirstMonth = value.ToInt(); break;
@@ -5473,7 +5505,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                             ? " confirm-unload not-link"
                             : DisableLinkToEdit == true
                                 ? " not-link"
-                                : string.Empty);
+                                : OpenEditInNewTab == true
+                                    ? " new-tab"
+                                    : string.Empty);
             }
         }
 

@@ -9,6 +9,7 @@ using Xunit;
 
 namespace Implem.PleasanterTest.Tests.Items
 {
+    [Collection(nameof(ItemsDeleteComment))]
     public class ItemsDeleteComment
     {
         [Theory]
@@ -25,6 +26,7 @@ namespace Implem.PleasanterTest.Tests.Items
                 routeData: RouteData.ItemsDeleteComment(id: id),
                 forms: forms);
             var results = Results(context: context);
+            Initializer.SaveResults(results);
             Assert.True(Tester.Test(
                 context: context,
                 results: results,

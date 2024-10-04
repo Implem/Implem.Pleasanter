@@ -44,6 +44,7 @@ namespace Implem.Pleasanter.Models
         public string ItemTitle { get; set; }
         public bool? DisableSiteCreatorPermission { get; set; }
         public List<int> SummaryId { get; set; }
+        public List<string> FindSiteNames { get; set; }
 
         public SiteApiModel()
         {

@@ -1,6 +1,7 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.IRds;
 using Implem.Libraries.Utilities;
+using System.Linq;
 using System.Text;
 namespace Implem.Libraries.DataSources.SqlServer
 {
@@ -24,6 +25,10 @@ namespace Implem.Libraries.DataSources.SqlServer
             StringBuilder commandText,
             int? commandCount = null)
         {
+            if (!MainQueryInfo.sqlClass.IsNullOrEmpty())
+            {
+                SetMainQueryInfoForSub();
+            }
             switch (TableType)
             {
                 case Sqls.TableTypes.History:
@@ -251,6 +256,88 @@ namespace Implem.Libraries.DataSources.SqlServer
             int? commandCount)
         {
             if (!Using) return;
+            //MySQLかつサブクエリの場合、2つの文字列リストを比較して一致する文字列があるか突合する。
+            //・メインのクエリ側（MainQueryInfo.allTableBrackets）：Normal、Deleted、Historyの各TableBracketのリスト
+            //・副問い合わせ側（tableBrackets）：このSelect自身のNormal、Deleted、Historyの各TableBracketのリスト + JoinのTableBracket
+            var tableBrackets = GetAllTableBrackets();
+            SqlJoinCollection?.ForEach(o => tableBrackets.Add(o.TableBracket));
+            if (Parameters.Rds.Dbms == "MySQL" &&
+                !MainQueryInfo.sqlClass.IsNullOrEmpty() &&
+                tableBrackets.FindAll(MainQueryInfo.allTableBrackets.Contains) != null)
+            {
+                //MySQLにおいて副問い合わせのselect文の生成時、メインのクエリと同一テーブルを参照する場合は、
+                //select ... from (select ... from ...) as "仮テーブル名" 形式のコマンドを生成する。
+                GetSelectFromSelectCommand(
+                    factory: factory,
+                    sqlContainer: sqlContainer,
+                    sqlCommand: sqlCommand,
+                    commandText: commandText,
+                    tableType: tableType,
+                    unionType: unionType,
+                    orderBy: orderBy,
+                    commandCount: commandCount);
+            }
+            else
+            {
+                GetSelectFromTableCommand(
+                    factory: factory,
+                    sqlContainer: sqlContainer,
+                    sqlCommand: sqlCommand,
+                    commandText: commandText,
+                    tableType: tableType,
+                    unionType: unionType,
+                    orderBy: orderBy,
+                    commandCount: commandCount);
+            }
+        }
+
+        private void GetSelectFromSelectCommand(
+            ISqlObjectFactory factory,
+            SqlContainer sqlContainer,
+            ISqlCommand sqlCommand,
+            StringBuilder commandText,
+            Sqls.TableTypes tableType,
+            Sqls.UnionTypes unionType,
+            bool orderBy,
+            int? commandCount)
+        {
+            var subQueryStart = "select #TablenameTemp#.#Columnname# from (";
+            var subQueryEnd = ") as #TablenameTemp#";
+            var tablenameTemp = As.IsNullOrEmpty()
+                ? $@"""{TableBracket.Replace(@"""",string.Empty)}Temp"""
+                : $@"""{As}Temp""";
+            var columnname = SqlColumnCollection.FirstOrDefault().AsBracket().IsNullOrEmpty()
+                ? $@"""{SqlColumnCollection.FirstOrDefault().ColumnName}"""
+                : SqlColumnCollection.FirstOrDefault().AsBracket().Replace(" as ", string.Empty);
+            //commandTextに追記：select "TablenameTemp"."Columnname" from (
+            commandText.Append(subQueryStart
+                .Replace("#TablenameTemp#", tablenameTemp)
+                .Replace("#Columnname#", columnname));
+            //commandTextに追記：サブクエリの本体
+            GetSelectFromTableCommand(
+                factory: factory,
+                sqlContainer: sqlContainer,
+                sqlCommand: sqlCommand,
+                commandText: commandText,
+                tableType: tableType,
+                unionType: unionType,
+                orderBy: orderBy,
+                commandCount: commandCount);
+            //commandTextに追記：) as "TablenameTemp"
+            commandText.Append(subQueryEnd
+                .Replace("#TablenameTemp#", tablenameTemp));
+        }
+
+        private void GetSelectFromTableCommand(
+            ISqlObjectFactory factory,
+            SqlContainer sqlContainer,
+            ISqlCommand sqlCommand,
+            StringBuilder commandText,
+            Sqls.TableTypes tableType,
+            Sqls.UnionTypes unionType,
+            bool orderBy,
+            int? commandCount)
+        {
             AddUnion(commandText, unionType);
             SqlColumnCollection?.BuildCommandText(
                 factory: factory,
@@ -332,6 +419,17 @@ namespace Implem.Libraries.DataSources.SqlServer
             return "from " + tableBlacket + (!_as.IsNullOrEmpty()
                 ? " as \"" + _as + "\""
                 : " as " + TableBracket) + "\n";
+        }
+
+        private void SetMainQueryInfoForSub()
+        {
+            //もし現在処理中のselect文がサブクエリである場合（メインのupdateやdeleteのクエリの情報が設定済みの場合）、かつ、
+            //現在のselect文のさらに配下にサブクエリが存在する場合に、配下のサブクエリにメインの情報を設定する
+            SqlWhereCollection
+                .Where(o => o.Sub != null)
+                .ForEach(o => o.Sub.SetMainQueryInfo(
+                    sqlClass: MainQueryInfo.sqlClass,
+                    allTableBrackets: MainQueryInfo.allTableBrackets));
         }
     }
 }

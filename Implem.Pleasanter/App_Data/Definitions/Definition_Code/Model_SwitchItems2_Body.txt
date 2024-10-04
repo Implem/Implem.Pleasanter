@@ -414,6 +414,28 @@ public string BulkUpdate(Context context)
     }
 }
 
+public ContentResultInheritance BulkUpsertByApi(Context context)
+{
+    SetSite(
+        context: context,
+        initSiteSettings: true);
+    if (!Site.WithinApiLimits(context: context))
+    {
+        return ApiResults.Get(ApiResponses.OverLimitApi(
+            context: context,
+            siteId: Site.SiteId,
+            limitPerSite: context.ContractSettings.ApiLimit()));
+    }
+    switch (Site.SiteSettings.ReferenceType)
+    {
+
+<!--Model_BulkUpsertByApiCases-->
+
+        default:
+            return ApiResults.Get(ApiResponses.NotFound(context: context));
+    }
+}
+
 public string UpdateByGrid(Context context)
 {
     SetSite(
@@ -832,7 +854,7 @@ public string DeleteHistory(Context context)
     SetSite(
         context: context,
         initSiteSettings: true,
-        tableType: Sqls.TableTypes.History);
+        tableType: Sqls.TableTypes.NormalAndHistory);
     if (SiteId == ReferenceId)
     {
         return SiteUtilities.DeleteHistory(
@@ -1153,6 +1175,111 @@ public ContentResultInheritance CopySitePackageByApi(Context context)
                 });
         default:
             return null;
+    }
+}
+
+public string ImportUserTemplate(Context context)
+{
+    SetSite(
+        context: context,
+        initSiteSettings: true,
+        setSiteIntegration: true);
+    switch (Site.ReferenceType)
+    {
+        case "Sites":
+            return SiteUtilities.ImportUserTemplate(
+                context: context,
+                ss: Site.SiteSettings);
+        case "Issues":
+        case "Results":
+        case "Wikis":
+        case "Dashboards":
+        default:
+            throw new NotImplementedException();
+    }
+}
+
+public string DeleteUserTemplate(Context context)
+{
+    SetSite(
+        context: context,
+        initSiteSettings: true,
+        setSiteIntegration: true);
+    switch (Site.ReferenceType)
+    {
+        case "Sites":
+            return SiteUtilities.DeleteUserTemplate(
+                context: context,
+                ss: Site.SiteSettings);
+        case "Issues":
+        case "Results":
+        case "Wikis":
+        case "Dashboards":
+        default:
+            throw new NotImplementedException();
+    }
+}
+
+public string UpdateUserTemplate(Context context)
+{
+    SetSite(
+        context: context,
+        initSiteSettings: true,
+        setSiteIntegration: true);
+    switch (Site.ReferenceType)
+    {
+        case "Sites":
+            return SiteUtilities.UpdateUserTemplate(
+                context: context,
+                ss: Site.SiteSettings);
+        case "Issues":
+        case "Results":
+        case "Wikis":
+        case "Dashboards":
+        default:
+            throw new NotImplementedException();
+    }
+}
+
+public string SearchUserTemplate(Context context)
+{
+    SetSite(
+        context: context,
+        initSiteSettings: true,
+        setSiteIntegration: true);
+    switch (Site.ReferenceType)
+    {
+        case "Sites":
+            return SiteUtilities.SearchUserTemplate(
+                context: context,
+                ss: Site.SiteSettings);
+        case "Issues":
+        case "Results":
+        case "Wikis":
+        case "Dashboards":
+        default:
+            throw new NotImplementedException();
+    }
+}
+
+public string OpenEditUserTemplateDialog(Context context)
+{
+    SetSite(
+        context: context,
+        initSiteSettings: true,
+        setSiteIntegration: true);
+    switch (Site.ReferenceType)
+    {
+        case "Sites":
+            return SiteUtilities.OpenEditUserTemplateDialog(
+                context: context,
+                ss: Site.SiteSettings);
+        case "Issues":
+        case "Results":
+        case "Wikis":
+        case "Dashboards":
+        default:
+            throw new NotImplementedException();
     }
 }
 

@@ -99,6 +99,42 @@ namespace Implem.Pleasanter.Models
                                     value: string.Empty,
                                     tabIndex: tabIndex,
                                     serverScriptModelColumn: serverScriptModelColumn);
+                    case "Language":
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: tenantModel.Language,
+                                    tabIndex: tabIndex,
+                                    serverScriptModelColumn: serverScriptModelColumn)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty,
+                                    tabIndex: tabIndex,
+                                    serverScriptModelColumn: serverScriptModelColumn);
+                    case "TimeZone":
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: tenantModel.TimeZone,
+                                    tabIndex: tabIndex,
+                                    serverScriptModelColumn: serverScriptModelColumn)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty,
+                                    tabIndex: tabIndex,
+                                    serverScriptModelColumn: serverScriptModelColumn);
                     case "Comments":
                         return ss.ReadColumnAccessControls.Allowed(
                             context: context,
@@ -324,6 +360,12 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         column: column); break;
                     case "Theme": value = tenantModel.Theme.GridText(
+                        context: context,
+                        column: column); break;
+                    case "Language": value = tenantModel.Language.GridText(
+                        context: context,
+                        column: column); break;
+                    case "TimeZone": value = tenantModel.TimeZone.GridText(
                         context: context,
                         column: column); break;
                     case "Comments": value = tenantModel.Comments.GridText(
@@ -594,9 +636,14 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             TenantModel tenantModel)
         {
-            return hb.FieldSet(id: "FieldSetGeneral", action: () => hb
-                .FieldSetGeneralColumns(
-                    context: context, ss: ss, tenantModel: tenantModel));
+            return hb.FieldSet(
+                id: "FieldSetGeneral",
+                action: () => hb.Div(
+                    css: "fieldset-inner",
+                    action: () => hb.FieldSetGeneralColumns(
+                        context: context,
+                        ss: ss,
+                        tenantModel: tenantModel)));
         }
 
         /// <summary>
@@ -660,6 +707,26 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         columnName: "Theme").EditChoices(context: context),
                     selectedValue: tenantModel.Theme,
+                    insertBlank: true)
+                .FieldDropDown(
+                    context: context,
+                    controlId: "Tenants_Language",
+                    controlCss: " always-send",
+                    labelText: Displays.Tenants_Language(context),
+                    optionCollection: ss.GetColumn(
+                        context: context,
+                        columnName: "Language").EditChoices(context: context),
+                    selectedValue: tenantModel.Language,
+                    insertBlank: true)
+                .FieldDropDown(
+                    context: context,
+                    controlId: "Tenants_TimeZone",
+                    controlCss: " always-send",
+                    labelText: Displays.Tenants_TimeZone(context),
+                    optionCollection: ss.GetColumn(
+                        context: context,
+                        columnName: "TimeZone").EditChoices(context: context),
+                    selectedValue: tenantModel.TimeZone,
                     insertBlank: true)
                 .FieldSet(
                     id: "PermissionsField",
@@ -854,6 +921,18 @@ namespace Implem.Pleasanter.Models
                             column: column);
                 case "Theme":
                     return tenantModel.Theme
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Language":
+                    return tenantModel.Language
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "TimeZone":
+                    return tenantModel.TimeZone
                         .ToControl(
                             context: context,
                             ss: ss,
@@ -1136,6 +1215,18 @@ namespace Implem.Pleasanter.Models
                                 res.Val(
                                     target: "#Tenants_Theme" + idSuffix,
                                     value: tenantModel.Theme.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "Language":
+                                res.Val(
+                                    target: "#Tenants_Language" + idSuffix,
+                                    value: tenantModel.Language.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "TimeZone":
+                                res.Val(
+                                    target: "#Tenants_TimeZone" + idSuffix,
+                                    value: tenantModel.TimeZone.ToResponse(context: context, ss: ss, column: column),
                                     options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                 break;
                             default:
@@ -1490,24 +1581,26 @@ namespace Implem.Pleasanter.Models
                 return Error.Types.HasNotPermission.MessageJson(context: context);
             }
             var hb = new HtmlBuilder();
-            hb
-                .HistoryCommands(context: context, ss: ss)
-                .Table(
-                    attributes: new HtmlAttributes().Class("grid history"),
-                    action: () => hb
-                        .THead(action: () => hb
-                            .GridHeader(
-                                context: context,
-                                ss: ss,
-                                columns: columns,
-                                sort: false,
-                                checkRow: true))
-                        .TBody(action: () => hb
-                            .HistoriesTableBody(
-                                context: context,
-                                ss: ss,
-                                columns: columns,
-                                tenantModel: tenantModel)));
+            hb.Div(
+                css: "fieldset-inner",
+                action: () => hb
+                    .HistoryCommands(context: context, ss: ss)
+                    .Table(
+                        attributes: new HtmlAttributes().Class("grid history"),
+                        action: () => hb
+                            .THead(action: () => hb
+                                .GridHeader(
+                                    context: context,
+                                    ss: ss,
+                                    columns: columns,
+                                    sort: false,
+                                    checkRow: true))
+                            .TBody(action: () => hb
+                                .HistoriesTableBody(
+                                    context: context,
+                                    ss: ss,
+                                    columns: columns,
+                                    tenantModel: tenantModel))));
             return new TenantsResponseCollection(
                 context: context,
                 tenantModel: tenantModel)
@@ -1609,7 +1702,8 @@ namespace Implem.Pleasanter.Models
                 action: () => hb
                     .ServerScriptsSettingsEditor(
                         context: context, tenantModel: tenantModel),
-                _using: context.ContractSettings.ServerScript != false
+                _using: context.HasPrivilege != false
+                    && context.ContractSettings.ServerScript != false
                     && Parameters.Script.ServerScript != false
                     && Parameters.Script.BackgroundServerScript != false);
         }
@@ -1620,8 +1714,6 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder ServerScriptsSettingsEditor(
             this HtmlBuilder hb, Context context, TenantModel tenantModel)
         {
-            if (context.ContractSettings.ServerScript == false
-                || Parameters.Script.ServerScript == false) return hb;
             return hb.FieldSet(id: "ServerScriptsSettingsEditor", action: () => hb
                 .Div(css: "command-left", action: () => hb
                     .Button(
@@ -2273,8 +2365,7 @@ namespace Implem.Pleasanter.Models
                             ["onlyonce"] = Displays.OnlyOnce(context: context),
                         },
                         selectedValue: schedule.ScheduleType,
-                        addSelectedValue: false,
-                        onChange: "$p.changeBGServerScriptScheduleType($(this));")
+                        addSelectedValue: false)
                     .FieldTimeZoneInfo(
                         context: context,
                         value: schedule.ScheduleTimeZoneId,

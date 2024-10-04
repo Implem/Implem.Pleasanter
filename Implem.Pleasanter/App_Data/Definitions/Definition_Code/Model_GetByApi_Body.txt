@@ -25,6 +25,7 @@
         }
     });
 <!--Model_GetByApi_GroupMembers-->
+<!--Model_GetByApi_GroupChildren-->
 <!--Model_GetByApi_ItemTitle-->
 <!--Model_GetByApi_MailAddresses-->
 

@@ -35,6 +35,9 @@ caption, th {
     text-align: left;
 }
 
+td p{
+    font-weight: inherit;
+}
 a:focus {
     outline: none;
 }
@@ -306,6 +309,26 @@ pre {
     border-radius: 5px;
 }
 
+#Guide > .with-icon-close {
+    padding: 10px 5px 10px;
+}
+
+#Guide > div > #ReduceGuides {
+    float: left;
+    cursor: pointer;
+    padding-right: 5px;
+}
+
+#Guide > #ExpandGuides {
+    font-weight: bold;
+    cursor: pointer;
+    padding: 10px 5px 10px;
+}
+
+#Guide .markup{
+    overflow: hidden;
+}
+
 #CopyToClipboards > .display-control {
     float: left;
     cursor: pointer;
@@ -317,6 +340,7 @@ pre {
     padding: 0px 6px;
     border: none;
     position: relative;
+    z-index: 99;
     clear: both;
 }
 
@@ -327,7 +351,7 @@ pre {
     border: none;
     top: 0px;
     right: 5px;
-    border-radius: 20px 5px 5px 20px;
+    border-radius: 20px 0 0 20px;
     float: right;
 }
 
@@ -768,14 +792,14 @@ th.calendar-header {
     }
 
     .CalendarBody .item .connection {
-        width: 14px;
+        width: 30px;
         height: 25px;
         background-color: lightgoldenrodyellow;
         border-top: solid 1px silver;
         border-bottom: solid 1px silver;
         position: relative;
         top: -1px;
-        left: -14px;
+        left: -30px;
     }
 
         .CalendarBody .item .connection.hover {
@@ -796,7 +820,7 @@ th.calendar-header {
         position: absolute;
         overflow: hidden;
         white-space: nowrap;
-        z-index: 30;
+        z-index: 2;
     }
 
         .CalendarBody .item .title.sub {
@@ -1363,7 +1387,7 @@ th.calendar-header {
     position: fixed;
     left: 0px;
     bottom: 30px;
-    z-index: 100;
+    z-index: 90;
 }
 
 #MainCommands {
@@ -1411,7 +1435,7 @@ th.calendar-header {
     position: fixed;
     left: 0px;
     bottom: 0px;
-    z-index: 100;
+    z-index: 90;
 }
 
     #Footer a {
@@ -1431,6 +1455,10 @@ th.calendar-header {
         margin: 10px;
         line-height: 30px;
     }
+
+#SummaryForm .field-normal[style="display: none;"] + #SummarySetZeroWhenOutOfConditionField{
+    display: none!important;
+}
 
 .template {
     width: 100%;
@@ -1866,6 +1894,7 @@ td > .field-normal, td > .field-wide {
 }
 
 .field-auto {
+    display: flex;
     width: auto;
     height: 45px;
     float: left;
@@ -1886,6 +1915,7 @@ td > .field-normal, td > .field-wide {
     .field-auto > .field-control {
         width: auto;
         float: left;
+        flex: 1;
     }
 
 .field-auto-thin {
@@ -2236,6 +2266,10 @@ label.required:after {
         list-style-type: disc;
     }
 
+    .md li p {
+        float: none;
+    }
+
 .control-markdown {
     width: 100%;
     display: none;
@@ -2486,6 +2520,12 @@ _::-webkit-full-page-media, _:future, :root .field-normal .control-checkbox + la
         table-layout: fixed;
     }
 
+    .grid > thead {
+        position: sticky;
+        top: -1px;
+        z-index: 3;
+    }
+
     .grid > thead > tr > caption {
         margin: 0px 0px 5px 0px;
     }
@@ -2637,6 +2677,18 @@ _::-webkit-full-page-media, _:future, :root .field-normal .control-checkbox + la
     padding: 0px 10px;
 }
 
+#Links > .fieldset{
+  display: grid;
+}
+
+#Links > .fieldset > div{
+  overflow: auto;
+}
+
+#Links > .fieldset > div .grid{
+  width: max-content; min-width: 100%;
+}
+
 .link-creations button {
     display: block;
     float: left;
@@ -2690,7 +2742,7 @@ _::-webkit-full-page-media, _:future, :root .field-normal .control-checkbox + la
     position: fixed;
     left: 0px;
     bottom: 78px;
-    z-index: 100;
+    z-index: 90;
 }
 
     .message .body {
@@ -2932,7 +2984,15 @@ h3.title-header {
     z-index: 10;
 }
 
-input[type="password"]::-ms-reveal{
+#passwordGenerateicon {
+    position: absolute;
+    top: 4px;
+    right: -60px;
+    cursor: pointer;
+    z-index: 10;
+}
+
+input[type="password"]::-ms-reveal {
     display: none;
 }
 
@@ -3161,23 +3221,66 @@ input[type="password"]::-ms-reveal{
 }
 
 .ui-widget.ui-state-default.ui-multiselect {
-    height: 30px;
     background: white;
     border: solid 1px silver;
     overflow: hidden;
     border-radius: 5px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.field-wide .ui-widget.ui-state-default.ui-multiselect {
+    height: auto;
+    min-height: 30px;
+}
+
+.ui-widget.ui-state-default.ui-multiselect .ui-multiselect-open {
+    display: block;
+    order: 2;
+}
+
+.ui-widget.ui-state-default.ui-multiselect .ui-multiselect-open + span {
+    display: block;
+    order: 1;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+.field-normal .ui-widget.ui-state-default.ui-multiselect .ui-multiselect-open + span {
+    white-space: nowrap;
+}
+.field-wide .ui-widget.ui-state-default.ui-multiselect .ui-multiselect-open + span {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    max-height: 4.7em;
+}
+
+.ui-multiselect-menu {
+    width: auto !important;
+    min-width: 225px;
+    max-width: 450px;
 }
 
 .ui-multiselect-checkboxes {
     min-height: 300px;
 }
 
-    .ui-multiselect-checkboxes input {
-        margin: 0px 5px;
-    }
+.ui-multiselect-checkboxes label {
+    white-space: nowrap;
+}
+
+.ui-multiselect-checkboxes input {
+    margin: 0px 5px;
+}
 
 .ui-corner-all.ui-state-hover {
     border-radius: 2px;
+}
+
+.ui-icon-white {
+    background-image: url(../styles/plugins/images/ui-icons_ffffff_256x240.png);
 }
 
 div.field-control .ui-multiselect.ui-state-disabled {

@@ -14,6 +14,7 @@ using Xunit;
 
 namespace Implem.PleasanterTest.Tests.Binaries
 {
+    [Collection(nameof(BinariesUpload))]
     public class BinariesUpload
     {
         [Theory]
@@ -33,6 +34,7 @@ namespace Implem.PleasanterTest.Tests.Binaries
                 fileName: fileName,
                 contentType: "text/json");
             var results = Results(context: context);
+            Initializer.SaveResults(results);
             Assert.True(Tester.Test(
                 context: context,
                 results: results,
@@ -85,7 +87,7 @@ namespace Implem.PleasanterTest.Tests.Binaries
                             Guid = uuid,
                             Name = "Attachments.txt",
                             Size = 15,
-                            Extention = "txt",
+                            Extension = "txt",
                             ContentType = "text/plain",
                             Added = true,
                             Deleted = false

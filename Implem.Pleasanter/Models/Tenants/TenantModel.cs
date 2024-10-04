@@ -43,6 +43,8 @@ namespace Implem.Pleasanter.Models
         public string TopScript = string.Empty;
         public string TopDashboards = string.Empty;
         public string Theme = string.Empty;
+        public string Language = string.Empty;
+        public string TimeZone = string.Empty;
         public TenantSettings TenantSettings = new TenantSettings();
         public int SavedTenantId = 0;
         public string SavedTenantName = string.Empty;
@@ -61,6 +63,8 @@ namespace Implem.Pleasanter.Models
         public string SavedTopScript = string.Empty;
         public string SavedTopDashboards = string.Empty;
         public string SavedTheme = string.Empty;
+        public string SavedLanguage = string.Empty;
+        public string SavedTimeZone = string.Empty;
         public string SavedTenantSettings = string.Empty;
 
         public bool TenantId_Updated(Context context, bool copy = false, Column column = null)
@@ -253,6 +257,30 @@ namespace Implem.Pleasanter.Models
                 &&  (column == null
                     || column.DefaultInput.IsNullOrEmpty()
                     || column.GetDefaultInput(context: context).ToString() != Theme);
+        }
+
+        public bool Language_Updated(Context context, bool copy = false, Column column = null)
+        {
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != Language;
+            }
+            return Language != SavedLanguage && Language != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != Language);
+        }
+
+        public bool TimeZone_Updated(Context context, bool copy = false, Column column = null)
+        {
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != TimeZone;
+            }
+            return TimeZone != SavedTimeZone && TimeZone != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != TimeZone);
         }
 
         public bool TenantSettings_Updated(Context context, bool copy = false, Column column = null)
@@ -472,6 +500,8 @@ namespace Implem.Pleasanter.Models
                     case "TopScript": data.TopScript = TopScript; break;
                     case "TopDashboards": data.TopDashboards = TopDashboards; break;
                     case "Theme": data.Theme = Theme; break;
+                    case "Language": data.Language = Language; break;
+                    case "TimeZone": data.TimeZone = TimeZone; break;
                     case "TenantSettings": data.TenantSettings = TenantSettings.RecordingJson(context: context); break;
                     case "Creator": data.Creator = Creator.Id; break;
                     case "Updator": data.Updator = Updator.Id; break;
@@ -571,6 +601,16 @@ namespace Implem.Pleasanter.Models
                         column: column);
                 case "Theme":
                     return Theme.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Language":
+                    return Language.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "TimeZone":
+                    return TimeZone.ToDisplay(
                         context: context,
                         ss: ss,
                         column: column);
@@ -803,7 +843,7 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         tenantModel: this,
                         otherInitValue: otherInitValue)),
-                new SqlStatement(Def.Sql.IfConflicted.Params(TenantId))
+                new SqlStatement()
                 {
                     DataTableName = dataTableName,
                     IfConflicted = true,
@@ -888,7 +928,7 @@ namespace Implem.Pleasanter.Models
                 transactional: true,
                 statements: Rds.PhysicalDeleteTenants(
                     tableType: tableType,
-                    param: Rds.TenantsParam().TenantId(TenantId)));
+                    where: Rds.TenantsWhere().TenantId(TenantId)));
             return new ErrorData(type: Error.Types.None);
         }
 
@@ -938,6 +978,8 @@ namespace Implem.Pleasanter.Models
                     case "Tenants_TopScript": TopScript = value.ToString(); break;
                     case "Tenants_TopDashboards": TopDashboards = $"[{value.ToLong()}]"; break;
                     case "Tenants_Theme": Theme = value.ToString(); break;
+                    case "Tenants_Language": Language = value.ToString(); break;
+                    case "Tenants_TimeZone": TimeZone = value.ToString(); break;
                     case "Tenants_Timestamp": Timestamp = value.ToString(); break;
                     case "Comments": Comments.Prepend(
                         context: context,
@@ -1018,6 +1060,8 @@ namespace Implem.Pleasanter.Models
             TopScript = tenantModel.TopScript;
             TopDashboards = tenantModel.TopDashboards;
             Theme = tenantModel.Theme;
+            Language = tenantModel.Language;
+            TimeZone = tenantModel.TimeZone;
             TenantSettings = tenantModel.TenantSettings;
             Comments = tenantModel.Comments;
             Creator = tenantModel.Creator;
@@ -1051,6 +1095,8 @@ namespace Implem.Pleasanter.Models
             if (data.TopScript != null) TopScript = data.TopScript.ToString().ToString();
             if (data.TopDashboards != null) TopDashboards = data.TopDashboards.ToString().ToString();
             if (data.Theme != null) Theme = data.Theme.ToString().ToString();
+            if (data.Language != null) Language = data.Language.ToString().ToString();
+            if (data.TimeZone != null) TimeZone = data.TimeZone.ToString().ToString();
             if (data.Comments != null) Comments.Prepend(context: context, ss: ss, body: data.Comments);
             if (data.VerUp != null) VerUp = data.VerUp.ToBool();
             data.ClassHash?.ForEach(o => SetClass(
@@ -1268,6 +1314,14 @@ namespace Implem.Pleasanter.Models
                             Theme = dataRow[column.ColumnName].ToString();
                             SavedTheme = Theme;
                             break;
+                        case "Language":
+                            Language = dataRow[column.ColumnName].ToString();
+                            SavedLanguage = Language;
+                            break;
+                        case "TimeZone":
+                            TimeZone = dataRow[column.ColumnName].ToString();
+                            SavedTimeZone = TimeZone;
+                            break;
                         case "TenantSettings":
                             TenantSettings = GetTenantSettings(context: context, dataRow: dataRow);
                             SavedTenantSettings = TenantSettings.RecordingJson(context: context);
@@ -1378,6 +1432,8 @@ namespace Implem.Pleasanter.Models
                 || TopScript_Updated(context: context)
                 || TopDashboards_Updated(context: context)
                 || Theme_Updated(context: context)
+                || Language_Updated(context: context)
+                || TimeZone_Updated(context: context)
                 || TenantSettings_Updated(context: context)
                 || Comments_Updated(context: context)
                 || Creator_Updated(context: context)
@@ -1427,6 +1483,8 @@ namespace Implem.Pleasanter.Models
                 || TopScript_Updated(context: context)
                 || TopDashboards_Updated(context: context)
                 || Theme_Updated(context: context)
+                || Language_Updated(context: context)
+                || TimeZone_Updated(context: context)
                 || TenantSettings_Updated(context: context)
                 || Comments_Updated(context: context)
                 || Creator_Updated(context: context)
@@ -1670,6 +1728,10 @@ namespace Implem.Pleasanter.Models
                 default:
                     res.Message(invalid.Message(context: context));
                     return;
+            }
+            if (TenantSettings.BackgroundServerScripts == null)
+            {
+                TenantSettings.BackgroundServerScripts = new BackgroundServerScripts(context: context);
             }
             script.Id = TenantSettings.BackgroundServerScripts.Scripts.MaxOrDefault(o => o.Id) + 1;
             TenantSettings.BackgroundServerScripts.Scripts.Add(script);
@@ -1936,7 +1998,9 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void SetByAfterUpdateBackgroundServerScript(Context context, SiteSettings ss)
         {
-            BackgroundServerScriptUtilities.Reschedule(backgroundServerScripts: TenantSettings.BackgroundServerScripts);
+            BackgroundServerScriptUtilities.Reschedule(
+                tenantId: TenantId,
+                backgroundServerScripts: TenantSettings.BackgroundServerScripts);
         }
     }
 }

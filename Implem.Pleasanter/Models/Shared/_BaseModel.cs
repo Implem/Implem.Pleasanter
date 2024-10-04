@@ -836,7 +836,10 @@ namespace Implem.Pleasanter.Models
                 {
                     if (scriptColumn.Value.ChoiceHash != null)
                     {
-                        var searchText = context.Forms.Data("DropDownSearchText");
+                        // 該当項目の時のみ絞り込み文字列を適応する
+                        var searchText = context.Forms.Data("DropDownSearchTarget") == column.Id
+                            ? context.Forms.Data("DropDownSearchText")
+                            : null;
                         var searchIndexes = searchText.SearchIndexes();
                         column.ChoiceHash = scriptColumn.Value
                             ?.ChoiceHash
@@ -1111,7 +1114,8 @@ namespace Implem.Pleasanter.Models
             {
                 var isMatched = System.Text.RegularExpressions.Regex.IsMatch(
                     input: formulaScript,
-                    pattern: column.LabelText + $"(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
+                    pattern: System.Text.RegularExpressions.Regex.Escape(column.LabelText)
+                        + $"(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
                 if (isMatched)
                 {
                     switch (Def.ExtendedColumnTypes.Get(column.ColumnName))

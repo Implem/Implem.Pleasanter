@@ -1,1 +1,221 @@
-﻿null
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Issues",
+    "GridView": 1,
+    "GridColumns": [
+        "IssueId",
+        "TitleBody",
+        "ClassC",
+        "NumB",
+        "NumA",
+        "NumC",
+        "ClassD",
+        "ClassB",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "ClassE",
+        "ClassF",
+        "ClassG",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "IssueId",
+        "Ver",
+        "ClassC",
+        "NumA",
+        "NumB",
+        "NumC",
+        "ClassD",
+        "Title",
+        "ClassB",
+        "Body",
+        "DescriptionA",
+        "DescriptionB",
+        "DescriptionC",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "ClassE",
+        "ClassF",
+        "ClassG",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "IssueId",
+        "Title",
+        "ClassB",
+        "ClassC",
+        "NumA",
+        "NumB",
+        "NumC",
+        "ClassD",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "ClassE",
+        "ClassF",
+        "ClassG",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Title",
+        "Comments",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "ClassE",
+        "ClassF",
+        "ClassG",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attachments"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "Customer Name",
+            "FieldCss": "field-normal"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "Address",
+            "FieldCss": "field-wide"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "Product/Service",
+            "ChoicesText": "Product/Service1\nProduct/Service2\nProduct/Service3\nProduct/Service4\nProduct/Service5"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "Unit Price",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "NumB",
+            "LabelText": "Quantity"
+        },
+        {
+            "ColumnName": "NumC",
+            "LabelText": "Amount",
+            "Format": "C",
+            "EditorReadOnly": true
+        },
+        {
+            "ColumnName": "ClassD",
+            "LabelText": "Payment Method",
+            "ChoicesText": "Credit\nBank Transfer\nCash on Delivery"
+        },
+        {
+            "ColumnName": "StartTime",
+            "LabelText": "Receipt"
+        },
+        {
+            "ColumnName": "CompletionTime",
+            "LabelText": "Delivery Date"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": "100,Receipt,Rec,status-new\n200,Stock Allocation,In,status-inprogress\n900,Shipped,Done,status-closed\n"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "Additional Information"
+        },
+        {
+            "ColumnName": "ClassE",
+            "LabelText": "Receipt Staff",
+            "ChoicesText": "Staff1\nStaff2\nStaff3\nStaff4\nStaff5"
+        },
+        {
+            "ColumnName": "ClassF",
+            "LabelText": "Stock Allocation Staff",
+            "ChoicesText": "Staff1\nStaff2\nStaff3\nStaff4\nStaff5"
+        },
+        {
+            "ColumnName": "ClassG",
+            "LabelText": "Delivery Staff",
+            "ChoicesText": "Staff1\nStaff2\nStaff3\nStaff4\nStaff5"
+        },
+        {
+            "ColumnName": "DescriptionA",
+            "LabelText": "Receipt Note"
+        },
+        {
+            "ColumnName": "DescriptionB",
+            "LabelText": "Stock Allocation Note"
+        },
+        {
+            "ColumnName": "DescriptionC",
+            "LabelText": "Delivery Note"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "Status",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "Owner",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 3,
+            "GroupBy": "ClassC",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 4,
+            "GroupBy": "ClassD",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "Formulas": [
+        {
+            "Target": "NumC",
+            "Formula": {
+                "OperatorType": 0,
+                "Children": [
+                    {
+                        "ColumnName": "NumA",
+                        "OperatorType": 0
+                    },
+                    {
+                        "ColumnName": "NumB",
+                        "OperatorType": 3
+                    }
+                ]
+            },
+            "Id": 1
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "Standard",
+            "CrosstabGroupByX": "StartTime",
+            "CrosstabGroupByY": "Columns",
+            "CrosstabColumns": "[\"NumC\"]",
+            "CrosstabValue": "NumC",
+            "KambanGroupByY": "Owner"
+        }
+    ],
+    "ShowGanttProgressRate": false,
+    "EnableBurnDown": false,
+    "TitleSeparator": ")"
+}

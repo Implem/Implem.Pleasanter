@@ -1,5 +1,6 @@
 ﻿using Azure.Identity;
 using Azure.Storage.Blobs;
+using HealthChecks.UI.Client;
 using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.BackgroundServices;
@@ -9,6 +10,7 @@ using Implem.Pleasanter.Libraries.Migrators;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
+using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using Implem.PleasanterFilters;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -16,6 +18,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.DataProtection.KeyManagement;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
@@ -27,13 +30,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Primitives;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using Implem.Pleasanter.Libraries.Settings;
-using System.Collections.Generic;
-
 
 namespace Implem.Pleasanter.NetCore
 {
@@ -166,7 +167,16 @@ namespace Implem.Pleasanter.NetCore
                 options.Limits.MaxRequestBodySize = Parameters.Service.MaxRequestBodySize;
             })
             .Configure<KestrelServerOptions>(configuration.GetSection("Kestrel"));
-            services.AddHealthChecks();
+            if (Parameters.Security.HealthCheck.Enabled)
+            {
+                services
+                    .AddHealthChecks()
+                    .AddDatabaseHealthCheck(
+                        enableDatabaseCheck: Parameters.Security.HealthCheck.EnableDatabaseCheck,
+                        dbms: Parameters.Rds.Dbms,
+                        conStr: Parameters.Rds.UserConnectionString,
+                        healthQuery: Parameters.Security.HealthCheck.HealthQuery ?? "select 1;");
+            }
             services.Configure<ForwardedHeadersOptions>(options =>
             {
                 options.ForwardedHeaders =
@@ -177,11 +187,6 @@ namespace Implem.Pleasanter.NetCore
                 // BackgroundServiceで例外発生してもWebアプリケーション自体は終了させない設定
                 options.BackgroundServiceExceptionBehavior = BackgroundServiceExceptionBehavior.Ignore;
             });
-            if (Parameters.BackgroundService.ReminderEnabled(
-                deploymentEnvironment: Parameters.Service.DeploymentEnvironment))
-            {
-                services.AddHostedService<ReminderBackgroundService>();
-            }
             services.AddHostedService<CustomQuartzHostedService>();
             new TimerBackground().Init();
             BackgroundServerScriptUtilities.InitSchedule();
@@ -224,6 +229,11 @@ namespace Implem.Pleasanter.NetCore
                     }
                 });
             }
+            services.AddOutputCache(options =>
+            {
+                options.AddBasePolicy(builder => builder.NoCache());
+                options.AddPolicy("imageCache", builder => builder.Expire(System.TimeSpan.FromSeconds(Parameters.OutputCache.OutputCacheControl.OutputCacheDuration)));
+            });
         }
 
         // 拡張DLLの探索をExtendedLibrariesディレクトリ内の一段下のディレクトリも対象をする。
@@ -280,6 +290,11 @@ namespace Implem.Pleasanter.NetCore
             app.UseCookiePolicy();
             app.UseRouting();
             app.UseCors();
+
+            if (Parameters.OutputCache.OutputCacheControl != null && !Parameters.OutputCache.OutputCacheControl.NoOutputCache)
+            {
+                app.UseOutputCache();
+            }
             app.UseSession();
             app.UseAuthentication();
             app.UseAuthorization();
@@ -287,6 +302,24 @@ namespace Implem.Pleasanter.NetCore
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
+                if (Parameters.Security.HealthCheck.Enabled)
+                {
+                    if (Parameters.Security.HealthCheck.EnableDetailedResponse)
+                    {
+                        endpoints
+                            .MapHealthChecks("/healthz", new HealthCheckOptions()
+                            {
+                                ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse,
+                            })
+                            .RequireHost(Parameters.Security.HealthCheck.RequireHosts ?? Array.Empty<string>());
+                    }
+                    else
+                    {
+                        endpoints
+                            .MapHealthChecks("/healthz")
+                            .RequireHost(Parameters.Security.HealthCheck.RequireHosts ?? Array.Empty<string>());
+                    }
+                }
                 endpoints.MapControllerRoute(
                     name: "Default",
                     pattern: "{controller}/{action}",
@@ -504,7 +537,7 @@ namespace Implem.Pleasanter.NetCore
                     new CookieOptions()
                     {
                         Expires = DateTime.UtcNow.AddDays(400),
-                        Secure= true
+                        Secure = true
                     });
             }
         }
@@ -569,6 +602,36 @@ namespace Implem.Pleasanter.NetCore
         public static IApplicationBuilder UseSecurityHeadersMiddleware(this IApplicationBuilder app)
         {
             return app.UseMiddleware<SecurityHeadersMiddleware>();
+        }
+    }
+
+    public static class HealthCheckMiddlewareExtensions
+    {
+        public static IHealthChecksBuilder AddDatabaseHealthCheck(
+            this IHealthChecksBuilder services,
+            bool enableDatabaseCheck,
+            string dbms,
+            string conStr,
+            string healthQuery)
+        {
+            if (!enableDatabaseCheck) { return services; }
+            switch (dbms)
+            {
+                case "SQLServer":
+                    return services.AddSqlServer(
+                        connectionString: conStr,
+                        healthQuery: healthQuery);
+                case "PostgreSQL":
+                    return services.AddNpgSql(
+                        connectionString: conStr,
+                        healthQuery: healthQuery);
+                case "MySQL":
+                    return services.AddMySql(
+                        connectionString: conStr,
+                        healthQuery: healthQuery);
+                default:
+                    return services;
+            }
         }
     }
 }

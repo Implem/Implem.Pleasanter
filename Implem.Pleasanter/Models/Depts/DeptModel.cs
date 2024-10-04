@@ -289,10 +289,11 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         column: column,
                         mine: mine)
-                            ? UpdatedTime.ToExport(
+                            ? UpdatedTime?.ToExport(
                                 context: context,
                                 column: column,
                                 exportColumn: exportColumn)
+                                    ?? String.Empty
                             : string.Empty;
                     break;
                 default:
@@ -1102,7 +1103,7 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         deptModel: this,
                         otherInitValue: otherInitValue)),
-                new SqlStatement(Def.Sql.IfConflicted.Params(DeptId))
+                new SqlStatement()
                 {
                     DataTableName = dataTableName,
                     IfConflicted = true,
@@ -1205,7 +1206,7 @@ namespace Implem.Pleasanter.Models
                 transactional: true,
                 statements: Rds.PhysicalDeleteDepts(
                     tableType: tableType,
-                    param: Rds.DeptsParam().DeptId(DeptId)));
+                    where: Rds.DeptsWhere().DeptId(DeptId)));
             return new ErrorData(type: Error.Types.None);
         }
 

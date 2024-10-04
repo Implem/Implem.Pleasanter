@@ -1,4 +1,5 @@
 ﻿public void SetPostedFile(
+    Context context,
     Microsoft.AspNetCore.Http.IFormFile file,
     string columnName,
     Shared._ImageApiModel image)
@@ -7,7 +8,7 @@
         columnName,
         new PostedFile()
         {
-            Guid = new HttpPostedFile(file).WriteToTemp(),
+            Guid = new HttpPostedFile(file).WriteToTemp(context),
             FileName = file.FileName.Split(System.IO.Path.DirectorySeparatorChar).Last(),
             Extension = image.Extension,
             Size = file.Length,

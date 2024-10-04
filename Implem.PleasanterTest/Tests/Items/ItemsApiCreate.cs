@@ -10,6 +10,7 @@ using Xunit;
 
 namespace Implem.PleasanterTest.Tests.Items
 {
+    [Collection(nameof(ItemsApiCreate))]
     public class ItemsApiCreate
     {
         [Theory]
@@ -24,6 +25,7 @@ namespace Implem.PleasanterTest.Tests.Items
                 userId: userModel.UserId,
                 routeData: RouteData.ItemsApiCreate(id: id));
             var results = GetResults(context: context);
+            Initializer.SaveResults(results.Content);
             Assert.True(Tester.Test(
                 context: context,
                 results: results,

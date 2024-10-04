@@ -57,8 +57,8 @@ namespace Implem.Pleasanter.Libraries.Responses
                     size: dataRow.Long("Size"),
                     creator: dataRow.Long("Creator"),
                     updator: dataRow.Long("Updator"),
-                    createdTime: dataRow.String("CreatedTime"),
-                    updatedTime: dataRow.String("UpdatedTime"))
+                    createdTime: dataRow.DateTime("CreatedTime"),
+                    updatedTime: dataRow.DateTime("UpdatedTime"))
                 : ApiResults.Error(
                     context: context,
                     errorData: new ErrorData(type: Error.Types.NotFound));
@@ -103,7 +103,10 @@ namespace Implem.Pleasanter.Libraries.Responses
                 attachment.ReferenceId = dataRow.Long("ReferenceId");
                 attachment.Name = dataRow.String("FileName");
                 attachment.Size = dataRow.Long("Size");
-                attachment.SetHashCode(column, dataRow.Bytes("Bin"));
+                attachment.SetHashCode(
+                    context: context,
+                    column: column,
+                    bin: dataRow.Bytes("Bin"));
             }
             return attachment;
         }
@@ -274,11 +277,32 @@ namespace Implem.Pleasanter.Libraries.Responses
             }
         }
 
-        public static ResponseFile DownloadTemp(string guid)
+        public static ResponseFile DownloadTemp(Context context, string guid)
         {
-            var folderPath = Path.Combine(Path.Combine(Directories.Temp(), guid));
-            var files = Directory.GetFiles(folderPath);
-            return new ResponseFile(new FileInfo(files[0]), Path.GetFileName(files[0]));
+            if (Parameters.BinaryStorage.TemporaryBinaryStorageProvider == "Rds")
+            {
+                var dataRow = Repository.ExecuteTable(
+                    context: context,
+                    statements: Rds.SelectBinaries(
+                        column: Rds.BinariesColumn()
+                            .Guid()
+                            .BinaryType()
+                            .Bin()
+                            .Thumbnail()
+                            .FileName(),
+                        where: Rds.BinariesWhere()
+                            .BinaryType("Temporary")
+                            .Guid(guid)))
+                    .AsEnumerable()
+                    .FirstOrDefault();
+                return Bytes(dataRow);
+            }
+            else
+            {
+                var folderPath = Path.Combine(Path.Combine(Directories.Temp(), guid));
+                var files = Directory.GetFiles(folderPath);
+                return new ResponseFile(new FileInfo(files[0]), Path.GetFileName(files[0]));
+            }
         }
 
         public static FileContentResult ToFileContentResult(this FileContentResult content)

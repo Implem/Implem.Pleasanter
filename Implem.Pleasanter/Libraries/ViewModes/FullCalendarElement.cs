@@ -11,6 +11,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
         public long siteId;
         public string title;
         public string time;
+        public string DateFormat;
         public DateTime start;
         public DateTime? end;
         public bool? Changed;
@@ -23,6 +24,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             long SiteId,
             string Title,
             string Time,
+            string dateFormat,
             DateTime from,
             DateTime to,
             long changedItemId,
@@ -33,6 +35,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             siteId = SiteId;
             title = Title;
             time = Time;
+            DateFormat = dateFormat;
             start = from;
             if (to.InRange()) end = to;
             if (id == changedItemId) Changed = true;

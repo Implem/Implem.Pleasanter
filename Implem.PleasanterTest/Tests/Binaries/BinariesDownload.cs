@@ -15,6 +15,7 @@ using Xunit;
 
 namespace Implem.PleasanterTest.Tests.Binaries
 {
+    [Collection(nameof(BinariesDownload))]
     public class BinariesDownload
     {
         [Theory]
@@ -79,7 +80,7 @@ namespace Implem.PleasanterTest.Tests.Binaries
                         Guid = uuid,
                         Name = "Attachments.txt",
                         Size = 15,
-                        Extention = "txt",
+                        Extension = "txt",
                         ContentType = "text/plain",
                         Added = true,
                         Deleted = false

@@ -437,17 +437,17 @@
           "Status": {
             "Value": 100
           },
-          "Manager": {
+        "Manager": {
             "TenantId": 1,
             "Id": 14,
             "DeptId": 8,
             "Dept": {
-              "TenantId": 1,
-              "Id": 8,
-              "Code": "000610",
-              "Name": "開発2部",
-              "Body": "",
-              "Disabled": false
+                "TenantId": 1,
+                "Id": 8,
+                "Code": "000610",
+                "Name": "開発2部",
+                "Body": "",
+                "Disabled": false
             },
             "LoginId": "Tenant1_User13",
             "Name": "加藤 誠",
@@ -459,19 +459,20 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
-          },
-          "Owner": {
+        },
+        "Owner": {
             "TenantId": 1,
             "Id": 14,
             "DeptId": 8,
             "Dept": {
-              "TenantId": 1,
-              "Id": 8,
-              "Code": "000610",
-              "Name": "開発2部",
-              "Body": "",
-              "Disabled": false
+                "TenantId": 1,
+                "Id": 8,
+                "Code": "000610",
+                "Name": "開発2部",
+                "Body": "",
+                "Disabled": false
             },
             "LoginId": "Tenant1_User13",
             "Name": "加藤 誠",
@@ -483,8 +484,9 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
-          },
+            },
           "Locked": false,
           "Comments": [],
           "Creator": {
@@ -509,6 +511,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "Updator": {
@@ -533,6 +536,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "CreatedTime": {
@@ -609,6 +613,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "Owner": {
@@ -633,6 +638,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "Locked": false,
@@ -672,6 +678,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "Updator": {
@@ -696,6 +703,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "CreatedTime": {
@@ -772,6 +780,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "Owner": {
@@ -796,6 +805,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "Locked": false,
@@ -822,6 +832,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "Updator": {
@@ -846,6 +857,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "CreatedTime": {
@@ -922,6 +934,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "Owner": {
@@ -946,6 +959,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "Locked": false,
@@ -972,6 +986,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "Updator": {
@@ -996,6 +1011,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "CreatedTime": {
@@ -1072,6 +1088,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "Owner": {
@@ -1096,6 +1113,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "Locked": false,
@@ -1141,6 +1159,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "Updator": {
@@ -1165,6 +1184,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "CreatedTime": {
@@ -1241,6 +1261,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "Owner": {
@@ -1265,6 +1286,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "Locked": false,
@@ -1291,6 +1313,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "Updator": {
@@ -1315,6 +1338,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "CreatedTime": {
@@ -1391,6 +1415,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "Owner": {
@@ -1415,6 +1440,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "Locked": false,
@@ -1441,6 +1467,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "Updator": {
@@ -1465,6 +1492,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "CreatedTime": {
@@ -1541,6 +1569,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "Owner": {
@@ -1565,6 +1594,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "Locked": false,
@@ -1598,6 +1628,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "Updator": {
@@ -1622,6 +1653,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "CreatedTime": {
@@ -1698,6 +1730,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "Owner": {
@@ -1722,6 +1755,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "Locked": false,
@@ -1748,6 +1782,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "Updator": {
@@ -1772,6 +1807,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "CreatedTime": {
@@ -1848,6 +1884,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "Owner": {
@@ -1872,6 +1909,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "Locked": false,
@@ -1905,6 +1943,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "Updator": {
@@ -1929,6 +1968,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "CreatedTime": {
@@ -2005,6 +2045,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "Owner": {
@@ -2029,6 +2070,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "Locked": false,
@@ -2055,6 +2097,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "Updator": {
@@ -2079,6 +2122,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "CreatedTime": {
@@ -2155,6 +2199,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "Owner": {
@@ -2179,6 +2224,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "Locked": false,
@@ -2205,6 +2251,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "Updator": {
@@ -2229,6 +2276,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "CreatedTime": {
@@ -2305,6 +2353,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "Owner": {
@@ -2329,6 +2378,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "Locked": false,
@@ -2355,6 +2405,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "Updator": {
@@ -2379,6 +2430,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "CreatedTime": {
@@ -2455,6 +2507,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "Owner": {
@@ -2479,6 +2532,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "Locked": false,
@@ -2505,6 +2559,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "Updator": {
@@ -2529,6 +2584,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "CreatedTime": {
@@ -2605,6 +2661,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "Owner": {
@@ -2629,6 +2686,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "Locked": false,
@@ -2655,6 +2713,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "Updator": {
@@ -2679,6 +2738,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "CreatedTime": {
@@ -2755,6 +2815,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "Owner": {
@@ -2779,6 +2840,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "Locked": false,
@@ -2805,6 +2867,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "Updator": {
@@ -2829,6 +2892,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "CreatedTime": {
@@ -2905,6 +2969,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "Owner": {
@@ -2929,6 +2994,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "Locked": false,
@@ -2955,6 +3021,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "Updator": {
@@ -2979,6 +3046,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "CreatedTime": {
@@ -3055,6 +3123,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "Owner": {
@@ -3079,6 +3148,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "Locked": false,
@@ -3105,6 +3175,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "Updator": {
@@ -3129,6 +3200,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "CreatedTime": {
@@ -3205,6 +3277,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "Owner": {
@@ -3229,6 +3302,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "Locked": false,
@@ -3255,6 +3329,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "Updator": {
@@ -3279,6 +3354,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "CreatedTime": {
@@ -3355,6 +3431,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "Owner": {
@@ -3379,6 +3456,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "Locked": false,
@@ -3405,6 +3483,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "Updator": {
@@ -3429,6 +3508,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "CreatedTime": {
@@ -3505,6 +3585,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "Owner": {
@@ -3529,6 +3610,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "Locked": false,
@@ -3555,6 +3637,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "Updator": {
@@ -3579,6 +3662,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "CreatedTime": {
@@ -3655,6 +3739,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "Owner": {
@@ -3679,6 +3764,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "Locked": false,
@@ -3705,6 +3791,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "Updator": {
@@ -3729,6 +3816,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "CreatedTime": {
@@ -3805,6 +3893,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "Owner": {
@@ -3829,6 +3918,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "Locked": false,
@@ -3855,6 +3945,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "Updator": {
@@ -3879,6 +3970,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "CreatedTime": {
@@ -3985,6 +4077,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "Owner": {
@@ -4009,6 +4102,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "Locked": false,
@@ -4035,6 +4129,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "Updator": {
@@ -4059,6 +4154,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "CreatedTime": {
@@ -4137,6 +4233,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "Owner": {
@@ -4161,6 +4258,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "Locked": false,
@@ -4194,6 +4292,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           },
           "Updator": {
@@ -4218,6 +4317,7 @@
             "AllowGroupAdministration": false,
             "AllowGroupCreation": false,
             "AllowApi": false,
+            "AllowMovingFromTopSite": false,
             "Disabled": false
           }
         }

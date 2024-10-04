@@ -5,9 +5,8 @@
       "commandLineArgs": "def"
     },
     "WSL": {
-        "commandName": "WSL2",
-        "environmentVariables": {},
-        "distributionName": ""
+      "commandName": "WSL2",
+      "distributionName": ""
     },
     "Docker": {
       "commandName": "Docker",

@@ -40,8 +40,8 @@ namespace Implem.Pleasanter.Models
         public string FirstName = string.Empty;
         public Time Birthday = new Time();
         public string Gender = string.Empty;
-        public string Language = "ja";
-        public string TimeZone = "Tokyo Standard Time";
+        public string Language = "en";
+        public string TimeZone = "UTC";
         public string DeptCode = string.Empty;
         public int DeptId = 0;
         public string Theme = string.Empty;
@@ -58,6 +58,7 @@ namespace Implem.Pleasanter.Models
         public bool AllowGroupAdministration = false;
         public bool AllowGroupCreation = false;
         public bool AllowApi = false;
+        public bool AllowMovingFromTopSite = false;
         public bool EnableSecondaryAuthentication = false;
         public bool DisableSecondaryAuthentication = false;
         public bool Disabled = false;
@@ -120,8 +121,8 @@ namespace Implem.Pleasanter.Models
         public string SavedFirstName = string.Empty;
         public DateTime SavedBirthday = 0.ToDateTime();
         public string SavedGender = string.Empty;
-        public string SavedLanguage = "ja";
-        public string SavedTimeZone = "Tokyo Standard Time";
+        public string SavedLanguage = "en";
+        public string SavedTimeZone = "UTC";
         public string SavedDeptCode = string.Empty;
         public int SavedDeptId = 0;
         public string SavedTheme = string.Empty;
@@ -138,6 +139,7 @@ namespace Implem.Pleasanter.Models
         public bool SavedAllowGroupAdministration = false;
         public bool SavedAllowGroupCreation = false;
         public bool SavedAllowApi = false;
+        public bool SavedAllowMovingFromTopSite = false;
         public bool SavedEnableSecondaryAuthentication = false;
         public bool SavedDisableSecondaryAuthentication = false;
         public bool SavedDisabled = false;
@@ -448,6 +450,18 @@ namespace Implem.Pleasanter.Models
                 &&  (column == null
                     || column.DefaultInput.IsNullOrEmpty()
                     || column.GetDefaultInput(context: context).ToBool() != AllowApi);
+        }
+
+        public bool AllowMovingFromTopSite_Updated(Context context, bool copy = false, Column column = null)
+        {
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToBool() != AllowMovingFromTopSite;
+            }
+            return AllowMovingFromTopSite != SavedAllowMovingFromTopSite
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToBool() != AllowMovingFromTopSite);
         }
 
         public bool EnableSecondaryAuthentication_Updated(Context context, bool copy = false, Column column = null)
@@ -1105,6 +1119,18 @@ namespace Implem.Pleasanter.Models
                                 exportColumn: exportColumn)
                             : string.Empty;
                     break;
+                case "AllowMovingFromTopSite":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? AllowMovingFromTopSite.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
                 case "EnableSecondaryAuthentication":
                     value = ss.ReadColumnAccessControls.Allowed(
                         context: context,
@@ -1327,10 +1353,11 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         column: column,
                         mine: mine)
-                            ? UpdatedTime.ToExport(
+                            ? UpdatedTime?.ToExport(
                                 context: context,
                                 column: column,
                                 exportColumn: exportColumn)
+                                    ?? String.Empty
                             : string.Empty;
                     break;
                 default:
@@ -1436,6 +1463,10 @@ namespace Implem.Pleasanter.Models
         {
             OnConstructing(context: context);
             TenantId = context.TenantId;
+            SetTimeZoneAndLanguage(
+                            context: context,
+                            ss: ss,
+                            methodType: methodType);
             if (formData != null)
             {
                 SetByForm(
@@ -1465,6 +1496,10 @@ namespace Implem.Pleasanter.Models
             OnConstructing(context: context);
             TenantId = context.TenantId;
             UserId = userId;
+            SetTimeZoneAndLanguage(
+                            context: context,
+                            ss: ss,
+                            methodType: methodType);
             if (context.QueryStrings.ContainsKey("ver"))
             {
                 Get(
@@ -1616,6 +1651,7 @@ namespace Implem.Pleasanter.Models
                     case "AllowGroupAdministration": data.AllowGroupAdministration = AllowGroupAdministration; break;
                     case "AllowGroupCreation": data.AllowGroupCreation = AllowGroupCreation; break;
                     case "AllowApi": data.AllowApi = AllowApi; break;
+                    case "AllowMovingFromTopSite": data.AllowMovingFromTopSite = AllowMovingFromTopSite; break;
                     case "EnableSecondaryAuthentication": data.EnableSecondaryAuthentication = EnableSecondaryAuthentication; break;
                     case "DisableSecondaryAuthentication": data.DisableSecondaryAuthentication = DisableSecondaryAuthentication; break;
                     case "Disabled": data.Disabled = Disabled; break;
@@ -1810,6 +1846,11 @@ namespace Implem.Pleasanter.Models
                         column: column);
                 case "AllowApi":
                     return AllowApi.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "AllowMovingFromTopSite":
+                    return AllowMovingFromTopSite.ToDisplay(
                         context: context,
                         ss: ss,
                         column: column);
@@ -2171,6 +2212,11 @@ namespace Implem.Pleasanter.Models
                         column: column);
                 case "AllowApi":
                     return AllowApi.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "AllowMovingFromTopSite":
+                    return AllowMovingFromTopSite.ToApiDisplayValue(
                         context: context,
                         ss: ss,
                         column: column);
@@ -2537,6 +2583,11 @@ namespace Implem.Pleasanter.Models
                         column: column);
                 case "AllowApi":
                     return AllowApi.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "AllowMovingFromTopSite":
+                    return AllowMovingFromTopSite.ToApiValue(
                         context: context,
                         ss: ss,
                         column: column);
@@ -2955,7 +3006,7 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         userModel: this,
                         otherInitValue: otherInitValue)),
-                new SqlStatement(Def.Sql.IfConflicted.Params(UserId))
+                new SqlStatement()
                 {
                     DataTableName = dataTableName,
                     IfConflicted = true,
@@ -3025,7 +3076,7 @@ namespace Implem.Pleasanter.Models
                 transactional: true,
                 statements: Rds.PhysicalDeleteUsers(
                     tableType: tableType,
-                    param: Rds.UsersParam().UserId(UserId)));
+                    where: Rds.UsersWhere().UserId(UserId)));
             return new ErrorData(type: Error.Types.None);
         }
 
@@ -3089,6 +3140,7 @@ namespace Implem.Pleasanter.Models
                     case "Users_AllowGroupAdministration": AllowGroupAdministration = value.ToBool(); break;
                     case "Users_AllowGroupCreation": AllowGroupCreation = value.ToBool(); break;
                     case "Users_AllowApi": AllowApi = value.ToBool(); break;
+                    case "Users_AllowMovingFromTopSite": AllowMovingFromTopSite = value.ToBool(); break;
                     case "Users_EnableSecondaryAuthentication": EnableSecondaryAuthentication = value.ToBool(); break;
                     case "Users_DisableSecondaryAuthentication": DisableSecondaryAuthentication = value.ToBool(); break;
                     case "Users_Disabled": Disabled = value.ToBool(); break;
@@ -3203,6 +3255,7 @@ namespace Implem.Pleasanter.Models
             AllowGroupAdministration = userModel.AllowGroupAdministration;
             AllowGroupCreation = userModel.AllowGroupCreation;
             AllowApi = userModel.AllowApi;
+            AllowMovingFromTopSite = userModel.AllowMovingFromTopSite;
             EnableSecondaryAuthentication = userModel.EnableSecondaryAuthentication;
             DisableSecondaryAuthentication = userModel.DisableSecondaryAuthentication;
             Disabled = userModel.Disabled;
@@ -3269,6 +3322,7 @@ namespace Implem.Pleasanter.Models
             if (data.AllowGroupAdministration != null) AllowGroupAdministration = data.AllowGroupAdministration.ToBool().ToBool();
             if (data.AllowGroupCreation != null) AllowGroupCreation = data.AllowGroupCreation.ToBool().ToBool();
             if (data.AllowApi != null) AllowApi = data.AllowApi.ToBool().ToBool();
+            if (data.AllowMovingFromTopSite != null) AllowMovingFromTopSite = data.AllowMovingFromTopSite.ToBool().ToBool();
             if (data.EnableSecondaryAuthentication != null) EnableSecondaryAuthentication = data.EnableSecondaryAuthentication.ToBool().ToBool();
             if (data.DisableSecondaryAuthentication != null) DisableSecondaryAuthentication = data.DisableSecondaryAuthentication.ToBool().ToBool();
             if (data.Disabled != null) Disabled = data.Disabled.ToBool().ToBool();
@@ -3549,6 +3603,10 @@ namespace Implem.Pleasanter.Models
                             AllowApi = dataRow[column.ColumnName].ToBool();
                             SavedAllowApi = AllowApi;
                             break;
+                        case "AllowMovingFromTopSite":
+                            AllowMovingFromTopSite = dataRow[column.ColumnName].ToBool();
+                            SavedAllowMovingFromTopSite = AllowMovingFromTopSite;
+                            break;
                         case "EnableSecondaryAuthentication":
                             EnableSecondaryAuthentication = dataRow[column.ColumnName].ToBool();
                             SavedEnableSecondaryAuthentication = EnableSecondaryAuthentication;
@@ -3726,6 +3784,7 @@ namespace Implem.Pleasanter.Models
                 || AllowGroupAdministration_Updated(context: context)
                 || AllowGroupCreation_Updated(context: context)
                 || AllowApi_Updated(context: context)
+                || AllowMovingFromTopSite_Updated(context: context)
                 || EnableSecondaryAuthentication_Updated(context: context)
                 || DisableSecondaryAuthentication_Updated(context: context)
                 || Disabled_Updated(context: context)
@@ -3800,6 +3859,7 @@ namespace Implem.Pleasanter.Models
                 || AllowGroupAdministration_Updated(context: context)
                 || AllowGroupCreation_Updated(context: context)
                 || AllowApi_Updated(context: context)
+                || AllowMovingFromTopSite_Updated(context: context)
                 || EnableSecondaryAuthentication_Updated(context: context)
                 || DisableSecondaryAuthentication_Updated(context: context)
                 || Disabled_Updated(context: context)
@@ -3831,6 +3891,29 @@ namespace Implem.Pleasanter.Models
                 MineCache = mine;
             }
             return MineCache;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public void SetTimeZoneAndLanguage(
+            Context context,
+            SiteSettings ss,
+            MethodTypes methodType)
+        {
+            if (methodType == MethodTypes.New)
+            {
+                var tenantModel = new TenantModel(
+                    context: context,
+                    ss: ss,
+                    tenantId: TenantId);
+                Language = tenantModel.Language.IsNullOrEmpty()
+                    ? Parameters.Service.DefaultLanguage
+                    : tenantModel.Language;
+                TimeZone = tenantModel.TimeZone.IsNullOrEmpty()
+                    ? Parameters.Service.TimeZoneDefault
+                    : tenantModel.TimeZone;
+            }
         }
 
         /// <summary>
@@ -4836,6 +4919,8 @@ namespace Implem.Pleasanter.Models
                 new SysLogModel(
                     context: context,
                     method: nameof(Authenticate),
+                    sysLogsStatus: 401,
+                    sysLogsDescription: $"{Debugs.GetSysLogsDescription()}:{Messages.Authentication(context: context).Text}",
                     message: LoginMessage(
                         success: Parameters.SysLog.LoginFailure
                             ? false

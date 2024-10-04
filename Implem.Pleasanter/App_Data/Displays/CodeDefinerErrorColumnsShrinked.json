@@ -1,0 +1,9 @@
+﻿{
+    "Id": "CodeDefinerErrorColumnsShrinked",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "The columns will be shrinked."
+        }
+    ]
+}

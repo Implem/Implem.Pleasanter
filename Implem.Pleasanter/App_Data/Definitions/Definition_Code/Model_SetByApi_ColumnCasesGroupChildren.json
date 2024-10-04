@@ -1,0 +1,11 @@
+﻿{
+    "Id": "Model_SetByApi_ColumnCasesGroupChildren",
+    "Indent": "3",
+    "Separator": "\\r\\n",
+    "NotIdentity": "1",
+    "NotItemId": "1",
+    "NotCalc": "1",
+    "Form": "1",
+    "Select": "1",
+    "Include": "Groups"
+}

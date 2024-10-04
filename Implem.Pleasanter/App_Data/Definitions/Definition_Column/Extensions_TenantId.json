@@ -1,0 +1,21 @@
+﻿{
+    "Id": "Extensions_TenantId",
+    "ModelName": "Extension",
+    "TableName": "Extensions",
+    "Label": "拡張機能",
+    "ColumnName": "TenantId",
+    "LabelText": "テナントID",
+    "No": "2",
+    "History": "2",
+    "LinkColumn": "2",
+    "HistoryColumn": "2",
+    "TypeName": "int",
+    "Default": "0",
+    "Ix2": "1",
+    "LabelText_en": "Tenant ID",
+    "LabelText_zh": "租户ID",
+    "LabelText_de": "Mandanten-ID",
+    "LabelText_ko": "테넌트 ID",
+    "LabelText_es": "ID de arrendatario",
+    "LabelText_vn": "ID Người thuê"
+}

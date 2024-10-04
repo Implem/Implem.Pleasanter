@@ -11,6 +11,7 @@ using Xunit;
 
 namespace Implem.PleasanterTest.Tests.Users
 {
+    [Collection(nameof(UsersApiDelete))]
     public class UsersApiDelete
     {
         [Theory]
@@ -25,6 +26,7 @@ namespace Implem.PleasanterTest.Tests.Users
                 userId: userModel.UserId,
                 routeData: RouteData.UsersApiDelete(id: id));
             var results = GetResults(context: context);
+            Initializer.SaveResults(results.Content);
             Assert.True(Tester.Test(
                 context: context,
                 results: results,

@@ -717,10 +717,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 time: (from?.EditorFormat == "Ymdhm"
                     ? dataRow.DateTime("From").ToLocal(context: context).ToString("HH:mm") + " "
                     : null),
+                dateFormat: Displays.Get(
+                    context: context,
+                    id: from?.EditorFormat + "Format"),
                 from: ConvertIfCompletionTime(
-                context: context,
-                column: from,
-                dateTime: dataRow.DateTime("from")),
+                    context: context,
+                    column: from,
+                    dateTime: dataRow.DateTime("from")),
                 to: ConvertIfCompletionTime(
                     context: context,
                     column: to,
@@ -750,9 +753,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 Time: (from?.EditorFormat == "Ymdhm"
                     ? dataRow.DateTime("From").ToLocal(context: context).ToString("HH:mm") + " "
                     : null),
+                dateFormat: Displays.Get(
+                    context: context,
+                    id: from?.EditorFormat + "Format"),
                 from: ConvertIfCompletionTime(
-                context: context,
-                column: from,
+                    context: context,
+                    column: from,
                 dateTime: dataRow.DateTime("from")),
                 to: ConvertIfCompletionTime(
                     context: context,
