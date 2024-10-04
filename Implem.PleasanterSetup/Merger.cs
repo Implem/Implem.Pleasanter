@@ -4,11 +4,11 @@ namespace Implem.PleasanterSetup
 {
     internal static class Merger
     {
-        internal static void MergeParametersJson(string installDir, string destPath, string currentVersion, string newVersion)
+        internal static void MergeParametersJson(string installDir, string prevPath, string currentVersion, string newVersion)
         {
             try
             {
-                PatchJson.ApplyToPatch(installDir,destPath, newVersion, currentVersion);
+                PatchJson.ApplyToPatch(installDir,prevPath, newVersion, currentVersion);
             }
             catch (Exception e)
             {

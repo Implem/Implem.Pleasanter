@@ -37,7 +37,7 @@ namespace Implem.PleasanterSetup
             return JsonConvert.SerializeObject(patch, Formatting.Indented);
         }
 
-        public static void ApplyToPatch(string installDir,string destPath,string newVesion, string currentVersion)
+        public static void ApplyToPatch(string installDir,string prevPath,string newVesion, string currentVersion)
         {
             //最新バージョンに同梱されているPleasanterPatchフォルダを参照する
             var patchSource = Path.Combine(
@@ -55,7 +55,7 @@ namespace Implem.PleasanterSetup
                 {
                     continue;
                 }
-                foreach (var file in Directory.GetFiles(destPath, "*.*", SearchOption.AllDirectories))
+                foreach (var file in Directory.GetFiles(prevPath, "*.*", SearchOption.AllDirectories))
                 {
                     var fileName = Path.GetFileName(file);
                     string fileContent = null;

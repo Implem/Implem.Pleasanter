@@ -52,8 +52,9 @@ namespace Implem.PleasanterSetup
 
         [RootCommand]
         public async Task Setup(
-            [Option(0)] string releasezip,
+            [Option("r")] string releasezip,
             [Option("d")] string directory = "",
+            string patchPath = "",
             bool setUpState = true,
             bool force = false,
             bool noinput = false,
@@ -120,7 +121,7 @@ namespace Implem.PleasanterSetup
                             "Implem.Pleasanter",
                             "App_Data",
                             "Parameters"),
-                        destination: Path.Combine(
+                        previous: Path.Combine(
                             installDir,
                             "Implem.Pleasanter",
                              "App_Data",
@@ -145,10 +146,8 @@ namespace Implem.PleasanterSetup
         [Command("merge")]
         private void Merge(
             [Option("s")] string source,
-            [Option("d")] string destination)
-            //string currentVersion = "",
-            //string newVersion = "",
-            //string[] excludes = null)
+            [Option("p")] string previous,
+            string patchPath = "")
         {
             var currentVersion = FileVersionInfo.GetVersionInfo(
                 Path.Combine(
@@ -157,7 +156,7 @@ namespace Implem.PleasanterSetup
                         "Implem.Pleasanter.dll")).FileVersion;
             var newVersion = FileVersionInfo.GetVersionInfo(
                 Path.Combine(
-                    destination,
+                    previous,
                     "Implem.Pleasanter",
                     "Implem.Pleasanter.dll")).FileVersion;
             //1.4以前の場合にエラー処理
@@ -166,14 +165,14 @@ namespace Implem.PleasanterSetup
                 logger.LogError($"\"{source}\" does not exist.");
                 return;
             }
-            if (!Directory.Exists(destination))
+            if (!Directory.Exists(previous))
             {
-                logger.LogError($"\"{destination}\" does not exist.");
+                logger.LogError($"\"{previous}\" does not exist.");
                 return;
             }
             Merger.MergeParametersJson(
                 installDir:installDir,
-                destPath: destination,
+                prevPath: previous,
                 currentVersion: currentVersion,
                 newVersion: newVersion);
         }
