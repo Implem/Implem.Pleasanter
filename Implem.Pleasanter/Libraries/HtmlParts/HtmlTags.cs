@@ -673,7 +673,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         if (hasInnerDiv) {
                             hb.Div(
                                 css: "fieldset-inner",
-                                action: () => action?.Invoke()
+                                action: () => {
+                                    action?.Invoke();
+                                }
                             );
                         }
                         else
