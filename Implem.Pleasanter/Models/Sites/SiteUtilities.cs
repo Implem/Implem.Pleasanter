@@ -3727,7 +3727,7 @@ namespace Implem.Pleasanter.Models
                                             href: "#ScriptsSettingsEditor",
                                             text: Displays.Scripts(context: context)),
                                     _using: context.ContractSettings.Script != false))
-                                 .Li(
+                                .Li(
                                     action: () => hb
                                         .A(
                                             href: "#HtmlsSettingsEditor",
@@ -3758,7 +3758,7 @@ namespace Implem.Pleasanter.Models
                                             href: "#ScriptsSettingsEditor",
                                             text: Displays.Scripts(context: context)),
                                     _using: context.ContractSettings.Script != false)
-                                 .Li(
+                                .Li(
                                     action: () => hb
                                         .A(
                                             href: "#HtmlsSettingsEditor",
@@ -6056,13 +6056,13 @@ namespace Implem.Pleasanter.Models
                     css: " enclosed",
                     legendText: Displays.DateFilterSetMode(context: context),
                     action: () => hb.FieldDropDown(
-                         context: context,
-                         controlId: "DateFilterSetMode",
-                         fieldCss: "field-auto-thin",
-                         optionCollection: ColumnUtilities.DateFilterSetModeOptions(context),
-                         selectedValue: (column.DateFilterSetMode == ColumnUtilities.DateFilterSetMode.Range)
-                             ? ColumnUtilities.DateFilterSetMode.Range.ToInt().ToString()
-                             : ColumnUtilities.DateFilterSetMode.Default.ToInt().ToString()),
+                        context: context,
+                        controlId: "DateFilterSetMode",
+                        fieldCss: "field-auto-thin",
+                        optionCollection: ColumnUtilities.DateFilterSetModeOptions(context),
+                        selectedValue: (column.DateFilterSetMode == ColumnUtilities.DateFilterSetMode.Range)
+                            ? ColumnUtilities.DateFilterSetMode.Range.ToInt().ToString()
+                            : ColumnUtilities.DateFilterSetMode.Default.ToInt().ToString()),
                     _using: (type == Types.CsDateTime
                         || type == Types.CsNumeric)
                             && !noSettings)
