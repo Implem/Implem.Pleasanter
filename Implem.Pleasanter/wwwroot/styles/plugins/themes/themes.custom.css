@@ -106,6 +106,7 @@ html .ui-button.ui-state-disabled:active {
 
 /* dialog */
 .ui-dialog {
+    min-width: 400px;
     padding: 0;
     border: none!important;
     background-color: transparent;
