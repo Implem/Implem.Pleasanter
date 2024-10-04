@@ -649,6 +649,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string css = null,
             string legendText = null,
             HtmlAttributes attributes = null,
+            bool hasInnerDiv =false,
             bool _using = true,
             Action action = null)
         {
@@ -669,7 +670,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 attributes: null,
                                 action: () => hb.Text(legendText));
                         }
-                        action?.Invoke();
+                        if (hasInnerDiv) {
+                            hb.Div(
+                                css: "fieldset-inner",
+                                action: () => action?.Invoke()
+                            );
+                        }
+                        else
+                        {
+                            action?.Invoke();
+                        }
                     })
                 : hb;
         }
