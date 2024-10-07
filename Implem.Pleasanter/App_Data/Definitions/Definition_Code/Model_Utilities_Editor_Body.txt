@@ -187,12 +187,11 @@ private static HtmlBuilder FieldSetGeneral(
 {
     return hb.FieldSet(
         id: "FieldSetGeneral",
-        action: () => hb.Div(
-            css: "fieldset-inner",
-            action: () => hb.FieldSetGeneralColumns(
-                context: context,
-                ss: ss,
-                #modelName#Model: #modelName#Model)));
+        hasInnerDiv: true,
+        action: () => hb.FieldSetGeneralColumns(
+            context: context,
+            ss: ss,
+            #modelName#Model: #modelName#Model));
 }
 
 private static HtmlBuilder FieldSetGeneralColumns(
