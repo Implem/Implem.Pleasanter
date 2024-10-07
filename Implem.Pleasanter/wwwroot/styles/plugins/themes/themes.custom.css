@@ -632,7 +632,6 @@ input{
         display: contents;
         padding: 0;
         > .fieldset-inner{
-            color: #00f;
             padding: 16px;
         }
     }
