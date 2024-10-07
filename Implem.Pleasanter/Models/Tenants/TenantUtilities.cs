@@ -638,12 +638,11 @@ namespace Implem.Pleasanter.Models
         {
             return hb.FieldSet(
                 id: "FieldSetGeneral",
-                action: () => hb.Div(
-                    css: "fieldset-inner",
-                    action: () => hb.FieldSetGeneralColumns(
-                        context: context,
-                        ss: ss,
-                        tenantModel: tenantModel)));
+                hasInnerDiv: true,
+                action: () => hb.FieldSetGeneralColumns(
+                    context: context,
+                    ss: ss,
+                    tenantModel: tenantModel));
         }
 
         /// <summary>

@@ -1654,12 +1654,11 @@ namespace Implem.Pleasanter.Models
         {
             return hb.FieldSet(
                 id: "FieldSetGeneral",
-                action: () => hb.Div(
-                    css: "fieldset-inner",
-                    action: () => hb.FieldSetGeneralColumns(
-                        context: context,
-                        ss: ss,
-                        userModel: userModel)));
+                hasInnerDiv: true,
+                action: () => hb.FieldSetGeneralColumns(
+                    context: context,
+                    ss: ss,
+                    userModel: userModel));
         }
 
         private static HtmlBuilder FieldSetGeneralColumns(
@@ -4482,35 +4481,34 @@ namespace Implem.Pleasanter.Models
                 value: listItemCollection.Keys.ToList().ToJson());
             return hb.FieldSet(
                 id: "FieldSetMailAddresses",
-                action: () => hb.Div(
-                    css: "fieldset-inner",
-                    action: () => hb.FieldSelectable(
-                        controlId: "MailAddresses",
-                        fieldCss: "field-vertical w500",
-                        controlContainerCss: "container-selectable",
-                        controlWrapperCss: " h350",
-                        labelText: Displays.MailAddresses(context: context),
-                        listItemCollection: listItemCollection,
-                        commandOptionAction: () => hb
-                            .Div(css: "command-left", action: () => hb
-                                .TextBox(
-                                    controlId: "MailAddress",
-                                    controlCss: " w200")
-                                .Button(
-                                    text: Displays.Add(context: context),
-                                    controlCss: "button-icon",
-                                    onClick: "$p.send($(this));",
-                                    icon: "ui-icon-disk",
-                                    action: "AddMailAddress",
-                                    method: "post")
-                                .Button(
-                                    controlId: "DeleteMailAddresses",
-                                    controlCss: "button-icon",
-                                    text: Displays.Delete(context: context),
-                                    onClick: "$p.send($(this));",
-                                    icon: "ui-icon-image",
-                                    action: "DeleteMailAddresses",
-                                    method: "put")))));
+                hasInnerDiv: true,
+                action: () => hb.FieldSelectable(
+                    controlId: "MailAddresses",
+                    fieldCss: "field-vertical w500",
+                    controlContainerCss: "container-selectable",
+                    controlWrapperCss: " h350",
+                    labelText: Displays.MailAddresses(context: context),
+                    listItemCollection: listItemCollection,
+                    commandOptionAction: () => hb
+                        .Div(css: "command-left", action: () => hb
+                            .TextBox(
+                                controlId: "MailAddress",
+                                controlCss: " w200")
+                            .Button(
+                                text: Displays.Add(context: context),
+                                controlCss: "button-icon",
+                                onClick: "$p.send($(this));",
+                                icon: "ui-icon-disk",
+                                action: "AddMailAddress",
+                                method: "post")
+                            .Button(
+                                controlId: "DeleteMailAddresses",
+                                controlCss: "button-icon",
+                                text: Displays.Delete(context: context),
+                                onClick: "$p.send($(this));",
+                                icon: "ui-icon-image",
+                                action: "DeleteMailAddresses",
+                                method: "put"))));
         }
 
         /// <summary>
@@ -4582,14 +4580,13 @@ namespace Implem.Pleasanter.Models
                                 text: Displays.General(context: context))))
                     .FieldSet(
                         id: "FieldSetGeneral",
-                        action: () => hb.Div(
-                            css: "fieldset-inner",
-                            action: () => hb.FieldText(
-                                controlId: "ApiKey",
-                                fieldCss: "field-wide",
-                                labelText: Displays.ApiKey(context: context),
-                                text: userModel.ApiKey)))
-                    .Div(
+                        hasInnerDiv: true,
+                        action: () => hb.FieldText(
+                            controlId: "ApiKey",
+                            fieldCss: "field-wide",
+                            labelText: Displays.ApiKey(context: context),
+                            text: userModel.ApiKey))
+                .Div(
                         id: "ApiEditorCommands",
                         action: () => hb
                             .Button(

@@ -1844,15 +1844,14 @@ namespace Implem.Pleasanter.Models
             var mine = issueModel.Mine(context: context);
             return hb.FieldSet(
                 id: "FieldSetGeneral",
-                action: () => hb.Div(
-                    css: "fieldset-inner",
-                    action: () => hb.FieldSetGeneralColumns(
-                        context: context,
-                        ss: ss,
-                        issueModel: issueModel,
-                        dataSet: dataSet,
-                        links: links,
-                        editInDialog: editInDialog)));
+                hasInnerDiv: true,
+                action: () => hb.FieldSetGeneralColumns(
+                    context: context,
+                    ss: ss,
+                    issueModel: issueModel,
+                    dataSet: dataSet,
+                    links: links,
+                    editInDialog: editInDialog));
         }
 
         public static HtmlBuilder FieldSetGeneralColumns(
@@ -1994,19 +1993,18 @@ namespace Implem.Pleasanter.Models
                 hb.FieldSet(
                     id: $"FieldSetTab{data.tab.Id}",
                     css: " fieldset cf ui-tabs-panel ui-corner-bottom ui-widget-content ",
-                    action: () => hb.Div(
-                        css: "fieldset-inner",
-                        action: () => hb.Fields(
-                            context: context,
-                            ss: ss,
-                            id: id,
-                            tab: data.tab,
-                            dataSet: dataSet,
-                            links: links,
-                            preview: preview,
-                            editInDialog: editInDialog,
-                            issueModel: issueModel,
-                            tabIndex: data.index)));
+                    hasInnerDiv: true,
+                    action: () => hb.Fields(
+                        context: context,
+                        ss: ss,
+                        id: id,
+                        tab: data.tab,
+                        dataSet: dataSet,
+                        links: links,
+                        preview: preview,
+                        editInDialog: editInDialog,
+                        issueModel: issueModel,
+                        tabIndex: data.index));
             });
             return hb;
         }

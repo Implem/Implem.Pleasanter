@@ -1164,12 +1164,11 @@ namespace Implem.Pleasanter.Models
         {
             return hb.FieldSet(
                 id: "FieldSetGeneral",
-                action: () => hb.Div(
-                    css: "fieldset-inner",
-                    action: () => hb.FieldSetGeneralColumns(
-                        context: context,
-                        ss: ss,
-                        groupModel: groupModel)));
+                hasInnerDiv: true,
+                action: () => hb.FieldSetGeneralColumns(
+                    context: context,
+                    ss: ss,
+                    groupModel: groupModel));
         }
 
         private static HtmlBuilder FieldSetGeneralColumns(
@@ -3131,13 +3130,12 @@ namespace Implem.Pleasanter.Models
             if (groupModel.MethodType == BaseModel.MethodTypes.New) return hb;
             return hb.FieldSet(
                 id: "FieldSetMembers",
-                action: () => hb.Div(
-                    css: "fieldset-inner",
-                    action: () => hb
-                        .CurrentMembers(
-                            context: context,
-                            groupModel: groupModel)
-                        .SelectableMembers(context: context)));
+                hasInnerDiv: true,
+                action: () =>  hb
+                    .CurrentMembers(
+                        context: context,
+                        groupModel: groupModel)
+                    .SelectableMembers(context: context));
         }
 
         /// <summary>
@@ -3149,13 +3147,12 @@ namespace Implem.Pleasanter.Models
             if (groupModel.MethodType == BaseModel.MethodTypes.New) return hb;
             return hb.FieldSet(
                 id: "FieldSetGroupChildren",
-                action: () => hb.Div(
-                    css: "fieldset-inner",
-                    action: () => hb
-                        .CurrentChildren(
-                            context: context,
-                            groupModel: groupModel)
-                        .SelectableChildren(context: context)));
+                hasInnerDiv: true,
+                action: () => hb
+                    .CurrentChildren(
+                        context: context,
+                        groupModel: groupModel)
+                    .SelectableChildren(context: context));
         }
 
         /// <summary>
