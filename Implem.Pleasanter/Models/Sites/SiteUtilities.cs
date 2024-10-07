@@ -4946,6 +4946,8 @@ namespace Implem.Pleasanter.Models
                                         .Id("FieldSetRecordAccessControl")
                                         .DataAction("PermissionForRecord")
                                         .DataMethod("post"),
+                                    hasInnerDiv: true,
+                                    innerId: "FieldSetRecordAccessControlEditor",
                                     _using: EnableAdvancedPermissions(
                                         context: context, siteModel: siteModel))
                                 .FieldSet(
@@ -4953,6 +4955,8 @@ namespace Implem.Pleasanter.Models
                                         .Id("FieldSetColumnAccessControl")
                                         .DataAction("ColumnAccessControl")
                                         .DataMethod("post"),
+                                    hasInnerDiv: true,
+                                    innerId: "FieldSetColumnAccessControlEditor",
                                     _using: EnableAdvancedPermissions(
                                         context: context, siteModel: siteModel))
                                 .MainCommands(
