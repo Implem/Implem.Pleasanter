@@ -1699,6 +1699,7 @@ namespace Implem.Pleasanter.Models
             TenantModel tenantModel)
         {
             return hb.FieldSet(id: "FieldSetServerScript",
+                hasInnerDiv: true,
                 action: () => hb
                     .ServerScriptsSettingsEditor(
                         context: context, tenantModel: tenantModel),
