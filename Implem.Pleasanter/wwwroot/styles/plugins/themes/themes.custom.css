@@ -1,4 +1,4 @@
-/* Reset ---------------------------------------------------------------- */
+﻿/* Reset ---------------------------------------------------------------- */
 body {
     color: var(--base-text);
     background-color: var(--page-bg);
@@ -617,6 +617,14 @@ input{
         .ui-icon {
             float: none;
             margin-top: 0;
+        }
+    }
+    &:has(> .fieldset-inner){
+        display: contents;
+        padding: 0;
+        > .fieldset-inner{
+            color: #00f;
+            padding: 16px;
         }
     }
 }
