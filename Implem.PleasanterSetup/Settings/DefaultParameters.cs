@@ -12,5 +12,6 @@ namespace Implem.PleasanterSetup.Settings
         public readonly string InstallDirForLinux = "/web/pleasanter";
         public readonly string HostName = "localhost";
         public readonly string ServiceName = "Implem.Pleasanter";
+        public readonly string url = "https://api.github.com/repos/Implem/Implem.Pleasanter/releases/latest";
     }
 }

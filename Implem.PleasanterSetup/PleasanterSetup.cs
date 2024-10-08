@@ -1,10 +1,19 @@
-﻿using Implem.ParameterAccessor.Parts;
+﻿using Implem.DefinitionAccessor;
+using Implem.ParameterAccessor.Parts;
+using Implem.PleasanterSetup.Settings;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Linq;
+using System;
+using System.ComponentModel;
 using System.Data.Common;
 using System.Diagnostics;
 using System.IO.Compression;
+using System.Net;
 using System.Reflection;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+using System.Text;
 using System.Text.RegularExpressions;
 using Zx;
 
@@ -23,6 +32,7 @@ namespace Implem.PleasanterSetup
         private string userId;
         private string password;
         private bool versionUp;
+        private bool enterpriseEdition;
         private ExtendedColumns extendedIssuesColumns;
         private ExtendedColumns extendedResultsColumns;
         private enum DBMS
@@ -46,26 +56,28 @@ namespace Implem.PleasanterSetup
             this.userId = string.Empty;
             this.password = string.Empty;
             this.versionUp = false;
+            this.enterpriseEdition = false;
             this.extendedIssuesColumns = new ExtendedColumns();
             this.extendedResultsColumns = new ExtendedColumns();
         }
 
         [RootCommand]
         public async Task Setup(
-            [Option("r")] string releasezip,
+            [Option("r")] string releasezip = "",
             [Option("d")] string directory = "",
             string patchPath = "",
             bool setUpState = true,
             bool force = false,
             bool noinput = false,
             string license = "",
-            string extendedcolumns = "")
+            string extendedcolumns = "",
+            string parametersPatch = "")
         {
             // ユーザにセットアップに必要な情報を入力してもらう
             SetSummary(
-                directory: directory,
-                licenseZip: license,
-                extendedColumnsDir: extendedcolumns);
+            directory: directory,
+            licenseZip: license,
+            extendedColumnsDir: extendedcolumns);
             // 新規インストールまたはバージョンアップを行うかをユーザに確認する
             var doNext = AskForInstallOrVersionUp();
             if (doNext)
@@ -82,11 +94,33 @@ namespace Implem.PleasanterSetup
                         destDir: backupDir);
                 }
                 // 新しい資源を配置する Gitから落としてくるように変更する必要あり
-                SetNewResource(
+                //releasezipがnullじゃないないならオフライン
+                if (!string.IsNullOrEmpty(releasezip))
+                {
+                    SetNewResource(
                     installDir: installDir,
                     releaseZip: releasezip);
+                }
+                else
+                {
+                    //DownloadNewResource(installDir);
+                }
+                //if (versionUp)
+                //{
+                //    SetNewResource(
+                //    installDir: installDir,
+                //    releaseZip: releasezip);
+                //}
+                //else
+                //{
+                //    //DownloadNewResource(installDir);
+                //}
+                //ここにマージ処理を差し込む必要あり
+
+
+
                 // ユーザがコンソール上で入力した値を各パラメータファイルへ書き込む
-                SetParameters(backupDir);
+                SetParameters();
                 //ユーザがライセンスファイルを指定した場合
                 if (File.Exists(license))
                 {
@@ -100,21 +134,13 @@ namespace Implem.PleasanterSetup
                         installDir: installDir,
                         backupDir: backupDir);
                 }
+
+
+                //この処理はCodeDefinerに置き換わったので削除検討
                 // バージョンアップの場合はパラメータファイルのマージを行う
                 if (versionUp)
                 {
-                    var currentVersion = FileVersionInfo.GetVersionInfo(
-                        Path.Combine(
-                            backupDir,
-                            "Implem.Pleasanter",
-                            "Implem.Pleasanter.dll")).FileVersion;
-                    var newVersion = FileVersionInfo.GetVersionInfo(
-                        Path.Combine(
-                            installDir,
-                            "Implem.Pleasanter",
-                            "Implem.Pleasanter.dll")).FileVersion;
-                    //1.4以前の場合にエラー処理
-
+                    //backupの絶対パスと新資源の絶対パスが必要
                     Merge(
                         source: Path.Combine(
                             backupDir,
@@ -127,6 +153,10 @@ namespace Implem.PleasanterSetup
                              "App_Data",
                             "Parameters"));
                 }
+
+                //ここに入力したパラメータを適用する処理を追加　setPatameters()
+
+
                 // データベースの作成(スキーマ更新)を行う
                 await Rds(
                     directory: installDir,
@@ -171,7 +201,7 @@ namespace Implem.PleasanterSetup
                 return;
             }
             Merger.MergeParametersJson(
-                installDir:installDir,
+                installDir: installDir,
                 prevPath: previous,
                 currentVersion: currentVersion,
                 newVersion: newVersion);
@@ -193,6 +223,8 @@ namespace Implem.PleasanterSetup
                     directory: directory,
                     licenseZip: license,
                     extendedColumnsDir: extendedcolumns);
+                //setUpStateがtrueじゃないなら
+                SetParameters();
             }
             var resourceDir = string.IsNullOrEmpty(directory)
                 ? GetDefaultInstallDir()
@@ -296,7 +328,7 @@ namespace Implem.PleasanterSetup
             }
             return doNext.ToLower().StartsWith("y");
         }
-        
+
         private void AskForInstallDir(string directory)
         {
             if (!string.IsNullOrEmpty(directory))
@@ -785,12 +817,17 @@ namespace Implem.PleasanterSetup
                 : installDir = configuration["InstallDirForLinux"];
         }
 
-        private void MeetsVersionUpRequirements(string parametersDir)
+        private void MeetsVersionUpRequirements()
         {
-            versionUp = Directory.Exists(parametersDir) && Directory.GetFiles(parametersDir).Length > 0;
+            //dllがある場合はバージョンアップ
+            var pleasanterDll = Path.Combine(
+                    installDir,
+                    "Implem.Pleasanter",
+                    "Implem.Pleasanter.dll");
+            versionUp = File.Exists(pleasanterDll);
         }
 
-        private void SetParameters(string backupDir)
+        private void SetParameters()
         {
             var parametersDir = Path.Combine(
                 installDir,
@@ -804,15 +841,9 @@ namespace Implem.PleasanterSetup
                 SetServiceParameters(parametersDir);
                 SetExtendedColumns(parametersDir);
             }
-            else
+            else if (versionUp && enterpriseEdition)
             {
-                //バージョンアップ時は旧資源のパラメータファイルを新資源にコピーする
-                var backUpParameterDir = Path.Combine(
-                backupDir,
-                "Implem.Pleasanter",
-                "App_Data",
-                "Parameters");
-                CopyDirectory(backUpParameterDir, parametersDir, true);
+                SetExtendedColumns(parametersDir);
             }
         }
 
@@ -974,12 +1005,8 @@ namespace Implem.PleasanterSetup
             string extendedColumnsDir)
         {
             AskForInstallDir(directory);
-            var parametersPath =Path.Combine(
-                    installDir,
-                    "Implem.Pleasanter",
-                    "App_Data",
-                    "Parameters");
-            MeetsVersionUpRequirements(parametersPath);
+            //Implem.Pleasanter.dllの有無でバージョンアップか判断
+            MeetsVersionUpRequirements();
             AskForDbms(versionUp);
             AskForServer(versionUp);
             AskForServiceName(versionUp);
@@ -990,15 +1017,46 @@ namespace Implem.PleasanterSetup
             }
             AskForUserId(versionUp);
             AskForPassword(versionUp);
+            //ComunityEdition＝＞Enterpriseの場合の処理を考える。　ライセンスファイルを指定した場合はEnterpriseEditionにバージョンアップすると判断
             if (File.Exists(licenseZip))
             {
-                AskForExtendedColums(
+                //ライセンスがEnterpriseEditionか判定処理
+                enterpriseEdition = CheckLicense(licenseZip);
+                if (enterpriseEdition)
+                {
+                    AskForExtendedColums(
                     extendedColumnsDir,
                     "Issues");
-                AskForExtendedColums(
-                    extendedColumnsDir,
-                    "Results");
+                    AskForExtendedColums(
+                        extendedColumnsDir,
+                        "Results");
+                }
             }
+        }
+
+        private bool CheckLicense(string licenseZip)
+        {
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+            var baseFileName = Path.GetFileNameWithoutExtension(licenseZip);
+            var unzipDir = Path.Combine(
+                    Path.GetDirectoryName(licenseZip),
+                    baseFileName);
+            ZipFile.ExtractToDirectory(
+                licenseZip,
+                unzipDir,
+                Encoding.GetEncoding("shift_jis"),
+                true);
+            var license = Path.Combine(
+                unzipDir,
+                baseFileName,
+                "forNetCore(MultiPlatform)",
+                "Implem.License.dll");
+            Assembly assembly = Assembly.LoadFrom(license);
+            Type type = assembly.GetType("Implem.License.License");
+            object instance = Activator.CreateInstance(type);
+            // Invoke the Check method
+            MethodInfo checkMethod = type.GetMethod("Check");
+            return Convert.ToBoolean(checkMethod?.Invoke(instance, null));
         }
 
         private void SetNewResource(
@@ -1032,5 +1090,31 @@ namespace Implem.PleasanterSetup
             }
         }
 
+
+        //作成途中
+        private async Task DownloadNewResource(string installDir)
+        {
+            //先頭がPleasanterのzipをダウンロードしてinstallDirに配置
+            using (HttpClient client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.UserAgent.TryParseAdd("request");
+
+                HttpResponseMessage response = await client.GetAsync(configuration["DefaultParameters:url"]);
+                response.EnsureSuccessStatusCode();
+
+                string responseBody = await response.Content.ReadAsStringAsync();
+                JObject release = JObject.Parse(responseBody);
+
+                string assetUrl = null;
+                foreach (var asset in release["assets"])
+                {
+                    if (asset["name"].ToString().Contains("Pleasanter"))
+                    {
+                        assetUrl = asset["browser_download_url"].ToString();
+                        break;
+                    }
+                }
+            }
+        }
     }
 }

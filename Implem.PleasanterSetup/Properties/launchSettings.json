@@ -2,7 +2,7 @@
   "profiles": {
     "Implem.PleasanterSetup": {
       "commandName": "Project",
-      "commandLineArgs": "C:\\test\\Pleasanterバージョン\\Pleasanter_1.4.6.4.zip -d C:\\test\\pleasanter"
+      "commandLineArgs": "-d C:\\test\\web\\pleasanter --license \"C:\\インストーラテスト\\Enterprise Edition License Pack（11624744）.zip\""
     }
   }
 }
