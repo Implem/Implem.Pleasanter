@@ -677,7 +677,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                 || o.Css != null
                 || o.ViewMode != null
                 || o.Title != null
-                || o.OpenInNewTab == true))
+                || o.OpenInNewTab == true
+                || o.Url != null))
             {
                 QuickAccessSites = QuickAccessSitesData.ToJson(formatting: Newtonsoft.Json.Formatting.Indented);
             }
