@@ -845,7 +845,7 @@ namespace Implem.Pleasanter.Libraries.Search
                 .Add(
                     raw: Def.Sql.CanRead,
                     _using: !context.HasPrivilege && !context.Publish)
-                .Add(raw: $"{context.Sqls.IsNull}(\"Sites\".\"DisableCrossSearch\",'false')='false'")
+                .Add(raw: $"{context.Sqls.IsNull}(\"Sites\".\"DisableCrossSearch\",{context.Sqls.FalseString})={context.Sqls.FalseString}")
                 .Add(
                     raw: "\"Items\".\"ReferenceType\"<>'Sites'",
                     _using: Parameters.Search.DisableCrossSearchSites);

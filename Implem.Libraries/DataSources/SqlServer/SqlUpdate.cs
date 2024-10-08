@@ -27,6 +27,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                 sqlCommand: sqlCommand,
                 commandText: commandText,
                 commandCount: commandCount);
+            SetMainQueryInfoForSub();
             SqlWhereCollection?.BuildCommandText(
                 factory: factory,
                 sqlContainer: sqlContainer,
@@ -99,6 +100,15 @@ namespace Implem.Libraries.DataSources.SqlServer
                 });
             commandText.Append("update ", tableBracket,
                 " set ", columnNameCollection.Join(), " ");
+        }
+
+        private void SetMainQueryInfoForSub()
+        {
+            SqlWhereCollection
+                .Where(o => o.Sub != null)
+                .ForEach(o => o.Sub.SetMainQueryInfo(
+                    sqlClass: GetType().ToString(),
+                    allTableBrackets: GetAllTableBrackets()));
         }
 
         private void Build_CopyToHistoryStatement(

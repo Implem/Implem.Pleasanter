@@ -1,4 +1,6 @@
 ﻿using Implem.IRds;
+using Implem.Libraries.Utilities;
+using System.Linq;
 using System.Text;
 namespace Implem.Libraries.DataSources.SqlServer
 {
@@ -18,6 +20,7 @@ namespace Implem.Libraries.DataSources.SqlServer
             if (!Using) return;
             Build_If(commandText);
             commandText.Append(Statement(commandCount));
+            SetMainQueryInfoForSub();
             SqlWhereCollection?.BuildCommandText(
                 factory: factory,
                 sqlContainer: sqlContainer,
@@ -43,8 +46,17 @@ namespace Implem.Libraries.DataSources.SqlServer
                 case Sqls.TableTypes.Deleted:
                     return "delete from " + DeletedTableBracket + " ";
                 default:
-                   return string.Empty;
+                    return string.Empty;
             }
+        }
+
+        private void SetMainQueryInfoForSub()
+        {
+            SqlWhereCollection
+                .Where(o => o.Sub != null)
+                .ForEach(o => o.Sub.SetMainQueryInfo(
+                    sqlClass: GetType().ToString(),
+                    allTableBrackets: GetAllTableBrackets()));
         }
     }
 }

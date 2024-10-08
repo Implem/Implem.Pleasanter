@@ -345,7 +345,7 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         mailAddressModel: this,
                         otherInitValue: otherInitValue)),
-                new SqlStatement(Def.Sql.IfConflicted.Params(MailAddressId))
+                new SqlStatement()
                 {
                     DataTableName = dataTableName,
                     IfConflicted = true,
@@ -425,7 +425,7 @@ namespace Implem.Pleasanter.Models
                 transactional: true,
                 statements: Rds.PhysicalDeleteMailAddresses(
                     tableType: tableType,
-                    param: Rds.MailAddressesParam().MailAddressId(MailAddressId)));
+                    where: Rds.MailAddressesWhere().MailAddressId(MailAddressId)));
             return new ErrorData(type: Error.Types.None);
         }
 

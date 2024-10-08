@@ -387,7 +387,7 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         demoModel: this,
                         otherInitValue: otherInitValue)),
-                new SqlStatement(Def.Sql.IfConflicted.Params(DemoId))
+                new SqlStatement()
                 {
                     DataTableName = dataTableName,
                     IfConflicted = true,
@@ -467,7 +467,7 @@ namespace Implem.Pleasanter.Models
                 transactional: true,
                 statements: Rds.PhysicalDeleteDemos(
                     tableType: tableType,
-                    param: Rds.DemosParam().DemoId(DemoId)));
+                    where: Rds.DemosWhere().DemoId(DemoId)));
             return new ErrorData(type: Error.Types.None);
         }
 

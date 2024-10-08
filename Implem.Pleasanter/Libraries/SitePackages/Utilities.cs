@@ -193,6 +193,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                     permissionIdList: sitePackage.PermissionIdList,
                     includeNotifications: includeNotifications,
                     includeReminders: includeReminders);
+                conv.SiteSettings = packageSiteModel.SiteSettings;
                 Repository.ExecuteScalar_response(
                     context: context,
                     transactional: true,
@@ -260,11 +261,11 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                     statements: statements.ToArray());
             }
             var idHash = sitePackage.GetIdHashFromConverters();
-            foreach (long savedSiteId in sitePackage.HeaderInfo.Convertors.Select(e => e.SavedSiteId))
+            foreach (var conv in sitePackage.HeaderInfo.Convertors)
             {
                 var siteModel = new SiteModel(
                     context: context,
-                    siteId: savedSiteId);
+                    siteId: conv.SavedSiteId.ToLong());
                 switch (siteModel.ReferenceType)
                 {
                     case "Wikis":
@@ -286,7 +287,8 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                                 top: 1,
                                 column: Rds.WikisColumn().WikiId(),
                                 where: Rds.WikisWhere().SiteId(siteModel.SiteId)));
-                        idHash.Add(savedSiteId, wikiId);
+                        var srcWikiId = sitePackage.Sites?.FirstOrDefault(o => o.SiteId == conv.SiteId)?.WikiId;
+                        if (srcWikiId != null) idHash.Add(srcWikiId.ToLong(), wikiId);
                         break;
                     default:
                         Search.Indexes.Create(
@@ -340,6 +342,22 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                                     ss: ss);
                             }
                         }
+                    }
+                    conv.Updated |= ConvertScriptDataId(
+                        ss: conv.SiteSettings,
+                        idHash: idHash);
+                    if (conv.Updated)
+                    {
+                        conv.SiteSettings.Init(context: context);
+                        Repository.ExecuteNonQuery(
+                            context: context,
+                            statements: Rds.UpdateSites(
+                                where: Rds.SitesWhere()
+                                    .TenantId(context.TenantId)
+                                    .SiteId(conv.SavedSiteId),
+                                param: Rds.SitesParam()
+                                    .SiteSettings(conv.SiteSettings.RecordingJson(
+                                        context: context))));
                     }
                 }
                 var response = Repository.ExecuteScalar_response(
@@ -416,6 +434,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                 statements: StatusUtilities.UpdateStatus(
                     tenantId: context.TenantId,
                     type: StatusUtilities.Types.UsersUpdated));
+            SiteInfo.Reflesh(context: context);
             if (apiData == null)
             {
                 SessionUtilities.Set(
@@ -445,6 +464,58 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                     })
                     .ToJson();
             }
+        }
+
+        private static bool ConvertScriptDataId(
+            SiteSettings ss,
+            Dictionary<long, long> idHash)
+        {
+            var isUpdated = false;
+            ss?.Scripts?.ForEach(script =>
+            {
+                var newScript = ConvertScriptDataId(
+                    text: script.Body,
+                    idHash: idHash);
+                if (newScript != script.Body)
+                {
+                    isUpdated = true;
+                    script.Body = newScript;
+                }
+            });
+            ss?.ServerScripts?.ForEach(script =>
+            {
+                var newScript = ConvertScriptDataId(
+                    text: script.Body,
+                    idHash: idHash);
+                if (newScript != script.Body)
+                {
+                    isUpdated = true;
+                    script.Body = newScript;
+                }
+            });
+            return isUpdated;
+        }
+
+        private static string ConvertScriptDataId(
+            string text,
+            Dictionary<long, long> idHash)
+        {
+            var regexSection = new Regex(@"^(?<pre>// @siteid list start@.*\r?)$(?<code>[\s\S]*?)^(?<post>// @siteid list end@)", RegexOptions.Multiline);
+            var regexId = new Regex(@"\b(?<!\.)\d+(?!\.)\b");
+            return regexSection.Replace(
+                text,
+                new MatchEvaluator((Match matchSection) =>
+                    !matchSection.Groups.ContainsKey("code")
+                        ? matchSection.Value
+                        : matchSection.Groups["pre"].Value
+                            + regexId.Replace(
+                                matchSection.Groups["code"].Value,
+                                new MatchEvaluator((Match matchId) =>
+                                    (long.TryParse(matchId.Value, out var id)
+                                        && idHash.ContainsKey(id))
+                                        ? idHash[id].ToString()
+                                        : matchId.Value))
+                            + matchSection.Groups["post"].Value));
         }
 
         public static SitePackage GetSitePackageFromPostedFile(Context context)

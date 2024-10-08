@@ -158,12 +158,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     _using: Parameters.Mobile.Responsive
                         && context.Mobile
                         && context.Responsive
-                        && (ss == null || ss.Responsive != false))
-                .Link(
-                    href: Responses.Locations.Get(
-                        context: context,
-                        parts: "favicon.ico"),
-                    rel: "shortcut icon");
+                        && (ss == null || ss.Responsive != false));
         }
     }
 }

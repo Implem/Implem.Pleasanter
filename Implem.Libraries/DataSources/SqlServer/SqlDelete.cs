@@ -1,5 +1,6 @@
 ﻿using Implem.IRds;
 using Implem.Libraries.Utilities;
+using System.Linq;
 using System.Text;
 namespace Implem.Libraries.DataSources.SqlServer
 {
@@ -18,6 +19,7 @@ namespace Implem.Libraries.DataSources.SqlServer
         {
             if (!Using) return;
             Build_If(commandText: commandText);
+            SetMainQueryInfoForSub();
             Build_DeleteStatement(
                 factory: factory,
                 sqlContainer: sqlContainer,
@@ -50,6 +52,15 @@ namespace Implem.Libraries.DataSources.SqlServer
                     sqlContainer: sqlContainer,
                     sqlCommand: sqlCommand,
                     commandCount: commandCount))));
+        }
+
+        private void SetMainQueryInfoForSub()
+        {
+            SqlWhereCollection
+                .Where(o => o.Sub != null)
+                .ForEach(o => o.Sub.SetMainQueryInfo(
+                    sqlClass: GetType().ToString(),
+                    allTableBrackets: GetAllTableBrackets()));
         }
     }
 }

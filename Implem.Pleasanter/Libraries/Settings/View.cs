@@ -2499,7 +2499,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 switch (csType)
                 {
                     case Types.CsBool:
-                        defaultValue = "'false'";
+                        defaultValue = context.Sqls.FalseString;
                         break;
                     case Types.CsNumeric:
                         defaultValue = "0";

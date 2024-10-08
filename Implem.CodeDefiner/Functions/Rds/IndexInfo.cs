@@ -67,5 +67,13 @@ namespace Implem.CodeDefiner.Functions.Rds
                     .Sha512Cng()
                     .MaxLength(factory.SqlDefinitionSetting.IdentifierPostfixLength);
         }
+
+        internal string IndexInfoString()
+        {
+            return ColumnCollection
+                .Where(o => o.No > 0)
+                .Select(o => o.ColumnName + "," + o.OrderType.ToString())
+                .Join(","); 
+        }
     }
 }

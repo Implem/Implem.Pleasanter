@@ -14370,11 +14370,12 @@ namespace Implem.Pleasanter.Models
                         labelText: Displays.Title(context: context),
                         text: style.Title,
                         validateRequired: true)
-                    .FieldTextBox(
-                        textType: HtmlTypes.TextTypes.MultiLine,
+                    .FieldCodeEditor(
+                        context: context,
                         controlId: "StyleBody",
                         fieldCss: "field-wide",
                         controlCss: " always-send",
+                        dataLang: "css",
                         labelText: Displays.Style(context: context),
                         text: style.Body)
                     .FieldCheckBox(
@@ -14753,11 +14754,12 @@ namespace Implem.Pleasanter.Models
                         labelText: Displays.Title(context: context),
                         text: script.Title,
                         validateRequired: true)
-                    .FieldTextBox(
-                        textType: HtmlTypes.TextTypes.MultiLine,
+                    .FieldCodeEditor(
+                        context: context,
                         controlId: "ScriptBody",
                         fieldCss: "field-wide",
                         controlCss: " always-send",
+                        dataLang: "javascript",
                         labelText: Displays.Script(context: context),
                         text: script.Body)
                     .FieldCheckBox(
@@ -15188,11 +15190,12 @@ namespace Implem.Pleasanter.Models
                         },
                         selectedValue: html.PositionType.ToInt().ToString(),
                         insertBlank: false)
-                    .FieldTextBox(
-                        textType: HtmlTypes.TextTypes.MultiLine,
+                    .FieldCodeEditor(
+                        context: context,
                         controlId: "HtmlBody",
                         fieldCss: "field-wide",
                         controlCss: " always-send",
+                        dataLang: "html",
                         labelText: Displays.Html(context: context),
                         text: html.Body)
                     .FieldCheckBox(
@@ -15560,11 +15563,12 @@ namespace Implem.Pleasanter.Models
                         controlCss: " always-send",
                         labelText: Displays.Name(context: context),
                         text: script.Name)
-                    .FieldTextBox(
-                        textType: HtmlTypes.TextTypes.MultiLine,
+                    .FieldCodeEditor(
+                        context: context,
                         controlId: "ServerScriptBody",
                         fieldCss: "field-wide",
                         controlCss: " always-send",
+                        dataLang: "javascript",
                         labelText: Displays.Script(context: context),
                         text: script.Body)
                     .FieldSpinner(

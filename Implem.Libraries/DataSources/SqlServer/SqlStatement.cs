@@ -34,6 +34,7 @@ namespace Implem.Libraries.DataSources.SqlServer
         public bool IsRowCount = false;
         public long? Id;
         public IEnumerable<SqlParam> AdditionalParams;
+        public (string sqlClass, List<string> allTableBrackets) MainQueryInfo;
 
         public SqlStatement()
         {
@@ -261,6 +262,19 @@ namespace Implem.Libraries.DataSources.SqlServer
                 case Sqls.TableTypes.Deleted: return DeletedTableBracket;
                 default: return null;
             }
+        }
+
+        public void SetMainQueryInfo(
+            string sqlClass,
+            List<string> allTableBrackets)
+        {
+            MainQueryInfo.sqlClass = sqlClass;
+            MainQueryInfo.allTableBrackets = allTableBrackets;
+        }
+
+        public List<string> GetAllTableBrackets()
+        {
+            return [TableBracket, HistoryTableBracket, DeletedTableBracket];
         }
     }
 }

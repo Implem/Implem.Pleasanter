@@ -466,10 +466,13 @@ namespace Implem.SqlServer
                     ,current_timestamp
                 );";
 
-        public string GetBinaryHash { get; } = @"
-            select hashbytes(@Algorithm, cast(""Bin"" as varbinary(max)))
-            from ""Binaries""
-            where ""TenantId"" = @_T
-                and ""Guid"" = @Guid;";
+        public string GetBinaryHash(string algorithm)
+        {
+            return @"
+                select hashbytes(@Algorithm, cast(""Bin"" as varbinary(max)))
+                from ""Binaries""
+                where ""TenantId"" = @_T
+                    and ""Guid"" = @Guid;";
+        }
     }
 }
