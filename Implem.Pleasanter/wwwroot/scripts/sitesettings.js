@@ -13,12 +13,16 @@ $p.openSiteSettingsDialog = function ($control, selector, width) {
     var error = $p.syncSend($control);
     if (error === 0) {
         $(selector).dialog({
+            autoOpen: false,
             modal: true,
             width: width !== undefined ? width : '90%',
             height: 'auto',
             appendTo: '#Editor',
             resizable: false
         });
+        setTimeout(function () {
+            $(selector).dialog("open");
+        })
     }
 }
 

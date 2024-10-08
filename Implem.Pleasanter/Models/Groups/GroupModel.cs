@@ -1341,7 +1341,7 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         groupModel: this,
                         otherInitValue: otherInitValue)),
-                new SqlStatement(Def.Sql.IfConflicted.Params(GroupId))
+                new SqlStatement()
                 {
                     DataTableName = dataTableName,
                     IfConflicted = true,
@@ -1644,7 +1644,7 @@ namespace Implem.Pleasanter.Models
                 transactional: true,
                 statements: Rds.PhysicalDeleteGroups(
                     tableType: tableType,
-                    param: Rds.GroupsParam().GroupId(GroupId)));
+                    where: Rds.GroupsWhere().GroupId(GroupId)));
             return new ErrorData(type: Error.Types.None);
         }
 

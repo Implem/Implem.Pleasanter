@@ -1,6 +1,7 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.IRds;
 using Implem.Libraries.Utilities;
+using System.Linq;
 using System.Text;
 namespace Implem.Libraries.DataSources.SqlServer
 {
@@ -24,6 +25,10 @@ namespace Implem.Libraries.DataSources.SqlServer
             StringBuilder commandText,
             int? commandCount = null)
         {
+            if (!MainQueryInfo.sqlClass.IsNullOrEmpty())
+            {
+                SetMainQueryInfoForSub();
+            }
             switch (TableType)
             {
                 case Sqls.TableTypes.History:
@@ -251,6 +256,80 @@ namespace Implem.Libraries.DataSources.SqlServer
             int? commandCount)
         {
             if (!Using) return;
+            var tableBrackets = GetAllTableBrackets();
+            SqlJoinCollection?.ForEach(o => tableBrackets.Add(o.TableBracket));
+            if (Parameters.Rds.Dbms == "MySQL" &&
+                !MainQueryInfo.sqlClass.IsNullOrEmpty() &&
+                tableBrackets.FindAll(MainQueryInfo.allTableBrackets.Contains) != null)
+            {
+                GetSelectFromSelectCommand(
+                    factory: factory,
+                    sqlContainer: sqlContainer,
+                    sqlCommand: sqlCommand,
+                    commandText: commandText,
+                    tableType: tableType,
+                    unionType: unionType,
+                    orderBy: orderBy,
+                    commandCount: commandCount);
+            }
+            else
+            {
+                GetSelectFromTableCommand(
+                    factory: factory,
+                    sqlContainer: sqlContainer,
+                    sqlCommand: sqlCommand,
+                    commandText: commandText,
+                    tableType: tableType,
+                    unionType: unionType,
+                    orderBy: orderBy,
+                    commandCount: commandCount);
+            }
+        }
+
+        private void GetSelectFromSelectCommand(
+            ISqlObjectFactory factory,
+            SqlContainer sqlContainer,
+            ISqlCommand sqlCommand,
+            StringBuilder commandText,
+            Sqls.TableTypes tableType,
+            Sqls.UnionTypes unionType,
+            bool orderBy,
+            int? commandCount)
+        {
+            var subQueryStart = "select #TablenameTemp#.#Columnname# from (";
+            var subQueryEnd = ") as #TablenameTemp#";
+            var tablenameTemp = As.IsNullOrEmpty()
+                ? $@"""{TableBracket.Replace(@"""",string.Empty)}Temp"""
+                : $@"""{As}Temp""";
+            var columnname = SqlColumnCollection.FirstOrDefault().AsBracket().IsNullOrEmpty()
+                ? $@"""{SqlColumnCollection.FirstOrDefault().ColumnName}"""
+                : SqlColumnCollection.FirstOrDefault().AsBracket().Replace(" as ", string.Empty);
+            commandText.Append(subQueryStart
+                .Replace("#TablenameTemp#", tablenameTemp)
+                .Replace("#Columnname#", columnname));
+            GetSelectFromTableCommand(
+                factory: factory,
+                sqlContainer: sqlContainer,
+                sqlCommand: sqlCommand,
+                commandText: commandText,
+                tableType: tableType,
+                unionType: unionType,
+                orderBy: orderBy,
+                commandCount: commandCount);
+            commandText.Append(subQueryEnd
+                .Replace("#TablenameTemp#", tablenameTemp));
+        }
+
+        private void GetSelectFromTableCommand(
+            ISqlObjectFactory factory,
+            SqlContainer sqlContainer,
+            ISqlCommand sqlCommand,
+            StringBuilder commandText,
+            Sqls.TableTypes tableType,
+            Sqls.UnionTypes unionType,
+            bool orderBy,
+            int? commandCount)
+        {
             AddUnion(commandText, unionType);
             SqlColumnCollection?.BuildCommandText(
                 factory: factory,
@@ -332,6 +411,15 @@ namespace Implem.Libraries.DataSources.SqlServer
             return "from " + tableBlacket + (!_as.IsNullOrEmpty()
                 ? " as \"" + _as + "\""
                 : " as " + TableBracket) + "\n";
+        }
+
+        private void SetMainQueryInfoForSub()
+        {
+            SqlWhereCollection
+                .Where(o => o.Sub != null)
+                .ForEach(o => o.Sub.SetMainQueryInfo(
+                    sqlClass: MainQueryInfo.sqlClass,
+                    allTableBrackets: MainQueryInfo.allTableBrackets));
         }
     }
 }

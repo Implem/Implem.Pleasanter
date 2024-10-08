@@ -56,7 +56,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             string href = null,
             string rel = null,
-            bool _using = true)
+            bool _using = true,
+            bool crossorigin =false)
         {
             return _using
                 ? hb.Append(
@@ -64,7 +65,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     closeLevel: 1,
                     attributes: new HtmlAttributes()
                         .Href(href)
-                        .Rel(rel))
+                        .Rel(rel)
+                        .Crossorigin(crossorigin))
                 : hb;
         }
 
@@ -743,22 +745,64 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Raw(text: style))
                 : hb;
         }
+        public static HtmlBuilder HeadLink(
+            this HtmlBuilder hb,
+            string src = null,
+            string type = null,
+            bool _using = true)
+        {
+            return _using
+                ? hb.Append(
+                    tag: "style",
+                    attributes: new HtmlAttributes()
+                        .Src(src)
+                        .Type(type))
+                : hb;
+        }
 
         public static HtmlBuilder Script(
             this HtmlBuilder hb,
             string id = null,
             string src = null,
             string script = null,
-            bool _using = true)
+            bool _using = true,
+            string type = null,
+            bool crossorigin = false)
         {
             return _using
                 ? hb.Append(
                     tag: "script",
                     id: id,
                     css: null,
-                    attributes: new HtmlAttributes().Src(src),
+                    attributes: new HtmlAttributes()
+                        .Src(src)
+                        .Type(type)
+                        .Crossorigin(crossorigin),
                     action: () => hb
                         .Raw(text: script))
+                : hb;
+        }
+
+        public static HtmlBuilder CodeEditor(
+            this HtmlBuilder hb,
+            string id = null,
+            string name = null,
+            string css = null,
+            HtmlAttributes attributes = null,
+            bool _using = true,
+            string dataLang = null,
+            string text = null)
+        {
+            return _using
+                ? hb.Append(
+                    tag: "code-editor",
+                    attributes: (attributes ?? new HtmlAttributes())
+                        .Id(id)
+                        .Name(name)
+                        .Class(css)
+                        .DataLang(dataLang),
+                    action: () => hb
+                        .Text(text: text))
                 : hb;
         }
     }

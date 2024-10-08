@@ -865,7 +865,7 @@ namespace Implem.Pleasanter.Models
                     var tempBinaryHash = Repository.ExecuteScalar_bytes(
                             context: context,
                             statements: new SqlStatement(
-                                commandText: context.Sqls.GetBinaryHash,
+                                commandText: context.Sqls.GetBinaryHash(algorithm: "md5"),
                                 param: new SqlParamCollection{
                                     { "Algorithm", "md5" },
                                     { "Guid", fileUuid[filesIndex] }

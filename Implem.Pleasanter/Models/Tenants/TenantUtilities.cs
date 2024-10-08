@@ -1701,7 +1701,8 @@ namespace Implem.Pleasanter.Models
                 action: () => hb
                     .ServerScriptsSettingsEditor(
                         context: context, tenantModel: tenantModel),
-                _using: context.ContractSettings.ServerScript != false
+                _using: context.HasPrivilege != false
+                    && context.ContractSettings.ServerScript != false
                     && Parameters.Script.ServerScript != false
                     && Parameters.Script.BackgroundServerScript != false);
         }
@@ -1712,8 +1713,6 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder ServerScriptsSettingsEditor(
             this HtmlBuilder hb, Context context, TenantModel tenantModel)
         {
-            if (context.ContractSettings.ServerScript == false
-                || Parameters.Script.ServerScript == false) return hb;
             return hb.FieldSet(id: "ServerScriptsSettingsEditor", action: () => hb
                 .Div(css: "command-left", action: () => hb
                     .Button(

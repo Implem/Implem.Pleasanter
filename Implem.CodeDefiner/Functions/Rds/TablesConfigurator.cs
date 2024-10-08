@@ -39,6 +39,9 @@ namespace Implem.CodeDefiner.Functions.Rds
                     case "PostgreSQL":
                         ConfigureFullTextIndexPostgreSql(factory: factory);
                         break;
+                    case "MySQL":
+                        ConfigureFullTextIndexMySql(factory: factory);
+                        break;
                 }
             }
             catch (System.Exception e)
@@ -92,6 +95,28 @@ namespace Implem.CodeDefiner.Functions.Rds
             catch (System.Data.SqlClient.SqlException e)
             {
                 Consoles.Write($"[{e.Number}] [{nameof(ConfigureFullTextIndexPostgreSql)}]: {e}", Consoles.Types.Error);
+            }
+        }
+
+        private static void ConfigureFullTextIndexMySql(ISqlObjectFactory factory)
+        {
+            bool Exists()
+            {
+                return Def.SqlIoByAdmin(factory: factory)
+                    .ExecuteTable(
+                        factory: factory,
+                        commandText: Def.Sql.ExistsFullText
+                            .Replace("#InitialCatalog#", Environments.ServiceName))
+                    .Rows.Count == 1;
+            }
+            if (!Exists())
+            {
+                Def.SqlIoByAdmin(factory: factory)
+                    .ExecuteNonQuery(
+                        factory: factory,
+                        dbTransaction: null,
+                        dbConnection: null,
+                        commandText: Def.Sql.CreateFullText);
             }
         }
 
@@ -150,10 +175,7 @@ namespace Implem.CodeDefiner.Functions.Rds
                         factory: factory,
                         generalTableName: generalTableName,
                         sourceTableName: sourceTableName,
-                        tableType: tableType),
-                    rdsColumnCollection: Columns.Get(
-                        factory: factory,
-                        sourceTableName: sourceTableName));
+                        tableType: tableType));
             }
             else
             {

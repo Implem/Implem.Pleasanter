@@ -1,0 +1,1 @@
+﻿grant all on "#ServiceName#".* to "#Uid#"@"localhost" with grant option;

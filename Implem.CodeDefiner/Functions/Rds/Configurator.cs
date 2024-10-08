@@ -4,6 +4,7 @@ using Implem.DefinitionAccessor;
 using Implem.IRds;
 using Implem.Libraries.Classes;
 using Implem.Libraries.Utilities;
+using MySqlConnector;
 using Npgsql;
 using System;
 using System.Collections.Generic;
@@ -115,6 +116,10 @@ namespace Implem.CodeDefiner.Functions.Rds
                 case "PostgreSQL":
                     serverName = new NpgsqlConnectionStringBuilder(Parameters.Rds.SaConnectionString).Host;
                     database = new NpgsqlConnectionStringBuilder(Parameters.Rds.SaConnectionString).Database;
+                    break;
+                case "MySQL":
+                    serverName = new MySqlConnectionStringBuilder(Parameters.Rds.SaConnectionString).Server;
+                    database = new MySqlConnectionStringBuilder(Parameters.Rds.SaConnectionString).Database;
                     break;
                 default:
                     serverName = new SqlConnectionStringBuilder(Parameters.Rds.SaConnectionString).DataSource;
