@@ -1736,7 +1736,6 @@ namespace Implem.Pleasanter.Models
                                                     case "Wikis":
                                                         itemTypeCss = " dashboard-part-nav-wiki " + quickAccess.Settings.Css;
                                                         iconName = Strings.CoalesceEmpty(quickAccess.Settings.Icon, "text_snippet");
-
                                                         break;
                                                     default:
                                                         itemTypeCss = " dashboard-part-nav-table " + quickAccess.Settings.Css;
@@ -1755,7 +1754,6 @@ namespace Implem.Pleasanter.Models
                                                            target: quickAccess.Settings.OpenInNewTab
                                                                ? "_blank"
                                                                : null));
-
                                         })));
                 });
         }
