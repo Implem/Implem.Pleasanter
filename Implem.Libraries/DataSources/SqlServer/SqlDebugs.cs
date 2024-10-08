@@ -19,9 +19,10 @@ namespace Implem.Libraries.DataSources.SqlServer
             {
                 case "SQLServer":
                     WriteSqlServerLog(rdsName, sqlCommand, logsPath);
-                        break;
+                    break;
                 case "PostgreSQL":
-                    WritePostgreSqlLog(sqlCommand, logsPath);
+                case "MySQL":
+                    WriteOptionalDbmsLog(sqlCommand, logsPath);
                     break;
             }
         }
@@ -39,7 +40,7 @@ namespace Implem.Libraries.DataSources.SqlServer
             }
         }
                
-        public static void WritePostgreSqlLog(ISqlCommand sqlCommand, string logsPath)
+        public static void WriteOptionalDbmsLog(ISqlCommand sqlCommand, string logsPath)
         {
             var commandTextForDebugging = FormattedCommandText(sqlCommand);
             var parameters = sqlCommand.SqlParameters()

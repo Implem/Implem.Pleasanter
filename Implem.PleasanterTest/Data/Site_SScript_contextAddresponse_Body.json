@@ -15,7 +15,8 @@
     "EditorColumnHash": {
         "General": [
             "Title",
-            "NumA"
+            "NumA",
+            "NumB"
         ]
     },
     "Columns": [
@@ -29,7 +30,7 @@
             "Title": "test",
             "Name": "",
             "BeforeOpeningPage": true,
-            "Body": "try{\n    context.AddResponse('ReplaceAll','#Results_TitleField','<div class=\"field-normal\" id=\"#ServerScriptResponseCollection\" style=\"color:red\">PleasanterTitle</div>');\n    context.AddResponse('Set','NumA',123);\n    if(context.Forms.Item.get('NumA') === 123){\n        context.AddMessage(\"OK\",'alert-information');\n    } else {\n        context.AddMessage(\"NG\",'alert-error');\n    }\n} catch (e) {\n    context.AddMessage(e.stack, 'alert-error');\n}",
+            "Body": "try{\n    context.AddResponse('ReplaceAll','#Results_TitleField','<div class=\"field-normal\" id=\"#ServerScriptResponseCollection\" style=\"color:red\">PleasanterTitle</div>');\n    context.AddResponse('Set','NumA',123);\n    context.ResponseSet('NumB',456)\nfor (let key of context.Forms.Keys){\ncontext.Log(key);\n    context.Log(key + ': ' + context.Forms.Item.get(key));\n}\n    if(context.Forms.Item.get('NumA') == 123 && context.Forms.Item.get('NumB') == 456){\n        context.AddMessage(\"OK\",'alert-information');\n    } else {\n        context.AddMessage(\"NG\",'alert-error');\n    }\n} catch (e) {\n    context.AddMessage(e.stack, 'alert-error');\n}",
             "Id": 1
         }
     ],

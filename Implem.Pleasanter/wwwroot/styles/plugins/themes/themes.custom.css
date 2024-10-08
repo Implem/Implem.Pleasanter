@@ -1,4 +1,4 @@
-/* Reset ---------------------------------------------------------------- */
+﻿/* Reset ---------------------------------------------------------------- */
 body {
     color: var(--base-text);
     background-color: var(--page-bg);
@@ -106,12 +106,15 @@ html .ui-button.ui-state-disabled:active {
 
 /* dialog */
 .ui-dialog {
+    min-width: 400px;
     padding: 0;
-    border: none;
+    border: none!important;
+    background-color: transparent;
     .ui-dialog-titlebar {
+        margin: 16px 16px 0;
         background: var(--base-bg);
-        border: none;
-        border-bottom: 1px solid var(--base-border);
+        border: 1px solid var(--base-border);
+        border-bottom: none;
         color: var(--base-text);
         padding: 8px 16px;
     }
@@ -124,6 +127,12 @@ html .ui-button.ui-state-disabled:active {
             border: none;
             box-shadow: none;
         }
+    }
+    .ui-dialog-content{
+        margin: 0 16px 16px;
+        border: 1px solid var(--base-border);
+        padding: 16px 16px 0 !important;
+        background: var(--base-bg-light);
     }
 }
 
@@ -355,13 +364,10 @@ html .ui-button.ui-state-disabled:active {
         }
     }
     &:not(.has-css) {
-        color: var(--control-text);
-        background-color: var(--control-bg);
         &:focus {
             background-color: var(--control-bg-focus);
         }
         &.not-send{
-            background: var(--control-bg);
             &:not(:has(+ .button-edit-markdown)){
                 background: var(--control-bg-read);
                 pre{
@@ -380,6 +386,23 @@ html .ui-button.ui-state-disabled:active {
         }
     }
 }
+
+textarea,
+select,
+input{
+    color: var(--control-text);
+    background-color: var(--control-bg);
+    &:focus {
+        &:not(.control-spinner) {
+            border: 1px solid var(--control-border-focus);
+        }
+    }
+}
+.ui-widget.ui-state-default.ui-multiselect {
+    color: var(--control-text);
+    background-color: var(--control-bg);
+}
+
 
 /* dummy-field */
 .control-text,
@@ -403,13 +426,22 @@ html .ui-button.ui-state-disabled:active {
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
-
+    &:has(+ .current-user){
+        appearance: none;
+        padding-right: 24px;
+        + .ui-icon{
+            right: 4px;
+            z-index: 2;
+        }
+    }
 }
 
 /* input-field */
 .control-textbox {
     position: relative;
-    padding: 4px 8px 4px 8px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
     &.error {
         border: solid 1px var(--warning-color);
     }
@@ -417,10 +449,17 @@ html .ui-button.ui-state-disabled:active {
         padding: 1px;
     }
     &.datepicker{
+        padding-right: 24px;
         + .ui-icon{
-            right: 2px;
+            right: 4px;
+            z-index: 2;
         }
     }
+}
+
+/* input-spinner */
+.control-spinner{
+    color: var(--control-text);
 }
 
 /* fileUpload */
@@ -476,6 +515,8 @@ html .ui-button.ui-state-disabled:active {
         border: 1px solid var(--control-border);
     }
     .control-markup {
+        color: var(--control-text);
+        background-color: var(--control-bg);
         .md,
         pre {
             color: var(--control-text);
@@ -494,10 +535,36 @@ html .ui-button.ui-state-disabled:active {
     font-weight: lighter;
 }
 
+/* status-color */
 .status-new,
 .status-review {
     color: var(--nonColor02);
 }
+.status-preparation,
+.status-inprogress,
+.status-closed,
+.status-rejected {
+    color: var(--nonColor16);
+}
+.status-new {
+    background: #fff
+}
+.status-preparation {
+    background: #ff8c00
+}
+.status-inprogress {
+    background: #008000
+}
+.status-review {
+    background: #ff0
+}
+.status-closed {
+    background: #00f
+}
+.status-rejected {
+    background: #808080
+}
+
 
 /* user */
 .user {
@@ -593,6 +660,11 @@ html .ui-button.ui-state-disabled:active {
             padding: 4px 8px;
             top: 0;
             color: var(--control-error);
+        }
+    }
+    .control-spinner{
+        ~ .error{
+            top: -10px;
         }
     }
 }
@@ -1550,6 +1622,7 @@ body {
         margin: 0;
         padding: 16px;
         display: flex;
+        gap: 0 20px;
         align-items: center;
         color: var(--base-text);
         background-color: var(--page-bg);
@@ -1558,10 +1631,13 @@ body {
         flex: 1;
         float: none;
         display: flex;
+        gap: 8px 48px;
+        flex-wrap: wrap;
         div,
         p,
         span {
             gap: 8px;
+            margin-right: 0;
             float: none;
             display: flex;
             align-items: center;
@@ -1721,8 +1797,6 @@ body:not(:has(#Editor)){
 /* Module ---------------------------------------------------------------- */
 /* Dialog */
 .dialog {
-    margin-top: 16px;
-    padding: 0 16px !important;
     .fieldset {
         margin: 0;
         + .fieldset:not(.ui-tabs-panel) {
@@ -1942,7 +2016,6 @@ body:not(:has(#Editor)){
         }
         > tbody {
             > tr {
-                background-color: var(--grid-cell-bg);
                 &:hover {
                     background-color: var(--grid-cell-hover);
                     .comment {
@@ -1954,7 +2027,6 @@ body:not(:has(#Editor)){
                 }
                 > th,
                 > td {
-                    border-top: solid 1px var(--grid-cell-border);
                     border-left: solid 1px var(--grid-cell-vborder);
                     border-right: solid 1px var(--grid-cell-vborder);
                 }
@@ -2037,7 +2109,18 @@ body:not(:has(#Editor)){
         }
     }
 }
+.grid-row {
+    border-top: solid 1px var(--grid-cell-border);
+    border-bottom: solid 1px var(--grid-cell-border);
+    background-color: var(--grid-cell-bg);
 
+    /* 一括編集設定 */
+    .ui-widget.ui-state-default.ui-multiselect{
+        width: 100%;
+        white-space: nowrap;
+        max-width: 200px;
+    }
+}
 
 /* Component ---------------------------------------------------------------- */
 /* focus-inform */
@@ -2377,7 +2460,7 @@ body:has(input#Controller[value="syslogs"]){
 
 /* [Dialog] OutgoingMailDialog */
 #OutgoingMailDialog {
-    margin: 0 !important;
+    padding: 0 !important;
 }
 
 /* [Dialog] ExportSitePackage */
@@ -2834,6 +2917,13 @@ body:has(input#Controller[value="syslogs"]){
         background-color: var(--grid-cell-bg);
         &.hover {
             background-color: var(--grid-cell-hover);
+        }
+    }
+    .kamban-row {
+        border-top: solid 1px var(--grid-cell-border);
+        border-bottom: solid 1px var(--grid-cell-border);
+        th{
+            border-bottom: solid 1px var(--grid-cell-border);
         }
     }
     .kamban-item {

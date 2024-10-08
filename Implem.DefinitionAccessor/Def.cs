@@ -1695,12 +1695,6 @@ namespace Implem.DefinitionAccessor
                     case "Depts_Disabled": Column.Depts_Disabled = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Depts_Disabled, definitionRow, ColumnXls); break;
                     case "Depts_TenantId": Column.Depts_TenantId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Depts_TenantId, definitionRow, ColumnXls); break;
                     case "Depts_Title": Column.Depts_Title = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Depts_Title, definitionRow, ColumnXls); break;
-                    case "ExportSettings_AddHeader": Column.ExportSettings_AddHeader = definitionRow[1].ToString(); SetColumnTable(ColumnTable.ExportSettings_AddHeader, definitionRow, ColumnXls); break;
-                    case "ExportSettings_ExportColumns": Column.ExportSettings_ExportColumns = definitionRow[1].ToString(); SetColumnTable(ColumnTable.ExportSettings_ExportColumns, definitionRow, ColumnXls); break;
-                    case "ExportSettings_ExportSettingId": Column.ExportSettings_ExportSettingId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.ExportSettings_ExportSettingId, definitionRow, ColumnXls); break;
-                    case "ExportSettings_ReferenceId": Column.ExportSettings_ReferenceId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.ExportSettings_ReferenceId, definitionRow, ColumnXls); break;
-                    case "ExportSettings_ReferenceType": Column.ExportSettings_ReferenceType = definitionRow[1].ToString(); SetColumnTable(ColumnTable.ExportSettings_ReferenceType, definitionRow, ColumnXls); break;
-                    case "ExportSettings_Title": Column.ExportSettings_Title = definitionRow[1].ToString(); SetColumnTable(ColumnTable.ExportSettings_Title, definitionRow, ColumnXls); break;
                     case "Extensions_Body": Column.Extensions_Body = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Extensions_Body, definitionRow, ColumnXls); break;
                     case "Extensions_Description": Column.Extensions_Description = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Extensions_Description, definitionRow, ColumnXls); break;
                     case "Extensions_Disabled": Column.Extensions_Disabled = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Extensions_Disabled, definitionRow, ColumnXls); break;
@@ -2031,14 +2025,6 @@ namespace Implem.DefinitionAccessor
                     case "Depts_Updator": Column.Depts_Updator = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Depts_Updator, definitionRow, ColumnXls); break;
                     case "Depts_Ver": Column.Depts_Ver = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Depts_Ver, definitionRow, ColumnXls); break;
                     case "Depts_VerUp": Column.Depts_VerUp = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Depts_VerUp, definitionRow, ColumnXls); break;
-                    case "ExportSettings_Comments": Column.ExportSettings_Comments = definitionRow[1].ToString(); SetColumnTable(ColumnTable.ExportSettings_Comments, definitionRow, ColumnXls); break;
-                    case "ExportSettings_CreatedTime": Column.ExportSettings_CreatedTime = definitionRow[1].ToString(); SetColumnTable(ColumnTable.ExportSettings_CreatedTime, definitionRow, ColumnXls); break;
-                    case "ExportSettings_Creator": Column.ExportSettings_Creator = definitionRow[1].ToString(); SetColumnTable(ColumnTable.ExportSettings_Creator, definitionRow, ColumnXls); break;
-                    case "ExportSettings_Timestamp": Column.ExportSettings_Timestamp = definitionRow[1].ToString(); SetColumnTable(ColumnTable.ExportSettings_Timestamp, definitionRow, ColumnXls); break;
-                    case "ExportSettings_UpdatedTime": Column.ExportSettings_UpdatedTime = definitionRow[1].ToString(); SetColumnTable(ColumnTable.ExportSettings_UpdatedTime, definitionRow, ColumnXls); break;
-                    case "ExportSettings_Updator": Column.ExportSettings_Updator = definitionRow[1].ToString(); SetColumnTable(ColumnTable.ExportSettings_Updator, definitionRow, ColumnXls); break;
-                    case "ExportSettings_Ver": Column.ExportSettings_Ver = definitionRow[1].ToString(); SetColumnTable(ColumnTable.ExportSettings_Ver, definitionRow, ColumnXls); break;
-                    case "ExportSettings_VerUp": Column.ExportSettings_VerUp = definitionRow[1].ToString(); SetColumnTable(ColumnTable.ExportSettings_VerUp, definitionRow, ColumnXls); break;
                     case "Extensions_Comments": Column.Extensions_Comments = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Extensions_Comments, definitionRow, ColumnXls); break;
                     case "Extensions_CreatedTime": Column.Extensions_CreatedTime = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Extensions_CreatedTime, definitionRow, ColumnXls); break;
                     case "Extensions_Creator": Column.Extensions_Creator = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Extensions_Creator, definitionRow, ColumnXls); break;
@@ -2397,6 +2383,11 @@ namespace Implem.DefinitionAccessor
                                 data.ToInt();
                             newColumnDefinition.SavedPk = newColumnDefinition.Pk;
                             break;
+                        case "PkMySql":
+                            newColumnDefinition.PkMySql = customDefinitionRow.Get("PkMySql")?.ToInt() ??
+                                data.ToInt();
+                            newColumnDefinition.SavedPkMySql = newColumnDefinition.PkMySql;
+                            break;
                         case "PkOrderBy":
                             newColumnDefinition.PkOrderBy = customDefinitionRow.Get("PkOrderBy")?.ToString() ??
                                 data.ToString();
@@ -2406,6 +2397,11 @@ namespace Implem.DefinitionAccessor
                             newColumnDefinition.PkHistory = customDefinitionRow.Get("PkHistory")?.ToInt() ??
                                 data.ToInt();
                             newColumnDefinition.SavedPkHistory = newColumnDefinition.PkHistory;
+                            break;
+                        case "PkHistoryMySql":
+                            newColumnDefinition.PkHistoryMySql = customDefinitionRow.Get("PkHistoryMySql")?.ToInt() ??
+                                data.ToInt();
+                            newColumnDefinition.SavedPkHistoryMySql = newColumnDefinition.PkHistoryMySql;
                             break;
                         case "PkHistoryOrderBy":
                             newColumnDefinition.PkHistoryOrderBy = customDefinitionRow.Get("PkHistoryOrderBy")?.ToString() ??
@@ -2952,8 +2948,10 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("MaxLength")) { definition.MaxLength = definitionRow["MaxLength"].ToInt(); definition.SavedMaxLength = definition.MaxLength; }
             if (definitionRow.ContainsKey("Size")) { definition.Size = definitionRow["Size"].ToString(); definition.SavedSize = definition.Size; }
             if (definitionRow.ContainsKey("Pk")) { definition.Pk = definitionRow["Pk"].ToInt(); definition.SavedPk = definition.Pk; }
+            if (definitionRow.ContainsKey("PkMySql")) { definition.PkMySql = definitionRow["PkMySql"].ToInt(); definition.SavedPkMySql = definition.PkMySql; }
             if (definitionRow.ContainsKey("PkOrderBy")) { definition.PkOrderBy = definitionRow["PkOrderBy"].ToString(); definition.SavedPkOrderBy = definition.PkOrderBy; }
             if (definitionRow.ContainsKey("PkHistory")) { definition.PkHistory = definitionRow["PkHistory"].ToInt(); definition.SavedPkHistory = definition.PkHistory; }
+            if (definitionRow.ContainsKey("PkHistoryMySql")) { definition.PkHistoryMySql = definitionRow["PkHistoryMySql"].ToInt(); definition.SavedPkHistoryMySql = definition.PkHistoryMySql; }
             if (definitionRow.ContainsKey("PkHistoryOrderBy")) { definition.PkHistoryOrderBy = definitionRow["PkHistoryOrderBy"].ToString(); definition.SavedPkHistoryOrderBy = definition.PkHistoryOrderBy; }
             if (definitionRow.ContainsKey("Ix1")) { definition.Ix1 = definitionRow["Ix1"].ToInt(); definition.SavedIx1 = definition.Ix1; }
             if (definitionRow.ContainsKey("Ix1OrderBy")) { definition.Ix1OrderBy = definitionRow["Ix1OrderBy"].ToString(); definition.SavedIx1OrderBy = definition.Ix1OrderBy; }
@@ -5764,8 +5762,10 @@ namespace Implem.DefinitionAccessor
                         case "MaxLength": columnDefinition.MaxLength = optionValue.ToInt(); break;
                         case "Size": columnDefinition.Size = optionValue.ToString(); break;
                         case "Pk": columnDefinition.Pk = optionValue.ToInt(); break;
+                        case "PkMySql": columnDefinition.PkMySql = optionValue.ToInt(); break;
                         case "PkOrderBy": columnDefinition.PkOrderBy = optionValue.ToString(); break;
                         case "PkHistory": columnDefinition.PkHistory = optionValue.ToInt(); break;
+                        case "PkHistoryMySql": columnDefinition.PkHistoryMySql = optionValue.ToInt(); break;
                         case "PkHistoryOrderBy": columnDefinition.PkHistoryOrderBy = optionValue.ToString(); break;
                         case "Ix1": columnDefinition.Ix1 = optionValue.ToInt(); break;
                         case "Ix1OrderBy": columnDefinition.Ix1OrderBy = optionValue.ToString(); break;
@@ -8512,8 +8512,10 @@ namespace Implem.DefinitionAccessor
         public int MaxLength; public int SavedMaxLength;
         public string Size; public string SavedSize;
         public int Pk; public int SavedPk;
+        public int PkMySql; public int SavedPkMySql;
         public string PkOrderBy; public string SavedPkOrderBy;
         public int PkHistory; public int SavedPkHistory;
+        public int PkHistoryMySql; public int SavedPkHistoryMySql;
         public string PkHistoryOrderBy; public string SavedPkHistoryOrderBy;
         public int Ix1; public int SavedIx1;
         public string Ix1OrderBy; public string SavedIx1OrderBy;
@@ -8653,8 +8655,10 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("MaxLength")) MaxLength = propertyCollection["MaxLength"].ToInt(); else MaxLength = 0;
             if (propertyCollection.ContainsKey("Size")) Size = propertyCollection["Size"].ToString(); else Size = string.Empty;
             if (propertyCollection.ContainsKey("Pk")) Pk = propertyCollection["Pk"].ToInt(); else Pk = 0;
+            if (propertyCollection.ContainsKey("PkMySql")) PkMySql = propertyCollection["PkMySql"].ToInt(); else PkMySql = 0;
             if (propertyCollection.ContainsKey("PkOrderBy")) PkOrderBy = propertyCollection["PkOrderBy"].ToString(); else PkOrderBy = string.Empty;
             if (propertyCollection.ContainsKey("PkHistory")) PkHistory = propertyCollection["PkHistory"].ToInt(); else PkHistory = 0;
+            if (propertyCollection.ContainsKey("PkHistoryMySql")) PkHistoryMySql = propertyCollection["PkHistoryMySql"].ToInt(); else PkHistoryMySql = 0;
             if (propertyCollection.ContainsKey("PkHistoryOrderBy")) PkHistoryOrderBy = propertyCollection["PkHistoryOrderBy"].ToString(); else PkHistoryOrderBy = string.Empty;
             if (propertyCollection.ContainsKey("Ix1")) Ix1 = propertyCollection["Ix1"].ToInt(); else Ix1 = 0;
             if (propertyCollection.ContainsKey("Ix1OrderBy")) Ix1OrderBy = propertyCollection["Ix1OrderBy"].ToString(); else Ix1OrderBy = string.Empty;
@@ -8794,8 +8798,10 @@ namespace Implem.DefinitionAccessor
                     case "MaxLength": return MaxLength;
                     case "Size": return Size;
                     case "Pk": return Pk;
+                    case "PkMySql": return PkMySql;
                     case "PkOrderBy": return PkOrderBy;
                     case "PkHistory": return PkHistory;
+                    case "PkHistoryMySql": return PkHistoryMySql;
                     case "PkHistoryOrderBy": return PkHistoryOrderBy;
                     case "Ix1": return Ix1;
                     case "Ix1OrderBy": return Ix1OrderBy;
@@ -8935,8 +8941,10 @@ namespace Implem.DefinitionAccessor
             MaxLength = SavedMaxLength;
             Size = SavedSize;
             Pk = SavedPk;
+            PkMySql = SavedPkMySql;
             PkOrderBy = SavedPkOrderBy;
             PkHistory = SavedPkHistory;
+            PkHistoryMySql = SavedPkHistoryMySql;
             PkHistoryOrderBy = SavedPkHistoryOrderBy;
             Ix1 = SavedIx1;
             Ix1OrderBy = SavedIx1OrderBy;
@@ -9094,12 +9102,6 @@ namespace Implem.DefinitionAccessor
         public string Depts_Disabled;
         public string Depts_TenantId;
         public string Depts_Title;
-        public string ExportSettings_AddHeader;
-        public string ExportSettings_ExportColumns;
-        public string ExportSettings_ExportSettingId;
-        public string ExportSettings_ReferenceId;
-        public string ExportSettings_ReferenceType;
-        public string ExportSettings_Title;
         public string Extensions_Body;
         public string Extensions_Description;
         public string Extensions_Disabled;
@@ -9430,14 +9432,6 @@ namespace Implem.DefinitionAccessor
         public string Depts_Updator;
         public string Depts_Ver;
         public string Depts_VerUp;
-        public string ExportSettings_Comments;
-        public string ExportSettings_CreatedTime;
-        public string ExportSettings_Creator;
-        public string ExportSettings_Timestamp;
-        public string ExportSettings_UpdatedTime;
-        public string ExportSettings_Updator;
-        public string ExportSettings_Ver;
-        public string ExportSettings_VerUp;
         public string Extensions_Comments;
         public string Extensions_CreatedTime;
         public string Extensions_Creator;
@@ -9676,12 +9670,6 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Depts_Disabled = new ColumnDefinition();
         public ColumnDefinition Depts_TenantId = new ColumnDefinition();
         public ColumnDefinition Depts_Title = new ColumnDefinition();
-        public ColumnDefinition ExportSettings_AddHeader = new ColumnDefinition();
-        public ColumnDefinition ExportSettings_ExportColumns = new ColumnDefinition();
-        public ColumnDefinition ExportSettings_ExportSettingId = new ColumnDefinition();
-        public ColumnDefinition ExportSettings_ReferenceId = new ColumnDefinition();
-        public ColumnDefinition ExportSettings_ReferenceType = new ColumnDefinition();
-        public ColumnDefinition ExportSettings_Title = new ColumnDefinition();
         public ColumnDefinition Extensions_Body = new ColumnDefinition();
         public ColumnDefinition Extensions_Description = new ColumnDefinition();
         public ColumnDefinition Extensions_Disabled = new ColumnDefinition();
@@ -10012,14 +10000,6 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Depts_Updator = new ColumnDefinition();
         public ColumnDefinition Depts_Ver = new ColumnDefinition();
         public ColumnDefinition Depts_VerUp = new ColumnDefinition();
-        public ColumnDefinition ExportSettings_Comments = new ColumnDefinition();
-        public ColumnDefinition ExportSettings_CreatedTime = new ColumnDefinition();
-        public ColumnDefinition ExportSettings_Creator = new ColumnDefinition();
-        public ColumnDefinition ExportSettings_Timestamp = new ColumnDefinition();
-        public ColumnDefinition ExportSettings_UpdatedTime = new ColumnDefinition();
-        public ColumnDefinition ExportSettings_Updator = new ColumnDefinition();
-        public ColumnDefinition ExportSettings_Ver = new ColumnDefinition();
-        public ColumnDefinition ExportSettings_VerUp = new ColumnDefinition();
         public ColumnDefinition Extensions_Comments = new ColumnDefinition();
         public ColumnDefinition Extensions_CreatedTime = new ColumnDefinition();
         public ColumnDefinition Extensions_Creator = new ColumnDefinition();
@@ -13618,20 +13598,15 @@ namespace Implem.DefinitionAccessor
     /// </summary>
     public class SqlColumn2nd
     {
-        public string BeginTransaction;
-        public string CommitTransaction;
         public string HasPermission;
         public string CanReadSites;
         public string CanRead;
-        public string SiteDepts;
         public string ProgressRateDelay;
         public string MoveTarget;
         public string StartTimeColumn;
         public string CompletionTimeColumn;
         public string IfDuplicated;
-        public string IfConflicted;
         public string SelectIdentity;
-        public string TruncateTemplate;
         public string ExistsDatabase;
         public string CreateDatabase;
         public string SpWho;
@@ -13654,15 +13629,11 @@ namespace Implem.DefinitionAccessor
         public string DropIndex;
         public string MigrateTableWithIdentity;
         public string MigrateTable;
-        public string BulkInsert;
         public string Identity;
         public string Spaceused;
         public string SelectPkName;
+        public string ExistsFullText;
         public string CreateFullText;
-        public string ExistsLoginRole;
-        public string DropLoginRole;
-        public string DropUser;
-        public string CreateLoginRole;
         public string ExistsSchema;
         public string CreateSchema;
         public string CreateDatabaseForPostgres;
@@ -13680,6 +13651,7 @@ namespace Implem.DefinitionAccessor
         public string RefreshAllChildMembers;
         public string LdapUpdateGroupMembersAndChildren;
         public string AdGroupDeleteToDisable;
+        public string ModifyColumn;
     }
 
     /// <summary>
@@ -13687,20 +13659,15 @@ namespace Implem.DefinitionAccessor
     /// </summary>
     public class SqlTable
     {
-        public SqlDefinition BeginTransaction = new SqlDefinition();
-        public SqlDefinition CommitTransaction = new SqlDefinition();
         public SqlDefinition HasPermission = new SqlDefinition();
         public SqlDefinition CanReadSites = new SqlDefinition();
         public SqlDefinition CanRead = new SqlDefinition();
-        public SqlDefinition SiteDepts = new SqlDefinition();
         public SqlDefinition ProgressRateDelay = new SqlDefinition();
         public SqlDefinition MoveTarget = new SqlDefinition();
         public SqlDefinition StartTimeColumn = new SqlDefinition();
         public SqlDefinition CompletionTimeColumn = new SqlDefinition();
         public SqlDefinition IfDuplicated = new SqlDefinition();
-        public SqlDefinition IfConflicted = new SqlDefinition();
         public SqlDefinition SelectIdentity = new SqlDefinition();
-        public SqlDefinition TruncateTemplate = new SqlDefinition();
         public SqlDefinition ExistsDatabase = new SqlDefinition();
         public SqlDefinition CreateDatabase = new SqlDefinition();
         public SqlDefinition SpWho = new SqlDefinition();
@@ -13723,10 +13690,10 @@ namespace Implem.DefinitionAccessor
         public SqlDefinition DropIndex = new SqlDefinition();
         public SqlDefinition MigrateTableWithIdentity = new SqlDefinition();
         public SqlDefinition MigrateTable = new SqlDefinition();
-        public SqlDefinition BulkInsert = new SqlDefinition();
         public SqlDefinition Identity = new SqlDefinition();
         public SqlDefinition Spaceused = new SqlDefinition();
         public SqlDefinition SelectPkName = new SqlDefinition();
+        public SqlDefinition ExistsFullText = new SqlDefinition();
         public SqlDefinition CreateFullText = new SqlDefinition();
         public SqlDefinition ExistsSchema = new SqlDefinition();
         public SqlDefinition CreateSchema = new SqlDefinition();
@@ -13734,5 +13701,6 @@ namespace Implem.DefinitionAccessor
         public SqlDefinition CreateUserForPostgres = new SqlDefinition();
         public SqlDefinition ChangeDatabaseOwnerForPostgres = new SqlDefinition();
         public SqlDefinition GrantDatabaseForPostgres = new SqlDefinition();
+        public SqlDefinition ModifyColumn = new SqlDefinition();
     }
 }
