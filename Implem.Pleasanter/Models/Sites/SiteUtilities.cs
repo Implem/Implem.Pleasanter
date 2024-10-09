@@ -4940,6 +4940,8 @@ namespace Implem.Pleasanter.Models
                                         .Id("FieldSetSiteAccessControl")
                                         .DataAction("Permissions")
                                         .DataMethod("post"),
+                                    hasInnerDiv: true,
+                                    innerId: "FieldSetSiteAccessControlEditor",
                                     _using: context.CanManagePermission(ss: ss))
                                 .FieldSet(
                                     attributes: new HtmlAttributes()

@@ -1652,6 +1652,8 @@ namespace Implem.Pleasanter.Models
                                         .Id("FieldSetRecordAccessControl")
                                         .DataAction("Permissions")
                                         .DataMethod("post"),
+                                    hasInnerDiv: true,
+                                    innerId: "FieldSetRecordAccessControlEditor",
                                     _using: context.CanManagePermission(ss: ss)
                                         && !ss.Locked()
                                         && issueModel.MethodType != BaseModel.MethodTypes.New)

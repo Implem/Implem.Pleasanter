@@ -79,7 +79,7 @@ namespace Implem.Pleasanter.Models
                         .ToJson();
                 default:
                     return new ResponseCollection(context: context)
-                        .Html(selector, hb.Permission(
+                        .Html(selector + "Editor", hb.Permission(
                             context: context,
                             siteModel: siteModel,
                             referenceId: referenceId,
@@ -129,30 +129,28 @@ namespace Implem.Pleasanter.Models
             var disableRecordPermission = site
                 ? false
                 : ss.PermissionForUpdating?.Any() == true;
-            return hb.Div(
-                css: "fieldset-inner",
-                action: () => hb.FieldSet(
-                    id: "FieldSetPermissionEditor",
-                    css: " enclosed",
-                    legendText: Displays.PermissionSetting(context: context),
-                    action: () => hb
-                        .Inherit(
+            return hb.FieldSet(
+                id: "FieldSetPermissionEditor",
+                css: " enclosed",
+                legendText: Displays.PermissionSetting(context: context),
+                action: () => hb
+                    .Inherit(
+                        context: context,
+                        siteModel: siteModel,
+                        site: site)
+                    .Div(id: "PermissionEditor", action: () => hb
+                        .PermissionEditor(
                             context: context,
-                            siteModel: siteModel,
-                            site: site)
-                        .Div(id: "PermissionEditor", action: () => hb
-                            .PermissionEditor(
-                                context: context,
-                                ss: ss,
-                                referenceId: referenceId,
-                                disableRecordPermission: disableRecordPermission,
-                                _using: !site || siteModel.SiteId == siteModel.InheritPermission))
-                        .FieldCheckBox(
-                            controlId: "NoDisplayIfReadOnly",
-                            fieldCss: "field-auto-thin both",
-                            labelText: Displays.NoDisplayIfReadOnly(context: context),
-                            _checked: ss.NoDisplayIfReadOnly,
-                            _using: site)));
+                            ss: ss,
+                            referenceId: referenceId,
+                            disableRecordPermission: disableRecordPermission,
+                            _using: !site || siteModel.SiteId == siteModel.InheritPermission))
+                    .FieldCheckBox(
+                        controlId: "NoDisplayIfReadOnly",
+                        fieldCss: "field-auto-thin both",
+                        labelText: Displays.NoDisplayIfReadOnly(context: context),
+                        _checked: ss.NoDisplayIfReadOnly,
+                        _using: site));
         }
 
         /// <summary>
@@ -1279,7 +1277,7 @@ namespace Implem.Pleasanter.Models
                     new HtmlBuilder().FieldSetRecordAccessControl(
                         context: context,
                         ss: ss))
-                .RemoveAttr("#FieldSetRecordAccessControlEditor", "data-action")
+                .RemoveAttr("#FieldSetRecordAccessControl", "data-action")
                 .ToJson();
         }
 
@@ -1954,7 +1952,7 @@ namespace Implem.Pleasanter.Models
                     new HtmlBuilder().ColumnAccessControl(
                         context: context,
                         ss: ss))
-                .RemoveAttr("#FieldSetColumnAccessControlEditor", "data-action")
+                .RemoveAttr("#FieldSetColumnAccessControl", "data-action")
                 .ToJson();
         }
 
