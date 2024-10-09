@@ -214,28 +214,6 @@ namespace Implem.Pleasanter.Models
                 pageSize: ss.GridPageSize.ToInt());
         }
 
-        public static HtmlBuilder TableSet(
-            this HtmlBuilder hb,
-            string id = null,
-            string css = null,
-            HtmlAttributes attributes = null,
-            bool _using = true,
-            Action action = null)
-        {
-            return _using
-                ? hb.Div(
-                    id: !id.IsNullOrEmpty()
-                        ? id + "Wrap"
-                        : string.Empty,
-                    css: "table-wrap",
-                    action: () => hb.Table(
-                        id: id,
-                        css: css,
-                        attributes: attributes,
-                        action: action))
-                : hb;
-        }
-
         private static HtmlBuilder Grid(
             this HtmlBuilder hb,
             Context context,
