@@ -43,7 +43,7 @@ namespace Implem.PleasanterTest.Tests.Items
                     target: "#FieldSetRecordAccessControlEditor"),
                 JsonData.ExistsOne(
                     method: "RemoveAttr",
-                    target: "#FieldSetRecordAccessControlEditor"));
+                    target: "#FieldSetRecordAccessControl"));
             var testParts = new List<TestPart>()
             {
                 new TestPart(
