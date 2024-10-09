@@ -261,7 +261,7 @@ namespace Implem.Pleasanter.Models
                 view: view,
                 checkPermission: true);
             return hb
-                .Table(
+                .TableSet(
                     attributes: new HtmlAttributes()
                         .Id($"Grid{suffix}")
                         .Class(ss.GridCss(context: context))
@@ -1715,7 +1715,7 @@ namespace Implem.Pleasanter.Models
                     .FieldSet(
                         id: name + "Grid",
                         action: () => hb
-                            .Table(css: "grid", action: () => hb
+                            .TableSet(css: "grid", action: () => hb
                                 .THead(action: () => hb
                                     .GridHeader(
                                         context: context,
@@ -5546,7 +5546,7 @@ namespace Implem.Pleasanter.Models
                 css: "fieldset-inner",
                 action: () => hb
                     .HistoryCommands(context: context, ss: ss)
-                    .Table(
+                    .TableSet(
                         attributes: new HtmlAttributes().Class("grid history"),
                         action: () => hb
                             .THead(action: () => hb

@@ -702,7 +702,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     context: context,
                     dataRows: dataRows);
             }
-            return hb.Table(
+            return hb.TableSet(
                 id: dataTableName,
                 css: "grid" + (ss.GetNoDisplayIfReadOnly(context: context)
                     ? " not-link"

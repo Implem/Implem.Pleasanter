@@ -250,8 +250,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 view: view,
                 checkPermission: true);
-            return hb
-                .Table(
+            return hb.TableSet(
                     attributes: new HtmlAttributes()
                         .Id($"Grid{suffix}")
                         .Class(ss.GridCss(context: context))
@@ -1602,7 +1601,7 @@ namespace Implem.Pleasanter.Models
                 css: "fieldset-inner",
                 action: () => hb
                     .HistoryCommands(context: context, ss: ss)
-                    .Table(
+                    .TableSet(
                         attributes: new HtmlAttributes().Class("grid history"),
                         action: () => hb
                             .THead(action: () => hb
@@ -5828,7 +5827,7 @@ namespace Implem.Pleasanter.Models
         {
             var selected = context.Forms.Data("EditBulkUpdateColumns")
                 .Deserialize<IEnumerable<int>>();
-            return hb.Table(
+            return hb.TableSet(
                 id: "EditBulkUpdateColumns",
                 css: "grid",
                 attributes: new HtmlAttributes()
@@ -8352,7 +8351,7 @@ namespace Implem.Pleasanter.Models
         {
             var selected = context.Forms.Data("EditSummary").Deserialize<IEnumerable<int>>();
             return hb
-                .Table(
+                .TableSet(
                     id: "EditSummary",
                     css: "grid",
                     attributes: new HtmlAttributes()
@@ -8809,7 +8808,7 @@ namespace Implem.Pleasanter.Models
         {
             var selected = context.Forms.Data("EditFormula").Deserialize<IEnumerable<int>>();
             return hb
-                .Table(
+                .TableSet(
                     id: "EditFormula",
                     css: "grid",
                     attributes: new HtmlAttributes()
@@ -9104,7 +9103,7 @@ namespace Implem.Pleasanter.Models
         {
             var selected = context.Forms.Data("EditProcess").Deserialize<IEnumerable<int>>();
             return hb
-                .Table(
+                .TableSet(
                     id: "EditProcess",
                     css: "grid",
                     attributes: new HtmlAttributes()
@@ -9585,7 +9584,7 @@ namespace Implem.Pleasanter.Models
             SettingList<ValidateInput> validateInputs)
         {
             var selected = context.Forms.Data("EditProcessValidateInput").Deserialize<IEnumerable<int>>();
-            return hb.Table(
+            return hb.TableSet(
                 id: "EditProcessValidateInput",
                 css: "grid",
                 attributes: new HtmlAttributes()
@@ -9969,7 +9968,7 @@ namespace Implem.Pleasanter.Models
             SettingList<DataChange> dataChanges)
         {
             var selected = context.Forms.Data("EditProcessDataChange").Deserialize<IEnumerable<int>>();
-            return hb.Table(
+            return hb.TableSet(
                 id: "EditProcessDataChange",
                 css: "grid",
                 attributes: new HtmlAttributes()
@@ -10328,7 +10327,7 @@ namespace Implem.Pleasanter.Models
             SettingList<Notification> notifications)
         {
             var selected = context.Forms.Data("EditProcessNotification").Deserialize<IEnumerable<int>>();
-            return hb.Table(
+            return hb.TableSet(
                 id: "EditProcessNotification",
                 css: "grid",
                 attributes: new HtmlAttributes()
@@ -10571,7 +10570,7 @@ namespace Implem.Pleasanter.Models
         {
             var selected = context.Forms.Data("EditStatusControl").Deserialize<IEnumerable<int>>();
             return hb
-                .Table(
+                .TableSet(
                     id: "EditStatusControl",
                     css: "grid",
                     attributes: new HtmlAttributes()
@@ -12365,7 +12364,7 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
             var selected = context.Forms.Data("EditNotification").Deserialize<IEnumerable<int>>();
-            return hb.Table(
+            return hb.TableSet(
                 id: "EditNotification",
                 css: "grid",
                 attributes: new HtmlAttributes()
@@ -12869,7 +12868,7 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
             var selected = context.Forms.Data("EditReminder").Deserialize<IEnumerable<int>>();
-            return hb.Table(
+            return hb.TableSet(
                 id: "EditReminder",
                 css: "grid",
                 attributes: new HtmlAttributes()
@@ -13330,7 +13329,7 @@ namespace Implem.Pleasanter.Models
         public static HtmlBuilder EditExport(this HtmlBuilder hb, Context context, SiteSettings ss)
         {
             var selected = context.Forms.Data("EditExport").Deserialize<IEnumerable<int>>();
-            return hb.Table(
+            return hb.TableSet(
                 id: "EditExport",
                 css: "grid",
                 attributes: new HtmlAttributes()
@@ -14205,7 +14204,7 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
             var selected = context.Forms.Data("EditStyle").Deserialize<IEnumerable<int>>();
-            return hb.Table(
+            return hb.TableSet(
                 id: "EditStyle",
                 css: "grid",
                 attributes: new HtmlAttributes()
@@ -14587,7 +14586,7 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
             var selected = context.Forms.Data("EditScript").Deserialize<IEnumerable<int>>();
-            return hb.Table(
+            return hb.TableSet(
                 id: "EditScript",
                 css: "grid",
                 attributes: new HtmlAttributes()
@@ -14971,7 +14970,7 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
             var selected = context.Forms.Data("EditHtml").Deserialize<IEnumerable<int>>();
-            return hb.Table(
+            return hb.TableSet(
                 id: "EditHtml",
                 css: "grid",
                 attributes: new HtmlAttributes()
@@ -15407,7 +15406,7 @@ namespace Implem.Pleasanter.Models
         public static HtmlBuilder EditServerScript(this HtmlBuilder hb, Context context, SiteSettings ss)
         {
             var selected = context.Forms.Data("EditServerScript").Deserialize<IEnumerable<int>>();
-            return hb.Table(
+            return hb.TableSet(
                 id: "EditServerScript",
                 css: "grid",
                 attributes: new HtmlAttributes()
@@ -15881,7 +15880,7 @@ namespace Implem.Pleasanter.Models
         {
             var selected = context.Forms.Data("EditRelatingColumns")
                 .Deserialize<IEnumerable<int>>();
-            return hb.Table(
+            return hb.TableSet(
                 id: "EditRelatingColumns",
                 css: "grid",
                 attributes: new HtmlAttributes()
@@ -16008,7 +16007,7 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
             var selected = context.Forms.Data("EditDashboardPart").Deserialize<IEnumerable<int>>();
-            return hb.Table(
+            return hb.TableSet(
                 id: "EditDashboardPart",
                 css: "grid",
                 attributes: new HtmlAttributes()
