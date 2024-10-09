@@ -193,6 +193,13 @@ html .ui-button.ui-state-disabled:active {
     }
     .ui-tabs-panel {
         padding: 16px;
+        &:has(> .fieldset-inner){
+            padding: 0;
+            > .fieldset-inner{
+                padding: 16px;
+                overflow: hidden;
+            }
+        }
     }
 }
 
@@ -630,10 +637,6 @@ input{
     }
     &:has(> .fieldset-inner){
         display: contents;
-        padding: 0;
-        > .fieldset-inner{
-            padding: 16px;
-        }
     }
 }
 /* field-vertical */
