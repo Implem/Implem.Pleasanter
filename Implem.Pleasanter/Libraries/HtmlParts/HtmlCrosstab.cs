@@ -277,9 +277,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             var max = data.Any() && columns == null
                 ? data.Select(o => o.Value.Value).Max()
                 : 0;
-            return hb.TableSet(
+            return hb.GridTable(
                 id: "Grid",
-                css: "grid fixed",
+                css: "fixed",
                 action: () => hb
                     .THead(action: () => hb
                         .Tr(css: "ui-widget-header", action: () =>

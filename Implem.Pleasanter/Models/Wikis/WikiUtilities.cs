@@ -2623,8 +2623,8 @@ namespace Implem.Pleasanter.Models
                 css: "fieldset-inner",
                 action: () => hb
                     .HistoryCommands(context: context, ss: ss)
-                    .TableSet(
-                        attributes: new HtmlAttributes().Class("grid history"),
+                    .GridTable(
+                        css: "history",
                         action: () => hb
                             .THead(action: () => hb
                                 .GridHeader(

@@ -63,7 +63,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Sum())
                     .Distinct()
                     .ToList();
-                hb.TableSet(id: "BurnDownDetails", css: "grid not-link", action: () => hb
+                hb.GridTable(id: "BurnDownDetails", css: "not-link", action: () => hb
                     .THead(action: () => hb.DetailsHeader(
                         context: context,
                         burnDown: burnDown,

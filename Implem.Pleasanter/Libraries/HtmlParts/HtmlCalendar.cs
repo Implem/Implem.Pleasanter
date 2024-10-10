@@ -399,11 +399,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             DateTime begin,
             Dictionary<string, ControlData> choices)
         {
-            return hb.TableSet(
+            return hb.GridTable(
                 id: ss.DashboardParts.Count == 0
                     ? "Grid"
                     : "",
-                css: "grid fixed",
+                css: "fixed",
                 action: () => hb
                     .THead(action: () => hb
                         .Tr(action: () =>
@@ -461,11 +461,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             DateTime begin,
             Dictionary<string, ControlData> choices)
         {
-            return hb.TableSet(
+            return hb.GridTable(
                 id: ss.DashboardParts.Count == 0
                     ? "Grid"
                     : "",
-                css: "grid fixed",
+                css: "fixed",
                 action: () => hb
                     .THead(action: () => hb
                         .Tr(action: () =>
@@ -535,11 +535,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             DateTime begin,
             Dictionary<string, ControlData> choices)
         {
-            return hb.TableSet(
+            return hb.GridTable(
                 id: ss.DashboardParts.Count == 0
                     ? "Grid"
                     : "",
-                css: "grid fixed",
+                css: "fixed",
                 action: () => hb
                     .THead(action: () => hb
                         .Tr(action: () =>

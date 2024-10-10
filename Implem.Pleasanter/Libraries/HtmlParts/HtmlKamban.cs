@@ -227,11 +227,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Select(o => o.Summary(aggregateType))
                     .Max()
                 : 0;
-            return hb.TableSet(
+            return hb.GridTable(
                 id: ss.DashboardParts.Count == 0
                     ? "Grid"
                     : "",
-                css: "grid fixed",
+                css: "fixed",
                 action: () => hb
                     .THead(action: () => hb
                         .Tr(css: "ui-widget-header", action: () =>

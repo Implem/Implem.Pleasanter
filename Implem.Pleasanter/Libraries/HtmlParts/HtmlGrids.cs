@@ -18,27 +18,36 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlGrids
     {
-    public static HtmlBuilder TableSet(
-        this HtmlBuilder hb,
-        string id = null,
-        string css = null,
-        HtmlAttributes attributes = null,
-        bool _using = true,
-        Action action = null)
-            {
-                return _using
-                    ? hb.Div(
-                        id: !id.IsNullOrEmpty()
-                            ? id + "Wrap"
-                            : string.Empty,
-                        css: "table-wrap",
-                        action: () => hb.Table(
-                            id: id,
-                            css: css,
-                            attributes: attributes,
-                            action: action))
-                    : hb;
+        public static HtmlBuilder GridTable(
+            this HtmlBuilder hb,
+            string id = null,
+            string css = null,
+            HtmlAttributes attributes = null,
+            bool _using = true,
+            Action action = null)
+        {
+            if (attributes != null && _using) {
+                var index = attributes.FindIndex(n => n == "class");
+                if(index != -1)
+                {
+                    attributes[index + 1] = "grid " + attributes[index + 1];
+                }
             }
+            return _using
+                ? hb.Div(
+                    id: !id.IsNullOrEmpty()
+                        ? id + "Wrap"
+                        : string.Empty,
+                    css: "grid-wrap",
+                    action: () => hb.Table(
+                        id: id,
+                        css: css.IsNullOrEmpty()
+                            ? "grid"
+                            : "grid " + css,
+                        attributes: attributes,
+                        action: action))
+                : hb;
+        }
 
         public static HtmlBuilder GridHeader(
             this HtmlBuilder hb,
