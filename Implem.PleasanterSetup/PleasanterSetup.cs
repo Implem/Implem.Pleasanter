@@ -817,14 +817,14 @@ namespace Implem.PleasanterSetup
                 : installDir = configuration["InstallDirForLinux"];
         }
 
-        private void MeetsVersionUpRequirements()
+        private bool MeetsVersionUpRequirements()
         {
             //dllがある場合はバージョンアップ
             var pleasanterDll = Path.Combine(
                     installDir,
                     "Implem.Pleasanter",
                     "Implem.Pleasanter.dll");
-            versionUp = File.Exists(pleasanterDll);
+            return File.Exists(pleasanterDll);
         }
 
         private void SetParameters()
@@ -1006,7 +1006,7 @@ namespace Implem.PleasanterSetup
         {
             AskForInstallDir(directory);
             //Implem.Pleasanter.dllの有無でバージョンアップか判断
-            MeetsVersionUpRequirements();
+            versionUp = MeetsVersionUpRequirements();
             AskForDbms(versionUp);
             AskForServer(versionUp);
             AskForServiceName(versionUp);
@@ -1017,7 +1017,6 @@ namespace Implem.PleasanterSetup
             }
             AskForUserId(versionUp);
             AskForPassword(versionUp);
-            //ComunityEdition＝＞Enterpriseの場合の処理を考える。　ライセンスファイルを指定した場合はEnterpriseEditionにバージョンアップすると判断
             if (File.Exists(licenseZip))
             {
                 //ライセンスがEnterpriseEditionか判定処理
@@ -1025,8 +1024,8 @@ namespace Implem.PleasanterSetup
                 if (enterpriseEdition)
                 {
                     AskForExtendedColums(
-                    extendedColumnsDir,
-                    "Issues");
+                        extendedColumnsDir,
+                        "Issues");
                     AskForExtendedColums(
                         extendedColumnsDir,
                         "Results");
@@ -1051,10 +1050,14 @@ namespace Implem.PleasanterSetup
                 baseFileName,
                 "forNetCore(MultiPlatform)",
                 "Implem.License.dll");
+            return CheckMethodExecute(license);
+        }
+
+        private bool CheckMethodExecute(string license)
+        {
             Assembly assembly = Assembly.LoadFrom(license);
             Type type = assembly.GetType("Implem.License.License");
             object instance = Activator.CreateInstance(type);
-            // Invoke the Check method
             MethodInfo checkMethod = type.GetMethod("Check");
             return Convert.ToBoolean(checkMethod?.Invoke(instance, null));
         }
