@@ -228,7 +228,8 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 view: view,
                 checkPermission: true);
-            return hb.TableSet(
+            return hb
+                .TableSet(
                     attributes: new HtmlAttributes()
                         .Id($"Grid{suffix}")
                         .Class(ss.GridCss(context: context))
