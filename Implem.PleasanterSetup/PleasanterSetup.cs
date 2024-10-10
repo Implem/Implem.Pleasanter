@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Data.Common;
 using System.Diagnostics;
@@ -86,6 +87,7 @@ namespace Implem.PleasanterSetup
                 var backupDir = Path.Combine(
                     Path.GetDirectoryName(installDir),
                     $"{Path.GetFileName(installDir)}{DateTime.Now:_yyyyMMdd_HHmmss}");
+
                 // バージョンアップの場合は既存資源のバックアップを行う
                 if (versionUp)
                 {
@@ -93,30 +95,30 @@ namespace Implem.PleasanterSetup
                         installDir: installDir,
                         destDir: backupDir);
                 }
+
                 // 新しい資源を配置する Gitから落としてくるように変更する必要あり
-                //releasezipがnullじゃないないならオフライン
-                if (!string.IsNullOrEmpty(releasezip))
-                {
-                    SetNewResource(
-                    installDir: installDir,
-                    releaseZip: releasezip);
-                }
-                else
+                //releasezipがnullなら落としてくる
+                if (string.IsNullOrEmpty(releasezip))
                 {
                     //DownloadNewResource(installDir);
                 }
-                //if (versionUp)
-                //{
-                //    SetNewResource(
-                //    installDir: installDir,
-                //    releaseZip: releasezip);
-                //}
-                //else
-                //{
-                //    //DownloadNewResource(installDir);
-                //}
-                //ここにマージ処理を差し込む必要あり
 
+                //新資源の配置
+                SetNewResource(
+                    installDir: installDir,
+                    releaseZip: releasezip);
+
+                //ここにマージ処理を差し込む必要あり
+                if (versionUp)
+                {
+                    //backupの絶対パスと新資源の絶対パスが必要
+                    Merge(
+                        releaseZip: Path.Combine(
+                            installDir),
+                        previous: Path.Combine(
+                            backupDir),
+                        setUpState: setUpState);
+                }
 
 
                 // ユーザがコンソール上で入力した値を各パラメータファイルへ書き込む
@@ -133,25 +135,6 @@ namespace Implem.PleasanterSetup
                     ExistingCopyLicense(
                         installDir: installDir,
                         backupDir: backupDir);
-                }
-
-
-                //この処理はCodeDefinerに置き換わったので削除検討
-                // バージョンアップの場合はパラメータファイルのマージを行う
-                if (versionUp)
-                {
-                    //backupの絶対パスと新資源の絶対パスが必要
-                    Merge(
-                        source: Path.Combine(
-                            backupDir,
-                            "Implem.Pleasanter",
-                            "App_Data",
-                            "Parameters"),
-                        previous: Path.Combine(
-                            installDir,
-                            "Implem.Pleasanter",
-                             "App_Data",
-                            "Parameters"));
                 }
 
                 //ここに入力したパラメータを適用する処理を追加　setPatameters()
@@ -174,37 +157,49 @@ namespace Implem.PleasanterSetup
         }
 
         [Command("merge")]
-        private void Merge(
-            [Option("s")] string source,
+        public void Merge(
+            [Option("r")] string releaseZip,
             [Option("p")] string previous,
-            string patchPath = "")
+            [Option("patch")] string patchPath = "",
+            bool setUpState = false)
         {
-            var currentVersion = FileVersionInfo.GetVersionInfo(
-                Path.Combine(
-                        source,
-                        "Implem.Pleasanter",
-                        "Implem.Pleasanter.dll")).FileVersion;
-            var newVersion = FileVersionInfo.GetVersionInfo(
-                Path.Combine(
-                    previous,
-                    "Implem.Pleasanter",
-                    "Implem.Pleasanter.dll")).FileVersion;
-            //1.4以前の場合にエラー処理
-            if (!Directory.Exists(source))
+            if (!setUpState)
             {
-                logger.LogError($"\"{source}\" does not exist.");
-                return;
+                if (!File.Exists(releaseZip))
+                {
+                    logger.LogError($"\"{releaseZip}\" does not exist.");
+                    return;
+                }
+                if (!Directory.Exists(previous))
+                {
+                    logger.LogError($"\"{previous}\" does not exist.");
+                    return;
+                }
+                //previousを退避
+                var backupDir = Path.Combine(
+                    Path.GetDirectoryName(previous),
+                    $"{Path.GetFileName(previous)}{DateTime.Now:_yyyyMMdd_HHmmss}");
+                // バージョンアップの場合は既存資源のバックアップを行う
+
+                CopyResourceDirectory(
+                    installDir: previous,
+                    destDir: backupDir);
+                //zip解凍
+                if (!string.IsNullOrEmpty(releaseZip))
+                {
+                    SetNewResource(
+                        installDir: previous,
+                        releaseZip: releaseZip);
+                    SetParametersPatch(
+                        previous,
+                        patchPath);
+                    //ライセンスの移動
+                    ExistingCopyLicense(
+                        installDir: previous,
+                        backupDir: backupDir);
+                }
             }
-            if (!Directory.Exists(previous))
-            {
-                logger.LogError($"\"{previous}\" does not exist.");
-                return;
-            }
-            Merger.MergeParametersJson(
-                installDir: installDir,
-                prevPath: previous,
-                currentVersion: currentVersion,
-                newVersion: newVersion);
+
         }
 
         [Command("rds")]
@@ -240,81 +235,6 @@ namespace Implem.PleasanterSetup
                     "Implem.CodeDefiner"),
                 force: force,
                 noinput: noinput);
-        }
-
-        [Command("patch")]
-        public void Patch(
-            [Option("p")] string previous,
-            [Option("r")] string release)
-        {
-            var patchFolderPath = Path.Combine(
-                GetSourcePath(),
-                "Implem.PleasanterSetup",
-                "Patch");
-            var preVerionPath = Path.Combine(
-                previous,
-                "pleasanter",
-                "Implem.Pleasanter",
-                "App_Data",
-                "Parameters");
-            //パッチファイル格納用フォルダの作成処理
-            var newVersionName = Path.GetFileName(release).Replace("Pleasanter_", "");
-            var modifiedVersion = ReplaceVersion(newVersionName);
-            Directory.CreateDirectory(
-                Path.Combine(
-                    patchFolderPath,
-                    modifiedVersion));
-            var newVersionPath = Path.Combine(
-                release,
-                "pleasanter",
-                "Implem.Pleasanter",
-                "App_Data",
-                "Parameters");
-            var createPath = Path.Combine(
-                patchFolderPath,
-                modifiedVersion);
-            CreatePatch(preVerionPath, newVersionPath, createPath);
-        }
-
-        public static string ReplaceVersion(string versionInfo)
-        {
-            var pattern = @"(\d+)\.(\d+)\.(\d+)\.(\d+)";
-            return Regex.Replace(versionInfo, pattern, "0$1.0$2.0$3.0$4");
-        }
-
-        private void CreatePatch(string preVersionPath, string newVersionPath, string createPath, bool createFlag = false)
-        {
-            foreach (var file in Directory.GetFiles(preVersionPath, "*.json", SearchOption.AllDirectories))
-            {
-                var fileName = Path.GetFileName(file);
-                var fileContent = File.ReadAllText(file);
-                var sourceFile = file.Replace(preVersionPath, newVersionPath);
-                var outputFile = Path.GetFullPath(file);
-                if (File.Exists(sourceFile))
-                {
-                    var releaseFileContent = File.ReadAllText(sourceFile);
-                    if (fileContent != releaseFileContent)
-                    {
-                        Console.WriteLine(fileName);
-                        var patchJson = PatchJson.CreatePatch(releaseFileContent, fileContent, createPath);
-                        File.WriteAllText(Path.Combine(
-                                createPath,
-                                fileName),
-                                patchJson);
-                        createFlag = true;
-                    }
-                }
-            }
-        }
-
-        //最終的にはComitterに移動
-        public static string GetSourcePath()
-        {
-            var parts = new DirectoryInfo(
-                Assembly.GetEntryAssembly().Location).FullName.Split(Path.DirectorySeparatorChar);
-            var truncateParts = parts.TakeWhile(part => !part.Contains("Implem.PleasanterSetup"));
-            string sourcePath = Path.Combine(truncateParts.ToArray());
-            return sourcePath;
         }
 
         private bool AskForInstallOrVersionUp()
@@ -1080,17 +1000,26 @@ namespace Implem.PleasanterSetup
                 var unzipDir = Path.Combine(
                     releaseZipDir,
                     "pleasanter");
-                foreach (var dir in Directory.GetDirectories(unzipDir))
+                //同じフォルダで実行した場合にフォルダの移動時にエラーが起きるので条件追加
+                if(unzipDir != installDir)
                 {
-                    Directory.Move(dir, dir.Replace(unzipDir, installDir));
+                    foreach (var dir in Directory.GetDirectories(unzipDir))
+                    {
+                        Directory.Move(dir, dir.Replace(unzipDir, installDir));
+                    }
+                    Directory.Delete(unzipDir);
                 }
-                Directory.Delete(unzipDir);
             }
             else
             {
                 logger.LogError("プリザンターのリリースファイルが存在しません。");
                 return;
             }
+        }
+
+        private void SetParametersPatch(string previous,string patchPath)
+        {
+
         }
 
 
