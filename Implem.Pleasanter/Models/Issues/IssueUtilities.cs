@@ -1815,6 +1815,7 @@ namespace Implem.Pleasanter.Models
                                 text: Displays.Grid(context: context))))
                     .FieldSet(
                         id: name + "Editor",
+                        hasInnerDiv: true,
                         action: () => hb
                             .FieldSetGeneralColumns(
                                 context: context,
@@ -1823,6 +1824,7 @@ namespace Implem.Pleasanter.Models
                                 preview: true))
                     .FieldSet(
                         id: name + "Grid",
+                        hasInnerDiv: true,
                         action: () => hb
                             .Table(css: "grid", action: () => hb
                                 .THead(action: () => hb

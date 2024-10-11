@@ -4747,6 +4747,7 @@ namespace Implem.Pleasanter.Models
                                 text: Displays.Menu(context: context))))
                     .FieldSet(
                         id: name + "Editor",
+                        hasInnerDiv: true,
                         action: () => hb
                             .Div(action: () => hb
                                 .FieldMarkDown(
@@ -4787,6 +4788,7 @@ namespace Implem.Pleasanter.Models
                                 text: Displays.Menu(context: context))))
                     .FieldSet(
                         id: name + "Editor",
+                        hasInnerDiv: true,
                         action: () => hb
                             .Div(css: "nav-site"
                                     + (ss.ReferenceType != "Dashboards"

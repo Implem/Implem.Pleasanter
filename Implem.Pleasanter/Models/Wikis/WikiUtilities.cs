@@ -2882,6 +2882,7 @@ namespace Implem.Pleasanter.Models
                                 text: Displays.Editor(context: context))))
                     .FieldSet(
                         id: name + "Editor",
+                        hasInnerDiv: true,
                         action: () => hb
                             .FieldSetGeneralColumns(
                                 context: context,
