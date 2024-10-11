@@ -290,6 +290,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? EditInDialog;
         // compatibility Version 1.016
         public List<string> EditorColumns;
+        // compatibility Version 1.017
+        public bool? ProcessOutputFormulaLogs;
 
         public SiteSettings()
         {
@@ -414,6 +416,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             FullTextIncludeSiteTitle = FullTextIncludeSiteTitle ?? Parameters.Search.FullTextIncludeSiteTitle;
             FullTextNumberOfMails = FullTextNumberOfMails ?? Parameters.Search.FullTextNumberOfMails;
             SaveViewType = SaveViewType ?? SaveViewTypes.Session;
+            ProcessOutputFormulaLogs = ProcessOutputFormulaLogs ?? false;
         }
 
         public void SetLinkedSiteSettings(
@@ -1010,6 +1013,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 ss.MoveTargets = MoveTargets;
             }
+            if (ProcessOutputFormulaLogs == true)
+            {
+                ss.ProcessOutputFormulaLogs = ProcessOutputFormulaLogs;
+            }
             Aggregations?.ForEach(aggregations =>
             {
                 if (ss.Aggregations == null)
@@ -1211,6 +1218,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (NoDisplayIfReadOnly == true)
             {
                 ss.NoDisplayIfReadOnly = NoDisplayIfReadOnly;
+            }
+            if (ProcessOutputFormulaLogs == true)
+            {
+                ss.ProcessOutputFormulaLogs = ProcessOutputFormulaLogs;
             }
             PermissionForCreating?.Where(o => o.Value > 0).ForEach(data =>
             {
@@ -4000,6 +4011,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .Select(v => v.Views)
                         .ToList();
                     break;
+                case "ProcessOutputFormulaLogs": ProcessOutputFormulaLogs = value.ToBool(); break;
             }
         }
 

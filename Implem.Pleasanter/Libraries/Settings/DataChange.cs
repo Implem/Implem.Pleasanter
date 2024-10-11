@@ -20,6 +20,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             CopyValue,
             CopyDisplayValue,
             InputValue,
+            InputValueFormula,
             InputDate,
             InputDateTime,
             InputUser,
@@ -41,6 +42,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string BaseDateTime { get; set; }
         public string Value { get; set; }
         public int? Delete { get; set; }
+        public bool ValueFormulaNotUseDisplayName { get; set; }
+        public bool ValueFormulaIsDisplayError { get; set; }
 
         public DataChange()
         {
@@ -51,25 +54,33 @@ namespace Implem.Pleasanter.Libraries.Settings
             Types type,
             string columnName,
             string baseDateTime,
-            string value)
+            string value,
+            bool valueFormulaNotUseDisplayName,
+            bool valueFormulaIsDisplayError)
         {
             Id = id;
             Type = type;
             ColumnName = columnName;
             BaseDateTime = baseDateTime;
             Value = value;
+            ValueFormulaNotUseDisplayName = valueFormulaNotUseDisplayName;
+            ValueFormulaIsDisplayError = valueFormulaIsDisplayError;
         }
 
         public void Update(
             Types type,
             string columnName,
             string baseDateTime,
-            string value)
+            string value,
+            bool valueFormulaNotUseDisplayName,
+            bool valueFormulaIsDisplayError)
         {
             Type = type;
             ColumnName = columnName;
             BaseDateTime = baseDateTime;
             Value = value;
+            ValueFormulaNotUseDisplayName = valueFormulaNotUseDisplayName;
+            ValueFormulaIsDisplayError = valueFormulaIsDisplayError;
         }
 
         public DataChange GetRecordingData(
@@ -87,6 +98,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case Types.CopyDisplayValue:
                     break;
                 case Types.InputValue:
+                    break;
+                case Types.InputValueFormula:
+                    dataChange.ValueFormulaIsDisplayError = ValueFormulaIsDisplayError;
+                    dataChange.ValueFormulaNotUseDisplayName = ValueFormulaNotUseDisplayName;
                     break;
                 case Types.InputDate:
                     if (BaseDateTime != "CurrentDate")
@@ -107,9 +122,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                 default:
                     break;
             }
-
-
-
             dataChange.Value = Value;
             return dataChange;
         }
@@ -123,6 +135,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                     return type == "Column";
                 case Types.InputValue:
                     return type == "Value";
+                case Types.InputValueFormula:
+                    return type == "ValueFormula";
                 case Types.InputDate:
                 case Types.InputDateTime:
                     return type == "DateTime";
@@ -148,6 +162,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                     context: context,
                     id: DateTimePeriod());
                 return $"{DateTimeNumber()} {period}";
+            }
+            else if (Visible(type: "ValueFormula"))
+            {
+                if (ValueFormulaNotUseDisplayName != false) return Value;
+                return  FormulaBuilder.ParseFormulaLabel(
+                    ss: ss,
+                    formulaScript: Value);
             }
             else
             {
