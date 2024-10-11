@@ -5,3 +5,102 @@ insert_final_newline = false
 indent_size = 4
 indent_style = space
 trim_trailing_whitespace = true
+
+[*.cs]
+# 名前付けルール
+
+#dotnet_naming_rule.interface_should_be_begins_with_i.severity = error
+dotnet_naming_rule.interface_should_be_begins_with_i.severity = warning
+dotnet_naming_rule.interface_should_be_begins_with_i.symbols = interface
+dotnet_naming_rule.interface_should_be_begins_with_i.style = pascal_case
+
+#dotnet_naming_rule.publicフィールド_should_be_camel_case.severity = error
+dotnet_naming_rule.publicフィールド_should_be_camel_case.severity = warning
+dotnet_naming_rule.publicフィールド_should_be_camel_case.symbols = publicフィールド
+dotnet_naming_rule.publicフィールド_should_be_camel_case.style = pascal_case
+
+#dotnet_naming_rule.internalフィールド_should_be_camel_case.severity = error
+dotnet_naming_rule.internalフィールド_should_be_camel_case.severity = warning
+dotnet_naming_rule.internalフィールド_should_be_camel_case.symbols = internalフィールド
+dotnet_naming_rule.internalフィールド_should_be_camel_case.style = pascal_case
+
+#dotnet_naming_rule.protectedフィールド_should_be_camel_case.severity = error
+dotnet_naming_rule.protectedフィールド_should_be_camel_case.severity = warning
+dotnet_naming_rule.protectedフィールド_should_be_camel_case.symbols = protectedフィールド
+dotnet_naming_rule.protectedフィールド_should_be_camel_case.style = pascal_case
+
+#dotnet_naming_rule.privateフィールド_should_be_camel_case.severity = error
+dotnet_naming_rule.privateフィールド_should_be_camel_case.severity = warning
+dotnet_naming_rule.privateフィールド_should_be_camel_case.symbols = privateフィールド
+dotnet_naming_rule.privateフィールド_should_be_camel_case.style = pascal_case
+
+#dotnet_naming_rule.staticフィールド_should_be_begin_with_s_.severity = error
+dotnet_naming_rule.staticフィールド_should_be_begin_with_s_.severity = warning
+dotnet_naming_rule.staticフィールド_should_be_begin_with_s_.symbols = staticフィールド
+dotnet_naming_rule.staticフィールド_should_be_begin_with_s_.style = pascal_case
+
+#dotnet_naming_rule.フィールド_should_be_begin_with__.severity = error
+dotnet_naming_rule.フィールド_should_be_begin_with__.severity = warning
+dotnet_naming_rule.フィールド_should_be_begin_with__.symbols = フィールド
+dotnet_naming_rule.フィールド_should_be_begin_with__.style = camel_case
+
+#dotnet_naming_rule.ローカル変数_引数_should_be_camel_case.severity = error
+dotnet_naming_rule.ローカル変数_引数_should_be_camel_case.severity = warning
+dotnet_naming_rule.ローカル変数_引数_should_be_camel_case.symbols = ローカル変数_引数
+dotnet_naming_rule.ローカル変数_引数_should_be_camel_case.style = camel_case
+
+
+dotnet_naming_rule.all_should_be_pascal_case.severity = warning
+dotnet_naming_rule.all_should_be_pascal_case.symbols = all
+dotnet_naming_rule.all_should_be_pascal_case.style = pascal_case
+
+# 名前付けルールの仕様
+
+dotnet_naming_symbols.interface.applicable_kinds = interface
+dotnet_naming_symbols.interface.applicable_accessibilities = public, internal, private, protected, protected_internal, private_protected
+dotnet_naming_symbols.interface.required_modifiers = 
+
+dotnet_naming_symbols.フィールド.applicable_kinds = field
+dotnet_naming_symbols.フィールド.applicable_accessibilities = *
+dotnet_naming_symbols.フィールド.required_modifiers = 
+
+dotnet_naming_symbols.staticフィールド.applicable_kinds = field
+dotnet_naming_symbols.staticフィールド.applicable_accessibilities = public, internal, private, protected, protected_internal, private_protected
+dotnet_naming_symbols.staticフィールド.required_modifiers = static
+
+dotnet_naming_symbols.publicフィールド.applicable_kinds = field
+dotnet_naming_symbols.publicフィールド.applicable_accessibilities = public
+dotnet_naming_symbols.publicフィールド.required_modifiers = 
+
+dotnet_naming_symbols.internalフィールド.applicable_kinds = field
+dotnet_naming_symbols.internalフィールド.applicable_accessibilities = internal
+dotnet_naming_symbols.internalフィールド.required_modifiers = 
+
+dotnet_naming_symbols.protectedフィールド.applicable_kinds = field
+dotnet_naming_symbols.protectedフィールド.applicable_accessibilities = protected
+dotnet_naming_symbols.protectedフィールド.required_modifiers = 
+
+dotnet_naming_symbols.privateフィールド.applicable_kinds = field
+dotnet_naming_symbols.privateフィールド.applicable_accessibilities = private
+dotnet_naming_symbols.privateフィールド.required_modifiers = 
+
+dotnet_naming_symbols.all.applicable_kinds = *
+dotnet_naming_symbols.all.applicable_accessibilities = *
+dotnet_naming_symbols.all.required_modifiers = 
+
+dotnet_naming_symbols.ローカル変数_引数.applicable_kinds = parameter, type_parameter, local
+dotnet_naming_symbols.ローカル変数_引数.applicable_accessibilities = *
+dotnet_naming_symbols.ローカル変数_引数.required_modifiers = 
+
+# 命名スタイル
+
+dotnet_naming_style.pascal_case.required_prefix = 
+dotnet_naming_style.pascal_case.required_suffix = 
+dotnet_naming_style.pascal_case.word_separator = 
+dotnet_naming_style.pascal_case.capitalization = pascal_case
+
+dotnet_naming_style.camel_case.required_prefix = 
+dotnet_naming_style.camel_case.required_suffix = 
+dotnet_naming_style.camel_case.word_separator = 
+dotnet_naming_style.camel_case.capitalization = camel_case
+
