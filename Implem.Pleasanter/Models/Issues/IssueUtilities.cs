@@ -375,7 +375,7 @@ namespace Implem.Pleasanter.Models
             }
             if (suffix.IsNullOrEmpty())
             {
-                return new ResponseCollection(context: context)
+                return new ResponseCollection(context: context, logFlush: false)
                     .WindowScrollTop(_using: windowScrollTop)
                     .Remove(".grid tr", _using: offset == 0)
                     .ClearFormData("GridOffset")
@@ -433,11 +433,12 @@ namespace Implem.Pleasanter.Models
                     .Paging("#Grid")
                     .Message(message)
                     .Messages(context.Messages)
+                    .Log(context.GetLog())
                     .ToJson();
             }
             else
             {
-                return new ResponseCollection(context: context)
+                return new ResponseCollection(context: context, logFlush: false)
                     .ClearFormData("GridOffset")
                     .Append($"#Grid{suffix}", new HtmlBuilder().GridRows(
                         context: context,
@@ -455,6 +456,7 @@ namespace Implem.Pleasanter.Models
                         offset,
                         gridData.DataRows.Count(),
                         gridData.TotalCount))
+                    .Log(context.GetLog())
                     .ToJson();
             }
         }
