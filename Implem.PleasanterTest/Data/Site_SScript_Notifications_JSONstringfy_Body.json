@@ -1,0 +1,35 @@
+﻿{
+    "Version": 1.017,
+    "ReferenceType": "Results",
+    "Notifications": [
+        {
+            "Type": 1,
+            "Subject": "notifications.Get()",
+            "Address": "urata@implem.co.jp",
+            "Encoding": "utf-8",
+            "MediaType": "application/json",
+            "MonitorChangesColumns": [
+                "Title",
+                "Body",
+                "Status",
+                "Manager",
+                "Owner",
+                "Comments"
+            ],
+            "BeforeCondition": 0,
+            "AfterCondition": 0,
+            "Expression": 0,
+            "Id": 1
+        }
+    ],
+    "ServerScripts": [
+        {
+            "Title": "test",
+            "Name": "",
+            "BeforeOpeningPage": true,
+            "Body": "// 事前準備\n//\n\n// 対象機能\n// 1. notifications.Get\n// 2. notifications.New\n// 3. notification.Send\n// 4. $p.JSON.stringify\n\n// 処理概要\n// 1-1. 「notifications.Get()」で設定されている通知情報を取得\n// 1-2. 設定されている「タイトル」を確認\n// 2-1. 「notifications.New()」で通知オブジェクトを生成\n// 2-2. オブジェクトが設定されているか確認\n// 3-1. 「2-1.」で設定した通知オブジェクトをもとに「notification.Send()」で通知\n// 3-2. 返却された値(2024/09/09時点：true)を確認\n// 4-1. 「$p.JSON.stringify()」で引数の値を文字列にシリアライズ\n// 4-2. 「typeof演算子」で値が「文字列(string)」であるか確認\n\n// 変数宣言箇所\nconst logClass = { DEBUG: '【DEBUG】', INFO: '【INFO】' };\nvar targetFunction;\nvar result;\n\ntry {\n    // 実装箇所\n    context.Log(logClass['DEBUG'] + 'xUnit処理：開始');\n\n    // 1. notifications.Get\n    targetFunction = 'notifications.Get()';\n    // 1-1. 「notifications.Get()」で設定されている通知情報を取得\n    const response = notifications.Get(1);\n    // 1-2. 設定されている「タイトル」を確認\n    result = response.Title === 'notifications.Get()';\n    judgeResult(result, targetFunction);\n\n    // 2. notifications.New\n    targetFunction = 'notifications.New()';\n    // 2-1. 「notifications.New()」で通知オブジェクトを生成\n    var notificationObject = notifications.New();\n    // 2-2. オブジェクトが設定されているか確認\n    judgeResult(notificationObject, targetFunction);\n\n    // 3. notification.Send\n    targetFunction = 'notifications.Send()';\n    // 3-1. 「2-1.」で設定した通知オブジェクトをもとに「notification.Send()」で通知\n    notificationObject.Address = 'urata@implem.co.jp';\n    notificationObject.Title = 'notifications.Send()';\n    // 3-2. 返却された値(2024/09/09時点：true)を確認\n    var result = notificationObject.Send();\n    judgeResult(result, targetFunction);\n\n    // 4. $p.JSON.stringify\n    targetFunction = '$p.JSON.stringify()';\n    // 4-1. 「$p.JSON.stringify()」で引数の値を文字列にシリアライズ\n    var stringSerializedValue = $p.JSON.stringify(123);\n    // 4-2. 「typeof演算子」で値が「文字列(string)」であるか確認\n    result = typeof stringSerializedValue === 'string';\n    judgeResult(result, targetFunction);\n} catch (ex) {\n    context.Log(logClass['DEBUG'] + targetFunction + 'xUnit処理：エラー');\n    context.Log(ex.stack);\n} finally {\n    context.Log(logClass['DEBUG'] + 'xUnit処理：終了');\n}\n\n// 成功 or 失敗を判定\n//  - 引数 -\n// condition：判定条件\n// targetFunction：対象機能名\n// - 戻値 -\n// true：成功, false：失敗\nfunction judgeResult(condition, targetFunction) {\n    context.Log(logClass['DEBUG'] + targetFunction + '判定処理：開始');\n    try {\n        // 成功メッセージ\n        const successMessage = '：成功';\n        // 失敗メッセージ\n        const failureMessage = '：失敗';\n        // 成功CSS\n        const successCSS = 'alert-information';\n        // 失敗CSS\n        const failureCSS = 'alert-error';\n        context.Log(logClass['INFO'] + condition);\n        if (condition) {\n            context.Log(logClass['DEBUG'] + '判定結果：' + successMessage);\n            context.AddMessage(targetFunction + successMessage, successCSS);\n        } else {\n            context.Log(logClass['DEBUG'] + '判定結果：' + failureMessage);\n            context.AddMessage(targetFunction + failureMessage, failureCSS);\n        }\n    } catch (ex) {\n        context.Log(logClass['DEBUG'] + targetFunction + '判定処理：エラー');\n        context.Log(ex.stack);\n    } finally {\n        context.Log(logClass['DEBUG'] + targetFunction + '判定処理：終了');\n    }\n}\n",
+            "Id": 1
+        }
+    ],
+    "NoDisplayIfReadOnly": false
+}
