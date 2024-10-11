@@ -90,6 +90,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder LinkedStyles(
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
+            var cacheBustingCode = (context.ThemeVersionForCss() + Environments.AssemblyVersion).Split(".").Join("");
             return hb
                 .Link(
                     href: Responses.Locations.Get(
@@ -146,9 +147,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .Link(
                     href: Responses.Locations.Get(
                         context: context,
+                        parts: $"Styles/Plugins/themes/themes.custom.css?v={cacheBustingCode}"),
+                    rel: "stylesheet",
+                    _using: context.ThemeVersionForCss() >=2.0M && !context.Mobile)
+                .Link(
+                    href: Responses.Locations.Get(
+                        context: context,
                         parts: context.ThemeVersionForCss() >= 2.0M && context.Mobile
                             ? $"Styles/Plugins/themes/cupertino/custom.css"
-                            : $"Styles/Plugins/themes/{context.Theme()}/custom.css"),
+                            : $"Styles/Plugins/themes/{context.Theme()}/custom.css?v={cacheBustingCode}"),
                     rel: "stylesheet")
                 .Link(
                     href: Responses.Locations.Get(
