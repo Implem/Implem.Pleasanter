@@ -1,0 +1,10 @@
+﻿{
+    "Id": "User23_Site_SScript_UsersDeptsGroups",
+    "Language": "ja",
+    "Type": "Users",
+    "ParentId": "Dept11_Site_SScript_UsersDeptsGroups",
+    "Title": "UsersDeptsGroupsテスト用ユーザ",
+    "ClassA": "2",
+    "CreatedTime": "36640",
+    "UpdatedTime": "36640"
+}
