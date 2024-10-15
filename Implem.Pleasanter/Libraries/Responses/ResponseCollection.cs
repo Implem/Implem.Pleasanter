@@ -16,14 +16,14 @@ namespace Implem.Pleasanter.Libraries.Responses
         {
         }
 
-        public ResponseCollection(Context context, long id = 0)
+        public ResponseCollection(Context context, long id = 0, bool logFlush = true)
         {
             Context = context;
             if (id > 0)
             {
                 Response("id", id.ToString());
             }
-            if (context != null)
+            if (context != null && logFlush)
             {
                 Log(context.GetLog());
             }
