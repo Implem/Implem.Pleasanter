@@ -32,9 +32,9 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static Dictionary<string, string> Get(Context context, bool includeUserArea = false, string sessionGuid = null)
         {
-            if (Parameters.Kvs.EnableKVS)
+            if (Parameters.Session.UseKeyValueStore)
             {
-                StackExchange.Redis.IDatabase iDatabase = Implem.Pleasanter.Libraries.Redis.AzureCacheForRedisConnection.Connection.GetDatabase();
+                StackExchange.Redis.IDatabase iDatabase = Implem.Pleasanter.Libraries.Redis.CacheForRedisConnection.Connection.GetDatabase();
                 return iDatabase.HashGetAll(sessionGuid ?? context.SessionGuid)
                     .Where(dataRow => dataRow.Name == $"View_{context.Page}" || !dataRow.Name.StartsWith("View_"))
                     .ToDictionary(dataRow  => dataRow.Name.ToString().Split('_')[0], dataRow => dataRow.Value.ToString());
@@ -131,16 +131,16 @@ namespace Implem.Pleasanter.Models
                     ? context.Page ?? string.Empty
                     : string.Empty;
                 sessionGuid = sessionGuid ?? context.SessionGuid;
-                if (Parameters.Kvs.EnableKVS && !userArea)
+                if (Parameters.Session.UseKeyValueStore && !userArea)
                 {
-                    StackExchange.Redis.IDatabase iDatabase = Implem.Pleasanter.Libraries.Redis.AzureCacheForRedisConnection.Connection.GetDatabase();
+                    StackExchange.Redis.IDatabase iDatabase = Implem.Pleasanter.Libraries.Redis.CacheForRedisConnection.Connection.GetDatabase();
                     string fieldName = pageName.IsNullOrEmpty() ? $"{key}" : $"{key}_{pageName}";
                     StackExchange.Redis.HashEntry[] hashEntrys = new StackExchange.Redis.HashEntry[]{ new StackExchange.Redis.HashEntry(fieldName, value) };
                     iDatabase.HashSet(
                         sessionGuid,
                         hashEntrys
                     );
-                    iDatabase.KeyExpire(sessionGuid, TimeSpan.FromMinutes(Parameters.Kvs.RetentionPeriod));
+                    iDatabase.KeyExpire(sessionGuid, TimeSpan.FromMinutes(Parameters.Session.RetentionPeriod));
                 }
                 else
                 {
