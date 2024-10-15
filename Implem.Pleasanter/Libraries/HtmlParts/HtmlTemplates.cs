@@ -131,6 +131,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .LinkedStyles(
                             context: context,
                             ss: ss)
+                        .LinkedHeadLink(
+                            context: context,
+                            ss: ss)
                         .ExtendedStyles(context: context)
                         .Title(action: () => hb
                             .Text(text: HtmlTitle.TitleText(
