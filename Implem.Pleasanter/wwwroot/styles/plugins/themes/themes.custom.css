@@ -1,4 +1,4 @@
-/* Reset ---------------------------------------------------------------- */
+﻿/* Reset ---------------------------------------------------------------- */
 body {
     color: var(--base-text);
     background-color: var(--page-bg);
@@ -106,12 +106,15 @@ html .ui-button.ui-state-disabled:active {
 
 /* dialog */
 .ui-dialog {
+    min-width: 400px;
     padding: 0;
-    border: none;
+    border: none!important;
+    background-color: transparent;
     .ui-dialog-titlebar {
+        margin: 16px 16px 0;
         background: var(--base-bg);
-        border: none;
-        border-bottom: 1px solid var(--base-border);
+        border: 1px solid var(--base-border);
+        border-bottom: none;
         color: var(--base-text);
         padding: 8px 16px;
     }
@@ -124,6 +127,12 @@ html .ui-button.ui-state-disabled:active {
             border: none;
             box-shadow: none;
         }
+    }
+    .ui-dialog-content{
+        margin: 0 16px 16px;
+        border: 1px solid var(--base-border);
+        padding: 16px 16px 0 !important;
+        background: var(--base-bg-light);
     }
 }
 
@@ -1788,8 +1797,6 @@ body:not(:has(#Editor)){
 /* Module ---------------------------------------------------------------- */
 /* Dialog */
 .dialog {
-    margin-top: 16px;
-    padding: 0 16px !important;
     .fieldset {
         margin: 0;
         + .fieldset:not(.ui-tabs-panel) {
@@ -2453,7 +2460,7 @@ body:has(input#Controller[value="syslogs"]){
 
 /* [Dialog] OutgoingMailDialog */
 #OutgoingMailDialog {
-    margin: 0 !important;
+    padding: 0 !important;
 }
 
 /* [Dialog] ExportSitePackage */
