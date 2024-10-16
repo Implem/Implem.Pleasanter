@@ -4227,7 +4227,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static string SiteHref(
+        internal static string SiteHref(
             Context context, SiteSettings ss, long siteId, string referenceType)
         {
             switch (referenceType)
