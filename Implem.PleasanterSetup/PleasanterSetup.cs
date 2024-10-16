@@ -1,4 +1,5 @@
-﻿using Implem.DefinitionAccessor;
+﻿using Cysharp.Diagnostics;
+using Implem.DefinitionAccessor;
 using Implem.ParameterAccessor.Parts;
 using Implem.PleasanterSetup.Settings;
 using Microsoft.Extensions.Configuration;
@@ -10,6 +11,7 @@ using System.ComponentModel;
 using System.Data.Common;
 using System.Diagnostics;
 using System.IO.Compression;
+using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -31,7 +33,9 @@ namespace Implem.PleasanterSetup
         private string defaultLanguage;
         private string defaultTimeZone;
         private string userId;
-        private string password;
+        private string saPassword;
+        private string ownerPassword;
+        private string userPassword;
         private bool versionUp;
         private bool enterpriseEdition;
         private ExtendedColumns extendedIssuesColumns;
@@ -55,7 +59,9 @@ namespace Implem.PleasanterSetup
             this.defaultLanguage = string.Empty;
             this.defaultTimeZone = string.Empty;
             this.userId = string.Empty;
-            this.password = string.Empty;
+            this.saPassword = string.Empty;
+            this.ownerPassword = string.Empty;
+            this.userPassword = string.Empty;
             this.versionUp = false;
             this.enterpriseEdition = false;
             this.extendedIssuesColumns = new ExtendedColumns();
@@ -66,13 +72,12 @@ namespace Implem.PleasanterSetup
         public async Task Setup(
             [Option("r")] string releasezip = "",
             [Option("d")] string directory = "",
-            string patchPath = "",
+            [Option("patch")] string patchPath = "",
             bool setUpState = true,
             bool force = false,
             bool noinput = false,
             string license = "",
-            string extendedcolumns = "",
-            string parametersPatch = "")
+            string extendedcolumns = "")
         {
             // ユーザにセットアップに必要な情報を入力してもらう
             SetSummary(
@@ -83,7 +88,6 @@ namespace Implem.PleasanterSetup
             var doNext = AskForInstallOrVersionUp();
             if (doNext)
             {
-                //新規インストールの時エラーになるかも後で確認
                 var backupDir = Path.Combine(
                     Path.GetDirectoryName(installDir),
                     $"{Path.GetFileName(installDir)}{DateTime.Now:_yyyyMMdd_HHmmss}");
@@ -101,26 +105,42 @@ namespace Implem.PleasanterSetup
                 if (string.IsNullOrEmpty(releasezip))
                 {
                     //DownloadNewResource(installDir);
+                    //上記処理でリリース資源とParametersPatchをダウンロードする一時フォルダを作成する必要がある。
+                    //installDirにダウンロードするのも〇
+                    //parametersPatchの取得
+                    releasezip = await DownloadNewResource(
+                        installDir,
+                        "Pleasanter");
                 }
 
-                //新資源の配置
+                //ダウンロードまたは指定した新資源の配置
+                //ここで落ちる releaseZipのパスがない
                 SetNewResource(
                     installDir: installDir,
                     releaseZip: releasezip);
 
-                //ここにマージ処理を差し込む必要あり
+                //バージョンアップ時マージ
                 if (versionUp)
                 {
+                    if (string.IsNullOrEmpty(patchPath))
+                    {
+                        patchPath = await DownloadNewResource(
+                        installDir,
+                        "ParametersPatch");
+                    }
+
+                    //ParametersPatchの配置処理
+                    SetParametersPatch(
+                        installDir,
+                        patchPath);
+
                     //backupの絶対パスと新資源の絶対パスが必要
-                    Merge(
-                        releaseZip: Path.Combine(
-                            installDir),
-                        previous: Path.Combine(
-                            backupDir),
+                    await Merge(
+                        releaseZip: installDir,
+                        previous: backupDir,
+                        patchPath: patchPath,
                         setUpState: setUpState);
                 }
-
-
                 // ユーザがコンソール上で入力した値を各パラメータファイルへ書き込む
                 SetParameters();
                 //ユーザがライセンスファイルを指定した場合
@@ -136,10 +156,6 @@ namespace Implem.PleasanterSetup
                         installDir: installDir,
                         backupDir: backupDir);
                 }
-
-                //ここに入力したパラメータを適用する処理を追加　setPatameters()
-
-
                 // データベースの作成(スキーマ更新)を行う
                 await Rds(
                     directory: installDir,
@@ -151,55 +167,86 @@ namespace Implem.PleasanterSetup
             }
             else
             {
+                //ログメッセージを英語に変更
                 logger.LogInformation("セットアップコマンドの処理を終了します。");
                 return;
             }
         }
 
+        //一旦保留
         [Command("merge")]
-        public void Merge(
-            [Option("r")] string releaseZip,
+        public async Task Merge(
             [Option("p")] string previous,
+            [Option("r")] string releaseZip = "",
             [Option("patch")] string patchPath = "",
             bool setUpState = false)
         {
             if (!setUpState)
             {
-                if (!File.Exists(releaseZip))
+                if (!string.IsNullOrEmpty(previous))
                 {
-                    logger.LogError($"\"{releaseZip}\" does not exist.");
-                    return;
+                    if (!File.Exists(previous))
+                    {
+                        logger.LogError($"\"{previous}\" does not exist.");
+                        return;
+                    }
                 }
-                if (!Directory.Exists(previous))
+
+                if (!string.IsNullOrEmpty(releaseZip))
                 {
-                    logger.LogError($"\"{previous}\" does not exist.");
-                    return;
+                    if (!File.Exists(releaseZip))
+                    {
+                        logger.LogError($"\"{releaseZip}\" does not exist.");
+                        return;
+                    }
                 }
+                else
+                {
+                    await DownloadNewResource(previous, "Pleasanter");
+                }
+
+
+                if (!string.IsNullOrEmpty(patchPath))
+                {
+                    if (!File.Exists(patchPath))
+                    {
+                        logger.LogError($"\"{patchPath}\" does not exist.");
+                        return;
+                    }
+                }
+                else
+                {
+                    await DownloadNewResource(previous, "ParametersPatch");
+                }
+
                 //previousを退避
                 var backupDir = Path.Combine(
                     Path.GetDirectoryName(previous),
                     $"{Path.GetFileName(previous)}{DateTime.Now:_yyyyMMdd_HHmmss}");
                 // バージョンアップの場合は既存資源のバックアップを行う
-
+                var destinationPath = previous;
                 CopyResourceDirectory(
                     installDir: previous,
                     destDir: backupDir);
                 //zip解凍
-                if (!string.IsNullOrEmpty(releaseZip))
-                {
-                    SetNewResource(
-                        installDir: previous,
-                        releaseZip: releaseZip);
-                    SetParametersPatch(
-                        previous,
-                        patchPath);
-                    //ライセンスの移動
-                    ExistingCopyLicense(
-                        installDir: previous,
-                        backupDir: backupDir);
-                }
-            }
 
+                SetNewResource(
+                    installDir: previous,
+                    releaseZip: releaseZip);
+                SetParametersPatch(
+                    previous,
+                    patchPath);
+                //ライセンスの移動
+                ExistingCopyLicense(
+                    installDir: previous,
+                    backupDir: backupDir);
+
+                await ExecuteMerge(destinationPath, backupDir);
+            }
+            else
+            {
+                await ExecuteMerge(releaseZip, previous);
+            }
         }
 
         [Command("rds")]
@@ -467,6 +514,10 @@ namespace Implem.PleasanterSetup
                             break;
                     }
                 }
+                else
+                {
+                    userId = userInputUserId;
+                }
             }
         }
 
@@ -488,7 +539,19 @@ namespace Implem.PleasanterSetup
                     {
                         DbConnectionStringBuilder builder = new DbConnectionStringBuilder();
                         builder.ConnectionString = data?.SaConnectionString;
-                        password = builder["PWD"].ToString();
+                        saPassword = builder["PWD"].ToString();
+                    }
+                    if (data.OwnerConnectionString != null)
+                    {
+                        DbConnectionStringBuilder builder = new DbConnectionStringBuilder();
+                        builder.ConnectionString = data?.OwnerConnectionString;
+                        ownerPassword = builder["PWD"].ToString();
+                    }
+                    if (data.UserConnectionString != null)
+                    {
+                        DbConnectionStringBuilder builder = new DbConnectionStringBuilder();
+                        builder.ConnectionString = data?.UserConnectionString;
+                        userPassword = builder["PWD"].ToString();
                     }
                 }
                 else
@@ -499,10 +562,20 @@ namespace Implem.PleasanterSetup
             }
             else
             {
-                logger.LogInformation("Password : ");
-                while (string.IsNullOrEmpty(password))
+                logger.LogInformation("Sa Password : ");
+                while (string.IsNullOrEmpty(saPassword))
                 {
-                    password = Console.ReadLine() ?? "";
+                    saPassword = Console.ReadLine() ?? "";
+                }
+                logger.LogInformation("Owner Password : ");
+                while (string.IsNullOrEmpty(ownerPassword))
+                {
+                    ownerPassword = Console.ReadLine() ?? "";
+                }
+                logger.LogInformation("User Password : ");
+                while (string.IsNullOrEmpty(userPassword))
+                {
+                    userPassword = Console.ReadLine() ?? "";
                 }
             }
         }
@@ -726,7 +799,55 @@ namespace Implem.PleasanterSetup
                 timeZone = "/z " + "\"" + defaultTimeZone + "\"";
             }
             await $"cd {codeDefinerDir}";
-            await $"dotnet Implem.CodeDefiner.dll _rds {forceOption} {noInputOption} {language} {timeZone}";
+
+            var arguments = $"Implem.CodeDefiner.dll _rds {forceOption} {noInputOption} {language} {timeZone}";
+            ProcessStartInfo processStartInfo = new ProcessStartInfo
+            {
+                FileName = "dotnet",
+                Arguments = arguments
+            };
+
+            var (process, stdOut, stdError) = ProcessX.GetDualAsyncEnumerable(processStartInfo);
+
+            // 標準出力と標準エラー出力を処理するタスク
+            var outputTask = Task.Run(async () =>
+            {
+                await foreach (var item in stdOut)
+                {
+                    Console.WriteLine(item);
+                    if (item is "Type \"y\" (yes) if the editon is correct, otherwise type \"n\" (no).")
+                    {
+                        var input = Console.ReadLine();
+                        process.StandardInput.WriteLine(input);
+                    }
+                }
+            });
+
+            var errorTask = Task.Run(async () =>
+            {
+                await foreach (var item in stdError)
+                {
+                    Console.WriteLine(item);
+                }
+            });
+
+            ////ここは変えた方がいいかもCodeDefinerの処理がおわらない
+            await Task.WhenAll(outputTask, errorTask);
+
+
+            //await $"dotnet Implem.CodeDefiner.dll _rds {forceOption} {noInputOption} {language} {timeZone} /y";
+            await $"cd -";
+        }
+
+        private async Task ExecuteMerge(
+            string newResource,
+            string preResource)
+        {
+            var codeDefinerDir = Path.Combine(
+                newResource,
+                "Implem.CodeDefiner");
+            await $"cd {codeDefinerDir}";
+            await $"dotnet Implem.CodeDefiner.dll merge /b {preResource} /i {newResource} ";
             await $"cd -";
         }
 
@@ -778,9 +899,9 @@ namespace Implem.PleasanterSetup
                 : dbms == "2"
                     ? "postgres"
                     : string.Empty;
-            data.SaConnectionString = $"Server={server};Database={database};UID={userId};PWD={password};";
-            data.OwnerConnectionString = $"Server={server};Database=#ServiceName#;UID=#ServiceName#_Owner;PWD={password};";
-            data.UserConnectionString = $"Server={server};Database=#ServiceName#;UID=#ServiceName#_User;PWD={password};";
+            data.SaConnectionString = $"Server={server};Database={database};UID={userId};PWD={saPassword};";
+            data.OwnerConnectionString = $"Server={server};Database=#ServiceName#;UID=#ServiceName#_Owner;PWD={ownerPassword};";
+            data.UserConnectionString = $"Server={server};Database=#ServiceName#;UID=#ServiceName#_User;PWD={userPassword};";
             File.WriteAllText(file, data.ToJson());
         }
 
@@ -1001,7 +1122,7 @@ namespace Implem.PleasanterSetup
                     releaseZipDir,
                     "pleasanter");
                 //同じフォルダで実行した場合にフォルダの移動時にエラーが起きるので条件追加
-                if(unzipDir != installDir)
+                if (unzipDir != installDir)
                 {
                     foreach (var dir in Directory.GetDirectories(unzipDir))
                     {
@@ -1016,36 +1137,53 @@ namespace Implem.PleasanterSetup
                 return;
             }
         }
-
-        private void SetParametersPatch(string previous,string patchPath)
+        private void SetParametersPatch(string previous, string patchPath)
         {
-
+            var destPath = Path.Combine(
+                previous,
+                "ParametersPatch.zip");
+            File.Copy(
+                patchPath,
+                destPath,
+                true);
         }
 
-
         //作成途中
-        private async Task DownloadNewResource(string installDir)
+        private async Task<string?> DownloadNewResource(string installDir, string fileNames)
         {
             //先頭がPleasanterのzipをダウンロードしてinstallDirに配置
             using (HttpClient client = new HttpClient())
             {
+                string url = "https://api.github.com/repos/Implem/Implem.Pleasanter/releases/latest";
                 client.DefaultRequestHeaders.UserAgent.TryParseAdd("request");
 
-                HttpResponseMessage response = await client.GetAsync(configuration["DefaultParameters:url"]);
+                HttpResponseMessage response = await client.GetAsync(url);
                 response.EnsureSuccessStatusCode();
 
                 string responseBody = await response.Content.ReadAsStringAsync();
                 JObject release = JObject.Parse(responseBody);
 
-                string assetUrl = null;
+                string assetUrl = string.Empty;
+                var destinationDir = string.Empty;
                 foreach (var asset in release["assets"])
                 {
-                    if (asset["name"].ToString().Contains("Pleasanter"))
+                    //引数を配列にしてここでforeachを回しても良い
+                    foreach (var fileName in fileNames)
                     {
-                        assetUrl = asset["browser_download_url"].ToString();
-                        break;
+                        if (asset["name"].ToString().Contains(fileName))
+                        {
+                            assetUrl = asset["browser_download_url"].ToString();
+                            HttpResponseMessage assetResponse = await client.GetAsync(assetUrl);
+                            assetResponse.EnsureSuccessStatusCode();
+                            destinationDir = Path.Combine(Directory.GetParent(installDir).FullName, asset["name"].ToString());
+                            byte[] fileBytes = await assetResponse.Content.ReadAsByteArrayAsync();
+                            await File.WriteAllBytesAsync(destinationDir, fileBytes);
+                            Console.WriteLine($"Downloaded {asset["name"]} to {destinationDir}");
+                            break;
+                        }
                     }
                 }
+                return destinationDir;
             }
         }
     }
