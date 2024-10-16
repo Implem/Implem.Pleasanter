@@ -7,6 +7,7 @@ using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlStyles
@@ -90,7 +91,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder LinkedStyles(
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
-            var cacheBustingCode = (context.ThemeVersionForCss() + Environments.AssemblyVersion).Split(".").Join("");
+            var cacheBustingCode = WebUtility.UrlEncode((context.ThemeVersionForCss() + Environments.AssemblyVersion).Split(".").Join(""));
             return hb
                 .Link(
                     href: Responses.Locations.Get(
