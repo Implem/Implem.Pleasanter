@@ -4888,8 +4888,8 @@ namespace Implem.Pleasanter.Models
                     param: Rds.UsersParam()
                         .NumberOfDenial(raw: "\"Users\".\"NumberOfDenial\"+1")
                         .LastLoginTime(
-                            value: disableUpdateLastLoginTime ? null : DateTime.Now,
-                            raw: disableUpdateLastLoginTime ? "\"Users\".\"LastLoginTime\"" : null),
+                            value: DateTime.Now,
+                            _using: !disableUpdateLastLoginTime),
                     addUpdatorParam: false,
                     addUpdatedTimeParam: false));
         }
