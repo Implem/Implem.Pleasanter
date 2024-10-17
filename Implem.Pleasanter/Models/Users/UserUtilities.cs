@@ -1652,9 +1652,8 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             UserModel userModel)
         {
-            return hb.FieldSet(
+            return hb.TabsPanelField(
                 id: "FieldSetGeneral",
-                hasInnerDiv: true,
                 action: () => hb.FieldSetGeneralColumns(
                     context: context,
                     ss: ss,
@@ -4479,9 +4478,8 @@ namespace Implem.Pleasanter.Models
             userModel.Session_MailAddresses(
                 context: context,
                 value: listItemCollection.Keys.ToList().ToJson());
-            return hb.FieldSet(
+            return hb.TabsPanelField(
                 id: "FieldSetMailAddresses",
-                hasInnerDiv: true,
                 action: () => hb.FieldSelectable(
                     controlId: "MailAddresses",
                     fieldCss: "field-vertical w500",
@@ -4578,9 +4576,8 @@ namespace Implem.Pleasanter.Models
                             .A(
                                 href: "#FieldSetGeneral",
                                 text: Displays.General(context: context))))
-                    .FieldSet(
+                    .TabsPanelField(
                         id: "FieldSetGeneral",
-                        hasInnerDiv: true,
                         action: () => hb.FieldText(
                             controlId: "ApiKey",
                             fieldCss: "field-wide",

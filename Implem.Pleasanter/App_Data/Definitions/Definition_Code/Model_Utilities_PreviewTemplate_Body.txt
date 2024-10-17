@@ -15,18 +15,16 @@
                     .A(
                         href: "#" + name + "Grid",
                         text: Displays.Grid(context: context))))
-            .FieldSet(
+            .TabsPanelField(
                 id: name + "Editor",
-                hasInnerDiv: true,
                 action: () => hb
                     .FieldSetGeneralColumns(
                         context: context,
                         ss: ss,
                         #modelName#Model: new #ModelName#Model(),
                         preview: true))
-            .FieldSet(
+            .TabsPanelField(
                 id: name + "Grid",
-                hasInnerDiv: true,
                 action: () => hb
                     .Table(css: "grid", action: () => hb
                         .THead(action: () => hb

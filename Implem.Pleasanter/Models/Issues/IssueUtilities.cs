@@ -1649,12 +1649,11 @@ namespace Implem.Pleasanter.Models
                                         .DataMethod("post"),
                                     _using: issueModel.MethodType != BaseModel.MethodTypes.New
                                         && !context.Publish)
-                                .FieldSet(
+                                .TabsPanelField(
                                     attributes: new HtmlAttributes()
                                         .Id("FieldSetRecordAccessControl")
                                         .DataAction("Permissions")
                                         .DataMethod("post"),
-                                    hasInnerDiv: true,
                                     innerId: "FieldSetRecordAccessControlEditor",
                                     _using: context.CanManagePermission(ss: ss)
                                         && !ss.Locked()
@@ -1813,18 +1812,16 @@ namespace Implem.Pleasanter.Models
                             .A(
                                 href: "#" + name + "Grid",
                                 text: Displays.Grid(context: context))))
-                    .FieldSet(
+                    .TabsPanelField(
                         id: name + "Editor",
-                        hasInnerDiv: true,
                         action: () => hb
                             .FieldSetGeneralColumns(
                                 context: context,
                                 ss: ss,
                                 issueModel: new IssueModel(),
                                 preview: true))
-                    .FieldSet(
+                    .TabsPanelField(
                         id: name + "Grid",
-                        hasInnerDiv: true,
                         action: () => hb
                             .Table(css: "grid", action: () => hb
                                 .THead(action: () => hb
@@ -1848,9 +1845,8 @@ namespace Implem.Pleasanter.Models
             bool editInDialog = false)
         {
             var mine = issueModel.Mine(context: context);
-            return hb.FieldSet(
+            return hb.TabsPanelField(
                 id: "FieldSetGeneral",
-                hasInnerDiv: true,
                 action: () => hb.FieldSetGeneralColumns(
                     context: context,
                     ss: ss,
@@ -1996,10 +1992,9 @@ namespace Implem.Pleasanter.Models
                 ss: ss);
             ss.Tabs?.Select((tab, index) => new { tab = tab, index = index + 1 })?.ForEach(data =>
             {
-                hb.FieldSet(
+                hb.TabsPanelField(
                     id: $"FieldSetTab{data.tab.Id}",
                     css: " fieldset cf ui-tabs-panel ui-corner-bottom ui-widget-content ",
-                    hasInnerDiv: true,
                     action: () => hb.Fields(
                         context: context,
                         ss: ss,

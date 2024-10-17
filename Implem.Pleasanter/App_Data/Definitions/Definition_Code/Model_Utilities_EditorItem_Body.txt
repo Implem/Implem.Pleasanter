@@ -247,12 +247,11 @@ private static HtmlBuilder Editor(
                                 .DataMethod("post"),
                             _using: #modelName#Model.MethodType != BaseModel.MethodTypes.New
                                 && !context.Publish)
-                        .FieldSet(
+                        .TabsPanelField(
                             attributes: new HtmlAttributes()
                                 .Id("FieldSetRecordAccessControl")
                                 .DataAction("Permissions")
                                 .DataMethod("post"),
-                            hasInnerDiv: true,
                             innerId: "FieldSetRecordAccessControlEditor",
                             _using: context.CanManagePermission(ss: ss)
                                 && !ss.Locked()
@@ -400,9 +399,8 @@ private static HtmlBuilder FieldSetGeneral(
     bool editInDialog = false)
 {
     var mine = #modelName#Model.Mine(context: context);
-    return hb.FieldSet(
+    return hb.TabsPanelField(
         id: "FieldSetGeneral",
-        hasInnerDiv: true,
         action: () => hb.FieldSetGeneralColumns(
             context: context,
             ss: ss,
@@ -527,10 +525,9 @@ private static HtmlBuilder FieldSetTabs(
         ss: ss);
     ss.Tabs?.Select((tab, index) => new { tab = tab, index = index + 1 })?.ForEach(data =>
     {
-        hb.FieldSet(
+        hb.TabsPanelField(
             id: $"FieldSetTab{data.tab.Id}",
             css: " fieldset cf ui-tabs-panel ui-corner-bottom ui-widget-content ",
-            hasInnerDiv: true,
             action: () => hb.Fields(
                 context: context,
                 ss: ss,

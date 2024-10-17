@@ -1162,9 +1162,8 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             GroupModel groupModel)
         {
-            return hb.FieldSet(
+            return hb.TabsPanelField(
                 id: "FieldSetGeneral",
-                hasInnerDiv: true,
                 action: () => hb.FieldSetGeneralColumns(
                     context: context,
                     ss: ss,
@@ -3128,9 +3127,8 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb, Context context, GroupModel groupModel)
         {
             if (groupModel.MethodType == BaseModel.MethodTypes.New) return hb;
-            return hb.FieldSet(
+            return hb.TabsPanelField(
                 id: "FieldSetMembers",
-                hasInnerDiv: true,
                 action: () =>  hb
                     .CurrentMembers(
                         context: context,
@@ -3145,9 +3143,8 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb, Context context, GroupModel groupModel)
         {
             if (groupModel.MethodType == BaseModel.MethodTypes.New) return hb;
-            return hb.FieldSet(
+            return hb.TabsPanelField(
                 id: "FieldSetGroupChildren",
-                hasInnerDiv: true,
                 action: () => hb
                     .CurrentChildren(
                         context: context,

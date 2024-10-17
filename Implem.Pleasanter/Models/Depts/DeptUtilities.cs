@@ -1089,9 +1089,8 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             DeptModel deptModel)
         {
-            return hb.FieldSet(
+            return hb.TabsPanelField(
                 id: "FieldSetGeneral",
-                hasInnerDiv: true,
                 action: () => hb.FieldSetGeneralColumns(
                     context: context,
                     ss: ss,

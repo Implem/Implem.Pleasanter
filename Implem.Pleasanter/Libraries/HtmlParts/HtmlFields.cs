@@ -32,6 +32,36 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Attachments
         }
 
+        public static HtmlBuilder TabsPanelField(
+            this HtmlBuilder hb,
+            string id = null,
+            string css = null,
+            string legendText = null,
+            HtmlAttributes attributes = null,
+            string innerId = null,
+            bool _using = true,
+            Action action = null)
+        {
+            return _using
+                ? hb.FieldSet(
+                    id: id,
+                    css: css,
+                    legendText: legendText,
+                    attributes: attributes,
+                    action: () =>
+                        hb.Div(
+                            id: innerId,
+                            css: "fieldset-inner",
+                            _using: _using,
+                            action: () =>
+                            {
+                                action?.Invoke();
+                            }
+                        )
+                    )
+                : hb;
+        }
+
         public static HtmlBuilder Field(
             this HtmlBuilder hb,
             Context context,

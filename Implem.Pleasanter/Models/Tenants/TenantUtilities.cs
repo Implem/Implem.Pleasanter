@@ -636,9 +636,8 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             TenantModel tenantModel)
         {
-            return hb.FieldSet(
+            return hb.TabsPanelField(
                 id: "FieldSetGeneral",
-                hasInnerDiv: true,
                 action: () => hb.FieldSetGeneralColumns(
                     context: context,
                     ss: ss,
@@ -1697,8 +1696,7 @@ namespace Implem.Pleasanter.Models
             Context context,
             TenantModel tenantModel)
         {
-            return hb.FieldSet(id: "FieldSetServerScript",
-                hasInnerDiv: true,
+            return hb.TabsPanelField(id: "FieldSetServerScript",
                 action: () => hb
                     .ServerScriptsSettingsEditor(
                         context: context, tenantModel: tenantModel),

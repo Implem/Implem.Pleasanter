@@ -812,9 +812,8 @@ namespace Implem.Pleasanter.Models
             bool editInDialog = false)
         {
             var mine = wikiModel.Mine(context: context);
-            return hb.FieldSet(
+            return hb.TabsPanelField(
                 id: "FieldSetGeneral",
-                hasInnerDiv: true,
                 action: () => hb.FieldSetGeneralColumns(
                     context: context,
                     ss: ss,
@@ -933,10 +932,9 @@ namespace Implem.Pleasanter.Models
                 ss: ss);
             ss.Tabs?.Select((tab, index) => new { tab = tab, index = index + 1 })?.ForEach(data =>
             {
-                hb.FieldSet(
+                hb.TabsPanelField(
                     id: $"FieldSetTab{data.tab.Id}",
                     css: " fieldset cf ui-tabs-panel ui-corner-bottom ui-widget-content ",
-                    hasInnerDiv: true,
                     action: () => hb.Fields(
                         context: context,
                         ss: ss,
@@ -2880,9 +2878,8 @@ namespace Implem.Pleasanter.Models
                             .A(
                                 href: "#" + name + "Editor",
                                 text: Displays.Editor(context: context))))
-                    .FieldSet(
+                    .TabsPanelField(
                         id: name + "Editor",
-                        hasInnerDiv: true,
                         action: () => hb
                             .FieldSetGeneralColumns(
                                 context: context,
