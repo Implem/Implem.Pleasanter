@@ -51,7 +51,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     action: () =>
                         hb.Div(
                             id: innerId,
-                            css: "fieldset-inner",
+                            css: "tabs-panel-inner",
                             _using: _using,
                             action: () =>
                             {

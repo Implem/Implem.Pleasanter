@@ -1577,7 +1577,7 @@ namespace Implem.Pleasanter.Models
             }
             var hb = new HtmlBuilder();
             hb.Div(
-                css: "fieldset-inner",
+                css: "tabs-panel-inner",
                 action: () => hb
                     .HistoryCommands(context: context, ss: ss)
                     .Table(
@@ -6980,27 +6980,27 @@ namespace Implem.Pleasanter.Models
                 id: "EditorDetailsettingTab",
                 action: () => hb
                     .FieldSet(
-                       css: " enclosed",
-                       legendText: column.LabelTextDefault,
-                       action: () =>
-                       {
-                           hb
-                               .FieldTextBox(
-                                   controlId: "ClientRegexValidation",
-                                   fieldCss: "field-wide",
-                                   labelText: Displays.ClientRegexValidation(context: context),
-                                   text: column.ClientRegexValidation)
-                               .FieldTextBox(
-                                   controlId: "ServerRegexValidation",
-                                   fieldCss: "field-wide",
-                                   labelText: Displays.ServerRegexValidation(context: context),
-                                   text: column.ServerRegexValidation)
-                              .FieldTextBox(
-                                   controlId: "RegexValidationMessage",
-                                   fieldCss: "field-wide",
-                                   labelText: Displays.RegexValidationMessage(context: context),
-                                   text: column.RegexValidationMessage);
-                       }));
+                        css: " enclosed",
+                        legendText: column.LabelTextDefault,
+                        action: () =>
+                        {
+                            hb
+                                .FieldTextBox(
+                                    controlId: "ClientRegexValidation",
+                                    fieldCss: "field-wide",
+                                    labelText: Displays.ClientRegexValidation(context: context),
+                                    text: column.ClientRegexValidation)
+                                .FieldTextBox(
+                                    controlId: "ServerRegexValidation",
+                                    fieldCss: "field-wide",
+                                    labelText: Displays.ServerRegexValidation(context: context),
+                                    text: column.ServerRegexValidation)
+                                .FieldTextBox(
+                                    controlId: "RegexValidationMessage",
+                                    fieldCss: "field-wide",
+                                    labelText: Displays.RegexValidationMessage(context: context),
+                                    text: column.RegexValidationMessage);
+                        }));
         }
 
         /// <summary>
