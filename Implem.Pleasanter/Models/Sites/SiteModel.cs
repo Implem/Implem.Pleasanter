@@ -8876,10 +8876,10 @@ namespace Implem.Pleasanter.Models
             if (currentSs == null)
             {
                 res.Message(
-                   new Message(
-                       "InvalidTimeLineSites",
-                       Displays.InvalidTimeLineSites(context: context),
-                       "alert-error"));
+                    new Message(
+                        "InvalidTimeLineSites",
+                        Displays.InvalidTimeLineSites(context: context),
+                        "alert-error"));
                 return;
             }
             var dashboardPart = SiteSettings.DashboardParts?
@@ -9036,10 +9036,10 @@ namespace Implem.Pleasanter.Models
             if (currentSs == null)
             {
                 res.Message(
-                   new Message(
-                       "InvalidIndexSites",
-                       Displays.InvalidTimeLineSites(context: context),
-                       "alert-error"));
+                    new Message(
+                        "InvalidIndexSites",
+                        Displays.InvalidTimeLineSites(context: context),
+                        "alert-error"));
                 return;
             }
             var dashboardPart = SiteSettings.DashboardParts?
@@ -9049,8 +9049,8 @@ namespace Implem.Pleasanter.Models
                 dashboardPart.View = new View();
             }
             res
-                .Html(
-                    "#DashboardPartViewIndexTabContainer",
+                .ReplaceAll(
+                    "#DashboardPartViewGridTab",
                     new HtmlBuilder()
                         .ViewGridTab(
                             context: context,

@@ -2269,7 +2269,7 @@ namespace Implem.Pleasanter.Models
                 searchText: context.Forms.Data("SearchColumnAccessControlElements"),
                 currentPermissions: currentPermissions);
             var offset = context.Forms.Int("ColumnAccessControlSourceOffset");
-            return hb.FieldSet(id: "ColumnAccessControlBasicTab", action: () => hb
+            return hb.TabsPanelField(id: "ColumnAccessControlBasicTab", action: () => hb
                 .Div(id: "ColumnAccessControlEditor", action: () => hb
                     .FieldSelectable(
                         controlId: "CurrentColumnAccessControl",
@@ -2344,7 +2344,7 @@ namespace Implem.Pleasanter.Models
             ColumnAccessControl columnAccessControl,
             long referenceId)
         {
-            return hb.FieldSet(id: "ColumnAccessControlOhtersTab", action: () => hb
+            return hb.TabsPanelField(id: "ColumnAccessControlOhtersTab", action: () => hb
                 .PermissionParts(
                     context: context,
                     controlId: "ColumnAccessControlParts",
