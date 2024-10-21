@@ -2619,8 +2619,8 @@ namespace Implem.Pleasanter.Models
                 css: "tabs-panel-inner",
                 action: () => hb
                     .HistoryCommands(context: context, ss: ss)
-                    .Table(
-                        attributes: new HtmlAttributes().Class("grid history"),
+                    .GridTable(
+                        css: "history",
                         action: () => hb
                             .THead(action: () => hb
                                 .GridHeader(
