@@ -46,7 +46,8 @@ namespace Implem.PleasanterSetup
         private enum DBMS
         {
             SQLServer = 1,
-            PostgreSQL = 2
+            PostgreSQL = 2,
+            MySQL = 3
         };
 
         public PleasanterSetup(
@@ -83,91 +84,93 @@ namespace Implem.PleasanterSetup
             string license = "",
             string extendedcolumns = "")
         {
-            // ユーザにセットアップに必要な情報を入力してもらう
-            SetSummary(
-            directory: directory,
-            licenseZip: license,
-            extendedColumnsDir: extendedcolumns);
+                // ユーザにセットアップに必要な情報を入力してもらう
+                SetSummary(
+                directory: directory,
+                licenseZip: license,
+                extendedColumnsDir: extendedcolumns,
+                releasezip: releasezip,
+                patchPath: patchPath);
                 // 新規インストールまたはバージョンアップを行うかをユーザに確認する
                 var doNext = AskForInstallOrVersionUp();
-            if (doNext)
-            {
-                var backupDir = Path.Combine(
-                    Path.GetDirectoryName(installDir),
-                    $"{Path.GetFileName(installDir)}{DateTime.Now:_yyyyMMdd_HHmmss}");
-
-                // バージョンアップの場合は既存資源のバックアップを行う
-                if (versionUp)
+                if (doNext)
                 {
-                    CopyResourceDirectory(
-                        installDir: installDir,
-                        destDir: backupDir);
-                }
+                    var backupDir = Path.Combine(
+                        Path.GetDirectoryName(installDir),
+                        $"{Path.GetFileName(installDir)}{DateTime.Now:_yyyyMMdd_HHmmss}");
 
-                if (string.IsNullOrEmpty(releasezip))
-                {
-                    releasezip = await DownloadNewResource(
-                        installDir,
-                        "Pleasanter");
-                }
-
-                SetNewResource(
-                    installDir: installDir,
-                    releaseZip: releasezip);
-
-                //バージョンアップ時マージ
-                if (versionUp)
-                {
-                    if (string.IsNullOrEmpty(patchPath))
+                    // バージョンアップの場合は既存資源のバックアップを行う
+                    if (versionUp)
                     {
-                        patchPath = await DownloadNewResource(
-                        installDir,
-                        "ParametersPatch");
+                        CopyResourceDirectory(
+                            installDir: installDir,
+                            destDir: backupDir);
                     }
 
-                    //ParametersPatchの配置処理
-                    SetParametersPatch(
-                        installDir,
-                        patchPath);
+                    if (string.IsNullOrEmpty(releasezip))
+                    {
+                        releasezip = await DownloadNewResource(
+                            installDir,
+                            "Pleasanter");
+                    }
 
-                    //backupの絶対パスと新資源の絶対パスが必要
-                    await Merge(
-                        releaseZip: installDir,
-                        previous: backupDir,
-                        patchPath: patchPath,
-                        setUpState: setUpState);
-                }
-                // ユーザがコンソール上で入力した値を各パラメータファイルへ書き込む
-                SetParameters();
-                //ユーザがライセンスファイルを指定した場合
-                if (File.Exists(license))
-                {
-                    CopyLicense(
-                        resourceDir: installDir,
-                        licenseDir: licenseDllPath);
-                }
-                if (!File.Exists(license) && versionUp)
-                {
-                    ExistingCopyLicense(
+                    SetNewResource(
                         installDir: installDir,
-                        backupDir: backupDir);
+                        releaseZip: releasezip);
+
+                    //バージョンアップ時マージ
+                    if (versionUp)
+                    {
+                        if (string.IsNullOrEmpty(patchPath))
+                        {
+                            patchPath = await DownloadNewResource(
+                            installDir,
+                            "ParametersPatch");
+                        }
+
+                        //ParametersPatchの配置処理
+                        SetParametersPatch(
+                            installDir,
+                            patchPath);
+
+                        //backupの絶対パスと新資源の絶対パスが必要
+                        await Merge(
+                            releaseZip: installDir,
+                            previous: backupDir,
+                            patchPath: patchPath,
+                            setUpState: setUpState);
+                    }
+                    // ユーザがコンソール上で入力した値を各パラメータファイルへ書き込む
+                    SetParameters();
+                    //ユーザがライセンスファイルを指定した場合
+                    if (File.Exists(license))
+                    {
+                        CopyLicense(
+                            resourceDir: installDir,
+                            licenseDir: licenseDllPath);
+                    }
+                    if (!File.Exists(license) && versionUp)
+                    {
+                        ExistingCopyLicense(
+                            installDir: installDir,
+                            backupDir: backupDir);
+                    }
+                    // データベースの作成(スキーマ更新)を行う
+                    await Rds(
+                        directory: installDir,
+                        setUpState: setUpState,
+                        force: force,
+                        noinput: noinput,
+                        license: license,
+                        extendedcolumns: extendedcolumns);
                 }
-                // データベースの作成(スキーマ更新)を行う
-                await Rds(
-                    directory: installDir,
-                    setUpState: setUpState,
-                    force: force,
-                    noinput: noinput,
-                    license: license,
-                    extendedcolumns: extendedcolumns);
+                else
+                {
+                    //ログメッセージを英語に変更
+                    logger.LogInformation("セットアップコマンドの処理を終了します。");
+                    return;
+                }
             }
-            else
-            {
-                //ログメッセージを英語に変更
-                logger.LogInformation("セットアップコマンドの処理を終了します。");
-                return;
-            }
-        }
 
         //一旦保留
         [Command("merge")]
@@ -177,75 +180,75 @@ namespace Implem.PleasanterSetup
             [Option("patch")] string patchPath = "",
             bool setUpState = false)
         {
-            if (!setUpState)
-            {
-                if (!string.IsNullOrEmpty(previous))
+                if (!setUpState)
                 {
-                    if (!Directory.Exists(previous))
+                    if (!string.IsNullOrEmpty(previous))
                     {
+                        if (!Directory.Exists(previous))
+                        {
                         logger.LogError($"\"{previous}\" does not exist.");
                         return;
+                        }
                     }
-                }
 
-                if (!string.IsNullOrEmpty(releaseZip))
-                {
-                    if (!File.Exists(releaseZip))
+                    if (!string.IsNullOrEmpty(releaseZip))
                     {
+                        if (!File.Exists(releaseZip))
+                        {
                         logger.LogError($"\"{releaseZip}\" does not exist.");
                         return;
+                        }
                     }
-                }
-                else
-                {
-                    releaseZip = await DownloadNewResource(
-                        previous,
-                        "Pleasanter");
-                }
-
-                if (!string.IsNullOrEmpty(patchPath))
-                {
-                    if (!File.Exists(patchPath))
+                    else
                     {
+                        releaseZip = await DownloadNewResource(
+                            previous,
+                            "Pleasanter");
+                    }
+
+                    if (!string.IsNullOrEmpty(patchPath))
+                    {
+                        if (!File.Exists(patchPath))
+                        {
                         logger.LogError($"\"{patchPath}\" does not exist.");
                         return;
+                        }
                     }
+                    else
+                    {
+                        patchPath = await DownloadNewResource(
+                            previous,
+                            "ParametersPatch");
+                    }
+
+                    //previousを退避
+                    var backupDir = Path.Combine(
+                        Path.GetDirectoryName(previous),
+                        $"{Path.GetFileName(previous)}{DateTime.Now:_yyyyMMdd_HHmmss}");
+                    // バージョンアップの場合は既存資源のバックアップを行う
+                    var destinationPath = previous;
+                    CopyResourceDirectory(
+                        installDir: previous,
+                        destDir: backupDir);
+
+                    SetNewResource(
+                        installDir: previous,
+                        releaseZip: releaseZip);
+                    SetParametersPatch(
+                        previous,
+                        patchPath);
+                    //ライセンスの移動
+                    ExistingCopyLicense(
+                        installDir: previous,
+                        backupDir: backupDir);
+
+                    await ExecuteMerge(destinationPath, backupDir);
                 }
                 else
                 {
-                    patchPath = await DownloadNewResource(
-                        previous,
-                        "ParametersPatch");
+                    await ExecuteMerge(releaseZip, previous);
                 }
-
-                //previousを退避
-                var backupDir = Path.Combine(
-                    Path.GetDirectoryName(previous),
-                    $"{Path.GetFileName(previous)}{DateTime.Now:_yyyyMMdd_HHmmss}");
-                // バージョンアップの場合は既存資源のバックアップを行う
-                var destinationPath = previous;
-                CopyResourceDirectory(
-                    installDir: previous,
-                    destDir: backupDir);
-
-                SetNewResource(
-                    installDir: previous,
-                    releaseZip: releaseZip);
-                SetParametersPatch(
-                    previous,
-                    patchPath);
-                //ライセンスの移動
-                ExistingCopyLicense(
-                    installDir: previous,
-                    backupDir: backupDir);
-
-                await ExecuteMerge(destinationPath, backupDir);
             }
-            else
-            {
-                await ExecuteMerge(releaseZip, previous);
-            }
-        }
 
         [Command("rds")]
         public async Task Rds(
@@ -262,7 +265,8 @@ namespace Implem.PleasanterSetup
                 SetSummary(
                     directory: directory,
                     licenseZip: license,
-                    extendedColumnsDir: extendedcolumns);
+                    extendedColumnsDir: extendedcolumns,
+                    setUpState: setUpState);
                 //setUpStateがtrueじゃないなら
                 SetParameters();
             }
@@ -302,7 +306,7 @@ namespace Implem.PleasanterSetup
             }
             else
             {
-                logger.LogInformation("Install Directory [Default: /web/pleasanter] : ");
+                logger.LogInformation("Install Directory [Default: C:\\web\\pleasanter] : ");
                 var userInputResourceDir = Console.ReadLine();
                 installDir = !string.IsNullOrEmpty(userInputResourceDir)
                     ? userInputResourceDir
@@ -332,6 +336,9 @@ namespace Implem.PleasanterSetup
                         case "PostgreSQL":
                             dbms = "2";
                             break;
+                        case "MySQL":
+                            dbms = "3";
+                            break;
                     }
                 }
                 else
@@ -342,8 +349,8 @@ namespace Implem.PleasanterSetup
             }
             else
             {
-                logger.LogInformation("DBMS [1: SQL Server, 2: PostgreSQL] : ");
-                while (dbms != "1" && dbms != "2")
+                logger.LogInformation("DBMS [1: SQL Server, 2: PostgreSQL, 3: MySQL] : ");
+                while (dbms != "1" && dbms != "2" && dbms != "3")
                 {
                     dbms = Console.ReadLine() ?? string.Empty;
                 }
@@ -412,7 +419,7 @@ namespace Implem.PleasanterSetup
             }
             else
             {
-                logger.LogInformation("[Default: Implem.Pleasanter] : ");
+                logger.LogInformation("ServiceName [Default: Implem.Pleasanter] : ");
                 var userInputServiceName = Console.ReadLine();
                 serviceName = string.IsNullOrEmpty(userInputServiceName)
                     ? configuration["DefaultParameters:ServiceName"] ?? string.Empty
@@ -498,24 +505,39 @@ namespace Implem.PleasanterSetup
             }
             else
             {
-                logger.LogInformation("[Default: sa(SQL Server), postgres(PostgreSQL)] : ");
-                var userInputUserId = Console.ReadLine();
-                if (string.IsNullOrEmpty(userInputUserId))
+                switch ((DBMS)int.Parse(dbms))
                 {
-                    switch ((DBMS)int.Parse(dbms))
-                    {
-                        case DBMS.SQLServer:
-                            userId = "sa";
-                            break;
-                        case DBMS.PostgreSQL:
-                            userId = "postgres";
-                            break;
-                    }
+                    case DBMS.SQLServer:
+                        userId = "sa";
+                        break;
+                    case DBMS.PostgreSQL:
+                        userId = "postgres";
+                        break;
+                    case DBMS.MySQL:
+                        userId = "root";
+                        break;
                 }
-                else
-                {
-                    userId = userInputUserId;
-                }
+                //logger.LogInformation("[Default: sa(SQL Server), postgres(PostgreSQL)] : ");
+                //var userInputUserId = Console.ReadLine();
+                //if (string.IsNullOrEmpty(userInputUserId))
+                //{
+                //    switch ((DBMS)int.Parse(dbms))
+                //    {
+                //        case DBMS.SQLServer:
+                //            userId = "sa";
+                //            break;
+                //        case DBMS.PostgreSQL:
+                //            userId = "postgres";
+                //            break;
+                //        case DBMS.MySQL:
+                //            userId = "root";
+                //            break;
+                //    }
+                //}
+                //else
+                //{
+                //    userId = userInputUserId;
+                //}
             }
         }
 
@@ -593,7 +615,7 @@ namespace Implem.PleasanterSetup
             }
             else
             {
-                logger.LogInformation($"Please enter the number for extended \"{referenceType}\" columns to add.");
+                logger.LogInformation($"Please enter the maximum value for extended \"{referenceType}\" columns you want to enable.");
                 extendedColumns.Class = AskForItemCount("Class");
                 extendedColumns.Num = AskForItemCount("Num");
                 extendedColumns.Date = AskForItemCount("Date");
@@ -628,7 +650,8 @@ namespace Implem.PleasanterSetup
                     count = count + 26;
                     Console.WriteLine(count);
                     break;
-                }else if (userInput.Length == 1 && char.IsLetter(userInput[0]))
+                }
+                else if (userInput.Length == 1 && char.IsLetter(userInput[0]))
                 {
                     // アルファベットが入力された場合
                     char letter = char.ToUpper(userInput[0]);
@@ -904,6 +927,8 @@ namespace Implem.PleasanterSetup
                 ? "master"
                 : dbms == "2"
                     ? "postgres"
+                        : dbms == "3"
+                            ? "root"
                     : string.Empty;
             data.SaConnectionString = $"Server={server};Database={database};UID={userId};PWD={saPassword};";
             data.OwnerConnectionString = $"Server={server};Database=#ServiceName#;UID=#ServiceName#_Owner;PWD={ownerPassword};";
@@ -1073,26 +1098,27 @@ namespace Implem.PleasanterSetup
             string licenseZip,
             string extendedColumnsDir,
             string releasezip = "",
-            string patchPath = "")
+            string patchPath = "",
+            bool setUpState = true)
         {
             AskForInstallDir(directory);
             //Implem.Pleasanter.dllの有無でバージョンアップか判断
             versionUp = MeetsVersionUpRequirements();
             //オフライン環境での必須オプションの確認
-            if (!NetworkInterface.GetIsNetworkAvailable())
+            if (!NetworkInterface.GetIsNetworkAvailable() && setUpState)
             {
                 if (string.IsNullOrEmpty(releasezip))
                 {
-                    logger.LogInformation("-r is required");
-                    return;
+                    logger.LogError("\"-r\" is required");
+                    Environment.Exit(0);
                 }
             }
-            if (versionUp && !NetworkInterface.GetIsNetworkAvailable())
+            if (versionUp && !NetworkInterface.GetIsNetworkAvailable() && setUpState)
             {
                 if (string.IsNullOrEmpty(patchPath))
                 {
-                    logger.LogInformation("--patch is required");
-                    return;
+                    logger.LogError("\"-patch\" is required");
+                    Environment.Exit(0);
                 }
             }
             AskForDbms(versionUp);
@@ -1146,7 +1172,7 @@ namespace Implem.PleasanterSetup
             if (!File.Exists(license))
             {
                 logger.LogError("Implem.License.dll does not exist.");
-
+                Environment.Exit(0);
             }
             Assembly assembly = Assembly.LoadFile(license);
             Type type = assembly.GetType("Implem.License.License");
@@ -1159,7 +1185,7 @@ namespace Implem.PleasanterSetup
             string installDir,
             string releaseZip)
         {
-            logger.LogError($"Start placing release resources to {installDir}.");
+            logger.LogInformation($"Start placing release resources to {installDir}.");
             if (!Directory.Exists(installDir))
             {
                 Directory.CreateDirectory(installDir);
@@ -1183,16 +1209,17 @@ namespace Implem.PleasanterSetup
                     }
                     Directory.Delete(unzipDir);
                 }
-                logger.LogError($"The release resource was placed in {installDir}.");
+                logger.LogInformation($"The release resource was placed in {installDir}.");
             }
             else
             {
                 logger.LogError("The release zip file for Pleasanter does not exist.");
-                return;
+                Environment.Exit(0);
             }
         }
         private void SetParametersPatch(string previous, string patchPath)
         {
+            logger.LogInformation($"Start placing ParametersPatch.zip to {installDir}.");
             var destPath = Path.Combine(
                 previous,
                 "ParametersPatch.zip");
