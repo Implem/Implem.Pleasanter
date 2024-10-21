@@ -449,8 +449,10 @@ input{
         padding: 1px;
     }
     &.datepicker{
-        padding-right: 24px;
-        + .ui-icon{
+        &:has( + .current-time){
+            padding-right: 24px;
+        }
+        + .current-time{
             right: 4px;
             z-index: 2;
         }
