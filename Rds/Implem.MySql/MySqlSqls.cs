@@ -46,7 +46,11 @@ namespace Implem.MySql
 
         public object DateTimeValue(object value)
         {
-            return value;
+            return value != null &&
+                !(value is DateTime) &&
+                DateTime.TryParse(value.ToString(), out var data)
+                ? data
+                : value;
         }
 
         public string BooleanString(string bit)
