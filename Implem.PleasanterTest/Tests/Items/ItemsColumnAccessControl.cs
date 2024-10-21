@@ -40,7 +40,7 @@ namespace Implem.PleasanterTest.Tests.Items
             var baseTests = BaseData.Tests(
                 JsonData.ExistsOne(
                     method: "Html",
-                    target: "#FieldSetColumnAccessControl"),
+                    target: "#FieldSetColumnAccessControlEditor"),
                 JsonData.ExistsOne(
                     method: "RemoveAttr",
                     target: "#FieldSetColumnAccessControl"));

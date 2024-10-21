@@ -23,6 +23,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Error.Types errorType,
             bool useNavigationMenu,
             bool useSearch,
+            bool isSearch,
             ServerScriptModelRow serverScriptModelRow)
         {
             return hb.Announcement(context: context)
@@ -34,7 +35,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             ss: ss,
                             _using: context.ThemeVersionOver2_0() && context.Action == "login"
                                 ? false
-                                : true)
+                                : true,
+                            isSearch: isSearch)
                         .NavigationMenu(
                             context: context,
                             ss: ss,
@@ -110,13 +112,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             Context context,
             SiteSettings ss,
-            bool _using = true)
+            bool _using = true,
+            bool isSearch = false)
         {
             var existsImage = BinaryUtilities.ExistsTenantImage(
                 context: context,
                 ss: ss,
                 referenceId: context.TenantId,
-                sizeType: Images.ImageData.SizeTypes.Logo);
+                sizeType: Images.ImageData.SizeTypes.Logo,
+                isSearch: isSearch);
             var title = Title(context: context);
             return _using
                 ? hb.H(number: 2, id: "Logo", action: () => hb

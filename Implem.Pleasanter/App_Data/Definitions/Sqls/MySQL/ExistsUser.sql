@@ -1,1 +1,1 @@
-﻿select "user" from "mysql"."user" where "user" = '#Uid#';
+﻿select "user" from "mysql"."user" where "user" = '#Uid#'and "host" = 'localhost';

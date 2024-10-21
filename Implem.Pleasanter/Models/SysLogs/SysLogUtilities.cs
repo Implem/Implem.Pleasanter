@@ -1432,14 +1432,12 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             SysLogModel sysLogModel)
         {
-            return hb.FieldSet(
+            return hb.TabsPanelField(
                 id: "FieldSetGeneral",
-                action: () => hb.Div(
-                    css: "fieldset-inner",
-                    action: () => hb.FieldSetGeneralColumns(
-                        context: context,
-                        ss: ss,
-                        sysLogModel: sysLogModel)));
+                action: () => hb.FieldSetGeneralColumns(
+                    context: context,
+                    ss: ss,
+                    sysLogModel: sysLogModel));
         }
 
         private static HtmlBuilder FieldSetGeneralColumns(
@@ -2417,7 +2415,7 @@ namespace Implem.Pleasanter.Models
             }
             var hb = new HtmlBuilder();
             hb.Div(
-                css: "fieldset-inner",
+                css: "tabs-panel-inner",
                 action: () => hb
                     .HistoryCommands(context: context, ss: ss)
                     .GridTable(
