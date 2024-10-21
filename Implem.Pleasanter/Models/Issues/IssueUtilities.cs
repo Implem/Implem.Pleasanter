@@ -1649,11 +1649,12 @@ namespace Implem.Pleasanter.Models
                                         .DataMethod("post"),
                                     _using: issueModel.MethodType != BaseModel.MethodTypes.New
                                         && !context.Publish)
-                                .FieldSet(
+                                .TabsPanelField(
                                     attributes: new HtmlAttributes()
                                         .Id("FieldSetRecordAccessControl")
                                         .DataAction("Permissions")
                                         .DataMethod("post"),
+                                    innerId: "FieldSetRecordAccessControlEditor",
                                     _using: context.CanManagePermission(ss: ss)
                                         && !ss.Locked()
                                         && issueModel.MethodType != BaseModel.MethodTypes.New)
@@ -1811,7 +1812,7 @@ namespace Implem.Pleasanter.Models
                             .A(
                                 href: "#" + name + "Grid",
                                 text: Displays.Grid(context: context))))
-                    .FieldSet(
+                    .TabsPanelField(
                         id: name + "Editor",
                         action: () => hb
                             .FieldSetGeneralColumns(
@@ -1819,7 +1820,7 @@ namespace Implem.Pleasanter.Models
                                 ss: ss,
                                 issueModel: new IssueModel(),
                                 preview: true))
-                    .FieldSet(
+                    .TabsPanelField(
                         id: name + "Grid",
                         action: () => hb
                             .Table(css: "grid", action: () => hb
@@ -1844,17 +1845,15 @@ namespace Implem.Pleasanter.Models
             bool editInDialog = false)
         {
             var mine = issueModel.Mine(context: context);
-            return hb.FieldSet(
+            return hb.TabsPanelField(
                 id: "FieldSetGeneral",
-                action: () => hb.Div(
-                    css: "fieldset-inner",
-                    action: () => hb.FieldSetGeneralColumns(
-                        context: context,
-                        ss: ss,
-                        issueModel: issueModel,
-                        dataSet: dataSet,
-                        links: links,
-                        editInDialog: editInDialog)));
+                action: () => hb.FieldSetGeneralColumns(
+                    context: context,
+                    ss: ss,
+                    issueModel: issueModel,
+                    dataSet: dataSet,
+                    links: links,
+                    editInDialog: editInDialog));
         }
 
         public static HtmlBuilder FieldSetGeneralColumns(
@@ -1993,22 +1992,20 @@ namespace Implem.Pleasanter.Models
                 ss: ss);
             ss.Tabs?.Select((tab, index) => new { tab = tab, index = index + 1 })?.ForEach(data =>
             {
-                hb.FieldSet(
+                hb.TabsPanelField(
                     id: $"FieldSetTab{data.tab.Id}",
                     css: " fieldset cf ui-tabs-panel ui-corner-bottom ui-widget-content ",
-                    action: () => hb.Div(
-                        css: "fieldset-inner",
-                        action: () => hb.Fields(
-                            context: context,
-                            ss: ss,
-                            id: id,
-                            tab: data.tab,
-                            dataSet: dataSet,
-                            links: links,
-                            preview: preview,
-                            editInDialog: editInDialog,
-                            issueModel: issueModel,
-                            tabIndex: data.index)));
+                    action: () => hb.Fields(
+                        context: context,
+                        ss: ss,
+                        id: id,
+                        tab: data.tab,
+                        dataSet: dataSet,
+                        links: links,
+                        preview: preview,
+                        editInDialog: editInDialog,
+                        issueModel: issueModel,
+                        tabIndex: data.index));
             });
             return hb;
         }
@@ -5733,7 +5730,7 @@ namespace Implem.Pleasanter.Models
             }
             var hb = new HtmlBuilder();
             hb.Div(
-                css: "fieldset-inner",
+                css: "tabs-panel-inner",
                 action: () => hb
                     .HistoryCommands(context: context, ss: ss)
                     .Table(
