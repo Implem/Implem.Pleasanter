@@ -46,9 +46,9 @@ namespace Implem.MySql
 
         public object DateTimeValue(object value)
         {
-            return value != null &&
-                !(value is DateTime) &&
-                DateTime.TryParse(value.ToString(), out var data)
+            return value != null
+                && !(value is DateTime)
+                && DateTime.TryParse(value.ToString(), out var data)
                 ? data
                 : value;
         }
