@@ -1685,6 +1685,7 @@ th.calendar-header {
 }
 
 .fieldset {
+    min-inline-size: 0;
 }
 
     .fieldset.enclosed {
@@ -2677,16 +2678,12 @@ _::-webkit-full-page-media, _:future, :root .field-normal .control-checkbox + la
     padding: 0px 10px;
 }
 
-#Links > .fieldset{
-  display: grid;
-}
-
 #Links > .fieldset > div{
-  overflow: auto;
+    overflow: auto;
 }
 
 #Links > .fieldset > div .grid{
-  width: max-content; min-width: 100%;
+    width: max-content; min-width: 100%;
 }
 
 .link-creations button {

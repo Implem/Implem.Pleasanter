@@ -98,7 +98,6 @@ html .ui-button.ui-state-disabled:active {
 .ui-widget-content {
     color: var(--base-text);
     background: var(--base-bg-light);
-    color: var(--base-text);
     a {
         color: var(--base-text);
     }
@@ -194,6 +193,9 @@ html .ui-button.ui-state-disabled:active {
     }
     .ui-tabs-panel {
         padding: 16px;
+    }
+    .tabs-panel-inner{
+        width: 100%;
     }
 }
 
