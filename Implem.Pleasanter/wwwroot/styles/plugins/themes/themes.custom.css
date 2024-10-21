@@ -108,15 +108,16 @@ html .ui-button.ui-state-disabled:active {
 .ui-dialog {
     min-width: 400px;
     padding: 0;
-    margin: 16px;
     border: none!important;
     background-color: transparent;
+    margin: 0 16px;
     .ui-dialog-titlebar {
         background: var(--base-bg);
         border: 1px solid var(--base-border);
         border-bottom: none;
         color: var(--base-text);
         padding: 8px 16px;
+        margin: 16px 0 0;
     }
     .ui-dialog-titlebar-close {
         box-shadow: none;
@@ -130,6 +131,7 @@ html .ui-button.ui-state-disabled:active {
     }
     .ui-dialog-content{
         border: 1px solid var(--base-border);
+        margin: 0 0 16px;
         padding: 16px 16px 0 !important;
         background: var(--base-bg-light);
     }
