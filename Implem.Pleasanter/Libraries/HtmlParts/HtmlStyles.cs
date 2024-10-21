@@ -162,21 +162,21 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .Link(
                     href: Responses.Locations.Get(
                         context: context,
-                        parts: "Styles/Plugins/themes/responsive.css"),
+                        parts: $"Styles/responsive.custom.css?v={cacheBustingCode}"),
+                    rel: "stylesheet",
+                    _using: Parameters.Mobile.Responsive
+                        && context.Mobile
+                        && context.Responsive
+                        && (ss == null || ss.Responsive != false))
+                .Link(
+                    href: Responses.Locations.Get(
+                        context: context,
+                        parts: $"Styles/Plugins/themes/responsive.css?v={cacheBustingCode}"),
                     rel: "stylesheet",
                     _using: Parameters.Mobile.Responsive
                         && context.Mobile
                         && context.Responsive
                         && context.ThemeVersionForCss() >= 2.0M && context.Mobile
-                        && (ss == null || ss.Responsive != false))
-                .Link(
-                    href: Responses.Locations.Get(
-                        context: context,
-                        parts: "Styles/responsive.custom.css"),
-                    rel: "stylesheet",
-                    _using: Parameters.Mobile.Responsive
-                        && context.Mobile
-                        && context.Responsive
                         && (ss == null || ss.Responsive != false));
         }
     }
