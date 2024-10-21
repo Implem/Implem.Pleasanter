@@ -1727,11 +1727,21 @@ body {
         z-index: 1;
         background-color: var(--editor-bg);
     }
-    .links {
+    #Links {
         .fieldset {
             > div {
-                scrollbar-color: var(--nonColor09) var(--base-bg);
-                scrollbar-width: thin;
+                display: flex;
+                width: 100%;
+                flex-direction: column;
+                gap: 16px;
+            }
+        }
+        .grid-wrap{
+            margin-bottom: 0;
+            scrollbar-color: var(--nonColor09) var(--base-bg);
+            scrollbar-width: thin;
+            &:has(.grid:empty){
+                display: none;
             }
         }
     }
