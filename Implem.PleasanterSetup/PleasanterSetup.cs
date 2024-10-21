@@ -4,6 +4,7 @@ using Implem.ParameterAccessor.Parts;
 using Implem.PleasanterSetup.Settings;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Specialized;
@@ -13,6 +14,7 @@ using System.Diagnostics;
 using System.IO.Compression;
 using System.Linq;
 using System.Net;
+using System.Net.NetworkInformation;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -27,6 +29,7 @@ namespace Implem.PleasanterSetup
         private readonly IConfiguration configuration;
         private readonly ILogger logger;
         private string installDir;
+        private string licenseDllPath;
         private string dbms;
         private string server;
         private string serviceName;
@@ -53,6 +56,7 @@ namespace Implem.PleasanterSetup
             this.configuration = configuration;
             this.logger = logger;
             this.installDir = string.Empty;
+            this.licenseDllPath = string.Empty;
             this.dbms = string.Empty;
             this.server = string.Empty;
             this.serviceName = string.Empty;
@@ -84,8 +88,8 @@ namespace Implem.PleasanterSetup
             directory: directory,
             licenseZip: license,
             extendedColumnsDir: extendedcolumns);
-            // 新規インストールまたはバージョンアップを行うかをユーザに確認する
-            var doNext = AskForInstallOrVersionUp();
+                // 新規インストールまたはバージョンアップを行うかをユーザに確認する
+                var doNext = AskForInstallOrVersionUp();
             if (doNext)
             {
                 var backupDir = Path.Combine(
@@ -100,21 +104,13 @@ namespace Implem.PleasanterSetup
                         destDir: backupDir);
                 }
 
-                // 新しい資源を配置する Gitから落としてくるように変更する必要あり
-                //releasezipがnullなら落としてくる
                 if (string.IsNullOrEmpty(releasezip))
                 {
-                    //DownloadNewResource(installDir);
-                    //上記処理でリリース資源とParametersPatchをダウンロードする一時フォルダを作成する必要がある。
-                    //installDirにダウンロードするのも〇
-                    //parametersPatchの取得
                     releasezip = await DownloadNewResource(
                         installDir,
                         "Pleasanter");
                 }
 
-                //ダウンロードまたは指定した新資源の配置
-                //ここで落ちる releaseZipのパスがない
                 SetNewResource(
                     installDir: installDir,
                     releaseZip: releasezip);
@@ -148,7 +144,7 @@ namespace Implem.PleasanterSetup
                 {
                     CopyLicense(
                         resourceDir: installDir,
-                        licenseDir: license);
+                        licenseDir: licenseDllPath);
                 }
                 if (!File.Exists(license) && versionUp)
                 {
@@ -185,7 +181,7 @@ namespace Implem.PleasanterSetup
             {
                 if (!string.IsNullOrEmpty(previous))
                 {
-                    if (!File.Exists(previous))
+                    if (!Directory.Exists(previous))
                     {
                         logger.LogError($"\"{previous}\" does not exist.");
                         return;
@@ -202,9 +198,10 @@ namespace Implem.PleasanterSetup
                 }
                 else
                 {
-                    await DownloadNewResource(previous, "Pleasanter");
+                    releaseZip = await DownloadNewResource(
+                        previous,
+                        "Pleasanter");
                 }
-
 
                 if (!string.IsNullOrEmpty(patchPath))
                 {
@@ -216,7 +213,9 @@ namespace Implem.PleasanterSetup
                 }
                 else
                 {
-                    await DownloadNewResource(previous, "ParametersPatch");
+                    patchPath = await DownloadNewResource(
+                        previous,
+                        "ParametersPatch");
                 }
 
                 //previousを退避
@@ -228,7 +227,6 @@ namespace Implem.PleasanterSetup
                 CopyResourceDirectory(
                     installDir: previous,
                     destDir: backupDir);
-                //zip解凍
 
                 SetNewResource(
                     installDir: previous,
@@ -595,7 +593,7 @@ namespace Implem.PleasanterSetup
             }
             else
             {
-                logger.LogInformation($"Please enter the number for extended \"{referenceType}\" columns.");
+                logger.LogInformation($"Please enter the number for extended \"{referenceType}\" columns to add.");
                 extendedColumns.Class = AskForItemCount("Class");
                 extendedColumns.Num = AskForItemCount("Num");
                 extendedColumns.Date = AskForItemCount("Date");
@@ -607,10 +605,12 @@ namespace Implem.PleasanterSetup
             {
                 case "Issues":
                     extendedIssuesColumns = extendedColumns;
+                    extendedIssuesColumns.TableName = referenceType;
                     extendedIssuesColumns.ReferenceType = referenceType;
                     break;
                 case "Results":
                     extendedResultsColumns = extendedColumns;
+                    extendedResultsColumns.TableName = referenceType;
                     extendedResultsColumns.ReferenceType = referenceType;
                     break;
             }
@@ -621,10 +621,20 @@ namespace Implem.PleasanterSetup
             int count;
             do
             {
-                logger.LogInformation($"{itemName} [Default 26] : ");
-                var userInputCount = Console.ReadLine();
-                if (int.TryParse(userInputCount, out count))
+                logger.LogInformation($"{itemName} [Default value: 0] : ");
+                var userInput = Console.ReadLine();
+                if (int.TryParse(userInput, out count) && int.Parse(userInput) > 0)
                 {
+                    count = count + 26;
+                    Console.WriteLine(count);
+                    break;
+                }else if (userInput.Length == 1 && char.IsLetter(userInput[0]))
+                {
+                    // アルファベットが入力された場合
+                    char letter = char.ToUpper(userInput[0]);
+                    int position = letter - 'A' + 1;
+                    count = position;
+                    Console.WriteLine(count);
                     break;
                 }
             }
@@ -640,7 +650,7 @@ namespace Implem.PleasanterSetup
                 ? $"{columnType}A - {columnType}{(count - 26).ToString("D3")}"
                 : count > 0
                     ? $"{columnType}A - {columnType}{((char)('A' + count - 1)).ToString()}"
-                    : string.Empty;
+                : string.Empty;
         }
 
         static void CopyDirectory(
@@ -703,15 +713,12 @@ namespace Implem.PleasanterSetup
             string resourceDir,
             string licenseDir)
         {
-            var license = Path.Combine(
-                licenseDir,
-                "forNetCore(MultiPlatform)",
-                "Implem.License.dll");
+            var license = licenseDir;
             if (File.Exists(license))
             {
-                if (File.Exists(resourceDir))
+                if (Directory.Exists(resourceDir))
                 {
-                    if (File.Exists(Path.Combine(
+                    if (Directory.Exists(Path.Combine(
                         resourceDir,
                         "Implem.CodeDefiner")))
                     {
@@ -723,7 +730,7 @@ namespace Implem.PleasanterSetup
                                 "Implem.License.dll"),
                             true);
                     }
-                    if (File.Exists(Path.Combine(
+                    if (Directory.Exists(Path.Combine(
                         resourceDir,
                         "Implem.Pleasanter")))
                     {
@@ -798,6 +805,7 @@ namespace Implem.PleasanterSetup
                 language = "/l " + defaultLanguage;
                 timeZone = "/z " + "\"" + defaultTimeZone + "\"";
             }
+
             await $"cd {codeDefinerDir}";
 
             var arguments = $"Implem.CodeDefiner.dll _rds {forceOption} {noInputOption} {language} {timeZone}";
@@ -815,7 +823,7 @@ namespace Implem.PleasanterSetup
                 await foreach (var item in stdOut)
                 {
                     Console.WriteLine(item);
-                    if (item is "Type \"y\" (yes) if the editon is correct, otherwise type \"n\" (no).")
+                    if (item is "Type \"y\" (yes) if the license is correct, otherwise type \"n\" (no).")
                     {
                         var input = Console.ReadLine();
                         process.StandardInput.WriteLine(input);
@@ -831,12 +839,8 @@ namespace Implem.PleasanterSetup
                 }
             });
 
-            ////ここは変えた方がいいかもCodeDefinerの処理がおわらない
             await Task.WhenAll(outputTask, errorTask);
-
-
-            //await $"dotnet Implem.CodeDefiner.dll _rds {forceOption} {noInputOption} {language} {timeZone} /y";
-            await $"cd -";
+            logger.LogInformation("Setup is complete.");
         }
 
         private async Task ExecuteMerge(
@@ -848,7 +852,7 @@ namespace Implem.PleasanterSetup
                 "Implem.CodeDefiner");
             await $"cd {codeDefinerDir}";
             await $"dotnet Implem.CodeDefiner.dll merge /b {preResource} /i {newResource} ";
-            await $"cd -";
+            logger.LogInformation("The merge process has finished.");
         }
 
         private string GetDefaultInstallDir()
@@ -875,6 +879,8 @@ namespace Implem.PleasanterSetup
                 "Implem.Pleasanter",
                 "App_Data",
                 "Parameters");
+
+            //ここの分岐は検討
             if (!versionUp)
             {
                 //Rds.json,Service.json内容をユーザの入力値をもとに書き込む
@@ -882,7 +888,7 @@ namespace Implem.PleasanterSetup
                 SetServiceParameters(parametersDir);
                 SetExtendedColumns(parametersDir);
             }
-            else if (versionUp && enterpriseEdition)
+            else if (enterpriseEdition)
             {
                 SetExtendedColumns(parametersDir);
             }
@@ -979,49 +985,70 @@ namespace Implem.PleasanterSetup
             if (extendedIssuesColumns != null)
             {
                 SetDisabledColumns(extendedIssuesColumns);
+                string json = JsonConvert.SerializeObject(extendedIssuesColumns, Formatting.Indented);
                 File.WriteAllText(
                     issuesFile,
-                    extendedIssuesColumns.ToJson());
+                    json);
             }
             if (extendedResultsColumns != null)
             {
                 SetDisabledColumns(extendedResultsColumns);
+                string json = JsonConvert.SerializeObject(extendedResultsColumns, Formatting.Indented);
                 File.WriteAllText(
                     resultsFile,
-                    extendedResultsColumns.ToJson());
+                    json);
             }
         }
 
         private void SetDisabledColumns(ExtendedColumns extendedColumns)
         {
             var disabledColumns = new List<string>();
-            foreach (var p in extendedColumns.GetType().GetProperties())
+
+            foreach (var p in extendedColumns.GetType().GetFields())
             {
+                var disabledColumn = new List<string>();
                 switch (p.Name)
                 {
                     case "Class":
-                        SetDisabledColumnsList("Class", extendedColumns.Class);
+                        disabledColumn = SetDisabledColumnsList("Class", extendedColumns.Class);
+                        extendedColumns.Class = CalcColumnsCount(extendedColumns.Class);
                         break;
                     case "Num":
-                        SetDisabledColumnsList("Num", extendedColumns.Num);
+                        disabledColumn = SetDisabledColumnsList("Num", extendedColumns.Num);
+                        extendedColumns.Num = CalcColumnsCount(extendedColumns.Num);
                         break;
                     case "Date":
-                        SetDisabledColumnsList("Date", extendedColumns.Date);
+                        disabledColumn = SetDisabledColumnsList("Date", extendedColumns.Date);
+                        extendedColumns.Date = CalcColumnsCount(extendedColumns.Date);
                         break;
                     case "Description":
-                        SetDisabledColumnsList("Description", extendedColumns.Description);
+                        disabledColumn = SetDisabledColumnsList("Description", extendedColumns.Description);
+                        extendedColumns.Description = CalcColumnsCount(extendedColumns.Description);
                         break;
                     case "Check":
-                        SetDisabledColumnsList("Check", extendedColumns.Check);
+                        disabledColumn = SetDisabledColumnsList("Check", extendedColumns.Check);
+                        extendedColumns.Check = CalcColumnsCount(extendedColumns.Check);
                         break;
                     case "Attachments":
-                        SetDisabledColumnsList("Attachments", extendedColumns.Attachments);
+                        disabledColumn = SetDisabledColumnsList("Attachments", extendedColumns.Attachments);
+                        extendedColumns.Attachments = CalcColumnsCount(extendedColumns.Attachments);
                         break;
                     default:
                         break;
                 }
+                foreach (var item in disabledColumn)
+                {
+                    disabledColumns.Add(item);
+                }
             }
             extendedColumns.DisabledColumns = disabledColumns;
+        }
+
+        private int CalcColumnsCount(int count)
+        {
+            return count > 26
+                ? count - 26
+                : 0;
         }
 
         private List<string> SetDisabledColumnsList(string columnType, int count)
@@ -1032,10 +1059,11 @@ namespace Implem.PleasanterSetup
             {
                 for (var i = 1; i <= deleteCount; i++)
                 {
-                    var alphabet = ((char)('A' + 26 - 1 - i)).ToString();
+                    var alphabet = ((char)('A' + 26 - i)).ToString();
                     disabeledColumnsList.Add($"{columnType}{alphabet}");
                 }
             }
+
             disabeledColumnsList.Sort();
             return disabeledColumnsList;
         }
@@ -1043,11 +1071,30 @@ namespace Implem.PleasanterSetup
         private void SetSummary(
             string directory,
             string licenseZip,
-            string extendedColumnsDir)
+            string extendedColumnsDir,
+            string releasezip = "",
+            string patchPath = "")
         {
             AskForInstallDir(directory);
             //Implem.Pleasanter.dllの有無でバージョンアップか判断
             versionUp = MeetsVersionUpRequirements();
+            //オフライン環境での必須オプションの確認
+            if (!NetworkInterface.GetIsNetworkAvailable())
+            {
+                if (string.IsNullOrEmpty(releasezip))
+                {
+                    logger.LogInformation("-r is required");
+                    return;
+                }
+            }
+            if (versionUp && !NetworkInterface.GetIsNetworkAvailable())
+            {
+                if (string.IsNullOrEmpty(patchPath))
+                {
+                    logger.LogInformation("--patch is required");
+                    return;
+                }
+            }
             AskForDbms(versionUp);
             AskForServer(versionUp);
             AskForServiceName(versionUp);
@@ -1084,19 +1131,24 @@ namespace Implem.PleasanterSetup
             ZipFile.ExtractToDirectory(
                 licenseZip,
                 unzipDir,
-                Encoding.GetEncoding("shift_jis"),
                 true);
             var license = Path.Combine(
                 unzipDir,
                 baseFileName,
                 "forNetCore(MultiPlatform)",
                 "Implem.License.dll");
+            licenseDllPath = license;
             return CheckMethodExecute(license);
         }
 
         private bool CheckMethodExecute(string license)
         {
-            Assembly assembly = Assembly.LoadFrom(license);
+            if (!File.Exists(license))
+            {
+                logger.LogError("Implem.License.dll does not exist.");
+
+            }
+            Assembly assembly = Assembly.LoadFile(license);
             Type type = assembly.GetType("Implem.License.License");
             object instance = Activator.CreateInstance(type);
             MethodInfo checkMethod = type.GetMethod("Check");
@@ -1107,6 +1159,7 @@ namespace Implem.PleasanterSetup
             string installDir,
             string releaseZip)
         {
+            logger.LogError($"Start placing release resources to {installDir}.");
             if (!Directory.Exists(installDir))
             {
                 Directory.CreateDirectory(installDir);
@@ -1130,10 +1183,11 @@ namespace Implem.PleasanterSetup
                     }
                     Directory.Delete(unzipDir);
                 }
+                logger.LogError($"The release resource was placed in {installDir}.");
             }
             else
             {
-                logger.LogError("プリザンターのリリースファイルが存在しません。");
+                logger.LogError("The release zip file for Pleasanter does not exist.");
                 return;
             }
         }
@@ -1149,7 +1203,7 @@ namespace Implem.PleasanterSetup
         }
 
         //作成途中
-        private async Task<string?> DownloadNewResource(string installDir, string fileNames)
+        private async Task<string?> DownloadNewResource(string installDir, string fileName)
         {
             //先頭がPleasanterのzipをダウンロードしてinstallDirに配置
             using (HttpClient client = new HttpClient())
@@ -1167,20 +1221,16 @@ namespace Implem.PleasanterSetup
                 var destinationDir = string.Empty;
                 foreach (var asset in release["assets"])
                 {
-                    //引数を配列にしてここでforeachを回しても良い
-                    foreach (var fileName in fileNames)
+                    if (asset["name"].ToString().Contains(fileName))
                     {
-                        if (asset["name"].ToString().Contains(fileName))
-                        {
-                            assetUrl = asset["browser_download_url"].ToString();
-                            HttpResponseMessage assetResponse = await client.GetAsync(assetUrl);
-                            assetResponse.EnsureSuccessStatusCode();
-                            destinationDir = Path.Combine(Directory.GetParent(installDir).FullName, asset["name"].ToString());
-                            byte[] fileBytes = await assetResponse.Content.ReadAsByteArrayAsync();
-                            await File.WriteAllBytesAsync(destinationDir, fileBytes);
-                            Console.WriteLine($"Downloaded {asset["name"]} to {destinationDir}");
-                            break;
-                        }
+                        assetUrl = asset["browser_download_url"].ToString();
+                        HttpResponseMessage assetResponse = await client.GetAsync(assetUrl);
+                        assetResponse.EnsureSuccessStatusCode();
+                        destinationDir = Path.Combine(Directory.GetParent(installDir).FullName, asset["name"].ToString());
+                        byte[] fileBytes = await assetResponse.Content.ReadAsByteArrayAsync();
+                        await File.WriteAllBytesAsync(destinationDir, fileBytes);
+                        Console.WriteLine($"Downloaded {asset["name"]} to {destinationDir}");
+                        break;
                     }
                 }
                 return destinationDir;
