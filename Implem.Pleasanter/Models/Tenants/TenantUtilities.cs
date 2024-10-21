@@ -636,14 +636,12 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             TenantModel tenantModel)
         {
-            return hb.FieldSet(
+            return hb.TabsPanelField(
                 id: "FieldSetGeneral",
-                action: () => hb.Div(
-                    css: "fieldset-inner",
-                    action: () => hb.FieldSetGeneralColumns(
-                        context: context,
-                        ss: ss,
-                        tenantModel: tenantModel)));
+                action: () => hb.FieldSetGeneralColumns(
+                    context: context,
+                    ss: ss,
+                    tenantModel: tenantModel));
         }
 
         /// <summary>
@@ -1582,7 +1580,7 @@ namespace Implem.Pleasanter.Models
             }
             var hb = new HtmlBuilder();
             hb.Div(
-                css: "fieldset-inner",
+                css: "tabs-panel-inner",
                 action: () => hb
                     .HistoryCommands(context: context, ss: ss)
                     .Table(
@@ -1698,7 +1696,7 @@ namespace Implem.Pleasanter.Models
             Context context,
             TenantModel tenantModel)
         {
-            return hb.FieldSet(id: "FieldSetServerScript",
+            return hb.TabsPanelField(id: "FieldSetServerScript",
                 action: () => hb
                     .ServerScriptsSettingsEditor(
                         context: context, tenantModel: tenantModel),

@@ -1,0 +1,10 @@
+﻿{
+    "Id": "GroupMembers1201_Site_SScript_UsersDeptsGroups",
+    "Language": "ja",
+    "Type": "GroupMembers",
+    "ParentId": "Group12_Site_SScript_UsersDeptsGroups",
+    "ClassA": "Dept11_Site_SScript_UsersDeptsGroups",
+    "ClassB": "",
+    "CreatedTime": "36640",
+    "UpdatedTime": "36640"
+}

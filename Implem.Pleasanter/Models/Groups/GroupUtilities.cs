@@ -1162,14 +1162,12 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             GroupModel groupModel)
         {
-            return hb.FieldSet(
+            return hb.TabsPanelField(
                 id: "FieldSetGeneral",
-                action: () => hb.Div(
-                    css: "fieldset-inner",
-                    action: () => hb.FieldSetGeneralColumns(
-                        context: context,
-                        ss: ss,
-                        groupModel: groupModel)));
+                action: () => hb.FieldSetGeneralColumns(
+                    context: context,
+                    ss: ss,
+                    groupModel: groupModel));
         }
 
         private static HtmlBuilder FieldSetGeneralColumns(
@@ -1909,7 +1907,7 @@ namespace Implem.Pleasanter.Models
             }
             var hb = new HtmlBuilder();
             hb.Div(
-                css: "fieldset-inner",
+                css: "tabs-panel-inner",
                 action: () => hb
                     .HistoryCommands(context: context, ss: ss)
                     .Table(
@@ -3129,15 +3127,13 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb, Context context, GroupModel groupModel)
         {
             if (groupModel.MethodType == BaseModel.MethodTypes.New) return hb;
-            return hb.FieldSet(
+            return hb.TabsPanelField(
                 id: "FieldSetMembers",
-                action: () => hb.Div(
-                    css: "fieldset-inner",
-                    action: () => hb
-                        .CurrentMembers(
-                            context: context,
-                            groupModel: groupModel)
-                        .SelectableMembers(context: context)));
+                action: () =>  hb
+                    .CurrentMembers(
+                        context: context,
+                        groupModel: groupModel)
+                    .SelectableMembers(context: context));
         }
 
         /// <summary>
@@ -3147,15 +3143,13 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb, Context context, GroupModel groupModel)
         {
             if (groupModel.MethodType == BaseModel.MethodTypes.New) return hb;
-            return hb.FieldSet(
+            return hb.TabsPanelField(
                 id: "FieldSetGroupChildren",
-                action: () => hb.Div(
-                    css: "fieldset-inner",
-                    action: () => hb
-                        .CurrentChildren(
-                            context: context,
-                            groupModel: groupModel)
-                        .SelectableChildren(context: context)));
+                action: () => hb
+                    .CurrentChildren(
+                        context: context,
+                        groupModel: groupModel)
+                    .SelectableChildren(context: context));
         }
 
         /// <summary>
