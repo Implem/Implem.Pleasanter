@@ -15,7 +15,7 @@
                     .A(
                         href: "#" + name + "Grid",
                         text: Displays.Grid(context: context))))
-            .FieldSet(
+            .TabsPanelField(
                 id: name + "Editor",
                 action: () => hb
                     .FieldSetGeneralColumns(
@@ -23,10 +23,10 @@
                         ss: ss,
                         #modelName#Model: new #ModelName#Model(),
                         preview: true))
-            .FieldSet(
+            .TabsPanelField(
                 id: name + "Grid",
                 action: () => hb
-                    .Table(css: "grid", action: () => hb
+                    .GridTable(action: () => hb
                         .THead(action: () => hb
                             .GridHeader(
                                 context: context,

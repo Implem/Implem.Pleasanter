@@ -21,7 +21,8 @@ namespace Implem.PleasanterTest.Utilities
             DisabledGroup,
             Privileged,
             Lockout,
-            Disabled
+            Disabled,
+            UserDeptsGroups
         }
 
         public static UserModel Get(int userId)
@@ -70,6 +71,9 @@ namespace Implem.PleasanterTest.Utilities
                     break;
                 case UserTypes.Privileged:
                     userModel = Initializer.Users.Values.FirstOrDefault(o => o.LoginId.EndsWith("User20"));
+                    break;
+                case UserTypes.UserDeptsGroups:
+                    userModel = Initializer.Users.Values.FirstOrDefault(o => o.LoginId.EndsWith("User23_Site_SScript_UsersDeptsGroups"));
                     break;
             }
             return userModel;
