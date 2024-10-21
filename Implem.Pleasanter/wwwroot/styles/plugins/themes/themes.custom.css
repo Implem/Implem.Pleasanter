@@ -108,10 +108,10 @@ html .ui-button.ui-state-disabled:active {
 .ui-dialog {
     min-width: 400px;
     padding: 0;
+    margin: 16px;
     border: none!important;
     background-color: transparent;
     .ui-dialog-titlebar {
-        margin: 16px 16px 0;
         background: var(--base-bg);
         border: 1px solid var(--base-border);
         border-bottom: none;
@@ -129,7 +129,6 @@ html .ui-button.ui-state-disabled:active {
         }
     }
     .ui-dialog-content{
-        margin: 0 16px 16px;
         border: 1px solid var(--base-border);
         padding: 16px 16px 0 !important;
         background: var(--base-bg-light);
@@ -3031,3 +3030,5 @@ body:has(input#Controller[value="syslogs"]){
         }
     }
 }
+
+
