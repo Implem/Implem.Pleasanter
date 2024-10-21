@@ -39,6 +39,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string legendText = null,
             HtmlAttributes attributes = null,
             string innerId = null,
+            bool hasNotInner = false,
             bool _using = true,
             Action action = null)
         {
@@ -49,16 +50,24 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     legendText: legendText,
                     attributes: attributes,
                     action: () =>
-                        hb.Div(
-                            id: innerId,
-                            css: "tabs-panel-inner",
-                            _using: _using,
-                            action: () =>
-                            {
-                                action?.Invoke();
-                            }
-                        )
-                    )
+                    {
+                        if (!hasNotInner)
+                        {
+                            hb.Div(
+                                id: innerId,
+                                css: "tabs-panel-inner",
+                                _using: _using,
+                                action: () =>
+                                {
+                                    action?.Invoke();
+                                }
+                            );
+                        }
+                        else
+                        {
+                            action?.Invoke();
+                        }
+                    })
                 : hb;
         }
 

@@ -11209,11 +11209,12 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             View view,
             string prefix = "",
+            bool hasNotInner = false,
             Action action = null,
             Dictionary<string, string> displayTypeOptionCollection = null,
             Dictionary<string, string> commandDisplayTypeOptionCollection = null)
         {
-            return hb.TabsPanelField(id: $"{prefix}ViewGridTab", action: () => hb
+            return hb.TabsPanelField(id: $"{prefix}ViewGridTab", hasNotInner: hasNotInner, action: () => hb
                 .FieldSet(
                     css: " enclosed-thin",
                     legendText: Displays.ListSettings(context: context),
@@ -16878,17 +16879,20 @@ namespace Implem.Pleasanter.Models
                 dashboardPart.SiteId);
             if (currentSs == null)
             {
-                return hb.FieldSet(
-                    id: "DashboardPartViewIndexTabContainer"
+                return hb.TabsPanelField(
+                    id: "DashboardPartViewIndexTabContainer",
+                    innerId: "DashboardPartViewGridTabContainer"
                 );
             }
-            return hb.FieldSet(
+            return hb.TabsPanelField(
                 id: "DashboardPartViewIndexTabContainer",
+                innerId: "DashboardPartViewGridTabContainer",
                 action: () => hb.ViewGridTab(
                     context: context,
                     ss: currentSs,
                     view: view,
-                    prefix: "DashboardPart"));
+                    prefix: "DashboardPart",
+                    hasNotInner: true));
         }
 
         /// <summary>

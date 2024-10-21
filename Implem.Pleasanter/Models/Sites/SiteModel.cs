@@ -9049,14 +9049,15 @@ namespace Implem.Pleasanter.Models
                 dashboardPart.View = new View();
             }
             res
-                .ReplaceAll(
-                    "#DashboardPartViewGridTab",
+                .Html(
+                    "#DashboardPartViewGridTabContainer",
                     new HtmlBuilder()
                         .ViewGridTab(
                             context: context,
                             ss: currentSs,
                             view: new View(),
-                            prefix: "DashboardPart"))
+                            prefix: "DashboardPart",
+                            hasNotInner: true))
                 .Html(
                     "#DashboardPartViewFiltersTabContainer",
                     new HtmlBuilder()
