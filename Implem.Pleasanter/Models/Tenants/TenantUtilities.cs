@@ -1583,8 +1583,8 @@ namespace Implem.Pleasanter.Models
                 css: "tabs-panel-inner",
                 action: () => hb
                     .HistoryCommands(context: context, ss: ss)
-                    .Table(
-                        attributes: new HtmlAttributes().Class("grid history"),
+                    .GridTable(
+                        css: "history",
                         action: () => hb
                             .THead(action: () => hb
                                 .GridHeader(
@@ -2091,9 +2091,8 @@ namespace Implem.Pleasanter.Models
         public static HtmlBuilder EditServerScript(this HtmlBuilder hb, Context context, TenantModel tenantModel)
         {
             var selected = context.Forms.IntList("EditServerScript");
-            return hb.Table(
+            return hb.GridTable(
                 id: "EditServerScript",
-                css: "grid",
                 attributes: new HtmlAttributes()
                     .DataName("ServerScriptId")
                     .DataFunc("openServerScriptDialog")
@@ -2258,9 +2257,8 @@ namespace Implem.Pleasanter.Models
         public static HtmlBuilder EditServerScriptSchedules(this HtmlBuilder hb, Context context, SettingList<BackgroundSchedule> backgoundSchedules)
         {
             var selected = context.Forms.IntList("EditServerScriptSchedules");
-            return hb.Table(
+            return hb.GridTable(
                 id: "EditServerScriptSchedules",
-                css: "grid",
                 attributes: new HtmlAttributes()
                     .DataName("ServerScriptScheduleId")
                     .DataFunc("openServerScriptScheduleDialog")
