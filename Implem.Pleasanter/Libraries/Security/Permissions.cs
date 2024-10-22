@@ -438,11 +438,12 @@ namespace Implem.Pleasanter.Libraries.Security
                     mine: mine) != false;
         }
 
-        public static bool HasPermission(this Context context, SiteSettings ss)
+        public static bool HasPermission(this Context context, SiteSettings ss, bool isSearch = false)
         {
             return ss.PermissionType != null
                 || ss.ItemPermissionType != null
-                || context.HasPrivilege;
+                || context.HasPrivilege
+                || isSearch;
         }
 
         public static Types SiteTopPermission(this Context context)
