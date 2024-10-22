@@ -1,0 +1,42 @@
+﻿{
+    "Version": 1.017,
+    "ReferenceType": "Results",
+    "EditorColumnHash": {
+        "General": [
+            "ResultId",
+            "Ver",
+            "Title",
+            "Body",
+            "Status",
+            "Manager",
+            "Owner",
+            "Comments",
+            "ClassA"
+        ]
+    },
+    "LinkColumns": [
+        "ResultId",
+        "Title",
+        "Status",
+        "Owner",
+        "Updator",
+        "UpdatedTime",
+        "ClassB",
+        "ClassA"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "ClassA",
+            "ChoicesText": "[[#CircularRreference2#]]",
+            "Link": true,
+            "SearchType": "PartialMatch"
+        }
+    ],
+    "Links": [
+        {
+            "ColumnName": "ClassA",
+            "SiteId": #CircularRreference2#
+        }
+    ],
+    "NoDisplayIfReadOnly": false
+}
