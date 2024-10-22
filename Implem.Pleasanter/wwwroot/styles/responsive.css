@@ -95,7 +95,7 @@
 #ViewSelectorField { position: relative; margin-bottom: 5px; font-size: 2.8vw; }
 
 #HeaderTitleContainer { margin-bottom: 3%; }
-    
+
 #ViewFilters { font-size: 2.6vw; padding-bottom: 2%; }
 #Aggregations { font-size: 2.6vw;}
     #ViewFilters_Reset { float: none; }
@@ -112,8 +112,8 @@
         width: 100% !important;
         height: 6vw;
     }
-    
-    .field-auto-thin input[type="checkbox"], 
+
+    .field-auto-thin input[type="checkbox"],
     .field-auto-thin input[type="radio"] { height: 2.6vw;  width: 2.6vw; margin-right: 1vw; }
     .control-checkbox { margin: 0;}
     .control-checkbox+label { margin: 0; }
@@ -156,7 +156,7 @@
 
 .field-normal .control-text{ width: 100%; height: auto; padding: 1%; line-height: 1; }
 .control-textbox { height: auto; }
-    
+
 .ui-widget.ui-widget-content {
     font-size: 2.6vw;
 }
@@ -165,7 +165,7 @@
 .alert-success,
 .alert-warning,
 .alert-error { height: auto; font-size: 2.6vw; }
-    
+
 #MainCommandsContainer { height:auto; padding: 2vw 0; font-size: 2.6vw; z-index: 200; }
 #Footer { z-index: 102; }
 
@@ -193,7 +193,7 @@ body { min-width: 320px!important; }
     #CorpLogo { float: none; width: 30%;}
 #MainContainer { min-height: 100vh; }
 
-#Header a#navtgl { 
+#Header a#navtgl {
     position: absolute;
     display: block;
     padding: 1.6vw 1.4vw;
@@ -207,7 +207,7 @@ body { min-width: 320px!important; }
     background: #fece2f; }
 #Header a#navtgl::before ,
 #Header a#navtgl span,
-#Header a#navtgl::after{ 
+#Header a#navtgl::after{
 	position: absolute;
 	top: 50%;
 	left: 50%;
@@ -305,7 +305,7 @@ font-weight: normal;
 text-decoration: none;
 }
 
-.ui-menu .ui-menu-item { 
+.ui-menu .ui-menu-item {
 border-top: 1px solid #d19405;
 }
 #NewMenuContainer {
@@ -356,12 +356,12 @@ margin-top: 3%;
 margin-bottom: 0;
 }
 
-#SiteMenu .nav-site.sites.to-parent span.title { 
+#SiteMenu .nav-site.sites.to-parent span.title {
 position: relative;
 top: 0;
 text-align: left;
 width: 100%;
-margin-left: 0; 
+margin-left: 0;
 }
 
 #SiteMenu .nav-site.sites.to-parent .heading{
@@ -408,7 +408,7 @@ font-size: 14px;
 #SiteMenu .nav-site[data-type="Wikis"] a::before { top: 20%; }
 #SiteMenu .nav-site[data-type="Wikis"] a::after { top: 60%; }
 #SiteMenu .nav-site[data-type="Wikis"] a img { margin-top: 15%; }
-    
+
 #SiteMenu .nav-site.sites.to-parent {
     height: auto!important;
     border: none;
@@ -503,7 +503,7 @@ overflow: hidden;
 .legend {order: 2;}
 #StandardTemplatesViewer { order:3;}
 .template-selectable { order: 1; float: none;}
-    
+
 .template-viewer-container { float: none; margin: 0;}
 .template-viewer { margin: 0;}
 .template-selectable { width: 100%; }
@@ -514,7 +514,7 @@ overflow: hidden;
 
 .container-selectable .wrapper { min-height: auto;}
 .h350 { height: auto;}
-    
+
     #EditInDialogBody { padding-bottom: 15%; }
 
 .links {
@@ -533,23 +533,23 @@ overflow: hidden;
     .grid>tbody td:nth-child(1) { min-width:1vw;}
 .grid>tbody td p { white-space: nowrap; }
 
-    
+
     #Calendar { font-size: 2.6vw; }
     #Calendar button { margin-bottom: 2%;}
     #CalendarBody #Grid thead { background: #fff; }
     #CalendarMonth { display:block; }
-    
+
     #Calendar .field-auto-thin { display: flex; align-items: center; width: 33%; margin: 0; padding: 0; margin-bottom: 2%!important;}
     #Calendar .field-auto-thin p { margin-right: 1%;}
     #Calendar .field-auto-thin select { max-width: none; }
-    
+
     #CalendarTimePeriod,
     #CalendarFromTo,
     #CalendarMonth { height: auto;}
     #CalendarMonth { margin-bottom: 2%;}
     .w100 { width:auto;}
-    
-    
+
+
     #CrosstabBody { margin-top: 3%;}
     #CrosstabBody #Grid { table-layout: auto;}
     #CrosstabBody .grid>thead>tr>th,
@@ -558,9 +558,9 @@ overflow: hidden;
     #CrosstabBody .grid>tbody td { min-width: 10vw; white-space: nowrap; }
     #Crosstab {display: flex;
     flex-wrap: wrap;
-        justify-content: space-between; 
+        justify-content: space-between;
     align-items: center;}
-    
+
     #Crosstab .field-auto-thin { display: flex; align-items: center; width: 48%; margin: 0; padding: 0; font-size: 2.6vw; }
     #Crosstab .field-auto-thin#CrosstabTimePeriodField { width: 48%;}
         #Crosstab .field-auto-thin p {
@@ -568,11 +568,11 @@ overflow: hidden;
             white-space: nowrap;
         }
     #Crosstab .field-auto-thin select { max-width: none; }
-    #Crosstab #CrosstabMonth { width: 48%; margin-top:2%; margin-right: 0; font-size: 2.6vw; } 
+    #Crosstab #CrosstabMonth { width: 48%; margin-top:2%; margin-right: 0; font-size: 2.6vw; }
     #Crosstab button { font-size: 2.6vw; margin-top: 1%;}
-    
+
     .svg-crosstab { display: block; }
-    
+
     #ViewModeContainer .both { display: flex; align-items: center; flex-wrap: wrap; }
     #ViewModeContainer .both .field-auto-thin { display: flex; align-items: center; width: 48%; margin: 0; padding: 0; font-size: 2.6vw; height: auto; padding-top: 2%; }
     #ViewModeContainer .both .field-auto-thin .field-auto-thin { width: 30%; }
@@ -582,18 +582,18 @@ overflow: hidden;
     }
     #ViewModeContainer .field-auto-thin p { margin-right: 2%;
     white-space: nowrap; text-align: left; }
-    
+
     #GanttAxis { width: 1500px; position: relative; left: 0; bottom: 0; }
     #Gantt { width: 1500px; }
-    
+
     #BurnDown { width: 1500px; }
-    
+
     #TimeSeriesBody { padding-top: 5%; margin-left: -5%; width: 1500px; }
     #TimeSeries { width: 1500px; }
-    
+
     #ViewModeContainer #Kamban.both .field-auto-thin:nth-child(3) { width: 48%; }
     #ViewModeContainer #Kamban.both .field-auto-thin .field-control { width: 100%; }
-    
+
     #KambanBody { margin-top: 3%;}
     #KambanBody #Grid { table-layout: auto;}
     #KambanBody .grid>thead>tr>th,
@@ -1142,7 +1142,7 @@ overflow: hidden;
 
   #Header a#navtgl.on::before ,
   #Header a#navtgl.on span,
-  #Header a#navtgl.on::after{ 
+  #Header a#navtgl.on::after{
       position: absolute;
       top: 50%;
       left: 50%;
