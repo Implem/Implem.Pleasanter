@@ -1685,6 +1685,7 @@ th.calendar-header {
 }
 
 .fieldset {
+    min-inline-size: 0;
 }
 
     .fieldset.enclosed {
@@ -2512,6 +2513,9 @@ _::-webkit-full-page-media, _:future, :root .field-normal .control-checkbox + la
     border: none;
 }
 
+.grid-wrap {
+    clear: both;
+}
 .grid {
     margin: 0px 0px 10px 0px;
 }
@@ -2676,17 +2680,12 @@ _::-webkit-full-page-media, _:future, :root .field-normal .control-checkbox + la
 .links {
     padding: 0px 10px;
 }
-
-#Links > .fieldset{
-  display: grid;
-}
-
-#Links > .fieldset > div{
-  overflow: auto;
-}
-
 #Links > .fieldset > div .grid{
-  width: max-content; min-width: 100%;
+    width: max-content; min-width: 100%;
+}
+#Links > .fieldset > div .grid-wrap{
+    overflow: auto;
+    margin-bottom: 10px;
 }
 
 .link-creations button {

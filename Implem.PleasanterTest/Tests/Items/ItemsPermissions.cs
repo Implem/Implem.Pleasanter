@@ -41,7 +41,7 @@ namespace Implem.PleasanterTest.Tests.Items
             var baseTests = BaseData.Tests(
                 JsonData.ExistsOne(
                     method: "Html",
-                    target: "#FieldSetRecordAccessControl"),
+                    target: "#FieldSetRecordAccessControlEditor"),
                 JsonData.ExistsOne(
                     method: "SetValue",
                     target: "#SourcePermissionsOffset"),

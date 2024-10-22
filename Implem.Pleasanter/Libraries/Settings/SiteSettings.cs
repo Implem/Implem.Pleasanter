@@ -5496,18 +5496,17 @@ namespace Implem.Pleasanter.Libraries.Settings
             switch (TableType)
             {
                 case Sqls.TableTypes.History:
-                    return "grid history";
+                    return "history";
                 case Sqls.TableTypes.Deleted:
-                    return "grid deleted not-link";
+                    return "deleted not-link";
                 default:
-                    return "grid"
-                        + (context.Forms.Bool("EditOnGrid")
-                            ? " confirm-unload not-link"
-                            : DisableLinkToEdit == true
-                                ? " not-link"
-                                : OpenEditInNewTab == true
-                                    ? " new-tab"
-                                    : string.Empty);
+                    return context.Forms.Bool("EditOnGrid")
+                        ? "confirm-unload not-link"
+                        : DisableLinkToEdit == true
+                            ? "not-link"
+                            : OpenEditInNewTab == true
+                                ? "new-tab"
+                                : string.Empty;
             }
         }
 
