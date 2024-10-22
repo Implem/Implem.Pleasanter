@@ -1,0 +1,10 @@
+﻿{
+    "Id": "Dept11_Site_SScript_UsersDeptsGroups",
+    "Language": "ja",
+    "Type": "Depts",
+    "ParentId": "",
+    "Title": "UsersDeptsGroupsテスト用組織",
+    "ClassA": "000011",
+    "CreatedTime": "36640",
+    "UpdatedTime": "36640"
+}

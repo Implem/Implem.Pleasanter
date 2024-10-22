@@ -478,6 +478,16 @@ namespace Implem.Pleasanter.Models
                             .DeptId(idHash.Get(demoDefinition.ClassA).ToInt())
                             .UserId(idHash.Get(demoDefinition.ClassB).ToInt())
                             .Admin(demoDefinition.CheckA))));
+            Def.DemoDefinitionCollection
+                .Where(o => o.Language == context.Language)
+                .Where(o => o.Type == "Groups")
+                .OrderBy(o => o.Id.RegexFirst("[0-9]+").ToInt())
+                .ForEach(demoDefinition => Repository.ExecuteNonQuery(
+                    context: context,
+                    statements: Rds.InsertGroupChildren(
+                        param: Rds.GroupChildrenParam()
+                            .GroupId(idHash.Get(demoDefinition.ParentId).ToInt())
+                            .ChildId(idHash.Get(demoDefinition.Id).ToInt()))));
         }
 
         /// <summary>
