@@ -17603,12 +17603,12 @@ namespace Implem.Pleasanter.Models
                 return ApiResults.BadRequest(context: context);
             }
             var resultCollection = new List<object>();
-            var startCanRead = context.CanRead(
-                ss: SiteSettingsUtilities.Get(
-                    context: context,
-                    siteId: id,
-                    referenceId: id),
-                site: true);
+            var startSs = SiteSettingsUtilities.Get(
+                context: context,
+                siteId: id,
+                referenceId: id);
+            var startCanRead = context.CanRead(ss: startSs, site: true)
+                || context.CanCreate(ss: startSs, site: true);
             var tenantCache = SiteInfo.TenantCaches[context.TenantId];
             foreach (var siteName in findSiteNames)
             {
@@ -17623,12 +17623,13 @@ namespace Implem.Pleasanter.Models
                         name: siteName);
                     if (foundId != -1)
                     {
-                        if (context.CanRead(
-                            ss: SiteSettingsUtilities.Get(
-                                context: context,
-                                siteId: foundId,
-                                referenceId: foundId),
-                            site: true) == false)
+                        var findSs = SiteSettingsUtilities.Get(
+                            context: context,
+                            siteId: foundId,
+                            referenceId: foundId);
+                        var findCanRead = context.CanRead(ss: findSs, site: true)
+                            || context.CanCreate(ss: findSs, site: true);
+                        if (findCanRead == false)
                         {
                             foundId = -1;
                         }
