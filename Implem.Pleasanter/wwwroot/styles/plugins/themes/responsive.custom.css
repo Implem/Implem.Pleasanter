@@ -1,5 +1,8 @@
 ﻿@media screen and (max-width: 1024px) and (min-width: 0px) {
-
+    body {
+        min-width: 320px;
+        overflow-x: hidden;
+    }
 
 
 
@@ -570,7 +573,6 @@
 
 /* PageTemplate ---------------------------------------------------------------- */
 body {
-    overflow: none;
     &:has(#NavigationsUpperRight) {
         margin-left: 0;
     }
@@ -582,10 +584,12 @@ body {
     }
 }
 
-/* #Header */
 #Header {
-    --sideNaviWidth: 240px;
+    --sideNaviWidth: 280px;
     height: 40px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 2px!important;
     #Logo,
     #CorpLogo {
@@ -593,26 +597,24 @@ body {
             height: 25px;
         }
     }
-    /* #ProductLogo {
-        float: none;
-        padding: 0;
-        display: block;
-        line-height: 1;
-        font-size: 24px;
-    } */
+    #ProductLogo {
+        font-size: 15px;
+    }
+    #navtgl{
+        display: none;
+    }
     #NavigationsUpperRight {
         position: fixed;
         z-index: 9998;
         top: 0;
         width: var(--sideNaviWidth);
         right: calc(var(--sideNaviWidth) * -1.2);
-        display: flex;
         flex-direction: column;
+        gap: 8px;
         padding: 16px;
-        transition: 0.3s;
         background: var(--base-bg);
         box-shadow: 0 2px 4px var(--base-shadow);
-        gap: 8px;
+        transition: 0.3s;
         body:has(.hamburger-menubox .input-hidden:checked) &{
             right: 0;
         }
@@ -628,6 +630,9 @@ body {
                 white-space: nowrap;
             }
         }
+        #SearchField{
+            width: 100%;
+        }
     }
     /* サイドメニュー */
     .hamburger-switch {
@@ -638,159 +643,35 @@ body {
         background-color: transparent;
     }
     .hamburger-menubox {
-        font-size: 13px;
         .input-hidden {
-            display: none;
             &:checked {
                 & ~ .hamburger-menuwrap {
                     left: auto;
+                    width: var(--sideNaviWidth);
                     right: 0;
-                    overflow-y: scroll;
                 }
                 & ~ .hamburger-closelabel {
-                    width: 100%;
-                    height: 100%;
-                    top: 50px;
-                    left: 0;
                     .hamburger-cover{
                         z-index: 9996;
                     }
                 }
             }
         }
-        li {
-            flex-direction: column;
-            align-items: flex-start;
-            justify-content: flex-start;
-        }
         .hamburger-menuwrap {
             padding: 0;
             left: auto;
-            top: 0;
             z-index: 9997;
             right: 0;
             width: 0;
         }
         .accordion {
-            margin-top: 100px;
+            padding-top: 100px;
             width: var(--sideNaviWidth);
-            overflow: hidden;
-            a {
-                transition: background 150ms ease-out;
-                &:hover {
-                    background-color: var(--primarySub03);
-                }
-                img {
-                    margin: 0 10px 0 10px;
-                    width: 32px;
-                    &.new {
-                        background-color: var(--primaryColor);
-                        border-radius: 16px;
-                    }
-                }
-            }
         }
         .toggle {
-            display: none;
             &:checked {
-                & ~ .menulabel::before {
-                    transform: rotate(-45deg);
-                }
                 & ~ .menubox-sub {
-                    width: 240px;
-                    height: auto;
-                    transition: all 0.3s;
-                    overflow: hidden;
-                }
-            }
-        }
-        .menulabel,
-        .menubox-sub {
-            -webkit-backface-visibility: hidden;
-            backface-visibility: hidden;
-            transform: translateZ(0);
-        }
-        .menulabel {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: flex-start;
-            cursor: pointer;
-            height: 52px;
-            transition: background 150ms ease-out;
-            &:has(~ .menubox-sub)::before {
-                content: "";
-                width: 6px;
-                height: 6px;
-                border-top: 2px solid var(--hamburger-opener-icon);
-                border-right: 2px solid var(--hamburger-opener-icon);
-                -webkit-transform: rotate(45deg);
-                position: absolute;
-                top: calc(50% - 3px);
-                right: 20px;
-                transform: rotate(135deg);
-            }
-            &:hover {
-                background-color: var(--primarySub03);
-            }
-            span {
-                display: flex;
-                align-items: center;
-                &:first-child {
-                    width: 52px;
-                    height: 52px;
-                    justify-content: center;
-                    img {
-                        width: initial;
-                        margin: auto;
-                    }
-                }
-            }
-        }
-        .menubox {
-            a {
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                justify-content: flex-start;
-                color: var(--base-text);
-                text-decoration: none;
-            }
-            & > a {
-                min-height: 52px;
-            }
-        }
-        .menubox-sub {
-            height: 0;
-            padding: 0;
-            overflow: hidden;
-            background-color: var(--hamburger-subnavi-bg);
-            ul {
-                a {
-                    padding: 8px 8px 8px 52px;
-                    &:hover {
-                        background: var(--hamburger-subnavi-hover);
-                    }
-                }
-            }
-            .sub-menu {
-                .sub-menu {
-                    margin-bottom: 15px;
-                    ul {
-                        padding-left: 52px;
-                        a {
-                            position: relative;
-                            padding: 3px 1.5em;
-                            font-size: 12px;
-                            word-break: break-all;
-                            &::before {
-                                position: absolute;
-                                top: 3px;
-                                left: 0;
-                                content: "・";
-                            }
-                        }
-                    }
+                    width: 100%;
                 }
             }
         }
@@ -1693,36 +1574,7 @@ body:not(:has(#Editor)){
 
 /* [TOP] > #StartGuide */
 #StartGuide {
-    width: calc(100% - 32px);
-    background-color: var(--site-panal-bg);
-    border-radius: 4px;
-    margin: 16px 16px 0;
-    padding: 24px 0 0 0;
-    float: none;
-    box-shadow: 0 2px 2px var(--base-shadow);
-    #StartGuideContents {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: auto;
-        a {
-            margin: 0 0;
-            border-radius: 4px;
-            padding: 16px;
-            width: 216px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            transition: background 150ms ease-out;
-            &:hover {
-                background-color: var(--start-guide-hover);
-            }
-        }
-    }
-    #DisableStartGuideField {
-        float: none;
-        margin: 24px 0 0 16px;
-    }
+    display: none;
 }
 
 /* [TOP] > #SiteMenu */
@@ -2687,9 +2539,6 @@ body:has(input#Controller[value="syslogs"]){
         margin: 10px 0px;
         float: left;
     }
-    #StartGuide {
-        display: none;
-    }
     .container-normal > #ApiKey {
         word-break: break-all;
     }
@@ -2708,10 +2557,6 @@ body:has(input#Controller[value="syslogs"]){
     }
     #TenantImage {
         width: 100%;
-    }
-    #Search {
-        width: auto;
-        height: auto;
     }
 
 
@@ -2809,7 +2654,6 @@ body:has(input#Controller[value="syslogs"]){
 
 @media screen and (max-width: 1024px) and (min-width: 0px) {
 
-body { min-width: 320px!important; }
 
 
 .ui-menu .ui-menu-item {
@@ -2989,29 +2833,6 @@ border: 1px solid #d19405;
   }
 }
 
-@media screen and (max-width: 1024px) and (min-width: 0px) {
-  #Logo a {
-    align-items: center;
-    display: inline-flex;
-  }
-  #Logo #ProductLogo {
-    font-size: 18px;
-    padding-left: 8px;
-  }
-  #CorpLogo {
-    float: none;
-    height: calc(8vw + 10px);
-    width: unset;
-    margin-top: 0;
-  }
-}
-
-@media screen and (max-width: 1024px) and (min-width: 768px) {
-  #Logo #ProductLogo {
-    padding-left: 16px;
-    font-size: 32px;
-  }
-}
 
 @media screen and (max-width: 1024px) and (min-width: 0px) {
   #Editor .field-control .container-normal {
@@ -3419,9 +3240,6 @@ border: 1px solid #d19405;
 }
 
 @media screen and (max-width: 1024px) and (min-width: 0px) {
-   body {
-       overflow-x: hidden;
-   }
   .is-showMenu {
     overflow: hidden;
   }
@@ -3441,44 +3259,7 @@ border: 1px solid #d19405;
   }
   #MainContainer {
   }
-  header#Header {
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    transition: all 0.5s ease;
-  }
-  header#Header a#navtgl {
-    top: 8px;
-    z-index: 1000;
-    transition: all 0.5s ease;
-  }
 
-  #Header a#navtgl.on::before ,
-  #Header a#navtgl.on span,
-  #Header a#navtgl.on::after{
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 20px;
-      height: 1.5px;
-      margin: 0 0 0 -10px;
-      content: ' ';
-      background: #333;
-      transition: transform 150ms ease-out, margin 150ms ease-out, width 150ms ease-out;
-	}
-	header#Header a#navtgl.on::before {
-    width: 20px;
-    margin: 0 0 0 -10px;
-    transform: rotate(45deg);
-  }
-  header#Header a#navtgl.on span {
-    width: 0;
-  }
-  header#Header a#navtgl.on::after {
-    width: 20px;
-    margin: 0 0 0 -10px;
-    transform: rotate(-45deg);
-  }
 }
 
 @media screen and (max-width: 1024px) and (min-width: 0px) {
