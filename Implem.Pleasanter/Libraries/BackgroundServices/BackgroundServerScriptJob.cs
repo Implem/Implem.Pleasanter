@@ -117,6 +117,7 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
                 setAuthenticated: true);
             context.SetTenantProperties(force: true);
             context.BackgroundServerScript = true;
+            context.AbsoluteUri = Parameters.Service.AbsoluteUri;
             return context;
         }
     }
