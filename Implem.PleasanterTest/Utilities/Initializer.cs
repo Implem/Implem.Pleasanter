@@ -7,14 +7,16 @@ using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using Implem.PleasanterTest.Models;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 namespace Implem.PleasanterTest.Utilities
 {
     /// <summary>
     /// 新しいテナントを作成し、デモデータからテスト用のデータをデータベース内に作成します。
     /// </summary>
-    public static class Initializer
+    public static partial class Initializer
     {
         public static Context Context;
         public static int TenantId;
@@ -30,6 +32,50 @@ namespace Implem.PleasanterTest.Utilities
         public static Dictionary<string, Dictionary<string, WikiModel>> Wikis;
         public static Dictionary<string, long> Titles = new Dictionary<string, long>();
         public static Dictionary<long, ItemModel> ItemIds = new Dictionary<long, ItemModel>();
+        //実行結果を保存する場合に保存先のフォルダ名を指定
+        private static readonly string resultsSaveDir = string.Empty;
+
+        //実行結果の日付、GUID、トークンをマスクする正規表現
+        [System.Text.RegularExpressions.GeneratedRegex(@"\d{4}-\d{1,2}-\d{1,2}")]
+        private static partial System.Text.RegularExpressions.Regex Date1Regex();
+
+        [System.Text.RegularExpressions.GeneratedRegex(@"\d{4}/\d{1,2}/\d{1,2}")]
+        private static partial System.Text.RegularExpressions.Regex Date2Regex();
+
+        [System.Text.RegularExpressions.GeneratedRegex(@"\d{1,2}:\d{1,2}(:\d{1,2})?(\.\d{3})?")]
+        private static partial System.Text.RegularExpressions.Regex TimeRegex();
+
+        [System.Text.RegularExpressions.GeneratedRegex(@"\d{1,3} [分秒日](前|超過)")]
+        private static partial System.Text.RegularExpressions.Regex BeforeRegex();
+
+        [System.Text.RegularExpressions.GeneratedRegex(@"data-id=\\""(\w+)\\""")]
+        private static partial System.Text.RegularExpressions.Regex DataIdRegex();
+
+        [System.Text.RegularExpressions.GeneratedRegex(@"\/\?(\d*)(\\)?""")]
+        private static partial System.Text.RegularExpressions.Regex Token1Regex();
+
+        [System.Text.RegularExpressions.GeneratedRegex(@"binaries\/(\w+)\/")]
+        private static partial System.Text.RegularExpressions.Regex BinariesRegex();
+
+        public static void SaveResults(string result, [CallerFilePath] string callerFilePath = "")
+        {
+            if (resultsSaveDir.IsNullOrEmpty())
+            {
+                return;
+            }
+            Directory.CreateDirectory(resultsSaveDir);
+            var fileName = Path.Combine(resultsSaveDir, Path.GetFileName(callerFilePath));
+
+            result = Date1Regex().Replace(result, "****-**-**");
+            result = Date2Regex().Replace(result, "****/**/**");
+            result = TimeRegex().Replace(result, "**:**:**");
+            result = DataIdRegex().Replace(result, "data-id=\"****\"");
+            result = Token1Regex().Replace(result, "/?******\"");
+            result = BinariesRegex().Replace(result, "binaries/******/");
+            result = BeforeRegex().Replace(result, "** **");
+            result = result.Replace(">", ">" + System.Environment.NewLine);
+            System.IO.File.WriteAllText(fileName, result);
+        }
 
         public static void Initialize()
         {
@@ -143,5 +189,7 @@ namespace Implem.PleasanterTest.Utilities
                     param: Rds.UsersParam()
                         .Password("ABCDEF".Sha512Cng())));
         }
+
+
     }
 }

@@ -1,0 +1,1 @@
+﻿select concat('{{"DataTableName":"{0}","Id":',last_insert_id(),'}}');

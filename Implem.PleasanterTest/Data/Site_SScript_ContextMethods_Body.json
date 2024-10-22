@@ -1,0 +1,15 @@
+﻿{
+    "Version": 1.017,
+    "ReferenceType": "Results",
+    "EditorColumnHash": { "General": [ "ResultId", "Ver", "Title", "Body", "ClassA", "Status", "Manager", "Owner", "Comments" ] },
+    "ServerScripts": [
+        {
+            "Title": "test",
+            "Name": "",
+            "BeforeOpeningPage": true,
+            "Body": "try{\n    if(context.Forms.Item.get(\"ClassA\") === \"context.Formテストです。\"){\n        context.AddMessage(\"OK\",'alert-information');\n    } else {\n        context.AddMessage(\"NG\",'alert-error');\n    }\n    if(context.Forms.ControlId() === \"index\"){\n        context.Log(\"OK\");\n    } else {\n        context.Log(\"NG\");\n    }\n} catch (e) {\n    context.AddMessage(e.stack, 'alert-error');\n}",
+            "Id": 1
+        }
+    ],
+    "NoDisplayIfReadOnly": false
+}

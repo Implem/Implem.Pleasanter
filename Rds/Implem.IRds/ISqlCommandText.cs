@@ -5,6 +5,8 @@ namespace Implem.IRds
 {
     public interface ISqlCommandText
     {
+        string BeforeAllCommand();
+
         string CreateSelectIdentity(
             string dataTableName,
             string template,
@@ -17,7 +19,8 @@ namespace Implem.IRds
             string setClause,
             Action<StringBuilder> sqlWhereAppender,
             string intoClause,
-            string valueClause);
+            string valueClause,
+            string selectClauseForMySql);
 
         string CreateTopClause(int top);
 
@@ -36,5 +39,7 @@ namespace Implem.IRds
         string CreateFullTextWhereBinary(string itemsTableName, string paramName, bool negative);
 
         Dictionary<string,string> CreateSearchTextWords(Dictionary<string,string> words, string searchText);
+
+        string CreateDataRangeCommand(int? commandCount);
     }
 }

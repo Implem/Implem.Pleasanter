@@ -1,0 +1,91 @@
+﻿using CsvHelper;
+using Implem.DefinitionAccessor;
+using Implem.IRds;
+using Implem.Libraries.Utilities;
+using System.Collections.Generic;
+using System.Linq;
+namespace Implem.CodeDefiner.Functions.Rds.Parts.MySql
+{
+    //MySQL用の処理のみを集めた部品クラス。
+    //MySQLはSQLServer・PostgreSQLとは異なる制約を多く有しているため、専用のクラスに独自の処理をまとめた。
+    internal static class MySqlConstraints
+    {
+        internal static string CreateModifyColumnCommand(
+            ISqlObjectFactory factory,
+            string tableNameTemp,
+            IEnumerable<ColumnDefinition> columnDefinitionCollection,
+            string command)
+        {
+            bool NeedsDefault(ColumnDefinition o)
+            {
+                return !o.Default.IsNullOrEmpty() &&
+                    !(tableNameTemp.EndsWith("_history") && o.ColumnName == "Ver");
+            }
+            bool NeedsAutoIncrement(ColumnDefinition o)
+            {
+                return o.Identity &&
+                    !tableNameTemp.EndsWith("_history") &&
+                    !tableNameTemp.EndsWith("_deleted");
+            }
+            string GetModifyColumnSqls(
+                ISqlObjectFactory factory,
+                ColumnDefinition columnDefinition,
+                bool needsDefault,
+                bool needsAutoIncrement,
+                int seed)
+            {
+                //alter table ... modify columnは、カラム再定義のコマンドである。
+                //alter table ... alter columnでは追加する属性のみコマンドに設定すれば実行可能であるのに対し、
+                //modify columnの場合は追加する属性だけでなく、データ型を含む全属性の情報を記述する必要がある。
+                return Def.Sql.ModifyColumn
+                    .Replace("#ColumnDefinition#", MySqlColumns.Sql_Create(
+                        factory: factory,
+                        columnDefinition: columnDefinition))
+                    .Replace("#Default#", needsDefault
+                        ? " default " + Constraints.DefaultDefinition(factory, columnDefinition)
+                        : string.Empty)
+                    .Replace("#AutoIncrement#", needsAutoIncrement
+                        ? " auto_increment"
+                        : string.Empty)
+                    .Replace("#SetSeed#", needsAutoIncrement
+                        ? $"\r\nalter table \"#TableName#\" auto_increment = {seed};"
+                        : string.Empty);
+            }
+            //MySQLの以下の制約下で、デフォルト値と自動採番機能を追加するためのコマンドを生成する。
+            //・デフォルト値→デフォルト値が関数の場合はalter table ... alter columnの実行時にエラーになる。
+            //・自動採番機能(auto_increment)→alter table ... alter columnでは追加や削除が不可。modify columnで追加する必要がある。
+            //・自動採番機能(auto_increment)→主キー制約がない状態で追加しようとすると実行時にエラーになる。
+            //以上の制約をクリアするため、主キーとインデックスの生成コマンドの実行後、modify columnを実行してデフォルト値と自動採番機能を追加する。
+            return command.Replace(
+                "#ModifyColumn#", columnDefinitionCollection
+                    .Where(o => NeedsDefault(o) || NeedsAutoIncrement(o))
+                    .Select(o => GetModifyColumnSqls(
+                        factory: factory,
+                        columnDefinition: o,
+                        needsDefault: NeedsDefault(o),
+                        needsAutoIncrement: NeedsAutoIncrement(o),
+                        seed: o.Seed == 0 ? 1 : o.Seed))
+                    .JoinReturn());
+        }
+
+        internal static string DropConstraintCommand(
+            ISqlObjectFactory factory,
+            string sourceTableName,
+            string command)
+        {
+            //MySQLは同名のインデックスがあっても、テーブル内で重複がなければSQLServerのようにエラーにはならない。
+            //ただし、容量削減の目的で旧テーブルのインデックスは削除する。
+            //なおMySQLの主キー制約は'PRIMARY'という固定名称で命名され、インデックス情報も登録される。
+            //'PRIMARY'は削除の対象外とする。
+            return command
+                .Replace("#DropConstraint#", Indexes.Get(
+                    factory: factory,
+                    sourceTableName: sourceTableName)
+                        .Where(o => o != "PRIMARY")
+                        .Select(o => Def.Sql.DropIndex
+                            .Replace("#IndexName#", o.ToString())
+                            .Replace("#SourceTableName#", sourceTableName))
+                        .JoinReturn());
+        }
+    }
+}

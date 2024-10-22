@@ -7,6 +7,7 @@ using Xunit;
 
 namespace Implem.PleasanterTest.Tests.Users
 {
+    [Collection(nameof(UsersGeneratePassword))]
     public class UsersGeneratePassword
     {
         private static readonly string passwordObject = "#Users_ChangedPassword";

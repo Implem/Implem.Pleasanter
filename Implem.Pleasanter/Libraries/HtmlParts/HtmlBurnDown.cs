@@ -5,6 +5,7 @@ using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Libraries.ViewModes;
+using Implem.Pleasanter.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -62,7 +63,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Sum())
                     .Distinct()
                     .ToList();
-                hb.Table(id: "BurnDownDetails", css: "grid not-link", action: () => hb
+                hb.GridTable(id: "BurnDownDetails", css: "not-link", action: () => hb
                     .THead(action: () => hb.DetailsHeader(
                         context: context,
                         burnDown: burnDown,

@@ -1298,7 +1298,7 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         siteModel: this,
                         otherInitValue: otherInitValue)),
-                new SqlStatement(Def.Sql.IfConflicted.Params(SiteId))
+                new SqlStatement()
                 {
                     DataTableName = dataTableName,
                     IfConflicted = true,
@@ -1486,7 +1486,7 @@ namespace Implem.Pleasanter.Models
                 transactional: true,
                 statements: Rds.PhysicalDeleteSites(
                     tableType: tableType,
-                    param: Rds.SitesParam().TenantId(TenantId).SiteId(SiteId)));
+                    where: Rds.SitesWhere().TenantId(TenantId).SiteId(SiteId)));
             return new ErrorData(type: Error.Types.None);
         }
 
@@ -8892,10 +8892,10 @@ namespace Implem.Pleasanter.Models
             if (currentSs == null)
             {
                 res.Message(
-                   new Message(
-                       "InvalidTimeLineSites",
-                       Displays.InvalidTimeLineSites(context: context),
-                       "alert-error"));
+                    new Message(
+                        "InvalidTimeLineSites",
+                        Displays.InvalidTimeLineSites(context: context),
+                        "alert-error"));
                 return;
             }
             var dashboardPart = SiteSettings.DashboardParts?
@@ -9052,10 +9052,10 @@ namespace Implem.Pleasanter.Models
             if (currentSs == null)
             {
                 res.Message(
-                   new Message(
-                       "InvalidIndexSites",
-                       Displays.InvalidTimeLineSites(context: context),
-                       "alert-error"));
+                    new Message(
+                        "InvalidIndexSites",
+                        Displays.InvalidTimeLineSites(context: context),
+                        "alert-error"));
                 return;
             }
             var dashboardPart = SiteSettings.DashboardParts?
@@ -9066,13 +9066,14 @@ namespace Implem.Pleasanter.Models
             }
             res
                 .Html(
-                    "#DashboardPartViewIndexTabContainer",
+                    "#DashboardPartViewGridTabContainer",
                     new HtmlBuilder()
                         .ViewGridTab(
                             context: context,
                             ss: currentSs,
                             view: new View(),
-                            prefix: "DashboardPart"))
+                            prefix: "DashboardPart",
+                            hasNotInner: true))
                 .Html(
                     "#DashboardPartViewFiltersTabContainer",
                     new HtmlBuilder()

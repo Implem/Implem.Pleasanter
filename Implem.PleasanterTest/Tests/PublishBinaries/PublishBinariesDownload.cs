@@ -15,6 +15,7 @@ using Xunit;
 
 namespace Implem.PleasanterTest.Tests.PublishBinaries
 {
+    [Collection(nameof(PublishBinariesDownload))]
     public class PublishBinariesDownload
     {
         [Theory]

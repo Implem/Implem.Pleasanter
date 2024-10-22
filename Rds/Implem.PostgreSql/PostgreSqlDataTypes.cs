@@ -1,4 +1,5 @@
 ﻿using Implem.IRds;
+using System.Data;
 using System.Text.RegularExpressions;
 namespace Implem.PostgreSql
 {
@@ -30,9 +31,9 @@ namespace Implem.PostgreSql
                 .Replace("timestamp", "datetime");
         }
 
-        public string DefaultDefinition(object dbRawValue)
+        public string DefaultDefinition(DataRow dataRow)
         {
-            string s = dbRawValue.ToString();
+            string s = dataRow["column_default"].ToString();
             s = Regex.Replace(s, @"^(?<str>'.+')::.+$", "${str}");
             return s;
         }

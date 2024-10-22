@@ -8,7 +8,8 @@
             DateTime,
             MultiLine,
             Password,
-            File
+            File,
+            CodeEditor
         }
     }
 }

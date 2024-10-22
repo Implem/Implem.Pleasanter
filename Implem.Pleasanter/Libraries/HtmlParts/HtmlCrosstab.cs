@@ -6,6 +6,7 @@ using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Libraries.ViewModes;
+using Implem.Pleasanter.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -276,9 +277,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             var max = data.Any() && columns == null
                 ? data.Select(o => o.Value.Value).Max()
                 : 0;
-            return hb.Table(
+            return hb.GridTable(
                 id: "Grid",
-                css: "grid fixed",
+                css: "fixed",
                 action: () => hb
                     .THead(action: () => hb
                         .Tr(css: "ui-widget-header", action: () =>

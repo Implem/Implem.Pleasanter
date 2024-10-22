@@ -636,14 +636,12 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             TenantModel tenantModel)
         {
-            return hb.FieldSet(
+            return hb.TabsPanelField(
                 id: "FieldSetGeneral",
-                action: () => hb.Div(
-                    css: "fieldset-inner",
-                    action: () => hb.FieldSetGeneralColumns(
-                        context: context,
-                        ss: ss,
-                        tenantModel: tenantModel)));
+                action: () => hb.FieldSetGeneralColumns(
+                    context: context,
+                    ss: ss,
+                    tenantModel: tenantModel));
         }
 
         /// <summary>
@@ -1582,11 +1580,11 @@ namespace Implem.Pleasanter.Models
             }
             var hb = new HtmlBuilder();
             hb.Div(
-                css: "fieldset-inner",
+                css: "tabs-panel-inner",
                 action: () => hb
                     .HistoryCommands(context: context, ss: ss)
-                    .Table(
-                        attributes: new HtmlAttributes().Class("grid history"),
+                    .GridTable(
+                        css: "history",
                         action: () => hb
                             .THead(action: () => hb
                                 .GridHeader(
@@ -1698,11 +1696,12 @@ namespace Implem.Pleasanter.Models
             Context context,
             TenantModel tenantModel)
         {
-            return hb.FieldSet(id: "FieldSetServerScript",
+            return hb.TabsPanelField(id: "FieldSetServerScript",
                 action: () => hb
                     .ServerScriptsSettingsEditor(
                         context: context, tenantModel: tenantModel),
-                _using: context.ContractSettings.ServerScript != false
+                _using: context.HasPrivilege != false
+                    && context.ContractSettings.ServerScript != false
                     && Parameters.Script.ServerScript != false
                     && Parameters.Script.BackgroundServerScript != false);
         }
@@ -1713,8 +1712,6 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder ServerScriptsSettingsEditor(
             this HtmlBuilder hb, Context context, TenantModel tenantModel)
         {
-            if (context.ContractSettings.ServerScript == false
-                || Parameters.Script.ServerScript == false) return hb;
             return hb.FieldSet(id: "ServerScriptsSettingsEditor", action: () => hb
                 .Div(css: "command-left", action: () => hb
                     .Button(
@@ -2094,9 +2091,8 @@ namespace Implem.Pleasanter.Models
         public static HtmlBuilder EditServerScript(this HtmlBuilder hb, Context context, TenantModel tenantModel)
         {
             var selected = context.Forms.IntList("EditServerScript");
-            return hb.Table(
+            return hb.GridTable(
                 id: "EditServerScript",
-                css: "grid",
                 attributes: new HtmlAttributes()
                     .DataName("ServerScriptId")
                     .DataFunc("openServerScriptDialog")
@@ -2261,9 +2257,8 @@ namespace Implem.Pleasanter.Models
         public static HtmlBuilder EditServerScriptSchedules(this HtmlBuilder hb, Context context, SettingList<BackgroundSchedule> backgoundSchedules)
         {
             var selected = context.Forms.IntList("EditServerScriptSchedules");
-            return hb.Table(
+            return hb.GridTable(
                 id: "EditServerScriptSchedules",
-                css: "grid",
                 attributes: new HtmlAttributes()
                     .DataName("ServerScriptScheduleId")
                     .DataFunc("openServerScriptScheduleDialog")
