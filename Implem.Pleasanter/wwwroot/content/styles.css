@@ -2513,6 +2513,10 @@ _::-webkit-full-page-media, _:future, :root .field-normal .control-checkbox + la
     border: none;
 }
 
+.grid-wrap {
+    overflow: auto;
+    margin-bottom: 10px;
+}
 .grid {
     margin: 0px 0px 10px 0px;
 }
@@ -2677,11 +2681,6 @@ _::-webkit-full-page-media, _:future, :root .field-normal .control-checkbox + la
 .links {
     padding: 0px 10px;
 }
-
-#Links > .fieldset > div{
-    overflow: auto;
-}
-
 #Links > .fieldset > div .grid{
     width: max-content; min-width: 100%;
 }
