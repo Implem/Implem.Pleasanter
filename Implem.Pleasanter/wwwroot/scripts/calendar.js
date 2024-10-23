@@ -207,6 +207,7 @@ function setMonthly(group, data, hash, begin, end, calendarSuffix) {
     data.forEach(function (element) {
         element.From = removeTimeZoneSuffix(element.From);
         element.To = removeTimeZoneSuffix(element.To);
+        if (begin > new Date(element.To)) return;
         var current = new Date(element.From);
         if (current < begin) {
             current = new Date(begin);

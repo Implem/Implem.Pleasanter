@@ -749,7 +749,7 @@ namespace Implem.Pleasanter.Models
             int? tabIndex = null,
             ServerScriptModelColumn serverScriptModelColumn = null)
         {
-            if (serverScriptModelColumn?.Hide == true)
+            if (serverScriptModelColumn?.Hide ?? column.Hide == true)
             {
                 return hb.Td();
             }
@@ -1723,6 +1723,10 @@ namespace Implem.Pleasanter.Models
                         .Hidden(
                             controlId: "TriggerRelatingColumns_Editor", 
                             value: Jsons.ToJson(ss.RelatingColumns))
+                        .Hidden(
+                            controlId: "NotReturnParentRecord",
+                            css: "control-hidden always-send",
+                            value: context.QueryStrings.Data("NotReturnParentRecord"))
                         .PostInitHiddenData(context: context))
                 .OutgoingMailsForm(
                     context: context,
