@@ -16,6 +16,7 @@ using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Reflection;
+using System.Reflection.PortableExecutable;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -30,12 +31,14 @@ namespace Implem.PleasanterSetup
         private readonly ILogger logger;
         private string installDir;
         private string licenseDllPath;
+        private string provider;
         private string dbms;
         private string server;
         private string serviceName;
         private string defaultLanguage;
         private string defaultTimeZone;
         private string userId;
+        private string connectionString;
         private string saPassword;
         private string ownerPassword;
         private string userPassword;
@@ -54,6 +57,7 @@ namespace Implem.PleasanterSetup
             IConfiguration configuration,
             ILogger<PleasanterSetup> logger)
         {
+            this.provider = string.Empty;
             this.configuration = configuration;
             this.logger = logger;
             this.installDir = string.Empty;
@@ -64,6 +68,7 @@ namespace Implem.PleasanterSetup
             this.defaultLanguage = string.Empty;
             this.defaultTimeZone = string.Empty;
             this.userId = string.Empty;
+            this.connectionString = string.Empty;
             this.saPassword = string.Empty;
             this.ownerPassword = string.Empty;
             this.userPassword = string.Empty;
@@ -84,93 +89,93 @@ namespace Implem.PleasanterSetup
             string license = "",
             string extendedcolumns = "")
         {
-                // ユーザにセットアップに必要な情報を入力してもらう
-                SetSummary(
-                directory: directory,
-                licenseZip: license,
-                extendedColumnsDir: extendedcolumns,
-                releasezip: releasezip,
-                patchPath: patchPath);
-                // 新規インストールまたはバージョンアップを行うかをユーザに確認する
-                var doNext = AskForInstallOrVersionUp();
-                if (doNext)
+            // ユーザにセットアップに必要な情報を入力してもらう
+            SetSummary(
+            directory: directory,
+            licenseZip: license,
+            extendedColumnsDir: extendedcolumns,
+            releasezip: releasezip,
+            patchPath: patchPath);
+            // 新規インストールまたはバージョンアップを行うかをユーザに確認する
+            var doNext = AskForInstallOrVersionUp();
+            if (doNext)
+            {
+                var backupDir = Path.Combine(
+                    Path.GetDirectoryName(installDir),
+                    $"{Path.GetFileName(installDir)}{DateTime.Now:_yyyyMMdd_HHmmss}");
+
+                // バージョンアップの場合は既存資源のバックアップを行う
+                if (versionUp)
                 {
-                    var backupDir = Path.Combine(
-                        Path.GetDirectoryName(installDir),
-                        $"{Path.GetFileName(installDir)}{DateTime.Now:_yyyyMMdd_HHmmss}");
-
-                    // バージョンアップの場合は既存資源のバックアップを行う
-                    if (versionUp)
-                    {
-                        CopyResourceDirectory(
-                            installDir: installDir,
-                            destDir: backupDir);
-                    }
-
-                    if (string.IsNullOrEmpty(releasezip))
-                    {
-                        releasezip = await DownloadNewResource(
-                            installDir,
-                            "Pleasanter");
-                    }
-
-                    SetNewResource(
+                    CopyResourceDirectory(
                         installDir: installDir,
-                        releaseZip: releasezip);
-
-                    //バージョンアップ時マージ
-                    if (versionUp)
-                    {
-                        if (string.IsNullOrEmpty(patchPath))
-                        {
-                            patchPath = await DownloadNewResource(
-                            installDir,
-                            "ParametersPatch");
-                        }
-
-                        //ParametersPatchの配置処理
-                        SetParametersPatch(
-                            installDir,
-                            patchPath);
-
-                        //backupの絶対パスと新資源の絶対パスが必要
-                        await Merge(
-                            releaseZip: installDir,
-                            previous: backupDir,
-                            patchPath: patchPath,
-                            setUpState: setUpState);
-                    }
-                    // ユーザがコンソール上で入力した値を各パラメータファイルへ書き込む
-                    SetParameters();
-                    //ユーザがライセンスファイルを指定した場合
-                    if (File.Exists(license))
-                    {
-                        CopyLicense(
-                            resourceDir: installDir,
-                            licenseDir: licenseDllPath);
-                    }
-                    if (!File.Exists(license) && versionUp)
-                    {
-                        ExistingCopyLicense(
-                            installDir: installDir,
-                            backupDir: backupDir);
-                    }
-                    // データベースの作成(スキーマ更新)を行う
-                    await Rds(
-                        directory: installDir,
-                        setUpState: setUpState,
-                        force: force,
-                        noinput: noinput,
-                        license: license,
-                        extendedcolumns: extendedcolumns);
+                        destDir: backupDir);
                 }
-                else
+
+                if (string.IsNullOrEmpty(releasezip))
                 {
-                    //ログメッセージを英語に変更
-                    logger.LogInformation("セットアップコマンドの処理を終了します。");
-                    return;
+                    releasezip = await DownloadNewResource(
+                        installDir,
+                        "Pleasanter");
                 }
+
+                SetNewResource(
+                    installDir: installDir,
+                    releaseZip: releasezip);
+
+                //バージョンアップ時マージ
+                if (versionUp)
+                {
+                    if (string.IsNullOrEmpty(patchPath))
+                    {
+                        patchPath = await DownloadNewResource(
+                        installDir,
+                        "ParametersPatch");
+                    }
+
+                    //ParametersPatchの配置処理
+                    SetParametersPatch(
+                        installDir,
+                        patchPath);
+
+                    //backupの絶対パスと新資源の絶対パスが必要
+                    await Merge(
+                        releaseZip: installDir,
+                        previous: backupDir,
+                        patchPath: patchPath,
+                        setUpState: setUpState);
+                }
+                // ユーザがコンソール上で入力した値を各パラメータファイルへ書き込む
+                SetParameters();
+                //ユーザがライセンスファイルを指定した場合
+                if (File.Exists(license))
+                {
+                    CopyLicense(
+                        resourceDir: installDir,
+                        licenseDir: licenseDllPath);
+                }
+                if (!File.Exists(license) && versionUp)
+                {
+                    ExistingCopyLicense(
+                        installDir: installDir,
+                        backupDir: backupDir);
+                }
+                // データベースの作成(スキーマ更新)を行う
+                await Rds(
+                    directory: installDir,
+                    setUpState: setUpState,
+                    force: force,
+                    noinput: noinput,
+                    license: license,
+                    extendedcolumns: extendedcolumns);
             }
+            else
+            {
+                //ログメッセージを英語に変更
+                logger.LogInformation("セットアップコマンドの処理を終了します。");
+                return;
+            }
+        }
 
         //一旦保留
         [Command("merge")]
@@ -180,75 +185,75 @@ namespace Implem.PleasanterSetup
             [Option("patch")] string patchPath = "",
             bool setUpState = false)
         {
-                if (!setUpState)
+            if (!setUpState)
+            {
+                if (!string.IsNullOrEmpty(previous))
                 {
-                    if (!string.IsNullOrEmpty(previous))
+                    if (!Directory.Exists(previous))
                     {
-                        if (!Directory.Exists(previous))
-                        {
                         logger.LogError($"\"{previous}\" does not exist.");
                         return;
-                        }
                     }
+                }
 
-                    if (!string.IsNullOrEmpty(releaseZip))
+                if (!string.IsNullOrEmpty(releaseZip))
+                {
+                    if (!File.Exists(releaseZip))
                     {
-                        if (!File.Exists(releaseZip))
-                        {
                         logger.LogError($"\"{releaseZip}\" does not exist.");
                         return;
-                        }
                     }
-                    else
-                    {
-                        releaseZip = await DownloadNewResource(
-                            previous,
-                            "Pleasanter");
-                    }
-
-                    if (!string.IsNullOrEmpty(patchPath))
-                    {
-                        if (!File.Exists(patchPath))
-                        {
-                        logger.LogError($"\"{patchPath}\" does not exist.");
-                        return;
-                        }
-                    }
-                    else
-                    {
-                        patchPath = await DownloadNewResource(
-                            previous,
-                            "ParametersPatch");
-                    }
-
-                    //previousを退避
-                    var backupDir = Path.Combine(
-                        Path.GetDirectoryName(previous),
-                        $"{Path.GetFileName(previous)}{DateTime.Now:_yyyyMMdd_HHmmss}");
-                    // バージョンアップの場合は既存資源のバックアップを行う
-                    var destinationPath = previous;
-                    CopyResourceDirectory(
-                        installDir: previous,
-                        destDir: backupDir);
-
-                    SetNewResource(
-                        installDir: previous,
-                        releaseZip: releaseZip);
-                    SetParametersPatch(
-                        previous,
-                        patchPath);
-                    //ライセンスの移動
-                    ExistingCopyLicense(
-                        installDir: previous,
-                        backupDir: backupDir);
-
-                    await ExecuteMerge(destinationPath, backupDir);
                 }
                 else
                 {
-                    await ExecuteMerge(releaseZip, previous);
+                    releaseZip = await DownloadNewResource(
+                        previous,
+                        "Pleasanter");
                 }
+
+                if (!string.IsNullOrEmpty(patchPath))
+                {
+                    if (!File.Exists(patchPath))
+                    {
+                        logger.LogError($"\"{patchPath}\" does not exist.");
+                        return;
+                    }
+                }
+                else
+                {
+                    patchPath = await DownloadNewResource(
+                        previous,
+                        "ParametersPatch");
+                }
+
+                //previousを退避
+                var backupDir = Path.Combine(
+                    Path.GetDirectoryName(previous),
+                    $"{Path.GetFileName(previous)}{DateTime.Now:_yyyyMMdd_HHmmss}");
+                // バージョンアップの場合は既存資源のバックアップを行う
+                var destinationPath = previous;
+                CopyResourceDirectory(
+                    installDir: previous,
+                    destDir: backupDir);
+
+                SetNewResource(
+                    installDir: previous,
+                    releaseZip: releaseZip);
+                SetParametersPatch(
+                    previous,
+                    patchPath);
+                //ライセンスの移動
+                ExistingCopyLicense(
+                    installDir: previous,
+                    backupDir: backupDir);
+
+                await ExecuteMerge(destinationPath, backupDir);
             }
+            else
+            {
+                await ExecuteMerge(releaseZip, previous);
+            }
+        }
 
         [Command("rds")]
         public async Task Rds(
@@ -505,39 +510,27 @@ namespace Implem.PleasanterSetup
             }
             else
             {
-                switch ((DBMS)int.Parse(dbms))
+                logger.LogInformation("[Default: sa(SQL Server), postgres(PostgreSQL), root(MySQL)] : ");
+                var userInputUserId = Console.ReadLine();
+                if (string.IsNullOrEmpty(userInputUserId))
                 {
-                    case DBMS.SQLServer:
-                        userId = "sa";
-                        break;
-                    case DBMS.PostgreSQL:
-                        userId = "postgres";
-                        break;
-                    case DBMS.MySQL:
-                        userId = "root";
-                        break;
+                    switch ((DBMS)int.Parse(dbms))
+                    {
+                        case DBMS.SQLServer:
+                            userId = "sa";
+                            break;
+                        case DBMS.PostgreSQL:
+                            userId = "postgres";
+                            break;
+                        case DBMS.MySQL:
+                            userId = "root";
+                            break;
+                    }
                 }
-                //logger.LogInformation("[Default: sa(SQL Server), postgres(PostgreSQL)] : ");
-                //var userInputUserId = Console.ReadLine();
-                //if (string.IsNullOrEmpty(userInputUserId))
-                //{
-                //    switch ((DBMS)int.Parse(dbms))
-                //    {
-                //        case DBMS.SQLServer:
-                //            userId = "sa";
-                //            break;
-                //        case DBMS.PostgreSQL:
-                //            userId = "postgres";
-                //            break;
-                //        case DBMS.MySQL:
-                //            userId = "root";
-                //            break;
-                //    }
-                //}
-                //else
-                //{
-                //    userId = userInputUserId;
-                //}
+                else
+                {
+                    userId = userInputUserId;
+                }
             }
         }
 
@@ -924,16 +917,29 @@ namespace Implem.PleasanterSetup
             var data = json.Deserialize<Rds>();
             data.Dbms = Enum.GetName(typeof(DBMS), int.Parse(dbms));
             var database = dbms == "1"
-                ? "master"
-                : dbms == "2"
-                    ? "postgres"
-                        : dbms == "3"
-                            ? "root"
-                    : string.Empty;
-            data.SaConnectionString = $"Server={server};Database={database};UID={userId};PWD={saPassword};";
-            data.OwnerConnectionString = $"Server={server};Database=#ServiceName#;UID=#ServiceName#_Owner;PWD={ownerPassword};";
-            data.UserConnectionString = $"Server={server};Database=#ServiceName#;UID=#ServiceName#_User;PWD={userPassword};";
-            File.WriteAllText(file, data.ToJson());
+                    ? "master"
+                    : dbms == "2"
+                        ? "postgres"
+                            : dbms == "3"
+                                ? "root"
+                        : string.Empty;
+            if (provider.Equals("Local"))
+            {
+                data.SaConnectionString = $"Server={server};Database={database};UID={userId};PWD={saPassword};";
+                data.OwnerConnectionString = $"Server={server};Database=#ServiceName#;UID=#ServiceName#_Owner;PWD={ownerPassword};";
+                data.UserConnectionString = $"Server={server};Database=#ServiceName#;UID=#ServiceName#_User;PWD={userPassword};";
+            }
+            else
+            {
+                data.Provider = provider;
+                data.SaConnectionString = connectionString;
+                data.OwnerConnectionString = connectionString;
+                data.UserConnectionString = connectionString;
+            }
+            json = JsonConvert.SerializeObject(data, Formatting.Indented);
+            File.WriteAllText(
+                file,
+                json);
         }
 
         private void SetServiceParameters(string parametersDir)
@@ -942,7 +948,10 @@ namespace Implem.PleasanterSetup
             var json = File.ReadAllText(file);
             var data = json.Deserialize<Service>();
             data.Name = serviceName;
-            File.WriteAllText(file, data.ToJson());
+            json = JsonConvert.SerializeObject(data, Formatting.Indented);
+            File.WriteAllText(
+                file,
+                json);
         }
 
         private void SetLicense(
@@ -1104,6 +1113,8 @@ namespace Implem.PleasanterSetup
             AskForInstallDir(directory);
             //Implem.Pleasanter.dllの有無でバージョンアップか判断
             versionUp = MeetsVersionUpRequirements();
+            //Provider判定処理
+            AskForProvider(versionUp);
             //オフライン環境での必須オプションの確認
             if (!NetworkInterface.GetIsNetworkAvailable() && setUpState)
             {
@@ -1122,15 +1133,22 @@ namespace Implem.PleasanterSetup
                 }
             }
             AskForDbms(versionUp);
-            AskForServer(versionUp);
+            if (provider.Equals("Local"))
+            {
+                AskForServer(versionUp);
+                AskForUserId(versionUp);
+                AskForPassword(versionUp);
+            }
+            
+            if(provider.Equals("Azure")){
+                AskForConnectionString(versionUp);
+            }
             AskForServiceName(versionUp);
             if (!versionUp)
             {
                 AskForDefaultLanguage();
                 AskForDefaultTimeZone();
             }
-            AskForUserId(versionUp);
-            AskForPassword(versionUp);
             if (File.Exists(licenseZip))
             {
                 //ライセンスがEnterpriseEditionか判定処理
@@ -1143,6 +1161,96 @@ namespace Implem.PleasanterSetup
                     AskForExtendedColums(
                         extendedColumnsDir,
                         "Results");
+                }
+            }
+        }
+
+        private void AskForConnectionString(bool versionUp)
+        {
+            if (versionUp)
+            {
+                var file = Path.Combine(
+                    installDir,
+                    "Implem.Pleasanter",
+                    "App_Data",
+                    "Parameters",
+                    "Rds.json");
+                if (File.Exists(file))
+                {
+                    var json = File.ReadAllText(file);
+                    var data = json.Deserialize<Rds>();
+                    if (data?.SaConnectionString != null)
+                    {
+                        DbConnectionStringBuilder builder = new DbConnectionStringBuilder();
+                        builder.ConnectionString = data?.SaConnectionString;
+                        connectionString = data?.SaConnectionString;
+                        //必要情報保持
+                        server = builder["Server"].ToString();
+                    }
+                }
+                else
+                {
+                    logger.LogError($"The file {file} was not found.");
+                    Environment.Exit(0);
+                }
+            }
+            else
+            {
+                do
+                {
+                    logger.LogInformation("Enter the connection string for your Azure SQL Database.");
+                    var userInputConnectionString = Console.ReadLine();
+                    if (!string.IsNullOrEmpty(userInputConnectionString))
+                    {
+                        connectionString = userInputConnectionString;
+                        break;
+                    }
+                } while (true);
+            }
+        }
+
+        private void AskForProvider(bool versionUp)
+        {
+            if (!versionUp)
+            {
+                do
+                {
+                    logger.LogInformation("Provider [1: Local(Default), 2: Azure]");
+                    var userInputProvider = Console.ReadLine();
+                    switch (userInputProvider)
+                    {
+                        case "1":
+                        case "":
+                            provider = "Local";
+                            break;
+                        case "2":
+                            provider = "Azure";
+                            break;
+                        default:
+                            logger.LogInformation("Please enter the number of choices");
+                            continue;
+                    }
+                    break;
+                } while (true);
+            }
+            else
+            {
+                var file = Path.Combine(
+                    installDir,
+                    "Implem.Pleasanter",
+                    "App_Data",
+                    "Parameters",
+                    "Rds.json");
+                if (File.Exists(file))
+                {
+                    var json = File.ReadAllText(file);
+                    var data = json.Deserialize<Rds>();
+                    provider = data.Provider;
+                }
+                else
+                {
+                    logger.LogError($"The file {file} was not found.");
+                    Environment.Exit(0);
                 }
             }
         }
