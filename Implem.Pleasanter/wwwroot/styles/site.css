@@ -2514,8 +2514,7 @@ _::-webkit-full-page-media, _:future, :root .field-normal .control-checkbox + la
 }
 
 .grid-wrap {
-    overflow: auto;
-    margin-bottom: 10px;
+    clear: both;
 }
 .grid {
     margin: 0px 0px 10px 0px;
@@ -2683,6 +2682,10 @@ _::-webkit-full-page-media, _:future, :root .field-normal .control-checkbox + la
 }
 #Links > .fieldset > div .grid{
     width: max-content; min-width: 100%;
+}
+#Links > .fieldset > div .grid-wrap{
+    overflow: auto;
+    margin-bottom: 10px;
 }
 
 .link-creations button {

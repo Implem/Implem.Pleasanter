@@ -33,24 +33,17 @@ namespace Implem.CodeDefiner.Functions.Rds
             }
             else
             {
+                var ocn = new TextData(Parameters.Rds.OwnerConnectionString, ';', '=');
                 Def.SqlIoByAdmin(factory).ExecuteNonQuery(
                     factory: factory,
                     dbTransaction: null,
                     dbConnection: null,
                     commandText: Def.Sql.GrantPrivilegeUser
                         .Replace("#Uid#", cn["uid"])
+                        .Replace("#Oid#", ocn["uid"])
                         .Replace("#ServiceName#", Environments.ServiceName)
                         .Replace("#SchemaName#", factory.SqlDefinitionSetting.SchemaName));
             }
-        }
-
-        private static string CommandText(ISqlObjectFactory factory, string uid)
-        {
-            return (uid.EndsWith("_Owner")
-                ? Def.Sql.GrantPrivilegeAdmin.Replace("#Uid#", uid)
-                : Def.Sql.GrantPrivilegeUser.Replace("#Uid#", uid))
-                    .Replace("#ServiceName#", Environments.ServiceName)
-                    .Replace("#SchemaName#", factory.SqlDefinitionSetting.SchemaName);
         }
     }
 }
