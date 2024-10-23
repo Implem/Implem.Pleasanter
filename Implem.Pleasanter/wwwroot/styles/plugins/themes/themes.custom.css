@@ -1,4 +1,4 @@
-/* Reset ---------------------------------------------------------------- */
+﻿/* Reset ---------------------------------------------------------------- */
 body {
     color: var(--base-text);
     background-color: var(--page-bg);
@@ -98,7 +98,6 @@ html .ui-button.ui-state-disabled:active {
 .ui-widget-content {
     color: var(--base-text);
     background: var(--base-bg-light);
-    color: var(--base-text);
     a {
         color: var(--base-text);
     }
@@ -106,14 +105,18 @@ html .ui-button.ui-state-disabled:active {
 
 /* dialog */
 .ui-dialog {
+    min-width: 400px;
     padding: 0;
-    border: none;
+    border: none!important;
+    background-color: transparent;
+    margin: 0 16px;
     .ui-dialog-titlebar {
         background: var(--base-bg);
-        border: none;
-        border-bottom: 1px solid var(--base-border);
+        border: 1px solid var(--base-border);
+        border-bottom: none;
         color: var(--base-text);
         padding: 8px 16px;
+        margin: 16px 0 0;
     }
     .ui-dialog-titlebar-close {
         box-shadow: none;
@@ -124,6 +127,12 @@ html .ui-button.ui-state-disabled:active {
             border: none;
             box-shadow: none;
         }
+    }
+    .ui-dialog-content{
+        border: 1px solid var(--base-border);
+        margin: 0 0 16px;
+        padding: 16px 16px 0 !important;
+        background: var(--base-bg-light);
     }
 }
 
@@ -184,6 +193,9 @@ html .ui-button.ui-state-disabled:active {
     }
     .ui-tabs-panel {
         padding: 16px;
+    }
+    .tabs-panel-inner{
+        width: 100%;
     }
 }
 
@@ -440,8 +452,10 @@ input{
         padding: 1px;
     }
     &.datepicker{
-        padding-right: 24px;
-        + .ui-icon{
+        &:has( + .current-time){
+            padding-right: 24px;
+        }
+        + .current-time{
             right: 4px;
             z-index: 2;
         }
@@ -526,10 +540,36 @@ input{
     font-weight: lighter;
 }
 
+/* status-color */
 .status-new,
 .status-review {
     color: var(--nonColor02);
 }
+.status-preparation,
+.status-inprogress,
+.status-closed,
+.status-rejected {
+    color: var(--nonColor16);
+}
+.status-new {
+    background: #fff
+}
+.status-preparation {
+    background: #ff8c00
+}
+.status-inprogress {
+    background: #008000
+}
+.status-review {
+    background: #ff0
+}
+.status-closed {
+    background: #00f
+}
+.status-rejected {
+    background: #808080
+}
+
 
 /* user */
 .user {
@@ -1687,11 +1727,21 @@ body {
         z-index: 1;
         background-color: var(--editor-bg);
     }
-    .links {
+    #Links {
         .fieldset {
             > div {
-                scrollbar-color: var(--nonColor09) var(--base-bg);
-                scrollbar-width: thin;
+                display: flex;
+                width: 100%;
+                flex-direction: column;
+                gap: 16px;
+            }
+        }
+        .grid-wrap{
+            margin-bottom: 0;
+            scrollbar-color: var(--nonColor09) var(--base-bg);
+            scrollbar-width: thin;
+            &:has(.grid:empty){
+                display: none;
             }
         }
     }
@@ -1762,8 +1812,6 @@ body:not(:has(#Editor)){
 /* Module ---------------------------------------------------------------- */
 /* Dialog */
 .dialog {
-    margin-top: 16px;
-    padding: 0 16px !important;
     .fieldset {
         margin: 0;
         + .fieldset:not(.ui-tabs-panel) {
@@ -2427,7 +2475,7 @@ body:has(input#Controller[value="syslogs"]){
 
 /* [Dialog] OutgoingMailDialog */
 #OutgoingMailDialog {
-    margin: 0 !important;
+    padding: 0 !important;
 }
 
 /* [Dialog] ExportSitePackage */
