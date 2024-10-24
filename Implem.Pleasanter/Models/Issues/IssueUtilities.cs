@@ -2963,7 +2963,6 @@ namespace Implem.Pleasanter.Models
                                     issueModel: issueModel,
                                     column: column,
                                     controlOnly: true,
-                                    alwaysSend: true,
                                     idSuffix: $"_{ss.SiteId}_{newRowId}"));
                         }
                         else if (!column.Joined
