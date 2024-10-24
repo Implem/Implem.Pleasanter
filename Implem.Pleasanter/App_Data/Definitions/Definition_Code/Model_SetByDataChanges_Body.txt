@@ -42,6 +42,35 @@
                             column: column,
                             mine: Mine(context: context))));
                 break;
+            case DataChange.Types.InputValueFormula:
+                var formulaSet = new FormulaSet()
+                {
+                    Id = dataChange.Id
+                };
+                var err = FormulaBuilder.SetFormula(
+                    formulaSet: formulaSet,
+                    ss: ss,
+                    calculationMethod: "Extended",
+                    target: dataChange.ColumnName,
+                    condition: null,
+                    formula: dataChange.Value,
+                    notUseDisplayName: false,
+                    isDisplayError: dataChange.ValueFormulaIsDisplayError,
+                    outOfCondition: null);
+                if (err == Error.Types.None)
+                {
+                    formData[key] = ExecFormulaExtended(
+                        context: context,
+                        ss: ss,
+                        columnName: dataChange.ColumnName,
+                        formulaSet: formulaSet,
+                        outputFormulaLogs: ss.ProcessOutputFormulaLogs);
+                }
+                else
+                {
+                    throw new Exception($"Formula error {formulaSet.Id}:{err.Message(context: context)}");
+                }
+                break;
             case DataChange.Types.InputDate:
             case DataChange.Types.InputDateTime:
                 var baseDateTimeColumn = ss.GetColumn(

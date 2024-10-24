@@ -5279,6 +5279,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string InputValueFormula(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "InputValueFormula",
+                data: data);
+        }
+
         public static string InternalServerError(
             Context context,
             params string[] data)
