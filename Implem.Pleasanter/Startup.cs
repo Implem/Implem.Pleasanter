@@ -65,7 +65,7 @@ namespace Implem.Pleasanter.NetCore
                         e: e));
             }
             LogManager.Setup()
-                .LoadConfigurationFromAppSettings()
+                .LoadConfigurationFromAppSettings(environment: env.EnvironmentName)
                 .SetupSerialization(ss => ss.RegisterObjectTransformation<SysLogModel>(s => SysLogModel.ToLogModel(s)));
         }
 
