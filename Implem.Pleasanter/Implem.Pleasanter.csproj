@@ -108,6 +108,8 @@
     <Content Remove="App_Data\Definitions\Definition_Code\Model_SetCopyDefault.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_SetCopyDefaultParameter.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_SetTimeZoneAndLanguage.json" />
+    <Content Remove="App_Data\Definitions\Definition_Code\Model_SysLogLogger.json" />
+    <Content Remove="App_Data\Definitions\Definition_Code\Model_SysLogUsing.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_ApiCreatedMessage.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_ApiCreatedMessage_Table.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_ApiUpdatedMessage.json" />
@@ -152,6 +154,12 @@
 
   <ItemGroup>
     <Folder Include="App_Data\UserPlugins\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="App_Data\Definitions\Definition_Code\Model_SysLogLogger.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

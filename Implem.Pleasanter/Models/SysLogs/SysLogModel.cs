@@ -1453,7 +1453,7 @@ namespace Implem.Pleasanter.Models
                     case "Updator": data.Updator = Updator.Id; break;
                     case "UpdatedTime": data.UpdatedTime = UpdatedTime.Value.ToLocal(context: context); break;
                     case "Comments": data.Comments = Comments.ToLocal(context: context).ToJson(); break;
-                    default:
+                    default: 
                         data.Value(
                             context: context,
                             column: column,
