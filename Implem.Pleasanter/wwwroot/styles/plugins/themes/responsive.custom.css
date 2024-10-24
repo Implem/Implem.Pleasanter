@@ -1,1442 +1,846 @@
 ﻿@media screen and (max-width: 1024px) and (min-width: 0px) {
+    /* Reset ---------------------------------------------------------------- */
     body {
         min-width: 320px;
         overflow-x: hidden;
     }
 
+    /* Font ---------------------------------------------------------------- */
 
 
-
-    /* widget */
-.ui-widget {
-    font-size: 13px;
-    &.ui-widget-content {
-        border: 1px solid var(--base-border);
-    }
-}
-.ui-widget-header {
-    background: var(--primaryColor);
-    th,
-    td {
-        color: var(--invert-text);
-        :not(button){
-            .ui-icon {
-                background-image: url("../images/ui-icons_ffffff_256x240.png");
-            }
+    /* jQueryUI Custom ---------------------------------------------------------------- */
+    /* dialog */
+    .ui-dialog {
+        min-width: 0;
+        width: 94vw!important;
+        left: 0!important;
+        padding: 0;
+        margin: 0 3vw;
+        .ui-dialog-titlebar {
+            margin: 3vw 0 0;
+        }
+        .ui-dialog-content{
+            margin: 0 0 3vw;
+            padding: 0 8px!important;
         }
     }
-}
-.ui-widget-content {
-    color: var(--base-text);
-    background: var(--base-bg-light);
-    color: var(--base-text);
-    a {
-        color: var(--base-text);
-    }
-}
 
-/* dialog */
-.ui-dialog {
-    padding: 0;
-    border: none;
-    .ui-dialog-titlebar {
-        background: var(--base-bg);
-        border: none;
-        border-bottom: 1px solid var(--base-border);
-        color: var(--base-text);
-        padding: 8px 16px;
-    }
-    .ui-dialog-titlebar-close {
-        box-shadow: none;
-        border: none;
-        right: 16px;
-        &:hover {
-            opacity: 0.8;
-            border: none;
-            box-shadow: none;
-        }
-    }
-}
-
-/* tabs */
-.ui-tabs {
-    padding: 0;
-    .ui-tabs-nav {
-        width: 100vw;
-        flex-wrap: nowrap;
-        gap: 4px;
-        padding: 6px 16px;
-        overflow-y: auto;
-        li {
-            min-width: max-content;
-
-            a{
-                white-space: nowrap;
-            }
-        }
-    }
-    .grid{
-        display: block;
-        width: 100%;
-        overflow: auto;
-    }
-}
-
-/* multiselect */
-.ui-multiselect {
-    padding: 4px 0 4px 8px;
-}
-.ui-multiselect-header {
-    background: var(--ui-multiselect-header-bg);
-    border: 1px solid var(--ui-multiselect-header-border);
-    padding: 4px;
-    .ui-icon {
-        float: none;
-    }
-}
-
-/* multiselect-checkboxes */
-.ui-multiselect-checkboxes {
-    .ui-state-hover {
-        background: var(--btn-normal-hover);
-        border: 1px solid var(--btn-normal-border);
-        color: var(--btn-normal-label);
-    }
-}
-
-/* selectable */
-.ui-selectable {
-    .ui-widget-content {
-        border: 1px solid var(--selectable-btn-border);
-        background-color: var(--selectable-btn-bg);
-        color: var(--base-text);
-    }
-    .ui-selectee {
-        border: 1px solid var(--selectable-btn-border);
-        background-color: var(--selectable-btn-bg);
-        color: var(--base-text);
-        cursor: pointer;
-        transition: color 150ms ease-out, background 150ms ease-out,
-            border 150ms ease-out;
-        &:hover {
-            box-shadow: 0 1px 4px var(--base-shadow);
-        }
-        &.ui-selecting,
-        &.ui-selected {
-            background: var(--primaryColor);
-            color: var(--invert-text);
-            border: 1px solid transparent;
-        }
-    }
-}
-
-/* spinner */
-.ui-spinner {
-    border-radius: 4px;
-    &:has(.ui-spinner-input) {
-        background-color: var(--control-bg);
-        .ui-spinner-input {
-            border: none;
-        }
-    }
-    &:has(.ui-spinner-input:focus) {
-        background-color: var(--control-bg-focus);
-    }
-}
-
-/* slider */
-.ui-slider {
-    .ui-slider-handle {
-        background-image: none;
-        background-color: var(--primaryColor);
-        border-radius: 2px;
-        outline: none;
-        &:hover,
-        &:active,
-        &:focus {
-            background-color: var(--primaryDark);
-        }
-    }
-}
-
-/* Buttons ---------------------------------------------------------------- */
-.ui-button {
-    padding: 4px 8px 4px 6px !important;
-    background: var(--btn-normal-bg);
-    border-radius: 4px;
-    border: 1px solid var(--btn-normal-border);
-    box-shadow: 0 1px 2px var(--base-shadow);
-    color: var(--btn-normal-label);
-    transition: background 150ms ease-out, box-shadow 150ms ease-out;
-    &:hover,
-    &:focus,
-    &:active {
-        background: var(--btn-normal-hover);
-        border: 1px solid var(--btn-normal-border);
-        color: var(--btn-normal-label);
-    }
-    &:hover {
-        box-shadow: 0 2px 4px var(--base-shadow);
-    }
-}
-
-.button-neutral {
-    &,
-    &:hover,
-    &:focus,
-    &:active {
-        background: var(--btn-neutral-bg);
-        border: 1px solid var(--btn-neutral-border);
-        color: var(--btn-neutral-label);
-        .ui-icon {
-            background-image: url("../images/ui-icons_ffffff_256x240.png");
-        }
-    }
-    &:hover {
-        background-color: var(--btn-neutral-hover);
-    }
-}
-
-.button-negative {
-    &,
-    &:hover,
-    &:focus,
-    &:active {
-        background: var(--btn-negative-bg);
-        border: 1px solid var(--btn-negative-border);
-        color: var(--btn-negative-label);
-        .ui-icon {
-            background-image: url("../images/ui-icons_ffffff_256x240.png");
-        }
-    }
-    &:hover {
-        background-color: var(--btn-negative-hover);
-    }
-}
-
-.button-positive {
-    &,
-    &:hover,
-    &:focus,
-    &:active {
-        background: var(--btn-positive-bg);
-        border: 1px solid var(--btn-positive-border);
-        color: var(--btn-positive-label);
-        .ui-icon {
-            background-image: url("../images/ui-icons_ffffff_256x240.png");
-        }
-    }
-    &:hover {
-        background-color: var(--btn-positive-hover);
-    }
-}
-
-/* Controls ---------------------------------------------------------------- */
-/* common */
-.control-textbox,
-.control-textarea,
-.control-dropdown,
-.control-spinner,
-.control-markup,
-.control-markdown,
-.ui-widget.ui-state-default.ui-multiselect {
-    outline: none;
-    border: 1px solid var(--control-border);
-    transition: color 150ms ease-out, background 150ms ease-out,
-        border 150ms ease-out;
-    &:focus {
-        &:not(.control-spinner) {
-            border: 1px solid var(--control-border-focus);
-        }
-    }
-    &:not(.has-css) {
-        color: var(--control-text);
-        background-color: var(--control-bg);
-        &:focus {
-            background-color: var(--control-bg-focus);
-        }
-        &.not-send{
-            background: var(--control-bg);
-            &:not(:has(+ .button-edit-markdown)){
-                background: var(--control-bg-read);
-                pre{
-                    color: var(--control-text-read);
+    /* tabs */
+    .ui-tabs {
+        .ui-tabs-nav {
+            width: 100%;
+            flex-wrap: nowrap;
+            gap: 4px;
+            padding: 8px 16px 0;
+            overflow-y: auto;
+            li {
+                min-width: max-content;
+                &.ui-tab{
+                    border-radius: 4px 4px 0 0;
+                    border-bottom: 0;
+                }
+                a{
+                    white-space: nowrap;
+                }
+                .ui-tabs-anchor {
+                    padding: 12px 24px 8px;
                 }
             }
         }
-        &:is(textarea){
-            resize: vertical;
-        }
     }
-    &.has-css{
-        &:has(option:not([data-class]):checked){
-            color: var(--control-text);
-            background-color: var(--control-bg);
-        }
-    }
-}
 
-/* dummy-field */
-.control-text,
-.control-basket {
-    background: var(--control-bg-read);
-    border: 1px solid var(--control-border);
-    border-radius: 4px;
-    padding: 4px 8px 4px 8px;
-    color: var(--control-text-read);
-}
+    /* multiselect */
+    .ui-widget.ui-state-default.ui-multiselect {
+        height: 40px;
+        padding: 8px 0 8px 16px;
+    }
 
-/* basket */
-.control-basket {
-    &:not(:empty) {
-        background-color: var(--control-bg);
+    /* Buttons ---------------------------------------------------------------- */
+    .ui-button {
+        padding: 8px 16px 8px 10px !important;
     }
-}
 
-/* dropdown */
-.control-dropdown{
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
 
-}
-
-/* input-field */
-.control-textbox {
-    position: relative;
-    padding: 4px 8px 4px 8px;
-    &.error {
-        border: solid 1px var(--warning-color);
-    }
-    &[type="file"] {
-        padding: 1px;
-    }
-    &.datepicker{
-        + .ui-icon{
-            right: 2px;
-        }
-    }
-}
-
-/* fileUpload */
-.control-attachments-upload {
-    border-color: var(--primaryColor) !important;
-}
-.control-attachments-item {
-    background-color: var(--control-bg);
-    display: flex;
-    padding: 8px;
-    gap: 8px;
-    align-items: center;
-    border-color: var(--primaryColor);
-    &.already-attachments{
-        background-color: var(--primarySub03);
-    }
-    &.preparation-delete {
-        background-color: var(--control-bg-read);
-        border: 1px solid var(--base-border);
-    }
-    a {
-        float: none;
-    }
-    .file-name {
-        color: var(--base-text);
-    }
-    .file-delete,
-    .delete-file {
-        cursor: pointer;
-        margin: 0 0 0 auto;
-    }
-}
-.progress-bar {
-    border-color: var(--primaryColor);
-    > div {
-        background-color: var(--primaryColor);
-    }
-}
-
-/* markup,markdown  */
-.field-control {
-    .container-normal {
-        &:has(.control-markup) {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 5px;
-        }
-    }
+    /* Controls ---------------------------------------------------------------- */
+    /* common */
+    .control-textbox,
+    .control-textarea,
+    .control-dropdown,
+    .control-spinner,
     .control-markup,
-    .control-markdown {
-        padding: 8px 28px 8px 8px;
-        border-radius: 4px;
-        border: 1px solid var(--control-border);
-    }
-    .control-markup {
-        .md,
-        pre {
-            color: var(--control-text);
-        }
-    }
-    .control-markdown {
-        border: 1px solid var(--control-border-focus);
-    }
-}
-
-/* Atoms ---------------------------------------------------------------- */
-/* password-items */
-.show-password,
-.generate-password {
-    color: var(--password-tool-icon);
-    font-weight: lighter;
-}
-
-.status-new,
-.status-review {
-    color: var(--nonColor02);
-}
-
-/* user */
-.user {
-    float: left;
-    display: flex;
-    align-items: center;
-    line-height: 1.2;
-    gap: 4px;
-}
-
-/* highlight */
-.highlight{
-    color: var(--nonColor02);
-}
-
-.md{
-    color: var(--base-text);
-    table{
-        margin: 1em 0;
-    }
-    tbody {
-        tr{
-            &:nth-child(odd){
-                background-color: var(--grid-cell-bg);
-            }
-        }
-        tr{
-            &:nth-child(even){
-                background-color: var(--grid-cell-hover);
+    .control-markdown,
+    .ui-widget.ui-state-default.ui-multiselect {
+        &:not(.has-css) {
+            &:is(textarea){
+                height: auto!important;
+                field-sizing: content;
+                min-height: 6lh;
+                resize: none;
             }
         }
     }
-    th {
-        color: var(--invert-text);
-        background-color: var(--primaryColor);
-        border: solid 1px var(--grid-cell-border);
-    }
-    td {
-        color: var(--base-text);
-        border: solid 1px var(--grid-cell-border);
-    }
-}
 
-/* FieldLayaut ---------------------------------------------------------------- */
-/* fieldset */
-.fieldset {
-    &.enclosed,
-    &.enclosed-half,
-    &.enclosed-thin {
-        border: 1px solid var(--base-border);
-        border-radius: 4px;
-        padding: 16px;
-        background: var(--base-bg-light);
-    }
-    .legend {
-        display: flex;
-        align-items: center;
-        color: var(--base-text);
-        .ui-icon {
-            float: none;
-            margin-top: 0;
+    /* dummy-field */
+    .field-normal{
+        .control-text,
+        .control-basket {
+            padding: 8px 16px 8px 16px;
+            height: 40px;
         }
     }
-}
-/* field-vertical */
-.field-vertical {
-    width: calc(50% - 8px);
-    padding: 0;
-    ~ .field-vertical {
-        margin-left: 16px;
-    }
-    .field-label,
-    .field-control {
-        float: none;
-    }
-    .w300 {
-        width: 100%;
-    }
-    .field-label:has(label:empty) {
-        display: none;
-    }
-}
 
-/* field-control */
-.field-control {
-    label {
-        &.error {
-            top: 0;
-            z-index: 3;
-            background-color: transparent;
-            border-radius: 0;
-            border: none;
-            padding: 4px 8px;
-            top: 0;
-            color: var(--control-error);
-        }
-    }
-}
-
-/* field-section */
-.field-section{
-    width: auto;
-    float: none;
-    padding: 16px 4px 0;
-    margin: 16px 0 16px 16px;
-    /*
-    padding: 8px 16px;
-    margin: 16px 0;
-    border-radius: 5px;
-    background-color: var(--primaryColor);
-    color: var(--invert-text);
-    border-color: transparent;
-    .ui-icon {
-        background-image: url("../images/ui-icons_ffffff_256x240.png");
-    }
-    */
-}
-
-.field-normal {
-    height: 4em;
-}
-.field-wide{
-    min-height: 4em;
-}
-
-/* container-selectable */
-.container-selectable {
-    margin-top: 8px;
-    .wrapper {
-        border-radius: 4px;
-        float: none;
-        background-color: var(--selectable-bg);
-        border: solid 1px var(--selectable-border);
-        scrollbar-color: var(--nonColor09) var(--selectable-bg);
-        scrollbar-width: thin;
-    }
-}
-
-/*command*/
-.command-center,
-.command-right,
-.command-left {
-    display: flex;
-    flex-wrap: wrap;
-    padding: 0;
-    margin: 8px 0;
-    align-items: flex-start;
-    gap: 8px;
-    float: none;
-    > * {
-        float: none;
-        margin: 0;
-    }
-    button {
-        margin: 0;
-    }
+    /* textbox */
     .control-textbox {
-        flex: 1;
-    }
-    > .w150 {
-        flex: 1;
-    }
-}
-.command-left {
-    justify-content: flex-start;
-}
-.command-center {
-    justify-content: center;
-}
-.command-right {
-    justify-content: flex-end;
-}
-#ViewModeContainer {
-    .command-left {
-        margin-left: 16px;
-    }
-}
-
-/* PageTemplate ---------------------------------------------------------------- */
-body {
-    &:has(#NavigationsUpperRight) {
-        margin-left: 0;
-    }
-}
-/* #MainContainer */
-#MainContainer {
-    #BottomMargin {
-        height: 80px;
-    }
-}
-
-#Header {
-    --sideNaviWidth: 280px;
-    height: 40px;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 2px!important;
-    #Logo,
-    #CorpLogo {
-        img{
-            height: 25px;
+        padding: 8px 16px 8px 16px;
+        height: 40px;
+        &.datepicker{
+            + .ui-icon{
+                top: 15px;
+            }
         }
     }
-    #ProductLogo {
-        font-size: 15px;
-    }
-    #navtgl{
-        display: none;
-    }
-    #NavigationsUpperRight {
-        position: fixed;
-        z-index: 9998;
-        top: 0;
-        width: var(--sideNaviWidth);
-        right: calc(var(--sideNaviWidth) * -1.2);
-        flex-direction: column;
+
+    /* checkbox */
+    .container-normal:has(.control-checkbox){
+        display: flex;
+        align-items: center;
+        overflow: hidden;
         gap: 8px;
-        padding: 16px;
-        background: var(--base-bg);
-        box-shadow: 0 2px 4px var(--base-shadow);
-        transition: 0.3s;
-        body:has(.hamburger-menubox .input-hidden:checked) &{
-            right: 0;
+        input{
+            float: none;
         }
-        #AccountUserName{
-            width: 100%;
-            padding-right: 30px;
-            text-align: left;
-            .account-name{
-                flex: 1;
-                display: block;
-                text-overflow: ellipsis;
-                overflow: hidden;
-                white-space: nowrap;
-            }
-        }
-        #SearchField{
-            width: 100%;
+        label{
+            flex: 1;
+            width: auto;
+            float: none;
+            margin: 4px 0 0 0;
         }
     }
-    /* サイドメニュー */
-    .hamburger-switch {
-        left: auto;
-        top: 4px;
-        right: 4px;
-        z-index: 9999;
-        background-color: transparent;
-    }
-    .hamburger-menubox {
-        .input-hidden {
-            &:checked {
-                & ~ .hamburger-menuwrap {
-                    left: auto;
-                    width: var(--sideNaviWidth);
-                    right: 0;
-                }
-                & ~ .hamburger-closelabel {
-                    .hamburger-cover{
-                        z-index: 9996;
-                    }
-                }
-            }
-        }
-        .hamburger-menuwrap {
-            padding: 0;
-            left: auto;
-            z-index: 9997;
-            right: 0;
-            width: 0;
-        }
-        .accordion {
-            padding-top: 100px;
-            width: var(--sideNaviWidth);
-        }
-        .toggle {
-            &:checked {
-                & ~ .menubox-sub {
-                    width: 100%;
-                }
+
+    /* dropdown */
+    .control-dropdown{
+        padding: 8px 16px 8px 16px;
+        height: 40px;
+        &:has(+ .current-user){
+            + .ui-icon{
+                top: 15px;
             }
         }
     }
-}
 
-/* #Application */
-#Application {
-    width: auto;
-    margin: 0;
-    padding: 0;
-    clear: both;
-    float: none;
-}
-
-/* #Footer */
-#Footer {
-    display: none;
-}
-
-/* Organisms ---------------------------------------------------------------- */
-/* #Application > #CopyToClipboards */
-#CopyToClipboards {
-    display: none;
-}
-/* #Application > #Breadcrumb */
-#Breadcrumb {
-    nav & {
-        display: none;
-    }
-}
-
-/* #Application > #Guide */
-#Guide {
-    > div {
-        margin: 0;
-        float: none;
-        padding: 10px 16px 8px;
-        border: none;
-        border-bottom: 1px solid var(--base-border);
-        position: static;
-        border-radius: 0;
-        background-color: var(--guide-bg);
-        color: var(--guide-text);
-        a {
-            color: var(--guide-text);
-        }
-        .ui-icon {
-            background-image: url("../images/ui-icons_3d3d3d_256x240.png");
-        }
-        .md{
-            color: var(--guide-text);
-            p{
-                margin-bottom: 0;
-                +{
-                    margin-top: 10px;
-                }
-            }
-        }
-    }
-}
-
-/* #Application > #TitleContainer */
-#TitleContainer {
-    border-bottom: 1px solid var(--base-border);
-    body:has(#Editor) &{
-        background-color: var(--page-bg);
-        border-bottom: 0;
-    }
-    padding: 16px;
-    display: flex;
-    align-items: center;
-    #SiteImageIconContainer,
-    #HeaderTitleContainer {
-        float: none;
-        margin: 0;
-    }
-    #SiteImageIconContainer {
-        &:not(:empty) {
-            margin-right: 4px;
-        }
-        img {
-            vertical-align: bottom;
-        }
-    }
-    #HeaderTitle {
-        font-size: 16px;
-        color: var(--base-text);
-        line-height: 1.4;
-    }
-}
-
-/* #Application > #Warnings */
-#Warnings {
-    &:empty {
-        + #Editor:has(#RecordHeader) {
-            margin-top: -15px;
-        }
-    }
-}
-
-/* #Application > #Warnings > #SwitchUserInfo */
-#SwitchUserInfo{
-    clear: both;
-    width: auto;
-    margin: 0;
-    border-radius: 0;
-    float: none;
-    overflow: hidden;
-    padding: 0;
-    a{
-        padding: 8px;
-    }
-}
-
-/* #Application > #Warnings > #PublishWarning */
-#PublishWarning {
-    clear: both;
-    width: auto;
-    margin: 0;
-    border-radius: 0;
-    float: none;
-    overflow: hidden;
-    padding: 0;
-    background: var(--warning-color);
-    a{
-        padding: 8px;
-    }
-}
-
-/* #Application > #MainForm > #ViewSelectorField */
-#ViewSelectorField {
-    position: static;
-    background: var(--base-bg);
-    .field-normal {
-        padding: 10px 0;
-        margin: 0;
-        width: auto;
-        height: auto;
+    /* spinner */
+    .container-normal:has( > .ui-spinner){
         display: flex;
         gap: 8px;
         align-items: center;
+        .ui-spinner{
+            .ui-spinner-input{
+                text-align: center;
+                padding: 8px 4px 8px 4px;
+                height: 38px;
+                margin: 0;
+                margin-right: 30px;
+            }
+            + .unit{
+                padding: 0;
+                float: none;
+            }
+            a{
+                box-shadow: none;
+                border: none;
+                background: transparent;
+                border-radius: 0;
+            }
+        }
+    }
+
+    /* markup,markdown  */
+    .field-control {
+        .control-markup,
+        .control-markdown {
+            min-height: 6lh;
+            padding: 8px 16px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+    }
+
+    /* Atoms ---------------------------------------------------------------- */
+
+
+    /* FieldLayaut ---------------------------------------------------------------- */
+    /* fieldset */
+    .fieldset {
+        &.enclosed,
+        &.enclosed-half,
+        &.enclosed-thin {
+            padding: 8px;
+        }
+    }
+
+    /* field-vertical */
+    .field-vertical {
+        width: calc(50% - 4px);
+        ~ .field-vertical {
+            margin-left: 8px;
+        }
+    }
+
+    /* field-section */
+    .field-section{
+        padding: 16px 4px 8px;
+        margin: 16px 0;
+    }
+
+    .field-normal {
+        width: 50%;
+        height: 90px;
+    }
+    .field-wide{
+        min-height: 90px;
+    }
+
+    .field-normal,
+    .field-wide,
+    .field-markdown{
+        padding: 8px;
+        min-height: 90px;
         .field-label {
             text-align: initial;
             float: none;
             width: auto;
-            padding: 0;
+            padding: 0 0 4px 0;
             margin: 0;
         }
-        .field-control {
+        .field-control{
             width: auto;
             float: none;
+            .container-normal{
+                margin-left: 0;
+            }
         }
-        .container-normal {
-            margin: 0;
-        }
-        .control-dropdown {
-            width: 200px;
-        }
+    }
+
+
+#ViewModeContainer {
+    .command-left {
+        margin-left: 16px;
+        background: #f00!important;
     }
 }
 
-/* #Application > #MainForm > #ViewFilters */
-/* #ViewFilters > #ViewFiltersLabelMenus */
-#ViewFilters {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 8px;
-    margin: 0;
-    padding: 16px 16px 8px;
-    border: none;
-    border-radius: 0;
-    color: var(--base-text);
-    .display-control {
-        padding: 8px 16px;
-        margin: 0;
-        span {
-            margin-right: 4px;
+
+    /* PageTemplate ---------------------------------------------------------------- */
+    body {
+        &:has(#NavigationsUpperRight) {
+            margin-left: 0;
         }
     }
-    &.reduced {
-        display: inline-flex;
-    }
-    &:not(.reduced) {
-        .display-control {
-            padding-left: 0;
-        }
-    }
-    .field-auto-thin {
-        float: none;
-    }
-    .ui-multiselect{
-        .ui-multiselect-open + span {
-            text-overflow: ellipsis;
-            overflow: hidden;
-            white-space: nowrap;
-            font-size: 12px;
+    /* #MainContainer */
+    #MainContainer {
+        #BottomMargin {
+            height: 64px;
         }
     }
 
-    #ViewFiltersLabelMenus{
-        .menu-negative{
-            li{
-                float: none;
-                border-width: 0;
-                .ui-menu-item-wrapper{
-                    color: var(--btn-normal-label);
-                    background-color: var(--btn-normal-bg);
-                    border: 1px solid transparent;
-                    &:hover,
-                    &:focus,
-                    &.ui-state-active{
-                        margin: 0;
-                        font-weight: normal;
-                        color: var(--btn-positive-label);
-                        background: var(--btn-positive-bg);
-                        .ui-icon{
-                            background-image: url("../images/ui-icons_ffffff_256x240.png")!important;
+    #Header {
+        --sideNaviWidth: 280px;
+        height: 40px;
+        position: sticky;
+        top: 0;
+        z-index: 90;
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 2px!important;
+        #Logo,
+        #CorpLogo {
+            img{
+                height: 25px;
+            }
+        }
+        #ProductLogo {
+            font-size: 15px;
+        }
+        #navtgl{
+            display: none;
+        }
+        #NavigationsUpperRight {
+            position: fixed;
+            z-index: 89;
+            top: 0;
+            width: var(--sideNaviWidth);
+            right: calc(var(--sideNaviWidth) * -1.2);
+            flex-direction: column;
+            gap: 8px;
+            padding: 16px;
+            background: var(--base-bg);
+            box-shadow: 0 2px 4px var(--base-shadow);
+            transition: 0.3s;
+            body:has(.hamburger-menubox .input-hidden:checked) &{
+                right: 0;
+            }
+            #AccountUserName{
+                width: 100%;
+                padding-right: 30px;
+                text-align: left;
+                .account-name{
+                    flex: 1;
+                    display: block;
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                    white-space: nowrap;
+                }
+            }
+            #SearchField{
+                width: 100%;
+                .w150{
+                    width: 100%;
+                }
+            }
+        }
+        /* サイドメニュー */
+        .hamburger-switch {
+            left: auto;
+            top: 4px;
+            right: 4px;
+            z-index: 89;
+            background-color: transparent;
+        }
+        .hamburger-menubox {
+            .input-hidden {
+                &:checked {
+                    & ~ .hamburger-menuwrap {
+                        left: auto;
+                        width: var(--sideNaviWidth);
+                        right: 0;
+                    }
+                    & ~ .hamburger-closelabel {
+                        .hamburger-cover{
+                            z-index: 86;
                         }
+                    }
+                }
+            }
+            .hamburger-menuwrap {
+                padding: 0;
+                left: auto;
+                z-index: 87;
+                right: 0;
+                width: 0;
+            }
+            .accordion {
+                padding-top: 100px;
+                width: var(--sideNaviWidth);
+            }
+            .toggle {
+                &:checked {
+                    & ~ .menubox-sub {
+                        width: 100%;
                     }
                 }
             }
         }
     }
-}
 
-/* #Application > #MainForm > #Aggregations */
-#Aggregations {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 8px;
-    margin: 0;
-    float: none;
-    clear: both;
-    padding: 8px 16px;
-    border: none;
-    border-radius: 0;
-    background-color: var(--primarySub03);
-    color: var(--base-text);
-    .display-control {
-        padding: 8px 16px;
-        margin: 0;
-        span {
-            margin-right: 4px;
-        }
-    }
-    &.reduced {
-        display: inline-flex;
-    }
-    &:not(.reduced) {
-        .display-control {
-            padding-left: 0;
-        }
-    }
-    .label,
-    .data {
-        float: none;
-        height: auto;
-        margin: 0;
-        padding: 4px 8px;
-    }
-    .label {
-        border-radius: 4px;
-        background: var(--primarySub02);
-        border: 1px solid var(--primarySub01);
-        &.overdue {
-            color: var(--invert-text);
-            background: var(--warning-color);
-            border: 1px solid var(--warning-color);
-        }
-    }
-}
 
-/* #Application > #MainCommandsContainer */
-#MainCommandsContainer {
-    min-height: 64px;
-    height: auto;
-    background-color: var(--footer-command-bg);
-    bottom: 0;
-    padding: 8px 8px 8px 60px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    gap: 4px 8px;
-    &:has(#MainCommands:empty) {
+    /* Organisms ---------------------------------------------------------------- */
+    /* #Application > #CopyToClipboards */
+    #CopyToClipboards {
         display: none;
-        + #Message{
-            bottom: 0;
-        }
     }
-}
-
-/* #Application > #MainCommandsContainer > #MainCommands */
-#MainCommands {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-    button {
-        margin: 0;
-        display: block;
-        float: none;
-    }
-}
-
-/* #Application > #Message */
-#Message {
-    bottom: 63px;
-    .body {
-        margin-bottom: 0;
-        border-radius: 0;
-    }
-    .alert-success,
-    .alert-error {
-        .close {
-            top: 50%;
-            margin-top: -8px;
-            background-color: transparent;
-            background-image: url("../images/ui-icons_ffffff_256x240.png");
-        }
-    }
-    .alert-success {
-        background-color: var(--success-color);
-    }
-    .alert-error {
-        background-color: var(--warning-color);
-    }
-}
-
-/* #Application > #Editor */
-/* #Application > #Editor > #MainForm > #RecordHeader */
-/* #Application > #Editor > #MainForm > #Notes */
-/* #Application > #Editor > #MainForm > #EditorComments */
-/* #Application > #Editor > #MainForm > #EditorTabsContainer */
-/* #Application > #Editor > #MainForm > #ServerScriptsSettingsEditor */
-#Editor {
-    width: auto;
-    float: none;
-    #GroupForm,
-    #MainForm {
-        position: relative;
-        display: flex;
-        flex-wrap: wrap;
-        align-items: flex-start;
-        background: transparent;
-        box-shadow: 0 2px 1px var(--base-shadow);
-        &:after {
+    /* #Application > #Breadcrumb */
+    #Breadcrumb {
+        nav & {
             display: none;
-            content: "";
         }
     }
-    #RecordHeader {
-        position: relative;
-        z-index: 1;
-        margin: 0;
-        padding: 16px;
-        display: flex;
-        align-items: center;
-        color: var(--base-text);
-        background-color: var(--page-bg);
+
+    /* #Application > #TitleContainer */
+    #TitleContainer {
+        body:has(#Editor) &{
+            background-color: var(--primaryColor);
+        }
+        padding: 8px 16px;
+        #SiteImageIconContainer {
+            &:not(:empty) {
+                margin-right: 16px;
+            }
+        }
+        #HeaderTitle {
+            color: var(--invert-text);
+        }
     }
-    #RecordInfo {
-        flex: 1;
-        float: none;
-        display: flex;
-        div,
-        p,
-        span {
-            gap: 8px;
+
+    /* #Application > #Warnings */
+    #Warnings {
+        &:empty {
+            + #Editor:has(#RecordHeader) {
+                margin-top: 0;
+            }
+        }
+    }
+
+    /* #Application > #MainForm > #ViewSelectorField */
+    #ViewSelectorField {
+        position: static;
+        background: var(--primarySub02);
+        border-bottom: 1px solid var(--base-border);
+        overflow: hidden;
+        .field-normal {
+            padding: 8px;
+            min-height: 0;
+            justify-content: flex-end;
+            width: 100%;
+            .control-dropdown {
+                width: auto;
+                min-width: 200px;
+                max-width: 80vw;
+                height: auto;
+                padding: 4px 8px;
+                font-size: 12px;
+            }
+        }
+    }
+
+    /* #Application > #MainForm > #ViewFilters */
+    /* #ViewFilters > #ViewFiltersLabelMenus */
+    #ViewFilters {
+        width: auto;
+        gap: 8px 0;
+        padding: 8px 8px 16px;
+        border-bottom: 1px solid var(--base-border);
+        &.reduced {
+            overflow: hidden;
+            border-bottom: 1px solid var(--base-border);
             float: none;
-            display: flex;
-            align-items: center;
+            display: block;
         }
-        .user {
-            gap: 2px;
+        .button{
+            float: none;
+            margin: 18px auto 0px;
+            width: calc(100% - 16px);
         }
-        .elapsed-time {
-            background-color: initial;
+        #FilterButton{
+            color: var(--btn-positive-label);
+            background-color: var(--btn-positive-bg);
+            border-color: var(--btn-positive-border);
+            order: 1;
+            margin-bottom: -10px;
+            .ui-button-icon{
+                background-image: url("../images/ui-icons_ffffff_256x240.png")!important;
+            }
         }
-    }
-    #RecordSwitchers {
-        float: none;
-        display: flex;
-        align-items: baseline;
-        gap: 8px;
-        button:last-child {
-            margin-left: 8px;
+        #ViewFilters_Reset{
+            color: var(--btn-neutral-label);
+            background-color: var(--btn-neutral-bg);
+            border-color: var(--btn-neutral-border);
+            order: 2;
+            .ui-button-icon{
+                background-image: url("../images/ui-icons_ffffff_256x240.png")!important;
+            }
         }
-        .current {
+
+        &:not(.reduced) {
+            .display-control {
+                width: 100%;
+                padding: 4px 8px;
+                span {
+                    margin-right: 4px;
+                }
+            }
+        }
+        .field-auto-thin {
+            width: 50%;
+            float: none;
+            overflow: hidden;
             height: auto;
             margin: 0;
-            padding: 0;
-            background: none;
-            border: none;
-            color: var(--base-text);
+            padding: 0 8px;
+            font-size: 12px;
+            align-items: center;
+            .field-label,
+            .field-control{
+                float: none;
+            }
+            &:not(:has(.control-checkbox)){
+                .field-label{
+                    padding: 0 0 4px;
+                    text-align: inherit;
+                }
+            }
+        }
+        .control-checkbox{
+            ~ label{
+                margin: 0;
+                flex: initial;
+            }
+            ~ .ui-icon.ui-icon-info{
+                margin: 0 -6px -2px 0;
+            }
+        }
+        .control-dropdown,
+        .ui-multiselect{
+            max-width: none;
+            width: 100%!important;
+        }
+        .ui-icon.ui-icon-info{
+            transform: scale(1);
+            margin: -3px 2px 0 0;
         }
     }
-    #Notes {
-        &:not(:empty) {
-            position: relative;
-            z-index: 1;
-            width: 100%;
-            margin: 0;
-            padding: 0 16px 16px;
-            display: flex;
+
+    /* #Application > #MainForm > #Aggregations */
+    #Aggregations {
+        gap: 4px 0px;
+        padding: 8px;
+        border: none;
+        .display-control {
+            padding: 4px 8px;
+            span {
+                margin-right: 4px;
+            }
+        }
+        &.reduced {
+            overflow: hidden;
+            padding: 4px 8px;
+            float: none;
+            display: block;
+        }
+        &:not(.reduced) {
+            .display-control {
+                padding-left: 8px;
+            }
+        }
+        .label,
+        .data {
+            font-size: 12px;
+            padding: 2px 4px;
+        }
+        .data {
+            margin-right: 8px;
+        }
+    }
+
+    /* #Application > #MainCommandsContainer */
+    #MainCommandsContainer {
+        padding: 8px 0;
+        width: 100vw;
+        justify-content: flex-start;
+        height: 64px;
+        overflow-x: auto;
+        &:has(#MainCommands:empty) {
+            + #Message{
+                bottom: 0!important;
+            }
+        }
+    }
+
+    /* #Application > #MainCommandsContainer > #MainCommands */
+    #MainCommands {
+        padding: 0 16px;
+        flex-wrap:nowrap;
+        justify-content: flex-start;
+        margin: 0 auto;
+        button {
+            white-space: nowrap;
+        }
+    }
+
+    /* #Application > #Message */
+    #Message {
+        z-index: 79;
+        bottom: 63px!important;
+        font-size: 14px;
+    }
+
+    /* #Application > #Editor */
+    /* #Application > #Editor > #MainForm > #RecordHeader */
+    /* #Application > #Editor > #MainForm > #Notes */
+    /* #Application > #Editor > #MainForm > #EditorComments */
+    /* #Application > #Editor > #MainForm > #EditorTabsContainer */
+    /* #Application > #Editor > #MainForm > #ServerScriptsSettingsEditor */
+    #Editor {
+        #GroupForm,
+        #MainForm {
+            flex-wrap: nowrap;
+            flex-direction: column;
+            &:after{
+                display: none;
+                content: initial;
+            }
+        }
+        #RecordHeader {
+            font-size: 11px;
+            padding: 8px 16px;
+            display: block;
+        }
+        #RecordInfo {
             flex-direction: column;
             gap: 4px;
-            background-color: var(--page-bg);
-            p {
-                border-radius: 4px;
-                float: none;
-                margin: 0;
+            div{
+                gap: 2px 4px;
+                flex-wrap: wrap;
             }
         }
-    }
-    #EditorComments {
-        position: static;
-        color: var(--base-text);
-        .comment {
-            border: 0;
-            background: none;
-            color: var(--base-text);
-            + .comment {
-                border-top: 1px solid var(--base-border);
+        #RecordSwitchers {
+            margin-top: 16px;
+            justify-content: flex-end;
+            gap: 8px;
+            button:last-child {
+                margin-left: 4px;
             }
         }
-        #Comments {
-            min-height: 100px;
-        }
-        #CommentList{
-            .control-markup {
-                background-color: transparent;
-                border-color: transparent;
-            }
-            .control-markdown {
-                background-color: var(--editor-bg);
-                border-color: var(--editor-border);
+        #Notes {
+            &:not(:empty) {
+                padding: 0;
+                p {
+                    padding: 8px 16px;
+                    border-radius: 0;
+                }
             }
         }
-    }
-    #EditorTabsContainer {
-        position: static;
-        margin-bottom: 10px;
-        box-shadow: 0 2px 1px var(--base-shadow);
-    }
-    .links {
-        .fieldset {
-            > div {
-                scrollbar-color: var(--nonColor09) var(--base-bg);
-                scrollbar-width: thin;
-            }
-        }
-    }
-}
-
-/* !#Editor > #EditorTabsContainer */
-body:not(:has(#Editor)){
-    #EditorTabsContainer{
-        &.max{
-            width: auto;
+        #EditorComments {
+            position: static;
+            width: 100%;
             float: none;
-            border: 0;
+            padding: 0;
+            #CommentField{
+                top: 40px;
+                padding: 16px 16px 8px;
+                margin: 0;
+                background-color: var(--primarySub02);
+                border-bottom: 1px solid var(--nonColor10);
+                .control-textarea{
+                    width: 100%;
+                    min-height: 3lh;
+                }
+            }
+            .comment {
+                display: flex;
+                flex-wrap: wrap;
+                float: none;
+                gap: 8px;
+                overflow: hidden;
+                margin: 0;
+                padding: 16px 16px 8px;
+                background-color: var(--editor-bg);
+                border: 1px solid var(--base-border);
+                border-radius: 8px;
+                .body{
+                    order: 1;
+                    width: 100%;
+                    padding-bottom: 8px;
+                    border-bottom: 1px solid var(--base-border);
+                }
+                .time{
+                    order: 2;
+                    margin: 0;
+                    font-size: 11px;
+                }
+                .user{
+                    order: 3;
+                    font-size: 11px;
+                    margin: 0 0 0 auto;
+                }
+            }
+            #CommentList{
+                &:not(:empty){
+                    padding: 16px;
+                }
+                display: flex;
+                flex-direction: column;
+                gap: 18px;
+                .control-markup {
+                    background-color: transparent;
+                    border-color: transparent;
+                }
+                .control-markdown {
+                    background-color: var(--editor-bg);
+                    border-color: var(--editor-border);
+                }
+            }
+        }
+        #EditorTabsContainer {
+            width: 100%;
+            float: none;
+            position: static;
             box-shadow: 0 2px 1px var(--base-shadow);
         }
     }
-}
 
-/* #Application > #OutgoingMailsForm */
-#OutgoingMailsForm{
-    width: 100%;
-    float: none;
-    background-color: var(--page-bg);
-    &:not(:empty){
-        padding: 16px;
-        border-top: 1px solid var(--base-border);
-    }
-    /* display: flex;
-    flex-wrap: wrap;
-    gap: 16px; */
-    .item{
-        float: none;
-        box-shadow: 0 0 2px var(--base-shadow);
-        background-color: var(--editor-bg);
-        border: 1px solid var(--base-border);
-        border-radius: 4px;
-        overflow: hidden;
-        + .item{
-            margin-top: 16px;
-        }
-    }
-    .title-header{
-        padding: 8px;
-        height: auto;
-        background-color: var(--editer-comment-bg);
-        font-size: 13px;
-        border: 0;
-        border-radius: 0;
-    }
-    .content{
-        padding: 10px;
-        float: none;
-        margin: 0;
-        border-radius: 0;
-        border: 0;
-        border-top: 1px solid var(--base-border);
-    }
-    .control-markup{
-        background-color: var(--control-bg-read);
-    }
-    .command-right{
-        padding: 0 10px;
-        button{
-            width: 100px;
-        }
-    }
-}
-
-/* Module ---------------------------------------------------------------- */
-/* Dialog */
-.dialog {
-    margin-top: 16px;
-    padding: 0 16px !important;
-    .fieldset {
-        margin: 0;
-        + .fieldset:not(.ui-tabs-panel) {
-            margin-top: 16px;
-        }
-        &.enclosed-half {
-            + fieldset.enclosed-half {
-                margin-top: 0;
-                margin-left: 16px;
-                + * {
-                    float: none;
-                    clear: both;
-                }
+    /* !#Editor > #EditorTabsContainer */
+    body:not(:has(#Editor)){
+        #EditorTabsContainer{
+            &.max{
+                width: 100%;
             }
         }
     }
-    .alert-error{
-        border-radius: 4px;
-        background-color: var(--warning-color);
-    }
-    .alert-success{
-        border-radius: 4px;
-        background-color: var(--success-color);
-    }
-    .message-dialog{
-        &:not(:empty){
-            margin: 16px 0;
+
+    /* #Application > #OutgoingMailsForm */
+    #OutgoingMailsForm{
+        .content{
+            padding: 8px 16px;
+            border-top: 1px solid var(--base-border);
+            .field-auto,
+            .field-auto-thin{
+                display: block;
+                float: none;
+                height: auto;
+                margin: 0;
+                padding: 0 0 16px;
+                .field-label,
+                .field-control{
+                    text-align: initial;
+                    float: none;
+                    width: auto;
+                }
+            }
+            .field-wide{
+                height: auto;
+                padding: 0 0 16px;
+                min-height: auto;
+            }
+        }
+        .field-label{
+            padding: 4px 8px;
+            background-color: var(--nonColor07);
+            color: var(--nonColor16);
+            border-radius: 4px;
+            margin-bottom: 8px;
+        }
+        .control-text,
+        .control-markup{
+            background-color: transparent;
+            color: var(--base-text);
+        }
+        .control-text{
+            padding: 0 8px;
+            border: 0;
+        }
+        .command-right{
+            padding: 0 10px;
+            button{
+                width: 100px;
+            }
         }
     }
-    .command-center:last-of-type {
-        margin: 16px 0;
-    }
-    &:has(.ui-tabs) {
-        .ui-tabs{
-            margin: 0!important;
-            border: none;
+
+    /* Module ---------------------------------------------------------------- */
+    /* Dialog */
+    .dialog {
+        .fieldset {
+            margin: 0;
+            + .fieldset:not(.ui-tabs-panel) {
+                margin-top: 16px;
+            }
+            &.enclosed-half {
+                + fieldset.enclosed-half {
+                    margin-top: 0;
+                    margin-left: 16px;
+                }
+            }
         }
-        .ui-tabs-panel{
-            .fieldset{
-                &:has(.field-vertical){
-                    display: flex;
-                    flex-wrap: wrap;
-                    .fieldset{
-                        width: 100%;
-                    }
-                    > .field-vertical{
-                        float: none;
-                        &:has(+ *){
-                            margin-bottom: 16px;
+        &:has(.ui-tabs) {
+            .ui-tabs-panel{
+                padding: 16px 8px;
+                .fieldset{
+                    &:has(.field-vertical){
+                        > .field-vertical{
+                            &:has(+ *){
+                                margin-bottom: 16px;
+                            }
                         }
                     }
                 }
             }
         }
-        .ui-tabs-panel {
-            background: var(--editor-bg);
-        }
     }
-}
 
-/* SiteNavi */
-.nav-sites {
-    width: 100%;
-    margin: 0;
-    padding: 16px;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 16px;
-}
-.nav-site {
-    width: 100%;
-    min-height: 110px;
-    margin: 0;
-    &.to-parent {
-        .ui-icon {
-            top: 12px;
-        }
-        .heading{
-            display: none;
-        }
+    /* SiteNavi */
+    .nav-sites {
+        width: 100%;
+        margin: 0;
+        padding: 16px;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 16px;
     }
-    &,
-    &.has-image {
-        a {
-            padding: 0 8px;
-        }
-    }
-    .conditions {
-        height: auto;
-        font-size: 11px;
-        justify-content: flex-end;
-        span {
-            padding: 0 8px;
-            margin: 4px;
-            &.elapsed-time,
-            &.count {
+    .nav-site {
+        width: 100%;
+        min-height: 110px;
+        margin: 0;
+        &.to-parent {
+            .ui-icon {
+                top: 12px;
+            }
+            .heading{
                 display: none;
             }
-            &.overdue {
-                font-size: 10px;
+        }
+        &,
+        &.has-image {
+            a {
+                padding: 0 8px;
             }
+        }
+        .conditions {
+            height: auto;
+            font-size: 11px;
+            justify-content: flex-end;
+            span {
+                padding: 0 8px;
+                margin: 4px;
+                &.elapsed-time,
+                &.count {
+                    display: none;
+                }
+                &.overdue {
+                    font-size: 10px;
+                }
+            }
+        }
+
+        &:not(.to-parent) {
+            span.title {
+                font-size: 12px;
+                margin-left: 0;
+                height: 3em;
+            }
+        }
+        .site-icon {
+            margin: 20px 0 0 0;
+            img {
+                width: auto;
+                height: 36px;
+            }
+        }
+        &.ui-sortable-handle {
+            touch-action: unset;
         }
     }
 
-    &:not(.to-parent) {
-        span.title {
-            font-size: 12px;
-            margin-left: 0;
-            height: 3em;
+    /* gridTable */
+    #ViewModeContainer:has(#Grid){
+        .grid-wrap{
+            max-height: calc(100dvh - 40px - 64px);
+            margin-bottom: 0;
+            position: relative;
+        }
+        .grid{
+            margin-bottom: 0;
         }
     }
-    .site-icon {
-        margin: 20px 0 0 0;
-        img {
-            width: auto;
-            height: 36px;
-        }
-    }
-}
-
-/* gridTable */
-.grid {
-    > thead {
-        > tr:first-child {
-            th,
-            th:first-child,
-            th:last-child {
-                border-radius: 0;
-                border-left: 1px solid var(--grid-cell-vborder);
-                border-right: 1px solid var(--grid-cell-vborder);
-                border-top: 1px solid var(--grid-cell-border);
+    .grid{
+        #ServerScriptForm &,
+        #ProcessTabsContainer &,
+        #EditorTabsContainer &,
+        #ViewModeContainer & {
+            th{
+                white-space: nowrap;
             }
         }
     }
-    #ServerScriptForm &,
-    #ProcessTabsContainer &,
-    #EditorTabsContainer &,
-    #ViewModeContainer & {
-        > thead,
-        > tbody {
-            > th,
-            > td {
-                & {
-                    input {
-                        margin: 0 auto;
-                        width: 100%;
-                        cursor: pointer;
-                    }
-                    &:has(.grid-title-body),
-                    &:has(.comment) {
-                        padding: 4px 4px 0;
-                    }
-                }
-            }
-        }
-        > thead {
-            > td,
-            > th {
-                border-left: 1px solid var(--grid-cell-vborder);
-                border-right: 1px solid var(--grid-cell-vborder);
-                color: var(--invert-text);
-            }
-        }
-        > tbody {
-            > tr {
-                background-color: var(--grid-cell-bg);
-                &:hover {
-                    background-color: var(--grid-cell-hover);
-                    .comment {
-                        background: var(--grid-comment-bg);
-                    }
-                }
-                > th {
-                    background-color: var(--grid-cell-heading);
-                }
-                > th,
-                > td {
-                    border-top: solid 1px var(--grid-cell-border);
-                    border-left: solid 1px var(--grid-cell-vborder);
-                    border-right: solid 1px var(--grid-cell-vborder);
-                }
-            }
-        }
-        .grid-row[data-history] {
-            td{
-                background-color: var(--base-dark-layer);
-            }
-        }
-    }
-    th:has(.control-checkbox),
-    td:has(.grid-check) {
-        vertical-align: middle;
-        padding: 0 16px;
-        .control-checkbox,
-        .grid-check {
-            display: block;
-            float: none;
-            margin: auto;
-        }
-    }
-    .comment {
-        margin-bottom: 0;
-        padding: 4px 4px 4px 16px;
-        background: var(--grid-comment-bg);
-        border: 1px solid var(--grid-comment-border);
-        margin-bottom: 4px;
-    }
-    .grid-title-body {
-        margin-bottom: 4px;
-        padding: 8px;
-        background-color: transparent;
-    }
-}
 .menu-sort{
-    border: 1px solid var(--base-border);
-    border-radius: 0;
-    .ui-menu-item-wrapper{
-        padding: 4px 8px 4px 32px;
-        &.ui-state-active{
-            font-weight: normal;
-            color: var(--base-text);
-            border: 1px solid var(--base-border);
-            background: var(--base-bg-light);
-        }
-        &.ui-state-active:hover,
-        &:hover{
-            background: var(--primaryDark);
-            color: var(--invert-text);
-            .ui-icon{
-                background-image: url("../images/ui-icons_ffffff_256x240.png");
-            }
-        }
-    }
-    .ui-menu-item{
-        border-top: 1px solid var(--base-border);
-    }
-    .ui-icon{
-        left: 8px;
-    }
+    position: absolute!important;
     .grid-header-filter{
         border-top: 1px solid var(--base-border);
         .field-auto-thin{
@@ -1460,213 +864,191 @@ body:not(:has(#Editor)){
 }
 
 
-/* Component ---------------------------------------------------------------- */
-/* focus-inform */
-.focus-inform {
-    background-color: var(--grid-focus-inform-bg) !important;
-    border: solid 1px var(--grid-focus-inform-border) !important;
-}
+    /* Component ---------------------------------------------------------------- */
 
-/* PageContgents ---------------------------------------------------------------- */
-/* [login] > #login */
-#login {
-    background-color: var(--base-bg-light);
-    #MainContainer {
-        margin-left: 0;
-    }
-    #PortalLink {
-        top: -30px;
-    }
-    #LoginLogo {
-        margin: 100px auto 40px;
-        #Logo {
-            padding: 0;
+
+    /* PageContgents ---------------------------------------------------------------- */
+    /* [login] > #login */
+    #login {
+        #Header{
+            display: none;
         }
-        #CorpLogo {
+        #LoginLogo {
+            margin: 40px auto;
+            #CorpLogo {
+                max-height: 36px;
+                margin: auto;
+            }
+        }
+        #LoginFieldSet {
+            width: auto;
+            padding: 16px;
+            margin: 0 32px 20px;
+        }
+        #Logins {
+            .field-wide {
+                padding: 0;
+                min-height: 55px;
+            }
+            input {
+                height: 40px;
+                font-size: 13px;
+            }
+            #Users_Password {
+                padding-right: 40px;
+            }
+            .show-password {
+                top: 10px;
+                right: 10px;
+            }
+        }
+        #Tenants {
+            select {
+                height: 40px;
+                padding: 4px 20px;
+                font-size: 13px;
+            }
+        }
+#SsoLogin {
+    .ssoLoginMessage {
+        margin: 10px 0;
+        padding: 6px 0;
+    }
+}
+        #Users_RememberMeField {
             float: none;
-            margin: 0 auto;
-            max-height: 48px;
-            margin: 0 auto 20px auto;
+            padding: 10px;
+            .container-normal {
+                padding: 8px 0 0;
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                .control-checkbox{
+                    margin: 0;
+                    + label{
+                        margin-top: 0;
+                        width: auto;
+                    }
+                }
+            }
+            input {
+                height: auto;
+            }
         }
-    }
-    #LoginFieldSet {
-        background-color: initial;
-        border: 1px solid var(--base-border);
-        border-radius: 4px;
-        margin: 0 auto 20px auto;
-    }
-    #Logins {
-        .field-wide {
-            padding-bottom: 14px;
-            .field-label {
+        #LoginCommands {
+            position: static;
+            padding: 8px 0;
+            text-align: center;
+            button {
+                width: 90%;
+                height: 40px;
+                float: none;
+            }
+        }
+#TotpRegister {
+    text-align: center;
+}
+#qrCodeText {
+    font-size: 1.2rem;
+}
+        #Demo{
+            margin: 16px 32px;
+            width: auto;
+            .field-label{
                 display: none;
             }
-        }
-        .container-normal {
-            margin-left: 0;
-        }
-        input {
-            height: 48px;
-            border: 1px solid var(--base-border);
-            border-radius: 4px;
-            padding: 4px 20px;
-            font-size: 16px;
-            &.error {
-                border: solid 1px var(--control-error);
+            .container-normal{
+                margin: 0;
             }
         }
-        .show-password {
-            position: absolute;
-            top: 14px;
-            right: -36px;
+        #DemoFields{
+            padding: 0;
+            .field-normal{
+                float: none;
+                min-height: 55px;
+                .field-control{
+                    float: none;
+                }
+            }
+            .button{
+                display: block;
+                margin-left: auto;
+            }
         }
-    }
-    #Tenants {
-        padding-right: 0;
-        &:empty {
-            display: none;
-        }
-        select {
-            height: 48px;
-            border: 1px solid var(--base-border);
-            border-radius: 4px;
-            padding: 4px 20px;
-            font-size: 16px;
-        }
-    }
-    #SsoLogin {
-        .ssoLoginMessage {
-            margin: 10px 0;
-            padding: 6px 0;
-        }
-    }
-    #Users_RememberMeField {
-        width: auto;
-        height: auto;
-        padding: 24px 0 0;
-        .field-control {
-            float: none;
-        }
-        .container-normal {
-            margin-left: 0;
-            display: flex;
-        }
-        input {
+        #Users_DemoMailAddressField{
+            width: 100%;
             height: auto;
+            padding: 0 0 10px;
         }
-    }
-    #LoginCommands {
-        position: relative;
-        top: -40px;
-        right: 8px;
-        button {
-            width: 180px;
-            height: 40px;
-        }
-    }
-    #TotpRegister {
-        text-align: center;
-    }
-    #qrCodeText {
-        font-size: 1.2rem;
-    }
-}
-
-/* [TOP] > #StartGuide */
-#StartGuide {
-    display: none;
-}
-
-/* [TOP] > #SiteMenu */
-#SiteMenu{
-    .cf{
-        &::before,
-        &::after{
-            display: none;
-
-        }
-    }
-}
-
-/* [TOP] > #TemplateTabsContainer */
-#TemplateTabsContainer {
-    border: none;
-    padding: 0;
-    border-radius: 0;
-    margin: 16px;
-    width: calc(100% - 32px);
-    .template {
-        display: flex;
-        background-color: var(--base-bg);
-    }
-    .template-viewer-container {
-        display: contents;
-    }
-    .template-viewer {
-        width: 100%;
-        background-color: var(--template-viewer-bg);
-        border: 1px solid var(--base-border);
-        padding: 0;
-        flex: 1;
-        margin: 0 0 0 1.4em;
-        order: 2;
-        .description,
-        .samples-displayed {
-            margin: 0;
-            padding: 10px 16px 8px;
-            border: none;
-            border-radius: 0;
-        }
-        .description {
-            border-bottom: none;
-            color: var(--nonColor02);
-            background: var(--template-description-bg);
-            &:has(+ .viewer:empty) {
-                border-bottom: 1px solid var(--base-border);
-            }
-        }
-        .samples-displayed {
-            border-bottom: 1px solid var(--base-border);
-            background: var(--template-warning-bg);
-            color: var(--template-warning-text);
-        }
-        .template-tab-container {
-            border: none;
-            padding: 16px;
-            background-color: var(--template-viewer-bg);
-            .ui-tabs-panel {
-                background-color: var(--template-viewer-detail);
-            }
-        }
-        /* 個別 */
-        .nav-site {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            .site-icon {
-                margin: 0 0 8px;
-            }
-            .title {
-                text-align: center;
-                order: 1;
-            }
+        #LoginMessage {
+            width: 100%;
         }
     }
 
-    .template-selectable {
-        order: 1;
+    /* [TOP] > #StartGuide */
+    #StartGuide {
+        display: none;
+    }
+
+    /* [TOP] > #TemplateTabsContainer */
+    #TemplateTabsContainer {
         float: none;
-        .field-vertical,
-        .field-control,
-        .container-selectable {
-            display: contents;
+        margin: 0;
+        width: auto;
+        .template {
+            width: auto;
+            flex-direction: column;
+            padding: 0;
+            background-color: transparent;
         }
-        .field-label {
-            display: none;
+        .template-viewer {
+            width: auto;
+            padding: 0;
+            margin: 8px;
+            .description,
+            .samples-displayed {
+                padding: 8px;
+            }
+            .template-tab-container {
+                padding: 0;
+                min-height: auto;
+            }
+            /* 個別 */
+            .ui-tabs-panel:has(.nav-site){
+                background-color: inherit;
+                .nav-site {
+                    width: 160px;
+                    margin: auto;
+                }
+            }
+        }
+        .template-selectable {
+            width: auto;
+            .wrapper{
+                height: auto;
+                min-height: 0;
+                max-height: 160px;
+                margin-bottom: 0;
+                border: 4px solid var(--primaryColor);
+                border-top-width: 0;
+                border-radius: 0;
+                padding: 4px;
+                ol{
+                    display: flex;
+                    flex-wrap: wrap;
+                    margin: 0;
+                    gap: 4px;
+                    padding: 0;
+                }
+                li{
+                    font-size: 12px;
+                    padding: 8px;
+                    margin: 0;
+                    width: calc(50% - 2px);
+                }
+            }
         }
     }
-}
 
 /* [Version] */
 #Versions {
@@ -1839,6 +1221,7 @@ body:has(input#Controller[value="syslogs"]){
 /* [Dialog] MailEditorTabsContainer */
 #MailEditorTabsContainer {
     margin: 0;
+    padding: 8px;
     .container-right {
         .field-vertical {
             float: none;
@@ -1924,6 +1307,12 @@ body:has(input#Controller[value="syslogs"]){
     }
 }
 
+/* [TabeleSetting] Banner */
+#EnterPriseBanner,
+#SupportBanner,
+#CasesBanner {
+    display: none;
+}
 /* [TabeleSetting] FieldSetColumnAccessControl */
 #FieldSetColumnAccessControl{
     #ColumnAccessControl{
@@ -2333,1586 +1722,4 @@ body:has(input#Controller[value="syslogs"]){
         }
     }
 }
-
-
-
-
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-/*  ----------------------------------------------------------------------------------------------------------------------------------------------- */
-
-
-
-
-    #LoginFieldSet {
-        width: 100%;
-        padding: 10px;
-        font-size: 4vw;
-    }
-    #LoginFieldSet input, #LoginFieldSet select {
-        font-size: 5vw;
-        padding: 10px;
-    }
-    #LoginFieldSet input[type=checkbox] {
-        transform: scale(2);
-        margin: 20px 0px 0px 10px;
-    }
-    #LoginFieldSet button {
-        font-size: 4vw;
-    }
-    #LoginFieldSet .container-normal {
-        margin-left: 0px;
-    }
-    #LoginFieldSet .field-wide, #LoginFieldSet .field-normal {
-        width: 100%;
-        margin: 10px 0px;
-        float: left;
-    }
-    #LoginFieldSet .field-normal .control-checkbox+label {
-        width: auto;
-        margin: 0px 0px 0px 30px;
-    }
-    #Logins .field-label {
-        width: auto;
-        padding: 4px;
-    }
-    #LoginMessage {
-        width: 100%;
-    }
-    #Demo {
-        width: 100%;
-        padding: 10px;
-        font-size: 4vw;
-    }
-    #DemoFields .field-label {
-        width: auto;
-        padding: 4px;
-    }
-    #DemoFields input {
-        font-size: 5vw;
-        padding: 10px;
-    }
-    #DemoFields button {
-        font-size: 4vw;
-        float: right;
-        margin-top: 10px;
-    }
-    #DemoFields .container-normal {
-        margin-left: 0px;
-    }
-    #DemoFields .field-normal {
-        width: 100%;
-        margin: 10px 0px;
-        float: left;
-    }
-    .container-normal > #ApiKey {
-        word-break: break-all;
-    }
-    div[role="dialog"] {
-        width: 98% !important;
-        z-index: 999;
-    }
-    #EnterPriseBanner, #SupportBanner, #CasesBanner {
-        display: none;
-    }
-    #EditorTabsContainer > fieldset {
-        display: contents;
-    }
-    #EditorTabsContainer > fieldset > fieldset {
-        display: contents;
-    }
-    #TenantImage {
-        width: 100%;
-    }
-
-
-#HeaderTitleContainer { margin-bottom: 3%; }
-
-#ViewFilters { font-size: 2.6vw; padding-bottom: 2%; }
-#Aggregations { font-size: 2.6vw;}
-    #ViewFilters_Reset { float: none; }
-    #ViewFilters.reduced,
-    #Aggregations.reduced { border-bottom: 1px solid #aaa; margin-bottom: 2%; padding: 2%; }
-    #Aggregations .label { height: auto; }
-    #ViewFilters>.field-auto-thin { height: 6vw; padding: 0; margin: 2% 0 0 0; line-height: 1; width: 49%;display: flex;
-    justify-content: start;
-    align-items: center; }
-    #ViewFilters>.field-auto-thin>.field-control { width: 100%;}
-    #ViewFilters>.field-auto-thin>.field-label { width: 30%; text-align: left;}
-    #ViewFilters>.field-auto-thin>.field-label+.field-control { width: 70%; }
-    .ui-multiselect {
-        width: 100% !important;
-        height: 6vw;
-    }
-
-    .field-auto-thin input[type="checkbox"],
-    .field-auto-thin input[type="radio"] { height: 2.6vw;  width: 2.6vw; margin-right: 1vw; }
-    .control-checkbox { margin: 0;}
-    .control-checkbox+label { margin: 0; }
-    .field-auto-thin>.field-label { padding: 0; }
-
-#RecordInfo div { clear:both; margin-right: 0; }
-#RecordInfo div p { font-size: 2.6vw; }
-
-#Application {
-    padding-top: 0;
-    padding-bottom: 15%;
-}
-#MainForm { display: flex; flex-direction: column; }
-
-    #RecordInfo { margin-bottom: 2%;}
-    #RecordSwitchers { font-size: 2.6vw; width: 100%; }
-    .ui-button,
-    #RecordSwitchers .current { height: auto; padding: 2%!important; line-height: 1; margin-right: 2%; }
-#EditorComments { width: 100%; order: 3; font-size: 2.6vw; }
-#EditorTabsContainer { width: 100%; }
-.fieldset.ui-tabs-panel.ui-widget-content {font-size: 2.6vw;}
-.ui-tabs .ui-tabs-panel { padding: 1%; }
-
-.field-wide,
-.field-markdown { width: 100%; min-height: 5vw; float: none; padding: 0 0 3% 0; clear: both; }
-.field-normal { width: 100%; height: auto; padding: 0;}
-    .field-normal.right-align { text-align: left; }
-
-.field-markdown>.field-label,
-.field-normal>.field-label,
-.field-wide>.field-label{ width: 100%; clear: both; margin-left: 0; padding: 1%; font-weight: bold; text-align: left; text-align-last: left; }
-.field-normal>.field-label label,
-.field-wide>.field-label label{ font-weight: bold; }
-
-.field-normal>.field-control { }
-.field-normal .container-normal,
-.field-control .container-normal{ margin-left: 0; }
-    .control-dropdown { height: auto; }
-.ui-spinner a.ui-spinner-button { height: 50%; }
-
-.field-normal .control-text{ width: 100%; height: auto; padding: 1%; line-height: 1; }
-.control-textbox { height: auto; }
-
-.ui-widget.ui-widget-content {
-    font-size: 2.6vw;
-}
-#Guide { font-size: 2.6vw; }
-
-.alert-success,
-.alert-warning,
-.alert-error { height: auto; font-size: 2.6vw; }
-
-#MainCommandsContainer { height:auto; padding: 2vw 0; font-size: 2.6vw; z-index: 200; }
-#Footer { z-index: 102; }
-
-.ui-tabs .ui-tabs-nav { padding:1%; font-size: 2.6vw; }
-.ui-tabs .ui-tabs-nav li {
-    margin-bottom: 1%;
-    padding-bottom: 0;
-    border-radius: 4px;
-}
-.ui-tabs .ui-tabs-nav li.ui-tabs-active {
-    margin-bottom: 1%;
-    padding-bottom: 0;
-    border-radius: 4px;
-}
-.message { bottom: 140px; }
-}
-#GuideExpand {
-    width: 100px;
-}
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
-
-
-
-.ui-menu .ui-menu-item {
-border-top: 1px solid #d19405;
-}
-#NewMenuContainer {
-border: 1px solid #d19405;
-    background: #fff;
-}
-
-.ui-widget-header .ui-icon {
-}
-
-}
-
-@media screen and (max-width: 1024px) and (min-width: 0px){
-
-#EditorTabs {}
-#Application {}
-
-#FieldSetStandard{ display: flex; flex-direction: column; }
-.legend {order: 2;}
-#StandardTemplatesViewer { order:3;}
-.template-selectable { order: 1; float: none;}
-
-.template-viewer-container { float: none; margin: 0;}
-.template-viewer { margin: 0;}
-.template-selectable { width: 100%; }
-
-.template-tab-container { min-height: 10px; }
-
-.field-vertical { width: 100%; float: none; padding: 0 0 20px 0;  }
-
-.container-selectable .wrapper { min-height: auto;}
-.h350 { height: auto;}
-
-    #EditInDialogBody { padding-bottom: 15%; }
-
-.links {
-    overflow: auto;
-}
-}
-@media screen and (max-width: 1024px) and (min-width: 0px) {
-#FieldSetHistories { overflow: auto; width: 100%; }
-#ViewModeContainer { overflow: auto; width: 100%; padding-top: 1%; }
-    #CrosstabBody { overflow: auto; width: 100%; }
-    #GanttBody { overflow: auto; width: 100%; padding-top: 5%; }
-.grid { font-size: 2.8vw; width: 98%; }
-.grid>thead th { min-width: 10vw; white-space: nowrap; }
-.grid>tbody td { min-width: 10vw; white-space: nowrap; }
-    .grid>thead th:nth-child(1),
-    .grid>tbody td:nth-child(1) { min-width:1vw;}
-.grid>tbody td p { white-space: nowrap; }
-
-
-    #Calendar { font-size: 2.6vw; }
-    #Calendar button { margin-bottom: 2%;}
-    #CalendarBody #Grid thead { background: #fff; }
-    #CalendarMonth { display:block; }
-
-    #Calendar .field-auto-thin { display: flex; align-items: center; width: 33%; margin: 0; padding: 0; margin-bottom: 2%!important;}
-    #Calendar .field-auto-thin p { margin-right: 1%;}
-    #Calendar .field-auto-thin select { max-width: none; }
-
-    #CalendarTimePeriod,
-    #CalendarFromTo,
-    #CalendarMonth { height: auto;}
-    #CalendarMonth { margin-bottom: 2%;}
-    .w100 { width:auto;}
-
-
-    #CrosstabBody { margin-top: 3%;}
-    #CrosstabBody #Grid { table-layout: auto;}
-    #CrosstabBody .grid>thead>tr>th,
-    #CrosstabBody .grid>tbody>tr>th { white-space: nowrap; }
-    #CrosstabBody .grid>thead th { min-width: 10vw; white-space: nowrap; }
-    #CrosstabBody .grid>tbody td { min-width: 10vw; white-space: nowrap; }
-    #Crosstab {display: flex;
-    flex-wrap: wrap;
-        justify-content: space-between;
-    align-items: center;}
-
-    #Crosstab .field-auto-thin { display: flex; align-items: center; width: 48%; margin: 0; padding: 0; font-size: 2.6vw; }
-    #Crosstab .field-auto-thin#CrosstabTimePeriodField { width: 48%;}
-        #Crosstab .field-auto-thin p {
-            width: 100%; margin-right: 2%;
-            white-space: nowrap;
-        }
-    #Crosstab .field-auto-thin select { max-width: none; }
-    #Crosstab #CrosstabMonth { width: 48%; margin-top:2%; margin-right: 0; font-size: 2.6vw; }
-    #Crosstab button { font-size: 2.6vw; margin-top: 1%;}
-
-    .svg-crosstab { display: block; }
-
-    #ViewModeContainer .both { display: flex; align-items: center; flex-wrap: wrap; }
-    #ViewModeContainer .both .field-auto-thin { display: flex; align-items: center; width: 48%; margin: 0; padding: 0; font-size: 2.6vw; height: auto; padding-top: 2%; }
-    #ViewModeContainer .both .field-auto-thin .field-auto-thin { width: 30%; }
-    #ViewModeContainer .both .field-auto-thin:nth-child(3) { width: 100%; }
-    #ViewModeContainer .both .field-auto-thin:nth-child(3) .field-auto-thin {
-        width: 48%; display:block;
-    }
-    #ViewModeContainer .field-auto-thin p { margin-right: 2%;
-    white-space: nowrap; text-align: left; }
-
-    #GanttAxis { width: 1500px; position: relative; left: 0; bottom: 0; }
-    #Gantt { width: 1500px; }
-
-    #BurnDown { width: 1500px; }
-
-    #TimeSeriesBody { padding-top: 5%; margin-left: -5%; width: 1500px; }
-    #TimeSeries { width: 1500px; }
-
-    #ViewModeContainer #Kamban.both .field-auto-thin:nth-child(3) { width: 48%; }
-    #ViewModeContainer #Kamban.both .field-auto-thin .field-control { width: 100%; }
-
-    #KambanBody { margin-top: 3%;}
-    #KambanBody #Grid { table-layout: auto;}
-    #KambanBody .grid>thead>tr>th,
-    #KambanBody .grid>tbody>tr>th { white-space: nowrap; }
-    #KambanBody .grid>thead th { min-width: 10vw; white-space: nowrap; }
-    #KambanBody .grid>tbody td { min-width: 10vw; white-space: nowrap; }
-}
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
-  :not(td) > div.field-control .container-normal {
-    margin-left: 0;
-  }
-  * {
-    line-height: 1.4;
-  }
-  .field-normal .control-textbox,
-  .field-normal .control-dropdown,
-  .field-normal .control-text, .field-control .control-textbox,
-  .field-control .control-dropdown,
-  .field-control .control-text, .container-normal .control-textbox,
-  .container-normal .control-dropdown,
-  .container-normal .control-text {
-    font-size: 2.6vw;
-    min-height: unset;
-    height: 6vw;
-    line-height: 6vw;
-    padding-top: 0;
-    padding-bottom: 0;
-    display: flex;
-    align-items: center;
-  }
-}
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
-  #HeaderTitle {
-    font-size: 16px;
-  }
-}
-
-@media screen and (max-width: 1024px) and (min-width: 768px) {
-  #HeaderTitle {
-    font-size: 35px;
-  }
-}
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
-  .command-center {
-    padding: 0;
-  }
-  .ui-dialog .ui-dialog-titlebar-close {
-    top: 0;
-    bottom: 0;
-    width: 5vw;
-    height: 5vw;
-    margin: auto 0;
-  }
-}
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
-  #ViewSelector {
-    font-size: 2.6vw;
-  }
-}
-
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
-  #Editor .field-control .container-normal {
-    width: calc(100% - 18px);
-  }
-  #Editor .field-control .ui-icon.ui-icon-clock.current-time, #Editor .field-control .ui-icon.ui-icon-person.current-user {
-    top: calc(3vw - 6px);
-  }
-}
-
-@media screen and (max-width: 1024px) and (min-width: 768px) {
-  #Editor .field-control .container-normal {
-    width: calc(100% - 36px);
-  }
-  #Editor .field-control .ui-icon.ui-icon-clock.current-time, #Editor .field-control .ui-icon.ui-icon-person.current-user {
-    top: calc(3vw - 3.5px);
-    right: -30px;
-  }
-}
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
-  #FieldSetAddressBook #OutgoingMailDestinationForm .container-left {
-    width: 38vw;
-  }
-  #FieldSetAddressBook #OutgoingMailDestinationForm .container-right .command-left {
-    float: unset;
-    padding: 0;
-  }
-  #FieldSetAddressBook #OutgoingMailDestinationForm .container-right .command-left button {
-    margin: 1vw 1vw 1vw 0;
-  }
-  #FieldSetAddressBook #OutgoingMailDestinationForm .container-right .container-selectable .wrapper {
-    height: 40vw;
-  }
-  #FieldSetAddressBook #OutgoingMailDestinationForm .container-right > * {
-    margin-left: 40vw;
-  }
-}
-
-@media screen and (max-width: 1024px) and (min-width: 768px) {
-  #FieldSetAddressBook #OutgoingMailDestinationForm .container-left {
-    width: 33vw;
-  }
-}
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
-  #Issues_WorkValue {
-    width: 100px;
-  }
-}
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
-  #Users_LoginId,
-  #Users_Password {
-    height: 40px;
-  }
-  #LoginMessage span {
-    font-size: 3.5vw;
-  }
-  #PortalLink {
-    font-size: 3.5vw;
-    top: 3vw;
-  }
-  #LoginFieldSet {
-    margin: 65px auto 20px auto;
-  }
-  #LoginFieldSet input[type=checkbox] {
-    margin: auto 0;
-    margin-left: 1.2vw;
-  }
-  #LoginFieldSet button {
-    margin-top: 0;
-  }
-  #LoginFieldSet .field-wide,
-  #LoginFieldSet .field-normal {
-    margin: 0px 0px;
-  }
-  #LoginFieldSet .field-normal .control-checkbox + label {
-    margin: auto 0;
-    margin-left: 4vw;
-    padding: 0;
-  }
-  #Logins .field-label {
-    width: 100%;
-  }
-}
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
-  #Editor .field-markdown > .field-label > label {
-    font-weight: bold;
-  }
-  #Editor .field-control .unit {
-    font-size: 2.6vw;
-    padding-top: calc((18px - 1.4em) / 2);
-  }
-  #Editor .ui-spinner .control-spinner {
-    height: 100%;
-  }
-}
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
-  #GridCheckAll {
-    margin-top: 0;
-  }
-  label[for="GridCheckAll"] {
-    margin: 0;
-  }
-  #Footer {
-    font-size: 2.8vw;
-    height: auto;
-  }
-  #MainCommandsContainer {
-    bottom: calc(2.8vw * 1.4 + 10px);
-  }
-  body > thead > tr {
-    font-size: 0.75em;
-  }
-}
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
-  #Editor #EditorTabsContainer fieldset .wrapper {
-    max-height: 250px;
-    overflow: auto;
-  }
-  #Editor #EditorTabsContainer fieldset .container-selectable .command-left {
-    align-items: center;
-    display: flex;
-  }
-  #Editor #EditorTabsContainer fieldset:not(#FieldSetGeneral) legend.legend {
-    min-height: 10px;
-  }
-  #SiteImageSettingsEditor .field-auto-thin, #GridSettingsEditor .field-auto-thin, #FiltersSettingsEditor .field-auto-thin, #EditorSettingsEditor .field-auto-thin,
-  #LinksSettingsEditor .field-auto-thin, #HistoriesSettingsEditor .field-auto-thin, #FormulasSettingsEditor .field-auto-thin, #ViewsSettingsEditor .field-auto-thin,
-  #ImportsSettingsEditor .field-auto-thin, #ExportsSettingsEditor .field-auto-thin, #CalendarSettingsEditor .field-auto-thin, #CrosstabSettingsEditor .field-auto-thin,
-  #GanttSettingsEditor .field-auto-thin, #BurnDownSettingsEditor .field-auto-thin, #TimeSeriesSettingsEditor .field-auto-thin, #KambanSettingsEditor .field-auto-thin,
-  #ImageLibSettingsEditor .field-auto-thin, #SearchSettingsEditor .field-auto-thin, #StylesSettingsEditor .field-auto-thin, #ScriptsSettingsEditor .field-auto-thin,
-  #PublishSettingsEditor .field-auto-thin, #FieldSetSiteAccessControl .field-auto-thin {
-    padding-right: 0;
-    height: auto;
-    display: flex;
-    align-items: center;
-    clear: both;
-  }
-  #SiteImageSettingsEditor .field-auto-thin .container-normal, #GridSettingsEditor .field-auto-thin .container-normal, #FiltersSettingsEditor .field-auto-thin .container-normal, #EditorSettingsEditor .field-auto-thin .container-normal,
-  #LinksSettingsEditor .field-auto-thin .container-normal, #HistoriesSettingsEditor .field-auto-thin .container-normal, #FormulasSettingsEditor .field-auto-thin .container-normal, #ViewsSettingsEditor .field-auto-thin .container-normal,
-  #ImportsSettingsEditor .field-auto-thin .container-normal, #ExportsSettingsEditor .field-auto-thin .container-normal, #CalendarSettingsEditor .field-auto-thin .container-normal, #CrosstabSettingsEditor .field-auto-thin .container-normal,
-  #GanttSettingsEditor .field-auto-thin .container-normal, #BurnDownSettingsEditor .field-auto-thin .container-normal, #TimeSeriesSettingsEditor .field-auto-thin .container-normal, #KambanSettingsEditor .field-auto-thin .container-normal,
-  #ImageLibSettingsEditor .field-auto-thin .container-normal, #SearchSettingsEditor .field-auto-thin .container-normal, #StylesSettingsEditor .field-auto-thin .container-normal, #ScriptsSettingsEditor .field-auto-thin .container-normal,
-  #PublishSettingsEditor .field-auto-thin .container-normal, #FieldSetSiteAccessControl .field-auto-thin .container-normal {
-    width: 100%;
-  }
-  #SiteImageSettingsEditor .field-auto-thin .container-normal .control-checkbox ~ label, #GridSettingsEditor .field-auto-thin .container-normal .control-checkbox ~ label, #FiltersSettingsEditor .field-auto-thin .container-normal .control-checkbox ~ label, #EditorSettingsEditor .field-auto-thin .container-normal .control-checkbox ~ label,
-  #LinksSettingsEditor .field-auto-thin .container-normal .control-checkbox ~ label, #HistoriesSettingsEditor .field-auto-thin .container-normal .control-checkbox ~ label, #FormulasSettingsEditor .field-auto-thin .container-normal .control-checkbox ~ label, #ViewsSettingsEditor .field-auto-thin .container-normal .control-checkbox ~ label,
-  #ImportsSettingsEditor .field-auto-thin .container-normal .control-checkbox ~ label, #ExportsSettingsEditor .field-auto-thin .container-normal .control-checkbox ~ label, #CalendarSettingsEditor .field-auto-thin .container-normal .control-checkbox ~ label, #CrosstabSettingsEditor .field-auto-thin .container-normal .control-checkbox ~ label,
-  #GanttSettingsEditor .field-auto-thin .container-normal .control-checkbox ~ label, #BurnDownSettingsEditor .field-auto-thin .container-normal .control-checkbox ~ label, #TimeSeriesSettingsEditor .field-auto-thin .container-normal .control-checkbox ~ label, #KambanSettingsEditor .field-auto-thin .container-normal .control-checkbox ~ label,
-  #ImageLibSettingsEditor .field-auto-thin .container-normal .control-checkbox ~ label, #SearchSettingsEditor .field-auto-thin .container-normal .control-checkbox ~ label, #StylesSettingsEditor .field-auto-thin .container-normal .control-checkbox ~ label, #ScriptsSettingsEditor .field-auto-thin .container-normal .control-checkbox ~ label,
-  #PublishSettingsEditor .field-auto-thin .container-normal .control-checkbox ~ label, #FieldSetSiteAccessControl .field-auto-thin .container-normal .control-checkbox ~ label {
-    display: unset;
-    float: unset;
-    width: auto;
-  }
-  #SiteImageSettingsEditor .field-auto-thin .field-label ~ .field-control, #GridSettingsEditor .field-auto-thin .field-label ~ .field-control, #FiltersSettingsEditor .field-auto-thin .field-label ~ .field-control, #EditorSettingsEditor .field-auto-thin .field-label ~ .field-control,
-  #LinksSettingsEditor .field-auto-thin .field-label ~ .field-control, #HistoriesSettingsEditor .field-auto-thin .field-label ~ .field-control, #FormulasSettingsEditor .field-auto-thin .field-label ~ .field-control, #ViewsSettingsEditor .field-auto-thin .field-label ~ .field-control,
-  #ImportsSettingsEditor .field-auto-thin .field-label ~ .field-control, #ExportsSettingsEditor .field-auto-thin .field-label ~ .field-control, #CalendarSettingsEditor .field-auto-thin .field-label ~ .field-control, #CrosstabSettingsEditor .field-auto-thin .field-label ~ .field-control,
-  #GanttSettingsEditor .field-auto-thin .field-label ~ .field-control, #BurnDownSettingsEditor .field-auto-thin .field-label ~ .field-control, #TimeSeriesSettingsEditor .field-auto-thin .field-label ~ .field-control, #KambanSettingsEditor .field-auto-thin .field-label ~ .field-control,
-  #ImageLibSettingsEditor .field-auto-thin .field-label ~ .field-control, #SearchSettingsEditor .field-auto-thin .field-label ~ .field-control, #StylesSettingsEditor .field-auto-thin .field-label ~ .field-control, #ScriptsSettingsEditor .field-auto-thin .field-label ~ .field-control,
-  #PublishSettingsEditor .field-auto-thin .field-label ~ .field-control, #FieldSetSiteAccessControl .field-auto-thin .field-label ~ .field-control {
-    margin-left: 10px;
-  }
-  #SiteImageSettingsEditor .field-auto-thin .field-label ~ .field-control .container-normal, #GridSettingsEditor .field-auto-thin .field-label ~ .field-control .container-normal, #FiltersSettingsEditor .field-auto-thin .field-label ~ .field-control .container-normal, #EditorSettingsEditor .field-auto-thin .field-label ~ .field-control .container-normal,
-  #LinksSettingsEditor .field-auto-thin .field-label ~ .field-control .container-normal, #HistoriesSettingsEditor .field-auto-thin .field-label ~ .field-control .container-normal, #FormulasSettingsEditor .field-auto-thin .field-label ~ .field-control .container-normal, #ViewsSettingsEditor .field-auto-thin .field-label ~ .field-control .container-normal,
-  #ImportsSettingsEditor .field-auto-thin .field-label ~ .field-control .container-normal, #ExportsSettingsEditor .field-auto-thin .field-label ~ .field-control .container-normal, #CalendarSettingsEditor .field-auto-thin .field-label ~ .field-control .container-normal, #CrosstabSettingsEditor .field-auto-thin .field-label ~ .field-control .container-normal,
-  #GanttSettingsEditor .field-auto-thin .field-label ~ .field-control .container-normal, #BurnDownSettingsEditor .field-auto-thin .field-label ~ .field-control .container-normal, #TimeSeriesSettingsEditor .field-auto-thin .field-label ~ .field-control .container-normal, #KambanSettingsEditor .field-auto-thin .field-label ~ .field-control .container-normal,
-  #ImageLibSettingsEditor .field-auto-thin .field-label ~ .field-control .container-normal, #SearchSettingsEditor .field-auto-thin .field-label ~ .field-control .container-normal, #StylesSettingsEditor .field-auto-thin .field-label ~ .field-control .container-normal, #ScriptsSettingsEditor .field-auto-thin .field-label ~ .field-control .container-normal,
-  #PublishSettingsEditor .field-auto-thin .field-label ~ .field-control .container-normal, #FieldSetSiteAccessControl .field-auto-thin .field-label ~ .field-control .container-normal {
-    width: 100%;
-  }
-  #FieldSetGeneral .field-control .container-normal .control-checkbox ~ label {
-    width: auto;
-  }
-  #GridSettingsEditor #GridEditorType {
-    max-width: unset;
-  }
-  #SiteImageSettingsEditor #SiteImage {
-    width: 100%;
-    height: 7vw;
-  }
-  #SiteImageSettingsEditor #SetSiteImage {
-    margin-right: 0;
-  }
-  #SearchSettingsEditor #SearchType {
-    margin-bottom: 10px;
-  }
-  #SearchSettingsEditor #SearchSettingsEditorFulltext legend.legend.applied, #SearchSettingsEditor #SearchSettingsEditorOperations legend.legend.applied {
-    margin-bottom: 10px;
-  }
-  #SearchSettingsEditor #SearchSettingsEditorFulltext {
-    padding-top: 10px;
-  }
-  #Editor #EditorTabsContainer .fieldset + .field-auto-thin {
-    margin-top: 10px;
-  }
-}
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
-  #Aggregations {
-    display: flex;
-    flex-wrap: wrap;
-    row-gap: 5px;
-    justify-content: flex-start;
-    align-items: center;
-  }
-  #Aggregations span.label {
-    flex: 1 0 auto;
-    margin: 0;
-    text-align: center;
-    align-self: stretch;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-  }
-  #Aggregations span.data {
-    flex: 1 0 auto;
-    margin: 0;
-    align-self: stretch;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    height: auto;
-  }
-  #Aggregations span.data.no-choice {
-    flex-basis: auto;
-    align-self: stretch;
-  }
-  #Aggregations span.data.link span {
-    font-weight: bold;
-  }
-  #Aggregations #ReduceAggregations {
-    width: 100%;
-  }
-}
-
-@media screen and (max-width: 1024px) and (min-width: 768px) {
-  #Aggregations {
-    row-gap: 15px;
-  }
-}
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
-  #ViewModeContainer .grid {
-    vertical-align: middle;
-  }
-  input[type='checkbox'], .field-auto-thin input[type='checkbox'] {
-    width: 3vw;
-    height: 3vw;
-  }
-  .field-auto-thin input[type='checkbox'] + label {
-    padding-top: 2px;
-  }
-}
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
-  #SearchField #Search {
-    font-size: 3vw;
-    width: 100%;
-  }
-  #SearchField #Search::placeholder {
-    font-size: 3vw;
-  }
-}
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
-  #ViewFilters #ViewFilters_Reset {
-    margin-left: auto;
-    margin-right: 0;
-  }
-  #ViewFilters .field-auto-thin {
-    width: 50%;
-  }
-  #ViewFilters .field-auto-thin .field-control .container-normal {
-    display: flex;
-    align-items: center;
-  }
-  #ViewFilters .field-auto-thin .field-control .container-normal input[type='checkbox'] {
-    margin-right: 4px;
-    margin-top: 1px;
-  }
-  #ViewFilters .field-auto-thin .field-control .container-normal .ui-widget.ui-state-default.ui-multiselect, #ViewFilters .field-auto-thin .field-control .container-normal .control-textbox {
-    height: 6vw;
-    font-size: 2.6vw;
-  }
-  #ViewFilters #ViewFilters_SearchField {
-    width: 100%;
-  }
-  #ViewFilters #ViewFilters_SearchField p.field-label {
-    width: 17%;
-  }
-  #ViewFilters #ViewFilters_SearchField .field-control {
-    width: 100%;
-  }
-  #ViewFilters > .field-auto-thin:nth-child(odd) {
-    padding-right: 2px;
-  }
-  #ViewFilters > .field-auto-thin:nth-child(even) {
-    padding-left: 2px;
-  }
-  .ui-multiselect-menu .ui-helper-reset {
-    position: relative;
-  }
-  .ui-multiselect-menu .ui-helper-reset li {
-    width: 100%;
-  }
-  .ui-multiselect-menu .ui-helper-reset li > label span {
-    position: relative;
-    top: -4px;
-  }
-  .ui-multiselect-menu .ui-helper-reset li .ui-multiselect-all,
-  .ui-multiselect-menu .ui-helper-reset li .ui-multiselect-none {
-    width: 100%;
-    display: flex;
-    align-items: center;
-  }
-  .ui-multiselect-menu .ui-helper-reset li .ui-multiselect-all span:last-child,
-  .ui-multiselect-menu .ui-helper-reset li .ui-multiselect-none span:last-child {
-    padding-left: 10px;
-  }
-  .ui-multiselect-menu .ui-helper-reset li .ui-multiselect-close {
-    position: absolute;
-    top: 8px;
-    right: 0;
-  }
-}
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
-  #EditorTabsContainer .legend.applied {
-    display: flex;
-    align-items: center;
-    font-weight: bold;
-  }
-  #EditorTabsContainer #PermissionEditor .field-vertical:first-child > .field-control {
-    border-bottom: 1px solid #d19405;
-    padding-bottom: 2vw;
-  }
-  #EditorTabsContainer #PermissionEditor .field-control .container-selectable .command-left {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    width: 100%;
-  }
-  #EditorTabsContainer #PermissionEditor .field-control .container-selectable .command-left #SearchPermissionElements {
-    margin: 2px 1vw 2px 6vw;
-    height: 7vw;
-  }
-  #EditorTabsContainer #PermissionEditor .field-control .container-selectable .command-left button {
-    align-self: stretch;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    white-space: nowrap;
-  }
-  #EditorTabsContainer #PermissionEditor .field-control .container-selectable .command-left button .ui-icon {
-    position: relative;
-    top: 0.5vw;
-    width: 18px;
-    height: 18px;
-    margin-right: 0px;
-  }
-  #EditorTabsContainer #PermissionEditor .field-control .container-selectable .command-left #OpenPermissionsDialog,
-  #EditorTabsContainer #PermissionEditor .field-control .container-selectable .command-left #DeletePermissions {
-    line-height: 1.5;
-  }
-  #EditorTabsContainer #PermissionEditor .field-control .container-selectable #CurrentPermissionsWrapper {
-    min-height: 15vw;
-  }
-}
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
-  thead > tr.ui-widget-header th div > span {
-    font-size: 2.8vw;
-    white-space: nowrap;
-  }
-}
-
-@media screen and (max-width: 1024px) and (min-width: 768px) {
-  #EditorTabsContainer .field-control .container-normal .ui-icon.ui-icon-pencil.button-edit-markdown {
-    top: 10px;
-    right: 4px;
-  }
-}
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
-  #EditorTabsContainer {
-    overflow: auto;
-  }
-  #EditorComments {
-    padding: 0;
-    margin: 0;
-  }
-  #EditorComments #CommentField .control-textarea {
-    height: 15vw;
-  }
-  #EditorComments #CommentField .control-textarea::placeholder {
-    font-size: 2.6vw;
-  }
-}
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
-  .is-showMenu {
-    overflow: hidden;
-  }
-  .is-showMenu body {
-    position: fixed;
-    overflow: hidden;
-  }
-  .bg-overlay {
-    background: rgba(0, 0, 0, 0.5);
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 301;
-    width: 100%;
-    height: 100%;
-    display: none;
-  }
-  #MainContainer {
-  }
-
-}
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
-  #OutgoingMailsForm {
-    width: 100%;
-    font-size: 2.6vw;
-  }
-  #OutgoingMailsForm .item h3.title-header {
-    height: auto;
-  }
-  #OutgoingMailsForm .item .content {
-    padding: 0.2em;
-    margin: 0;
-  }
-  #OutgoingMailsForm .item .content .field-auto,
-  #OutgoingMailsForm .item .content .field-auto-thin {
-    width: 100%;
-    margin-right: 0;
-    padding-right: 0;
-    padding-bottom: 0;
-    display: flex;
-    flex-direction: column;
-    height: auto;
-  }
-  #OutgoingMailsForm .item .content .field-auto .field-label,
-  #OutgoingMailsForm .item .content .field-auto-thin .field-label {
-    float: none;
-    padding: 7px 7px 7px 0;
-    width: 100%;
-    text-align: left;
-    display: block;
-  }
-  #OutgoingMailsForm .item .content .field-auto .field-label label,
-  #OutgoingMailsForm .item .content .field-auto-thin .field-label label {
-    font-weight: bold;
-  }
-  #OutgoingMailsForm .item .content .field-auto .field-control,
-  #OutgoingMailsForm .item .content .field-auto-thin .field-control {
-    float: none;
-    width: 100%;
-  }
-  #OutgoingMailsForm .item .content .field-auto .field-control .container-normal,
-  #OutgoingMailsForm .item .content .field-auto-thin .field-control .container-normal {
-    margin-right: 0;
-    width: 100%;
-  }
-  #OutgoingMailsForm .item .content .field-auto .field-control .container-normal .control-text,
-  #OutgoingMailsForm .item .content .field-auto-thin .field-control .container-normal .control-text {
-    min-height: 0;
-    height: auto;
-  }
-  #OutgoingMailsForm .item .content .field-auto-thin {
-    margin-left: 0;
-  }
-  #OutgoingMailsForm .item .content .field-wide {
-    display: flex;
-    flex-direction: column;
-    padding: 0;
-  }
-  #OutgoingMailsForm .item .content .field-wide .field-label {
-    padding: 7px 0;
-  }
-  #OutgoingMailsForm .item .content .field-wide .field-control .container-normal {
-    margin-right: 0;
-    width: 100%;
-  }
-}
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
-  #SiteMenu li.ui-sortable-handle {
-    touch-action: unset;
-  }
-}
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
-  .xdsoft_datetimepicker span {
-    font-size: 2.6vw;
-  }
-  .xdsoft_datetimepicker .xdsoft_datepicker {
-    width: calc(42.81vw - 16px);
-  }
-  .xdsoft_datetimepicker .xdsoft_datepicker .xdsoft_monthpicker .xdsoft_today_button {
-    margin-left: 0;
-  }
-  .xdsoft_datetimepicker .xdsoft_datepicker .xdsoft_monthpicker .xdsoft_label.xdsoft_year {
-    margin-left: 0;
-  }
-  .xdsoft_datetimepicker .xdsoft_datepicker .xdsoft_monthpicker .xdsoft_year, .xdsoft_datetimepicker .xdsoft_datepicker .xdsoft_monthpicker .xdsoft_month {
-    width: fit-content;
-  }
-  .xdsoft_datetimepicker .xdsoft_datepicker .xdsoft_monthpicker .xdsoft_year .xdsoft_select .xdsoft_option, .xdsoft_datetimepicker .xdsoft_datepicker .xdsoft_monthpicker .xdsoft_month .xdsoft_select .xdsoft_option {
-    font-size: 2.6vw;
-  }
-  .xdsoft_datetimepicker .xdsoft_datepicker .xdsoft_monthpicker .xdsoft_year .xdsoft_select .xdsoft_scrollbar, .xdsoft_datetimepicker .xdsoft_datepicker .xdsoft_monthpicker .xdsoft_month .xdsoft_select .xdsoft_scrollbar {
-    width: 0.7vw;
-  }
-  .xdsoft_datetimepicker .xdsoft_datepicker .xdsoft_calendar table th, .xdsoft_datetimepicker .xdsoft_datepicker .xdsoft_calendar table td {
-    font-size: 2.6vw;
-  }
-  .xdsoft_datetimepicker .xdsoft_timepicker.active {
-    width: calc(12.17vw - 8px);
-  }
-  .xdsoft_datetimepicker .xdsoft_timepicker.active .xdsoft_time_box .xdsoft_time {
-    font-size: 2.6vw;
-  }
-}
-
-@media screen and (max-width: 1024px) and (min-width: 768px) {
-  .xdsoft_datetimepicker .xdsoft_datepicker .xdsoft_monthpicker .xdsoft_year i, .xdsoft_datetimepicker .xdsoft_datepicker .xdsoft_monthpicker .xdsoft_month i {
-    transform: scale(1.6);
-  }
-  .xdsoft_datetimepicker .xdsoft_datepicker .xdsoft_monthpicker .xdsoft_year span, .xdsoft_datetimepicker .xdsoft_datepicker .xdsoft_monthpicker .xdsoft_month span {
-    font-size: 16px;
-  }
-}
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
-  .message span.body {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .message .close {
-    top: unset;
-    bottom: calc(50% - 8px);
-    margin: auto;
-  }
-}
-
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
-  #Editor .field-normal .field-control .container-normal input[type='checkbox'].control-checkbox {
-    position: relative;
-    margin-right: 6px;
-    margin-top: .3vw;
-  }
-}
-
-@media screen and (max-width: 1024px) and (min-width: 768px) {
-  #Editor .field-normal .field-control .container-normal input[type='checkbox'].control-checkbox {
-    margin-right: 12px;
-  }
-}
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
-  #Editor #EditorTabsContainer .field-normal:not(.hidden), #Editor #EditorTabsContainer .field-wide:not(.hidden), #Editor #EditorTabsContainer .field-markdown:not(.hidden) {
-    display: inline-block;
-    margin-top: 8px;
-    padding-bottom: 0;
-  }
-}
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
-  #ViewModeContainer #Calendar.both select {
-    font-size: 2.6vw;
-    height: 6vw;
-  }
-  #ViewModeContainer #Calendar.both .field-label {
-    min-width: 16%;
-    margin-right: 0px;
-  }
-  #ViewModeContainer #Calendar.both .field-auto-thin .field-control .container-normal {
-    display: flex;
-    align-items: center;
-  }
-  #ViewModeContainer #Calendar.both .field-auto-thin:nth-child(1), #ViewModeContainer #Calendar.both .field-auto-thin:nth-child(2), #ViewModeContainer #Calendar.both .field-auto-thin:nth-child(3) {
-    flex: 0 1 calc(47%);
-    flex-wrap: nowrap;
-  }
-  #ViewModeContainer #Calendar.both .field-auto-thin:nth-child(1) .field-label, #ViewModeContainer #Calendar.both .field-auto-thin:nth-child(2) .field-label, #ViewModeContainer #Calendar.both .field-auto-thin:nth-child(3) .field-label {
-    min-width: 16%;
-  }
-  #ViewModeContainer #Calendar.both .field-auto-thin:nth-child(1) .field-control, #ViewModeContainer #Calendar.both .field-auto-thin:nth-child(2) .field-control, #ViewModeContainer #Calendar.both .field-auto-thin:nth-child(3) .field-control {
-    width: 84%;
-  }
-  #ViewModeContainer #Calendar.both .field-auto-thin:nth-child(4) {
-    width: 47%;
-    padding-top: 2%;
-  }
-  #ViewModeContainer #Calendar.both .field-auto-thin:nth-child(4) .field-control .container-normal {
-    justify-content: flex-end;
-  }
-  #ViewModeContainer #Calendar.both .field-auto-thin:nth-child(4) .field-control .container-normal #CalendarDate {
-    margin-right: 0;
-    width: 100%;
-    font-size: 2.6vw;
-  }
-  #ViewModeContainer #Calendar.both .field-auto-thin input[type='checkbox'] {
-    margin-left: 2px;
-  }
-  #ViewModeContainer #Calendar.both button {
-    flex: 1 0 calc((100% / 3) - 32px);
-    margin: 2% 10px 2% 10px;
-  }
-  #ViewModeContainer .grid.fixed {
-    width: 100%;
-  }
-  #ViewModeContainer .grid.fixed tbody tr td.container .item {
-    touch-action: auto;
-    min-height: 4vw;
-    margin-top: 5px;
-    margin-bottom: 5px;
-    height: 4vw;
-  }
-  #ViewModeContainer .grid.fixed tbody tr td.container .item .connection {
-    min-height: 4vw;
-    height: 4vw;
-  }
-  #ViewModeContainer .grid.fixed tbody tr td.container .dummy {
-    height: 4vw;
-  }
-  #ViewModeContainer .grid.fixed tbody .title {
-    padding: 0;
-  }
-  thead th.calendar-header {
-    overflow-x: hidden;
-  }
-}
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
-  #ViewModeContainer .both {
-    column-gap: 16px;
-  }
-  #ViewModeContainer .both .field-auto-thin:first-child, #ViewModeContainer .both .field-auto-thin:nth-child(2) {
-    flex: 0 1 calc(50% - 8px);
-  }
-  #ViewModeContainer .both .field-auto-thin:first-child .field-control, #ViewModeContainer .both .field-auto-thin:nth-child(2) .field-control {
-    flex: 1;
-  }
-  #ViewModeContainer .both .field-auto-thin:first-child .field-control select, #ViewModeContainer .both .field-auto-thin:nth-child(2) .field-control select {
-    max-width: 100%;
-  }
-  #ViewModeContainer .both .field-auto-thin:nth-child(3) {
-    row-gap: 12px;
-    flex-wrap: wrap;
-  }
-  #ViewModeContainer .both .field-auto-thin:nth-child(3) .field-label {
-    min-width: 15%;
-  }
-  #ViewModeContainer .both .field-auto-thin:nth-child(3) .field-auto-thin {
-    display: flex;
-    align-items: center;
-    flex: 1 0 100%;
-  }
-  #ViewModeContainer .both .field-auto-thin:nth-child(3) .field-auto-thin #GanttStartDate {
-    width: 100%;
-    font-size: 2.6vw;
-    margin-right: 0;
-  }
-  #ViewModeContainer .both .field-auto-thin:nth-child(3) button {
-    flex: 1;
-  }
-  #ViewModeContainer .both .field-auto-thin:nth-child(3) button:last-child {
-    margin-right: 8px;
-  }
-  #ViewModeContainer .both .field-auto-thin:nth-child(4) {
-    width: 100%;
-    padding-top: 12px;
-  }
-  #ViewModeContainer .both .field-auto-thin:nth-child(4) .field-control {
-    width: 100%;
-  }
-  #ViewModeContainer .both .field-auto-thin:nth-child(4) .field-control .container-normal {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    column-gap: 32px;
-  }
-  #ViewModeContainer .both .field-auto-thin:nth-child(4) .field-control .container-normal #GanttPeriod\,ui {
-    width: 99%;
-    margin-top: 0;
-  }
-  #ViewModeContainer .both .field-auto-thin:nth-child(4) .field-control .container-normal #GanttPeriod {
-    margin: 0;
-  }
-  #GanttBody {
-    max-height: 70vh;
-  }
-  #GanttBody #Gantt {
-    font-size: 2.6vw;
-    width: 500%;
-  }
-  #GanttBody text {
-    font-size: 2.6vw;
-  }
-  #GanttBody .title text.summary {
-    font-size: 3vw;
-  }
-  #GanttBody #GanttAxis {
-    left: -2px;
-    position: sticky;
-    width: 500%;
-  }
-}
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
-  #ViewModeContainer #Kamban.both .field-auto-thin select {
-    font-size: 2.6vw;
-  }
-  #ViewModeContainer #Kamban.both .field-auto-thin:nth-child(1), #ViewModeContainer #Kamban.both .field-auto-thin:nth-child(2), #ViewModeContainer #Kamban.both .field-auto-thin:nth-child(3), #ViewModeContainer #Kamban.both .field-auto-thin#KambanValueField {
-    width: 100%;
-    flex: 0 1 calc(50% - 8px);
-    flex-wrap: wrap;
-    display: flex;
-    row-gap: 0;
-  }
-  #ViewModeContainer #Kamban.both .field-auto-thin:nth-child(1) .field-label, #ViewModeContainer #Kamban.both .field-auto-thin:nth-child(2) .field-label, #ViewModeContainer #Kamban.both .field-auto-thin:nth-child(3) .field-label, #ViewModeContainer #Kamban.both .field-auto-thin#KambanValueField .field-label {
-    width: 100%;
-  }
-  #ViewModeContainer #Kamban.both .field-auto-thin:nth-child(1) select, #ViewModeContainer #Kamban.both .field-auto-thin:nth-child(2) select, #ViewModeContainer #Kamban.both .field-auto-thin:nth-child(3) select, #ViewModeContainer #Kamban.both .field-auto-thin#KambanValueField select {
-    max-width: 100%;
-  }
-  #ViewModeContainer #Kamban.both .field-auto-thin:nth-child(3) {
-    padding-top: 4%;
-  }
-  #ViewModeContainer #Kamban.both .field-auto-thin#KambanValueField {
-    padding-top: 4%;
-  }
-  #ViewModeContainer #Kamban.both .field-auto-thin:nth-child(5) {
-    display: block;
-    width: 100%;
-    padding-top: 4%;
-  }
-  #ViewModeContainer #Kamban.both .field-auto-thin:nth-child(5) .field-label {
-    min-width: 50%;
-    margin-right: 10px;
-  }
-  #ViewModeContainer #Kamban.both .field-auto-thin:nth-child(5) select {
-    max-width: 100%;
-  }
-  #ViewModeContainer #Kamban.both .field-auto-thin:nth-child(6), #ViewModeContainer #Kamban.both .field-auto-thin:nth-child(7) {
-    width: calc(50% - 8px);
-    padding-top: 4%;
-  }
-  #ViewModeContainer #Kamban.both .field-auto-thin:nth-child(6) .container-normal, #ViewModeContainer #Kamban.both .field-auto-thin:nth-child(7) .container-normal {
-    display: flex;
-    align-items: center;
-  }
-  #ViewModeContainer #Kamban.both #KambanBody #Grid tbody .kamban-row .kamban-container .kamban-item {
-    height: 4vw;
-    padding: 0px 16px 0px 5px;
-    overflow: hidden;
-    white-space: pre-line;
-    touch-action: auto;
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-  }
-}
-
-@media screen and (max-width: 1024px) and (min-width: 768px) {
-  #ViewModeContainer #Kamban.both #KambanBody #Grid tbody .kamban-row .kamban-container .kamban-item .ui-icon.ui-icon-pencil {
-    width: 16px;
-    height: 16px;
-    top: 10px;
-    right: 4px;
-  }
-}
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
-  #ViewModeContainer #Calendar #FullCalendar.fc .fc-header-toolbar .fc-toolbar-chunk:last-child .fc-button-group {
-    display: flex;
-    flex-wrap: wrap;
-    margin: 0;
-  }
-  #ViewModeContainer #Calendar #FullCalendar.fc .fc-header-toolbar .fc-toolbar-chunk:last-child .fc-button-group button:nth-child(3) {
-    border-radius: 0 0.25em 0.25em 0;
-  }
-  #ViewModeContainer #Calendar #FullCalendar.fc .fc-header-toolbar .fc-toolbar-chunk:last-child .fc-button-group button:last-child {
-    border-radius: 0.25em;
-  }
-}
-
-@media screen and (max-width: 768px) and (min-width: 0px) {
-  #ViewModeContainer #Calendar #FullCalendar.fc .fc-header-toolbar .fc-toolbar-chunk:last-child .fc-button-group button:nth-child(odd) {
-    border-radius: 0.25em 0 0 0.25em;
-  }
-  #ViewModeContainer #Calendar #FullCalendar.fc .fc-header-toolbar .fc-toolbar-chunk:last-child .fc-button-group button:nth-child(even) {
-    border-radius: 0 0.25em 0.25em 0;
-  }
-}
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
-  #RecordSwitchers {
-    display: flex;
-    align-items: center;
-  }
-  #RecordSwitchers #CurrentIndex {
-    height: 7.5vw;
-    display: flex;
-    align-items: center;
-  }
-  #Editor fieldset .command-left {
-    width: 100%;
-  }
-  table.grid tbody tr td svg {
-    margin-top: calc(3.2vw - 13px);
-    overflow: unset;
-  }
-  table.grid tbody tr td .user {
-    display: flex;
-    align-items: center;
-  }
-  table.grid tbody tr td .user .ui-icon-person {
-    margin-top: 0.15vw;
-  }
-}
-
-@media screen and (max-width: 1024px) and (min-width: 0) {
-  #Editor #RecordHeader .user {
-    display: flex;
-    align-items: center;
-  }
-  #Editor #RecordHeader .user .ui-icon-person {
-    margin-right: 0.6vw;
-  }
-  #EditorTabsContainer #Users_DeptIdField .ui-icon-person {
-    top: calc(3vw - 6.5px);
-  }
-}
-
-@media screen and (max-width: 1024px) and (min-width: 768px) {
-  .ui-icon {
-    transform: scale(1.6);
-    margin-right: 4px;
-  }
-  #Editor .ui-button-icon-space {
-    width: 1vw;
-  }
-  #Editor #RecordHeader .user .ui-icon-person {
-    margin: auto 4px;
-  }
-  #EditorTabsContainer #Users_DeptIdField .ui-icon-person {
-    top: calc(3vw - 3.5px);
-    right: -30px;
-  }
-}
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
-  #OutgoingMailDialog .field-wide {
-    padding-bottom: 5px;
-  }
-  #OutgoingMailDialog .field-wide .field-label {
-    width: auto;
-  }
-  #OutgoingMailDialog .field-wide .field-control {
-    float: none;
-  }
-  #OutgoingMailDialog .field-wide .control-basket,
-  #OutgoingMailDialog .field-wide .container-normal {
-    margin-left: 15vw;
-  }
-  #OutgoingMailDialog textarea {
-    height: 20vw;
-  }
-}
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
-  .show-password {
-    top: calc(50% - 12px);
-    right: 10px;
-  }
-  #LoginFieldSet input[type=checkbox] {
-    transform: scale(1.2);
-  }
-  #LoginFieldSet input {
-    height: 10vw;
-  }
-  #LoginFieldSet input,
-  #LoginFieldSet select {
-    font-size: 4vw;
-  }
-  #Users_RememberMeField .container-normal {
-    display: flex;
-    align-items: center;
-  }
-}
-
-@media screen and (max-width: 1024px) and (min-width: 768px) {
-  .show-password {
-    transform: scale(1.5);
-  }
-}
-
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
-  #ViewModeContainer .field-auto-thin > .field-label {
-    padding: 7px 2vw 7px 0;
-  }
-  #CrosstabValueField .field-control {
-    width: 70%;
-  }
-  #Crosstab .field-auto-thin p {
-    margin-right: 0%;
-  }
-  #ViewModeContainer #Crosstab .field-auto-thin {
-    width: 100%;
-    flex: 0 1 calc(100%);
-    padding-top: 1vw;
-  }
-  #ViewModeContainer #Crosstab .field-auto-thin .field-label {
-    width: 30%;
-  }
-  #ViewModeContainer #Crosstab .field-auto-thin .field-control {
-    width: 70%;
-  }
-  #ViewModeContainer #Crosstab .field-auto-thin .field-control input[type='checkbox'],
-  #ViewModeContainer #Crosstab .field-auto-thin .field-control .field-auto-thin input[type='checkbox'] {
-    width: 4vw;
-    height: 4vw;
-    margin-left: 2px;
-  }
-  #ViewModeContainer #Crosstab .field-control .control-dropdown {
-    font-size: 2.6vw;
-  }
-  #CrosstabBody .grid > thead > tr:first-child > th:not(:first-child),
-  #KambanBody .grid > thead > tr:first-child > th:not(:first-child) {
-    white-space: nowrap;
-  }
-}
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
-  #ImportSettingsDialog .control-checkbox + label {
-    margin: 1.8vw 0 0 1vw;
-  }
-  #ImportSettingsDialog .control-checkbox {
-    margin: 2vw 0 2vw 2px;
-  }
-  #ImportSettingsDialog .control-textbox {
-    height: 7vw;
-    line-height: 6.5vw;
-  }
-  #ImportSettingsDialog .command-center {
-    padding: 2vw 0;
-  }
-}
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
-  #ExportSelectorDialog .command-center {
-    padding: 2vw 0;
-  }
-}
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
-  #ViewModeContainer #Grid .control-dropdown,
-  #ViewModeContainer #Grid .datepicker {
-    width: 25vw;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-  #ViewModeContainer #Grid .current-user,
-  #ViewModeContainer #Grid .current-time {
-    display: none;
-  }
-  #ViewModeContainer #Grid .ui-spinner {
-    height: 6vw;
-    max-height: 6vw;
-    display: flex;
-    align-items: center;
-  }
-}
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
-  #ViewModeContainer .both #TimeSeriesValueField,
-  #ViewModeContainer .both #TimeSeriesChartTypeField,
-  #ViewModeContainer .both #TimeSeriesHorizontalAxisField {
-    width: 100%;
-  }
-  #ViewModeContainer .both #TimeSeriesValueField .field-label,
-  #ViewModeContainer .both #TimeSeriesChartTypeField .field-label,
-  #ViewModeContainer .both #TimeSeriesHorizontalAxisField .field-label {
-    min-width: 30%;
-  }
-  #ViewModeContainer .both .field-auto-thin:first-child,
-  #ViewModeContainer .both .field-auto-thin:nth-child(2) {
-    flex: 0 1 calc(50% - 8px);
-  }
-  #ViewModeContainer .both .field-auto-thin:first-child .field-label,
-  #ViewModeContainer .both .field-auto-thin:nth-child(2) .field-label {
-    min-width: 29%;
-  }
-  #ViewModeContainer .both .field-auto-thin:nth-child(3) .field-label {
-    min-width: 13%;
-  }
-  #ViewModeContainer .both .field-auto-thin select {
-    max-width: 100%;
-  }
-  #ViewModeContainer .both .field-auto-thin > .field-control {
-    min-width: 68%;
-  }
-}
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
-  #ApiEditorCommands {
-    display: flex;
-    justify-content: center;
-    padding: 10vw 0;
-  }
-}
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
-  #Editor #TenantForm #EditorTabsContainer .fieldset .field-auto-thin {
-    width: 100%;
-    height: 7vw;
-    margin: 0;
-  }
-  #Editor #TenantForm #EditorTabsContainer .fieldset .field-auto-thin .field-control {
-    width: 100%;
-  }
-  #Editor #TenantForm #EditorTabsContainer .fieldset .field-auto-thin .field-control .container-normal label {
-    padding: 0;
-  }
-  #Editor #TenantForm #EditorTabsContainer .fieldset .field-auto-thin .field-control .container-normal #TenantImage {
-    height: auto;
-  }
-  #Editor #TenantForm #EditorTabsContainer .fieldset .button-icon {
-    margin-top: 5vw;
-  }
-  #Editor #TenantForm #EditorTabsContainer .fieldset #StyleField .field-textarea > .field-label,
-  #Editor #TenantForm #EditorTabsContainer .fieldset #ScriptField .field-textarea > .field-label {
-    width: 100%;
-    text-align: left;
-  }
-}
-
-@media screen and (max-width: 1024px) and (min-width: 0) {
-  #Versions span {
-    margin: 20px 10px 20px 0;
-  }
-}
-
-@media screen and (max-width: 767px) and (min-width: 0) {
-  #Versions {
-    font-size: 2.6vw;
-    width: auto;
-    padding: 4vw 5vw 4vw 7vw;
-  }
-  #Versions span {
-    margin: 0 10px 0 0;
-  }
-}
-
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
-    #Application:has(#Grid){
-        padding-bottom: 0;
-        + #BottomMargin{
-            display: none;
-        }
-        #ViewModeContainer {
-            padding-top: 0;
-            max-height: calc(100vh - 14.6vw - (2.8vw*1.4 + 10px + 23vw));
-            margin-bottom: calc(2.8vw*1.4 + 10px + 23vw);
-        }
-    }
 }

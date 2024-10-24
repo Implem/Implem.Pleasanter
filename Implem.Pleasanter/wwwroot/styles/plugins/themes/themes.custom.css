@@ -2063,6 +2063,9 @@ body:not(:has(#Editor)){
             float: none;
             margin: auto;
         }
+        label:empty{
+            display: none;
+        }
     }
     .comment {
         margin-bottom: 0;
