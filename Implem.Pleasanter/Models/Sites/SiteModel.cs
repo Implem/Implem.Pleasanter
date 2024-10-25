@@ -6545,10 +6545,6 @@ namespace Implem.Pleasanter.Models
                             from: context.Forms.Data("ReminderFrom"),
                             to: SiteSettings.LabelTextToColumnName(
                                 context.Forms.Data("ReminderTo")),
-                            cc: SiteSettings.LabelTextToColumnName(
-                                context.Forms.Data("ReminderCc")),
-                            bcc: SiteSettings.LabelTextToColumnName(
-                                context.Forms.Data("ReminderBcc")),
                             token: context.Forms.Data("ReminderToken"),
                             column: context.Forms.Data("ReminderColumn"),
                             startDateTime: context.Forms.DateTime("ReminderStartDateTime"),
@@ -6604,10 +6600,6 @@ namespace Implem.Pleasanter.Models
                                 from: context.Forms.Data("ReminderFrom"),
                                 to: SiteSettings.LabelTextToColumnName(
                                     context.Forms.Data("ReminderTo")),
-                                cc: SiteSettings.LabelTextToColumnName(
-                                    context.Forms.Data("ReminderCc")),
-                                bcc: SiteSettings.LabelTextToColumnName(
-                                    context.Forms.Data("ReminderBcc")),
                                 token: context.Forms.Data("ReminderToken"),
                                 column: context.Forms.Data("ReminderColumn"),
                                 startDateTime: context.Forms.DateTime("ReminderStartDateTime"),

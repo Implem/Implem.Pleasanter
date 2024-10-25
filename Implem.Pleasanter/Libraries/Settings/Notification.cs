@@ -211,7 +211,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             SiteSettings ss,
             string title,
             string body,
-            Dictionary<Column, string> values = null)
+            Dictionary<Column, string> valuesTo = null,
+            Dictionary<Column, string> valuesCc = null,
+            Dictionary<Column, string> valuesBcc = null)
         {
             if (Disabled == true)
             {
@@ -233,19 +235,19 @@ namespace Implem.Pleasanter.Libraries.Settings
                         var addresses = Address;
                         var ccAdd = CcAddress;
                         var bccAdd = BccAddress;
-                        values?.ForEach(data => addresses = addresses.Replace(
+                        valuesTo?.ForEach(data => addresses = addresses.Replace(
                             $"[{data.Key.ColumnName}]",
                             Addresses.ReplacedAddress(
                                 context: context,
                                 column: data.Key,
                                 value: data.Value)));
-                        values?.ForEach(data => ccAdd = ccAdd.Replace(
+                        valuesCc?.ForEach(data => ccAdd = ccAdd.Replace(
                             $"[{data.Key.ColumnName}]",
                             Addresses.ReplacedAddress(
                                 context: context,
                                 column: data.Key,
                                 value: data.Value)));
-                        values?.ForEach(data => bccAdd = bccAdd.Replace(
+                        valuesBcc?.ForEach(data => bccAdd = bccAdd.Replace(
                             $"[{data.Key.ColumnName}]",
                             Addresses.ReplacedAddress(
                                 context: context,

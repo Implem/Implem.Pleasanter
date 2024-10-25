@@ -73,7 +73,8 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return HtmlTemplates.Error(
+                default:
+                    return HtmlTemplates.Error(
                     context: context,
                     errorData: invalid);
             }
@@ -100,7 +101,7 @@ namespace Implem.Pleasanter.Models
                                 id: ss.SiteId)),
                         action: () => hb
                             .Div(
-                                id: "ViewSelectorField", 
+                                id: "ViewSelectorField",
                                 action: () => hb
                                     .ViewSelector(
                                         context: context,
@@ -857,34 +858,44 @@ namespace Implem.Pleasanter.Models
                 var value = string.Empty;
                 switch (column.Name)
                 {
-                    case "SiteId": value = siteModel.SiteId.GridText(
+                    case "SiteId":
+                        value = siteModel.SiteId.GridText(
                         context: context,
                         column: column); break;
-                    case "UpdatedTime": value = siteModel.UpdatedTime.GridText(
+                    case "UpdatedTime":
+                        value = siteModel.UpdatedTime.GridText(
                         context: context,
                         column: column); break;
-                    case "Ver": value = siteModel.Ver.GridText(
+                    case "Ver":
+                        value = siteModel.Ver.GridText(
                         context: context,
                         column: column); break;
-                    case "Title": value = siteModel.Title.GridText(
+                    case "Title":
+                        value = siteModel.Title.GridText(
                         context: context,
                         column: column); break;
-                    case "Body": value = siteModel.Body.GridText(
+                    case "Body":
+                        value = siteModel.Body.GridText(
                         context: context,
                         column: column); break;
-                    case "TitleBody": value = siteModel.TitleBody.GridText(
+                    case "TitleBody":
+                        value = siteModel.TitleBody.GridText(
                         context: context,
                         column: column); break;
-                    case "Comments": value = siteModel.Comments.GridText(
+                    case "Comments":
+                        value = siteModel.Comments.GridText(
                         context: context,
                         column: column); break;
-                    case "Creator": value = siteModel.Creator.GridText(
+                    case "Creator":
+                        value = siteModel.Creator.GridText(
                         context: context,
                         column: column); break;
-                    case "Updator": value = siteModel.Updator.GridText(
+                    case "Updator":
+                        value = siteModel.Updator.GridText(
                         context: context,
                         column: column); break;
-                    case "CreatedTime": value = siteModel.CreatedTime.GridText(
+                    case "CreatedTime":
+                        value = siteModel.CreatedTime.GridText(
                         context: context,
                         column: column); break;
                     default:
@@ -3311,7 +3322,8 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return SiteMenuError(
+                default:
+                    return SiteMenuError(
                     context: context,
                     id: id,
                     siteModel: siteModel,
@@ -3364,7 +3376,8 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return SiteMenuError(
+                default:
+                    return SiteMenuError(
                     context: context,
                     id: id,
                     siteModel: siteModel,
@@ -3484,7 +3497,8 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return SiteMenuError(
+                default:
+                    return SiteMenuError(
                     context: context,
                     id: id,
                     siteModel: siteModel,
@@ -3589,7 +3603,8 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return SiteMenuError(
+                default:
+                    return SiteMenuError(
                     context: context,
                     id: siteId,
                     siteModel: siteModel,
@@ -10414,8 +10429,8 @@ namespace Implem.Pleasanter.Models
                         controlCss: " always-send",
                         labelText: Displays.NotificationType(context: context),
                         optionCollection: Parameters.Notification.ListOrder == null
-                            ? NotificationUtilities.Types(context: context)
-                            : NotificationUtilities.OrderTypes(context: context),
+                            ? NotificationUtilities.Types(context: context, isProcessNotification: true)
+                            : NotificationUtilities.OrderTypes(context: context, isProcessNotification: true),
                         selectedValue: notification.Type.ToInt().ToString())
                     .FieldTextBox(
                         controlId: "ProcessNotificationSubject",
@@ -10432,15 +10447,21 @@ namespace Implem.Pleasanter.Models
                         text: ss.ColumnNameToLabelText(notification.Address),
                         validateRequired: true)
                     .FieldTextBox(
+                        fieldId: "ProcessNotificationCcAddressField",
                         controlId: "ProcessNotificationCcAddress",
-                        fieldCss: "field-wide",
+                        fieldCss: "field-wide" + (notification.Type == Notification.Types.Mail
+                            ? string.Empty
+                            : " hidden"),
                         controlCss: " always-send",
                         labelText: Displays.Cc(context: context),
                         text: ss.ColumnNameToLabelText(notification.CcAddress),
                         validateRequired: false)
                     .FieldTextBox(
+                        fieldId: "ProcessNotificationBccAddressField",
                         controlId: "ProcessNotificationBccAddress",
-                        fieldCss: "field-wide",
+                        fieldCss: "field-wide" + (notification.Type == Notification.Types.Mail
+                            ? string.Empty
+                            : " hidden"),
                         controlCss: " always-send",
                         labelText: Displays.Bcc(context: context),
                         text: ss.ColumnNameToLabelText(notification.BccAddress),
@@ -12555,15 +12576,21 @@ namespace Implem.Pleasanter.Models
                         text: ss.ColumnNameToLabelText(notification.Address),
                         validateRequired: true)
                     .FieldTextBox(
+                        fieldId: "NotificationCcAddressField",
                         controlId: "NotificationCcAddress",
-                        fieldCss: "field-wide",
+                        fieldCss: "field-wide" + (notification.Type == Notification.Types.Mail
+                            ? string.Empty
+                            : " hidden"),
                         controlCss: " always-send",
                         labelText: Displays.Cc(context: context),
                         text: ss.ColumnNameToLabelText(notification.CcAddress),
                         validateRequired: false)
                     .FieldTextBox(
+                        fieldId: "NotificationBccAddressField",
                         controlId: "NotificationBccAddress",
-                        fieldCss: "field-wide",
+                        fieldCss: "field-wide" + (notification.Type == Notification.Types.Mail
+                            ? string.Empty
+                            : " hidden"),
                         controlCss: " always-send",
                         labelText: Displays.Bcc(context: context),
                         text: ss.ColumnNameToLabelText(notification.BccAddress),
@@ -12985,10 +13012,6 @@ namespace Implem.Pleasanter.Models
                             .Td(action: () => hb
                                 .Text(text: ss.ColumnNameToLabelText(reminder.To)))
                             .Td(action: () => hb
-                                .Text(text: ss.ColumnNameToLabelText(reminder.Cc)))
-                            .Td(action: () => hb
-                                .Text(text: ss.ColumnNameToLabelText(reminder.Bcc)))
-                            .Td(action: () => hb
                                 .Text(text: ss.GetColumn(
                                     context: context,
                                     columnName: reminder.Column)?.LabelText))
@@ -13096,20 +13119,6 @@ namespace Implem.Pleasanter.Models
                         labelText: Displays.To(context: context),
                         text: ss.ColumnNameToLabelText(reminder.To),
                         validateRequired: true)
-                    .FieldTextBox(
-                        controlId: "ReminderCc",
-                        fieldCss: "field-wide",
-                        controlCss: " always-send",
-                        labelText: Displays.Cc(context: context),
-                        text: ss.ColumnNameToLabelText(reminder.Cc),
-                        validateRequired: false)
-                    .FieldTextBox(
-                        controlId: "ReminderBcc",
-                        fieldCss: "field-wide",
-                        controlCss: " always-send",
-                        labelText: Displays.Bcc(context: context),
-                        text: ss.ColumnNameToLabelText(reminder.Bcc),
-                        validateRequired: false)
                     .FieldTextBox(
                         fieldId: "ReminderTokenField",
                         controlId: "ReminderToken",
@@ -14644,7 +14653,7 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .Text(text: Displays.Disabled(context: context)))
                     .EditDestinationScriptHeader(
-                        context:context,
+                        context: context,
                         _using: ss.ReferenceType != "Dashboards")));
         }
 
@@ -15030,7 +15039,7 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .Text(text: Displays.Disabled(context: context)))
                     .EditDestinationHtmlHeader(
-                        context:context,
+                        context: context,
                         _using: ss.ReferenceType != "Dashboards")));
         }
 
@@ -15077,7 +15086,8 @@ namespace Implem.Pleasanter.Models
             IEnumerable<int> selected)
         {
             return hb.TBody(action: () => ss
-                .Htmls?.ForEach(html => {
+                .Htmls?.ForEach(html =>
+                {
                     var positionType = string.Empty;
                     switch (html.PositionType)
                     {
@@ -15846,7 +15856,7 @@ namespace Implem.Pleasanter.Models
             }
             if (selected?.Any() != true)
             {
-                return  new ErrorData(type: Error.Types.SelectTargets);
+                return new ErrorData(type: Error.Types.SelectTargets);
             }
             else
             {
@@ -16882,7 +16892,7 @@ namespace Implem.Pleasanter.Models
                         })
                     .FieldCheckBox(
                         controlId: "DisableAsynchronousLoading",
-                        fieldCss:" both",
+                        fieldCss: " both",
                         controlCss: " always-send control-checkbox",
                         labelText: Displays.DisableAsynchronousLoading(context: context),
                         _checked: dashboardPart.DisableAsynchronousLoading == true)

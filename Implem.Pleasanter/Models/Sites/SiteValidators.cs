@@ -450,13 +450,9 @@ namespace Implem.Pleasanter.Models
                     addresses: context.Forms.Data("ReminderFrom"));
                 if (badFrom.Type != Error.Types.None) return badFrom;
                 var to = ss.LabelTextToColumnName(context.Forms.Data("ReminderTo"));
-                var cc = ss.LabelTextToColumnName(context.Forms.Data("ReminderCc"));
-                var bcc = ss.LabelTextToColumnName(context.Forms.Data("ReminderBcc"));
                 return SetMailTo(
                     ss: ss,
-                    to: to,
-                    cc: cc,
-                    bcc: bcc);
+                    to: to);
             }
             return new ErrorData(type: Error.Types.None);
         }
