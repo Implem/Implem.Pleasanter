@@ -72,6 +72,9 @@
         $('#ProcessDataChangeValueDateTimeField').toggle(false);
         $('#ProcessDataChangeValueColumnNamePeriodField').toggle(false);
         $('#ProcessDataChangeValueColumnNameField').toggle(false);
+        $('#ProcessDataChangeValueFormulaField').toggle(false);
+        $('#ProcessDataChangeValueFormulaNotUseDisplayNameField').toggle(false);
+        $('#ProcessDataChangeValueFormulaIsDisplayErrorField').toggle(false);
         switch ($(this).val()) {
             case 'CopyValue':
             case 'CopyDisplayValue':
@@ -79,6 +82,11 @@
                 break;
             case 'InputValue':
                 $('#ProcessDataChangeValueField').toggle(true);
+                break;
+            case 'InputValueFormula':
+                $('#ProcessDataChangeValueFormulaField').toggle(true);
+                $('#ProcessDataChangeValueFormulaNotUseDisplayNameField').toggle(true);
+                $('#ProcessDataChangeValueFormulaIsDisplayErrorField').toggle(true);
                 break;
             case 'InputDate':
                 $('#ProcessDataChangeBaseDateTimeField').toggle(true);

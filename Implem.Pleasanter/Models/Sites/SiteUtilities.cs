@@ -519,7 +519,7 @@ namespace Implem.Pleasanter.Models
             int? tabIndex = null,
             ServerScriptModelColumn serverScriptModelColumn = null)
         {
-            if (serverScriptModelColumn?.Hide == true)
+            if (serverScriptModelColumn?.Hide ?? column.Hide == true)
             {
                 return hb.Td();
             }
@@ -9071,7 +9071,13 @@ namespace Implem.Pleasanter.Models
                         confirm: Displays.ConfirmDelete(context: context)))
                 .EditProcess(
                     context: context,
-                    ss: ss));
+                    ss: ss)
+                .FieldCheckBox(
+                    controlId: "ProcessOutputFormulaLogs",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.OutputLog(context: context),
+                    _checked: ss.ProcessOutputFormulaLogs == true,
+                    labelPositionIsRight: true));
         }
 
         /// <summary>
@@ -10096,6 +10102,36 @@ namespace Implem.Pleasanter.Models
                         text: dataChange.Visible(type: "Value")
                             ? ss.ColumnNameToLabelText(dataChange.Value)
                             : string.Empty)
+                    .FieldTextBox(
+                        textType: HtmlTypes.TextTypes.Normal,
+                        fieldId: "ProcessDataChangeValueFormulaField",
+                        controlId: "ProcessDataChangeValueFormula",
+                        fieldCss: "field-wide" + (!dataChange.Visible(type: "ValueFormula")
+                            ? " hidden"
+                            : string.Empty),
+                        controlCss: " always-send",
+                        labelText: Displays.Formulas(context: context),
+                        text: dataChange.Visible(type: "ValueFormula")
+                            ? dataChange.DisplayValue(context: context, ss: ss)
+                            : string.Empty)
+                    .FieldCheckBox(
+                        fieldId: "ProcessDataChangeValueFormulaNotUseDisplayNameField",
+                        controlId: "ProcessDataChangeValueFormulaNotUseDisplayName",
+                        fieldCss: (!dataChange.Visible(type: "ValueFormula")
+                            ? " hidden"
+                            : string.Empty),
+                        controlCss: " always-send",
+                        labelText: Displays.NotUseDisplayName(context: context),
+                        _checked: dataChange.ValueFormulaNotUseDisplayName)
+                    .FieldCheckBox(
+                        fieldId: "ProcessDataChangeValueFormulaIsDisplayErrorField",
+                        controlId: "ProcessDataChangeValueFormulaIsDisplayError",
+                        fieldCss: (!dataChange.Visible(type: "ValueFormula")
+                            ? " hidden"
+                            : string.Empty),
+                        controlCss: " always-send",
+                        labelText: Displays.FormulaIsDisplayError(context: context),
+                        _checked: dataChange.ValueFormulaIsDisplayError)
                     .FieldDropDown(
                         context: context,
                         fieldId: "ProcessDataChangeBaseDateTimeField",
@@ -17603,12 +17639,12 @@ namespace Implem.Pleasanter.Models
                 return ApiResults.BadRequest(context: context);
             }
             var resultCollection = new List<object>();
-            var startCanRead = context.CanRead(
-                ss: SiteSettingsUtilities.Get(
-                    context: context,
-                    siteId: id,
-                    referenceId: id),
-                site: true);
+            var startSs = SiteSettingsUtilities.Get(
+                context: context,
+                siteId: id,
+                referenceId: id);
+            var startCanRead = context.CanRead(ss: startSs, site: true)
+                || context.CanCreate(ss: startSs, site: true);
             var tenantCache = SiteInfo.TenantCaches[context.TenantId];
             foreach (var siteName in findSiteNames)
             {
@@ -17623,12 +17659,13 @@ namespace Implem.Pleasanter.Models
                         name: siteName);
                     if (foundId != -1)
                     {
-                        if (context.CanRead(
-                            ss: SiteSettingsUtilities.Get(
-                                context: context,
-                                siteId: foundId,
-                                referenceId: foundId),
-                            site: true) == false)
+                        var findSs = SiteSettingsUtilities.Get(
+                            context: context,
+                            siteId: foundId,
+                            referenceId: foundId);
+                        var findCanRead = context.CanRead(ss: findSs, site: true)
+                            || context.CanCreate(ss: findSs, site: true);
+                        if (findCanRead == false)
                         {
                             foundId = -1;
                         }
