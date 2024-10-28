@@ -13,6 +13,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         public Notification.Types Type;
         public string Prefix;
         public string Address;
+        public string CcAddress;
+        public string BccAddress;
         public string Token;
         public bool? UseCustomFormat;
         public string Format;
@@ -27,17 +29,19 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             Type = Notification.Types.Mail;
         }
 
-        public ServerScriptModelNotificationModel(Context context, SiteSettings ss, int Id)
+        public ServerScriptModelNotificationModel(Context context, SiteSettings ss, int id)
         {
             Context = context;
             SiteSettings = ss;
             var notification = NotificationUtilities.Get(context: Context, ss: SiteSettings)
-                ?.Where(o => o.Id == Id)
+                ?.Where(o => o.Id == id)
                 .FirstOrDefault();
             this.Id = notification.Id;
             Type = notification.Type;
             Prefix = notification.Prefix;
             Address = notification.Address;
+            CcAddress = notification.CcAddress;
+            BccAddress = notification.BccAddress;
             UseCustomFormat = notification.UseCustomFormat;
             Format = notification.Format;
             Title = notification.Subject;
@@ -65,6 +69,12 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     return true;
                 case nameof(Notification.Address):
                     Address = value.ToStr();
+                    return true;
+                case nameof(Notification.CcAddress):
+                    CcAddress = value.ToStr();
+                    return true;
+                case nameof(Notification.BccAddress):
+                    BccAddress = value.ToStr();
                     return true;
                 case nameof(Notification.Token):
                     Token = value.ToStr();
@@ -96,6 +106,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 Type = Type,
                 Prefix = Prefix,
                 Address = Address,
+                CcAddress = CcAddress,
+                BccAddress = BccAddress,
                 Token = Token,
                 UseCustomFormat = UseCustomFormat,
                 Format = Format,
