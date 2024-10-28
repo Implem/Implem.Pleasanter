@@ -1,0 +1,33 @@
+﻿{
+    "Id": "Bcc",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Bcc"
+        },
+        {
+            "Language": "zh",
+            "Body": "Bcc"
+        },
+        {
+            "Language": "ja",
+            "Body": "Bcc"
+        },
+        {
+            "Language": "de",
+            "Body": "Bcc"
+        },
+        {
+            "Language": "ko",
+            "Body": "Bcc"
+        },
+        {
+            "Language": "es",
+            "Body": "Bcc"
+        },
+        {
+            "Language": "vn",
+            "Body": "Bcc"
+        }
+    ]
+}
