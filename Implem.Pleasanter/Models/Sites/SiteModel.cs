@@ -5414,7 +5414,9 @@ namespace Implem.Pleasanter.Models
                 type: context.Forms.Data("ProcessDataChangeType").ToEnum<DataChange.Types>(),
                 columnName: context.Forms.Data("ProcessDataChangeColumnName"),
                 baseDateTime: context.Forms.Data("ProcessDataChangeBaseDateTime"),
-                value: ProcessDataChangeValue(context: context)));
+                value: ProcessDataChangeValue(context: context),
+                valueFormulaNotUseDisplayName: context.Forms.Bool("ProcessDataChangeValueFormulaNotUseDisplayName"),
+                valueFormulaIsDisplayError: context.Forms.Bool("ProcessDataChangeValueFormulaIsDisplayError")));
             res
                 .ReplaceAll("#EditProcessDataChange", new HtmlBuilder()
                     .EditProcessDataChange(
@@ -5438,7 +5440,9 @@ namespace Implem.Pleasanter.Models
                 type: context.Forms.Data("ProcessDataChangeType").ToEnum<DataChange.Types>(),
                 columnName: context.Forms.Data("ProcessDataChangeColumnName"),
                 baseDateTime: context.Forms.Data("ProcessDataChangeBaseDateTime"),
-                value: ProcessDataChangeValue(context: context));
+                value: ProcessDataChangeValue(context: context),
+                valueFormulaNotUseDisplayName: context.Forms.Bool("ProcessDataChangeValueFormulaNotUseDisplayName"),
+                valueFormulaIsDisplayError: context.Forms.Bool("ProcessDataChangeValueFormulaIsDisplayError"));
             res
                 .ReplaceAll("#EditProcessDataChange", new HtmlBuilder()
                     .EditProcessDataChange(
@@ -5467,6 +5471,12 @@ namespace Implem.Pleasanter.Models
             else if (dataChange.Visible(type: "Value"))
             {
                 return SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessDataChangeValue"));
+            }
+            else if (dataChange.Visible(type: "ValueFormula"))
+            {
+                return FormulaBuilder.ParseFormulaColumnName(
+                    ss: SiteSettings,
+                    formulaScript: context.Forms.Data("ProcessDataChangeValueFormula"));
             }
             else if (dataChange.Visible(type: "DateTime"))
             {
