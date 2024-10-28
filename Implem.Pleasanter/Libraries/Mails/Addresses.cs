@@ -22,6 +22,10 @@ namespace Implem.Pleasanter.Libraries.Mails
         public static IEnumerable<string> Get(
             Context context, string addresses)
         {
+            if(addresses is null)
+            {
+                return [];
+            }
             return addresses
                 .GetSplitList()
                 .SelectMany(address => ConvertedMailAddresses(
