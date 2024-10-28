@@ -73,8 +73,7 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default:
-                    return HtmlTemplates.Error(
+                default: return HtmlTemplates.Error(
                     context: context,
                     errorData: invalid);
             }
@@ -101,7 +100,7 @@ namespace Implem.Pleasanter.Models
                                 id: ss.SiteId)),
                         action: () => hb
                             .Div(
-                                id: "ViewSelectorField",
+                                id: "ViewSelectorField", 
                                 action: () => hb
                                     .ViewSelector(
                                         context: context,
@@ -858,44 +857,34 @@ namespace Implem.Pleasanter.Models
                 var value = string.Empty;
                 switch (column.Name)
                 {
-                    case "SiteId":
-                        value = siteModel.SiteId.GridText(
+                    case "SiteId": value = siteModel.SiteId.GridText(
                         context: context,
                         column: column); break;
-                    case "UpdatedTime":
-                        value = siteModel.UpdatedTime.GridText(
+                    case "UpdatedTime": value = siteModel.UpdatedTime.GridText(
                         context: context,
                         column: column); break;
-                    case "Ver":
-                        value = siteModel.Ver.GridText(
+                    case "Ver": value = siteModel.Ver.GridText(
                         context: context,
                         column: column); break;
-                    case "Title":
-                        value = siteModel.Title.GridText(
+                    case "Title": value = siteModel.Title.GridText(
                         context: context,
                         column: column); break;
-                    case "Body":
-                        value = siteModel.Body.GridText(
+                    case "Body": value = siteModel.Body.GridText(
                         context: context,
                         column: column); break;
-                    case "TitleBody":
-                        value = siteModel.TitleBody.GridText(
+                    case "TitleBody": value = siteModel.TitleBody.GridText(
                         context: context,
                         column: column); break;
-                    case "Comments":
-                        value = siteModel.Comments.GridText(
+                    case "Comments": value = siteModel.Comments.GridText(
                         context: context,
                         column: column); break;
-                    case "Creator":
-                        value = siteModel.Creator.GridText(
+                    case "Creator": value = siteModel.Creator.GridText(
                         context: context,
                         column: column); break;
-                    case "Updator":
-                        value = siteModel.Updator.GridText(
+                    case "Updator": value = siteModel.Updator.GridText(
                         context: context,
                         column: column); break;
-                    case "CreatedTime":
-                        value = siteModel.CreatedTime.GridText(
+                    case "CreatedTime": value = siteModel.CreatedTime.GridText(
                         context: context,
                         column: column); break;
                     default:
