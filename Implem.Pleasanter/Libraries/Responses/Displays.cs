@@ -1289,6 +1289,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Bcc(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Bcc",
+                data: data);
+        }
+
         public static string BeforeCondition(
             Context context,
             params string[] data)
@@ -1676,6 +1686,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "CantSetAtTopOfSite",
+                data: data);
+        }
+
+        public static string Cc(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Cc",
                 data: data);
         }
 
@@ -9936,26 +9956,6 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "To",
-                data: data);
-        }
-
-        public static string Cc(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "Cc",
-                data: data);
-        }
-
-        public static string Bcc(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "Bcc",
                 data: data);
         }
 

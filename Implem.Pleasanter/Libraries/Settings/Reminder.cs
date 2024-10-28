@@ -427,7 +427,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 });
             return hash;
         }
-                
+
         private Title GetSubject(Context context, SiteSettings ss, List<DataRow> dataRows, bool test)
         {
             var subject = ReplacedLine(

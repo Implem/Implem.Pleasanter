@@ -1805,6 +1805,18 @@ namespace Implem.Pleasanter.Models
                                         column => column,
                                         column => PropertyValue(
                                             context: context,
+                                            column: column)),
+                                valuesCc: ss.IncludedColumns(notification.CcAddress)
+                                    .ToDictionary(
+                                        column => column,
+                                        column => PropertyValue(
+                                            context: context,
+                                            column: column)),
+                                valuesBcc: ss.IncludedColumns(notification.BccAddress)
+                                    .ToDictionary(
+                                        column => column,
+                                        column => PropertyValue(
+                                            context: context,
                                             column: column)))));
             }
             if (get)
@@ -3776,7 +3788,19 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         users: users);
                 }
-                var values = ss.IncludedColumns(notification.Address)
+                var valuesTo = ss.IncludedColumns(notification.Address)
+                    .ToDictionary(
+                        column => column,
+                        column => PropertyValue(
+                            context: context,
+                            column: column));
+                var valuesCc = ss.IncludedColumns(notification.CcAddress)
+                    .ToDictionary(
+                        column => column,
+                        column => PropertyValue(
+                            context: context,
+                            column: column));
+                var valuesBcc = ss.IncludedColumns(notification.BccAddress)
                     .ToDictionary(
                         column => column,
                         column => PropertyValue(
@@ -3806,7 +3830,9 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     ss: ss,
                                     notification: notification),
-                                valuesTo: values);
+                                valuesTo: valuesTo,
+                                valuesCc: valuesCc,
+                                valuesBcc: valuesBcc);
                         }
                         break;
                     case "Updated":
@@ -3834,7 +3860,9 @@ namespace Implem.Pleasanter.Models
                                             "[NotificationTrigger]",
                                             Displays.UpdatedWord(context: context))),
                                 body: body,
-                                valuesTo: values);
+                                valuesTo: valuesTo,
+                                valuesCc: valuesCc,
+                                valuesBcc: valuesBcc);
                         }
                         break;
                     case "Deleted":
@@ -3857,7 +3885,9 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     ss: ss,
                                     notification: notification),
-                                valuesTo: values);
+                                valuesTo: valuesTo,
+                                valuesCc: valuesCc,
+                                valuesBcc: valuesBcc);
                         }
                         break;
                 }

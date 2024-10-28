@@ -15,7 +15,6 @@ using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.ServerScripts;
 using Implem.Pleasanter.Libraries.Settings;
-using Quartz;
 using System;
 using System.Collections.Generic;
 using System.Data;
