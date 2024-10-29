@@ -22,6 +22,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using Zx;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Implem.PleasanterSetup
 {
@@ -29,11 +30,14 @@ namespace Implem.PleasanterSetup
     {
         private readonly IConfiguration configuration;
         private readonly ILogger logger;
+        private static HttpClient client = new HttpClient();
+        private static readonly string url = "https://api.github.com/repos/Implem/Implem.Pleasanter/releases/latest";
         private string installDir;
         private string licenseDllPath;
         private string provider;
         private string dbms;
         private string server;
+        private string port;
         private string serviceName;
         private string defaultLanguage;
         private string defaultTimeZone;
@@ -63,6 +67,7 @@ namespace Implem.PleasanterSetup
             this.installDir = string.Empty;
             this.licenseDllPath = string.Empty;
             this.dbms = string.Empty;
+            this.port = string.Empty;
             this.server = string.Empty;
             this.serviceName = string.Empty;
             this.defaultLanguage = string.Empty;
@@ -89,6 +94,7 @@ namespace Implem.PleasanterSetup
             string license = "",
             string extendedcolumns = "")
         {
+            Console.CancelKeyPress += new ConsoleCancelEventHandler(CancelHandler);
             // ユーザにセットアップに必要な情報を入力してもらう
             SetSummary(
             directory: directory,
@@ -103,7 +109,6 @@ namespace Implem.PleasanterSetup
                 var backupDir = Path.Combine(
                     Path.GetDirectoryName(installDir),
                     $"{Path.GetFileName(installDir)}{DateTime.Now:_yyyyMMdd_HHmmss}");
-
                 // バージョンアップの場合は既存資源のバックアップを行う
                 if (versionUp)
                 {
@@ -111,7 +116,11 @@ namespace Implem.PleasanterSetup
                         installDir: installDir,
                         destDir: backupDir);
                 }
-
+                if (!Directory.Exists(installDir))
+                {
+                    System.Environment.
+                    Directory.CreateDirectory(installDir);
+                }
                 if (string.IsNullOrEmpty(releasezip))
                 {
                     releasezip = await DownloadNewResource(
@@ -146,6 +155,7 @@ namespace Implem.PleasanterSetup
                         setUpState: setUpState);
                 }
                 // ユーザがコンソール上で入力した値を各パラメータファイルへ書き込む
+                //書き込み
                 SetParameters();
                 //ユーザがライセンスファイルを指定した場合
                 if (File.Exists(license))
@@ -291,6 +301,13 @@ namespace Implem.PleasanterSetup
                 noinput: noinput);
         }
 
+        protected static void CancelHandler(object sender, ConsoleCancelEventArgs args)
+        {
+            Console.WriteLine("Exiting gracefully...");
+            args.Cancel = true; // プログラムの終了をキャンセル
+            Environment.Exit(0); // プログラムを終了
+        }
+
         private bool AskForInstallOrVersionUp()
         {
             DisplaySummary();
@@ -311,11 +328,13 @@ namespace Implem.PleasanterSetup
             }
             else
             {
-                logger.LogInformation("Install Directory [Default: C:\\web\\pleasanter] : ");
+                //ここででDefaultPathを取得してログで表示
+                var defaultPath = GetDefaultInstallDir();
+                logger.LogInformation($"Install Directory [Default: {defaultPath}] : ");
                 var userInputResourceDir = Console.ReadLine();
                 installDir = !string.IsNullOrEmpty(userInputResourceDir)
                     ? userInputResourceDir
-                    : GetDefaultInstallDir();
+                    : defaultPath;
             }
         }
 
@@ -362,6 +381,43 @@ namespace Implem.PleasanterSetup
             }
         }
 
+        private void AskForPort(bool versionUp)
+        {
+            if (versionUp)
+            {
+                var file = Path.Combine(
+                    installDir,
+                    "Implem.Pleasanter",
+                    "App_Data",
+                    "Parameters",
+                    "Rds.json");
+                if (File.Exists(file))
+                {
+                    var json = File.ReadAllText(file);
+                    var data = json.Deserialize<Rds>();
+                    if (data?.SaConnectionString != null)
+                    {
+                        DbConnectionStringBuilder builder = new DbConnectionStringBuilder();
+                        builder.ConnectionString = data?.SaConnectionString;
+                        port = builder["Port"].ToString();
+                    }
+                }
+                else
+                {
+                    logger.LogError($"The file {file} was not found.");
+                    Environment.Exit(0);
+                }
+            }
+            else
+            {
+                logger.LogInformation("Please enter port number ");
+                while (string.IsNullOrEmpty(port))
+                {
+                    port = Console.ReadLine() ?? string.Empty;
+                }
+            }
+        }
+
         private void AskForServer(bool versionUp)
         {
             if (versionUp)
@@ -394,7 +450,7 @@ namespace Implem.PleasanterSetup
                 logger.LogInformation("Server [Default: localhost] : ");
                 var userInputServer = Console.ReadLine();
                 server = string.IsNullOrEmpty(userInputServer)
-                    ? configuration["DefaultParameters:HostName"] ?? string.Empty
+                    ? DefaultParameters.HostName ?? string.Empty
                     : userInputServer;
 
             }
@@ -427,7 +483,7 @@ namespace Implem.PleasanterSetup
                 logger.LogInformation("ServiceName [Default: Implem.Pleasanter] : ");
                 var userInputServiceName = Console.ReadLine();
                 serviceName = string.IsNullOrEmpty(userInputServiceName)
-                    ? configuration["DefaultParameters:ServiceName"] ?? string.Empty
+                    ? DefaultParameters.ServiceName ?? string.Empty
                     : userInputServiceName;
 
             }
@@ -605,6 +661,12 @@ namespace Implem.PleasanterSetup
                     $"{referenceType}.json");
                 var json = File.ReadAllText(file);
                 extendedColumns = json.Deserialize<ExtendedColumns>();
+                extendedColumns.Class = ItemCount("Class", extendedColumns.Class, extendedColumns.DisabledColumns);
+                extendedColumns.Num = ItemCount("Num", extendedColumns.Num, extendedColumns.DisabledColumns);
+                extendedColumns.Date = ItemCount("Date", extendedColumns.Date, extendedColumns.DisabledColumns);
+                extendedColumns.Description = ItemCount("Description", extendedColumns.Description, extendedColumns.DisabledColumns);
+                extendedColumns.Check = ItemCount("Check", extendedColumns.Check, extendedColumns.DisabledColumns);
+                extendedColumns.Attachments = ItemCount("Attachments", extendedColumns.Attachments, extendedColumns.DisabledColumns);
             }
             else
             {
@@ -628,6 +690,19 @@ namespace Implem.PleasanterSetup
                     extendedResultsColumns.TableName = referenceType;
                     extendedResultsColumns.ReferenceType = referenceType;
                     break;
+            }
+        }
+
+        private int ItemCount(string itemName, int count, List<string> disableColumns)
+        {
+            if (count > 0)
+            {
+                return count + 26;
+            }
+            else
+            {
+                int disableColumnCount = disableColumns.Count(o => o.StartsWith(itemName));
+                return 26 - disableColumnCount;
             }
         }
 
@@ -778,6 +853,10 @@ namespace Implem.PleasanterSetup
             logger.LogInformation("------ Summary ------");
             logger.LogInformation($"Install Directory : {installDir}");
             logger.LogInformation($"DBMS              : {Enum.GetName(typeof(DBMS), int.Parse(dbms))}");
+            if (!string.IsNullOrEmpty(port))
+            {
+                logger.LogInformation($"Port              : {port}");
+            }
             logger.LogInformation($"Server            : {server}");
             logger.LogInformation($"Service Name      : {serviceName}");
             if (!versionUp)
@@ -921,13 +1000,24 @@ namespace Implem.PleasanterSetup
                     : dbms == "2"
                         ? "postgres"
                             : dbms == "3"
-                                ? "root"
+                                ? "mysql"
                         : string.Empty;
             if (provider.Equals("Local"))
             {
-                data.SaConnectionString = $"Server={server};Database={database};UID={userId};PWD={saPassword};";
-                data.OwnerConnectionString = $"Server={server};Database=#ServiceName#;UID=#ServiceName#_Owner;PWD={ownerPassword};";
-                data.UserConnectionString = $"Server={server};Database=#ServiceName#;UID=#ServiceName#_User;PWD={userPassword};";
+                switch (dbms)
+                {
+                    case "1":
+                        data.SaConnectionString = $"Server={server};Database={database};UID={userId};PWD={saPassword};";
+                        data.OwnerConnectionString = $"Server={server};Database=#ServiceName#;UID=#ServiceName#_Owner;PWD={ownerPassword};";
+                        data.UserConnectionString = $"Server={server};Database=#ServiceName#;UID=#ServiceName#_User;PWD={userPassword};";
+                        break;
+                    case "2":
+                    case "3":
+                        data.SaConnectionString = $"Server={server};Port={port};Database={database};UID={userId};PWD={saPassword};";
+                        data.OwnerConnectionString = $"Server={server};Port={port};Database=#ServiceName#;UID=#ServiceName#_Owner;PWD={ownerPassword};";
+                        data.UserConnectionString = $"Server={server};Port={port};Database=#ServiceName#;UID=#ServiceName#_User;PWD={userPassword};";
+                        break;
+                }
             }
             else
             {
@@ -1114,7 +1204,6 @@ namespace Implem.PleasanterSetup
             //Implem.Pleasanter.dllの有無でバージョンアップか判断
             versionUp = MeetsVersionUpRequirements();
             //Provider判定処理
-            AskForProvider(versionUp);
             //オフライン環境での必須オプションの確認
             if (!NetworkInterface.GetIsNetworkAvailable() && setUpState)
             {
@@ -1132,15 +1221,22 @@ namespace Implem.PleasanterSetup
                     Environment.Exit(0);
                 }
             }
+            AskForProvider(versionUp);
+
             AskForDbms(versionUp);
+            if (!dbms.Equals("1"))
+            {
+                AskForPort(versionUp);
+            }
             if (provider.Equals("Local"))
             {
                 AskForServer(versionUp);
                 AskForUserId(versionUp);
                 AskForPassword(versionUp);
             }
-            
-            if(provider.Equals("Azure")){
+
+            if (provider.Equals("Azure"))
+            {
                 AskForConnectionString(versionUp);
             }
             AskForServiceName(versionUp);
@@ -1184,7 +1280,6 @@ namespace Implem.PleasanterSetup
                         DbConnectionStringBuilder builder = new DbConnectionStringBuilder();
                         builder.ConnectionString = data?.SaConnectionString;
                         connectionString = data?.SaConnectionString;
-                        //必要情報保持
                         server = builder["Server"].ToString();
                     }
                 }
@@ -1294,10 +1389,6 @@ namespace Implem.PleasanterSetup
             string releaseZip)
         {
             logger.LogInformation($"Start placing release resources to {installDir}.");
-            if (!Directory.Exists(installDir))
-            {
-                Directory.CreateDirectory(installDir);
-            }
             if (File.Exists(releaseZip))
             {
                 var releaseZipDir = Path.GetDirectoryName(releaseZip);
@@ -1340,36 +1431,34 @@ namespace Implem.PleasanterSetup
         //作成途中
         private async Task<string?> DownloadNewResource(string installDir, string fileName)
         {
+            Console.WriteLine("インストール前");
             //先頭がPleasanterのzipをダウンロードしてinstallDirに配置
-            using (HttpClient client = new HttpClient())
+            client.DefaultRequestHeaders.UserAgent.TryParseAdd("request");
+
+            HttpResponseMessage response = await client.GetAsync(url);
+            response.EnsureSuccessStatusCode();
+            Console.WriteLine($"{response.StatusCode}");
+            string responseBody = await response.Content.ReadAsStringAsync();
+            JObject release = JObject.Parse(responseBody);
+
+            string assetUrl = string.Empty;
+            var destinationDir = string.Empty;
+            foreach (var asset in release["assets"])
             {
-                string url = "https://api.github.com/repos/Implem/Implem.Pleasanter/releases/latest";
-                client.DefaultRequestHeaders.UserAgent.TryParseAdd("request");
-
-                HttpResponseMessage response = await client.GetAsync(url);
-                response.EnsureSuccessStatusCode();
-
-                string responseBody = await response.Content.ReadAsStringAsync();
-                JObject release = JObject.Parse(responseBody);
-
-                string assetUrl = string.Empty;
-                var destinationDir = string.Empty;
-                foreach (var asset in release["assets"])
+                if (asset["name"].ToString().Contains(fileName))
                 {
-                    if (asset["name"].ToString().Contains(fileName))
-                    {
-                        assetUrl = asset["browser_download_url"].ToString();
-                        HttpResponseMessage assetResponse = await client.GetAsync(assetUrl);
-                        assetResponse.EnsureSuccessStatusCode();
-                        destinationDir = Path.Combine(Directory.GetParent(installDir).FullName, asset["name"].ToString());
-                        byte[] fileBytes = await assetResponse.Content.ReadAsByteArrayAsync();
-                        await File.WriteAllBytesAsync(destinationDir, fileBytes);
-                        Console.WriteLine($"Downloaded {asset["name"]} to {destinationDir}");
-                        break;
-                    }
+                    assetUrl = asset["browser_download_url"].ToString();
+                    HttpResponseMessage assetResponse = await client.GetAsync(assetUrl);
+                    assetResponse.EnsureSuccessStatusCode();
+                    destinationDir = Path.Combine(Directory.GetParent(installDir).FullName, asset["name"].ToString());
+                    byte[] fileBytes = await assetResponse.Content.ReadAsByteArrayAsync();
+                    await File.WriteAllBytesAsync(destinationDir, fileBytes);
+                    Console.WriteLine($"Downloaded {asset["name"]} to {destinationDir}");
+                    break;
                 }
-                return destinationDir;
             }
+            return destinationDir;
         }
     }
+
 }

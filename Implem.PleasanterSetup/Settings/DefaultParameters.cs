@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace Implem.PleasanterSetup.Settings
 {
-    internal class DefaultParameters
+    internal static class DefaultParameters
     {
-        public readonly string InstallDirForWindows = "C:\\web\\pleasanter";
-        public readonly string InstallDirForLinux = "/web/pleasanter";
-        public readonly string HostName = "localhost";
-        public readonly string ServiceName = "Implem.Pleasanter";
-        public readonly string url = "https://api.github.com/repos/Implem/Implem.Pleasanter/releases/latest";
+        public static readonly string InstallDirForWindows = "C:\\web\\pleasanter";
+        public static readonly string InstallDirForLinux = "/web/pleasanter";
+        public static  readonly string HostName = "localhost";
+        public static readonly string ServiceName = "Implem.Pleasanter";
+        public static readonly string url = "https://api.github.com/repos/Implem/Implem.Pleasanter/releases/latest";
     }
 }
