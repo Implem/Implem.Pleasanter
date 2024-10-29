@@ -3104,7 +3104,7 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         process: process);
                 }
-                else if (process.ExecutionType != Process.ExecutionTypes.CreateOrUpdate)
+                else if ((process.ExecutionType ?? Process.ExecutionTypes.AddedButton) == Process.ExecutionTypes.AddedButton)
                 {
                     var message = process.GetErrorMessage(context: context);
                     message.Text = resultModel.ReplacedDisplayValues(
@@ -3255,7 +3255,7 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         process: process);
                 }
-                else if (process.ExecutionType != Process.ExecutionTypes.CreateOrUpdate)
+                else if ((process.ExecutionType ?? Process.ExecutionTypes.AddedButton) == Process.ExecutionTypes.AddedButton)
                 {
                     return ApiResults.BadRequest(context: context);
                 }
@@ -3391,7 +3391,7 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         process: process);
                 }
-                else if (process.ExecutionType != Process.ExecutionTypes.CreateOrUpdate)
+                else if ((process.ExecutionType ?? Process.ExecutionTypes.AddedButton) == Process.ExecutionTypes.AddedButton)
                 {
                     var message = process.GetErrorMessage(context: context);
                     message.Text = resultModel.ReplacedDisplayValues(
@@ -4162,6 +4162,13 @@ namespace Implem.Pleasanter.Models
             {
                 return Messages.NotFound(context: context).ToJson();
             }
+            var processes = ss.Processes
+                ?.Where(o => o.Id == processId 
+                || (o.ExecutionType == Process.ExecutionTypes.AddedButtonOrCreateOrUpdate
+                    && ((process.ExecutionType == Process.ExecutionTypes.CreateOrUpdate)
+                    || ((process.ExecutionType ?? Process.ExecutionTypes.AddedButton) == Process.ExecutionTypes.AddedButton)
+                        && ((process.ActionType ?? Process.ActionTypes.Save) == Process.ActionTypes.Save))))
+                .ToList() ?? new List<Process>();
             var selectedWhere = SelectedWhere(
                 context: context,
                 ss: ss);
@@ -4219,10 +4226,22 @@ namespace Implem.Pleasanter.Models
                 else
                 {
                     var previousTitle = resultModel.Title.DisplayValue;
-                    resultModel.SetByProcess(
-                        context: context,
-                        ss: ss,
-                        process: process);
+                    foreach (var p in processes)
+                    {
+                        p.MatchConditions = resultModel.GetProcessMatchConditions(
+                            context: context,
+                            ss: ss,
+                            process: p);
+                        if (p.MatchConditions && p.Accessable(
+                            context: context,
+                            ss: ss))
+                        {
+                            resultModel.SetByProcess(
+                                context: context,
+                                ss: ss,
+                                process: p);
+                        }
+                    }
                     resultModel.VerUp = Versions.MustVerUp(
                         context: context,
                         ss: ss,
@@ -4230,7 +4249,7 @@ namespace Implem.Pleasanter.Models
                     var errorData = resultModel.Update(
                         context: context,
                         ss: ss,
-                        processes: process.ToSingleList(),
+                        processes: processes,
                         notice: true,
                         previousTitle: previousTitle);
                     switch (errorData.Type)
@@ -4270,7 +4289,7 @@ namespace Implem.Pleasanter.Models
                             break;
                     }
                 }
-            };
+            }
             if (errorMessage != null)
             {
                 context.Messages.Add(errorMessage);
@@ -4353,7 +4372,7 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         process: process);
                 }
-                else if (process.ExecutionType != Process.ExecutionTypes.CreateOrUpdate)
+                else if ((process.ExecutionType ?? Process.ExecutionTypes.AddedButton) == Process.ExecutionTypes.AddedButton)
                 {
                     return ApiResults.BadRequest(context: context);
                 }

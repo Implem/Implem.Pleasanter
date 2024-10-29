@@ -1,0 +1,33 @@
+﻿{
+    "Id": "AddedButtonOrCreateOrUpdate",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Added button/Created/Updated"
+        },
+        {
+            "Language": "zh",
+            "Body": "添加按钮/创建/更新"
+        },
+        {
+            "Language": "ja",
+            "Body": "追加したボタン／作成・更新"
+        },
+        {
+            "Language": "de",
+            "Body": "Schaltfläche/Erstellen/Aktualisieren hinzugefügt"
+        },
+        {
+            "Language": "ko",
+            "Body": "추가한 버튼／작성・갱신"
+        },
+        {
+            "Language": "es",
+            "Body": "Botón agregado/Crear/Actualizar"
+        },
+        {
+            "Language": "vi",
+            "Body": "Nút đã thêm/Tạo/Cập nhật"
+        }
+    ]
+}
