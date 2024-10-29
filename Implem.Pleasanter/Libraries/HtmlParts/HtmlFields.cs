@@ -32,6 +32,45 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Attachments
         }
 
+        public static HtmlBuilder TabsPanelField(
+            this HtmlBuilder hb,
+            string id = null,
+            string css = null,
+            string legendText = null,
+            HtmlAttributes attributes = null,
+            string innerId = null,
+            bool hasNotInner = false,
+            bool _using = true,
+            Action action = null)
+        {
+            return _using
+                ? hb.FieldSet(
+                    id: id,
+                    css: css,
+                    legendText: legendText,
+                    attributes: attributes,
+                    action: () =>
+                    {
+                        if (!hasNotInner)
+                        {
+                            hb.Div(
+                                id: innerId,
+                                css: "tabs-panel-inner",
+                                _using: _using,
+                                action: () =>
+                                {
+                                    action?.Invoke();
+                                }
+                            );
+                        }
+                        else
+                        {
+                            action?.Invoke();
+                        }
+                    })
+                : hb;
+        }
+
         public static HtmlBuilder Field(
             this HtmlBuilder hb,
             Context context,
@@ -1197,6 +1236,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string validateRegexErrorMessage = null,
             string action = null,
             string method = null,
+            string dataLang = null,
             Dictionary<string, string> attributes = null,
             string extendedHtmlBeforeLabel = null,
             string extendedHtmlBetweenLabelAndControl = null,
@@ -1250,6 +1290,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             validateRegexErrorMessage: validateRegexErrorMessage,
                             action: action,
                             method: method,
+                            dataLang: dataLang,
                             attributes: attributes);
                         if (textType == HtmlTypes.TextTypes.Password)
                         {
@@ -1388,6 +1429,88 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             controlCss: controlCss,
                             text: text,
                             attributes: attributes))
+                : hb;
+        }
+
+        public static HtmlBuilder FieldCodeEditor(
+            this HtmlBuilder hb,
+            Context context,
+            string fieldId = null,
+            string controlId = null,
+            string fieldCss = null,
+            string fieldDescription = null,
+            string labelCss = null,
+            string controlContainerCss = null,
+            string controlCss = null,
+            string labelText = null,
+            string placeholder = null,
+            string labelRaw = null,
+            string labelTitle = null,
+            string labelIcon = null,
+            bool controlOnly = false,
+            string unit = null,
+            string text = null,
+            bool alwaysSend = false,
+            string onChange = null,
+            bool validateRequired = false,
+            bool validateNumber = false,
+            bool validateDate = false,
+            bool validateEmail = false,
+            string validateEqualTo = null,
+            int validateMaxLength = 0,
+            string action = null,
+            string method = null,
+            string dataLang = null,
+            Dictionary<string, string> attributes = null,
+            string extendedHtmlBeforeLabel = null,
+            string extendedHtmlBetweenLabelAndControl = null,
+            string extendedHtmlAfterControl = null,
+            bool _using = true)
+        {
+            var textType = context.ThemeVersionForCss() >= 2.0M && Parameters.General.EnableCodeEditor
+                ? HtmlTypes.TextTypes.CodeEditor
+                : HtmlTypes.TextTypes.MultiLine;
+            return _using
+                ? hb.Field(
+                    fieldId: fieldId,
+                    controlId: controlId,
+                    fieldCss: fieldCss,
+                    fieldDescription: fieldDescription,
+                    labelCss: labelCss,
+                    controlContainerCss: controlContainerCss,
+                    labelText: labelText,
+                    labelRaw: labelRaw,
+                    labelTitle: labelTitle,
+                    labelIcon: labelIcon,
+                    controlOnly: controlOnly,
+                    validateRequired: validateRequired,
+                    extendedHtmlBeforeLabel: extendedHtmlBeforeLabel,
+                    extendedHtmlBetweenLabelAndControl: extendedHtmlBetweenLabelAndControl,
+                    extendedHtmlAfterControl: extendedHtmlAfterControl,
+                    controlAction: () =>
+                    {
+                        hb.TextBox(
+                            textType: textType,
+                            controlId: controlId,
+                            controlCss: controlCss +
+                                (!unit.IsNullOrEmpty()
+                                    ? " with-unit"
+                                    : string.Empty),
+                            text: text,
+                            placeholder: placeholder,
+                            alwaysSend: alwaysSend,
+                            onChange: onChange,
+                            validateRequired: validateRequired,
+                            validateNumber: validateNumber,
+                            validateDate: validateDate,
+                            validateEmail: validateEmail,
+                            validateEqualTo: validateEqualTo,
+                            validateMaxLength: validateMaxLength,
+                            action: action,
+                            method: method,
+                            dataLang: dataLang,
+                            attributes: attributes);
+                    })
                 : hb;
         }
 

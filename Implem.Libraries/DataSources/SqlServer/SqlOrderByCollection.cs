@@ -67,10 +67,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                     " ");
                 if (pageSize != 0)
                 {
-                    commandText.Append(
-                        $"offset {Parameters.Parameter.SqlParameterPrefix}Offset", commandCount.ToString(),
-                        $" rows fetch next {Parameters.Parameter.SqlParameterPrefix}PageSize", commandCount.ToString(),
-                        " rows only ");
+                    commandText.Append(factory.SqlCommandText.CreateDataRangeCommand(commandCount));
                 }
             }
         }

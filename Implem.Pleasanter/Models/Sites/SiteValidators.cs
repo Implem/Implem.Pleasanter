@@ -462,9 +462,13 @@ namespace Implem.Pleasanter.Models
             if ((Notification.Types)context.Forms.Int("NotificationType") == Notification.Types.Mail)
             {
                 var to = ss.LabelTextToColumnName(context.Forms.Data("NotificationAddress"));
+                var cc = ss.LabelTextToColumnName(context.Forms.Data("NotificationCcAddress"));
+                var bcc = ss.LabelTextToColumnName(context.Forms.Data("NotificationBccAddress"));
                 return SetMailTo(
                     ss: ss,
                     to: to,
+                    cc: cc,
+                    bcc: bcc,
                     notification: true);
             }
             return new ErrorData(type: Error.Types.None);
@@ -475,9 +479,13 @@ namespace Implem.Pleasanter.Models
             if ((Notification.Types)context.Forms.Int("ProcessNotificationType") == Notification.Types.Mail)
             {
                 var to = ss.LabelTextToColumnName(context.Forms.Data("ProcessNotificationAddress"));
+                var cc = ss.LabelTextToColumnName(context.Forms.Data("ProcessNotificationCcAddress"));
+                var bcc = ss.LabelTextToColumnName(context.Forms.Data("ProcessNotificationBccAddress"));
                 return SetMailTo(
                     ss: ss,
                     to: to,
+                    cc: cc,
+                    bcc: bcc,
                     notification: true);
             }
             return new ErrorData(type: Error.Types.None);
@@ -518,6 +526,108 @@ namespace Implem.Pleasanter.Models
             var externalTo = MailAddressValidators.ExternalMailAddress(
                 addresses: to);
             if (externalTo.Type != Error.Types.None) return externalTo;
+            return new ErrorData(type: Error.Types.None);
+        }
+
+        private static ErrorData SetMailTo(SiteSettings ss, string to, string cc, string bcc, bool notification = false)
+        {
+            ss.IncludedColumns(value: to).ForEach(column =>
+                to = to.Replace($"[{column.ColumnName}]", string.Empty));
+            foreach (System.Text.RegularExpressions.Match match in to.RegexMatches(@"(\[Dept[0-9]+\])"))
+            {
+                to = to.Replace(match.Value, string.Empty);
+            }
+            foreach (System.Text.RegularExpressions.Match match in to.RegexMatches(@"(\[Group[0-9]+\])"))
+            {
+                to = to.Replace(match.Value, string.Empty);
+            }
+            foreach (System.Text.RegularExpressions.Match match in to.RegexMatches(@"(\[User[0-9]+\])"))
+            {
+                to = to.Replace(match.Value, string.Empty);
+            }
+
+            ss.IncludedColumns(value: cc).ForEach(column =>
+                cc = cc.Replace($"[{column.ColumnName}]", string.Empty));
+            foreach (System.Text.RegularExpressions.Match match in cc.RegexMatches(@"(\[Dept[0-9]+\])"))
+            {
+                cc = cc.Replace(match.Value, string.Empty);
+            }
+            foreach (System.Text.RegularExpressions.Match match in cc.RegexMatches(@"(\[Group[0-9]+\])"))
+            {
+                cc = cc.Replace(match.Value, string.Empty);
+            }
+            foreach (System.Text.RegularExpressions.Match match in cc.RegexMatches(@"(\[User[0-9]+\])"))
+            {
+                cc = cc.Replace(match.Value, string.Empty);
+            }
+
+            ss.IncludedColumns(value: bcc).ForEach(column =>
+                bcc = bcc.Replace($"[{column.ColumnName}]", string.Empty));
+            foreach (System.Text.RegularExpressions.Match match in bcc.RegexMatches(@"(\[Dept[0-9]+\])"))
+            {
+                bcc = bcc.Replace(match.Value, string.Empty);
+            }
+            foreach (System.Text.RegularExpressions.Match match in bcc.RegexMatches(@"(\[Group[0-9]+\])"))
+            {
+                bcc = bcc.Replace(match.Value, string.Empty);
+            }
+            foreach (System.Text.RegularExpressions.Match match in bcc.RegexMatches(@"(\[User[0-9]+\])"))
+            {
+                bcc = bcc.Replace(match.Value, string.Empty);
+            }
+
+            if (notification)
+            {
+                //通知機能のみ[RelatedUsers]の指定が可能なため、[RelatedUsers]の指定をチェック。
+                foreach (System.Text.RegularExpressions.Match match in to.RegexMatches(@"(\[RelatedUsers\])"))
+                {
+                    to = to.Replace(match.Value, string.Empty);
+                }
+                foreach (System.Text.RegularExpressions.Match match in cc.RegexMatches(@"(\[RelatedUsers\])"))
+                {
+                    cc = cc.Replace(match.Value, string.Empty);
+                }
+                foreach (System.Text.RegularExpressions.Match match in bcc.RegexMatches(@"(\[RelatedUsers\])"))
+                {
+                    bcc = bcc.Replace(match.Value, string.Empty);
+                }
+            }
+            to = to
+                .Split(',')
+                .Where(o => !o.IsNullOrEmpty())
+                .Select(o => o.Trim())
+                .Join();
+            var badTo = MailAddressValidators.BadMailAddress(
+                addresses: to);
+            if (badTo.Type != Error.Types.None) return badTo;
+            var externalTo = MailAddressValidators.ExternalMailAddress(
+                addresses: to);
+            if (externalTo.Type != Error.Types.None) return externalTo;
+
+            cc = cc
+                .Split(',')
+                .Where(o => !o.IsNullOrEmpty())
+                .Select(o => o.Trim())
+                .Join();
+            var badCc = MailAddressValidators.BadMailAddress(
+                addresses: cc);
+            if (badCc.Type != Error.Types.None) return badCc;
+            var externalCc = MailAddressValidators.ExternalMailAddress(
+                addresses: cc);
+            if (externalCc.Type != Error.Types.None) return externalCc;
+
+            bcc = bcc
+                .Split(',')
+                .Where(o => !o.IsNullOrEmpty())
+                .Select(o => o.Trim())
+                .Join();
+            var badBcc = MailAddressValidators.BadMailAddress(
+                addresses: bcc);
+            if (badBcc.Type != Error.Types.None) return badBcc;
+            var externalBcc = MailAddressValidators.ExternalMailAddress(
+                addresses: bcc);
+            if (externalBcc.Type != Error.Types.None) return externalBcc;
+
             return new ErrorData(type: Error.Types.None);
         }
 

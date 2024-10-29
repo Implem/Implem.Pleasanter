@@ -1,4 +1,5 @@
-﻿using Implem.IRds;
+﻿using Implem.DefinitionAccessor;
+using Implem.IRds;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -6,6 +7,11 @@ namespace Implem.SqlServer
 {
     internal class SqlServerCommandText : ISqlCommandText
     {
+        public string BeforeAllCommand()
+        {
+            return string.Empty;
+        }
+
         public string CreateDelete(string template)
         {
             return template + " ; select @@rowcount ";
@@ -56,7 +62,8 @@ namespace Implem.SqlServer
             string setClause,
             Action<StringBuilder> sqlWhereAppender,
             string intoClause,
-            string valueClause)
+            string valueClause,
+            string selectClauseForMySql)
         {
             var commandText = new StringBuilder();
             commandText
@@ -96,6 +103,15 @@ namespace Implem.SqlServer
             string searchText)
         {
             return words;
+        }
+
+        public string CreateDataRangeCommand(int? commandCount)
+        {
+            return $"offset {Parameters.Parameter.SqlParameterPrefix}Offset" +
+                commandCount.ToString() +
+                $" rows fetch next {Parameters.Parameter.SqlParameterPrefix}PageSize" +
+                commandCount.ToString() +
+                " rows only ";
         }
     }
 }

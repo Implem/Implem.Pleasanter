@@ -229,7 +229,7 @@ namespace Implem.Pleasanter.Models
                 view: view,
                 checkPermission: true);
             return hb
-                .Table(
+                .GridTable(
                     attributes: new HtmlAttributes()
                         .Id($"Grid{suffix}")
                         .Class(ss.GridCss(context: context))
@@ -519,7 +519,7 @@ namespace Implem.Pleasanter.Models
             int? tabIndex = null,
             ServerScriptModelColumn serverScriptModelColumn = null)
         {
-            if (serverScriptModelColumn?.Hide == true)
+            if (serverScriptModelColumn?.Hide ?? column.Hide == true)
             {
                 return hb.Td();
             }
@@ -1577,11 +1577,11 @@ namespace Implem.Pleasanter.Models
             }
             var hb = new HtmlBuilder();
             hb.Div(
-                css: "fieldset-inner",
+                css: "tabs-panel-inner",
                 action: () => hb
                     .HistoryCommands(context: context, ss: ss)
-                    .Table(
-                        attributes: new HtmlAttributes().Class("grid history"),
+                    .GridTable(
+                        css: "history",
                         action: () => hb
                             .THead(action: () => hb
                                 .GridHeader(
@@ -2496,7 +2496,21 @@ namespace Implem.Pleasanter.Models
                                 text: Displays.Create(context: context),
                                 controlCss: "button-icon hidden button-positive",
                                 onClick: "$p.openSiteTitleDialog($(this));",
-                                icon: "ui-icon-disk")))
+                                icon: "ui-icon-disk"))
+                    .Div(
+                        attributes: new HtmlAttributes()
+                            .Id("ImportUserTemplateDialog")
+                            .Class("dialog")
+                            .Title(Displays.ImportSitePackage(context: context)),
+                        action: () => hb.ImportUserTemplateDialog(context: context, ss: ss))
+                    .Div(
+                        attributes: new HtmlAttributes()
+                            .Id("EditUserTemplateDialog")
+                            .Class("dialog")
+                            .Title(Displays.AdvancedSetting(context: context)))
+                    .CreateUserTemplateDialog(
+                        context: context,
+                        ss: siteModel.SiteSettings))
                 .Invoke("setTemplate")
                 .ToJson();
         }
@@ -2510,6 +2524,7 @@ namespace Implem.Pleasanter.Models
             var templates = Def.TemplateDefinitionCollection
                 .Where(o => o.Language == context.Language)
                 .ToList();
+            templates.AddRange(GetUserTemplates(context: context));
             if (!templates.Any())
             {
                 templates = Def.TemplateDefinitionCollection
@@ -2629,7 +2644,13 @@ namespace Implem.Pleasanter.Models
                                     .A(
                                         href: "#FieldSetClassification",
                                         text: Displays.Classification(context: context)),
-                                _using: templates.Any(o => o.Classification > 0)))
+                                _using: templates.Any(o => o.Classification > 0))
+                            .Li(
+                                action: () => hb
+                                    .A(
+                                        href: "#FieldSetUserTemplate",
+                                        text: Displays.CustomApps(context: context)),
+                                _using: Parameters.UserTemplate.Enabled))
                         .TemplateTab(
                             context: context,
                             name: "Standard",
@@ -2737,7 +2758,61 @@ namespace Implem.Pleasanter.Models
                             name: "Classification",
                             templates: templates
                                 .Where(o => o.Classification > 0)
-                                .OrderBy(o => o.Classification)));
+                                .OrderBy(o => o.Classification))
+                        .TemplateTab(
+                            context: context,
+                            name: "UserTemplate",
+                            templates: templates
+                                .Where(o => o.CustomApps > 0)
+                                .OrderBy(o => o.Id),
+                            isUserTemplate: true,
+                            _using: Parameters.UserTemplate.Enabled));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static IEnumerable<TemplateDefinition> GetUserTemplates(
+            Context context,
+            string searchText = null,
+            string templateId = null)
+        {
+            var column = Rds.ExtensionsColumn().ExtensionId().ExtensionName();
+            var where = Rds.ExtensionsWhere().TenantId(context.TenantId).ExtensionType("CustomApps").Disabled(false);
+            if (!templateId.IsNullOrEmpty())
+            {
+                var id = -1;
+                if (!templateId.StartsWith("UserTemplate")
+                    || int.TryParse(templateId.Substring("UserTemplate".Length), out id) == false)
+                {
+                    return new List<TemplateDefinition>();
+                }
+                where.ExtensionId(id);
+                column.Description();
+            }
+            else if (!searchText.IsNullOrEmpty())
+            {
+                where
+                    .SqlWhereLike(
+                        tableName: "Extensions",
+                        name: "SearchText",
+                        searchText: searchText,
+                        clauseCollection: new List<string>()
+                        {
+                            Rds.Extensions_ExtensionName_WhereLike(factory: context)
+                        });
+            }
+            return new ExtensionCollection(
+                context: context,
+                column: column,
+                where: where)
+                .Select(o => new TemplateDefinition()
+                {
+                    Id = $"UserTemplate{o.ExtensionId}",
+                    Title = o.ExtensionName,
+                    Description = o.Description,
+                    CustomApps = o.ExtensionId
+                });
         }
 
         /// <summary>
@@ -2747,9 +2822,13 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb,
             Context context,
             string name,
-            IEnumerable<TemplateDefinition> templates)
+            IEnumerable<TemplateDefinition> templates,
+            bool isUserTemplate = false,
+            string searchText = null,
+            bool _using = true)
         {
-            return templates.Any()
+            if (_using != true) return hb;
+            return templates.Any() || isUserTemplate
                 ? hb.FieldSet(id: "FieldSet" + name, css: "template", action: () => hb
                     .Div(
                         id: name + "TemplatesViewer",
@@ -2769,8 +2848,284 @@ namespace Implem.Pleasanter.Models
                             listItemCollection: templates.ToDictionary(
                                 o => o.Id, o => new ControlData(o.Title)),
                             action: "PreviewTemplate",
-                            method: "post")))
+                            method: "post",
+                            commandOptionPositionIsTop: true,
+                            commandOptionAction: () =>
+                            {
+                                if (isUserTemplate)
+                                {
+                                    hb
+                                        .Div(css: "command-left", action: () => hb
+                                            .Button(
+                                                controlId: "AddTemplateButton",
+                                                text: Displays.Import(context: context),
+                                                controlCss: "button-icon",
+                                                icon: "ui-icon-arrowreturnthick-1-e",
+                                                onClick: "$p.openImportUserTemplateDialog($(this));")
+                                            .Button(
+                                                controlId: "EditTemplateButton",
+                                                text: Displays.AdvancedSetting(context: context),
+                                                controlCss: "button-icon",
+                                                icon: "ui-icon-gear",
+                                                onClick: "$p.send($(this));",
+                                                method: "post",
+                                                action: "OpenEditUserTemplateDialog")
+                                            .Button(
+                                                controlId: "DeleteTemplateButton",
+                                                text: Displays.Delete(context: context),
+                                                controlCss: "button-icon",
+                                                onClick: "$p.send($(this));",
+                                                method: "post",
+                                                icon: "ui-icon-trash",
+                                                confirm: "ConfirmDelete",
+                                                action: "DeleteUserTemplate"),
+                                            _using: Permissions.CanManageTenant(context: context))
+                                        .Div(css: "command-left", action: () => hb
+                                            .TextBox(
+                                                controlId: "Template_SearchText",
+                                                controlCss: " auto-postback always-send w200",
+                                                action: "SearchUserTemplate",
+                                                method: "post",
+                                                text: searchText ?? string.Empty)
+                                            .Button(
+                                                text: Displays.Search(context: context),
+                                                controlCss: "button-icon",
+                                                onClick: "$p.send($('#Template_SearchText'));",
+                                                icon: "ui-icon-search"))
+                                        .Hidden(
+                                            controlId: "Template_Title",
+                                            css: " always-send")
+                                        .Hidden(
+                                            controlId: "Template_Id",
+                                            css: " always-send");
+                                }
+                            })))
                 : hb;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string ImportUserTemplate(
+            Context context,
+            SiteSettings ss)
+        {
+            if (Permissions.CanManageTenant(context: context) != true || Parameters.UserTemplate.Enabled != true)
+            {
+                return Messages.ResponseHasNotPermission(context: context).ToJson();
+            }
+            if (Parameters.UserTemplate.CustomAppsMax > 0
+                && Repository.ExecuteScalar_int(
+                    context: context,
+                    statements: Rds.SelectExtensions(
+                        column: Rds.ExtensionsColumn().ExtensionsCount(),
+                        where: Rds.ExtensionsWhere()
+                            .TenantId(context.TenantId)
+                            .ExtensionType("CustomApps")
+                            .Disabled(false))) >= Parameters.UserTemplate.CustomAppsMax)
+            {
+                return Messages.ResponseCustomAppsLimit(context: context).ToJson();
+            }
+            var sitePackage = Libraries.SitePackages.Utilities.GetSitePackageFromPostedFile(context: context);
+            if (sitePackage == null)
+            {
+                return Messages.ResponseFailedReadFile(context: context).ToJson();
+            }
+            var title = context.Forms.Data("Title");
+            if (title.IsNullOrEmpty())
+            {
+                return Messages.ResponseInvalidRequest(context: context).ToJson();
+            }
+            var searchText = context.Forms.Data("SearchText");
+            var extension = new ExtensionModel(context: context);
+            extension.ExtensionName = title;
+            extension.ExtensionType = "CustomApps";
+            extension.Description = context.Forms.Data("Description");
+            extension.ExtensionSettings = sitePackage.ToJson();
+            // テナント毎に管理するのでTemplateDefinition.Languageの指定はなし
+            extension.Create(context: context, ss: null);
+            return new ResponseCollection(context: context)
+                .CloseDialog()
+                .ReplaceAll(
+                    target: "#FieldSetUserTemplate",
+                    value: new HtmlBuilder().TemplateTab(
+                        context: context,
+                        name: "UserTemplate",
+                        templates: GetUserTemplates(
+                            context: context,
+                            searchText: searchText),
+                        searchText: searchText,
+                        isUserTemplate: true))
+                .Invoke("setTemplate")
+                .Invoke("refreshTemplateSelector")
+                .Message(Messages.Registered(
+                    context: context,
+                    data: title))
+                .ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string DeleteUserTemplate(
+            Context context,
+            SiteSettings ss)
+        {
+            if (Permissions.CanManageTenant(context: context) != true)
+            {
+                return Messages.ResponseHasNotPermission(context: context).ToJson();
+            }
+            var templateTitle = context.Forms.Data("Template_Title");
+            var templateId = context.Forms.Data("Template_Id");
+            var searchText = context.Forms.Data("SearchText");
+            int id = -1;
+            if (templateId.IsNullOrEmpty())
+            {
+                return Messages.ResponseSelectTargets(context: context).ToJson();
+            }
+            if (!templateId.StartsWith("UserTemplate")
+                || int.TryParse(templateId.Substring("UserTemplate".Length), out id) == false)
+            {
+                return Messages.ResponseInvalidRequest(context: context).ToJson();
+            }
+            Repository.ExecuteNonQuery(
+                context: context,
+                transactional: true,
+                statements: Rds.PhysicalDeleteExtensions(
+                    where: Rds.ExtensionsWhere().ExtensionId(id)));
+            return new ResponseCollection(context: context)
+                .CloseDialog()
+                .ReplaceAll(
+                    target: "#FieldSetUserTemplate",
+                    value: new HtmlBuilder().TemplateTab(
+                        context: context,
+                        name: "UserTemplate",
+                        templates: GetUserTemplates(
+                            context: context,
+                            searchText: searchText),
+                        isUserTemplate: true,
+                        searchText: searchText))
+                .Invoke("setTemplate")
+                .Invoke("refreshTemplateSelector")
+                .Message(Messages.Deleted(
+                    context: context,
+                    data: templateTitle))
+                .ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string SearchUserTemplate(
+            Context context,
+            SiteSettings ss)
+        {
+            var searchText = context.Forms["Template_SearchText"].ToString();
+            return new ResponseCollection(context: context)
+                .ReplaceAll(
+                    target: "#FieldSetUserTemplate",
+                    value: new HtmlBuilder().TemplateTab(
+                        context: context,
+                        name: "UserTemplate",
+                        templates: GetUserTemplates(
+                            context: context,
+                            searchText: searchText),
+                        isUserTemplate: true,
+                        searchText: searchText))
+                .Invoke("setTemplate")
+                .Invoke("refreshTemplateSelector")
+                .ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string UpdateUserTemplate(
+            Context context,
+            SiteSettings ss)
+        {
+            if (Permissions.CanManageTenant(context: context) != true)
+            {
+                return Messages.ResponseHasNotPermission(context: context).ToJson();
+            }
+            var templateTitle = context.Forms.Data("UpdateUserTemplate_Title");
+            var templateDescription = context.Forms.Data("UpdateUserTemplate_Description");
+            var templateId = context.Forms.Data("UpdateUserTemplate_Id");
+            var searchText = context.Forms.Data("UpdateUserTemplate_SearchText");
+            int id = -1;
+            if (templateId.IsNullOrEmpty())
+            {
+                return Messages.ResponseSelectTargets(context: context).ToJson();
+            }
+            if (!templateId.StartsWith("UserTemplate")
+                || int.TryParse(templateId.Substring("UserTemplate".Length), out id) == false)
+            {
+                return Messages.ResponseInvalidRequest(context: context).ToJson();
+            }
+            var extensionModel = new ExtensionModel(
+                context: context,
+                extensionId: id);
+            extensionModel.VerUp = false;
+            extensionModel.ExtensionName = templateTitle;
+            extensionModel.Description = templateDescription;
+            if (extensionModel.AccessStatus != Databases.AccessStatuses.Selected)
+            {
+                return Messages.ResponseDeleteConflicts(context: context).ToJson();
+            }
+            var errorData = extensionModel.Update(context: context, ss: ss);
+            switch (errorData.Type)
+            {
+                case Error.Types.None:
+                    return new ResponseCollection(context: context)
+                        .ReplaceAll(
+                            target: "#FieldSetUserTemplate",
+                            value: new HtmlBuilder().TemplateTab(
+                                context: context,
+                                name: "UserTemplate",
+                                templates: GetUserTemplates(
+                                    context: context,
+                                    searchText: searchText),
+                                isUserTemplate: true,
+                                searchText: searchText))
+                        .CloseDialog()
+                        .Invoke("setTemplate")
+                        .Invoke("refreshTemplateSelector")
+                        .Message(Messages.Updated(
+                            context: context,
+                            data: templateTitle))
+                        .ToJson();
+                default:
+                    return errorData.MessageJson(context: context);
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string OpenEditUserTemplateDialog(
+            Context context,
+            SiteSettings ss)
+        {
+            var templateId = context.Forms["Template_Id"];
+            var searchText = context.Forms["Template_SearchText"];
+            if (templateId.IsNullOrEmpty())
+            {
+                return Messages.ResponseSelectTargets(context: context).ToJson();
+            }
+            var template = GetUserTemplates(context: context, templateId: templateId).FirstOrDefault();
+            if (template == null)
+            {
+                return Messages.ResponseDeleteConflicts(context: context).ToJson();
+            }
+            return new ResponseCollection(context: context)
+                .Html(
+                    "#EditUserTemplateDialog",
+                    new HtmlBuilder().ImportUserTemplateDialog(
+                        context: context,
+                        ss: ss,
+                        template: template))
+                .Invoke("openEditUserTemplateDialog")
+                .ToJson();
         }
 
         /// <summary>
@@ -2803,26 +3158,45 @@ namespace Implem.Pleasanter.Models
             {
                 return Error.Types.SelectTargets.MessageJson(context: context);
             }
-            var templateDefinition = Def.TemplateDefinitionCollection
-                .FirstOrDefault(o => o.Id == id);
-            if (templateDefinition == null)
+            if (id.StartsWith("UserTemplate"))
             {
-                return Error.Types.NotFound.MessageJson(context: context);
+                var extension = new ExtensionModel().Get(
+                    context: context,
+                    where: Rds.ExtensionsWhere().ExtensionId(int.Parse(id.Substring("UserTemplate".Length))).Disabled(false));
+                var sitePackage = extension.ExtensionSettings.Deserialize<Libraries.SitePackages.SitePackage>();
+                if (sitePackage == null)
+                {
+                    return Error.Types.InternalServerError.MessageJson(context: context);
+                }
+                ss.SiteId = parentId;
+                return Libraries.SitePackages.Utilities.ImportSitePackage(
+                    context: context,
+                    ss: ss,
+                    sitePackage: sitePackage);
             }
-            var templateSs = templateDefinition.SiteSettingsTemplate
-                .DeserializeSiteSettings(context: context);
-            if (templateSs == null)
+            else
             {
-                return Error.Types.NotFound.MessageJson(context: context);
+                var templateDefinition = Def.TemplateDefinitionCollection
+                    .FirstOrDefault(o => o.Id == id);
+                if (templateDefinition == null)
+                {
+                    return Error.Types.NotFound.MessageJson(context: context);
+                }
+                var templateSs = templateDefinition.SiteSettingsTemplate
+                    .DeserializeSiteSettings(context: context);
+                if (templateSs == null)
+                {
+                    return Error.Types.NotFound.MessageJson(context: context);
+                }
+                siteModel.ReferenceType = templateSs.ReferenceType;
+                siteModel.Title = new Title(context.Forms.Data("SiteTitle"));
+                siteModel.Body = templateDefinition.Body;
+                siteModel.SiteSettings = templateSs;
+                siteModel.Create(context: context, otherInitValue: true);
+                return SiteMenuResponse(
+                    context: context,
+                    siteModel: new SiteModel(context: context, siteId: parentId));
             }
-            siteModel.ReferenceType = templateSs.ReferenceType;
-            siteModel.Title = new Title(context.Forms.Data("SiteTitle"));
-            siteModel.Body = templateDefinition.Body;
-            siteModel.SiteSettings = templateSs;
-            siteModel.Create(context: context, otherInitValue: true);
-            return SiteMenuResponse(
-                context: context,
-                siteModel: new SiteModel(context: context, siteId: parentId));
         }
 
         /// <summary>
@@ -2937,7 +3311,8 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return SiteMenuError(
+                default:
+                    return SiteMenuError(
                     context: context,
                     id: id,
                     siteModel: siteModel,
@@ -2990,7 +3365,8 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return SiteMenuError(
+                default:
+                    return SiteMenuError(
                     context: context,
                     id: id,
                     siteModel: siteModel,
@@ -3110,7 +3486,8 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return SiteMenuError(
+                default:
+                    return SiteMenuError(
                     context: context,
                     id: id,
                     siteModel: siteModel,
@@ -3215,7 +3592,8 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return SiteMenuError(
+                default:
+                    return SiteMenuError(
                     context: context,
                     id: siteId,
                     siteModel: siteModel,
@@ -3353,7 +3731,7 @@ namespace Implem.Pleasanter.Models
                                             href: "#ScriptsSettingsEditor",
                                             text: Displays.Scripts(context: context)),
                                     _using: context.ContractSettings.Script != false))
-                                 .Li(
+                                .Li(
                                     action: () => hb
                                         .A(
                                             href: "#HtmlsSettingsEditor",
@@ -3384,7 +3762,7 @@ namespace Implem.Pleasanter.Models
                                             href: "#ScriptsSettingsEditor",
                                             text: Displays.Scripts(context: context)),
                                     _using: context.ContractSettings.Script != false)
-                                 .Li(
+                                .Li(
                                     action: () => hb
                                         .A(
                                             href: "#HtmlsSettingsEditor",
@@ -3853,7 +4231,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static string SiteHref(
+        internal static string SiteHref(
             Context context, SiteSettings ss, long siteId, string referenceType)
         {
             switch (referenceType)
@@ -4287,8 +4665,10 @@ namespace Implem.Pleasanter.Models
         public static string PreviewTemplate(Context context)
         {
             var controlId = context.Forms.ControlId();
-            var template = Def.TemplateDefinitionCollection
-                .FirstOrDefault(o => o.Id == context.Forms.List(controlId).FirstOrDefault());
+            var templateId = context.Forms.List(controlId).FirstOrDefault();
+            var template = templateId?.StartsWith("UserTemplate") == true
+                ? GetUserTemplates(context: context, templateId: templateId).FirstOrDefault()
+                : Def.TemplateDefinitionCollection.FirstOrDefault(o => o.Id == templateId);
             return template != null
                 ? PreviewTemplate(context: context, template: template, controlId: controlId)
                 : new ResponseCollection(context: context)
@@ -4305,6 +4685,13 @@ namespace Implem.Pleasanter.Models
         public static string PreviewTemplate(
             Context context, TemplateDefinition template, string controlId)
         {
+            if (template.CustomApps > 0)
+            {
+                return PreviewUserTemplate(
+                    context: context,
+                    template: template,
+                    controlId: controlId);
+            }
             var hb = new HtmlBuilder();
             var ss = template.SiteSettingsTemplate.DeserializeSiteSettings(context: context);
             ss.Init(context: context);
@@ -4348,6 +4735,47 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public static string PreviewUserTemplate(
+            Context context, TemplateDefinition template, string controlId)
+        {
+            var hb = new HtmlBuilder();
+            var name = Strings.NewGuid();
+            var html = hb
+                .Div(css: "samples-displayed", action: () => hb
+                    .Text(text: Displays.SamplesDisplayed(context: context)))
+                .Div(css: "template-tab-container", action: () => hb
+                    .Ul(action: () => hb
+                        .Li(action: () => hb
+                            .A(
+                                href: "#" + name + "Editor",
+                                text: Displays.Menu(context: context))))
+                    .TabsPanelField(
+                        id: name + "Editor",
+                        action: () => hb
+                            .Div(action: () => hb
+                                .FieldMarkDown(
+                                    context: context,
+                                    ss: null,
+                                    controlId: "Description",
+                                    fieldCss: "field-wide",
+                                    labelText: Displays.Description(context: context),
+                                    text: template.Description,
+                                    readOnly: true))
+                                .Div(css: "heading", _using: true)))
+                .ToString();
+            return new ResponseCollection(context: context)
+                .Html(
+                    "#" + controlId + "Viewer .description",
+                    new HtmlBuilder().Text(template.Title))
+                .Html("#" + controlId + "Viewer .viewer", html)
+                .Invoke("setTemplateViewer")
+                .Toggle("#" + controlId + "Viewer .viewer", true)
+                .ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static string PreviewTemplate(Context context, SiteSettings ss, string title)
         {
             var hb = new HtmlBuilder();
@@ -4361,7 +4789,7 @@ namespace Implem.Pleasanter.Models
                             .A(
                                 href: "#" + name + "Editor",
                                 text: Displays.Menu(context: context))))
-                    .FieldSet(
+                    .TabsPanelField(
                         id: name + "Editor",
                         action: () => hb
                             .Div(css: "nav-site"
@@ -4511,24 +4939,27 @@ namespace Implem.Pleasanter.Models
                                         .DataAction("Histories")
                                         .DataMethod("post"),
                                     _using: siteModel.MethodType != BaseModel.MethodTypes.New)
-                                .FieldSet(
+                                .TabsPanelField(
                                     attributes: new HtmlAttributes()
                                         .Id("FieldSetSiteAccessControl")
                                         .DataAction("Permissions")
                                         .DataMethod("post"),
+                                    innerId: "FieldSetSiteAccessControlEditor",
                                     _using: context.CanManagePermission(ss: ss))
-                                .FieldSet(
+                                .TabsPanelField(
                                     attributes: new HtmlAttributes()
                                         .Id("FieldSetRecordAccessControl")
                                         .DataAction("PermissionForRecord")
                                         .DataMethod("post"),
+                                    innerId: "FieldSetRecordAccessControlEditor",
                                     _using: EnableAdvancedPermissions(
                                         context: context, siteModel: siteModel))
-                                .FieldSet(
+                                .TabsPanelField(
                                     attributes: new HtmlAttributes()
                                         .Id("FieldSetColumnAccessControl")
                                         .DataAction("ColumnAccessControl")
                                         .DataMethod("post"),
+                                    innerId: "FieldSetColumnAccessControlEditor",
                                     _using: EnableAdvancedPermissions(
                                         context: context, siteModel: siteModel))
                                 .MainCommands(
@@ -4754,7 +5185,7 @@ namespace Implem.Pleasanter.Models
             var titleColumn = siteModel.SiteSettings.GetColumn(
                 context: context,
                 columnName: "Title");
-            hb.FieldSet(id: "FieldSetGeneral", action: () =>
+            hb.TabsPanelField(id: "FieldSetGeneral", action: () =>
             {
                 hb
                     .FieldText(
@@ -4907,7 +5338,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             SiteModel siteModel)
         {
-            return hb.FieldSet(id: "GuideEditor", action: () => hb
+            return hb.TabsPanelField(id: "GuideEditor", action: () => hb
                 .FieldSet(
                     css: " enclosed",
                     legendText: Displays.Guide(context: context),
@@ -5052,7 +5483,7 @@ namespace Implem.Pleasanter.Models
         public static HtmlBuilder SiteImageSettingsEditor(
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
-            return hb.FieldSet(id: "SiteImageSettingsEditor", action: () => hb
+            return hb.TabsPanelField(id: "SiteImageSettingsEditor", action: () => hb
                 .FieldSet(
                     css: " enclosed",
                     legendText: Displays.Icon(context: context),
@@ -5092,7 +5523,7 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder GridSettingsEditor(
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
-            return hb.FieldSet(id: "GridSettingsEditor", action: () => hb
+            return hb.TabsPanelField(id: "GridSettingsEditor", action: () => hb
                 .GridColumns(context: context, ss: ss)
                 .FieldSet(id: "BulkUpdateColumnsSettingsEditor",
                     css: " enclosed",
@@ -5199,7 +5630,12 @@ namespace Implem.Pleasanter.Models
                     controlId: "DisableLinkToEdit",
                     fieldCss: "field-auto-thin",
                     labelText: Displays.DisableLinkToEdit(context: context),
-                    _checked: ss.DisableLinkToEdit == true));
+                    _checked: ss.DisableLinkToEdit == true)
+                .FieldCheckBox(
+                    controlId: "OpenEditInNewTab",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.OpenEditInNewTab(context: context),
+                    _checked: ss.OpenEditInNewTab == true));
         }
 
         /// <summary>
@@ -5377,9 +5813,8 @@ namespace Implem.Pleasanter.Models
         {
             var selected = context.Forms.Data("EditBulkUpdateColumns")
                 .Deserialize<IEnumerable<int>>();
-            return hb.Table(
+            return hb.GridTable(
                 id: "EditBulkUpdateColumns",
-                css: "grid",
                 attributes: new HtmlAttributes()
                     .DataName("BulkUpdateColumnId")
                     .DataFunc("openBulkUpdateColumnDialog")
@@ -5444,7 +5879,7 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder FiltersSettingsEditor(
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
-            return hb.FieldSet(id: "FiltersSettingsEditor", action: () => hb
+            return hb.TabsPanelField(id: "FiltersSettingsEditor", action: () => hb
                 .FieldSet(
                     css: " enclosed-thin",
                     legendText: Displays.FilterSettings(context: context),
@@ -5627,13 +6062,13 @@ namespace Implem.Pleasanter.Models
                     css: " enclosed",
                     legendText: Displays.DateFilterSetMode(context: context),
                     action: () => hb.FieldDropDown(
-                         context: context,
-                         controlId: "DateFilterSetMode",
-                         fieldCss: "field-auto-thin",
-                         optionCollection: ColumnUtilities.DateFilterSetModeOptions(context),
-                         selectedValue: (column.DateFilterSetMode == ColumnUtilities.DateFilterSetMode.Range)
-                             ? ColumnUtilities.DateFilterSetMode.Range.ToInt().ToString()
-                             : ColumnUtilities.DateFilterSetMode.Default.ToInt().ToString()),
+                        context: context,
+                        controlId: "DateFilterSetMode",
+                        fieldCss: "field-auto-thin",
+                        optionCollection: ColumnUtilities.DateFilterSetModeOptions(context),
+                        selectedValue: (column.DateFilterSetMode == ColumnUtilities.DateFilterSetMode.Range)
+                            ? ColumnUtilities.DateFilterSetMode.Range.ToInt().ToString()
+                            : ColumnUtilities.DateFilterSetMode.Default.ToInt().ToString()),
                     _using: (type == Types.CsDateTime
                         || type == Types.CsNumeric)
                             && !noSettings)
@@ -5760,7 +6195,7 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder AggregationsSettingsEditor(
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
-            return hb.FieldSet(id: "AggregationsSettingsEditor", action: () => hb
+            return hb.TabsPanelField(id: "AggregationsSettingsEditor", action: () => hb
                 .FieldSet(
                     css: " enclosed-thin",
                     legendText: Displays.AggregationSettings(context: context),
@@ -5893,7 +6328,7 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder EditorSettingsEditor(
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
-            return hb.FieldSet(id: "EditorSettingsEditor", action: () => hb
+            return hb.TabsPanelField(id: "EditorSettingsEditor", action: () => hb
                 .FieldSet(
                     css: " enclosed",
                     legendText: Displays.EditorSettings(context: context),
@@ -5921,10 +6356,10 @@ namespace Implem.Pleasanter.Models
                                         value: Jsons.ToJson(ss.GetEditorColumnNames()
                                             ?.Where(o => ss.EditorColumn(o)?.Required == true)
                                             .Select(o => o)))
-                                     .Hidden(
-                                         controlId: "EditorColumnsTabsTarget",
-                                         css: " always-send",
-                                         value: "0")
+                                    .Hidden(
+                                            controlId: "EditorColumnsTabsTarget",
+                                            css: " always-send",
+                                            value: "0")
                                     .FieldDropDown(
                                         context: context,
                                         controlId: "EditorColumnsTabs",
@@ -6429,7 +6864,7 @@ namespace Implem.Pleasanter.Models
             {
                 return hb;
             }
-            return hb.FieldSet(
+            return hb.TabsPanelField(
                 id: "AutoNumberingSettingTab",
                 action: () => hb
                     .FieldSet(
@@ -6495,7 +6930,7 @@ namespace Implem.Pleasanter.Models
             {
                 return hb;
             }
-            return hb.FieldSet(
+            return hb.TabsPanelField(
                 id: "ExtendedHtmlSettingTab",
                 action: () => hb
                     .FieldSet(
@@ -6544,31 +6979,31 @@ namespace Implem.Pleasanter.Models
             {
                 return hb;
             }
-            return hb.FieldSet(
+            return hb.TabsPanelField(
                 id: "EditorDetailsettingTab",
                 action: () => hb
                     .FieldSet(
-                       css: " enclosed",
-                       legendText: column.LabelTextDefault,
-                       action: () =>
-                       {
-                           hb
-                               .FieldTextBox(
-                                   controlId: "ClientRegexValidation",
-                                   fieldCss: "field-wide",
-                                   labelText: Displays.ClientRegexValidation(context: context),
-                                   text: column.ClientRegexValidation)
-                               .FieldTextBox(
-                                   controlId: "ServerRegexValidation",
-                                   fieldCss: "field-wide",
-                                   labelText: Displays.ServerRegexValidation(context: context),
-                                   text: column.ServerRegexValidation)
-                              .FieldTextBox(
-                                   controlId: "RegexValidationMessage",
-                                   fieldCss: "field-wide",
-                                   labelText: Displays.RegexValidationMessage(context: context),
-                                   text: column.RegexValidationMessage);
-                       }));
+                        css: " enclosed",
+                        legendText: column.LabelTextDefault,
+                        action: () =>
+                        {
+                            hb
+                                .FieldTextBox(
+                                    controlId: "ClientRegexValidation",
+                                    fieldCss: "field-wide",
+                                    labelText: Displays.ClientRegexValidation(context: context),
+                                    text: column.ClientRegexValidation)
+                                .FieldTextBox(
+                                    controlId: "ServerRegexValidation",
+                                    fieldCss: "field-wide",
+                                    labelText: Displays.ServerRegexValidation(context: context),
+                                    text: column.ServerRegexValidation)
+                                .FieldTextBox(
+                                    controlId: "RegexValidationMessage",
+                                    fieldCss: "field-wide",
+                                    labelText: Displays.RegexValidationMessage(context: context),
+                                    text: column.RegexValidationMessage);
+                        }));
         }
 
         /// <summary>
@@ -6582,7 +7017,7 @@ namespace Implem.Pleasanter.Models
             IEnumerable<string> titleColumns)
         {
             var type = column.TypeName.CsTypeSummary();
-            return hb.FieldSet(
+            return hb.TabsPanelField(
                 id: "EditorColumnDialogTab",
                 action: () => hb
                     .FieldSet(
@@ -7642,7 +8077,7 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder LinksSettingsEditor(
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
-            return hb.FieldSet(id: "LinksSettingsEditor", action: () => hb
+            return hb.TabsPanelField(id: "LinksSettingsEditor", action: () => hb
                 .FieldSet(
                     css: " enclosed",
                     legendText: Displays.ListSettings(context: context),
@@ -7710,7 +8145,7 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder HistoriesSettingsEditor(
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
-            return hb.FieldSet(id: "HistoriesSettingsEditor", action: () => hb
+            return hb.TabsPanelField(id: "HistoriesSettingsEditor", action: () => hb
                 .FieldSet(
                     css: " enclosed",
                     legendText: Displays.ListSettings(context: context),
@@ -7779,7 +8214,7 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder MoveSettingsEditor(
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
-            return hb.FieldSet(id: "MoveSettingsEditor", action: () => hb
+            return hb.TabsPanelField(id: "MoveSettingsEditor", action: () => hb
                 .FieldSet(
                     css: " enclosed",
                     legendText: Displays.MoveTargetsSettings(context: context),
@@ -7838,7 +8273,7 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder SummariesSettingsEditor(
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
-            return hb.FieldSet(id: "SummariesSettingsEditor", action: () => hb
+            return hb.TabsPanelField(id: "SummariesSettingsEditor", action: () => hb
                 .Div(css: "command-left", action: () => hb
                     .Button(
                         controlId: "MoveUpSummaries",
@@ -7901,9 +8336,8 @@ namespace Implem.Pleasanter.Models
         {
             var selected = context.Forms.Data("EditSummary").Deserialize<IEnumerable<int>>();
             return hb
-                .Table(
+                .GridTable(
                     id: "EditSummary",
-                    css: "grid",
                     attributes: new HtmlAttributes()
                         .DataName("SummaryId")
                         .DataFunc("openSummaryDialog")
@@ -8289,7 +8723,7 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder FormulasSettingsEditor(
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
-            return hb.FieldSet(id: "FormulasSettingsEditor", action: () => hb
+            return hb.TabsPanelField(id: "FormulasSettingsEditor", action: () => hb
                 .Div(css: "command-left", action: () => hb
                     .Button(
                         controlId: "MoveUpFormulas",
@@ -8358,9 +8792,8 @@ namespace Implem.Pleasanter.Models
         {
             var selected = context.Forms.Data("EditFormula").Deserialize<IEnumerable<int>>();
             return hb
-                .Table(
+                .GridTable(
                     id: "EditFormula",
-                    css: "grid",
                     attributes: new HtmlAttributes()
                         .DataName("FormulaId")
                         .DataFunc("openFormulaDialog")
@@ -8597,7 +9030,7 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder ProcessesSettingsEditor(
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
-            return hb.FieldSet(id: "ProcessesSettingsEditor", action: () => hb
+            return hb.TabsPanelField(id: "ProcessesSettingsEditor", action: () => hb
                 .Div(css: "command-left", action: () => hb
                     .Button(
                         controlId: "MoveUpProcesses",
@@ -8642,7 +9075,13 @@ namespace Implem.Pleasanter.Models
                         confirm: Displays.ConfirmDelete(context: context)))
                 .EditProcess(
                     context: context,
-                    ss: ss));
+                    ss: ss)
+                .FieldCheckBox(
+                    controlId: "ProcessOutputFormulaLogs",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.OutputLog(context: context),
+                    _checked: ss.ProcessOutputFormulaLogs == true,
+                    labelPositionIsRight: true));
         }
 
         /// <summary>
@@ -8653,9 +9092,8 @@ namespace Implem.Pleasanter.Models
         {
             var selected = context.Forms.Data("EditProcess").Deserialize<IEnumerable<int>>();
             return hb
-                .Table(
+                .GridTable(
                     id: "EditProcess",
-                    css: "grid",
                     attributes: new HtmlAttributes()
                         .DataName("ProcessId")
                         .DataFunc("openProcessDialog")
@@ -8936,7 +9374,7 @@ namespace Implem.Pleasanter.Models
                     o => new ControlData(
                         text: o.First().Text,
                         css: o.First().CssClass));
-            return hb.FieldSet(id: "ProcessGeneralTab", action: () => hb
+            return hb.TabsPanelField(id: "ProcessGeneralTab", action: () => hb
                 .Div(css: "items", action: () => hb
                     .FieldDropDown(
                         context: context,
@@ -9056,7 +9494,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             Process process)
         {
-            return hb.FieldSet(
+            return hb.TabsPanelField(
                 id: "ProcessValidateInputsTab",
                 action: () => hb
                     .FieldDropDown(
@@ -9134,9 +9572,8 @@ namespace Implem.Pleasanter.Models
             SettingList<ValidateInput> validateInputs)
         {
             var selected = context.Forms.Data("EditProcessValidateInput").Deserialize<IEnumerable<int>>();
-            return hb.Table(
+            return hb.GridTable(
                 id: "EditProcessValidateInput",
-                css: "grid",
                 attributes: new HtmlAttributes()
                     .DataName("ProcessValidateInputId")
                     .DataFunc("openProcessValidateInputDialog")
@@ -9382,7 +9819,7 @@ namespace Implem.Pleasanter.Models
                 currentPermissions: currentPermissions,
                 allUsers: false);
             var offset = context.Forms.Int("SourceProcessAccessControlOffset");
-            return hb.FieldSet(id: "ProcessAccessControlsTab", action: () => hb
+            return hb.TabsPanelField(id: "ProcessAccessControlsTab", action: () => hb
                 .Div(id: "ProcessAccessControlEditor", action: () => hb
                     .FieldSelectable(
                         controlId: "CurrentProcessAccessControl",
@@ -9455,7 +9892,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             Process process)
         {
-            return hb.FieldSet(id: "ProcessDataChangesTab", action: () => hb
+            return hb.TabsPanelField(id: "ProcessDataChangesTab", action: () => hb
                 .Div(css: "command-left", action: () => hb
                     .Button(
                         controlId: "MoveUpProcessDataChanges",
@@ -9518,9 +9955,8 @@ namespace Implem.Pleasanter.Models
             SettingList<DataChange> dataChanges)
         {
             var selected = context.Forms.Data("EditProcessDataChange").Deserialize<IEnumerable<int>>();
-            return hb.Table(
+            return hb.GridTable(
                 id: "EditProcessDataChange",
-                css: "grid",
                 attributes: new HtmlAttributes()
                     .DataName("ProcessDataChangeId")
                     .DataFunc("openProcessDataChangeDialog")
@@ -9670,6 +10106,36 @@ namespace Implem.Pleasanter.Models
                         text: dataChange.Visible(type: "Value")
                             ? ss.ColumnNameToLabelText(dataChange.Value)
                             : string.Empty)
+                    .FieldTextBox(
+                        textType: HtmlTypes.TextTypes.Normal,
+                        fieldId: "ProcessDataChangeValueFormulaField",
+                        controlId: "ProcessDataChangeValueFormula",
+                        fieldCss: "field-wide" + (!dataChange.Visible(type: "ValueFormula")
+                            ? " hidden"
+                            : string.Empty),
+                        controlCss: " always-send",
+                        labelText: Displays.Formulas(context: context),
+                        text: dataChange.Visible(type: "ValueFormula")
+                            ? dataChange.DisplayValue(context: context, ss: ss)
+                            : string.Empty)
+                    .FieldCheckBox(
+                        fieldId: "ProcessDataChangeValueFormulaNotUseDisplayNameField",
+                        controlId: "ProcessDataChangeValueFormulaNotUseDisplayName",
+                        fieldCss: (!dataChange.Visible(type: "ValueFormula")
+                            ? " hidden"
+                            : string.Empty),
+                        controlCss: " always-send",
+                        labelText: Displays.NotUseDisplayName(context: context),
+                        _checked: dataChange.ValueFormulaNotUseDisplayName)
+                    .FieldCheckBox(
+                        fieldId: "ProcessDataChangeValueFormulaIsDisplayErrorField",
+                        controlId: "ProcessDataChangeValueFormulaIsDisplayError",
+                        fieldCss: (!dataChange.Visible(type: "ValueFormula")
+                            ? " hidden"
+                            : string.Empty),
+                        controlCss: " always-send",
+                        labelText: Displays.FormulaIsDisplayError(context: context),
+                        _checked: dataChange.ValueFormulaIsDisplayError)
                     .FieldDropDown(
                         context: context,
                         fieldId: "ProcessDataChangeBaseDateTimeField",
@@ -9752,7 +10218,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             Process process)
         {
-            return hb.FieldSet(id: "ProcessAutoNumberingTab", action: () => hb
+            return hb.TabsPanelField(id: "ProcessAutoNumberingTab", action: () => hb
                 .Div(css: "items", action: () => hb
                     .FieldDropDown(
                         context: context,
@@ -9822,7 +10288,7 @@ namespace Implem.Pleasanter.Models
             Process process)
         {
             if (context.ContractSettings.Notice == false) return hb;
-            return hb.FieldSet(id: "ProcessNotificationsTab", action: () => hb
+            return hb.TabsPanelField(id: "ProcessNotificationsTab", action: () => hb
                 .Div(css: "command-left", action: () => hb
                     .Button(
                         controlId: "MoveUpProcessNotifications",
@@ -9877,9 +10343,8 @@ namespace Implem.Pleasanter.Models
             SettingList<Notification> notifications)
         {
             var selected = context.Forms.Data("EditProcessNotification").Deserialize<IEnumerable<int>>();
-            return hb.Table(
+            return hb.GridTable(
                 id: "EditProcessNotification",
-                css: "grid",
                 attributes: new HtmlAttributes()
                     .DataName("ProcessNotificationId")
                     .DataFunc("openProcessNotificationDialog")
@@ -9989,8 +10454,8 @@ namespace Implem.Pleasanter.Models
                         controlCss: " always-send",
                         labelText: Displays.NotificationType(context: context),
                         optionCollection: Parameters.Notification.ListOrder == null
-                            ? NotificationUtilities.Types(context: context)
-                            : NotificationUtilities.OrderTypes(context: context),
+                            ? NotificationUtilities.Types(context: context, isProcessNotification: true)
+                            : NotificationUtilities.OrderTypes(context: context, isProcessNotification: true),
                         selectedValue: notification.Type.ToInt().ToString())
                     .FieldTextBox(
                         controlId: "ProcessNotificationSubject",
@@ -10006,6 +10471,26 @@ namespace Implem.Pleasanter.Models
                         labelText: Displays.Address(context: context),
                         text: ss.ColumnNameToLabelText(notification.Address),
                         validateRequired: true)
+                    .FieldTextBox(
+                        fieldId: "ProcessNotificationCcAddressField",
+                        controlId: "ProcessNotificationCcAddress",
+                        fieldCss: "field-wide" + (notification.Type == Notification.Types.Mail
+                            ? string.Empty
+                            : " hidden"),
+                        controlCss: " always-send",
+                        labelText: Displays.Cc(context: context),
+                        text: ss.ColumnNameToLabelText(notification.CcAddress),
+                        validateRequired: false)
+                    .FieldTextBox(
+                        fieldId: "ProcessNotificationBccAddressField",
+                        controlId: "ProcessNotificationBccAddress",
+                        fieldCss: "field-wide" + (notification.Type == Notification.Types.Mail
+                            ? string.Empty
+                            : " hidden"),
+                        controlCss: " always-send",
+                        labelText: Displays.Bcc(context: context),
+                        text: ss.ColumnNameToLabelText(notification.BccAddress),
+                        validateRequired: false)
                     .FieldTextBox(
                         fieldId: "ProcessNotificationTokenField",
                         controlId: "ProcessNotificationToken",
@@ -10064,7 +10549,7 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder StatusControlsSettingsEditor(
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
-            return hb.FieldSet(id: "StatusControlsSettingsEditor", action: () => hb
+            return hb.TabsPanelField(id: "StatusControlsSettingsEditor", action: () => hb
                 .Div(css: "command-left", action: () => hb
                     .Button(
                         controlId: "MoveUpStatusControls",
@@ -10120,9 +10605,8 @@ namespace Implem.Pleasanter.Models
         {
             var selected = context.Forms.Data("EditStatusControl").Deserialize<IEnumerable<int>>();
             return hb
-                .Table(
+                .GridTable(
                     id: "EditStatusControl",
-                    css: "grid",
                     attributes: new HtmlAttributes()
                         .DataName("StatusControlId")
                         .DataFunc("openStatusControlDialog")
@@ -10329,7 +10813,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             StatusControl statusControl)
         {
-            return hb.FieldSet(id: "StatusControlGeneralTab", action: () => hb
+            return hb.TabsPanelField(id: "StatusControlGeneralTab", action: () => hb
                 .FieldSet(
                     css: " enclosed-thin",
                     legendText: Displays.RecordControl(context: context),
@@ -10423,7 +10907,7 @@ namespace Implem.Pleasanter.Models
                 currentPermissions: currentPermissions,
                 allUsers: false);
             var offset = context.Forms.Int("SourceStatusControlAccessControlOffset");
-            return hb.FieldSet(id: "StatusControlAccessControlsTab", action: () => hb
+            return hb.TabsPanelField(id: "StatusControlAccessControlsTab", action: () => hb
                 .Div(id: "StatusControlAccessControlEditor", action: () => hb
                     .FieldSelectable(
                         controlId: "CurrentStatusControlAccessControl",
@@ -10493,7 +10977,7 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder ViewsSettingsEditor(
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
-            return hb.FieldSet(id: "ViewsSettingsEditor", action: () => hb
+            return hb.TabsPanelField(id: "ViewsSettingsEditor", action: () => hb
                 .FieldSet(
                     css: " enclosed-thin",
                     legendText: Displays.ViewSettings(context: context),
@@ -10777,11 +11261,12 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             View view,
             string prefix = "",
+            bool hasNotInner = false,
             Action action = null,
             Dictionary<string, string> displayTypeOptionCollection = null,
             Dictionary<string, string> commandDisplayTypeOptionCollection = null)
         {
-            return hb.FieldSet(id: $"{prefix}ViewGridTab", action: () => hb
+            return hb.TabsPanelField(id: $"{prefix}ViewGridTab", hasNotInner: hasNotInner, action: () => hb
                 .FieldSet(
                     css: " enclosed-thin",
                     legendText: Displays.ListSettings(context: context),
@@ -10926,7 +11411,7 @@ namespace Implem.Pleasanter.Models
             bool currentTableOnly = false,
             Action action = null)
         {
-            return hb.FieldSet(id: $"{prefix}ViewFiltersTab", action: () =>
+            return hb.TabsPanelField(id: $"{prefix}ViewFiltersTab", action: () =>
             {
                 hb
                     .FieldSet(
@@ -11285,7 +11770,7 @@ namespace Implem.Pleasanter.Models
             bool usekeepSorterState = true,
             bool currentTableOnly = false)
         {
-            return hb.FieldSet(id: $"{prefix}ViewSortersTab", action: () => hb
+            return hb.TabsPanelField(id: $"{prefix}ViewSortersTab", action: () => hb
                 .FieldCheckBox(
                     controlId: "KeepSorterState",
                     fieldCss: "field-auto-thin",
@@ -11299,10 +11784,10 @@ namespace Implem.Pleasanter.Models
                         ? " hidden"
                         : string.Empty),
                     action: () => hb
-                     .FieldSet(
-                        css: " enclosed-thin",
-                        legendText: Displays.SortCondition(context: context),
-                        action: () => hb
+                        .FieldSet(
+                            css: " enclosed-thin",
+                            legendText: Displays.SortCondition(context: context),
+                            action: () => hb
                 .FieldBasket(
                     controlId: $"{prefix}ViewSorters",
                     fieldCss: "field-wide",
@@ -11361,7 +11846,7 @@ namespace Implem.Pleasanter.Models
             View view,
             Dictionary<string, string> commandDisplayTypeOptionCollection)
         {
-            return hb.FieldSet(id: "ViewEditorTab", action: () => hb
+            return hb.TabsPanelField(id: "ViewEditorTab", action: () => hb
                 .FieldSet(
                     css: " enclosed-thin",
                     legendText: Displays.CommandButtonsSettings(context: context),
@@ -11417,7 +11902,7 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb, Context context, SiteSettings ss, View view, bool _using)
         {
             return _using
-                ? hb.FieldSet(id: "ViewCalendarTab", action: () => hb
+                ? hb.TabsPanelField(id: "ViewCalendarTab", action: () => hb
                     .FieldSet(
                         css: " enclosed-thin",
                         legendText: Displays.CalendarSettings(context: context),
@@ -11474,7 +11959,7 @@ namespace Implem.Pleasanter.Models
             bool _using)
         {
             return _using
-                ? hb.FieldSet(id: "ViewCrosstabTab", action: () => hb
+                ? hb.TabsPanelField(id: "ViewCrosstabTab", action: () => hb
                     .FieldSet(
                         css: " enclosed-thin",
                         legendText: Displays.CrosstabSettings(context: context),
@@ -11551,7 +12036,7 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb, Context context, SiteSettings ss, View view, bool _using)
         {
             return _using
-                ? hb.FieldSet(id: "ViewGanttTab", action: () => hb
+                ? hb.TabsPanelField(id: "ViewGanttTab", action: () => hb
                     .FieldSet(
                         css: " enclosed-thin",
                         legendText: Displays.GanttSettings(context: context),
@@ -11582,7 +12067,7 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb, Context context, SiteSettings ss, View view, bool _using)
         {
             return _using
-                ? hb.FieldSet(id: "ViewTimeSeriesTab", action: () => hb
+                ? hb.TabsPanelField(id: "ViewTimeSeriesTab", action: () => hb
                     .FieldSet(
                         css: " enclosed-thin",
                         legendText: Displays.TimeSeriesSettings(context: context),
@@ -11618,7 +12103,7 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb, Context context, SiteSettings ss, View view, bool _using)
         {
             return _using
-                ? hb.FieldSet(id: "ViewAnalyTab", action: () => hb
+                ? hb.TabsPanelField(id: "ViewAnalyTab", action: () => hb
                     .FieldSet(
                         css: " enclosed-thin",
                         legendText: Displays.AnalySettings(context: context)))
@@ -11633,7 +12118,7 @@ namespace Implem.Pleasanter.Models
         {
             return _using
                 ? hb.FieldSet(id: "ViewKambanTab", action: () => hb
-                    .FieldSet(
+                    .TabsPanelField(
                         css: " enclosed-thin",
                         legendText: Displays.KambanSettings(context: context),
                         action: () => hb
@@ -11711,7 +12196,7 @@ namespace Implem.Pleasanter.Models
                 currentPermissions: currentPermissions,
                 allUsers: false);
             var offset = context.Forms.Int("SourceViewAccessControlOffset");
-            return hb.FieldSet(id: "ViewAccessControlTab", action: () => hb
+            return hb.TabsPanelField(id: "ViewAccessControlTab", action: () => hb
                 .Div(id: "ViewAccessControlEditor", action: () => hb
                     .FieldSelectable(
                         controlId: "CurrentViewAccessControl",
@@ -11861,7 +12346,7 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
             if (context.ContractSettings.Notice == false) return hb;
-            return hb.FieldSet(id: "NotificationsSettingsEditor", action: () => hb
+            return hb.TabsPanelField(id: "NotificationsSettingsEditor", action: () => hb
                 .Div(css: "command-left", action: () => hb
                     .Button(
                         controlId: "MoveUpNotifications",
@@ -11914,9 +12399,8 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
             var selected = context.Forms.Data("EditNotification").Deserialize<IEnumerable<int>>();
-            return hb.Table(
+            return hb.GridTable(
                 id: "EditNotification",
-                css: "grid",
                 attributes: new HtmlAttributes()
                     .DataName("NotificationId")
                     .DataFunc("openNotificationDialog")
@@ -12116,6 +12600,26 @@ namespace Implem.Pleasanter.Models
                         labelText: Displays.Address(context: context),
                         text: ss.ColumnNameToLabelText(notification.Address),
                         validateRequired: true)
+                    .FieldTextBox(
+                        fieldId: "NotificationCcAddressField",
+                        controlId: "NotificationCcAddress",
+                        fieldCss: "field-wide" + (notification.Type == Notification.Types.Mail
+                            ? string.Empty
+                            : " hidden"),
+                        controlCss: " always-send",
+                        labelText: Displays.Cc(context: context),
+                        text: ss.ColumnNameToLabelText(notification.CcAddress),
+                        validateRequired: false)
+                    .FieldTextBox(
+                        fieldId: "NotificationBccAddressField",
+                        controlId: "NotificationBccAddress",
+                        fieldCss: "field-wide" + (notification.Type == Notification.Types.Mail
+                            ? string.Empty
+                            : " hidden"),
+                        controlCss: " always-send",
+                        labelText: Displays.Bcc(context: context),
+                        text: ss.ColumnNameToLabelText(notification.BccAddress),
+                        validateRequired: false)
                     .FieldTextBox(
                         fieldId: "NotificationTokenField",
                         controlId: "NotificationToken",
@@ -12356,7 +12860,7 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
             if (context.ContractSettings.Remind == false) return hb;
-            return hb.FieldSet(id: "RemindersSettingsEditor", action: () => hb
+            return hb.TabsPanelField(id: "RemindersSettingsEditor", action: () => hb
                 .Div(css: "command-left", action: () => hb
                     .Button(
                         controlId: "MoveUpReminders",
@@ -12418,9 +12922,8 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
             var selected = context.Forms.Data("EditReminder").Deserialize<IEnumerable<int>>();
-            return hb.Table(
+            return hb.GridTable(
                 id: "EditReminder",
-                css: "grid",
                 attributes: new HtmlAttributes()
                     .DataName("ReminderId")
                     .DataFunc("openReminderDialog")
@@ -12469,6 +12972,10 @@ namespace Implem.Pleasanter.Models
                         _using: Parameters.Mail.FixedFrom.IsNullOrEmpty())
                     .Th(action: () => hb
                         .Text(text: Displays.To(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Cc(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Bcc(context: context)))
                     .Th(action: () => hb
                         .Text(text: Displays.Column(context: context)))
                     .Th(action: () => hb
@@ -12784,7 +13291,7 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
             if (context.ContractSettings.Export == false) return hb;
-            return hb.FieldSet(id: "ImportsSettingsEditor", action: () => hb
+            return hb.TabsPanelField(id: "ImportsSettingsEditor", action: () => hb
                 .FieldDropDown(
                     context: context,
                     controlId: "ImportEncoding",
@@ -12822,7 +13329,7 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
             if (context.ContractSettings.Export == false) return hb;
-            return hb.FieldSet(id: "ExportsSettingsEditor", action: () => hb
+            return hb.TabsPanelField(id: "ExportsSettingsEditor", action: () => hb
                 .Div(css: "command-left", action: () => hb
                     .Button(
                         controlId: "MoveUpExports",
@@ -12879,9 +13386,8 @@ namespace Implem.Pleasanter.Models
         public static HtmlBuilder EditExport(this HtmlBuilder hb, Context context, SiteSettings ss)
         {
             var selected = context.Forms.Data("EditExport").Deserialize<IEnumerable<int>>();
-            return hb.Table(
+            return hb.GridTable(
                 id: "EditExport",
-                css: "grid",
                 attributes: new HtmlAttributes()
                     .DataName("ExportId")
                     .DataFunc("openExportDialog")
@@ -13136,7 +13642,7 @@ namespace Implem.Pleasanter.Models
             string controlId,
             Export export)
         {
-            return hb.FieldSet(id: "ExportGeneralTab", action: () => hb
+            return hb.TabsPanelField(id: "ExportGeneralTab", action: () => hb
                 .Div(css: "items", action: () => hb
                     .FieldText(
                         controlId: "ExportId",
@@ -13298,7 +13804,7 @@ namespace Implem.Pleasanter.Models
                 currentPermissions: currentPermissions,
                 allUsers: false);
             var offset = context.Forms.Int("SourceExportAccessControlOffset");
-            return hb.FieldSet(id: "ExportAccessControlTab", action: () => hb
+            return hb.TabsPanelField(id: "ExportAccessControlTab", action: () => hb
                 .Div(id: "ExportAccessControlEditor", action: () => hb
                     .FieldSelectable(
                         controlId: "CurrentExportAccessControl",
@@ -13371,7 +13877,7 @@ namespace Implem.Pleasanter.Models
             return Def.ViewModeDefinitionCollection
                 .Where(o => o.Name == "Calendar")
                 .Any(o => o.ReferenceType == ss.ReferenceType)
-                    ? hb.FieldSet(id: "CalendarSettingsEditor", action: () => hb
+                    ? hb.TabsPanelField(id: "CalendarSettingsEditor", action: () => hb
                         .FieldCheckBox(
                             controlId: "EnableCalendar",
                             fieldCss: "field-auto-thin",
@@ -13406,7 +13912,7 @@ namespace Implem.Pleasanter.Models
             return Def.ViewModeDefinitionCollection
                 .Where(o => o.Name == "Crosstab")
                 .Any(o => o.ReferenceType == ss.ReferenceType)
-                    ? hb.FieldSet(id: "CrosstabSettingsEditor", action: () => hb
+                    ? hb.TabsPanelField(id: "CrosstabSettingsEditor", action: () => hb
                         .FieldCheckBox(
                             controlId: "EnableCrosstab",
                             fieldCss: "field-auto-thin",
@@ -13429,7 +13935,7 @@ namespace Implem.Pleasanter.Models
             return Def.ViewModeDefinitionCollection
                 .Where(o => o.Name == "Gantt")
                 .Any(o => o.ReferenceType == ss.ReferenceType)
-                    ? hb.FieldSet(id: "GanttSettingsEditor", action: () => hb
+                    ? hb.TabsPanelField(id: "GanttSettingsEditor", action: () => hb
                         .FieldCheckBox(
                             controlId: "EnableGantt",
                             fieldCss: "field-auto-thin",
@@ -13452,7 +13958,7 @@ namespace Implem.Pleasanter.Models
             return Def.ViewModeDefinitionCollection
                 .Where(o => o.Name == "BurnDown")
                 .Any(o => o.ReferenceType == ss.ReferenceType)
-                    ? hb.FieldSet(id: "BurnDownSettingsEditor", action: () => hb
+                    ? hb.TabsPanelField(id: "BurnDownSettingsEditor", action: () => hb
                         .FieldCheckBox(
                             controlId: "EnableBurnDown",
                             fieldCss: "field-auto-thin",
@@ -13470,7 +13976,7 @@ namespace Implem.Pleasanter.Models
             return Def.ViewModeDefinitionCollection
                 .Where(o => o.Name == "TimeSeries")
                 .Any(o => o.ReferenceType == ss.ReferenceType)
-                    ? hb.FieldSet(id: "TimeSeriesSettingsEditor", action: () => hb
+                    ? hb.TabsPanelField(id: "TimeSeriesSettingsEditor", action: () => hb
                         .FieldCheckBox(
                             controlId: "EnableTimeSeries",
                             fieldCss: "field-auto-thin",
@@ -13488,7 +13994,7 @@ namespace Implem.Pleasanter.Models
             return Def.ViewModeDefinitionCollection
                 .Where(o => o.Name == "Analy")
                 .Any(o => o.ReferenceType == ss.ReferenceType)
-                    ? hb.FieldSet(id: "AnalySettingsEditor", action: () => hb
+                    ? hb.TabsPanelField(id: "AnalySettingsEditor", action: () => hb
                         .FieldCheckBox(
                             controlId: "EnableAnaly",
                             fieldCss: "field-auto-thin",
@@ -13506,7 +14012,7 @@ namespace Implem.Pleasanter.Models
             return Def.ViewModeDefinitionCollection
                 .Where(o => o.Name == "Kamban")
                 .Any(o => o.ReferenceType == ss.ReferenceType)
-                    ? hb.FieldSet(id: "KambanSettingsEditor", action: () => hb
+                    ? hb.TabsPanelField(id: "KambanSettingsEditor", action: () => hb
                         .FieldCheckBox(
                             controlId: "EnableKamban",
                             fieldCss: "field-auto-thin",
@@ -13525,7 +14031,7 @@ namespace Implem.Pleasanter.Models
             return Def.ViewModeDefinitionCollection
                 .Where(o => o.Name == "ImageLib")
                 .Any(o => o.ReferenceType == ss.ReferenceType)
-                    ? hb.FieldSet(id: "ImageLibSettingsEditor", action: () => hb
+                    ? hb.TabsPanelField(id: "ImageLibSettingsEditor", action: () => hb
                         .FieldCheckBox(
                             controlId: "EnableImageLib",
                             fieldCss: "field-auto-thin",
@@ -13552,7 +14058,7 @@ namespace Implem.Pleasanter.Models
             SiteModel siteModel)
         {
             var ss = siteModel.SiteSettings;
-            return hb.FieldSet(id: "SearchSettingsEditor", action: () => hb
+            return hb.TabsPanelField(id: "SearchSettingsEditor", action: () => hb
                 .FieldSet(
                     id: "SearchSettingsEditorGeneral",
                     css: " enclosed",
@@ -13640,7 +14146,7 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
             if (context.ContractSettings.Mail == false) return hb;
-            return hb.FieldSet(id: "MailSettingsEditor", action: () => hb
+            return hb.TabsPanelField(id: "MailSettingsEditor", action: () => hb
                 .FieldTextBox(
                     textType: HtmlTypes.TextTypes.MultiLine,
                     controlId: "AddressBook",
@@ -13677,7 +14183,7 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder SiteIntegrationEditor(
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
-            return hb.FieldSet(id: "SiteIntegrationEditor", action: () => hb
+            return hb.TabsPanelField(id: "SiteIntegrationEditor", action: () => hb
                 .FieldTextBox(
                     controlId: "IntegratedSites",
                     fieldCss: "field-wide",
@@ -13692,7 +14198,7 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
             if (context.ContractSettings.Style == false) return hb;
-            return hb.FieldSet(id: "StylesSettingsEditor", action: () => hb
+            return hb.TabsPanelField(id: "StylesSettingsEditor", action: () => hb
                 .Div(css: "command-left", action: () => hb
                     .Button(
                         controlId: "MoveUpStyles",
@@ -13754,9 +14260,8 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
             var selected = context.Forms.Data("EditStyle").Deserialize<IEnumerable<int>>();
-            return hb.Table(
+            return hb.GridTable(
                 id: "EditStyle",
-                css: "grid",
                 attributes: new HtmlAttributes()
                     .DataName("StyleId")
                     .DataFunc("openStyleDialog")
@@ -13951,15 +14456,16 @@ namespace Implem.Pleasanter.Models
                         labelText: Displays.Title(context: context),
                         text: style.Title,
                         validateRequired: true)
-                    .FieldTextBox(
-                        textType: HtmlTypes.TextTypes.MultiLine,
+                    .FieldCodeEditor(
+                        context: context,
                         controlId: "StyleBody",
                         fieldCss: "field-wide",
                         controlCss: " always-send",
+                        dataLang: "css",
                         labelText: Displays.Style(context: context),
                         text: style.Body)
                     .FieldCheckBox(
-                        fieldId: "StyleDisabled",
+                        fieldId: "StyleDisabledField",
                         controlId: "StyleDisabled",
                         controlCss: " always-send",
                         labelText: Displays.Disabled(context: context),
@@ -14080,7 +14586,7 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
             if (context.ContractSettings.Script == false) return hb;
-            return hb.FieldSet(id: "ScriptsSettingsEditor", action: () => hb
+            return hb.TabsPanelField(id: "ScriptsSettingsEditor", action: () => hb
                 .Div(css: "command-left", action: () => hb
                     .Button(
                         controlId: "MoveUpScripts",
@@ -14135,9 +14641,8 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
             var selected = context.Forms.Data("EditScript").Deserialize<IEnumerable<int>>();
-            return hb.Table(
+            return hb.GridTable(
                 id: "EditScript",
-                css: "grid",
                 attributes: new HtmlAttributes()
                     .DataName("ScriptId")
                     .DataFunc("openScriptDialog")
@@ -14173,7 +14678,7 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .Text(text: Displays.Disabled(context: context)))
                     .EditDestinationScriptHeader(
-                        context:context,
+                        context: context,
                         _using: ss.ReferenceType != "Dashboards")));
         }
 
@@ -14334,11 +14839,12 @@ namespace Implem.Pleasanter.Models
                         labelText: Displays.Title(context: context),
                         text: script.Title,
                         validateRequired: true)
-                    .FieldTextBox(
-                        textType: HtmlTypes.TextTypes.MultiLine,
+                    .FieldCodeEditor(
+                        context: context,
                         controlId: "ScriptBody",
                         fieldCss: "field-wide",
                         controlCss: " always-send",
+                        dataLang: "javascript",
                         labelText: Displays.Script(context: context),
                         text: script.Body)
                     .FieldCheckBox(
@@ -14463,7 +14969,7 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
             if (context.ContractSettings.Html == false) return hb;
-            return hb.FieldSet(id: "HtmlsSettingsEditor", action: () => hb
+            return hb.TabsPanelField(id: "HtmlsSettingsEditor", action: () => hb
                 .Div(css: "command-left", action: () => hb
                     .Button(
                         controlId: "MoveUpHtmls",
@@ -14518,9 +15024,8 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
             var selected = context.Forms.Data("EditHtml").Deserialize<IEnumerable<int>>();
-            return hb.Table(
+            return hb.GridTable(
                 id: "EditHtml",
-                css: "grid",
                 attributes: new HtmlAttributes()
                     .DataName("HtmlId")
                     .DataFunc("openHtmlDialog")
@@ -14559,7 +15064,7 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .Text(text: Displays.Disabled(context: context)))
                     .EditDestinationHtmlHeader(
-                        context:context,
+                        context: context,
                         _using: ss.ReferenceType != "Dashboards")));
         }
 
@@ -14606,7 +15111,8 @@ namespace Implem.Pleasanter.Models
             IEnumerable<int> selected)
         {
             return hb.TBody(action: () => ss
-                .Htmls?.ForEach(html => {
+                .Htmls?.ForEach(html =>
+                {
                     var positionType = string.Empty;
                     switch (html.PositionType)
                     {
@@ -14769,15 +15275,16 @@ namespace Implem.Pleasanter.Models
                         },
                         selectedValue: html.PositionType.ToInt().ToString(),
                         insertBlank: false)
-                    .FieldTextBox(
-                        textType: HtmlTypes.TextTypes.MultiLine,
+                    .FieldCodeEditor(
+                        context: context,
                         controlId: "HtmlBody",
                         fieldCss: "field-wide",
                         controlCss: " always-send",
+                        dataLang: "html",
                         labelText: Displays.Html(context: context),
                         text: html.Body)
                     .FieldCheckBox(
-                        fieldId: "HtmlDisabled",
+                        fieldId: "HtmlDisabledField",
                         controlId: "HtmlDisabled",
                         controlCss: " always-send",
                         labelText: Displays.Disabled(context: context),
@@ -14899,7 +15406,7 @@ namespace Implem.Pleasanter.Models
         {
             if (context.ContractSettings.ServerScript == false
                 || Parameters.Script.ServerScript == false) return hb;
-            return hb.FieldSet(id: "ServerScriptsSettingsEditor", action: () => hb
+            return hb.TabsPanelField(id: "ServerScriptsSettingsEditor", action: () => hb
                 .Div(css: "command-left", action: () => hb
                     .Button(
                         controlId: "MoveUpServerScripts",
@@ -14953,9 +15460,8 @@ namespace Implem.Pleasanter.Models
         public static HtmlBuilder EditServerScript(this HtmlBuilder hb, Context context, SiteSettings ss)
         {
             var selected = context.Forms.Data("EditServerScript").Deserialize<IEnumerable<int>>();
-            return hb.Table(
+            return hb.GridTable(
                 id: "EditServerScript",
-                css: "grid",
                 attributes: new HtmlAttributes()
                     .DataName("ServerScriptId")
                     .DataFunc("openServerScriptDialog")
@@ -15141,11 +15647,12 @@ namespace Implem.Pleasanter.Models
                         controlCss: " always-send",
                         labelText: Displays.Name(context: context),
                         text: script.Name)
-                    .FieldTextBox(
-                        textType: HtmlTypes.TextTypes.MultiLine,
+                    .FieldCodeEditor(
+                        context: context,
                         controlId: "ServerScriptBody",
                         fieldCss: "field-wide",
                         controlCss: " always-send",
+                        dataLang: "javascript",
                         labelText: Displays.Script(context: context),
                         text: script.Body)
                     .FieldSpinner(
@@ -15284,7 +15791,7 @@ namespace Implem.Pleasanter.Models
             {
                 return hb;
             }
-            return hb.FieldSet(id: "PublishSettingsEditor", action: () => hb
+            return hb.TabsPanelField(id: "PublishSettingsEditor", action: () => hb
                 .FieldCheckBox(
                     controlId: "Sites_Publish",
                     fieldCss: "field-auto-thin",
@@ -15374,7 +15881,7 @@ namespace Implem.Pleasanter.Models
             }
             if (selected?.Any() != true)
             {
-                return  new ErrorData(type: Error.Types.SelectTargets);
+                return new ErrorData(type: Error.Types.SelectTargets);
             }
             else
             {
@@ -15426,9 +15933,8 @@ namespace Implem.Pleasanter.Models
         {
             var selected = context.Forms.Data("EditRelatingColumns")
                 .Deserialize<IEnumerable<int>>();
-            return hb.Table(
+            return hb.GridTable(
                 id: "EditRelatingColumns",
-                css: "grid",
                 attributes: new HtmlAttributes()
                     .DataName("RelatingColumnId")
                     .DataFunc("openRelatingColumnDialog")
@@ -15493,7 +15999,7 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder DashboardPartSettingsEditor(
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
-            return hb.FieldSet(id: "DashboardPartSettingsEditor", action: () => hb
+            return hb.TabsPanelField(id: "DashboardPartSettingsEditor", action: () => hb
                 .Div(css: "command-left", action: () => hb
                     .Button(
                         controlId: "MoveUpDashboardParts",
@@ -15553,9 +16059,8 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
             var selected = context.Forms.Data("EditDashboardPart").Deserialize<IEnumerable<int>>();
-            return hb.Table(
+            return hb.GridTable(
                 id: "EditDashboardPart",
-                css: "grid",
                 attributes: new HtmlAttributes()
                     .DataName("DashboardPartId")
                     .DataFunc("openDashboardPartDialog")
@@ -15972,7 +16477,7 @@ namespace Implem.Pleasanter.Models
                 : ss;
             string hiddenCss(bool hide) => hide ? " hidden" : "";
             return hb
-                .FieldSet(id: $"DashboardPartGeneralTabContainer", action: () => hb
+                .TabsPanelField(id: $"DashboardPartGeneralTabContainer", action: () => hb
                     .FieldText(
                         controlId: "DashboardPartId",
                         controlCss: " always-send",
@@ -16412,7 +16917,7 @@ namespace Implem.Pleasanter.Models
                         })
                     .FieldCheckBox(
                         controlId: "DisableAsynchronousLoading",
-                        fieldCss:" both",
+                        fieldCss: " both",
                         controlCss: " always-send control-checkbox",
                         labelText: Displays.DisableAsynchronousLoading(context: context),
                         _checked: dashboardPart.DisableAsynchronousLoading == true)
@@ -16442,14 +16947,20 @@ namespace Implem.Pleasanter.Models
                 dashboardPart.SiteId);
             if (currentSs == null)
             {
-                return hb.FieldSet(id: "DashboardPartViewIndexTabContainer");
+                return hb.TabsPanelField(
+                    id: "DashboardPartViewIndexTabContainer",
+                    innerId: "DashboardPartViewGridTabContainer"
+                );
             }
-            return hb.FieldSet(id: "DashboardPartViewIndexTabContainer",
+            return hb.TabsPanelField(
+                id: "DashboardPartViewIndexTabContainer",
+                innerId: "DashboardPartViewGridTabContainer",
                 action: () => hb.ViewGridTab(
                     context: context,
                     ss: currentSs,
                     view: view,
-                    prefix: "DashboardPart"));
+                    prefix: "DashboardPart",
+                    hasNotInner: true));
         }
 
         /// <summary>
@@ -16471,9 +16982,9 @@ namespace Implem.Pleasanter.Models
                 dashboardPart.SiteId);
             if (currentSs == null)
             {
-                return hb.FieldSet(id: "DashboardPartViewFiltersTabContainer");
+                return hb.TabsPanelField(id: "DashboardPartViewFiltersTabContainer");
             }
-            return hb.FieldSet(id: "DashboardPartViewFiltersTabContainer",
+            return hb.TabsPanelField(id: "DashboardPartViewFiltersTabContainer",
                 action: () => hb.ViewFiltersTab(
                     context: context,
                     ss: currentSs,
@@ -16501,9 +17012,9 @@ namespace Implem.Pleasanter.Models
                 dashboardPart.SiteId);
             if (ss == null)
             {
-                return hb.FieldSet(id: "DashboardPartViewSortersTabContainer");
+                return hb.TabsPanelField(id: "DashboardPartViewSortersTabContainer");
             }
-            return hb.FieldSet(id: "DashboardPartViewSortersTabContainer",
+            return hb.TabsPanelField(id: "DashboardPartViewSortersTabContainer",
                 action: () => hb.ViewSortersTab(
                     context: context,
                     ss: ss,
@@ -16530,7 +17041,7 @@ namespace Implem.Pleasanter.Models
                 currentPermissions: currentPermissions,
                 allUsers: false);
             var offset = context.Forms.Int("SourceDashboardPartAccessControlOffset");
-            return hb.FieldSet(id: "DashboardPartAccessControlsTab", action: () => hb
+            return hb.TabsPanelField(id: "DashboardPartAccessControlsTab", action: () => hb
                 .Div(id: "DashboardPartAccessControlEditor", action: () => hb
                     .FieldSelectable(
                         controlId: "CurrentDashboardPartAccessControl",
@@ -17177,12 +17688,12 @@ namespace Implem.Pleasanter.Models
                 return ApiResults.BadRequest(context: context);
             }
             var resultCollection = new List<object>();
-            var startCanRead = context.CanRead(
-                ss: SiteSettingsUtilities.Get(
-                    context: context,
-                    siteId: id,
-                    referenceId: id),
-                site: true);
+            var startSs = SiteSettingsUtilities.Get(
+                context: context,
+                siteId: id,
+                referenceId: id);
+            var startCanRead = context.CanRead(ss: startSs, site: true)
+                || context.CanCreate(ss: startSs, site: true);
             var tenantCache = SiteInfo.TenantCaches[context.TenantId];
             foreach (var siteName in findSiteNames)
             {
@@ -17197,12 +17708,13 @@ namespace Implem.Pleasanter.Models
                         name: siteName);
                     if (foundId != -1)
                     {
-                        if (context.CanRead(
-                            ss: SiteSettingsUtilities.Get(
-                                context: context,
-                                siteId: foundId,
-                                referenceId: foundId),
-                            site: true) == false)
+                        var findSs = SiteSettingsUtilities.Get(
+                            context: context,
+                            siteId: foundId,
+                            referenceId: foundId);
+                        var findCanRead = context.CanRead(ss: findSs, site: true)
+                            || context.CanCreate(ss: findSs, site: true);
+                        if (findCanRead == false)
                         {
                             foundId = -1;
                         }
@@ -17215,6 +17727,115 @@ namespace Implem.Pleasanter.Models
                 SiteId = id,
                 Data = resultCollection
             }.ToJson());
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder ImportUserTemplateDialog(
+            this HtmlBuilder hb, Context context, SiteSettings ss, TemplateDefinition template = null)
+        {
+            var type = template == null ? "Import" : "Update";
+            return hb.Form(
+                attributes: new HtmlAttributes()
+                    .Id(type + "UserTemplateForm")
+                    .Action(Locations.ItemAction(
+                        context: context,
+                        id: ss.SiteId)),
+                action: () => hb
+                    .FieldTextBox(
+                        textType: HtmlTypes.TextTypes.File,
+                        controlId: type + "UserTemplate_Import",
+                        fieldCss: "field-wide",
+                        labelText: Displays.SitePackage(context: context),
+                        validateRequired: true,
+                        _using: template == null)
+                    .FieldTextBox(
+                        textType: HtmlTypes.TextTypes.Normal,
+                        controlId: type + "UserTemplate_Title",
+                        fieldCss: "field-wide",
+                        labelText: Displays.Title(context: context),
+                        text: template?.Title,
+                        alwaysSend: true,
+                        validateRequired: true)
+                    .FieldMarkDown(
+                        context: context,
+                        ss: null,
+                        controlId: type + "UserTemplate_Description",
+                        fieldCss: "field-wide",
+                        labelText: Displays.Description(context: context),
+                        text: template?.Description,
+                        alwaysSend: true,
+                        allowImage: false)
+                    .P(css: "message-dialog")
+                    .Div(
+                        css: "command-center",
+                        action: () => hb
+                            .Button(
+                                text: Displays.Import(context: context),
+                                controlCss: "button-icon button-positive validate",
+                                onClick: "$p.importUserTemplate($(this));",
+                                icon: "ui-icon-arrowreturnthick-1-e",
+                                action: "ImportUserTemplate",
+                                method: "post",
+                                _using: template == null)
+                            .Button(
+                                text: Displays.Update(context: context),
+                                controlCss: "button-icon button-positive validate",
+                                onClick: "$p.send($(this));",
+                                icon: "ui-icon-copy",
+                                action: "UpdateUserTemplate",
+                                method: "post",
+                                _using: template != null)
+                            .Button(
+                                text: Displays.Cancel(context: context),
+                                controlCss: "button-icon button-neutral",
+                                onClick: "$p.closeDialog($(this));",
+                                icon: "ui-icon-cancel"))
+                    .Hidden(
+                        controlId: type + "UserTemplate_Id",
+                        css: "always-send",
+                        value: template?.Id,
+                        _using: template != null)
+                    .Hidden(
+                        controlId: type + "UserTemplate_SearchText",
+                        css: "always-send",
+                        value: context.Forms.Data("SearchText"),
+                        _using: template != null));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder CreateUserTemplateDialog(
+            this HtmlBuilder hb, Context context, SiteSettings ss)
+        {
+            return hb.Div(
+                attributes: new HtmlAttributes()
+                    .Id("CreateUserTemplateDialog")
+                    .Class("dialog")
+                    .Title(Displays.CustomApps(context: context)),
+                action: () => hb
+                    .Div(
+                        action: () => hb
+                            .FieldText(
+                                controlId: "CreateUserTemplate_Title",
+                                controlCss: " focus always-send",
+                                labelText: Displays.Title(context: context))
+                            .Div(css: "command-center", action: () => hb
+                                .Button(
+                                    controlId: "CreateByTemplate",
+                                    text: Displays.Create(context: context),
+                                    controlCss: "button-icon validate button-positive",
+                                    onClick: "$p.send($(this), 'SiteTitleForm');",
+                                    icon: "ui-icon-gear",
+                                    action: "CreateByTemplate",
+                                    method: "post")
+                                .Button(
+                                    text: Displays.Cancel(context: context),
+                                    controlCss: "button-icon button-neutral",
+                                    onClick: "$p.closeDialog($(this));",
+                                    icon: "ui-icon-cancel"))));
         }
     }
 }

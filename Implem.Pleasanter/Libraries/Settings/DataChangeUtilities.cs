@@ -23,27 +23,26 @@ namespace Implem.Pleasanter.Libraries.Settings
                 {
                     DataChange.Types.InputValue.ToString(),
                     Displays.InputValue(context: context)
-
+                },
+                {
+                    DataChange.Types.InputValueFormula.ToString(),
+                    Displays.InputValueFormula(context: context)
                 },
                 {
                     DataChange.Types.InputDate.ToString(),
                     Displays.InputDate(context: context)
-
                 },
                 {
                     DataChange.Types.InputDateTime.ToString(),
                     Displays.InputDateTime(context: context)
-
                 },
                 {
                     DataChange.Types.InputDept.ToString(),
                     Displays.InputDept(context: context)
-
                 },
                 {
                     DataChange.Types.InputUser.ToString(),
                     Displays.InputUser(context: context)
-
                 }
             };
             return types;

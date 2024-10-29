@@ -1,0 +1,56 @@
+﻿{
+    "Version": 1.017,
+    "ReferenceType": "Results",
+    "GridColumns": [
+        "IssueId",
+        "TitleBody",
+        "ClassA"
+    ],
+    "EditorColumnHash": {
+        "General": [
+            "IssueId",
+            "Title",
+            "Body"
+        ]
+    },
+    "Processes": [
+        {
+            "Id": 1,
+            "Name": "elements.DisplayType3",
+            "DisplayName": "elements.DisplayType3",
+            "CurrentStatus": -1,
+            "ChangedStatus": -1,
+            "View": {
+                "Id": 0,
+                "ApiColumnKeyDisplayType": 0,
+                "ApiColumnValueDisplayType": 0,
+                "CalendarSiteId": 0,
+                "ApiDataType": 0
+            }
+        },
+        {
+            "Id": 2,
+            "Name": "elements.LabelText",
+            "DisplayName": "elements.LabelText",
+            "CurrentStatus": -1,
+            "ChangedStatus": -1,
+            "View": {
+                "Id": 0,
+                "ApiColumnKeyDisplayType": 0,
+                "ApiColumnValueDisplayType": 0,
+                "CalendarSiteId": 0,
+                "ApiDataType": 0
+            }
+        }
+    ],
+    "ServerScripts": [
+        {
+            "Title": "elementsDisplayType",
+            "Name": "",
+            "BeforeOpeningPage": true,
+            "Body": "try{\n    elements.DisplayType('HelpMenuContainer',1);\n    elements.DisplayType('DeleteCommand',2);\n    elements.DisplayType('Process_1',3);\n    elements.LabelText(\"Process_2\", \"xUnit_elements.LabelText\");\n}catch{\n    context.Log(ex.stack);\n}",
+            "Id": 1
+        }
+    ],
+    "NoDisplayIfReadOnly": false
+}

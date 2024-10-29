@@ -9,6 +9,7 @@ using Xunit;
 
 namespace Implem.PleasanterTest.Tests.PublishBinaries
 {
+    [Collection(nameof(PublishBinariesSiteImageIcon))]
     public class PublishBinariesSiteImageIcon
     {
         [Theory]

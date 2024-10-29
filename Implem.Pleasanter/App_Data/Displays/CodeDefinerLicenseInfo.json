@@ -1,0 +1,9 @@
+﻿{
+    "Id": "CodeDefinerLicenseInfo",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "\nServerName: {0}\nDatabase: {1}\nDeadline: {2}\nLicensee: {3}\nUsers: {4}"
+        }
+    ]
+}

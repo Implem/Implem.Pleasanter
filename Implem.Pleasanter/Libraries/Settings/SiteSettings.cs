@@ -165,6 +165,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? HistoryOnGrid;
         public bool? AlwaysRequestSearchCondition;
         public bool? DisableLinkToEdit;
+        public bool? OpenEditInNewTab;
         public int? LinkTableView;
         public int? FirstDayOfWeek;
         public int? FirstMonth;
@@ -289,6 +290,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? EditInDialog;
         // compatibility Version 1.016
         public List<string> EditorColumns;
+        // compatibility Version 1.017
+        public bool? ProcessOutputFormulaLogs;
 
         public SiteSettings()
         {
@@ -413,6 +416,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             FullTextIncludeSiteTitle = FullTextIncludeSiteTitle ?? Parameters.Search.FullTextIncludeSiteTitle;
             FullTextNumberOfMails = FullTextNumberOfMails ?? Parameters.Search.FullTextNumberOfMails;
             SaveViewType = SaveViewType ?? SaveViewTypes.Session;
+            ProcessOutputFormulaLogs = ProcessOutputFormulaLogs ?? false;
         }
 
         public void SetLinkedSiteSettings(
@@ -499,6 +503,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                     ss.ParentId = dataRow.Long("ParentId");
                     ss.InheritPermission = dataRow.Long("InheritPermission");
                     ss.Linked = true;
+                    previously = (previously == null)
+                        ? new List<long>()
+                        : previously.Copy();
+                    previously.Add(ss.SiteId);
                     switch (direction)
                     {
                         case "Destinations":
@@ -519,8 +527,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 joinedSsHash: joinedSsHash,
                                 destinations: true,
                                 sources: false,
-                                previously: previously
-                                    ?? new List<long>() { ss.SiteId });
+                                previously: previously);
                             break;
                         case "Sources":
                             ss.Links
@@ -540,8 +547,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 joinedSsHash: joinedSsHash,
                                 destinations: false,
                                 sources: true,
-                                previously: previously
-                                    ?? new List<long>() { ss.SiteId });
+                                previously: previously);
                             break;
                     }
                     hash.Add(ss.SiteId, ss);
@@ -753,6 +759,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (DisableLinkToEdit == true)
             {
                 ss.DisableLinkToEdit = DisableLinkToEdit;
+            }
+            if (OpenEditInNewTab == true)
+            {
+                ss.OpenEditInNewTab = OpenEditInNewTab;
             }
             if (LinkTableView != 0)
             {
@@ -1003,6 +1013,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 ss.MoveTargets = MoveTargets;
             }
+            if (ProcessOutputFormulaLogs == true)
+            {
+                ss.ProcessOutputFormulaLogs = ProcessOutputFormulaLogs;
+            }
             Aggregations?.ForEach(aggregations =>
             {
                 if (ss.Aggregations == null)
@@ -1204,6 +1218,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (NoDisplayIfReadOnly == true)
             {
                 ss.NoDisplayIfReadOnly = NoDisplayIfReadOnly;
+            }
+            if (ProcessOutputFormulaLogs == true)
+            {
+                ss.ProcessOutputFormulaLogs = ProcessOutputFormulaLogs;
             }
             PermissionForCreating?.Where(o => o.Value > 0).ForEach(data =>
             {
@@ -3872,6 +3890,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "HistoryOnGrid": HistoryOnGrid = value.ToBool(); break;
                 case "AlwaysRequestSearchCondition": AlwaysRequestSearchCondition = value.ToBool(); break;
                 case "DisableLinkToEdit": DisableLinkToEdit = value.ToBool(); break;
+                case "OpenEditInNewTab": OpenEditInNewTab = value.ToBool(); break;
                 case "LinkTableView": LinkTableView = value.ToInt(); break;
                 case "FirstDayOfWeek": FirstDayOfWeek = value.ToInt(); break;
                 case "FirstMonth": FirstMonth = value.ToInt(); break;
@@ -3992,6 +4011,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .Select(v => v.Views)
                         .ToList();
                     break;
+                case "ProcessOutputFormulaLogs": ProcessOutputFormulaLogs = value.ToBool(); break;
             }
         }
 
@@ -5488,16 +5508,17 @@ namespace Implem.Pleasanter.Libraries.Settings
             switch (TableType)
             {
                 case Sqls.TableTypes.History:
-                    return "grid history";
+                    return "history";
                 case Sqls.TableTypes.Deleted:
-                    return "grid deleted not-link";
+                    return "deleted not-link";
                 default:
-                    return "grid"
-                        + (context.Forms.Bool("EditOnGrid")
-                            ? " confirm-unload not-link"
-                            : DisableLinkToEdit == true
-                                ? " not-link"
-                                : string.Empty);
+                    return context.Forms.Bool("EditOnGrid")
+                        ? "confirm-unload not-link"
+                        : DisableLinkToEdit == true
+                            ? "not-link"
+                            : OpenEditInNewTab == true
+                                ? "new-tab"
+                                : string.Empty;
             }
         }
 

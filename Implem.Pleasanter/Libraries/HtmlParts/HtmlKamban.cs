@@ -5,6 +5,7 @@ using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Libraries.ViewModes;
+using Implem.Pleasanter.Models;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -226,11 +227,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Select(o => o.Summary(aggregateType))
                     .Max()
                 : 0;
-            return hb.Table(
+            return hb.GridTable(
                 id: ss.DashboardParts.Count == 0
                     ? "Grid"
                     : "",
-                css: "grid fixed",
+                css: "fixed",
                 action: () => hb
                     .THead(action: () => hb
                         .Tr(css: "ui-widget-header", action: () =>

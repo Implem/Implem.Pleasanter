@@ -2501,7 +2501,7 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         sysLogModel: this,
                         otherInitValue: otherInitValue)),
-                new SqlStatement(Def.Sql.IfConflicted.Params(SysLogId))
+                new SqlStatement()
                 {
                     DataTableName = dataTableName,
                     IfConflicted = true,

@@ -27,6 +27,7 @@ namespace Implem.Pleasanter.Models
     public class ExtensionModel : BaseModel
     {
         public int ExtensionId = 0;
+        public int TenantId = 0;
         public string ExtensionType = string.Empty;
         public string ExtensionName = string.Empty;
         public string ExtensionSettings = string.Empty;
@@ -34,6 +35,7 @@ namespace Implem.Pleasanter.Models
         public string Description = string.Empty;
         public bool Disabled = false;
         public int SavedExtensionId = 0;
+        public int SavedTenantId = 0;
         public string SavedExtensionType = string.Empty;
         public string SavedExtensionName = string.Empty;
         public string SavedExtensionSettings = string.Empty;
@@ -51,6 +53,18 @@ namespace Implem.Pleasanter.Models
                 &&  (column == null
                     || column.DefaultInput.IsNullOrEmpty()
                     || column.GetDefaultInput(context: context).ToInt() != ExtensionId);
+        }
+
+        public bool TenantId_Updated(Context context, bool copy = false, Column column = null)
+        {
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToInt() != TenantId;
+            }
+            return TenantId != SavedTenantId
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToInt() != TenantId);
         }
 
         public bool ExtensionType_Updated(Context context, bool copy = false, Column column = null)
@@ -134,6 +148,7 @@ namespace Implem.Pleasanter.Models
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing(context: context);
+            TenantId = context.TenantId;
             MethodType = methodType;
             OnConstructed(context: context);
         }
@@ -146,6 +161,7 @@ namespace Implem.Pleasanter.Models
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing(context: context);
+            TenantId = context.TenantId;
             ExtensionId = extensionId;
             if (context.QueryStrings.ContainsKey("ver"))
             {
@@ -175,6 +191,7 @@ namespace Implem.Pleasanter.Models
             string tableAlias = null)
         {
             OnConstructing(context: context);
+            TenantId = context.TenantId;
             if (dataRow != null)
             {
                 Set(
@@ -236,6 +253,7 @@ namespace Implem.Pleasanter.Models
             bool otherInitValue = false,
             bool get = true)
         {
+            TenantId = context.TenantId;
             var statements = new List<SqlStatement>();
             statements.AddRange(CreateStatements(
                 context: context,
@@ -378,7 +396,7 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         extensionModel: this,
                         otherInitValue: otherInitValue)),
-                new SqlStatement(Def.Sql.IfConflicted.Params(ExtensionId))
+                new SqlStatement()
                 {
                     DataTableName = dataTableName,
                     IfConflicted = true,
@@ -458,12 +476,13 @@ namespace Implem.Pleasanter.Models
                 transactional: true,
                 statements: Rds.PhysicalDeleteExtensions(
                     tableType: tableType,
-                    param: Rds.ExtensionsParam().ExtensionId(ExtensionId)));
+                    where: Rds.ExtensionsWhere().ExtensionId(ExtensionId)));
             return new ErrorData(type: Error.Types.None);
         }
 
         public void SetByModel(ExtensionModel extensionModel)
         {
+            TenantId = extensionModel.TenantId;
             ExtensionType = extensionModel.ExtensionType;
             ExtensionName = extensionModel.ExtensionName;
             ExtensionSettings = extensionModel.ExtensionSettings;
@@ -515,6 +534,10 @@ namespace Implem.Pleasanter.Models
                                 ExtensionId = dataRow[column.ColumnName].ToInt();
                                 SavedExtensionId = ExtensionId;
                             }
+                            break;
+                        case "TenantId":
+                            TenantId = dataRow[column.ColumnName].ToInt();
+                            SavedTenantId = TenantId;
                             break;
                         case "Ver":
                             Ver = dataRow[column.ColumnName].ToInt();
@@ -633,6 +656,7 @@ namespace Implem.Pleasanter.Models
         {
             return Updated()
                 || ExtensionId_Updated(context: context)
+                || TenantId_Updated(context: context)
                 || Ver_Updated(context: context)
                 || ExtensionType_Updated(context: context)
                 || ExtensionName_Updated(context: context)
@@ -671,6 +695,7 @@ namespace Implem.Pleasanter.Models
         {
             return UpdatedWithColumn(context: context, ss: ss)
                 || ExtensionId_Updated(context: context)
+                || TenantId_Updated(context: context)
                 || Ver_Updated(context: context)
                 || ExtensionType_Updated(context: context)
                 || ExtensionName_Updated(context: context)

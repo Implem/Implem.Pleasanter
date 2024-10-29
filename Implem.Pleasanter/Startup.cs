@@ -175,25 +175,13 @@ namespace Implem.Pleasanter.NetCore
             .Configure<KestrelServerOptions>(configuration.GetSection("Kestrel"));
             if (Parameters.Security.HealthCheck.Enabled)
             {
-                var conStr = Parameters.Rds.UserConnectionString;
-                var healthQuery = Parameters.Security.HealthCheck.HealthQuery ?? "select 1;";
-                switch (Parameters.Rds.Dbms)
-                {
-                    case "SQLServer":
-                        services
-                            .AddHealthChecks()
-                            .AddSqlServer(
-                                connectionString: conStr,
-                                healthQuery: healthQuery);
-                        break;
-                    case "PostgreSQL":
-                        services
-                            .AddHealthChecks()
-                            .AddNpgSql(
-                                connectionString: conStr,
-                                healthQuery: healthQuery);
-                        break;
-                }
+                services
+                    .AddHealthChecks()
+                    .AddDatabaseHealthCheck(
+                        enableDatabaseCheck: Parameters.Security.HealthCheck.EnableDatabaseCheck,
+                        dbms: Parameters.Rds.Dbms,
+                        conStr: Parameters.Rds.UserConnectionString,
+                        healthQuery: Parameters.Security.HealthCheck.HealthQuery ?? "select 1;");
             }
             services.Configure<ForwardedHeadersOptions>(options =>
             {
@@ -311,7 +299,7 @@ namespace Implem.Pleasanter.NetCore
 
             if (Parameters.OutputCache.OutputCacheControl != null && !Parameters.OutputCache.OutputCacheControl.NoOutputCache)
             {
-                 app.UseOutputCache();
+                app.UseOutputCache();
             }
             app.UseSession();
             app.UseAuthentication();
@@ -555,7 +543,7 @@ namespace Implem.Pleasanter.NetCore
                     new CookieOptions()
                     {
                         Expires = DateTime.UtcNow.AddDays(400),
-                        Secure= true
+                        Secure = true
                     });
             }
         }
@@ -620,6 +608,36 @@ namespace Implem.Pleasanter.NetCore
         public static IApplicationBuilder UseSecurityHeadersMiddleware(this IApplicationBuilder app)
         {
             return app.UseMiddleware<SecurityHeadersMiddleware>();
+        }
+    }
+
+    public static class HealthCheckMiddlewareExtensions
+    {
+        public static IHealthChecksBuilder AddDatabaseHealthCheck(
+            this IHealthChecksBuilder services,
+            bool enableDatabaseCheck,
+            string dbms,
+            string conStr,
+            string healthQuery)
+        {
+            if (!enableDatabaseCheck) { return services; }
+            switch (dbms)
+            {
+                case "SQLServer":
+                    return services.AddSqlServer(
+                        connectionString: conStr,
+                        healthQuery: healthQuery);
+                case "PostgreSQL":
+                    return services.AddNpgSql(
+                        connectionString: conStr,
+                        healthQuery: healthQuery);
+                case "MySQL":
+                    return services.AddMySql(
+                        connectionString: conStr,
+                        healthQuery: healthQuery);
+                default:
+                    return services;
+            }
         }
     }
 }

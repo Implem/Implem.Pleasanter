@@ -102,6 +102,7 @@ namespace Implem.ParameterAccessor.Parts
         public bool HideCurrentUserIcon;
         public bool HideCurrentDeptIcon;
         public bool EnableLightBox;
+        public bool EnableCodeEditor;
         public int GroupsDepthMax;
         public int BulkUpsertMax;
     }

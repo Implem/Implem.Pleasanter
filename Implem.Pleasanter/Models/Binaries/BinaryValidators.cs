@@ -12,9 +12,9 @@ namespace Implem.Pleasanter.Models
 {
     public static class BinaryValidators
     {
-        public static ErrorData OnGetting(Context context, SiteSettings ss)
+        public static ErrorData OnGetting(Context context, SiteSettings ss, bool isSearch = false)
         {
-            if (!context.HasPermission(ss: ss))
+            if (!context.HasPermission(ss: ss, isSearch: isSearch))
             {
                 return new ErrorData(type: Error.Types.HasNotPermission);
             }

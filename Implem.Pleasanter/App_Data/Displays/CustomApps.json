@@ -1,0 +1,33 @@
+﻿{
+    "Id": "CustomApps",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "CustomApps"
+        },
+        {
+            "Language": "zh-CN",
+            "Body": "定制应用程序"
+        },
+        {
+            "Language": "ja",
+            "Body": "カスタムアプリ"
+        },
+        {
+            "Language": "de",
+            "Body": "Benutzerdefinierte Anwendung"
+        },
+        {
+            "Language": "ko",
+            "Body": "맞춤형 애플리케이션"
+        },
+        {
+            "Language": "es",
+            "Body": "Aplicación personalizada"
+        },
+        {
+            "Language": "vi",
+            "Body": "Ứng dụng tùy chỉnh"
+        }
+    ]
+}

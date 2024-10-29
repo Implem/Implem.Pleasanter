@@ -145,19 +145,13 @@
     ],
     "Aggregations": [
         {
-            "Id": 2,
-            "GroupBy": "ClassB",
-            "Type": 0,
-            "Target": ""
-        },
-        {
             "Id": 1,
             "GroupBy": "ClassA",
             "Type": 0,
             "Target": ""
         },
         {
-            "Id": 3,
+            "Id": 2,
             "GroupBy": "ClassA",
             "Type": 1,
             "Target": "NumB"

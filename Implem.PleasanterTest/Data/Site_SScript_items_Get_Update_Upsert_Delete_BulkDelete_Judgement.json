@@ -1,0 +1,12 @@
+﻿{
+    "Id": "Site_SScript_items_Get_Update_Upsert_Delete_BulkDelete_Judgement",
+    "Language": "ja",
+    "Type": "Sites",
+    "ParentId": "ServerScriptFolder",
+    "Title": "items更新系 - 判定サイト",
+    "ClassA":  "Results",
+    "Creator": "User2",
+    "Updator": "User2",
+    "CreatedTime": "36640",
+    "UpdatedTime": "36640"
+}

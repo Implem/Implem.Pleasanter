@@ -47,24 +47,20 @@
         $p.setData($('#Format'));
     });
     $(document).on('change', '#NotificationType', function () {
+        //Tokenの表示、非表示
         $('#NotificationTokenField').toggle(
             $('#NotificationTokenEnableList').val()
                 .split(',')
                 .indexOf($('#NotificationType').val()) !== -1);
-        switch ($(this).val()) {
-            case '9':
-                $('#NotificationMethodTypeField').toggle(true);
-                $('#NotificationEncodingField').toggle(true);
-                $('#NotificationMediaTypeField').toggle(true);
-                $('#NotificationRequestHeadersField').toggle(true);
-                break;
-            default:
-                $('#NotificationMethodTypeField').toggle(false);
-                $('#NotificationEncodingField').toggle(false);
-                $('#NotificationMediaTypeField').toggle(false);
-                $('#NotificationRequestHeadersField').toggle(false);
-                break;
-        }
+        let type = $(this).val();
+        //type:1 Mailのみ表示
+        $('#NotificationCcAddressField').toggle(type === '1');
+        $('#NotificationBccAddressField').toggle(type === '1');
+        //type:9 HttpClientのみ表示
+        $('#NotificationMethodTypeField').toggle(type === '9');
+        $('#NotificationEncodingField').toggle(type === '9');
+        $('#NotificationMediaTypeField').toggle(type === '9');
+        $('#NotificationRequestHeadersField').toggle(type === '9');
     });
     $(document).on('change', '#ProcessDataChangeType', function () {
         $('#ProcessDataChangeValueField').toggle(false);
@@ -72,6 +68,9 @@
         $('#ProcessDataChangeValueDateTimeField').toggle(false);
         $('#ProcessDataChangeValueColumnNamePeriodField').toggle(false);
         $('#ProcessDataChangeValueColumnNameField').toggle(false);
+        $('#ProcessDataChangeValueFormulaField').toggle(false);
+        $('#ProcessDataChangeValueFormulaNotUseDisplayNameField').toggle(false);
+        $('#ProcessDataChangeValueFormulaIsDisplayErrorField').toggle(false);
         switch ($(this).val()) {
             case 'CopyValue':
             case 'CopyDisplayValue':
@@ -79,6 +78,11 @@
                 break;
             case 'InputValue':
                 $('#ProcessDataChangeValueField').toggle(true);
+                break;
+            case 'InputValueFormula':
+                $('#ProcessDataChangeValueFormulaField').toggle(true);
+                $('#ProcessDataChangeValueFormulaNotUseDisplayNameField').toggle(true);
+                $('#ProcessDataChangeValueFormulaIsDisplayErrorField').toggle(true);
                 break;
             case 'InputDate':
                 $('#ProcessDataChangeBaseDateTimeField').toggle(true);
@@ -101,6 +105,10 @@
             $('#ProcessNotificationTokenEnableList').val()
                 .split(',')
                 .indexOf($('#ProcessNotificationType').val()) !== -1);
+        let type = $('#ProcessNotificationType').val();
+        //type:1 Mailのみ表示
+        $('#ProcessNotificationCcAddressField').toggle(type === '1');
+        $('#ProcessNotificationBccAddressField').toggle(type === '1');
     });
     $(document).on('change', '#ReminderType', function () {
         var reminderFromVisible = $('#ReminderFromEnableList').val()
