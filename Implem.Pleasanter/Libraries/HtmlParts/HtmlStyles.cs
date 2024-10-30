@@ -133,7 +133,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .Link(
                     href: Responses.Locations.Get(
                         context: context,
-                        parts: "Styles/Plugins/material-symbols-0.8.0/material-symbols/index.css"),
+                        parts: "Styles/Plugins/material-symbols-0.25.3/material-symbols/index.css"),
                     rel: "stylesheet")
                 .Link(
                     href: context.VirtualPathToAbsolute($"~/content/styles.min.css?v={Environments.BundlesVersions.Get("styles.css")}"),
@@ -150,7 +150,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         context: context,
                         parts: $"Styles/Plugins/themes/themes.custom.css?v={cacheBustingCode}"),
                     rel: "stylesheet",
-                    _using: context.ThemeVersionForCss() >=2.0M && !context.Mobile)
+                    _using: context.ThemeVersionForCss() >= 2.0M && !context.Mobile)
                 .Link(
                     href: Responses.Locations.Get(
                         context: context,
