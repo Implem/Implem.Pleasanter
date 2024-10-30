@@ -1106,6 +1106,10 @@ namespace Implem.Pleasanter.Libraries.Requests
         {
             AspNetCoreHttpContext.Current.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme).Wait();
             AspNetCoreHttpContext.Current.Session.Clear();
+            if (Parameters.Session.UseKeyValueStore)
+            {
+                Implem.Pleasanter.Libraries.Redis.CacheForRedisConnection.Clear();
+            }
         }
 
         public void SessionAbandon() { AspNetCoreHttpContext.Current.Session.Clear(); }

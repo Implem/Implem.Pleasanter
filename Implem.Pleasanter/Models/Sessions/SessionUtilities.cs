@@ -36,7 +36,10 @@ namespace Implem.Pleasanter.Models
             {
                 StackExchange.Redis.IDatabase iDatabase = Implem.Pleasanter.Libraries.Redis.CacheForRedisConnection.Connection.GetDatabase();
                 return iDatabase.HashGetAll(sessionGuid ?? context.SessionGuid)
-                    .Where(dataRow => dataRow.Name == $"View_{context.Page}" || !dataRow.Name.StartsWith("View_"))
+                    .Where(dataRow =>
+                        dataRow.Name.ToString().Split('_').Count() == 1 ||
+                        context.Page == null ||
+                        dataRow.Name.ToString().Split('_')[1] == context.Page)
                     .ToDictionary(dataRow  => dataRow.Name.ToString().Split('_')[0], dataRow => dataRow.Value.ToString());
             }
             return Repository.ExecuteTable(

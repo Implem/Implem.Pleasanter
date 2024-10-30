@@ -8,7 +8,7 @@ namespace Implem.Pleasanter.Libraries.Redis
     {
         private static readonly Lazy<ConnectionMultiplexer> LazyConnection = new Lazy<ConnectionMultiplexer>(() =>
         {
-            return ConnectionMultiplexer.Connect(Parameters.Kvs.ConnectionStringForSession);
+            return ConnectionMultiplexer.Connect(Parameters.Kvs.ConnectionStringForSession, x => x.AllowAdmin = true);
         });
 
         public static ConnectionMultiplexer Connection
@@ -16,6 +16,16 @@ namespace Implem.Pleasanter.Libraries.Redis
             get
             {
                 return LazyConnection.Value;
+            }
+        }
+
+        public static void Clear()
+        {
+            var endpoints = Connection.GetEndPoints(true);
+            foreach (var endpoint in endpoints)
+            {
+                var server = Connection.GetServer(endpoint);
+                server.FlushAllDatabases();
             }
         }
     }
