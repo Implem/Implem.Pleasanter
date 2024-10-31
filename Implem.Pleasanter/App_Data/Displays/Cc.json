@@ -1,0 +1,33 @@
+﻿{
+    "Id": "Cc",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Cc"
+        },
+        {
+            "Language": "zh",
+            "Body": "Cc"
+        },
+        {
+            "Language": "ja",
+            "Body": "Cc"
+        },
+        {
+            "Language": "de",
+            "Body": "Cc"
+        },
+        {
+            "Language": "ko",
+            "Body": "Cc"
+        },
+        {
+            "Language": "es",
+            "Body": "Cc"
+        },
+        {
+            "Language": "vn",
+            "Body": "Cc"
+        }
+    ]
+}
