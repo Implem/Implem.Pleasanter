@@ -16,7 +16,7 @@ $p.moveColumns = function (event, $control, columnHeader, isKeepSource, isJoin, 
         isJoin !== undefined && isJoin === true ? columnHeader + 'Join' : undefined);
 };
 $p.moveAllColumns = function (event, $control, columnHeader, isKeepSource, isJoin, type) {
-    $control.closest('.container-selectable').find('.ui-selectee').filter(function(index) {
+    $control.closest('.container-selectable').find('li').removeClass('ui-selected ui-selectee').addClass('ui-selectee').filter(function (index) {
         return $(this).data('value').toString().trim() != '';
     }).addClass('ui-selected');
     $p.moveColumns(event, $control, columnHeader, isKeepSource, isJoin, type);
