@@ -5068,7 +5068,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private string DenyLoginExpired(Context context)
         {
-            DenyLog(context: context);
+            DenyLog(context: context, disableUpdateLastLoginTime: true);
             return Messages.ResponseLoginExpired(
                 context: context,
                 target: "#LoginMessage")
