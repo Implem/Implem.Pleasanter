@@ -117,6 +117,11 @@ namespace Implem.Libraries.DataSources.SqlServer
                         valueCollection.Add("@" + sqlParam.VariableName + commandCount.ToStr());
                     }
                 });
+            var selectCollectionForMySql = new List<string>();
+            for (var i = 0; i < insertColumnNameCollection.Count(); i++)
+            {
+                selectCollectionForMySql.Add(valueCollection[i] + " as " + insertColumnNameCollection[i]);
+            }
             commandText.Append(factory.SqlCommandText.CreateUpdateOrInsert(
                 tableBracket: tableBracket,
                 setClause: $" set {updateColumnNameCollection.Join()} ",
@@ -128,7 +133,8 @@ namespace Implem.Libraries.DataSources.SqlServer
                         commandText: commandText_,
                         commandCount: commandCount),
                 intoClause: insertColumnNameCollection.Join(),
-                valueClause: valueCollection.Join()));
+                valueClause: valueCollection.Join(),
+                selectClauseForMySql: selectCollectionForMySql.Join()));
         }
     }
 }

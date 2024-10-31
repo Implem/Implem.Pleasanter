@@ -74,7 +74,7 @@ namespace Implem.PleasanterFilters
                 filterContext.HttpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
                 filterContext.Result = new JsonResult(
                     new
-                    {   
+                    {
                         Message = Displays.InvalidJsonData(context: context)
                     });
                 return;

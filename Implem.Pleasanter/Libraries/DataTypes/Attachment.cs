@@ -315,6 +315,21 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             Column column,
             byte[] bin = null)
         {
+            static string GetAlgorithmParam()
+            {
+                switch (Parameters.Rds.Dbms)
+                {
+                    case "SQLServer":
+                        return "sha2_256";
+                    case "PostgreSQL":
+                        return "sha256";
+                    case "MySQL":
+                        return string.Empty;
+                    default:
+                        return string.Empty;
+                }
+            }
+
             if (IsStoreLocalFolder(column))
             {
                 var tempFile = Path.Combine(
@@ -340,11 +355,9 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                     var hash = Repository.ExecuteScalar_bytes(
                         context: context,
                         statements: new SqlStatement(
-                            commandText: context.Sqls.GetBinaryHash,
+                            commandText: context.Sqls.GetBinaryHash(algorithm: "sha256"),
                             param: new SqlParamCollection{
-                                { "Algorithm", Parameters.Rds.Dbms == "SQLServer"
-                                    ? "sha2_256"
-                                    : "sha256" },
+                                { "Algorithm", GetAlgorithmParam() },
                                 { "Guid", Guid }
                             }));
                     HashCode = System.Convert.ToBase64String(hash);
