@@ -9989,6 +9989,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string ToDisableAll(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ToDisableAll",
+                data: data);
+        }
+
         public static string ToEnable(
             Context context,
             params string[] data)
@@ -9996,6 +10006,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "ToEnable",
+                data: data);
+        }
+
+        public static string ToEnableAll(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ToEnableAll",
                 data: data);
         }
 
