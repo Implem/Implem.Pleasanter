@@ -1,33 +1,33 @@
 ﻿{
-    "Id": "ToDisableAll",
+    "Id": "Cc",
     "Type": 110,
     "Languages": [
         {
-            "Body": "To disable all"
+            "Body": "Cc"
         },
         {
             "Language": "zh",
-            "Body": "要禁用所有功能"
+            "Body": "Cc"
         },
         {
             "Language": "ja",
-            "Body": "全て無効"
+            "Body": "Cc"
         },
         {
             "Language": "de",
-            "Body": "Um alle zu deaktivieren"
+            "Body": "Cc"
         },
         {
             "Language": "ko",
-            "Body": "모두 비활성화하려면"
+            "Body": "Cc"
         },
         {
             "Language": "es",
-            "Body": "Para desactivar todo"
+            "Body": "Cc"
         },
         {
             "Language": "vn",
-            "Body": "Để vô hiệu hóa tất cả"
+            "Body": "Cc"
         }
     ]
 }

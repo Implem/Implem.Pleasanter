@@ -280,7 +280,8 @@ namespace Implem.Pleasanter.Libraries.Search
                             text: searchText,
                             offset: 0,
                             results: dataRows,
-                            count: Rds.Count(dataSet)))
+                            count: Rds.Count(dataSet),
+                            isSearch: true))
                     .Focus("#Search")
                     .ToJson()
                 : res

@@ -98,7 +98,6 @@ html .ui-button.ui-state-disabled:active {
 .ui-widget-content {
     color: var(--base-text);
     background: var(--base-bg-light);
-    color: var(--base-text);
     a {
         color: var(--base-text);
     }
@@ -110,13 +109,14 @@ html .ui-button.ui-state-disabled:active {
     padding: 0;
     border: none!important;
     background-color: transparent;
+    margin: 0 16px;
     .ui-dialog-titlebar {
-        margin: 16px 16px 0;
         background: var(--base-bg);
         border: 1px solid var(--base-border);
         border-bottom: none;
         color: var(--base-text);
         padding: 8px 16px;
+        margin: 16px 0 0;
     }
     .ui-dialog-titlebar-close {
         box-shadow: none;
@@ -129,8 +129,8 @@ html .ui-button.ui-state-disabled:active {
         }
     }
     .ui-dialog-content{
-        margin: 0 16px 16px;
         border: 1px solid var(--base-border);
+        margin: 0 0 16px;
         padding: 16px 16px 0 !important;
         background: var(--base-bg-light);
     }
@@ -193,6 +193,9 @@ html .ui-button.ui-state-disabled:active {
     }
     .ui-tabs-panel {
         padding: 16px;
+    }
+    .tabs-panel-inner{
+        width: 100%;
     }
 }
 
@@ -449,8 +452,10 @@ input{
         padding: 1px;
     }
     &.datepicker{
-        padding-right: 24px;
-        + .ui-icon{
+        &:has( + .current-time){
+            padding-right: 24px;
+        }
+        + .current-time{
             right: 4px;
             z-index: 2;
         }
@@ -1722,11 +1727,21 @@ body {
         z-index: 1;
         background-color: var(--editor-bg);
     }
-    .links {
+    #Links {
         .fieldset {
             > div {
-                scrollbar-color: var(--nonColor09) var(--base-bg);
-                scrollbar-width: thin;
+                display: flex;
+                width: 100%;
+                flex-direction: column;
+                gap: 16px;
+            }
+        }
+        .grid-wrap{
+            margin-bottom: 0;
+            scrollbar-color: var(--nonColor09) var(--base-bg);
+            scrollbar-width: thin;
+            &:has(.grid:empty){
+                display: none;
             }
         }
     }

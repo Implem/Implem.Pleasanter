@@ -52,7 +52,7 @@ $p.openDropDownSearchDialog = function ($control) {
         $($('#DropDownSearchDialog')).dialog({
             title: $('.field-label label[for="' + id + '"]').text(),
             modal: true,
-            width: '860px',
+            width: '750px',
             resizable: false,
             close: function () {
                 $('#' + $target.val()).prop("disabled", false);

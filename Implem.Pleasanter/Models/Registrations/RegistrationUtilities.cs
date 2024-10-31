@@ -228,7 +228,7 @@ namespace Implem.Pleasanter.Models
                 view: view,
                 checkPermission: true);
             return hb
-                .Table(
+                .GridTable(
                     attributes: new HtmlAttributes()
                         .Id($"Grid{suffix}")
                         .Class(ss.GridCss(context: context))
@@ -461,7 +461,7 @@ namespace Implem.Pleasanter.Models
             int? tabIndex = null,
             ServerScriptModelColumn serverScriptModelColumn = null)
         {
-            if (serverScriptModelColumn?.Hide == true)
+            if (serverScriptModelColumn?.Hide ?? column.Hide == true)
             {
                 return hb.Td();
             }
@@ -1084,14 +1084,12 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             RegistrationModel registrationModel)
         {
-            return hb.FieldSet(
+            return hb.TabsPanelField(
                 id: "FieldSetGeneral",
-                action: () => hb.Div(
-                    css: "fieldset-inner",
-                    action: () => hb.FieldSetGeneralColumns(
-                        context: context,
-                        ss: ss,
-                        registrationModel: registrationModel)));
+                action: () => hb.FieldSetGeneralColumns(
+                    context: context,
+                    ss: ss,
+                    registrationModel: registrationModel));
         }
 
         /// <summary>
@@ -2016,11 +2014,11 @@ namespace Implem.Pleasanter.Models
             }
             var hb = new HtmlBuilder();
             hb.Div(
-                css: "fieldset-inner",
+                css: "tabs-panel-inner",
                 action: () => hb
                     .HistoryCommands(context: context, ss: ss)
-                    .Table(
-                        attributes: new HtmlAttributes().Class("grid history"),
+                    .GridTable(
+                        css: "history",
                         action: () => hb
                             .THead(action: () => hb
                                 .GridHeader(

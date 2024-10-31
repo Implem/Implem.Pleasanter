@@ -1,33 +1,33 @@
 ﻿{
-    "Id": "ToEnableAll",
+    "Id": "Bcc",
     "Type": 110,
     "Languages": [
         {
-            "Body": "To enable all"
+            "Body": "Bcc"
         },
         {
             "Language": "zh",
-            "Body": "启用所有功能"
+            "Body": "Bcc"
         },
         {
             "Language": "ja",
-            "Body": "全て有効"
+            "Body": "Bcc"
         },
         {
             "Language": "de",
-            "Body": "Um alle zu aktivieren"
+            "Body": "Bcc"
         },
         {
             "Language": "ko",
-            "Body": "모두 사용하려면"
+            "Body": "Bcc"
         },
         {
             "Language": "es",
-            "Body": "Para activar todo"
+            "Body": "Bcc"
         },
         {
             "Language": "vn",
-            "Body": "Để kích hoạt tất cả"
+            "Body": "Bcc"
         }
     ]
 }

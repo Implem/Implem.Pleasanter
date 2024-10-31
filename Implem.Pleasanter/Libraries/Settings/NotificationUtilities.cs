@@ -9,7 +9,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 {
     public static class NotificationUtilities
     {
-        public static Dictionary<string, string> Types(Context context)
+        public static Dictionary<string, string> Types(Context context, bool isProcessNotification = false)
         {
             var notificationTypes = new Dictionary<string, string>();
             if (Parameters.Notification.Mail)
@@ -57,7 +57,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     Notification.Types.InCircle.ToInt().ToString(),
                     Displays.InCircle(context: context));
             }
-            if (Parameters.Notification.HttpClient)
+            if (Parameters.Notification.HttpClient && !isProcessNotification)
             {
                 notificationTypes.Add(
                     Notification.Types.HttpClient.ToInt().ToString(),
@@ -66,7 +66,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             return notificationTypes;
         }
 
-        public static Dictionary<string, string> OrderTypes(Context context)
+        public static Dictionary<string, string> OrderTypes(Context context, bool isProcessNotification=false)
         {
             var orderTypes = Parameters.Notification.ListOrder?
                 .Select(o => System.Enum.TryParse(o, out Notification.Types t)
@@ -147,7 +147,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         }
                         break;
                     case Notification.Types.HttpClient:
-                        if (Parameters.Notification.HttpClient)
+                        if (Parameters.Notification.HttpClient && !isProcessNotification)
                         {
                             notificationTypes.Add(
                                 type.ToInt().ToString(),
@@ -171,7 +171,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             return methodTypes;
         }
 
-        public static Dictionary<string,string> Encodings(Context context)
+        public static Dictionary<string, string> Encodings(Context context)
         {
             return Parameters.Notification.HttpClientEncodings?
                 .ToDictionary(k => k, v => v);
