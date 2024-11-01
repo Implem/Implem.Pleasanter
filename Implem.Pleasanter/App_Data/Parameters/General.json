@@ -41,6 +41,7 @@
     "AllowCopy": true,
     "AllowReferenceCopy": false,
     "CharToAddWhenCopying": " - コピー",
+    "ChoiceSplitRegex": "(?<!\\,),",
     "UpdateResponseType": 0,
     "SolutionBackupPath": "",
     "SolutionBackupExcludeDirectories": "\\Backups,\\Histories,\\BinaryStorage,\\App_Data\\Logs,\\Temp,\\packages,\\bin,\\obj,\\PublishProfiles,\\BuildProcessTemplates,\\Parameters\\CustomDefinitions,\\Parameters\\ExtendedColumns",

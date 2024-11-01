@@ -1,4 +1,6 @@
-﻿using Implem.Libraries.Utilities;
+﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.Utilities;
+using System.Text.RegularExpressions;
 namespace Implem.Pleasanter.Libraries.Settings
 {
     public class Choice
@@ -39,7 +41,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 }
                 else
                 {
-                    var array = choice.Split(',');
+                    var array = Regex.Split(choice, Parameters.General.ChoiceSplitRegex);
                     Value = array._1st();
                     Text = Strings.CoalesceEmpty(array._2nd(), Value);
                     TextMini = Strings.CoalesceEmpty(array._3rd(), Text);
