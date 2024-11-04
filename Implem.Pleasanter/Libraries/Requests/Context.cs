@@ -1107,7 +1107,7 @@ namespace Implem.Pleasanter.Libraries.Requests
             AspNetCoreHttpContext.Current.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme).Wait();
             if (Parameters.Session.UseKeyValueStore)
             {
-                Implem.Pleasanter.Libraries.Redis.CacheForRedisConnection.Clear();
+                Implem.Pleasanter.Libraries.Redis.CacheForRedisConnection.Clear(SessionGuid);
             }
             else
             {
@@ -1119,7 +1119,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         {
             if (Parameters.Session.UseKeyValueStore)
             {
-                Implem.Pleasanter.Libraries.Redis.CacheForRedisConnection.Clear();
+                Implem.Pleasanter.Libraries.Redis.CacheForRedisConnection.Clear(SessionGuid);
             }
             else
             {

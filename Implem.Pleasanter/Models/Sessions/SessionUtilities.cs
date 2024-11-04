@@ -38,7 +38,7 @@ namespace Implem.Pleasanter.Models
                 return iDatabase.HashGetAll(sessionGuid ?? context.SessionGuid)
                     .Where(dataRow =>
                         dataRow.Name.ToString().Split('_').Count() == 1 ||
-                        context.Page == null ||
+                        (context.Page == null && sessionGuid == null) ||
                         dataRow.Name.ToString().Split('_')[1] == context.Page)
                     .ToDictionary(dataRow  => dataRow.Name.ToString().Split('_')[0], dataRow => dataRow.Value.ToString());
             }

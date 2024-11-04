@@ -19,14 +19,10 @@ namespace Implem.Pleasanter.Libraries.Redis
             }
         }
 
-        public static void Clear()
+        public static void Clear(string sessionGuid)
         {
-            var endpoints = Connection.GetEndPoints(true);
-            foreach (var endpoint in endpoints)
-            {
-                var server = Connection.GetServer(endpoint);
-                server.FlushAllDatabases();
-            }
+            StackExchange.Redis.IDatabase iDatabase = Connection.GetDatabase();
+            iDatabase.KeyDelete(sessionGuid);
         }
     }
 }
