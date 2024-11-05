@@ -47,8 +47,12 @@ namespace Implem.ParameterAccessor.Parts
         public bool AllowCopy { get; set; }
         public bool AllowReferenceCopy { get; set; }
         public string CharToAddWhenCopying { get; set; }
-        [DefaultValue(@"(?<!\\,),")]
-        public string ChoiceSplitRegex { get; set; } = @"(?<!\\,),";
+        [DefaultValue(@"(?<!\\),")]
+        public string ChoiceSplitRegexPattern { get; set; } = @"(?<!\\),";
+        [DefaultValue(@"\\(,)")]
+        public string ChoiceReplaceRegexPattern { get; set; } = @"\\(,)";
+        [DefaultValue(@"$1")]
+        public string ChoiceReplaceRegexReplacement { get; set; } = @"$1";
         public int UpdateResponseType { get; set; }
         public string SolutionBackupPath { get; set; }
         public string SolutionBackupExcludeDirectories { get; set; }
