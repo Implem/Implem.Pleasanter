@@ -367,11 +367,11 @@
 
     /* Organisms ---------------------------------------------------------------- */
     /* #Application > #CopyToClipboards */
-    #CopyToClipboards {
-        /* .ui-icon {
+    /* #CopyToClipboards {
+        .ui-icon {
             background-image: url("../images/ui-icons_ffffff_256x240.png");
-        } */
-    }
+        }
+    } */
     /* #Application > #Breadcrumb */
     #Breadcrumb {
         nav & {
@@ -1119,7 +1119,6 @@
                 .command-left:first-of-type {
                     display: contents;
                 }
-
                 .command-left {
                     float: none;
                     width: 100%;
@@ -1303,40 +1302,27 @@
 
     /* [Dialog] VideoDialog */
     #VideoDialog {
-        #Video {
-            float: none;
-            width: 100%;
-            margin: 0 0 16px;
-        }
+        display: none;
     }
 
     /* [Dialog] SetDateRangeDialog */
     #SetDateRangeDialog {
-        form {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0 16px;
-            justify-content: center;
-            .command-center {
+        .field-normal {
+            display: block;
+            width: 46%;
+        }
+        .command-center {
+            &::after {
+                display: block;
                 width: 100%;
+                content: " ";
+                order: 1;
             }
         }
-        .field-normal {
-            display: flex;
-            width: 300px;
-            padding-right: 0;
-        }
-        .field-label {
-            width: auto;
-            margin: 0;
-            padding: 8px 8px 8px 0;
-            white-space: nowrap;
-        }
-        .field {
+        #DateRangeOK,
+        #DateRangeCancel {
             flex: 1;
-        }
-        .container-normal {
-            margin: 0;
+            order: 2;
         }
     }
 
@@ -1385,6 +1371,7 @@
     #CasesBanner {
         display: none;
     }
+
     /* [TabeleSetting] FieldSetColumnAccessControl */
     #FieldSetColumnAccessControl {
         #ColumnAccessControl {
@@ -1441,25 +1428,12 @@
     }
 
     /* [ViewModeContainer] Grid */
-    #Grid {
-        .limit-warning1 {
-            color: var(--warning-color);
-            background-color: var(--nonColor16);
-        }
-        .limit-warning2 {
-            color: var(--warning-color);
-            background-color: var(--commonColor03);
-        }
-        .limit-warning3 {
-            background-color: var(--warning-color);
-        }
-    }
 
     /* [ViewModeContainer] Calendar, Crosstab */
     #Calendar,
     #Crosstab,
     .grid-stack-item .Calendar {
-        padding: 16px;
+        padding: 8px;
         background-color: var(--base-bg);
         button {
             + button {
@@ -1576,6 +1550,35 @@
         }
     }
 
+    /* [ViewModeContainer] Crosstab */
+    #Crosstab {
+        #Grid {
+            table-layout: auto;
+        }
+        .field-auto-thin {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            float: none;
+            padding-right: 0;
+            + .field-auto-thin {
+                margin-top: 8px;
+            }
+            .field-label {
+                float: none;
+                padding: 0;
+            }
+            .field-control {
+                flex: 1;
+                float: none;
+            }
+            select {
+                width: 100%;
+                max-width: none;
+            }
+        }
+    }
+
     /* [ViewModeContainer] Gantt */
     #ViewModeContainer:has(#Gantt) {
         padding: 16px;
@@ -1591,7 +1594,8 @@
             }
         }
         #GanttBody {
-            width: 100%;
+            width: 500px;
+            overflow-x: auto;
         }
         #Gantt {
             display: block;
@@ -1631,7 +1635,7 @@
 
     /* [ViewModeContainer] TimeSeries */
     #ViewModeContainer:has(#TimeSeries) {
-        padding: 16px;
+        padding: 8px;
         background-color: var(--base-bg);
         .both {
             display: flex;
@@ -1639,7 +1643,10 @@
             gap: 0 8px;
         }
         #TimeSeriesBody {
-            width: 100%;
+            overflow: auto;
+            svg {
+                width: 1000px;
+            }
         }
         #TimeSeries {
             border-radius: 4px;
