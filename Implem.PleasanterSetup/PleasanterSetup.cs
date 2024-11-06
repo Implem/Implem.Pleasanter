@@ -3,6 +3,7 @@ using Implem.DefinitionAccessor;
 using Implem.ParameterAccessor.Parts;
 using Implem.PleasanterSetup.Settings;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -35,6 +36,7 @@ namespace Implem.PleasanterSetup
         private string installDir;
         private string licenseDllPath;
         private string provider;
+        private string userName;
         private string dbms;
         private string server;
         private string port;
@@ -62,6 +64,7 @@ namespace Implem.PleasanterSetup
             ILogger<PleasanterSetup> logger)
         {
             this.provider = string.Empty;
+            this.userName = string.Empty;
             this.configuration = configuration;
             this.logger = logger;
             this.installDir = string.Empty;
@@ -95,6 +98,7 @@ namespace Implem.PleasanterSetup
             string extendedcolumns = "")
         {
             Console.CancelKeyPress += new ConsoleCancelEventHandler(CancelHandler);
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
             // ユーザにセットアップに必要な情報を入力してもらう
             SetSummary(
             directory: directory,
@@ -118,8 +122,14 @@ namespace Implem.PleasanterSetup
                 }
                 if (!Directory.Exists(installDir))
                 {
-                    System.Environment.
+                    if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+                    {
                     Directory.CreateDirectory(installDir);
+                }
+                    else
+                    {
+                        await ExecuteCreateDirectory();
+                    }
                 }
                 if (string.IsNullOrEmpty(releasezip))
                 {
@@ -713,7 +723,7 @@ namespace Implem.PleasanterSetup
             {
                 logger.LogInformation($"{itemName} [Default value: 0] : ");
                 var userInput = Console.ReadLine();
-                if (int.TryParse(userInput, out count) && int.Parse(userInput) > 0)
+                if (int.TryParse(userInput, out count) && int.Parse(userInput) >= 0)
                 {
                     count = count + 26;
                     Console.WriteLine(count);
@@ -890,23 +900,33 @@ namespace Implem.PleasanterSetup
             bool force,
             bool noinput)
         {
+            var arguments = "";
+            var fileName = "";
             var forceOption = force ? "/f" : "";
             var noInputOption = noinput ? "/n" : "";
             var language = "";
             var timeZone = "";
+            await $"cd {codeDefinerDir}";
             //初回インストール時にのみ既定の言語、タイムゾーンを引数に追加する。
             if (!versionUp)
             {
                 language = "/l " + defaultLanguage;
                 timeZone = "/z " + "\"" + defaultTimeZone + "\"";
             }
-
-            await $"cd {codeDefinerDir}";
-
-            var arguments = $"Implem.CodeDefiner.dll _rds {forceOption} {noInputOption} {language} {timeZone}";
+            if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+            {
+                fileName = "dotnet";
+                arguments = $"Implem.CodeDefiner.dll _rds {forceOption} {noInputOption} {language} {timeZone}";
+            }
+            else
+            {
+                var dotnet_root = Environment.GetEnvironmentVariable("DOTNET_ROOT");
+                fileName = $"sudo";
+                arguments = Environment.ExpandEnvironmentVariables($"-u {userName} {dotnet_root}/dotnet Implem.CodeDefiner.dll _rds {forceOption} {noInputOption} {language} {timeZone}");
+            }
             ProcessStartInfo processStartInfo = new ProcessStartInfo
             {
-                FileName = "dotnet",
+                FileName = fileName,
                 Arguments = arguments
             };
 
@@ -946,15 +966,40 @@ namespace Implem.PleasanterSetup
                 newResource,
                 "Implem.CodeDefiner");
             await $"cd {codeDefinerDir}";
+            if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+            {
             await $"dotnet Implem.CodeDefiner.dll merge /b {preResource} /i {newResource} ";
+            }
+            else
+            {
+                await $"sudo -u {userName} $DOTNET_ROOT/dotnet Implem.CodeDefiner.dll merge /b {preResource} /i {newResource} ";
+            }
             logger.LogInformation("The merge process has finished.");
         }
+
+        private async Task ExecuteCreateDirectory()
+        {
+            //Linux環境でmkdirコマンドの実行
+            var createCommand = $"mkdir -p {installDir}";
+            await ExecuteCommands(createCommand);
+            ////Linux環境でchownコマンドの実行
+            var permissionDirectory = Directory.GetParent(installDir);
+            var permissionCommand = $"chown -R {userName} {permissionDirectory}";
+            await ExecuteCommands(permissionCommand);
+        }
+
+        private async Task ExecuteCommands(string command)
+        {
+            Console.WriteLine($"sudo {command}");
+            await $"sudo {command}";
+        }
+
 
         private string GetDefaultInstallDir()
         {
             return Environment.OSVersion.Platform == PlatformID.Win32NT
-                ? installDir = configuration["DefaultParameters:InstallDirForWindows"]
-                : installDir = configuration["InstallDirForLinux"];
+                ? installDir = DefaultParameters.InstallDirForWindows
+                : installDir = DefaultParameters.InstallDirForLinux;
         }
 
         private bool MeetsVersionUpRequirements()
@@ -1202,6 +1247,7 @@ namespace Implem.PleasanterSetup
         {
             AskForInstallDir(directory);
             //Implem.Pleasanter.dllの有無でバージョンアップか判断
+            AskForUserName();
             versionUp = MeetsVersionUpRequirements();
             //Provider判定処理
             //オフライン環境での必須オプションの確認
@@ -1258,6 +1304,22 @@ namespace Implem.PleasanterSetup
                         extendedColumnsDir,
                         "Results");
                 }
+            }
+        }
+        private void AskForUserName()
+        {
+            if(Environment.OSVersion.Platform != PlatformID.Win32NT)
+            {
+                do
+                {
+                    logger.LogInformation("Please enter the user who will execute Pleasanter.");
+                    var userInputUserName = Console.ReadLine();
+                    if (!string.IsNullOrEmpty(userInputUserName))
+                    {
+                        userName = userInputUserName;
+                        break;
+                    }
+                } while (true);
             }
         }
 
