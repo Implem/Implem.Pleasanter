@@ -1414,10 +1414,10 @@ namespace Implem.PleasanterSetup
 
         private bool CheckLicense(string licenseZip)
         {
-            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-            var baseFileName = Path.GetFileNameWithoutExtension(licenseZip);
+            var absolutePath = Path.GetFullPath(licenseZip);
+                var baseFileName = Path.GetFileNameWithoutExtension(absolutePath);
             var unzipDir = Path.Combine(
-                    Path.GetDirectoryName(licenseZip),
+                        Path.GetDirectoryName(absolutePath),
                     baseFileName);
             ZipFile.ExtractToDirectory(
                 licenseZip,
