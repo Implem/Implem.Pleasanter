@@ -28,23 +28,6 @@ namespace Implem.Pleasanter.Libraries.Redis
 
         public static void Clear(string sessionGuid)
         {
-            StackExchange.Redis.IDatabase iDatabase = Connection.GetDatabase();
-            var endpoints = Connection.GetEndPoints(true);
-            var hash = Connection.GetHashCode();
-            foreach (var endpoint in endpoints)
-            {
-                foreach( var key in Connection.GetServer(endpoint).Keys(hash))
-                {
-                    var authenticationTiecketExists = iDatabase.HashGetAll(key)
-                        .Where(dataRow =>
-                            dataRow.Name.ToString() == "AuthenticationTicket")
-                        .Count();
-                    if(authenticationTiecketExists > 0)
-                    {
-                        Remove(key);
-                    }
-                }
-            }
             Remove(sessionGuid);
         }
     }
