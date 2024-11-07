@@ -34,13 +34,25 @@ namespace Implem.Pleasanter.Models
         {
             if (Parameters.Session.UseKeyValueStore)
             {
+                var key = sessionGuid ?? context.SessionGuid;
                 StackExchange.Redis.IDatabase iDatabase = Implem.Pleasanter.Libraries.Redis.CacheForRedisConnection.Connection.GetDatabase();
-                return iDatabase.HashGetAll(sessionGuid ?? context.SessionGuid)
+                var sessions = iDatabase.HashGetAll(key)
                     .Where(dataRow =>
                         dataRow.Name.ToString().Split('_').Count() == 1 ||
                         (context.Page == null && sessionGuid == null) ||
                         dataRow.Name.ToString().Split('_')[1] == context.Page)
-                    .ToDictionary(dataRow  => dataRow.Name.ToString().Split('_')[0], dataRow => dataRow.Value.ToString());
+                    .ToDictionary(dataRow => dataRow.Name.ToString().Split('_')[0], dataRow => dataRow.Value.ToString());
+                if (iDatabase.KeyExists(key + "_readOnce"))
+                {
+                    sessions = sessions.Concat(iDatabase.HashGetAll(key + "_readOnce").Where(dataRow =>
+                            dataRow.Name.ToString().Split('_').Count() == 1 ||
+                            (context.Page == null && sessionGuid == null) ||
+                            dataRow.Name.ToString().Split('_')[1] == context.Page)
+                        .ToDictionary(dataRow => dataRow.Name.ToString().Split('_')[0], dataRow => dataRow.Value.ToString()))
+                    .ToDictionary(dataRow => dataRow.Key, dataRow => dataRow.Value);
+                    Implem.Pleasanter.Libraries.Redis.CacheForRedisConnection.Remove(key + "_readOnce");
+                }
+                return sessions;
             }
             return Repository.ExecuteTable(
                 context: context,
@@ -133,7 +145,8 @@ namespace Implem.Pleasanter.Models
                 string pageName = page
                     ? context.Page ?? string.Empty
                     : string.Empty;
-                sessionGuid = sessionGuid ?? context.SessionGuid;
+                sessionGuid = sessionGuid ?? context.SessionGuid
+                    + (readOnce ? "_readOnce" : string.Empty);
                 if (Parameters.Session.UseKeyValueStore && !userArea)
                 {
                     StackExchange.Redis.IDatabase iDatabase = Implem.Pleasanter.Libraries.Redis.CacheForRedisConnection.Connection.GetDatabase();
