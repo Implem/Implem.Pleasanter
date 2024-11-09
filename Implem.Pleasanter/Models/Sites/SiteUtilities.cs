@@ -8863,11 +8863,23 @@ namespace Implem.Pleasanter.Models
                                             + $"(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)",
                                         replacement: $"[{column.ColumnName}]");
                                 }
+                                if (formulaSet.FormulaScriptOutOfCondition.IsNullOrEmpty() == false)
+                                {
+                                    foreach (var column in columnList)
+                                    {
+                                        formulaSet.FormulaScriptOutOfCondition = System.Text.RegularExpressions.Regex.Replace(
+                                            input: formulaSet.FormulaScriptOutOfCondition,
+                                            pattern: "(?<!\\$)"
+                                                + System.Text.RegularExpressions.Regex.Escape(column.LabelText)
+                                                + $"(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)",
+                                            replacement: $"[{column.ColumnName}]");
+                                    }
+                                }
                             }
                             else
                             {
-                                var columns = System.Text.RegularExpressions.Regex.Matches(formulaSet.FormulaScript, @"\[([^]]*)\]");
-                                foreach (var column in columns)
+                                var columns1 = System.Text.RegularExpressions.Regex.Matches(formulaSet.FormulaScript, @"\[([^]]*)\]");
+                                foreach (var column in columns1)
                                 {
                                     var columnParam = column.ToString()[1..^1];
                                     if (ss.FormulaColumn(columnParam, formulaSet.CalculationMethod) != null)
@@ -8875,6 +8887,20 @@ namespace Implem.Pleasanter.Models
                                         formulaSet.FormulaScript = formulaSet.FormulaScript.Replace(
                                             oldValue: column.ToString(),
                                             newValue: columnList.SingleOrDefault(o => o.ColumnName == columnParam).LabelText);
+                                    }
+                                }
+                                if (formulaSet.FormulaScriptOutOfCondition.IsNullOrEmpty() == false)
+                                {
+                                    var columns2 = System.Text.RegularExpressions.Regex.Matches(formulaSet.FormulaScriptOutOfCondition, @"\[([^]]*)\]");
+                                    foreach (var column in columns2)
+                                    {
+                                        var columnParam = column.ToString()[1..^1];
+                                        if (ss.FormulaColumn(columnParam, formulaSet.CalculationMethod) != null)
+                                        {
+                                            formulaSet.FormulaScriptOutOfCondition = formulaSet.FormulaScriptOutOfCondition.Replace(
+                                                oldValue: column.ToString(),
+                                                newValue: columnList.SingleOrDefault(o => o.ColumnName == columnParam).LabelText);
+                                        }
                                     }
                                 }
                             }
@@ -8909,7 +8935,10 @@ namespace Implem.Pleasanter.Models
                                 .Td(action: () => hb
                                     .Text(text: ss.Views?.Get(formulaSet.Condition)?.Name))
                                 .Td(action: () => hb
-                                    .Text(text: formulaSet.OutOfCondition?.ToString(ss))));
+                                    .Text(text: (formulaSet.CalculationMethod == FormulaSet.CalculationMethods.Default.ToString()
+                                        || string.IsNullOrEmpty(formulaSet.CalculationMethod))
+                                            ? formulaSet.OutOfCondition?.ToString(ss)
+                                            : formulaSet.FormulaScriptOutOfCondition)));
                     });
                 });
             }
@@ -8961,8 +8990,7 @@ namespace Implem.Pleasanter.Models
                                 ? formulaSet.Formula?.ToString(ss, notUseDisplayName: formulaSet.NotUseDisplayName)
                                 : FormulaBuilder.UpdateColumnDisplayText(
                                     ss: ss,
-                                    formulaSet: formulaSet)
-                                .FormulaScript,
+                                    formulaSet: formulaSet).FormulaScript,
                         validateRequired: true)
                     .FieldCheckBox(
                         controlId: "NotUseDisplayName",
@@ -8996,7 +9024,12 @@ namespace Implem.Pleasanter.Models
                                 ? string.Empty
                                 : " hidden"),
                         labelText: Displays.OutOfCondition(context: context),
-                        text: formulaSet.OutOfCondition?.ToString(ss))
+                        text: (formulaSet.CalculationMethod == FormulaSet.CalculationMethods.Default.ToString()
+                            || string.IsNullOrEmpty(formulaSet.CalculationMethod))
+                                ? formulaSet.OutOfCondition?.ToString(ss)
+                                : FormulaBuilder.UpdateColumnDisplayText(
+                                    ss: ss,
+                                    formulaSet: formulaSet).FormulaScriptOutOfCondition)
                     .P(css: "message-dialog")
                     .Div(css: "command-center", action: () => hb
                         .Button(
