@@ -91,6 +91,10 @@
     .control-textbox {
         height: 40px;
         padding: 8px 16px 8px 16px;
+        &[type="file"] {
+            width: 100%;
+            padding: 8px;
+        }
         &.datepicker {
             + .ui-icon {
                 top: 15px;
@@ -173,13 +177,23 @@
         &.enclosed-thin {
             padding: 8px;
         }
+        &.enclosed {
+            margin-bottom: 16px;
+        }
+        &.enclosed-thin [class*="field-auto"] {
+            height: auto;
+        }
     }
 
     /* field-vertical */
     .field-vertical {
-        width: calc(50% - 4px);
-        ~ .field-vertical {
-            margin-left: 8px;
+        width: auto;
+        &:has(+ .field-vertical) {
+            width: calc(50% - 4px);
+            ~ .field-vertical {
+                width: calc(50% - 4px);
+                margin-left: 8px;
+            }
         }
     }
 
@@ -223,6 +237,7 @@
                 display: flex;
                 flex-wrap: wrap;
                 gap: 4px;
+                min-height: 48px;
                 padding: 8px;
                 &::before,
                 &::after {
@@ -243,10 +258,28 @@
         }
     }
 
+    /* container-selectable */
+    .fieldset:has(> .field-vertical .container-selectable) {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px 0;
+        .field-vertical {
+            display: flex;
+            flex-wrap: wrap;
+            height: auto;
+        }
+        .field-control {
+            display: flex;
+            margin-top: auto;
+        }
+        .container-selectable {
+            width: 100%;
+        }
+    }
+
     #ViewModeContainer {
         .command-left {
             margin-left: 16px;
-            background: #f00 !important;
         }
     }
 
@@ -805,7 +838,7 @@
                     &:has(.field-vertical) {
                         > .field-vertical {
                             &:has(+ *) {
-                                margin-bottom: 16px;
+                                margin-bottom: 0;
                             }
                         }
                     }
@@ -1326,7 +1359,7 @@
         }
     }
 
-    /* [Dialog] SeparateSettingsDialog */
+    /* TODO [Dialog] SeparateSettingsDialog */
     #SeparateSettingsDialog {
         .item:not(.hidden) {
             display: flex;
@@ -1372,63 +1405,359 @@
         display: none;
     }
 
+    /* [TabeleSetting] SiteImageSettingsEditor */
+    #SiteImageSettingsEditor {
+        .field-auto-thin {
+            height: auto;
+        }
+        .field-control {
+            width: 100%;
+        }
+        #SetSiteImage {
+            display: block;
+            margin: 8px auto;
+        }
+    }
+
+    /* [TabeleSetting] FiltersSettingsEditor */
+    #FiltersSettingsEditor {
+        #ToEnableFilterColumns {
+            order: 1;
+            + div {
+                flex: none;
+                width: 100%;
+            }
+        }
+        .field-control:has(#FilterJoin) {
+            width: 100%;
+            .container-normal {
+                width: 100%;
+            }
+        }
+        .command-left {
+            justify-content: center;
+        }
+    }
+
+    /* [TabeleSetting] EditorSettingsEditor */
+    #EditorSettingsEditor {
+        .container-selectable {
+            position: relative;
+        }
+        #OpenSearchEditorColumnDialog {
+            position: absolute;
+            right: 0;
+            bottom: -46px;
+            display: flex;
+            align-items: center;
+            height: 38px;
+            margin: 0;
+        }
+        .field-control:has(#EditorColumnsTabs) {
+            width: 100%;
+            .container-normal {
+                width: 100%;
+            }
+        }
+        .field-control:has(#EditorSourceColumnsType) {
+            width: 100%;
+            .container-normal {
+                width: 100%;
+            }
+        }
+        #SearchEditorColumnDialogInput {
+            + .both {
+                margin-top: 50px;
+            }
+        }
+    }
+
     /* [TabeleSetting] FieldSetColumnAccessControl */
     #FieldSetColumnAccessControl {
         #ColumnAccessControl {
-            display: flex;
-            gap: 16px;
+            flex-direction: column;
+            gap: 32px;
         }
-        .field-vertical {
-            flex: 1;
-            float: none;
-            width: auto;
-            margin: 0;
+    }
+
+    /* [TabeleSetting > Dialog] SummaryDialog */
+    #SummaryDialog {
+        #SummaryForm {
+            > .fieldset {
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+                height: auto;
+                margin: 16px 0 0;
+                .field-normal {
+                    width: auto;
+                }
+            }
         }
     }
 
     /* [TabeleSetting > Dialog] ProcessViewFiltersTab */
+    /* [TabeleSetting > Dialog] ProcessAccessControlsTab */
     #ProcessViewFiltersTab {
-        > .field-wide {
+        .items {
+            overflow: hidden;
+        }
+        .field-auto-thin {
+            height: auto;
+        }
+        .both:has(> .field-auto-thin #ProcessViewFilterSelector) {
+            display: flex;
+            align-items: flex-start;
             margin-top: 16px;
+            .field-label {
+                display: none;
+            }
+            .field-auto-thin {
+                flex: 1;
+            }
+            .field-control {
+                width: 100%;
+                .container-normal {
+                    width: 100%;
+                }
+                select {
+                    max-width: none;
+                }
+            }
+        }
+    }
+    #ProcessAccessControlsTab {
+        #ProcessAccessControlEditor {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px 0;
+            .field-vertical {
+                display: flex;
+                flex-wrap: wrap;
+                height: auto;
+            }
+            .field-control {
+                display: flex;
+                margin-top: auto;
+            }
+            .container-selectable {
+                width: 100%;
+            }
+            .command-left {
+                .button[data-icon="ui-icon-circle-triangle-w"] {
+                    order: 1;
+                }
+            }
+        }
+    }
+
+    /* [TabeleSetting > Dialog] StatusControlViewFiltersTab */
+    /* [TabeleSetting > Dialog] StatusControlAccessControlsTab */
+    #StatusControlViewFiltersTab {
+        .items {
+            overflow: hidden;
+        }
+        .field-auto-thin {
+            height: auto;
+        }
+        .both:has(> .field-auto-thin #StatusControlViewFilterSelector) {
+            display: flex;
+            align-items: flex-start;
+            margin-top: 16px;
+            .field-label {
+                display: none;
+            }
+            .field-auto-thin {
+                flex: 1;
+            }
+            .field-control {
+                width: 100%;
+                .container-normal {
+                    width: 100%;
+                }
+                select {
+                    max-width: none;
+                }
+            }
+        }
+    }
+    #StatusControlAccessControlsTab {
+        #StatusControlAccessControlEditor {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px 0;
+            .field-vertical {
+                display: flex;
+                flex-wrap: wrap;
+                height: auto;
+            }
+            .field-control {
+                display: flex;
+                margin-top: auto;
+            }
+            .container-selectable {
+                width: 100%;
+            }
+            .command-left {
+                .button[data-icon="ui-icon-circle-triangle-w"] {
+                    order: 1;
+                }
+            }
+        }
+    }
+
+    /* [TabeleSetting > Dialog] ViewFiltersTab */
+    /* [TabeleSetting > Dialog] ViewAccessControlTab */
+    #ViewFiltersTab {
+        .field-vertical {
+            .command-left {
+                justify-content: center;
+                .button[data-icon="ui-icon-circle-triangle-w"] {
+                    order: 1;
+                }
+                .w150 {
+                    flex: none;
+                    width: 100%;
+                }
+            }
+        }
+        .both:has(> .field-auto-thin #ViewFilterSelector) {
+            display: flex;
+            align-items: flex-start;
+            margin-top: 16px;
+            .field-label {
+                display: none;
+            }
+            .field-auto-thin {
+                flex: 1;
+            }
+            .field-control {
+                width: 100%;
+                .container-normal {
+                    width: 100%;
+                }
+                select {
+                    max-width: none;
+                }
+            }
+        }
+    }
+    #ViewAccessControlTab {
+        #ViewAccessControlEditor {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px 0;
+            .field-vertical {
+                display: flex;
+                flex-wrap: wrap;
+                height: auto;
+            }
+            .field-control {
+                display: flex;
+                margin-top: auto;
+            }
+            .container-selectable {
+                width: 100%;
+            }
+            .command-left {
+                .button[data-icon="ui-icon-circle-triangle-w"] {
+                    order: 1;
+                }
+            }
+        }
+    }
+
+    /* [TabeleSetting > Dialog] ExportGeneralTab */
+    /* [TabeleSetting > Dialog] ExportAccessControlTab */
+    #ExportGeneralTab {
+        .field-vertical {
+            .command-left {
+                justify-content: center;
+                .button[data-icon="ui-icon-circle-triangle-w"] {
+                    order: 1;
+                }
+                .w150 {
+                    flex: none;
+                    width: 100%;
+                }
+                .container-normal {
+                    width: 100%;
+                }
+            }
+        }
+    }
+    #ExportAccessControlTab {
+        #ExportAccessControlEditor {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px 0;
+            .field-vertical {
+                display: flex;
+                flex-wrap: wrap;
+                height: auto;
+            }
+            .field-control {
+                display: flex;
+                margin-top: auto;
+            }
+            .container-selectable {
+                width: 100%;
+            }
+            .command-left {
+                .button[data-icon="ui-icon-circle-triangle-w"] {
+                    order: 1;
+                }
+            }
+        }
+    }
+
+    /* [TabeleSetting] FieldSetSiteAccessControl */
+    #FieldSetSiteAccessControl {
+        .field-auto {
+            float: none;
+        }
+        #PermissionEditor {
+            display: flex;
+            margin-top: 16px;
+            .field-vertical {
+                display: flex;
+                flex-wrap: wrap;
+                height: auto;
+            }
+            .field-control {
+                display: flex;
+                margin-top: auto;
+            }
+            .container-selectable {
+                width: 100%;
+            }
+            .command-left {
+                .button[data-icon="ui-icon-circle-triangle-w"] {
+                    order: 1;
+                }
+            }
         }
     }
 
     /* [TabeleSetting > Editor] SearchBtn */
     /* [SearchBtn > Dialog] SearchEditorColumnDialog */
-    #OpenSearchEditorColumnDialog {
-        width: auto;
-        height: auto;
-        padding: 4px 16px;
-        color: var(--btn-normal-label);
-        text-indent: 0;
-        cursor: pointer;
-        background: var(--btn-normal-bg);
-        border: 1px solid var(--btn-normal-border);
-        border-radius: 4px;
-        box-shadow: 0 1px 2px var(--base-shadow);
-        transition: background 150ms ease-out, box-shadow 150ms ease-out;
-        &:hover {
-            color: var(--btn-normal-label);
-            background: var(--btn-normal-hover);
-            border: 1px solid var(--btn-normal-border);
-            box-shadow: 0 2px 4px var(--base-shadow);
-        }
-        &:before {
-            display: block;
-            width: 16px;
-            height: 16px;
-            content: " ";
-            background: var(--defaultIconUrl) no-repeat -160px -112px;
-        }
-    }
     #SearchEditorColumnDialog {
-        #ShowTargetColumnAttachments {
-            flex: none;
+        .field-normal {
+            height: auto;
+            min-height: 0;
+            padding: 0 0 16px;
+        }
+        #ShowTargetColumnKeyWord {
+            margin: 5px 8px;
+        }
+        .command-left {
+            button {
+                width: calc(33% - 4px);
+            }
         }
     }
 
     /* [ViewModeContainer] Grid */
-
     /* [ViewModeContainer] Calendar, Crosstab */
     #Calendar,
     #Crosstab,
