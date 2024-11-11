@@ -5635,7 +5635,13 @@ namespace Implem.Pleasanter.Models
                     controlId: "OpenEditInNewTab",
                     fieldCss: "field-auto-thin",
                     labelText: Displays.OpenEditInNewTab(context: context),
-                    _checked: ss.OpenEditInNewTab == true));
+                    _checked: ss.OpenEditInNewTab == true)
+                .FieldCheckBox(
+                    controlId: "EnableExpandLinkPath",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.ExpandLinkPath(context: context),
+                    _checked: ss.EnableExpandLinkPath == true,
+                    _using: Parameters.General.EnableExpandLinkPath == true));
         }
 
         /// <summary>

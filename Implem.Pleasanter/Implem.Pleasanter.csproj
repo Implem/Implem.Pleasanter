@@ -155,4 +155,12 @@
     <Folder Include="App_Data\UserPlugins\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="App_Data\Displays\ExpandLinkPath.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>

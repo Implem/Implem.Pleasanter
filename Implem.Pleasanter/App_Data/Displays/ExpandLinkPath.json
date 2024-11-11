@@ -1,0 +1,33 @@
+﻿{
+    "Id": "ExpandLinkPath",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Expand the link path of the list of options"
+        },
+        {
+            "Language": "zh",
+            "Body": "扩展选项列表的链接路径"
+        },
+        {
+            "Language": "ja",
+            "Body": "選択肢一覧のリンク経路を拡大する"
+        },
+        {
+            "Language": "de",
+            "Body": "Erweitern Sie den Linkpfad der Optionsliste"
+        },
+        {
+            "Language": "ko",
+            "Body": "옵션 목록의 링크 경로 확장"
+        },
+        {
+            "Language": "es",
+            "Body": "Expandir la ruta de enlace de la lista de opciones"
+        },
+        {
+            "Language": "vn",
+            "Body": "Mở rộng đường dẫn liên kết của danh sách tùy chọn"
+        }
+    ]
+}
