@@ -400,17 +400,21 @@
 
     /* Organisms ---------------------------------------------------------------- */
     /* #Application > #CopyToClipboards */
-    /* #CopyToClipboards {
-        .ui-icon {
-            background-image: url("../images/ui-icons_ffffff_256x240.png");
+    #CopyToClipboards {
+        body:has(#Id[value="0"]):has(#TitleContainer) & {
+            display: none;
         }
-    } */
+    }
+
     /* #Application > #Breadcrumb */
     #Breadcrumb {
         nav & {
             display: block;
             padding: 0;
-            body:has(#SiteId[value="0"]) & {
+            body:has(#Id[value="0"]):has(#TitleContainer) & {
+                display: none;
+            }
+            body:has(#Id[value="0"]):has(#ReferenceType[value="Sites"]) & {
                 display: none;
             }
             .item {
@@ -428,9 +432,12 @@
                         color: var(--base-text);
                         text-align: center;
                         .label {
+                            overflow: hidden;
                             font-size: 15px;
                             font-weight: bold;
                             letter-spacing: 1px;
+                            text-overflow: ellipsis;
+                            white-space: nowrap;
                         }
                     }
                     .separator {
@@ -446,14 +453,14 @@
         padding: 8px 16px;
         body:has(#Editor) & {
             background-color: var(--primaryColor);
+            #HeaderTitle {
+                color: var(--invert-text);
+            }
         }
         #SiteImageIconContainer {
             &:not(:empty) {
                 margin-right: 16px;
             }
-        }
-        #HeaderTitle {
-            color: var(--invert-text);
         }
     }
 
@@ -1204,6 +1211,13 @@
             #DeleteTemplateButton {
                 margin: 4px 4px 4px 0;
             }
+        }
+    }
+
+    /* [Tenant]  */
+    #TenantForm {
+        #RecordHeader {
+            display: none;
         }
     }
 
