@@ -5399,7 +5399,9 @@ namespace Implem.Pleasanter.Models
                 type: context.Forms.Data("ProcessDataChangeType").ToEnum<DataChange.Types>(),
                 columnName: context.Forms.Data("ProcessDataChangeColumnName"),
                 baseDateTime: context.Forms.Data("ProcessDataChangeBaseDateTime"),
-                value: ProcessDataChangeValue(context: context)));
+                value: ProcessDataChangeValue(context: context),
+                valueFormulaNotUseDisplayName: context.Forms.Bool("ProcessDataChangeValueFormulaNotUseDisplayName"),
+                valueFormulaIsDisplayError: context.Forms.Bool("ProcessDataChangeValueFormulaIsDisplayError")));
             res
                 .ReplaceAll("#EditProcessDataChange", new HtmlBuilder()
                     .EditProcessDataChange(
@@ -5423,7 +5425,9 @@ namespace Implem.Pleasanter.Models
                 type: context.Forms.Data("ProcessDataChangeType").ToEnum<DataChange.Types>(),
                 columnName: context.Forms.Data("ProcessDataChangeColumnName"),
                 baseDateTime: context.Forms.Data("ProcessDataChangeBaseDateTime"),
-                value: ProcessDataChangeValue(context: context));
+                value: ProcessDataChangeValue(context: context),
+                valueFormulaNotUseDisplayName: context.Forms.Bool("ProcessDataChangeValueFormulaNotUseDisplayName"),
+                valueFormulaIsDisplayError: context.Forms.Bool("ProcessDataChangeValueFormulaIsDisplayError"));
             res
                 .ReplaceAll("#EditProcessDataChange", new HtmlBuilder()
                     .EditProcessDataChange(
@@ -5452,6 +5456,12 @@ namespace Implem.Pleasanter.Models
             else if (dataChange.Visible(type: "Value"))
             {
                 return SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessDataChangeValue"));
+            }
+            else if (dataChange.Visible(type: "ValueFormula"))
+            {
+                return FormulaBuilder.ParseFormulaColumnName(
+                    ss: SiteSettings,
+                    formulaScript: context.Forms.Data("ProcessDataChangeValueFormula"));
             }
             else if (dataChange.Visible(type: "DateTime"))
             {
@@ -5629,6 +5639,8 @@ namespace Implem.Pleasanter.Models
                         Type = (Notification.Types)context.Forms.Int("ProcessNotificationType"),
                         Subject = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationSubject")),
                         Address = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationAddress")),
+                        CcAddress = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationCcAddress")),
+                        BccAddress = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationBccAddress")),
                         Token = context.Forms.Data("ProcessNotificationToken"),
                         Body = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationBody"))
                     });
@@ -5667,6 +5679,8 @@ namespace Implem.Pleasanter.Models
                     notification.Type = (Notification.Types)context.Forms.Int("ProcessNotificationType");
                     notification.Subject = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationSubject"));
                     notification.Address = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationAddress"));
+                    notification.CcAddress = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationCcAddress"));
+                    notification.BccAddress = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationBccAddress"));
                     notification.Token = context.Forms.Data("ProcessNotificationToken");
                     notification.Body = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationBody"));
                     res
@@ -6253,6 +6267,8 @@ namespace Implem.Pleasanter.Models
                             prefix: context.Forms.Data("NotificationPrefix"),
                             subject: SiteSettings.LabelTextToColumnName(context.Forms.Data("NotificationSubject")),
                             address: SiteSettings.LabelTextToColumnName(context.Forms.Data("NotificationAddress")),
+                            ccAddress: SiteSettings.LabelTextToColumnName(context.Forms.Data("NotificationCcAddress")),
+                            bccAddress: SiteSettings.LabelTextToColumnName(context.Forms.Data("NotificationBccAddress")),
                             token: context.Forms.Data("NotificationToken"),
                             methodType: (Notification.MethodTypes)context.Forms.Int("NotificationMethodType"),
                             encoding: context.Forms.Data("NotificationEncoding"),
@@ -6310,6 +6326,8 @@ namespace Implem.Pleasanter.Models
                                 prefix: context.Forms.Data("NotificationPrefix"),
                                 subject: SiteSettings.LabelTextToColumnName(context.Forms.Data("NotificationSubject")),
                                 address: SiteSettings.LabelTextToColumnName(context.Forms.Data("NotificationAddress")),
+                                ccAddress: SiteSettings.LabelTextToColumnName(context.Forms.Data("NotificationCcAddress")),
+                                bccAddress: SiteSettings.LabelTextToColumnName(context.Forms.Data("NotificationBccAddress")),
                                 token: context.Forms.Data("NotificationToken"),
                                 methodType: (Notification.MethodTypes)context.Forms.Int("NotificationMethodType"),
                                 encoding: context.Forms.Data("NotificationEncoding"),
@@ -8861,10 +8879,10 @@ namespace Implem.Pleasanter.Models
             if (currentSs == null)
             {
                 res.Message(
-                   new Message(
-                       "InvalidTimeLineSites",
-                       Displays.InvalidTimeLineSites(context: context),
-                       "alert-error"));
+                    new Message(
+                        "InvalidTimeLineSites",
+                        Displays.InvalidTimeLineSites(context: context),
+                        "alert-error"));
                 return;
             }
             var dashboardPart = SiteSettings.DashboardParts?
@@ -9021,10 +9039,10 @@ namespace Implem.Pleasanter.Models
             if (currentSs == null)
             {
                 res.Message(
-                   new Message(
-                       "InvalidIndexSites",
-                       Displays.InvalidTimeLineSites(context: context),
-                       "alert-error"));
+                    new Message(
+                        "InvalidIndexSites",
+                        Displays.InvalidTimeLineSites(context: context),
+                        "alert-error"));
                 return;
             }
             var dashboardPart = SiteSettings.DashboardParts?
@@ -9035,13 +9053,14 @@ namespace Implem.Pleasanter.Models
             }
             res
                 .Html(
-                    "#DashboardPartViewIndexTabContainer",
+                    "#DashboardPartViewGridTabContainer",
                     new HtmlBuilder()
                         .ViewGridTab(
                             context: context,
                             ss: currentSs,
                             view: new View(),
-                            prefix: "DashboardPart"))
+                            prefix: "DashboardPart",
+                            hasNotInner: true))
                 .Html(
                     "#DashboardPartViewFiltersTabContainer",
                     new HtmlBuilder()

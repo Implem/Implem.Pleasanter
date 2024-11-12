@@ -411,9 +411,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                         Addresses.Get(
                             context: context,
                             addresses: Addresses.ReplacedAddress(
-                                context: context,
-                                column: toColumn,
-                                value: dataRow.String(toColumn.ColumnName)))
+                                                context: context,
+                                                column: toColumn,
+                                                value: dataRow.String(toColumn.ColumnName)))
                                     .ForEach(mailAddress =>
                                     {
                                         if (!hash.ContainsKey(mailAddress))

@@ -79,6 +79,7 @@
             'post',
             data,
             $control,
-            false);
+            false,
+            !$control.hasClass('not-set-form-changed'));
     }
 });

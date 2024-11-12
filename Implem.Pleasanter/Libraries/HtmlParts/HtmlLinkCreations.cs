@@ -108,7 +108,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     ss: ss,
                     linkId: linkId,
                     sourceId: link.SourceId,
-                    text: link.SiteTitle)));
+                    text: link.SiteTitle,
+                    notReturnParentRecord: link.NotReturnParentRecord ?? false)));
         }
 
         public static HtmlBuilder LinkCreationButton(
@@ -118,7 +119,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             long linkId,
             long sourceId,
             string text,
-            int tabIndex = 0)
+            int tabIndex = 0,
+            bool? notReturnParentRecord = false)
         {
             return hb.Button(
                 attributes: new HtmlAttributes()
@@ -134,7 +136,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Add("data-to-site-id", sourceId.ToString())
                     .Add(
                         name: "from-tab-index",
-                        value: tabIndex.ToString()),
+                        value: tabIndex.ToString())
+                    .Add("do-not-return-parent",
+                        notReturnParentRecord.ToString().ToLower()),
                 action: () => hb
                     .Text(text: text));
         }

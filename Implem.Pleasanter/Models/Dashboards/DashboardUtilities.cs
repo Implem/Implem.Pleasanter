@@ -238,7 +238,7 @@ namespace Implem.Pleasanter.Models
                 view: view,
                 checkPermission: true);
             return hb
-                .Table(
+                .GridTable(
                     attributes: new HtmlAttributes()
                         .Id($"Grid{suffix}")
                         .Class(ss.GridCss(context: context))
@@ -527,7 +527,7 @@ namespace Implem.Pleasanter.Models
             int? tabIndex = null,
             ServerScriptModelColumn serverScriptModelColumn = null)
         {
-            if (serverScriptModelColumn?.Hide == true)
+            if (serverScriptModelColumn?.Hide ?? column.Hide == true)
             {
                 return hb.Td();
             }
@@ -1701,50 +1701,57 @@ namespace Implem.Pleasanter.Models
                                     action: () => QuickAccessSites(context: context, sites: sites)
                                         .ForEach(quickAccess =>
                                         {
-                                            if (quickAccess.Model.SiteId == 0)
-                                            {
-                                                quickAccess.Model.Title = new Title() { DisplayValue = Displays.Top(context: context) };
-                                                quickAccess.Model.ReferenceType = "Sites";
-                                            }
-                                            var itemTypeCss = string.Empty;
+                                            var href = string.Empty;
+                                            var text = string.Empty;
                                             var iconName = string.Empty;
-                                            switch (quickAccess.Model.ReferenceType)
+                                            var itemTypeCss = string.Empty;
+                                            if (!quickAccess.Settings.Url.IsNullOrEmpty())
                                             {
-                                                case "Sites":
-                                                    itemTypeCss = " dashboard-part-nav-folder " + quickAccess.Css;
-                                                    iconName = Strings.CoalesceEmpty(quickAccess.Icon, "folder");
-                                                    break;
-                                                case "Dashboards":
-                                                    itemTypeCss = " dashboard-part-nav-dashboard " + quickAccess.Css;
-                                                    iconName = Strings.CoalesceEmpty(quickAccess.Icon, "dashboard");
-                                                    break;
-                                                case "Wikis":
-                                                    itemTypeCss = " dashboard-part-nav-wiki " + quickAccess.Css;
-                                                    iconName = Strings.CoalesceEmpty(quickAccess.Icon, "text_snippet");
-                                                    break;
-                                                default:
-                                                    itemTypeCss = " dashboard-part-nav-table " + quickAccess.Css;
-                                                    iconName = Strings.CoalesceEmpty(quickAccess.Icon, "table");
-                                                    break;
+                                                href = quickAccess.Settings.Url;
+                                                text = Strings.CoalesceEmpty(quickAccess.Settings.Title, quickAccess.Settings.Url);
+                                                iconName = Strings.CoalesceEmpty(quickAccess.Settings.Icon, "language");
+                                                itemTypeCss = " dashboard-part-nav-external " + quickAccess.Settings.Css;
+                                            }
+                                            else
+                                            {
+                                                if (quickAccess.Model.SiteId == 0)
+                                                {
+                                                    quickAccess.Model.Title = new Title() { DisplayValue = Displays.Top(context: context) };
+                                                    quickAccess.Model.ReferenceType = "Sites";
+                                                }
+                                                text = Strings.CoalesceEmpty(quickAccess.Settings.Title, quickAccess.Model.Title.DisplayValue);
+                                                href = GetQuickAccessHref(context, quickAccess);
+                                                switch (quickAccess.Model.ReferenceType)
+                                                {
+                                                    case "Sites":
+                                                        itemTypeCss = " dashboard-part-nav-folder " + quickAccess.Settings.Css;
+                                                        iconName = Strings.CoalesceEmpty(quickAccess.Settings.Icon, "folder");
+                                                        break;
+                                                    case "Dashboards":
+                                                        itemTypeCss = " dashboard-part-nav-dashboard " + quickAccess.Settings.Css;
+                                                        iconName = Strings.CoalesceEmpty(quickAccess.Settings.Icon, "dashboard");
+                                                        break;
+                                                    case "Wikis":
+                                                        itemTypeCss = " dashboard-part-nav-wiki " + quickAccess.Settings.Css;
+                                                        iconName = Strings.CoalesceEmpty(quickAccess.Settings.Icon, "text_snippet");
+                                                        break;
+                                                    default:
+                                                        itemTypeCss = " dashboard-part-nav-table " + quickAccess.Settings.Css;
+                                                        iconName = Strings.CoalesceEmpty(quickAccess.Settings.Icon, "table");
+                                                        break;
+                                                }
                                             }
                                             hb.Li(css: "dashboard-part-nav-item" + itemTypeCss.TrimEnd(),
-                                                action: () => hb
-                                                    .Span(css: "material-symbols-outlined",
-                                                        action: () => hb.Text(iconName))
-                                                    .A(
-                                                        css: "dashboard-part-nav-link",
-                                                        text: quickAccess.Model.Title.DisplayValue,
-                                                        href: quickAccess.Model.ReferenceType == "Wikis"
-                                                            ? Locations.ItemEdit(
-                                                                context: context,
-                                                                id: Repository.ExecuteScalar_long(
-                                                                    context: context,
-                                                                    statements: Rds.SelectWikis(
-                                                                        column: Rds.WikisColumn().WikiId(),
-                                                                        where: Rds.WikisWhere().SiteId(quickAccess.Model.SiteId))))
-                                                            : Locations.ItemIndex(
-                                                                context: context,
-                                                                id: quickAccess.Model.SiteId)));
+                                                   action: () => hb
+                                                       .Span(css: "material-symbols-outlined",
+                                                           action: () => hb.Text(iconName))
+                                                       .A(
+                                                           css: "dashboard-part-nav-link",
+                                                           text: text,
+                                                           href: href,
+                                                           target: quickAccess.Settings.OpenInNewTab
+                                                               ? "_blank"
+                                                               : null));
                                         })));
                 });
         }
@@ -1752,9 +1759,30 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        private static string GetQuickAccessHref(Context context, QuickAccessSiteModel quickAccess)
+        {
+            if (!quickAccess.Settings.ViewMode.IsNullOrEmpty()
+                && (quickAccess.Model.ReferenceType == "Results"
+                    || quickAccess.Model.ReferenceType == "Issues"))
+            {
+                return Locations.ItemView(
+                    context: context,
+                    id: quickAccess.Model.SiteId,
+                    quickAccess.Settings.ViewMode);
+            }
+            return SiteUtilities.SiteHref(
+                context: context,
+                ss: quickAccess.Model.SiteSettings,
+                siteId: quickAccess.Model.SiteId,
+                referenceType: quickAccess.Model.ReferenceType);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private static IEnumerable<QuickAccessSiteModel> QuickAccessSites(
             Context context,
-            IEnumerable<(long Id, string Icon, string Css)> sites)
+            IEnumerable<(long Id, QuickAccessSite Settings)> sites)
         {
             var siteModels = new SiteCollection(
                 context: context,
@@ -1770,20 +1798,22 @@ namespace Implem.Pleasanter.Models
                         raw: Def.Sql.HasPermission,
                         _using: !context.HasPrivilege));
             return sites
-                .Select(o => o.Id == 0
-                    ? new QuickAccessSiteModel()
-                    {
-                        Model = new SiteModel(context: context, siteId: 0),
-                        Icon = o.Icon,
-                        Css = o.Css
-                    }
-                    : new QuickAccessSiteModel()
-                    {
-                        Model = siteModels.FirstOrDefault(model => model.SiteId == o.Id),
-                        Icon = o.Icon,
-                        Css = o.Css
-                    })
-                .Where(model => model.Model != null);
+                .Select(o =>
+                    !o.Settings.Url.IsNullOrEmpty()
+                        ? new QuickAccessSiteModel()
+                        {
+                            Model = null,
+                            Settings = o.Settings
+                        }
+                        : new QuickAccessSiteModel()
+                        {
+                            Model = o.Id == 0
+                                ? new SiteModel(context: context, siteId: 0)
+                                : siteModels.FirstOrDefault(model => model.SiteId == o.Id),
+                            Settings = o.Settings
+                        })
+                .Where(model => model.Model != null
+                    || !model.Settings.Url.IsNullOrEmpty());
         }
 
         /// <summary>
@@ -1896,7 +1926,8 @@ namespace Implem.Pleasanter.Models
         {
             var ss = SiteSettingsUtilities.Get(
                 context: context,
-                siteId: dashboardPart.SiteId);
+                siteId: dashboardPart.SiteId,
+                setSiteIntegration: true);
             ss.IntegratedSites = dashboardPart.TimeLineSitesData;
             ss.SetSiteIntegration(context: context);
             var where = dashboardPart.View.Where(
@@ -2117,7 +2148,9 @@ namespace Implem.Pleasanter.Models
         {
             var currentSs = SiteSettingsUtilities.Get(
                 context: context,
-                siteId: dashboardPart.SiteId);
+                siteId: dashboardPart.SiteId,
+                setSiteIntegration: true,
+                setAllChoices: true);
             currentSs.IntegratedSites = dashboardPart.CalendarSitesData;
             currentSs.SetSiteIntegration(context: context);
             currentSs.SetDashboardParts(dashboardPart: dashboardPart);
@@ -2150,7 +2183,9 @@ namespace Implem.Pleasanter.Models
             }
             var currentSs = SiteSettingsUtilities.Get(
                 context: context,
-                siteId: dashboardPart.SiteId);
+                siteId: dashboardPart.SiteId,
+                setSiteIntegration: true,
+                setAllChoices: true);
             currentSs.IntegratedSites = dashboardPart.CalendarSitesData;
             currentSs.SetSiteIntegration(context: context);
             currentSs.SetDashboardParts(dashboardPart: dashboardPart);
@@ -2216,7 +2251,9 @@ namespace Implem.Pleasanter.Models
             DashboardPart dashboardPart = ss.DashboardParts.FirstOrDefault(x => x.Id == context.Forms.Data(matchingKey).ToInt());
             var currentSs = SiteSettingsUtilities.Get(
                 context: context,
-                siteId: context.Forms.Long("SiteId"));
+                siteId: context.Forms.Long("SiteId"),
+                setSiteIntegration: true,
+                setAllChoices: true);
             currentSs.IntegratedSites = dashboardPart.CalendarSitesData;
             currentSs.SetSiteIntegration(context: context);
             currentSs.SetDashboardParts(dashboardPart: dashboardPart);
@@ -2393,6 +2430,7 @@ namespace Implem.Pleasanter.Models
             var currentSs = SiteSettingsUtilities.Get(
                 context: context,
                 siteId: dashboardPart.SiteId,
+                setSiteIntegration: true,
                 setAllChoices: true);
             currentSs.IntegratedSites = dashboardPart.KambanSitesData;
             currentSs.SetSiteIntegration(context: context);
@@ -2424,6 +2462,7 @@ namespace Implem.Pleasanter.Models
             var currentSs = SiteSettingsUtilities.Get(
                 context: context,
                 siteId: context.Forms.Long("SiteId"),
+                setSiteIntegration: true,
                 setAllChoices: true);
             currentSs.IntegratedSites = dashboardPart.KambanSitesData;
             currentSs.SetSiteIntegration(context: context);
@@ -2576,7 +2615,8 @@ namespace Implem.Pleasanter.Models
         {
             var currentSs = SiteSettingsUtilities.Get(
                 context: context,
-                siteId: dashboardPart.SiteId);
+                siteId: dashboardPart.SiteId,
+                setSiteIntegration: true);
             currentSs.IntegratedSites = dashboardPart.IndexSitesData;
             currentSs.SetSiteIntegration(context: context);
             currentSs.SetDashboardParts(dashboardPart: dashboardPart);
@@ -2604,7 +2644,8 @@ namespace Implem.Pleasanter.Models
             DashboardPart dashboardPart = ss.DashboardParts.FirstOrDefault(x => x.Id == suffix.Replace("_", "").ToInt());
             var currentSs = SiteSettingsUtilities.Get(
                 context: context,
-                siteId: dashboardPart.SiteId);
+                siteId: dashboardPart.SiteId,
+                setSiteIntegration: true);
             currentSs.IntegratedSites = dashboardPart.IndexSitesData;
             currentSs.SetSiteIntegration(context: context);
             currentSs.SetDashboardParts(dashboardPart: dashboardPart);

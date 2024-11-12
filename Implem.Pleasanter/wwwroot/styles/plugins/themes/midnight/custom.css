@@ -1,5 +1,4 @@
-﻿@import url(../themes.custom.css);
-@import url(../themes.dark.css);
+﻿@import url(../themes.dark.css?201491);
 
 :root {
     /* ColorScheme ---------------------------------------------------------- */
@@ -134,7 +133,7 @@
     --footer-command-bg: rgba(0, 0, 0, 0.6);
 
     /* Page & Dialog  ----------------------------------------------------------*/
-   /* template */
+    /* template */
     --template-viewer-bg: var(--nonColor02);
     --template-viewer-detail: var(--nonColor04);
     --template-description-bg: var(--commonColor05);

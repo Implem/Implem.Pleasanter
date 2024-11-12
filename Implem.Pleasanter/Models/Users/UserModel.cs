@@ -4873,7 +4873,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private void IncrementsNumberOfDenial(Context context)
+        private void IncrementsNumberOfDenial(Context context, bool disableUpdateLastLoginTime = false)
         {
             Repository.ExecuteNonQuery(
                 context: context,
@@ -4884,7 +4884,9 @@ namespace Implem.Pleasanter.Models
                         raw: "(lower(\"Users\".\"LoginId\") = lower(@LoginId))"),
                     param: Rds.UsersParam()
                         .NumberOfDenial(raw: "\"Users\".\"NumberOfDenial\"+1")
-                        .LastLoginTime(DateTime.Now),
+                        .LastLoginTime(
+                            value: DateTime.Now,
+                            _using: !disableUpdateLastLoginTime),
                     addUpdatorParam: false,
                     addUpdatedTimeParam: false));
         }
@@ -4945,7 +4947,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private string Deny(Context context)
         {
-            DenyLog(context: context);
+            DenyLog(context: context, disableUpdateLastLoginTime: true);
             return Messages.ResponseAuthentication(
                 context: context,
                 target: "#LoginMessage")
@@ -4955,12 +4957,12 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public void DenyLog(Context context)
+        public void DenyLog(Context context, bool disableUpdateLastLoginTime = false)
         {
             LoginFailureLog(
                 context: context,
                 description: nameof(Deny));
-            IncrementsNumberOfDenial(context: context);
+            IncrementsNumberOfDenial(context: context, disableUpdateLastLoginTime: disableUpdateLastLoginTime);
         }
 
         /// <summary>
