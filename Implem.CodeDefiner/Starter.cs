@@ -299,8 +299,7 @@ namespace Implem.CodeDefiner
 
         private static string ReplaceVersion(string versionInfo)
         {
-            var version = string.Join(".", versionInfo.Split(".").Select(s => ("00" + s)[^2..]));
-            return version;
+            return string.Join(".", versionInfo.Split(".").Select(s => ("00" + s)[^2..]));
         }
 
         private static void CheckVersion(string newVersion,string currentVersion ,string patchSourcePath)
