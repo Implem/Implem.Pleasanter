@@ -22,6 +22,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string Prefix;
         public string Subject;
         public string Address;
+        public string CcAddress;
+        public string BccAddress;
         public string Token;
         public MethodTypes? MethodType;
         public string Encoding;
@@ -89,6 +91,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             string prefix,
             string subject,
             string address,
+            string ccAddress,
+            string bccAddress,
             string token,
             MethodTypes methodType,
             string encoding,
@@ -114,6 +118,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             Prefix = prefix;
             Subject = subject;
             Address = address;
+            CcAddress = ccAddress;
+            BccAddress = bccAddress;
             Token = token;
             MethodType = methodType;
             Encoding = encoding;
@@ -151,6 +157,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             string prefix,
             string subject,
             string address,
+            string ccAddress,
+            string bccAddress,
             string token,
             MethodTypes methodType,
             string encoding,
@@ -175,6 +183,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             Prefix = prefix;
             Subject = subject;
             Address = address;
+            CcAddress = ccAddress;
+            BccAddress = bccAddress;
             Token = token;
             MethodType = methodType;
             Encoding = encoding;
@@ -201,7 +211,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             SiteSettings ss,
             string title,
             string body,
-            Dictionary<Column, string> values = null)
+            Dictionary<Column, string> valuesTo = null,
+            Dictionary<Column, string> valuesCc = null,
+            Dictionary<Column, string> valuesBcc = null)
         {
             if (Disabled == true)
             {
@@ -221,7 +233,21 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 ? from
                                 : Parameters.Mail.SupportFrom);
                         var addresses = Address;
-                        values?.ForEach(data => addresses = addresses.Replace(
+                        var ccAdd = CcAddress;
+                        var bccAdd = BccAddress;
+                        valuesTo?.ForEach(data => addresses = addresses.Replace(
+                            $"[{data.Key.ColumnName}]",
+                            Addresses.ReplacedAddress(
+                                context: context,
+                                column: data.Key,
+                                value: data.Value)));
+                        valuesCc?.ForEach(data => ccAdd = ccAdd.Replace(
+                            $"[{data.Key.ColumnName}]",
+                            Addresses.ReplacedAddress(
+                                context: context,
+                                column: data.Key,
+                                value: data.Value)));
+                        valuesBcc?.ForEach(data => bccAdd = bccAdd.Replace(
                             $"[{data.Key.ColumnName}]",
                             Addresses.ReplacedAddress(
                                 context: context,
@@ -230,6 +256,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                         var to = Addresses.Get( 
                             context: context,
                             addresses: addresses).Join(",");
+                        var cc = Addresses.Get(
+                            context: context,
+                            addresses: ccAdd).Join(",");
+                        var bcc = Addresses.Get(
+                            context: context,
+                            addresses: bccAdd).Join(",");
+
                         if (!to.IsNullOrEmpty())
                         {
                             new OutgoingMailModel()
@@ -237,7 +270,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 Title = new Title(Prefix + title),
                                 Body = body,
                                 From = mailFrom,
-                                To = to
+                                To = to,
+                                Cc = cc,
+                                Bcc = bcc
                             }.Send(context: context, ss: ss);
                         }
                     }
@@ -420,6 +455,14 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (!Address.IsNullOrEmpty())
             {
                 notification.Address = Address;
+            }
+            if (!CcAddress.IsNullOrEmpty())
+            {
+                notification.CcAddress = CcAddress;
+            }
+            if (!BccAddress.IsNullOrEmpty())
+            {
+                notification.BccAddress = BccAddress;
             }
             if (MethodType != MethodTypes.Get)
             {
