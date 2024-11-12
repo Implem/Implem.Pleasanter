@@ -299,8 +299,8 @@ namespace Implem.CodeDefiner
 
         private static string ReplaceVersion(string versionInfo)
         {
-            var pattern = @"(\d+)\.(\d+)\.(\d+)\.(\d+)";
-            return Regex.Replace(versionInfo, pattern, "0$1.0$2.0$3.0$4");
+            var version = string.Join(".", versionInfo.Split(".").Select(s => ("00" + s)[^2..]));
+            return version;
         }
 
         private static void CheckVersion(string newVersion,string currentVersion ,string patchSourcePath)
