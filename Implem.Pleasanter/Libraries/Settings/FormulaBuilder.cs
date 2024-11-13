@@ -30,7 +30,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                 outOfCondition: outOfCondition);
             if (err == Error.Types.None)
             {
-                formulaSet.Id = ss.Formulas?.Max(o => o.Id + 1) ?? 1;
+                formulaSet.Id = ss.Formulas?.Any() == true
+                    ? ss.Formulas.Max(o => o.Id) + 1
+                    : 1;
                 (ss.Formulas ??= new SettingList<FormulaSet>()).Add(formulaSet);
             }
             return err;
