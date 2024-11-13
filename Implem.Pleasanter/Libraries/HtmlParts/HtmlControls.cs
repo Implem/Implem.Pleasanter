@@ -44,7 +44,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string validateRegexErrorMessage = null,
             string action = null,
             string method = null,
-            string value = null,
+            string dataValue = null,
             Dictionary<string, string> attributes = null,
             bool _using = true)
         {
@@ -80,7 +80,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     : "control-textbox anchor hidden", controlCss))
                             .Type("text")
                             .Value(text)
-                            .NumericValue(value)
+                            .DataValue(dataValue)
                             .Placeholder(placeholder)
                             .Disabled(disabled)
                             .DataAlwaysSend(alwaysSend)

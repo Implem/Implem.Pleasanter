@@ -742,7 +742,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 placeholder: placeholder,
                                 labelRaw: labelRaw,
                                 controlOnly: controlOnly,
-                                value: TextBoxNumericRegex().Replace(value, ""),
+                                dataValue: TextBoxNumericRegex().Replace(value, ""),
                                 unit: column.Unit,
                                 text: value,
                                 alwaysSend: alwaysSend,
@@ -1221,7 +1221,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string labelTitle = null,
             string labelIcon = null,
             bool controlOnly = false,
-            string value = null,
+            string dataValue = null,
             string unit = null,
             string text = null,
             string format = null,
@@ -1296,7 +1296,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             validateRegexErrorMessage: validateRegexErrorMessage,
                             action: action,
                             method: method,
-                            value: value,
+                            dataValue: dataValue,
                             dataLang: dataLang,
                             attributes: attributes);
                         if (textType == HtmlTypes.TextTypes.Password)

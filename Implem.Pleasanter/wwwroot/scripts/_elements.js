@@ -92,10 +92,10 @@ $p.getValue = function (name) {
         return undefined;
     } else if (element.className === "control-checkbox") {
         return element.checked
-    } else if (element.getAttribute('numeric-value') !== null) {
-        return element.getAttribute('numeric-value')
     } else if (element.getAttribute('data-readonly') || "0" === "1") {
-        return element.textContent
+        return element.getAttribute('data-value') !== null
+            ? element.getAttribute('data-value') 
+            : element.textContent;
     } else {
         return $p.getControl(name).val();
     }
