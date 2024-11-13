@@ -11,6 +11,7 @@ using Implem.Pleasanter.Libraries.Settings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
@@ -31,6 +32,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Spinner,
             Attachments
         }
+
+        private static Regex TextBoxNumericRegex() => new Regex(@"\D");
+
 
         public static HtmlBuilder TabsPanelField(
             this HtmlBuilder hb,
@@ -738,6 +742,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 placeholder: placeholder,
                                 labelRaw: labelRaw,
                                 controlOnly: controlOnly,
+                                value: TextBoxNumericRegex().Replace(value, ""),
                                 unit: column.Unit,
                                 text: value,
                                 alwaysSend: alwaysSend,
@@ -1216,6 +1221,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string labelTitle = null,
             string labelIcon = null,
             bool controlOnly = false,
+            string value = null,
             string unit = null,
             string text = null,
             string format = null,
@@ -1290,6 +1296,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             validateRegexErrorMessage: validateRegexErrorMessage,
                             action: action,
                             method: method,
+                            value: value,
                             dataLang: dataLang,
                             attributes: attributes);
                         if (textType == HtmlTypes.TextTypes.Password)

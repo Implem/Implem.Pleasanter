@@ -754,5 +754,15 @@ namespace Implem.Pleasanter.Libraries.Html
             return this;
         }
 
+        public HtmlAttributes NumericValue(string value, bool _using = true)
+        {
+            if (value != null && _using)
+            {
+                Add("numeric-value");
+                Add(value);
+            }
+            return this;
+        }
+
     }
 }

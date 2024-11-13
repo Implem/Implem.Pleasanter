@@ -9,6 +9,7 @@ using Implem.Pleasanter.Libraries.Settings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using static System.Net.Mime.MediaTypeNames;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlControls
@@ -43,6 +44,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string validateRegexErrorMessage = null,
             string action = null,
             string method = null,
+            string value = null,
             Dictionary<string, string> attributes = null,
             bool _using = true)
         {
@@ -78,6 +80,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     : "control-textbox anchor hidden", controlCss))
                             .Type("text")
                             .Value(text)
+                            .NumericValue(value)
                             .Placeholder(placeholder)
                             .Disabled(disabled)
                             .DataAlwaysSend(alwaysSend)

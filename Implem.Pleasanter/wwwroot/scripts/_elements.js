@@ -82,6 +82,25 @@ $p.getGridColumnIndex = function (name) {
     return $('#Grid > thead > tr > th').index($('#Grid > thead > tr > th[data-name="' + $p.getColumnName(name) + '"]'));
 }
 
+$p.getValue = function (name) {
+    var columnName = $p.getColumnName(name);
+    if (columnName === undefined) {
+        return undefined;
+    }
+    var element = $('#' + $('#ReferenceType').val() + '_' + columnName)[0];
+    if (element === undefined) {
+        return undefined;
+    } else if (element.className === "control-checkbox") {
+        return element.checked
+    } else if (element.getAttribute('numeric-value') !== null) {
+        return element.getAttribute('numeric-value')
+    } else if (element.getAttribute('data-readonly') || "0" === "1") {
+        return element.textContent
+    } else {
+        return $p.getControl(name).val();
+    }
+}
+
 $p.on = function (events, name, func) {
     $(document).on(events, '#' + $p.getControl(name).attr('id'), func);
 }
