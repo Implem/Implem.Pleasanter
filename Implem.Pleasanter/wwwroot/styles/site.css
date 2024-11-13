@@ -4,38 +4,130 @@
     box-sizing: border-box;
 }
 
-html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
     margin: 0;
     padding: 0;
-    border: 0;
-    font-style: normal;
     font-weight: normal;
+    font-style: normal;
     vertical-align: baseline;
+    border: 0;
 }
 
-article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
     display: block;
 }
 
-input, textarea {
+input,
+textarea {
     margin: 0;
     padding: 0;
 }
 
-ol, ul {
+ol,
+ul {
     list-style: none;
 }
 
 table {
-    border-collapse: collapse;
     border-spacing: 0;
+    border-collapse: collapse;
 }
 
-caption, th {
+caption,
+th {
     text-align: left;
 }
 
-td p{
+td p {
     font-weight: inherit;
 }
 a:focus {
@@ -44,8 +136,8 @@ a:focus {
 
 .cf:before,
 .cf:after {
-    content: " ";
     display: table;
+    content: " ";
 }
 
 .cf:after {
@@ -61,9 +153,9 @@ a:focus {
 }
 
 img {
+    width/***/: auto;
     max-width: 100%;
     height: auto;
-    width /***/: auto;
 }
 
 ::-webkit-input-placeholder {
@@ -86,8 +178,8 @@ img {
 
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
     margin: 0;
+    -webkit-appearance: none;
 }
 
 input[type="number"] {
@@ -98,10 +190,10 @@ html {
 }
 
 body {
-    min-width: 1200px;
-    font-size: 0.75em;
-    font-family: Hiragino Kaku Gothic Pro, "Meiryo UI", sans-serif;
     clear: both;
+    min-width: 1200px;
+    font-family: Hiragino Kaku Gothic Pro, "Meiryo UI", sans-serif;
+    font-size: 0.75em;
 }
 
 h1 {
@@ -120,21 +212,21 @@ legend {
     cursor: pointer;
 }
 
-    legend > * {
-        display: block;
-        float: left;
-    }
+legend > * {
+    display: block;
+    float: left;
+}
 
 label {
     position: relative;
-    cursor: pointer;
     z-index: 2;
+    cursor: pointer;
 }
 
 input {
-    background-color: white;
     position: relative;
     z-index: 2;
+    background-color: white;
 }
 
 select {
@@ -143,28 +235,28 @@ select {
 }
 
 table {
-    width: 100%;
-    border: 0px;
-    border-collapse: collapse;
     clear: both;
+    width: 100%;
+    border-collapse: collapse;
+    border: 0px;
 }
 
 td {
     padding: 3px;
-    vertical-align: top;
     color: black;
+    vertical-align: top;
 }
 
-    td.right-align > p {
-        float: right;
-    }
+td.right-align > p {
+    float: right;
+}
 
 pre {
+    font-family: Terminal, Hiragino Kaku Gothic Pro;
     line-height: 1.5em;
-    font-family: Terminal,Hiragino Kaku Gothic Pro;
-    word-wrap: break-word;
-    word-break: break-all;
     white-space: pre-wrap;
+    word-break: break-all;
+    word-wrap: break-word;
 }
 
 #Logo {
@@ -181,9 +273,9 @@ pre {
     display: block;
     float: left;
     padding: 0px 0px 0px 5px;
+    color: dimgray;
     font-size: 26px;
     font-weight: bold;
-    color: dimgray;
     text-decoration: none;
 }
 
@@ -203,8 +295,8 @@ pre {
 }
 
 #LoginCommands {
-    text-align: right;
     clear: both;
+    text-align: right;
 }
 
 #AuthenticationByMail {
@@ -215,13 +307,13 @@ pre {
 #TotpQRCode {
     width: 38%;
     height: 160px;
-    margin-left: auto;
     margin-right: auto;
+    margin-left: auto;
 }
 
 #TotpQRCodeText {
-    margin-left: auto;
     margin-right: auto;
+    margin-left: auto;
 }
 
 #qrCodeText {
@@ -233,8 +325,8 @@ pre {
 }
 
 #TotpAuthenticationCodeSeparate {
-    width: 150px;
     display: flex;
+    width: 150px;
     padding: 0 0 10px 40px;
 }
 
@@ -242,18 +334,21 @@ pre {
     margin-left: unset;
 }
 
-#TotpAuthenticationCodeSeparate > .field-normal > .field-control > .container-normal {
+#TotpAuthenticationCodeSeparate
+    > .field-normal
+    > .field-control
+    > .container-normal {
     margin-left: 10px;
 }
 
 .totp-authentication-code {
-    height: 25px;
     width: 25px;
-    border: none;
-    outline: none;
-    border-bottom: 2px solid black;
+    height: 25px;
     font-size: 125%;
     text-align: center;
+    border: none;
+    border-bottom: 2px solid black;
+    outline: none;
 }
 
 .totp-form {
@@ -278,34 +373,34 @@ pre {
     margin: 0px 0px 5px 0px;
 }
 
-    #Breadcrumb .item {
-        display: block;
-        float: left;
-        padding: 3px 5px;
-    }
-
-        #Breadcrumb .item.trashbox {
-            display: block;
-            float: left;
-            color: white;
-            background-color: red;
-            border-radius: 3px;
-        }
-
-    #Breadcrumb .separator {
-        margin: 0px 0px 0px 8px;
-    }
-
-#Guide > div {
-    width: 100%;
+#Breadcrumb .item {
     display: block;
     float: left;
+    padding: 3px 5px;
+}
+
+#Breadcrumb .item.trashbox {
+    display: block;
+    float: left;
+    color: white;
+    background-color: red;
+    border-radius: 3px;
+}
+
+#Breadcrumb .separator {
+    margin: 0px 0px 0px 8px;
+}
+
+#Guide > div {
+    position: relative;
+    display: block;
+    float: left;
+    clear: both;
+    width: 100%;
     margin: 0px 0px 5px 0px;
     padding: 5px 10px;
     background: lightgoldenrodyellow;
     border: solid 1px silver;
-    position: relative;
-    clear: both;
     border-radius: 5px;
 }
 
@@ -315,17 +410,17 @@ pre {
 
 #Guide > div > #ReduceGuides {
     float: left;
-    cursor: pointer;
     padding-right: 5px;
+    cursor: pointer;
 }
 
 #Guide > #ExpandGuides {
+    padding: 10px 5px 10px;
     font-weight: bold;
     cursor: pointer;
-    padding: 10px 5px 10px;
 }
 
-#Guide .markup{
+#Guide .markup {
     overflow: hidden;
 }
 
@@ -335,24 +430,25 @@ pre {
 }
 
 #Header {
-    width: 100%;
-    float: left;
-    padding: 0px 6px;
-    border: none;
     position: relative;
     z-index: 99;
+    float: left;
     clear: both;
+    width: 100%;
+    padding: 0px 6px;
+    border: none;
 }
 
-.theme-version-1_0 #Navigations, #NavigationsUpperRight {
+.theme-version-1_0 #Navigations,
+#NavigationsUpperRight {
+    top: 0px;
+    right: 5px;
+    float: right;
     height: 30px;
     margin: 0px 0px 5px 0px;
     padding: 0px 5px 0px 15px;
     border: none;
-    top: 0px;
-    right: 5px;
     border-radius: 20px 0 0 20px;
-    float: right;
 }
 
 #NavigationMenu {
@@ -360,56 +456,56 @@ pre {
     margin-right: 5px;
 }
 
-    #NavigationMenu > li {
-        width: 158px;
-        height: 30px;
-        display: block;
-        float: left;
-        position: relative;
-    }
+#NavigationMenu > li {
+    position: relative;
+    display: block;
+    float: left;
+    width: 158px;
+    height: 30px;
+}
 
-        #NavigationMenu > li > div {
-            height: 30px;
-            text-align: center;
-            line-height: 30px;
-            cursor: pointer;
-        }
+#NavigationMenu > li > div {
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    cursor: pointer;
+}
 
-            #NavigationMenu > li > div:hover {
-            }
+#NavigationMenu > li > div:hover {
+}
 
-        #NavigationMenu > li.sub-menu > div.hover {
-        }
+#NavigationMenu > li.sub-menu > div.hover {
+}
 
-        #NavigationMenu > li > div > a {
-            height: 30px;
-            display: block;
-            text-decoration: none;
-        }
+#NavigationMenu > li > div > a {
+    display: block;
+    height: 30px;
+    text-decoration: none;
+}
 
-        #NavigationMenu > li > div:hover > a {
-        }
+#NavigationMenu > li > div:hover > a {
+}
 
-    #NavigationMenu .menu {
-        width: 158px;
-        display: none;
-        border-top: none !important;
-        position: absolute;
-        top: 30px;
-        right: 0px;
-        border-radius: 0px 0px 5px 5px;
-        z-index: 4;
-    }
+#NavigationMenu .menu {
+    position: absolute;
+    top: 30px;
+    right: 0px;
+    z-index: 4;
+    display: none;
+    width: 158px;
+    border-top: none !important;
+    border-radius: 0px 0px 5px 5px;
+}
 
-        #NavigationMenu .menu > li > a {
-            display: block;
-            text-decoration: none;
-        }
+#NavigationMenu .menu > li > a {
+    display: block;
+    text-decoration: none;
+}
 
-            #NavigationMenu .menu > li > a.ui-state-active {
-                font-weight: normal;
-                text-decoration: none;
-            }
+#NavigationMenu .menu > li > a.ui-state-active {
+    font-weight: normal;
+    text-decoration: none;
+}
 
 #TemplateDialog > div {
     padding: 0px 15px;
@@ -427,9 +523,9 @@ pre {
 }
 
 #SwitchUserInfo {
-    width: 100%;
     display: block;
     float: left;
+    width: 100%;
     margin: 0px 10px 5px 0px;
     padding: 5px 10px;
     color: white;
@@ -437,18 +533,18 @@ pre {
     border-radius: 7px;
 }
 
-    #SwitchUserInfo > a {
-        width: 100%;
-        display: block;
-        float: left;
-        color: white;
-        text-decoration: none;
-    }
-
-#ExcessLicenseWarning {
-    width: 100%;
+#SwitchUserInfo > a {
     display: block;
     float: left;
+    width: 100%;
+    color: white;
+    text-decoration: none;
+}
+
+#ExcessLicenseWarning {
+    display: block;
+    float: left;
+    width: 100%;
     margin: 0px 10px 5px 0px;
     padding: 5px 10px;
     color: white;
@@ -457,118 +553,118 @@ pre {
 }
 
 #PublishWarning {
-    width: 100%;
     display: block;
     float: left;
+    width: 100%;
     margin: 0px 10px 5px 0px;
     padding: 5px 10px;
     background: red;
     border-radius: 7px;
 }
 
-    #PublishWarning > a {
-        width: 100%;
-        display: block;
-        float: left;
-        color: white;
-        text-decoration: none;
-    }
+#PublishWarning > a {
+    display: block;
+    float: left;
+    width: 100%;
+    color: white;
+    text-decoration: none;
+}
 
 #LockedWarning {
-    width: 100%;
     display: block;
     float: left;
+    width: 100%;
     margin: 0px 10px 5px 0px;
     padding: 5px 10px;
     background: red;
     border-radius: 7px;
 }
 
-    #LockedWarning > div {
-        width: 100%;
-        display: block;
-        float: left;
-        color: white;
-        text-decoration: none;
-    }
-
-#Application {
-    width: 100%;
-    float: left;
-    margin: 10px 0px 0px 0px;
-    padding: 0px 10px 120px 10px;
-    position: relative;
-    clear: both;
-}
-
-    #Application > .site-image-icon {
-        display: block;
-        float: left;
-        margin: 0px 10px 0px 0px;
-    }
-
-#StartGuide {
-    width: 100%;
+#LockedWarning > div {
     display: block;
     float: left;
+    width: 100%;
+    color: white;
+    text-decoration: none;
+}
+
+#Application {
+    position: relative;
+    float: left;
+    clear: both;
+    width: 100%;
+    margin: 10px 0px 0px 0px;
+    padding: 0px 10px 120px 10px;
+}
+
+#Application > .site-image-icon {
+    display: block;
+    float: left;
+    margin: 0px 10px 0px 0px;
+}
+
+#StartGuide {
+    position: relative;
+    display: block;
+    float: left;
+    width: 100%;
     margin: 0px 0px 10px 0px;
     padding: 50px 0px 0px 0px;
     background-color: whitesmoke;
-    position: relative;
     border-radius: 10px;
 }
 
-    #StartGuide > #StartGuideContents {
-        width: 900px;
-        margin: 0px auto;
-    }
+#StartGuide > #StartGuideContents {
+    width: 900px;
+    margin: 0px auto;
+}
 
-        #StartGuide > #StartGuideContents > a {
-            width: 150px;
-            display: block;
-            float: left;
-            margin: 0px 37px;
-            padding: 5px;
-            text-align: center;
-            border-radius: 5px;
-        }
+#StartGuide > #StartGuideContents > a {
+    display: block;
+    float: left;
+    width: 150px;
+    margin: 0px 37px;
+    padding: 5px;
+    text-align: center;
+    border-radius: 5px;
+}
 
-            #StartGuide > #StartGuideContents > a:hover {
-                background-color: white;
-            }
+#StartGuide > #StartGuideContents > a:hover {
+    background-color: white;
+}
 
-            #StartGuide > #StartGuideContents > a > * {
-                display: block;
-                text-align: center;
-                clear: both;
-            }
+#StartGuide > #StartGuideContents > a > * {
+    display: block;
+    clear: both;
+    text-align: center;
+}
 
-            #StartGuide > #StartGuideContents > a > img {
-                width: 50px;
-                margin: 5px 50px;
-            }
+#StartGuide > #StartGuideContents > a > img {
+    width: 50px;
+    margin: 5px 50px;
+}
 
-    #StartGuide > #DisableStartGuideField {
-        display: block;
-        float: left;
-        margin: 50px 0px 0px 20px;
-        clear: both;
-    }
+#StartGuide > #DisableStartGuideField {
+    display: block;
+    float: left;
+    clear: both;
+    margin: 50px 0px 0px 20px;
+}
 
-    #StartGuide > .ui-icon {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        cursor: pointer;
-    }
+#StartGuide > .ui-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+}
 
 #SiteImageIconContainer {
     float: left;
 }
 
-    #SiteImageIconContainer > * {
-        margin: 0px 5px 0px 0px;
-    }
+#SiteImageIconContainer > * {
+    margin: 0px 5px 0px 0px;
+}
 
 #HeaderTitleContainer {
     float: left;
@@ -576,21 +672,21 @@ pre {
 }
 
 #HeaderTitle {
+    color: chocolate;
     font-size: 20px;
     font-weight: bold;
-    color: chocolate;
 }
 
 #Notes > * {
-    width: 100%;
     float: left;
+    width: 100%;
     margin: 0px 10px 5px 0px;
 }
 
 #Notes > .history {
-    width: 100%;
     display: block;
     float: left;
+    width: 100%;
     padding: 5px 10px;
     color: white;
     background-color: blue;
@@ -598,9 +694,9 @@ pre {
 }
 
 #Notes > .readonly {
-    width: 100%;
     display: block;
     float: left;
+    width: 100%;
     padding: 5px 10px;
     color: white;
     background-color: orange;
@@ -614,25 +710,25 @@ pre {
 }
 
 #ViewFilters {
-    width: 100%;
     float: left;
+    width: 100%;
     margin: 0px 0px 5px 0px;
     padding: 5px 5px 2px 5px;
     border: solid 1px silver;
     border-radius: 5px;
 }
 
-    #ViewFilters.reduced {
-        width: auto;
-        padding: 0px;
-        border: none;
-    }
+#ViewFilters.reduced {
+    width: auto;
+    padding: 0px;
+    border: none;
+}
 
-    #ViewFilters > .field-auto-thin {
-        height: 32px;
-        float: left;
-        padding: 0px;
-    }
+#ViewFilters > .field-auto-thin {
+    float: left;
+    height: 32px;
+    padding: 0px;
+}
 
 #ViewFilters_Reset {
     display: block;
@@ -658,64 +754,64 @@ pre {
 }
 
 #Aggregations {
-    width: 100%;
     float: left;
+    width: 100%;
     margin: 0px 0px 5px 0px;
     padding: 3px 5px 5px 5px;
     border: solid 1px silver;
     border-radius: 5px;
 }
 
-    #Aggregations.reduced {
-        width: auto;
-        padding: 0px;
-        border: none;
-    }
+#Aggregations.reduced {
+    width: auto;
+    padding: 0px;
+    border: none;
+}
 
-    #Aggregations .label {
-        height: 26px;
-        display: block;
-        float: left;
-        margin: 2px 5px 0px 0px;
-        padding: 5px 10px;
-        background: gainsboro;
-        border-radius: 5px;
-    }
+#Aggregations .label {
+    display: block;
+    float: left;
+    height: 26px;
+    margin: 2px 5px 0px 0px;
+    padding: 5px 10px;
+    background: gainsboro;
+    border-radius: 5px;
+}
 
-        #Aggregations .label.overdue {
-            font-weight: bold;
-            color: white;
-            background-color: red;
-            cursor: pointer;
-        }
+#Aggregations .label.overdue {
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    background-color: red;
+}
 
-    #Aggregations .data {
-        height: 26px;
-        display: block;
-        float: left;
-        margin: 2px 5px 0px 0px;
-        padding: 5px;
-    }
+#Aggregations .data {
+    display: block;
+    float: left;
+    height: 26px;
+    margin: 2px 5px 0px 0px;
+    padding: 5px;
+}
 
-        #Aggregations .data.overdue {
-            color: red;
-            cursor: pointer;
-        }
+#Aggregations .data.overdue {
+    color: red;
+    cursor: pointer;
+}
 
-    #Aggregations em {
-        display: block;
-        float: left;
-        margin-right: 5px;
-        font-weight: bold;
-    }
+#Aggregations em {
+    display: block;
+    float: left;
+    margin-right: 5px;
+    font-weight: bold;
+}
 
-    #Aggregations > .display-control {
-        float: left;
-        margin: 0px 5px 0px 0px;
-        padding: 5px 10px 5px 0px;
-        font-weight: bold;
-        cursor: pointer;
-    }
+#Aggregations > .display-control {
+    float: left;
+    margin: 0px 5px 0px 0px;
+    padding: 5px 10px 5px 0px;
+    font-weight: bold;
+    cursor: pointer;
+}
 
 #SitePackagesSelectable span.include-data {
     margin: 0px 0px 0px 10px;
@@ -754,22 +850,22 @@ th.calendar-header {
     border: solid 1px silver;
 }
 
-    .CalendarBody td > div {
-        min-height: 50px;
-        padding: 5px;
-    }
+.CalendarBody td > div {
+    min-height: 50px;
+    padding: 5px;
+}
 
-    .CalendarBody td.hover {
-        background-color: whitesmoke;
-    }
+.CalendarBody td.hover {
+    background-color: whitesmoke;
+}
 
 .CalendarBody .other-month {
     background-color: gainsboro;
 }
 
 .CalendarBody .today {
-    border: solid 2px blue;
     z-index: 20;
+    border: solid 2px blue;
 }
 
 .CalendarBody .item {
@@ -780,63 +876,63 @@ th.calendar-header {
     border-radius: 3px;
 }
 
-    .CalendarBody .item.hover {
-        background-color: white;
-        border: solid 1px orange;
-    }
+.CalendarBody .item.hover {
+    background-color: white;
+    border: solid 1px orange;
+}
 
-    .CalendarBody .item.changed {
-        font-weight: bold;
-        background-color: yellow;
-        border: solid 1px orange;
-    }
+.CalendarBody .item.changed {
+    font-weight: bold;
+    background-color: yellow;
+    border: solid 1px orange;
+}
 
-    .CalendarBody .item .connection {
-        width: 30px;
-        height: 25px;
-        background-color: lightgoldenrodyellow;
-        border-top: solid 1px silver;
-        border-bottom: solid 1px silver;
-        position: relative;
-        top: -1px;
-        left: -30px;
-    }
+.CalendarBody .item .connection {
+    position: relative;
+    top: -1px;
+    left: -30px;
+    width: 30px;
+    height: 25px;
+    background-color: lightgoldenrodyellow;
+    border-top: solid 1px silver;
+    border-bottom: solid 1px silver;
+}
 
-        .CalendarBody .item .connection.hover {
-            background-color: white;
-            border-top: solid 1px orange;
-            border-bottom: solid 1px orange;
-        }
+.CalendarBody .item .connection.hover {
+    background-color: white;
+    border-top: solid 1px orange;
+    border-bottom: solid 1px orange;
+}
 
-        .CalendarBody .item .connection.changed {
-            font-weight: bold;
-            background-color: yellow;
-            border-top: solid 1px orange;
-            border-bottom: solid 1px orange;
-        }
+.CalendarBody .item .connection.changed {
+    font-weight: bold;
+    background-color: yellow;
+    border-top: solid 1px orange;
+    border-bottom: solid 1px orange;
+}
 
-    .CalendarBody .item .title {
-        padding: 5px 0px;
-        position: absolute;
-        overflow: hidden;
-        white-space: nowrap;
-        z-index: 2;
-    }
+.CalendarBody .item .title {
+    position: absolute;
+    z-index: 2;
+    padding: 5px 0px;
+    overflow: hidden;
+    white-space: nowrap;
+}
 
-        .CalendarBody .item .title.sub {
-            display: none;
-        }
+.CalendarBody .item .title.sub {
+    display: none;
+}
 
-        .CalendarBody .item .title > span:not(.ui-icon) {
-            margin-right: 3px;
-        }
+.CalendarBody .item .title > span:not(.ui-icon) {
+    margin-right: 3px;
+}
 
 .CalendarBody .dragging {
+    z-index: 50;
     height: 25px;
     padding: 5px;
     background-color: lightgoldenrodyellow;
     border-radius: 3px;
-    z-index: 50;
 }
 
 .CalendarBody .dummy {
@@ -870,98 +966,98 @@ th.calendar-header {
     border-radius: 20px;
 }
 
-    #Gantt .saturday {
-        fill: #eeeeee;
-    }
+#Gantt .saturday {
+    fill: #eeeeee;
+}
 
-    #Gantt .sunday {
-        fill: #ffeeee;
-    }
+#Gantt .sunday {
+    fill: #ffeeee;
+}
 
-    #Gantt .date {
-        stroke: white;
-    }
+#Gantt .date {
+    stroke: white;
+}
 
-    #Gantt .now {
-        stroke: red;
-    }
+#Gantt .now {
+    stroke: red;
+}
 
-    #Gantt .planned rect {
-        cursor: pointer;
-        fill: gainsboro;
-    }
+#Gantt .planned rect {
+    cursor: pointer;
+    fill: gainsboro;
+}
 
-        #Gantt .planned rect.summary {
-            cursor: auto;
-        }
+#Gantt .planned rect.summary {
+    cursor: auto;
+}
 
-    #Gantt .earned rect {
-        cursor: pointer;
-        fill: darkseagreen;
-    }
+#Gantt .earned rect {
+    cursor: pointer;
+    fill: darkseagreen;
+}
 
-        #Gantt .earned rect.summary {
-            cursor: auto;
-        }
+#Gantt .earned rect.summary {
+    cursor: auto;
+}
 
-    #Gantt rect.delay {
-        fill: #ffccd5;
-    }
+#Gantt rect.delay {
+    fill: #ffccd5;
+}
 
-        #Gantt rect.delay.summary {
-        }
+#Gantt rect.delay.summary {
+}
 
-    #Gantt rect.completed {
-        fill: lightsteelblue;
-    }
+#Gantt rect.completed {
+    fill: lightsteelblue;
+}
 
-    #Gantt .title text {
-        cursor: pointer;
-    }
+#Gantt .title text {
+    cursor: pointer;
+}
 
-        #Gantt .title text.delay {
-            fill: red;
-        }
+#Gantt .title text.delay {
+    fill: red;
+}
 
-        #Gantt .title text.summary {
-            font-size: 1.2em;
-            font-weight: bold;
-            cursor: auto;
-        }
+#Gantt .title text.summary {
+    font-size: 1.2em;
+    font-weight: bold;
+    cursor: auto;
+}
 
 #GanttStartDate {
     margin-right: 10px;
 }
 
 #GanttAxis {
+    position: sticky;
+    bottom: 75px;
+    left: 0px;
     width: calc(100% + 20px);
     height: 50px;
-    margin-left: -10px;
     margin-top: -25px;
-    background-color: rgba(255,255,255,0.5);
-    position: sticky;
-    left: 0px;
-    bottom: 75px;
+    margin-left: -10px;
+    background-color: rgba(255, 255, 255, 0.5);
 }
 
-    #GanttAxis text {
-    }
+#GanttAxis text {
+}
 
-    #GanttAxis .saturday {
-        fill: gainsboro;
-    }
+#GanttAxis .saturday {
+    fill: gainsboro;
+}
 
-    #GanttAxis .sunday {
-        fill: #ffdddd;
-    }
+#GanttAxis .sunday {
+    fill: #ffdddd;
+}
 
-    #GanttAxis .weekday {
-        fill: whitesmoke;
-    }
+#GanttAxis .weekday {
+    fill: whitesmoke;
+}
 
-    #GanttAxis .date {
-        stroke: white;
-    }
+#GanttAxis .date {
+    stroke: white;
+}
 
 #BurnDown {
     width: 100%;
@@ -970,62 +1066,62 @@ th.calendar-header {
     border-radius: 20px;
 }
 
-    #BurnDown .now {
-        stroke: red;
-    }
+#BurnDown .now {
+    stroke: red;
+}
 
-    #BurnDown .total {
-        fill: none;
-        stroke: green;
-    }
+#BurnDown .total {
+    fill: none;
+    stroke: green;
+}
 
-    #BurnDown .planned {
-        fill: none;
-        stroke: gray;
-    }
+#BurnDown .planned {
+    fill: none;
+    stroke: gray;
+}
 
-    #BurnDown .earned {
-        fill: none;
-        stroke: orange;
-    }
+#BurnDown .earned {
+    fill: none;
+    stroke: orange;
+}
 
-    #BurnDown .total circle {
-        fill: green;
-    }
+#BurnDown .total circle {
+    fill: green;
+}
 
-    #BurnDown .planned circle {
-        fill: gray;
-    }
+#BurnDown .planned circle {
+    fill: gray;
+}
 
-    #BurnDown .earned circle {
-        fill: orange;
-    }
+#BurnDown .earned circle {
+    fill: orange;
+}
 
 #BurnDownDetails > tbody > tr:hover {
-    background-color: whitesmoke;
     cursor: pointer;
+    background-color: whitesmoke;
 }
 
 #BurnDownDetails > tbody > tr > td {
     padding: 6px;
 }
 
-    #BurnDownDetails > tbody > tr > td.warning {
-        font-weight: bold;
-        color: red;
-    }
+#BurnDownDetails > tbody > tr > td.warning {
+    color: red;
+    font-weight: bold;
+}
 
-    #BurnDownDetails > tbody > tr > td.difference {
-        font-size: 1.3em;
-        font-weight: bold;
-        color: blue;
-        background-color: lightcyan;
-    }
+#BurnDownDetails > tbody > tr > td.difference {
+    color: blue;
+    font-size: 1.3em;
+    font-weight: bold;
+    background-color: lightcyan;
+}
 
-        #BurnDownDetails > tbody > tr > td.difference.warning {
-            color: red;
-            background-color: #ffccd5;
-        }
+#BurnDownDetails > tbody > tr > td.difference.warning {
+    color: red;
+    background-color: #ffccd5;
+}
 
 #BurnDownDetails .user-info {
     margin: 5px;
@@ -1038,15 +1134,15 @@ th.calendar-header {
     padding: 5px 0px 5px 20px;
 }
 
-    #BurnDownDetails .items a {
-        color: black;
-        text-decoration: none;
-    }
+#BurnDownDetails .items a {
+    color: black;
+    text-decoration: none;
+}
 
-        #BurnDownDetails .items a:hover {
-            color: blue;
-            text-decoration: underline;
-        }
+#BurnDownDetails .items a:hover {
+    color: blue;
+    text-decoration: underline;
+}
 
 #TimeSeries {
     width: 100%;
@@ -1055,19 +1151,19 @@ th.calendar-header {
     border-radius: 20px;
 }
 
-    #TimeSeries .surface {
-        stroke: white;
-    }
+#TimeSeries .surface {
+    stroke: white;
+}
 
-    #TimeSeries .index {
-        fill: black;
-    }
+#TimeSeries .index {
+    fill: black;
+}
 
 .kambanbody .kamban-row {
     border-bottom: dotted 1px silver;
 }
 
-.kambanbody .kamban-container{
+.kambanbody .kamban-container {
     background-color: white;
 }
 
@@ -1084,80 +1180,80 @@ th.calendar-header {
 }
 
 .kambanbody .kamban-item {
+    position: relative;
     margin: 3px;
     padding: 4px 16px 4px 5px;
+    overflow: hidden;
+    cursor: pointer;
     background-color: lightgoldenrodyellow;
     border: solid 1px silver;
-    position: relative;
-    cursor: pointer;
     border-radius: 5px;
-    overflow: hidden;
 }
 
-    .kambanbody .kamban-item:hover {
-        background-color: white;
-        border: solid 1px orange;
-    }
+.kambanbody .kamban-item:hover {
+    background-color: white;
+    border: solid 1px orange;
+}
 
-    .kambanbody .kamban-item.changed {
-        font-weight: bold;
-        background-color: yellow;
-        border: solid 1px orange;
-    }
+.kambanbody .kamban-item.changed {
+    font-weight: bold;
+    background-color: yellow;
+    border: solid 1px orange;
+}
 
-    .kambanbody .kamban-item .ui-icon {
-        position: absolute;
-        top: 0px;
-        right: 0px;
-    }
+.kambanbody .kamban-item .ui-icon {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+}
 
-    .kambanbody .kamban-item > span {
-        margin-right: 3px;
-    }
+.kambanbody .kamban-item > span {
+    margin-right: 3px;
+}
 
-    .kambanbody .dragging {
-        padding: 5px;
-        background-color: lightgoldenrodyellow;
-        border-radius: 3px;
-        z-index: 50;
-    }
+.kambanbody .dragging {
+    z-index: 50;
+    padding: 5px;
+    background-color: lightgoldenrodyellow;
+    border-radius: 3px;
+}
 
 .dashboard-kamban-header {
     position: sticky;
     top: -20px;
     z-index: 1;
 }
-    .dashboard-kamban-header > th {
-        overflow-x: hidden;
-    }
+.dashboard-kamban-header > th {
+    overflow-x: hidden;
+}
 
-    #ImageLib .item {
-        width: 250px;
-        height: 250px;
-        float: left;
-        margin: 10px 10px 0px 0px;
-        padding: 10px;
-        border: solid 1px silver;
-        position: relative;
-        overflow: hidden;
-    }
+#ImageLib .item {
+    position: relative;
+    float: left;
+    width: 250px;
+    height: 250px;
+    margin: 10px 10px 0px 0px;
+    padding: 10px;
+    overflow: hidden;
+    border: solid 1px silver;
+}
 
-    #ImageLib .item .image {
-        width: 100%;
-        float: left;
-        margin: 5px 0px 0px 0px;
-    }
+#ImageLib .item .image {
+    float: left;
+    width: 100%;
+    margin: 5px 0px 0px 0px;
+}
 
-    #ImageLib .item .delete-image {
-        float: left;
-        position: absolute;
-        right: 5px;
-        bottom: 5px;
-    }
+#ImageLib .item .delete-image {
+    position: absolute;
+    right: 5px;
+    bottom: 5px;
+    float: left;
+}
 
 #RecordHeader {
-    width: 100%;
     float: left;
+    width: 100%;
     margin: 0px 0px 5px 0px;
 }
 
@@ -1166,105 +1262,105 @@ th.calendar-header {
     padding: 6px 0px 0px 0px;
 }
 
-    #RecordInfo div {
-        float: left;
-        margin-right: 50px;
-    }
+#RecordInfo div {
+    float: left;
+    margin-right: 50px;
+}
 
-        #RecordInfo div p {
-            float: left;
-            margin-right: 5px;
-        }
+#RecordInfo div p {
+    float: left;
+    margin-right: 5px;
+}
 
-            #RecordInfo div p .elapsed-time {
-                float: left;
-                padding: 0px 5px;
-                font-weight: bold;
-                background-color: #eee;
-                border-radius: 2px;
-            }
+#RecordInfo div p .elapsed-time {
+    float: left;
+    padding: 0px 5px;
+    font-weight: bold;
+    background-color: #eee;
+    border-radius: 2px;
+}
 
 #RecordSwitchers {
     float: right;
 }
 
-    #RecordSwitchers > * {
-        float: left;
-    }
+#RecordSwitchers > * {
+    float: left;
+}
 
-    #RecordSwitchers .current {
-        height: 26px;
-        display: block;
-        float: left;
-        margin: 0px 1px 0px 0px;
-        padding: 5px;
-        border-radius: 5px;
-    }
+#RecordSwitchers .current {
+    display: block;
+    float: left;
+    height: 26px;
+    margin: 0px 1px 0px 0px;
+    padding: 5px;
+    border-radius: 5px;
+}
 
 #TemplateTabsContainer {
-    width: 100%;
     float: left;
+    width: 100%;
 }
 
 #Editor {
-    width: 100%;
     float: left;
     clear: both;
+    width: 100%;
 }
 
 #EditorTabsContainer {
-    width: 73%;
     float: left;
+    width: 73%;
     margin: 0px 0px 20px 0px;
 }
 
-    #EditorTabsContainer.max {
-        width: 100%;
-    }
+#EditorTabsContainer.max {
+    width: 100%;
+}
 
 #MailEditorTabsContainer {
-    width: 100%;
     float: left;
+    width: 100%;
     margin: 0px 0px 20px 0px;
     border: none;
 }
 
 #EditorComments {
-    width: 27%;
     float: right;
+    width: 27%;
     margin: 0px 0px 15px 0px;
     padding: 0px 0px 0px 5px;
 }
 
-    #EditorComments .title-header {
-        margin: 3px 10px 8px 0px;
-    }
+#EditorComments .title-header {
+    margin: 3px 10px 8px 0px;
+}
 
 #CommentField {
     margin: 0px 0px 5px 0px;
 }
 
 #OutgoingMailsForm {
-    width: 73%;
     float: left;
+    width: 73%;
 }
 
-    #OutgoingMailsForm > .item {
-        width: 100%;
-        float: left;
-        position: relative;
-        border-radius: 10px;
-    }
+#OutgoingMailsForm > .item {
+    position: relative;
+    float: left;
+    width: 100%;
+    border-radius: 10px;
+}
 
-    #OutgoingMailsForm .content {
-        width: 100%;
-        float: left;
-        margin: 5px 0px 20px 0px;
-        padding: 10px 0px 0px 0px;
-        border: solid 1px silver;
-        border-top: none;
-        border-radius: 0px 0px 10px 10px / 0px 0px 10px 10px;
-    }
+#OutgoingMailsForm .content {
+    float: left;
+    width: 100%;
+    margin: 5px 0px 20px 0px;
+    padding: 10px 0px 0px 0px;
+    border: solid 1px silver;
+    border-top: none;
+    border-radius: 0px 0px 10px 10px / 0px 0px 10px 10px;
+}
 
 #DropDownSearchDialogForm {
     width: 100%;
@@ -1272,13 +1368,13 @@ th.calendar-header {
 }
 
 #ProcessTabsContainer {
-    margin: 0px 20px 10px 20px;
     clear: both;
+    margin: 0px 20px 10px 20px;
 }
 
 #StatusControlTabsContainer {
-    margin: 0px 20px 10px 20px;
     clear: both;
+    margin: 0px 20px 10px 20px;
 }
 
 #StatusControlColumnHash .column-control-types {
@@ -1286,138 +1382,138 @@ th.calendar-header {
 }
 
 #ViewTabsContainer {
-    margin: 0px 20px 10px 20px;
     clear: both;
+    margin: 0px 20px 10px 20px;
 }
 
 #ExportTabsContainer {
-    margin: 0px 20px 10px 20px;
     clear: both;
+    margin: 0px 20px 10px 20px;
 }
 
 #EditorDetailTabsContainer {
-    margin: 0px 20px 10px 20px;
     clear: both;
+    margin: 0px 20px 10px 20px;
 }
 
 #ColumnAccessControlTabsContainer {
-    margin: 0px 20px 10px 20px;
     clear: both;
+    margin: 0px 20px 10px 20px;
 }
 
 #SearchResults {
-    width: 80%;
     float: left;
+    width: 80%;
     margin: 0px 100px;
 }
 
-    #SearchResults .count {
-        float: left;
-        margin: 0px 0px 10px 0px;
-    }
+#SearchResults .count {
+    float: left;
+    margin: 0px 0px 10px 0px;
+}
 
-        #SearchResults .count .label {
-            height: 26px;
-            display: block;
-            float: left;
-            margin: 0px 5px 5px 0px;
-            padding: 5px 10px;
-            background: gainsboro;
-            border-radius: 5px;
-        }
+#SearchResults .count .label {
+    display: block;
+    float: left;
+    height: 26px;
+    margin: 0px 5px 5px 0px;
+    padding: 5px 10px;
+    background: gainsboro;
+    border-radius: 5px;
+}
 
-        #SearchResults .count .data {
-            height: 26px;
-            display: block;
-            float: left;
-            margin: 0px 5px 5px 0px;
-            padding: 5px;
-        }
+#SearchResults .count .data {
+    display: block;
+    float: left;
+    height: 26px;
+    margin: 0px 5px 5px 0px;
+    padding: 5px;
+}
 
-    #SearchResults .result {
-        width: 100%;
-        float: left;
-        padding: 15px;
-        border: solid 1px white;
-        clear: both;
-    }
+#SearchResults .result {
+    float: left;
+    clear: both;
+    width: 100%;
+    padding: 15px;
+    border: solid 1px white;
+}
 
-        #SearchResults .result > ul {
-            display: block;
-            float: left;
-            clear: both;
-        }
+#SearchResults .result > ul {
+    display: block;
+    float: left;
+    clear: both;
+}
 
-        #SearchResults .result > h3 {
-            display: block;
-            float: left;
-            margin: 5px 0px;
-            clear: both;
-        }
+#SearchResults .result > h3 {
+    display: block;
+    float: left;
+    clear: both;
+    margin: 5px 0px;
+}
 
-            #SearchResults .result > h3 > a {
-                font-size: 1.3em;
-                font-weight: bold;
-            }
+#SearchResults .result > h3 > a {
+    font-size: 1.3em;
+    font-weight: bold;
+}
 
-                #SearchResults .result > h3 > a > span {
-                    font-weight: bold;
-                }
+#SearchResults .result > h3 > a > span {
+    font-weight: bold;
+}
 
-        #SearchResults .result > p {
-            display: block;
-            float: left;
-            clear: both;
-        }
+#SearchResults .result > p {
+    display: block;
+    float: left;
+    clear: both;
+}
 
-        #SearchResults .result:hover {
-            border: solid 1px orange;
-            cursor: pointer;
-        }
+#SearchResults .result:hover {
+    cursor: pointer;
+    border: solid 1px orange;
+}
 
 .highlight {
     background: #ff0;
 }
 
 #MainCommandsContainer {
+    position: fixed;
+    bottom: 30px;
+    left: 0px;
+    z-index: 90;
     width: 100%;
     height: 47px;
     padding: 7px 0px 0px 0px;
-    background-color: rgba(0,0,0,0.65);
-    position: fixed;
-    left: 0px;
-    bottom: 30px;
-    z-index: 90;
+    background-color: rgba(0, 0, 0, 0.65);
 }
 
 #MainCommands {
     text-align: center;
 }
 
-    #MainCommands > button {
-        display: inline;
-        float: none;
-        margin: 2px 4px;
-    }
+#MainCommands > button {
+    display: inline;
+    float: none;
+    margin: 2px 4px;
+}
 
 #ApiEditorCommands {
     padding: 0px 5px 200px 140px;
 }
 
-    #ApiEditorCommands > * {
-        margin-right: 10px;
-    }
+#ApiEditorCommands > * {
+    margin-right: 10px;
+}
 
 #BottomMargin {
-    height: 100px;
     clear: both;
+    height: 100px;
 }
 
 #Video {
-    width: 640px;
-    height: 480px;
     display: block;
     float: left;
+    width: 640px;
+    height: 480px;
     margin: 0px 16px;
 }
 
@@ -1426,22 +1522,22 @@ th.calendar-header {
 }
 
 #Footer {
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    z-index: 90;
+    display: block;
     width: 100%;
     height: 30px;
-    display: block;
     padding: 5px 10px;
     text-align: right;
     background-color: black;
-    position: fixed;
-    left: 0px;
-    bottom: 0px;
-    z-index: 90;
 }
 
-    #Footer a {
-        color: white;
-        text-decoration: none;
-    }
+#Footer a {
+    color: white;
+    text-decoration: none;
+}
 
 #Versions {
     width: 500px;
@@ -1451,31 +1547,33 @@ th.calendar-header {
     border-radius: 10px;
 }
 
-    #Versions span {
-        margin: 10px;
-        line-height: 30px;
-    }
+#Versions span {
+    margin: 10px;
+    line-height: 30px;
+}
 
-#SummaryForm .field-normal[style="display: none;"] + #SummarySetZeroWhenOutOfConditionField{
-    display: none!important;
+#SummaryForm
+    .field-normal[style="display: none;"]
+    + #SummarySetZeroWhenOutOfConditionField {
+    display: none !important;
 }
 
 .template {
-    width: 100%;
     display: block;
     float: left;
+    width: 100%;
 }
 
 .template-selectable {
-    width: 340px;
     display: block;
     float: left;
+    width: 340px;
 }
 
 .template-viewer-container {
-    width: 100%;
     display: block;
     float: right;
+    width: 100%;
     margin: 0px 0px 0px -340px;
 }
 
@@ -1483,22 +1581,22 @@ th.calendar-header {
     margin: 0px 0px 0px 340px;
 }
 
-    .template-viewer .description {
-        margin: 10px 0px 8px 0px;
-        padding: 5px;
-        background-color: #fefedd;
-        border: solid 1px silver;
-        border-radius: 5px;
-    }
+.template-viewer .description {
+    margin: 10px 0px 8px 0px;
+    padding: 5px;
+    background-color: #fefedd;
+    border: solid 1px silver;
+    border-radius: 5px;
+}
 
-    .template-viewer .samples-displayed {
-        margin: 0px 0px 8px 0px;
-        padding: 5px;
-        color: red;
-        background-color: pink;
-        border: solid 1px red;
-        border-radius: 5px;
-    }
+.template-viewer .samples-displayed {
+    margin: 0px 0px 8px 0px;
+    padding: 5px;
+    color: red;
+    background-color: pink;
+    border: solid 1px red;
+    border-radius: 5px;
+}
 
 .template-tab-container {
     min-height: 600px;
@@ -1509,138 +1607,138 @@ th.calendar-header {
 }
 
 .nav-sites {
-    margin: 0px -10px;
     clear: both;
+    margin: 0px -10px;
 }
 
 .nav-site {
-    width: 220px;
-    height: 70px;
-    float: left;
-    margin: 10px;
     position: relative;
     top: 0px;
     left: 0px;
+    float: left;
+    width: 220px;
+    height: 70px;
+    margin: 10px;
     border-radius: 5px;
 }
 
-    .nav-site.sites {
-    }
+.nav-site.sites {
+}
 
-    .nav-site .heading {
-        width: 50px;
-        height: 9px;
-        position: absolute;
-        top: -10px;
-        left: 5px;
-        border-radius: 3px 3px 0px 0px / 3px 3px 0px 0px;
-    }
+.nav-site .heading {
+    position: absolute;
+    top: -10px;
+    left: 5px;
+    width: 50px;
+    height: 9px;
+    border-radius: 3px 3px 0px 0px / 3px 3px 0px 0px;
+}
 
-    .nav-site.dashboards {
-        box-shadow: 4px 4px 2px rgba(0, 0, 0, 0.2);
-    }
+.nav-site.dashboards {
+    box-shadow: 4px 4px 2px rgba(0, 0, 0, 0.2);
+}
 
-    .nav-site .stacking1 {
-        width: 220px;
-        height: 70px;
-        border-bottom: solid 1px silver;
-        border-right: solid 1px silver;
-        position: absolute;
-        top: 1px;
-        left: 1px;
-        border-radius: 5px;
-    }
+.nav-site .stacking1 {
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    width: 220px;
+    height: 70px;
+    border-right: solid 1px silver;
+    border-bottom: solid 1px silver;
+    border-radius: 5px;
+}
 
-    .nav-site .stacking2 {
-        width: 220px;
-        height: 70px;
-        border-bottom: solid 1px silver;
-        border-right: solid 1px silver;
-        position: absolute;
-        top: 4px;
-        left: 4px;
-        border-radius: 5px;
-    }
+.nav-site .stacking2 {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: 220px;
+    height: 70px;
+    border-right: solid 1px silver;
+    border-bottom: solid 1px silver;
+    border-radius: 5px;
+}
 
-    .nav-site a {
-        width: 100%;
-        height: 100%;
-        display: block;
-        padding: 10px 3px 3px 10px;
-        overflow: hidden;
-        word-wrap: break-word;
-        text-decoration: none;
-    }
+.nav-site a {
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 10px 3px 3px 10px;
+    overflow: hidden;
+    text-decoration: none;
+    word-wrap: break-word;
+}
 
-        .nav-site a:hover {
-        }
+.nav-site a:hover {
+}
 
-    .nav-site.has-image a {
-        padding: 10px 3px 3px 65px;
-    }
+.nav-site.has-image a {
+    padding: 10px 3px 3px 65px;
+}
 
-    .nav-site span.title {
-        margin-left: 5px;
-    }
+.nav-site span.title {
+    margin-left: 5px;
+}
 
-    .nav-site.to-parent {
-        height: 36px;
-        background-color: white;
-    }
+.nav-site.to-parent {
+    height: 36px;
+    background-color: white;
+}
 
-        .nav-site.to-parent a {
-            padding: 9px 3px 3px 30px;
-        }
+.nav-site.to-parent a {
+    padding: 9px 3px 3px 30px;
+}
 
-        .nav-site.to-parent.has-image a {
-            padding: 9px 3px 3px 35px;
-        }
+.nav-site.to-parent.has-image a {
+    padding: 9px 3px 3px 35px;
+}
 
-        .nav-site.to-parent .ui-icon {
-            position: absolute;
-            top: 9px;
-            left: 9px;
-        }
+.nav-site.to-parent .ui-icon {
+    position: absolute;
+    top: 9px;
+    left: 9px;
+}
 
-    .nav-site .site-image-thumbnail {
-        position: absolute;
-        top: 8px;
-        left: 8px;
-        border-radius: 8px;
-    }
+.nav-site .site-image-thumbnail {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    border-radius: 8px;
+}
 
-    .nav-site .site-image-icon {
-        position: absolute;
-        top: 4px;
-        left: 8px;
-        border-radius: 8px;
-    }
+.nav-site .site-image-icon {
+    position: absolute;
+    top: 4px;
+    left: 8px;
+    border-radius: 8px;
+}
 
-    .nav-site .conditions {
-        font-size: 0.75em;
-        color: black;
-        position: absolute;
-        right: 1px;
-        bottom: 1px;
-    }
+.nav-site .conditions {
+    position: absolute;
+    right: 1px;
+    bottom: 1px;
+    color: black;
+    font-size: 0.75em;
+}
 
-        .nav-site .conditions span {
-            display: block;
-            float: left;
-            margin: 2px 2px 2px 0px;
-            padding: 2px 5px;
-            background-color: #eee;
-            border-radius: 2px;
-        }
+.nav-site .conditions span {
+    display: block;
+    float: left;
+    margin: 2px 2px 2px 0px;
+    padding: 2px 5px;
+    background-color: #eee;
+    border-radius: 2px;
+}
 
-            .nav-site .conditions span.overdue {
-                color: white;
-                background-color: red;
-            }
+.nav-site .conditions span.overdue {
+    color: white;
+    background-color: red;
+}
 
-            .nav-site .conditions span.elapsed-time.old {
-                color: silver;
-            }
+.nav-site .conditions span.elapsed-time.old {
+    color: silver;
+}
 
 .error-page {
     padding: 30px 50px;
@@ -1650,8 +1748,8 @@ th.calendar-header {
 .error-page-title {
     margin: 0px 0px 20px 0px;
     padding: 10px 0px;
-    font-weight: bold;
     color: red;
+    font-weight: bold;
     border-bottom: dotted 1px red;
 }
 
@@ -1661,8 +1759,8 @@ th.calendar-header {
 .error-page-message {
     margin: 15px 0px 0px 0px;
     padding: 5px 20px;
-    font-weight: bold;
     color: white;
+    font-weight: bold;
     background-color: gray;
 }
 
@@ -1673,10 +1771,10 @@ th.calendar-header {
     background-color: gainsboro;
 }
 
-    .error-page-action em {
-        margin: 10px;
-        color: black;
-    }
+.error-page-action em {
+    margin: 10px;
+    color: black;
+}
 
 .error-page-stacktrace {
     margin: 5px 0px 0px 0px;
@@ -1688,125 +1786,126 @@ th.calendar-header {
     min-inline-size: 0;
 }
 
-    .fieldset.enclosed {
-        margin: 0px 0px 10px 0px;
-        padding: 10px;
-        border: solid 1px silver;
-        clear: both;
-    }
+.fieldset.enclosed {
+    clear: both;
+    margin: 0px 0px 10px 0px;
+    padding: 10px;
+    border: solid 1px silver;
+}
 
-    .fieldset.enclosed-half {
-        width: 380px;
-        float: left;
-        margin: 0px 0px 10px 0px;
-        padding: 10px;
-        border: solid 1px silver;
-    }
+.fieldset.enclosed-half {
+    float: left;
+    width: 380px;
+    margin: 0px 0px 10px 0px;
+    padding: 10px;
+    border: solid 1px silver;
+}
 
-    .fieldset.enclosed-thin {
-        margin: 0px 0px 10px 0px;
-        padding: 5px 5px 5px 10px;
-        border: solid 1px silver;
-        clear: both;
-    }
+.fieldset.enclosed-thin {
+    clear: both;
+    margin: 0px 0px 10px 0px;
+    padding: 5px 5px 5px 10px;
+    border: solid 1px silver;
+}
 
-        .fieldset.enclosed-thin [class*="field-auto"] {
-            height: 35px;
-        }
+.fieldset.enclosed-thin [class*="field-auto"] {
+    height: 35px;
+}
 
-    .fieldset.enclosed-auto {
-        float: left;
-        margin: 0px 0px 10px 10px;
-        padding: 5px 5px 5px 10px;
-        border: solid 1px silver;
-    }
+.fieldset.enclosed-auto {
+    float: left;
+    margin: 0px 0px 10px 10px;
+    padding: 5px 5px 5px 10px;
+    border: solid 1px silver;
+}
 
-    .fieldset[class^="enclosed"] > legend {
-        margin: 0px 0px 0px 10px;
-        font-weight: bold;
-    }
+.fieldset[class^="enclosed"] > legend {
+    margin: 0px 0px 0px 10px;
+    font-weight: bold;
+}
 
 .command-field {
+    clear: both;
     padding: 10px 5px 5px 136px;
     text-align: center;
-    clear: both;
 }
 
-    .command-field > button {
-        display: block;
-        float: left;
-        margin: 2px 4px;
-    }
+.command-field > button {
+    display: block;
+    float: left;
+    margin: 2px 4px;
+}
 
 .command-center {
+    clear: both;
     padding: 5px 5px 5px 5px;
     text-align: center;
-    clear: both;
 }
 
-    .command-center > button {
-        display: inline;
-        float: none;
-        margin: 2px 4px;
-    }
+.command-center > button {
+    display: inline;
+    float: none;
+    margin: 2px 4px;
+}
 
 .command-left {
     float: left;
-    padding: 5px 5px 5px 5px;
     clear: both;
+    padding: 5px 5px 5px 5px;
 }
 
-    .command-left > * {
-        display: block;
-        float: left;
-    }
+.command-left > * {
+    display: block;
+    float: left;
+}
 
-    .command-left > button {
-        margin: 2px 4px;
-    }
+.command-left > button {
+    margin: 2px 4px;
+}
 
-    .command-left > .ui-icon {
-        margin: 7px 3px 0px 15px;
-    }
+.command-left > .ui-icon {
+    margin: 7px 3px 0px 15px;
+}
 
 .command-right {
+    clear: both;
     padding: 5px 5px 5px 5px;
     text-align: right;
-    clear: both;
 }
 
-    .command-right > button {
-        display: inline;
-        float: none;
-        margin: 2px 4px;
-    }
+.command-right > button {
+    display: inline;
+    float: none;
+    margin: 2px 4px;
+}
 
 .field-normal {
+    float: left;
     width: 340px;
     height: 45px;
-    float: left;
     padding: 0px 20px 10px 0px;
 }
 
-    .field-normal > .field-label {
-        width: 120px;
-        float: left;
-        margin-right: -120px;
-        padding: 7px 7px 7px 0px;
-        text-align: right;
-    }
+.field-normal > .field-label {
+    float: left;
+    width: 120px;
+    margin-right: -120px;
+    padding: 7px 7px 7px 0px;
+    text-align: right;
+}
 
-    .field-normal > .field-control {
-        width: 100%;
-        float: right;
-    }
+.field-normal > .field-control {
+    float: right;
+    width: 100%;
+}
 
 :not(td) > div.field-normal .container-normal {
     width: auto;
     margin-left: 120px;
 }
 
-td > .field-normal, td > .field-wide {
+td > .field-normal,
+td > .field-wide {
     width: 100%;
     padding: 0px;
 }
@@ -1820,75 +1919,75 @@ td > .field-normal, td > .field-wide {
 }
 
 .field-wide {
+    float: left;
+    clear: both;
     width: 100%;
     min-height: 45px;
-    float: left;
     padding: 0px 10px 10px 0px;
-    clear: both;
 }
 
-    .field-wide > .field-label {
-        width: 120px;
-        float: left;
-        margin-right: -120px;
-        padding: 7px 7px 7px 0px;
-        text-align: right;
-    }
+.field-wide > .field-label {
+    float: left;
+    width: 120px;
+    margin-right: -120px;
+    padding: 7px 7px 7px 0px;
+    text-align: right;
+}
 
-    .field-wide > .field-control {
-        width: 100%;
-        float: right;
-    }
+.field-wide > .field-control {
+    float: right;
+    width: 100%;
+}
 
 :not(td) > div.field-wide .container-normal {
     margin-left: 120px;
 }
 
 .field-markdown {
+    float: left;
+    clear: both;
     width: 100%;
     min-height: 45px;
-    float: left;
     padding: 0px 10px 10px 0px;
-    clear: both;
 }
 
-    .field-markdown > .field-label {
-        width: 120px;
-        float: left;
-        margin-right: -120px;
-        padding: 7px 7px 7px 0px;
-        text-align: right;
-    }
+.field-markdown > .field-label {
+    float: left;
+    width: 120px;
+    margin-right: -120px;
+    padding: 7px 7px 7px 0px;
+    text-align: right;
+}
 
-    .field-markdown > .field-control {
-        width: 100%;
-        float: right;
-    }
+.field-markdown > .field-control {
+    float: right;
+    width: 100%;
+}
 
 :not(td) > div.field-markdown .container-normal {
     margin-left: 120px;
 }
 
 .field-textarea {
+    float: left;
+    clear: both;
     width: 100%;
     min-height: 45px;
-    float: left;
     padding: 0px 10px 10px 0px;
-    clear: both;
 }
 
-    .field-textarea > .field-label {
-        width: 120px;
-        float: left;
-        margin-right: -120px;
-        padding: 7px 7px 7px 0px;
-        text-align: right;
-    }
+.field-textarea > .field-label {
+    float: left;
+    width: 120px;
+    margin-right: -120px;
+    padding: 7px 7px 7px 0px;
+    text-align: right;
+}
 
-    .field-textarea > .field-control {
-        width: 100%;
-        float: right;
-    }
+.field-textarea > .field-control {
+    float: right;
+    width: 100%;
+}
 
 :not(td) > div.field-textarea .container-normal {
     margin-left: 120px;
@@ -1896,75 +1995,75 @@ td > .field-normal, td > .field-wide {
 
 .field-auto {
     display: flex;
+    float: left;
     width: auto;
     height: 45px;
-    float: left;
     margin-right: 35px;
     padding: 0px 10px 10px 0px;
 }
 
-    .field-auto > .field-label {
-        width: 120px;
-        float: left;
-        padding: 7px 7px 7px 0px;
-        text-align: right;
-    }
+.field-auto > .field-label {
+    float: left;
+    width: 120px;
+    padding: 7px 7px 7px 0px;
+    text-align: right;
+}
 
-        .field-auto > .field-label > label {
-        }
+.field-auto > .field-label > label {
+}
 
-    .field-auto > .field-control {
-        width: auto;
-        float: left;
-        flex: 1;
-    }
+.field-auto > .field-control {
+    flex: 1;
+    float: left;
+    width: auto;
+}
 
 .field-auto-thin {
+    float: left;
     width: auto;
     height: 45px;
-    float: left;
     margin: 0px 5px;
     padding: 0px 10px 10px 0px;
 }
 
-    .field-auto-thin > .field-label {
-        float: left;
-        padding: 7px 7px 7px 0px;
-        text-align: right;
-    }
+.field-auto-thin > .field-label {
+    float: left;
+    padding: 7px 7px 7px 0px;
+    text-align: right;
+}
 
-        .field-auto-thin > .field-label > label {
-        }
+.field-auto-thin > .field-label > label {
+}
 
-    .field-auto-thin > .field-control {
-        width: auto;
-        float: left;
-    }
+.field-auto-thin > .field-control {
+    float: left;
+    width: auto;
+}
 
-    .field-auto-thin select {
-        max-width: 120px;
-    }
+.field-auto-thin select {
+    max-width: 120px;
+}
 
 .field-vertical {
+    float: left;
     width: 330px;
     height: 100%;
-    float: left;
     padding: 0px 20px 20px 0px;
 }
 
-    .field-vertical > .field-label {
-        width: 100%;
-        float: left;
-        margin-right: -120px;
-        padding: 5px 10px;
-        text-align: center;
-    }
+.field-vertical > .field-label {
+    float: left;
+    width: 100%;
+    margin-right: -120px;
+    padding: 5px 10px;
+    text-align: center;
+}
 
-    .field-vertical > .field-control {
-        width: 100%;
-        float: left;
-        clear: both;
-    }
+.field-vertical > .field-control {
+    float: left;
+    clear: both;
+    width: 100%;
+}
 
 .field-label {
     overflow: hidden;
@@ -1973,7 +2072,7 @@ td > .field-normal, td > .field-wide {
 label.required:after {
     margin-left: 3px;
     color: red;
-    content: '*';
+    content: "*";
 }
 
 .field-control .unit {
@@ -1983,14 +2082,14 @@ label.required:after {
 }
 
 .field-section {
-    width: 100%;
     display: block;
     float: left;
+    clear: both;
+    width: 100%;
     margin: 15px;
     padding: 2px 5px;
     font-weight: bold;
     border-bottom: solid 1px silver;
-    clear: both;
 }
 
 .container-normal {
@@ -1998,33 +2097,33 @@ label.required:after {
 }
 
 .container-left {
-    width: 340px;
+    position: relative;
     float: left;
+    width: 340px;
     margin-right: -340px;
     padding: 0px 0px 15px 0px;
-    position: relative;
 }
 
 .container-right {
-    width: 100%;
-    float: right;
     position: relative;
+    float: right;
+    width: 100%;
 }
 
-    .container-right > * {
-        display: block;
-        margin-left: 340px;
-    }
+.container-right > * {
+    display: block;
+    margin-left: 340px;
+}
 
 .control-text {
+    display: block;
     width: 100%;
     min-height: 30px;
-    display: block;
     padding: 6px 4px 2px 4px;
+    overflow: hidden;
     color: black;
     background: whitesmoke;
     border: solid 1px silver;
-    overflow: hidden;
     border-radius: 5px;
 }
 
@@ -2036,20 +2135,20 @@ label.required:after {
     border-radius: 5px;
 }
 
-    .control-textbox.with-unit {
-        width: 70%;
-        display: block;
-        float: left;
-    }
+.control-textbox.with-unit {
+    display: block;
+    float: left;
+    width: 70%;
+}
 
-    .control-textbox.anchor {
-        width: 100%;
-        height: 30px;
-        padding: 4px;
-        border: solid 1px silver;
-        border-radius: 5px;
-        z-index: 0;
-    }
+.control-textbox.anchor {
+    z-index: 0;
+    width: 100%;
+    height: 30px;
+    padding: 4px;
+    border: solid 1px silver;
+    border-radius: 5px;
+}
 
 .control-textarea {
     width: 100%;
@@ -2064,15 +2163,15 @@ label.required:after {
 }
 
 .control-attachments + label.error {
-    height: 22px;
     position: absolute;
     top: 50px;
+    height: 22px;
 }
 
 .control-attachments-upload {
-    width: 100%;
     display: block;
     float: left;
+    width: 100%;
     padding: 25px 0px;
     text-align: center;
     border: dotted 2px #d19405;
@@ -2080,15 +2179,15 @@ label.required:after {
 }
 
 .control-attachments-items {
-    width: 100%;
     display: block;
     float: left;
+    width: 100%;
 }
 
 .control-attachments-item {
-    width: 100%;
     display: block;
     float: left;
+    width: 100%;
     margin: 5px 0px 0px 0px;
     padding: 5px 10px;
     text-align: left;
@@ -2097,25 +2196,25 @@ label.required:after {
 }
 
 .progress-bar {
-    width: 100%;
-    height: 30px;
     display: block;
     float: left;
+    width: 100%;
+    height: 30px;
     margin: 5px 0px 0px 0px;
+    overflow: hidden;
     vertical-align: top;
     border: solid 1px #d19405;
-    overflow: hidden;
     border-radius: 5px;
 }
 
-    .progress-bar > div {
-        width: 0;
-        height: 100%;
-        line-height: 22px;
-        color: white;
-        background-color: #fece2f;
-        border-radius: 3px;
-    }
+.progress-bar > div {
+    width: 0;
+    height: 100%;
+    color: white;
+    line-height: 22px;
+    background-color: #fece2f;
+    border-radius: 3px;
+}
 
 .already-attachments {
     background-color: #fece2f;
@@ -2126,9 +2225,9 @@ label.required:after {
     border: solid 1px silver;
 }
 
-    .preparation-delete > a {
-        color: silver;
-    }
+.preparation-delete > a {
+    color: silver;
+}
 
 .show-file {
     display: block;
@@ -2148,9 +2247,9 @@ label.required:after {
 }
 
 .field-control .control-markup {
+    float: left;
     width: 100%;
     min-height: 100px;
-    float: left;
     padding: 4px 25px 4px 6px;
     color: black;
     background: whitesmoke;
@@ -2159,121 +2258,121 @@ label.required:after {
 }
 
 .md {
-    width: 100%;
     float: left;
+    width: 100%;
+    font-family: Terminal, Hiragino Kaku Gothic Pro;
     line-height: 1.5em;
-    font-family: Terminal,Hiragino Kaku Gothic Pro;
-    word-wrap: break-word;
     word-break: break-all;
+    word-wrap: break-word;
 }
 
-    .md > * {
-        float: left;
-        clear: both;
-    }
+.md > * {
+    float: left;
+    clear: both;
+}
 
-    .md h1 {
-        margin: 10px 0px 10px 0px;
-        font-weight: bold;
-    }
+.md h1 {
+    margin: 10px 0px 10px 0px;
+    font-weight: bold;
+}
 
-        .md h1:not(:first-child) {
-            margin: 20px 0px 10px 0px;
-        }
+.md h1:not(:first-child) {
+    margin: 20px 0px 10px 0px;
+}
 
-    .md h2 {
-        margin: 5px 0px 8px 0px;
-        font-weight: bold;
-    }
+.md h2 {
+    margin: 5px 0px 8px 0px;
+    font-weight: bold;
+}
 
-        .md h2:not(:first-child) {
-            margin: 20px 0px 8px 0px;
-        }
+.md h2:not(:first-child) {
+    margin: 20px 0px 8px 0px;
+}
 
-    .md h3 {
-        margin: 3px 0px 6px 0px;
-        font-weight: bold;
-    }
+.md h3 {
+    margin: 3px 0px 6px 0px;
+    font-weight: bold;
+}
 
-        .md h3:not(:first-child) {
-            margin: 10px 0px 6px 0px;
-        }
+.md h3:not(:first-child) {
+    margin: 10px 0px 6px 0px;
+}
 
-    .md h4 {
-        margin: 3px 0px 4px 0px;
-        font-weight: bold;
-    }
+.md h4 {
+    margin: 3px 0px 4px 0px;
+    font-weight: bold;
+}
 
-        .md h4:not(:first-child) {
-            margin: 10px 0px 4px 0px;
-        }
+.md h4:not(:first-child) {
+    margin: 10px 0px 4px 0px;
+}
 
-    .md h5 {
-        margin: 3px 0px 2px 0px;
-        font-weight: bold;
-    }
+.md h5 {
+    margin: 3px 0px 2px 0px;
+    font-weight: bold;
+}
 
-        .md h5:not(:first-child) {
-            margin: 10px 0px 2px 0px;
-        }
+.md h5:not(:first-child) {
+    margin: 10px 0px 2px 0px;
+}
 
-    .md h6 {
-        margin: 3px 0px 2px 0px;
-        font-weight: bold;
-    }
+.md h6 {
+    margin: 3px 0px 2px 0px;
+    font-weight: bold;
+}
 
-        .md h6:not(:first-child) {
-            margin: 10px 0px 2px 0px;
-        }
+.md h6:not(:first-child) {
+    margin: 10px 0px 2px 0px;
+}
 
-    .md hr {
-        float: none;
-        clear: both;
-    }
+.md hr {
+    float: none;
+    clear: both;
+}
 
-    .md ol {
-        margin: 0px 10px 10px 32px;
-        list-style-type: decimal;
-    }
+.md ol {
+    margin: 0px 10px 10px 32px;
+    list-style-type: decimal;
+}
 
-    .md p {
-        margin: 0px 0px 10px 0px;
-        clear: both;
-    }
+.md p {
+    clear: both;
+    margin: 0px 0px 10px 0px;
+}
 
-    .md table {
-        width: auto;
-        margin: 0px 0px 10px 0px;
-        background-color: white;
-    }
+.md table {
+    width: auto;
+    margin: 0px 0px 10px 0px;
+    background-color: white;
+}
 
-    .md td {
-        padding: 5px 10px;
-        border: solid 1px silver;
-    }
+.md td {
+    padding: 5px 10px;
+    border: solid 1px silver;
+}
 
-    .md th {
-        padding: 5px 10px;
-        font-weight: bold;
-        border: solid 1px silver;
-    }
+.md th {
+    padding: 5px 10px;
+    font-weight: bold;
+    border: solid 1px silver;
+}
 
-    .md tbody tr:nth-child(odd) {
-        background-color: whitesmoke;
-    }
+.md tbody tr:nth-child(odd) {
+    background-color: whitesmoke;
+}
 
-    .md ul {
-        margin: 0px 10px 10px 32px;
-        list-style-type: disc;
-    }
+.md ul {
+    margin: 0px 10px 10px 32px;
+    list-style-type: disc;
+}
 
-    .md li p {
-        float: none;
-    }
+.md li p {
+    float: none;
+}
 
 .control-markdown {
-    width: 100%;
     display: none;
+    width: 100%;
     padding: 4px 4px 4px 6px;
     border: solid 1px silver;
     border-radius: 5px;
@@ -2288,10 +2387,10 @@ label.required:after {
 }
 
 .control-spinner {
-    width: auto;
-    height: 22px;
     display: block;
     float: left;
+    width: auto;
+    height: 22px;
     padding: 1px;
     color: black;
 }
@@ -2302,23 +2401,25 @@ label.required:after {
     margin: 8px 0px;
 }
 
-    .control-checkbox ~ label {
-        display: block;
-        float: left;
-        margin: 7px 5px 0px 6px;
-    }
+.control-checkbox ~ label {
+    display: block;
+    float: left;
+    margin: 7px 5px 0px 6px;
+}
 
-    .control-checkbox + .ui-icon.ui-icon-info {
-        display: block;
-        float: left;
-        margin: 7px -7px 0px 0px;
-    }
+.control-checkbox + .ui-icon.ui-icon-info {
+    display: block;
+    float: left;
+    margin: 7px -7px 0px 0px;
+}
 
 .field-normal .control-checkbox + label {
     width: 175px;
 }
 
-_::-webkit-full-page-media, _:future, :root .field-normal .control-checkbox + label {
+_::-webkit-full-page-media,
+_:future,
+:root .field-normal .control-checkbox + label {
     width: 172px;
 }
 
@@ -2326,12 +2427,12 @@ _::-webkit-full-page-media, _:future, :root .field-normal .control-checkbox + la
     padding: 7px 0px;
 }
 
-    .container-radio > label {
-        display: block;
-        float: left;
-        margin: 0px 5px 0px 0px;
-        white-space: nowrap;
-    }
+.container-radio > label {
+    display: block;
+    float: left;
+    margin: 0px 5px 0px 0px;
+    white-space: nowrap;
+}
 
 .control-radio {
     display: block;
@@ -2344,50 +2445,50 @@ _::-webkit-full-page-media, _:future, :root .field-normal .control-checkbox + la
 }
 
 .control-slider {
-    width: 30px;
     float: left;
+    width: 30px;
     margin: 8px 0px 0px 12px;
 }
 
 .control-slider-ui {
-    width: 140px;
     float: left;
+    width: 140px;
     margin: 11px 0px 0px 5px;
 }
 
 .container-selectable .wrapper {
-    width: 100%;
-    min-height: 300px;
     display: block;
     float: left;
+    width: 100%;
+    min-height: 300px;
+    overflow: auto;
     background-color: whitesmoke;
     border: solid 1px silver;
-    overflow: auto;
     border-radius: 5px;
 }
 
 .control-selectable {
-    width: 100%;
     display: block;
     float: left;
+    width: 100%;
     padding: 5px 10px 5px 5px;
     list-style-type: none;
     touch-action: pan-y;
 }
 
-    .control-selectable li {
-        width: 100%;
-        min-height: 24px;
-        margin: 3px;
-        padding: 2px 5px;
-        border-radius: 5px;
-    }
+.control-selectable li {
+    width: 100%;
+    min-height: 24px;
+    margin: 3px;
+    padding: 2px 5px;
+    border-radius: 5px;
+}
 
-    .control-selectable .ui-selecting {
-    }
+.control-selectable .ui-selecting {
+}
 
-    .control-selectable .ui-selected {
-    }
+.control-selectable .ui-selected {
+}
 
 .control-basket {
     margin-left: 120px;
@@ -2397,90 +2498,90 @@ _::-webkit-full-page-media, _:future, :root .field-normal .control-checkbox + la
     border-radius: 5px;
 }
 
-    .control-basket > li {
-        display: block;
-        float: left;
-        margin: 0px 5px 5px 0px;
-        padding: 3px 5px;
-        border-radius: 5px;
-    }
-
-        .control-basket > li > span {
-            display: block;
-            float: left;
-            z-index: 2;
-        }
-
-.comment {
-    width: 100%;
+.control-basket > li {
     display: block;
     float: left;
+    margin: 0px 5px 5px 0px;
+    padding: 3px 5px;
+    border-radius: 5px;
+}
+
+.control-basket > li > span {
+    z-index: 2;
+    display: block;
+    float: left;
+}
+
+.comment {
+    position: relative;
+    display: block;
+    float: left;
+    clear: both;
+    width: 100%;
     margin: 0px 0px 5px 0px;
     padding: 5px 10px 10px 20px;
     background: lightgoldenrodyellow;
     border: solid 1px silver;
-    position: relative;
-    clear: both;
 }
 
-    .comment > * {
-        display: block;
-        float: left;
-    }
+.comment > * {
+    display: block;
+    float: left;
+}
 
-    .comment > .time {
-        float: left;
-        margin: 0px 0px 8px -10px;
-        margin-right: 10px;
-    }
+.comment > .time {
+    float: left;
+    margin: 0px 0px 8px -10px;
+    margin-right: 10px;
+}
 
-    .comment > .body {
-        width: 100%;
-        clear: both;
-    }
+.comment > .body {
+    clear: both;
+    width: 100%;
+}
 
-    .comment > .button.edit {
-        position: absolute;
-        top: 3px;
-        right: 20px;
-        cursor: pointer;
-    }
+.comment > .button.edit {
+    position: absolute;
+    top: 3px;
+    right: 20px;
+    cursor: pointer;
+}
 
-    .comment > .button.delete {
-        position: absolute;
-        top: 3px;
-        right: 5px;
-        cursor: pointer;
-    }
+.comment > .button.delete {
+    position: absolute;
+    top: 3px;
+    right: 5px;
+    cursor: pointer;
+}
 
-    .comment > .control-markup {
-        width: 100%;
-    }
+.comment > .control-markup {
+    width: 100%;
+}
 
-    .comment > .control-markdown {
-        width: 100%;
-        display: none;
-    }
+.comment > .control-markdown {
+    display: none;
+    width: 100%;
+}
 
 .user {
     float: left;
 }
 
-    .user > span {
-        display: block;
-        float: left;
-        font-weight: bold;
-    }
+.user > span {
+    display: block;
+    float: left;
+    font-weight: bold;
+}
 
 .dept {
     float: left;
 }
 
-    .dept > span {
-        display: block;
-        float: left;
-        font-weight: bold;
-    }
+.dept > span {
+    display: block;
+    float: left;
+    font-weight: bold;
+}
 
 .both {
     clear: both;
@@ -2505,8 +2606,8 @@ _::-webkit-full-page-media, _:future, :root .field-normal .control-checkbox + la
 }
 
 .tooltip {
-    display: none;
     position: absolute;
+    display: none;
 }
 
 .no-border {
@@ -2520,117 +2621,117 @@ _::-webkit-full-page-media, _:future, :root .field-normal .control-checkbox + la
     margin: 0px 0px 10px 0px;
 }
 
-    .grid.fixed {
-        table-layout: fixed;
-    }
+.grid.fixed {
+    table-layout: fixed;
+}
 
-    .grid > thead {
-        position: sticky;
-        top: -1px;
-        z-index: 3;
-    }
+.grid > thead {
+    position: sticky;
+    top: -1px;
+    z-index: 3;
+}
 
-    .grid > thead > tr > caption {
-        margin: 0px 0px 5px 0px;
-    }
+.grid > thead > tr > caption {
+    margin: 0px 0px 5px 0px;
+}
 
-    .grid > thead > tr > th {
-        padding: 6px;
-        vertical-align: middle;
-        border-top: solid 1px transparent;
-        border-bottom: solid 1px transparent;
-        border-left: solid 1px transparent;
-        border-right: solid 1px white;
-        word-wrap: break-word;
-    }
+.grid > thead > tr > th {
+    padding: 6px;
+    vertical-align: middle;
+    word-wrap: break-word;
+    border-top: solid 1px transparent;
+    border-right: solid 1px white;
+    border-bottom: solid 1px transparent;
+    border-left: solid 1px transparent;
+}
 
-        .grid > thead > tr > th > div {
-            width: 100%;
-            float: left;
-            text-align: center;
-            z-index: 2;
-        }
+.grid > thead > tr > th > div {
+    z-index: 2;
+    float: left;
+    width: 100%;
+    text-align: center;
+}
 
-        .grid > thead > tr > th span {
-            display: block;
-            float: left;
-        }
+.grid > thead > tr > th span {
+    display: block;
+    float: left;
+}
 
-    .grid > thead > tr:first-child > th:first-child {
-        border-radius: 10px 0px 0px 0px / 10px 0px 0px 0px;
-    }
+.grid > thead > tr:first-child > th:first-child {
+    border-radius: 10px 0px 0px 0px / 10px 0px 0px 0px;
+}
 
-    .grid > thead > tr:first-child > th:last-child {
-        border-right: solid 1px transparent;
-        border-radius: 0px 10px 0px 0px / 0px 10px 0px 0px;
-    }
+.grid > thead > tr:first-child > th:last-child {
+    border-right: solid 1px transparent;
+    border-radius: 0px 10px 0px 0px / 0px 10px 0px 0px;
+}
 
-    .grid > thead > tr > th.sortable:hover {
-        cursor: pointer;
-    }
+.grid > thead > tr > th.sortable:hover {
+    cursor: pointer;
+}
 
-    .grid > tbody > tr > td {
-        max-width: 300px;
-        border-left: dotted 1px silver;
-        border-right: dotted 1px silver;
-        word-wrap: break-word;
-    }
+.grid > tbody > tr > td {
+    max-width: 300px;
+    word-wrap: break-word;
+    border-right: dotted 1px silver;
+    border-left: dotted 1px silver;
+}
 
-    .grid > tbody > tr.message-row > td {
-        padding: 0px;
-        text-align: center;
-    }
+.grid > tbody > tr.message-row > td {
+    padding: 0px;
+    text-align: center;
+}
 
-    .grid > tbody > tr [class*="status-"] {
-        padding: 0px 5px;
-        font-weight: bold;
-        border: solid 1px silver;
-        border-radius: 3px;
-    }
+.grid > tbody > tr [class*="status-"] {
+    padding: 0px 5px;
+    font-weight: bold;
+    border: solid 1px silver;
+    border-radius: 3px;
+}
 
-    .grid > tbody > tr > th {
-        padding: 6px;
-        vertical-align: middle;
-        font-weight: normal;
-        background-color: gainsboro;
-        border-top: solid 1px white;
-        border-bottom: solid 1px white;
-        border-left: solid 1px transparent;
-        border-right: solid 1px transparent;
-        word-wrap: break-word;
-    }
+.grid > tbody > tr > th {
+    padding: 6px;
+    font-weight: normal;
+    vertical-align: middle;
+    word-wrap: break-word;
+    background-color: gainsboro;
+    border-top: solid 1px white;
+    border-right: solid 1px transparent;
+    border-bottom: solid 1px white;
+    border-left: solid 1px transparent;
+}
 
 .grid-row {
     background-color: white;
     border-bottom: solid 1px silver;
 }
 
-    .grid-row td {
-        overflow: hidden;
-    }
+.grid-row td {
+    overflow: hidden;
+}
 
-    .grid-row .comment {
-        min-width: 200px;
-        max-height: 100px;
-        margin: 0px 0px 3px 0px;
-        padding: 3px 6px 3px 15px;
-        background: lightgoldenrodyellow;
-        border: solid 1px white;
-        clear: both;
-        overflow: hidden;
-    }
+.grid-row .comment {
+    clear: both;
+    min-width: 200px;
+    max-height: 100px;
+    margin: 0px 0px 3px 0px;
+    padding: 3px 6px 3px 15px;
+    overflow: hidden;
+    background: lightgoldenrodyellow;
+    border: solid 1px white;
+}
 
-        .grid-row .comment.one-third {
-            max-height: 306px;
-        }
+.grid-row .comment.one-third {
+    max-height: 306px;
+}
 
-        .grid-row .comment.half {
-            max-height: 151px;
-        }
+.grid-row .comment.half {
+    max-height: 151px;
+}
 
 .grid:not(.not-link) .grid-row:hover {
-    background-color: whitesmoke;
     cursor: pointer;
+    background-color: whitesmoke;
 }
 
 .grid-row:hover .comment {
@@ -2644,32 +2745,32 @@ _::-webkit-full-page-media, _:future, :root .field-normal .control-checkbox + la
     float: left;
 }
 
-    .grid-row p.body {
-        clear: both;
-    }
+.grid-row p.body {
+    clear: both;
+}
 
 .grid-row[data-history] {
     background-color: lightgray;
 }
 
 .grid-title-body {
+    clear: both;
     min-width: 200px;
     max-height: 306px;
     margin: 0px 0px 3px 0px;
     padding: 3px 6px;
+    overflow: hidden;
     background: inherit;
     border: solid 1px transparent;
-    clear: both;
-    overflow: hidden;
 }
 
-    .grid-title-body > .body {
-        width: 100%;
-    }
+.grid-title-body > .body {
+    width: 100%;
+}
 
-    .grid-title-body > .title + .body {
-        padding: 8px 0px 0px 10px;
-    }
+.grid-title-body > .title + .body {
+    padding: 8px 0px 0px 10px;
+}
 
 .dashboard-grid-header {
     position: sticky;
@@ -2680,12 +2781,13 @@ _::-webkit-full-page-media, _:future, :root .field-normal .control-checkbox + la
 .links {
     padding: 0px 10px;
 }
-#Links > .fieldset > div .grid{
-    width: max-content; min-width: 100%;
+#Links > .fieldset > div .grid {
+    width: max-content;
+    min-width: 100%;
 }
-#Links > .fieldset > div .grid-wrap{
-    overflow: auto;
+#Links > .fieldset > div .grid-wrap {
     margin-bottom: 10px;
+    overflow: auto;
 }
 
 .link-creations button {
@@ -2695,9 +2797,9 @@ _::-webkit-full-page-media, _:future, :root .field-normal .control-checkbox + la
 }
 
 .text {
-    width: 250px;
     display: block;
     float: left;
+    width: 250px;
     border: solid 1px silver;
 }
 
@@ -2736,33 +2838,33 @@ _::-webkit-full-page-media, _:future, :root .field-normal .control-checkbox + la
 }
 
 .message {
+    position: fixed;
+    bottom: 78px;
+    left: 0px;
+    z-index: 90;
     width: 100%;
     text-align: center;
-    position: fixed;
-    left: 0px;
-    bottom: 78px;
-    z-index: 90;
 }
 
-    .message .body {
-        margin-bottom: 4px;
-        position: relative;
-        border-radius: 20px;
-    }
+.message .body {
+    position: relative;
+    margin-bottom: 4px;
+    border-radius: 20px;
+}
 
-    .message .close {
-        background-color: white;
-        position: absolute;
-        top: 11px;
-        right: 8px;
-        cursor: pointer;
-        border-radius: 10px;
-    }
+.message .close {
+    position: absolute;
+    top: 11px;
+    right: 8px;
+    cursor: pointer;
+    background-color: white;
+    border-radius: 10px;
+}
 
 .message-dialog {
-    width: 100%;
     display: block;
     float: left;
+    width: 100%;
     margin: 0px auto;
     text-align: center;
 }
@@ -2774,26 +2876,26 @@ _::-webkit-full-page-media, _:future, :root .field-normal .control-checkbox + la
 }
 
 .alert-error {
-    min-height: 32px;
     display: block;
+    min-height: 32px;
     padding: 5px;
     color: white;
-    background-color: rgba(255,0,0,0.9);
+    background-color: rgba(255, 0, 0, 0.9);
     border: solid 1px red;
 }
 
 .alert-success {
-    min-height: 32px;
     display: block;
+    min-height: 32px;
     padding: 5px;
     color: white;
-    background-color: rgba(0,128,0,0.9);
+    background-color: rgba(0, 128, 0, 0.9);
     border: solid 1px green;
 }
 
 .alert-warning {
-    min-height: 32px;
     display: block;
+    min-height: 32px;
     padding: 5px;
     color: black;
     background-color: yellow;
@@ -2801,8 +2903,8 @@ _::-webkit-full-page-media, _:future, :root .field-normal .control-checkbox + la
 }
 
 .alert-information {
-    min-height: 32px;
     display: block;
+    min-height: 32px;
     padding: 5px;
     color: white;
     background-color: blue;
@@ -2810,17 +2912,17 @@ _::-webkit-full-page-media, _:future, :root .field-normal .control-checkbox + la
 }
 
 label.error {
-    width: 100%;
+    top: -5px;
+    left: 0px;
+    z-index: 2;
     display: block;
     float: left;
+    width: 100%;
     padding: 0px 5px;
     color: red;
     background-color: white;
     border-top: none;
-    top: -5px;
-    left: 0px;
     border-radius: 0px 0px 5px 5px / 0px 0px 5px 5px;
-    z-index: 2;
 }
 
 .ui-spinner > label.error {
@@ -2831,22 +2933,22 @@ label.error {
     border: solid 1px red;
 }
 
-    .error + .ui-widget.ui-state-default.ui-multiselect {
-        border: solid 1px red;
-    }
+.error + .ui-widget.ui-state-default.ui-multiselect {
+    border: solid 1px red;
+}
 
 .with-unit + label.error {
-    width: 70%;
     position: absolute;
     top: 25px;
+    width: 70%;
 }
 
 .button-edit-markdown {
     position: absolute;
     top: 5px;
     right: 5px;
-    cursor: pointer;
     z-index: 1;
+    cursor: pointer;
 }
 
 .comment > .button-edit-markdown {
@@ -2916,79 +3018,79 @@ h3.title-header {
     height: 40px;
 }
 
-    .svg-work-value text {
-    }
+.svg-work-value text {
+}
 
-    .svg-work-value rect:nth-of-type(1) {
-        fill: gainsboro;
-    }
+.svg-work-value rect:nth-of-type(1) {
+    fill: gainsboro;
+}
 
-    .svg-work-value rect:nth-of-type(2) {
-        fill: darkseagreen;
-    }
+.svg-work-value rect:nth-of-type(2) {
+    fill: darkseagreen;
+}
 
 .svg-progress-rate {
     width: 50px;
     height: 40px;
 }
 
-    .svg-progress-rate text {
-    }
+.svg-progress-rate text {
+}
 
-    .svg-progress-rate.warning text {
-        fill: red;
-    }
+.svg-progress-rate.warning text {
+    fill: red;
+}
 
-    .svg-progress-rate rect:nth-of-type(1) {
-        fill: gainsboro;
-    }
+.svg-progress-rate rect:nth-of-type(1) {
+    fill: gainsboro;
+}
 
-    .svg-progress-rate rect:nth-of-type(2) {
-        fill: gray;
-    }
+.svg-progress-rate rect:nth-of-type(2) {
+    fill: gray;
+}
 
-    .svg-progress-rate rect:nth-of-type(3) {
-        fill: darkseagreen;
-    }
+.svg-progress-rate rect:nth-of-type(3) {
+    fill: darkseagreen;
+}
 
-    .svg-progress-rate.warning rect:nth-of-type(3) {
-        fill: #ffccd5;
-    }
+.svg-progress-rate.warning rect:nth-of-type(3) {
+    fill: #ffccd5;
+}
 
 .svg-kamban-aggregation-view {
     width: 100%;
     height: 20px;
 }
 
-    .svg-kamban-aggregation-view rect {
-        height: 20px;
-        fill: darkseagreen;
-    }
+.svg-kamban-aggregation-view rect {
+    height: 20px;
+    fill: darkseagreen;
+}
 
 .svg-crosstab {
     width: 100%;
     height: 20px;
 }
 
-    .svg-crosstab rect {
-        height: 20px;
-        fill: darkseagreen;
-    }
+.svg-crosstab rect {
+    height: 20px;
+    fill: darkseagreen;
+}
 
 .show-password {
     position: absolute;
     top: 4px;
     right: -27px;
-    cursor: pointer;
     z-index: 10;
+    cursor: pointer;
 }
 
 #passwordGenerateicon {
     position: absolute;
     top: 4px;
     right: -60px;
-    cursor: pointer;
     z-index: 10;
+    cursor: pointer;
 }
 
 input[type="password"]::-ms-reveal {
@@ -3169,30 +3271,32 @@ input[type="password"]::-ms-reveal {
     padding: 15px 0px 10px 0px !important;
 }
 
-    .dialog .fieldset {
-        margin: 0px 10px 10px 10px;
-    }
+.dialog .fieldset {
+    margin: 0px 10px 10px 10px;
+}
 
 .link span {
     margin-right: 5px;
 }
 
-    .link span.bold {
-        font-weight: bold;
-        cursor: pointer;
-    }
+.link span.bold {
+    font-weight: bold;
+    cursor: pointer;
+}
 
 .histories-form {
     padding: 20px;
 }
 
-.ui-widget input, .ui-widget select, .ui-widget button {
+.ui-widget input,
+.ui-widget select,
+.ui-widget button {
     font-family: Hiragino Kaku Gothic Pro, "Meiryo UI", sans-serif;
 }
 
 .ui-widget textarea {
+    font-family: Terminal, Hiragino Kaku Gothic Pro;
     line-height: 1.5em;
-    font-family: Terminal,Hiragino Kaku Gothic Pro;
 }
 
 .ui-widget {
@@ -3215,19 +3319,19 @@ input[type="password"]::-ms-reveal {
 .ui-spinner {
     display: block;
     float: left;
-    background: white;
     max-height: 46px;
+    background: white;
 }
 
 .ui-widget.ui-state-default.ui-multiselect {
-    background: white;
-    border: solid 1px silver;
-    overflow: hidden;
-    border-radius: 5px;
-    height: 30px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    height: 30px;
+    overflow: hidden;
+    background: white;
+    border: solid 1px silver;
+    border-radius: 5px;
 }
 
 .field-wide .ui-widget.ui-state-default.ui-multiselect {
@@ -3242,18 +3346,24 @@ input[type="password"]::-ms-reveal {
 
 .ui-widget.ui-state-default.ui-multiselect .ui-multiselect-open + span {
     display: block;
-    order: 1;
-    text-overflow: ellipsis;
     overflow: hidden;
+    text-overflow: ellipsis;
+    order: 1;
 }
-.field-normal .ui-widget.ui-state-default.ui-multiselect .ui-multiselect-open + span {
+.field-normal
+    .ui-widget.ui-state-default.ui-multiselect
+    .ui-multiselect-open
+    + span {
     white-space: nowrap;
 }
-.field-wide .ui-widget.ui-state-default.ui-multiselect .ui-multiselect-open + span {
+.field-wide
+    .ui-widget.ui-state-default.ui-multiselect
+    .ui-multiselect-open
+    + span {
     display: -webkit-box;
+    max-height: 4.7em;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 3;
-    max-height: 4.7em;
 }
 
 .ui-multiselect-menu {
@@ -3297,82 +3407,82 @@ div.field-control .ui-multiselect.ui-state-disabled {
 }
 
 .menu-negative {
-    border-left: solid 1px white;
-    border-right: solid 1px white;
     position: absolute;
     z-index: 10;
+    border-right: solid 1px white;
+    border-left: solid 1px white;
 }
 
-    .menu-negative > li {
-        width: 100%;
-        display: block;
-        float: left;
-        border-top: dotted 1px white;
-        cursor: pointer;
-        clear: both;
-    }
+.menu-negative > li {
+    display: block;
+    float: left;
+    clear: both;
+    width: 100%;
+    cursor: pointer;
+    border-top: dotted 1px white;
+}
 
 .sortable {
 }
 
 .menu-sort {
-    border-left: solid 1px white;
-    border-right: solid 1px white;
     position: absolute;
-    border-radius: 0px 0px 10px 10px / 0px 0px 10px 10px;
     z-index: 10;
+    border-right: solid 1px white;
+    border-left: solid 1px white;
+    border-radius: 0px 0px 10px 10px / 0px 0px 10px 10px;
 }
 
-    .menu-sort > li {
-        width: 100%;
-        display: block;
-        float: left;
-        border-top: dotted 1px white;
-        cursor: pointer;
-        clear: both;
-    }
+.menu-sort > li {
+    display: block;
+    float: left;
+    clear: both;
+    width: 100%;
+    cursor: pointer;
+    border-top: dotted 1px white;
+}
 
-        .menu-sort > li.ui-menu-divider {
-            height: initial;
-            font-size: initial;
-        }
+.menu-sort > li.ui-menu-divider {
+    height: initial;
+    font-size: initial;
+}
 
-        .menu-sort > li:hover {
-        }
+.menu-sort > li:hover {
+}
 
-        .menu-sort > li > * {
-        }
+.menu-sort > li > * {
+}
 
-        .menu-sort > li.grid-header-filter .ui-icon {
-            position: initial;
-        }
+.menu-sort > li.grid-header-filter .ui-icon {
+    position: initial;
+}
 
-        .menu-sort > li:not(.grid-header-filter) div.field-control > * {
-            border: solid 1px silver;
-        }
+.menu-sort > li:not(.grid-header-filter) div.field-control > * {
+    border: solid 1px silver;
+}
 
 .current-time {
     position: absolute;
     top: 9px;
     right: -17px;
-    cursor: pointer;
     z-index: 10;
+    cursor: pointer;
 }
 
 .current-user {
     position: absolute;
     top: 9px;
     right: -17px;
-    cursor: pointer;
     z-index: 10;
+    cursor: pointer;
 }
 
 .current-dept {
     position: absolute;
     top: 9px;
     right: -17px;
-    cursor: pointer;
     z-index: 10;
+    cursor: pointer;
 }
 
 input:focus {
@@ -3394,27 +3504,27 @@ textarea:focus {
 }
 
 #EnterPriseBanner {
-    width: 238px;
     position: fixed;
     right: 8px;
     bottom: 280px;
     z-index: 3;
+    width: 238px;
 }
 
 #SupportBanner {
-    width: 238px;
     position: fixed;
     right: 8px;
     bottom: 180px;
     z-index: 3;
+    width: 238px;
 }
 
 #CasesBanner {
-    width: 238px;
     position: fixed;
     right: 8px;
     bottom: 80px;
     z-index: 3;
+    width: 238px;
 }
 
 .annonymous .close-announcement {
@@ -3422,8 +3532,8 @@ textarea:focus {
 }
 
 .grid-stack {
-    background-color: white;
     margin: 10px;
+    background-color: white;
 }
 
 .grid-stack-item-content {
@@ -3437,100 +3547,100 @@ textarea:focus {
 }
 
 .dashboard-timeline-item {
-    background-color: white;
     margin: 4px;
     padding: 8px;
-    transition: background-color 0.3s;
     cursor: pointer;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    background-color: white;
     border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s;
 }
 
-    .dashboard-timeline-item:hover {
-        background-color: #ebebeb;
-    }
+.dashboard-timeline-item:hover {
+    background-color: #ebebeb;
+}
 
 .dashboard-timeline-header {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
     margin-bottom: 4px;
 }
 
-    .dashboard-timeline-header a {
-        color: #007bff;
-        font-weight: bold;
-        min-width: 40px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
+.dashboard-timeline-header a {
+    min-width: 40px;
+    overflow: hidden;
+    color: #007bff;
+    font-weight: bold;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
 
 .dashboard-timeline-header-closed {
-    overflow: hidden;
     max-height: 0;
     margin-bottom: 0;
+    overflow: hidden;
 }
 
 .dashboard-timeline-item:hover .dashboard-timeline-header-closed {
     max-height: 200px;
     margin-bottom: 4px;
     overflow: auto;
-    transition: max-height 0.5s linear 1.0s;
+    transition: max-height 0.5s linear 1s;
 }
 
 .dashboard-timeline-record-time {
-    font-size: 0.8em;
-    color: #777;
-    margin-left: 3px;
-    font-weight: bold;
     display: flex;
+    margin-left: 3px;
+    color: #777;
+    font-size: 0.8em;
+    font-weight: bold;
     white-space: nowrap;
 }
 
-    .dashboard-timeline-record-time time {
-        margin-left: 4px;
-    }
+.dashboard-timeline-record-time time {
+    margin-left: 4px;
+}
 
-    .dashboard-timeline-record-time .elapsed-time {
-        margin-left: 4px;
-        font-weight: bold;
-        background-color: #eee;
-    }
+.dashboard-timeline-record-time .elapsed-time {
+    margin-left: 4px;
+    font-weight: bold;
+    background-color: #eee;
+}
 
 .dashboard-timeline-title {
+    color: #333333;
     font-size: 1.2em;
     font-weight: bold;
-    color: #333333;
 }
 
 .dashboard-timeline-body {
     margin-top: 8px;
-    line-height: 1.5;
     color: #555;
+    line-height: 1.5;
 }
 
 .dashboard-timeline-body-closed {
+    max-height: 0px;
     margin-top: 0;
     overflow: hidden;
-    max-height: 0px;
 }
 
 .dashboard-timeline-item:hover .dashboard-timeline-body-closed {
-    margin-top: 8px;
     max-height: 300px;
+    margin-top: 8px;
     overflow: auto;
-    transition: max-height 0.5s linear 1.0s, margin-top 0s;
-    transition-delay: 1.0s
+    transition: max-height 0.5s linear 1s, margin-top 0s;
+    transition-delay: 1s;
 }
 
 .grid-stack-item-content {
-    background-color: #f2f2f2;
-    padding: 16px;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
+    padding: 16px;
+    background-color: #f2f2f2;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .grid-stack > .grid-stack-item > .grid-stack-item-content {
@@ -3538,10 +3648,10 @@ textarea:focus {
 }
 
 .dashboard-part-title {
-    font-size: 1.2em;
-    color: #333333;
-    font-weight: bold;
     margin-bottom: 10px;
+    color: #333333;
+    font-size: 1.2em;
+    font-weight: bold;
 }
 
 .dashboard-part-nav {
@@ -3549,63 +3659,63 @@ textarea:focus {
 }
 
 .dashboard-part-nav-menu {
-    list-style: none;
-    padding: 0;
-    margin: 0;
     display: flex;
     flex-wrap: wrap;
-}
-
-    .dashboard-part-nav-menu > .dashboard-part-nav-item {
-        max-width: 200px;
-        min-width: 120px;
-        margin-left: 10px;
-        white-space: nowrap;
-        overflow: hidden;
-        padding: 4px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    }
-
-.dashboard-part-nav-menu-vartical {
-    list-style: none;
-    padding: 0;
     margin: 0;
-    display: flex;
-    flex-direction: column;
+    padding: 0;
+    list-style: none;
 }
 
-.dashboard-part-nav-item {
-    color: #333;
-    margin-bottom: 8px;
+.dashboard-part-nav-menu > .dashboard-part-nav-item {
+    min-width: 120px;
+    max-width: 200px;
+    margin-left: 10px;
     padding: 4px;
-    display: flex;
-    border-radius: 4px;
-    background-color: white;
+    overflow: hidden;
+    white-space: nowrap;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-    .dashboard-part-nav-item:hover {
-        background-color: #dddddd;
-    }
+.dashboard-part-nav-menu-vartical {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.dashboard-part-nav-item {
+    display: flex;
+    margin-bottom: 8px;
+    padding: 4px;
+    color: #333;
+    background-color: white;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.dashboard-part-nav-item:hover {
+    background-color: #dddddd;
+}
 
 .dashboard-part-nav-link {
-    padding: 4px;
-    text-decoration: none;
-    color: inherit;
     width: 100%;
+    padding: 4px;
+    color: inherit;
+    text-decoration: none;
 }
 
 .dashboard-part-refresh {
     position: absolute;
     top: 8px;
     left: 8px;
-    border: none;
-    color: #636363;
-    background-color: transparent;
-    opacity: 0;
+    z-index: 5;
     padding-top: 0;
     padding-left: 0;
-    z-index: 5;
+    color: #636363;
+    background-color: transparent;
+    border: none;
+    opacity: 0;
 }
 
 @keyframes custom-spin {
@@ -3620,11 +3730,11 @@ textarea:focus {
 
 .dashboard-part-road {
     position: absolute;
-    left: calc(50% - 25px);
     top: calc(50% - 25px);
-    font-size: 50px;
-    color: #636363;
+    left: calc(50% - 25px);
     display: inline-block;
+    color: #636363;
+    font-size: 50px;
     animation: custom-spin 1s linear infinite;
 }
 
@@ -3636,175 +3746,175 @@ textarea:focus {
     width: 110px;
 }
 
-    #AnalyPartTimePeriodField .field-label {
-        display: none;
-    }
+#AnalyPartTimePeriodField .field-label {
+    display: none;
+}
 
-    #AnalyPartTimePeriodField div.container-normal {
-        margin-left: 0px;
-    }
+#AnalyPartTimePeriodField div.container-normal {
+    margin-left: 0px;
+}
 
 .gs-20 > .grid-stack-item {
     width: 5%;
     min-width: 5%;
 }
 
-    .gs-20 > .grid-stack-item[gs-w="1"] {
-        width: 5%;
-        min-width: 5%;
-    }
+.gs-20 > .grid-stack-item[gs-w="1"] {
+    width: 5%;
+    min-width: 5%;
+}
 
-    .gs-20 > .grid-stack-item[gs-x="1"] {
-        left: 5%;
-    }
+.gs-20 > .grid-stack-item[gs-x="1"] {
+    left: 5%;
+}
 
-    .gs-20 > .grid-stack-item[gs-w="2"] {
-        width: 10%;
-    }
+.gs-20 > .grid-stack-item[gs-w="2"] {
+    width: 10%;
+}
 
-    .gs-20 > .grid-stack-item[gs-x="2"] {
-        left: 10%;
-    }
+.gs-20 > .grid-stack-item[gs-x="2"] {
+    left: 10%;
+}
 
-    .gs-20 > .grid-stack-item[gs-w="3"] {
-        width: 15%;
-    }
+.gs-20 > .grid-stack-item[gs-w="3"] {
+    width: 15%;
+}
 
-    .gs-20 > .grid-stack-item[gs-x="3"] {
-        left: 15%;
-    }
+.gs-20 > .grid-stack-item[gs-x="3"] {
+    left: 15%;
+}
 
-    .gs-20 > .grid-stack-item[gs-w="4"] {
-        width: 20%;
-    }
+.gs-20 > .grid-stack-item[gs-w="4"] {
+    width: 20%;
+}
 
-    .gs-20 > .grid-stack-item[gs-x="4"] {
-        left: 20%;
-    }
+.gs-20 > .grid-stack-item[gs-x="4"] {
+    left: 20%;
+}
 
-    .gs-20 > .grid-stack-item[gs-w="5"] {
-        width: 25%;
-    }
+.gs-20 > .grid-stack-item[gs-w="5"] {
+    width: 25%;
+}
 
-    .gs-20 > .grid-stack-item[gs-x="5"] {
-        left: 25%;
-    }
+.gs-20 > .grid-stack-item[gs-x="5"] {
+    left: 25%;
+}
 
-    .gs-20 > .grid-stack-item[gs-w="6"] {
-        width: 30%;
-    }
+.gs-20 > .grid-stack-item[gs-w="6"] {
+    width: 30%;
+}
 
-    .gs-20 > .grid-stack-item[gs-x="6"] {
-        left: 30%;
-    }
+.gs-20 > .grid-stack-item[gs-x="6"] {
+    left: 30%;
+}
 
-    .gs-20 > .grid-stack-item[gs-w="7"] {
-        width: 35%;
-    }
+.gs-20 > .grid-stack-item[gs-w="7"] {
+    width: 35%;
+}
 
-    .gs-20 > .grid-stack-item[gs-x="7"] {
-        left: 35%;
-    }
+.gs-20 > .grid-stack-item[gs-x="7"] {
+    left: 35%;
+}
 
-    .gs-20 > .grid-stack-item[gs-w="8"] {
-        width: 40%;
-    }
+.gs-20 > .grid-stack-item[gs-w="8"] {
+    width: 40%;
+}
 
-    .gs-20 > .grid-stack-item[gs-x="8"] {
-        left: 40%;
-    }
+.gs-20 > .grid-stack-item[gs-x="8"] {
+    left: 40%;
+}
 
-    .gs-20 > .grid-stack-item[gs-w="9"] {
-        width: 45%;
-    }
+.gs-20 > .grid-stack-item[gs-w="9"] {
+    width: 45%;
+}
 
-    .gs-20 > .grid-stack-item[gs-x="9"] {
-        left: 45%;
-    }
+.gs-20 > .grid-stack-item[gs-x="9"] {
+    left: 45%;
+}
 
-    .gs-20 > .grid-stack-item[gs-w="10"] {
-        width: 50%;
-    }
+.gs-20 > .grid-stack-item[gs-w="10"] {
+    width: 50%;
+}
 
-    .gs-20 > .grid-stack-item[gs-x="10"] {
-        left: 50%;
-    }
+.gs-20 > .grid-stack-item[gs-x="10"] {
+    left: 50%;
+}
 
-    .gs-20 > .grid-stack-item[gs-w="11"] {
-        width: 55%;
-    }
+.gs-20 > .grid-stack-item[gs-w="11"] {
+    width: 55%;
+}
 
-    .gs-20 > .grid-stack-item[gs-x="11"] {
-        left: 55%;
-    }
+.gs-20 > .grid-stack-item[gs-x="11"] {
+    left: 55%;
+}
 
-    .gs-20 > .grid-stack-item[gs-w="12"] {
-        width: 60%;
-    }
+.gs-20 > .grid-stack-item[gs-w="12"] {
+    width: 60%;
+}
 
-    .gs-20 > .grid-stack-item[gs-x="12"] {
-        left: 60%;
-    }
+.gs-20 > .grid-stack-item[gs-x="12"] {
+    left: 60%;
+}
 
-    .gs-20 > .grid-stack-item[gs-w="13"] {
-        width: 65%;
-    }
+.gs-20 > .grid-stack-item[gs-w="13"] {
+    width: 65%;
+}
 
-    .gs-20 > .grid-stack-item[gs-x="13"] {
-        left: 65%;
-    }
+.gs-20 > .grid-stack-item[gs-x="13"] {
+    left: 65%;
+}
 
-    .gs-20 > .grid-stack-item[gs-w="14"] {
-        width: 70%;
-    }
+.gs-20 > .grid-stack-item[gs-w="14"] {
+    width: 70%;
+}
 
-    .gs-20 > .grid-stack-item[gs-x="14"] {
-        left: 70%;
-    }
+.gs-20 > .grid-stack-item[gs-x="14"] {
+    left: 70%;
+}
 
-    .gs-20 > .grid-stack-item[gs-w="15"] {
-        width: 75%;
-    }
+.gs-20 > .grid-stack-item[gs-w="15"] {
+    width: 75%;
+}
 
-    .gs-20 > .grid-stack-item[gs-x="15"] {
-        left: 75%;
-    }
+.gs-20 > .grid-stack-item[gs-x="15"] {
+    left: 75%;
+}
 
-    .gs-20 > .grid-stack-item[gs-w="16"] {
-        width: 80%;
-    }
+.gs-20 > .grid-stack-item[gs-w="16"] {
+    width: 80%;
+}
 
-    .gs-20 > .grid-stack-item[gs-x="16"] {
-        left: 80%;
-    }
+.gs-20 > .grid-stack-item[gs-x="16"] {
+    left: 80%;
+}
 
-    .gs-20 > .grid-stack-item[gs-w="17"] {
-        width: 85%;
-    }
+.gs-20 > .grid-stack-item[gs-w="17"] {
+    width: 85%;
+}
 
-    .gs-20 > .grid-stack-item[gs-x="17"] {
-        left: 85%;
-    }
+.gs-20 > .grid-stack-item[gs-x="17"] {
+    left: 85%;
+}
 
-    .gs-20 > .grid-stack-item[gs-w="18"] {
-        width: 90%;
-    }
+.gs-20 > .grid-stack-item[gs-w="18"] {
+    width: 90%;
+}
 
-    .gs-20 > .grid-stack-item[gs-x="18"] {
-        left: 90%;
-    }
+.gs-20 > .grid-stack-item[gs-x="18"] {
+    left: 90%;
+}
 
-    .gs-20 > .grid-stack-item[gs-w="19"] {
-        width: 95%;
-    }
+.gs-20 > .grid-stack-item[gs-w="19"] {
+    width: 95%;
+}
 
-    .gs-20 > .grid-stack-item[gs-x="19"] {
-        left: 95%;
-    }
+.gs-20 > .grid-stack-item[gs-x="19"] {
+    left: 95%;
+}
 
-    .gs-20 > .grid-stack-item[gs-w="20"] {
-        width: 100%;
-    }
+.gs-20 > .grid-stack-item[gs-w="20"] {
+    width: 100%;
+}
 
 div.lower-search-ui {
     margin: 4px 0px 0px 0px;
