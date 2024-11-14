@@ -524,7 +524,8 @@ namespace Implem.Pleasanter.Models
                         columns: columns,
                         formDataSet: formDataSet,
                         editRow: editRow,
-                        checkRow: checkRow));
+                        checkRow: checkRow,
+                        clearCheck: clearCheck));
         }
 
         private static HtmlBuilder GridNewRows(
