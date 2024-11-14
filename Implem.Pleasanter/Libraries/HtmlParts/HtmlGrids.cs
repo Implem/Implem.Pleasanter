@@ -261,7 +261,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             EnumerableRowCollection<DataRow> dataRows,
             FormDataSet formDataSet = null,
             bool editRow = false,
-            bool checkRow = true)
+            bool checkRow = true,
+            bool clearCheck = false)
         {
             dataRows.ForEach(dataRow =>
                 hb.Tr(
@@ -270,7 +271,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     view: view,
                     columns: columns,
                     dataRow: dataRow,
-                    recordSelector: new RecordSelector(context),
+                    recordSelector: clearCheck ? null :new RecordSelector(context),
                     editRow: editRow,
                     checkRow: checkRow,
                     idColumn: Rds.IdColumn(ss.ReferenceType),
@@ -383,7 +384,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         hb.Td(action: () => hb
                             .CheckBox(
                                 controlCss: "grid-check",
-                                _checked: recordSelector.Checked(dataId),
+                                _checked: recordSelector?.Checked(dataId) ?? false,
                                 dataId: dataId.ToString(),
                                 _using: !isHistory));
                     }
