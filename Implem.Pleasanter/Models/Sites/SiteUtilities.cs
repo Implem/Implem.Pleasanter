@@ -383,7 +383,8 @@ namespace Implem.Pleasanter.Models
                         view: view,
                         dataRows: gridData.DataRows,
                         columns: columns,
-                        checkRow: checkRow));
+                        checkRow: checkRow,
+                        clearCheck: clearCheck));
         }
 
         private static SqlWhereCollection SelectedWhere(
@@ -9487,6 +9488,10 @@ namespace Implem.Pleasanter.Models
                             {
                                 Process.ExecutionTypes.CreateOrUpdate.ToInt().ToString(),
                                 Displays.CreateOrUpdate(context: context)
+                            },
+                            {
+                                Process.ExecutionTypes.AddedButtonOrCreateOrUpdate.ToInt().ToString(),
+                                Displays.AddedButtonOrCreateOrUpdate(context: context)
                             }
                         },
                         selectedValue: process.ExecutionType.ToInt().ToString())

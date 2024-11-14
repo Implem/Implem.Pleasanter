@@ -371,14 +371,6 @@ html .ui-button.ui-state-disabled:active {
         &:focus {
             background-color: var(--control-bg-focus);
         }
-        &.not-send {
-            &:not(:has(+ .button-edit-markdown)) {
-                background: var(--control-bg-read);
-                pre {
-                    color: var(--control-text-read);
-                }
-            }
-        }
         &:is(textarea) {
             resize: vertical;
         }
@@ -455,7 +447,7 @@ input {
         &:has(+ .current-time) {
             padding-right: 24px;
         }
-        + .current-time {
+        ~ .current-time {
             right: 4px;
             z-index: 2;
         }
@@ -518,6 +510,14 @@ input {
         padding: 8px 28px 8px 8px;
         border: 1px solid var(--control-border);
         border-radius: 4px;
+        &.not-send {
+            &:not(:has(+ .button-edit-markdown)) {
+                background: var(--control-bg-read);
+                pre {
+                    color: var(--control-text-read);
+                }
+            }
+        }
     }
     .control-markup {
         color: var(--control-text);
