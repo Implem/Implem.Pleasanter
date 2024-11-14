@@ -331,7 +331,8 @@ private static HtmlBuilder GridRows(
 <!--Model_Utilities_FormDataSet-->
 <!--Model_Utilities_SetEditRowParameter-->
 
-                checkRow: checkRow));
+                checkRow: checkRow,
+                clearCheck: clearCheck));
 }
 
 <!--Model_Utilities_GridNewRows-->
