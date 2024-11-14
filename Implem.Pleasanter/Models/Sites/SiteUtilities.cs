@@ -9455,6 +9455,10 @@ namespace Implem.Pleasanter.Models
                             {
                                 Process.ExecutionTypes.CreateOrUpdate.ToInt().ToString(),
                                 Displays.CreateOrUpdate(context: context)
+                            },
+                            {
+                                Process.ExecutionTypes.AddedButtonOrCreateOrUpdate.ToInt().ToString(),
+                                Displays.AddedButtonOrCreateOrUpdate(context: context)
                             }
                         },
                         selectedValue: process.ExecutionType.ToInt().ToString())
