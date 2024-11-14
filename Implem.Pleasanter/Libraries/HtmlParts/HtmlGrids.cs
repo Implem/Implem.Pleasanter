@@ -564,7 +564,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                 SiteSettings.TextAlignTypes.Right => " right-align",
                                                 SiteSettings.TextAlignTypes.Center => " center-align",
                                                 _ => string.Empty
-                                            },
+                                            }
+                                            + $" {serverScriptModelColumn?.ExtendedCellCss}",
                                         action: () => hb.Field(
                                             context: context,
                                             column: column,
@@ -631,7 +632,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                 SiteSettings.TextAlignTypes.Right => " right-align",
                                                 SiteSettings.TextAlignTypes.Center => " center-align",
                                                 _ => string.Empty
-                                            },
+                                            }
+                                            + $" {serverScriptModelColumn?.ExtendedCellCss}",
                                         action: () => hb.Field(
                                             context: context,
                                             column: column,
