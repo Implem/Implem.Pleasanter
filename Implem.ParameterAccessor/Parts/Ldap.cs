@@ -24,6 +24,7 @@ namespace Implem.ParameterAccessor.Parts
         public string LdapMailAddressPattern;
         public string LdapGroupName;
         public string LdapGroupNamePattern;
+        public List<LdapExtendedAttribute> LdapGroupExtendedAttributes;
         public List<LdapExtendedAttribute> LdapExtendedAttributes;
         public int LdapSyncPageSize;
         public List<string> LdapSyncPatterns;
