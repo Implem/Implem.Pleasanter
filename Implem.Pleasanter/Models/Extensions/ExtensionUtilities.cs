@@ -288,5 +288,82 @@ namespace Implem.Pleasanter.Models
                         .Where(item => item.StartsWith("-"))
                         .All(item => item != $"-{data}"));
         }
+
+        public static ContentResultInheritance GetByApi(
+            Context context,
+            SiteSettings ss,
+            int extensionId)
+        {
+            if (!Mime.ValidateOnApi(contentType: context.ContentType))
+            {
+                return ApiResults.BadRequest(context: context);
+            }
+            var invalid = ExtensionValidators.OnEntry(
+                context: context,
+                api: true);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return ApiResults.Error(
+                        context: context,
+                        errorData: invalid);
+            }
+
+            var api = context.RequestDataString.Deserialize<Api>();
+            if (api == null && !context.RequestDataString.IsNullOrEmpty())
+            {
+                //TODO: 適切な返却値を確認する 　SiteUtilities と　WikiUtilities とかでちがってる。
+                return ApiResults.Get(ApiResponses.BadRequest(context: context));
+
+                //return ApiResults.Error(
+                //    context: context,
+                //    errorData: new ErrorData(type: Error.Types.InvalidJsonData));
+            }
+
+            //TODO： ApiLimit のチェックの必要有無を確認する。（Siteの場合のみ必要？）
+            //context.ContractSettings.ApiLimit(); 
+
+
+            var view = api?.View ?? new View();
+            var pageSize = Parameters.Api.PageSize;
+            var tableType = (api?.TableType) ?? Sqls.TableTypes.Normal;
+
+            if (extensionId > 0)
+            {
+                view.ColumnFilterHash ??= new Dictionary<string, string>();
+                view.ColumnFilterHash.Add("ExtensionId", extensionId.ToString());
+            }
+
+            var session = Views.GetBySession(
+                context: context,
+                ss: ss);
+
+            view.MergeSession(view);
+;
+            //TODO: ApiDataTypeによる場合分けが必要かを確認する。
+
+            var extensions = new ExtensionCollection(
+                context: context,
+                where: view.Where(
+                    context: context,
+                    ss: ss),
+                orderBy: view.OrderBy(
+                    context: context,
+                    ss: ss),
+                tableType: tableType);
+
+
+
+
+            return ApiResults.Get(new
+            {
+                StatusCode = 200,
+                Response = new
+                {
+                    Data = extensions.Select(o=>o.GetByApi(context: context))
+                }
+            }.ToJson());
+        }
     }
 }

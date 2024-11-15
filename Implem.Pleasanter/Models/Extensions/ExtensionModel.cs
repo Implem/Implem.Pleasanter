@@ -244,6 +244,28 @@ namespace Implem.Pleasanter.Models
             return this;
         }
 
+        public ExtensionApiModel GetByApi(Context context)
+        {
+            return new ExtensionApiModel()
+            {
+                ApiVersion = context.ApiVersion,
+                ExtensionId = ExtensionId,
+                TenantId = TenantId,
+                Ver = Ver,
+                ExtensionType = ExtensionType,
+                ExtensionName = ExtensionName,
+                ExtensionSettings = ExtensionSettings,
+                Body = Body,
+                Description = Description,
+                Disabled = Disabled,
+                Comments = Comments.ToLocal(context: context).ToJson(),
+                Creator = Creator.Id,
+                Updator = Updator.Id,
+                CreatedTime = CreatedTime.Value.ToLocal(context: context),
+                UpdatedTime = UpdatedTime.Value.ToLocal(context: context)
+            };
+        }
+
         public ErrorData Create(
             Context context,
             SiteSettings ss,

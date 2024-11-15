@@ -754,5 +754,17 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .ForEach(c => c.CheckFilterControlType = ColumnUtilities.CheckFilterControlTypes.OnAndOff);
             return ss;
         }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static SiteSettings ApiExtensionsSiteSettings(Context context)
+        {
+            var ss = ExtensionsSiteSettings(context);
+            ss?.Columns?
+                .Where(c => c.Name == "Disabled")?
+                .ForEach(c => c.CheckFilterControlType = ColumnUtilities.CheckFilterControlTypes.OnAndOff);
+            return ss;
+        }
     }
 }
