@@ -296,6 +296,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     ? (bool?)Hide
                     : null;
             }
+
+            public bool HideChanged => _hideChanged;
         }
 
         public class ServerScriptModelRow
