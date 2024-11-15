@@ -3119,6 +3119,7 @@ namespace Implem.Pleasanter.Models
                                 ss: ss,
                                 columnName: dataChange.ColumnName,
                                 formulaSet: formulaSet,
+                                isOutOfCondition: false,
                                 outputFormulaLogs: ss.ProcessOutputFormulaLogs);
                         }
                         else
@@ -3442,12 +3443,13 @@ namespace Implem.Pleasanter.Models
             ss.Formulas?.ForEach(formulaSet =>
             {
                 var columnName = formulaSet.Target;
+                var view = ss.Views?.Get(formulaSet.Condition);
+                var isOutOfCondition = view != null && !Matched(context: context, ss: ss, view: view);
                 if (string.IsNullOrEmpty(formulaSet.CalculationMethod)
                     || formulaSet.CalculationMethod == FormulaSet.CalculationMethods.Default.ToString())
                 {
                     var formula = formulaSet.Formula;
-                    var view = ss.Views?.Get(formulaSet.Condition);
-                    if (view != null && !Matched(context: context, ss: ss, view: view))
+                    if (isOutOfCondition)
                     {
                         if (formulaSet.OutOfCondition != null)
                         {
@@ -3486,11 +3488,17 @@ namespace Implem.Pleasanter.Models
                 }
                 else if (formulaSet.CalculationMethod == FormulaSet.CalculationMethods.Extended.ToString())
                 {
+                    var formula = formulaSet.Formula;
+                    if (isOutOfCondition && formulaSet.FormulaScriptOutOfCondition == null)
+                    {
+                        return;
+                    }
                     var value = ExecFormulaExtended(
                         context: context,
                         ss: ss,
                         columnName: columnName,
                         formulaSet: formulaSet,
+                        isOutOfCondition: isOutOfCondition,
                         outputFormulaLogs: ss.OutputFormulaLogs);
                     var formData =  new Dictionary<string, string>
                     {
@@ -3512,24 +3520,29 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             string columnName,
             FormulaSet formulaSet,
+            bool isOutOfCondition,
             bool? outputFormulaLogs)
         {
+            var script = isOutOfCondition == false
+                ? formulaSet.FormulaScript
+                : formulaSet.FormulaScriptOutOfCondition;
+            if (script == null) script = string.Empty;
             SetExtendedColumnDefaultValue(
                 ss: ss,
-                formulaScript: formulaSet.FormulaScript,
+                formulaScript: script,
                 calculationMethod: formulaSet.CalculationMethod);
             formulaSet = FormulaBuilder.UpdateColumnDisplayText(
                 ss: ss,
                 formulaSet: formulaSet);
-            formulaSet.FormulaScript = FormulaBuilder.ParseFormulaScript(
+            script = FormulaBuilder.ParseFormulaScript(
                 ss: ss,
-                formulaScript: formulaSet.FormulaScript,
+                formulaScript: script,
                 calculationMethod: formulaSet.CalculationMethod);
             var value = FormulaServerScriptUtilities.Execute(
                 context: context,
                 ss: ss,
                 itemModel: this,
-                formulaScript: formulaSet.FormulaScript);
+                formulaScript: script);
             switch (value)
             {
                 case "#N/A":
