@@ -21,7 +21,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public enum ExecutionTypes
         {
             AddedButton = 0,
-            CreateOrUpdate = 10
+            CreateOrUpdate = 10,
+            AddedButtonOrCreateOrUpdate = 20
         }
 
         public enum ActionTypes
@@ -401,20 +402,20 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public bool IsTarget(Context context)
         {
+            string controlId = context.Forms.ControlId();
             switch (ExecutionType ?? ExecutionTypes.AddedButton)
             {
                 case ExecutionTypes.AddedButton:
-                    return context.Forms.ControlId() == $"Process_{Id}";
+                    return controlId == $"Process_{Id}";
+                case ExecutionTypes.CreateOrUpdate:
+                    return controlId == "CreateCommand"
+                        || controlId == "UpdateCommand";
+                case ExecutionTypes.AddedButtonOrCreateOrUpdate:
+                    return controlId == "CreateCommand"
+                        || controlId == "UpdateCommand"
+                        || controlId.RegexExists("Process_[0-9]+");
                 default:
-                    // ExecutionTypes.CreateOrUpdate
-                    switch (context.Forms.ControlId())
-                    {
-                        case "CreateCommand":
-                        case "UpdateCommand":
-                            return true;
-                        default:
-                            return false;
-                    }
+                    return false;
             }
         }
 

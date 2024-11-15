@@ -12,6 +12,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? IsDisplayError;
         public Formula OutOfCondition;
         public string FormulaScript;
+        public string FormulaScriptOutOfCondition;
         public string FormulaMapping;
 
         public enum CalculationMethods
@@ -39,6 +40,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             formulaSet.OutOfCondition = OutOfCondition;
             formulaSet.FormulaScript = FormulaScript;
             formulaSet.FormulaMapping = FormulaMapping;
+            formulaSet.FormulaScriptOutOfCondition = FormulaScriptOutOfCondition;
             return formulaSet;
         }
     }
