@@ -383,7 +383,8 @@ namespace Implem.Pleasanter.Models
                         view: view,
                         dataRows: gridData.DataRows,
                         columns: columns,
-                        checkRow: checkRow));
+                        checkRow: checkRow,
+                        clearCheck: clearCheck));
         }
 
         private static SqlWhereCollection SelectedWhere(
@@ -519,7 +520,7 @@ namespace Implem.Pleasanter.Models
             int? tabIndex = null,
             ServerScriptModelColumn serverScriptModelColumn = null)
         {
-            if (serverScriptModelColumn?.Hide == true)
+            if (serverScriptModelColumn?.HideChanged == true && serverScriptModelColumn?.Hide == true)
             {
                 return hb.Td();
             }
@@ -3311,7 +3312,8 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return SiteMenuError(
+                default:
+                    return SiteMenuError(
                     context: context,
                     id: id,
                     siteModel: siteModel,
@@ -3364,7 +3366,8 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return SiteMenuError(
+                default:
+                    return SiteMenuError(
                     context: context,
                     id: id,
                     siteModel: siteModel,
@@ -3484,7 +3487,8 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return SiteMenuError(
+                default:
+                    return SiteMenuError(
                     context: context,
                     id: id,
                     siteModel: siteModel,
@@ -3589,7 +3593,8 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return SiteMenuError(
+                default:
+                    return SiteMenuError(
                     context: context,
                     id: siteId,
                     siteModel: siteModel,
@@ -8859,11 +8864,23 @@ namespace Implem.Pleasanter.Models
                                             + $"(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)",
                                         replacement: $"[{column.ColumnName}]");
                                 }
+                                if (formulaSet.FormulaScriptOutOfCondition.IsNullOrEmpty() == false)
+                                {
+                                    foreach (var column in columnList)
+                                    {
+                                        formulaSet.FormulaScriptOutOfCondition = System.Text.RegularExpressions.Regex.Replace(
+                                            input: formulaSet.FormulaScriptOutOfCondition,
+                                            pattern: "(?<!\\$)"
+                                                + System.Text.RegularExpressions.Regex.Escape(column.LabelText)
+                                                + $"(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)",
+                                            replacement: $"[{column.ColumnName}]");
+                                    }
+                                }
                             }
                             else
                             {
-                                var columns = System.Text.RegularExpressions.Regex.Matches(formulaSet.FormulaScript, @"\[([^]]*)\]");
-                                foreach (var column in columns)
+                                var columns1 = System.Text.RegularExpressions.Regex.Matches(formulaSet.FormulaScript, @"\[([^]]*)\]");
+                                foreach (var column in columns1)
                                 {
                                     var columnParam = column.ToString()[1..^1];
                                     if (ss.FormulaColumn(columnParam, formulaSet.CalculationMethod) != null)
@@ -8871,6 +8888,20 @@ namespace Implem.Pleasanter.Models
                                         formulaSet.FormulaScript = formulaSet.FormulaScript.Replace(
                                             oldValue: column.ToString(),
                                             newValue: columnList.SingleOrDefault(o => o.ColumnName == columnParam).LabelText);
+                                    }
+                                }
+                                if (formulaSet.FormulaScriptOutOfCondition.IsNullOrEmpty() == false)
+                                {
+                                    var columns2 = System.Text.RegularExpressions.Regex.Matches(formulaSet.FormulaScriptOutOfCondition, @"\[([^]]*)\]");
+                                    foreach (var column in columns2)
+                                    {
+                                        var columnParam = column.ToString()[1..^1];
+                                        if (ss.FormulaColumn(columnParam, formulaSet.CalculationMethod) != null)
+                                        {
+                                            formulaSet.FormulaScriptOutOfCondition = formulaSet.FormulaScriptOutOfCondition.Replace(
+                                                oldValue: column.ToString(),
+                                                newValue: columnList.SingleOrDefault(o => o.ColumnName == columnParam).LabelText);
+                                        }
                                     }
                                 }
                             }
@@ -8905,7 +8936,10 @@ namespace Implem.Pleasanter.Models
                                 .Td(action: () => hb
                                     .Text(text: ss.Views?.Get(formulaSet.Condition)?.Name))
                                 .Td(action: () => hb
-                                    .Text(text: formulaSet.OutOfCondition?.ToString(ss))));
+                                    .Text(text: (formulaSet.CalculationMethod == FormulaSet.CalculationMethods.Default.ToString()
+                                        || string.IsNullOrEmpty(formulaSet.CalculationMethod))
+                                            ? formulaSet.OutOfCondition?.ToString(ss)
+                                            : formulaSet.FormulaScriptOutOfCondition)));
                     });
                 });
             }
@@ -8957,8 +8991,7 @@ namespace Implem.Pleasanter.Models
                                 ? formulaSet.Formula?.ToString(ss, notUseDisplayName: formulaSet.NotUseDisplayName)
                                 : FormulaBuilder.UpdateColumnDisplayText(
                                     ss: ss,
-                                    formulaSet: formulaSet)
-                                .FormulaScript,
+                                    formulaSet: formulaSet).FormulaScript,
                         validateRequired: true)
                     .FieldCheckBox(
                         controlId: "NotUseDisplayName",
@@ -8992,7 +9025,12 @@ namespace Implem.Pleasanter.Models
                                 ? string.Empty
                                 : " hidden"),
                         labelText: Displays.OutOfCondition(context: context),
-                        text: formulaSet.OutOfCondition?.ToString(ss))
+                        text: (formulaSet.CalculationMethod == FormulaSet.CalculationMethods.Default.ToString()
+                            || string.IsNullOrEmpty(formulaSet.CalculationMethod))
+                                ? formulaSet.OutOfCondition?.ToString(ss)
+                                : FormulaBuilder.UpdateColumnDisplayText(
+                                    ss: ss,
+                                    formulaSet: formulaSet).FormulaScriptOutOfCondition)
                     .P(css: "message-dialog")
                     .Div(css: "command-center", action: () => hb
                         .Button(
@@ -9071,7 +9109,13 @@ namespace Implem.Pleasanter.Models
                         confirm: Displays.ConfirmDelete(context: context)))
                 .EditProcess(
                     context: context,
-                    ss: ss));
+                    ss: ss)
+                .FieldCheckBox(
+                    controlId: "ProcessOutputFormulaLogs",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.OutputLog(context: context),
+                    _checked: ss.ProcessOutputFormulaLogs == true,
+                    labelPositionIsRight: true));
         }
 
         /// <summary>
@@ -9444,6 +9488,10 @@ namespace Implem.Pleasanter.Models
                             {
                                 Process.ExecutionTypes.CreateOrUpdate.ToInt().ToString(),
                                 Displays.CreateOrUpdate(context: context)
+                            },
+                            {
+                                Process.ExecutionTypes.AddedButtonOrCreateOrUpdate.ToInt().ToString(),
+                                Displays.AddedButtonOrCreateOrUpdate(context: context)
                             }
                         },
                         selectedValue: process.ExecutionType.ToInt().ToString())
@@ -10096,6 +10144,36 @@ namespace Implem.Pleasanter.Models
                         text: dataChange.Visible(type: "Value")
                             ? ss.ColumnNameToLabelText(dataChange.Value)
                             : string.Empty)
+                    .FieldTextBox(
+                        textType: HtmlTypes.TextTypes.Normal,
+                        fieldId: "ProcessDataChangeValueFormulaField",
+                        controlId: "ProcessDataChangeValueFormula",
+                        fieldCss: "field-wide" + (!dataChange.Visible(type: "ValueFormula")
+                            ? " hidden"
+                            : string.Empty),
+                        controlCss: " always-send",
+                        labelText: Displays.Formulas(context: context),
+                        text: dataChange.Visible(type: "ValueFormula")
+                            ? dataChange.DisplayValue(context: context, ss: ss)
+                            : string.Empty)
+                    .FieldCheckBox(
+                        fieldId: "ProcessDataChangeValueFormulaNotUseDisplayNameField",
+                        controlId: "ProcessDataChangeValueFormulaNotUseDisplayName",
+                        fieldCss: (!dataChange.Visible(type: "ValueFormula")
+                            ? " hidden"
+                            : string.Empty),
+                        controlCss: " always-send",
+                        labelText: Displays.NotUseDisplayName(context: context),
+                        _checked: dataChange.ValueFormulaNotUseDisplayName)
+                    .FieldCheckBox(
+                        fieldId: "ProcessDataChangeValueFormulaIsDisplayErrorField",
+                        controlId: "ProcessDataChangeValueFormulaIsDisplayError",
+                        fieldCss: (!dataChange.Visible(type: "ValueFormula")
+                            ? " hidden"
+                            : string.Empty),
+                        controlCss: " always-send",
+                        labelText: Displays.FormulaIsDisplayError(context: context),
+                        _checked: dataChange.ValueFormulaIsDisplayError)
                     .FieldDropDown(
                         context: context,
                         fieldId: "ProcessDataChangeBaseDateTimeField",
@@ -10414,8 +10492,8 @@ namespace Implem.Pleasanter.Models
                         controlCss: " always-send",
                         labelText: Displays.NotificationType(context: context),
                         optionCollection: Parameters.Notification.ListOrder == null
-                            ? NotificationUtilities.Types(context: context)
-                            : NotificationUtilities.OrderTypes(context: context),
+                            ? NotificationUtilities.Types(context: context, isProcessNotification: true)
+                            : NotificationUtilities.OrderTypes(context: context, isProcessNotification: true),
                         selectedValue: notification.Type.ToInt().ToString())
                     .FieldTextBox(
                         controlId: "ProcessNotificationSubject",
@@ -10431,6 +10509,26 @@ namespace Implem.Pleasanter.Models
                         labelText: Displays.Address(context: context),
                         text: ss.ColumnNameToLabelText(notification.Address),
                         validateRequired: true)
+                    .FieldTextBox(
+                        fieldId: "ProcessNotificationCcAddressField",
+                        controlId: "ProcessNotificationCcAddress",
+                        fieldCss: "field-wide" + (notification.Type == Notification.Types.Mail
+                            ? string.Empty
+                            : " hidden"),
+                        controlCss: " always-send",
+                        labelText: Displays.Cc(context: context),
+                        text: ss.ColumnNameToLabelText(notification.CcAddress),
+                        validateRequired: false)
+                    .FieldTextBox(
+                        fieldId: "ProcessNotificationBccAddressField",
+                        controlId: "ProcessNotificationBccAddress",
+                        fieldCss: "field-wide" + (notification.Type == Notification.Types.Mail
+                            ? string.Empty
+                            : " hidden"),
+                        controlCss: " always-send",
+                        labelText: Displays.Bcc(context: context),
+                        text: ss.ColumnNameToLabelText(notification.BccAddress),
+                        validateRequired: false)
                     .FieldTextBox(
                         fieldId: "ProcessNotificationTokenField",
                         controlId: "ProcessNotificationToken",
@@ -12541,6 +12639,26 @@ namespace Implem.Pleasanter.Models
                         text: ss.ColumnNameToLabelText(notification.Address),
                         validateRequired: true)
                     .FieldTextBox(
+                        fieldId: "NotificationCcAddressField",
+                        controlId: "NotificationCcAddress",
+                        fieldCss: "field-wide" + (notification.Type == Notification.Types.Mail
+                            ? string.Empty
+                            : " hidden"),
+                        controlCss: " always-send",
+                        labelText: Displays.Cc(context: context),
+                        text: ss.ColumnNameToLabelText(notification.CcAddress),
+                        validateRequired: false)
+                    .FieldTextBox(
+                        fieldId: "NotificationBccAddressField",
+                        controlId: "NotificationBccAddress",
+                        fieldCss: "field-wide" + (notification.Type == Notification.Types.Mail
+                            ? string.Empty
+                            : " hidden"),
+                        controlCss: " always-send",
+                        labelText: Displays.Bcc(context: context),
+                        text: ss.ColumnNameToLabelText(notification.BccAddress),
+                        validateRequired: false)
+                    .FieldTextBox(
                         fieldId: "NotificationTokenField",
                         controlId: "NotificationToken",
                         fieldCss: "field-wide" + (!NotificationUtilities.RequireToken(notification)
@@ -12892,6 +13010,10 @@ namespace Implem.Pleasanter.Models
                         _using: Parameters.Mail.FixedFrom.IsNullOrEmpty())
                     .Th(action: () => hb
                         .Text(text: Displays.To(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Cc(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Bcc(context: context)))
                     .Th(action: () => hb
                         .Text(text: Displays.Column(context: context)))
                     .Th(action: () => hb
@@ -14594,7 +14716,7 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .Text(text: Displays.Disabled(context: context)))
                     .EditDestinationScriptHeader(
-                        context:context,
+                        context: context,
                         _using: ss.ReferenceType != "Dashboards")));
         }
 
@@ -14980,7 +15102,7 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .Text(text: Displays.Disabled(context: context)))
                     .EditDestinationHtmlHeader(
-                        context:context,
+                        context: context,
                         _using: ss.ReferenceType != "Dashboards")));
         }
 
@@ -15027,7 +15149,8 @@ namespace Implem.Pleasanter.Models
             IEnumerable<int> selected)
         {
             return hb.TBody(action: () => ss
-                .Htmls?.ForEach(html => {
+                .Htmls?.ForEach(html =>
+                {
                     var positionType = string.Empty;
                     switch (html.PositionType)
                     {
@@ -15796,7 +15919,7 @@ namespace Implem.Pleasanter.Models
             }
             if (selected?.Any() != true)
             {
-                return  new ErrorData(type: Error.Types.SelectTargets);
+                return new ErrorData(type: Error.Types.SelectTargets);
             }
             else
             {
@@ -16832,7 +16955,7 @@ namespace Implem.Pleasanter.Models
                         })
                     .FieldCheckBox(
                         controlId: "DisableAsynchronousLoading",
-                        fieldCss:" both",
+                        fieldCss: " both",
                         controlCss: " always-send control-checkbox",
                         labelText: Displays.DisableAsynchronousLoading(context: context),
                         _checked: dashboardPart.DisableAsynchronousLoading == true)
@@ -17603,12 +17726,12 @@ namespace Implem.Pleasanter.Models
                 return ApiResults.BadRequest(context: context);
             }
             var resultCollection = new List<object>();
-            var startCanRead = context.CanRead(
-                ss: SiteSettingsUtilities.Get(
-                    context: context,
-                    siteId: id,
-                    referenceId: id),
-                site: true);
+            var startSs = SiteSettingsUtilities.Get(
+                context: context,
+                siteId: id,
+                referenceId: id);
+            var startCanRead = context.CanRead(ss: startSs, site: true)
+                || context.CanCreate(ss: startSs, site: true);
             var tenantCache = SiteInfo.TenantCaches[context.TenantId];
             foreach (var siteName in findSiteNames)
             {
@@ -17623,12 +17746,13 @@ namespace Implem.Pleasanter.Models
                         name: siteName);
                     if (foundId != -1)
                     {
-                        if (context.CanRead(
-                            ss: SiteSettingsUtilities.Get(
-                                context: context,
-                                siteId: foundId,
-                                referenceId: foundId),
-                            site: true) == false)
+                        var findSs = SiteSettingsUtilities.Get(
+                            context: context,
+                            siteId: foundId,
+                            referenceId: foundId);
+                        var findCanRead = context.CanRead(ss: findSs, site: true)
+                            || context.CanCreate(ss: findSs, site: true);
+                        if (findCanRead == false)
                         {
                             foundId = -1;
                         }

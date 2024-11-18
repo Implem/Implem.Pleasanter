@@ -16,7 +16,7 @@ foreach (var process in processes)
             ss: ss,
             process: process);
     }
-    else if (process.ExecutionType != Process.ExecutionTypes.CreateOrUpdate)
+    else if ((process.ExecutionType ?? Process.ExecutionTypes.AddedButton) == Process.ExecutionTypes.AddedButton)
     {
         var message = process.GetErrorMessage(context: context);
         message.Text = #modelName#Model.ReplacedDisplayValues(

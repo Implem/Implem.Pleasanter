@@ -26,7 +26,19 @@
                         context: context,
                         ss: ss,
                         value: notification.Body),
-                    values: ss.IncludedColumns(notification.Address)
+                    valuesTo: ss.IncludedColumns(notification.Address)
+                        .ToDictionary(
+                            column => column,
+                            column => PropertyValue(
+                                context: context,
+                                column: column)),
+                    valuesCc: ss.IncludedColumns(notification.CcAddress)
+                        .ToDictionary(
+                            column => column,
+                            column => PropertyValue(
+                                context: context,
+                                column: column)),
+                    valuesBcc: ss.IncludedColumns(notification.BccAddress)
                         .ToDictionary(
                             column => column,
                             column => PropertyValue(

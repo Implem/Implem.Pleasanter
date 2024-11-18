@@ -225,6 +225,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     case "MenuContainer":
                                         hb.Div(
                                             css: "menubox",
+                                            id: menu.ContainerId,
                                             action: menu.ContainerId == "NewMenuContainer"
                                                 ? () => hb
                                                     .A(
