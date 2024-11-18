@@ -145,10 +145,10 @@ namespace Implem.Pleasanter.Models
                 string pageName = page
                     ? context.Page ?? string.Empty
                     : string.Empty;
-                sessionGuid = sessionGuid ?? context.SessionGuid
-                    + (readOnce ? "_readOnce" : string.Empty);
+                sessionGuid = sessionGuid ?? context.SessionGuid;
                 if (Parameters.Session.UseKeyValueStore && !userArea)
                 {
+                    sessionGuid += readOnce ? "_readOnce" : string.Empty;
                     StackExchange.Redis.IDatabase iDatabase = Implem.Pleasanter.Libraries.Redis.CacheForRedisConnection.Connection.GetDatabase();
                     string fieldName = pageName.IsNullOrEmpty() ? $"{key}" : $"{key}_{pageName}";
                     StackExchange.Redis.HashEntry[] hashEntrys = new StackExchange.Redis.HashEntry[]{ new StackExchange.Redis.HashEntry(fieldName, value) };
