@@ -32,6 +32,28 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static Dictionary<string, string> Get(Context context, bool includeUserArea = false, string sessionGuid = null)
         {
+            if (Parameters.Session.UseKeyValueStore)
+            {
+                var key = sessionGuid ?? context.SessionGuid;
+                StackExchange.Redis.IDatabase iDatabase = Implem.Pleasanter.Libraries.Redis.CacheForRedisConnection.Connection.GetDatabase();
+                var sessions = iDatabase.HashGetAll(key)
+                    .Where(dataRow =>
+                        dataRow.Name.ToString().Split('_').Count() == 1 ||
+                        (context.Page == null && sessionGuid == null) ||
+                        dataRow.Name.ToString().Split('_')[1] == context.Page)
+                    .ToDictionary(dataRow => dataRow.Name.ToString().Split('_')[0], dataRow => dataRow.Value.ToString());
+                if (iDatabase.KeyExists(key + "_readOnce"))
+                {
+                    sessions = sessions.Concat(iDatabase.HashGetAll(key + "_readOnce").Where(dataRow =>
+                            dataRow.Name.ToString().Split('_').Count() == 1 ||
+                            (context.Page == null && sessionGuid == null) ||
+                            dataRow.Name.ToString().Split('_')[1] == context.Page)
+                        .ToDictionary(dataRow => dataRow.Name.ToString().Split('_')[0], dataRow => dataRow.Value.ToString()))
+                    .ToDictionary(dataRow => dataRow.Key, dataRow => dataRow.Value);
+                    Implem.Pleasanter.Libraries.Redis.CacheForRedisConnection.Remove(key + "_readOnce");
+                }
+                return sessions;
+            }
             return Repository.ExecuteTable(
                 context: context,
                 statements: new SqlStatement[]
@@ -120,22 +142,39 @@ namespace Implem.Pleasanter.Models
         {
             if (value != null)
             {
-                Repository.ExecuteNonQuery(
+                string pageName = page
+                    ? context.Page ?? string.Empty
+                    : string.Empty;
+                sessionGuid = sessionGuid ?? context.SessionGuid;
+                if (Parameters.Session.UseKeyValueStore && !userArea)
+                {
+                    sessionGuid += readOnce ? "_readOnce" : string.Empty;
+                    StackExchange.Redis.IDatabase iDatabase = Implem.Pleasanter.Libraries.Redis.CacheForRedisConnection.Connection.GetDatabase();
+                    string fieldName = pageName.IsNullOrEmpty() ? $"{key}" : $"{key}_{pageName}";
+                    StackExchange.Redis.HashEntry[] hashEntrys = new StackExchange.Redis.HashEntry[]{ new StackExchange.Redis.HashEntry(fieldName, value) };
+                    iDatabase.HashSet(
+                        sessionGuid,
+                        hashEntrys
+                    );
+                    iDatabase.KeyExpire(sessionGuid, TimeSpan.FromMinutes(Parameters.Session.RetentionPeriod));
+                }
+                else
+                {
+                    Repository.ExecuteNonQuery(
                     context: context,
                     statements: Rds.UpdateOrInsertSessions(
                         param: Rds.SessionsParam()
-                            .SessionGuid(sessionGuid ?? context.SessionGuid)
+                            .SessionGuid(sessionGuid)
                             .Key(key)
-                            .Page(page
-                                ? context.Page ?? string.Empty
-                                : string.Empty)
+                            .Page(pageName)
                             .Value(value)
                             .ReadOnce(readOnce)
                             .UserArea(userArea),
                         where: Rds.SessionsWhere()
-                            .SessionGuid(sessionGuid ?? context.SessionGuid)
+                            .SessionGuid(sessionGuid)
                             .Key(key)
                             .Page(context.Page ?? string.Empty, _using: page)));
+                }
             }
             else
             {
