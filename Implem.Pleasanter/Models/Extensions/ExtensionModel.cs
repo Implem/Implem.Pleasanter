@@ -20,7 +20,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Linq;
-using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
 namespace Implem.Pleasanter.Models
 {
     [Serializable]
@@ -156,6 +155,7 @@ namespace Implem.Pleasanter.Models
         public ExtensionModel(
             Context context,
             int extensionId,
+            ExtensionApiModel extensionApiModel = null,
             SqlColumnCollection column = null,
             bool clearSessions = false,
             MethodTypes methodType = MethodTypes.NotSet)
@@ -179,6 +179,10 @@ namespace Implem.Pleasanter.Models
                 Get(
                     context: context,
                     column: column);
+            }
+            if (extensionApiModel != null)
+            {
+                SetByApi(context: context, data: extensionApiModel);
             }
             if (clearSessions) ClearSessions(context: context);
             MethodType = methodType;
@@ -728,6 +732,45 @@ namespace Implem.Pleasanter.Models
                 || Comments_Updated(context: context)
                 || Creator_Updated(context: context)
                 || Updator_Updated(context: context);
+        }
+
+
+        public void SetByApi(Context context, ExtensionApiModel data)
+        {
+            //TenantId = data.TenantId ?? TenantId;
+            ExtensionType = data.ExtensionType ?? ExtensionType;
+            ExtensionName = data.ExtensionName ?? ExtensionName;
+            ExtensionSettings = data.ExtensionSettings == null ? ExtensionSettings : Jsons.ToJson(data.ExtensionSettings);
+            Body = data.Body ?? Body;
+            Description = data.Description ?? Description;
+            Disabled = data.Disabled ?? Disabled;
+            Comments = data.Comments == null ? Comments : Comments.Prepend(context: context, ss: null, body: data.Comments); //TODO: Commentsの処理方法は、他と同じ？
+            VerUp = data.VerUp?.ToBool() ?? VerUp;
+        }
+
+
+        public string PropertyValue(Context context, Column column)
+        {
+            return column?.ColumnName switch
+            {
+                "ExtensionId" => ExtensionId.ToString(),
+                "TenantId" => TenantId.ToString(),
+                "Ver" => Ver.ToString(),
+                "ExtensionType" => ExtensionType,
+                "ExtensionName" => ExtensionName,
+                "ExtensionSettings" => ExtensionSettings.ToJson(),
+                "Body" => Body,
+                "Description" => Description,
+                "Disabled" => Disabled.ToString(),
+                "Comments" => Comments.ToJson(),
+                "Creator" => Creator.Id.ToString(),
+                "Updator" => Updator.Id.ToString(),
+                "CreatedTime" => CreatedTime.Value.ToString(),
+                "UpdatedTime" => UpdatedTime.Value.ToString(),
+                "VerUp" => VerUp.ToString(),
+                "Timestamp" => Timestamp,
+                _ => null,
+            };
         }
     }
 }

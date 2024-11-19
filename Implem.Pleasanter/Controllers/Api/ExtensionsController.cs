@@ -42,28 +42,28 @@ namespace Implem.Pleasanter.Controllers.Api
             return result.ToHttpResponse(request: Request);
         }
 
-        //[HttpPost("Create")]
-        //public ContentResult Create()
-        //{
-        //    var body = default(string);
-        //    using (var reader = new StreamReader(Request.Body)) body = reader.ReadToEnd();
-        //    var context = new Context(
-        //        sessionStatus: User?.Identity?.IsAuthenticated == true,
-        //        sessionData: User?.Identity?.IsAuthenticated == true,
-        //        apiRequestBody: body,
-        //        contentType: Request.ContentType,
-        //        api: true);
-        //    var log = new SysLogModel(context: context);
-        //    var result = context.Authenticated
-        //        ? ExtensionUtilities.CreateByApi(
-        //            context: context,
-        //            ss: SiteSettingsUtilities.ApiExtensionsSiteSettings(context))
-        //        : ApiResults.Unauthorized(context: context);
-        //    log.Finish(
-        //        context: context,
-        //        responseSize: result.Content.Length);
-        //    return result.ToHttpResponse(request: Request);
-        //}
+        [HttpPost("Create")]
+        public ContentResult Create()
+        {
+            var body = default(string);
+            using (var reader = new StreamReader(Request.Body)) body = reader.ReadToEnd();
+            var context = new Context(
+                sessionStatus: User?.Identity?.IsAuthenticated == true,
+                sessionData: User?.Identity?.IsAuthenticated == true,
+                apiRequestBody: body,
+                contentType: Request.ContentType,
+                api: true);
+            var log = new SysLogModel(context: context);
+            var result = context.Authenticated
+                ? ExtensionUtilities.CreateByApi(
+                    context: context,
+                    ss: SiteSettingsUtilities.ApiExtensionsSiteSettings(context))
+                : ApiResults.Unauthorized(context: context);
+            log.Finish(
+                context: context,
+                responseSize: result.Content.Length);
+            return result.ToHttpResponse(request: Request);
+        }
 
         //[HttpPost("{id}/Update")]
         //public ContentResult Update(int id)

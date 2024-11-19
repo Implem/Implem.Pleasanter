@@ -13,7 +13,7 @@ namespace Implem.Pleasanter.Models
         public int? Ver { get; set; }
         public string ExtensionType { get; set; }
         public string ExtensionName { get; set; }
-        public string ExtensionSettings { get; set; }
+        public dynamic ExtensionSettings { get; set; }
         public string Body { get; set; }
         public string Description { get; set; }
         public bool? Disabled { get; set; }
