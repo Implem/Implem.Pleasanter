@@ -119,6 +119,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string AddedButtonOrCreateOrUpdate(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AddedButtonOrCreateOrUpdate",
+                data: data);
+        }
+
         public static string AddPermission(
             Context context,
             params string[] data)
