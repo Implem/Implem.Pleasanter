@@ -9,10 +9,10 @@
     });
 }
 
-$p.isAuthenticationByMail = function () {
+$p.addAuthenticationByMailParameter = function (url) {
     if ($('#AuthenticationByMail').length) {
-        return '&isAuthenticationByMail=' + $('#AuthenticationByMail').data('isauthenticationbymail');
+        return $p.addUrlParameter(url, 'isAuthenticationByMail', $('#AuthenticationByMail').data('isauthenticationbymail'));
     } else {
-        return '';
+        return url;
     }
 }

@@ -65,11 +65,11 @@ $p.send = function ($control, formId, _async, clearMessage) {
     var url = action !== undefined
         ? $form.attr('action').replace('_action_', action.toLowerCase())
         : location.href;
-    url += $p.isAuthenticationByMail();
+    url = $p.addAuthenticationByMailParameter(url);
     var fieldSetTab = $('li[role="tab"][aria-selected=true][aria-controls^=FieldSetTab]');
     var selectedTabIndex = fieldSetTab.parent().children().index(fieldSetTab);
     if (selectedTabIndex > 0) {
-        url += ((url + '').indexOf('?') > -1 ? '&' : '?') + "TabIndex=" + selectedTabIndex;
+        url = $p.addUrlParameter(url, 'TabIndex', selectedTabIndex);
     }
     _async = _async !== undefined ? _async : true;
     if (methodType !== 'get') {
@@ -112,6 +112,10 @@ $p.setFormChanged = function ($control) {
     if (!$control.hasClass('not-set-form-changed')) {
         $p.formChanged = true;
     }
+}
+
+$p.addUrlParameter = function (url, key, value) {
+    return url + ((url + '').indexOf('?') > -1 ? '&' : '?') + key + "=" + value;
 }
 
 $p.throttle = (function () {
