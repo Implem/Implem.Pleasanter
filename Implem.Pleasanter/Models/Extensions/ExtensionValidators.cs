@@ -15,25 +15,64 @@ namespace Implem.Pleasanter.Models
     {
         public static ErrorData OnEntry(
             Context context,
+            SiteSettings ss,
             bool api = false,
             bool serverScript = false)
         {
             if (api)
             {
-                //TODO: ServerScriptの関係あるか確認する
-                var apiErrorData = Validators.ValidateApi(
-                    context: context,
-                    serverScript: serverScript);
+                var apiErrorData = Validators.ValidateApi(context: context, serverScript: serverScript);
                 if (apiErrorData.Type != Error.Types.None)
-                {
                     return apiErrorData;
-                }
             }
 
-            //TODO: 適切なチェックを確認する（Returnの内容は、ResultValidators.OnGet のようにもう少し詳細に書く？）
-            return Permissions.CanManageUser(context: context)
-                ? new ErrorData(type: Error.Types.None)
-                : new ErrorData(type: Error.Types.HasNotPermission);
+            //TODO: チェックが適切かを確認する。 context.HasPermission(ss: ss) は False になる
+            //if (!context.HasPermission(ss: ss))
+            //    return new ErrorData(
+            //        context: context,
+            //        type: context.CanRead(ss: ss) ? Error.Types.HasNotPermission : Error.Types.None,
+            //        api: api,
+            //        sysLogsStatus: 403,
+            //        sysLogsDescription: Debugs.GetSysLogsDescription());
+
+            if (!context.CanRead(ss: ss))
+                return new ErrorData(
+                    context: context,
+                    type: Error.Types.HasNotPermission,
+                    api: api,
+                    sysLogsStatus: 403,
+                    sysLogsDescription: Debugs.GetSysLogsDescription());
+
+            return new ErrorData(
+                context: context,
+                type: Error.Types.None,
+                api: api,
+                sysLogsStatus: 200,
+                sysLogsDescription: Debugs.GetSysLogsDescription());
+        }
+
+        public static ErrorData OnGet(
+            Context context,
+            SiteSettings ss,
+            bool api = false,
+            bool serverScript = false)
+        {
+            if (api)
+            {
+                var apiErrorData = Validators.ValidateApi(context: context, serverScript: serverScript);
+                if (apiErrorData.Type != Error.Types.None)
+                    return apiErrorData;
+            }
+
+            if (!context.CanRead(ss: ss))
+                return new ErrorData(
+                    context: context,
+                    type: Error.Types.HasNotPermission,
+                    api: api,
+                    sysLogsStatus: 403,
+                    sysLogsDescription: Debugs.GetSysLogsDescription());
+
+            return SuccessData(context: context, api: api);
         }
 
         public static ErrorData OnCreating(
@@ -47,56 +86,35 @@ namespace Implem.Pleasanter.Models
             if (api)
             {
                 //TODO: ServerScriptの関係あるか確認する
-                var apiErrorData = Validators.ValidateApi(
-                    context: context,
-                    serverScript: serverScript);
-                if (apiErrorData.Type != Error.Types.None)
-                {
-                    return apiErrorData;
-                }
+                var apiErrorData = Validators.ValidateApi(context: context, serverScript: serverScript);
+                if (apiErrorData.Type != Error.Types.None) return apiErrorData;
             }
 
-            //TODO: ss.LockedTable() を見る必要があるか確認する
-            if (ss.LockedTable())
-            {
+            //TODO: 権限のチェックが適切かを確認する
+            if (!context.CanCreate(ss: ss))
                 return new ErrorData(
                     context: context,
-                    type: Error.Types.LockedTable,
-                    data: new string[]
-                    {
-                        ss.LockedTableUser.Name,
-                        ss.LockedTableTime.DisplayValue.ToString(context.CultureInfo())
-                    },
-                    sysLogsStatus: 400,
+                    type: context.CanRead(ss: ss) ? Error.Types.HasNotPermission : Error.Types.NotFound,
+                    api: api,
+                    sysLogsStatus: 403,
                     sysLogsDescription: Debugs.GetSysLogsDescription());
+
+            var checkColumns = ss.Columns.Where(
+                o => !o.CanCreate(context: context, ss: ss, mine: extensionModel.Mine(context: context)) &&
+                     !ss.FormulaTarget(o.ColumnName));
+            foreach (var column in checkColumns)
+            {
+                if (IsColumnUpdated(extensionModel, column.ColumnName, context))
+                    return GetErrorDataOfHasNotChangeColumnPermission(context, column.LabelText, api);
             }
-
-            //TODO: HasNotChangeColumnPermission のチェック必要性を確認する
-
-            // 添付ファイルに関するものなので不要なはず
-            //var errorData = OnAttaching(
-            //    context: context,
-            //    ss: ss,
-            //    extensionModel: extensionModel);
-            //if (errorData.Type != Error.Types.None)
-            //{
-            //    return errorData;
-            //}
 
             var inputErrorData = OnInputValidating(
                 context: context,
                 ss: ss,
                 extensionModel: extensionModel).FirstOrDefault();
-            if (inputErrorData.Type != Error.Types.None)
-            {
-                return inputErrorData;
-            }
-            return new ErrorData(
-                context: context,
-                type: Error.Types.None,
-                api: api,
-                sysLogsStatus: 200,
-                sysLogsDescription: Debugs.GetSysLogsDescription());
+            if (inputErrorData.Type != Error.Types.None) return inputErrorData;
+
+            return SuccessData(context: context, api: api);
 
         }
 
@@ -137,8 +155,7 @@ namespace Implem.Pleasanter.Models
             var errors = new List<ErrorData>();
             var editorColumns = ss.GetEditorColumns(context: context); //context使われてないので不要。ssの内容によって設定されれる。
             editorColumns
-                ?.Concat(ss
-                    .Columns
+                ?.Concat(ss.Columns
                     ?.Where(o => !o.NotEditorSettings)
                     .Where(column => !editorColumns
                         .Any(editorColumn => editorColumn.ColumnName == column.ColumnName)))
@@ -155,6 +172,7 @@ namespace Implem.Pleasanter.Models
                     }
                     if (!value.IsNullOrEmpty())
                     {
+                        //TODO: これらの関数の中でErrosにAddしてるけど、わかりにくいので修正したいところ…
                         Validators.ValidateMaxLength(
                             columnName: column.ColumnName,
                             maxLength: column.MaxLength,
@@ -177,6 +195,98 @@ namespace Implem.Pleasanter.Models
                     sysLogsDescription: Debugs.GetSysLogsDescription()));
             }
             return errors;
+        }
+
+
+        public static ErrorData OnUpdating(
+            Context context,
+            SiteSettings ss,
+            ExtensionModel extensionModel,
+            bool api = false,
+            bool serverScript = false)
+        {
+            // TODO: こちらのチェックと、後のCanCreqateのチェックとの兼ね合いを確認して調整する。またOnCreattingにはないけどよいのか？
+            //if (extensionModel.RecordPermissions != null && !context.CanManagePermission(ss: ss))
+            //{
+            //    return new ErrorData(
+            //        context: context,
+            //        type: Error.Types.HasNotPermission,
+            //        api: api,
+            //        sysLogsStatus: 403,
+            //        sysLogsDescription: Debugs.GetSysLogsDescription());
+            //}
+
+            if (api)
+            {
+                var apiErrorData = Validators.ValidateApi(context: context, serverScript: serverScript);
+                if (apiErrorData.Type != Error.Types.None) return apiErrorData;
+            }
+
+            var checkColumns = ss.Columns.Where(
+                o => !o.CanUpdate(context: context, ss: ss, mine: extensionModel.Mine(context: context)) &&
+                     !ss.FormulaTarget(o.ColumnName));
+            foreach (var column in checkColumns)
+            {
+                if (IsColumnUpdated(extensionModel, column.ColumnName, context))
+                    return GetErrorDataOfHasNotChangeColumnPermission(context, column.LabelText, api);
+            }
+
+            //TODO: 権限のチェックが適切かを確認する
+            //TODO:  Extensionのモデルベースのモデルを別にしたい
+            if (!context.CanUpdate(ss: ss))
+                return new ErrorData(
+                    context: context,
+                    type: !context.CanRead(ss: ss) ? Error.Types.NotFound : Error.Types.HasNotPermission,
+                    api: api,
+                    sysLogsStatus: 403,
+                    sysLogsDescription: Debugs.GetSysLogsDescription());
+
+            //TODO: 必要かどうか確認する
+            var inputErrorData = OnInputValidating(
+                context: context,
+                ss: ss,
+                extensionModel: extensionModel).FirstOrDefault();
+            if (inputErrorData?.Type != Error.Types.None) return inputErrorData;
+
+            return SuccessData(context: context, api: api);
+        }
+
+        private static bool IsColumnUpdated(ExtensionModel extensionModel, string columnName, Context context)
+        {
+            return columnName switch
+            {
+                "TenantId" => extensionModel.TenantId_Updated(context: context),
+                "Ver" => extensionModel.Ver_Updated(context: context),
+                "ExtensionType" => extensionModel.ExtensionType_Updated(context: context),
+                "ExtensionName" => extensionModel.ExtensionName_Updated(context: context),
+                "ExtensionSetting" => extensionModel.ExtensionSettings_Updated(context: context),
+                "Body" => extensionModel.Body_Updated(context: context),
+                "Description" => extensionModel.Description_Updated(context: context),
+                "Disabled" => extensionModel.Disabled_Updated(context: context),
+                "Comments" => extensionModel.Comments_Updated(context: context),
+                _ => false,
+            };
+        }
+
+        private static ErrorData GetErrorDataOfHasNotChangeColumnPermission(Context context, string columnLabelText, bool api)
+        {
+            return new ErrorData(
+                context: context,
+                type: Error.Types.HasNotChangeColumnPermission,
+                data: columnLabelText,
+                api: api,
+                sysLogsStatus: 403,
+                sysLogsDescription: Debugs.GetSysLogsDescription());
+        }
+
+        private static ErrorData SuccessData(Context context, bool api)
+        {
+            return new ErrorData(
+                context: context,
+                type: Error.Types.None,
+                api: api,
+                sysLogsStatus: 200,
+                sysLogsDescription: Debugs.GetSysLogsDescription());
         }
     }
 }

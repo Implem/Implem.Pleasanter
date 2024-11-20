@@ -295,20 +295,12 @@ namespace Implem.Pleasanter.Models
             int extensionId)
         {
             if (!Mime.ValidateOnApi(contentType: context.ContentType))
-            {
                 return ApiResults.BadRequest(context: context);
-            }
-            var invalid = ExtensionValidators.OnEntry(
-                context: context,
-                api: true);
-            switch (invalid.Type)
-            {
-                case Error.Types.None: break;
-                default:
-                    return ApiResults.Error(
-                        context: context,
-                        errorData: invalid);
-            }
+
+            //TODO: 他のAPIもだが、OnEntoryでなく OnGet を用いるべきなのでは？
+            var invalid = ExtensionValidators.OnEntry(ss:ss, context: context, api: true);
+            if(invalid.Type != Error.Types.None)
+                return ApiResults.Error(context: context, errorData: invalid);
 
             var api = context.RequestDataString.Deserialize<Api>();
             if (api == null && !context.RequestDataString.IsNullOrEmpty())
@@ -335,9 +327,7 @@ namespace Implem.Pleasanter.Models
                 view.ColumnFilterHash.Add("ExtensionId", extensionId.ToString());
             }
 
-            var session = Views.GetBySession(
-                context: context,
-                ss: ss);
+            var session = Views.GetBySession(context: context, ss: ss);
 
             view.MergeSession(view);
 ;
@@ -345,15 +335,9 @@ namespace Implem.Pleasanter.Models
 
             var extensions = new ExtensionCollection(
                 context: context,
-                where: view.Where(
-                    context: context,
-                    ss: ss),
-                orderBy: view.OrderBy(
-                    context: context,
-                    ss: ss),
+                where: view.Where(context: context, ss: ss),
+                orderBy: view.OrderBy(context: context, ss: ss),
                 tableType: tableType);
-
-
 
 
             return ApiResults.Get(new
@@ -373,9 +357,7 @@ namespace Implem.Pleasanter.Models
 
             //TODO: ResultUtility のPGにはこのチェックの記載がないがよいのか？またSiteUtilityだとItemUtilityと Deserialize したものに対するチェックの順序がことなっているがよいのか？
             if (!Mime.ValidateOnApi(contentType: context.ContentType))
-            {
                 return ApiResults.BadRequest(context: context);
-            }
 
             //TODO: 何するものかチェック 「レコード数が上限に達しました。」のチェック なんのためのちぇくかよくわからない。とりあえず不要
             //if (context.ContractSettings.ItemsLimit(context: context, siteId: ss.SiteId))
@@ -387,16 +369,50 @@ namespace Implem.Pleasanter.Models
 
             var extensionApiModel = context.RequestDataString.Deserialize<ExtensionApiModel>();
             if (extensionApiModel == null)
-            {
                 context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
-            }
+
             //TODO: extensionApiModel の　ExtensionSettings に対するチェックが必要。 ExtensionType毎にモデルを用意してDeserializeすることでチェックする？
 
+            var extensionModel = new ExtensionModel(context: context, extensionId: 0, extensionApiModel: extensionApiModel);
+            var invalid = ExtensionValidators.OnCreating(context: context, ss: ss, extensionModel: extensionModel, api: true);
+            if (invalid.Type != Error.Types.None)
+                    return ApiResults.Error(context: context, errorData: invalid);
+
+            var errorData = extensionModel.Create(context: context, ss: ss);
+            if (errorData.Type != Error.Types.None)
+                return ApiResults.Error(
+                    context: context,
+                    errorData: errorData);
+
+            return ApiResults.Success(
+                id: extensionModel.ExtensionId,
+                message: CreatedMessage(context: context, extensionModel: extensionModel).Text);
+        }
+
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static ContentResultInheritance UpdateByApi(
+            Context context,
+            SiteSettings ss,
+            int extensionId)
+        {
+            if (!Mime.ValidateOnApi(contentType: context.ContentType))
+                return ApiResults.BadRequest(context: context);
+
+            var extensionApiModel = context.RequestDataString.Deserialize<ExtensionApiModel>();
+            if (extensionApiModel == null)
+                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+            
             var extensionModel = new ExtensionModel(
                 context: context,
-                extensionId: 0,
+                extensionId: extensionId,
                 extensionApiModel: extensionApiModel);
-            var invalid = ExtensionValidators.OnCreating(
+            if (extensionModel.AccessStatus != Databases.AccessStatuses.Selected)
+                return ApiResults.Get(ApiResponses.NotFound(context: context));
+
+            var invalid = ExtensionValidators.OnUpdating(
                 context: context,
                 ss: ss,
                 extensionModel: extensionModel,
@@ -406,29 +422,30 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default:
                     return ApiResults.Error(
-                    context: context,
-                    errorData: invalid);
+                        context: context,
+                        errorData: invalid);
             }
-
-            var errorData = extensionModel.Create(
-                context: context,
-                ss: ss);
-            switch (errorData.Type)
+            foreach (var column in ss.Columns
+                         .Where(o => o.ValidateRequired ?? false)
+                         .Where(o => typeof(GroupApiModel).GetField(o.ColumnName) != null))
             {
-                case Error.Types.None:
-                    return ApiResults.Success(
-                        id: extensionModel.ExtensionId,
-                        //limitPerDate: context.ContractSettings.ApiLimit(),
-                        //limitRemaining: context.ContractSettings.ApiLimit() - ss.ApiCount,
-                        message: CreatedMessage(
-                            context: context,
-                            extensionModel: extensionModel).Text);
-                default:
+                if (extensionModel.GetType().GetField(column.ColumnName).GetValue(extensionModel).ToString().IsNullOrEmpty())
                     return ApiResults.Error(
                         context: context,
-                        errorData: errorData);
+                        errorData: new ErrorData(type: Error.Types.NotRequiredColumn),
+                        data: column.ColumnName);
             }
+
+            var errorData = extensionModel.Update(context: context, ss: ss, get: false);
+            if (errorData.Type != Error.Types.None)
+                return ApiResults.Error(context: context, errorData: errorData);
+
+            return ApiResults.Success(
+                    id: extensionModel.ExtensionId,
+                    message: UpdatedMessage(context: context, ss: ss, extensionModel: extensionModel).Text);
+             
         }
+
 
         private static Message CreatedMessage(
             Context context,
@@ -438,5 +455,17 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 data: extensionModel.ExtensionName);
         }
+
+
+        private static Message UpdatedMessage(
+            Context context,
+            SiteSettings ss,
+            ExtensionModel extensionModel)
+        {
+            return Messages.Updated(
+                context: context,
+                data: extensionModel.ExtensionName);
+        }
+
     }
 }
