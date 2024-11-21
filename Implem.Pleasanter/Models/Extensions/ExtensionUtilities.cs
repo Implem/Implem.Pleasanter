@@ -446,7 +446,47 @@ namespace Implem.Pleasanter.Models
              
         }
 
+        public static ContentResultInheritance DeleteByApi(Context context, SiteSettings ss, int extensionId)
+        {
+            if (!Mime.ValidateOnApi(contentType: context.ContentType))
+                return ApiResults.BadRequest(context: context);
 
+            var extensionModel = new ExtensionModel(
+                context: context,
+                extensionId: extensionId,
+                methodType: BaseModel.MethodTypes.Edit);
+            if (extensionModel.AccessStatus != Databases.AccessStatuses.Selected)
+                return ApiResults.Get(ApiResponses.NotFound(context: context));
+
+            var invalid = ExtensionValidators.OnDeleting(
+                context: context,
+                ss: ss,
+                extensionModel: extensionModel,
+                api: true);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return ApiResults.Error(
+                    context: context,
+                    errorData: invalid);
+            }
+            //extensionModel.SiteId = ss.SiteId;
+            //extensionModel.SetTitle(context: context, ss: ss);
+            var errorData = extensionModel.Delete(context: context);
+            if (errorData.Type != Error.Types.None)
+                return ApiResults.Error(context: context, errorData: errorData);
+
+
+            return ApiResults.Success(
+                id: extensionModel.ExtensionId,
+                limitPerDate: context.ContractSettings.ApiLimit(),
+                limitRemaining: context.ContractSettings.ApiLimit() - ss.ApiCount,
+                message: Displays.Deleted(
+                    context: context,
+                    data: extensionModel.ExtensionName));
+            
+        }
         private static Message CreatedMessage(
             Context context,
             ExtensionModel extensionModel)

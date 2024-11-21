@@ -251,6 +251,32 @@ namespace Implem.Pleasanter.Models
             return SuccessData(context: context, api: api);
         }
 
+
+        public static ErrorData OnDeleting(
+            Context context,
+            SiteSettings ss,
+            ExtensionModel extensionModel,
+            bool api = false,
+            bool serverScript = false)
+        {
+            if (api)
+            {
+                var apiErrorData = Validators.ValidateApi(context: context, serverScript: serverScript);
+                if (apiErrorData.Type != Error.Types.None)
+                    return apiErrorData;
+            }
+
+            if(!context.CanDelete(ss: ss))
+                return new ErrorData(
+                    context: context,
+                    type: context.CanRead(ss: ss) ? Error.Types.HasNotPermission : Error.Types.NotFound,
+                    api: api,
+                    sysLogsStatus: 403,
+                    sysLogsDescription: Debugs.GetSysLogsDescription());
+
+            return SuccessData(context: context, api: api);
+        }
+
         private static bool IsColumnUpdated(ExtensionModel extensionModel, string columnName, Context context)
         {
             return columnName switch
