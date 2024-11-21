@@ -24,10 +24,12 @@ namespace Implem.PleasanterTest.Tests.Settings
             var context = ContextData.Get(
                 userId: userModel.UserId,
                 routeData: RouteData.ItemsSetSiteSettings(id: siteId),
+                httpMethod: "POST",
                 forms: forms);
-            var results = Results(context: context);
-            Initializer.SaveResults(results);
-            Assert.True(false);
+            var html = Results(context: context, id: siteId);
+            Initializer.SaveResults(html);
+            bool result = html.Contains("サイト設定 - 更新 \\\\\\\" を更新しました。");
+            Assert.True(result);
         }
 
         public static IEnumerable<object[]> GetData()
@@ -61,11 +63,12 @@ namespace Implem.PleasanterTest.Tests.Settings
             };
         }
 
-        private static string Results(Context context)
+        private static string Results(Context context, long id)
         {
-            return SiteUtilities.SetSiteSettings(
+            return new ItemModel(
                 context: context,
-                siteId: context.Id);
+                referenceId: id)
+                    .Update(context: context);
         }
     }
 }

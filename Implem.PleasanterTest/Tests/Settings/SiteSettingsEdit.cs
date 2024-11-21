@@ -23,6 +23,7 @@ namespace Implem.PleasanterTest.Tests.Settings
                 userId: userModel.UserId,
                 routeData: RouteData.ItemsEdit(id: siteId));
             var html = new ItemModel(context: context, referenceId: siteId).Editor(context: context);
+            Initializer.SaveResults(html);
             var result = html.Contains("EditorTabsContainer");
             Assert.True(result);
         }
