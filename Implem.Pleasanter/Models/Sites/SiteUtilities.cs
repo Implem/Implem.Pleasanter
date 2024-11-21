@@ -15900,7 +15900,11 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static ErrorData SynchronizeSummaries(Context context, SiteModel siteModel, List<int> selected)
+        public static ErrorData SynchronizeSummaries(
+            Context context,
+            SiteModel siteModel,
+            List<int> selected,
+            Action watchdog = null)
         {
             siteModel.SetSiteSettingsPropertiesBySession(context: context);
             siteModel.SiteSettings = SiteSettingsUtilities.Get(
@@ -15923,10 +15927,14 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                selected.ForEach(id => Summaries.Synchronize(
-                    context: context,
-                    ss: ss,
-                    id: id));
+                selected.ForEach(id =>
+                {
+                    watchdog?.Invoke();
+                    Summaries.Synchronize(
+                        context: context,
+                        ss: ss,
+                        id: id);
+                });
                 return new ErrorData(type: Error.Types.None);
             }
         }

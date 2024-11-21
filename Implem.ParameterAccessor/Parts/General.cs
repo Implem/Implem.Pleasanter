@@ -105,5 +105,6 @@ namespace Implem.ParameterAccessor.Parts
         public bool EnableCodeEditor;
         public int GroupsDepthMax;
         public int BulkUpsertMax;
+        public bool BlockSiteTaskWhileRunning;
     }
 }
