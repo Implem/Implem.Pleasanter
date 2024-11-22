@@ -371,7 +371,7 @@ html .ui-button.ui-state-disabled:active {
         &:focus {
             background-color: var(--control-bg-focus);
         }
-        &.not-send {
+        &.not-send:is(.control-markdown) {
             &:not(:has(+ .button-edit-markdown)) {
                 background: var(--control-bg-read);
                 pre {
@@ -2378,6 +2378,16 @@ body:not(:has(#Editor)) {
     }
 }
 
+/* [Tenant]  */
+body:has(#TableName[value="Tenants"]) {
+    > .ui-dialog:has(#DropDownSearchDialog) {
+        z-index: 111 !important;
+        + .ui-widget-overlay {
+            z-index: 110 !important;
+        }
+    }
+}
+
 /* [Version] */
 #Versions {
     background-color: var(--base-bg);
@@ -2738,11 +2748,13 @@ body:has(input#Controller[value="syslogs"]) {
             background-color: var(--commonColor02);
         }
     }
-    th {
-        text-align: center;
-        background-color: var(--primaryColor);
-        a {
-            color: var(--invert-text);
+    thead {
+        th {
+            text-align: center;
+            background-color: var(--primaryColor);
+            a {
+                color: var(--invert-text);
+            }
         }
     }
     td {

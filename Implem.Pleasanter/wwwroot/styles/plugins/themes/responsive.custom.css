@@ -20,7 +20,7 @@
         }
         .ui-dialog-content {
             margin: 0 0 3vw;
-            padding: 0 8px !important;
+            padding: 8px 8px 0 !important;
         }
     }
 
@@ -114,16 +114,17 @@
     .container-normal:has(.control-checkbox) {
         display: flex;
         gap: 8px;
-        align-items: center;
+        align-items: flex-start;
         overflow: hidden;
         input {
             float: none;
+            margin: 0.2em 0 0 0;
         }
         label {
             flex: 1;
             float: none;
             width: auto;
-            margin: 4px 0 0 0;
+            margin: 0;
         }
     }
 
@@ -135,6 +136,13 @@
             + .ui-icon {
                 top: 15px;
             }
+        }
+    }
+
+    /* selectable */
+    .ui-selectable {
+        .ui-widget-content {
+            padding: 8px;
         }
     }
 
@@ -225,6 +233,8 @@
 
     .field-normal,
     .field-wide,
+    .field-auto,
+    .field-textarea,
     .field-markdown {
         min-height: 90px;
         padding: 8px;
@@ -267,6 +277,40 @@
                     }
                 }
             }
+        }
+        &:has(.control-checkbox) {
+            .field-control {
+                padding-top: 36px;
+            }
+        }
+    }
+    .field-auto {
+        display: block;
+        height: auto;
+        margin-right: 0;
+    }
+    .field-auto-thin {
+        height: auto;
+        max-height: 90px;
+        margin: 0;
+        padding: 8px;
+        overflow: hidden;
+        .field-label {
+            label {
+                display: block;
+                margin-top: 2px;
+            }
+        }
+        &:has(.control-checkbox) {
+            .field-control {
+                padding-top: 10px;
+            }
+        }
+        &:has(input[type="file"]) {
+            height: auto;
+        }
+        + .button {
+            margin-top: 8px;
         }
     }
 
@@ -573,7 +617,7 @@
         width: max-content;
         height: auto;
         margin-top: 0;
-        padding: 8px 0;
+        padding: 13px 8px;
         .control-checkbox,
         label {
             margin: 0;
@@ -582,6 +626,9 @@
         .container-normal {
             display: flex;
             align-items: center;
+        }
+        .field-control {
+            padding: 0px;
         }
     }
 
@@ -876,7 +923,6 @@
         .content {
             padding: 8px 16px;
             border-top: 1px solid var(--base-border);
-            .field-auto,
             .field-auto-thin {
                 display: block;
                 float: none;
@@ -1022,6 +1068,9 @@
     /* gridTable */
     .grid-wrap {
         overflow: auto;
+        .grid {
+            width: max-content;
+        }
     }
     #GridHeaderMenus {
         display: none;
@@ -1033,7 +1082,6 @@
             max-height: calc(100dvh - 40px - 64px);
         }
         .grid {
-            width: max-content;
             margin-bottom: 0;
         }
     }
@@ -1164,6 +1212,12 @@
         }
         #TotpQRCode {
             height: auto;
+            img,
+            canvas {
+                width: 100%;
+                height: auto;
+                vertical-align: bottom;
+            }
         }
         #TotpQRCodeText {
             margin-top: 16px;
@@ -1468,9 +1522,7 @@
     /* [Registrations]  */
     body:has(#TableName[value="Registrations"]):has(#Action[value="login"]) {
         padding: 0;
-        #RecordHeader,
-        #EditorTabs,
-        #EditorComments {
+        #EditorTabs {
             display: none;
         }
         .field-normal {
@@ -1535,9 +1587,6 @@
             .grid-wrap {
                 position: static;
                 overflow: initial;
-            }
-            .grid {
-                width: max-content;
             }
             .ui-draggable-handle {
                 touch-action: initial;
@@ -1660,7 +1709,6 @@
         padding: 0;
         #DropDownSearchDialogBody {
             display: flex;
-            margin-top: 16px;
             .field-vertical {
                 display: flex;
                 flex-wrap: wrap;
@@ -1702,7 +1750,13 @@
         }
     }
 
-    /* [Dialog] VideoDialog */
+    /* [Dialog] CopyDialog */
+    #CopyDialog {
+        .field-control {
+            padding-top: 16px;
+        }
+    }
+
     #VideoDialog {
         display: none;
     }
@@ -1790,17 +1844,29 @@
         display: none;
     }
 
+    /* [TabeleSetting] GuideEditor */
+    #GuideEditor {
+        .field-normal:has(#GuideAllowExpand) {
+            width: 100%;
+            height: auto;
+            min-height: 0;
+            .field-control {
+                padding-top: 0;
+            }
+        }
+    }
+
     /* [TabeleSetting] SiteImageSettingsEditor */
     #SiteImageSettingsEditor {
         .field-auto-thin {
-            height: auto;
-        }
-        .field-control {
-            width: 100%;
+            float: none;
+            .field-control {
+                float: none;
+            }
         }
         #SetSiteImage {
             display: block;
-            margin: 8px auto;
+            margin: 0 8px 8px auto;
         }
     }
 
@@ -1849,6 +1915,9 @@
         .container-selectable {
             position: relative;
         }
+        #OpenEditorOtherColumnDialog {
+            margin-top: 8px;
+        }
         #OpenSearchEditorColumnDialog {
             position: absolute;
             right: 0;
@@ -1875,13 +1944,21 @@
                 margin-top: 50px;
             }
         }
-    }
-
-    /* [TabeleSetting] FieldSetColumnAccessControl */
-    #FieldSetColumnAccessControl {
-        #ColumnAccessControl {
-            flex-direction: column;
-            gap: 32px;
+        .fieldset:nth-of-type(2) {
+            &::before,
+            &::after {
+                display: none;
+            }
+            .container-selectable {
+                margin: 0;
+            }
+            .command-center {
+                justify-content: flex-start;
+            }
+            .wrapper {
+                height: auto;
+                min-height: 100px;
+            }
         }
     }
 
@@ -1893,9 +1970,12 @@
                 flex-direction: column;
                 width: 100%;
                 height: auto;
-                margin: 16px 0 0;
+                margin: 0;
                 .field-normal {
                     width: auto;
+                }
+                + .fieldset {
+                    margin-top: 16px;
                 }
             }
         }
@@ -1915,8 +1995,20 @@
         }
     }
 
+    /* [TabeleSetting > Dialog] ProcessValidateInputsTab */
     /* [TabeleSetting > Dialog] ProcessViewFiltersTab */
     /* [TabeleSetting > Dialog] ProcessAccessControlsTab */
+    #ProcessValidateInputsTab {
+        .field-normal {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            width: 100%;
+            height: auto;
+            min-height: 0;
+            margin-bottom: 16px;
+        }
+    }
     #ProcessViewFiltersTab {
         .items {
             overflow: hidden;
@@ -1963,6 +2055,10 @@
                 width: 100%;
             }
             .command-left {
+                justify-content: center;
+                .control-textbox {
+                    width: 100%;
+                }
                 .button[data-icon="ui-icon-circle-triangle-w"] {
                     order: 1;
                 }
@@ -1970,8 +2066,17 @@
         }
     }
 
+    /* [TabeleSetting > Dialog] StatusControlGeneralTab */
     /* [TabeleSetting > Dialog] StatusControlViewFiltersTab */
     /* [TabeleSetting > Dialog] StatusControlAccessControlsTab */
+    #StatusControlGeneralTab {
+        .fieldset {
+            &::before,
+            &::after {
+                display: none;
+            }
+        }
+    }
     #StatusControlViewFiltersTab {
         .items {
             overflow: hidden;
@@ -2018,6 +2123,10 @@
                 width: 100%;
             }
             .command-left {
+                justify-content: center;
+                .control-textbox {
+                    width: 100%;
+                }
                 .button[data-icon="ui-icon-circle-triangle-w"] {
                     order: 1;
                 }
@@ -2027,6 +2136,51 @@
 
     /* [TabeleSetting > Dialog] ViewFiltersTab */
     /* [TabeleSetting > Dialog] ViewAccessControlTab */
+    #ViewGridTab {
+        .command-left {
+            justify-content: center;
+            .button[data-icon="ui-icon-circle-triangle-w"] {
+                order: 1;
+            }
+            .w150 {
+                flex: none;
+                width: 100%;
+            }
+        }
+        .field-auto-thin {
+            width: 50%;
+            .field-label,
+            .field-control {
+                float: none;
+                text-align: left;
+            }
+            .control-dropdown {
+                width: 100%;
+                max-width: none;
+            }
+        }
+    }
+    #ViewForm {
+        > .field-auto-thin {
+            display: flex;
+            width: 100%;
+            .field-control {
+                flex: 1;
+                select {
+                    width: 100%;
+                    max-width: none;
+                }
+            }
+        }
+    }
+    #ViewsSettingsEditor {
+        .fieldset {
+            &::before,
+            &::after {
+                display: none;
+            }
+        }
+    }
     #ViewFiltersTab {
         .field-vertical {
             .command-left {
@@ -2061,6 +2215,81 @@
             }
         }
     }
+    #ViewSortersTab {
+        .field-wide {
+            padding: 0;
+        }
+        .field-auto-thin {
+            padding: 8px 0 0 0;
+            .field-label:has(label:empty) {
+                display: none;
+            }
+            &:has(#ViewSorterSelector) {
+                float: none;
+                width: 100%;
+                .field-control {
+                    float: none;
+                }
+                .control-dropdown {
+                    width: 100%;
+                    max-width: none;
+                }
+            }
+        }
+        .button {
+            height: 40px;
+            margin-left: 8px;
+        }
+    }
+
+    #ViewEditorTab,
+    #ViewCrosstabTab,
+    #ViewGanttTab,
+    #ViewTimeSeriesTab,
+    #ViewAnalyTab,
+    #ViewKambanTab {
+        .tabs-panel-inner {
+            > .fieldset {
+                display: flex;
+                flex-wrap: wrap;
+                align-items: flex-end;
+                width: 100%;
+            }
+        }
+        .field-auto-thin {
+            width: 50%;
+            .field-label,
+            .field-control {
+                float: none;
+                text-align: left;
+                &:has(.control-checkbox) {
+                    padding-bottom: 8px;
+                }
+            }
+            .control-dropdown {
+                width: 100%;
+                max-width: none;
+            }
+            &:has(#KambanAggregationView) {
+                clear: both;
+            }
+        }
+    }
+    #ViewCrosstabTab {
+        .field-auto-thin:has(.ui-multiselect) {
+            width: 100%;
+            .field-label,
+            .field-control {
+                float: none;
+                text-align: left;
+            }
+            .ui-multiselect {
+                width: 100% !important;
+                height: auto;
+            }
+        }
+    }
+
     #ViewAccessControlTab {
         #ViewAccessControlEditor {
             display: flex;
@@ -2078,7 +2307,12 @@
             .container-selectable {
                 width: 100%;
             }
+            .command-right,
             .command-left {
+                justify-content: center;
+                .control-textbox {
+                    width: 100%;
+                }
                 .button[data-icon="ui-icon-circle-triangle-w"] {
                     order: 1;
                 }
@@ -2123,10 +2357,19 @@
                 width: 100%;
             }
             .command-left {
+                justify-content: center;
+                .control-textbox {
+                    width: 100%;
+                }
                 .button[data-icon="ui-icon-circle-triangle-w"] {
                     order: 1;
                 }
             }
+        }
+    }
+    #CalendarSettingsEditor {
+        .field-auto-thin {
+            float: none;
         }
     }
 
@@ -2136,6 +2379,7 @@
     #FieldSetSiteAccessControl {
         .field-auto {
             float: none;
+            padding: 8px 0;
         }
         #PermissionEditor {
             display: flex;
@@ -2153,7 +2397,9 @@
                 width: 100%;
             }
             .command-left {
+                justify-content: center;
                 .button[data-icon="ui-icon-circle-triangle-w"] {
+                    margin: auto;
                     order: 1;
                 }
             }
@@ -2171,6 +2417,11 @@
 
     /* [TabeleSetting > Editor] SearchBtn */
     /* [SearchBtn > Dialog] SearchEditorColumnDialog */
+    #SearchSettingsEditorGeneral {
+        .field-auto-thin:has(#Sites_DisableCrossSearch) {
+            padding: 30px 8px 0;
+        }
+    }
     #SearchEditorColumnDialog {
         .field-normal {
             height: auto;
@@ -2214,6 +2465,83 @@
             }
         }
     }
+    #PermissionParts {
+        .w200 {
+            width: 50%;
+        }
+    }
+
+    /* [TabeleSetting > FieldSetRecordAccessControlForCreating] */
+    #PermissionForCreating,
+    #PermissionForUpdating {
+        display: flex;
+        margin-top: 16px;
+        .field-vertical {
+            display: flex;
+            flex-wrap: wrap;
+            height: auto;
+        }
+        .field-control {
+            display: flex;
+            margin-top: auto;
+        }
+        .container-selectable {
+            width: 100%;
+        }
+        .command-left {
+            justify-content: center;
+            .button[data-icon="ui-icon-circle-triangle-w"] {
+                order: 1;
+            }
+        }
+        .wrapper {
+            height: 350px;
+        }
+    }
+    #PermissionForCreatingParts,
+    #PermissionForUpdatingParts {
+        .w200 {
+            width: 50%;
+        }
+    }
+
+    /* [TabeleSetting] FieldSetColumnAccessControl */
+    #FieldSetColumnAccessControl {
+        #ColumnAccessControl {
+            flex-direction: column;
+            gap: 32px;
+        }
+    }
+    #ColumnAccessControlBasicTab {
+        display: flex;
+        margin-top: 16px;
+        .field-vertical {
+            display: flex;
+            flex-wrap: wrap;
+            height: auto;
+        }
+        .field-control {
+            display: flex;
+            margin-top: auto;
+        }
+        .container-selectable {
+            width: 100%;
+        }
+        .command-left {
+            justify-content: center;
+            .button[data-icon="ui-icon-circle-triangle-w"] {
+                order: 1;
+            }
+            .control-textbox {
+                width: 100%;
+            }
+        }
+    }
+    #ColumnAccessControlParts {
+        .w200 {
+            width: 50%;
+        }
+    }
 
     /* [DashboardSetting] DashboardPartGeneralTabContainer */
     #DashboardPartGeneralTabContainer {
@@ -2237,6 +2565,11 @@
             &:has(#DashboardPartCalendarType) {
                 width: 100%;
             }
+            &:has(.control-checkbox) {
+                .field-control {
+                    padding: 8px 0;
+                }
+            }
             .m-l50 {
                 margin: 0;
             }
@@ -2259,17 +2592,79 @@
             }
         }
     }
-    #DashboardPartTimeLineSitesField[style="display: block;"],
-    #DashboardPartCalendarSitesField[style=""],
-    #DashboardPartKambanSitesField[style="display: block;"],
-    #DashboardPartIndexSitesField[style="display: block;"] {
-        display: flex !important;
+    #DashboardPartTimeLineSitesField,
+    #DashboardPartCalendarSitesField,
+    #DashboardPartKambanSitesField,
+    #DashboardPartIndexSitesField {
         align-items: flex-end;
         width: 100%;
+        &:not(.hidden) {
+            display: flex;
+        }
         .button {
             height: 40px;
         }
     }
+    #DashboardPartTimeLineSitesField[style=""],
+    #DashboardPartCalendarSitesField[style=""],
+    #DashboardPartKambanSitesField[style=""],
+    #DashboardPartIndexSitesField[style=""],
+    #DashboardPartTimeLineSitesField[style="display: block;"],
+    #DashboardPartCalendarSitesField[style="display: block;"],
+    #DashboardPartKambanSitesField[style="display: block;"],
+    #DashboardPartIndexSitesField[style="display: block;"] {
+        display: flex !important;
+    }
+
+    #DashboardPartViewFiltersFilterConditionSettingsEditor {
+        .both:has(.control-dropdown) {
+            display: flex;
+            align-items: flex-end;
+            .field-auto-thin {
+                flex: 1;
+                .field-label {
+                    display: none;
+                }
+                .field-control {
+                    float: none;
+                }
+                .control-dropdown {
+                    max-width: none;
+                }
+            }
+            .button {
+                height: 40px;
+                margin: 0 0 8px;
+            }
+        }
+    }
+    #DashboardPartViewFiltersSorterConditionSettingsEditor {
+        .field-wide {
+            padding: 0;
+        }
+        .field-auto-thin {
+            padding: 8px 0 0 0;
+            .field-label:has(label:empty) {
+                display: none;
+            }
+            &:has(#DashboardPartViewSorterSelector) {
+                float: none;
+                width: 100%;
+                .field-control {
+                    float: none;
+                }
+                .control-dropdown {
+                    width: 100%;
+                    max-width: none;
+                }
+            }
+        }
+        .button {
+            height: 40px;
+            margin-left: 8px;
+        }
+    }
+
     /* [DashboardSetting > DashboardPartAccessControlsTab] DashboardPartAccessControlEditor */
     #DashboardPartAccessControlsTab {
         #DashboardPartAccessControlEditor {
@@ -2288,12 +2683,33 @@
                 width: 100%;
             }
             .command-left {
+                justify-content: center;
+                .control-textbox {
+                    width: 100%;
+                }
                 .button[data-icon="ui-icon-circle-triangle-w"] {
                     order: 1;
                 }
             }
             .wrapper {
                 height: 350px;
+            }
+        }
+    }
+    #DashboardPartViewGridTab {
+        .field-vertical {
+            .command-left {
+                justify-content: center;
+                .w150 {
+                    flex: none;
+                    width: 100%;
+                    .field-label {
+                        display: none;
+                    }
+                    .container-normal {
+                        width: 100%;
+                    }
+                }
             }
         }
     }
@@ -2354,7 +2770,6 @@
             padding: 8px 0 16px 56px;
         }
         .button {
-            margin-top: 8px;
             &:first-of-type {
                 margin-left: 56px;
             }
@@ -2372,6 +2787,9 @@
             .grid {
                 width: 2500px;
             }
+        }
+        .ui-draggable {
+            touch-action: initial;
         }
     }
     #ViewModeContainer .dashboard-calendar-container {
@@ -2579,7 +2997,7 @@
 
     /* [ViewModeContainer] Analy */
     #ViewModeContainer:has(#AnalyBody) {
-        padding: 0;
+        padding: 0 0 32px;
         .both {
             display: block;
         }
