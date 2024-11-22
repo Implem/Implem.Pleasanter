@@ -82,3 +82,4 @@ Env.json
 *.env
 styles.min.css
 responsive.min.css
+/Implem.Pleasanter/wwwroot/operations-tools
