@@ -1170,17 +1170,17 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             var body = script.Body;
             if (script.Functionalize == true)
             {
-                body = $"(()=>{{{script.Body}}})();";
+                body = $"(()=>{{\n{script.Body}\n}})();";
             }
             if (script.TryCatch == true)
             {
-                var description = new List<string>()
+                var description = System.Web.HttpUtility.JavaScriptStringEncode(new List<string>()
                 {
                     script.Id.ToString(),
                     script.Title,
                     script.Name
-                }.Where(o => o?.Trim().IsNullOrEmpty() == false).Join("_");
-                body = $"try{{{body}}}catch(e){{context.Log('{description}\\n' + e.stack);}}";
+                }.Where(o => o?.Trim().IsNullOrEmpty() == false).Join("_"));
+                body = $"try{{\n{body}\n}}catch(e){{context.Log('{description}\\n' + e.stack);}}";
             }
             return body;
         }
