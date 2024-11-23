@@ -47,6 +47,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                 shared: shared,
                 background: true,
                 body: body,
+                functionalize: false,
+                tryCatch: false,
                 timeOut: timeOut)
         {
             Disabled = disabled;
@@ -95,6 +97,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                 shared: shared,
                 background: true,
                 body: body,
+                functionalize: false,
+                tryCatch: false,
                 timeOut: timeOut);
             Disabled = disabled;
             UserId = userId;

@@ -1140,7 +1140,12 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         }
                         engine.AddHostObject("utilities", model.Utilities);
                         engine.Execute(ServerScriptJsLibraries.Scripts(), debug: false);
-                        engine.Execute(scripts.Select(o => o.Body).Join("\n"), debug: debug);
+                        engine.Execute(
+                            code: scripts.Select(script =>
+                                ProcessedBody(
+                                    ss: ss,
+                                    script: script)).Join("\n"),
+                            debug: debug);
                     }
                     finally
                     {
@@ -1158,6 +1163,26 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     data: model);
             }
             return scriptValues;
+        }
+
+        private static string ProcessedBody(SiteSettings ss, ServerScript script)
+        {
+            var body = script.Body;
+            if (script.Functionalize == true)
+            {
+                body = $"(()=>{{{script.Body}}})();";
+            }
+            if (script.TryCatch == true)
+            {
+                var description = new List<string>()
+                {
+                    script.Id.ToString(),
+                    script.Title,
+                    script.Name
+                }.Where(o => o?.Trim().IsNullOrEmpty() == false).Join("_");
+                body = $"try{{{body}}}catch(e){{context.Log('{description}\\n' + e.stack);}}";
+            }
+            return body;
         }
 
         private static DateTime GetTimeOut(ServerScript[] scripts)

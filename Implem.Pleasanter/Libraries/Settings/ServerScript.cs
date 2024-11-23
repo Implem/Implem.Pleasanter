@@ -24,6 +24,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? BeforeOpeningRow;
         public bool? Shared;
         public string Body;
+        public bool? Functionalize;
+        public bool? TryCatch;
         public int? TimeOut;
         [NonSerialized]
         public bool Debug;
@@ -51,6 +53,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool? beforeOpeningPage,
             bool? beforeOpeningRow,
             string body,
+            bool? functionalize,
+            bool? tryCatch,
             bool? shared,
             bool? background,
             int? timeOut)
@@ -72,6 +76,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             BeforeOpeningPage = beforeOpeningPage;
             BeforeOpeningRow = beforeOpeningRow;
             Body = body;
+            Functionalize = functionalize;
+            TryCatch = tryCatch;
             Shared = shared;
             TimeOut = timeOut;
             Background = background;
@@ -96,6 +102,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool? shared,
             bool? background,
             string body,
+            bool? functionalize,
+            bool? tryCatch,
             int? timeOut)
         {
             Title = title;
@@ -116,6 +124,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (shared != null) Shared = shared;
             if (background != null) Background = background;
             if (body != null) Body = body;
+            if (functionalize != null) Functionalize = functionalize;
+            if (tryCatch != null) TryCatch = tryCatch;
             if (timeOut != null) TimeOut = timeOut;
         }
 
@@ -141,6 +151,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (Shared == true) script.Shared = true;
             if (Background == true) script.Background = true;
             script.Body = Body;
+            if (Functionalize == true) script.Functionalize = true;
+            if (TryCatch == true) script.TryCatch = true;
             if (TimeOut != Parameters.Script.ServerScriptTimeOut && Parameters.Script.ServerScriptTimeOutChangeable)
             {
                 script.TimeOut = TimeOut;
