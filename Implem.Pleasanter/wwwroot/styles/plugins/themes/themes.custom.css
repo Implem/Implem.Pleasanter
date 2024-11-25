@@ -260,6 +260,9 @@ html .ui-button.ui-state-disabled:active {
     &:has(.ui-spinner-input:focus) {
         background-color: var(--control-bg-focus);
     }
+    &:has(.error) {
+        border: solid 1px var(--warning-color);
+    }
 }
 
 /* slider */
@@ -367,6 +370,11 @@ html .ui-button.ui-state-disabled:active {
             border: 1px solid var(--control-border-focus);
         }
     }
+    &:not(:is(.control-spinner)) {
+        &.error {
+            border: solid 1px var(--warning-color);
+        }
+    }
     &:not(.has-css) {
         &:focus {
             background-color: var(--control-bg-focus);
@@ -445,9 +453,6 @@ input {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    &.error {
-        border: solid 1px var(--warning-color);
-    }
     &[type="file"] {
         padding: 1px;
     }
@@ -533,6 +538,9 @@ input {
         .md,
         pre {
             color: var(--control-text);
+        }
+        &:has(~ .control-markdown.error) {
+            border: solid 1px var(--warning-color);
         }
     }
     .control-markdown {
