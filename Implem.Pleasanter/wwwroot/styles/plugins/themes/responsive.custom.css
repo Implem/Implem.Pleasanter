@@ -169,6 +169,11 @@
                 border-radius: 0;
                 box-shadow: none;
             }
+            label {
+                &.error {
+                    margin-top: -4px;
+                }
+            }
         }
     }
 
@@ -281,6 +286,11 @@
         &:has(.control-checkbox) {
             .field-control {
                 padding-top: 36px;
+            }
+        }
+        label {
+            &.error {
+                font-size: 11px;
             }
         }
     }
