@@ -1105,10 +1105,27 @@ namespace Implem.Pleasanter.Libraries.Requests
         public void FormsAuthenticationSignOut()
         {
             AspNetCoreHttpContext.Current.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme).Wait();
-            AspNetCoreHttpContext.Current.Session.Clear();
+            if (Parameters.Session.UseKeyValueStore)
+            {
+                Implem.Pleasanter.Libraries.Redis.CacheForRedisConnection.Clear(SessionGuid);
+            }
+            else
+            {
+                AspNetCoreHttpContext.Current.Session.Clear();
+            }
         }
 
-        public void SessionAbandon() { AspNetCoreHttpContext.Current.Session.Clear(); }
+        public void SessionAbandon()
+        {
+            if (Parameters.Session.UseKeyValueStore)
+            {
+                Implem.Pleasanter.Libraries.Redis.CacheForRedisConnection.Clear(SessionGuid);
+            }
+            else
+            {
+                AspNetCoreHttpContext.Current.Session.Clear();
+            }
+        }
 
         public void FederatedAuthenticationSessionAuthenticationModuleDeleteSessionTokenCookie()
         {
