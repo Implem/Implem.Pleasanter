@@ -388,6 +388,7 @@ html .ui-button.ui-state-disabled:active {
             }
         }
         &:is(textarea) {
+            min-height: 100px;
             resize: vertical;
         }
     }

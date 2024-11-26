@@ -293,6 +293,10 @@
                 font-size: 11px;
             }
         }
+        &.right-align,
+        &.center-align {
+            text-align-last: initial;
+        }
     }
     .field-auto {
         display: block;
