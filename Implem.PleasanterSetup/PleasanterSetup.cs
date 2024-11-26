@@ -12,6 +12,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Data.Common;
 using System.Diagnostics;
+using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Net;
@@ -22,6 +23,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Xml;
 using Zx;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
@@ -34,6 +36,9 @@ namespace Implem.PleasanterSetup
         private static HttpClient client = new HttpClient();
         private static readonly string url = "https://api.github.com/repos/Implem/Implem.Pleasanter/releases/latest";
         private string installDir;
+        private string unzipDirPath;
+        private string CodeDefinerDirPath;
+        private string temporaryPath;
         private string licenseDllPath;
         private string provider;
         private string userName;
@@ -51,8 +56,10 @@ namespace Implem.PleasanterSetup
         private string saPassword;
         private string ownerPassword;
         private string userPassword;
+        private bool isEnvironmentUser;
         private bool versionUp;
         private bool enterpriseEdition;
+        private bool isProviderAzure;
         private ExtendedColumns extendedIssuesColumns;
         private ExtendedColumns extendedResultsColumns;
         private enum DBMS
@@ -71,7 +78,10 @@ namespace Implem.PleasanterSetup
             this.configuration = configuration;
             this.logger = logger;
             this.installDir = string.Empty;
+            this.unzipDirPath = string.Empty;
+            this.CodeDefinerDirPath = string.Empty;
             this.licenseDllPath = string.Empty;
+            this.temporaryPath = string.Empty;
             this.dbms = string.Empty;
             this.port = string.Empty;
             this.server = string.Empty;
@@ -86,8 +96,10 @@ namespace Implem.PleasanterSetup
             this.saPassword = string.Empty;
             this.ownerPassword = string.Empty;
             this.userPassword = string.Empty;
+            this.isEnvironmentUser = false;
             this.versionUp = false;
             this.enterpriseEdition = false;
+            this.isProviderAzure = false;
             this.extendedIssuesColumns = new ExtendedColumns();
             this.extendedResultsColumns = new ExtendedColumns();
         }
@@ -121,20 +133,21 @@ namespace Implem.PleasanterSetup
                     Environment.Exit(0);
                 }
             }
-            //-rが空じゃない時ファイルが存在するかのチェックはココで入れるべき
             if (!string.IsNullOrEmpty(releasezip))
             {
+                releasezip = Path.GetFullPath(releasezip);
                 if (!File.Exists(releasezip))
                 {
-                    logger.LogError("The release zip file for Pleasanter does not exist.");
+                    logger.LogError($"{releasezip} does not exist.");
                     Environment.Exit(0);
                 }
             }
-            if (!string.IsNullOrEmpty(releasezip))
+            if (!string.IsNullOrEmpty(patchPath))
             {
+                patchPath = Path.GetFullPath(patchPath);
                 if (!File.Exists(patchPath))
                 {
-                    logger.LogError("The release zip file for Pleasanter does not exist.");
+                    logger.LogError($"{patchPath} does not exist.");
                     Environment.Exit(0);
                 }
             }
@@ -153,68 +166,85 @@ namespace Implem.PleasanterSetup
                     Path.GetDirectoryName(installDir),
                     $"{Path.GetFileName(installDir)}{DateTime.Now:_yyyyMMdd_HHmmss}");
                 // バージョンアップの場合は既存資源のバックアップを行う
-                Console.WriteLine("test");
                 if (versionUp)
                 {
                     CopyResourceDirectory(
                         installDir: installDir,
                         destDir: backupDir);
                 }
-                Console.WriteLine("test2");
                 if (!Directory.Exists(installDir))
                 {
                     if (Environment.OSVersion.Platform == PlatformID.Win32NT)
                     {
-                        Directory.CreateDirectory(installDir);
+                        if (!isProviderAzure)
+                        {
+                            Directory.CreateDirectory(installDir);
+                        }
                     }
                     else
                     {
                         await ExecuteCreateDirectory();
                     }
                 }
-                Console.WriteLine("test3");
                 if (string.IsNullOrEmpty(releasezip))
                 {
                     releasezip = await DownloadNewResource(
                         installDir,
                         "Pleasanter");
                 }
-                Console.WriteLine("test4");
                 SetNewResource(
                     installDir: installDir,
                     releaseZip: releasezip);
-                Console.WriteLine("test5");
                 //バージョンアップ時マージ
                 if (versionUp)
                 {
                     if (string.IsNullOrEmpty(patchPath))
                     {
                         patchPath = await DownloadNewResource(
-                        installDir,
+                        isProviderAzure
+                        ? unzipDirPath
+                        : installDir,
                         "ParametersPatch");
                     }
                     //ParametersPatchの配置処理
                     SetParametersPatch(
-                        installDir,
+                        isProviderAzure
+                        ? unzipDirPath
+                        : installDir,
                         patchPath);
                     //backupの絶対パスと新資源の絶対パスが必要
-                    await Merge(
+                    if (isProviderAzure)
+                    {
+                        await Merge(
+                        releaseZip: unzipDirPath,
+                        previous: temporaryPath,
+                        patchPath: patchPath,
+                        setUpState: setUpState);
+                    }
+                    else
+                    {
+                        await Merge(
                         releaseZip: installDir,
                         previous: backupDir,
                         patchPath: patchPath,
                         setUpState: setUpState);
+                    }
+                }
+                if (isProviderAzure)
+                {
+                    MoveResource(installDir, unzipDirPath);
                 }
                 // ユーザがコンソール上で入力した値を各パラメータファイルへ書き込む
                 //書き込み
                 SetParameters();
                 //ユーザがライセンスファイルを指定した場合
-                if (File.Exists(license))
+                if (enterpriseEdition)
                 {
                     CopyLicense(
                         resourceDir: installDir,
                         licenseDir: licenseDllPath);
                 }
-                if (!File.Exists(license) && versionUp)
+                if (!enterpriseEdition && versionUp)
                 {
                     ExistingCopyLicense(
                         installDir: installDir,
@@ -232,13 +262,12 @@ namespace Implem.PleasanterSetup
             else
             {
                 //ログメッセージを英語に変更
-                logger.LogInformation("セットアップコマンドの処理を終了します。");
+                logger.LogInformation("Finishes processing the setup command.");
                 return;
             }
         }
 
         //一旦保留
-        [Command("merge")]
         public async Task Merge(
             [Option("p")] string previous,
             [Option("r")] string releaseZip = "",
@@ -331,16 +360,24 @@ namespace Implem.PleasanterSetup
                     licenseZip: license,
                     extendedColumnsDir: extendedcolumns,
                     setUpState: setUpState);
-                SetParameters();
                 // ライセンスファイルを配置する
-                SetLicense(
-                    resourceDir: resourceDir,
-                    licenseZip: license);
+                if (enterpriseEdition)
+                {
+                    SetParameters();
+                    CopyLicense(
+                        resourceDir: resourceDir,
+                        licenseDir: licenseDllPath);
+                }
             }
-            await ExecuteCodeDefiner(
-                codeDefinerDir: Path.Combine(
+            var codeDefinerPath = isProviderAzure
+                ? Path.Combine(
+                    Path.GetDirectoryName(resourceDir),
+                    Path.GetFileName(CodeDefinerDirPath))
+                : Path.Combine(
                     resourceDir,
-                    "Implem.CodeDefiner"),
+                    "Implem.CodeDefiner");
+            await ExecuteCodeDefiner(
+                codeDefinerDir: codeDefinerPath,
                 force: force,
                 noinput: noinput);
         }
@@ -366,6 +403,7 @@ namespace Implem.PleasanterSetup
 
         private void AskForInstallDir(string directory)
         {
+            var defaultPath = GetDefaultInstallDir();
             if (!string.IsNullOrEmpty(directory))
             {
                 installDir = Path.GetFullPath(directory);
@@ -373,12 +411,19 @@ namespace Implem.PleasanterSetup
             else
             {
                 //ここででDefaultPathを取得してログで表示
-                var defaultPath = GetDefaultInstallDir();
                 logger.LogInformation($"Install Directory [Default: {defaultPath}] : ");
                 var userInputResourceDir = Console.ReadLine();
                 installDir = !string.IsNullOrEmpty(userInputResourceDir)
                     ? Path.GetFullPath(userInputResourceDir)
                     : defaultPath;
+            }
+            if (isProviderAzure)
+            {
+                logger.LogInformation($"CodeDefiner Directory [Default: {CodeDefinerDirPath}] : ");
+                var userInputCodeDefinerDir = Console.ReadLine();
+                CodeDefinerDirPath = !string.IsNullOrEmpty(userInputCodeDefinerDir)
+                    ? Path.GetFullPath(userInputCodeDefinerDir)
+                    : CodeDefinerDirPath;
             }
         }
 
@@ -393,20 +438,33 @@ namespace Implem.PleasanterSetup
 
         private void AskForPort()
         {
-            logger.LogInformation("Please enter port number ");
-            while (string.IsNullOrEmpty(port))
+            var defaultPort = string.Empty;
+            switch (dbms)
             {
-                port = Console.ReadLine() ?? string.Empty;
-                if(string.IsNullOrEmpty(port) && dbms == "1")
-                {
+                case "1":
+                    defaultPort = "1433";
                     break;
+                case "2":
+                    defaultPort = "5432";
+                    break;
+                case "3":
+                    defaultPort = "3306";
+                    break;
+            }
+            logger.LogInformation($"Please enter port number[Default: {defaultPort}] ");
+            port = Console.ReadLine() ?? string.Empty;
+            if (string.IsNullOrEmpty(port))
+            {
+                if (dbms != "1")
+                {
+                    port = defaultPort;
                 }
             }
         }
 
         private void AskForServer()
         {
-            logger.LogInformation("Server [Default: localhost] : ");
+            logger.LogInformation("ConnectionString Server [Default: localhost] : ");
             var userInputServer = Console.ReadLine();
             server = string.IsNullOrEmpty(userInputServer)
                 ? DefaultParameters.HostName ?? string.Empty
@@ -463,11 +521,35 @@ namespace Implem.PleasanterSetup
         private void AskForDefaultTimeZone()
         {
             logger.LogInformation("Set the default time zone.");
+            var timeZoneString = Environment.OSVersion.Platform == PlatformID.Win32NT
+                ? "Tokyo Standard Time"
+                : "Asia/Tokyo";
             do
             {
-                logger.LogInformation("Please enter a valid time zone for your OS:");
-                defaultTimeZone = Console.ReadLine() ?? string.Empty;
-            } while (!TimeZoneInfo.GetSystemTimeZones().Any(o => o.Id == defaultTimeZone));
+                logger.LogInformation($"TimeZoneDefault [1: UTC(Default), 2: {timeZoneString}, 3: Other] : ");
+                var choiceTimeZone = Console.ReadLine() ?? string.Empty;
+                switch (choiceTimeZone)
+                {
+                    case "1":
+                    case "":
+                        defaultTimeZone = "UTC";
+                        break;
+                    case "2":
+                        defaultTimeZone = timeZoneString;
+                        break;
+                    case "3":
+                        do
+                        {
+                            logger.LogInformation("Please enter a valid time zone for your OS:");
+                            defaultTimeZone = Console.ReadLine() ?? string.Empty;
+                        } while (!TimeZoneInfo.GetSystemTimeZones().Any(o => o.Id == defaultTimeZone));
+                        break;
+                    default:
+                        logger.LogInformation("Please enter the number of choices");
+                        continue;
+                }
+                break;
+            } while (true);
         }
 
         private void AskForUserId()
@@ -484,7 +566,7 @@ namespace Implem.PleasanterSetup
                     userId = "root";
                     break;
             }
-            logger.LogInformation($"UID [Default: {userId}] : ");
+            logger.LogInformation($"SaConnectionString UID [Default: {userId}] : ");
             var userInputUserId = Console.ReadLine();
             if (!string.IsNullOrEmpty(userInputUserId))
             {
@@ -494,21 +576,55 @@ namespace Implem.PleasanterSetup
 
         private void AskForPassword()
         {
-            logger.LogInformation("Sa Password : ");
+            logger.LogInformation("SaConnectionString PWD : ");
             while (string.IsNullOrEmpty(saPassword))
             {
-                saPassword = Console.ReadLine() ?? "";
+                saPassword = ReadPassword() ?? "";
+                Console.WriteLine();
             }
-            logger.LogInformation("Owner Password : ");
+            logger.LogInformation("OwnerConnectionString PWD : ");
             while (string.IsNullOrEmpty(ownerPassword))
             {
-                ownerPassword = Console.ReadLine() ?? "";
+                ownerPassword = ReadPassword() ?? "";
+                Console.WriteLine();
             }
-            logger.LogInformation("User Password : ");
+            logger.LogInformation("UserConnectionString PWD : ");
             while (string.IsNullOrEmpty(userPassword))
             {
-                userPassword = Console.ReadLine() ?? "";
+                userPassword = ReadPassword() ?? "";
+                Console.WriteLine();
             }
+        }
+
+        private string ReadPassword()
+        {
+            string password = string.Empty;
+            ConsoleKeyInfo keyInfo;
+            do
+            {
+                password = string.Empty; 
+                logger.LogInformation("Enter your password: ");
+                do
+                {
+                    keyInfo = Console.ReadKey(true);
+                    if (keyInfo.Key != ConsoleKey.Backspace && keyInfo.Key != ConsoleKey.Enter)
+                    {
+                        password += keyInfo.KeyChar;
+                        Console.Write("*");
+                    }
+                    else if (keyInfo.Key == ConsoleKey.Backspace && password.Length > 0)
+                    {
+                        password = password.Substring(0, password.Length - 1);
+                        Console.Write("\b \b");
+                    }
+                } while (keyInfo.Key != ConsoleKey.Enter);
+                Console.WriteLine();
+                if (string.IsNullOrEmpty(password))
+                {
+                    logger.LogInformation("Password cannot be empty. Please try again.");
+                }
+            } while (string.IsNullOrEmpty(password));
+            return password;
         }
 
         private void AskForExtendedColums(
@@ -578,7 +694,6 @@ namespace Implem.PleasanterSetup
                 if (int.TryParse(userInput, out count) && int.Parse(userInput) >= 0)
                 {
                     count = count + 26;
-                    Console.WriteLine(count);
                     break;
                 }
                 else if (userInput.Length == 1 && char.IsLetter(userInput[0]))
@@ -587,12 +702,11 @@ namespace Implem.PleasanterSetup
                     char letter = char.ToUpper(userInput[0]);
                     int position = letter - 'A' + 1;
                     count = position;
-                    Console.WriteLine(count);
                     break;
                 }
                 else if (string.IsNullOrEmpty(userInput))
                 {
-                    count = 0;
+                    count = 26;
                     break;
                 }
             }
@@ -606,7 +720,7 @@ namespace Implem.PleasanterSetup
         {
             return count > 26
                 ? $"{columnType}A - {columnType}{(count - 26).ToString("D3")}"
-                : count > 0
+                : count > 0 || count == 26
                     ? $"{columnType}A - {columnType}{((char)('A' + count - 1)).ToString()}"
                 : string.Empty;
         }
@@ -645,64 +759,112 @@ namespace Implem.PleasanterSetup
             }
         }
 
-        static void ExistingCopyLicense(string installDir, string backupDir)
+        private void ExistingCopyLicense(string installDir, string backupDir)
         {
-            var license = Path.Combine(
+            if (isProviderAzure)
+            {
+                var license = Path.Combine(
+                backupDir,
+                "Implem.License.dll");
+                File.Copy(
+                    license,
+                    Path.Combine(
+                        Path.GetDirectoryName(installDir),
+                        Path.GetFileName(CodeDefinerDirPath),
+                        "Implem.License.dll"),
+                    true);
+                File.Copy(
+                    license,
+                    Path.Combine(
+                        installDir,
+                        "Implem.License.dll"),
+                    true);
+            }
+            else
+            {
+                var license = Path.Combine(
                 backupDir,
                 "Implem.Pleasanter",
                 "Implem.License.dll");
-            File.Copy(
-                license,
-                Path.Combine(
-                    installDir,
-                    "Implem.CodeDefiner",
-                    "Implem.License.dll"),
-                true);
-            File.Copy(
-                license,
-                Path.Combine(
-                    installDir,
-                    "Implem.Pleasanter",
-                    "Implem.License.dll"),
-                true);
+                File.Copy(
+                    license,
+                    Path.Combine(
+                        installDir,
+                        "Implem.CodeDefiner",
+                        "Implem.License.dll"),
+                    true);
+                File.Copy(
+                    license,
+                    Path.Combine(
+                        installDir,
+                        "Implem.Pleasanter",
+                        "Implem.License.dll"),
+                    true);
+            }
         }
 
-        static void CopyLicense(
+        private void CopyLicense(
             string resourceDir,
             string licenseDir)
         {
             var license = licenseDir;
-            Console.WriteLine("CopyLicense");
-            if (File.Exists(license))
+            if (isProviderAzure)
             {
-                if (Directory.Exists(resourceDir))
+                if (File.Exists(license))
                 {
-                    Console.WriteLine(resourceDir);
-                    if (Directory.Exists(Path.Combine(
-                        resourceDir,
-                        "Implem.CodeDefiner")))
+                    if (Directory.Exists(resourceDir))
                     {
-                        Console.WriteLine("CodeDefiner");
-                        File.Copy(
-                            license,
-                            Path.Combine(
-                                resourceDir,
-                                "Implem.CodeDefiner",
-                                "Implem.License.dll"),
-                            true);
+                        if (Directory.Exists(CodeDefinerDirPath))
+                        {
+                            File.Copy(
+                                license,
+                                Path.Combine(
+                                    CodeDefinerDirPath,
+                                    "Implem.License.dll"),
+                                true);
+                        }
+                        if (Directory.Exists(resourceDir))
+                        {
+                            File.Copy(
+                                license,
+                                Path.Combine(
+                                    resourceDir,
+                                    "Implem.License.dll"),
+                                true);
+                        }
                     }
-                    if (Directory.Exists(Path.Combine(
-                        resourceDir,
-                        "Implem.Pleasanter")))
+                }
+            }
+            else
+            {
+                if (File.Exists(license))
+                {
+                    if (Directory.Exists(resourceDir))
                     {
-                        Console.WriteLine("Pleasanter");
-                        File.Copy(
-                            license,
-                            Path.Combine(
-                                resourceDir,
-                                "Implem.Pleasanter",
-                                "Implem.License.dll"),
-                            true);
+                        if (Directory.Exists(Path.Combine(
+                            resourceDir,
+                            "Implem.CodeDefiner")))
+                        {
+                            File.Copy(
+                                license,
+                                Path.Combine(
+                                    resourceDir,
+                                    "Implem.CodeDefiner",
+                                    "Implem.License.dll"),
+                                true);
+                        }
+                        if (Directory.Exists(Path.Combine(
+                            resourceDir,
+                            "Implem.Pleasanter")))
+                        {
+                            File.Copy(
+                                license,
+                                Path.Combine(
+                                    resourceDir,
+                                    "Implem.Pleasanter",
+                                    "Implem.License.dll"),
+                                true);
+                        }
                     }
                 }
             }
@@ -712,28 +874,53 @@ namespace Implem.PleasanterSetup
             string installDir,
             string destDir)
         {
-            Directory.CreateDirectory(destDir);
-            foreach (var dir in Directory.GetDirectories(installDir))
+            //修正中
+            if (isProviderAzure)
             {
-                Directory.Move(dir, dir.Replace(installDir, destDir));
+                var backupDirCodeDefiner = Path.Combine(
+                    Path.GetDirectoryName(CodeDefinerDirPath),
+                    $"{Path.GetFileName(CodeDefinerDirPath)}{DateTime.Now:_yyyyMMdd_HHmmss}");
+                Directory.Move(
+                    installDir,
+                    destDir);
+                Directory.Move(
+                    Path.Combine(
+                        Path.GetDirectoryName(installDir),
+                        $"{Path.GetFileName(CodeDefinerDirPath)}"),
+                    backupDirCodeDefiner);
+                temporaryPath = Path.Combine(
+                    Path.GetDirectoryName(installDir),
+                    "Implem.Pleasanter");
+                CopyDirectory(destDir, temporaryPath, true);
+            }
+            else
+            {
+                Directory.CreateDirectory(destDir);
+                foreach (var dir in Directory.GetDirectories(installDir))
+                {
+                    Directory.Move(dir, dir.Replace(installDir, destDir));
+                }
             }
         }
 
         private void DisplaySummary()
         {
             logger.LogInformation("------ Summary ------");
-            logger.LogInformation($"Install Directory : {installDir}");
-            logger.LogInformation($"DBMS              : {Enum.GetName(typeof(DBMS), int.Parse(dbms))}");
+            logger.LogInformation($"Install Directory         : {installDir}");
+            logger.LogInformation($"DBMS                      : {Enum.GetName(typeof(DBMS), int.Parse(dbms))}");
+            logger.LogInformation($"SaConnectionString PWD    : **********");
+            logger.LogInformation($"OwnerConnectionString PWD : **********");
+            logger.LogInformation($"UserConnectionString PWD  : **********");
             if (!string.IsNullOrEmpty(port))
             {
-                logger.LogInformation($"Port              : {port}");
+                logger.LogInformation($"Port                      : {port}");
             }
-            logger.LogInformation($"Server            : {server}");
-            logger.LogInformation($"Service Name      : {serviceName}");
+            logger.LogInformation($"Server                    : {server}");
+            logger.LogInformation($"Service Name              : {serviceName}");
             if (!versionUp)
             {
-                logger.LogInformation($"DefaultLanguage   : {defaultLanguage}");
-                logger.LogInformation($"DefaultTimeZone   : {defaultTimeZone}");
+                logger.LogInformation($"DefaultLanguage           : {defaultLanguage}");
+                logger.LogInformation($"DefaultTimeZone           : {defaultTimeZone}");
             }
             if (!extendedIssuesColumns.Equals(new ExtendedColumns())
                 || !extendedResultsColumns.Equals(new ExtendedColumns()))
@@ -763,11 +950,22 @@ namespace Implem.PleasanterSetup
         {
             var arguments = "";
             var fileName = "";
+            //名前は考える
+            var pOtion = "";
             var forceOption = force ? "/f" : "";
             var noInputOption = noinput ? "/n" : "";
             var language = "";
             var timeZone = "";
+            if (isEnvironmentUser)
+            {
+                var permissionCommand = $"chown -R {userName} {Path.GetDirectoryName(installDir)}";
+                await $"sudo chown -R {userName} {Path.GetDirectoryName(installDir)}";
+            }
             await $"cd {codeDefinerDir}";
+            if (isProviderAzure)
+            {
+                pOtion = "/p " + installDir;
+            }
             //初回インストール時にのみ既定の言語、タイムゾーンを引数に追加する。
             if (!versionUp)
             {
@@ -777,7 +975,7 @@ namespace Implem.PleasanterSetup
             if (Environment.OSVersion.Platform == PlatformID.Win32NT)
             {
                 fileName = "dotnet";
-                arguments = $"Implem.CodeDefiner.dll _rds {forceOption} {noInputOption} {language} {timeZone}";
+                arguments = $"Implem.CodeDefiner.dll _rds {pOtion} {forceOption} {noInputOption} {language} {timeZone}";
             }
             else
             {
@@ -790,6 +988,7 @@ namespace Implem.PleasanterSetup
                 FileName = fileName,
                 Arguments = arguments
             };
+            var userInput = string.Empty;
             var (process, stdOut, stdError) = ProcessX.GetDualAsyncEnumerable(processStartInfo);
             // 標準出力と標準エラー出力を処理するタスク
             var outputTask = Task.Run(async () =>
@@ -800,6 +999,7 @@ namespace Implem.PleasanterSetup
                     if (item is "Type \"y\" (yes) if the license is correct, otherwise type \"n\" (no).")
                     {
                         var input = Console.ReadLine();
+                        userInput = input;
                         process.StandardInput.WriteLine(input);
                     }
                 }
@@ -812,37 +1012,111 @@ namespace Implem.PleasanterSetup
                 }
             });
             await Task.WhenAll(outputTask, errorTask);
-            logger.LogInformation("Setup is complete.");
+            //上の処理結果で表示非表示
+            if (userInput.Equals("y"))
+            {
+                logger.LogInformation("Setup is complete.");
+            }
         }
 
         private async Task ExecuteMerge(
             string newResource,
             string preResource)
         {
-            var codeDefinerDir = Path.Combine(
-                newResource,
-                "Implem.CodeDefiner");
-            await $"cd {codeDefinerDir}";
-            if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+            try
             {
-                await $"dotnet Implem.CodeDefiner.dll merge /b {preResource} /i {newResource} ";
+                logger.LogInformation("Start the merge process.");
+                if (isEnvironmentUser)
+                {
+                    await $"sudo chown -R {userName} {Path.GetDirectoryName(installDir)}";
+                }
+                var codeDefinerDir = isProviderAzure
+                ? CodeDefinerDirPath
+                : Path.Combine(
+                    newResource,
+                    "Implem.CodeDefiner");
+                var pOtion = string.Empty;
+                //Azureのみ/pを指定
+                if (isProviderAzure)
+                {
+                    preResource = Directory.GetParent(preResource).ToString();
+                    pOtion = "/p " + Path.Combine(newResource, "Implem.Pleasanter");
+                }
+                await $"cd {codeDefinerDir}";
+
+                var fileName = string.Empty;
+                var arguments = string.Empty;
+                //Widows,Linuxでコマンドが異なる
+                if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+                {
+                    fileName = "dotnet";
+                    arguments = $"Implem.CodeDefiner.dll merge /b {preResource} /i {newResource} {pOtion}";
+                }
+                else
+                {
+                    fileName = "sudo";
+                    var dotnet_root = Environment.GetEnvironmentVariable("DOTNET_ROOT");
+                    arguments = $"-u {userName} {dotnet_root}/dotnet Implem.CodeDefiner.dll merge /b {preResource} /i {newResource} ";
+                }
+                bool errorFlag = false;
+                ProcessStartInfo processStartInfo = new ProcessStartInfo
+                {
+                    FileName = fileName,
+                    Arguments = arguments
+                };
+                var (process, stdOut, stdError) = ProcessX.GetDualAsyncEnumerable(processStartInfo);
+                // 標準出力と標準エラー出力を処理するタスク
+                var outputTask = Task.Run(async () =>
+                {
+                    await foreach (var item in stdOut)
+                    {
+                        Console.WriteLine(item);
+                        if (item.Contains("<ERROR>"))
+                        {
+                            errorFlag = true;
+                        }
+                    }
+                });
+                var errorTask = Task.Run(async () =>
+                {
+                    await foreach (var item in stdError)
+                    {
+                        Console.WriteLine(item);
+                    }
+                });
+                await Task.WhenAll(outputTask, errorTask);
+                if (errorFlag)
+                {
+                    logger.LogError("Merge process has been interrupted.");
+                    Environment.Exit(0);
+                }
+                logger.LogInformation("The merge process has finished.");
             }
-            else
+            catch (Exception ex)
             {
-                await $"sudo -u {userName} $DOTNET_ROOT/dotnet Implem.CodeDefiner.dll merge /b {preResource} /i {newResource} ";
+                logger.LogError(ex.Message);
+                logger.LogError("Merge process has been interrupted.");
+                Environment.Exit(0);
             }
-            logger.LogInformation("The merge process has finished.");
         }
 
         private async Task ExecuteCreateDirectory()
         {
-            //Linux環境でmkdirコマンドの実行
-            var createCommand = $"mkdir -p {installDir}";
-            await ExecuteCommands(createCommand);
-            ////Linux環境でchownコマンドの実行
-            var permissionDirectory = Directory.GetParent(installDir);
-            var permissionCommand = $"chown -R {userName} {permissionDirectory}";
-            await ExecuteCommands(permissionCommand);
+            try
+            {
+                //Linux環境でmkdirコマンドの実行
+                var createCommand = $"mkdir -p {installDir}";
+                await ExecuteCommands(createCommand);
+                ////Linux環境でchownコマンドの実行
+                var permissionDirectory = Directory.GetParent(installDir);
+                var permissionCommand = $"chown -R {userName} {permissionDirectory}";
+                await ExecuteCommands(permissionCommand);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.Message);
+                Environment.Exit(0);
+            }
         }
 
         private async Task ExecuteCommands(string command)
@@ -857,6 +1131,8 @@ namespace Implem.PleasanterSetup
             string instanceId = Environment.GetEnvironmentVariable("WEBSITE_INSTANCE_ID");
             if (!string.IsNullOrEmpty(instanceId))
             {
+                isProviderAzure = true;
+                CodeDefinerDirPath = DefaultParameters.CodeDefinerDirForAzure;
                 return installDir = DefaultParameters.InstallDirForAzure;
             }
             else
@@ -869,41 +1145,71 @@ namespace Implem.PleasanterSetup
 
         private bool MeetsVersionUpRequirements()
         {
+            var pleasanterDll = string.Empty;
             //dllがある場合はバージョンアップ
-            var pleasanterDll = Path.Combine(
+            if (isProviderAzure)
+            {
+                pleasanterDll = Path.Combine(
+                    installDir,
+                    "Implem.Pleasanter.dll");
+            }
+            else
+            {
+                pleasanterDll = Path.Combine(
                     installDir,
                     "Implem.Pleasanter",
                     "Implem.Pleasanter.dll");
-            logger.LogInformation(pleasanterDll);
+            }
             return File.Exists(pleasanterDll);
         }
 
         private void SetParameters()
         {
-            logger.LogInformation("Start setting parameters");
-            var parametersDir = Path.Combine(
-                installDir,
-                "Implem.Pleasanter",
-                "App_Data",
-                "Parameters");
-            if (!versionUp)
+            try
             {
-                //Rds.json,Service.json内容をユーザの入力値をもとに書き込む
-                SetRdsParameters(parametersDir);
-                SetServiceParameters(parametersDir);
-                SetExtendedColumns(parametersDir);
+                logger.LogInformation("Start setting parameters");
+                var parametersDir = string.Empty;
+                if (isProviderAzure)
+                {
+                    parametersDir = Path.Combine(
+                    installDir,
+                    "App_Data",
+                    "Parameters");
+                }
+                else
+                {
+                    parametersDir = Path.Combine(
+                    installDir,
+                    "Implem.Pleasanter",
+                    "App_Data",
+                    "Parameters");
+                }
+                if (!versionUp)
+                {
+                    //Rds.json,Service.json内容をユーザの入力値をもとに書き込む
+                    SetRdsParameters(parametersDir);
+                    SetServiceParameters(parametersDir);
+                    SetExtendedColumns(parametersDir);
+                }
+                else if (enterpriseEdition)
+                {
+                    SetExtendedColumns(parametersDir);
+                }
+                logger.LogInformation("Finish setting parameters");
             }
-            else if (enterpriseEdition)
+            catch (Exception e)
             {
-                SetExtendedColumns(parametersDir);
-            }
-            logger.LogInformation("Finish setting parameters");
+                logger.LogInformation(e.Message);
+                Environment.Exit(0);
+            }            
         }
 
         private void SetRdsParameters(string parametersDir)
         {
             var file = Path.Combine(parametersDir, "Rds.json");
             var json = File.ReadAllText(file);
+            JObject inputData = (JObject)JsonConvert.DeserializeObject(json);
+
             var data = json.Deserialize<Rds>();
             data.Dbms = Enum.GetName(typeof(DBMS), int.Parse(dbms));
             var database = dbms == "1"
@@ -950,7 +1256,17 @@ namespace Implem.PleasanterSetup
                 data.OwnerConnectionString = connectionString;
                 data.UserConnectionString = connectionString;
             }
-            json = JsonConvert.SerializeObject(data, Formatting.Indented);
+            //var properties = typeof(Rds).GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            JObject dataAsJObject = JObject.FromObject(data);
+
+            foreach (var prop in dataAsJObject.Properties())
+            {
+                if (inputData.ContainsKey(prop.Name))
+                {
+                    inputData[prop.Name] = prop.Value;
+                }
+            }
+            json = Jsons.ToJson(inputData);
             File.WriteAllText(
                 file,
                 json);
@@ -962,9 +1278,18 @@ namespace Implem.PleasanterSetup
         {
             var file = Path.Combine(parametersDir, "Service.json");
             var json = File.ReadAllText(file);
+            JObject inputData = (JObject)JsonConvert.DeserializeObject(json);
             var data = json.Deserialize<Service>();
             data.Name = serviceName;
-            json = JsonConvert.SerializeObject(data, Formatting.Indented);
+            JObject dataAsJObject = JObject.FromObject(data);
+            foreach (var prop in dataAsJObject.Properties())
+            {
+                if (inputData.ContainsKey(prop.Name))
+                {
+                    inputData[prop.Name] = prop.Value;
+                }
+            }
+            json = Jsons.ToJson(inputData);
             File.WriteAllText(
                 file,
                 json);
@@ -1036,7 +1361,9 @@ namespace Implem.PleasanterSetup
             if (extendedIssuesColumns != null)
             {
                 SetDisabledColumns(extendedIssuesColumns);
-                string json = JsonConvert.SerializeObject(extendedIssuesColumns, Formatting.Indented);
+                string json = Jsons.ToJson(
+                    extendedIssuesColumns,
+                    enterpriseEdition);
                 File.WriteAllText(
                     issuesFile,
                     json);
@@ -1044,7 +1371,9 @@ namespace Implem.PleasanterSetup
             if (extendedResultsColumns != null)
             {
                 SetDisabledColumns(extendedResultsColumns);
-                string json = JsonConvert.SerializeObject(extendedResultsColumns, Formatting.Indented);
+                string json = Jsons.ToJson(
+                    extendedResultsColumns,
+                    enterpriseEdition);
                 File.WriteAllText(
                     resultsFile,
                     json);
@@ -1093,6 +1422,10 @@ namespace Implem.PleasanterSetup
                 }
             }
             extendedColumns.DisabledColumns = disabledColumns;
+            if(extendedColumns.DisabledColumns != null && extendedColumns.DisabledColumns.Count == 0)
+            {
+                extendedColumns.DisabledColumns = null;
+            }
         }
 
         private int CalcColumnsCount(int count)
@@ -1132,10 +1465,14 @@ namespace Implem.PleasanterSetup
             //Implem.Pleasanter.dllの有無でバージョンアップか判断
             AskForUserName();
             versionUp = MeetsVersionUpRequirements();
-            logger.LogInformation("versionup? :" + versionUp);
+            if (!setUpState && !Directory.Exists(installDir))
+            {
+                logger.LogError($"{installDir} does not exist.");
+                Environment.Exit(0);
+            }
             if (versionUp)
             {
-                GetUserData(versionUp);
+                GetUserData();
             }
             else
             {
@@ -1156,25 +1493,31 @@ namespace Implem.PleasanterSetup
                 AskForDefaultLanguage();
                 AskForDefaultTimeZone();
             }
-            Console.WriteLine(licenseZip);
-            if (File.Exists(licenseZip))
+            //拡張項目の入力処理
+            if (!string.IsNullOrEmpty(licenseZip))
             {
-                Console.WriteLine("aaaaaaa");
-                //ライセンスがEnterpriseEditionか判定処理
-                enterpriseEdition = CheckLicense(licenseZip);
-                Console.WriteLine(enterpriseEdition);
-                if (enterpriseEdition)
+                if (File.Exists(licenseZip))
                 {
-                    AskForExtendedColums(
-                        extendedColumnsDir,
-                        "Issues");
-                    AskForExtendedColums(
-                        extendedColumnsDir,
-                        "Results");
+                    //EnterpriseEdition判定処理
+                    enterpriseEdition = CheckLicense(licenseZip);
+                    if (enterpriseEdition)
+                    {
+                        AskForExtendedColums(
+                            extendedColumnsDir,
+                            "Issues");
+                        AskForExtendedColums(
+                            extendedColumnsDir,
+                            "Results");
+                    }
+                    else
+                    {
+                        logger.LogError("Not an enterprise edition.");
+                        Environment.Exit(0);
+                    }
                 }
                 else
                 {
-                    logger.LogInformation("Not Enterprise Edition.");
+                    logger.LogInformation($"{licenseZip} does not exist.");
                     Environment.Exit(0);
                 }
             }
@@ -1190,6 +1533,10 @@ namespace Implem.PleasanterSetup
                     if (!string.IsNullOrEmpty(userInputUserName))
                     {
                         userName = userInputUserName;
+                        if (Environment.UserName != userName)
+                        {
+                            isEnvironmentUser = true;
+                        }
                         break;
                     }
                 } while (true);
@@ -1204,96 +1551,110 @@ namespace Implem.PleasanterSetup
                 var userInputConnectionString = Console.ReadLine();
                 if (!string.IsNullOrEmpty(userInputConnectionString))
                 {
-                    SaConnectionString = userInputConnectionString;
+                    connectionString = userInputConnectionString;
                     break;
                 }
             } while (true);
+            DbConnectionStringBuilder builder = new DbConnectionStringBuilder();
+            builder.ConnectionString = connectionString;
+            if (builder.ContainsKey("Server"))
+            {
+                server = builder["Server"].ToString();
+            }
+            else
+            {
+                server = builder["Data Source"].ToString();
+            }
         }
 
         private void AskForProvider()
         {
-            do
+            if (isProviderAzure)
             {
-                logger.LogInformation("Provider [1: Local(Default), 2: Azure]");
-                var userInputProvider = Console.ReadLine();
-                switch (userInputProvider)
-                {
-                    case "1":
-                    case "":
-                        provider = "Local";
-                        break;
-                    case "2":
-                        provider = "Azure";
-                        break;
-                    default:
-                        logger.LogInformation("Please enter the number of choices");
-                        continue;
-                }
-                break;
-            } while (true);
+                provider = "Azure";
+            }
+            else
+            {
+                provider = "Local";
+            }
         }
 
-        private void GetUserData(bool versionup)
+        private void GetUserData()
         {
-            if (versionup)
+            var rdsFile = string.Empty;
+            var serviceFile = string.Empty;
+            if (isProviderAzure)
             {
-                var rdsFile = Path.Combine(
-                        installDir,
-                        "Implem.Pleasanter",
-                        "App_Data",
-                        "Parameters",
-                        "Rds.json");
-                var serviceFile = Path.Combine(
-                        installDir,
-                        "Implem.Pleasanter",
-                        "App_Data",
-                        "Parameters",
-                        "Service.json");
-                if (!File.Exists(rdsFile))
-                {
-                    logger.LogError($"The file {rdsFile} was not found.");
-                    Environment.Exit(0);
-                }
-                if (!File.Exists(serviceFile))
-                {
-                    logger.LogError($"The file {serviceFile} was not found.");
-                    Environment.Exit(0);
-                }
-                var rdsJson = File.ReadAllText(rdsFile);
-                var rdsData = rdsJson.Deserialize<Rds>();
-                var serviceJson = File.ReadAllText(serviceFile);
-                var serviceData = serviceJson.Deserialize<Service>();
-                provider = rdsData.Provider;
-                serviceName = serviceData.Name;
-                SaConnectionString = CoalesceEmpty(
-                    rdsData.SaConnectionString,
-                    Environment.GetEnvironmentVariable($"{serviceData.EnvironmentName}_Rds_SaConnectionString"),
-                    Environment.GetEnvironmentVariable($"{serviceData.EnvironmentName}_Rds_ConnectionString"),
-                    Environment.GetEnvironmentVariable($"{serviceName}_Rds_{rdsData.Dbms}_SaConnectionString"),
-                    Environment.GetEnvironmentVariable($"{serviceName}_Rds_{rdsData.Dbms}_ConnectionString"),
-                    Environment.GetEnvironmentVariable($"{serviceName}_Rds_SaConnectionString"),
-                    Environment.GetEnvironmentVariable($"{serviceName}_Rds_ConnectionString"));
-                OwnerConnectionString = CoalesceEmpty(
-                    rdsData.OwnerConnectionString,
-                    Environment.GetEnvironmentVariable($"{serviceData.EnvironmentName}_Rds_OwnerConnectionString"),
-                    Environment.GetEnvironmentVariable($"{serviceData.EnvironmentName}_Rds_ConnectionString"),
-                    Environment.GetEnvironmentVariable($"{serviceName}_Rds_{rdsData.Dbms}_OwnerConnectionString"),
-                    Environment.GetEnvironmentVariable($"{serviceName}_Rds_{rdsData.Dbms}_ConnectionString"),
-                    Environment.GetEnvironmentVariable($"{serviceName}_Rds_OwnerConnectionString"),
-                    Environment.GetEnvironmentVariable($"{serviceName}_Rds_ConnectionString"));
-                UserConnectionString = CoalesceEmpty(
-                    rdsData.UserConnectionString,
-                    Environment.GetEnvironmentVariable($"{serviceData.EnvironmentName}_Rds_UserConnectionString"),
-                    Environment.GetEnvironmentVariable($"{serviceData.EnvironmentName}_Rds_ConnectionString"),
-                    Environment.GetEnvironmentVariable($"{serviceName}_Rds_{rdsData.Dbms}_UserConnectionString"),
-                    Environment.GetEnvironmentVariable($"{serviceName}_Rds_{rdsData.Dbms}_ConnectionString"),
-                    Environment.GetEnvironmentVariable($"{serviceName}_Rds_UserConnectionString"),
-                    Environment.GetEnvironmentVariable($"{serviceName}_Rds_ConnectionString"));
-                GetDbms(rdsData);
-                GetServerAndPort(rdsData.Dbms);
-                GetUserId();
-                GetPassword();
+                rdsFile = Path.Combine(
+                    installDir,
+                    "App_Data",
+                    "Parameters",
+                    "Rds.json");
+                serviceFile = Path.Combine(
+                    installDir,
+                    "App_Data",
+                    "Parameters",
+                    "Service.json");
             }
+            else
+            {
+                rdsFile = Path.Combine(
+                    installDir,
+                    "Implem.Pleasanter",
+                    "App_Data",
+                    "Parameters",
+                    "Rds.json");
+                serviceFile = Path.Combine(
+                    installDir,
+                    "Implem.Pleasanter",
+                    "App_Data",
+                    "Parameters",
+                    "Service.json");
+            }
+            if (!File.Exists(rdsFile))
+            {
+                logger.LogError($"The file {rdsFile} was not found.");
+                Environment.Exit(0);
+            }
+            if (!File.Exists(serviceFile))
+            {
+                logger.LogError($"The file {serviceFile} was not found.");
+                Environment.Exit(0);
+            }
+            var rdsJson = File.ReadAllText(rdsFile);
+            var rdsData = rdsJson.Deserialize<Rds>();
+            var serviceJson = File.ReadAllText(serviceFile);
+            var serviceData = serviceJson.Deserialize<Service>();
+            provider = rdsData.Provider;
+            serviceName = serviceData.Name;
+            SaConnectionString = CoalesceEmpty(
+                rdsData.SaConnectionString,
+                Environment.GetEnvironmentVariable($"{serviceData.EnvironmentName}_Rds_SaConnectionString"),
+                Environment.GetEnvironmentVariable($"{serviceData.EnvironmentName}_Rds_ConnectionString"),
+                Environment.GetEnvironmentVariable($"{serviceName}_Rds_{rdsData.Dbms}_SaConnectionString"),
+                Environment.GetEnvironmentVariable($"{serviceName}_Rds_{rdsData.Dbms}_ConnectionString"),
+                Environment.GetEnvironmentVariable($"{serviceName}_Rds_SaConnectionString"),
+                Environment.GetEnvironmentVariable($"{serviceName}_Rds_ConnectionString"));
+            OwnerConnectionString = CoalesceEmpty(
+                rdsData.OwnerConnectionString,
+                Environment.GetEnvironmentVariable($"{serviceData.EnvironmentName}_Rds_OwnerConnectionString"),
+                Environment.GetEnvironmentVariable($"{serviceData.EnvironmentName}_Rds_ConnectionString"),
+                Environment.GetEnvironmentVariable($"{serviceName}_Rds_{rdsData.Dbms}_OwnerConnectionString"),
+                Environment.GetEnvironmentVariable($"{serviceName}_Rds_{rdsData.Dbms}_ConnectionString"),
+                Environment.GetEnvironmentVariable($"{serviceName}_Rds_OwnerConnectionString"),
+                Environment.GetEnvironmentVariable($"{serviceName}_Rds_ConnectionString"));
+            UserConnectionString = CoalesceEmpty(
+                rdsData.UserConnectionString,
+                Environment.GetEnvironmentVariable($"{serviceData.EnvironmentName}_Rds_UserConnectionString"),
+                Environment.GetEnvironmentVariable($"{serviceData.EnvironmentName}_Rds_ConnectionString"),
+                Environment.GetEnvironmentVariable($"{serviceName}_Rds_{rdsData.Dbms}_UserConnectionString"),
+                Environment.GetEnvironmentVariable($"{serviceName}_Rds_{rdsData.Dbms}_ConnectionString"),
+                Environment.GetEnvironmentVariable($"{serviceName}_Rds_UserConnectionString"),
+                Environment.GetEnvironmentVariable($"{serviceName}_Rds_ConnectionString"));
+            GetDbms(rdsData);
+            GetServerAndPort(rdsData.Dbms);
+            GetUserId();
+            GetPassword();
         }
 
         private void GetDbms(Rds data)
@@ -1333,8 +1694,11 @@ namespace Implem.PleasanterSetup
                         : string.Empty;
                     break;
                 default:
-                    server = builder["Server"].ToString();
-                    port = builder["Port"].ToString();
+                    server = builder["server"].ToString();
+                    if (builder.ContainsKey("port"))
+                    {
+                        port = builder["port"].ToString();
+                    }
                     break;
             }
         }
@@ -1379,14 +1743,12 @@ namespace Implem.PleasanterSetup
             var unzipDir = Path.Combine(
                         Path.GetDirectoryName(absolutePath),
                         baseFileName);
-            Console.WriteLine(unzipDir);
             ZipFile.ExtractToDirectory(
                 licenseZip,
                 unzipDir,
                 true);
             var license = Path.Combine(
                 unzipDir,
-                baseFileName,
                 "forNetCore(MultiPlatform)",
                 "Implem.License.dll");
             licenseDllPath = license;
@@ -1407,51 +1769,131 @@ namespace Implem.PleasanterSetup
             return Convert.ToBoolean(checkMethod?.Invoke(instance, null));
         }
 
+        private void MoveResource(string installDir, string unzipDir)
+        {
+            try
+            {
+                if (unzipDir != installDir)
+                {
+                    foreach (var dir in Directory.GetDirectories(unzipDir))
+                    {
+                        var path = string.Empty;
+                        switch (Path.GetFileName(dir))
+                        {
+                            case "Implem.Pleasanter":
+                                //Directory.Move(dir, installDir);
+                                if (Directory.Exists(dir))
+                                {
+                                    CopyDirectory(
+                                        dir,
+                                        installDir,
+                                        true);
+                                }
+                                else
+                                {
+                                    path = installDir;
+                                    Directory.Move(dir, path);
+                                }
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    Directory.Delete(unzipDir, true);
+                }
+                if (Directory.Exists(temporaryPath))
+                {
+                    Directory.Delete(temporaryPath, true);
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.ToString());
+                Environment.Exit(0);
+            }
+        }
+
         private void SetNewResource(
             string installDir,
             string releaseZip)
         {
-            logger.LogInformation($"Start placing release resources to {installDir}.");
-            var releaseZipDir = Path.GetDirectoryName(releaseZip);
-            ZipFile.ExtractToDirectory(
-                releaseZip,
-                releaseZipDir,
-                true);
-            var unzipDir = Path.Combine(
-                releaseZipDir,
-                "pleasanter");
-            //同じフォルダで実行した場合にフォルダの移動時にエラーが起きるので条件追加
-            if (unzipDir != installDir)
+            try
             {
-                foreach (var dir in Directory.GetDirectories(unzipDir))
+                var releaseZipDir = Path.GetDirectoryName(releaseZip);
+                ZipFile.ExtractToDirectory(
+                    releaseZip,
+                    releaseZipDir,
+                    true);
+                var unzipDir = Path.Combine(
+                    releaseZipDir,
+                    "pleasanter");
+                if (!isProviderAzure)
                 {
-                    Directory.Move(dir, dir.Replace(unzipDir, installDir));
+                    logger.LogInformation($"Start placing release resources to {installDir}.");
+                    if (unzipDir != installDir)
+                    {
+                        foreach (var dir in Directory.GetDirectories(unzipDir))
+                        {
+                            Directory.Move(dir, dir.Replace(unzipDir, installDir));
+                        }
+                        Directory.Delete(unzipDir);
+                    }
+                    logger.LogInformation($"The release resource was placed in {installDir}.");
                 }
-                Directory.Delete(unzipDir);
+                else
+                {
+                    foreach (var dir in Directory.GetDirectories(unzipDir))
+                    {
+                        var path = string.Empty;
+                        switch (Path.GetFileName(dir))
+                        {
+                            case "Implem.CodeDefiner":
+                                path = CodeDefinerDirPath;
+                                Directory.Move(dir, path);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    unzipDirPath = unzipDir;
+                }
             }
-            logger.LogInformation($"The release resource was placed in {installDir}.");
+            catch (Exception ex)
+            {
+                logger.LogError(ex.ToString(), ex);
+                Environment.Exit(0);
+            }            
         }
+
         private void SetParametersPatch(string previous, string patchPath)
         {
-            logger.LogInformation($"Start placing ParametersPatch.zip to {installDir}.");
-            var destPath = Path.Combine(
-                previous,
-                "ParametersPatch.zip");
-            File.Copy(
-                patchPath,
-                destPath,
-                true);
+            try
+            {
+                logger.LogInformation($"Start placing ParametersPatch.zip to {previous}.");
+                var destPath = Path.Combine(
+                    previous,
+                    "ParametersPatch.zip");
+                File.Move(
+                    patchPath,
+                    destPath,
+                    true);
+                logger.LogInformation($"Finish placing ParametersPatch.zip to {previous}.");
+            }
+            catch (Exception e)
+            {
+                logger.LogInformation($"{e.Message}");
+                Environment.Exit(0);
+            }
         }
 
         private async Task<string?> DownloadNewResource(string installDir, string fileName)
         {
-            Console.WriteLine("インストール前");
+            logger.LogInformation($"Download {fileName}");
             //先頭がPleasanterのzipをダウンロードしてinstallDirに配置
             client.DefaultRequestHeaders.UserAgent.TryParseAdd("request");
 
             HttpResponseMessage response = await client.GetAsync(url);
             response.EnsureSuccessStatusCode();
-            Console.WriteLine($"{response.StatusCode}");
             string responseBody = await response.Content.ReadAsStringAsync();
             JObject release = JObject.Parse(responseBody);
             var destinationDir = string.Empty;
@@ -1461,17 +1903,13 @@ namespace Implem.PleasanterSetup
                 {
                     try
                     {
-                        Console.WriteLine(asset["name"].ToString());
                         string assetUrl = asset["browser_download_url"].ToString();
-                        Console.WriteLine(assetUrl);
                         HttpResponseMessage assetResponse = await client.GetAsync(assetUrl);
                         assetResponse.EnsureSuccessStatusCode();
                         destinationDir = Path.Combine(Directory.GetParent(installDir).FullName, asset["name"].ToString());
-                        Console.WriteLine(destinationDir);
                         byte[] fileBytes = await assetResponse.Content.ReadAsByteArrayAsync();
-                        Console.WriteLine(fileBytes);
                         await File.WriteAllBytesAsync(destinationDir, fileBytes);
-                        Console.WriteLine($"Downloaded {asset["name"]} to {destinationDir}");
+                        logger.LogInformation($"Downloaded {asset["name"]} to {destinationDir}");
                         break;
                     }
                     catch (Exception ex)

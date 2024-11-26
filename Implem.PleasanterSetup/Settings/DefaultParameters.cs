@@ -10,7 +10,8 @@ namespace Implem.PleasanterSetup.Settings
     {
         public static readonly string InstallDirForWindows = "C:\\web\\pleasanter";
         public static readonly string InstallDirForLinux = "/web/pleasanter";
-        public static readonly string InstallDirForAzure = "D:\\home\\site\\wwwroot\\wwwroot";
+        public static readonly string InstallDirForAzure = "C:\\home\\site\\wwwroot";
+        public static readonly string CodeDefinerDirForAzure = "C:\\home\\site\\CodeDefiner";
         public static  readonly string HostName = "localhost";
         public static readonly string ServiceName = "Implem.Pleasanter";
         public static readonly string url = "https://api.github.com/repos/Implem/Implem.Pleasanter/releases/latest";
