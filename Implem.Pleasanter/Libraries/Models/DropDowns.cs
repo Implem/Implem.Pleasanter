@@ -548,10 +548,10 @@ namespace Implem.Pleasanter.Libraries.Models
                 {
                     column.SetChoiceHash(
                         context: context,
-                        ss: ss,
+                        ss: column.SiteSettings,
                         link: link,
                         searchText: searchText,
-                        parentColumn: ss.GetColumn(
+                        parentColumn: column.SiteSettings.GetColumn(
                             context: context,
                             columnName: parentClass),
                         parentIds: parentIds,

@@ -217,6 +217,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 || setAllChoices
                                 || selectedValues?.Any() == true)
                             {
+                                if (ss.Destinations == null)
+                                {
+                                    ss.SetLinkedSiteSettings(context: context, sources: false);
+                                }
                                 var currentSs = ss.Destinations?.Get(SiteId);
                                 if (currentSs != null)
                                 {
