@@ -458,7 +458,7 @@ input {
         padding: 1px;
     }
     &.datepicker {
-        &:has(+ .current-time) {
+        &:has(~ .current-time) {
             padding-right: 24px;
         }
         ~ .current-time {
@@ -686,6 +686,7 @@ input {
     .control-spinner {
         ~ .error {
             top: -10px;
+            padding-right: 20px;
         }
     }
 }

@@ -104,7 +104,7 @@
             padding: 8px;
         }
         &.datepicker {
-            + .ui-icon {
+            ~ .ui-icon {
                 top: 15px;
             }
         }
