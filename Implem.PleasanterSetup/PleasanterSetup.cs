@@ -235,7 +235,6 @@ namespace Implem.PleasanterSetup
                     MoveResource(installDir, unzipDirPath);
                 }
                 // ユーザがコンソール上で入力した値を各パラメータファイルへ書き込む
-                //書き込み
                 SetParameters();
                 //ユーザがライセンスファイルを指定した場合
                 if (enterpriseEdition)
@@ -385,8 +384,8 @@ namespace Implem.PleasanterSetup
         protected static void CancelHandler(object sender, ConsoleCancelEventArgs args)
         {
             Console.WriteLine("Exiting gracefully...");
-            args.Cancel = true; // プログラムの終了をキャンセル
-            Environment.Exit(0); // プログラムを終了
+            args.Cancel = true;
+            Environment.Exit(0);
         }
 
         private bool AskForInstallOrVersionUp()
@@ -410,7 +409,6 @@ namespace Implem.PleasanterSetup
             }
             else
             {
-                //ここででDefaultPathを取得してログで表示
                 logger.LogInformation($"Install Directory [Default: {defaultPath}] : ");
                 var userInputResourceDir = Console.ReadLine();
                 installDir = !string.IsNullOrEmpty(userInputResourceDir)
@@ -698,7 +696,7 @@ namespace Implem.PleasanterSetup
                 }
                 else if (userInput.Length == 1 && char.IsLetter(userInput[0]))
                 {
-                    // アルファベットが入力された場合
+                    // アルファベットが入力された場合の処理
                     char letter = char.ToUpper(userInput[0]);
                     int position = letter - 'A' + 1;
                     count = position;
@@ -874,7 +872,6 @@ namespace Implem.PleasanterSetup
             string installDir,
             string destDir)
         {
-            //修正中
             if (isProviderAzure)
             {
                 var backupDirCodeDefiner = Path.Combine(
@@ -1026,6 +1023,7 @@ namespace Implem.PleasanterSetup
             try
             {
                 logger.LogInformation("Start the merge process.");
+                //プリザンター実行ユーザとインストーラの実行ユーザが異なるインストール先のディレクトリの権限を戻す
                 if (isEnvironmentUser)
                 {
                     await $"sudo chown -R {userName} {Path.GetDirectoryName(installDir)}";
@@ -1256,9 +1254,8 @@ namespace Implem.PleasanterSetup
                 data.OwnerConnectionString = connectionString;
                 data.UserConnectionString = connectionString;
             }
-            //var properties = typeof(Rds).GetProperties(BindingFlags.Public | BindingFlags.Instance);
             JObject dataAsJObject = JObject.FromObject(data);
-
+            //読み込んだファイルに存在するパラメータ
             foreach (var prop in dataAsJObject.Properties())
             {
                 if (inputData.ContainsKey(prop.Name))
@@ -1294,60 +1291,7 @@ namespace Implem.PleasanterSetup
                 file,
                 json);
         }
-
-        private void SetLicense(
-            string resourceDir,
-            string licenseZip)
-        {
-            if (string.IsNullOrEmpty(licenseZip) && File.Exists(licenseZip))
-            {
-                logger.LogInformation("setLicense");
-                var baseFileName = Path.GetFileNameWithoutExtension(licenseZip);
-                var unzipDir = Path.Combine(
-                    Path.GetDirectoryName(licenseZip),
-                    baseFileName);
-                ZipFile.ExtractToDirectory(
-                    licenseZip,
-                    unzipDir,
-                    true);
-                var license = Path.Combine(
-                    unzipDir,
-                    "forNetCore(MultiPlatform)",
-                    "Implem.License.dll");
-                if (File.Exists(license))
-                {
-                    if (File.Exists(resourceDir))
-                    {
-                        if (File.Exists(Path.Combine(
-                            resourceDir,
-                            "Implem.CodeDefiner")))
-                        {
-                            File.Copy(
-                                license,
-                                Path.Combine(
-                                    resourceDir,
-                                    "Implem.CodeDefiner",
-                                    "Implem.License.dll"),
-                                true);
-                        }
-                        if (File.Exists(Path.Combine(
-                            resourceDir,
-                            "Implem.Pleasanter")))
-                        {
-                            File.Copy(
-                                license,
-                                Path.Combine(
-                                    resourceDir,
-                                    "Implem.Pleasanter",
-                                    "Implem.License.dll"),
-                                true);
-                        }
-                    }
-                }
-                Directory.Delete(unzipDir);
-            }
-        }
-
+        
         private void SetExtendedColumns(string parametersDir)
         {
             var issuesFile = Path.Combine(
@@ -1447,7 +1391,6 @@ namespace Implem.PleasanterSetup
                     disabeledColumnsList.Add($"{columnType}{alphabet}");
                 }
             }
-
             disabeledColumnsList.Sort();
             return disabeledColumnsList;
         }
@@ -1583,78 +1526,86 @@ namespace Implem.PleasanterSetup
         {
             var rdsFile = string.Empty;
             var serviceFile = string.Empty;
-            if (isProviderAzure)
+            try
             {
-                rdsFile = Path.Combine(
-                    installDir,
-                    "App_Data",
-                    "Parameters",
-                    "Rds.json");
-                serviceFile = Path.Combine(
-                    installDir,
-                    "App_Data",
-                    "Parameters",
-                    "Service.json");
+                if (isProviderAzure)
+                {
+                    rdsFile = Path.Combine(
+                        installDir,
+                        "App_Data",
+                        "Parameters",
+                        "Rds.json");
+                    serviceFile = Path.Combine(
+                        installDir,
+                        "App_Data",
+                        "Parameters",
+                        "Service.json");
+                }
+                else
+                {
+                    rdsFile = Path.Combine(
+                        installDir,
+                        "Implem.Pleasanter",
+                        "App_Data",
+                        "Parameters",
+                        "Rds.json");
+                    serviceFile = Path.Combine(
+                        installDir,
+                        "Implem.Pleasanter",
+                        "App_Data",
+                        "Parameters",
+                        "Service.json");
+                }
+                if (!File.Exists(rdsFile))
+                {
+                    logger.LogError($"The file {rdsFile} was not found.");
+                    Environment.Exit(0);
+                }
+                if (!File.Exists(serviceFile))
+                {
+                    logger.LogError($"The file {serviceFile} was not found.");
+                    Environment.Exit(0);
+                }
+                var rdsJson = File.ReadAllText(rdsFile);
+                var rdsData = rdsJson.Deserialize<Rds>();
+                var serviceJson = File.ReadAllText(serviceFile);
+                var serviceData = serviceJson.Deserialize<Service>();
+                provider = rdsData.Provider;
+                serviceName = serviceData.Name;
+                SaConnectionString = CoalesceEmpty(
+                    rdsData.SaConnectionString,
+                    Environment.GetEnvironmentVariable($"{serviceData.EnvironmentName}_Rds_SaConnectionString"),
+                    Environment.GetEnvironmentVariable($"{serviceData.EnvironmentName}_Rds_ConnectionString"),
+                    Environment.GetEnvironmentVariable($"{serviceName}_Rds_{rdsData.Dbms}_SaConnectionString"),
+                    Environment.GetEnvironmentVariable($"{serviceName}_Rds_{rdsData.Dbms}_ConnectionString"),
+                    Environment.GetEnvironmentVariable($"{serviceName}_Rds_SaConnectionString"),
+                    Environment.GetEnvironmentVariable($"{serviceName}_Rds_ConnectionString"));
+                OwnerConnectionString = CoalesceEmpty(
+                    rdsData.OwnerConnectionString,
+                    Environment.GetEnvironmentVariable($"{serviceData.EnvironmentName}_Rds_OwnerConnectionString"),
+                    Environment.GetEnvironmentVariable($"{serviceData.EnvironmentName}_Rds_ConnectionString"),
+                    Environment.GetEnvironmentVariable($"{serviceName}_Rds_{rdsData.Dbms}_OwnerConnectionString"),
+                    Environment.GetEnvironmentVariable($"{serviceName}_Rds_{rdsData.Dbms}_ConnectionString"),
+                    Environment.GetEnvironmentVariable($"{serviceName}_Rds_OwnerConnectionString"),
+                    Environment.GetEnvironmentVariable($"{serviceName}_Rds_ConnectionString"));
+                UserConnectionString = CoalesceEmpty(
+                    rdsData.UserConnectionString,
+                    Environment.GetEnvironmentVariable($"{serviceData.EnvironmentName}_Rds_UserConnectionString"),
+                    Environment.GetEnvironmentVariable($"{serviceData.EnvironmentName}_Rds_ConnectionString"),
+                    Environment.GetEnvironmentVariable($"{serviceName}_Rds_{rdsData.Dbms}_UserConnectionString"),
+                    Environment.GetEnvironmentVariable($"{serviceName}_Rds_{rdsData.Dbms}_ConnectionString"),
+                    Environment.GetEnvironmentVariable($"{serviceName}_Rds_UserConnectionString"),
+                    Environment.GetEnvironmentVariable($"{serviceName}_Rds_ConnectionString"));
+                GetDbms(rdsData);
+                GetServerAndPort(rdsData.Dbms);
+                GetUserId();
+                GetPassword();
             }
-            else
+            catch (Exception ex)
             {
-                rdsFile = Path.Combine(
-                    installDir,
-                    "Implem.Pleasanter",
-                    "App_Data",
-                    "Parameters",
-                    "Rds.json");
-                serviceFile = Path.Combine(
-                    installDir,
-                    "Implem.Pleasanter",
-                    "App_Data",
-                    "Parameters",
-                    "Service.json");
-            }
-            if (!File.Exists(rdsFile))
-            {
-                logger.LogError($"The file {rdsFile} was not found.");
+                logger.LogError(ex.Message);
                 Environment.Exit(0);
-            }
-            if (!File.Exists(serviceFile))
-            {
-                logger.LogError($"The file {serviceFile} was not found.");
-                Environment.Exit(0);
-            }
-            var rdsJson = File.ReadAllText(rdsFile);
-            var rdsData = rdsJson.Deserialize<Rds>();
-            var serviceJson = File.ReadAllText(serviceFile);
-            var serviceData = serviceJson.Deserialize<Service>();
-            provider = rdsData.Provider;
-            serviceName = serviceData.Name;
-            SaConnectionString = CoalesceEmpty(
-                rdsData.SaConnectionString,
-                Environment.GetEnvironmentVariable($"{serviceData.EnvironmentName}_Rds_SaConnectionString"),
-                Environment.GetEnvironmentVariable($"{serviceData.EnvironmentName}_Rds_ConnectionString"),
-                Environment.GetEnvironmentVariable($"{serviceName}_Rds_{rdsData.Dbms}_SaConnectionString"),
-                Environment.GetEnvironmentVariable($"{serviceName}_Rds_{rdsData.Dbms}_ConnectionString"),
-                Environment.GetEnvironmentVariable($"{serviceName}_Rds_SaConnectionString"),
-                Environment.GetEnvironmentVariable($"{serviceName}_Rds_ConnectionString"));
-            OwnerConnectionString = CoalesceEmpty(
-                rdsData.OwnerConnectionString,
-                Environment.GetEnvironmentVariable($"{serviceData.EnvironmentName}_Rds_OwnerConnectionString"),
-                Environment.GetEnvironmentVariable($"{serviceData.EnvironmentName}_Rds_ConnectionString"),
-                Environment.GetEnvironmentVariable($"{serviceName}_Rds_{rdsData.Dbms}_OwnerConnectionString"),
-                Environment.GetEnvironmentVariable($"{serviceName}_Rds_{rdsData.Dbms}_ConnectionString"),
-                Environment.GetEnvironmentVariable($"{serviceName}_Rds_OwnerConnectionString"),
-                Environment.GetEnvironmentVariable($"{serviceName}_Rds_ConnectionString"));
-            UserConnectionString = CoalesceEmpty(
-                rdsData.UserConnectionString,
-                Environment.GetEnvironmentVariable($"{serviceData.EnvironmentName}_Rds_UserConnectionString"),
-                Environment.GetEnvironmentVariable($"{serviceData.EnvironmentName}_Rds_ConnectionString"),
-                Environment.GetEnvironmentVariable($"{serviceName}_Rds_{rdsData.Dbms}_UserConnectionString"),
-                Environment.GetEnvironmentVariable($"{serviceName}_Rds_{rdsData.Dbms}_ConnectionString"),
-                Environment.GetEnvironmentVariable($"{serviceName}_Rds_UserConnectionString"),
-                Environment.GetEnvironmentVariable($"{serviceName}_Rds_ConnectionString"));
-            GetDbms(rdsData);
-            GetServerAndPort(rdsData.Dbms);
-            GetUserId();
-            GetPassword();
+            }          
         }
 
         private void GetDbms(Rds data)
@@ -1889,7 +1840,6 @@ namespace Implem.PleasanterSetup
         private async Task<string?> DownloadNewResource(string installDir, string fileName)
         {
             logger.LogInformation($"Download {fileName}");
-            //先頭がPleasanterのzipをダウンロードしてinstallDirに配置
             client.DefaultRequestHeaders.UserAgent.TryParseAdd("request");
 
             HttpResponseMessage response = await client.GetAsync(url);
