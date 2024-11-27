@@ -1139,6 +1139,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                             engine.AddHostObject("httpClient", model.HttpClient);
                         }
                         engine.AddHostObject("utilities", model.Utilities);
+                        engine.AddHostObject("logs", model.Logs);
                         engine.Execute(ServerScriptJsLibraries.Scripts(), debug: false);
                         engine.Execute(
                             code: scripts.Select(script =>

@@ -30,6 +30,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         public ServerScriptModelNotification Notification;
         public ServerScriptModelHttpClient HttpClient;
         public readonly ServerScriptModelUtilities Utilities;
+        public readonly ServerScriptModelLogs Logs;
         public bool Debug;
         private DateTime TimeOut;
         private readonly List<string> ChangeItemNames = new List<string>();
@@ -129,6 +130,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 ss: ss);
             HttpClient = new ServerScriptModelHttpClient();
             Utilities = new ServerScriptModelUtilities(
+                context: context,
+                ss: ss);
+            Logs = new ServerScriptModelLogs(
                 context: context,
                 ss: ss);
             Debug = debug;
