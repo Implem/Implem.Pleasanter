@@ -600,7 +600,7 @@ namespace Implem.PleasanterSetup
             ConsoleKeyInfo keyInfo;
             do
             {
-                password = string.Empty; 
+                password = string.Empty;
                 logger.LogInformation("Enter your password: ");
                 do
                 {
@@ -688,7 +688,7 @@ namespace Implem.PleasanterSetup
             do
             {
                 logger.LogInformation($"{itemName} [Default value: 0] : ");
-                var userInput = Console.ReadLine();
+                string userInput = Console.ReadLine();
                 if (int.TryParse(userInput, out count) && int.Parse(userInput) >= 0)
                 {
                     count = count + 26;
@@ -978,7 +978,7 @@ namespace Implem.PleasanterSetup
             {
                 var dotnet_root = Environment.GetEnvironmentVariable("DOTNET_ROOT");
                 fileName = $"sudo";
-                arguments = Environment.ExpandEnvironmentVariables($"-u {userName} {dotnet_root}/dotnet Implem.CodeDefiner.dll _rds {forceOption} {noInputOption} {language} {timeZone}");
+                arguments = Environment.ExpandEnvironmentVariables($"-u {userName} -E {dotnet_root}/dotnet Implem.CodeDefiner.dll _rds {forceOption} {noInputOption} {language} {timeZone}");
             }
             ProcessStartInfo processStartInfo = new ProcessStartInfo
             {
@@ -1199,7 +1199,7 @@ namespace Implem.PleasanterSetup
             {
                 logger.LogInformation(e.Message);
                 Environment.Exit(0);
-            }            
+            }
         }
 
         private void SetRdsParameters(string parametersDir)
@@ -1291,7 +1291,7 @@ namespace Implem.PleasanterSetup
                 file,
                 json);
         }
-        
+
         private void SetExtendedColumns(string parametersDir)
         {
             var issuesFile = Path.Combine(
@@ -1366,7 +1366,7 @@ namespace Implem.PleasanterSetup
                 }
             }
             extendedColumns.DisabledColumns = disabledColumns;
-            if(extendedColumns.DisabledColumns != null && extendedColumns.DisabledColumns.Count == 0)
+            if (extendedColumns.DisabledColumns != null && extendedColumns.DisabledColumns.Count == 0)
             {
                 extendedColumns.DisabledColumns = null;
             }
@@ -1605,7 +1605,7 @@ namespace Implem.PleasanterSetup
             {
                 logger.LogError(ex.Message);
                 Environment.Exit(0);
-            }          
+            }
         }
 
         private void GetDbms(Rds data)
@@ -1813,7 +1813,7 @@ namespace Implem.PleasanterSetup
             {
                 logger.LogError(ex.ToString(), ex);
                 Environment.Exit(0);
-            }            
+            }
         }
 
         private void SetParametersPatch(string previous, string patchPath)
@@ -1837,7 +1837,7 @@ namespace Implem.PleasanterSetup
             }
         }
 
-        private async Task<string?> DownloadNewResource(string installDir, string fileName)
+        private async Task<string> DownloadNewResource(string installDir, string fileName)
         {
             logger.LogInformation($"Download {fileName}");
             client.DefaultRequestHeaders.UserAgent.TryParseAdd("request");
