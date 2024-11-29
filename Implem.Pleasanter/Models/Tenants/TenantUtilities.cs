@@ -1680,9 +1680,9 @@ namespace Implem.Pleasanter.Models
                     parts: new string[]
                     {
                         "Items",
-                        tenantId.ToString() 
+                        tenantId.ToString()
                             + (tenantModel.VerType == Versions.VerTypes.History
-                                ? "?ver=" + context.Forms.Int("Ver") 
+                                ? "?ver=" + context.Forms.Int("Ver")
                                 : string.Empty)
                     }))
                 .ToJson();
@@ -1884,7 +1884,7 @@ namespace Implem.Pleasanter.Models
                             method: "delete",
                             confirm: "ConfirmDelete",
                             _using: BinaryUtilities.ExistsTenantImage(
-                                context: context, 
+                                context: context,
                                 ss: SiteSettingsUtilities.TenantsSiteSettings(context),
                                 referenceId: tenantModel.TenantId,
                                 sizeType: Libraries.Images.ImageData.SizeTypes.Logo)));
@@ -2090,7 +2090,7 @@ namespace Implem.Pleasanter.Models
                 controlId: controlId,
                 fieldCss: "field-normal",
                 controlCss: " always-send search",
-                labelText: labelText, 
+                labelText: labelText,
                 optionCollection: optionCollection,
                 controlOption: () => hb.Div(css: "ui-icon ui-icon-person current-user"),
                 selectedValue: userId == 0 ? "" : userId.ToString());
@@ -2140,6 +2140,10 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .Text(text: Displays.Name(context: context)))
                     .Th(action: () => hb
+                        .Text(text: Displays.Functionalize(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.TryCatch(context: context)))
+                    .Th(action: () => hb
                         .Text(text: Displays.Disabled(context: context)))
                     .Th(action: () => hb
                         .Text(text: Displays.Shared(context: context)))));
@@ -2169,6 +2173,14 @@ namespace Implem.Pleasanter.Models
                                 .Text(text: script.Title))
                             .Td(action: () => hb
                                 .Text(text: script.Name))
+                            .Td(action: () => hb
+                                .Span(
+                                    css: "ui-icon ui-icon-circle-check",
+                                    _using: script.Functionalize == true))
+                            .Td(action: () => hb
+                                .Span(
+                                    css: "ui-icon ui-icon-circle-check",
+                                    _using: script.TryCatch == true))
                             .Td(action: () => hb
                                 .Span(
                                     css: "ui-icon ui-icon-circle-check",
