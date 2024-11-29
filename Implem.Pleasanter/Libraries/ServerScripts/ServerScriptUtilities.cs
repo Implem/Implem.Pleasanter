@@ -689,7 +689,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 view.Overdue = false;
                 view.Search = string.Empty;
                 view.ColumnFilterHash?.Clear();
-            } 
+            }
             columnFilterHash?.ForEach(columnFilter =>
             {
                 if (view.ColumnFilterHash == null)
@@ -1181,7 +1181,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     script.Title,
                     script.Name
                 }.Where(o => o?.Trim().IsNullOrEmpty() == false).Join("_"));
-                body = $"try{{\n{body}\n}}catch(e){{context.Log('{description}\\n' + e.stack);}}";
+                body = $"try{{\n{body}\n}}catch(e){{\nlogs.LogException('{description}\\n' + e.stack);\n}}";
             }
             return body;
         }
