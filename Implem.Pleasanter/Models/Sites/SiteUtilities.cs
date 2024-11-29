@@ -100,7 +100,7 @@ namespace Implem.Pleasanter.Models
                                 id: ss.SiteId)),
                         action: () => hb
                             .Div(
-                                id: "ViewSelectorField", 
+                                id: "ViewSelectorField",
                                 action: () => hb
                                     .ViewSelector(
                                         context: context,
@@ -15705,6 +15705,17 @@ namespace Implem.Pleasanter.Models
                         dataLang: "javascript",
                         labelText: Displays.Script(context: context),
                         text: script.Body)
+                    .FieldSpinner(
+                        controlId: "ServerScriptTimeOut",
+                        fieldCss: "field-normal",
+                        controlCss: " always-send",
+                        labelText: Displays.TimeOut(context: context),
+                        value: script.TimeOut ?? Parameters.Script.ServerScriptTimeOut,
+                        min: Parameters.Script.ServerScriptTimeOutMin,
+                        max: Parameters.Script.ServerScriptTimeOutMax,
+                        step: 1,
+                        width: 75,
+                        _using: Parameters.Script.ServerScriptTimeOutChangeable)
                     .FieldCheckBox(
                         controlId: "ServerScriptFunctionalize",
                         fieldCss: "field-normal",
@@ -15717,17 +15728,6 @@ namespace Implem.Pleasanter.Models
                         controlCss: " always-send",
                         labelText: Displays.TryCatch(context: context),
                         _checked: script.TryCatch == true)
-                    .FieldSpinner(
-                        controlId: "ServerScriptTimeOut",
-                        fieldCss: "field-normal",
-                        controlCss: " always-send",
-                        labelText: Displays.TimeOut(context: context),
-                        value: script.TimeOut ?? Parameters.Script.ServerScriptTimeOut,
-                        min: Parameters.Script.ServerScriptTimeOutMin,
-                        max: Parameters.Script.ServerScriptTimeOutMax,
-                        step: 1,
-                        width: 75,
-                        _using: Parameters.Script.ServerScriptTimeOutChangeable)
                     .FieldSet(
                         css: enclosedCss,
                         legendText: Displays.Condition(context: context),
