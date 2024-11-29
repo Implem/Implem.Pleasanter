@@ -400,10 +400,17 @@ namespace Implem.PleasanterSetup
 
         private void AskForDbms()
         {
-            logger.LogInformation("DBMS [1: SQL Server, 2: PostgreSQL, 3: MySQL] : ");
-            while (dbms != "1" && dbms != "2" && dbms != "3")
+            if(isProviderAzure)
             {
-                dbms = Console.ReadLine() ?? string.Empty;
+                dbms = "1";
+            }
+            else
+            {
+                logger.LogInformation("DBMS [1: SQL Server, 2: PostgreSQL, 3: MySQL] : ");
+                while (dbms != "1" && dbms != "2" && dbms != "3")
+                {
+                    dbms = Console.ReadLine() ?? string.Empty;
+                }
             }
         }
 
