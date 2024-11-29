@@ -107,7 +107,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             int? timeOut)
         {
             Title = title;
-            if (Name != null) Name = name;
+            if (name != null) Name = name;
             if (whenloadingSiteSettings != null) WhenloadingSiteSettings = whenloadingSiteSettings;
             if (whenViewProcessing != null) WhenViewProcessing = whenViewProcessing;
             if (whenloadingRecord != null) WhenloadingRecord = whenloadingRecord;
