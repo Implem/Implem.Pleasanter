@@ -111,9 +111,7 @@ namespace Implem.PleasanterSetup
             [Option("patch")] string patchPath = "",
             bool setUpState = true,
             bool force = false,
-            bool noinput = false,
-            string license = "",
-            string extendedcolumns = "")
+            bool noinput = false)
         {
             Console.CancelKeyPress += new ConsoleCancelEventHandler(CancelHandler);
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
@@ -154,8 +152,6 @@ namespace Implem.PleasanterSetup
             // ユーザにセットアップに必要な情報を入力してもらう
             SetSummary(
             directory: directory,
-            licenseZip: license,
-            extendedColumnsDir: extendedcolumns,
             releasezip: releasezip,
             patchPath: patchPath);
             // 新規インストールまたはバージョンアップを行うかをユーザに確認する
@@ -236,13 +232,6 @@ namespace Implem.PleasanterSetup
                 }
                 // ユーザがコンソール上で入力した値を各パラメータファイルへ書き込む
                 SetParameters();
-                //ユーザがライセンスファイルを指定した場合
-                if (enterpriseEdition)
-                {
-                    CopyLicense(
-                        resourceDir: installDir,
-                        licenseDir: licenseDllPath);
-                }
                 if (!enterpriseEdition && versionUp)
                 {
                     ExistingCopyLicense(
@@ -254,19 +243,15 @@ namespace Implem.PleasanterSetup
                     directory: installDir,
                     setUpState: setUpState,
                     force: force,
-                    noinput: noinput,
-                    license: license,
-                    extendedcolumns: extendedcolumns);
+                    noinput: noinput);
             }
             else
             {
-                //ログメッセージを英語に変更
                 logger.LogInformation("Finishes processing the setup command.");
                 return;
             }
         }
 
-        //一旦保留
         public async Task Merge(
             [Option("p")] string previous,
             [Option("r")] string releaseZip = "",
@@ -344,9 +329,7 @@ namespace Implem.PleasanterSetup
             [Option("d")] string directory = "",
             bool setUpState = false,
             bool force = false,
-            bool noinput = false,
-            string license = "",
-            string extendedcolumns = "")
+            bool noinput = false)
         {
             var resourceDir = string.IsNullOrEmpty(directory)
                 ? GetDefaultInstallDir()
@@ -356,17 +339,7 @@ namespace Implem.PleasanterSetup
                 // ユーザにセットアップに必要な情報を入力してもらう
                 SetSummary(
                     directory: directory,
-                    licenseZip: license,
-                    extendedColumnsDir: extendedcolumns,
                     setUpState: setUpState);
-                // ライセンスファイルを配置する
-                if (enterpriseEdition)
-                {
-                    SetParameters();
-                    CopyLicense(
-                        resourceDir: resourceDir,
-                        licenseDir: licenseDllPath);
-                }
             }
             var codeDefinerPath = isProviderAzure
                 ? Path.Combine(
@@ -623,94 +596,7 @@ namespace Implem.PleasanterSetup
                 }
             } while (string.IsNullOrEmpty(password));
             return password;
-        }
-
-        private void AskForExtendedColums(
-            string extendedColumnsDir,
-            string referenceType)
-        {
-            var extendedColumns = new ExtendedColumns();
-            if (Directory.Exists(extendedColumnsDir))
-            {
-                var file = Path.Combine(
-                    extendedColumnsDir,
-                    $"{referenceType}.json");
-                var json = File.ReadAllText(file);
-                extendedColumns = json.Deserialize<ExtendedColumns>();
-                extendedColumns.Class = ItemCount("Class", extendedColumns.Class, extendedColumns.DisabledColumns);
-                extendedColumns.Num = ItemCount("Num", extendedColumns.Num, extendedColumns.DisabledColumns);
-                extendedColumns.Date = ItemCount("Date", extendedColumns.Date, extendedColumns.DisabledColumns);
-                extendedColumns.Description = ItemCount("Description", extendedColumns.Description, extendedColumns.DisabledColumns);
-                extendedColumns.Check = ItemCount("Check", extendedColumns.Check, extendedColumns.DisabledColumns);
-                extendedColumns.Attachments = ItemCount("Attachments", extendedColumns.Attachments, extendedColumns.DisabledColumns);
-            }
-            else
-            {
-                logger.LogInformation($"Please enter the maximum value for extended \"{referenceType}\" columns you want to enable.");
-                extendedColumns.Class = AskForItemCount("Class");
-                extendedColumns.Num = AskForItemCount("Num");
-                extendedColumns.Date = AskForItemCount("Date");
-                extendedColumns.Description = AskForItemCount("Description");
-                extendedColumns.Check = AskForItemCount("Check");
-                extendedColumns.Attachments = AskForItemCount("Attachments");
-            }
-            switch (referenceType)
-            {
-                case "Issues":
-                    extendedIssuesColumns = extendedColumns;
-                    extendedIssuesColumns.TableName = referenceType;
-                    extendedIssuesColumns.ReferenceType = referenceType;
-                    break;
-                case "Results":
-                    extendedResultsColumns = extendedColumns;
-                    extendedResultsColumns.TableName = referenceType;
-                    extendedResultsColumns.ReferenceType = referenceType;
-                    break;
-            }
-        }
-
-        private int ItemCount(string itemName, int count, List<string> disableColumns)
-        {
-            if (count > 0)
-            {
-                return count + 26;
-            }
-            else
-            {
-                int disableColumnCount = disableColumns.Count(o => o.StartsWith(itemName));
-                return 26 - disableColumnCount;
-            }
-        }
-
-        private int AskForItemCount(string itemName)
-        {
-            int count;
-            do
-            {
-                logger.LogInformation($"{itemName} [Default value: 0] : ");
-                string userInput = Console.ReadLine();
-                if (int.TryParse(userInput, out count) && int.Parse(userInput) >= 0)
-                {
-                    count = count + 26;
-                    break;
-                }
-                else if (userInput.Length == 1 && char.IsLetter(userInput[0]))
-                {
-                    // アルファベットが入力された場合の処理
-                    char letter = char.ToUpper(userInput[0]);
-                    int position = letter - 'A' + 1;
-                    count = position;
-                    break;
-                }
-                else if (string.IsNullOrEmpty(userInput))
-                {
-                    count = 26;
-                    break;
-                }
-            }
-            while (true);
-            return count;
-        }
+        }        
 
         private string CalculateRangeOfColumns(
             string columnType,
@@ -801,73 +687,6 @@ namespace Implem.PleasanterSetup
             }
         }
 
-        private void CopyLicense(
-            string resourceDir,
-            string licenseDir)
-        {
-            var license = licenseDir;
-            if (isProviderAzure)
-            {
-                if (File.Exists(license))
-                {
-                    if (Directory.Exists(resourceDir))
-                    {
-                        if (Directory.Exists(CodeDefinerDirPath))
-                        {
-                            File.Copy(
-                                license,
-                                Path.Combine(
-                                    CodeDefinerDirPath,
-                                    "Implem.License.dll"),
-                                true);
-                        }
-                        if (Directory.Exists(resourceDir))
-                        {
-                            File.Copy(
-                                license,
-                                Path.Combine(
-                                    resourceDir,
-                                    "Implem.License.dll"),
-                                true);
-                        }
-                    }
-                }
-            }
-            else
-            {
-                if (File.Exists(license))
-                {
-                    if (Directory.Exists(resourceDir))
-                    {
-                        if (Directory.Exists(Path.Combine(
-                            resourceDir,
-                            "Implem.CodeDefiner")))
-                        {
-                            File.Copy(
-                                license,
-                                Path.Combine(
-                                    resourceDir,
-                                    "Implem.CodeDefiner",
-                                    "Implem.License.dll"),
-                                true);
-                        }
-                        if (Directory.Exists(Path.Combine(
-                            resourceDir,
-                            "Implem.Pleasanter")))
-                        {
-                            File.Copy(
-                                license,
-                                Path.Combine(
-                                    resourceDir,
-                                    "Implem.Pleasanter",
-                                    "Implem.License.dll"),
-                                true);
-                        }
-                    }
-                }
-            }
-        }
-
         private void CopyResourceDirectory(
             string installDir,
             string destDir)
@@ -947,7 +766,6 @@ namespace Implem.PleasanterSetup
         {
             var arguments = "";
             var fileName = "";
-            //名前は考える
             var pOtion = "";
             var forceOption = force ? "/f" : "";
             var noInputOption = noinput ? "/n" : "";
@@ -1187,11 +1005,6 @@ namespace Implem.PleasanterSetup
                     //Rds.json,Service.json内容をユーザの入力値をもとに書き込む
                     SetRdsParameters(parametersDir);
                     SetServiceParameters(parametersDir);
-                    SetExtendedColumns(parametersDir);
-                }
-                else if (enterpriseEdition)
-                {
-                    SetExtendedColumns(parametersDir);
                 }
                 logger.LogInformation("Finish setting parameters");
             }
@@ -1269,8 +1082,6 @@ namespace Implem.PleasanterSetup
                 json);
         }
 
-
-
         private void SetServiceParameters(string parametersDir)
         {
             var file = Path.Combine(parametersDir, "Service.json");
@@ -1292,113 +1103,8 @@ namespace Implem.PleasanterSetup
                 json);
         }
 
-        private void SetExtendedColumns(string parametersDir)
-        {
-            var issuesFile = Path.Combine(
-                parametersDir,
-                "ExtendedColumns",
-                "Issues.json");
-            var resultsFile = Path.Combine(
-                parametersDir,
-                "ExtendedColumns",
-                "Results.json");
-            if (extendedIssuesColumns != null)
-            {
-                SetDisabledColumns(extendedIssuesColumns);
-                string json = Jsons.ToJson(
-                    extendedIssuesColumns,
-                    enterpriseEdition);
-                File.WriteAllText(
-                    issuesFile,
-                    json);
-            }
-            if (extendedResultsColumns != null)
-            {
-                SetDisabledColumns(extendedResultsColumns);
-                string json = Jsons.ToJson(
-                    extendedResultsColumns,
-                    enterpriseEdition);
-                File.WriteAllText(
-                    resultsFile,
-                    json);
-            }
-        }
-
-        private void SetDisabledColumns(ExtendedColumns extendedColumns)
-        {
-            var disabledColumns = new List<string>();
-
-            foreach (var p in extendedColumns.GetType().GetFields())
-            {
-                var disabledColumn = new List<string>();
-                switch (p.Name)
-                {
-                    case "Class":
-                        disabledColumn = SetDisabledColumnsList("Class", extendedColumns.Class);
-                        extendedColumns.Class = CalcColumnsCount(extendedColumns.Class);
-                        break;
-                    case "Num":
-                        disabledColumn = SetDisabledColumnsList("Num", extendedColumns.Num);
-                        extendedColumns.Num = CalcColumnsCount(extendedColumns.Num);
-                        break;
-                    case "Date":
-                        disabledColumn = SetDisabledColumnsList("Date", extendedColumns.Date);
-                        extendedColumns.Date = CalcColumnsCount(extendedColumns.Date);
-                        break;
-                    case "Description":
-                        disabledColumn = SetDisabledColumnsList("Description", extendedColumns.Description);
-                        extendedColumns.Description = CalcColumnsCount(extendedColumns.Description);
-                        break;
-                    case "Check":
-                        disabledColumn = SetDisabledColumnsList("Check", extendedColumns.Check);
-                        extendedColumns.Check = CalcColumnsCount(extendedColumns.Check);
-                        break;
-                    case "Attachments":
-                        disabledColumn = SetDisabledColumnsList("Attachments", extendedColumns.Attachments);
-                        extendedColumns.Attachments = CalcColumnsCount(extendedColumns.Attachments);
-                        break;
-                    default:
-                        break;
-                }
-                foreach (var item in disabledColumn)
-                {
-                    disabledColumns.Add(item);
-                }
-            }
-            extendedColumns.DisabledColumns = disabledColumns;
-            if (extendedColumns.DisabledColumns != null && extendedColumns.DisabledColumns.Count == 0)
-            {
-                extendedColumns.DisabledColumns = null;
-            }
-        }
-
-        private int CalcColumnsCount(int count)
-        {
-            return count > 26
-                ? count - 26
-                : 0;
-        }
-
-        private List<string> SetDisabledColumnsList(string columnType, int count)
-        {
-            var disabeledColumnsList = new List<string>();
-            var deleteCount = 26 - count;
-            if (deleteCount > 0)
-            {
-                for (var i = 1; i <= deleteCount; i++)
-                {
-                    var alphabet = ((char)('A' + 26 - i)).ToString();
-                    disabeledColumnsList.Add($"{columnType}{alphabet}");
-                }
-            }
-            disabeledColumnsList.Sort();
-            return disabeledColumnsList;
-        }
-
         private void SetSummary(
             string directory,
-            string licenseZip,
-            string extendedColumnsDir,
             string releasezip = "",
             string patchPath = "",
             bool setUpState = true)
@@ -1436,34 +1142,6 @@ namespace Implem.PleasanterSetup
                 AskForDefaultLanguage();
                 AskForDefaultTimeZone();
             }
-            //拡張項目の入力処理
-            if (!string.IsNullOrEmpty(licenseZip))
-            {
-                if (File.Exists(licenseZip))
-                {
-                    //EnterpriseEdition判定処理
-                    enterpriseEdition = CheckLicense(licenseZip);
-                    if (enterpriseEdition)
-                    {
-                        AskForExtendedColums(
-                            extendedColumnsDir,
-                            "Issues");
-                        AskForExtendedColums(
-                            extendedColumnsDir,
-                            "Results");
-                    }
-                    else
-                    {
-                        logger.LogError("Not an enterprise edition.");
-                        Environment.Exit(0);
-                    }
-                }
-                else
-                {
-                    logger.LogInformation($"{licenseZip} does not exist.");
-                    Environment.Exit(0);
-                }
-            }
         }
         private void AskForUserName()
         {
@@ -1485,7 +1163,6 @@ namespace Implem.PleasanterSetup
                 } while (true);
             }
         }
-
         private void AskForConnectionString()
         {
             do
@@ -1509,7 +1186,6 @@ namespace Implem.PleasanterSetup
                 server = builder["Data Source"].ToString();
             }
         }
-
         private void AskForProvider()
         {
             if (isProviderAzure)
