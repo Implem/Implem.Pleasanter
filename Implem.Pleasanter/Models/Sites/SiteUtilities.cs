@@ -9462,7 +9462,7 @@ namespace Implem.Pleasanter.Models
                         controlCss: " always-send",
                         labelText: Displays.Icon(context: context),
                         text: process.Icon,
-                        validateRegex: @"^[a-zA-Z\d-_]+$",
+                        validateRegex: @"^[a-z\d-_]+$",
                         validateRegexErrorMessage: Displays.ValidationError(context: context))
                     .FieldTextBox(
                         controlId: "ProcessConfirmationMessage",
