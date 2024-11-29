@@ -290,6 +290,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? EditInDialog;
         // compatibility Version 1.016
         public List<string> EditorColumns;
+        // compatibility Version 1.017
+        public bool? ProcessOutputFormulaLogs;
 
         public SiteSettings()
         {
@@ -414,6 +416,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             FullTextIncludeSiteTitle = FullTextIncludeSiteTitle ?? Parameters.Search.FullTextIncludeSiteTitle;
             FullTextNumberOfMails = FullTextNumberOfMails ?? Parameters.Search.FullTextNumberOfMails;
             SaveViewType = SaveViewType ?? SaveViewTypes.Session;
+            ProcessOutputFormulaLogs = ProcessOutputFormulaLogs ?? false;
         }
 
         public void SetLinkedSiteSettings(
@@ -1010,6 +1013,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 ss.MoveTargets = MoveTargets;
             }
+            if (ProcessOutputFormulaLogs == true)
+            {
+                ss.ProcessOutputFormulaLogs = ProcessOutputFormulaLogs;
+            }
             Aggregations?.ForEach(aggregations =>
             {
                 if (ss.Aggregations == null)
@@ -1211,6 +1218,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (NoDisplayIfReadOnly == true)
             {
                 ss.NoDisplayIfReadOnly = NoDisplayIfReadOnly;
+            }
+            if (ProcessOutputFormulaLogs == true)
+            {
+                ss.ProcessOutputFormulaLogs = ProcessOutputFormulaLogs;
             }
             PermissionForCreating?.Where(o => o.Value > 0).ForEach(data =>
             {
@@ -4000,6 +4011,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .Select(v => v.Views)
                         .ToList();
                     break;
+                case "ProcessOutputFormulaLogs": ProcessOutputFormulaLogs = value.ToBool(); break;
             }
         }
 
@@ -5007,19 +5019,18 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public bool EnableViewMode(Context context, string name)
         {
-            var canRead = context.CanRead(ss: this);
             switch (name)
             {
                 case "Index": return true;
-                case "Calendar": return canRead && EnableCalendar == true;
-                case "Crosstab": return canRead && EnableCrosstab == true;
-                case "Gantt": return canRead && EnableGantt == true;
-                case "BurnDown": return canRead && EnableBurnDown == true;
-                case "TimeSeries": return canRead && EnableTimeSeries == true;
-                case "Analy": return canRead && EnableAnaly == true;
-                case "Kamban": return canRead && EnableKamban == true;
+                case "Calendar": return EnableCalendar == true;
+                case "Crosstab": return EnableCrosstab == true;
+                case "Gantt": return EnableGantt == true;
+                case "BurnDown": return EnableBurnDown == true;
+                case "TimeSeries": return EnableTimeSeries == true;
+                case "Analy": return EnableAnaly == true;
+                case "Kamban": return EnableKamban == true;
                 case "ImageLib": return context.ContractSettings.Images()
-                    && canRead && EnableImageLib == true;
+                    && EnableImageLib == true;
                 default: return false;
             }
         }
@@ -5496,18 +5507,17 @@ namespace Implem.Pleasanter.Libraries.Settings
             switch (TableType)
             {
                 case Sqls.TableTypes.History:
-                    return "grid history";
+                    return "history";
                 case Sqls.TableTypes.Deleted:
-                    return "grid deleted not-link";
+                    return "deleted not-link";
                 default:
-                    return "grid"
-                        + (context.Forms.Bool("EditOnGrid")
-                            ? " confirm-unload not-link"
-                            : DisableLinkToEdit == true
-                                ? " not-link"
-                                : OpenEditInNewTab == true
-                                    ? " new-tab"
-                                    : string.Empty);
+                    return context.Forms.Bool("EditOnGrid")
+                        ? "confirm-unload not-link"
+                        : DisableLinkToEdit == true
+                            ? "not-link"
+                            : OpenEditInNewTab == true
+                                ? "new-tab"
+                                : string.Empty;
             }
         }
 

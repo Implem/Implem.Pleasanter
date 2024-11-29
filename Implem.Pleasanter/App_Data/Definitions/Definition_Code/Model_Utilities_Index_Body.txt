@@ -193,7 +193,7 @@ private static HtmlBuilder Grid(
         view: view,
         checkPermission: true);
     return hb
-        .Table(
+        .GridTable(
             attributes: new HtmlAttributes()
                 .Id($"Grid{suffix}")
                 .Class(ss.GridCss(context: context))
@@ -331,7 +331,8 @@ private static HtmlBuilder GridRows(
 <!--Model_Utilities_FormDataSet-->
 <!--Model_Utilities_SetEditRowParameter-->
 
-                checkRow: checkRow));
+                checkRow: checkRow,
+                clearCheck: clearCheck));
 }
 
 <!--Model_Utilities_GridNewRows-->

@@ -42,6 +42,7 @@ namespace Implem.DefinitionAccessor
         public static Parameter Parameter;
         public static Permissions Permissions;
         public static Rds Rds;
+        public static Kvs Kvs;
         public static Registration Registration;
         public static Reminder Reminder;
         public static Script Script;
