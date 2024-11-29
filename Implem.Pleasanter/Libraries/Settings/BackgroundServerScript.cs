@@ -27,6 +27,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool disabled,
             string body,
             int? timeOut,
+            bool? functionalize,
+            bool? tryCatch,
             IEnumerable<BackgroundSchedule> backgoundSchedules) : base(
                 id: id,
                 title: title,
@@ -47,8 +49,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                 shared: shared,
                 background: true,
                 body: body,
-                functionalize: false,
-                tryCatch: false,
+                functionalize: functionalize,
+                tryCatch: tryCatch,
                 timeOut: timeOut)
         {
             Disabled = disabled;
@@ -76,6 +78,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool disabled,
             string body,
             int? timeOut,
+            bool? functionalize,
+            bool? tryCatch,
             IEnumerable<BackgroundSchedule> backgoundSchedules)
         {
             Update(
@@ -97,8 +101,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                 shared: shared,
                 background: true,
                 body: body,
-                functionalize: false,
-                tryCatch: false,
+                functionalize: functionalize,
+                tryCatch: tryCatch,
                 timeOut: timeOut);
             Disabled = disabled;
             UserId = userId;
