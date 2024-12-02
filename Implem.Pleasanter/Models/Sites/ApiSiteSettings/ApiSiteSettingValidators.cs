@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace Implem.Pleasanter.Models
 {
@@ -272,10 +273,18 @@ namespace Implem.Pleasanter.Models
                                 return;
                             }
                             if (process.Permission?.Depts != null
-                               && process.Permission.Depts.Count() != DeptUtilities.CountByIds(
+                                && process.Permission.Depts.Count() != DeptUtilities.CountByIds(
                                    context: context,
                                    ss: ss,
                                    ids: process.Permission.Depts))
+                            {
+                                valid = new ErrorData(type: Error.Types.NotFound);
+                                return;
+                            }
+                            break;
+                        case "Icon":
+                            if (!string.IsNullOrEmpty((string)value)
+                                && !Regex.IsMatch((string)value, @"^[a-z\d-_]+$"))
                             {
                                 valid = new ErrorData(type: Error.Types.NotFound);
                                 return;
