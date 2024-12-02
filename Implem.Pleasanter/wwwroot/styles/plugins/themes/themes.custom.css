@@ -2432,6 +2432,36 @@ body:has(#TableName[value="Tenants"]) {
     .dashboard-part-title {
         color: var(--base-text);
     }
+    .dashboard-timeline-item {
+        background-color: var(--base-bg);
+    }
+    .dashboard-timeline-header {
+        a {
+            color: var(--primaryColor);
+            text-decoration: none;
+        }
+    }
+    .dashboard-timeline-title {
+        color: var(--base-text);
+    }
+    .dashboard-timeline-record-time {
+        .elapsed-time {
+            background-color: initial;
+        }
+    }
+    .dashboard-part-nav-item {
+        display: flex;
+        gap: 2px;
+        align-items: center;
+        background-color: var(--base-bg);
+    }
+    .dashboard-part-nav-link,
+    .material-symbols-outlined {
+        color: var(--base-text);
+    }
+    .dashboard-timeline-body {
+        color: var(--base-text);
+    }
 }
 
 /* [PublishViewer]  */
