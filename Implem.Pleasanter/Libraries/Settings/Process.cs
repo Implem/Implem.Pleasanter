@@ -47,6 +47,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public int ChangedStatus { get; set; }
         public string Description { get; set; }
         public string Tooltip { get; set; }
+        public string Icon { get; set; }
         public string ConfirmationMessage { get; set; }
         public string SuccessMessage { get; set; }
         public string OnClick { get; set; }
@@ -79,6 +80,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             int changedStatus,
             string description,
             string tooltip,
+            string icon,
             string confirmationMessage,
             string successMessage,
             string onClick,
@@ -102,6 +104,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             ChangedStatus = changedStatus;
             Description = description;
             Tooltip = tooltip;
+            Icon = icon;
             ConfirmationMessage = confirmationMessage;
             SuccessMessage = successMessage;
             OnClick = onClick;
@@ -126,6 +129,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             int? changedStatus,
             string description,
             string tooltip,
+            string icon,
             string confirmationMessage,
             string successMessage,
             string onClick,
@@ -168,6 +172,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (tooltip != null)
             {
                 Tooltip = tooltip;
+            }
+            if (icon != null)
+            {
+                Icon = icon;
             }
             if (confirmationMessage != null)
             {
@@ -312,6 +320,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (!Tooltip.IsNullOrEmpty())
             {
                 process.Tooltip = Tooltip;
+            }
+            if (!Icon.IsNullOrEmpty())
+            {
+                process.Icon = Icon;
             }
             if (!ConfirmationMessage.IsNullOrEmpty())
             {
