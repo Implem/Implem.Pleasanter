@@ -433,7 +433,7 @@ namespace Implem.Pleasanter.NetCore
                 {
                     var context = new Context();
                     var log = new SysLogModel(context: context);
-                    log.SysLogType = SysLogModel.SysLogTypes.Execption;
+                    log.SysLogType = SysLogModel.SysLogTypes.Exception;
                     log.ErrMessage = error.Message;
                     log.ErrStackTrace = error.StackTrace;
                     log.Finish(context: context);
