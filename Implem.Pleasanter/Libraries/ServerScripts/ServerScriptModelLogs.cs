@@ -125,7 +125,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         ? string.Empty
                         : $"[{method}]";
                     var body = $"({sysLogType}):{methodBody}{message}";
-                    Context.LogBuilder.AppendLine(body);
+                    Context.LogBuilder.Append(body);
                 }
                 if (sysLogs)
                 {
