@@ -1,4 +1,5 @@
 ﻿using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
@@ -18,7 +19,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         }
 
         public bool LogInfo(
-            string message,
+            object message,
             string method = "",
             bool console = true,
             bool sysLogs = true)
@@ -33,7 +34,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         }
 
         public bool LogWarning(
-            string message,
+            object message,
             string method = "",
             bool console = true,
             bool sysLogs = true)
@@ -48,7 +49,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         }
 
         public bool LogUserError(
-            string message,
+            object message,
             string method = "",
             bool console = true,
             bool sysLogs = true)
@@ -63,7 +64,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         }
 
         public bool LogSystemError(
-            string message,
+            object message,
             string method = "",
             bool console = true,
             bool sysLogs = true)
@@ -78,7 +79,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         }
 
         public bool LogException(
-            string message,
+            object message,
             string method = "",
             bool console = true,
             bool sysLogs = true)
@@ -94,7 +95,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
 
         public bool Log(
             int type,
-            string message,
+            object message,
             string method = "",
             bool console = true,
             bool sysLogs = true)
@@ -112,27 +113,28 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
 
         private bool Log(
         SysLogModel.SysLogTypes sysLogType,
-        string message,
+        object message,
         string method = "",
         bool console = true,
         bool sysLogs = true)
         {
             try
             {
+                var strMessage = message?.ToString() ?? string.Empty;
                 if (console)
                 {
                     var methodBody = method.IsNullOrEmpty()
                         ? string.Empty
                         : $"[{method}]";
-                    var body = $"({sysLogType}):{methodBody}{message}";
-                    Context.LogBuilder.Append(body);
+                    var body = $"({sysLogType}):{methodBody}{strMessage}";
+                    Context.LogBuilder.AppendLine(body);
                 }
                 if (sysLogs)
                 {
                     new SysLogModel(
                         context: Context,
                         method: method,
-                        message: message,
+                        message: strMessage,
                         sysLogType: sysLogType);
                 }
                 return true;
