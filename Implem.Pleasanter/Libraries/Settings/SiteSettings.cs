@@ -5837,7 +5837,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         Shared = extendedServerScript.Shared,
                         Body = extendedServerScript.Body
                     })
-                        .Concat(ServerScripts)
+                        .Concat(ServerScripts.Where(script=>script.Disabled != true))
                         .ToList();
                 ServerScriptsAndExtended
                     .Where(serverScript =>

@@ -6,7 +6,6 @@ namespace Implem.Pleasanter.Libraries.Settings
 {
     public class BackgroundServerScript : ServerScript
     {
-        public bool? Disabled;
         public SettingList<BackgroundSchedule> backgoundSchedules = new SettingList<BackgroundSchedule>();
         public int UserId;
         public string ServerScriptSchedule1;
@@ -51,9 +50,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                 body: body,
                 functionalize: functionalize,
                 tryCatch: tryCatch,
-                timeOut: timeOut)
+                timeOut: timeOut,
+                disabled: disabled)
         {
-            Disabled = disabled;
+
             UserId = userId;
             this.backgoundSchedules = backgoundSchedules.ToJson().Deserialize<SettingList<BackgroundSchedule>>();
         }
@@ -103,8 +103,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                 body: body,
                 functionalize: functionalize,
                 tryCatch: tryCatch,
+                disabled: disabled,
                 timeOut: timeOut);
-            Disabled = disabled;
+
             UserId = userId;
             this.backgoundSchedules = backgoundSchedules.ToJson().Deserialize<SettingList<BackgroundSchedule>>();
         }

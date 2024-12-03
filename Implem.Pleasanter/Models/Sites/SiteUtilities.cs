@@ -15539,6 +15539,8 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .Text(text: Displays.TryCatch(context: context)))
                     .Th(action: () => hb
+                        .Text(text: Displays.Disabled(context: context)))
+                    .Th(action: () => hb
                         .Text(text: Displays.WhenloadingSiteSettings(context: context)))
                     .Th(action: () => hb
                         .Text(text: Displays.WhenViewProcessing(context: context)))
@@ -15600,6 +15602,10 @@ namespace Implem.Pleasanter.Models
                                 .Span(
                                     css: "ui-icon ui-icon-circle-check",
                                     _using: script.TryCatch == true))
+                            .Td(action: () => hb
+                                .Span(
+                                    css: "ui-icon ui-icon-circle-check",
+                                    _using: script.Disabled == true))
                             .Td(action: () => hb
                                 .Span(
                                     css: "ui-icon ui-icon-circle-check",
@@ -15728,6 +15734,14 @@ namespace Implem.Pleasanter.Models
                         controlCss: " always-send",
                         labelText: Displays.TryCatch(context: context),
                         _checked: script.TryCatch == true)
+                    .Div(
+                        action: () => hb
+                            .FieldCheckBox(
+                                controlId: "ServerScriptDisabled",
+                                fieldCss: outputDestinationCss,
+                                controlCss: " always-send",
+                                labelText: Displays.Disabled(context: context),
+                                _checked: script.Disabled == true))
                     .FieldSet(
                         css: enclosedCss,
                         legendText: Displays.Condition(context: context),
