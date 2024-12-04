@@ -10,5 +10,7 @@ namespace Implem.ParameterAccessor.Parts
         public bool SignOut;
         public bool ClientId;
         public int ExportLimit;
+        public bool EnableLoggingToDatabase = true;
+        public bool EnableLoggingToFile; //= false
     }
 }
