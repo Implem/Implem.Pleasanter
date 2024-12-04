@@ -546,12 +546,16 @@ namespace Implem.Pleasanter.Libraries.Models
                 }
                 else
                 {
+                    // ssに項目候補がない場合に、column.SiteSettingsを渡す。実装を見直しする事が望ましい
+                    var currentSs = ss.Destinations?.ContainsKey(link.SiteId) == true
+                        ? ss
+                        : column.SiteSettings;
                     column.SetChoiceHash(
                         context: context,
-                        ss: column.SiteSettings,
+                        ss: currentSs,
                         link: link,
                         searchText: searchText,
-                        parentColumn: column.SiteSettings.GetColumn(
+                        parentColumn: currentSs.GetColumn(
                             context: context,
                             columnName: parentClass),
                         parentIds: parentIds,
