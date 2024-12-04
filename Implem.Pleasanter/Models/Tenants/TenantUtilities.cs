@@ -1985,6 +1985,12 @@ namespace Implem.Pleasanter.Models
                         controlCss: " always-send",
                         labelText: Displays.ServerScript(context: context),
                         text: script.Body)
+                    .FieldCheckBox(
+                        controlId: "ServerScriptDisabled",
+                        fieldCss: "field-wide",
+                        controlCss: " always-send",
+                        labelText: Displays.Disabled(context: context),
+                        _checked: script.Disabled == true)
                     .FieldSpinner(
                         controlId: "ServerScriptTimeOut",
                         fieldCss: "field-normal",
@@ -2008,20 +2014,12 @@ namespace Implem.Pleasanter.Models
                         controlCss: " always-send",
                         labelText: Displays.TryCatch(context: context),
                         _checked: script.TryCatch == true)
-                    .Div(
-                        action: () => hb
-                            .FieldCheckBox(
-                                controlId: "ServerScriptDisabled",
-                                fieldCss: outputDestinationCss,
-                                controlCss: " always-send",
-                                labelText: Displays.Disabled(context: context),
-                                _checked: script.Disabled == true)
-                            .FieldCheckBox(
-                                controlId: "ServerScriptShared",
-                                fieldCss: outputDestinationCss,
-                                controlCss: " always-send",
-                                labelText: Displays.Shared(context: context),
-                                _checked: script.Shared == true))
+                    .FieldCheckBox(
+                        controlId: "ServerScriptShared",
+                        fieldCss: "field-wide",
+                        controlCss: " always-send",
+                        labelText: Displays.Shared(context: context),
+                        _checked: script.Shared == true)
                     .FieldSet(
                         css: enclosedCss,
                         legendText: Displays.Schedule(context: context),
@@ -2140,11 +2138,11 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .Text(text: Displays.Name(context: context)))
                     .Th(action: () => hb
+                        .Text(text: Displays.Disabled(context: context)))
+                    .Th(action: () => hb
                         .Text(text: Displays.Functionalize(context: context)))
                     .Th(action: () => hb
                         .Text(text: Displays.TryCatch(context: context)))
-                    .Th(action: () => hb
-                        .Text(text: Displays.Disabled(context: context)))
                     .Th(action: () => hb
                         .Text(text: Displays.Shared(context: context)))));
         }
@@ -2176,15 +2174,15 @@ namespace Implem.Pleasanter.Models
                             .Td(action: () => hb
                                 .Span(
                                     css: "ui-icon ui-icon-circle-check",
+                                    _using: script.Disabled == true))
+                            .Td(action: () => hb
+                                .Span(
+                                    css: "ui-icon ui-icon-circle-check",
                                     _using: script.Functionalize == true))
                             .Td(action: () => hb
                                 .Span(
                                     css: "ui-icon ui-icon-circle-check",
                                     _using: script.TryCatch == true))
-                            .Td(action: () => hb
-                                .Span(
-                                    css: "ui-icon ui-icon-circle-check",
-                                    _using: script.Disabled == true))
                             .Td(action: () => hb
                                 .Span(
                                     css: "ui-icon ui-icon-circle-check",
