@@ -1,15 +1,12 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
-using Implem.ParameterAccessor.Parts;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
-using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using Implem.PleasanterFilters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.IO;
-using System.Linq;
 
 namespace Implem.Pleasanter.Controllers.Api
 {
@@ -17,7 +14,7 @@ namespace Implem.Pleasanter.Controllers.Api
     [AllowAnonymous]
     [ApiController]
     [Route("api/[controller]")]
-    public class Utility : ControllerBase
+    public class UtilityController : ControllerBase
     {
         [HttpPost("GetLicenseInfo")]
         public ContentResult GetLicenseInfo()
