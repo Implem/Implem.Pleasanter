@@ -1960,6 +1960,11 @@ body:not(:has(#Editor)) {
             &.overdue {
                 background-color: var(--warning-color);
                 border: 1px solid var(--warning-color);
+                &::before,
+                &::after {
+                    display: none;
+                    content: initial;
+                }
             }
         }
     }

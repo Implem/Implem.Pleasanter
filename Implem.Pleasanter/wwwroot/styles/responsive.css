@@ -562,6 +562,12 @@
         border-radius: 3vw;
     }
 
+    #SiteMenu .nav-site .conditions .overdue::before,
+    #SiteMenu .nav-site .conditions .overdue::after {
+        display: none;
+        content: initial;
+    }
+
     #SiteMenu .nav-site[data-type="Wikis"] {
         position: relative;
         width: 20vw;

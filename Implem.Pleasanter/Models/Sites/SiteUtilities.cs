@@ -4502,7 +4502,7 @@ namespace Implem.Pleasanter.Models
                                 .Title(Displays.Overdue(context: context)),
                             _using: condition.OverdueCount > 0,
                             action: () => hb
-                                .Text($"({condition.OverdueCount})")));
+                                .Text(condition.OverdueCount.ToString())));
             }
             return hb;
         }
