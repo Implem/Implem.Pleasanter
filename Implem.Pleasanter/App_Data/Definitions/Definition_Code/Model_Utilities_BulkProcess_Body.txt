@@ -12,6 +12,13 @@
     {
         return Messages.NotFound(context: context).ToJson();
     }
+    var processes = ss.Processes
+        ?.Where(o => o.Id == processId 
+        || (o.ExecutionType == Process.ExecutionTypes.AddedButtonOrCreateOrUpdate
+            && ((process.ExecutionType == Process.ExecutionTypes.CreateOrUpdate)
+            || ((process.ExecutionType ?? Process.ExecutionTypes.AddedButton) == Process.ExecutionTypes.AddedButton)
+                && ((process.ActionType ?? Process.ActionTypes.Save) == Process.ActionTypes.Save))))
+        .ToList() ?? new List<Process>();
     var selectedWhere = SelectedWhere(
         context: context,
         ss: ss);
@@ -68,10 +75,22 @@
         else
         {
             var previousTitle = #modelName#Model.Title.DisplayValue;
-            #modelName#Model.SetByProcess(
-                context: context,
-                ss: ss,
-                process: process);
+            foreach (var p in processes)
+            {
+                p.MatchConditions = #modelName#Model.GetProcessMatchConditions(
+                    context: context,
+                    ss: ss,
+                    process: p);
+                if (p.MatchConditions && p.Accessable(
+                    context: context,
+                    ss: ss))
+                {
+                    #modelName#Model.SetByProcess(
+                        context: context,
+                        ss: ss,
+                        process: p);
+                }
+            }
             #modelName#Model.VerUp = Versions.MustVerUp(
                 context: context,
                 ss: ss,
@@ -79,7 +98,7 @@
             var errorData = #modelName#Model.Update(
                 context: context,
                 ss: ss,
-                processes: process.ToSingleList(),
+                processes: processes,
                 notice: true,
                 previousTitle: previousTitle);
             switch (errorData.Type)
@@ -119,7 +138,7 @@
                     break;
             }
         }
-    };
+    }
     if (errorMessage != null)
     {
         context.Messages.Add(errorMessage);

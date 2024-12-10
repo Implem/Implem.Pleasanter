@@ -1100,10 +1100,27 @@ namespace Implem.Pleasanter.Libraries.Requests
         public void FormsAuthenticationSignOut()
         {
             AspNetCoreHttpContext.Current.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme).Wait();
-            AspNetCoreHttpContext.Current.Session.Clear();
+            if (Parameters.Session.UseKeyValueStore)
+            {
+                Implem.Pleasanter.Libraries.Redis.CacheForRedisConnection.Clear(SessionGuid);
+            }
+            else
+            {
+                AspNetCoreHttpContext.Current.Session.Clear();
+            }
         }
 
-        public void SessionAbandon() { AspNetCoreHttpContext.Current.Session.Clear(); }
+        public void SessionAbandon()
+        {
+            if (Parameters.Session.UseKeyValueStore)
+            {
+                Implem.Pleasanter.Libraries.Redis.CacheForRedisConnection.Clear(SessionGuid);
+            }
+            else
+            {
+                AspNetCoreHttpContext.Current.Session.Clear();
+            }
+        }
 
         public void FederatedAuthenticationSessionAuthenticationModuleDeleteSessionTokenCookie()
         {
@@ -1185,7 +1202,6 @@ namespace Implem.Pleasanter.Libraries.Requests
 
         public decimal ThemeVersion()
         {
-            if (Mobile) { return 1.0M; }
             switch (Theme())
             {
                 case "cerulean":

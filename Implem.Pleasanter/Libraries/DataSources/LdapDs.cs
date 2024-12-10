@@ -233,6 +233,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             public Implem.ParameterAccessor.Parts.Ldap Ldap;
             public string Pattern;
             public int GraphIdx;
+            public IEnumerable<(string,string)> ExtendedAttributes;
         }
 
         public static void Sync(Context context)
@@ -404,7 +405,14 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 LdapObjectGUID = result.PropertyGUID(context: context, name: "objectGUID"),
                 Ldap = ldap,
                 Pattern = pattern,
-                GraphIdx = graphIdx
+                GraphIdx = graphIdx,
+                ExtendedAttributes = ldap.LdapGroupExtendedAttributes?
+                    .Select(attribute =>
+                        (attribute.ColumnName,
+                        result.Property(
+                            context: context,
+                            name: attribute.Name,
+                            pattern: attribute.Pattern))).ToList()
             };
         }
 
@@ -425,20 +433,23 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 groups.Values
                     .ForEach(group =>
                     {
+                        var param = Rds.GroupsParam()
+                            .TenantId(group.Ldap.LdapTenantId)
+                            .GroupName(group.DisplayName)
+                            .Disabled(false)
+                            .LdapSync(true)
+                            .LdapGuid(group.LdapObjectGUID)
+                            .LdapSearchRoot(group.Ldap.LdapSearchRoot)
+                            .SynchronizedTime(synchronizedTime);
+                        group.ExtendedAttributes?.ForEach(v =>
+                            param.Add($"\"{v.Item1}\"", v.Item1, v.Item2));
                         Repository.ExecuteNonQuery(
                             context: context,
                             transactional: true,
                             statements: new SqlStatement[]
                             {
                                 Rds.UpdateOrInsertGroups(
-                                    param: Rds.GroupsParam()
-                                        .TenantId(group.Ldap.LdapTenantId)
-                                        .GroupName(group.DisplayName)
-                                        .Disabled(false)
-                                        .LdapSync(true)
-                                        .LdapGuid(group.LdapObjectGUID)
-                                        .LdapSearchRoot(group.Ldap.LdapSearchRoot)
-                                        .SynchronizedTime(synchronizedTime),
+                                    param: param,
                                     where: Rds.GroupsWhere().LdapGuid(group.LdapObjectGUID))
                             });
                         if (statusUpdateTimer < DateTime.Now)
@@ -453,7 +464,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                         tenantId: group.Ldap.LdapTenantId, type: StatusUtilities.Types.GroupsUpdated)
                                 });
                         }
-
                     });
                 var groupIds = Rds.SelectGroups(
                     column: Rds.GroupsColumn().GroupId(),
@@ -632,6 +642,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 ldap.LdapGroupNamePattern,
             };
             ldap.LdapExtendedAttributes?.ForEach(attribute => list.Add(attribute.Name));
+            ldap.LdapGroupExtendedAttributes?.ForEach(attribute => list.Add(attribute.Name));
             directorySearcher.PropertiesToLoad.AddRange(list.Where(word => !word.IsNullOrEmpty()).ToArray());
         }
 

@@ -47,7 +47,7 @@ Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Implem.Plugins", "Implem.Plugins\Implem.Plugins.csproj", "{DB7A8513-48C4-4226-92F9-60FD4DB90DD8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Implem.MySql", "Rds\Implem.MySql\Implem.MySql.csproj", "{7BF47007-3BB2-44F6-85B2-E50B215D40ED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Implem.MySql", "Rds\Implem.MySql\Implem.MySql.csproj", "{7BF47007-3BB2-44F6-85B2-E50B215D40ED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

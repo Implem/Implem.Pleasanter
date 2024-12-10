@@ -90,9 +90,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     action: () => hb
                                         .Span(
                                             css: "ui-icon ui-icon-person")
-                                        .Text(SiteInfo.UserName(
-                                            context: context,
-                                            userId: context.UserId)))
+                                        .Span(
+                                            css: "account-name",
+                                            action: () => hb.Text(SiteInfo.UserName(
+                                                context: context,
+                                                userId: context.UserId))))
                                 .Search(
                                     context: context,
                                     _using: useSearch && !Parameters.Search.DisableCrossSearch));
@@ -225,6 +227,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     case "MenuContainer":
                                         hb.Div(
                                             css: "menubox",
+                                            id: menu.ContainerId,
                                             action: menu.ContainerId == "NewMenuContainer"
                                                 ? () => hb
                                                     .A(

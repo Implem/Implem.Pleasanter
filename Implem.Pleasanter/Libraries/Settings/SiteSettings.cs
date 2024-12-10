@@ -4997,19 +4997,18 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public bool EnableViewMode(Context context, string name)
         {
-            var canRead = context.CanRead(ss: this);
             switch (name)
             {
                 case "Index": return true;
-                case "Calendar": return canRead && EnableCalendar == true;
-                case "Crosstab": return canRead && EnableCrosstab == true;
-                case "Gantt": return canRead && EnableGantt == true;
-                case "BurnDown": return canRead && EnableBurnDown == true;
-                case "TimeSeries": return canRead && EnableTimeSeries == true;
-                case "Analy": return canRead && EnableAnaly == true;
-                case "Kamban": return canRead && EnableKamban == true;
+                case "Calendar": return EnableCalendar == true;
+                case "Crosstab": return EnableCrosstab == true;
+                case "Gantt": return EnableGantt == true;
+                case "BurnDown": return EnableBurnDown == true;
+                case "TimeSeries": return EnableTimeSeries == true;
+                case "Analy": return EnableAnaly == true;
+                case "Kamban": return EnableKamban == true;
                 case "ImageLib": return context.ContractSettings.Images()
-                    && canRead && EnableImageLib == true;
+                    && EnableImageLib == true;
                 default: return false;
             }
         }

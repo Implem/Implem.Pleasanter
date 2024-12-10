@@ -1082,6 +1082,7 @@ namespace Implem.Pleasanter.Models
 
         public void SetExtendedColumnDefaultValue(SiteSettings ss, string formulaScript, string calculationMethod)
         {
+            if (formulaScript.IsNullOrEmpty()) return;
             var columns = System.Text.RegularExpressions.Regex.Matches(formulaScript, @"\[([^]]*)\]");
             foreach (var column in columns)
             {

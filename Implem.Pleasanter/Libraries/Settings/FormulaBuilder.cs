@@ -90,40 +90,46 @@ namespace Implem.Pleasanter.Libraries.Settings
                 : null;
             formulaSet.NotUseDisplayName = notUseDisplayName;
             formulaSet.IsDisplayError = isDisplayError;
-            IEnumerable<string> formulaParts = null;
             if (string.IsNullOrEmpty(calculationMethod) || calculationMethod == FormulaSet.CalculationMethods.Default.ToString())
             {
-                formulaParts = Parts(formula);
+                formulaSet.FormulaScript = null;
+                formulaSet.FormulaScriptOutOfCondition = null;
+                var formulaParts = Parts(formula);
                 if (!formulaParts.Any())
                 {
                     return Error.Types.InvalidFormula;
                 }
+                var outOfConditionParts = Parts(outOfCondition);
+                if (!outOfCondition.IsNullOrEmpty() && !outOfConditionParts.Any())
+                {
+                    return Error.Types.InvalidFormula;
+                }
+                if (string.IsNullOrEmpty(calculationMethod) || calculationMethod == FormulaSet.CalculationMethods.Default.ToString())
+                {
+                    var error1 = Get(ss, formulaParts, out formulaSet.Formula);
+                    if (error1.Has()) return error1;
+                }
+                if (formulaSet.Condition != null && outOfConditionParts != null)
+                {
+                    var error2 = Get(ss, outOfConditionParts, out formulaSet.OutOfCondition);
+                    if (error2.Has()) return error2;
+                }
+                else
+                {
+                    formulaSet.OutOfCondition = null;
+                }
             }
             else
             {
+                formulaSet.Formula = null;
+                formulaSet.OutOfCondition = null;
                 formulaSet.FormulaScript = formula;
+                formulaSet.FormulaScriptOutOfCondition = formulaSet.Condition != null
+                    ? outOfCondition
+                    : null;
                 formulaSet = UpdateColumnDisplayText(
                     ss: ss,
                     formulaSet: formulaSet);
-            }
-            var outOfConditionParts = Parts(outOfCondition);
-            if (!outOfCondition.IsNullOrEmpty() && !outOfConditionParts.Any())
-            {
-                return Error.Types.InvalidFormula;
-            }
-            if (string.IsNullOrEmpty(calculationMethod) || calculationMethod == FormulaSet.CalculationMethods.Default.ToString())
-            {
-                var error1 = Get(ss, formulaParts, out formulaSet.Formula);
-                if (error1.Has()) return error1;
-            }
-            if (formulaSet.Condition != null && outOfConditionParts != null)
-            {
-                var error2 = Get(ss, outOfConditionParts, out formulaSet.OutOfCondition);
-                if (error2.Has()) return error2;
-            }
-            else
-            {
-                formulaSet.OutOfCondition = null;
             }
             return Error.Types.None;
         }
@@ -296,27 +302,37 @@ namespace Implem.Pleasanter.Libraries.Settings
             var columnList = ss.FormulaColumnList();
             var formulaDictionary = new Dictionary<string, string>();
             var oldMapping = Jsons.Deserialize<Dictionary<string, string>>(formulaSet.FormulaMapping);
-            foreach (var column in columnList)
-            {
-                if (oldMapping != null && oldMapping.ContainsKey(column.ColumnName))
-                {
-                    formulaSet.FormulaScript = System.Text.RegularExpressions.Regex.Replace(
-                        input: formulaSet.FormulaScript,
-                        pattern: System.Text.RegularExpressions.Regex.Escape(oldMapping.Get(column.ColumnName))
-                            + $"(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)",
-                        replacement: column.LabelText);
-                }
-                var isMatched = System.Text.RegularExpressions.Regex.IsMatch(
-                    input: formulaSet.FormulaScript,
-                    pattern: System.Text.RegularExpressions.Regex.Escape(column.LabelText)
-                        + $"(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
-                if (isMatched)
-                {
-                    formulaDictionary.Add(column.ColumnName, column.LabelText);
-                }
-            }
+            formulaSet.FormulaScript = UpdateFormulaScript(formulaSet.FormulaScript);
+            formulaSet.FormulaScriptOutOfCondition = UpdateFormulaScript(formulaSet.FormulaScriptOutOfCondition);
             formulaSet.FormulaMapping = formulaDictionary.ToJson();
             return formulaSet;
+            string UpdateFormulaScript(string formulaScript)
+            {
+                if (formulaScript == null) return null;
+                foreach (var column in columnList)
+                {
+                    if (oldMapping != null && oldMapping.ContainsKey(column.ColumnName))
+                    {
+                        formulaScript = System.Text.RegularExpressions.Regex.Replace(
+                            input: formulaScript,
+                            pattern: System.Text.RegularExpressions.Regex.Escape(oldMapping.Get(column.ColumnName))
+                                + $"(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)",
+                            replacement: column.LabelText);
+                    }
+                    var isMatched = System.Text.RegularExpressions.Regex.IsMatch(
+                        input: formulaScript,
+                        pattern: System.Text.RegularExpressions.Regex.Escape(column.LabelText)
+                            + $"(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
+                    if (isMatched)
+                    {
+                        if (formulaDictionary.ContainsKey(column.ColumnName) == false)
+                        {
+                            formulaDictionary.Add(column.ColumnName, column.LabelText);
+                        }
+                    }
+                }
+                return formulaScript;
+            }
         }
     }
 }

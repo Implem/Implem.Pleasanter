@@ -72,7 +72,7 @@
                         hb.Td(action: () => hb
                             .CheckBox(
                                 controlCss: "grid-check",
-                                _checked: recordSelector.Checked(dataId),
+                                _checked: recordSelector?.Checked(dataId) ?? false,
                                 dataId: dataId.ToString(),
                                 _using: !isHistory));
                     }
