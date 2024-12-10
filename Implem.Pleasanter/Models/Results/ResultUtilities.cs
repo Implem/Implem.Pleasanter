@@ -9579,14 +9579,17 @@ namespace Implem.Pleasanter.Models
         }
         private static bool HasInvalidValueAsApiData(ResultApiModel model)
         {
-            foreach (var o in model?.AttachmentsHash)
+            if (model is null)
+                return false;
+
+            foreach (var o in model.AttachmentsHash)
             {
                 foreach (var attachment in o.Value)
                 {
                     if (attachment.Deleted ?? false)
                         continue;
 
-                    if (attachment.FileName.IsNullOrEmpty() && attachment.Extension.IsNullOrEmpty())
+                    if (attachment.Name.IsNullOrEmpty())
                         return true;
 
                     if (attachment.Base64 is null && attachment.Base64Binary is null)
