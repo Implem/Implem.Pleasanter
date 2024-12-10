@@ -3215,6 +3215,11 @@ namespace Implem.Pleasanter.Models
             {
                 context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
             }
+            if(HasInvalidValueAsApiData(resultApiModel))
+            {
+                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+            }
+
             var resultModel = new ResultModel(
                 context: context,
                 ss: ss,
@@ -4302,6 +4307,10 @@ namespace Implem.Pleasanter.Models
             }
             var resultApiModel = context.RequestDataString.Deserialize<ResultApiModel>();
             if (resultApiModel == null)
+            {
+                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+            }
+            if (HasInvalidValueAsApiData(resultApiModel))
             {
                 context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
             }
@@ -9567,6 +9576,24 @@ namespace Implem.Pleasanter.Models
                 }
             }
             return line;
+        }
+        private static bool HasInvalidValueAsApiData(ResultApiModel model)
+        {
+            foreach (var o in model?.AttachmentsHash)
+            {
+                foreach (var attachment in o.Value)
+                {
+                    if (attachment.Deleted ?? false)
+                        continue;
+
+                    if (attachment.FileName.IsNullOrEmpty() && attachment.Extension.IsNullOrEmpty())
+                        return true;
+
+                    if (attachment.Base64 is null && attachment.Base64Binary is null)
+                        return true;
+                }
+            }
+            return false;
         }
     }
 }

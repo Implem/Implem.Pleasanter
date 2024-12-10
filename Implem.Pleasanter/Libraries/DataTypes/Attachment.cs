@@ -37,8 +37,11 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         [OnDeserialized]
         private void OnDeserialized(StreamingContext streamingContext)
         {
+            if (Guid is not null && Deleted == true)
+                return;
 
-            if (Base64 is null && Base64Binary is null) return;
+            if (Base64 is null && Base64Binary is null)
+                return;
 
             var bin = GetBin();
             Guid = Strings.NewGuid();
