@@ -21,7 +21,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public enum ExecutionTypes
         {
             AddedButton = 0,
-            CreateOrUpdate = 10
+            CreateOrUpdate = 10,
+            AddedButtonOrCreateOrUpdate = 20
         }
 
         public enum ActionTypes
@@ -46,6 +47,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public int ChangedStatus { get; set; }
         public string Description { get; set; }
         public string Tooltip { get; set; }
+        public string Icon { get; set; }
         public string ConfirmationMessage { get; set; }
         public string SuccessMessage { get; set; }
         public string OnClick { get; set; }
@@ -78,6 +80,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             int changedStatus,
             string description,
             string tooltip,
+            string icon,
             string confirmationMessage,
             string successMessage,
             string onClick,
@@ -101,6 +104,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             ChangedStatus = changedStatus;
             Description = description;
             Tooltip = tooltip;
+            Icon = icon;
             ConfirmationMessage = confirmationMessage;
             SuccessMessage = successMessage;
             OnClick = onClick;
@@ -125,6 +129,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             int? changedStatus,
             string description,
             string tooltip,
+            string icon,
             string confirmationMessage,
             string successMessage,
             string onClick,
@@ -167,6 +172,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (tooltip != null)
             {
                 Tooltip = tooltip;
+            }
+            if (icon != null)
+            {
+                Icon = icon;
             }
             if (confirmationMessage != null)
             {
@@ -312,6 +321,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 process.Tooltip = Tooltip;
             }
+            if (!Icon.IsNullOrEmpty())
+            {
+                process.Icon = Icon;
+            }
             if (!ConfirmationMessage.IsNullOrEmpty())
             {
                 process.ConfirmationMessage = ConfirmationMessage;
@@ -401,20 +414,20 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public bool IsTarget(Context context)
         {
+            string controlId = context.Forms.ControlId();
             switch (ExecutionType ?? ExecutionTypes.AddedButton)
             {
                 case ExecutionTypes.AddedButton:
-                    return context.Forms.ControlId() == $"Process_{Id}";
+                    return controlId == $"Process_{Id}";
+                case ExecutionTypes.CreateOrUpdate:
+                    return controlId == "CreateCommand"
+                        || controlId == "UpdateCommand";
+                case ExecutionTypes.AddedButtonOrCreateOrUpdate:
+                    return controlId == "CreateCommand"
+                        || controlId == "UpdateCommand"
+                        || controlId.RegexExists("Process_[0-9]+");
                 default:
-                    // ExecutionTypes.CreateOrUpdate
-                    switch (context.Forms.ControlId())
-                    {
-                        case "CreateCommand":
-                        case "UpdateCommand":
-                            return true;
-                        default:
-                            return false;
-                    }
+                    return false;
             }
         }
 

@@ -77,6 +77,12 @@ If necessary, run the Docker command with sudo when executing it.
        implem/pleasanter:codedefiner _rds
    ```
 
+> [!NOTE]
+> In version 1.4.8.0, the behavior of the CodeDefiner's _rds command has been changed.
+> It now prompts for the license and confirms execution.
+> When running with Docker, the prompt can be skipped by adding the /y option.
+> Note that this is equivalent to typing (Y)es at the prompt.
+
 1. Start Pleasanter
 
    ```shell
@@ -107,13 +113,13 @@ Click [here](https://demo.pleasanter.org) to enter your email address and start 
 
 ## Requirements
 
-Pleasanter work on it`.NET8`. A Database can be PostgreSQL or SQL Server.
+Pleasanter work on it`.NET8`. A Database can be PostgreSQL or SQL Server or MySQL.
 
 |item|choice|
 |:----|:----|
 |OS|Windows / Linux|
 |Framework|.NET8|
-|Database|PostgreSQL / SQL Server|
+|Database|PostgreSQL / SQL Server / MySQL|
 
 ## Documentation
 You can learn installation procedures, parameter settings, operation methods, etc.
