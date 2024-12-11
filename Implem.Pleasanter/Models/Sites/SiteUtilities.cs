@@ -13019,10 +13019,6 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .Text(text: Displays.To(context: context)))
                     .Th(action: () => hb
-                        .Text(text: Displays.Cc(context: context)))
-                    .Th(action: () => hb
-                        .Text(text: Displays.Bcc(context: context)))
-                    .Th(action: () => hb
                         .Text(text: Displays.Column(context: context)))
                     .Th(action: () => hb
                         .Text(text: Displays.StartDateTime(context: context)))
