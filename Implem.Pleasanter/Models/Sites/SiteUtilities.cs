@@ -15539,6 +15539,12 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .Text(text: Displays.Name(context: context)))
                     .Th(action: () => hb
+                        .Text(text: Displays.Disabled(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Functionalize(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.TryCatch(context: context)))
+                    .Th(action: () => hb
                         .Text(text: Displays.WhenloadingSiteSettings(context: context)))
                     .Th(action: () => hb
                         .Text(text: Displays.WhenViewProcessing(context: context)))
@@ -15592,6 +15598,18 @@ namespace Implem.Pleasanter.Models
                                 .Text(text: script.Title))
                             .Td(action: () => hb
                                 .Text(text: script.Name))
+                            .Td(action: () => hb
+                                .Span(
+                                    css: "ui-icon ui-icon-circle-check",
+                                    _using: script.Disabled == true))
+                            .Td(action: () => hb
+                                .Span(
+                                    css: "ui-icon ui-icon-circle-check",
+                                    _using: script.Functionalize == true))
+                            .Td(action: () => hb
+                                .Span(
+                                    css: "ui-icon ui-icon-circle-check",
+                                    _using: script.TryCatch == true))
                             .Td(action: () => hb
                                 .Span(
                                     css: "ui-icon ui-icon-circle-check",
@@ -15697,6 +15715,12 @@ namespace Implem.Pleasanter.Models
                         dataLang: "javascript",
                         labelText: Displays.Script(context: context),
                         text: script.Body)
+                    .FieldCheckBox(
+                        controlId: "ServerScriptDisabled",
+                        fieldCss: "field-wide",
+                        controlCss: " always-send",
+                        labelText: Displays.Disabled(context: context),
+                        _checked: script.Disabled == true)
                     .FieldSpinner(
                         controlId: "ServerScriptTimeOut",
                         fieldCss: "field-normal",
@@ -15708,6 +15732,18 @@ namespace Implem.Pleasanter.Models
                         step: 1,
                         width: 75,
                         _using: Parameters.Script.ServerScriptTimeOutChangeable)
+                    .FieldCheckBox(
+                        controlId: "ServerScriptFunctionalize",
+                        fieldCss: "field-normal",
+                        controlCss: " always-send",
+                        labelText: Displays.Functionalize(context: context),
+                        _checked: script.Functionalize == true)
+                    .FieldCheckBox(
+                        controlId: "ServerScriptTryCatch",
+                        fieldCss: "field-normal",
+                        controlCss: " always-send",
+                        labelText: Displays.TryCatch(context: context),
+                        _checked: script.TryCatch == true)
                     .FieldSet(
                         css: enclosedCss,
                         legendText: Displays.Condition(context: context),
