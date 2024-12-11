@@ -86,7 +86,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         {
             var ret = Log(
                 message: message,
-                sysLogType: SysLogModel.SysLogTypes.Execption,
+                sysLogType: SysLogModel.SysLogTypes.Exception,
                 method: method,
                 console: console,
                 sysLogs: sysLogs);
