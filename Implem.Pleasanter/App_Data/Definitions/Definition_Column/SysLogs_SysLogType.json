@@ -23,7 +23,7 @@
     "EnumColumn": "1",
     "UpdateAccessControl": "ManageService",
     "ControlType": "ChoicesText",
-    "ChoicesText": "10,Info\n50,Warning\n60,UserError\n80,SystemError\n90,Execption",
+    "ChoicesText": "10,Info\n50,Warning\n60,UserError\n80,SystemError\n90,Exception",
     "LabelText_en": "Log type",
     "LabelText_zh": "日志类型",
     "LabelText_de": "Protokolltyp",
