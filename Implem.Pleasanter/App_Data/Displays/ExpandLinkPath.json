@@ -3,31 +3,31 @@
     "Type": 110,
     "Languages": [
         {
-            "Body": "Expand the link path of the list of options"
+            "Body": "Include same site with different link paths"
         },
         {
             "Language": "zh",
-            "Body": "扩展选项列表的链接路径"
+            "Body": "包含具有不同链接路径的同一站点"
         },
         {
             "Language": "ja",
-            "Body": "選択肢一覧のリンク経路を拡大する"
+            "Body": "リンクの経路が異なる同一サイトを含める"
         },
         {
             "Language": "de",
-            "Body": "Erweitern Sie den Linkpfad der Optionsliste"
+            "Body": "Gleiche Seite mit unterschiedlichen Linkpfaden einbeziehen"
         },
         {
             "Language": "ko",
-            "Body": "옵션 목록의 링크 경로 확장"
+            "Body": "다른 링크 경로가 있는 동일 사이트 포함"
         },
         {
             "Language": "es",
-            "Body": "Expandir la ruta de enlace de la lista de opciones"
+            "Body": "Incluir el mismo sitio con diferentes rutas de enlace"
         },
         {
             "Language": "vn",
-            "Body": "Mở rộng đường dẫn liên kết của danh sách tùy chọn"
+            "Body": "Bao gồm cùng một trang web với các đường dẫn liên kết khác nhau"
         }
     ]
 }
