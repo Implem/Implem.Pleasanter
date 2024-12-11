@@ -3271,7 +3271,7 @@ namespace Implem.Pleasanter.Models
             Exception e,
             string extendedErrorMessage = null,
             Logs logs = null,
-            SysLogTypes sysLogType = SysLogTypes.Execption)
+            SysLogTypes sysLogType = SysLogTypes.Exception)
         {
             Class = context.Controller;
             Method = context.Action;
@@ -3307,7 +3307,7 @@ namespace Implem.Pleasanter.Models
             switch (sysLogType)
             {
                 case SysLogTypes.SystemError:
-                case SysLogTypes.Execption:
+                case SysLogTypes.Exception:
                     ErrMessage = message;
                     break;
                 default:
@@ -3340,7 +3340,7 @@ namespace Implem.Pleasanter.Models
             Warning = 50,
             UserError = 60,
             SystemError = 80,
-            Execption = 90
+            Exception = 90
         }
 
         /// <summary>
