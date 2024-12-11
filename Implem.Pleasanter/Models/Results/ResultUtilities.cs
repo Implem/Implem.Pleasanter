@@ -3215,11 +3215,10 @@ namespace Implem.Pleasanter.Models
             {
                 context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
             }
-            if(HasInvalidValueAsApiData(resultApiModel))
+            if(HasInvalidValueAsApiDataAtCreate(resultApiModel))
             {
                 context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
             }
-
             var resultModel = new ResultModel(
                 context: context,
                 ss: ss,
@@ -3313,6 +3312,10 @@ namespace Implem.Pleasanter.Models
             {
                 context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
             }
+            if(HasInvalidValueAsApiDataAtCreate(resultApiModel))
+            {
+                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+            }
             var resultModel = new ResultModel(
                 context: context,
                 ss: ss,
@@ -3353,6 +3356,25 @@ namespace Implem.Pleasanter.Models
                 default:
                     return false;
             }
+        }
+
+        private static bool HasInvalidValueAsApiDataAtCreate(ResultApiModel model)
+        {
+            if (model is null)
+                return false;
+            foreach (var o in model.AttachmentsHash)
+            {
+                foreach (var attachment in o.Value)
+                {
+                    if (attachment.Deleted ?? false)
+                        continue;
+                    if (attachment.Name.IsNullOrEmpty())
+                        return true;
+                    if (attachment.Base64 is null && attachment.Base64Binary is null)
+                        return true;
+                }
+            }
+            return false;
         }
 
         public static string Update(Context context, SiteSettings ss, long resultId, string previousTitle)
@@ -4310,7 +4332,7 @@ namespace Implem.Pleasanter.Models
             {
                 context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
             }
-            if (HasInvalidValueAsApiData(resultApiModel))
+            if(HasInvalidValueAsApiDataAtUpdate(resultApiModel))
             {
                 context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
             }
@@ -4417,6 +4439,10 @@ namespace Implem.Pleasanter.Models
             {
                 context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
             }
+            if(HasInvalidValueAsApiDataAtUpdate(resultApiModel))
+            {
+                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+            }
             var resultModel = new ResultModel(
                 context: context,
                 ss: ss,
@@ -4468,6 +4494,25 @@ namespace Implem.Pleasanter.Models
                     return false;
             }
         }
+
+                private static bool HasInvalidValueAsApiDataAtUpdate(ResultApiModel model)
+                {
+                    if (model is null)
+                        return false;
+                    foreach (var o in model.AttachmentsHash)
+                    {
+                        foreach (var attachment in o.Value)
+                        {
+                            if (attachment.Deleted ?? false)
+                                continue;
+                            if (attachment.Name.IsNullOrEmpty())
+                                return true;
+                            if (attachment.Base64 is null && attachment.Base64Binary is null)
+                                return true;
+                        }
+                    }
+                    return false;
+                }
 
         public static ContentResultInheritance UpsertByApi(
             Context context,
@@ -9576,27 +9621,6 @@ namespace Implem.Pleasanter.Models
                 }
             }
             return line;
-        }
-        private static bool HasInvalidValueAsApiData(ResultApiModel model)
-        {
-            if (model is null)
-                return false;
-
-            foreach (var o in model.AttachmentsHash)
-            {
-                foreach (var attachment in o.Value)
-                {
-                    if (attachment.Deleted ?? false)
-                        continue;
-
-                    if (attachment.Name.IsNullOrEmpty())
-                        return true;
-
-                    if (attachment.Base64 is null && attachment.Base64Binary is null)
-                        return true;
-                }
-            }
-            return false;
         }
     }
 }
