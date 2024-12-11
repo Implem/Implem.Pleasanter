@@ -9452,10 +9452,18 @@ namespace Implem.Pleasanter.Models
                         text: process.Description)
                     .FieldTextBox(
                         controlId: "ProcessTooltip",
-                        fieldCss: "field-wide",
+                        fieldCss: "field-normal",
                         controlCss: " always-send",
                         labelText: Displays.Tooltip(context: context),
                         text: process.Tooltip)
+                    .FieldTextBox(
+                        controlId: "ProcessIcon",
+                        fieldCss: "field-normal",
+                        controlCss: " always-send",
+                        labelText: Displays.Icon(context: context),
+                        text: process.Icon,
+                        validateRegex: @"^[a-z\d-_]+$",
+                        validateRegexErrorMessage: Displays.ValidationError(context: context))
                     .FieldTextBox(
                         controlId: "ProcessConfirmationMessage",
                         fieldCss: "field-wide",
@@ -13010,10 +13018,6 @@ namespace Implem.Pleasanter.Models
                         _using: Parameters.Mail.FixedFrom.IsNullOrEmpty())
                     .Th(action: () => hb
                         .Text(text: Displays.To(context: context)))
-                    .Th(action: () => hb
-                        .Text(text: Displays.Cc(context: context)))
-                    .Th(action: () => hb
-                        .Text(text: Displays.Bcc(context: context)))
                     .Th(action: () => hb
                         .Text(text: Displays.Column(context: context)))
                     .Th(action: () => hb

@@ -15,6 +15,8 @@ using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.ServerScripts;
 using Implem.Pleasanter.Libraries.Settings;
+using Implem.Pleasanter.Models.SysLogs;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -26,6 +28,7 @@ namespace Implem.Pleasanter.Models
     [Serializable]
     public class SysLogModel : BaseModel
     {
+        private static readonly Logger logger = LogManager.GetLogger("syslogs");
         public long SysLogId = 0;
         public DateTime StartTime = 0.ToDateTime();
         public DateTime EndTime = 0.ToDateTime();
@@ -3223,7 +3226,11 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public void Update(Context context, bool writeSqlToDebugLog)
         {
-            if (NotLoggingIp(UserHostAddress) != true)
+            if (NotLoggingIp(UserHostAddress))
+            {
+                return;
+            }
+            if (Parameters.SysLog.EnableLoggingToDatabase)
             {
                 Repository.ExecuteNonQuery(
                     context: context,
@@ -3234,6 +3241,13 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             sysLogModel: this),
                         param: SysLogParam(context: context)));
+            }
+            if (Parameters.SysLog.EnableLoggingToFile)
+            {
+                logger.ForLogEvent(SysLogType != SysLogTypes.Info ? LogLevel.Error : LogLevel.Info)
+                    .Message("UpdateSysLog")
+                    .Property("syslog", ToLogModel(this))
+                    .Log();
             }
         }
 
@@ -3336,11 +3350,15 @@ namespace Implem.Pleasanter.Models
             Context context,
             SysLogTypes sysLogType)
         {
+            if (NotLoggingIp(UserHostAddress))
+            {
+                return;
+            }
             StartTime = DateTime.Now;
             SetProperties(
                 context: context,
                 sysLogType: sysLogType);
-            if (NotLoggingIp(UserHostAddress) != true)
+            if (Parameters.SysLog.EnableLoggingToDatabase)
             {
                 SysLogId = Repository.ExecuteScalar_response(
                     context: context,
@@ -3349,6 +3367,14 @@ namespace Implem.Pleasanter.Models
                         selectIdentity: true,
                         param: SysLogParam(context: context)))
                             .Id.ToLong();
+            }
+            if (Parameters.SysLog.EnableLoggingToFile)
+            {
+                // Textize
+                logger.ForLogEvent(sysLogType != SysLogTypes.Info ? LogLevel.Error : LogLevel.Info)
+                    .Message("WriteSysLog")
+                    .Property("syslog", ToLogModel(this))
+                    .Log();
             }
         }
 
@@ -3498,7 +3524,8 @@ namespace Implem.Pleasanter.Models
                 Description = context.SysLogsDescription;
             }
             if (responseSize > 0) { ResponseSize = responseSize; }
-            Elapsed = (DateTime.Now - StartTime).TotalMilliseconds;
+            EndTime = DateTime.Now;
+            Elapsed = (EndTime - StartTime).TotalMilliseconds;
             var currentProcess = Debugs.CurrentProcess();
             WorkingSet64 = currentProcess.WorkingSet64;
             VirtualMemorySize64 = currentProcess.VirtualMemorySize64;
@@ -3522,6 +3549,56 @@ namespace Implem.Pleasanter.Models
             return Parameters.SysLog.NotLoggingIp
                 .Select(addr => IpRange.FromCidr(addr))
                 .Any(range => range.InRange(ipAddress));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static SysLogLogModel ToLogModel(SysLogModel s)
+        {
+            return new SysLogLogModel
+            {
+                CreatedTime = s.StartTime,
+                SysLogId = s.SysLogId,
+                Ver = s.Ver,
+                SysLogType = s.SysLogType.ToInt(),
+                OnAzure = s.OnAzure,
+                MachineName = s.MachineName,
+                ServiceName = s.ServiceName,
+                TenantName = s.TenantName,
+                Application = s.Application,
+                Class = s.Class,
+                Method = s.Method,
+                RequestData = s.RequestData,
+                HttpMethod = s.HttpMethod,
+                RequestSize = s.RequestSize,
+                ResponseSize = s.ResponseSize,
+                Elapsed = s.Elapsed,
+                ApplicationAge = s.ApplicationAge,
+                ApplicationRequestInterval = s.ApplicationRequestInterval,
+                SessionAge = s.SessionAge,
+                SessionRequestInterval = s.SessionRequestInterval,
+                WorkingSet64 = s.WorkingSet64,
+                VirtualMemorySize64 = s.VirtualMemorySize64,
+                ProcessId = s.ProcessId,
+                ProcessName = s.ProcessName,
+                BasePriority = s.BasePriority,
+                Url = s.Url,
+                UrlReferer = s.UrlReferer,
+                UserHostName = s.UserHostName,
+                UserHostAddress = s.UserHostAddress,
+                UserLanguage = s.UserLanguage,
+                UserAgent = s.UserAgent,
+                SessionGuid = s.SessionGuid,
+                ErrMessage = s.ErrMessage,
+                ErrStackTrace = s.ErrStackTrace,
+                InDebug = s.InDebug,
+                AssemblyVersion = s.AssemblyVersion,
+                Comments = s.Comments.ToJson(),
+                Creator = s.Creator.Id,
+                Updator = s.Updator.Id,
+                UpdatedTime = s.EndTime.Equals(0.ToDateTime()) ? s.StartTime : s.EndTime
+            };
         }
     }
 }
