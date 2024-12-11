@@ -3561,7 +3561,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         method: nameof(SetByFormula),
                         message: $"Formula error {value}",
-                        sysLogType: SysLogModel.SysLogTypes.Execption);
+                        sysLogType: SysLogModel.SysLogTypes.Exception);
                     break;
             }
             if (outputFormulaLogs == true)
