@@ -4379,6 +4379,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Functionalize(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Functionalize",
+                data: data);
+        }
+
         public static string Future(
             Context context,
             params string[] data)
@@ -10136,6 +10146,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Truncate",
+                data: data);
+        }
+
+        public static string TryCatch(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "TryCatch",
                 data: data);
         }
 

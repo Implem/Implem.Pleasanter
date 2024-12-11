@@ -11,6 +11,9 @@ namespace Implem.Pleasanter.Models.ApiSiteSettings
         public string Title { get; set; }
         public string Name { get; set; }
         public string Body { get; set; }
+        public bool? Functionalize { get; set; }
+        public bool? TryCatch { get; set; }
+        public bool? Disabled { get; set; }
         public bool? ServerScriptWhenloadingSiteSettings { get; set; }
         public bool? ServerScriptWhenViewProcessing { get; set; }
         public bool? ServerScriptWhenloadingRecord { get; set; }
