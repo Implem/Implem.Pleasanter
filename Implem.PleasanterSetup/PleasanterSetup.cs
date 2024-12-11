@@ -1435,7 +1435,6 @@ namespace Implem.PleasanterSetup
                         switch (Path.GetFileName(dir))
                         {
                             case "Implem.Pleasanter":
-                                //Directory.Move(dir, installDir);
                                 if (Directory.Exists(dir))
                                 {
                                     CopyDirectory(
@@ -1455,14 +1454,9 @@ namespace Implem.PleasanterSetup
                     }
                     Directory.Delete(unzipDir, true);
                 }
-                Console.WriteLine(guidDir);
                 if (Directory.Exists(guidDir))
                 {
                     Directory.Delete(guidDir, true);
-                }
-                else
-                {
-                    Console.WriteLine($"Does not exists");
                 }
             }
             catch (Exception ex)
