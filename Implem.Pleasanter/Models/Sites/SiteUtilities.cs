@@ -383,7 +383,8 @@ namespace Implem.Pleasanter.Models
                         view: view,
                         dataRows: gridData.DataRows,
                         columns: columns,
-                        checkRow: checkRow));
+                        checkRow: checkRow,
+                        clearCheck: clearCheck));
         }
 
         private static SqlWhereCollection SelectedWhere(
@@ -519,7 +520,7 @@ namespace Implem.Pleasanter.Models
             int? tabIndex = null,
             ServerScriptModelColumn serverScriptModelColumn = null)
         {
-            if (serverScriptModelColumn?.Hide ?? column.Hide == true)
+            if (serverScriptModelColumn?.HideChanged == true && serverScriptModelColumn?.Hide == true)
             {
                 return hb.Td();
             }
@@ -8869,11 +8870,23 @@ namespace Implem.Pleasanter.Models
                                             + $"(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)",
                                         replacement: $"[{column.ColumnName}]");
                                 }
+                                if (formulaSet.FormulaScriptOutOfCondition.IsNullOrEmpty() == false)
+                                {
+                                    foreach (var column in columnList)
+                                    {
+                                        formulaSet.FormulaScriptOutOfCondition = System.Text.RegularExpressions.Regex.Replace(
+                                            input: formulaSet.FormulaScriptOutOfCondition,
+                                            pattern: "(?<!\\$)"
+                                                + System.Text.RegularExpressions.Regex.Escape(column.LabelText)
+                                                + $"(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)",
+                                            replacement: $"[{column.ColumnName}]");
+                                    }
+                                }
                             }
                             else
                             {
-                                var columns = System.Text.RegularExpressions.Regex.Matches(formulaSet.FormulaScript, @"\[([^]]*)\]");
-                                foreach (var column in columns)
+                                var columns1 = System.Text.RegularExpressions.Regex.Matches(formulaSet.FormulaScript, @"\[([^]]*)\]");
+                                foreach (var column in columns1)
                                 {
                                     var columnParam = column.ToString()[1..^1];
                                     if (ss.FormulaColumn(columnParam, formulaSet.CalculationMethod) != null)
@@ -8881,6 +8894,20 @@ namespace Implem.Pleasanter.Models
                                         formulaSet.FormulaScript = formulaSet.FormulaScript.Replace(
                                             oldValue: column.ToString(),
                                             newValue: columnList.SingleOrDefault(o => o.ColumnName == columnParam).LabelText);
+                                    }
+                                }
+                                if (formulaSet.FormulaScriptOutOfCondition.IsNullOrEmpty() == false)
+                                {
+                                    var columns2 = System.Text.RegularExpressions.Regex.Matches(formulaSet.FormulaScriptOutOfCondition, @"\[([^]]*)\]");
+                                    foreach (var column in columns2)
+                                    {
+                                        var columnParam = column.ToString()[1..^1];
+                                        if (ss.FormulaColumn(columnParam, formulaSet.CalculationMethod) != null)
+                                        {
+                                            formulaSet.FormulaScriptOutOfCondition = formulaSet.FormulaScriptOutOfCondition.Replace(
+                                                oldValue: column.ToString(),
+                                                newValue: columnList.SingleOrDefault(o => o.ColumnName == columnParam).LabelText);
+                                        }
                                     }
                                 }
                             }
@@ -8915,7 +8942,10 @@ namespace Implem.Pleasanter.Models
                                 .Td(action: () => hb
                                     .Text(text: ss.Views?.Get(formulaSet.Condition)?.Name))
                                 .Td(action: () => hb
-                                    .Text(text: formulaSet.OutOfCondition?.ToString(ss))));
+                                    .Text(text: (formulaSet.CalculationMethod == FormulaSet.CalculationMethods.Default.ToString()
+                                        || string.IsNullOrEmpty(formulaSet.CalculationMethod))
+                                            ? formulaSet.OutOfCondition?.ToString(ss)
+                                            : formulaSet.FormulaScriptOutOfCondition)));
                     });
                 });
             }
@@ -8967,8 +8997,7 @@ namespace Implem.Pleasanter.Models
                                 ? formulaSet.Formula?.ToString(ss, notUseDisplayName: formulaSet.NotUseDisplayName)
                                 : FormulaBuilder.UpdateColumnDisplayText(
                                     ss: ss,
-                                    formulaSet: formulaSet)
-                                .FormulaScript,
+                                    formulaSet: formulaSet).FormulaScript,
                         validateRequired: true)
                     .FieldCheckBox(
                         controlId: "NotUseDisplayName",
@@ -9002,7 +9031,12 @@ namespace Implem.Pleasanter.Models
                                 ? string.Empty
                                 : " hidden"),
                         labelText: Displays.OutOfCondition(context: context),
-                        text: formulaSet.OutOfCondition?.ToString(ss))
+                        text: (formulaSet.CalculationMethod == FormulaSet.CalculationMethods.Default.ToString()
+                            || string.IsNullOrEmpty(formulaSet.CalculationMethod))
+                                ? formulaSet.OutOfCondition?.ToString(ss)
+                                : FormulaBuilder.UpdateColumnDisplayText(
+                                    ss: ss,
+                                    formulaSet: formulaSet).FormulaScriptOutOfCondition)
                     .P(css: "message-dialog")
                     .Div(css: "command-center", action: () => hb
                         .Button(
@@ -9424,10 +9458,18 @@ namespace Implem.Pleasanter.Models
                         text: process.Description)
                     .FieldTextBox(
                         controlId: "ProcessTooltip",
-                        fieldCss: "field-wide",
+                        fieldCss: "field-normal",
                         controlCss: " always-send",
                         labelText: Displays.Tooltip(context: context),
                         text: process.Tooltip)
+                    .FieldTextBox(
+                        controlId: "ProcessIcon",
+                        fieldCss: "field-normal",
+                        controlCss: " always-send",
+                        labelText: Displays.Icon(context: context),
+                        text: process.Icon,
+                        validateRegex: @"^[a-z\d-_]+$",
+                        validateRegexErrorMessage: Displays.ValidationError(context: context))
                     .FieldTextBox(
                         controlId: "ProcessConfirmationMessage",
                         fieldCss: "field-wide",
@@ -9460,6 +9502,10 @@ namespace Implem.Pleasanter.Models
                             {
                                 Process.ExecutionTypes.CreateOrUpdate.ToInt().ToString(),
                                 Displays.CreateOrUpdate(context: context)
+                            },
+                            {
+                                Process.ExecutionTypes.AddedButtonOrCreateOrUpdate.ToInt().ToString(),
+                                Displays.AddedButtonOrCreateOrUpdate(context: context)
                             }
                         },
                         selectedValue: process.ExecutionType.ToInt().ToString())
@@ -12979,10 +13025,6 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .Text(text: Displays.To(context: context)))
                     .Th(action: () => hb
-                        .Text(text: Displays.Cc(context: context)))
-                    .Th(action: () => hb
-                        .Text(text: Displays.Bcc(context: context)))
-                    .Th(action: () => hb
                         .Text(text: Displays.Column(context: context)))
                     .Th(action: () => hb
                         .Text(text: Displays.StartDateTime(context: context)))
@@ -15503,6 +15545,12 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .Text(text: Displays.Name(context: context)))
                     .Th(action: () => hb
+                        .Text(text: Displays.Disabled(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Functionalize(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.TryCatch(context: context)))
+                    .Th(action: () => hb
                         .Text(text: Displays.WhenloadingSiteSettings(context: context)))
                     .Th(action: () => hb
                         .Text(text: Displays.WhenViewProcessing(context: context)))
@@ -15556,6 +15604,18 @@ namespace Implem.Pleasanter.Models
                                 .Text(text: script.Title))
                             .Td(action: () => hb
                                 .Text(text: script.Name))
+                            .Td(action: () => hb
+                                .Span(
+                                    css: "ui-icon ui-icon-circle-check",
+                                    _using: script.Disabled == true))
+                            .Td(action: () => hb
+                                .Span(
+                                    css: "ui-icon ui-icon-circle-check",
+                                    _using: script.Functionalize == true))
+                            .Td(action: () => hb
+                                .Span(
+                                    css: "ui-icon ui-icon-circle-check",
+                                    _using: script.TryCatch == true))
                             .Td(action: () => hb
                                 .Span(
                                     css: "ui-icon ui-icon-circle-check",
@@ -15661,6 +15721,12 @@ namespace Implem.Pleasanter.Models
                         dataLang: "javascript",
                         labelText: Displays.Script(context: context),
                         text: script.Body)
+                    .FieldCheckBox(
+                        controlId: "ServerScriptDisabled",
+                        fieldCss: "field-wide",
+                        controlCss: " always-send",
+                        labelText: Displays.Disabled(context: context),
+                        _checked: script.Disabled == true)
                     .FieldSpinner(
                         controlId: "ServerScriptTimeOut",
                         fieldCss: "field-normal",
@@ -15672,6 +15738,18 @@ namespace Implem.Pleasanter.Models
                         step: 1,
                         width: 75,
                         _using: Parameters.Script.ServerScriptTimeOutChangeable)
+                    .FieldCheckBox(
+                        controlId: "ServerScriptFunctionalize",
+                        fieldCss: "field-normal",
+                        controlCss: " always-send",
+                        labelText: Displays.Functionalize(context: context),
+                        _checked: script.Functionalize == true)
+                    .FieldCheckBox(
+                        controlId: "ServerScriptTryCatch",
+                        fieldCss: "field-normal",
+                        controlCss: " always-send",
+                        labelText: Displays.TryCatch(context: context),
+                        _checked: script.TryCatch == true)
                     .FieldSet(
                         css: enclosedCss,
                         legendText: Displays.Condition(context: context),

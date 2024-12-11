@@ -14,7 +14,7 @@ if (process != null)
             ss: ss,
             process: process);
     }
-    else if (process.ExecutionType != Process.ExecutionTypes.CreateOrUpdate)
+    else if ((process.ExecutionType ?? Process.ExecutionTypes.AddedButton) == Process.ExecutionTypes.AddedButton)
     {
         return ApiResults.BadRequest(context: context);
     }
