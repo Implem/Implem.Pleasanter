@@ -1,0 +1,33 @@
+﻿{
+    "Id": "Functionalize",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Functionalize"
+        },
+        {
+            "Language": "zh",
+            "Body": "功能化"
+        },
+        {
+            "Language": "ja",
+            "Body": "関数化"
+        },
+        {
+            "Language": "de",
+            "Body": "Funktionalisieren"
+        },
+        {
+            "Language": "ko",
+            "Body": "기능화하다"
+        },
+        {
+            "Language": "es",
+            "Body": "Funcionalizar"
+        },
+        {
+            "Language": "vn",
+            "Body": "Chức năng hóa"
+        }
+    ]
+}
