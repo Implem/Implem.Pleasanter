@@ -13,11 +13,14 @@
     <PackageProjectUrl>https://github.com/Implem/Implem.Pleasanter</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Implem/Implem.Pleasanter</RepositoryUrl>
     <ToolCommandName>pleasanter-setup</ToolCommandName>
-    <AssemblyVersion>1.0.0</AssemblyVersion>
-    <FileVersion>1.0.0</FileVersion>
+    <AssemblyVersion>1.0.1</AssemblyVersion>
+    <FileVersion>1.0.1</FileVersion>
     <PackageOutputPath>$(OutPutpath)</PackageOutputPath>
     <PackageLicenseExpression>AGPL-3.0-only</PackageLicenseExpression>
     <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageReleaseNotes>[1.0.1]
+- Modified to create a temporary folder and deploy new resources within it.
+</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
