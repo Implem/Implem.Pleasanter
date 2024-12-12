@@ -21,6 +21,7 @@
     <PackageReleaseNotes>[1.0.1]
 - Modified to create a temporary folder and deploy new resources within it.
 </PackageReleaseNotes>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -50,10 +51,6 @@
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Patch\01.04.03.00\" />
   </ItemGroup>
 
   <ItemGroup>
