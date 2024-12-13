@@ -1747,6 +1747,9 @@ th.calendar-header {
 .nav-site .conditions span.elapsed-time.old {
     color: silver;
 }
+.nav-site .conditions span.reference {
+    display: none;
+}
 
 .error-page {
     padding: 30px 50px;
