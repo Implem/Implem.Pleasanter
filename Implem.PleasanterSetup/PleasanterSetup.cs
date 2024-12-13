@@ -161,12 +161,19 @@ namespace Implem.PleasanterSetup
                 var backupDir = Path.Combine(
                     Path.GetDirectoryName(installDir),
                     $"{Path.GetFileName(installDir)}{DateTime.Now:_yyyyMMdd_HHmmss}");
+                var guid = Guid.NewGuid();
+                var guidDir = Path.Combine(
+                    Path.GetDirectoryName(installDir),
+                    guid.ToString());
+                Directory.CreateDirectory(guidDir);                
+                
                 // バージョンアップの場合は既存資源のバックアップを行う
                 if (versionUp)
                 {
                     CopyResourceDirectory(
                         installDir: installDir,
-                        destDir: backupDir);
+                        destDir: backupDir,
+                        guidDir: guidDir);
                 }
                 if (!Directory.Exists(installDir))
                 {
@@ -185,12 +192,13 @@ namespace Implem.PleasanterSetup
                 if (string.IsNullOrEmpty(releasezip))
                 {
                     releasezip = await DownloadNewResource(
-                        installDir,
+                        guidDir,
                         "Pleasanter");
                 }
                 SetNewResource(
-                    installDir: installDir,
-                    releaseZip: releasezip);
+                installDir: installDir,
+                releaseZip: releasezip,
+                guidDir: guidDir);
                 //バージョンアップ時マージ
                 if (versionUp)
                 {
@@ -228,7 +236,10 @@ namespace Implem.PleasanterSetup
                 }
                 if (isProviderAzure)
                 {
-                    MoveResource(installDir, unzipDirPath);
+                    MoveResource(
+                        installDir,
+                        unzipDirPath,
+                        guidDir);
                 }
                 // ユーザがコンソール上で入力した値を各パラメータファイルへ書き込む
                 SetParameters();
@@ -301,6 +312,10 @@ namespace Implem.PleasanterSetup
                 var backupDir = Path.Combine(
                     Path.GetDirectoryName(previous),
                     $"{Path.GetFileName(previous)}{DateTime.Now:_yyyyMMdd_HHmmss}");
+                var guid = Guid.NewGuid();
+                var guidDir = Path.Combine(
+                    Path.GetDirectoryName(installDir),
+                    guid.ToString());
                 // バージョンアップの場合は既存資源のバックアップを行う
                 var destinationPath = previous;
                 CopyResourceDirectory(
@@ -308,7 +323,8 @@ namespace Implem.PleasanterSetup
                     destDir: backupDir);
                 SetNewResource(
                     installDir: previous,
-                    releaseZip: releaseZip);
+                    releaseZip: releaseZip,
+                    guidDir: guidDir);
                 SetParametersPatch(
                     previous,
                     patchPath);
@@ -400,7 +416,7 @@ namespace Implem.PleasanterSetup
 
         private void AskForDbms()
         {
-            if(isProviderAzure)
+            if (isProviderAzure)
             {
                 dbms = "1";
             }
@@ -603,7 +619,7 @@ namespace Implem.PleasanterSetup
                 }
             } while (string.IsNullOrEmpty(password));
             return password;
-        }        
+        }
 
         private string CalculateRangeOfColumns(
             string columnType,
@@ -696,7 +712,8 @@ namespace Implem.PleasanterSetup
 
         private void CopyResourceDirectory(
             string installDir,
-            string destDir)
+            string destDir,
+            string guidDir = "")
         {
             if (isProviderAzure)
             {
@@ -712,7 +729,7 @@ namespace Implem.PleasanterSetup
                         $"{Path.GetFileName(CodeDefinerDirPath)}"),
                     backupDirCodeDefiner);
                 temporaryPath = Path.Combine(
-                    Path.GetDirectoryName(installDir),
+                     guidDir,
                     "Implem.Pleasanter");
                 CopyDirectory(destDir, temporaryPath, true);
             }
@@ -1403,7 +1420,10 @@ namespace Implem.PleasanterSetup
             return Convert.ToBoolean(checkMethod?.Invoke(instance, null));
         }
 
-        private void MoveResource(string installDir, string unzipDir)
+        private void MoveResource(
+            string installDir,
+            string unzipDir,
+            string guidDir = "")
         {
             try
             {
@@ -1415,7 +1435,6 @@ namespace Implem.PleasanterSetup
                         switch (Path.GetFileName(dir))
                         {
                             case "Implem.Pleasanter":
-                                //Directory.Move(dir, installDir);
                                 if (Directory.Exists(dir))
                                 {
                                     CopyDirectory(
@@ -1435,9 +1454,9 @@ namespace Implem.PleasanterSetup
                     }
                     Directory.Delete(unzipDir, true);
                 }
-                if (Directory.Exists(temporaryPath))
+                if (Directory.Exists(guidDir))
                 {
-                    Directory.Delete(temporaryPath, true);
+                    Directory.Delete(guidDir, true);
                 }
             }
             catch (Exception ex)
@@ -1449,17 +1468,18 @@ namespace Implem.PleasanterSetup
 
         private void SetNewResource(
             string installDir,
-            string releaseZip)
+            string releaseZip,
+            string guidDir)
         {
             try
             {
-                var releaseZipDir = Path.GetDirectoryName(releaseZip);
+                //var releaseZipDir = Path.GetDirectoryName(releaseZip);
                 ZipFile.ExtractToDirectory(
                     releaseZip,
-                    releaseZipDir,
+                    guidDir,
                     true);
                 var unzipDir = Path.Combine(
-                    releaseZipDir,
+                    guidDir,
                     "pleasanter");
                 if (!isProviderAzure)
                 {
@@ -1470,7 +1490,7 @@ namespace Implem.PleasanterSetup
                         {
                             Directory.Move(dir, dir.Replace(unzipDir, installDir));
                         }
-                        Directory.Delete(unzipDir);
+                        Directory.Delete(guidDir, true);
                     }
                     logger.LogInformation($"The release resource was placed in {installDir}.");
                 }
@@ -1539,7 +1559,7 @@ namespace Implem.PleasanterSetup
                         string assetUrl = asset["browser_download_url"].ToString();
                         HttpResponseMessage assetResponse = await client.GetAsync(assetUrl);
                         assetResponse.EnsureSuccessStatusCode();
-                        destinationDir = Path.Combine(Directory.GetParent(installDir).FullName, asset["name"].ToString());
+                        destinationDir = Path.Combine(installDir, asset["name"].ToString());
                         byte[] fileBytes = await assetResponse.Content.ReadAsByteArrayAsync();
                         await File.WriteAllBytesAsync(destinationDir, fileBytes);
                         logger.LogInformation($"Downloaded {asset["name"]} to {destinationDir}");

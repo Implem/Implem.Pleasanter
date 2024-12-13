@@ -1933,7 +1933,6 @@ namespace Implem.Pleasanter.Models
             Context context, TenantModel tenantModel, string controlId, BackgroundServerScript script)
         {
             var hb = new HtmlBuilder();
-            var outputDestinationCss = " output-destination-script";
             var enclosedCss = " enclosed";
             return hb.Form(
                 attributes: new HtmlAttributes()

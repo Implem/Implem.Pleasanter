@@ -1,0 +1,33 @@
+﻿{
+    "Id": "ToDisableAll",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "To disable all"
+        },
+        {
+            "Language": "zh",
+            "Body": "要禁用所有功能"
+        },
+        {
+            "Language": "ja",
+            "Body": "全て無効"
+        },
+        {
+            "Language": "de",
+            "Body": "Um alle zu deaktivieren"
+        },
+        {
+            "Language": "ko",
+            "Body": "모두 비활성화하려면"
+        },
+        {
+            "Language": "es",
+            "Body": "Para desactivar todo"
+        },
+        {
+            "Language": "vn",
+            "Body": "Để vô hiệu hóa tất cả"
+        }
+    ]
+}
