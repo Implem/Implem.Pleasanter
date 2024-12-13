@@ -112,5 +112,6 @@ namespace Implem.ParameterAccessor.Parts
         public bool EnableCodeEditor { get; set; }
         public int GroupsDepthMax { get; set; }
         public int BulkUpsertMax { get; set; }
+        public bool EnableExpandLinkPath { get; set; }
     }
 }

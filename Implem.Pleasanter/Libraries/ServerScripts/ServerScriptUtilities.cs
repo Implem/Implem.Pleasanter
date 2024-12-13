@@ -689,7 +689,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 view.Overdue = false;
                 view.Search = string.Empty;
                 view.ColumnFilterHash?.Clear();
-            } 
+            }
             columnFilterHash?.ForEach(columnFilter =>
             {
                 if (view.ColumnFilterHash == null)
@@ -1139,8 +1139,14 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                             engine.AddHostObject("httpClient", model.HttpClient);
                         }
                         engine.AddHostObject("utilities", model.Utilities);
+                        engine.AddHostObject("logs", model.Logs);
                         engine.Execute(ServerScriptJsLibraries.Scripts(), debug: false);
-                        engine.Execute(scripts.Select(o => o.Body).Join("\n"), debug: debug);
+                        engine.Execute(
+                            code: scripts.Select(script =>
+                                ProcessedBody(
+                                    ss: ss,
+                                    script: script)).Join("\n"),
+                            debug: debug);
                     }
                     finally
                     {
@@ -1158,6 +1164,26 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     data: model);
             }
             return scriptValues;
+        }
+
+        private static string ProcessedBody(SiteSettings ss, ServerScript script)
+        {
+            var body = script.Body;
+            if (script.Functionalize == true)
+            {
+                body = $"(()=>{{\n{script.Body}\n}})();";
+            }
+            if (script.TryCatch == true)
+            {
+                var description = System.Web.HttpUtility.JavaScriptStringEncode(new List<string>()
+                {
+                    script.Id.ToString(),
+                    script.Title,
+                    script.Name
+                }.Where(o => o?.Trim().IsNullOrEmpty() == false).Join("_"));
+                body = $"try{{\n{body}\n}}catch(e){{\nlogs.LogException('{description}\\n' + e.stack);\n}}";
+            }
+            return body;
         }
 
         private static DateTime GetTimeOut(ServerScript[] scripts)

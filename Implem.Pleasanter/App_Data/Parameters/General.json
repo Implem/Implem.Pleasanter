@@ -102,5 +102,6 @@
     "EnableLightBox": true,
     "EnableCodeEditor": true,
     "GroupsDepthMax": 30,
-    "BulkUpsertMax": 0
+    "BulkUpsertMax": 0,
+    "EnableExpandLinkPath": false
 }

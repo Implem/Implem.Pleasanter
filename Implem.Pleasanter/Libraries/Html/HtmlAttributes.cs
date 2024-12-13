@@ -431,7 +431,7 @@ namespace Implem.Pleasanter.Libraries.Html
             if (!value.IsNullOrEmpty() && _using)
             {
                 Add("data-icon");
-                Add(value);
+                Add(HttpUtility.HtmlEncode(value));
             }
             return this;
         }
