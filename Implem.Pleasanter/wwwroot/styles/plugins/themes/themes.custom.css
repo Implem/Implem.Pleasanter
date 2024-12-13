@@ -1966,13 +1966,12 @@ body:not(:has(#Editor)) {
                 justify-content: center;
                 width: 20px;
                 height: 20px;
-                color: var(--primaryColor);
+                color: var(--nonColor16);
                 font-size: 16px;
                 font-variation-settings: "FILL" 1, "wght" 400, "GRAD" -25,
                     "opsz" 24;
                 text-align: center;
-                background-color: var(--primarySub03);
-                border: 1px solid var(--primarySub01);
+                background-color: var(--primarySub01);
                 border-radius: 2px;
             }
             &.count {
