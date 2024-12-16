@@ -59,6 +59,9 @@ namespace Implem.CodeDefiner
                     codeDefiner: true,
                     setSaPassword: argHash.ContainsKey("s"),
                     setRandomPassword: argHash.ContainsKey("r"));
+                Consoles.Write(
+                    text: $"Implem.CodeDefiner {Environments.AssemblyVersion}",
+                    type: Consoles.Types.Info);
                 // CodeDefinerではSqlCommandTimeOutを無制限とする。
                 Parameters.Rds.SqlCommandTimeOut = 0;
                 factory = RdsFactory.Create(Parameters.Rds.Dbms);
@@ -296,8 +299,7 @@ namespace Implem.CodeDefiner
 
         private static string ReplaceVersion(string versionInfo)
         {
-            var pattern = @"(\d+)\.(\d+)\.(\d+)\.(\d+)";
-            return Regex.Replace(versionInfo, pattern, "0$1.0$2.0$3.0$4");
+            return string.Join(".", versionInfo.Split(".").Select(s => ("00" + s)[^2..]));
         }
 
         private static void CheckVersion(string newVersion,string currentVersion ,string patchSourcePath)

@@ -396,7 +396,7 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         extensionModel: this,
                         otherInitValue: otherInitValue)),
-                new SqlStatement(Def.Sql.IfConflicted.Params(ExtensionId))
+                new SqlStatement()
                 {
                     DataTableName = dataTableName,
                     IfConflicted = true,
@@ -476,7 +476,7 @@ namespace Implem.Pleasanter.Models
                 transactional: true,
                 statements: Rds.PhysicalDeleteExtensions(
                     tableType: tableType,
-                    param: Rds.ExtensionsParam().ExtensionId(ExtensionId)));
+                    where: Rds.ExtensionsWhere().ExtensionId(ExtensionId)));
             return new ErrorData(type: Error.Types.None);
         }
 

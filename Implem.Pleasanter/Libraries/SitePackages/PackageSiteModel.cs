@@ -201,8 +201,27 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                             : s)
                     .ToList();
                 dashboardPart.SetTimeLineSites();
+                dashboardPart.CalendarSitesData = dashboardPart.CalendarSitesData
+                    ?.Select(s =>
+                        long.TryParse(s, out long siteId)
+                            ? header.GetConvertedId(siteId).ToString()
+                            : s)
+                    .ToList();
                 dashboardPart.SetCalendarSites();
+                dashboardPart.IndexSitesData = dashboardPart.IndexSitesData
+                    ?.Select(s =>
+                        long.TryParse(s, out long siteId)
+                            ? header.GetConvertedId(siteId).ToString()
+                            : s)
+                    .ToList();
                 dashboardPart.SetIndexSites();
+                dashboardPart.KambanSitesData = dashboardPart.KambanSitesData
+                    ?.Select(s =>
+                        long.TryParse(s, out long siteId)
+                            ? header.GetConvertedId(siteId).ToString()
+                            : s)
+                    .ToList();
+                dashboardPart.SetKambanSites();
             });
             ss.Views?.ForEach(view =>
             {

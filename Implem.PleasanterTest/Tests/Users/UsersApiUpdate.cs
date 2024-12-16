@@ -11,6 +11,7 @@ using Xunit;
 
 namespace Implem.PleasanterTest.Tests.Users
 {
+    [Collection(nameof(UsersApiUpdate))]
     public class UsersApiUpdate
     {
         [Theory]
@@ -25,6 +26,7 @@ namespace Implem.PleasanterTest.Tests.Users
                 userId: userModel.UserId,
                 routeData: RouteData.UsersApiUpdate(id: id));
             var results = GetResults(context: context);
+            Utilities.Initializer.SaveResults(results.Content);
             Assert.True(Tester.Test(
                 context: context,
                 results: results,

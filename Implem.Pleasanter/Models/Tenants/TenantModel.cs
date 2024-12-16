@@ -843,7 +843,7 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         tenantModel: this,
                         otherInitValue: otherInitValue)),
-                new SqlStatement(Def.Sql.IfConflicted.Params(TenantId))
+                new SqlStatement()
                 {
                     DataTableName = dataTableName,
                     IfConflicted = true,
@@ -928,7 +928,7 @@ namespace Implem.Pleasanter.Models
                 transactional: true,
                 statements: Rds.PhysicalDeleteTenants(
                     tableType: tableType,
-                    param: Rds.TenantsParam().TenantId(TenantId)));
+                    where: Rds.TenantsWhere().TenantId(TenantId)));
             return new ErrorData(type: Error.Types.None);
         }
 
@@ -1772,6 +1772,8 @@ namespace Implem.Pleasanter.Models
                     disabled: script.Disabled ?? default,
                     body: script.Body,
                     timeOut: script.TimeOut,
+                    functionalize: script.Functionalize,
+                    tryCatch: script.TryCatch,
                     backgoundSchedules: script.backgoundSchedules);
             res
                 .Html("#EditServerScript", new HtmlBuilder()
@@ -1795,6 +1797,8 @@ namespace Implem.Pleasanter.Models
                 disabled: context.Forms.Bool("ServerScriptDisabled"),
                 body: context.Forms.Data("ServerScriptBody"),
                 timeOut: context.Forms.Int("ServerScriptTimeOut"),
+                functionalize: context.Forms.Bool("ServerScriptFunctionalize"),
+                tryCatch: context.Forms.Bool("ServerScriptTryCatch"),
                 backgoundSchedules: context.Forms.Data("BackgroundSchedule").Deserialize<IEnumerable<BackgroundSchedule>>());
         }
 

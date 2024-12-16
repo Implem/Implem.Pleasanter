@@ -1298,7 +1298,7 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         siteModel: this,
                         otherInitValue: otherInitValue)),
-                new SqlStatement(Def.Sql.IfConflicted.Params(SiteId))
+                new SqlStatement()
                 {
                     DataTableName = dataTableName,
                     IfConflicted = true,
@@ -1486,7 +1486,7 @@ namespace Implem.Pleasanter.Models
                 transactional: true,
                 statements: Rds.PhysicalDeleteSites(
                     tableType: tableType,
-                    param: Rds.SitesParam().TenantId(TenantId).SiteId(SiteId)));
+                    where: Rds.SitesWhere().TenantId(TenantId).SiteId(SiteId)));
             return new ErrorData(type: Error.Types.None);
         }
 
@@ -2406,8 +2406,11 @@ namespace Implem.Pleasanter.Models
                             beforeOpeningPage: ssApiSetting.ServerScriptBeforeOpeningPage,
                             beforeOpeningRow: ssApiSetting.ServerScriptBeforeOpeningRow,
                             shared: ssApiSetting.ServerScriptShared,
-                            background: default,
                             body: ssApiSetting.Body,
+                            functionalize: ssApiSetting.Functionalize,
+                            tryCatch: ssApiSetting.TryCatch,
+                            disabled: ssApiSetting.Disabled,
+                            background: default,
                             timeOut: default);
                     }
                     else
@@ -2432,6 +2435,9 @@ namespace Implem.Pleasanter.Models
                             beforeOpeningRow: ssApiSetting.ServerScriptBeforeOpeningRow,
                             shared: ssApiSetting.ServerScriptShared,
                             body: ssApiSetting.Body,
+                            functionalize: ssApiSetting.Functionalize,
+                            tryCatch: ssApiSetting.TryCatch,
+                            disabled: ssApiSetting.Disabled,
                             background: default,
                             timeOut: default));
                     }
@@ -2677,6 +2683,7 @@ namespace Implem.Pleasanter.Models
                         changedStatus: processApiSiteSetting.ChangedStatus,
                         description: processApiSiteSetting.Description,
                         tooltip: processApiSiteSetting.Tooltip,
+                        icon: processApiSiteSetting.Icon,
                         confirmationMessage: processApiSiteSetting.ConfirmationMessage,
                         successMessage: processApiSiteSetting.SuccessMessage,
                         onClick: processApiSiteSetting.OnClick,
@@ -2712,6 +2719,7 @@ namespace Implem.Pleasanter.Models
                         changedStatus: processApiSiteSetting.ChangedStatus != null ? (int)processApiSiteSetting.ChangedStatus : default,
                         description: processApiSiteSetting.Description,
                         tooltip: processApiSiteSetting.Tooltip,
+                        icon: processApiSiteSetting.Icon,
                         confirmationMessage: processApiSiteSetting.ConfirmationMessage,
                         successMessage: processApiSiteSetting.SuccessMessage,
                         onClick: processApiSiteSetting.OnClick,
@@ -4993,6 +5001,7 @@ namespace Implem.Pleasanter.Models
                 changedStatus: context.Forms.Int("ProcessChangedStatus"),
                 description: context.Forms.Data("ProcessDescription"),
                 tooltip: context.Forms.Data("ProcessTooltip"),
+                icon: context.Forms.Data("ProcessIcon"),
                 confirmationMessage: context.Forms.Data("ProcessConfirmationMessage"),
                 successMessage: SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessSuccessMessage")),
                 onClick: context.Forms.Data("ProcessOnClick"),
@@ -5052,6 +5061,7 @@ namespace Implem.Pleasanter.Models
                     changedStatus: context.Forms.Int("ProcessChangedStatus"),
                     description: context.Forms.Data("ProcessDescription"),
                     tooltip: context.Forms.Data("ProcessTooltip"),
+                    icon: context.Forms.Data("ProcessIcon"),
                     confirmationMessage: context.Forms.Data("ProcessConfirmationMessage"),
                     successMessage: SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessSuccessMessage")),
                     onClick: context.Forms.Data("ProcessOnClick"),
@@ -5414,7 +5424,9 @@ namespace Implem.Pleasanter.Models
                 type: context.Forms.Data("ProcessDataChangeType").ToEnum<DataChange.Types>(),
                 columnName: context.Forms.Data("ProcessDataChangeColumnName"),
                 baseDateTime: context.Forms.Data("ProcessDataChangeBaseDateTime"),
-                value: ProcessDataChangeValue(context: context)));
+                value: ProcessDataChangeValue(context: context),
+                valueFormulaNotUseDisplayName: context.Forms.Bool("ProcessDataChangeValueFormulaNotUseDisplayName"),
+                valueFormulaIsDisplayError: context.Forms.Bool("ProcessDataChangeValueFormulaIsDisplayError")));
             res
                 .ReplaceAll("#EditProcessDataChange", new HtmlBuilder()
                     .EditProcessDataChange(
@@ -5438,7 +5450,9 @@ namespace Implem.Pleasanter.Models
                 type: context.Forms.Data("ProcessDataChangeType").ToEnum<DataChange.Types>(),
                 columnName: context.Forms.Data("ProcessDataChangeColumnName"),
                 baseDateTime: context.Forms.Data("ProcessDataChangeBaseDateTime"),
-                value: ProcessDataChangeValue(context: context));
+                value: ProcessDataChangeValue(context: context),
+                valueFormulaNotUseDisplayName: context.Forms.Bool("ProcessDataChangeValueFormulaNotUseDisplayName"),
+                valueFormulaIsDisplayError: context.Forms.Bool("ProcessDataChangeValueFormulaIsDisplayError"));
             res
                 .ReplaceAll("#EditProcessDataChange", new HtmlBuilder()
                     .EditProcessDataChange(
@@ -5467,6 +5481,12 @@ namespace Implem.Pleasanter.Models
             else if (dataChange.Visible(type: "Value"))
             {
                 return SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessDataChangeValue"));
+            }
+            else if (dataChange.Visible(type: "ValueFormula"))
+            {
+                return FormulaBuilder.ParseFormulaColumnName(
+                    ss: SiteSettings,
+                    formulaScript: context.Forms.Data("ProcessDataChangeValueFormula"));
             }
             else if (dataChange.Visible(type: "DateTime"))
             {
@@ -5644,6 +5664,8 @@ namespace Implem.Pleasanter.Models
                         Type = (Notification.Types)context.Forms.Int("ProcessNotificationType"),
                         Subject = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationSubject")),
                         Address = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationAddress")),
+                        CcAddress = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationCcAddress")),
+                        BccAddress = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationBccAddress")),
                         Token = context.Forms.Data("ProcessNotificationToken"),
                         Body = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationBody"))
                     });
@@ -5682,6 +5704,8 @@ namespace Implem.Pleasanter.Models
                     notification.Type = (Notification.Types)context.Forms.Int("ProcessNotificationType");
                     notification.Subject = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationSubject"));
                     notification.Address = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationAddress"));
+                    notification.CcAddress = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationCcAddress"));
+                    notification.BccAddress = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationBccAddress"));
                     notification.Token = context.Forms.Data("ProcessNotificationToken");
                     notification.Body = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationBody"));
                     res
@@ -6268,6 +6292,8 @@ namespace Implem.Pleasanter.Models
                             prefix: context.Forms.Data("NotificationPrefix"),
                             subject: SiteSettings.LabelTextToColumnName(context.Forms.Data("NotificationSubject")),
                             address: SiteSettings.LabelTextToColumnName(context.Forms.Data("NotificationAddress")),
+                            ccAddress: SiteSettings.LabelTextToColumnName(context.Forms.Data("NotificationCcAddress")),
+                            bccAddress: SiteSettings.LabelTextToColumnName(context.Forms.Data("NotificationBccAddress")),
                             token: context.Forms.Data("NotificationToken"),
                             methodType: (Notification.MethodTypes)context.Forms.Int("NotificationMethodType"),
                             encoding: context.Forms.Data("NotificationEncoding"),
@@ -6325,6 +6351,8 @@ namespace Implem.Pleasanter.Models
                                 prefix: context.Forms.Data("NotificationPrefix"),
                                 subject: SiteSettings.LabelTextToColumnName(context.Forms.Data("NotificationSubject")),
                                 address: SiteSettings.LabelTextToColumnName(context.Forms.Data("NotificationAddress")),
+                                ccAddress: SiteSettings.LabelTextToColumnName(context.Forms.Data("NotificationCcAddress")),
+                                bccAddress: SiteSettings.LabelTextToColumnName(context.Forms.Data("NotificationBccAddress")),
                                 token: context.Forms.Data("NotificationToken"),
                                 methodType: (Notification.MethodTypes)context.Forms.Int("NotificationMethodType"),
                                 encoding: context.Forms.Data("NotificationEncoding"),
@@ -7766,6 +7794,9 @@ namespace Implem.Pleasanter.Models
                 shared: context.Forms.Bool("ServerScriptShared"),
                 background: false,
                 body: context.Forms.Data("ServerScriptBody"),
+                functionalize: context.Forms.Bool("ServerScriptFunctionalize"),
+                tryCatch: context.Forms.Bool("ServerScriptTryCatch"),
+                disabled: context.Forms.Bool("ServerScriptDisabled"),
                 timeOut: GetServerScriptTimeOutValue(context: context));
             var invalid = ServerScriptValidators.OnCreating(
                 context: context,
@@ -7797,6 +7828,9 @@ namespace Implem.Pleasanter.Models
                 shared: script.Shared ?? default,
                 background: script.Background ?? default,
                 body: script.Body,
+                functionalize: script.Functionalize,
+                tryCatch: script.TryCatch,
+                disabled: script.Disabled,
                 timeOut: script.TimeOut));
             res
                 .ReplaceAll("#EditServerScript", new HtmlBuilder()
@@ -7831,6 +7865,9 @@ namespace Implem.Pleasanter.Models
                 shared: context.Forms.Bool("ServerScriptShared"),
                 background: false,
                 body: context.Forms.Data("ServerScriptBody"),
+                functionalize: context.Forms.Bool("ServerScriptFunctionalize"),
+                tryCatch: context.Forms.Bool("ServerScriptTryCatch"),
+                disabled: context.Forms.Bool("ServerScriptDisabled"),
                 timeOut: GetServerScriptTimeOutValue(context: context));
             var invalid = ServerScriptValidators.OnUpdating(
                 context: context,
@@ -7863,6 +7900,9 @@ namespace Implem.Pleasanter.Models
                     shared: script.Shared ?? default,
                     background: script.Background ?? default,
                     body: script.Body,
+                    functionalize: script.Functionalize,
+                    tryCatch: script.TryCatch,
+                    disabled: script.Disabled,
                     timeOut: script.TimeOut);
             res
                 .Html("#EditServerScript", new HtmlBuilder()
@@ -8876,10 +8916,10 @@ namespace Implem.Pleasanter.Models
             if (currentSs == null)
             {
                 res.Message(
-                   new Message(
-                       "InvalidTimeLineSites",
-                       Displays.InvalidTimeLineSites(context: context),
-                       "alert-error"));
+                    new Message(
+                        "InvalidTimeLineSites",
+                        Displays.InvalidTimeLineSites(context: context),
+                        "alert-error"));
                 return;
             }
             var dashboardPart = SiteSettings.DashboardParts?
@@ -9036,10 +9076,10 @@ namespace Implem.Pleasanter.Models
             if (currentSs == null)
             {
                 res.Message(
-                   new Message(
-                       "InvalidIndexSites",
-                       Displays.InvalidTimeLineSites(context: context),
-                       "alert-error"));
+                    new Message(
+                        "InvalidIndexSites",
+                        Displays.InvalidTimeLineSites(context: context),
+                        "alert-error"));
                 return;
             }
             var dashboardPart = SiteSettings.DashboardParts?
@@ -9050,13 +9090,14 @@ namespace Implem.Pleasanter.Models
             }
             res
                 .Html(
-                    "#DashboardPartViewIndexTabContainer",
+                    "#DashboardPartViewGridTabContainer",
                     new HtmlBuilder()
                         .ViewGridTab(
                             context: context,
                             ss: currentSs,
                             view: new View(),
-                            prefix: "DashboardPart"))
+                            prefix: "DashboardPart",
+                            hasNotInner: true))
                 .Html(
                     "#DashboardPartViewFiltersTabContainer",
                     new HtmlBuilder()

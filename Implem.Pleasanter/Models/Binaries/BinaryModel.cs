@@ -491,7 +491,7 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         binaryModel: this,
                         otherInitValue: otherInitValue)),
-                new SqlStatement(Def.Sql.IfConflicted.Params(BinaryId))
+                new SqlStatement()
                 {
                     DataTableName = dataTableName,
                     IfConflicted = true,
@@ -571,7 +571,7 @@ namespace Implem.Pleasanter.Models
                 transactional: true,
                 statements: Rds.PhysicalDeleteBinaries(
                     tableType: tableType,
-                    param: Rds.BinariesParam().BinaryId(BinaryId)));
+                    where: Rds.BinariesWhere().BinaryId(BinaryId)));
             return new ErrorData(type: Error.Types.None);
         }
 

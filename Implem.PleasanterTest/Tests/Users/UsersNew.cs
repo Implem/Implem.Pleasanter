@@ -9,6 +9,7 @@ using Xunit;
 
 namespace Implem.PleasanterTest.Tests.Users
 {
+    [Collection(nameof(UsersNew))]
     public class UsersNew
     {
         [Theory]
@@ -21,6 +22,7 @@ namespace Implem.PleasanterTest.Tests.Users
                 userId: userModel.UserId,
                 routeData: RouteData.UsersNew());
             var results = Results(context: context);
+            Initializer.SaveResults(results);
             Assert.True(Tester.Test(
                 context: context,
                 results: results,

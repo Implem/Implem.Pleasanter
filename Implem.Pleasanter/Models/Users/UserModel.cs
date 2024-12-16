@@ -3006,7 +3006,7 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         userModel: this,
                         otherInitValue: otherInitValue)),
-                new SqlStatement(Def.Sql.IfConflicted.Params(UserId))
+                new SqlStatement()
                 {
                     DataTableName = dataTableName,
                     IfConflicted = true,
@@ -3076,7 +3076,7 @@ namespace Implem.Pleasanter.Models
                 transactional: true,
                 statements: Rds.PhysicalDeleteUsers(
                     tableType: tableType,
-                    param: Rds.UsersParam().UserId(UserId)));
+                    where: Rds.UsersWhere().UserId(UserId)));
             return new ErrorData(type: Error.Types.None);
         }
 
@@ -4876,7 +4876,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private void IncrementsNumberOfDenial(Context context)
+        private void IncrementsNumberOfDenial(Context context, bool disableUpdateLastLoginTime = false)
         {
             Repository.ExecuteNonQuery(
                 context: context,
@@ -4887,7 +4887,9 @@ namespace Implem.Pleasanter.Models
                         raw: "(lower(\"Users\".\"LoginId\") = lower(@LoginId))"),
                     param: Rds.UsersParam()
                         .NumberOfDenial(raw: "\"Users\".\"NumberOfDenial\"+1")
-                        .LastLoginTime(DateTime.Now),
+                        .LastLoginTime(
+                            value: DateTime.Now,
+                            _using: !disableUpdateLastLoginTime),
                     addUpdatorParam: false,
                     addUpdatedTimeParam: false));
         }
@@ -4948,7 +4950,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private string Deny(Context context)
         {
-            DenyLog(context: context);
+            DenyLog(context: context, disableUpdateLastLoginTime: true);
             return Messages.ResponseAuthentication(
                 context: context,
                 target: "#LoginMessage")
@@ -4958,12 +4960,12 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public void DenyLog(Context context)
+        public void DenyLog(Context context, bool disableUpdateLastLoginTime = false)
         {
             LoginFailureLog(
                 context: context,
                 description: nameof(Deny));
-            IncrementsNumberOfDenial(context: context);
+            IncrementsNumberOfDenial(context: context, disableUpdateLastLoginTime: disableUpdateLastLoginTime);
         }
 
         /// <summary>

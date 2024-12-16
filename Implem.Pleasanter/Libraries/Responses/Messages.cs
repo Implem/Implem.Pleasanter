@@ -574,6 +574,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-success");
         }
 
+        public static Message CustomAppsLimit(Context context, params string[] data)
+        {
+            return Get(
+                id: "CustomAppsLimit",
+                text: Displays.CustomAppsLimit(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
         public static Message CustomError(Context context, params string[] data)
         {
             return Get(
@@ -1794,16 +1804,6 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-success");
         }
 
-        public static Message UserTemplateLimit(Context context, params string[] data)
-        {
-            return Get(
-                id: "UserTemplateLimit",
-                text: Displays.UserTemplateLimit(
-                    context: context,
-                    data: data),
-                css: "alert-error");
-        }
-
         public static ResponseCollection ResponseAlreadyAdded(
             Context context, string target = null, params string[] data)
         {
@@ -2393,6 +2393,17 @@ namespace Implem.Pleasanter.Libraries.Responses
             return ResponseMessage(
                 context: context,
                 message: Created(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseCustomAppsLimit(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: CustomAppsLimit(
                     context: context,
                     data: data),
                 target: target);
@@ -3735,17 +3746,6 @@ namespace Implem.Pleasanter.Libraries.Responses
             return ResponseMessage(
                 context: context,
                 message: UserSwitched(
-                    context: context,
-                    data: data),
-                target: target);
-        }
-
-        public static ResponseCollection ResponseUserTemplateLimit(
-            Context context, string target = null, params string[] data)
-        {
-            return ResponseMessage(
-                context: context,
-                message: UserTemplateLimit(
                     context: context,
                     data: data),
                 target: target);

@@ -9,6 +9,7 @@ using Xunit;
 
 namespace Implem.PleasanterTest.Tests.Items
 {
+    [Collection(nameof(ItemsPermissionForRecord))]
     public class ItemsPermissionForRecord
     {
         [Theory]
@@ -26,6 +27,7 @@ namespace Implem.PleasanterTest.Tests.Items
                 httpMethod: "POST",
                 forms: forms);
             var results = Results(context: context);
+            Initializer.SaveResults(results);
             Assert.True(Tester.Test(
                 context: context,
                 results: results,
@@ -38,7 +40,7 @@ namespace Implem.PleasanterTest.Tests.Items
             var baseTests = BaseData.Tests(
                 JsonData.ExistsOne(
                     method: "Html",
-                    target: "#FieldSetRecordAccessControl"),
+                    target: "#FieldSetRecordAccessControlEditor"),
                 JsonData.ExistsOne(
                     method: "RemoveAttr",
                     target: "#FieldSetRecordAccessControl"));

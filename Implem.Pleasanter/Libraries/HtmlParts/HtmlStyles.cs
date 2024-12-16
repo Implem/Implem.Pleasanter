@@ -7,6 +7,7 @@ using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlStyles
@@ -87,52 +88,39 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         && !userStyle.IsNullOrEmpty());
         }
 
+
+        public static HtmlBuilder LinkStyles(
+            this HtmlBuilder hb, Context context, List<string> srcList = null, bool _using = true)
+        {
+            var elem = hb;
+            foreach (var src in srcList)
+            {
+                elem.Link(
+                    href: Responses.Locations.Get(
+                        context: context,
+                        parts: src),
+                    rel: "stylesheet",
+                    _using: _using);
+            }
+            return hb;
+        }
+
         public static HtmlBuilder LinkedStyles(
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
+            var cacheBustingCode = WebUtility.UrlEncode((context.ThemeVersionForCss() + Environments.AssemblyVersion).Split(".").Join(""));
             return hb
-                .Link(
-                    href: Responses.Locations.Get(
-                        context: context,
-                        parts: "Styles/Plugins/Normalize.css"),
-                    rel: "stylesheet")
-                .Link(
-                    href: Responses.Locations.Get(
-                        context: context,
-                        parts: "Styles/Plugins/lightbox.css"),
-                    rel: "stylesheet")
-                .Link(
-                    href: Responses.Locations.Get(
-                        context: context,
-                        parts: context.ThemeVersionForCss() >= 2.0M && context.Mobile
-                            ? $"Styles/Plugins/themes/cupertino/jquery-ui.min.css"
-                            : $"Styles/Plugins/themes/{context.Theme()}/jquery-ui.min.css"),
-                    rel: "stylesheet")
-                .Link(
-                    href: Responses.Locations.Get(
-                        context: context,
-                        parts: "Styles/Plugins/jquery.datetimepicker.min.css"),
-                    rel: "stylesheet")
-                .Link(
-                    href: Responses.Locations.Get(
-                        context: context,
-                        parts: "Styles/Plugins/jquery.multiselect.css"),
-                    rel: "stylesheet")
-                .Link(
-                    href: Responses.Locations.Get(
-                        context: context,
-                        parts: "Styles/Plugins/jquery.multiselect.filter.css"),
-                    rel: "stylesheet")
-                .Link(
-                    href: Responses.Locations.Get(
-                        context: context,
-                        parts: "Scripts/Plugins/gridstack.js/gridstack.min.css"),
-                    rel: "stylesheet")
-                .Link(
-                    href: Responses.Locations.Get(
-                        context: context,
-                        parts: "Styles/Plugins/material-symbols-0.8.0/material-symbols/index.css"),
-                    rel: "stylesheet")
+                .LinkStyles(
+                    context: context,
+                    srcList: [
+                        "Styles/Plugins/Normalize.css",
+                        "Styles/Plugins/lightbox.css",
+                        $"Styles/Plugins/themes/{context.Theme()}/jquery-ui.min.css",
+                        "Styles/Plugins/jquery.datetimepicker.min.css",
+                        "Styles/Plugins/jquery.multiselect.css",
+                        "Styles/Plugins/jquery.multiselect.filter.css",
+                        "Scripts/Plugins/gridstack.js/gridstack.min.css",
+                        "Styles/Plugins/material-symbols-0.26.0/material-symbols/index.css"])
                 .Link(
                     href: context.VirtualPathToAbsolute($"~/content/styles.min.css?v={Environments.BundlesVersions.Get("styles.css")}"),
                     rel: "stylesheet")
@@ -142,28 +130,39 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     _using: Parameters.Mobile.Responsive
                         && context.Mobile
                         && context.Responsive
+                        && context.ThemeVersionForCss() < 2.0M
                         && (ss == null || ss.Responsive != false))
                 .Link(
                     href: Responses.Locations.Get(
                         context: context,
-                        parts: context.ThemeVersionForCss() >= 2.0M && context.Mobile
-                            ? $"Styles/Plugins/themes/cupertino/custom.css"
-                            : $"Styles/Plugins/themes/{context.Theme()}/custom.css"),
-                    rel: "stylesheet")
-                .Link(
-                    href: Responses.Locations.Get(
-                        context: context,
-                        parts: "Styles/responsive.custom.css"),
+                        parts: "Styles/responsive.modern.css"),
                     rel: "stylesheet",
                     _using: Parameters.Mobile.Responsive
                         && context.Mobile
                         && context.Responsive
+                        && context.ThemeVersionForCss() < 2.0M
                         && (ss == null || ss.Responsive != false))
                 .Link(
                     href: Responses.Locations.Get(
                         context: context,
-                        parts: "favicon.ico"),
-                    rel: "shortcut icon");
+                        parts: $"Styles/Plugins/themes/themes.custom.css?v={cacheBustingCode}"),
+                    rel: "stylesheet",
+                    _using: context.ThemeVersionForCss() >= 2.0M)
+                .Link(
+                    href: Responses.Locations.Get(
+                        context: context,
+                        parts: $"Styles/Plugins/themes/responsive.custom.css?v={cacheBustingCode}"),
+                    rel: "stylesheet",
+                    _using: Parameters.Mobile.Responsive
+                        && context.Mobile
+                        && context.Responsive
+                        && context.ThemeVersionForCss() >= 2.0M
+                        && (ss == null || ss.Responsive != false))
+                .Link(
+                    href: Responses.Locations.Get(
+                        context: context,
+                        parts: $"Styles/Plugins/themes/{context.Theme()}/custom.css?v={cacheBustingCode}"),
+                    rel: "stylesheet");
         }
     }
 }

@@ -391,11 +391,13 @@ namespace Implem.Pleasanter.Libraries.Requests
             if (HasRoute)
             {
                 if (setData) SetData();
-                var api = RequestDataString.Deserialize<Api>();
-                SetApiVersion(api: api);
-                if (api?.ApiKey.IsNullOrEmpty() == false)
+                var jsonDeserializedRequestApi = RequestDataString.Deserialize<Api>();
+                //RequestのContetnt-typeがJSONのみの阿合で、リクエストデータがあれば、JSONフォーマットのエラーチェックを行う。
+                InvalidJsonData = AspNetCoreHttpContext.Current.Request.HasJsonContentType() && !RequestDataString.IsNullOrEmpty() && jsonDeserializedRequestApi is null;
+                SetApiVersion(api: jsonDeserializedRequestApi);
+                if (jsonDeserializedRequestApi?.ApiKey.IsNullOrEmpty() == false)
                 {
-                    ApiKey = api.ApiKey;
+                    ApiKey = jsonDeserializedRequestApi.ApiKey;
                     SetUser(userModel: GetUser(where: Rds.UsersWhere()
                         .ApiKey(ApiKey)));
                 }
@@ -1103,10 +1105,27 @@ namespace Implem.Pleasanter.Libraries.Requests
         public void FormsAuthenticationSignOut()
         {
             AspNetCoreHttpContext.Current.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme).Wait();
-            AspNetCoreHttpContext.Current.Session.Clear();
+            if (Parameters.Session.UseKeyValueStore)
+            {
+                Implem.Pleasanter.Libraries.Redis.CacheForRedisConnection.Clear(SessionGuid);
+            }
+            else
+            {
+                AspNetCoreHttpContext.Current.Session.Clear();
+            }
         }
 
-        public void SessionAbandon() { AspNetCoreHttpContext.Current.Session.Clear(); }
+        public void SessionAbandon()
+        {
+            if (Parameters.Session.UseKeyValueStore)
+            {
+                Implem.Pleasanter.Libraries.Redis.CacheForRedisConnection.Clear(SessionGuid);
+            }
+            else
+            {
+                AspNetCoreHttpContext.Current.Session.Clear();
+            }
+        }
 
         public void FederatedAuthenticationSessionAuthenticationModuleDeleteSessionTokenCookie()
         {
@@ -1188,7 +1207,6 @@ namespace Implem.Pleasanter.Libraries.Requests
 
         public decimal ThemeVersion()
         {
-            if (Mobile) { return 1.0M; }
             switch (Theme())
             {
                 case "cerulean":
