@@ -182,6 +182,14 @@ public static ContentResultInheritance ExportByApi(
     {
         return ApiResults.Get(ApiResponses.BadRequest(context: context));
     }
+    using var exclusiveObj = new Sessions.TableExclusive(context: context);
+    if (!exclusiveObj.TryLock())
+    {
+        return ApiResults.Get(new ApiResponse(
+            id: context.Id,
+            statusCode: 429,
+            message: Messages.ImportLock(context: context).Text));
+    }
     var export = api.Export ?? ss.GetExport(
         context: context,
         id: api.ExportId);

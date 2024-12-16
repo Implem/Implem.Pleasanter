@@ -113,5 +113,6 @@ namespace Implem.ParameterAccessor.Parts
         public int GroupsDepthMax { get; set; }
         public int BulkUpsertMax { get; set; }
         public bool EnableExpandLinkPath { get; set; }
+        public bool BlockSiteTaskWhileRunning { get; set; }
     }
 }

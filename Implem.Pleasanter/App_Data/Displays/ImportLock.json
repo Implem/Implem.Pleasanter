@@ -1,0 +1,33 @@
+﻿{
+    "Id": "ImportLock",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "Another task is being processed, please execute it later."
+        },
+        {
+            "Language": "zh-CN",
+            "Body": "另一个任务正在处理中，请稍后执行。"
+        },
+        {
+            "Language": "ja",
+            "Body": "別のタスクが処理中です。後で実行してください。"
+        },
+        {
+            "Language": "de",
+            "Body": "Eine andere Aufgabe wird gerade bearbeitet. Bitte führen Sie sie später aus."
+        },
+        {
+            "Language": "ko",
+            "Body": "다른 작업을 처리 중입니다. 나중에 실행하세요."
+        },
+        {
+            "Language": "es",
+            "Body": "Se está procesando otra tarea; ejecútela más tarde."
+        },
+        {
+            "Language": "vi",
+            "Body": "Một tác vụ khác đang được xử lý, vui lòng thực hiện nó sau."
+        }
+    ]
+}
