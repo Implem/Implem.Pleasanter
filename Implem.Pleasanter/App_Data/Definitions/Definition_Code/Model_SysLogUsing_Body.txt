@@ -1,0 +1,2 @@
+﻿using Implem.Pleasanter.Models.SysLogs;
+using NLog;

@@ -146,7 +146,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     method: nameof(GetEncodingOrDefault),
                     message: $"{encoding} is not supported Encoding. Falling back to UTF-8.",
                     errStackTrace: $"Supported Encodings are { Encoding.GetEncodings().Select(o => o.Name).Join(",") }.",
-                    sysLogType: SysLogModel.SysLogTypes.Execption);
+                    sysLogType: SysLogModel.SysLogTypes.Exception);
                 return Encoding.UTF8;
             }
             return Encoding.GetEncoding(encodingInfo.Name);

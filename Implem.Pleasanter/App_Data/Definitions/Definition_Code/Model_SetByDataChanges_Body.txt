@@ -64,6 +64,7 @@
                         ss: ss,
                         columnName: dataChange.ColumnName,
                         formulaSet: formulaSet,
+                        isOutOfCondition: false,
                         outputFormulaLogs: ss.ProcessOutputFormulaLogs);
                 }
                 else

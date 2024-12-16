@@ -854,6 +854,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-error");
         }
 
+        public static Message ImportLock(Context context, params string[] data)
+        {
+            return Get(
+                id: "ImportLock",
+                text: Displays.ImportLock(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
         public static Message ImportMax(Context context, params string[] data)
         {
             return Get(
@@ -2701,6 +2711,17 @@ namespace Implem.Pleasanter.Libraries.Responses
             return ResponseMessage(
                 context: context,
                 message: ImportInvalidUserIdAndLoginId(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseImportLock(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: ImportLock(
                     context: context,
                     data: data),
                 target: target);

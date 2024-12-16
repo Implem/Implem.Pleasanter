@@ -15,6 +15,7 @@ namespace Implem.Pleasanter.Models.ApiSiteSettings
         public int? ChangedStatus { get; set; }
         public string Description { get; set; }
         public string Tooltip { get; set; }
+        public string Icon { get; set; }
         public string ConfirmationMessage { get; set; }
         public string SuccessMessage { get; set; }
         public string OnClick { get; set; }

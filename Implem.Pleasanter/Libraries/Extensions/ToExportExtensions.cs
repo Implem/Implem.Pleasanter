@@ -20,6 +20,10 @@ namespace Implem.Pleasanter.Libraries.Extensions
         {
             if (column.HasChoices())
             {
+                if (column.MultipleSelections == true && value.IsNullOrEmpty())
+                {
+                    value = "[]";
+                }
                 var choiceParts = column.ChoiceParts(
                     context: context,
                     selectedValues: value,
