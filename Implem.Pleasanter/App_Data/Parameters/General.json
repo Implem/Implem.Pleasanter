@@ -103,6 +103,6 @@
     "EnableCodeEditor": true,
     "GroupsDepthMax": 30,
     "BulkUpsertMax": 0,
-    "EnableExpandLinkPath": false
+    "EnableExpandLinkPath": false,
     "BlockSiteTaskWhileRunning": false
 }
