@@ -217,6 +217,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 || setAllChoices
                                 || selectedValues?.Any() == true)
                             {
+                                // 項目利用時かつ項目候補が無い場合に強制的に作成を行う。実装を見直しする事が望ましい
+                                // 現状のコードではSiteSettings.Init()で全部作る想定だがネストが深い場合は作られない。
+                                if (ss.Destinations == null && search)
+                                {
+                                    ss.SetLinkedSiteSettings(context: context, sources: false);
+                                }
                                 var currentSs = ss.Destinations?.Get(SiteId);
                                 if (currentSs != null)
                                 {
