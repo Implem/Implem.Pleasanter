@@ -113,6 +113,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         commandOptionAction: () => hb
                             .Div(css: "command-right", action: () => hb
                                 .Button(
+                                    controlId: "ToDisableAllDropDownSearchResults",
+                                    controlCss: "button-icon",
+                                    text: Displays.ToDisableAll(context: context),
+                                    onClick: "$p.moveAllColumns(event, $(this),'DropDownSearch',false,false,'Results');",
+                                    icon: "ui-icon-circle-triangle-e")
+                                .Button(
                                     controlId: "ToDisableDropDownSearchResults",
                                     controlCss: "button-icon",
                                     text: Displays.ToDisable(context: context),
@@ -137,6 +143,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     text: Displays.ToEnable(context: context),
                                     controlCss: "button-icon",
                                     onClick: "$p.moveColumns(event, $(this),'DropDownSearch',false,false,'Results');",
+                                    icon: "ui-icon-circle-triangle-w")
+                                .Button(
+                                    controlId: "ToEnableAllDropDownSearchResults",
+                                    controlCss: "button-icon",
+                                    text: Displays.ToEnableAll(context: context),
+                                    onClick: "$p.moveAllColumns(event, $(this),'DropDownSearch',false,false,'Results');",
                                     icon: "ui-icon-circle-triangle-w")
                                 .TextBox(
                                     controlId: "DropDownSearchText",
