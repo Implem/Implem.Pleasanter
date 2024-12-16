@@ -3400,6 +3400,10 @@ namespace Implem.Pleasanter.Models
             {
                 context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
             }
+            if(HasInvalidValueAsApiDataAtCreate(issueApiModel))
+            {
+                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+            }
             var issueModel = new IssueModel(
                 context: context,
                 ss: ss,
@@ -3493,6 +3497,10 @@ namespace Implem.Pleasanter.Models
             {
                 context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
             }
+            if(HasInvalidValueAsApiDataAtCreate(issueApiModel))
+            {
+                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+            }
             var issueModel = new IssueModel(
                 context: context,
                 ss: ss,
@@ -3533,6 +3541,25 @@ namespace Implem.Pleasanter.Models
                 default:
                     return false;
             }
+        }
+
+        private static bool HasInvalidValueAsApiDataAtCreate(IssueApiModel model)
+        {
+            if (model is null)
+                return false;
+            foreach (var o in model.AttachmentsHash)
+            {
+                foreach (var attachment in o.Value)
+                {
+                    if (attachment.Deleted ?? false)
+                        continue;
+                    if (attachment.Name.IsNullOrEmpty())
+                        return true;
+                    if (attachment.Base64 is null && attachment.Base64Binary is null)
+                        return true;
+                }
+            }
+            return false;
         }
 
         public static string Update(Context context, SiteSettings ss, long issueId, string previousTitle)
@@ -4516,6 +4543,10 @@ namespace Implem.Pleasanter.Models
             {
                 context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
             }
+            if(HasInvalidValueAsApiDataAtUpdate(issueApiModel))
+            {
+                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+            }
             var issueModel = new IssueModel(
                 context: context,
                 ss: ss,
@@ -4619,6 +4650,10 @@ namespace Implem.Pleasanter.Models
             {
                 context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
             }
+            if(HasInvalidValueAsApiDataAtUpdate(issueApiModel))
+            {
+                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+            }
             var issueModel = new IssueModel(
                 context: context,
                 ss: ss,
@@ -4670,6 +4705,25 @@ namespace Implem.Pleasanter.Models
                     return false;
             }
         }
+
+                private static bool HasInvalidValueAsApiDataAtUpdate(IssueApiModel model)
+                {
+                    if (model is null)
+                        return false;
+                    foreach (var o in model.AttachmentsHash)
+                    {
+                        foreach (var attachment in o.Value)
+                        {
+                            if (attachment.Deleted ?? false)
+                                continue;
+                            if (attachment.Name.IsNullOrEmpty())
+                                return true;
+                            if (attachment.Base64 is null && attachment.Base64Binary is null)
+                                return true;
+                        }
+                    }
+                    return false;
+                }
 
         public static ContentResultInheritance UpsertByApi(
             Context context,
