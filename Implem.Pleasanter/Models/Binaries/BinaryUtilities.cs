@@ -808,7 +808,7 @@ namespace Implem.Pleasanter.Models
                     case Error.Types.OverLimitQuantity:
                         return Messages.ResponseOverLimitQuantity(
                             context: context,
-                            data: column.LimitQuantity.ToString()).ToJson();
+                            data: column.LimitQuantity.ToInt().ToString()).ToJson();
                     case Error.Types.OverLimitSize:
                         return Messages.ResponseOverLimitSize(
                             context: context,

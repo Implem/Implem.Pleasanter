@@ -41,6 +41,9 @@
     "AllowCopy": true,
     "AllowReferenceCopy": false,
     "CharToAddWhenCopying": " - コピー",
+    "ChoiceSplitRegexPattern": "(?<!\\\\),",
+    "ChoiceReplaceRegexPattern": "\\\\(,)",
+    "ChoiceReplaceRegexReplacement": "$1",
     "UpdateResponseType": 0,
     "SolutionBackupPath": "",
     "SolutionBackupExcludeDirectories": "\\Backups,\\Histories,\\BinaryStorage,\\App_Data\\Logs,\\Temp,\\packages,\\bin,\\obj,\\PublishProfiles,\\BuildProcessTemplates,\\Parameters\\CustomDefinitions,\\Parameters\\ExtendedColumns",
@@ -100,5 +103,6 @@
     "EnableCodeEditor": true,
     "GroupsDepthMax": 30,
     "BulkUpsertMax": 0,
+    "EnableExpandLinkPath": false
     "BlockSiteTaskWhileRunning": false
 }

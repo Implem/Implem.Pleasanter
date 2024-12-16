@@ -1,0 +1,13 @@
+﻿{
+    "Id": "SiteSettings_Update",
+    "Language": "ja",
+    "Type": "Sites",
+    "ParentId": "SiteSettingFolder",
+    "Title": "サイト設定 - 更新",
+    "ClassA": "Results",
+    "ClassB": "サイト名：サイト設定 - 更新前",
+    "Creator": "User2",
+    "Updator": "User2",
+    "CreatedTime": "36640",
+    "UpdatedTime": "36640"
+}
