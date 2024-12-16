@@ -1772,6 +1772,8 @@ namespace Implem.Pleasanter.Models
                     disabled: script.Disabled ?? default,
                     body: script.Body,
                     timeOut: script.TimeOut,
+                    functionalize: script.Functionalize,
+                    tryCatch: script.TryCatch,
                     backgoundSchedules: script.backgoundSchedules);
             res
                 .Html("#EditServerScript", new HtmlBuilder()
@@ -1795,6 +1797,8 @@ namespace Implem.Pleasanter.Models
                 disabled: context.Forms.Bool("ServerScriptDisabled"),
                 body: context.Forms.Data("ServerScriptBody"),
                 timeOut: context.Forms.Int("ServerScriptTimeOut"),
+                functionalize: context.Forms.Bool("ServerScriptFunctionalize"),
+                tryCatch: context.Forms.Bool("ServerScriptTryCatch"),
                 backgoundSchedules: context.Forms.Data("BackgroundSchedule").Deserialize<IEnumerable<BackgroundSchedule>>());
         }
 

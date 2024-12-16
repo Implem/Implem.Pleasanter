@@ -1736,8 +1736,19 @@ th.calendar-header {
     background-color: red;
 }
 
+.nav-site .conditions span.overdue::before {
+    content: "(";
+}
+
+.nav-site .conditions span.overdue::after {
+    content: ")";
+}
+
 .nav-site .conditions span.elapsed-time.old {
     color: silver;
+}
+.nav-site .conditions span.reference {
+    display: none;
 }
 
 .error-page {

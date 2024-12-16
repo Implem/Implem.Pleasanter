@@ -260,6 +260,9 @@ html .ui-button.ui-state-disabled:active {
     &:has(.ui-spinner-input:focus) {
         background-color: var(--control-bg-focus);
     }
+    &:has(.error) {
+        border: solid 1px var(--warning-color);
+    }
 }
 
 /* slider */
@@ -367,11 +370,25 @@ html .ui-button.ui-state-disabled:active {
             border: 1px solid var(--control-border-focus);
         }
     }
+    &:not(:is(.control-spinner)) {
+        &.error {
+            border: solid 1px var(--warning-color);
+        }
+    }
     &:not(.has-css) {
         &:focus {
             background-color: var(--control-bg-focus);
         }
+        &.not-send:is(.control-markdown) {
+            &:not(:has(+ .button-edit-markdown)) {
+                background: var(--control-bg-read);
+                pre {
+                    color: var(--control-text-read);
+                }
+            }
+        }
         &:is(textarea) {
+            min-height: 100px;
             resize: vertical;
         }
     }
@@ -437,14 +454,11 @@ input {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    &.error {
-        border: solid 1px var(--warning-color);
-    }
     &[type="file"] {
         padding: 1px;
     }
     &.datepicker {
-        &:has(+ .current-time) {
+        &:has(~ .current-time) {
             padding-right: 24px;
         }
         ~ .current-time {
@@ -525,6 +539,9 @@ input {
         .md,
         pre {
             color: var(--control-text);
+        }
+        &:has(~ .control-markdown.error) {
+            border: solid 1px var(--warning-color);
         }
     }
     .control-markdown {
@@ -669,6 +686,7 @@ input {
     .control-spinner {
         ~ .error {
             top: -10px;
+            padding-right: 20px;
         }
     }
 }
@@ -1884,6 +1902,7 @@ body:not(:has(#Editor)) {
     width: 209px;
     min-height: 140px;
     margin: 0;
+    overflow: hidden;
     background-color: var(--site-panal-bg);
     border: none;
     border-radius: 4px;
@@ -1920,20 +1939,40 @@ body:not(:has(#Editor)) {
     }
     .conditions {
         top: 0;
+        bottom: initial;
         left: 0;
         display: flex;
-        flex-direction: row;
-        align-items: flex-start;
-        justify-content: flex-start;
-        height: 40px;
-        font-size: 13px;
+        gap: 4px;
+        justify-content: flex-end;
+        height: 28px;
+        padding: 4px;
+        font-size: 11px;
         span {
-            margin: 6px 6px 6px 0;
+            float: none;
+            height: 20px;
+            margin: 0;
             padding: 0 8px;
+            overflow: hidden;
             color: var(--base-text);
             background: initial;
-            &:nth-of-type(2) {
-                margin-left: auto;
+            &.elapsed-time {
+                margin-right: auto;
+                padding: 0 8px;
+                line-height: 20px;
+            }
+            &.reference {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 20px;
+                height: 20px;
+                color: var(--nonColor16);
+                font-size: 16px;
+                font-variation-settings: "FILL" 1, "wght" 400, "GRAD" -25,
+                    "opsz" 24;
+                text-align: center;
+                background-color: var(--primarySub01);
+                border-radius: 2px;
             }
             &.count {
                 background-color: var(--primarySub02);
@@ -1942,6 +1981,11 @@ body:not(:has(#Editor)) {
             &.overdue {
                 background-color: var(--warning-color);
                 border: 1px solid var(--warning-color);
+                &::before,
+                &::after {
+                    display: none;
+                    content: initial;
+                }
             }
         }
     }
@@ -1958,7 +2002,7 @@ body:not(:has(#Editor)) {
         margin: 24px 0 0;
         text-align: center;
         img {
-            width: 48px;
+            height: 48px;
         }
     }
     .heading {
@@ -1992,66 +2036,67 @@ body:not(:has(#Editor)) {
             th,
             th:first-child,
             th:last-child {
-                border-top: 1px solid var(--grid-cell-border);
                 border-right: 1px solid var(--grid-cell-vborder);
+                border-bottom: 1px solid var(--grid-cell-border);
                 border-left: 1px solid var(--grid-cell-vborder);
                 border-radius: 0;
             }
         }
     }
-    #ServerScriptForm &,
-    #ProcessTabsContainer &,
-    #EditorTabsContainer &,
-    #ViewModeContainer & {
-        > thead,
-        > tbody {
-            > th,
-            > td {
-                & {
-                    input {
-                        width: 100%;
-                        margin: 0 auto;
-                        cursor: pointer;
-                    }
-                    &:has(.grid-title-body),
-                    &:has(.comment) {
-                        padding: 4px 4px 0;
-                    }
+    > thead,
+    > tbody {
+        > th,
+        > td {
+            & {
+                input {
+                    width: 100%;
+                    margin: 0 auto;
+                    cursor: pointer;
                 }
-            }
-        }
-        > thead {
-            > td,
-            > th {
-                color: var(--invert-text);
-                border-right: 1px solid var(--grid-cell-vborder);
-                border-left: 1px solid var(--grid-cell-vborder);
-            }
-        }
-        > tbody {
-            > tr {
-                &:hover {
-                    background-color: var(--grid-cell-hover);
-                    .comment {
-                        background: var(--grid-comment-bg);
-                    }
+                &:has(.grid-title-body),
+                &:has(.comment) {
+                    padding: 4px 4px 0;
                 }
-                > th {
-                    background-color: var(--grid-cell-heading);
-                }
-                > th,
-                > td {
-                    border-right: solid 1px var(--grid-cell-vborder);
-                    border-left: solid 1px var(--grid-cell-vborder);
-                }
-            }
-        }
-        .grid-row[data-history] {
-            td {
-                background-color: var(--base-dark-layer);
             }
         }
     }
+    > thead {
+        > td,
+        > th {
+            color: var(--invert-text);
+            border-right: 1px solid var(--grid-cell-vborder);
+            border-left: 1px solid var(--grid-cell-vborder);
+        }
+    }
+    > tbody {
+        > tr {
+            > th {
+                background-color: var(--grid-cell-heading);
+                border-bottom: solid 1px var(--base-border);
+            }
+            > th,
+            > td {
+                border-right: solid 1px var(--grid-cell-vborder);
+                border-left: solid 1px var(--grid-cell-vborder);
+            }
+        }
+    }
+    &:not(.not-link) {
+        .grid-row {
+            &:hover {
+                background-color: var(--grid-cell-hover);
+                .comment {
+                    background: var(--grid-comment-bg);
+                }
+            }
+        }
+    }
+    .grid-row[data-history] {
+        td {
+            background-color: var(--base-dark-layer);
+        }
+    }
+
     th:has(.control-checkbox),
     td:has(.grid-check) {
         padding: 0 16px;
@@ -2061,6 +2106,9 @@ body:not(:has(#Editor)) {
             display: block;
             float: none;
             margin: auto;
+        }
+        label:empty {
+            display: none;
         }
     }
     .comment {
@@ -2125,8 +2173,10 @@ body:not(:has(#Editor)) {
 }
 .grid-row {
     background-color: var(--grid-cell-bg);
-    border-top: solid 1px var(--grid-cell-border);
-    border-bottom: solid 1px var(--grid-cell-border);
+    td {
+        border-top: solid 1px var(--grid-cell-border);
+        border-bottom: solid 1px var(--grid-cell-border);
+    }
 
     /* 一括編集設定 */
     .ui-widget.ui-state-default.ui-multiselect {
@@ -2372,6 +2422,16 @@ body:not(:has(#Editor)) {
     }
 }
 
+/* [Tenant]  */
+body:has(#TableName[value="Tenants"]) {
+    > .ui-dialog:has(#DropDownSearchDialog) {
+        z-index: 111 !important;
+        + .ui-widget-overlay {
+            z-index: 110 !important;
+        }
+    }
+}
+
 /* [Version] */
 #Versions {
     background-color: var(--base-bg);
@@ -2396,6 +2456,36 @@ body:not(:has(#Editor)) {
         margin: 0;
     }
     .dashboard-part-title {
+        color: var(--base-text);
+    }
+    .dashboard-timeline-item {
+        background-color: var(--base-bg);
+    }
+    .dashboard-timeline-header {
+        a {
+            color: var(--primaryColor);
+            text-decoration: none;
+        }
+    }
+    .dashboard-timeline-title {
+        color: var(--base-text);
+    }
+    .dashboard-timeline-record-time {
+        .elapsed-time {
+            background-color: initial;
+        }
+    }
+    .dashboard-part-nav-item {
+        display: flex;
+        gap: 2px;
+        align-items: center;
+        background-color: var(--base-bg);
+    }
+    .dashboard-part-nav-link,
+    .material-symbols-outlined {
+        color: var(--base-text);
+    }
+    .dashboard-timeline-body {
         color: var(--base-text);
     }
 }
@@ -2709,6 +2799,14 @@ body:has(input#Controller[value="syslogs"]) {
             margin-left: 8px;
         }
     }
+    .crosstab-row {
+        th {
+            border-right: 1px solid var(--base-border) !important;
+        }
+        td {
+            border-bottom: 1px solid var(--base-border);
+        }
+    }
 }
 
 /* [ViewModeContainer] Calendar > #Calendar */
@@ -2722,6 +2820,15 @@ body:has(input#Controller[value="syslogs"]) {
         }
         &.sunday {
             background-color: var(--commonColor02);
+        }
+    }
+    thead {
+        th {
+            text-align: center;
+            background-color: var(--primaryColor);
+            a {
+                color: var(--invert-text);
+            }
         }
     }
     td {
@@ -2763,6 +2870,9 @@ body:has(input#Controller[value="syslogs"]) {
                 border-color: var(--primaryDark);
             }
         }
+    }
+    .dummy {
+        margin: 4px 0 0;
     }
     .other-month {
         background-color: var(--base-dark-layer);
@@ -3016,15 +3126,20 @@ body:has(input#Controller[value="syslogs"]) {
         }
     }
     .image {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-        height: 200px;
-        margin-top: auto;
-        overflow: hidden;
+        a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+            border: 1px solid var(--base-border);
+        }
         img {
             display: block;
+            min-width: 100%;
+            min-height: 100%;
+            object-fit: cover;
             transition: transform 150ms ease-out;
             &:hover {
                 transform: scale(1.02);
