@@ -4356,6 +4356,8 @@ namespace Implem.Pleasanter.Models
                 .SiteMenuConditions(
                     context: context,
                     siteId: siteId,
+                    hasImage: hasImage,
+                    referenceType: referenceType,
                     siteConditions: siteConditions);
         }
 
@@ -4475,6 +4477,8 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder SiteMenuConditions(
             this HtmlBuilder hb,
             Context context,
+            bool hasImage,
+            string referenceType,
             long siteId,
             IEnumerable<SiteCondition> siteConditions)
         {
@@ -4485,15 +4489,45 @@ namespace Implem.Pleasanter.Models
                     .FirstOrDefault(o => o.SiteId == siteId);
                 hb.Div(
                     css: "conditions",
-                    _using: condition.ItemCount > 0,
                     action: () => hb
                         .ElapsedTime(
                             context: context,
                             value: condition.UpdatedTime.ToLocal(context: context))
                         .Span(
                             attributes: new HtmlAttributes()
+                                .Class("reference material-symbols-outlined")
+                                .Title(ReferenceTypeDisplayName(
+                                    context: context,
+                                    referenceType: referenceType)),
+                            _using: hasImage,
+                            action: () =>
+                            {
+                                switch (referenceType)
+                                {
+                                    case "Sites":
+                                        hb.Text("folder");
+                                        break;
+                                    case "Issues":
+                                        hb.Text("view_timeline");
+                                        break;
+                                    case "Results":
+                                        hb.Text("table");
+                                        break;
+                                    case "Wikis":
+                                        hb.Text("text_snippet");
+                                        break;
+                                    case "Dashboards":
+                                        hb.Text("dashboard");
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            })
+                        .Span(
+                            attributes: new HtmlAttributes()
                                 .Class("count")
                                 .Title(Displays.Quantity(context: context)),
+                            _using: condition.ItemCount > 0,
                             action: () => hb
                                 .Text(condition.ItemCount.ToString()))
                         .Span(
@@ -4502,7 +4536,7 @@ namespace Implem.Pleasanter.Models
                                 .Title(Displays.Overdue(context: context)),
                             _using: condition.OverdueCount > 0,
                             action: () => hb
-                                .Text($"({condition.OverdueCount})")));
+                                .Text(condition.OverdueCount.ToString())));
             }
             return hb;
         }
