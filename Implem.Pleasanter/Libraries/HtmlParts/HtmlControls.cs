@@ -9,7 +9,6 @@ using Implem.Pleasanter.Libraries.Settings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using static System.Net.Mime.MediaTypeNames;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlControls
