@@ -11,7 +11,6 @@ using Implem.Pleasanter.Libraries.Settings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
@@ -32,9 +31,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Spinner,
             Attachments
         }
-
-        private static Regex TextBoxNumericRegex() => new Regex(@"\D");
-
 
         public static HtmlBuilder TabsPanelField(
             this HtmlBuilder hb,
