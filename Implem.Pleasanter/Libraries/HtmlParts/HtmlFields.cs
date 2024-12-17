@@ -82,6 +82,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Column column,
             ServerScriptModelColumn serverScriptModelColumn = null,
             string value = null,
+            object rawValue = null,
             StatusControl.ControlConstraintsTypes controlConstraintsType = StatusControl.ControlConstraintsTypes.None,
             Permissions.ColumnPermissionTypes columnPermissionType = Permissions.ColumnPermissionTypes.Update,
             string fieldCss = null,
@@ -158,6 +159,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         column.LabelText),
                     labelRaw: serverScriptModelColumn?.LabelRaw,
                     value: value,
+                    rawValue: rawValue,
                     optionCollection: EditChoices(
                         context: context,
                         ss: ss,
@@ -206,11 +208,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     ? " hidden"
                     : string.Empty)
                 + (column.TextAlign switch
-                    {
-                        SiteSettings.TextAlignTypes.Right => " right-align",
-                        SiteSettings.TextAlignTypes.Center => " center-align",
-                        _ => string.Empty
-                    })
+                {
+                    SiteSettings.TextAlignTypes.Right => " right-align",
+                    SiteSettings.TextAlignTypes.Center => " center-align",
+                    _ => string.Empty
+                })
                 + (!extendedFieldCss.IsNullOrEmpty()
                     ? " " + extendedFieldCss
                     : string.Empty);
@@ -236,11 +238,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     ? " control-auto-postback"
                     : string.Empty)
                 + (column.TextAlign switch
-                    {
-                        SiteSettings.TextAlignTypes.Right => " right-align",
-                        SiteSettings.TextAlignTypes.Center => " center-align",
-                        _ => string.Empty
-                    })
+                {
+                    SiteSettings.TextAlignTypes.Right => " right-align",
+                    SiteSettings.TextAlignTypes.Center => " center-align",
+                    _ => string.Empty
+                })
             + (!extendedControlCss.IsNullOrEmpty()
                     ? " " + extendedControlCss
                     : string.Empty);
@@ -389,6 +391,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 placeholder: Strings.CoalesceEmpty(column.InputGuide, column.LabelText),
                 labelRaw: null,
                 value: value,
+                rawValue: null,
                 optionCollection: EditChoices(
                     context: context,
                     ss: ss,
@@ -430,6 +433,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string placeholder,
             string labelRaw,
             string value,
+            object rawValue,
             Dictionary<string, ControlData> optionCollection,
             bool mobile,
             bool controlOnly,
@@ -520,6 +524,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 extendedHtmlBetweenLabelAndControl: extendedHtmlBetweenLabelAndControl,
                                 extendedHtmlAfterControl: extendedHtmlAfterControl);
                         default:
+                            var dataValue = column.TypeName.CsTypeSummary() == Types.CsNumeric
+                                ? rawValue?.ToString() ?? (column.Nullable == true ? "" : "0")
+                                : (column.HasChoices()
+                                    ? value
+                                    : null);
                             return hb.FieldText(
                                 fieldId: controlId + "Field",
                                 controlId: controlId,
@@ -542,9 +551,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     context: context,
                                     ss: ss,
                                     column: column),
-                                dataValue: column.HasChoices()
-                                    ? value
-                                    : null,
+                                dataValue: dataValue,
                                 openAnchorNewTab: column.OpenAnchorNewTab == true,
                                 anchorFormat: column.Anchor == true
                                     ? column.AnchorFormat
@@ -742,7 +749,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 placeholder: placeholder,
                                 labelRaw: labelRaw,
                                 controlOnly: controlOnly,
-                                dataValue: TextBoxNumericRegex().Replace(value, ""),
+                                dataValue: rawValue?.ToString() ?? (column.Nullable == true ? "" : "0"),
                                 unit: column.Unit,
                                 text: value,
                                 alwaysSend: alwaysSend,

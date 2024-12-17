@@ -1930,6 +1930,11 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 column: column);
+            var rawValue = issueModel.ToApiValue(
+                context: context,
+                ss: ss,
+                column: column,
+                issueModel.Mine(context: context));
             if (value != null)
             {
                 //数値項目の場合、「単位」を値に連結する
@@ -1950,6 +1955,7 @@ namespace Implem.Pleasanter.Models
                         ?.ServerScriptModelRow
                         ?.Columns.Get(column.ColumnName),
                     value: value,
+                    rawValue: rawValue,
                     controlConstraintsType: issueModel.GetStatusControl(
                         context: context,
                         ss: ss,

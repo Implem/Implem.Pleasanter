@@ -463,6 +463,11 @@ public static HtmlBuilder Field(
         context: context,
         ss: ss,
         column: column);
+    var rawValue = #modelName#Model.ToApiValue(
+        context: context,
+        ss: ss,
+        column: column,
+        #modelName#Model.Mine(context: context));
     if (value != null)
     {
         //数値項目の場合、「単位」を値に連結する
@@ -483,6 +488,7 @@ public static HtmlBuilder Field(
                 ?.ServerScriptModelRow
                 ?.Columns.Get(column.ColumnName),
             value: value,
+            rawValue: rawValue,
 
 <!--Model_ControlConstraintsType-->
 

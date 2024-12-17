@@ -869,6 +869,9 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 column: column);
+            var rawValue = wikiModel.GetValue(
+                context: context,
+                column: column);
             if (value != null)
             {
                 //数値項目の場合、「単位」を値に連結する
@@ -889,6 +892,7 @@ namespace Implem.Pleasanter.Models
                         ?.ServerScriptModelRow
                         ?.Columns.Get(column.ColumnName),
                     value: value,
+                    rawValue: rawValue,
                     columnPermissionType: Permissions.ColumnPermissionType(
                         context: context,
                         ss: ss,

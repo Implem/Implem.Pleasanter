@@ -75,7 +75,7 @@ $p.getGridRow = function (id) {
 }
 
 $p.getGridCell = function (id, name, excludeHistory) {
-    return $('#Grid > tbody > tr[data-id="' + id + '"]' + (excludeHistory? ':not([data-history])' : '') + ' td:nth-child(' + ($p.getGridColumnIndex(name) + 1) + ')');
+    return $('#Grid > tbody > tr[data-id="' + id + '"]' + (excludeHistory ? ':not([data-history])' : '') + ' td:nth-child(' + ($p.getGridColumnIndex(name) + 1) + ')');
 }
 
 $p.getGridColumnIndex = function (name) {
@@ -83,21 +83,22 @@ $p.getGridColumnIndex = function (name) {
 }
 
 $p.getValue = function (name) {
-    var columnName = $p.getColumnName(name);
-    if (columnName === undefined) {
+    let $control = $p.getControl(name);
+    if ($control.length === 0) {
         return undefined;
     }
-    var element = $('#' + $('#ReferenceType').val() + '_' + columnName)[0];
-    if (element === undefined) {
-        return undefined;
-    } else if (element.className === "control-checkbox") {
-        return element.checked
-    } else if (element.getAttribute('data-readonly') || "0" === "1") {
-        return element.getAttribute('data-value') !== null
-            ? element.getAttribute('data-value') 
-            : element.textContent;
-    } else {
-        return $p.getControl(name).val();
+    let element = $control[0];
+    switch (element.tagName) {
+        case 'INPUT':
+            return (element.type === 'checkbox')
+                ? element.checked
+                : element.value;
+        case 'SELECT':
+        case 'TEXTAREA':
+            return element.value;
+        default:
+            let dataValue = element.getAttribute('data-value');
+            return dataValue ?? element.textContent;
     }
 }
 
