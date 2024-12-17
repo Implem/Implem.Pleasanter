@@ -2,5 +2,5 @@
     "Id": "Model_ToApiValue",
     "Indent": "2",
     "GenericUi": "1",
-    "Exclude": "Tenants,Sites,Wikis"
+    "Exclude": "Tenants,Sites"
 }
