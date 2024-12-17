@@ -1825,9 +1825,11 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 column: column);
-            var rawValue = resultModel.GetValue(
+            var rawValue = resultModel.ToApiValue(
                 context: context,
-                column: column);
+                ss: ss,
+                column: column,
+                resultModel.Mine(context: context));
             if (value != null)
             {
                 //数値項目の場合、「単位」を値に連結する
