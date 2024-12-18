@@ -84,7 +84,7 @@ $p.getGridColumnIndex = function (name) {
 
 $p.getValue = function (name) {
     let $control = $p.getControl(name);
-    if ($control.length === 0) {
+    if ($control === undefined || $control.length === 0) {
         return undefined;
     }
     let element = $control[0];
