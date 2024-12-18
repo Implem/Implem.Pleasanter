@@ -98,7 +98,7 @@ $p.getValue = function (name) {
             return element.value;
         default:
             let dataValue = element.getAttribute('data-value');
-            return dataValue ?? element.textContent;
+            return dataValue === null ? element.textContent : dataValue;
     }
 }
 
