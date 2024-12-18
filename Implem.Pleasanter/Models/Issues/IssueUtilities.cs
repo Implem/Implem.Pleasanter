@@ -1930,11 +1930,10 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 column: column);
-            var rawValue = issueModel.ToApiValue(
+            var rawValue = issueModel.ControlRawValue(
                 context: context,
                 ss: ss,
-                column: column,
-                issueModel.Mine(context: context));
+                column: column);
             if (value != null)
             {
                 //数値項目の場合、「単位」を値に連結する
@@ -2382,6 +2381,136 @@ namespace Implem.Pleasanter.Models
                         case "Attachments":
                             return issueModel.GetAttachments(columnName: column.Name)
                                 .ToControl(
+                                    context: context,
+                                    ss: ss,
+                                    column: column);
+                        default: return null;
+                    }
+            }
+        }
+
+        public static object ControlRawValue(
+            this IssueModel issueModel,
+            Context context,
+            SiteSettings ss,
+            Column column)
+        {
+            switch (column.Name)
+            {
+                case "IssueId":
+                    return issueModel.IssueId
+                        .ToApiValue(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Ver":
+                    return issueModel.Ver
+                        .ToApiValue(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Title":
+                    return issueModel.Title
+                        .ToApiValue(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Body":
+                    return issueModel.Body
+                        .ToApiValue(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "StartTime":
+                    return issueModel.StartTime
+                        .ToApiValue(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "CompletionTime":
+                    return issueModel.CompletionTime
+                        .ToApiValue(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "WorkValue":
+                    return issueModel.WorkValue
+                        .ToApiValue(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "ProgressRate":
+                    return issueModel.ProgressRate
+                        .ToApiValue(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "RemainingWorkValue":
+                    return issueModel.RemainingWorkValue
+                        .ToApiValue(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Status":
+                    return issueModel.Status
+                        .ToApiValue(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Manager":
+                    return issueModel.Manager
+                        .ToApiValue(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Owner":
+                    return issueModel.Owner
+                        .ToApiValue(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Locked":
+                    return issueModel.Locked
+                        .ToApiValue(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                default:
+                    switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
+                    {
+                        case "Class":
+                            return issueModel.GetClass(columnName: column.Name)
+                                .ToApiValue(
+                                    context: context,
+                                    ss: ss,
+                                    column: column);
+                        case "Num":
+                            return issueModel.GetNum(columnName: column.Name)
+                                .ToApiValue(
+                                    context: context,
+                                    ss: ss,
+                                    column: column);
+                        case "Date":
+                            return issueModel.GetDate(columnName: column.Name)
+                                .ToApiValue(
+                                    context: context,
+                                    ss: ss,
+                                    column: column);
+                        case "Description":
+                            return issueModel.GetDescription(columnName: column.Name)
+                                .ToApiValue(
+                                    context: context,
+                                    ss: ss,
+                                    column: column);
+                        case "Check":
+                            return issueModel.GetCheck(columnName: column.Name)
+                                .ToApiValue(
+                                    context: context,
+                                    ss: ss,
+                                    column: column);
+                        case "Attachments":
+                            return issueModel.GetAttachments(columnName: column.Name)
+                                .ToApiValue(
                                     context: context,
                                     ss: ss,
                                     column: column);

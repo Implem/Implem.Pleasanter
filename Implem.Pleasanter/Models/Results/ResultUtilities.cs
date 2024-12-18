@@ -1825,11 +1825,10 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 column: column);
-            var rawValue = resultModel.ToApiValue(
+            var rawValue = resultModel.ControlRawValue(
                 context: context,
                 ss: ss,
-                column: column,
-                resultModel.Mine(context: context));
+                column: column);
             if (value != null)
             {
                 //数値項目の場合、「単位」を値に連結する
@@ -2247,6 +2246,106 @@ namespace Implem.Pleasanter.Models
                         case "Attachments":
                             return resultModel.GetAttachments(columnName: column.Name)
                                 .ToControl(
+                                    context: context,
+                                    ss: ss,
+                                    column: column);
+                        default: return null;
+                    }
+            }
+        }
+
+        public static object ControlRawValue(
+            this ResultModel resultModel,
+            Context context,
+            SiteSettings ss,
+            Column column)
+        {
+            switch (column.Name)
+            {
+                case "ResultId":
+                    return resultModel.ResultId
+                        .ToApiValue(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Ver":
+                    return resultModel.Ver
+                        .ToApiValue(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Title":
+                    return resultModel.Title
+                        .ToApiValue(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Body":
+                    return resultModel.Body
+                        .ToApiValue(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Status":
+                    return resultModel.Status
+                        .ToApiValue(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Manager":
+                    return resultModel.Manager
+                        .ToApiValue(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Owner":
+                    return resultModel.Owner
+                        .ToApiValue(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Locked":
+                    return resultModel.Locked
+                        .ToApiValue(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                default:
+                    switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
+                    {
+                        case "Class":
+                            return resultModel.GetClass(columnName: column.Name)
+                                .ToApiValue(
+                                    context: context,
+                                    ss: ss,
+                                    column: column);
+                        case "Num":
+                            return resultModel.GetNum(columnName: column.Name)
+                                .ToApiValue(
+                                    context: context,
+                                    ss: ss,
+                                    column: column);
+                        case "Date":
+                            return resultModel.GetDate(columnName: column.Name)
+                                .ToApiValue(
+                                    context: context,
+                                    ss: ss,
+                                    column: column);
+                        case "Description":
+                            return resultModel.GetDescription(columnName: column.Name)
+                                .ToApiValue(
+                                    context: context,
+                                    ss: ss,
+                                    column: column);
+                        case "Check":
+                            return resultModel.GetCheck(columnName: column.Name)
+                                .ToApiValue(
+                                    context: context,
+                                    ss: ss,
+                                    column: column);
+                        case "Attachments":
+                            return resultModel.GetAttachments(columnName: column.Name)
+                                .ToApiValue(
                                     context: context,
                                     ss: ss,
                                     column: column);
