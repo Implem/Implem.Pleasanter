@@ -2392,6 +2392,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Where(o => context.ContractSettings.Attachments()
                     || o.ControlType != "Attachments")
                 .ToList();
+            //サーバスクリプトでアップデートする際に必要なため、レコードのバージョンは必ず取得する
             if (!columns.Any(o => o.ColumnName == "Ver"))
             {
                 columns.Add(GetColumn(
