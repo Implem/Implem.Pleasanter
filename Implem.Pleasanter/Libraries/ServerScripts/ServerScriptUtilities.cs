@@ -873,9 +873,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             issueModel.SetTitle(
                 context: context,
                 ss: ss);
-            if (condition != ServerScriptConditions.BeforeOpeningPage
-                && condition != ServerScriptConditions.BeforeOpeningRow
-                && Bool(data: data, name: "UpdateOnExit"))
+            if (Bool(data: data, name: "UpdateOnExit"))
             {
                 issueModel.VerUp = Versions.MustVerUp(
                     context: context,
@@ -960,9 +958,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             resultModel.SetTitle(
                 context: context,
                 ss: ss);
-            if (condition != ServerScriptConditions.BeforeOpeningPage
-                && condition != ServerScriptConditions.BeforeOpeningRow
-                && Bool(data: data, name: "UpdateOnExit"))
+            if (Bool(data: data, name: "UpdateOnExit"))
             {
                 resultModel.VerUp = Versions.MustVerUp(
                     context: context,

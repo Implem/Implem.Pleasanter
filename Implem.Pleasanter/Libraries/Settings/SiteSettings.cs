@@ -2392,8 +2392,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Where(o => context.ContractSettings.Attachments()
                     || o.ControlType != "Attachments")
                 .ToList();
-            if (view?.ShowHistory == true
-                && !columns.Any(o => o.ColumnName == "Ver"))
+            if (!columns.Any(o => o.ColumnName == "Ver"))
             {
                 columns.Add(GetColumn(
                     context: context,
