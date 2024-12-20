@@ -11,14 +11,12 @@ using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
-using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 using static Implem.Pleasanter.Libraries.Security.Permissions;
 using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 using Types = Implem.Libraries.Utilities.Types;
 
 namespace Implem.Pleasanter.Libraries.ServerScripts
