@@ -1,13 +1,13 @@
 ﻿{
-    "Dbms": "PostgreSQL",
-    "Provider": "Local",
-    "SaConnectionString": "Server=localhost;Port=5433;Database=postgres;UID=postgres;PWD=pleaplem",
-    "OwnerConnectionString": "Server=localhost;Port=5433;Database=#ServiceName#;UID=#ServiceName#_Owner;PWD=SetAdminsPWD",
-    "UserConnectionString": "Server=localhost;Port=5433;Database=#ServiceName#;UID=#ServiceName#_User;PWD=SetUsersPWD",
-    "SqlCommandTimeOut": 600,
-    "MinimumTime": 3,
-    "DeadlockRetryCount": 4,
-    "DeadlockRetryInterval": 1000,
-    "DisableIndexChangeDetection": true,
-    "SysLogsSchemaVersion": 1
+  "Dbms": "SQLServer",
+  "Provider": "Local",
+  "SaConnectionString": null,
+  "OwnerConnectionString": null,
+  "UserConnectionString": null,
+  "SqlCommandTimeOut": 0,
+  "MinimumTime": 3,
+  "DeadlockRetryCount": 4,
+  "DeadlockRetryInterval": 1000,
+  "DisableIndexChangeDetection": true,
+  "SysLogsSchemaVersion": 1
 }
