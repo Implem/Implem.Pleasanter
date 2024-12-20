@@ -199,7 +199,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     var fullPath = NormalizePath(
                         section: section,
                         path: path);
-                    if ( Directory.Exists(fullPath)) Directory.Delete(fullPath, true);
+                    if (Directory.Exists(fullPath)) Directory.Delete(fullPath, true);
                     ret = true;
                 });
             return ret;
@@ -273,7 +273,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             var regexPath = new Regex(@"^[0-9a-zA-Z_\.\-/]*$");
             if (path != null && !regexPath.IsMatch(path)) throw new ArgumentException(Messages.InvalidPath(Context, "path").Text);
             var sectionPath = Path.Combine(rootPath2, section);
-            var fullPath = Path.GetFullPath(Path.Combine(sectionPath, path.Replace('/', Path.DirectorySeparatorChar)));
+            var fullPath = Path.GetFullPath(Path.Combine(sectionPath, path?.Replace('/', Path.DirectorySeparatorChar) ?? ""));
             if (!fullPath.StartsWith(sectionPath)) throw new ArgumentException(Messages.InvalidPath(Context, "path").Text);
             return fullPath;
         }
