@@ -10,8 +10,8 @@ using Xunit;
 
 namespace Implem.PleasanterTest.Tests.Settings
 {
-    [Collection(nameof(SiteSettingsMoveUpDownProcesses))]
-    public class SiteSettingsMoveUpDownProcesses
+    [Collection(nameof(SiteSettingsDeleteProcesses))]
+    public class SiteSettingsDeleteProcesses
     {
 
         [Theory]
@@ -19,7 +19,7 @@ namespace Implem.PleasanterTest.Tests.Settings
         public void Test(
             string title,
             Forms forms,
-            List<BaseTest> baseTests, 
+            List<BaseTest> baseTests,
             UserModel userModel)
         {
             var siteId = Initializer.Sites.Get(title).SiteId;
@@ -41,26 +41,13 @@ namespace Implem.PleasanterTest.Tests.Settings
             var testParts = new List<TestPart>()
             {
                 new TestPart(
-                    title: "サイト設定 - MoveUpDownProcesses",
+                    title: "サイト設定 - DeleteProcesses",
                     forms: FormsUtilities.Get(
-                        new KeyValue("ControlId", "MoveUpProcesses"),
+                        new KeyValue("ControlId", "DeleteProcesses"),
                         new KeyValue("EditProcess", "[\"1\"]")),
                     baseTests: BaseData.Tests(
                         JsonData.ExistsOne(
-                            method: "Html",
-                            target: "#EditProcess"),
-                        JsonData.ExistsOne(
-                            method: "SetMemory",
-                            target: "formChanged")),
-                    userType: UserData.UserTypes.Privileged),
-                new TestPart(
-                    title: "サイト設定 - MoveUpDownProcesses",
-                    forms: FormsUtilities.Get(
-                        new KeyValue("ControlId", "MoveDownProcesses"),
-                        new KeyValue("EditProcess", "[\"1\"]")),
-                    baseTests: BaseData.Tests(
-                        JsonData.ExistsOne(
-                            method: "Html",
+                            method: "ReplaceAll",
                             target: "#EditProcess"),
                         JsonData.ExistsOne(
                             method: "SetMemory",

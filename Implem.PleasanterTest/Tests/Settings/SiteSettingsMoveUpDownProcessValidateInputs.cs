@@ -10,8 +10,8 @@ using Xunit;
 
 namespace Implem.PleasanterTest.Tests.Settings
 {
-    [Collection(nameof(SiteSettingsMoveUpDownProcesses))]
-    public class SiteSettingsMoveUpDownProcesses
+    [Collection(nameof(SiteSettingsMoveUpDownProcessValidateInputs))]
+    public class SiteSettingsMoveUpDownProcessValidateInputs
     {
 
         [Theory]
@@ -41,27 +41,31 @@ namespace Implem.PleasanterTest.Tests.Settings
             var testParts = new List<TestPart>()
             {
                 new TestPart(
-                    title: "サイト設定 - MoveUpDownProcesses",
+                    title: "サイト設定 - MoveUpDownProcessValidateInputs",
                     forms: FormsUtilities.Get(
-                        new KeyValue("ControlId", "MoveUpProcesses"),
-                        new KeyValue("EditProcess", "[\"1\"]")),
+                        new KeyValue("ControlId", "MoveUpProcessValidateInputs"),
+                        new KeyValue("ProcessId", "1"),
+                        new KeyValue("EditProcessValidateInput", "[\"1\"]"),
+                        new KeyValue("ProcessValidateInputs", "[{\"Id\":1,\"ColumnName\":\"Title\",\"Required\":false,\"ClientRegexValidation\":\"\",\"ServerRegexValidation\":\"\",\"RegexValidationMessage\":\"\"}]")),
                     baseTests: BaseData.Tests(
                         JsonData.ExistsOne(
                             method: "Html",
-                            target: "#EditProcess"),
+                            target: "#EditProcessValidateInput"),
                         JsonData.ExistsOne(
                             method: "SetMemory",
                             target: "formChanged")),
                     userType: UserData.UserTypes.Privileged),
                 new TestPart(
-                    title: "サイト設定 - MoveUpDownProcesses",
+                    title: "サイト設定 - MoveUpDownProcessValidateInputs",
                     forms: FormsUtilities.Get(
-                        new KeyValue("ControlId", "MoveDownProcesses"),
-                        new KeyValue("EditProcess", "[\"1\"]")),
+                        new KeyValue("ControlId", "MoveDownProcessValidateInputs"),
+                        new KeyValue("ProcessId", "1"),
+                        new KeyValue("EditProcessValidateInput", "[\"1\"]"),
+                        new KeyValue("ProcessValidateInputs", "[{\"Id\":1,\"ColumnName\":\"Title\",\"Required\":false,\"ClientRegexValidation\":\"\",\"ServerRegexValidation\":\"\",\"RegexValidationMessage\":\"\"}]")),
                     baseTests: BaseData.Tests(
                         JsonData.ExistsOne(
                             method: "Html",
-                            target: "#EditProcess"),
+                            target: "#EditProcessValidateInput"),
                         JsonData.ExistsOne(
                             method: "SetMemory",
                             target: "formChanged")),
