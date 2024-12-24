@@ -1,0 +1,58 @@
+﻿version: '3.5'
+
+services:
+  Implem.Pleasanter.MySQL:
+    build:
+      context: .
+      dockerfile: ./Implem.Pleasanter/xUnitTestForMySQL/Dockerfile
+      target: testing
+    environment:
+        - Implem.Pleasanter_Rds_MySQL_SaConnectionString=${Implem_Pleasanter_Rds_MySQL_SaConnectionString}
+        - Implem.Pleasanter_Rds_MySQL_OwnerConnectionString=${Implem_Pleasanter_Rds_MySQL_OwnerConnectionString}
+        - Implem.Pleasanter_Rds_MySQL_UserConnectionString=${Implem_Pleasanter_Rds_MySQL_UserConnectionString}
+    image: implem.pleasanter.mysql
+    container_name: pleasanterformysql
+    depends_on:
+      - db.MySQL
+    networks:
+      - default
+  Implem.CodeDefiner.MySQL:
+    build:
+      context: .
+      dockerfile: ./Implem.CodeDefiner/xUnitTestForMySQL/Dockerfile
+    environment:
+        - Implem.Pleasanter_Rds_MySQL_SaConnectionString=${Implem_Pleasanter_Rds_MySQL_SaConnectionString}
+        - Implem.Pleasanter_Rds_MySQL_OwnerConnectionString=${Implem_Pleasanter_Rds_MySQL_OwnerConnectionString}
+        - Implem.Pleasanter_Rds_MySQL_UserConnectionString=${Implem_Pleasanter_Rds_MySQL_UserConnectionString}
+    image: implem.codedefiner.mysql
+    container_name: codedefinerformysql
+    depends_on:
+      - db.MySQL
+    networks:
+      - default
+  Implem.PleasanterTest.MySQL:
+    build:
+      context: .
+      dockerfile: ./Implem.PleasanterTest/xUnitTestForMySQL/Dockerfile
+    environment:
+        - Implem.Pleasanter_Rds_MySQL_SaConnectionString=${Implem_Pleasanter_Rds_MySQL_SaConnectionString}
+        - Implem.Pleasanter_Rds_MySQL_OwnerConnectionString=${Implem_Pleasanter_Rds_MySQL_OwnerConnectionString}
+        - Implem.Pleasanter_Rds_MySQL_UserConnectionString=${Implem_Pleasanter_Rds_MySQL_UserConnectionString}
+    image: implem.pleasantertest.mysql
+    container_name: xunittestformysql
+    depends_on:
+      - db.MySQL
+    networks:
+      - default
+  db.MySQL:
+    container_name: mysql
+    image: mysql:8.4
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    ports:
+      - "3306:3306"
+    networks:
+      - default
+networks:
+  default:
+    name: pleasanternetworkformysql

@@ -18,6 +18,10 @@
     <WarningsAsErrors />
     <NoWarn>NU1605;1701;1702</NoWarn>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="xUnitTestForMySQL\Dockerfile" />
+  </ItemGroup>
     
   <ItemGroup>
     <PackageReference Include="AngleSharp" Version="1.1.2" />

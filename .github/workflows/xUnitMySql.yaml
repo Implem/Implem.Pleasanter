@@ -1,0 +1,37 @@
+﻿name: build and xUnit test for MySQL
+on:
+  schedule:
+    - cron: '0 13 * * *'   # UTC (= 22:00 JST)
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - ready_for_review
+  workflow_dispatch:
+jobs:
+    run_xunit_test:
+        name: Run xUnit test
+        if: github.repository == 'Implem/Implem.Pleasanter.NetCore.Private' && github.event.pull_request.draft == false
+        runs-on: ubuntu-latest
+        env:
+            Implem_Pleasanter_Rds_MySQL_SaConnectionString: ${{ secrets.PLEASANTER_RDS_SA_CONN_MYSQL }}
+            Implem_Pleasanter_Rds_MySQL_OwnerConnectionString: ${{ secrets.PLEASANTER_RDS_OWNER_CONN_MYSQL }}
+            Implem_Pleasanter_Rds_MySQL_UserConnectionString: ${{ secrets.PLEASANTER_RDS_USER_CONN_MYSQL }}
+            MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
+            DOCKER_BUILDKIT: 1
+            COMPOSE_DOCKER_CLI_BUILD: true
+        steps:
+            - uses: actions/checkout@v4
+            - name: build on docker compose for MySQL
+              working-directory: ./
+              run: docker compose -f docker-compose-for-my-sql.yml build Implem.CodeDefiner.MySQL Implem.PleasanterTest.MySQL
+            - name: run Implem.CodeDefiner on docker compose for MySQL
+              run: docker compose -f docker-compose-for-my-sql.yml run --rm --name codedefiner Implem.CodeDefiner.MySQL _rds /y
+              working-directory: ./
+            - name: run Implem.PleasanterTest on docker compose for MySQL
+              run: docker compose -f docker-compose-for-my-sql.yml run --rm --name testrunner Implem.PleasanterTest.MySQL
+              working-directory: ./
+            - name: clean up on docker compose for MySQL
+              run: docker compose -f docker-compose-for-my-sql.yml down
+              working-directory: ./

@@ -141,6 +141,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="xUnitTestForMySQL\Dockerfile" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="App_Data\Parameters\ExtendedAutoTest\TestCases\GeneralCase0_FileUpload.json.ignore" />
     <Content Include="App_Data\Parameters\ExtendedAutoTest\TestCases\GeneralCase10_ToIssuesCrosstab.json.ignore" />
     <Content Include="App_Data\Parameters\ExtendedAutoTest\TestCases\GeneralCase11_ToIssuesGantt.json.ignore" />
