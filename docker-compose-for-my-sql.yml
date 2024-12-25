@@ -1,10 +1,10 @@
 ﻿version: '3.5'
 
 services:
-  Implem.Pleasanter.MySQL:
+  Implem.Pleasanter:
     build:
       context: .
-      dockerfile: ./Implem.Pleasanter/xUnitTestForMySQL/Dockerfile
+      dockerfile: ./Implem.Pleasanter/Dockerfile.mysql
       target: testing
     environment:
         - Implem.Pleasanter_Rds_MySQL_SaConnectionString=${Implem_Pleasanter_Rds_MySQL_SaConnectionString}
@@ -13,13 +13,13 @@ services:
     image: implem.pleasanter.mysql
     container_name: pleasanterformysql
     depends_on:
-      - db.MySQL
+      - db
     networks:
       - default
-  Implem.CodeDefiner.MySQL:
+  Implem.CodeDefiner:
     build:
       context: .
-      dockerfile: ./Implem.CodeDefiner/xUnitTestForMySQL/Dockerfile
+      dockerfile: ./Implem.CodeDefiner/Dockerfile.mysql
     environment:
         - Implem.Pleasanter_Rds_MySQL_SaConnectionString=${Implem_Pleasanter_Rds_MySQL_SaConnectionString}
         - Implem.Pleasanter_Rds_MySQL_OwnerConnectionString=${Implem_Pleasanter_Rds_MySQL_OwnerConnectionString}
@@ -27,13 +27,13 @@ services:
     image: implem.codedefiner.mysql
     container_name: codedefinerformysql
     depends_on:
-      - db.MySQL
+      - db
     networks:
       - default
-  Implem.PleasanterTest.MySQL:
+  Implem.PleasanterTest:
     build:
       context: .
-      dockerfile: ./Implem.PleasanterTest/xUnitTestForMySQL/Dockerfile
+      dockerfile: ./Implem.PleasanterTest/Dockerfile.mysql
     environment:
         - Implem.Pleasanter_Rds_MySQL_SaConnectionString=${Implem_Pleasanter_Rds_MySQL_SaConnectionString}
         - Implem.Pleasanter_Rds_MySQL_OwnerConnectionString=${Implem_Pleasanter_Rds_MySQL_OwnerConnectionString}
@@ -41,10 +41,10 @@ services:
     image: implem.pleasantertest.mysql
     container_name: xunittestformysql
     depends_on:
-      - db.MySQL
+      - db
     networks:
       - default
-  db.MySQL:
+  db:
     container_name: mysql
     image: mysql:8.4
     environment:

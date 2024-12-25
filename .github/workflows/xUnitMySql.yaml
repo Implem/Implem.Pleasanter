@@ -11,13 +11,13 @@ on:
   workflow_dispatch:
 jobs:
     run_xunit_test:
-        name: Run xUnit test
+        name: Run xUnit test for MySQL
         if: github.repository == 'Implem/Implem.Pleasanter.NetCore.Private' && github.event.pull_request.draft == false
         runs-on: ubuntu-latest
         env:
-            Implem_Pleasanter_Rds_MySQL_SaConnectionString: ${{ secrets.PLEASANTER_RDS_SA_CONN_MYSQL }}
-            Implem_Pleasanter_Rds_MySQL_OwnerConnectionString: ${{ secrets.PLEASANTER_RDS_OWNER_CONN_MYSQL }}
-            Implem_Pleasanter_Rds_MySQL_UserConnectionString: ${{ secrets.PLEASANTER_RDS_USER_CONN_MYSQL }}
+            Implem_Pleasanter_Rds_MySQL_SaConnectionString: ${{ secrets.PLEASANTER_MYSQL_RDS_SA_CONN }}
+            Implem_Pleasanter_Rds_MySQL_OwnerConnectionString: ${{ secrets.PLEASANTER_MYSQL_RDS_OWNER_CONN }}
+            Implem_Pleasanter_Rds_MySQL_UserConnectionString: ${{ secrets.PLEASANTER_MYSQL_RDS_USER_CONN }}
             MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
             DOCKER_BUILDKIT: 1
             COMPOSE_DOCKER_CLI_BUILD: true
@@ -25,12 +25,12 @@ jobs:
             - uses: actions/checkout@v4
             - name: build on docker compose for MySQL
               working-directory: ./
-              run: docker compose -f docker-compose-for-my-sql.yml build Implem.CodeDefiner.MySQL Implem.PleasanterTest.MySQL
+              run: docker compose -f docker-compose-for-my-sql.yml build Implem.CodeDefiner Implem.PleasanterTest
             - name: run Implem.CodeDefiner on docker compose for MySQL
-              run: docker compose -f docker-compose-for-my-sql.yml run --rm --name codedefiner Implem.CodeDefiner.MySQL _rds /y
+              run: docker compose -f docker-compose-for-my-sql.yml run --rm Implem.CodeDefiner _rds /y
               working-directory: ./
             - name: run Implem.PleasanterTest on docker compose for MySQL
-              run: docker compose -f docker-compose-for-my-sql.yml run --rm --name testrunner Implem.PleasanterTest.MySQL
+              run: docker compose -f docker-compose-for-my-sql.yml run --rm Implem.PleasanterTest
               working-directory: ./
             - name: clean up on docker compose for MySQL
               run: docker compose -f docker-compose-for-my-sql.yml down

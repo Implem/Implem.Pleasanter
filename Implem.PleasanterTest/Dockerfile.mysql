@@ -1,4 +1,6 @@
-﻿FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+﻿#build and xUnit test for MySQL実行用のDockerfile
+
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 RUN apt-get update && apt-get install -y libgdiplus jq \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
