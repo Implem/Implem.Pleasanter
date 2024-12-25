@@ -23,9 +23,20 @@ jobs:
             COMPOSE_DOCKER_CLI_BUILD: true
         steps:
             - uses: actions/checkout@v4
+            - name: up db container for MySQL
+              working-directory: ./
+              run: docker compose -f docker-compose-for-my-sql.yml run --rm db    # 先にMySQLコンテナ単独で起動(立ち上がるまで時間を要するため)
             - name: build on docker compose for MySQL
               working-directory: ./
               run: docker compose -f docker-compose-for-my-sql.yml build Implem.CodeDefiner Implem.PleasanterTest
+            - name: execute query create user for MySQL    # CodeDefiner実行に必要なユーザーを作成
+              working-directory: ./
+              run: |
+                  mysql -h 127.0.0.1 --port 3306 -u root -p${{ secrets.MYSQL_ROOT_PASSWORD }}
+                  -e $"create user 'Implem.Pleasanter_Owner'@'%' identified by 'dummy';
+                       grant all on `Implem.Pleasanter`.* to 'Implem.Pleasanter_Owner'@'%' with grant option;
+                       create user 'Implem.Pleasanter_User'@'%' identified by 'dummy';
+                       grant select, insert, update, delete, create routine, alter routine on `Implem.Pleasanter`.* to 'Implem.Pleasanter_User'@'%';"
             - name: run Implem.CodeDefiner on docker compose for MySQL
               run: docker compose -f docker-compose-for-my-sql.yml run --rm Implem.CodeDefiner _rds /y
               working-directory: ./

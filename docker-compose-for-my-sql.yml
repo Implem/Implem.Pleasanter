@@ -13,7 +13,8 @@ services:
     image: implem.pleasanter.mysql
     container_name: pleasanterformysql
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     networks:
       - default
   Implem.CodeDefiner:
