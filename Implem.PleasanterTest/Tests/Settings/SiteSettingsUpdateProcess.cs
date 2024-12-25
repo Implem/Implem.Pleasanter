@@ -41,7 +41,7 @@ namespace Implem.PleasanterTest.Tests.Settings
             var testParts = new List<TestPart>()
             {
                 new TestPart(
-                    title: "サイト設定 - AddProcess",
+                    title: "サイト設定 - UpdateProcess",
                     forms: FormsUtilities.Get(
                         new KeyValue("ControlId", "UpdateProcess"),
                         new KeyValue("ProcessId", "1")),
