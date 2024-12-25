@@ -57,7 +57,7 @@ services:
     networks:
       - default
     healthcheck:
-        test: mysqladmin ping -h 127.0.0.1 -u root -p$$MYSQL_ROOT_PASSWORD
+        test: mysqladmin ping -h 127.0.0.1 -u root -p${MYSQL_ROOT_PASSWORD}
         interval: 10s
         timeout: 10s
         retries: 6
