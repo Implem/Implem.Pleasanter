@@ -32,7 +32,7 @@ jobs:
             - name: execute query create user for MySQL
               working-directory: ./
               run: |
-                  mysql -h db --port 3306 -u root -p${{ secrets.MYSQL_ROOT_PASSWORD }}
+                  mysql -h 127.0.0.1 --port 3306 -u root -p${{ secrets.MYSQL_ROOT_PASSWORD }}
                   -e $"create user 'Implem.Pleasanter_Owner'@'%' identified by 'dummy';
                        grant all on `Implem.Pleasanter`.* to 'Implem.Pleasanter_Owner'@'%' with grant option;
                        create user 'Implem.Pleasanter_User'@'%' identified by 'dummy';
