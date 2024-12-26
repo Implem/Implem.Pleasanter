@@ -19,6 +19,8 @@ jobs:
             Implem_Pleasanter_Rds_MySQL_OwnerConnectionString: ${{ secrets.PLEASANTER_MYSQL_RDS_OWNER_CONN }}
             Implem_Pleasanter_Rds_MySQL_UserConnectionString: ${{ secrets.PLEASANTER_MYSQL_RDS_USER_CONN }}
             MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
+            MYSQL_OWNER_PASSWORD: ${{ secrets.MYSQL_OWNER_PASSWORD }}
+            MYSQL_USER_PASSWORD: ${{ secrets.MYSQL_USER_PASSWORD }}
             DOCKER_BUILDKIT: 1
             COMPOSE_DOCKER_CLI_BUILD: true
         steps:
