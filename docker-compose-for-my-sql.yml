@@ -62,7 +62,7 @@ services:
         timeout: 10s
         retries: 6
     volumes:
-        - ./MySqlTestResources:/docker-entrypoint-initdb.d:ro
+        - ./MySqlTestResources:/docker-entrypoint-initdb.d
 networks:
   default:
     name: pleasanternetworkformysql
