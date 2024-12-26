@@ -48,9 +48,7 @@ services:
     networks:
       - default
   db:
-    build:
-      context: .
-      dockerfile: ./MySqlTestResources/Dockerfile.mysql
+    image: mysql:8.4
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
     container_name: mysql
@@ -63,6 +61,8 @@ services:
         interval: 10s
         timeout: 10s
         retries: 6
+    volumes:
+        - ./MySqlTestResources:/docker-entrypoint-initdb.d:ro
 networks:
   default:
     name: pleasanternetworkformysql
