@@ -13,8 +13,7 @@ services:
     image: implem.pleasanter.mysql
     container_name: pleasanterformysql
     depends_on:
-      db:
-        condition: service_healthy
+      - db
     networks:
       - default
   Implem.CodeDefiner:
@@ -28,8 +27,7 @@ services:
     image: implem.codedefiner.mysql
     container_name: codedefinerformysql
     depends_on:
-      db:
-        condition: service_healthy
+      - db
     networks:
       - default
   Implem.PleasanterTest:
@@ -43,14 +41,11 @@ services:
     image: implem.pleasantertest.mysql
     container_name: xunittestformysql
     depends_on:
-      db:
-        condition: service_healthy
+      - db
     networks:
       - default
   db:
-    build:
-      context: .
-      dockerfile: ./MySqlTestResources/Dockerfile.mysql
+    image: mysql:8.4
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
     container_name: mysql
@@ -58,11 +53,7 @@ services:
       - "3306:3306"
     networks:
       - default
-    healthcheck:
-        test: mysqladmin ping -h 127.0.0.1 -u root -p${MYSQL_ROOT_PASSWORD}
-        interval: 10s
-        timeout: 10s
-        retries: 6
+    options: --health-cmd "mysqladmin ping -h localhost" --health-interval 20s --health-timeout 10s --health-retries 10
 networks:
   default:
     name: pleasanternetworkformysql
