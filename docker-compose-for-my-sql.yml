@@ -48,10 +48,12 @@ services:
     networks:
       - default
   db:
-    container_name: mysql
-    image: mysql:8.4
+    build:
+      context: .
+      dockerfile: ./MySqlTestResources/Dockerfile.mysql
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    container_name: mysql
     ports:
       - "3306:3306"
     networks:
