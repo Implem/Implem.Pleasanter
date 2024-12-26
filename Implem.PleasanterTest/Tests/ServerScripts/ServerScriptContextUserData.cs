@@ -7,25 +7,33 @@ using Implem.PleasanterTest.Models;
 using Implem.PleasanterTest.Utilities;
 using System.Collections.Generic;
 using Xunit;
-using Org.BouncyCastle.Asn1.X509;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-using Xunit.Sdk;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http;
+using System.Linq;
+using Newtonsoft.Json.Linq;
+using Implem.Pleasanter.Libraries.ServerScripts;
+using System.ComponentModel.DataAnnotations;
+using Implem.Pleasanter.Libraries.Resources;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.VisualBasic;
+using static System.Net.Mime.MediaTypeNames;
+using System;
 
 //下記サーバースクリプトのテストを行います。
 /*
-let urlName = context.QueryStrings.Data('name');
-if(urlName === "HAYATO"){
-    context.AddMessage("OK",'alert-information');
+サーバスクリプト①：UserDataBefore
+context.UserData.MyData = 'HAYATO'; 
+
+サーバスクリプト②：UserDataAfter
+if (context.UserData.MyData === 'HAYATO') {
+    context.AddMessage('OK','alert-information');
 } else {
-    context.AddMessage("NG", 'alert-error');
+    context.AddMessage('NG','alert-information');
 }
 */
 
 namespace Implem.PleasanterTest.Tests.ServerScript
 {
-    [Collection(nameof(ServerScriptContextUrlMethods))]
-    public class ServerScriptContextUrlMethods
+    [Collection(nameof(ServerScriptContextUserData))]
+    public class ServerScriptContextUserData
     {
 
         [Theory]
@@ -35,29 +43,35 @@ namespace Implem.PleasanterTest.Tests.ServerScript
             UserModel userModel,
             List<BaseTest> baseTests)
         {
-            var siteId = Initializer.Sites.Get(title).SiteId;
+            var resultId = Initializer.Results.Get(title).Get("ResultsA").ResultId;
             var context = ContextData.Get(
                 userId: userModel.UserId,
-                routeData: RouteData.ItemsIndex(id: siteId),
-                queryStrings: new QueryStrings() { ["name"] = "HAYATO" });
-            context.BackgroundServerScript = true;
+                routeData: RouteData.ItemsUpdate(id: resultId));
+
+            context.BackgroundServerScript = true; //サーバースクリプトのテスト実施時は必須
+
             var results = Results(context: context);
             Initializer.SaveResults(results);
             Assert.True(Tester.Test(
                 context: context,
                 results: results,
                 baseTests: baseTests));
-
         }
 
         public static IEnumerable<object[]> GetData()
         {
-            var hasMessages = BaseData.Tests(
-                HtmlData.HasInformationMessage(message: "OK"));
+            var baseTests = new List<BaseTest>()
+            {
+                JsonData.Value(
+                    method: "Log",
+                    value: "OK\r\n")
+            };
             var testParts = new List<TestPart>()
             {
-                new TestPart(title: "xUnit_contextUrlMethod", baseTests: hasMessages,userType: UserData.UserTypes.Privileged),
-
+                new TestPart(
+                    title: "xUnit_contextUserData",
+                    baseTests: baseTests,
+                    userType: UserData.UserTypes.Privileged),
             };
             foreach (var testPart in testParts)
             {
@@ -66,6 +80,7 @@ namespace Implem.PleasanterTest.Tests.ServerScript
                     userModel: testPart.UserModel,
                     baseTests: testPart.BaseTests);
             }
+
         }
 
         private static object[] TestData(
@@ -84,7 +99,7 @@ namespace Implem.PleasanterTest.Tests.ServerScript
         private static string Results(Context context)
         {
             var itemModel = Initializer.ItemIds.Get(context.Id);
-            return itemModel.Index(context: context);
+            return itemModel.Update(context: context);
         }
     }
 }

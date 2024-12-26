@@ -6,15 +6,8 @@
             "Title": "test",
             "Name": "",
             "BeforeOpeningPage": true,
-            "Body": "if((context.Url.match(/name/g) || []).length === 0){\n    let myUrl = context.Url;\n    context.Redirect(myUrl + \"?name=\" + context.UserData.MyData);\n}\nlet urlName = context.QueryStrings.Data('name');\nif(urlName === \"HAYATO\"){\n    context.AddMessage(\"OK\",'alert-information');\n} else {\n    context.AddMessage(\"NG\", 'alert-error');\n}\n",
+            "Body": "let urlName = context.QueryStrings.Data('name');\rif(urlName === \"HAYATO\"){\r    context.AddMessage(\"OK\",'alert-information');\r} else {\r    context.AddMessage(\"NG\", 'alert-error');\r}",
             "Id": 1
-        },
-        {
-            "Title": "context.userData",
-            "Name": "",
-            "WhenloadingSiteSettings": true,
-            "Body": "context.UserData.MyData = 'HAYATO';",
-            "Id": 2
         }
     ],
     "NoDisplayIfReadOnly": false
