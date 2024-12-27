@@ -819,6 +819,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_Export": Code.Model_Utilities_Export = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Export, definitionRow, CodeXls); break;
                     case "Model_Utilities_ExportCrosstab": Code.Model_Utilities_ExportCrosstab = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ExportCrosstab, definitionRow, CodeXls); break;
                     case "Model_Utilities_FieldCases": Code.Model_Utilities_FieldCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_FieldCases, definitionRow, CodeXls); break;
+                    case "Model_Utilities_FieldCases_RawValue": Code.Model_Utilities_FieldCases_RawValue = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_FieldCases_RawValue, definitionRow, CodeXls); break;
                     case "Model_Utilities_FieldResponse": Code.Model_Utilities_FieldResponse = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_FieldResponse, definitionRow, CodeXls); break;
                     case "Model_Utilities_FieldResponse_ColumnCases": Code.Model_Utilities_FieldResponse_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_FieldResponse_ColumnCases, definitionRow, CodeXls); break;
                     case "Model_Utilities_FieldResponse_ToResponsel": Code.Model_Utilities_FieldResponse_ToResponsel = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_FieldResponse_ToResponsel, definitionRow, CodeXls); break;
@@ -7348,6 +7349,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_Export;
         public string Model_Utilities_ExportCrosstab;
         public string Model_Utilities_FieldCases;
+        public string Model_Utilities_FieldCases_RawValue;
         public string Model_Utilities_FieldResponse;
         public string Model_Utilities_FieldResponse_ColumnCases;
         public string Model_Utilities_FieldResponse_ToResponsel;
@@ -8195,6 +8197,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_Export = new CodeDefinition();
         public CodeDefinition Model_Utilities_ExportCrosstab = new CodeDefinition();
         public CodeDefinition Model_Utilities_FieldCases = new CodeDefinition();
+        public CodeDefinition Model_Utilities_FieldCases_RawValue = new CodeDefinition();
         public CodeDefinition Model_Utilities_FieldResponse = new CodeDefinition();
         public CodeDefinition Model_Utilities_FieldResponse_ColumnCases = new CodeDefinition();
         public CodeDefinition Model_Utilities_FieldResponse_ToResponsel = new CodeDefinition();
