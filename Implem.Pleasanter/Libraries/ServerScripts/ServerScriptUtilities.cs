@@ -1128,6 +1128,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     try
                     {
                         engine.ContinuationCallback = model.ContinuationCallback;
+                        engine.Execute(ServerScriptJsLibraries.ScriptInit(), debug: false);
                         engine.AddHostType(typeof(Newtonsoft.Json.JsonConvert));
                         engine.AddHostObject("context", model.Context);
                         engine.AddHostObject("grid", model.Grid);
@@ -1151,6 +1152,13 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         }
                         engine.AddHostObject("utilities", model.Utilities);
                         engine.AddHostObject("logs", model.Logs);
+                        if (!Parameters.Script.DisableServerScriptFile)
+                        {
+                            engine.AddHostObject("_file_cs", model.File);
+                            engine.Execute(model.File.Script(), debug: false);
+                        }
+                        engine.AddHostObject("_csv_cs", model.Csv);
+                        engine.Execute(model.Csv.Script(), debug: false);
                         engine.Execute(ServerScriptJsLibraries.Scripts(), debug: false);
                         engine.Execute(
                             code: scripts.Select(script =>
