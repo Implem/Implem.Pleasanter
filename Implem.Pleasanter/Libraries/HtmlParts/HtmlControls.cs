@@ -576,6 +576,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Value(value != null
                         ? value.ToString()
                         : string.Empty)
+                    .Add("data-raw",
+                        value != null
+                            ? value.ToString()
+                            : string.Empty)
                     .DataMin(min, _using: min != -1)
                     .DataMax(max, _using: max != -1)
                     .DataStep(step, _using: step != -1)

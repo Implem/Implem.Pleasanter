@@ -88,6 +88,12 @@ $p.getValue = function (name) {
         return undefined;
     }
     let element = $control[0];
+    //data-raw属性があればそれを優先的に返却
+    let dataRaw = element.getAttribute('data-raw');
+    if (dataRaw !== null) {
+        return dataRaw;
+    }
+    //Input要素はvalue,またはchecked、それ以外はtextContentを返す
     switch (element.tagName) {
         case 'INPUT':
             return (element.type === 'checkbox')
@@ -97,8 +103,7 @@ $p.getValue = function (name) {
         case 'TEXTAREA':
             return element.value;
         default:
-            let dataValue = element.getAttribute('data-value');
-            return dataValue === null ? element.textContent : dataValue;
+            return element.textContent;
     }
 }
 

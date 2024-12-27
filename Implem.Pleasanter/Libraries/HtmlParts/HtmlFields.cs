@@ -520,11 +520,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 extendedHtmlBetweenLabelAndControl: extendedHtmlBetweenLabelAndControl,
                                 extendedHtmlAfterControl: extendedHtmlAfterControl);
                         default:
-                            var dataValue = column.TypeName.CsTypeSummary() == Types.CsNumeric
+                            var dataRaw = column.TypeName.CsTypeSummary() == Types.CsNumeric
                                 ? rawValue?.ToString() ?? (column.Nullable == true ? "" : "0")
-                                : (column.HasChoices()
-                                    ? value
-                                    : null);
+                                : null;
                             return hb.FieldText(
                                 fieldId: controlId + "Field",
                                 controlId: controlId,
@@ -547,7 +545,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     context: context,
                                     ss: ss,
                                     column: column),
-                                dataValue: dataValue,
+                                dataValue: column.HasChoices()
+                                    ? value
+                                    : null,
+                                dataRaw: dataRaw,
                                 openAnchorNewTab: column.OpenAnchorNewTab == true,
                                 anchorFormat: column.Anchor == true
                                     ? column.AnchorFormat
@@ -745,7 +746,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 placeholder: placeholder,
                                 labelRaw: labelRaw,
                                 controlOnly: controlOnly,
-                                dataValue: rawValue?.ToString() ?? (column.Nullable == true ? "" : "0"),
+                                attributes: new Dictionary<string, string>()
+                                {
+                                    ["data-raw"] = rawValue?.ToString()
+                                        ?? (column.Nullable == true ? "" : "0")
+                                },
                                 unit: column.Unit,
                                 text: value,
                                 alwaysSend: alwaysSend,
@@ -1158,6 +1163,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool controlOnly = false,
             string text = null,
             string dataValue = null,
+            string dataRaw = null,
             bool alwaysSend = false,
             bool openAnchorNewTab = false,
             string anchorFormat = null,
@@ -1186,6 +1192,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 .Id(controlId)
                                 .Class(Css.Class("control-text", controlCss))
                                 .DataValue(dataValue)
+                                .Add("data-raw", dataRaw, _using: dataRaw != null)
                                 .DataReadOnly(true)
                                 .DataAlwaysSend(alwaysSend),
                             action: () =>
