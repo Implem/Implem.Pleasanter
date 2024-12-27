@@ -776,7 +776,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             SiteSettings ss,
             IssueModel issueModel,
             ExpandoObject data,
-            Dictionary<string, Column> columns)
+            Dictionary<string, Column> columns,
+            ServerScriptConditions condition)
         {
             SetValue(
                 columnName: nameof(IssueModel.Title),
@@ -893,7 +894,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             SiteSettings ss,
             ResultModel resultModel,
             ExpandoObject data,
-            Dictionary<string, Column> columns)
+            Dictionary<string, Column> columns,
+            ServerScriptConditions condition)
         {
             SetValue(
                 columnName: nameof(ResultModel.Title),
@@ -1046,7 +1048,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                             ss: ss,
                             issueModel: issueModel,
                             data: data.Model,
-                            columns: valueColumnDictionary);
+                            columns: valueColumnDictionary,
+                            ParseServerScriptCondition(data.Context.Condition));
                     }
                     break;
                 case "Results":
@@ -1057,7 +1060,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                             ss: ss,
                             resultModel: resultModel,
                             data: data.Model,
-                            columns: valueColumnDictionary);
+                            columns: valueColumnDictionary,
+                            ParseServerScriptCondition(data.Context.Condition));
                     }
                     break;
             }
@@ -1067,6 +1071,13 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             return scriptValues;
         }
 
+        private static ServerScriptConditions ParseServerScriptCondition(string s)
+        {
+            return Enum.TryParse<ServerScriptConditions>(s, out var condition)
+                ? condition
+                : ServerScriptConditions.None;
+        }
+
         public static ServerScriptModelRow Execute(
             Context context,
             SiteSettings ss,
@@ -1074,7 +1085,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             BaseItemModel itemModel,
             View view,
             ServerScript[] scripts,
-            string condition,
+            ServerScriptConditions condition,
             bool debug,
             bool onTesting = false)
         {
@@ -1166,7 +1177,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     ss: ss,
                     model: itemModel,
                     // ビュー処理時以外はViewの値を変更しない
-                    view: condition == "WhenViewProcessing"
+                    view: condition == ServerScriptConditions.WhenViewProcessing
                         ? view
                         : null,
                     data: model);
@@ -1222,7 +1233,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             BaseItemModel itemModel,
             View view,
             Func<ServerScript, bool> where,
-            string condition)
+            ServerScriptConditions condition)
         {
             if (!(Parameters.Script.ServerScript != false
                 && context.ContractSettings.ServerScript != false
