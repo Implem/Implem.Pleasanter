@@ -35,6 +35,25 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private DateTime TimeOut;
         private readonly List<string> ChangeItemNames = new List<string>();
 
+        public enum ServerScriptConditions
+        {
+            None,
+            WhenViewProcessing,
+            WhenloadingSiteSettings,
+            BeforeOpeningPage,
+            BeforeOpeningRow,
+            WhenloadingRecord,
+            BeforeFormula,
+            AfterFormula,
+            AfterUpdate,
+            BeforeUpdate,
+            AfterCreate,
+            BeforeCreate,
+            AfterDelete,
+            BeforeDelete,
+            BackgroundServerScript
+        }
+
         public ServerScriptModel(
             Context context,
             SiteSettings ss,
@@ -43,7 +62,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             IEnumerable<(string Name, object Value)> saved,
             IEnumerable<(string Name, ServerScriptModelColumn Value)> columns,
             View view,
-            string condition,
+            ServerScriptConditions condition,
             DateTime timeOut,
             bool debug,
             bool onTesting)
@@ -112,7 +131,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 onTesting: onTesting,
                 scriptDepth: context.ServerScriptDepth,
                 controlId: context.Forms.ControlId(),
-                condition: condition);
+                condition: condition.ToString());
             SiteSettings = new ServerScriptModelSiteSettings(
                 context: context,
                 ss: ss);
