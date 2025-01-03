@@ -14119,6 +14119,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Users_Manager(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Users_Manager",
+                data: data);
+        }
+
         public static string Users_Name(
             Context context,
             params string[] data)

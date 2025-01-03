@@ -22,6 +22,7 @@ namespace Implem.Pleasanter.Models
         public string TimeZone { get; set; }
         public string DeptCode { get; set; }
         public int? DeptId { get; set; }
+        public int? Manager { get; set; }
         public string Theme { get; set; }
         public int? FirstAndLastNameOrder { get; set; }
         public string Body { get; set; }
@@ -82,6 +83,7 @@ namespace Implem.Pleasanter.Models
                 case "TimeZone": return TimeZone;
                 case "DeptCode": return DeptCode;
                 case "DeptId": return DeptId;
+                case "Manager": return Manager;
                 case "Theme": return Theme;
                 case "FirstAndLastNameOrder": return FirstAndLastNameOrder;
                 case "Body": return Body;
