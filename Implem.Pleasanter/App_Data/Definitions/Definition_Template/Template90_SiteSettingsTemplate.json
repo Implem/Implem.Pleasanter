@@ -1,43 +1,61 @@
 ﻿{
-    "Version": 1.011,
+    "Version": 1.017,
     "ReferenceType": "Issues",
     "GridView": 1,
     "GridColumns": [
         "IssueId",
-        "TitleBody",
-        "Comments",
-        "StartTime",
+        "Title",
+        "ClassC",
         "CompletionTime",
         "ClassA",
         "ClassB",
-        "ClassC",
         "Status",
         "Manager",
         "Owner",
         "Updator",
         "UpdatedTime"
     ],
-    "EditorColumns": [
-        "IssueId",
-        "Ver",
-        "Title",
-        "Body",
-        "DescriptionA",
-        "StartTime",
-        "CompletionTime",
-        "ClassA",
-        "ClassB",
-        "ClassC",
-        "Status",
-        "Manager",
-        "Owner",
-        "AttachmentsA",
-        "Comments"
+    "EditorColumnHash": {
+        "General": [
+            "IssueId",
+            "Ver",
+            "_Section-1",
+            "Title",
+            "ClassC",
+            "Manager",
+            "ClassB",
+            "DateA",
+            "CompletionTime",
+            "ClassA",
+            "Body",
+            "AttachmentsA",
+            "_Section-2",
+            "Status",
+            "Owner",
+            "DateB",
+            "DescriptionA",
+            "AttachmentsB",
+            "Comments"
+        ]
+    },
+    "SectionLatestId": 2,
+    "Sections": [
+        {
+            "Id": 1,
+            "LabelText": "問合せ",
+            "AllowExpand": false,
+            "Expand": true
+        },
+        {
+            "Id": 2,
+            "LabelText": "回答",
+            "AllowExpand": false,
+            "Expand": true
+        }
     ],
     "LinkColumns": [
         "IssueId",
         "Title",
-        "StartTime",
         "CompletionTime",
         "Status",
         "Owner",
@@ -48,7 +66,6 @@
         "Ver",
         "Title",
         "Comments",
-        "StartTime",
         "CompletionTime",
         "Status",
         "Owner",
@@ -58,7 +75,7 @@
     "Columns": [
         {
             "ColumnName": "AttachmentsA",
-            "LabelText": "添付資料"
+            "LabelText": "添付ファイル(問い合わせ用)"
         },
         {
             "ColumnName": "ClassA",
@@ -72,11 +89,12 @@
         },
         {
             "ColumnName": "Manager",
-            "LabelText": "依頼者"
+            "LabelText": "問合せ担当者"
         },
         {
             "ColumnName": "Owner",
-            "LabelText": "対応者"
+            "LabelText": "回答者",
+            "DefaultInput": ""
         },
         {
             "ColumnName": "ClassB",
@@ -85,26 +103,33 @@
         },
         {
             "ColumnName": "ClassC",
-            "LabelText": "システム",
-            "ChoicesText": "システム1\nシステム2\nシステム3\nシステム4\nシステム5"
+            "LabelText": "対象機器",
+            "ChoicesText": "機器1\n機器2\n機器3\n機器4\n機器5"
         },
         {
             "ColumnName": "DescriptionA",
-            "LabelText": "回答"
+            "LabelText": "回答内容"
         },
         {
             "ColumnName": "Body",
-            "LabelText": "問合せ"
-        },
-        {
-            "ColumnName": "StartTime",
-            "GridFormat": "Ymdahm",
-            "EditorFormat": "Ymdhm"
+            "LabelText": "問合せ内容"
         },
         {
             "ColumnName": "CompletionTime",
-            "GridFormat": "Ymdahm",
-            "EditorFormat": "Ymdhm"
+            "LabelText": "回答希望日"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "問合せ日",
+            "DefaultInput": "0"
+        },
+        {
+            "ColumnName": "DateB",
+            "LabelText": "回答日"
+        },
+        {
+            "ColumnName": "AttachmentsB",
+            "LabelText": "添付ファイル(回答用)"
         }
     ],
     "Aggregations": [
@@ -144,9 +169,12 @@
         {
             "Id": 1,
             "Name": "標準",
-            "CrosstabGroupByX": "StartTime",
-            "CrosstabGroupByY": "ClassC",
-            "KambanGroupByY": "Owner"
+            "CrosstabGroupByX": "ClassB",
+            "CrosstabGroupByY": "ClassA",
+            "CrosstabAggregateType": "Count",
+            "KambanGroupByX": "ClassB",
+            "KambanGroupByY": "ClassA",
+            "KambanAggregateType": "Count"
         }
     ],
     "EnableGantt": false,
