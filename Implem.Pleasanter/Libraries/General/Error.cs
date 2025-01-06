@@ -62,6 +62,7 @@ namespace Implem.Pleasanter.Libraries.General
             InvalidJsonData,
             InvalidMemberKey,
             InvalidMemberType,
+            InvalidPath,
             InvalidRequest,
             InvalidSsoCode,
             invalidUpsertKey,
@@ -341,6 +342,10 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.InvalidMemberType:
                     return Messages.InvalidMemberType(
+                        context: context,
+                        data: data);
+                case Types.InvalidPath:
+                    return Messages.InvalidPath(
                         context: context,
                         data: data);
                 case Types.InvalidRequest:
