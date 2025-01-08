@@ -1,1 +1,2 @@
-﻿mysql -u root -pCrFCpxnqs4pL28
+﻿#!/bin/bash
+mysql -u root -pCrFCpxnqs4pL28
