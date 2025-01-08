@@ -51,6 +51,8 @@ services:
     image: mysql:8.4
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_OWNER_PASSWORD=${MYSQL_OWNER_PASSWORD}
+      - MYSQL_USER_PASSWORD=${MYSQL_USER_PASSWORD}
     container_name: mysql
     ports:
       - "3306:3306"
