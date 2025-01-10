@@ -9,11 +9,11 @@
     <DockerServiceName>implem.pleasanter</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
-    <None Include=".env" />
     <None Include="docker-compose.override.yml">
       <DependentUpon>docker-compose.yml</DependentUpon>
     </None>
     <None Include="docker-compose.yml" />
+    <None Include="docker-compose-for-my-sql.yml" />
     <None Include=".dockerignore" />
   </ItemGroup>
 </Project>
