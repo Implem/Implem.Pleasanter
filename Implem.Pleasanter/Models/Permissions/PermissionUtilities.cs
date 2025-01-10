@@ -150,7 +150,12 @@ namespace Implem.Pleasanter.Models
                         fieldCss: "field-auto-thin both",
                         labelText: Displays.NoDisplayIfReadOnly(context: context),
                         _checked: ss.NoDisplayIfReadOnly,
-                        _using: site));
+                        _using: site)
+                    .FieldCheckBox(
+                        controlId: "NotInheritPermissionsWhenCreatingSite",
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.NotInheritPermissionsWhenCreatingSite(context: context),
+                        _checked: ss.NotInheritPermissionsWhenCreatingSite));
         }
 
         /// <summary>
