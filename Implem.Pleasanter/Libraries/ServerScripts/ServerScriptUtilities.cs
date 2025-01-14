@@ -689,7 +689,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 view.Overdue = false;
                 view.Search = string.Empty;
                 view.ColumnFilterHash?.Clear();
-            } 
+            }
             columnFilterHash?.ForEach(columnFilter =>
             {
                 if (view.ColumnFilterHash == null)
@@ -776,7 +776,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             SiteSettings ss,
             IssueModel issueModel,
             ExpandoObject data,
-            Dictionary<string, Column> columns)
+            Dictionary<string, Column> columns,
+            ServerScriptConditions condition)
         {
             SetValue(
                 columnName: nameof(IssueModel.Title),
@@ -893,7 +894,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             SiteSettings ss,
             ResultModel resultModel,
             ExpandoObject data,
-            Dictionary<string, Column> columns)
+            Dictionary<string, Column> columns,
+            ServerScriptConditions condition)
         {
             SetValue(
                 columnName: nameof(ResultModel.Title),
@@ -1046,7 +1048,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                             ss: ss,
                             issueModel: issueModel,
                             data: data.Model,
-                            columns: valueColumnDictionary);
+                            columns: valueColumnDictionary,
+                            ParseServerScriptCondition(data.Context.Condition));
                     }
                     break;
                 case "Results":
@@ -1057,7 +1060,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                             ss: ss,
                             resultModel: resultModel,
                             data: data.Model,
-                            columns: valueColumnDictionary);
+                            columns: valueColumnDictionary,
+                            ParseServerScriptCondition(data.Context.Condition));
                     }
                     break;
             }
@@ -1067,6 +1071,13 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             return scriptValues;
         }
 
+        private static ServerScriptConditions ParseServerScriptCondition(string s)
+        {
+            return Enum.TryParse<ServerScriptConditions>(s, out var condition)
+                ? condition
+                : ServerScriptConditions.None;
+        }
+
         public static ServerScriptModelRow Execute(
             Context context,
             SiteSettings ss,
@@ -1074,7 +1085,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             BaseItemModel itemModel,
             View view,
             ServerScript[] scripts,
-            string condition,
+            ServerScriptConditions condition,
             bool debug,
             bool onTesting = false)
         {
@@ -1117,6 +1128,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     try
                     {
                         engine.ContinuationCallback = model.ContinuationCallback;
+                        engine.Execute(ServerScriptJsLibraries.ScriptInit(), debug: false);
                         engine.AddHostType(typeof(Newtonsoft.Json.JsonConvert));
                         engine.AddHostObject("context", model.Context);
                         engine.AddHostObject("grid", model.Grid);
@@ -1139,8 +1151,21 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                             engine.AddHostObject("httpClient", model.HttpClient);
                         }
                         engine.AddHostObject("utilities", model.Utilities);
+                        engine.AddHostObject("logs", model.Logs);
+                        if (!Parameters.Script.DisableServerScriptFile)
+                        {
+                            engine.AddHostObject("_file_cs", model.File);
+                            engine.Execute(model.File.Script(), debug: false);
+                        }
+                        engine.AddHostObject("_csv_cs", model.Csv);
+                        engine.Execute(model.Csv.Script(), debug: false);
                         engine.Execute(ServerScriptJsLibraries.Scripts(), debug: false);
-                        engine.Execute(scripts.Select(o => o.Body).Join("\n"), debug: debug);
+                        engine.Execute(
+                            code: scripts.Select(script =>
+                                ProcessedBody(
+                                    ss: ss,
+                                    script: script)).Join("\n"),
+                            debug: debug);
                     }
                     finally
                     {
@@ -1152,12 +1177,32 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     ss: ss,
                     model: itemModel,
                     // ビュー処理時以外はViewの値を変更しない
-                    view: condition == "WhenViewProcessing"
+                    view: condition == ServerScriptConditions.WhenViewProcessing
                         ? view
                         : null,
                     data: model);
             }
             return scriptValues;
+        }
+
+        private static string ProcessedBody(SiteSettings ss, ServerScript script)
+        {
+            var body = script.Body;
+            if (script.Functionalize == true)
+            {
+                body = $"(()=>{{\n{script.Body}\n}})();";
+            }
+            if (script.TryCatch == true)
+            {
+                var description = System.Web.HttpUtility.JavaScriptStringEncode(new List<string>()
+                {
+                    script.Id.ToString(),
+                    script.Title,
+                    script.Name
+                }.Where(o => o?.Trim().IsNullOrEmpty() == false).Join("_"));
+                body = $"try{{\n{body}\n}}catch(e){{\nlogs.LogException('{description}\\n' + e.stack);\n}}";
+            }
+            return body;
         }
 
         private static DateTime GetTimeOut(ServerScript[] scripts)
@@ -1188,7 +1233,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             BaseItemModel itemModel,
             View view,
             Func<ServerScript, bool> where,
-            string condition)
+            ServerScriptConditions condition)
         {
             if (!(Parameters.Script.ServerScript != false
                 && context.ContractSettings.ServerScript != false

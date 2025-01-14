@@ -1825,6 +1825,10 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 column: column);
+            var rawValue = resultModel.ControlRawValue(
+                context: context,
+                ss: ss,
+                column: column);
             if (value != null)
             {
                 //数値項目の場合、「単位」を値に連結する
@@ -1845,6 +1849,7 @@ namespace Implem.Pleasanter.Models
                         ?.ServerScriptModelRow
                         ?.Columns.Get(column.ColumnName),
                     value: value,
+                    rawValue: rawValue,
                     controlConstraintsType: resultModel.GetStatusControl(
                         context: context,
                         ss: ss,
@@ -2241,6 +2246,106 @@ namespace Implem.Pleasanter.Models
                         case "Attachments":
                             return resultModel.GetAttachments(columnName: column.Name)
                                 .ToControl(
+                                    context: context,
+                                    ss: ss,
+                                    column: column);
+                        default: return null;
+                    }
+            }
+        }
+
+        public static object ControlRawValue(
+            this ResultModel resultModel,
+            Context context,
+            SiteSettings ss,
+            Column column)
+        {
+            switch (column.Name)
+            {
+                case "ResultId":
+                    return resultModel.ResultId
+                        .ToApiValue(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Ver":
+                    return resultModel.Ver
+                        .ToApiValue(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Title":
+                    return resultModel.Title
+                        .ToApiValue(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Body":
+                    return resultModel.Body
+                        .ToApiValue(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Status":
+                    return resultModel.Status
+                        .ToApiValue(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Manager":
+                    return resultModel.Manager
+                        .ToApiValue(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Owner":
+                    return resultModel.Owner
+                        .ToApiValue(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Locked":
+                    return resultModel.Locked
+                        .ToApiValue(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                default:
+                    switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
+                    {
+                        case "Class":
+                            return resultModel.GetClass(columnName: column.Name)
+                                .ToApiValue(
+                                    context: context,
+                                    ss: ss,
+                                    column: column);
+                        case "Num":
+                            return resultModel.GetNum(columnName: column.Name)
+                                .ToApiValue(
+                                    context: context,
+                                    ss: ss,
+                                    column: column);
+                        case "Date":
+                            return resultModel.GetDate(columnName: column.Name)
+                                .ToApiValue(
+                                    context: context,
+                                    ss: ss,
+                                    column: column);
+                        case "Description":
+                            return resultModel.GetDescription(columnName: column.Name)
+                                .ToApiValue(
+                                    context: context,
+                                    ss: ss,
+                                    column: column);
+                        case "Check":
+                            return resultModel.GetCheck(columnName: column.Name)
+                                .ToApiValue(
+                                    context: context,
+                                    ss: ss,
+                                    column: column);
+                        case "Attachments":
+                            return resultModel.GetAttachments(columnName: column.Name)
+                                .ToApiValue(
                                     context: context,
                                     ss: ss,
                                     column: column);
@@ -3219,6 +3324,10 @@ namespace Implem.Pleasanter.Models
             {
                 context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
             }
+            if(HasInvalidValueAsApiDataAtCreate(resultApiModel))
+            {
+                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+            }
             var resultModel = new ResultModel(
                 context: context,
                 ss: ss,
@@ -3312,6 +3421,10 @@ namespace Implem.Pleasanter.Models
             {
                 context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
             }
+            if(HasInvalidValueAsApiDataAtCreate(resultApiModel))
+            {
+                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+            }
             var resultModel = new ResultModel(
                 context: context,
                 ss: ss,
@@ -3352,6 +3465,25 @@ namespace Implem.Pleasanter.Models
                 default:
                     return false;
             }
+        }
+
+        private static bool HasInvalidValueAsApiDataAtCreate(ResultApiModel model)
+        {
+            if (model is null)
+                return false;
+            foreach (var o in model.AttachmentsHash)
+            {
+                foreach (var attachment in o.Value)
+                {
+                    if (attachment.Deleted ?? false)
+                        continue;
+                    if (attachment.Name.IsNullOrEmpty())
+                        return true;
+                    if (attachment.Base64 is null && attachment.Base64Binary is null)
+                        return true;
+                }
+            }
+            return false;
         }
 
         public static string Update(Context context, SiteSettings ss, long resultId, string previousTitle)
@@ -3745,11 +3877,17 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
             }
+            using var exclusiveObj = new Sessions.TableExclusive(context: context);
+            if (!exclusiveObj.TryLock())
+            {
+                return Error.Types.ImportLock.MessageJson(context: context);
+            }
             var count = BulkUpdate(
                 context: context,
                 ss: ss,
                 columns: columns,
-                where: where);
+                where: where,
+                watchdog: () => exclusiveObj.Refresh());
             var data = new string[]
             {
                 ss.Title,
@@ -3795,13 +3933,15 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             List<Column> columns,
-            SqlWhereCollection where)
+            SqlWhereCollection where,
+            Action watchdog = null)
         {
             var onBulkUpdatingExtendedStatements = new List<SqlStatement>().OnBulkUpdatingExtendedSqls(
                 context: context,
                 siteId: ss.SiteId);
             if (onBulkUpdatingExtendedStatements.Count > 0)
             {
+                watchdog?.Invoke();
                 Repository.ExecuteNonQuery(
                     context: context,
                     transactional: true,
@@ -3819,6 +3959,7 @@ namespace Implem.Pleasanter.Models
                     }),
                 where: where).ForEach(resultModel =>
                 {
+                    watchdog?.Invoke();
                     resultModel.SetByForm(
                         context: context,
                         ss: ss,
@@ -3841,6 +3982,7 @@ namespace Implem.Pleasanter.Models
                 siteId: ss.SiteId);
             if (onBulkUpdatedExtendedStatements.Count > 0)
             {
+                watchdog?.Invoke();
                 Repository.ExecuteNonQuery(
                     context: context,
                     transactional: true,
@@ -4328,6 +4470,10 @@ namespace Implem.Pleasanter.Models
             {
                 context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
             }
+            if(HasInvalidValueAsApiDataAtUpdate(resultApiModel))
+            {
+                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+            }
             var resultModel = new ResultModel(
                 context: context,
                 ss: ss,
@@ -4431,6 +4577,10 @@ namespace Implem.Pleasanter.Models
             {
                 context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
             }
+            if(HasInvalidValueAsApiDataAtUpdate(resultApiModel))
+            {
+                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+            }
             var resultModel = new ResultModel(
                 context: context,
                 ss: ss,
@@ -4482,6 +4632,25 @@ namespace Implem.Pleasanter.Models
                     return false;
             }
         }
+
+                private static bool HasInvalidValueAsApiDataAtUpdate(ResultApiModel model)
+                {
+                    if (model is null)
+                        return false;
+                    foreach (var o in model.AttachmentsHash)
+                    {
+                        foreach (var attachment in o.Value)
+                        {
+                            if (attachment.Deleted ?? false)
+                                continue;
+                            if (attachment.Name.IsNullOrEmpty())
+                                return true;
+                            if (attachment.Base64 is null && attachment.Base64Binary is null)
+                                return true;
+                        }
+                    }
+                    return false;
+                }
 
         public static ContentResultInheritance UpsertByApi(
             Context context,
@@ -4752,6 +4921,14 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         data: Parameters.General.BulkUpsertMax.ToString()).Text));
             }
+            using var exclusiveObj = new Sessions.TableExclusive(context: context);
+            if (!exclusiveObj.TryLock())
+            {
+                return ApiResults.Get(new ApiResponse(
+                    id: context.Id,
+                    statusCode: 429,
+                    message: Messages.ImportLock(context: context).Text));
+            }
             var recodeCount = 0;
             var insertCount = 0;
             var updateCount = 0;
@@ -4759,6 +4936,7 @@ namespace Implem.Pleasanter.Models
             foreach (var resultApiModel in list.Data)
             {
                 recodeCount++;
+                exclusiveObj.Refresh();
                 var view = api.View ?? new View();
                 api.Keys?.ForEach(columnName =>
                 {
@@ -4866,6 +5044,7 @@ namespace Implem.Pleasanter.Models
                     insertCount++;
                 }
             }
+            exclusiveObj.Refresh();
             if (error.Type != Error.Types.None)
             {
                 // エラー時の戻り
@@ -5854,11 +6033,18 @@ namespace Implem.Pleasanter.Models
                     case Error.Types.None: break;
                     default: return invalid.MessageJson(context: context);
                 }
+                using var exclusiveObj = new Sessions.TableExclusive(context: context);
+                if (!exclusiveObj.TryLock())
+                {
+                    return Error.Types.ImportLock.MessageJson(context: context);
+                }
                 var count = BulkDelete(
                     context: context,
                     ss: ss,
                     where: where,
-                    param: param);
+                    param: param,
+                    watchdog: () => exclusiveObj.Refresh());
+                exclusiveObj.Refresh();
                 Summaries.Synchronize(context: context, ss: ss);
                 var data = new string[]
                 {
@@ -5885,6 +6071,7 @@ namespace Implem.Pleasanter.Models
                             body: body.ToString());
                     }
                 });
+                exclusiveObj.Refresh();
                 return GridRows(
                     context: context,
                     ss: ss,
@@ -5903,7 +6090,8 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             SqlWhereCollection where,
-            SqlParamCollection param)
+            SqlParamCollection param,
+            Action watchdog = null)
         {
             var sub = Rds.SelectResults(
                 column: Rds.ResultsColumn().ResultId(),
@@ -5967,6 +6155,7 @@ namespace Implem.Pleasanter.Models
             statements.OnBulkDeletedExtendedSqls(
                 context: context,
                 siteId: ss.SiteId);
+            watchdog?.Invoke();
             var ids = Rds.ExecuteTable(
                 context: context,
                 statements: Rds.SelectBinaries(
@@ -5977,6 +6166,7 @@ namespace Implem.Pleasanter.Models
                             .AsEnumerable()
                             .Select(dataRow => dataRow.Long("ReferenceId"))
                             .ToList();
+            watchdog?.Invoke();
             var affectedRows = Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
@@ -6013,6 +6203,14 @@ namespace Implem.Pleasanter.Models
                 {
                     return ApiResults.Get(ApiResponses.BadRequest(context: context));
                 }
+                using var exclusiveObj = new Sessions.TableExclusive(context: context);
+                if (!exclusiveObj.TryLock())
+                {
+                    return ApiResults.Get(new ApiResponse(
+                        id: context.Id,
+                        statusCode: 429,
+                        message: Messages.ImportLock(context: context).Text));
+                }
                 var view = recordSelector.View ?? Views.GetBySession(
                     context: context,
                     ss: ss);
@@ -6041,11 +6239,14 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             errorData: invalid);
                 }
+                exclusiveObj.Refresh();
                 var count = BulkDelete(
                     context: context,
                     ss: ss,
                     where: where,
-                    param: param);
+                    param: param,
+                    watchdog: () => exclusiveObj.Refresh());
+                exclusiveObj.Refresh();
                 Summaries.Synchronize(
                     context: context,
                     ss: ss);
@@ -6106,6 +6307,11 @@ namespace Implem.Pleasanter.Models
                 {
                     return 0;
                 }
+                using var exclusiveObj = new Sessions.TableExclusive(context: context);
+                if (!exclusiveObj.TryLock())
+                {
+                    return 0;
+                }
                 var view = recordSelector.View ?? Views.GetBySession(
                     context: context,
                     ss: ss);
@@ -6132,11 +6338,13 @@ namespace Implem.Pleasanter.Models
                     default:
                         return 0;
                 }
+                exclusiveObj.Refresh();
                 var count = BulkDelete(
                     context: context,
                     ss: ss,
                     where: where,
-                    param: param);
+                    param: param,
+                    watchdog: () => exclusiveObj.Refresh());
                 Summaries.Synchronize(
                     context: context,
                     ss: ss);
@@ -6477,6 +6685,11 @@ namespace Implem.Pleasanter.Models
                 {
                     return 0;
                 }
+                using var exclusiveObj = new Sessions.TableExclusive(context: context);
+                if (!exclusiveObj.TryLock())
+                {
+                    return 0;
+                }
                 var view = recordSelector.View ?? Views.GetBySession(
                     context: context,
                     ss: ss);
@@ -6535,6 +6748,11 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
             }
+            using var exclusiveObj = new Sessions.TableExclusive(context: context);
+            if (!exclusiveObj.TryLock())
+            {
+                return Error.Types.ImportLock.MessageJson(context: context);
+            }
             var res = new ResponseCollection(context: context);
             Csv csv;
             try
@@ -6547,6 +6765,7 @@ namespace Implem.Pleasanter.Models
             {
                 return Messages.ResponseFailedReadFile(context: context).ToJson();
             }
+            exclusiveObj.Refresh();
             var count = csv.Rows.Count();
             if (Parameters.General.ImportMax > 0 && Parameters.General.ImportMax < count)
             {
@@ -6596,6 +6815,7 @@ namespace Implem.Pleasanter.Models
                     .ToDictionary(o => o.Index, o => o.Row);
                 foreach (var data in csvRows)
                 {
+                    exclusiveObj.Refresh();
                     var resultModel = new ResultModel(
                         context: context,
                         ss: ss);
@@ -6652,6 +6872,7 @@ namespace Implem.Pleasanter.Models
                 var updateCount = 0;
                 foreach (var data in resultHash)
                 {
+                    exclusiveObj.Refresh();
                     var resultModel = data.Value;
                     if (resultModel.AccessStatus == Databases.AccessStatuses.Selected)
                     {
@@ -6838,6 +7059,14 @@ namespace Implem.Pleasanter.Models
             {
                 return null;
             }
+            using var exclusiveObj = new Sessions.TableExclusive(context: context);
+            if (!exclusiveObj.TryLock())
+            {
+                return ApiResults.Get(new ApiResponse(
+                    id: context.Id,
+                    statusCode: 429,
+                    message: Messages.ImportLock(context: context).Text));
+            }
             var invalid = ResultValidators.OnImporting(
                 context: context,
                 ss: ss,
@@ -6930,6 +7159,7 @@ namespace Implem.Pleasanter.Models
                     .ToDictionary(o => o.Index, o => o.Row);
                 foreach (var data in csvRows)
                 {
+                    exclusiveObj.Refresh();
                     var resultModel = new ResultModel(
                         context: context,
                         ss: ss);
@@ -6989,6 +7219,7 @@ namespace Implem.Pleasanter.Models
                 var updateCount = 0;
                 foreach (var data in resultHash)
                 {
+                    exclusiveObj.Refresh();
                     var resultModel = data.Value;
                     if (resultModel.AccessStatus == Databases.AccessStatuses.Selected)
                     {
@@ -7100,6 +7331,7 @@ namespace Implem.Pleasanter.Models
                         insertCount++;
                     }
                 }
+                exclusiveObj.Refresh();
                 ImportUtilities.SetOnImportedExtendedSqls(context, ss);
                 ss.Notifications.ForEach(notification =>
                 {
@@ -7330,6 +7562,14 @@ namespace Implem.Pleasanter.Models
             if (api == null)
             {
                 return ApiResults.Get(ApiResponses.BadRequest(context: context));
+            }
+            using var exclusiveObj = new Sessions.TableExclusive(context: context);
+            if (!exclusiveObj.TryLock())
+            {
+                return ApiResults.Get(new ApiResponse(
+                    id: context.Id,
+                    statusCode: 429,
+                    message: Messages.ImportLock(context: context).Text));
             }
             var export = api.Export ?? ss.GetExport(
                 context: context,

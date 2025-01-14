@@ -10,5 +10,8 @@
         public int ServerScriptTimeOutMin;
         public int ServerScriptTimeOutMax;
         public int ServerScriptIncludeDepthLimit;
+        public bool DisableServerScriptFile;
+        public long ServerScriptFileSizeMax;
+        public string ServerScriptFilePath;
     }
 }

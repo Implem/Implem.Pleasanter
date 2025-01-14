@@ -30,9 +30,31 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         public ServerScriptModelNotification Notification;
         public ServerScriptModelHttpClient HttpClient;
         public readonly ServerScriptModelUtilities Utilities;
+        public readonly ServerScriptModelLogs Logs;
+        public readonly ServerScriptFile File;
+        public readonly ServerScriptCsv Csv;
         public bool Debug;
         private DateTime TimeOut;
         private readonly List<string> ChangeItemNames = new List<string>();
+
+        public enum ServerScriptConditions
+        {
+            None,
+            WhenViewProcessing,
+            WhenloadingSiteSettings,
+            BeforeOpeningPage,
+            BeforeOpeningRow,
+            WhenloadingRecord,
+            BeforeFormula,
+            AfterFormula,
+            AfterUpdate,
+            BeforeUpdate,
+            AfterCreate,
+            BeforeCreate,
+            AfterDelete,
+            BeforeDelete,
+            BackgroundServerScript
+        }
 
         public ServerScriptModel(
             Context context,
@@ -42,7 +64,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             IEnumerable<(string Name, object Value)> saved,
             IEnumerable<(string Name, ServerScriptModelColumn Value)> columns,
             View view,
-            string condition,
+            ServerScriptConditions condition,
             DateTime timeOut,
             bool debug,
             bool onTesting)
@@ -111,7 +133,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 onTesting: onTesting,
                 scriptDepth: context.ServerScriptDepth,
                 controlId: context.Forms.ControlId(),
-                condition: condition);
+                condition: condition.ToString());
             SiteSettings = new ServerScriptModelSiteSettings(
                 context: context,
                 ss: ss);
@@ -131,6 +153,12 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             Utilities = new ServerScriptModelUtilities(
                 context: context,
                 ss: ss);
+            Logs = new ServerScriptModelLogs(
+                context: context,
+                ss: ss);
+            File = new ServerScriptFile(
+                context: context);
+            Csv = new ServerScriptCsv();
             Debug = debug;
             TimeOut = timeOut;
         }
