@@ -75,11 +75,34 @@ $p.getGridRow = function (id) {
 }
 
 $p.getGridCell = function (id, name, excludeHistory) {
-    return $('#Grid > tbody > tr[data-id="' + id + '"]' + (excludeHistory? ':not([data-history])' : '') + ' td:nth-child(' + ($p.getGridColumnIndex(name) + 1) + ')');
+    return $('#Grid > tbody > tr[data-id="' + id + '"]' + (excludeHistory ? ':not([data-history])' : '') + ' td:nth-child(' + ($p.getGridColumnIndex(name) + 1) + ')');
 }
 
 $p.getGridColumnIndex = function (name) {
     return $('#Grid > thead > tr > th').index($('#Grid > thead > tr > th[data-name="' + $p.getColumnName(name) + '"]'));
+}
+
+$p.getValue = function (name) {
+    let $control = $p.getControl(name);
+    if ($control === undefined || $control.length === 0) {
+        return undefined;
+    }
+    let element = $control[0];
+    let dataRaw = element.getAttribute('data-raw');
+    if (dataRaw !== null) {
+        return dataRaw;
+    }
+    switch (element.tagName) {
+        case 'INPUT':
+            return (element.type === 'checkbox')
+                ? element.checked
+                : element.value;
+        case 'SELECT':
+        case 'TEXTAREA':
+            return element.value;
+        default:
+            return element.textContent;
+    }
 }
 
 $p.on = function (events, name, func) {

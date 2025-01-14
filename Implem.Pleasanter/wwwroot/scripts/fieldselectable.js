@@ -15,6 +15,12 @@ $p.moveColumns = function (event, $control, columnHeader, isKeepSource, isJoin, 
         isKeepSource,
         isJoin !== undefined && isJoin === true ? columnHeader + 'Join' : undefined);
 };
+$p.moveAllColumns = function (event, $control, columnHeader, isKeepSource, isJoin, type) {
+    $control.closest('.container-selectable').find('li').removeClass('ui-selected ui-selectee').addClass('ui-selectee').filter(function (index) {
+        return $(this).data('value').toString().trim() != '';
+    }).addClass('ui-selected');
+    $p.moveColumns(event, $control, columnHeader, isKeepSource, isJoin, type);
+}
 $p.moveColumnsById = function (event, $control, columnsId, srcColumnsId, isKeepSource, joinId) {
     if ($p.outsideDialog($control)) {
         alert("outsideDialog");

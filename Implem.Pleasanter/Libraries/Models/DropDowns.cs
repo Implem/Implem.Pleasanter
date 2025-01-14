@@ -538,12 +538,15 @@ namespace Implem.Pleasanter.Libraries.Models
                 }
                 else
                 {
+                    var currentSs = ss.Destinations?.ContainsKey(link.SiteId) == true
+                        ? ss
+                        : column.SiteSettings;
                     column.SetChoiceHash(
                         context: context,
-                        ss: ss,
+                        ss: currentSs,
                         link: link,
                         searchText: searchText,
-                        parentColumn: ss.GetColumn(
+                        parentColumn: currentSs.GetColumn(
                             context: context,
                             columnName: parentClass),
                         parentIds: parentIds,

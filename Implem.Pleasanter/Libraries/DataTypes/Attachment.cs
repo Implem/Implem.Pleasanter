@@ -37,31 +37,34 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         [OnDeserialized]
         private void OnDeserialized(StreamingContext streamingContext)
         {
-            if (!Base64.IsNullOrEmpty() || !Base64Binary.IsNullOrEmpty())
+            if (Guid is not null && Deleted == true)
+                return;
+
+            if (Base64 is null && Base64Binary is null)
+                return;
+
+            var bin = GetBin();
+            Guid = Strings.NewGuid();
+            Size = bin.Length;
+            Extension = Path.GetExtension(Name ?? FileName);
+            ContentType = Strings.CoalesceEmpty(ContentType, "text/plain");
+            Added = true;
+            if (Files.ValidateFileName(Name ?? FileName))
             {
-                var bin = GetBin();
-                Guid = Strings.NewGuid();
-                Size = bin.Length;
-                Extension = Path.GetExtension(Name ?? FileName);
-                ContentType = Strings.CoalesceEmpty(ContentType, "text/plain");
-                Added = true;
-                if (Files.ValidateFileName(Name ?? FileName))
-                {
-                    Files.Write(bin, Path.Combine(Directories.Temp(), Guid, Name ?? FileName));
-                }
-                else
-                {
-                    var context = new Context(
-                        sessionStatus: false,
-                        sessionData: false,
-                        item: false,
-                        setPermissions: false);
-                    new SysLogModel(
-                        context: context,
-                        method: $"{nameof(Attachment)}.{nameof(OnDeserialized)}",
-                        message: $"Invalid File Name: '{Name ?? FileName}'",
-                        sysLogType: SysLogModel.SysLogTypes.Info);
-                }
+                Files.Write(bin, Path.Combine(Directories.Temp(), Guid, Name ?? FileName));
+            }
+            else
+            {
+                var context = new Context(
+                    sessionStatus: false,
+                    sessionData: false,
+                    item: false,
+                    setPermissions: false);
+                new SysLogModel(
+                    context: context,
+                    method: $"{nameof(Attachment)}.{nameof(OnDeserialized)}",
+                    message: $"Invalid File Name: '{Name ?? FileName}'",
+                    sysLogType: SysLogModel.SysLogTypes.Info);
             }
         }
 
@@ -366,9 +369,9 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         public byte[] GetBin(Context context = null)
         {
             var bin = Base64 ?? Base64Binary;
-            return bin.IsNullOrEmpty()
-                ? Files.Bytes(Path.Combine(Directories.Temp(), Guid, Name ?? FileName))
-                : System.Convert.FromBase64String(bin);
+            if(bin is null)
+                return Files.Bytes(Path.Combine(Directories.Temp(), Guid, Name ?? FileName));
+            return System.Convert.FromBase64String(bin);
         }
 
         public bool IsStoreLocalFolder(Column column)

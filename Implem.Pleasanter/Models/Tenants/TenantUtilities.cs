@@ -1882,7 +1882,7 @@ namespace Implem.Pleasanter.Models
                             method: "delete",
                             confirm: "ConfirmDelete",
                             _using: BinaryUtilities.ExistsTenantImage(
-                                context: context, 
+                                context: context,
                                 ss: SiteSettingsUtilities.TenantsSiteSettings(context),
                                 referenceId: tenantModel.TenantId,
                                 sizeType: Libraries.Images.ImageData.SizeTypes.Logo)));
@@ -1930,7 +1930,6 @@ namespace Implem.Pleasanter.Models
             Context context, TenantModel tenantModel, string controlId, BackgroundServerScript script)
         {
             var hb = new HtmlBuilder();
-            var outputDestinationCss = " output-destination-script";
             var enclosedCss = " enclosed";
             return hb.Form(
                 attributes: new HtmlAttributes()
@@ -1982,6 +1981,12 @@ namespace Implem.Pleasanter.Models
                         controlCss: " always-send",
                         labelText: Displays.ServerScript(context: context),
                         text: script.Body)
+                    .FieldCheckBox(
+                        controlId: "ServerScriptDisabled",
+                        fieldCss: "field-wide",
+                        controlCss: " always-send",
+                        labelText: Displays.Disabled(context: context),
+                        _checked: script.Disabled == true)
                     .FieldSpinner(
                         controlId: "ServerScriptTimeOut",
                         fieldCss: "field-normal",
@@ -1993,20 +1998,24 @@ namespace Implem.Pleasanter.Models
                         step: 1,
                         width: 75,
                         _using: Parameters.Script.ServerScriptTimeOutChangeable)
-                    .Div(
-                        action: () => hb
-                            .FieldCheckBox(
-                                controlId: "ServerScriptDisabled",
-                                fieldCss: outputDestinationCss,
-                                controlCss: " always-send",
-                                labelText: Displays.Disabled(context: context),
-                                _checked: script.Disabled == true)
-                            .FieldCheckBox(
-                                controlId: "ServerScriptShared",
-                                fieldCss: outputDestinationCss,
-                                controlCss: " always-send",
-                                labelText: Displays.Shared(context: context),
-                                _checked: script.Shared == true))
+                    .FieldCheckBox(
+                        controlId: "ServerScriptFunctionalize",
+                        fieldCss: "field-normal",
+                        controlCss: " always-send",
+                        labelText: Displays.Functionalize(context: context),
+                        _checked: script.Functionalize == true)
+                    .FieldCheckBox(
+                        controlId: "ServerScriptTryCatch",
+                        fieldCss: "field-normal",
+                        controlCss: " always-send",
+                        labelText: Displays.TryCatch(context: context),
+                        _checked: script.TryCatch == true)
+                    .FieldCheckBox(
+                        controlId: "ServerScriptShared",
+                        fieldCss: "field-wide",
+                        controlCss: " always-send",
+                        labelText: Displays.Shared(context: context),
+                        _checked: script.Shared == true)
                     .FieldSet(
                         css: enclosedCss,
                         legendText: Displays.Schedule(context: context),
@@ -2073,7 +2082,7 @@ namespace Implem.Pleasanter.Models
                 controlId: controlId,
                 fieldCss: "field-normal",
                 controlCss: " always-send search",
-                labelText: labelText, 
+                labelText: labelText,
                 optionCollection: optionCollection,
                 controlOption: () => hb.Div(css: "ui-icon ui-icon-person current-user"),
                 selectedValue: userId == 0 ? "" : userId.ToString());
@@ -2125,6 +2134,10 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .Text(text: Displays.Disabled(context: context)))
                     .Th(action: () => hb
+                        .Text(text: Displays.Functionalize(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.TryCatch(context: context)))
+                    .Th(action: () => hb
                         .Text(text: Displays.Shared(context: context)))));
         }
 
@@ -2156,6 +2169,14 @@ namespace Implem.Pleasanter.Models
                                 .Span(
                                     css: "ui-icon ui-icon-circle-check",
                                     _using: script.Disabled == true))
+                            .Td(action: () => hb
+                                .Span(
+                                    css: "ui-icon ui-icon-circle-check",
+                                    _using: script.Functionalize == true))
+                            .Td(action: () => hb
+                                .Span(
+                                    css: "ui-icon ui-icon-circle-check",
+                                    _using: script.TryCatch == true))
                             .Td(action: () => hb
                                 .Span(
                                     css: "ui-icon ui-icon-circle-check",

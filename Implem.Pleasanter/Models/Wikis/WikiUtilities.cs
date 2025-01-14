@@ -869,6 +869,10 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 column: column);
+            var rawValue = wikiModel.ControlRawValue(
+                context: context,
+                ss: ss,
+                column: column);
             if (value != null)
             {
                 value += wikiModel.NumUnit(
@@ -888,6 +892,7 @@ namespace Implem.Pleasanter.Models
                         ?.ServerScriptModelRow
                         ?.Columns.Get(column.ColumnName),
                     value: value,
+                    rawValue: rawValue,
                     columnPermissionType: Permissions.ColumnPermissionType(
                         context: context,
                         ss: ss,
@@ -1258,6 +1263,88 @@ namespace Implem.Pleasanter.Models
                         case "Attachments":
                             return wikiModel.GetAttachments(columnName: column.Name)
                                 .ToControl(
+                                    context: context,
+                                    ss: ss,
+                                    column: column);
+                        default: return null;
+                    }
+            }
+        }
+
+        public static object ControlRawValue(
+            this WikiModel wikiModel,
+            Context context,
+            SiteSettings ss,
+            Column column)
+        {
+            switch (column.Name)
+            {
+                case "WikiId":
+                    return wikiModel.WikiId
+                        .ToApiValue(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Ver":
+                    return wikiModel.Ver
+                        .ToApiValue(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Title":
+                    return wikiModel.Title
+                        .ToApiValue(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Body":
+                    return wikiModel.Body
+                        .ToApiValue(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Locked":
+                    return wikiModel.Locked
+                        .ToApiValue(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                default:
+                    switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
+                    {
+                        case "Class":
+                            return wikiModel.GetClass(columnName: column.Name)
+                                .ToApiValue(
+                                    context: context,
+                                    ss: ss,
+                                    column: column);
+                        case "Num":
+                            return wikiModel.GetNum(columnName: column.Name)
+                                .ToApiValue(
+                                    context: context,
+                                    ss: ss,
+                                    column: column);
+                        case "Date":
+                            return wikiModel.GetDate(columnName: column.Name)
+                                .ToApiValue(
+                                    context: context,
+                                    ss: ss,
+                                    column: column);
+                        case "Description":
+                            return wikiModel.GetDescription(columnName: column.Name)
+                                .ToApiValue(
+                                    context: context,
+                                    ss: ss,
+                                    column: column);
+                        case "Check":
+                            return wikiModel.GetCheck(columnName: column.Name)
+                                .ToApiValue(
+                                    context: context,
+                                    ss: ss,
+                                    column: column);
+                        case "Attachments":
+                            return wikiModel.GetAttachments(columnName: column.Name)
+                                .ToApiValue(
                                     context: context,
                                     ss: ss,
                                     column: column);
@@ -1765,6 +1852,10 @@ namespace Implem.Pleasanter.Models
             {
                 context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
             }
+            if(HasInvalidValueAsApiDataAtCreate(wikiApiModel))
+            {
+                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+            }
             var wikiModel = new WikiModel(
                 context: context,
                 ss: ss,
@@ -1823,6 +1914,10 @@ namespace Implem.Pleasanter.Models
             {
                 context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
             }
+            if(HasInvalidValueAsApiDataAtCreate(wikiApiModel))
+            {
+                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+            }
             var wikiModel = new WikiModel(
                 context: context,
                 ss: ss,
@@ -1863,6 +1958,25 @@ namespace Implem.Pleasanter.Models
                 default:
                     return false;
             }
+        }
+
+        private static bool HasInvalidValueAsApiDataAtCreate(WikiApiModel model)
+        {
+            if (model is null)
+                return false;
+            foreach (var o in model.AttachmentsHash)
+            {
+                foreach (var attachment in o.Value)
+                {
+                    if (attachment.Deleted ?? false)
+                        continue;
+                    if (attachment.Name.IsNullOrEmpty())
+                        return true;
+                    if (attachment.Base64 is null && attachment.Base64Binary is null)
+                        return true;
+                }
+            }
+            return false;
         }
 
         public static string Update(Context context, SiteSettings ss, long wikiId, string previousTitle)
@@ -2060,6 +2174,10 @@ namespace Implem.Pleasanter.Models
             {
                 context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
             }
+            if(HasInvalidValueAsApiDataAtUpdate(wikiApiModel))
+            {
+                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+            }
             var wikiModel = new WikiModel(
                 context: context,
                 ss: ss,
@@ -2128,6 +2246,10 @@ namespace Implem.Pleasanter.Models
             {
                 context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
             }
+            if(HasInvalidValueAsApiDataAtUpdate(wikiApiModel))
+            {
+                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+            }
             var wikiModel = new WikiModel(
                 context: context,
                 ss: ss,
@@ -2179,6 +2301,25 @@ namespace Implem.Pleasanter.Models
                     return false;
             }
         }
+
+                private static bool HasInvalidValueAsApiDataAtUpdate(WikiApiModel model)
+                {
+                    if (model is null)
+                        return false;
+                    foreach (var o in model.AttachmentsHash)
+                    {
+                        foreach (var attachment in o.Value)
+                        {
+                            if (attachment.Deleted ?? false)
+                                continue;
+                            if (attachment.Name.IsNullOrEmpty())
+                                return true;
+                            if (attachment.Base64 is null && attachment.Base64Binary is null)
+                                return true;
+                        }
+                    }
+                    return false;
+                }
 
         public static string Delete(Context context, SiteSettings ss, long wikiId)
         {

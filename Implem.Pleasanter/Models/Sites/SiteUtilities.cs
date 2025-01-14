@@ -4346,6 +4346,8 @@ namespace Implem.Pleasanter.Models
                 .SiteMenuConditions(
                     context: context,
                     siteId: siteId,
+                    hasImage: hasImage,
+                    referenceType: referenceType,
                     siteConditions: siteConditions);
         }
 
@@ -4465,6 +4467,8 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder SiteMenuConditions(
             this HtmlBuilder hb,
             Context context,
+            bool hasImage,
+            string referenceType,
             long siteId,
             IEnumerable<SiteCondition> siteConditions)
         {
@@ -4475,15 +4479,45 @@ namespace Implem.Pleasanter.Models
                     .FirstOrDefault(o => o.SiteId == siteId);
                 hb.Div(
                     css: "conditions",
-                    _using: condition.ItemCount > 0,
                     action: () => hb
                         .ElapsedTime(
                             context: context,
                             value: condition.UpdatedTime.ToLocal(context: context))
                         .Span(
                             attributes: new HtmlAttributes()
+                                .Class("reference material-symbols-outlined")
+                                .Title(ReferenceTypeDisplayName(
+                                    context: context,
+                                    referenceType: referenceType)),
+                            _using: hasImage,
+                            action: () =>
+                            {
+                                switch (referenceType)
+                                {
+                                    case "Sites":
+                                        hb.Text("folder");
+                                        break;
+                                    case "Issues":
+                                        hb.Text("view_timeline");
+                                        break;
+                                    case "Results":
+                                        hb.Text("table");
+                                        break;
+                                    case "Wikis":
+                                        hb.Text("text_snippet");
+                                        break;
+                                    case "Dashboards":
+                                        hb.Text("dashboard");
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            })
+                        .Span(
+                            attributes: new HtmlAttributes()
                                 .Class("count")
                                 .Title(Displays.Quantity(context: context)),
+                            _using: condition.ItemCount > 0,
                             action: () => hb
                                 .Text(condition.ItemCount.ToString()))
                         .Span(
@@ -4492,7 +4526,7 @@ namespace Implem.Pleasanter.Models
                                 .Title(Displays.Overdue(context: context)),
                             _using: condition.OverdueCount > 0,
                             action: () => hb
-                                .Text($"({condition.OverdueCount})")));
+                                .Text(condition.OverdueCount.ToString())));
             }
             return hb;
         }
@@ -5626,7 +5660,13 @@ namespace Implem.Pleasanter.Models
                     controlId: "OpenEditInNewTab",
                     fieldCss: "field-auto-thin",
                     labelText: Displays.OpenEditInNewTab(context: context),
-                    _checked: ss.OpenEditInNewTab == true));
+                    _checked: ss.OpenEditInNewTab == true)
+                .FieldCheckBox(
+                    controlId: "EnableExpandLinkPath",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.ExpandLinkPath(context: context),
+                    _checked: ss.EnableExpandLinkPath == true,
+                    _using: Parameters.General.EnableExpandLinkPath == true));
         }
 
         /// <summary>
@@ -15529,6 +15569,12 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .Text(text: Displays.Name(context: context)))
                     .Th(action: () => hb
+                        .Text(text: Displays.Disabled(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Functionalize(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.TryCatch(context: context)))
+                    .Th(action: () => hb
                         .Text(text: Displays.WhenloadingSiteSettings(context: context)))
                     .Th(action: () => hb
                         .Text(text: Displays.WhenViewProcessing(context: context)))
@@ -15582,6 +15628,18 @@ namespace Implem.Pleasanter.Models
                                 .Text(text: script.Title))
                             .Td(action: () => hb
                                 .Text(text: script.Name))
+                            .Td(action: () => hb
+                                .Span(
+                                    css: "ui-icon ui-icon-circle-check",
+                                    _using: script.Disabled == true))
+                            .Td(action: () => hb
+                                .Span(
+                                    css: "ui-icon ui-icon-circle-check",
+                                    _using: script.Functionalize == true))
+                            .Td(action: () => hb
+                                .Span(
+                                    css: "ui-icon ui-icon-circle-check",
+                                    _using: script.TryCatch == true))
                             .Td(action: () => hb
                                 .Span(
                                     css: "ui-icon ui-icon-circle-check",
@@ -15687,6 +15745,12 @@ namespace Implem.Pleasanter.Models
                         dataLang: "javascript",
                         labelText: Displays.Script(context: context),
                         text: script.Body)
+                    .FieldCheckBox(
+                        controlId: "ServerScriptDisabled",
+                        fieldCss: "field-wide",
+                        controlCss: " always-send",
+                        labelText: Displays.Disabled(context: context),
+                        _checked: script.Disabled == true)
                     .FieldSpinner(
                         controlId: "ServerScriptTimeOut",
                         fieldCss: "field-normal",
@@ -15698,6 +15762,18 @@ namespace Implem.Pleasanter.Models
                         step: 1,
                         width: 75,
                         _using: Parameters.Script.ServerScriptTimeOutChangeable)
+                    .FieldCheckBox(
+                        controlId: "ServerScriptFunctionalize",
+                        fieldCss: "field-normal",
+                        controlCss: " always-send",
+                        labelText: Displays.Functionalize(context: context),
+                        _checked: script.Functionalize == true)
+                    .FieldCheckBox(
+                        controlId: "ServerScriptTryCatch",
+                        fieldCss: "field-normal",
+                        controlCss: " always-send",
+                        labelText: Displays.TryCatch(context: context),
+                        _checked: script.TryCatch == true)
                     .FieldSet(
                         css: enclosedCss,
                         legendText: Displays.Condition(context: context),
@@ -15894,7 +15970,11 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static ErrorData SynchronizeSummaries(Context context, SiteModel siteModel, List<int> selected)
+        public static ErrorData SynchronizeSummaries(
+            Context context,
+            SiteModel siteModel,
+            List<int> selected,
+            Action watchdog = null)
         {
             siteModel.SetSiteSettingsPropertiesBySession(context: context);
             siteModel.SiteSettings = SiteSettingsUtilities.Get(
@@ -15917,10 +15997,14 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                selected.ForEach(id => Summaries.Synchronize(
-                    context: context,
-                    ss: ss,
-                    id: id));
+                selected.ForEach(id =>
+                {
+                    watchdog?.Invoke();
+                    Summaries.Synchronize(
+                        context: context,
+                        ss: ss,
+                        id: id);
+                });
                 return new ErrorData(type: Error.Types.None);
             }
         }

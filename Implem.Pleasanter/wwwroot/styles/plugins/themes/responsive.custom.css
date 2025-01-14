@@ -1040,16 +1040,17 @@
         &,
         &.has-image {
             a {
-                padding: 0 8px;
+                gap: 4px;
+                padding: 0 8px 8px;
             }
         }
         .conditions {
-            justify-content: flex-end;
+            gap: 2px;
             height: auto;
-            font-size: 11px;
+            padding: 2px;
+            font-size: 10px;
             span {
-                margin: 4px;
-                padding: 0 8px;
+                border-radius: 2px;
                 &.elapsed-time,
                 &.count {
                     display: none;
@@ -1062,13 +1063,13 @@
 
         &:not(.to-parent) {
             span.title {
-                height: 3em;
+                height: 2lh;
                 margin-left: 0;
-                font-size: 12px;
+                font-size: 11px;
             }
         }
         .site-icon {
-            margin: 20px 0 0 0;
+            margin: 26px 0 0 0;
             img {
                 width: auto;
                 height: 36px;

@@ -1902,6 +1902,7 @@ body:not(:has(#Editor)) {
     width: 209px;
     min-height: 140px;
     margin: 0;
+    overflow: hidden;
     background-color: var(--site-panal-bg);
     border: none;
     border-radius: 4px;
@@ -1938,20 +1939,40 @@ body:not(:has(#Editor)) {
     }
     .conditions {
         top: 0;
+        bottom: initial;
         left: 0;
         display: flex;
-        flex-direction: row;
-        align-items: flex-start;
-        justify-content: flex-start;
-        height: 40px;
-        font-size: 13px;
+        gap: 4px;
+        justify-content: flex-end;
+        height: 28px;
+        padding: 4px;
+        font-size: 11px;
         span {
-            margin: 6px 6px 6px 0;
+            float: none;
+            height: 20px;
+            margin: 0;
             padding: 0 8px;
+            overflow: hidden;
             color: var(--base-text);
             background: initial;
-            &:nth-of-type(2) {
-                margin-left: auto;
+            &.elapsed-time {
+                margin-right: auto;
+                padding: 0 8px;
+                line-height: 20px;
+            }
+            &.reference {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 20px;
+                height: 20px;
+                color: var(--nonColor16);
+                font-size: 16px;
+                font-variation-settings: "FILL" 1, "wght" 400, "GRAD" -25,
+                    "opsz" 24;
+                text-align: center;
+                background-color: var(--primarySub01);
+                border-radius: 2px;
             }
             &.count {
                 background-color: var(--primarySub02);
@@ -1960,6 +1981,11 @@ body:not(:has(#Editor)) {
             &.overdue {
                 background-color: var(--warning-color);
                 border: 1px solid var(--warning-color);
+                &::before,
+                &::after {
+                    display: none;
+                    content: initial;
+                }
             }
         }
     }
@@ -1976,7 +2002,7 @@ body:not(:has(#Editor)) {
         margin: 24px 0 0;
         text-align: center;
         img {
-            width: 48px;
+            height: 48px;
         }
     }
     .heading {

@@ -200,7 +200,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 linkId: id,
                                 sourceId: link.SourceId,
                                 text: link.SiteTitle,
-                                tabIndex: tabIndex));
+                                tabIndex: tabIndex,
+                                notReturnParentRecord: link.NotReturnParentRecord ?? false));
                         }
                         hb.LinkTable(
                             context: context,

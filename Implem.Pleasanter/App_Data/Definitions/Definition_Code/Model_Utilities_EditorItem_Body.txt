@@ -463,6 +463,10 @@ public static HtmlBuilder Field(
         context: context,
         ss: ss,
         column: column);
+    var rawValue = #modelName#Model.ControlRawValue(
+        context: context,
+        ss: ss,
+        column: column);
     if (value != null)
     {
         value += #modelName#Model.NumUnit(
@@ -482,6 +486,7 @@ public static HtmlBuilder Field(
                 ?.ServerScriptModelRow
                 ?.Columns.Get(column.ColumnName),
             value: value,
+            rawValue: rawValue,
 
 <!--Model_ControlConstraintsType-->
 
@@ -831,6 +836,61 @@ public static string ControlValue(
                 case "Attachments":
                     return #modelName#Model.GetAttachments(columnName: column.Name)
                         .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                default: return null;
+            }
+    }
+}
+
+public static object ControlRawValue(
+    this #ModelName#Model #modelName#Model,
+    Context context,
+    SiteSettings ss,
+    Column column)
+{
+    switch (column.Name)
+    {
+
+<!--Model_Utilities_FieldCases_RawValue-->
+
+        default:
+            switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
+            {
+                case "Class":
+                    return #modelName#Model.GetClass(columnName: column.Name)
+                        .ToApiValue(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Num":
+                    return #modelName#Model.GetNum(columnName: column.Name)
+                        .ToApiValue(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Date":
+                    return #modelName#Model.GetDate(columnName: column.Name)
+                        .ToApiValue(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Description":
+                    return #modelName#Model.GetDescription(columnName: column.Name)
+                        .ToApiValue(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Check":
+                    return #modelName#Model.GetCheck(columnName: column.Name)
+                        .ToApiValue(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Attachments":
+                    return #modelName#Model.GetAttachments(columnName: column.Name)
+                        .ToApiValue(
                             context: context,
                             ss: ss,
                             column: column);
