@@ -21,6 +21,15 @@ namespace Implem.SqlServer
             instance = new SqlCommand();
         }
 
+        public SqlServerCommand(
+            string cmdText,
+            IDbConnection connection)
+        {
+            instance = new SqlCommand(
+                cmdText: cmdText,
+                connection: (SqlConnection)connection);
+        }
+
         public string CommandText
         {
             get

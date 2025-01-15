@@ -99,7 +99,7 @@ namespace Implem.CodeDefiner
                             factory: factory,
                             force: argHash.ContainsKey("f"),
                             noInput: argHash.ContainsKey("y"));
-                        MigrateDatabase();
+                        MigrateDatabase(factoryFrom: factory);
                         break;
                     case "ConvertTime":
                         ConvertTime(factory: factory);
@@ -442,12 +442,50 @@ namespace Implem.CodeDefiner
                 Consoles.Types.Success);
         }
 
-        private static void MigrateDatabase()
+        private static void MigrateDatabase(ISqlObjectFactory factoryFrom)
         {
-            Functions.AspNetMvc.CSharp.Migrator.MigrateDatabaseAsync();
+            CanMigrate();
+            Functions.AspNetMvc.CSharp.Migrator.MigrateDatabaseAsync(
+                factoryFrom: factoryFrom,
+                factoryTo: RdsFactory.Create(Parameters.Migration.Dbms));
             Consoles.Write(
                 DisplayAccessor.Displays.Get("CodeDefinerMigrationCompleted"),
                 Consoles.Types.Success);
+        }
+
+        private static void CanMigrate()
+        {
+            var checkMigrationJson = false;
+            switch (Parameters.Migration.Dbms)
+            {
+                case "SQLServer":
+                    checkMigrationJson = true;
+                    break;
+                case "PostgreSQL":
+                case "MySQL":
+                    break;
+                default:
+                    break;
+            }
+            if (!checkMigrationJson)
+            {
+                throw new Exception($"The value \"{Parameters.Migration.Dbms}\" cannot be set for \"Dbms\" in Migration.json.");
+            }
+            var checkRdsJson = false;
+            switch (Parameters.Rds.Dbms)
+            {
+                case "SQLServer":
+                    break;
+                case "PostgreSQL":
+                case "MySQL":
+                    checkRdsJson = true;
+                    break;
+                default:
+                    break;
+            }
+            if (!checkRdsJson)
+                throw new Exception($"The value \"{Parameters.Rds.Dbms}\" cannot be set for \"Dbms\" in Rds.json.");
+            //Todo: DBの種類が一致かつ、接続文字列に記載のサーバが一致かつ、スキーマも一致はエラー。
         }
 
         private static void ConvertTime(ISqlObjectFactory factory)

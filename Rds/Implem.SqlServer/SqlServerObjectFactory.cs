@@ -1,4 +1,5 @@
 ﻿using Implem.IRds;
+using System.Data;
 namespace Implem.SqlServer
 {
     public class SqlServerObjectFactory : ISqlObjectFactory
@@ -23,6 +24,13 @@ namespace Implem.SqlServer
             return new SqlServerCommand();
         }
 
+        public ISqlCommand CreateSqlCommand(
+            string cmdText,
+            IDbConnection connection)
+        {
+            return new SqlServerCommand(cmdText, connection);
+        }
+        
         public ISqlConnection CreateSqlConnection(string connectionString)
         {
             return new SqlServerConnection(connectionString);

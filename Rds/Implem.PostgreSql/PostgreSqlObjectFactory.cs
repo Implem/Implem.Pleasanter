@@ -1,4 +1,5 @@
 ﻿using Implem.IRds;
+using System.Data;
 namespace Implem.PostgreSql
 {
     public class PostgreSqlObjectFactory : ISqlObjectFactory
@@ -21,6 +22,13 @@ namespace Implem.PostgreSql
         public ISqlCommand CreateSqlCommand()
         {
             return new PostgreSqlCommand();
+        }
+
+        public ISqlCommand CreateSqlCommand(
+            string cmdText,
+            IDbConnection connection)
+        {
+            return new PostgreSqlCommand(cmdText, connection);
         }
 
         public ISqlConnection CreateSqlConnection(string connectionString)

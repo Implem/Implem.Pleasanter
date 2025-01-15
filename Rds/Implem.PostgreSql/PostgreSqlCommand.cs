@@ -21,6 +21,15 @@ namespace Implem.PostgreSql
             instance = new NpgsqlCommand();
         }
 
+        public PostgreSqlCommand(
+            string cmdText,
+            IDbConnection connection)
+        {
+            instance = new NpgsqlCommand(
+                cmdText: cmdText,
+                connection: (NpgsqlConnection)connection);
+        }
+
         public string CommandText
         {
             get

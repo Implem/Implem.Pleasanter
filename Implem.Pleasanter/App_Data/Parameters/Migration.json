@@ -1,6 +1,8 @@
 ﻿{
+    "Dbms": "SQLServer",
     "SourceConnectionString": "Server=(local);Database=Implem.Pleasanter;UID=sa;PWD=SetSaPWD;",
     "ExcludeTables": [
         "SysLogs"
-    ]
+    ],
+    "IgnoreIfOverflow": true
 }

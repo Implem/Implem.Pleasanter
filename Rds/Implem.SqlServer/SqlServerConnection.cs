@@ -2,6 +2,7 @@
 using System;
 using System.Data;
 using System.Data.SqlClient;
+using System.Threading.Tasks;
 namespace Implem.SqlServer
 {
     internal class SqlServerConnection : ISqlConnection
@@ -95,6 +96,11 @@ namespace Implem.SqlServer
         public void Open()
         {
             instance.Open();
+        }
+
+        public async Task OpenAsync()
+        {
+            await instance.OpenAsync();
         }
     }
 }

@@ -1,16 +1,17 @@
 ﻿using Implem.DefinitionAccessor;
+using Implem.IRds;
 using Implem.Libraries.Utilities;
-using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
 using System.Linq;
 namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp
 {
     internal static class Migrator
     {
-        public static void MigrateDatabaseAsync()
+        public static void MigrateDatabaseAsync(
+            ISqlObjectFactory factoryFrom,
+            ISqlObjectFactory factoryTo)
         {
             Def.ColumnDefinitionCollection
                 .Where(columnDefinition => !columnDefinition.TableName.StartsWith("_"))
@@ -27,56 +28,75 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp
                         identity: Def.ColumnDefinitionCollection
                             .Where(o => o.TableName == tableName)
                             .FirstOrDefault(o => o.Identity)
-                            ?.ColumnName));
+                            ?.ColumnName,
+                        factoryFrom: factoryFrom,
+                        factoryTo: factoryTo));
         }
 
-        private static void MigrateTable(string tableName, string identity)
+        private static void MigrateTable(
+            string tableName,
+            string identity,
+            ISqlObjectFactory factoryFrom,
+            ISqlObjectFactory factoryTo)
         {
-            using (var pconn = new NpgsqlConnection(Parameters.Rds.OwnerConnectionString))
+            var connFrom = factoryFrom.CreateSqlConnection(
+                connectionString: Parameters.Migration.SourceConnectionString);
+            var connTo = factoryTo.CreateSqlConnection(
+                connectionString: Parameters.Rds.OwnerConnectionString);
+            using (connTo)
             {
-                pconn.OpenAsync();
-                using (var sconn = new SqlConnection(Parameters.Migration.SourceConnectionString))
+                connTo.OpenAsync();
+                using (connFrom)
                 {
-                    sconn.Open();
+                    connFrom.Open();
                     try
                     {
                         MigrateTable(
                             tableName: tableName,
                             identity: identity,
-                            pconn: pconn,
-                            sconn: sconn);
+                            factoryFrom: factoryFrom,
+                            factoryTo: factoryTo,
+                            connFrom: connFrom,
+                            connTo: connTo);
                         MigrateTable(
                             tableName: tableName + "_deleted",
                             identity: null,
-                            pconn: pconn,
-                            sconn: sconn);
+                            factoryFrom: factoryFrom,
+                            factoryTo: factoryTo,
+                            connFrom: connFrom,
+                            connTo: connTo);
                         MigrateTable(
                             tableName: tableName + "_history",
                             identity: null,
-                            pconn: pconn,
-                            sconn: sconn);
+                            factoryFrom: factoryFrom,
+                            factoryTo: factoryTo,
+                            connFrom: connFrom,
+                            connTo: connTo);
                     }
                     catch (Exception e)
                     {
                         Consoles.Write(tableName + ":" + e.Message, Consoles.Types.Info);
                     }
-                    sconn.Close();
+                    connFrom.Close();
                 }
-                pconn.Close();
+                connTo.Close();
             }
         }
 
         private static void MigrateTable(
             string tableName,
             string identity,
-            NpgsqlConnection pconn,
-            SqlConnection sconn)
+            ISqlObjectFactory factoryFrom,
+            ISqlObjectFactory factoryTo,
+            ISqlConnection connFrom,
+            ISqlConnection connTo)
         {
             Consoles.Write(tableName, Consoles.Types.Info);
-            var scmd = new SqlCommand(
+
+            var cmdFrom = factoryFrom.CreateSqlCommand(
                 cmdText: $"select * from [{tableName}];",
-                connection: sconn);
-            using (var reader = scmd.ExecuteReader())
+                connection: connFrom);
+            using (var reader = cmdFrom.ExecuteReader())
             {
                 while (reader.Read())
                 {
@@ -85,26 +105,27 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp
                     {
                         columns.Add(reader.GetName(i));
                     }
-                    var pcmd = new NpgsqlCommand(
+                    var cmdTo = factoryTo.CreateSqlCommand(
                         cmdText:
-                            $"insert into \"{tableName}\"" +
-                            $"({columns.Select(columnName => "\"" + columnName + "\"").Join()})" +
+                            $"insert into [{tableName}]" +
+                            $"({columns.Select(columnName => "[" + columnName + "]").Join()})" +
                             $"values" +
-                            $"({columns.Select(columnName => "@ip" + columnName).Join()});",
-                        connection: pconn);
+                            $"({columns.Select(columnName => "@" + columnName).Join()});",
+                        connection: connTo);
+
                     columns.ForEach(columnName =>
-                        pcmd.Parameters.AddWithValue(
+                        cmdTo.Parameters_AddWithValue(
                             "@ip" + columnName,
                             reader[columnName]));
-                    pcmd.ExecuteNonQuery();
+                    cmdTo.ExecuteNonQuery();
                 }
             }
             if (identity != null)
             {
-                var pcmd = new NpgsqlCommand(
-                    cmdText: $"select setval('\"{tableName}_{identity}_seq\"', (select max(\"{identity}\") from \"{tableName}\"));",
-                    connection: pconn);
-                pcmd.ExecuteNonQuery();
+                var cmdTo = factoryTo.CreateSqlCommand(
+                    cmdText: $"select setval('{tableName}_{identity}_seq', (select max({identity}) from {tableName}));",
+                    connection: connTo);
+                cmdTo.ExecuteNonQuery();
             }
         }
     }

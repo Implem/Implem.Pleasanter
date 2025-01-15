@@ -897,6 +897,15 @@ namespace Implem.Pleasanter.Libraries.Requests
             return GetSqlObjectFactory().CreateSqlCommand();
         }
 
+        public ISqlCommand CreateSqlCommand(
+            string cmdText,
+            IDbConnection connection)
+        {
+            return GetSqlObjectFactory().CreateSqlCommand(
+                cmdText: cmdText,
+                connection: connection);
+        }
+
         public ISqlParameter CreateSqlParameter()
         {
             return GetSqlObjectFactory().CreateSqlParameter();

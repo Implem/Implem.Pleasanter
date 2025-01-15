@@ -1,4 +1,5 @@
 ﻿using Implem.IRds;
+using System.Data;
 namespace Implem.MySql
 {
     public class MySqlObjectFactory : ISqlObjectFactory
@@ -21,6 +22,13 @@ namespace Implem.MySql
         public ISqlCommand CreateSqlCommand()
         {
             return new MySqlCommand();
+        }
+
+        public ISqlCommand CreateSqlCommand(
+            string cmdText,
+            IDbConnection connection)
+        {
+            return new MySqlCommand(cmdText, connection);
         }
 
         public ISqlConnection CreateSqlConnection(string connectionString)
