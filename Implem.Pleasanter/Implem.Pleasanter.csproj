@@ -1,18 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
-
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <Copyright>Copyright © Implem Inc 2014 - 2024</Copyright>
+    <Year>$([System.DateTime]::Now.Year.ToString())</Year>
+    <Copyright>Copyright © Implem Inc 2014 - $(Year)</Copyright>
     <Description>Business application platform</Description>
     <AssemblyName>Implem.Pleasanter</AssemblyName>
-    <AssemblyVersion>1.4.11.0</AssemblyVersion>
-    <FileVersion>1.4.11.0</FileVersion>
-    <Version>1.4.11.0</Version>
+    <AssemblyVersion>1.4.12.0</AssemblyVersion>
+    <FileVersion>1.4.12.0</FileVersion>
+    <Version>1.4.12.0</Version>
     <Nullable>disable</Nullable>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
-
+    
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <WarningsAsErrors />
     <NoWarn>NU1605;1701;1702</NoWarn>
