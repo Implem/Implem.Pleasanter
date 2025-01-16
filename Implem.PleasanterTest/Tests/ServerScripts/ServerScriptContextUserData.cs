@@ -60,11 +60,12 @@ namespace Implem.PleasanterTest.Tests.ServerScript
 
         public static IEnumerable<object[]> GetData()
         {
+            string newLineEscaped = System.Environment.NewLine;
             var baseTests = new List<BaseTest>()
             {
                 JsonData.Value(
                     method: "Log",
-                    value: "OK\r\n")
+                    value: $"OK{newLineEscaped}")
             };
             var testParts = new List<TestPart>()
             {
