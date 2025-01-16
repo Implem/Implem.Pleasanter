@@ -10,8 +10,8 @@ using Xunit;
 
 namespace Implem.PleasanterTest.Tests.Settings
 {
-    [Collection(nameof(SiteSettingsCopuFormulas))]
-    public class SiteSettingsCopuFormulas
+    [Collection(nameof(SiteSettingsMoveUpDownProcesses))]
+    public class SiteSettingsMoveUpDownProcesses
     {
 
         [Theory]
@@ -41,18 +41,31 @@ namespace Implem.PleasanterTest.Tests.Settings
             var testParts = new List<TestPart>()
             {
                 new TestPart(
-                    title: "サイト設定 - CopyFormulas",
+                    title: "サイト設定 - MoveUpDownProcesses",
                     forms: FormsUtilities.Get(
-                        new KeyValue("ControlId", "CopyFormulas"),
-                        new KeyValue("EditFormula", "[\"1\"]")),
+                        new KeyValue("ControlId", "MoveUpProcesses"),
+                        new KeyValue("EditProcess", "[\"1\"]")),
                     baseTests: BaseData.Tests(
                         JsonData.ExistsOne(
-                            method: "ReplaceAll",
-                            target: "#EditFormula"),
+                            method: "Html",
+                            target: "#EditProcess"),
                         JsonData.ExistsOne(
                             method: "SetMemory",
                             target: "formChanged")),
                     userType: UserData.UserTypes.Privileged),
+                new TestPart(
+                    title: "サイト設定 - MoveUpDownProcesses",
+                    forms: FormsUtilities.Get(
+                        new KeyValue("ControlId", "MoveDownProcesses"),
+                        new KeyValue("EditProcess", "[\"1\"]")),
+                    baseTests: BaseData.Tests(
+                        JsonData.ExistsOne(
+                            method: "Html",
+                            target: "#EditProcess"),
+                        JsonData.ExistsOne(
+                            method: "SetMemory",
+                            target: "formChanged")),
+                    userType: UserData.UserTypes.Privileged)
             };
             foreach (var testPart in testParts)
             {
