@@ -1,0 +1,1 @@
+﻿select setval('#TableName#_#Identity#_seq', (select max(#Identity#) from #TableName#));

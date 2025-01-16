@@ -1,5 +1,6 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.IRds;
+using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using System;
 using System.Collections.Generic;
@@ -45,6 +46,8 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp
                 connectionString: Parameters.Rds.OwnerConnectionString);
             using (connTo)
             {
+                //この位置でコネクションをOpenする構造上、後続のMigrateTableメソッドでは、
+                //プリザンターの主要なDB処理と異なり、SqlIo.csは使用せずにSQLコマンドを実行させる。
                 connTo.OpenAsync();
                 using (connFrom)
                 {
@@ -94,8 +97,10 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp
             Consoles.Write(tableName, Consoles.Types.Info);
 
             var cmdFrom = factoryFrom.CreateSqlCommand(
-                cmdText: $"select * from [{tableName}];",
+                cmdText: Def.Sql.MigrateDatabaseSelectFrom
+                    .Replace("#TableName#", tableName),
                 connection: connFrom);
+            SqlDebugs.WriteSqlLog(Parameters.Rds.Dbms, Environments.ServiceName, cmdFrom, Sqls.LogsPath);
             using (var reader = cmdFrom.ExecuteReader())
             {
                 while (reader.Read())
@@ -105,26 +110,30 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp
                     {
                         columns.Add(reader.GetName(i));
                     }
+                    var partsColumnNames = columns.Select(columnName => "[" + columnName + "]").Join();
+                    var partsValues = columns.Select(columnName => "@" + columnName).Join();
                     var cmdTo = factoryTo.CreateSqlCommand(
-                        cmdText:
-                            $"insert into [{tableName}]" +
-                            $"({columns.Select(columnName => "[" + columnName + "]").Join()})" +
-                            $"values" +
-                            $"({columns.Select(columnName => "@" + columnName).Join()});",
+                        cmdText: Def.Sql.MigrateDatabaseInsert
+                            .Replace("#TableName#", tableName)
+                            .Replace("#ColumnNames#", partsColumnNames)
+                            .Replace("#Values#", partsValues),
                         connection: connTo);
-
                     columns.ForEach(columnName =>
                         cmdTo.Parameters_AddWithValue(
                             "@ip" + columnName,
                             reader[columnName]));
+                    SqlDebugs.WriteSqlLog(Parameters.Rds.Dbms, Environments.ServiceName, cmdTo, Sqls.LogsPath);
                     cmdTo.ExecuteNonQuery();
                 }
             }
-            if (identity != null)
+            if (Def.Sql.MigrateDatabaseSelectSetval != "" && identity != null)
             {
                 var cmdTo = factoryTo.CreateSqlCommand(
-                    cmdText: $"select setval('{tableName}_{identity}_seq', (select max({identity}) from {tableName}));",
+                    cmdText: Def.Sql.MigrateDatabaseSelectSetval
+                        .Replace("#TableName#", tableName)
+                        .Replace("#Identity#", identity),
                     connection: connTo);
+                SqlDebugs.WriteSqlLog(Parameters.Rds.Dbms, Environments.ServiceName, cmdTo, Sqls.LogsPath);
                 cmdTo.ExecuteNonQuery();
             }
         }
