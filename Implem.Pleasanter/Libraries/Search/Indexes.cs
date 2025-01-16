@@ -471,9 +471,11 @@ namespace Implem.Pleasanter.Libraries.Search
             switch (ss?.SearchType)
             {
                 case SiteSettings.SearchTypes.FullText:
-                    var words = searchText.IsNullOrEmpty()? Words(searchText.SearchIndexes().Join(" ")) : context.SqlCommandText.CreateSearchTextWords(
-                        words: Words(searchText.SearchIndexes().Join(" ")),
-                        searchText: searchText.SearchIndexes().Join(" "));
+                    var words = searchText.IsNullOrEmpty()
+                        ? Words(searchText.SearchIndexes().Join(" "))
+                        : context.SqlCommandText.CreateSearchTextWords(
+                            words: Words(searchText.SearchIndexes().Join(" ")),
+                            searchText: searchText.SearchIndexes().Join(" "));
                     if (words?.Any() != true) return where;
                     return where.FullTextWhere(
                         context: context,
