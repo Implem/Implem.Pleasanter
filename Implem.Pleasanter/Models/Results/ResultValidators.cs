@@ -1135,35 +1135,35 @@ namespace Implem.Pleasanter.Models
                             return new ErrorData(
                                 context: context,
                                 type: Error.Types.OverLimitSize,
-                                data: column.LimitSize.ToInt().ToString(),
+                                data: column.LimitSize.ToString(),
                                 sysLogsStatus: 400,
                                 sysLogsDescription: Debugs.GetSysLogsDescription());
                         case Error.Types.OverTotalLimitSize:
                             return new ErrorData(
                                 context: context,
                                 type: Error.Types.OverTotalLimitSize,
-                                data: column.TotalLimitSize.ToInt().ToString(),
+                                data: column.TotalLimitSize.ToString(),
                                 sysLogsStatus: 400,
                                 sysLogsDescription: Debugs.GetSysLogsDescription());
                         case Error.Types.OverLocalFolderLimitSize:
                             return new ErrorData(
                                 context: context,
                                 type: Error.Types.OverLocalFolderLimitSize,
-                                data: column.LocalFolderLimitSize.ToInt().ToString(),
+                                data: column.LocalFolderLimitSize.ToString(),
                                 sysLogsStatus: 400,
                                 sysLogsDescription: Debugs.GetSysLogsDescription());
                         case Error.Types.OverLocalFolderTotalLimitSize:
                             return new ErrorData(
                                 context: context,
                                 type: Error.Types.OverLocalFolderTotalLimitSize,
-                                data: column.LocalFolderTotalLimitSize.ToInt().ToString(),
+                                data: column.LocalFolderTotalLimitSize.ToString(),
                                 sysLogsStatus: 400,
                                 sysLogsDescription: Debugs.GetSysLogsDescription());
                         case Error.Types.OverTenantStorageSize:
                             return new ErrorData(
                                 context: context,
                                 type: Error.Types.OverTenantStorageSize,
-                                data: context.ContractSettings.StorageSize.ToInt().ToString(),
+                                data: context.ContractSettings.StorageSize.ToString(),
                                 sysLogsStatus: 400,
                                 sysLogsDescription: Debugs.GetSysLogsDescription());
                     }

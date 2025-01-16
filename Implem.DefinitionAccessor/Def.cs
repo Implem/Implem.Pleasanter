@@ -690,6 +690,8 @@ namespace Implem.DefinitionAccessor
                     case "Model_SwitchTargetsParameter": Code.Model_SwitchTargetsParameter = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SwitchTargetsParameter, definitionRow, CodeXls); break;
                     case "Model_SynchronizeSummary": Code.Model_SynchronizeSummary = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SynchronizeSummary, definitionRow, CodeXls); break;
                     case "Model_SynchronizeSummaryExecute": Code.Model_SynchronizeSummaryExecute = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SynchronizeSummaryExecute, definitionRow, CodeXls); break;
+                    case "Model_SysLogLogger": Code.Model_SysLogLogger = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SysLogLogger, definitionRow, CodeXls); break;
+                    case "Model_SysLogUsing": Code.Model_SysLogUsing = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SysLogUsing, definitionRow, CodeXls); break;
                     case "Model_TenantIdParameter": Code.Model_TenantIdParameter = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_TenantIdParameter, definitionRow, CodeXls); break;
                     case "Model_TimeSeriesCases": Code.Model_TimeSeriesCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_TimeSeriesCases, definitionRow, CodeXls); break;
                     case "Model_TimeSeriesJsonCases": Code.Model_TimeSeriesJsonCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_TimeSeriesJsonCases, definitionRow, CodeXls); break;
@@ -817,6 +819,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_Export": Code.Model_Utilities_Export = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Export, definitionRow, CodeXls); break;
                     case "Model_Utilities_ExportCrosstab": Code.Model_Utilities_ExportCrosstab = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ExportCrosstab, definitionRow, CodeXls); break;
                     case "Model_Utilities_FieldCases": Code.Model_Utilities_FieldCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_FieldCases, definitionRow, CodeXls); break;
+                    case "Model_Utilities_FieldCases_RawValue": Code.Model_Utilities_FieldCases_RawValue = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_FieldCases_RawValue, definitionRow, CodeXls); break;
                     case "Model_Utilities_FieldResponse": Code.Model_Utilities_FieldResponse = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_FieldResponse, definitionRow, CodeXls); break;
                     case "Model_Utilities_FieldResponse_ColumnCases": Code.Model_Utilities_FieldResponse_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_FieldResponse_ColumnCases, definitionRow, CodeXls); break;
                     case "Model_Utilities_FieldResponse_ToResponsel": Code.Model_Utilities_FieldResponse_ToResponsel = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_FieldResponse_ToResponsel, definitionRow, CodeXls); break;
@@ -7217,6 +7220,8 @@ namespace Implem.DefinitionAccessor
         public string Model_SwitchTargetsParameter;
         public string Model_SynchronizeSummary;
         public string Model_SynchronizeSummaryExecute;
+        public string Model_SysLogLogger;
+        public string Model_SysLogUsing;
         public string Model_TenantIdParameter;
         public string Model_TimeSeriesCases;
         public string Model_TimeSeriesJsonCases;
@@ -7344,6 +7349,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_Export;
         public string Model_Utilities_ExportCrosstab;
         public string Model_Utilities_FieldCases;
+        public string Model_Utilities_FieldCases_RawValue;
         public string Model_Utilities_FieldResponse;
         public string Model_Utilities_FieldResponse_ColumnCases;
         public string Model_Utilities_FieldResponse_ToResponsel;
@@ -8062,6 +8068,8 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_SwitchTargetsParameter = new CodeDefinition();
         public CodeDefinition Model_SynchronizeSummary = new CodeDefinition();
         public CodeDefinition Model_SynchronizeSummaryExecute = new CodeDefinition();
+        public CodeDefinition Model_SysLogLogger = new CodeDefinition();
+        public CodeDefinition Model_SysLogUsing = new CodeDefinition();
         public CodeDefinition Model_TenantIdParameter = new CodeDefinition();
         public CodeDefinition Model_TimeSeriesCases = new CodeDefinition();
         public CodeDefinition Model_TimeSeriesJsonCases = new CodeDefinition();
@@ -8189,6 +8197,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_Export = new CodeDefinition();
         public CodeDefinition Model_Utilities_ExportCrosstab = new CodeDefinition();
         public CodeDefinition Model_Utilities_FieldCases = new CodeDefinition();
+        public CodeDefinition Model_Utilities_FieldCases_RawValue = new CodeDefinition();
         public CodeDefinition Model_Utilities_FieldResponse = new CodeDefinition();
         public CodeDefinition Model_Utilities_FieldResponse_ColumnCases = new CodeDefinition();
         public CodeDefinition Model_Utilities_FieldResponse_ToResponsel = new CodeDefinition();

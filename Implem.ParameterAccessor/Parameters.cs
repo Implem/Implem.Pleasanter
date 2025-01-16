@@ -26,6 +26,7 @@ namespace Implem.DefinitionAccessor
         public static List<ExtendedServerScript> ExtendedServerScripts;
         public static List<ExtendedSql> ExtendedSqls;
         public static List<ExtendedStyle> ExtendedStyles;
+        public static List<ExtendedHeadLink> ExtendedHeadLinks;
         public static List<ExtendedPlugin> ExtendedPlugins;
         public static Dictionary<string, string> ExtendedTags;
         public static General General;
@@ -41,6 +42,7 @@ namespace Implem.DefinitionAccessor
         public static Parameter Parameter;
         public static Permissions Permissions;
         public static Rds Rds;
+        public static Kvs Kvs;
         public static Registration Registration;
         public static Reminder Reminder;
         public static Script Script;

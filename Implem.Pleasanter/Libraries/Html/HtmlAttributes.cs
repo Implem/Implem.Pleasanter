@@ -431,7 +431,7 @@ namespace Implem.Pleasanter.Libraries.Html
             if (!value.IsNullOrEmpty() && _using)
             {
                 Add("data-icon");
-                Add(value);
+                Add(HttpUtility.HtmlEncode(value));
             }
             return this;
         }
@@ -735,5 +735,24 @@ namespace Implem.Pleasanter.Libraries.Html
             }
             return this;
         }
+        public HtmlAttributes DataLang(string value, bool _using = true)
+        {
+            if (!value.IsNullOrEmpty() && _using)
+            {
+                Add("data-lang");
+                Add(value);
+            }
+            return this;
+        }
+
+        public HtmlAttributes Crossorigin(bool value, bool _using = true)
+        {
+            if (value && _using)
+            {
+                Add("crossorigin");
+            }
+            return this;
+        }
+
     }
 }

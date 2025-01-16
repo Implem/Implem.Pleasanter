@@ -1,0 +1,12 @@
+﻿{
+    "Id": "SiteSettings_FormulaCalculationMethod",
+    "Language": "ja",
+    "Type": "Sites",
+    "ParentId": "SiteSettingFolder",
+    "Title": "サイト設定 - FormulaCalculationMethod",
+    "ClassA": "Results",
+    "Creator": "User2",
+    "Updator": "User2",
+    "CreatedTime": "36640",
+    "UpdatedTime": "36640"
+}

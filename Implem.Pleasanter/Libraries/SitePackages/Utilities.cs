@@ -82,23 +82,34 @@ namespace Implem.Pleasanter.Libraries.SitePackages
             {
                 return Messages.ResponseInvalidRequest(context: context).ToJson();
             }
-            var sitePackage = apiData == null
-                ? GetSitePackageFromPostedFile(context: context)
-                : GetSitePackage(
+            try
+            {
+                var sitePackage = apiData == null
+                    ? GetSitePackageFromPostedFile(context: context)
+                    : GetSitePackage(
+                        context: context,
+                        ss: ss,
+                        apiData: apiData);
+                if (sitePackage == null)
+                {
+                    return Messages.ResponseFailedReadFile(context: context).ToJson();
+                }
+                return ImportSitePackage(
                     context: context,
                     ss: ss,
-                    apiData: apiData);
-            return ImportSitePackage(
-                context: context,
-                ss: ss,
-                sitePackage: sitePackage,
-                apiData: apiData,
-                includeData: includeData,
-                includeSitePermission: includeSitePermission,
-                includeRecordPermission: includeRecordPermission,
-                includeColumnPermission: includeColumnPermission,
-                includeNotifications: includeNotifications,
-                includeReminders: includeReminders);
+                    sitePackage: sitePackage,
+                    apiData: apiData,
+                    includeData: includeData,
+                    includeSitePermission: includeSitePermission,
+                    includeRecordPermission: includeRecordPermission,
+                    includeColumnPermission: includeColumnPermission,
+                    includeNotifications: includeNotifications,
+                    includeReminders: includeReminders);
+            }
+            catch
+            {
+                return Messages.ResponseInternalServerError(context: context).ToJson();
+            }
         }
 
         public static string ImportSitePackage(
@@ -261,11 +272,11 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                     statements: statements.ToArray());
             }
             var idHash = sitePackage.GetIdHashFromConverters();
-            foreach (long savedSiteId in sitePackage.HeaderInfo.Convertors.Select(e => e.SavedSiteId))
+            foreach (var conv in sitePackage.HeaderInfo.Convertors)
             {
                 var siteModel = new SiteModel(
                     context: context,
-                    siteId: savedSiteId);
+                    siteId: conv.SavedSiteId.ToLong());
                 switch (siteModel.ReferenceType)
                 {
                     case "Wikis":
@@ -287,7 +298,8 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                                 top: 1,
                                 column: Rds.WikisColumn().WikiId(),
                                 where: Rds.WikisWhere().SiteId(siteModel.SiteId)));
-                        idHash.Add(savedSiteId, wikiId);
+                        var srcWikiId = sitePackage.Sites?.FirstOrDefault(o => o.SiteId == conv.SiteId)?.WikiId;
+                        if (srcWikiId != null) idHash.Add(srcWikiId.ToLong(), wikiId);
                         break;
                     default:
                         Search.Indexes.Create(
@@ -342,6 +354,9 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                             }
                         }
                     }
+                    conv.Updated |= ConvertScriptDataId(
+                        ss: conv.SiteSettings,
+                        idHash: idHash);
                     if (conv.Updated)
                     {
                         conv.SiteSettings.Init(context: context);
@@ -462,16 +477,75 @@ namespace Implem.Pleasanter.Libraries.SitePackages
             }
         }
 
+        private static bool ConvertScriptDataId(
+            SiteSettings ss,
+            Dictionary<long, long> idHash)
+        {
+            var isUpdated = false;
+            ss?.Scripts?.ForEach(script =>
+            {
+                var newScript = ConvertScriptDataId(
+                    text: script.Body,
+                    idHash: idHash);
+                if (newScript != script.Body)
+                {
+                    isUpdated = true;
+                    script.Body = newScript;
+                }
+            });
+            ss?.ServerScripts?.ForEach(script =>
+            {
+                var newScript = ConvertScriptDataId(
+                    text: script.Body,
+                    idHash: idHash);
+                if (newScript != script.Body)
+                {
+                    isUpdated = true;
+                    script.Body = newScript;
+                }
+            });
+            return isUpdated;
+        }
+
+        private static string ConvertScriptDataId(
+            string text,
+            Dictionary<long, long> idHash)
+        {
+            var regexSection = new Regex(@"^(?<pre>// @siteid list start@.*\r?)$(?<code>[\s\S]*?)^(?<post>// @siteid list end@)", RegexOptions.Multiline);
+            var regexId = new Regex(@"\b(?<!\.)\d+(?!\.)\b");
+            return regexSection.Replace(
+                text,
+                new MatchEvaluator((Match matchSection) =>
+                    !matchSection.Groups.ContainsKey("code")
+                        ? matchSection.Value
+                        : matchSection.Groups["pre"].Value
+                            + regexId.Replace(
+                                matchSection.Groups["code"].Value,
+                                new MatchEvaluator((Match matchId) =>
+                                    (long.TryParse(matchId.Value, out var id)
+                                        && idHash.ContainsKey(id))
+                                        ? idHash[id].ToString()
+                                        : matchId.Value))
+                            + matchSection.Groups["post"].Value));
+        }
+
         public static SitePackage GetSitePackageFromPostedFile(Context context)
         {
-            var serializer = new JsonSerializer();
-            using (var ms = new System.IO.MemoryStream(
-                buffer: context.PostedFiles.FirstOrDefault().Byte(),
-                writable: false))
+            var buffer = context.PostedFiles.FirstOrDefault()?.Byte();
+            if (buffer == null) return null;
+            using (var ms = new System.IO.MemoryStream(buffer, false))
             using (var sr = new System.IO.StreamReader(ms, Encoding.UTF8))
             using (var reader = new JsonTextReader(sr))
             {
-                return serializer.Deserialize<SitePackage>(reader);
+                try
+                {
+                    var serializer = new JsonSerializer();
+                    return serializer.Deserialize<SitePackage>(reader);
+                }
+                catch
+                {
+                    return null;
+                }
             }
         }
 

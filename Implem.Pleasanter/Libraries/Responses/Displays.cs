@@ -119,6 +119,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string AddedButtonOrCreateOrUpdate(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AddedButtonOrCreateOrUpdate",
+                data: data);
+        }
+
         public static string AddPermission(
             Context context,
             params string[] data)
@@ -1289,6 +1299,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Bcc(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Bcc",
+                data: data);
+        }
+
         public static string BeforeCondition(
             Context context,
             params string[] data)
@@ -1676,6 +1696,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "CantSetAtTopOfSite",
+                data: data);
+        }
+
+        public static string Cc(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Cc",
                 data: data);
         }
 
@@ -3759,6 +3789,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string ExpandLinkPath(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ExpandLinkPath",
+                data: data);
+        }
+
         public static string Expired(
             Context context,
             params string[] data)
@@ -4346,6 +4386,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "FullTextTypes",
+                data: data);
+        }
+
+        public static string Functionalize(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Functionalize",
                 data: data);
         }
 
@@ -4969,6 +5019,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string ImportLock(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ImportLock",
+                data: data);
+        }
+
         public static string ImportMax(
             Context context,
             params string[] data)
@@ -5279,6 +5339,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string InputValueFormula(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "InputValueFormula",
+                data: data);
+        }
+
         public static string InternalServerError(
             Context context,
             params string[] data)
@@ -5356,6 +5426,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "InvalidMemberType",
+                data: data);
+        }
+
+        public static string InvalidPath(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "InvalidPath",
                 data: data);
         }
 
@@ -9959,6 +10039,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string ToDisableAll(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ToDisableAll",
+                data: data);
+        }
+
         public static string ToEnable(
             Context context,
             params string[] data)
@@ -9966,6 +10056,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "ToEnable",
+                data: data);
+        }
+
+        public static string ToEnableAll(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ToEnableAll",
                 data: data);
         }
 
@@ -10096,6 +10196,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Truncate",
+                data: data);
+        }
+
+        public static string TryCatch(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "TryCatch",
                 data: data);
         }
 

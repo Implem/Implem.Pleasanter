@@ -36,6 +36,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string script = null,
             string userScript = null,
             string userStyle = null,
+            bool isSearch = false,
             BaseModel.MethodTypes methodType = BaseModel.MethodTypes.NotSet,
             ServerScriptModelRow serverScriptModelRow = null,
             Action action = null)
@@ -63,7 +64,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         useSearch: useSearch,
                         useNavigationMenu: useNavigationMenu,
                         serverScriptModelRow: serverScriptModelRow,
-                        action: action)
+                        action: action,
+                        isSearch: isSearch)
                     .TemplateDialogs(
                         context: context,
                         ss: ss,
@@ -129,6 +131,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Meta(name: "author", content: "Implem Inc.")
                         .Meta(name: "viewport", content: Parameters.General.HtmlHeadViewport)
                         .LinkedStyles(
+                            context: context,
+                            ss: ss)
+                        .LinkedHeadLink(
                             context: context,
                             ss: ss)
                         .ExtendedStyles(context: context)
@@ -239,6 +244,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool useTitle = true,
             bool useSearch = true,
             bool useNavigationMenu = true,
+            bool isSearch = false,
             ServerScriptModelRow serverScriptModelRow = null,
             Action action = null)
         {
@@ -251,6 +257,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     errorType: errorType,
                     useNavigationMenu: useNavigationMenu,
                     useSearch: useSearch,
+                    isSearch: isSearch,
                     serverScriptModelRow: serverScriptModelRow)
                 .Content(
                     context: context,

@@ -44,7 +44,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         style: serverScriptElements?.Hidden($"Process_{process.Id}") == true
                             ? "display:none;"
                             : string.Empty,
-                        icon: "ui-icon-disk",
+                        icon: Strings.CoalesceEmpty(
+                            process.Icon,
+                            "ui-icon-disk"),
                         validations: Validations(
                             context: context,
                             process: process),
