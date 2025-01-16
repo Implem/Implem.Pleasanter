@@ -1,0 +1,6 @@
+﻿case "#ColumnName#":
+    return #modelName#Model.#ColumnName#<!--Model_Utilities_NotNull-->
+        .ToApiValue(
+            context: context,
+            ss: ss,
+            column: column);

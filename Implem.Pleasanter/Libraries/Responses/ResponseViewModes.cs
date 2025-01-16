@@ -78,13 +78,13 @@ namespace Implem.Pleasanter.Libraries.Responses
                         serverScriptModelRow: serverScriptModelRow))
                 .Val("#EditOnGrid", editOnGrid.ToOneOrZeroString())
                 .SetMemory("formChanged", false, _using: !editOnGrid)
-                .Invoke(invoke)
-                .Message(message)
-                .LoadScroll(loadScroll)
                 .ClearFormData(
                     context: context,
                     ss: ss,
                     editOnGrid: editOnGrid)
+                .Invoke(invoke)
+                .Message(message)
+                .LoadScroll(loadScroll)
                 .FilterField(
                     context: context,
                     ss: ss,
