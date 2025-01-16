@@ -28,6 +28,7 @@ namespace Implem.PleasanterTest.Utilities
             string absoluteUri = "http://localhost:59802/",
             string absolutePath = "",
             string url = "",
+            string redirectUrl = "", 
             string urlReferrer = "",
             string query = "",
             string userHostName = "::1",
@@ -86,6 +87,7 @@ namespace Implem.PleasanterTest.Utilities
             context.AbsoluteUri = absoluteUri;
             context.AbsolutePath = absolutePath;
             context.Url = url;
+            context.RedirectData.Url = redirectUrl;
             context.UrlReferrer = urlReferrer;
             context.Query = query;
             context.Controller = context.RouteData.Get("controller")?.ToLower() ?? string.Empty;
