@@ -22,7 +22,7 @@ namespace Implem.SqlServer
         {
             return new SqlServerCommand();
         }
-       
+
         public ISqlConnection CreateSqlConnection(string connectionString)
         {
             return new SqlServerConnection(connectionString);
