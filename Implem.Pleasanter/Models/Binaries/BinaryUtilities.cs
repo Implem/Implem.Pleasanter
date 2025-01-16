@@ -82,11 +82,13 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             long referenceId,
-            Libraries.Images.ImageData.SizeTypes sizeType)
+            Libraries.Images.ImageData.SizeTypes sizeType,
+            bool isSearch = false)
         {
             var invalid = BinaryValidators.OnGetting(
                 context: context,
-                ss: ss);
+                ss: ss,
+                isSearch: isSearch);
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
@@ -806,7 +808,7 @@ namespace Implem.Pleasanter.Models
                     case Error.Types.OverLimitQuantity:
                         return Messages.ResponseOverLimitQuantity(
                             context: context,
-                            data: column.LimitQuantity.ToString()).ToJson();
+                            data: column.LimitQuantity.ToInt().ToString()).ToJson();
                     case Error.Types.OverLimitSize:
                         return Messages.ResponseOverLimitSize(
                             context: context,

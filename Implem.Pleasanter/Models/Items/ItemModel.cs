@@ -1262,6 +1262,13 @@ namespace Implem.Pleasanter.Models
                 var column = Site.SiteSettings.GetColumn(
                     context: context,
                     columnName: columnName);
+                if (column == null)
+                {
+                    Parameters.ExtendedFields.ForEach(extendedField =>
+                    {
+                        if (extendedField.Name == columnName) column = new Implem.Pleasanter.Libraries.Settings.Column(extendedField.Name);
+                    });
+                }
                 return new ResponseCollection(context: context)
                     .Html(
                         "#SetDateRangeDialog",
@@ -3360,10 +3367,16 @@ namespace Implem.Pleasanter.Models
         {
             SetSite(context: context);
             var selected = context.Forms.IntList("EditSummary");
+            using var exclusiveObj = new Sessions.TableExclusive(context: context);
+            if (!exclusiveObj.TryLock())
+            {
+                return Messages.ImportLock(context: context).ToJson();
+            }
             var result = SiteUtilities.SynchronizeSummaries(
                 context: context,
                 siteModel: Site,
-                selected: selected);
+                selected: selected,
+                watchdog: () => exclusiveObj.Refresh());
             if (result.Type == Error.Types.None)
             {
                 return Messages.ResponseSynchronizationCompleted(context: context).ToJson();
@@ -3392,10 +3405,19 @@ namespace Implem.Pleasanter.Models
                         sysLogsStatus: 400,
                         sysLogsDescription: Debugs.GetSysLogsDescription()));
             }
+            using var exclusiveObj = new Sessions.TableExclusive(context: context);
+            if (!exclusiveObj.TryLock())
+            {
+                return ApiResults.Get(new ApiResponse(
+                    id: context.Id,
+                    statusCode: 429,
+                    message: Messages.ImportLock(context: context).Text));
+            }
             var result = SiteUtilities.SynchronizeSummaries(
                 context: context,
                 siteModel: Site,
-                selected: selected);
+                selected: selected,
+                watchdog: () => exclusiveObj.Refresh());
             if (result.Type == Error.Types.SelectTargets)
             {
                 return ApiResults.Success(

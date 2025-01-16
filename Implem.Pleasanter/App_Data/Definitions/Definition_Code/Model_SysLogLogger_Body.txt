@@ -1,0 +1,1 @@
+﻿private static readonly Logger logger = LogManager.GetLogger("syslogs");

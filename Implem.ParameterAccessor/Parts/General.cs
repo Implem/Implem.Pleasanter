@@ -1,108 +1,118 @@
 ﻿using System;
+using System.ComponentModel;
 namespace Implem.ParameterAccessor.Parts
 {
     public class General
     {
-        public string HtmlHeadKeywords;
-        public string HtmlHeadDescription;
-        public string HtmlHeadViewport;
-        public string HtmlLogoText;
-        public string HtmlPortalUrl;
-        public string HtmlApplicationBuildingGuideUrl;
-        public string HtmlUserManualUrl;
-        public string HtmlBlogUrl;
-        public string HtmlSupportUrl;
-        public string HtmlContactUrl;
-        public string HtmlAGPLUrl;
-        public string HtmlEnterPriseEditionUrl;
-        public string HtmlCasesUrl;
-        public string HtmlUrlPrefix;
-        public bool DisplayLogoText;
-        public bool DisableAutoComplete;
-        public int SiteMenuHotSpan;
-        public bool AnchorTargetBlank;
-        public int LimitWarning1;
-        public int LimitWarning2;
-        public int LimitWarning3;
-        public int DeleteTempOldThan;
-        public int DeleteHistoriesOldThan;
-        public int NearCompletionTimeBeforeDays;
-        public int NearCompletionTimeBeforeDaysMin;
-        public int NearCompletionTimeBeforeDaysMax;
-        public int NearCompletionTimeAfterDays;
-        public int NearCompletionTimeAfterDaysMin;
-        public int NearCompletionTimeAfterDaysMax;
-        public int GridPageSize;
-        public int GridPageSizeMin;
-        public int GridPageSizeMax;
-        public bool AllowViewReset;
-        public int ExportOutputColumnMax;
-        public string ImportEncoding;
-        public bool UpdatableImport;
-        public bool AllowStandardExport;
-        public int ImportMax;
-        public int ViewerSwitchingType;
-        public bool UseNegativeFilters;
-        public bool AllowCopy;
-        public bool AllowReferenceCopy;
-        public string CharToAddWhenCopying;
-        public int UpdateResponseType;
-        public string SolutionBackupPath;
-        public string SolutionBackupExcludeDirectories;
-        public int SizeToUseTextArea;
-        public int CompletionCode;
-        public int CommentDisplayLimitHistories;
-        public int CommentDisplayLimit;
-        public int WorkValueHeight;
-        public int WorkValueTextTop;
-        public int ProgressRateWidth;
-        public int ProgressRateItemHeight;
-        public int ProgressRateTextTop;
-        public int CalendarBegin;
-        public int CalendarEnd;
-        public int CalendarLimit;
-        public int CalendarYLimit;
-        public int DefaultCalendarType;
-        public int CrosstabBegin;
-        public int CrosstabEnd;
-        public int CrosstabXLimit;
-        public int CrosstabYLimit;
-        public int GanttLimit;
-        public int GanttPeriodMin;
-        public int GanttPeriodMax;
-        public int BurnDownLimit;
-        public int TimeSeriesLimit;
-        public int AnalyPartPeriodValueMin;
-        public int AnalyPartPeriodValueMax;
-        public int KambanLimit;
-        public int KambanXLimit;
-        public int KambanYLimit;
-        public int KambanMinColumns;
-        public int KambanMaxColumns;
-        public int KambanColumns;
-        public int ImageLibPageSize;
-        public int ImageLibPageSizeMin;
-        public int ImageLibPageSizeMax;
-        public int ImageSizeRegular;
-        public int ImageSizeThumbnail;
-        public int ImageSizeIcon;
-        public int ImageSizeLogo;
-        public int DropDownSearchPageSize;
-        public int SwitchTargetsLimit;
-        public int SeparateMin;
-        public int SeparateMax;
-        public int FirstDayOfWeek;
-        public int FirstMonth;
-        public int DateFilterMinSpan;
-        public int DateFilterMaxSpan;
-        public DateTime MinTime;
-        public DateTime MaxTime;
-        public int DateTimeStep;
-        public bool HideCurrentTimeIcon;
-        public bool HideCurrentUserIcon;
-        public bool HideCurrentDeptIcon;
-        public bool EnableLightBox;
-        public int GroupsDepthMax;
-        public int BulkUpsertMax;
+        public string HtmlHeadKeywords { get; set; }
+        public string HtmlHeadDescription { get; set; }
+        public string HtmlHeadViewport { get; set; }
+        public string HtmlLogoText { get; set; }
+        public string HtmlPortalUrl { get; set; }
+        public string HtmlApplicationBuildingGuideUrl { get; set; }
+        public string HtmlUserManualUrl { get; set; }
+        public string HtmlBlogUrl { get; set; }
+        public string HtmlSupportUrl { get; set; }
+        public string HtmlContactUrl { get; set; }
+        public string HtmlAGPLUrl { get; set; }
+        public string HtmlEnterPriseEditionUrl { get; set; }
+        public string HtmlCasesUrl { get; set; }
+        public string HtmlUrlPrefix { get; set; }
+        public bool DisplayLogoText { get; set; }
+        public bool DisableAutoComplete { get; set; }
+        public int SiteMenuHotSpan { get; set; }
+        public bool AnchorTargetBlank { get; set; }
+        public int LimitWarning1 { get; set; }
+        public int LimitWarning2 { get; set; }
+        public int LimitWarning3 { get; set; }
+        public int DeleteTempOldThan { get; set; }
+        public int DeleteHistoriesOldThan { get; set; }
+        public int NearCompletionTimeBeforeDays { get; set; }
+        public int NearCompletionTimeBeforeDaysMin { get; set; }
+        public int NearCompletionTimeBeforeDaysMax { get; set; }
+        public int NearCompletionTimeAfterDays { get; set; }
+        public int NearCompletionTimeAfterDaysMin { get; set; }
+        public int NearCompletionTimeAfterDaysMax { get; set; }
+        public int GridPageSize { get; set; }
+        public int GridPageSizeMin { get; set; }
+        public int GridPageSizeMax { get; set; }
+        public bool AllowViewReset { get; set; }
+        public int ExportOutputColumnMax { get; set; }
+        public string ImportEncoding { get; set; }
+        public bool UpdatableImport { get; set; }
+        public bool AllowStandardExport { get; set; }
+        public int ImportMax { get; set; }
+        public int ViewerSwitchingType { get; set; }
+        public bool UseNegativeFilters { get; set; }
+        public bool AllowCopy { get; set; }
+        public bool AllowReferenceCopy { get; set; }
+        public string CharToAddWhenCopying { get; set; }
+        [DefaultValue(@"(?<!\\),")]
+        public string ChoiceSplitRegexPattern { get; set; } = @"(?<!\\),";
+        [DefaultValue(@"\\(,)")]
+        public string ChoiceReplaceRegexPattern { get; set; } = @"\\(,)";
+        [DefaultValue(@"$1")]
+        public string ChoiceReplaceRegexReplacement { get; set; } = @"$1";
+        public int UpdateResponseType { get; set; }
+        public string SolutionBackupPath { get; set; }
+        public string SolutionBackupExcludeDirectories { get; set; }
+        public int SizeToUseTextArea { get; set; }
+        public int CompletionCode { get; set; }
+        public int CommentDisplayLimitHistories { get; set; }
+        public int CommentDisplayLimit { get; set; }
+        public int WorkValueHeight { get; set; }
+        public int WorkValueTextTop { get; set; }
+        public int ProgressRateWidth { get; set; }
+        public int ProgressRateItemHeight { get; set; }
+        public int ProgressRateTextTop { get; set; }
+        public int CalendarBegin { get; set; }
+        public int CalendarEnd { get; set; }
+        public int CalendarLimit { get; set; }
+        public int CalendarYLimit { get; set; }
+        public int DefaultCalendarType { get; set; }
+        public int CrosstabBegin { get; set; }
+        public int CrosstabEnd { get; set; }
+        public int CrosstabXLimit { get; set; }
+        public int CrosstabYLimit { get; set; }
+        public int GanttLimit { get; set; }
+        public int GanttPeriodMin { get; set; }
+        public int GanttPeriodMax { get; set; }
+        public int BurnDownLimit { get; set; }
+        public int TimeSeriesLimit { get; set; }
+        public int AnalyPartPeriodValueMin { get; set; }
+        public int AnalyPartPeriodValueMax { get; set; }
+        public int KambanLimit { get; set; }
+        public int KambanXLimit { get; set; }
+        public int KambanYLimit { get; set; }
+        public int KambanMinColumns { get; set; }
+        public int KambanMaxColumns { get; set; }
+        public int KambanColumns { get; set; }
+        public int ImageLibPageSize { get; set; }
+        public int ImageLibPageSizeMin { get; set; }
+        public int ImageLibPageSizeMax { get; set; }
+        public int ImageSizeRegular { get; set; }
+        public int ImageSizeThumbnail { get; set; }
+        public int ImageSizeIcon { get; set; }
+        public int ImageSizeLogo { get; set; }
+        public int DropDownSearchPageSize { get; set; }
+        public int SwitchTargetsLimit { get; set; }
+        public int SeparateMin { get; set; }
+        public int SeparateMax { get; set; }
+        public int FirstDayOfWeek { get; set; }
+        public int FirstMonth { get; set; }
+        public int DateFilterMinSpan { get; set; }
+        public int DateFilterMaxSpan { get; set; }
+        public DateTime MinTime { get; set; }
+        public DateTime MaxTime { get; set; }
+        public int DateTimeStep { get; set; }
+        public bool HideCurrentTimeIcon { get; set; }
+        public bool HideCurrentUserIcon { get; set; }
+        public bool HideCurrentDeptIcon { get; set; }
+        public bool EnableLightBox { get; set; }
+        public bool EnableCodeEditor { get; set; }
+        public int GroupsDepthMax { get; set; }
+        public int BulkUpsertMax { get; set; }
+        public bool EnableExpandLinkPath { get; set; }
+        public bool BlockSiteTaskWhileRunning { get; set; }
     }
 }

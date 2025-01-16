@@ -28,9 +28,11 @@ $p.new = function ($control) {
         $control.attr('data-to-site-id') + '/new' +
         '?FromSiteId=' + $control.attr('data-from-site-id') +
         '&LinkId=' + $control.attr('data-id') +
-            ($control.attr('from-tab-index')
-                ? '&FromTabIndex=' + $control.attr('from-tab-index')
-                : ''));
+        ($control.attr('from-tab-index')
+            ? '&FromTabIndex=' + $control.attr('from-tab-index')
+            : '') +
+        '&NotReturnParentRecord=' + $control.attr('do-not-return-parent')
+    );
 }
 
 $p.copy = function ($control) {

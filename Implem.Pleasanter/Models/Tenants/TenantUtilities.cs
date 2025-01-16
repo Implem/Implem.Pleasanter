@@ -36,7 +36,7 @@ namespace Implem.Pleasanter.Models
             int? tabIndex = null,
             ServerScriptModelColumn serverScriptModelColumn = null)
         {
-            if (serverScriptModelColumn?.Hide == true)
+            if (serverScriptModelColumn?.HideChanged == true && serverScriptModelColumn?.Hide == true)
             {
                 return hb.Td();
             }
@@ -636,14 +636,12 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             TenantModel tenantModel)
         {
-            return hb.FieldSet(
+            return hb.TabsPanelField(
                 id: "FieldSetGeneral",
-                action: () => hb.Div(
-                    css: "fieldset-inner",
-                    action: () => hb.FieldSetGeneralColumns(
-                        context: context,
-                        ss: ss,
-                        tenantModel: tenantModel)));
+                action: () => hb.FieldSetGeneralColumns(
+                    context: context,
+                    ss: ss,
+                    tenantModel: tenantModel));
         }
 
         /// <summary>
@@ -1582,11 +1580,11 @@ namespace Implem.Pleasanter.Models
             }
             var hb = new HtmlBuilder();
             hb.Div(
-                css: "fieldset-inner",
+                css: "tabs-panel-inner",
                 action: () => hb
                     .HistoryCommands(context: context, ss: ss)
-                    .Table(
-                        attributes: new HtmlAttributes().Class("grid history"),
+                    .GridTable(
+                        css: "history",
                         action: () => hb
                             .THead(action: () => hb
                                 .GridHeader(
@@ -1698,7 +1696,7 @@ namespace Implem.Pleasanter.Models
             Context context,
             TenantModel tenantModel)
         {
-            return hb.FieldSet(id: "FieldSetServerScript",
+            return hb.TabsPanelField(id: "FieldSetServerScript",
                 action: () => hb
                     .ServerScriptsSettingsEditor(
                         context: context, tenantModel: tenantModel),
@@ -1886,7 +1884,7 @@ namespace Implem.Pleasanter.Models
                             method: "delete",
                             confirm: "ConfirmDelete",
                             _using: BinaryUtilities.ExistsTenantImage(
-                                context: context, 
+                                context: context,
                                 ss: SiteSettingsUtilities.TenantsSiteSettings(context),
                                 referenceId: tenantModel.TenantId,
                                 sizeType: Libraries.Images.ImageData.SizeTypes.Logo)));
@@ -1935,7 +1933,6 @@ namespace Implem.Pleasanter.Models
             Context context, TenantModel tenantModel, string controlId, BackgroundServerScript script)
         {
             var hb = new HtmlBuilder();
-            var outputDestinationCss = " output-destination-script";
             var enclosedCss = " enclosed";
             return hb.Form(
                 attributes: new HtmlAttributes()
@@ -1987,6 +1984,12 @@ namespace Implem.Pleasanter.Models
                         controlCss: " always-send",
                         labelText: Displays.ServerScript(context: context),
                         text: script.Body)
+                    .FieldCheckBox(
+                        controlId: "ServerScriptDisabled",
+                        fieldCss: "field-wide",
+                        controlCss: " always-send",
+                        labelText: Displays.Disabled(context: context),
+                        _checked: script.Disabled == true)
                     .FieldSpinner(
                         controlId: "ServerScriptTimeOut",
                         fieldCss: "field-normal",
@@ -1998,20 +2001,24 @@ namespace Implem.Pleasanter.Models
                         step: 1,
                         width: 75,
                         _using: Parameters.Script.ServerScriptTimeOutChangeable)
-                    .Div(
-                        action: () => hb
-                            .FieldCheckBox(
-                                controlId: "ServerScriptDisabled",
-                                fieldCss: outputDestinationCss,
-                                controlCss: " always-send",
-                                labelText: Displays.Disabled(context: context),
-                                _checked: script.Disabled == true)
-                            .FieldCheckBox(
-                                controlId: "ServerScriptShared",
-                                fieldCss: outputDestinationCss,
-                                controlCss: " always-send",
-                                labelText: Displays.Shared(context: context),
-                                _checked: script.Shared == true))
+                    .FieldCheckBox(
+                        controlId: "ServerScriptFunctionalize",
+                        fieldCss: "field-normal",
+                        controlCss: " always-send",
+                        labelText: Displays.Functionalize(context: context),
+                        _checked: script.Functionalize == true)
+                    .FieldCheckBox(
+                        controlId: "ServerScriptTryCatch",
+                        fieldCss: "field-normal",
+                        controlCss: " always-send",
+                        labelText: Displays.TryCatch(context: context),
+                        _checked: script.TryCatch == true)
+                    .FieldCheckBox(
+                        controlId: "ServerScriptShared",
+                        fieldCss: "field-wide",
+                        controlCss: " always-send",
+                        labelText: Displays.Shared(context: context),
+                        _checked: script.Shared == true)
                     .FieldSet(
                         css: enclosedCss,
                         legendText: Displays.Schedule(context: context),
@@ -2080,7 +2087,7 @@ namespace Implem.Pleasanter.Models
                 controlId: controlId,
                 fieldCss: "field-normal",
                 controlCss: " always-send search",
-                labelText: labelText, 
+                labelText: labelText,
                 optionCollection: optionCollection,
                 controlOption: () => hb.Div(css: "ui-icon ui-icon-person current-user"),
                 selectedValue: userId == 0 ? "" : userId.ToString());
@@ -2093,9 +2100,8 @@ namespace Implem.Pleasanter.Models
         public static HtmlBuilder EditServerScript(this HtmlBuilder hb, Context context, TenantModel tenantModel)
         {
             var selected = context.Forms.IntList("EditServerScript");
-            return hb.Table(
+            return hb.GridTable(
                 id: "EditServerScript",
-                css: "grid",
                 attributes: new HtmlAttributes()
                     .DataName("ServerScriptId")
                     .DataFunc("openServerScriptDialog")
@@ -2133,6 +2139,10 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .Text(text: Displays.Disabled(context: context)))
                     .Th(action: () => hb
+                        .Text(text: Displays.Functionalize(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.TryCatch(context: context)))
+                    .Th(action: () => hb
                         .Text(text: Displays.Shared(context: context)))));
         }
 
@@ -2164,6 +2174,14 @@ namespace Implem.Pleasanter.Models
                                 .Span(
                                     css: "ui-icon ui-icon-circle-check",
                                     _using: script.Disabled == true))
+                            .Td(action: () => hb
+                                .Span(
+                                    css: "ui-icon ui-icon-circle-check",
+                                    _using: script.Functionalize == true))
+                            .Td(action: () => hb
+                                .Span(
+                                    css: "ui-icon ui-icon-circle-check",
+                                    _using: script.TryCatch == true))
                             .Td(action: () => hb
                                 .Span(
                                     css: "ui-icon ui-icon-circle-check",
@@ -2260,9 +2278,8 @@ namespace Implem.Pleasanter.Models
         public static HtmlBuilder EditServerScriptSchedules(this HtmlBuilder hb, Context context, SettingList<BackgroundSchedule> backgoundSchedules)
         {
             var selected = context.Forms.IntList("EditServerScriptSchedules");
-            return hb.Table(
+            return hb.GridTable(
                 id: "EditServerScriptSchedules",
-                css: "grid",
                 attributes: new HtmlAttributes()
                     .DataName("ServerScriptScheduleId")
                     .DataFunc("openServerScriptScheduleDialog")

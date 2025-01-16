@@ -185,14 +185,12 @@ private static HtmlBuilder FieldSetGeneral(
     SiteSettings ss,
     #ModelName#Model #modelName#Model)
 {
-    return hb.FieldSet(
+    return hb.TabsPanelField(
         id: "FieldSetGeneral",
-        action: () => hb.Div(
-            css: "fieldset-inner",
-            action: () => hb.FieldSetGeneralColumns(
-                context: context,
-                ss: ss,
-                #modelName#Model: #modelName#Model)));
+        action: () => hb.FieldSetGeneralColumns(
+            context: context,
+            ss: ss,
+            #modelName#Model: #modelName#Model));
 }
 
 private static HtmlBuilder FieldSetGeneralColumns(

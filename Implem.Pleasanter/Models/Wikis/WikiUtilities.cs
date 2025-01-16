@@ -36,7 +36,7 @@ namespace Implem.Pleasanter.Models
             int? tabIndex = null,
             ServerScriptModelColumn serverScriptModelColumn = null)
         {
-            if (serverScriptModelColumn?.Hide == true)
+            if (serverScriptModelColumn?.HideChanged == true && serverScriptModelColumn?.Hide == true)
             {
                 return hb.Td();
             }
@@ -812,17 +812,15 @@ namespace Implem.Pleasanter.Models
             bool editInDialog = false)
         {
             var mine = wikiModel.Mine(context: context);
-            return hb.FieldSet(
+            return hb.TabsPanelField(
                 id: "FieldSetGeneral",
-                action: () => hb.Div(
-                    css: "fieldset-inner",
-                    action: () => hb.FieldSetGeneralColumns(
-                        context: context,
-                        ss: ss,
-                        wikiModel: wikiModel,
-                        dataSet: dataSet,
-                        links: links,
-                        editInDialog: editInDialog)));
+                action: () => hb.FieldSetGeneralColumns(
+                    context: context,
+                    ss: ss,
+                    wikiModel: wikiModel,
+                    dataSet: dataSet,
+                    links: links,
+                    editInDialog: editInDialog));
         }
 
         public static HtmlBuilder FieldSetGeneralColumns(
@@ -871,6 +869,10 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 column: column);
+            var rawValue = wikiModel.ControlRawValue(
+                context: context,
+                ss: ss,
+                column: column);
             if (value != null)
             {
                 //数値項目の場合、「単位」を値に連結する
@@ -891,6 +893,7 @@ namespace Implem.Pleasanter.Models
                         ?.ServerScriptModelRow
                         ?.Columns.Get(column.ColumnName),
                     value: value,
+                    rawValue: rawValue,
                     columnPermissionType: Permissions.ColumnPermissionType(
                         context: context,
                         ss: ss,
@@ -934,22 +937,20 @@ namespace Implem.Pleasanter.Models
                 ss: ss);
             ss.Tabs?.Select((tab, index) => new { tab = tab, index = index + 1 })?.ForEach(data =>
             {
-                hb.FieldSet(
+                hb.TabsPanelField(
                     id: $"FieldSetTab{data.tab.Id}",
                     css: " fieldset cf ui-tabs-panel ui-corner-bottom ui-widget-content ",
-                    action: () => hb.Div(
-                        css: "fieldset-inner",
-                        action: () => hb.Fields(
-                            context: context,
-                            ss: ss,
-                            id: id,
-                            tab: data.tab,
-                            dataSet: dataSet,
-                            links: links,
-                            preview: preview,
-                            editInDialog: editInDialog,
-                            wikiModel: wikiModel,
-                            tabIndex: data.index)));
+                    action: () => hb.Fields(
+                        context: context,
+                        ss: ss,
+                        id: id,
+                        tab: data.tab,
+                        dataSet: dataSet,
+                        links: links,
+                        preview: preview,
+                        editInDialog: editInDialog,
+                        wikiModel: wikiModel,
+                        tabIndex: data.index));
             });
             return hb;
         }
@@ -1263,6 +1264,88 @@ namespace Implem.Pleasanter.Models
                         case "Attachments":
                             return wikiModel.GetAttachments(columnName: column.Name)
                                 .ToControl(
+                                    context: context,
+                                    ss: ss,
+                                    column: column);
+                        default: return null;
+                    }
+            }
+        }
+
+        public static object ControlRawValue(
+            this WikiModel wikiModel,
+            Context context,
+            SiteSettings ss,
+            Column column)
+        {
+            switch (column.Name)
+            {
+                case "WikiId":
+                    return wikiModel.WikiId
+                        .ToApiValue(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Ver":
+                    return wikiModel.Ver
+                        .ToApiValue(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Title":
+                    return wikiModel.Title
+                        .ToApiValue(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Body":
+                    return wikiModel.Body
+                        .ToApiValue(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Locked":
+                    return wikiModel.Locked
+                        .ToApiValue(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                default:
+                    switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
+                    {
+                        case "Class":
+                            return wikiModel.GetClass(columnName: column.Name)
+                                .ToApiValue(
+                                    context: context,
+                                    ss: ss,
+                                    column: column);
+                        case "Num":
+                            return wikiModel.GetNum(columnName: column.Name)
+                                .ToApiValue(
+                                    context: context,
+                                    ss: ss,
+                                    column: column);
+                        case "Date":
+                            return wikiModel.GetDate(columnName: column.Name)
+                                .ToApiValue(
+                                    context: context,
+                                    ss: ss,
+                                    column: column);
+                        case "Description":
+                            return wikiModel.GetDescription(columnName: column.Name)
+                                .ToApiValue(
+                                    context: context,
+                                    ss: ss,
+                                    column: column);
+                        case "Check":
+                            return wikiModel.GetCheck(columnName: column.Name)
+                                .ToApiValue(
+                                    context: context,
+                                    ss: ss,
+                                    column: column);
+                        case "Attachments":
+                            return wikiModel.GetAttachments(columnName: column.Name)
+                                .ToApiValue(
                                     context: context,
                                     ss: ss,
                                     column: column);
@@ -1770,6 +1853,10 @@ namespace Implem.Pleasanter.Models
             {
                 context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
             }
+            if(HasInvalidValueAsApiDataAtCreate(wikiApiModel))
+            {
+                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+            }
             var wikiModel = new WikiModel(
                 context: context,
                 ss: ss,
@@ -1828,6 +1915,10 @@ namespace Implem.Pleasanter.Models
             {
                 context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
             }
+            if(HasInvalidValueAsApiDataAtCreate(wikiApiModel))
+            {
+                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+            }
             var wikiModel = new WikiModel(
                 context: context,
                 ss: ss,
@@ -1868,6 +1959,25 @@ namespace Implem.Pleasanter.Models
                 default:
                     return false;
             }
+        }
+
+        private static bool HasInvalidValueAsApiDataAtCreate(WikiApiModel model)
+        {
+            if (model is null)
+                return false;
+            foreach (var o in model.AttachmentsHash)
+            {
+                foreach (var attachment in o.Value)
+                {
+                    if (attachment.Deleted ?? false)
+                        continue;
+                    if (attachment.Name.IsNullOrEmpty())
+                        return true;
+                    if (attachment.Base64 is null && attachment.Base64Binary is null)
+                        return true;
+                }
+            }
+            return false;
         }
 
         public static string Update(Context context, SiteSettings ss, long wikiId, string previousTitle)
@@ -2065,6 +2175,10 @@ namespace Implem.Pleasanter.Models
             {
                 context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
             }
+            if(HasInvalidValueAsApiDataAtUpdate(wikiApiModel))
+            {
+                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+            }
             var wikiModel = new WikiModel(
                 context: context,
                 ss: ss,
@@ -2133,6 +2247,10 @@ namespace Implem.Pleasanter.Models
             {
                 context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
             }
+            if(HasInvalidValueAsApiDataAtUpdate(wikiApiModel))
+            {
+                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+            }
             var wikiModel = new WikiModel(
                 context: context,
                 ss: ss,
@@ -2184,6 +2302,25 @@ namespace Implem.Pleasanter.Models
                     return false;
             }
         }
+
+                private static bool HasInvalidValueAsApiDataAtUpdate(WikiApiModel model)
+                {
+                    if (model is null)
+                        return false;
+                    foreach (var o in model.AttachmentsHash)
+                    {
+                        foreach (var attachment in o.Value)
+                        {
+                            if (attachment.Deleted ?? false)
+                                continue;
+                            if (attachment.Name.IsNullOrEmpty())
+                                return true;
+                            if (attachment.Base64 is null && attachment.Base64Binary is null)
+                                return true;
+                        }
+                    }
+                    return false;
+                }
 
         public static string Delete(Context context, SiteSettings ss, long wikiId)
         {
@@ -2620,11 +2757,11 @@ namespace Implem.Pleasanter.Models
             }
             var hb = new HtmlBuilder();
             hb.Div(
-                css: "fieldset-inner",
+                css: "tabs-panel-inner",
                 action: () => hb
                     .HistoryCommands(context: context, ss: ss)
-                    .Table(
-                        attributes: new HtmlAttributes().Class("grid history"),
+                    .GridTable(
+                        css: "history",
                         action: () => hb
                             .THead(action: () => hb
                                 .GridHeader(
@@ -2882,7 +3019,7 @@ namespace Implem.Pleasanter.Models
                             .A(
                                 href: "#" + name + "Editor",
                                 text: Displays.Editor(context: context))))
-                    .FieldSet(
+                    .TabsPanelField(
                         id: name + "Editor",
                         action: () => hb
                             .FieldSetGeneralColumns(

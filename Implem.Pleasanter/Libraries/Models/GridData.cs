@@ -63,14 +63,21 @@ namespace Implem.Pleasanter.Libraries.Models
             int pageSize = 0,
             bool count = true)
         {
+            var gridColumns = ss.GetGridColumns(
+                context: context,
+                view: view,
+                includedColumns: true);
+            if (!gridColumns.Any(o => o.ColumnName == "Ver"))
+            {
+                gridColumns.Add(ss.GetColumn(
+                    context: context,
+                    columnName: "Ver"));
+            }
             column = column ?? ColumnUtilities.SqlColumnCollection(
                 context: context,
                 ss: ss,
                 view: view,
-                columns: ss.GetGridColumns(
-                    context: context,
-                    view: view,
-                    includedColumns: true));
+                columns: gridColumns);
             where = view.Where(
                 context: context,
                 ss: ss,
