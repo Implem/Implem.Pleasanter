@@ -43,6 +43,7 @@ namespace Implem.DefinitionAccessor
             SetParameters();
             Environments.ServiceName = Parameters.Service.Name;
             SetRdsParameters();
+            SetMigrationParameters();
             Environments.MachineName = $"{Environment.MachineName}:{Environment.OSVersion}";
             Environments.Application =
                 Assembly.GetExecutingAssembly().ManifestModule.Name.FileNameOnly();
@@ -761,9 +762,13 @@ namespace Implem.DefinitionAccessor
 
         public static void SetMigrationParameters()
         {
-            Parameters.Migration.SourceConnectionString =
-                Parameters.Migration.SourceConnectionString.Replace(
-                    "#OldServiceName#", Parameters.Migration.ServiceName);
+            if (Parameters.Migration.SourceConnectionString != null &&
+                Parameters.Migration.ServiceName != null)
+            {
+                Parameters.Migration.SourceConnectionString =
+                    Parameters.Migration.SourceConnectionString.Replace(
+                        "#OldServiceName#", Parameters.Migration.ServiceName);
+            }
         }
 
         private static void SetColumnDefinitionAdditional(XlsIo definitionFile)

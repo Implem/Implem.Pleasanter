@@ -2,10 +2,10 @@
     "Dbms": "SQLServer",
     "Provider": "Local",
     "ServiceName": "Implem.Pleasanter",
-    "SourceConnectionString": "Server=(local);Database=#OldServiceName#;UID=sa;PWD=SetSaPWD;",
+    "SourceConnectionString": null,
     "ExcludeTables": [
         "SysLogs"
     ],
     "AbortWhenException": false,
-    "IgnoreIfOverflow": false
+    "SkipIfOverflow": false
 }

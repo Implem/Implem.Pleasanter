@@ -21,15 +21,6 @@ namespace Implem.MySql
             instance = new MySqlConnector.MySqlCommand();
         }
 
-        public MySqlCommand(
-            string cmdText,
-            IDbConnection connection)
-        {
-            instance = new MySqlConnector.MySqlCommand(
-                commandText: cmdText,
-                connection: (MySqlConnector.MySqlConnection)connection);
-        }
-
         public string CommandText
         {
             get

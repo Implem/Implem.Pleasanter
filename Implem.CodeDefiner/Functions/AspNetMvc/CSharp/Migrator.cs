@@ -105,11 +105,10 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp
             ISqlConnection connTo)
         {
             Consoles.Write(tableName, Consoles.Types.Info);
-
-            var cmdFrom = factoryFrom.CreateSqlCommand(
-                cmdText: Def.Sql.MigrateDatabaseSelectFrom
-                    .Replace("#TableName#", tableName),
-                connection: connFrom);
+            var cmdFrom = factoryFrom.CreateSqlCommand();
+            cmdFrom.CommandText = Def.Sql.MigrateDatabaseSelectFrom
+                .Replace("#TableName#", tableName);
+            cmdFrom.Connection = connFrom;
             SqlDebugs.WriteSqlLog(Parameters.Rds.Dbms, Environments.ServiceName, cmdFrom, Sqls.LogsPath);
             using (var reader = cmdFrom.ExecuteReader())
             {
@@ -122,12 +121,12 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp
                     }
                     var partsColumnNames = columns.Select(columnName => "[" + columnName + "]").Join();
                     var partsValues = columns.Select(columnName => "@" + columnName).Join();
-                    var cmdTo = factoryTo.CreateSqlCommand(
-                        cmdText: Def.Sql.MigrateDatabaseInsert
+                    var cmdTo = factoryTo.CreateSqlCommand();
+                    cmdTo.CommandText = Def.Sql.MigrateDatabaseInsert
                             .Replace("#TableName#", tableName)
                             .Replace("#ColumnNames#", partsColumnNames)
-                            .Replace("#Values#", partsValues),
-                        connection: connTo);
+                            .Replace("#Values#", partsValues);
+                    cmdTo.Connection = connTo;
                     columns.ForEach(columnName =>
                         cmdTo.Parameters_AddWithValue(
                             "@ip" + columnName,
@@ -138,11 +137,11 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp
             }
             if (Def.Sql.MigrateDatabaseSelectSetval != "" && identity != null)
             {
-                var cmdTo = factoryTo.CreateSqlCommand(
-                    cmdText: Def.Sql.MigrateDatabaseSelectSetval
+                var cmdTo = factoryTo.CreateSqlCommand();
+                cmdTo.CommandText = Def.Sql.MigrateDatabaseSelectSetval
                         .Replace("#TableName#", tableName)
-                        .Replace("#Identity#", identity),
-                    connection: connTo);
+                        .Replace("#Identity#", identity);
+                cmdTo.Connection = connTo;
                 SqlDebugs.WriteSqlLog(Parameters.Rds.Dbms, Environments.ServiceName, cmdTo, Sqls.LogsPath);
                 cmdTo.ExecuteNonQuery();
             }

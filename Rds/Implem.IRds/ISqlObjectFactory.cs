@@ -1,13 +1,8 @@
-﻿using System.Data.Common;
-using System.Data;
-
-namespace Implem.IRds
+﻿namespace Implem.IRds
 {
     public interface ISqlObjectFactory
     {
         ISqlCommand CreateSqlCommand();
-
-        ISqlCommand CreateSqlCommand(string cmdText, IDbConnection connection);
 
         ISqlDataAdapter CreateSqlDataAdapter(ISqlCommand sqlCommand);
 
