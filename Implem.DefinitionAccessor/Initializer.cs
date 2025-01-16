@@ -759,6 +759,13 @@ namespace Implem.DefinitionAccessor
             Environments.DeadlockRetryInterval = Parameters.Rds.DeadlockRetryInterval;
         }
 
+        public static void SetMigrationParameters()
+        {
+            Parameters.Migration.SourceConnectionString =
+                Parameters.Migration.SourceConnectionString.Replace(
+                    "#OldServiceName#", Parameters.Migration.ServiceName);
+        }
+
         private static void SetColumnDefinitionAdditional(XlsIo definitionFile)
         {
             var tableCopy = definitionFile.XlsSheet.ToList();

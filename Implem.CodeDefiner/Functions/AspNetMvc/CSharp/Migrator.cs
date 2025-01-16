@@ -76,9 +76,19 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp
                             connFrom: connFrom,
                             connTo: connTo);
                     }
-                    catch (Exception e)
+                    catch (System.Data.SqlClient.SqlException e)
                     {
-                        Consoles.Write(tableName + ":" + e.Message, Consoles.Types.Info);
+                        Consoles.Write(
+                            text: $"[{e.Number}] {e.Message}",
+                            type: Consoles.Types.Error,
+                            abort: Parameters.Migration.AbortWhenException);
+                    }
+                    catch (System.Exception e)
+                    {
+                        Consoles.Write(
+                            text: $"[{tableName}]: {e}",
+                            type: Consoles.Types.Error,
+                            abort: Parameters.Migration.AbortWhenException);
                     }
                     connFrom.Close();
                 }

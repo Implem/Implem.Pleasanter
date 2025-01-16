@@ -18,6 +18,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Reflection;
+using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Xml.Xsl;
 
@@ -99,7 +100,7 @@ namespace Implem.CodeDefiner
                             factory: factory,
                             force: argHash.ContainsKey("f"),
                             noInput: argHash.ContainsKey("y"));
-                        MigrateDatabase(factoryFrom: factory);
+                        MigrateDatabase(factoryTo: factory);
                         break;
                     case "ConvertTime":
                         ConvertTime(factory: factory);
@@ -174,6 +175,12 @@ namespace Implem.CodeDefiner
             {
                 Consoles.Write(
                     "DirectoryNotFoundException : " + e.Message,
+                    Consoles.Types.Error);
+            }
+            catch (JsonException e)
+            {
+                Consoles.Write(
+                    "JsonException : " + e.Message + "\n" + e.StackTrace,
                     Consoles.Types.Error);
             }
             catch (Exception e)
@@ -442,12 +449,12 @@ namespace Implem.CodeDefiner
                 Consoles.Types.Success);
         }
 
-        private static void MigrateDatabase(ISqlObjectFactory factoryFrom)
+        private static void MigrateDatabase(ISqlObjectFactory factoryTo)
         {
             CanMigrate();
             Functions.AspNetMvc.CSharp.Migrator.MigrateDatabaseAsync(
-                factoryFrom: factoryFrom,
-                factoryTo: RdsFactory.Create(Parameters.Migration.Dbms));
+                factoryFrom: RdsFactory.Create(Parameters.Migration.Dbms),
+                factoryTo: factoryTo);
             Consoles.Write(
                 DisplayAccessor.Displays.Get("CodeDefinerMigrationCompleted"),
                 Consoles.Types.Success);
@@ -455,37 +462,80 @@ namespace Implem.CodeDefiner
 
         private static void CanMigrate()
         {
-            var checkMigrationJson = false;
+            //移行可能な条件を追加する場合、以下処理を見直すこと。
+            var checkMigrationDbms = false;
             switch (Parameters.Migration.Dbms)
             {
                 case "SQLServer":
-                    checkMigrationJson = true;
-                    break;
-                case "PostgreSQL":
-                case "MySQL":
+                    checkMigrationDbms = true;
                     break;
                 default:
                     break;
             }
-            if (!checkMigrationJson)
+            if (!checkMigrationDbms)
             {
-                throw new Exception($"The value \"{Parameters.Migration.Dbms}\" cannot be set for \"Dbms\" in Migration.json.");
+                throw new JsonException($"The value \"{Parameters.Migration.Dbms}\" cannot be set for \"Dbms\" in Migration.json.");
             }
-            var checkRdsJson = false;
+            var checkMigrationProvider = false;
+            switch (Parameters.Migration.Provider)
+            {
+                case "Local":
+                    checkMigrationProvider = true;
+                    break;
+                default:
+                    break;
+            }
+            if (!checkMigrationProvider)
+            {
+                throw new JsonException($"The value \"{Parameters.Migration.Provider}\" cannot be set for \"Provider\" in Migration.json.");
+            }
+            var checkRdsDbms = false;
             switch (Parameters.Rds.Dbms)
             {
-                case "SQLServer":
-                    break;
                 case "PostgreSQL":
                 case "MySQL":
-                    checkRdsJson = true;
+                    checkRdsDbms = true;
                     break;
                 default:
                     break;
             }
-            if (!checkRdsJson)
-                throw new Exception($"The value \"{Parameters.Rds.Dbms}\" cannot be set for \"Dbms\" in Rds.json.");
-            //Todo: DBの種類が一致かつ、接続文字列に記載のサーバが一致かつ、スキーマも一致はエラー。
+            if (!checkRdsDbms)
+            {
+                throw new JsonException($"The value \"{Parameters.Rds.Dbms}\" cannot be set for \"Dbms\" in Rds.json.");
+            }
+            var checkRdsProvider = false;
+            switch (Parameters.Rds.Provider)
+            {
+                case "Local":
+                    checkRdsProvider = true;
+                    break;
+                default:
+                    break;
+            }
+            if (!checkRdsProvider)
+            {
+                throw new JsonException($"The value \"{Parameters.Rds.Provider}\" cannot be set for \"Provider\" in Rds.json.");
+            }
+            if (Parameters.Rds.Dbms != Parameters.Migration.Dbms ||
+                Parameters.Rds.Provider != Parameters.Migration.Provider)
+            {
+                return;
+            }
+            DbConnectionStringBuilder o = new DbConnectionStringBuilder() { ConnectionString = Parameters.Migration.SourceConnectionString };
+            DbConnectionStringBuilder n = new DbConnectionStringBuilder() { ConnectionString = Parameters.Rds.SaConnectionString };
+            var oldInfo = (
+                schema: Parameters.Migration.ServiceName,
+                server: o.ContainsKey("server") ? o["server"].ToString() : "",
+                dataSource: o.ContainsKey("data source") ? o["data source"].ToString() : "");
+            var newInfo = (
+                schema: Parameters.Service.Name,
+                server: n.ContainsKey("server") ? n["server"].ToString() : "",
+                dataSource: n.ContainsKey("data source") ? n["data source"].ToString() : "");
+            if (oldInfo.schema == newInfo.schema && oldInfo.server != "" && newInfo.server != "" && oldInfo.server == newInfo.server
+                || oldInfo.schema == newInfo.schema && oldInfo.dataSource != "" && newInfo.dataSource != "" && oldInfo.dataSource == newInfo.dataSource)
+            {
+                throw new JsonException($"The same schema cannot be specified for both Migration.json and Rds.json.");
+            }
         }
 
         private static void ConvertTime(ISqlObjectFactory factory)
