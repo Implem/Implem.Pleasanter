@@ -1,1 +1,1 @@
-﻿select setval('#TableName#_#Identity#_seq', (select max(#Identity#) from #TableName#));
+﻿select setval(pg_get_serial_sequence('"#TableName#"', '#Identity#'), (select max("#Identity#") from "#TableName#"));

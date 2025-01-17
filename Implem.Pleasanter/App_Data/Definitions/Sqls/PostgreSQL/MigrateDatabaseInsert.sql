@@ -1,1 +1,1 @@
-﻿insert into [#TableName#] (#ColumnNames#) values (#Values#);
+﻿insert into "#TableName#" (#ColumnNames#) values (#Values#);

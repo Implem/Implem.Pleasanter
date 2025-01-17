@@ -40,16 +40,14 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp
             ISqlObjectFactory factoryFrom,
             ISqlObjectFactory factoryTo)
         {
-            var connFrom = factoryFrom.CreateSqlConnection(
-                connectionString: Parameters.Migration.SourceConnectionString);
-            var connTo = factoryTo.CreateSqlConnection(
-                connectionString: Parameters.Rds.OwnerConnectionString);
-            using (connTo)
+            //この位置でコネクションをOpenする構造上、後続のMigrateTableメソッドでは、
+            //プリザンターの主要なDB処理と異なり、SqlIo.csは使用せずにSQLコマンドを実行させる。
+            using (var connTo = factoryTo.CreateSqlConnection(
+                connectionString: Parameters.Rds.OwnerConnectionString))
             {
-                //この位置でコネクションをOpenする構造上、後続のMigrateTableメソッドでは、
-                //プリザンターの主要なDB処理と異なり、SqlIo.csは使用せずにSQLコマンドを実行させる。
                 connTo.OpenAsync();
-                using (connFrom)
+                using (var connFrom = factoryFrom.CreateSqlConnection(
+                    connectionString: Parameters.Migration.SourceConnectionString))
                 {
                     connFrom.Open();
                     try
@@ -106,10 +104,9 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp
         {
             Consoles.Write(tableName, Consoles.Types.Info);
             var cmdFrom = factoryFrom.CreateSqlCommand();
-            cmdFrom.CommandText = Def.Sql.MigrateDatabaseSelectFrom
-                .Replace("#TableName#", tableName);
+            cmdFrom.CommandText = factoryFrom.Sqls.MigrateDatabaseSelectFrom(tableName);
             cmdFrom.Connection = connFrom;
-            SqlDebugs.WriteSqlLog(Parameters.Rds.Dbms, Environments.ServiceName, cmdFrom, Sqls.LogsPath);
+            SqlDebugs.WriteSqlLog(Parameters.Migration.Dbms, Parameters.Migration.ServiceName, cmdFrom, Sqls.LogsPath);
             using (var reader = cmdFrom.ExecuteReader())
             {
                 while (reader.Read())
@@ -119,19 +116,20 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp
                     {
                         columns.Add(reader.GetName(i));
                     }
-                    var partsColumnNames = columns.Select(columnName => "[" + columnName + "]").Join();
-                    var partsValues = columns.Select(columnName => "@" + columnName).Join();
                     var cmdTo = factoryTo.CreateSqlCommand();
                     cmdTo.CommandText = Def.Sql.MigrateDatabaseInsert
-                            .Replace("#TableName#", tableName)
-                            .Replace("#ColumnNames#", partsColumnNames)
-                            .Replace("#Values#", partsValues);
-                    cmdTo.Connection = connTo;
-                    columns.ForEach(columnName =>
-                        cmdTo.Parameters_AddWithValue(
-                            "@ip" + columnName,
-                            reader[columnName]));
+                        .Replace("#TableName#", tableName)
+                        .Replace(
+                            "#ColumnNames#",
+                            columns.Select(columnName => $@"""{columnName}""").Join())
+                        .Replace(
+                            "#Values#",
+                            columns.Select(columnName => Parameters.Parameter.SqlParameterPrefix + columnName).Join());
+                    columns.ForEach(columnName => cmdTo.Parameters_AddWithValue(
+                        parameterName: Parameters.Parameter.SqlParameterPrefix + columnName,
+                        value: reader[columnName]));
                     SqlDebugs.WriteSqlLog(Parameters.Rds.Dbms, Environments.ServiceName, cmdTo, Sqls.LogsPath);
+                    cmdTo.Connection = connTo;
                     cmdTo.ExecuteNonQuery();
                 }
             }
@@ -139,8 +137,8 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp
             {
                 var cmdTo = factoryTo.CreateSqlCommand();
                 cmdTo.CommandText = Def.Sql.MigrateDatabaseSelectSetval
-                        .Replace("#TableName#", tableName)
-                        .Replace("#Identity#", identity);
+                    .Replace("#TableName#", tableName)
+                    .Replace("#Identity#", identity);
                 cmdTo.Connection = connTo;
                 SqlDebugs.WriteSqlLog(Parameters.Rds.Dbms, Environments.ServiceName, cmdTo, Sqls.LogsPath);
                 cmdTo.ExecuteNonQuery();
