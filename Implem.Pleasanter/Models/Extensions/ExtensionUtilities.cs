@@ -352,27 +352,13 @@ namespace Implem.Pleasanter.Models
 
         public static ContentResultInheritance CreateByApi(Context context, SiteSettings ss)
         {
-            //TODO: とりあえずItemUtility.CreateByApiを参考にしているが、適切か確認する
-
-
-            //TODO: ResultUtility のPGにはこのチェックの記載がないがよいのか？またSiteUtilityだとItemUtilityと Deserialize したものに対するチェックの順序がことなっているがよいのか？
             if (!Mime.ValidateOnApi(contentType: context.ContentType))
                 return ApiResults.BadRequest(context: context);
 
-            //TODO: 何するものかチェック 「レコード数が上限に達しました。」のチェック なんのためのちぇくかよくわからない。とりあえず不要
-            //if (context.ContractSettings.ItemsLimit(context: context, siteId: ss.SiteId))
-            //{
-            //    return ApiResults.Error(
-            //        context: context,
-            //        errorData: new ErrorData(type: Error.Types.ItemsLimit));
-            //}
-
             var extensionApiModel = context.RequestDataString.Deserialize<ExtensionApiModel>();
-            if (extensionApiModel == null)
+            if (extensionApiModel == null || extensionApiModel.HasInvalidExtensionSettings())
                 context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
-
-            //TODO: extensionApiModel の　ExtensionSettings に対するチェックが必要。 ExtensionType毎にモデルを用意してDeserializeすることでチェックする？
-
+            
             var extensionModel = new ExtensionModel(context: context, extensionId: 0, extensionApiModel: extensionApiModel);
             var invalid = ExtensionValidators.OnCreating(context: context, ss: ss, extensionModel: extensionModel, api: true);
             if (invalid.Type != Error.Types.None)
@@ -402,7 +388,7 @@ namespace Implem.Pleasanter.Models
                 return ApiResults.BadRequest(context: context);
 
             var extensionApiModel = context.RequestDataString.Deserialize<ExtensionApiModel>();
-            if (extensionApiModel == null)
+            if (extensionApiModel == null || extensionApiModel.HasInvalidExtensionSettings())
                 context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
             
             var extensionModel = new ExtensionModel(

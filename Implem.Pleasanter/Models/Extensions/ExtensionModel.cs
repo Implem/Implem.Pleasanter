@@ -743,7 +743,7 @@ namespace Implem.Pleasanter.Models
             ExtensionSettings = data.ExtensionSettings == null ? ExtensionSettings : Jsons.ToJson(data.ExtensionSettings);
             Body = data.Body ?? Body;
             Description = data.Description ?? Description;
-            Disabled = data.Disabled ?? Disabled;
+            Disabled = data.Disabled ;
             Comments = data.Comments == null ? Comments : Comments.Prepend(context: context, ss: null, body: data.Comments); //TODO: Commentsの処理方法は、他と同じ？
             VerUp = data.VerUp?.ToBool() ?? VerUp;
         }
