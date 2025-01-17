@@ -50,7 +50,10 @@ namespace Implem.PleasanterTest.Tests.Settings
                             target: "#StatusControlDialog"),
                         JsonData.ExistsOne(
                             method: "SetMemory",
-                            target: "formChanged")),
+                            target: "formChanged"),
+                        JsonData.Html(
+                            target: "#StatusControlDialog",
+                            selector: "#StatusControlForm")),
                     userType: UserData.UserTypes.Privileged),
                 new TestPart(
                     title: "サイト設定 - AddStatusControl",
