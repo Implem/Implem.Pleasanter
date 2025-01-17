@@ -5429,6 +5429,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string InvalidPath(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "InvalidPath",
+                data: data);
+        }
+
         public static string InvalidRequest(
             Context context,
             params string[] data)

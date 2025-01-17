@@ -1044,6 +1044,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-error");
         }
 
+        public static Message InvalidPath(Context context, params string[] data)
+        {
+            return Get(
+                id: "InvalidPath",
+                text: Displays.InvalidPath(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
         public static Message InvalidRequest(Context context, params string[] data)
         {
             return Get(
@@ -2920,6 +2930,17 @@ namespace Implem.Pleasanter.Libraries.Responses
             return ResponseMessage(
                 context: context,
                 message: InvalidMemberType(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseInvalidPath(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: InvalidPath(
                     context: context,
                     data: data),
                 target: target);

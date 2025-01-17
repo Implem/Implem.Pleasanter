@@ -869,6 +869,10 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 column: column);
+            var rawValue = wikiModel.ControlRawValue(
+                context: context,
+                ss: ss,
+                column: column);
             if (value != null)
             {
                 //数値項目の場合、「単位」を値に連結する
@@ -889,6 +893,7 @@ namespace Implem.Pleasanter.Models
                         ?.ServerScriptModelRow
                         ?.Columns.Get(column.ColumnName),
                     value: value,
+                    rawValue: rawValue,
                     columnPermissionType: Permissions.ColumnPermissionType(
                         context: context,
                         ss: ss,
@@ -1259,6 +1264,88 @@ namespace Implem.Pleasanter.Models
                         case "Attachments":
                             return wikiModel.GetAttachments(columnName: column.Name)
                                 .ToControl(
+                                    context: context,
+                                    ss: ss,
+                                    column: column);
+                        default: return null;
+                    }
+            }
+        }
+
+        public static object ControlRawValue(
+            this WikiModel wikiModel,
+            Context context,
+            SiteSettings ss,
+            Column column)
+        {
+            switch (column.Name)
+            {
+                case "WikiId":
+                    return wikiModel.WikiId
+                        .ToApiValue(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Ver":
+                    return wikiModel.Ver
+                        .ToApiValue(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Title":
+                    return wikiModel.Title
+                        .ToApiValue(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Body":
+                    return wikiModel.Body
+                        .ToApiValue(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Locked":
+                    return wikiModel.Locked
+                        .ToApiValue(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                default:
+                    switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
+                    {
+                        case "Class":
+                            return wikiModel.GetClass(columnName: column.Name)
+                                .ToApiValue(
+                                    context: context,
+                                    ss: ss,
+                                    column: column);
+                        case "Num":
+                            return wikiModel.GetNum(columnName: column.Name)
+                                .ToApiValue(
+                                    context: context,
+                                    ss: ss,
+                                    column: column);
+                        case "Date":
+                            return wikiModel.GetDate(columnName: column.Name)
+                                .ToApiValue(
+                                    context: context,
+                                    ss: ss,
+                                    column: column);
+                        case "Description":
+                            return wikiModel.GetDescription(columnName: column.Name)
+                                .ToApiValue(
+                                    context: context,
+                                    ss: ss,
+                                    column: column);
+                        case "Check":
+                            return wikiModel.GetCheck(columnName: column.Name)
+                                .ToApiValue(
+                                    context: context,
+                                    ss: ss,
+                                    column: column);
+                        case "Attachments":
+                            return wikiModel.GetAttachments(columnName: column.Name)
+                                .ToApiValue(
                                     context: context,
                                     ss: ss,
                                     column: column);

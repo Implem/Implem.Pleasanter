@@ -1,0 +1,34 @@
+﻿{
+    "Version": 1.017,
+    "ReferenceType": "Results",
+    "Processes": [
+        {
+            "Id": 1,
+            "Name": "test",
+            "DisplayName": "test",
+            "CurrentStatus": -1,
+            "ChangedStatus": -1,
+            "View": {
+                "Id": 0,
+                "ApiColumnKeyDisplayType": 0,
+                "ApiColumnValueDisplayType": 0,
+                "CalendarSiteId": 0,
+                "ApiDataType": 0
+            },
+            "Notifications": [
+                {
+                    "Type": 1,
+                    "Subject": "test",
+                    "Address": "sample@sample.com",
+                    "MediaType": "application/json",
+                    "Body": "test",
+                    "BeforeCondition": 0,
+                    "AfterCondition": 0,
+                    "Expression": 0,
+                    "Id": 1
+                }
+            ]
+        }
+    ],
+    "NoDisplayIfReadOnly": false
+}
