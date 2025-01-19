@@ -155,7 +155,8 @@ namespace Implem.Pleasanter.Models
                         controlId: "NotInheritPermissionsWhenCreatingSite",
                         fieldCss: "field-auto-thin",
                         labelText: Displays.NotInheritPermissionsWhenCreatingSite(context: context),
-                        _checked: ss.NotInheritPermissionsWhenCreatingSite));
+                        _checked: ss.NotInheritPermissionsWhenCreatingSite,
+                        _using: ss.ReferenceType == "Sites"));
         }
 
         /// <summary>
