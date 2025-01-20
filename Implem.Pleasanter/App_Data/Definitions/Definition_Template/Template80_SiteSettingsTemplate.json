@@ -3,7 +3,7 @@
     "ReferenceType": "Results",
     "GridView": 1,
     "GridColumns": [
-        "IssueId",
+        "ResultId",
         "Title",
         "ClassB",
         "ClassA",
@@ -20,7 +20,7 @@
         "UpdatedTime"
     ],
     "EditorColumns": [
-        "IssueId",
+        "ResultId",
         "Ver",
         "Title",
         "DateA",
@@ -39,7 +39,7 @@
         "Comments"
     ],
     "LinkColumns": [
-        "IssueId",
+        "ResultId",
         "Title",
         "DateA",
         "DateB",

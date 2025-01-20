@@ -24,6 +24,9 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? BeforeOpeningRow;
         public bool? Shared;
         public string Body;
+        public bool? Functionalize;
+        public bool? TryCatch;
+        public bool? Disabled;
         public int? TimeOut;
         [NonSerialized]
         public bool Debug;
@@ -51,8 +54,11 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool? beforeOpeningPage,
             bool? beforeOpeningRow,
             string body,
+            bool? functionalize,
+            bool? tryCatch,
             bool? shared,
             bool? background,
+            bool? disabled,
             int? timeOut)
         {
             Id = id.ToInt();
@@ -72,8 +78,11 @@ namespace Implem.Pleasanter.Libraries.Settings
             BeforeOpeningPage = beforeOpeningPage;
             BeforeOpeningRow = beforeOpeningRow;
             Body = body;
+            Functionalize = functionalize;
+            TryCatch = tryCatch;
             Shared = shared;
             TimeOut = timeOut;
+            Disabled = disabled;
             Background = background;
         }
 
@@ -96,10 +105,13 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool? shared,
             bool? background,
             string body,
+            bool? functionalize,
+            bool? tryCatch,
+            bool? disabled,
             int? timeOut)
         {
             Title = title;
-            if (Name != null) Name = name;
+            if (name != null) Name = name;
             if (whenloadingSiteSettings != null) WhenloadingSiteSettings = whenloadingSiteSettings;
             if (whenViewProcessing != null) WhenViewProcessing = whenViewProcessing;
             if (whenloadingRecord != null) WhenloadingRecord = whenloadingRecord;
@@ -116,6 +128,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (shared != null) Shared = shared;
             if (background != null) Background = background;
             if (body != null) Body = body;
+            if (functionalize != null) Functionalize = functionalize;
+            if (tryCatch != null) TryCatch = tryCatch;
+            if (disabled != null) Disabled = disabled;
             if (timeOut != null) TimeOut = timeOut;
         }
 
@@ -141,6 +156,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (Shared == true) script.Shared = true;
             if (Background == true) script.Background = true;
             script.Body = Body;
+            if (Functionalize == true) script.Functionalize = true;
+            if (TryCatch == true) script.TryCatch = true;
+            if (Disabled == true) script.Disabled = true;
             if (TimeOut != Parameters.Script.ServerScriptTimeOut && Parameters.Script.ServerScriptTimeOutChangeable)
             {
                 script.TimeOut = TimeOut;

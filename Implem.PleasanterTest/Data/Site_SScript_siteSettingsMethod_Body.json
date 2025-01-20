@@ -1,0 +1,52 @@
+﻿{
+
+    "Version": 1.017,
+    "ReferenceType": "Results",
+    "EditorColumnHash": {
+        "General": [
+            "ResultId",
+            "Ver",
+            "Title",
+            "_Section-1",
+            "Body",
+            "Status",
+            "Manager",
+            "Owner",
+            "Comments"
+        ]
+    },
+    "SectionLatestId": 1,
+    "Sections": [
+        {
+            "Id": 1,
+            "LabelText": "見出し",
+            "AllowExpand": false,
+            "Expand": true
+        }
+    ],
+    "ServerScripts": [
+        {
+            "Title": "SiteSettings.SiteId",
+            "Name": "",
+            "WhenloadingSiteSettings": true,
+            "Body": "if(context.SiteId === siteSettings.SiteId('xUnit_SiteSettingsMethod')){\n        context.AddMessage('SiteId-Check:OK', 'alert-information');\n} else {\n        context.AddMessage('SiteId-Check:NG', 'alert-error');\n}",
+            "Id": 1
+        },
+        {
+            "Title": "SiteSettings.Sections",
+            "Name": "",
+            "WhenloadingSiteSettings": true,
+            "Body": "siteSettings.Sections[0].LabelText = '内容';\nif(siteSettings.Sections[0].LabelText === '内容'){\n    context.AddMessage('Section-Check:OK', 'alert-information');\n} else {\n    context.AddMessage('Section-Check:NG', 'alert-error');\n}",
+            "Id": 2
+        },
+        {
+            "Title": "hidden.Add",
+            "Name": "",
+            "BeforeOpeningPage": true,
+            "Body": "hidden.Add('xUnit-Test','xUnit-Test');",
+            "Id": 3
+        }
+    ],
+    "NoDisplayIfReadOnly": false
+
+}

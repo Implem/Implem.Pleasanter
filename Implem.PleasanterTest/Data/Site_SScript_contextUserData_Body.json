@@ -1,0 +1,21 @@
+﻿{
+    "Version": 1.017,
+    "ReferenceType": "Results",
+    "ServerScripts": [
+          {
+            "Title": "UserDataBefore",
+            "Name": "",
+            "BeforeUpdate": true,
+            "Body": "context.UserData.MyData = 'HAYATO';",
+            "Id": 1
+          },
+        {
+            "Title": "UserDataAfter",
+            "Name": "",
+            "AfterUpdate": true,
+            "Body": "if (context.UserData.MyData === 'HAYATO') {\r    context.Log('OK');\r} else {\r    context.Log('NG');\r}",
+            "Id": 2
+        }
+        ],
+    "NoDisplayIfReadOnly": false
+}

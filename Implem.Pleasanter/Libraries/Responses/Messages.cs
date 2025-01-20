@@ -854,6 +854,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-error");
         }
 
+        public static Message ImportLock(Context context, params string[] data)
+        {
+            return Get(
+                id: "ImportLock",
+                text: Displays.ImportLock(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
         public static Message ImportMax(Context context, params string[] data)
         {
             return Get(
@@ -1029,6 +1039,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 id: "InvalidMemberType",
                 text: Displays.InvalidMemberType(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
+        public static Message InvalidPath(Context context, params string[] data)
+        {
+            return Get(
+                id: "InvalidPath",
+                text: Displays.InvalidPath(
                     context: context,
                     data: data),
                 css: "alert-error");
@@ -2716,6 +2736,17 @@ namespace Implem.Pleasanter.Libraries.Responses
                 target: target);
         }
 
+        public static ResponseCollection ResponseImportLock(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: ImportLock(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
         public static ResponseCollection ResponseImportMax(
             Context context, string target = null, params string[] data)
         {
@@ -2909,6 +2940,17 @@ namespace Implem.Pleasanter.Libraries.Responses
             return ResponseMessage(
                 context: context,
                 message: InvalidMemberType(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseInvalidPath(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: InvalidPath(
                     context: context,
                     data: data),
                 target: target);

@@ -15,6 +15,10 @@
     {
         context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
     }
+    if(HasInvalidValueAsApiDataAtCreate(#modelName#ApiModel))
+    {
+        context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+    }
     var #modelName#Model = new #ModelName#Model(
         context: context,
         ss: ss,
@@ -76,6 +80,10 @@ public static bool CreateByServerScript(Context context, SiteSettings ss, object
     {
         context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
     }
+    if(HasInvalidValueAsApiDataAtCreate(#modelName#ApiModel))
+    {
+        context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+    }
     var #modelName#Model = new #ModelName#Model(
         context: context,
         ss: ss,
@@ -116,4 +124,26 @@ public static bool CreateByServerScript(Context context, SiteSettings ss, object
         default:
             return false;
     }
+}
+
+private static bool HasInvalidValueAsApiDataAtCreate(#ModelName#ApiModel model)
+{
+    if (model is null)
+        return false;
+
+    foreach (var o in model.AttachmentsHash)
+    {
+        foreach (var attachment in o.Value)
+        {
+            if (attachment.Deleted ?? false)
+                continue;
+
+            if (attachment.Name.IsNullOrEmpty())
+                return true;
+
+            if (attachment.Base64 is null && attachment.Base64Binary is null)
+                return true;
+        }
+    }
+    return false;
 }

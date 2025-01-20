@@ -23,6 +23,14 @@
                 context: context,
                 data: Parameters.General.BulkUpsertMax.ToString()).Text));
     }
+    using var exclusiveObj = new Sessions.TableExclusive(context: context);
+    if (!exclusiveObj.TryLock())
+    {
+        return ApiResults.Get(new ApiResponse(
+            id: context.Id,
+            statusCode: 429,
+            message: Messages.ImportLock(context: context).Text));
+    }
     var recodeCount = 0;
     var insertCount = 0;
     var updateCount = 0;
@@ -30,6 +38,7 @@
     foreach (var #modelName#ApiModel in list.Data)
     {
         recodeCount++;
+        exclusiveObj.Refresh();
         var view = api.View ?? new View();
         api.Keys?.ForEach(columnName =>
         {
@@ -137,6 +146,7 @@
             insertCount++;
         }
     }
+    exclusiveObj.Refresh();
     if (error.Type != Error.Types.None)
     {
         // エラー時の戻り

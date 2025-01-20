@@ -1,0 +1,33 @@
+﻿{
+    "Id": "InvalidPath",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "Invalid path specification. [{0}]"
+        },
+        {
+            "Language": "zh-CN",
+            "Body": "路径规范无效。 [{0}]"
+        },
+        {
+            "Language": "ja",
+            "Body": "無効なパス指定です。[{0}]"
+        },
+        {
+            "Language": "de",
+            "Body": "Ungültige Pfadangabe. [{0}]"
+        },
+        {
+            "Language": "ko",
+            "Body": "잘못된 경로 지정입니다.[{0}]"
+        },
+        {
+            "Language": "es",
+            "Body": "Especificación de ruta no válida. [{0}]"
+        },
+        {
+            "Language": "vi",
+            "Body": "Đặc tả đường dẫn không hợp lệ. [{0}]"
+        }
+    ]
+}
