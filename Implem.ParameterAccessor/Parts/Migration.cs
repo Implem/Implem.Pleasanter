@@ -10,6 +10,6 @@ namespace Implem.ParameterAccessor.Parts
         public string SourceConnectionString;
         public List<string> ExcludeTables;
         public bool AbortWhenException;
-        public bool InsertIfOverflowIfOverflow;
+        public bool InsertIfOverflow;
     }
 }
