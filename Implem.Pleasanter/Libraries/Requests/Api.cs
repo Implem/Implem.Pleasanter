@@ -13,6 +13,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public View View { get; set; }
         public List<string> Keys { get; set; }
         public int Offset { get; set; }
+        public int PageSize { get; set; }
         public Sqls.TableTypes TableType { get; set; }
         public string Token { get; set; }
 
