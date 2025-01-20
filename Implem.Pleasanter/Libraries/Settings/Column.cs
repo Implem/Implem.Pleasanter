@@ -2037,6 +2037,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                         case "Dept":
                             sql.Users_Dept(tableName: path, _as: _as);
                             break;
+                        case "Manager":
+                            sql.Users_Manager(tableName: path, _as: _as);
+                            break;
                         case "Theme":
                             sql.Users_Theme(tableName: path, _as: _as);
                             break;

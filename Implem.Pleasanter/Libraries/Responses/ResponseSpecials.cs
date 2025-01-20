@@ -9166,6 +9166,50 @@ namespace Implem.Pleasanter.Libraries.Responses
             return res.ValAndFormData("#Users_DeptId", value);
         }
 
+        public static UsersResponseCollection Manager(
+            this UsersResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Users_Manager",
+                res.UserModel.Manager.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Manager")));
+        }
+
+        public static UsersResponseCollection Manager(
+            this UsersResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Users_Manager", value);
+        }
+
+        public static UsersResponseCollection Manager_FormData(
+            this UsersResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Users_Manager",
+                res.UserModel.Manager.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Manager")));
+        }
+
+        public static UsersResponseCollection Manager_FormData(
+            this UsersResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Users_Manager", value);
+        }
+
         public static UsersResponseCollection Theme(
             this UsersResponseCollection res,
             Context context,

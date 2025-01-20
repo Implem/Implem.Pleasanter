@@ -44,6 +44,7 @@ namespace Implem.Pleasanter.Models
         public string TimeZone = "UTC";
         public string DeptCode = string.Empty;
         public int DeptId = 0;
+        public User Manager = new User();
         public string Theme = string.Empty;
         public Names.FirstAndLastNameOrders FirstAndLastNameOrder = (Names.FirstAndLastNameOrders)2;
         public string Body = string.Empty;
@@ -127,6 +128,7 @@ namespace Implem.Pleasanter.Models
         public string SavedTimeZone = "UTC";
         public string SavedDeptCode = string.Empty;
         public int SavedDeptId = 0;
+        public int SavedManager = 0;
         public string SavedTheme = string.Empty;
         public int SavedFirstAndLastNameOrder = 2;
         public string SavedBody = string.Empty;
@@ -322,6 +324,18 @@ namespace Implem.Pleasanter.Models
                 &&  (column == null
                     || column.DefaultInput.IsNullOrEmpty()
                     || column.GetDefaultInput(context: context).ToInt() != DeptId);
+        }
+
+        public bool Manager_Updated(Context context, bool copy = false, Column column = null)
+        {
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToInt() != Manager.Id;
+            }
+            return Manager.Id != SavedManager
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToInt() != Manager.Id);
         }
 
         public bool Theme_Updated(Context context, bool copy = false, Column column = null)
@@ -974,6 +988,18 @@ namespace Implem.Pleasanter.Models
                         column: column,
                         mine: mine)
                             ? Dept.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "Manager":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? Manager.ToExport(
                                 context: context,
                                 column: column,
                                 exportColumn: exportColumn)
@@ -1689,6 +1715,7 @@ namespace Implem.Pleasanter.Models
                     case "TimeZone": data.TimeZone = TimeZone; break;
                     case "DeptCode": data.DeptCode = DeptCode; break;
                     case "DeptId": data.DeptId = DeptId; break;
+                    case "Manager": data.Manager = Manager.Id; break;
                     case "Theme": data.Theme = Theme; break;
                     case "FirstAndLastNameOrder": data.FirstAndLastNameOrder = FirstAndLastNameOrder.ToInt(); break;
                     case "Body": data.Body = Body; break;
@@ -1840,6 +1867,11 @@ namespace Implem.Pleasanter.Models
                         column: column);
                 case "DeptId":
                     return DeptId.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Manager":
+                    return Manager.ToDisplay(
                         context: context,
                         ss: ss,
                         column: column);
@@ -2206,6 +2238,11 @@ namespace Implem.Pleasanter.Models
                         column: column);
                 case "Dept":
                     return Dept.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Manager":
+                    return Manager.ToApiDisplayValue(
                         context: context,
                         ss: ss,
                         column: column);
@@ -2587,6 +2624,11 @@ namespace Implem.Pleasanter.Models
                         column: column);
                 case "Dept":
                     return Dept.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Manager":
+                    return Manager.ToApiValue(
                         context: context,
                         ss: ss,
                         column: column);
@@ -3211,6 +3253,7 @@ namespace Implem.Pleasanter.Models
                     case "Users_TimeZone": TimeZone = value.ToString(); break;
                     case "Users_DeptCode": DeptCode = value.ToString(); break;
                     case "Users_DeptId": DeptId = value.ToInt(); break;
+                    case "Users_Manager": Manager = SiteInfo.User(context: context, userId: value.ToInt()); break;
                     case "Users_Theme": Theme = value.ToString(); break;
                     case "Users_FirstAndLastNameOrder": FirstAndLastNameOrder = (Names.FirstAndLastNameOrders)value.ToInt(); break;
                     case "Users_Body": Body = value.ToString(); break;
@@ -3327,6 +3370,7 @@ namespace Implem.Pleasanter.Models
             TimeZone = userModel.TimeZone;
             DeptCode = userModel.DeptCode;
             DeptId = userModel.DeptId;
+            Manager = userModel.Manager;
             Theme = userModel.Theme;
             FirstAndLastNameOrder = userModel.FirstAndLastNameOrder;
             Body = userModel.Body;
@@ -3397,6 +3441,7 @@ namespace Implem.Pleasanter.Models
             if (data.TimeZone != null) TimeZone = data.TimeZone.ToString().ToString();
             if (data.DeptCode != null) DeptCode = data.DeptCode.ToString().ToString();
             if (data.DeptId != null) DeptId = data.DeptId.ToInt().ToInt();
+            if (data.Manager != null) Manager = SiteInfo.User(context: context, userId: data.Manager.ToInt());
             if (data.Theme != null) Theme = data.Theme.ToString().ToString();
             if (data.FirstAndLastNameOrder != null) FirstAndLastNameOrder = (Names.FirstAndLastNameOrders)data.FirstAndLastNameOrder.ToInt().ToInt();
             if (data.Body != null) Body = data.Body.ToString().ToString();
@@ -3637,6 +3682,10 @@ namespace Implem.Pleasanter.Models
                             DeptId = dataRow[column.ColumnName].ToInt();
                             SavedDeptId = DeptId;
                             break;
+                        case "Manager":
+                            Manager = SiteInfo.User(context: context, userId: dataRow.Int(column.ColumnName));
+                            SavedManager = Manager.Id;
+                            break;
                         case "Theme":
                             Theme = dataRow[column.ColumnName].ToString();
                             SavedTheme = Theme;
@@ -3868,6 +3917,7 @@ namespace Implem.Pleasanter.Models
                 || Language_Updated(context: context)
                 || TimeZone_Updated(context: context)
                 || DeptId_Updated(context: context)
+                || Manager_Updated(context: context)
                 || Theme_Updated(context: context)
                 || FirstAndLastNameOrder_Updated(context: context)
                 || Body_Updated(context: context)
@@ -3945,6 +3995,7 @@ namespace Implem.Pleasanter.Models
                 || Language_Updated(context: context)
                 || TimeZone_Updated(context: context)
                 || DeptId_Updated(context: context)
+                || Manager_Updated(context: context)
                 || Theme_Updated(context: context)
                 || FirstAndLastNameOrder_Updated(context: context)
                 || Body_Updated(context: context)
@@ -3988,6 +4039,7 @@ namespace Implem.Pleasanter.Models
             {
                 var mine = new List<string>();
                 var userId = context.UserId;
+                if (SavedManager == userId) mine.Add("Manager");
                 if (SavedCreator == userId) mine.Add("Creator");
                 if (SavedUpdator == userId) mine.Add("Updator");
                 MineCache = mine;

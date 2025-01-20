@@ -1958,6 +1958,7 @@ namespace Implem.DefinitionAccessor
                     case "Users_LoginExpirationPeriod": Column.Users_LoginExpirationPeriod = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_LoginExpirationPeriod, definitionRow, ColumnXls); break;
                     case "Users_LoginId": Column.Users_LoginId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_LoginId, definitionRow, ColumnXls); break;
                     case "Users_MailAddresses": Column.Users_MailAddresses = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_MailAddresses, definitionRow, ColumnXls); break;
+                    case "Users_Manager": Column.Users_Manager = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_Manager, definitionRow, ColumnXls); break;
                     case "Users_Name": Column.Users_Name = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_Name, definitionRow, ColumnXls); break;
                     case "Users_NumberOfDenial": Column.Users_NumberOfDenial = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_NumberOfDenial, definitionRow, ColumnXls); break;
                     case "Users_NumberOfLogins": Column.Users_NumberOfLogins = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_NumberOfLogins, definitionRow, ColumnXls); break;
@@ -9373,6 +9374,7 @@ namespace Implem.DefinitionAccessor
         public string Users_LoginExpirationPeriod;
         public string Users_LoginId;
         public string Users_MailAddresses;
+        public string Users_Manager;
         public string Users_Name;
         public string Users_NumberOfDenial;
         public string Users_NumberOfLogins;
@@ -9943,6 +9945,7 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Users_LoginExpirationPeriod = new ColumnDefinition();
         public ColumnDefinition Users_LoginId = new ColumnDefinition();
         public ColumnDefinition Users_MailAddresses = new ColumnDefinition();
+        public ColumnDefinition Users_Manager = new ColumnDefinition();
         public ColumnDefinition Users_Name = new ColumnDefinition();
         public ColumnDefinition Users_NumberOfDenial = new ColumnDefinition();
         public ColumnDefinition Users_NumberOfLogins = new ColumnDefinition();

@@ -3517,7 +3517,11 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     link: link,
-                    id: GetClass(link.ColumnName).ToLong(),
+                    id: PropertyValue(
+                        context: context,
+                        column: ss.GetColumn(
+                            context: context,
+                            columnName: link.ColumnName)).ToLong(),
                     formData: formData,
                     blankColumns: link.Lookups
                         ?.Select(lookup => ss.GetColumn(
