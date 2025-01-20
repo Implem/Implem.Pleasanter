@@ -4,6 +4,10 @@
       "commandName": "Project",
       "commandLineArgs": "def"
     },
+    "Implem.CodeDefiner_rds": {
+       "commandName": "Project",
+       "commandLineArgs": "_rds"
+    },
     "WSL": {
       "commandName": "WSL2",
       "distributionName": ""

@@ -2204,7 +2204,14 @@ namespace Implem.Pleasanter.Models
                 SiteSettings = new SiteSettings(context: context, referenceType: ReferenceType);
             }
             TenantId = context.TenantId;
-            var notInheritPermission = InheritPermission == 0 || RecordPermissions != null;
+            var parentSiteModel = ParentId > 0
+                ? new SiteModel(
+                    context: context,
+                    siteId: ParentId)
+                : null;
+            var notInheritPermission = InheritPermission == 0
+                || RecordPermissions != null
+                || parentSiteModel?.SiteSettings?.NotInheritPermissionsWhenCreatingSite == true;
             var response = Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
