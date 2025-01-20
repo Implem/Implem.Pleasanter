@@ -111,148 +111,37 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp
             {
                 while (reader.Read())
                 {
-                    var columnNames = new List<string>();
+                    var columns = new List<string>();
                     for (int i = 0; i < reader.FieldCount; i++)
                     {
-                        columnNames.Add(reader.GetName(i));
+                        columns.Add(reader.GetName(i));
                     }
-                    try
-                    {
-                        ExecuteInsertInto(
-                            tableName: tableName,
-                            columnNames: columnNames,
-                            factoryTo: factoryTo,
-                            connTo: connTo,
-                            reader: reader);
-                        if (Def.Sql.MigrateDatabaseSelectSetval != "" && identity != null)
-                        {
-                            ExecuteUpdateSequense(
-                                tableName: tableName,
-                                identity: identity,
-                                factoryTo: factoryTo,
-                                connTo: connTo);
-                        }
-                    }
-                    //★catchするエラーの種類は実際にDBMS毎に調査必要。メッセージ本文もみるかも。
-                    catch (System.Data.SqlClient.SqlException e)
-                    {
-                        //★エラーレコード一覧ファイルの書き出し処理。①Migrate失敗と書き出す。※readerを参照して書き出す。
-
-                        if (Parameters.Migration.InsertIfOverflow)
-                        {
-                            InsertOnlyPrimaryKey(
-                                tableName: tableName,
-                                identity: identity,
-                                factoryTo: factoryTo,
-                                connTo: connTo,
-                                reader: reader);
-                        }
-                        else
-                        {
-                            throw;
-                        }
-                    }
-                    catch (System.Exception e)
-                    {
-                        throw;
-                    }
+                    var cmdTo = factoryTo.CreateSqlCommand();
+                    cmdTo.CommandText = Def.Sql.MigrateDatabaseInsert
+                        .Replace("#TableName#", tableName)
+                        .Replace(
+                            "#ColumnNames#",
+                            columns.Select(columnName => $@"""{columnName}""").Join())
+                        .Replace(
+                            "#Values#",
+                            columns.Select(columnName => Parameters.Parameter.SqlParameterPrefix + columnName).Join());
+                    columns.ForEach(columnName => cmdTo.Parameters_AddWithValue(
+                        parameterName: Parameters.Parameter.SqlParameterPrefix + columnName,
+                        value: reader[columnName]));
+                    SqlDebugs.WriteSqlLog(Parameters.Rds.Dbms, Environments.ServiceName, cmdTo, Sqls.LogsPath);
+                    cmdTo.Connection = connTo;
+                    cmdTo.ExecuteNonQuery();
                 }
             }
-        }
-
-        private static void ExecuteInsertInto(
-            string tableName,
-            List<string> columnNames,
-            ISqlObjectFactory factoryTo,
-            ISqlConnection connTo,
-            IDataReader reader)
-        {
-            var cmdTo = factoryTo.CreateSqlCommand();
-            cmdTo.CommandText = Def.Sql.MigrateDatabaseInsert
-                .Replace("#TableName#", tableName)
-                .Replace(
-                    "#ColumnNames#",
-                    columnNames.Select(columnName => $@"""{columnName}""").Join())
-                .Replace(
-                    "#Values#",
-                    columnNames.Select(columnName => Parameters.Parameter.SqlParameterPrefix + columnName).Join());
-            columnNames.ForEach(columnName => cmdTo.Parameters_AddWithValue(
-                parameterName: Parameters.Parameter.SqlParameterPrefix + columnName,
-                value: reader[columnName]));
-            SqlDebugs.WriteSqlLog(Parameters.Rds.Dbms, Environments.ServiceName, cmdTo, Sqls.LogsPath);
-            cmdTo.Connection = connTo;
-            cmdTo.ExecuteNonQuery();
-        }
-
-        private static void ExecuteUpdateSequense(
-            string tableName,
-            string identity,
-            ISqlObjectFactory factoryTo,
-            ISqlConnection connTo)
-        {
-            var cmdTo = factoryTo.CreateSqlCommand();
-            cmdTo.CommandText = Def.Sql.MigrateDatabaseSelectSetval
-            .Replace("#TableName#", tableName)
-                .Replace("#Identity#", identity);
-            cmdTo.Connection = connTo;
-            SqlDebugs.WriteSqlLog(Parameters.Rds.Dbms, Environments.ServiceName, cmdTo, Sqls.LogsPath);
-            cmdTo.ExecuteNonQuery();
-        }
-
-        private static void InsertOnlyPrimaryKey(
-            string tableName,
-            string identity,
-            ISqlObjectFactory factoryTo,
-            ISqlConnection connTo,
-            IDataReader reader)
-        {
-            var pkColumns = Def.ColumnDefinitionCollection
-                    .Where(columnDefinition => columnDefinition.TableName == tableName);
-            if (Parameters.Rds.Dbms != "MySQL" && !tableName.EndsWith("_history"))
+            if (Def.Sql.MigrateDatabaseSelectSetval != "" && identity != null)
             {
-                pkColumns = pkColumns.Where(columnDefinition => columnDefinition.Pk < 0);
-            }
-            else if (Parameters.Rds.Dbms != "MySQL" && tableName.EndsWith("_history"))
-            {
-                pkColumns = pkColumns.Where(columnDefinition => columnDefinition.PkHistory < 0);
-            }
-            else if (Parameters.Rds.Dbms == "MySQL" && !tableName.EndsWith("_history"))
-            {
-                pkColumns = pkColumns.Where(columnDefinition => columnDefinition.PkMySql < 0);
-            }
-            else if (tableName.EndsWith("_history"))
-            {
-                pkColumns = pkColumns.Where(columnDefinition => columnDefinition.PkHistoryMySql < 0);
-            }
-            var columnNames = new List<string>();
-            pkColumns.ForEach(columnDefinition => columnNames.Add(columnDefinition.ColumnName));
-            try
-            {
-                ExecuteInsertInto(
-                    tableName: tableName,
-                    columnNames: columnNames,
-                    factoryTo: factoryTo,
-                    connTo: connTo,
-                    reader: reader);
-                if (Def.Sql.MigrateDatabaseSelectSetval != "" && identity != null)
-                {
-                    ExecuteUpdateSequense(
-                    tableName: tableName,
-                        identity: identity,
-                        factoryTo: factoryTo,
-                        connTo: connTo);
-                    //★エラーレコード一覧ファイルの書き出し処理。②-a PKのみInsert済みと書き出す。
-                }
-            }
-            //★catchするエラーの種類は実際にDBMS毎に調査必要。メッセージ本文もみるかも。
-            catch (System.Data.SqlClient.SqlException e)
-            {
-                //★エラーレコード一覧ファイルの書き出し処理。②-b InsertOnlyPrimaryKey失敗と書き出す。
-                throw;
-            }
-            catch (System.Exception e)
-            {
-                throw;
+                var cmdTo = factoryTo.CreateSqlCommand();
+                cmdTo.CommandText = Def.Sql.MigrateDatabaseSelectSetval
+                    .Replace("#TableName#", tableName)
+                    .Replace("#Identity#", identity);
+                cmdTo.Connection = connTo;
+                SqlDebugs.WriteSqlLog(Parameters.Rds.Dbms, Environments.ServiceName, cmdTo, Sqls.LogsPath);
+                cmdTo.ExecuteNonQuery();
             }
         }
     }
