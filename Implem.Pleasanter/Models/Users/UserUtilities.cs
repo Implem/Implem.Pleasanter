@@ -694,6 +694,24 @@ namespace Implem.Pleasanter.Models
                                     value: string.Empty,
                                     tabIndex: tabIndex,
                                     serverScriptModelColumn: serverScriptModelColumn);
+                    case "Manager":
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: userModel.Manager,
+                                    tabIndex: tabIndex,
+                                    serverScriptModelColumn: serverScriptModelColumn)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty,
+                                    tabIndex: tabIndex,
+                                    serverScriptModelColumn: serverScriptModelColumn);
                     case "Theme":
                         return ss.ReadColumnAccessControls.Allowed(
                             context: context,
@@ -1326,6 +1344,9 @@ namespace Implem.Pleasanter.Models
                     case "Dept": value = userModel.Dept.GridText(
                         context: context,
                         column: column); break;
+                    case "Manager": value = userModel.Manager.GridText(
+                        context: context,
+                        column: column); break;
                     case "Theme": value = userModel.Theme.GridText(
                         context: context,
                         column: column); break;
@@ -1814,6 +1835,12 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: column);
+                case "Manager":
+                    return userModel.Manager
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
                 case "Theme":
                     return userModel.Theme
                         .ToControl(
@@ -2296,6 +2323,12 @@ namespace Implem.Pleasanter.Models
                                 res.Val(
                                     target: "#Users_DeptId" + idSuffix,
                                     value: userModel.DeptId.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "Manager":
+                                res.Val(
+                                    target: "#Users_Manager" + idSuffix,
+                                    value: userModel.Manager.ToResponse(context: context, ss: ss, column: column),
                                     options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                 break;
                             case "Theme":
@@ -3088,7 +3121,9 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string Import(Context context)
         {
-            var ss = SiteSettingsUtilities.UsersSiteSettings(context: context);
+            var ss = SiteSettingsUtilities.UsersSiteSettings(
+                context: context,
+                setAllChoices: true);
             if (context.ContractSettings.Import == false)
             {
                 return Messages.ResponseRestricted(context: context).ToJson();
@@ -3653,6 +3688,11 @@ namespace Implem.Pleasanter.Models
                             userModel.DeptId = SiteInfo.Dept(
                                 tenantId: context.TenantId,
                                 deptCode: recordingData).Id;
+                            break;
+                        case "Manager":
+                            userModel.Manager = SiteInfo.User(
+                                context: context,
+                                userId: recordingData.ToInt());
                             break;
                         case "Theme":
                             userModel.Theme = recordingData.ToString();
