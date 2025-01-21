@@ -157,18 +157,11 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp
 
                         }
                         MigrateLogWriter.WriteLine(log.Remove(log.Length - 2));
-                        if (Parameters.Migration.AbortWhenException){
-                            throw;
-                        }
-                        else
-                        {
-                            //Exceptionの内容を<Error>に出力する。
-                            //終了せずinsertは同テーブルの次のデータから再開する。
-                            Consoles.Write(
-                                text: $"[{tableName}]: {e}",
-                                type: Consoles.Types.Error,
-                                abort: false);
-                        }
+                        MigrateLogWriter.Flush();
+                        Consoles.Write(
+                            text: $"[{tableName}]: {e}",
+                            type: Consoles.Types.Error,
+                            abort: Parameters.Migration.AbortWhenException);
                     }
                 }
             }
