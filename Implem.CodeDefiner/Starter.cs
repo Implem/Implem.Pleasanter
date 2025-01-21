@@ -27,11 +27,15 @@ namespace Implem.CodeDefiner
     public class Starter
     {
         private static ISqlObjectFactory factory;
+        private static string LogFolderName;
+        private static string LogNameText;
 
         public static void Main(string[] args)
         {
-            Directory.CreateDirectory("logs");
-            var logName = Path.Combine("logs", $"Implem.CodeDefiner_{DateTime.Now.ToString("yyyyMMdd_HHmmss")}.log");
+            LogFolderName = "logs";
+            LogNameText = $"Implem.CodeDefiner_{DateTime.Now.ToString("yyyyMMdd_HHmmss")}";
+            Directory.CreateDirectory(LogFolderName);
+            var logName = Path.Combine(LogFolderName, $"{LogNameText}.log");
             Trace.Listeners.Add(new TextWriterTraceListener(logName));
             Trace.Listeners.Add(new TextWriterTraceListener(Console.Out));
             AppDomain.CurrentDomain.UnhandledException += (_, e) =>
@@ -96,6 +100,7 @@ namespace Implem.CodeDefiner
                         CreateSolutionBackup();
                         break;
                     case "migrate":
+                        CanMigrate();
                         ConfigureDatabase(
                             factory: factory,
                             force: argHash.ContainsKey("f"),
@@ -451,13 +456,24 @@ namespace Implem.CodeDefiner
 
         private static void MigrateDatabase(ISqlObjectFactory factoryTo)
         {
-            CanMigrate();
-            Functions.AspNetMvc.CSharp.Migrator.MigrateDatabaseAsync(
+            bool success = Functions.AspNetMvc.CSharp.Migrator.MigrateDatabaseAsync(
+                logFolderName: LogFolderName,
+                logNameText: LogNameText,
                 factoryFrom: RdsFactory.Create(Parameters.Migration.Dbms),
                 factoryTo: factoryTo);
-            Consoles.Write(
-                DisplayAccessor.Displays.Get("CodeDefinerMigrationCompleted"),
-                Consoles.Types.Success);
+            if (success)
+            {
+                Consoles.Write(
+                    DisplayAccessor.Displays.Get("CodeDefinerMigrationCompleted"),
+                    Consoles.Types.Success);
+            }
+            else
+            {
+                Consoles.Write(
+                    string.Format(DisplayAccessor.Displays.Get($"CodeDefinerMigrationErrors"),
+                        Path.GetFullPath(Path.Combine(LogFolderName, $"{LogNameText}_Migrate.log"))),
+                    Consoles.Types.Error);
+            }
         }
 
         private static void CanMigrate()

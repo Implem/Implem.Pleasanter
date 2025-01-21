@@ -494,6 +494,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-success");
         }
 
+        public static Message CodeDefinerMigrationErrors(Context context, params string[] data)
+        {
+            return Get(
+                id: "CodeDefinerMigrationErrors",
+                text: Displays.CodeDefinerMigrationErrors(
+                    context: context,
+                    data: data),
+                css: "alert-success");
+        }
+
         public static Message CodeDefinerMvcCompleted(Context context, params string[] data)
         {
             return Get(
@@ -2325,6 +2335,17 @@ namespace Implem.Pleasanter.Libraries.Responses
             return ResponseMessage(
                 context: context,
                 message: CodeDefinerMigrationCompleted(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection CodeDefinerMigrationErrors(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: CodeDefinerMigrationErrors(
                     context: context,
                     data: data),
                 target: target);

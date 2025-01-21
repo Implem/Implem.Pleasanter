@@ -6,6 +6,5 @@
     "ExcludeTables": [
         "SysLogs"
     ],
-    "AbortWhenException": false,
-    "SkipIfOverflow": false
+    "AbortWhenException": false
 }
