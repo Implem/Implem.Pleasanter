@@ -2340,7 +2340,7 @@ namespace Implem.Pleasanter.Libraries.Responses
                 target: target);
         }
 
-        public static ResponseCollection CodeDefinerMigrationErrors(
+        public static ResponseCollection ResponseCodeDefinerMigrationErrors(
             Context context, string target = null, params string[] data)
         {
             return ResponseMessage(
