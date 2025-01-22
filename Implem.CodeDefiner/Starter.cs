@@ -27,6 +27,7 @@ namespace Implem.CodeDefiner
     public class Starter
     {
         private static ISqlObjectFactory factory;
+        private static bool CompleteConfigureDatabase = false;
         private static string LogFolderName;
         private static string LogNameText;
 
@@ -105,7 +106,7 @@ namespace Implem.CodeDefiner
                             factory: factory,
                             force: argHash.ContainsKey("f"),
                             noInput: argHash.ContainsKey("y"));
-                        MigrateDatabase(factoryTo: factory);
+                        if(CompleteConfigureDatabase) MigrateDatabase(factoryTo: factory);
                         break;
                     case "ConvertTime":
                         ConvertTime(factory: factory);
@@ -400,6 +401,7 @@ namespace Implem.CodeDefiner
                     Consoles.Write(
                         text: DisplayAccessor.Displays.Get("CodeDefinerRdsCompleted"),
                         type: Consoles.Types.Success);
+                    CompleteConfigureDatabase = true;
                 }
             }
             catch (System.Data.SqlClient.SqlException e)
@@ -409,7 +411,7 @@ namespace Implem.CodeDefiner
                     type: Consoles.Types.Error,
                     abort: true);
             }
-            catch (System.Exception e)
+            catch (Exception e)
             {
                 Consoles.Write(
                     text: e.ToString(),
@@ -533,22 +535,21 @@ namespace Implem.CodeDefiner
                 throw new JsonException($"The value \"{Parameters.Rds.Provider}\" cannot be set for \"Provider\" in Rds.json.");
             }
             if (Parameters.Rds.Dbms != Parameters.Migration.Dbms ||
-                Parameters.Rds.Provider != Parameters.Migration.Provider)
+                Parameters.Rds.Provider != Parameters.Migration.Provider ||
+                Parameters.Migration.ServiceName != Parameters.Service.Name)
             {
                 return;
             }
             DbConnectionStringBuilder o = new DbConnectionStringBuilder() { ConnectionString = Parameters.Migration.SourceConnectionString };
-            DbConnectionStringBuilder n = new DbConnectionStringBuilder() { ConnectionString = Parameters.Rds.SaConnectionString };
+            DbConnectionStringBuilder n = new DbConnectionStringBuilder() { ConnectionString = Parameters.Rds.OwnerConnectionString };
             var oldInfo = (
-                schema: Parameters.Migration.ServiceName,
                 server: o.ContainsKey("server") ? o["server"].ToString() : "",
                 dataSource: o.ContainsKey("data source") ? o["data source"].ToString() : "");
             var newInfo = (
-                schema: Parameters.Service.Name,
                 server: n.ContainsKey("server") ? n["server"].ToString() : "",
                 dataSource: n.ContainsKey("data source") ? n["data source"].ToString() : "");
-            if (oldInfo.schema == newInfo.schema && oldInfo.server != "" && newInfo.server != "" && oldInfo.server == newInfo.server
-                || oldInfo.schema == newInfo.schema && oldInfo.dataSource != "" && newInfo.dataSource != "" && oldInfo.dataSource == newInfo.dataSource)
+            if (oldInfo.server != "" && newInfo.server != "" && oldInfo.server == newInfo.server
+                || oldInfo.dataSource != "" && newInfo.dataSource != "" && oldInfo.dataSource == newInfo.dataSource)
             {
                 throw new JsonException($"The same schema cannot be specified for both Migration.json and Rds.json.");
             }

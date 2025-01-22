@@ -91,6 +91,7 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp
                     }
                     catch (Exception e)
                     {
+                        MigrateError++;
                         Consoles.Write(
                             text: $"[{tableName}]: {e}",
                             type: Consoles.Types.Error,
