@@ -654,8 +654,6 @@ namespace Implem.Pleasanter.Libraries.Security
                         || context.UserSettings?.EnableManageTenant == true;
                 case "users":
                     return CanManageTenant(context: context);
-                case "extensions":
-                    return CanManageTenant(context: context);
                 default:
                     return context.ItemsCan(ss: ss, type: Types.Import, site: site);
             }
@@ -676,8 +674,6 @@ namespace Implem.Pleasanter.Libraries.Security
                     return CanManageTenant(context: context)
                         || context.UserSettings?.EnableManageTenant == true;
                 case "users":
-                    return CanManageTenant(context: context);
-                case "extensions":
                     return CanManageTenant(context: context);
                 default:
                     return context.ItemsCan(ss: ss, type: Types.Export, site: site);
