@@ -289,6 +289,9 @@ namespace Implem.Pleasanter.Models
                         .All(item => item != $"-{data}"));
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static ContentResultInheritance GetByApi(
             Context context,
             SiteSettings ss,
@@ -297,7 +300,6 @@ namespace Implem.Pleasanter.Models
             if (!Mime.ValidateOnApi(contentType: context.ContentType))
                 return ApiResults.BadRequest(context: context);
 
-            //TODO: 他のAPIもだが、OnEntoryでなく OnGet を用いるべきなのでは？
             var invalid = ExtensionValidators.OnEntry(ss:ss, context: context, api: true);
             if(invalid.Type != Error.Types.None)
                 return ApiResults.Error(context: context, errorData: invalid);
@@ -305,16 +307,8 @@ namespace Implem.Pleasanter.Models
             var api = context.RequestDataString.Deserialize<Api>();
             if (api == null && !context.RequestDataString.IsNullOrEmpty())
             {
-                //TODO: 適切な返却値を確認する 　SiteUtilities と　WikiUtilities とかでちがってる。
                 return ApiResults.Get(ApiResponses.BadRequest(context: context));
-
-                //return ApiResults.Error(
-                //    context: context,
-                //    errorData: new ErrorData(type: Error.Types.InvalidJsonData));
             }
-
-            //TODO： ApiLimit のチェックの必要有無を確認する。（Siteの場合のみ必要？）
-            //context.ContractSettings.ApiLimit(); 
 
 
             var view = api?.View ?? new View();
@@ -330,8 +324,6 @@ namespace Implem.Pleasanter.Models
             var session = Views.GetBySession(context: context, ss: ss);
 
             view.MergeSession(view);
-;
-            //TODO: ApiDataTypeによる場合分けが必要かを確認する。
 
             var extensions = new ExtensionCollection(
                 context: context,
@@ -350,6 +342,9 @@ namespace Implem.Pleasanter.Models
             }.ToJson());
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static ContentResultInheritance CreateByApi(Context context, SiteSettings ss)
         {
             if (!Mime.ValidateOnApi(contentType: context.ContentType))
@@ -432,6 +427,9 @@ namespace Implem.Pleasanter.Models
              
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static ContentResultInheritance DeleteByApi(Context context, SiteSettings ss, int extensionId)
         {
             if (!Mime.ValidateOnApi(contentType: context.ContentType))
@@ -457,22 +455,22 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     errorData: invalid);
             }
-            //extensionModel.SiteId = ss.SiteId;
-            //extensionModel.SetTitle(context: context, ss: ss);
+
             var errorData = extensionModel.Delete(context: context);
             if (errorData.Type != Error.Types.None)
                 return ApiResults.Error(context: context, errorData: errorData);
 
-
             return ApiResults.Success(
                 id: extensionModel.ExtensionId,
-                limitPerDate: context.ContractSettings.ApiLimit(),
-                limitRemaining: context.ContractSettings.ApiLimit() - ss.ApiCount,
                 message: Displays.Deleted(
                     context: context,
                     data: extensionModel.ExtensionName));
             
         }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private static Message CreatedMessage(
             Context context,
             ExtensionModel extensionModel)
@@ -482,7 +480,9 @@ namespace Implem.Pleasanter.Models
                 data: extensionModel.ExtensionName);
         }
 
-
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private static Message UpdatedMessage(
             Context context,
             SiteSettings ss,
