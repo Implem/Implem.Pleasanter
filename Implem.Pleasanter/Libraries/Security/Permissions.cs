@@ -479,7 +479,7 @@ namespace Implem.Pleasanter.Libraries.Security
                 case "publishes":
                     return context.Publish;
                 case "extensions":
-                    return CanManageUser(context: context);
+                    return CanManageTenant(context: context);
                 default:
                     if (ss.IsSiteEditor(context: context) || ss.IsDashboardEditor(context: context))
                     {
@@ -514,7 +514,7 @@ namespace Implem.Pleasanter.Libraries.Security
                 case "versions":
                     return false;
                 case "extensions":
-                    return CanManageUser(context: context);
+                    return CanManageTenant(context: context);
                 default:
                     if (ss.IsSiteEditor(context: context) || ss.IsDashboardEditor(context: context))
                     {
@@ -552,7 +552,7 @@ namespace Implem.Pleasanter.Libraries.Security
                 case "registrations":
                     return CanManageRegistrations(context: context, any: true);
                 case "extensions":
-                    return CanManageUser(context: context);
+                    return CanManageTenant(context: context);
                 default:
                     if (ss.IsSiteEditor(context: context) || ss.IsDashboardEditor(context: context))
                     {
@@ -594,7 +594,7 @@ namespace Implem.Pleasanter.Libraries.Security
                 case "registrations":
                     return PrivilegedUsers(loginId: context.LoginId);
                 case "extensions":
-                    return CanManageUser(context: context);
+                    return CanManageTenant(context: context);
                 default:
                     if (ss.IsSiteEditor(context: context) || ss.IsDashboardEditor(context: context))
                     {
@@ -655,7 +655,7 @@ namespace Implem.Pleasanter.Libraries.Security
                 case "users":
                     return CanManageTenant(context: context);
                 case "extensions":
-                    return CanManageUser(context: context);
+                    return CanManageTenant(context: context);
                 default:
                     return context.ItemsCan(ss: ss, type: Types.Import, site: site);
             }
@@ -678,7 +678,7 @@ namespace Implem.Pleasanter.Libraries.Security
                 case "users":
                     return CanManageTenant(context: context);
                 case "extensions":
-                    return CanManageUser(context: context);
+                    return CanManageTenant(context: context);
                 default:
                     return context.ItemsCan(ss: ss, type: Types.Export, site: site);
             }
