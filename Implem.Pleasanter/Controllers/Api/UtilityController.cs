@@ -36,6 +36,7 @@ namespace Implem.Pleasanter.Controllers.Api
                     {
                         CommercialLicense = Parameters.CommercialLicense(),
                         LicenseDeadline = Parameters.LicenseDeadline(),
+                        Environment = Parameters.Environment()
                     }
                 }.ToJson())
                 : ApiResults.Unauthorized(context: context);
