@@ -19,7 +19,7 @@ namespace Implem.Pleasanter.Libraries.Models
             {
                 if (!headers.Contains(name))
                 {
-                    return Messages.ResponseNotRequiredColumn(
+                    return Messages.NotIncludedRequiredColumn(
                         context: context,
                         data: ss.GetColumn(
                             context: context,
@@ -39,7 +39,7 @@ namespace Implem.Pleasanter.Libraries.Models
             {
                 if (!headers.Contains(name))
                 {
-                    return Messages.NotRequiredColumn(
+                    return Messages.NotIncludedRequiredColumn(
                         context: context,
                         data: ss.GetColumn(
                             context: context,

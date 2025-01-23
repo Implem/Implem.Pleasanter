@@ -77,7 +77,7 @@ namespace Implem.Pleasanter.Libraries.General
             NotFound,
             NotLockedRecord,
             NotMatchRegex,
-            NotRequiredColumn,
+            NotIncludedRequiredColumn,
             Overlap,
             OverlapCsvImport,
             OverLimitApi,
@@ -404,8 +404,8 @@ namespace Implem.Pleasanter.Libraries.General
                     return Messages.NotMatchRegex(
                         context: context,
                         data: data);
-                case Types.NotRequiredColumn:
-                    return Messages.NotRequiredColumn(
+                case Types.NotIncludedRequiredColumn:
+                    return Messages.NotIncludedRequiredColumn(
                         context: context,
                         data: data);
                 case Types.Overlap:

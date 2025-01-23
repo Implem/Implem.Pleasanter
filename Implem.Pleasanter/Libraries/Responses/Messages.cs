@@ -1244,11 +1244,11 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-error");
         }
 
-        public static Message NotRequiredColumn(Context context, params string[] data)
+        public static Message NotIncludedRequiredColumn(Context context, params string[] data)
         {
             return Get(
-                id: "NotRequiredColumn",
-                text: Displays.NotRequiredColumn(
+                id: "NotIncludedRequiredColumn",
+                text: Displays.NotIncludedRequiredColumn(
                     context: context,
                     data: data),
                 css: "alert-error");
@@ -3155,12 +3155,12 @@ namespace Implem.Pleasanter.Libraries.Responses
                 target: target);
         }
 
-        public static ResponseCollection ResponseNotRequiredColumn(
+        public static ResponseCollection NotIncludedRequiredColumn(
             Context context, string target = null, params string[] data)
         {
             return ResponseMessage(
                 context: context,
-                message: NotRequiredColumn(
+                message: NotIncludedRequiredColumn(
                     context: context,
                     data: data),
                 target: target);

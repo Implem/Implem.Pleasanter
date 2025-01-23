@@ -7189,13 +7189,13 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
-        public static string NotRequiredColumn(
+        public static string NotIncludedRequiredColumn(
             Context context,
             params string[] data)
         {
             return Get(
                 context: context,
-                id: "NotRequiredColumn",
+                id: "NotIncludedRequiredColumn",
                 data: data);
         }
 
