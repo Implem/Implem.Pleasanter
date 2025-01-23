@@ -108,93 +108,9 @@ namespace Implem.Pleasanter.Models
                     return GetErrorDataOfHasNotChangeColumnPermission(context, column.LabelText, api);
             }
 
-            var inputErrorData = OnInputValidating(
-                context: context,
-                ss: ss,
-                extensionModel: extensionModel).FirstOrDefault();
-            if (inputErrorData.Type != Error.Types.None) return inputErrorData;
 
             return SuccessData(context: context, api: api);
 
-        }
-
-        public static List<ErrorData> OnInputValidating(
-            Context context,
-            SiteSettings ss,
-            Dictionary<int, ExtensionModel> extensionHash,
-            bool api = false)
-        {
-            var errors = extensionHash
-                             ?.OrderBy(data => data.Key)
-                             .SelectMany((data, index) => OnInputValidating(
-                                 context: context,
-                                 ss: ss,
-                                 extensionModel: data.Value,
-                                 rowNo: index + 1))
-                             .Where(data => data.Type != Error.Types.None).ToList()
-                         ?? new List<ErrorData>();
-            if (errors.Count == 0)
-            {
-                errors.Add(new ErrorData(
-                    context: context,
-                    type: Error.Types.None,
-                    api: api,
-                    sysLogsStatus: 200,
-                    sysLogsDescription: Debugs.GetSysLogsDescription()));
-            }
-            return errors;
-        }
-
-        private static List<ErrorData> OnInputValidating(
-            Context context,
-            SiteSettings ss,
-            ExtensionModel extensionModel,
-            int rowNo = 0)
-        {
-            //TODO: 処理の内容を確認する。Extensionsでは editorColumns をどうみるべきか？
-            var errors = new List<ErrorData>();
-            var editorColumns = ss.GetEditorColumns(context: context); //context使われてないので不要。ssの内容によって設定されれる。
-            editorColumns
-                ?.Concat(ss.Columns
-                    ?.Where(o => !o.NotEditorSettings)
-                    .Where(column => !editorColumns
-                        .Any(editorColumn => editorColumn.ColumnName == column.ColumnName)))
-                .ForEach(column =>
-                {　
-                    var value = extensionModel.PropertyValue(
-                        context: context,
-                        column: column);
-                    if (column.TypeCs == "Comments")
-                    {
-                        var savedCommentId = extensionModel.SavedComments?.Deserialize<Comments>()?.Max(savedComment => (int?)savedComment.CommentId) ?? default(int);
-                        var comment = value?.Deserialize<Comments>()?.FirstOrDefault();
-                        value = comment?.CommentId > savedCommentId ? comment?.Body : null;
-                    }
-                    if (!value.IsNullOrEmpty())
-                    {
-                        //TODO: これらの関数の中でErrosにAddしてるけど、わかりにくいので修正したいところ…
-                        Validators.ValidateMaxLength(
-                            columnName: column.ColumnName,
-                            maxLength: column.MaxLength,
-                            errors: errors,
-                            value: value);
-                        Validators.ValidateRegex(
-                            columnName: column.ColumnName,
-                            serverRegexValidation: column.ServerRegexValidation,
-                            regexValidationMessage: column.RegexValidationMessage,
-                            errors: errors,
-                            value: value);
-                    }
-                });
-            if (errors.Count == 0)
-            {
-                errors.Add(new ErrorData(
-                    context: context,
-                    type: Error.Types.None,
-                    sysLogsStatus: 200,
-                    sysLogsDescription: Debugs.GetSysLogsDescription()));
-            }
-            return errors;
         }
 
 
@@ -241,12 +157,6 @@ namespace Implem.Pleasanter.Models
                     sysLogsStatus: 403,
                     sysLogsDescription: Debugs.GetSysLogsDescription());
 
-            //TODO: 必要かどうか確認する
-            var inputErrorData = OnInputValidating(
-                context: context,
-                ss: ss,
-                extensionModel: extensionModel).FirstOrDefault();
-            if (inputErrorData?.Type != Error.Types.None) return inputErrorData;
 
             return SuccessData(context: context, api: api);
         }
