@@ -1,9 +1,13 @@
-﻿using Implem.Libraries.Utilities;
+﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Settings;
-
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
 namespace Implem.Pleasanter.Models
 {
     public static class ExtensionValidators
@@ -23,7 +27,6 @@ namespace Implem.Pleasanter.Models
                 if (apiErrorData.Type != Error.Types.None)
                     return apiErrorData;
             }
-            
             if (!context.CanRead(ss: ss))
                 return new ErrorData(
                     context: context,
@@ -31,7 +34,6 @@ namespace Implem.Pleasanter.Models
                     api: api,
                     sysLogsStatus: 403,
                     sysLogsDescription: Debugs.GetSysLogsDescription());
-
             return new ErrorData(
                 context: context,
                 type: Error.Types.None,
@@ -55,7 +57,6 @@ namespace Implem.Pleasanter.Models
                 if (apiErrorData.Type != Error.Types.None)
                     return apiErrorData;
             }
-
             if (!context.CanRead(ss: ss))
                 return new ErrorData(
                     context: context,
@@ -63,7 +64,6 @@ namespace Implem.Pleasanter.Models
                     api: api,
                     sysLogsStatus: 403,
                     sysLogsDescription: Debugs.GetSysLogsDescription());
-
             return SuccessData(context: context, api: api);
         }
 
@@ -83,7 +83,6 @@ namespace Implem.Pleasanter.Models
                 var apiErrorData = Validators.ValidateApi(context: context, serverScript: serverScript);
                 if (apiErrorData.Type != Error.Types.None) return apiErrorData;
             }
-
             if (!context.CanCreate(ss: ss))
                 return new ErrorData(
                     context: context,
@@ -91,9 +90,7 @@ namespace Implem.Pleasanter.Models
                     api: api,
                     sysLogsStatus: 403,
                     sysLogsDescription: Debugs.GetSysLogsDescription());
-
             return SuccessData(context: context, api: api);
-
         }
 
         /// <summary>
@@ -111,7 +108,6 @@ namespace Implem.Pleasanter.Models
                 var apiErrorData = Validators.ValidateApi(context: context, serverScript: serverScript);
                 if (apiErrorData.Type != Error.Types.None) return apiErrorData;
             }
-
             if (!context.CanUpdate(ss: ss))
                 return new ErrorData(
                     context: context,
@@ -119,7 +115,6 @@ namespace Implem.Pleasanter.Models
                     api: api,
                     sysLogsStatus: 403,
                     sysLogsDescription: Debugs.GetSysLogsDescription());
-
             return SuccessData(context: context, api: api);
         }
 
@@ -139,7 +134,6 @@ namespace Implem.Pleasanter.Models
                 if (apiErrorData.Type != Error.Types.None)
                     return apiErrorData;
             }
-
             if(!context.CanDelete(ss: ss))
                 return new ErrorData(
                     context: context,
@@ -147,7 +141,6 @@ namespace Implem.Pleasanter.Models
                     api: api,
                     sysLogsStatus: 403,
                     sysLogsDescription: Debugs.GetSysLogsDescription());
-
             return SuccessData(context: context, api: api);
         }
 

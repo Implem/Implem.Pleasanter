@@ -299,39 +299,29 @@ namespace Implem.Pleasanter.Models
         {
             if (!Mime.ValidateOnApi(contentType: context.ContentType))
                 return ApiResults.BadRequest(context: context);
-
             var invalid = ExtensionValidators.OnEntry(ss:ss, context: context, api: true);
             if(invalid.Type != Error.Types.None)
                 return ApiResults.Error(context: context, errorData: invalid);
-
             var api = context.RequestDataString.Deserialize<Api>();
             if (api == null && !context.RequestDataString.IsNullOrEmpty())
             {
                 return ApiResults.Get(ApiResponses.BadRequest(context: context));
             }
-
-
             var view = api?.View ?? new View();
             var pageSize = Parameters.Api.PageSize;
             var tableType = (api?.TableType) ?? Sqls.TableTypes.Normal;
-
             if (extensionId > 0)
             {
                 view.ColumnFilterHash ??= new Dictionary<string, string>();
                 view.ColumnFilterHash.Add("ExtensionId", extensionId.ToString());
             }
-
             var session = Views.GetBySession(context: context, ss: ss);
-
             view.MergeSession(view);
-
             var extensions = new ExtensionCollection(
                 context: context,
                 where: view.Where(context: context, ss: ss),
                 orderBy: view.OrderBy(context: context, ss: ss),
                 tableType: tableType);
-
-
             return ApiResults.Get(new
             {
                 StatusCode = 200,
@@ -349,27 +339,22 @@ namespace Implem.Pleasanter.Models
         {
             if (!Mime.ValidateOnApi(contentType: context.ContentType))
                 return ApiResults.BadRequest(context: context);
-
             var extensionApiModel = context.RequestDataString.Deserialize<ExtensionApiModel>();
             if (extensionApiModel == null || extensionApiModel.HasInvalidExtensionSettings())
                 context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
-            
             var extensionModel = new ExtensionModel(context: context, extensionId: 0, extensionApiModel: extensionApiModel);
             var invalid = ExtensionValidators.OnCreating(context: context, ss: ss, extensionModel: extensionModel, api: true);
             if (invalid.Type != Error.Types.None)
                     return ApiResults.Error(context: context, errorData: invalid);
-
             var errorData = extensionModel.Create(context: context, ss: ss);
             if (errorData.Type != Error.Types.None)
                 return ApiResults.Error(
                     context: context,
                     errorData: errorData);
-
             return ApiResults.Success(
                 id: extensionModel.ExtensionId,
                 message: CreatedMessage(context: context, extensionModel: extensionModel).Text);
         }
-
 
         /// <summary>
         /// Fixed:
@@ -381,18 +366,15 @@ namespace Implem.Pleasanter.Models
         {
             if (!Mime.ValidateOnApi(contentType: context.ContentType))
                 return ApiResults.BadRequest(context: context);
-
             var extensionApiModel = context.RequestDataString.Deserialize<ExtensionApiModel>();
             if (extensionApiModel == null || extensionApiModel.HasInvalidExtensionSettings())
                 context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
-            
             var extensionModel = new ExtensionModel(
                 context: context,
                 extensionId: extensionId,
                 extensionApiModel: extensionApiModel);
             if (extensionModel.AccessStatus != Databases.AccessStatuses.Selected)
                 return ApiResults.Get(ApiResponses.NotFound(context: context));
-
             var invalid = ExtensionValidators.OnUpdating(
                 context: context,
                 ss: ss,
@@ -416,15 +398,12 @@ namespace Implem.Pleasanter.Models
                         errorData: new ErrorData(type: Error.Types.NotRequiredColumn),
                         data: column.ColumnName);
             }
-
             var errorData = extensionModel.Update(context: context, ss: ss, get: false);
             if (errorData.Type != Error.Types.None)
                 return ApiResults.Error(context: context, errorData: errorData);
-
             return ApiResults.Success(
                     id: extensionModel.ExtensionId,
                     message: UpdatedMessage(context: context, ss: ss, extensionModel: extensionModel).Text);
-             
         }
 
         /// <summary>
@@ -434,14 +413,12 @@ namespace Implem.Pleasanter.Models
         {
             if (!Mime.ValidateOnApi(contentType: context.ContentType))
                 return ApiResults.BadRequest(context: context);
-
             var extensionModel = new ExtensionModel(
                 context: context,
                 extensionId: extensionId,
                 methodType: BaseModel.MethodTypes.Edit);
             if (extensionModel.AccessStatus != Databases.AccessStatuses.Selected)
                 return ApiResults.Get(ApiResponses.NotFound(context: context));
-
             var invalid = ExtensionValidators.OnDeleting(
                 context: context,
                 ss: ss,
@@ -455,17 +432,14 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     errorData: invalid);
             }
-
             var errorData = extensionModel.Delete(context: context);
             if (errorData.Type != Error.Types.None)
                 return ApiResults.Error(context: context, errorData: errorData);
-
             return ApiResults.Success(
                 id: extensionModel.ExtensionId,
                 message: Displays.Deleted(
                     context: context,
                     data: extensionModel.ExtensionName));
-            
         }
 
         /// <summary>
@@ -492,6 +466,5 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 data: extensionModel.ExtensionName);
         }
-
     }
 }
