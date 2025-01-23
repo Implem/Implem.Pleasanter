@@ -397,6 +397,7 @@ namespace Implem.SqlServer
                             select ""Sites"".""InheritPermission""
                             from ""Sites""
                             where ""Sites"".""SiteId""=""{tableName}_Items"".""SiteId""
+                                and ""{tableName}_Items"".""ReferenceType"" = 'Sites'
                         )
                         and ""Permissions"".""PermissionType"" & 1 = 1
                         and {PermissionsWhere}
