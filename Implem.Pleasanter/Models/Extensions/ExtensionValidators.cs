@@ -1,18 +1,16 @@
-﻿using Implem.DefinitionAccessor;
-using Implem.Libraries.Utilities;
-using Implem.Pleasanter.Libraries.DataTypes;
+﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Settings;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
 
 namespace Implem.Pleasanter.Models
 {
     public static class ExtensionValidators
     {
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static ErrorData OnEntry(
             Context context,
             SiteSettings ss,
@@ -25,16 +23,7 @@ namespace Implem.Pleasanter.Models
                 if (apiErrorData.Type != Error.Types.None)
                     return apiErrorData;
             }
-
-            //TODO: チェックが適切かを確認する。 context.HasPermission(ss: ss) は False になる
-            //if (!context.HasPermission(ss: ss))
-            //    return new ErrorData(
-            //        context: context,
-            //        type: context.CanRead(ss: ss) ? Error.Types.HasNotPermission : Error.Types.None,
-            //        api: api,
-            //        sysLogsStatus: 403,
-            //        sysLogsDescription: Debugs.GetSysLogsDescription());
-
+            
             if (!context.CanRead(ss: ss))
                 return new ErrorData(
                     context: context,
@@ -51,6 +40,9 @@ namespace Implem.Pleasanter.Models
                 sysLogsDescription: Debugs.GetSysLogsDescription());
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static ErrorData OnGet(
             Context context,
             SiteSettings ss,
@@ -75,6 +67,9 @@ namespace Implem.Pleasanter.Models
             return SuccessData(context: context, api: api);
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static ErrorData OnCreating(
             Context context,
             SiteSettings ss,
@@ -85,12 +80,10 @@ namespace Implem.Pleasanter.Models
         {
             if (api)
             {
-                //TODO: ServerScriptの関係あるか確認する
                 var apiErrorData = Validators.ValidateApi(context: context, serverScript: serverScript);
                 if (apiErrorData.Type != Error.Types.None) return apiErrorData;
             }
 
-            //TODO: 権限のチェックが適切かを確認する
             if (!context.CanCreate(ss: ss))
                 return new ErrorData(
                     context: context,
@@ -99,21 +92,13 @@ namespace Implem.Pleasanter.Models
                     sysLogsStatus: 403,
                     sysLogsDescription: Debugs.GetSysLogsDescription());
 
-            var checkColumns = ss.Columns.Where(
-                o => !o.CanCreate(context: context, ss: ss, mine: extensionModel.Mine(context: context)) &&
-                     !ss.FormulaTarget(o.ColumnName));
-            foreach (var column in checkColumns)
-            {
-                if (IsColumnUpdated(extensionModel, column.ColumnName, context))
-                    return GetErrorDataOfHasNotChangeColumnPermission(context, column.LabelText, api);
-            }
-
-
             return SuccessData(context: context, api: api);
 
         }
 
-
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static ErrorData OnUpdating(
             Context context,
             SiteSettings ss,
@@ -121,34 +106,12 @@ namespace Implem.Pleasanter.Models
             bool api = false,
             bool serverScript = false)
         {
-            // TODO: こちらのチェックと、後のCanCreqateのチェックとの兼ね合いを確認して調整する。またOnCreattingにはないけどよいのか？
-            //if (extensionModel.RecordPermissions != null && !context.CanManagePermission(ss: ss))
-            //{
-            //    return new ErrorData(
-            //        context: context,
-            //        type: Error.Types.HasNotPermission,
-            //        api: api,
-            //        sysLogsStatus: 403,
-            //        sysLogsDescription: Debugs.GetSysLogsDescription());
-            //}
-
             if (api)
             {
                 var apiErrorData = Validators.ValidateApi(context: context, serverScript: serverScript);
                 if (apiErrorData.Type != Error.Types.None) return apiErrorData;
             }
 
-            var checkColumns = ss.Columns.Where(
-                o => !o.CanUpdate(context: context, ss: ss, mine: extensionModel.Mine(context: context)) &&
-                     !ss.FormulaTarget(o.ColumnName));
-            foreach (var column in checkColumns)
-            {
-                if (IsColumnUpdated(extensionModel, column.ColumnName, context))
-                    return GetErrorDataOfHasNotChangeColumnPermission(context, column.LabelText, api);
-            }
-
-            //TODO: 権限のチェックが適切かを確認する
-            //TODO:  Extensionのモデルベースのモデルを別にしたい
             if (!context.CanUpdate(ss: ss))
                 return new ErrorData(
                     context: context,
@@ -157,11 +120,12 @@ namespace Implem.Pleasanter.Models
                     sysLogsStatus: 403,
                     sysLogsDescription: Debugs.GetSysLogsDescription());
 
-
             return SuccessData(context: context, api: api);
         }
 
-
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static ErrorData OnDeleting(
             Context context,
             SiteSettings ss,
@@ -187,6 +151,9 @@ namespace Implem.Pleasanter.Models
             return SuccessData(context: context, api: api);
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private static bool IsColumnUpdated(ExtensionModel extensionModel, string columnName, Context context)
         {
             return columnName switch
@@ -204,6 +171,9 @@ namespace Implem.Pleasanter.Models
             };
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private static ErrorData GetErrorDataOfHasNotChangeColumnPermission(Context context, string columnLabelText, bool api)
         {
             return new ErrorData(
@@ -215,6 +185,9 @@ namespace Implem.Pleasanter.Models
                 sysLogsDescription: Debugs.GetSysLogsDescription());
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private static ErrorData SuccessData(Context context, bool api)
         {
             return new ErrorData(
