@@ -6,12 +6,15 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using MimeKit.Cryptography;
 using Implem.DisplayAccessor;
+using Implem.DefinitionAccessor;
 
 namespace Implem.Pleasanter.Models
 {
     [Serializable]
-    public class ExtensionApiModel : _MostBaseApiModel
+    public class ExtensionApiModel
     {
+        public decimal ApiVersion { get; set; } = Parameters.Api.Version;
+        //public bool? VerUp { get; set; } //Extension_historyのPKがVerのみなため、使用しない（Indexを削除・追加の再作成は基本的に行わない方針）
         public int? ExtensionId { get; set; }
         public int? TenantId { get; set; }
         public int? Ver { get; set; }
