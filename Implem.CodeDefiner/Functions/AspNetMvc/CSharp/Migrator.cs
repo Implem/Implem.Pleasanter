@@ -92,6 +92,9 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp
                     catch (Exception e)
                     {
                         MigrateError++;
+                        var log = $@"[ERROR]    Table:""{tableName}""    {e.GetType()} caught.";
+                        MigrateLogWriter.WriteLine(log);
+                        MigrateLogWriter.Flush();
                         Consoles.Write(
                             text: $"[{tableName}]: {e}",
                             type: Consoles.Types.Error,
@@ -143,7 +146,7 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp
                     {
                         cmdTo.ExecuteNonQuery();
                     }
-                    catch (System.Exception e)
+                    catch (Exception e)
                     {
                         MigrateError++;
                         var log = $@"[ERROR]    Table:""{tableName}""    Data:";
