@@ -1224,6 +1224,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-error");
         }
 
+        public static Message NotIncludedRequiredColumn(Context context, params string[] data)
+        {
+            return Get(
+                id: "NotIncludedRequiredColumn",
+                text: Displays.NotIncludedRequiredColumn(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
         public static Message NotLockedRecord(Context context, params string[] data)
         {
             return Get(
@@ -1239,16 +1249,6 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 id: "NotMatchRegex",
                 text: Displays.NotMatchRegex(
-                    context: context,
-                    data: data),
-                css: "alert-error");
-        }
-
-        public static Message NotIncludedRequiredColumn(Context context, params string[] data)
-        {
-            return Get(
-                id: "NotIncludedRequiredColumn",
-                text: Displays.NotIncludedRequiredColumn(
                     context: context,
                     data: data),
                 css: "alert-error");
@@ -3133,6 +3133,17 @@ namespace Implem.Pleasanter.Libraries.Responses
                 target: target);
         }
 
+        public static ResponseCollection ResponseNotIncludedRequiredColumn(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: NotIncludedRequiredColumn(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
         public static ResponseCollection ResponseNotLockedRecord(
             Context context, string target = null, params string[] data)
         {
@@ -3150,17 +3161,6 @@ namespace Implem.Pleasanter.Libraries.Responses
             return ResponseMessage(
                 context: context,
                 message: NotMatchRegex(
-                    context: context,
-                    data: data),
-                target: target);
-        }
-
-        public static ResponseCollection NotIncludedRequiredColumn(
-            Context context, string target = null, params string[] data)
-        {
-            return ResponseMessage(
-                context: context,
-                message: NotIncludedRequiredColumn(
                     context: context,
                     data: data),
                 target: target);

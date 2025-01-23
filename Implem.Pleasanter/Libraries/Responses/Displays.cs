@@ -7109,6 +7109,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string NotIncludedRequiredColumn(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "NotIncludedRequiredColumn",
+                data: data);
+        }
+
         public static string NotInheritPermission(
             Context context,
             params string[] data)
@@ -7186,16 +7196,6 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "NotOutput",
-                data: data);
-        }
-
-        public static string NotIncludedRequiredColumn(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "NotIncludedRequiredColumn",
                 data: data);
         }
 
