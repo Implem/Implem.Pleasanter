@@ -2204,7 +2204,14 @@ namespace Implem.Pleasanter.Models
                 SiteSettings = new SiteSettings(context: context, referenceType: ReferenceType);
             }
             TenantId = context.TenantId;
-            var notInheritPermission = InheritPermission == 0 || RecordPermissions != null;
+            var parentSiteModel = ParentId > 0
+                ? new SiteModel(
+                    context: context,
+                    siteId: ParentId)
+                : null;
+            var notInheritPermission = InheritPermission == 0
+                || RecordPermissions != null
+                || parentSiteModel?.SiteSettings?.NotInheritPermissionsWhenCreatingSite == true;
             var response = Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
@@ -2406,8 +2413,11 @@ namespace Implem.Pleasanter.Models
                             beforeOpeningPage: ssApiSetting.ServerScriptBeforeOpeningPage,
                             beforeOpeningRow: ssApiSetting.ServerScriptBeforeOpeningRow,
                             shared: ssApiSetting.ServerScriptShared,
-                            background: default,
                             body: ssApiSetting.Body,
+                            functionalize: ssApiSetting.Functionalize,
+                            tryCatch: ssApiSetting.TryCatch,
+                            disabled: ssApiSetting.Disabled,
+                            background: default,
                             timeOut: default);
                     }
                     else
@@ -2432,6 +2442,9 @@ namespace Implem.Pleasanter.Models
                             beforeOpeningRow: ssApiSetting.ServerScriptBeforeOpeningRow,
                             shared: ssApiSetting.ServerScriptShared,
                             body: ssApiSetting.Body,
+                            functionalize: ssApiSetting.Functionalize,
+                            tryCatch: ssApiSetting.TryCatch,
+                            disabled: ssApiSetting.Disabled,
                             background: default,
                             timeOut: default));
                     }
@@ -2677,6 +2690,7 @@ namespace Implem.Pleasanter.Models
                         changedStatus: processApiSiteSetting.ChangedStatus,
                         description: processApiSiteSetting.Description,
                         tooltip: processApiSiteSetting.Tooltip,
+                        icon: processApiSiteSetting.Icon,
                         confirmationMessage: processApiSiteSetting.ConfirmationMessage,
                         successMessage: processApiSiteSetting.SuccessMessage,
                         onClick: processApiSiteSetting.OnClick,
@@ -2712,6 +2726,7 @@ namespace Implem.Pleasanter.Models
                         changedStatus: processApiSiteSetting.ChangedStatus != null ? (int)processApiSiteSetting.ChangedStatus : default,
                         description: processApiSiteSetting.Description,
                         tooltip: processApiSiteSetting.Tooltip,
+                        icon: processApiSiteSetting.Icon,
                         confirmationMessage: processApiSiteSetting.ConfirmationMessage,
                         successMessage: processApiSiteSetting.SuccessMessage,
                         onClick: processApiSiteSetting.OnClick,
@@ -4993,6 +5008,7 @@ namespace Implem.Pleasanter.Models
                 changedStatus: context.Forms.Int("ProcessChangedStatus"),
                 description: context.Forms.Data("ProcessDescription"),
                 tooltip: context.Forms.Data("ProcessTooltip"),
+                icon: context.Forms.Data("ProcessIcon"),
                 confirmationMessage: context.Forms.Data("ProcessConfirmationMessage"),
                 successMessage: SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessSuccessMessage")),
                 onClick: context.Forms.Data("ProcessOnClick"),
@@ -5052,6 +5068,7 @@ namespace Implem.Pleasanter.Models
                     changedStatus: context.Forms.Int("ProcessChangedStatus"),
                     description: context.Forms.Data("ProcessDescription"),
                     tooltip: context.Forms.Data("ProcessTooltip"),
+                    icon: context.Forms.Data("ProcessIcon"),
                     confirmationMessage: context.Forms.Data("ProcessConfirmationMessage"),
                     successMessage: SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessSuccessMessage")),
                     onClick: context.Forms.Data("ProcessOnClick"),
@@ -7784,6 +7801,9 @@ namespace Implem.Pleasanter.Models
                 shared: context.Forms.Bool("ServerScriptShared"),
                 background: false,
                 body: context.Forms.Data("ServerScriptBody"),
+                functionalize: context.Forms.Bool("ServerScriptFunctionalize"),
+                tryCatch: context.Forms.Bool("ServerScriptTryCatch"),
+                disabled: context.Forms.Bool("ServerScriptDisabled"),
                 timeOut: GetServerScriptTimeOutValue(context: context));
             var invalid = ServerScriptValidators.OnCreating(
                 context: context,
@@ -7815,6 +7835,9 @@ namespace Implem.Pleasanter.Models
                 shared: script.Shared ?? default,
                 background: script.Background ?? default,
                 body: script.Body,
+                functionalize: script.Functionalize,
+                tryCatch: script.TryCatch,
+                disabled: script.Disabled,
                 timeOut: script.TimeOut));
             res
                 .ReplaceAll("#EditServerScript", new HtmlBuilder()
@@ -7849,6 +7872,9 @@ namespace Implem.Pleasanter.Models
                 shared: context.Forms.Bool("ServerScriptShared"),
                 background: false,
                 body: context.Forms.Data("ServerScriptBody"),
+                functionalize: context.Forms.Bool("ServerScriptFunctionalize"),
+                tryCatch: context.Forms.Bool("ServerScriptTryCatch"),
+                disabled: context.Forms.Bool("ServerScriptDisabled"),
                 timeOut: GetServerScriptTimeOutValue(context: context));
             var invalid = ServerScriptValidators.OnUpdating(
                 context: context,
@@ -7881,6 +7907,9 @@ namespace Implem.Pleasanter.Models
                     shared: script.Shared ?? default,
                     background: script.Background ?? default,
                     body: script.Body,
+                    functionalize: script.Functionalize,
+                    tryCatch: script.TryCatch,
+                    disabled: script.Disabled,
                     timeOut: script.TimeOut);
             res
                 .Html("#EditServerScript", new HtmlBuilder()

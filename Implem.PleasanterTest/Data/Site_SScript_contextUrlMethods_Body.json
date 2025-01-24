@@ -1,0 +1,14 @@
+﻿{
+    "Version": 1.017,
+    "ReferenceType": "Results",
+    "ServerScripts": [
+        {
+            "Title": "test",
+            "Name": "",
+            "BeforeOpeningPage": true,
+            "Body": "let urlName = context.QueryStrings.Data('name');\rif(urlName === \"HAYATO\"){\r    context.AddMessage(\"OK\",'alert-information');\r} else {\r    context.AddMessage(\"NG\", 'alert-error');\r}",
+            "Id": 1
+        }
+    ],
+    "NoDisplayIfReadOnly": false
+}

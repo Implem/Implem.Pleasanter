@@ -13,6 +13,11 @@
         case Error.Types.None: break;
         default: return invalid.MessageJson(context: context);
     }
+    using var exclusiveObj = new Sessions.TableExclusive(context: context);
+    if (!exclusiveObj.TryLock())
+    {
+        return Error.Types.ImportLock.MessageJson(context: context);
+    }
     var res = new ResponseCollection(context: context);
     Csv csv;
     try
@@ -25,6 +30,7 @@
     {
         return Messages.ResponseFailedReadFile(context: context).ToJson();
     }
+    exclusiveObj.Refresh();
     var count = csv.Rows.Count();
     if (Parameters.General.ImportMax > 0 && Parameters.General.ImportMax < count)
     {
@@ -74,6 +80,7 @@
             .ToDictionary(o => o.Index, o => o.Row);
         foreach (var data in csvRows)
         {
+            exclusiveObj.Refresh();
             var #modelName#Model = new #ModelName#Model(
                 context: context,
                 ss: ss);
@@ -125,6 +132,7 @@
         var updateCount = 0;
         foreach (var data in #modelName#Hash)
         {
+            exclusiveObj.Refresh();
             var #modelName#Model = data.Value;
             if (#modelName#Model.AccessStatus == Databases.AccessStatuses.Selected)
 
@@ -272,6 +280,14 @@ public static ContentResultInheritance ImportByApi(
     {
         return null;
     }
+    using var exclusiveObj = new Sessions.TableExclusive(context: context);
+    if (!exclusiveObj.TryLock())
+    {
+        return ApiResults.Get(new ApiResponse(
+            id: context.Id,
+            statusCode: 429,
+            message: Messages.ImportLock(context: context).Text));
+    }
     var invalid = #ModelName#Validators.OnImporting(
         context: context,
         ss: ss,
@@ -364,6 +380,7 @@ public static ContentResultInheritance ImportByApi(
             .ToDictionary(o => o.Index, o => o.Row);
         foreach (var data in csvRows)
         {
+            exclusiveObj.Refresh();
             var #modelName#Model = new #ModelName#Model(
                 context: context,
                 ss: ss);
@@ -423,6 +440,7 @@ public static ContentResultInheritance ImportByApi(
         var updateCount = 0;
         foreach (var data in #modelName#Hash)
         {
+            exclusiveObj.Refresh();
             var #modelName#Model = data.Value;
             if (#modelName#Model.AccessStatus == Databases.AccessStatuses.Selected)
             {
@@ -534,6 +552,7 @@ public static ContentResultInheritance ImportByApi(
                 insertCount++;
             }
         }
+        exclusiveObj.Refresh();
         ImportUtilities.SetOnImportedExtendedSqls(context, ss);
         ss.Notifications.ForEach(notification =>
         {

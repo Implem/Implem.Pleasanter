@@ -1,0 +1,9 @@
+﻿{
+    "Id": "Model_Utilities_FieldCases_RawValue",
+    "RepeatType": "Column",
+    "Indent": "4",
+    "Separator": "\\r\\n",
+    "EditorColumn": "1",
+    "Exclude": "CreatedTime,UpdatedTime,Timestamp,Comments",
+    "ExcludeTypeName": "image"
+}

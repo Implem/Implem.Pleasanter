@@ -71,7 +71,7 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
                             itemModel: null,
                             view: null,
                             scripts: scripts.ToArray(),
-                            condition: "BackgroundServerScript",
+                            condition: ServerScriptModel.ServerScriptConditions.BackgroundServerScript,
                             debug: paramScripts != null && targetScript.Debug);
                         log.Finish(context: sqlContext);
                     }

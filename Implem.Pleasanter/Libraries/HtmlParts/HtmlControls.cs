@@ -43,6 +43,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string validateRegexErrorMessage = null,
             string action = null,
             string method = null,
+            string dataValue = null,
             Dictionary<string, string> attributes = null,
             bool _using = true)
         {
@@ -78,6 +79,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     : "control-textbox anchor hidden", controlCss))
                             .Type("text")
                             .Value(text)
+                            .DataValue(dataValue)
                             .Placeholder(placeholder)
                             .Disabled(disabled)
                             .DataAlwaysSend(alwaysSend)
@@ -574,6 +576,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Value(value != null
                         ? value.ToString()
                         : string.Empty)
+                    .Add("data-raw",
+                        value != null
+                            ? value.ToString()
+                            : string.Empty)
                     .DataMin(min, _using: min != -1)
                     .DataMax(max, _using: max != -1)
                     .DataStep(step, _using: step != -1)
