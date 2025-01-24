@@ -17,7 +17,9 @@ using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Libraries.Web;
+using Newtonsoft.Json.Linq;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -6867,6 +6869,14 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     resultHash: resultHash).FirstOrDefault();
+                foreach (var rows in csv.Rows)
+                {
+                    foreach (var item in csv.Headers.Select((header, index) => new { Header = header, Index = index }))
+                    {
+                        List<List<string>> list = new List<List<string>>();
+                        list.Add(new List<string> { item.Header, rows[item.Index] });
+                    }
+                }
                 switch (inputErrorData.Type)
                 {
                     case Error.Types.None: break;
