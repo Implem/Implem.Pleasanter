@@ -437,6 +437,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Export": Code.Model_Export = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Export, definitionRow, CodeXls); break;
                     case "Model_ExportAndMailNotifyCases": Code.Model_ExportAndMailNotifyCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ExportAndMailNotifyCases, definitionRow, CodeXls); break;
                     case "Model_ExportByApi": Code.Model_ExportByApi = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ExportByApi, definitionRow, CodeXls); break;
+                    case "Model_ExportByServerScript": Code.Model_ExportByServerScript = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ExportByServerScript, definitionRow, CodeXls); break;
                     case "Model_ExportCases": Code.Model_ExportCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ExportCases, definitionRow, CodeXls); break;
                     case "Model_ExportClassPropertyCases": Code.Model_ExportClassPropertyCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ExportClassPropertyCases, definitionRow, CodeXls); break;
                     case "Model_ExportCrosstabCases": Code.Model_ExportCrosstabCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ExportCrosstabCases, definitionRow, CodeXls); break;
@@ -490,6 +491,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_ImageLibJsonCases": Code.Model_ImageLibJsonCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ImageLibJsonCases, definitionRow, CodeXls); break;
                     case "Model_ImageLibNextCases": Code.Model_ImageLibNextCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ImageLibNextCases, definitionRow, CodeXls); break;
                     case "Model_ImportByApi": Code.Model_ImportByApi = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ImportByApi, definitionRow, CodeXls); break;
+                    case "Model_ImportByServerScript": Code.Model_ImportByServerScript = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ImportByServerScript, definitionRow, CodeXls); break;
                     case "Model_ImportCases": Code.Model_ImportCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ImportCases, definitionRow, CodeXls); break;
                     case "Model_IndexCases": Code.Model_IndexCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_IndexCases, definitionRow, CodeXls); break;
                     case "Model_IndexJsonCases": Code.Model_IndexJsonCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_IndexJsonCases, definitionRow, CodeXls); break;
@@ -864,6 +866,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_Links": Code.Model_Utilities_Links = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Links, definitionRow, CodeXls); break;
                     case "Model_Utilities_Move": Code.Model_Utilities_Move = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Move, definitionRow, CodeXls); break;
                     case "Model_Utilities_NewOnGrid": Code.Model_Utilities_NewOnGrid = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_NewOnGrid, definitionRow, CodeXls); break;
+                    case "Model_Utilities_NewProcessingFailureException": Code.Model_Utilities_NewProcessingFailureException = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_NewProcessingFailureException, definitionRow, CodeXls); break;
                     case "Model_Utilities_NewRowParameters": Code.Model_Utilities_NewRowParameters = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_NewRowParameters, definitionRow, CodeXls); break;
                     case "Model_Utilities_NewRowVal": Code.Model_Utilities_NewRowVal = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_NewRowVal, definitionRow, CodeXls); break;
                     case "Model_Utilities_NotNull": Code.Model_Utilities_NotNull = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_NotNull, definitionRow, CodeXls); break;
@@ -6968,6 +6971,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Export;
         public string Model_ExportAndMailNotifyCases;
         public string Model_ExportByApi;
+        public string Model_ExportByServerScript;
         public string Model_ExportCases;
         public string Model_ExportClassPropertyCases;
         public string Model_ExportCrosstabCases;
@@ -7021,6 +7025,7 @@ namespace Implem.DefinitionAccessor
         public string Model_ImageLibJsonCases;
         public string Model_ImageLibNextCases;
         public string Model_ImportByApi;
+        public string Model_ImportByServerScript;
         public string Model_ImportCases;
         public string Model_IndexCases;
         public string Model_IndexJsonCases;
@@ -7395,6 +7400,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_Links;
         public string Model_Utilities_Move;
         public string Model_Utilities_NewOnGrid;
+        public string Model_Utilities_NewProcessingFailureException;
         public string Model_Utilities_NewRowParameters;
         public string Model_Utilities_NewRowVal;
         public string Model_Utilities_NotNull;
@@ -7816,6 +7822,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Export = new CodeDefinition();
         public CodeDefinition Model_ExportAndMailNotifyCases = new CodeDefinition();
         public CodeDefinition Model_ExportByApi = new CodeDefinition();
+        public CodeDefinition Model_ExportByServerScript = new CodeDefinition();
         public CodeDefinition Model_ExportCases = new CodeDefinition();
         public CodeDefinition Model_ExportClassPropertyCases = new CodeDefinition();
         public CodeDefinition Model_ExportCrosstabCases = new CodeDefinition();
@@ -7869,6 +7876,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_ImageLibJsonCases = new CodeDefinition();
         public CodeDefinition Model_ImageLibNextCases = new CodeDefinition();
         public CodeDefinition Model_ImportByApi = new CodeDefinition();
+        public CodeDefinition Model_ImportByServerScript = new CodeDefinition();
         public CodeDefinition Model_ImportCases = new CodeDefinition();
         public CodeDefinition Model_IndexCases = new CodeDefinition();
         public CodeDefinition Model_IndexJsonCases = new CodeDefinition();
@@ -8243,6 +8251,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_Links = new CodeDefinition();
         public CodeDefinition Model_Utilities_Move = new CodeDefinition();
         public CodeDefinition Model_Utilities_NewOnGrid = new CodeDefinition();
+        public CodeDefinition Model_Utilities_NewProcessingFailureException = new CodeDefinition();
         public CodeDefinition Model_Utilities_NewRowParameters = new CodeDefinition();
         public CodeDefinition Model_Utilities_NewRowVal = new CodeDefinition();
         public CodeDefinition Model_Utilities_NotNull = new CodeDefinition();

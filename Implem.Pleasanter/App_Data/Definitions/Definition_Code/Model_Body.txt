@@ -96,7 +96,9 @@ namespace Implem.Pleasanter.Models
 <!--Model_Get-->
 <!--Model_GetByApi-->
 <!--Model_ExportByApi-->
+<!--Model_ExportByServerScript-->
 <!--Model_ImportByApi-->
+<!--Model_ImportByServerScript-->
 <!--Model_ToValue-->
 <!--Model_ToValueApiDisplayValue-->
 <!--Model_ToDisplay-->
