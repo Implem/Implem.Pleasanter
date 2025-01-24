@@ -60,7 +60,7 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp
             using (var connTo = factoryTo.CreateSqlConnection(
                 connectionString: Parameters.Rds.OwnerConnectionString))
             {
-                connTo.OpenAsync();
+                connTo.Open();
                 using (var connFrom = factoryFrom.CreateSqlConnection(
                     connectionString: Parameters.Migration.SourceConnectionString))
                 {

@@ -1,7 +1,6 @@
 ﻿using Implem.IRds;
 using System;
 using System.Data;
-using System.Threading.Tasks;
 namespace Implem.MySql
 {
     internal class MySqlConnection : ISqlConnection
@@ -95,11 +94,6 @@ namespace Implem.MySql
         public void Open()
         {
             instance.Open();
-        }
-
-        public async Task OpenAsync()
-        {
-            await instance.OpenAsync();
         }
     }
 }

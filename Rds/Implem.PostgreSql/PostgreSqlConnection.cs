@@ -2,7 +2,6 @@
 using Npgsql;
 using System;
 using System.Data;
-using System.Threading.Tasks;
 namespace Implem.PostgreSql
 {
     internal class PostgreSqlConnection : ISqlConnection
@@ -96,11 +95,6 @@ namespace Implem.PostgreSql
         public void Open()
         {
             instance.Open();
-        }
-
-        public async Task OpenAsync()
-        {
-            await instance.OpenAsync();
         }
     }
 }
