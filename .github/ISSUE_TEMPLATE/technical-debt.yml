@@ -1,7 +1,7 @@
 # technical-debt.yml
 name: 技術的な課題
-description: 解決すべき技術的負債など、技術的な課題はこちら
-labels: ["technical-debt"]
+description: 技術的な課題はこちら（技術的負債、コードのリファクタリングや最適化が必要なものなど）
+labels: ["technical-issue"]
 title: 'technical: '
 body:
   - type: textarea
