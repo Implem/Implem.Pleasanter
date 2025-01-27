@@ -157,8 +157,11 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp
                             {
                                 obj = ((DateTime)obj).ToString("yyyy/MM/dd HH:mm:ss.fff");
                             }
+                            else if (obj != null && obj.ToString().Length > 1024)
+                            {
+                                obj = $"{obj.ToString()[..1024]} [text truncated]";
+                            }
                             log = log + $@"""{reader.GetName(i)}""={obj}, ";
-
                         }
                         MigrateLogWriter.WriteLine(log.Remove(log.Length - 2));
                         MigrateLogWriter.Flush();

@@ -106,7 +106,7 @@ namespace Implem.CodeDefiner
                             factory: factory,
                             force: argHash.ContainsKey("f"),
                             noInput: argHash.ContainsKey("y"));
-                        if(CompleteConfigureDatabase) MigrateDatabase(factoryTo: factory);
+                        if (CompleteConfigureDatabase) MigrateDatabase(factoryTo: factory);
                         break;
                     case "ConvertTime":
                         ConvertTime(factory: factory);
@@ -321,11 +321,11 @@ namespace Implem.CodeDefiner
             var currentVersionObj = new System.Version(currentVersion);
             var patchDir = new DirectoryInfo(patchSourcePath);
             DirectoryInfo[] dirs = patchDir.GetDirectories();
-            if(newVersionObj < currentVersionObj)
+            if (newVersionObj < currentVersionObj)
             {
                 throw new InvalidVersionException("Invalid Version" + $" From:{currentVersionObj}" + $" To:{newVersionObj}");
             }
-            if(!dirs.Any(o => o.Name == currentVersion))
+            if (!dirs.Any(o => o.Name == currentVersion))
             {
                 throw new InvalidVersionException("Invalid Version:" + currentVersionObj);
             }
