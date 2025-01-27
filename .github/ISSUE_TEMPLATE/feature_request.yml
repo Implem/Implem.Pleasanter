@@ -12,13 +12,14 @@ body:
   - type: textarea
     attributes:
       label: 目的・背景
+    description: 機能が解決する問題やニーズなどを記載してください
     validations:
       required: true
   - type: textarea
     attributes:
       label: 提案内容
-      description: 具体的な仕様案があれば記載してください。
+      description: 具体的な仕様案があれば記載してください
   - type: textarea
     attributes:
       label: 追加資料
-      description: 補足資料、参考URLなどがあれば記載・添付してください。
+      description: 補足資料、参考URLなどがあれば記載・添付してください
