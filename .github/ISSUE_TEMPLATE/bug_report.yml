@@ -3,16 +3,15 @@ name: バグ報告
 description: 不具合報告はこちら
 title: 'Bug: '
 body:
-  - type: markdown
-    id: overview
+  - type: textarea
     attributes:
       label: 概要
       description: |
         不具合の概要を記載してください。
       value: |
-        ## 概要
-        ### 期待する動作
-        ### 実際の動作
+        "## 概要"
+        "### 期待する動作"
+        "### 実際の動作"
     validations:
       required: true
   - type: input
@@ -37,7 +36,7 @@ body:
         ubuntu + PostgreSQL
     validations:
       required: true
-  - type: markdown
+  - type: textarea
     id: process
     attributes:
       label: 再現手順
@@ -48,7 +47,7 @@ body:
         3. 
     validations:
       required: true
-  - type: markdown
+  - type: textarea
     id: supplement
     attributes:
       label: 補足
