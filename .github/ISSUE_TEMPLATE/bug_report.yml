@@ -10,9 +10,12 @@ body:
       description: |
         不具合の概要を記載してください。
       value: |
-        "## 概要"
-        "### 期待する動作"
-        "### 実際の動作"
+        ## 概要
+        
+        ### 期待する動作
+        
+        ### 実際の動作
+        
     validations:
       required: true
   - type: input
