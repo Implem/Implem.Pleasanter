@@ -3,31 +3,31 @@
     "Type": 240,
     "Languages": [
         {
-            "Body": "The login expiration date or the login expiration period has been exceeded."
+            "Body": "The number of days until login expiration or deactivation has been exceeded."
         },
         {
             "Language": "zh",
-            "Body": "已超过登录到期日期或登录到期时间。"
+            "Body": "超过登录到期或停用天数。"
         },
         {
             "Language": "ja",
-            "Body": "ログイン有効期限またはログイン有効期間を超過しています。"
+            "Body": "ログイン有効期限または無効化までの日数を超過しています。"
         },
         {
             "Language": "de",
-            "Body": "Das Ablaufdatum des Logins oder die Gültigkeitsdauer des Logins wurde überschritten."
+            "Body": "Tage bis zum Ablauf der Anmeldung oder Deaktivierung überschritten."
         },
         {
             "Language": "ko",
-            "Body": "로그인 만료일 또는 로그인 만료 기간이 초과되었습니다."
+            "Body": "로그인 유효기간 또는 비활성화까지 남은 일수를 초과했습니다."
         },
         {
             "Language": "es",
-            "Body": "Se ha superado la fecha de caducidad de inicio de sesión o el periodo de caducidad de inicio de sesión."
+            "Body": "Días hasta la caducidad de inicio de sesión o desactivación superados."
         },
         {
             "Language": "vn",
-            "Body" :"Ngày hết hạn đăng nhập hoặc thời gian hết hạn đăng nhập đã bị vượt quá."
+            "Body": "Ngày hết hạn đăng nhập hoặc số ngày cho đến khi quá trình hủy kích hoạt kết thúc."
         }
     ]
 }

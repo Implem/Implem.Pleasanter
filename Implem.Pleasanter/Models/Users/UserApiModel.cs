@@ -50,9 +50,9 @@ namespace Implem.Pleasanter.Models
         public DateTime? SecondaryAuthenticationCodeExpirationTime { get; set; }
         public string LdapSearchRoot { get; set; }
         public DateTime? SynchronizedTime { get; set; }
+        public DateTime? LoginExpirationLimit { get; set; }
         public string SecretKey { get; set; }
         public bool? EnableSecretKey { get; set; }
-        public DateTime? LoginExpirationLimit { get; set; }
         public int? LoginExpirationPeriod { get; set; }
         public string Comments { get; set; }
         public int? Creator { get; set; }
@@ -113,9 +113,9 @@ namespace Implem.Pleasanter.Models
                 case "SecondaryAuthenticationCodeExpirationTime": return SecondaryAuthenticationCodeExpirationTime;
                 case "LdapSearchRoot": return LdapSearchRoot;
                 case "SynchronizedTime": return SynchronizedTime;
+                case "LoginExpirationLimit": return LoginExpirationLimit;
                 case "SecretKey": return SecretKey;
                 case "EnableSecretKey": return EnableSecretKey;
-                case "LoginExpirationLimit": return LoginExpirationLimit;
                 case "LoginExpirationPeriod": return LoginExpirationPeriod;
                 case "Comments": return Comments;
                 case "Creator": return Creator;

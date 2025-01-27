@@ -4,7 +4,7 @@
     "TableName": "Users",
     "Label": "ユーザ",
     "ColumnName": "LoginExpirationPeriod",
-    "LabelText": "ログイン有効期間",
+    "LabelText": "無効化までの日数",
     "No": "158",
     "History": "158",
     "GridColumn": "158",
@@ -19,10 +19,10 @@
     "ReadAccessControl": "ManageTenant",
     "CreateAccessControl": "ManageTenant",
     "UpdateAccessControl": "ManageTenant",
-    "LabelText_en": "Number of days with no logins enabled",
-    "LabelText_zh": "未记录的有效天数",
-    "LabelText_de": "Nicht protokollierte gültige Tage",
-    "LabelText_ko": "미로그인 유효기간",
-    "LabelText_es": "Días válidos no registrados",
-    "LabelText_vn": "Số ngày không kích hoạt đăng nhập"
+    "LabelText_en": "Number of days to invalidation",
+    "LabelText_zh": "停用天数",
+    "LabelText_de": "Anzahl der Tage bis zur Deaktivierung",
+    "LabelText_ko": "비활성화까지의 일수",
+    "LabelText_es": "Número de días hasta la desactivación",
+    "LabelText_vn": "Số ngày cho đến khi hết hiệu lực"
 }
