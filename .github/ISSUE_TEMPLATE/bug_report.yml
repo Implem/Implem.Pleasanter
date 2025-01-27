@@ -7,22 +7,30 @@ body:
   - type: textarea
     attributes:
       label: 概要
-      description: |
-        不具合の概要を記載してください。
-      value: |
-        ## 要約
-        
-        ### 期待する動作
-        
-        ### 実際の動作
-        
+      description: 不具合の概要を記載してください
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 発生条件
+      description: 問題が発生する条件や状況を記載してください
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 期待する結果
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 現状の結果
     validations:
       required: true
   - type: textarea
     id: process
     attributes:
       label: 再現手順
-      description: 不具合を再現させる手順を記載してください。
+      description: 不具合を再現させる手順を記載してください
       value: |
         1. 
         2. 
@@ -34,7 +42,7 @@ body:
     attributes:
       label: バージョン情報
       description: |
-        事象を確認したプリザンターのバージョンを記載してください。
+        事象を確認したプリザンターのバージョンを記載してください
         例: 
         1.4.10.3
         1.4.12.0(developブランチ)
