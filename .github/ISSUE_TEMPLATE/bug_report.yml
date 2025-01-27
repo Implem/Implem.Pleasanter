@@ -1,6 +1,7 @@
 # bug_report.yml
 name: バグ報告
 description: 不具合報告はこちら
+labels: ["bug"]
 title: 'Bug: '
 body:
   - type: textarea
