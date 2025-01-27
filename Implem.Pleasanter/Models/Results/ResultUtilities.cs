@@ -6871,11 +6871,32 @@ namespace Implem.Pleasanter.Models
                     resultHash: resultHash).FirstOrDefault();
                 foreach (var rows in csv.Rows)
                 {
+                    var errorCompletionTime = "";
+                    Dictionary<string, Dictionary<string, string>> settingsPerHeaders = new Dictionary<string, Dictionary<string, string>>();
                     foreach (var item in csv.Headers.Select((header, index) => new { Header = header, Index = index }))
                     {
-                        List<List<string>> list = new List<List<string>>();
-                        list.Add(new List<string> { item.Header, rows[item.Index] });
+                        ss.ColumnHash.ForEach(column => {
+                            if (column.Value.LabelText == item.Header)
+                            {
+                                settingsPerHeaders.Add(item.Header, new Dictionary<string, string> { { "ColumnName", column.Value.ColumnName }, { "Value", rows[item.Index] }, { "ValidateRequired", column.Value.ValidateRequired.ToString() }, { "ImportKey", column.Value.ImportKey.ToString() } });
+                            }
+                        });
                     }
+                    settingsPerHeaders.ForEach(settingsByHeader =>
+                    {
+                        if (settingsByHeader.Value["ValidateRequired"].ToBool())
+                        {
+                            ss.ColumnHash.ForEach(column => {
+                                if (settingsByHeader.Value["Value"].IsNullOrEmpty()) {
+                                    var errorCompletionTime = Imports.Validate(
+                                        context: context,
+                                        hash: new Dictionary<int, string> { { 0, settingsByHeader.Key.ToString() } },
+                                        column: ss.GetColumn(context: context, settingsByHeader.Value["ColumnName"]));
+                                }
+                            });
+                        }
+                    });
+                    if (errorCompletionTime != null) return errorCompletionTime;
                 }
                 switch (inputErrorData.Type)
                 {
