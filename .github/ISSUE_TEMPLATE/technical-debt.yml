@@ -1,0 +1,25 @@
+# technical-debt.yml
+name: 技術的な課題
+description: 解決すべき技術的負債など、技術的な課題はこちら
+labels: ["technical-debt"]
+title: 'technical: '
+body:
+  - type: textarea
+    attributes:
+      label: 概要
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 原因や背景
+      description: 課題の原因や背景を記載してください。
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 改善提案
+      description: 具体的な問題の解消方法や改善案があれば記載してください。
+  - type: textarea
+    attributes:
+      label: 補足
+      description: 補足資料、参考URLなどがあれば記載・添付してください
