@@ -1,6 +1,7 @@
 # feature_request.yml
 name: 機能リクエスト
 description: 機能の改善要望や新機能のリクエストはこちら
+labels: ["enhancement"]
 title: 'request: '
 body:
   - type: textarea
