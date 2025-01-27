@@ -12,7 +12,7 @@ body:
   - type: textarea
     attributes:
       label: 目的・背景
-    description: 機能が解決する問題やニーズなどを記載してください
+    　description: 機能が解決する問題やニーズなどを記載してください
     validations:
       required: true
   - type: textarea
