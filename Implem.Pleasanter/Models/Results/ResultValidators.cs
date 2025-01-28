@@ -1246,11 +1246,11 @@ namespace Implem.Pleasanter.Models
                         if (validationType == Process.ValidationTypes.Merge || validationType == null)
                         {
                             Validators.ValidateRegex(
-                            columnName: column.ColumnName,
-                            serverRegexValidation: column.ServerRegexValidation,
-                            regexValidationMessage: column.RegexValidationMessage,
-                            errors: errors,
-                            value: value);
+                                columnName: column.ColumnName,
+                                serverRegexValidation: column.ServerRegexValidation,
+                                regexValidationMessage: column.RegexValidationMessage,
+                                errors: errors,
+                                value: value);
                         }
                         ss.Processes
                             ?.Where(o => o.ValidationType != Process.ValidationTypes.None)
