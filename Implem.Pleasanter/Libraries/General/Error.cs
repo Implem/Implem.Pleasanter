@@ -56,7 +56,6 @@ namespace Implem.Pleasanter.Libraries.General
             InputMailAddress,
             InternalServerError,
             InvalidCsvData,
-            InvalidValidateRequiredCsvData,
             InvalidDateHhMmFormat,
             InvalidFormula,
             InvalidIpAddress,
@@ -67,6 +66,7 @@ namespace Implem.Pleasanter.Libraries.General
             InvalidRequest,
             InvalidSsoCode,
             invalidUpsertKey,
+            InvalidValidateRequiredCsvData,
             ItemsLimit,
             JoeAccountCheck,
             LockedRecord,
@@ -321,10 +321,6 @@ namespace Implem.Pleasanter.Libraries.General
                     return Messages.InvalidCsvData(
                         context: context,
                         data: data);
-                case Types.InvalidValidateRequiredCsvData:
-                    return Messages.InvalidValidateRequiredCsvData(
-                        context: context,
-                        data: data);
                 case Types.InvalidDateHhMmFormat:
                     return Messages.InvalidDateHhMmFormat(
                         context: context,
@@ -363,6 +359,10 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.invalidUpsertKey:
                     return Messages.invalidUpsertKey(
+                        context: context,
+                        data: data);
+                case Types.InvalidValidateRequiredCsvData:
+                    return Messages.InvalidValidateRequiredCsvData(
                         context: context,
                         data: data);
                 case Types.ItemsLimit:

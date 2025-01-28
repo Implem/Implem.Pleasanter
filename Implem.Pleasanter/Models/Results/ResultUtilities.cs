@@ -17,9 +17,7 @@ using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Libraries.Web;
-using Newtonsoft.Json.Linq;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -6865,10 +6863,6 @@ namespace Implem.Pleasanter.Models
                         row: data.Value);
                     resultHash.Add(data.Key, resultModel);
                 }
-                var inputErrorData = ResultValidators.OnInputValidating(
-                    context: context,
-                    ss: ss,
-                    resultHash: resultHash).FirstOrDefault();
                 // 入力必須の項目のうち、ブランクデータがある場合にエラー表示
                 foreach (var rows in csv.Rows)
                 {
@@ -6876,6 +6870,10 @@ namespace Implem.Pleasanter.Models
                     var errorData = Imports.ValidateRequiredCheckForCsvHeader(settingsPerHeaders: settingsPerHeaders, context: context);
                     if (errorData != null) return errorData;
                 }
+                var inputErrorData = ResultValidators.OnInputValidating(
+                    context: context,
+                    ss: ss,
+                    resultHash: resultHash).FirstOrDefault();
                 switch (inputErrorData.Type)
                 {
                     case Error.Types.None: break;
