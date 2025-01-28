@@ -1,4 +1,5 @@
 ﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.General;
@@ -1348,13 +1349,20 @@ namespace Implem.Pleasanter.Models
                             maxLength: column.MaxLength,
                             errors: errors,
                             value: value);
-                        Validators.ValidateRegex(
-                            columnName: column.ColumnName,
-                            serverRegexValidation: column.ServerRegexValidation,
-                            regexValidationMessage: column.RegexValidationMessage,
-                            errors: errors,
-                            value: value);
+                        var validationType = ss.Processes
+                            ?.FirstOrDefault(o => $"Process_{o.Id}" == context.Forms.ControlId())
+                            ?.ValidationType;
+                        if (validationType == Process.ValidationTypes.Merge || validationType == null)
+                        {
+                            Validators.ValidateRegex(
+                                    columnName: column.ColumnName,
+                                    serverRegexValidation: column.ServerRegexValidation,
+                                    regexValidationMessage: column.RegexValidationMessage,
+                                    errors: errors,
+                                    value: value);
+                        }
                         ss.Processes
+                            ?.Where(o => o.ValidationType != Process.ValidationTypes.None)
                             ?.FirstOrDefault(o => $"Process_{o.Id}" == context.Forms.ControlId())
                             ?.ValidateInputs
                             ?.Where(validateInputs => validateInputs.ColumnName == column.ColumnName)
