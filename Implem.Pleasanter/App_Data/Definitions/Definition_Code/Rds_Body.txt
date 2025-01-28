@@ -412,7 +412,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             {
 
 <!--Rds_IdColumnCases-->
-
+                case "Extensions": return "ExtensionId";
                 default: return null;
             }
         }
