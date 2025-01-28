@@ -396,7 +396,8 @@ namespace Implem.Pleasanter.Models
                         view: view,
                         dataRows: gridData.DataRows,
                         columns: columns,
-                        checkRow: checkRow));
+                        checkRow: checkRow,
+                        clearCheck: clearCheck));
         }
 
         private static SqlWhereCollection SelectedWhere(
@@ -476,7 +477,7 @@ namespace Implem.Pleasanter.Models
             int? tabIndex = null,
             ServerScriptModelColumn serverScriptModelColumn = null)
         {
-            if (serverScriptModelColumn?.Hide ?? column.Hide == true)
+            if (serverScriptModelColumn?.HideChanged == true && serverScriptModelColumn?.Hide == true)
             {
                 return hb.Td();
             }
@@ -3993,7 +3994,9 @@ namespace Implem.Pleasanter.Models
                 ? SiteInfo.SiteGroups(context, siteModel.InheritPermission)?
                 .Where(o => !SiteInfo.User(context, o).Disabled).ToArray()
                 : null;
-            var pageSize = Parameters.Api.PageSize;
+            var pageSize = api?.PageSize > 0 && api?.PageSize <= Parameters.Api.PageSize
+                ? api.PageSize
+                : Parameters.Api.PageSize;
             var tableType = (api?.TableType) ?? Sqls.TableTypes.Normal;
             if (groupId > 0)
             {

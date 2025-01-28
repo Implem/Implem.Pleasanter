@@ -695,6 +695,8 @@ namespace Implem.DefinitionAccessor
                     case "Model_SwitchTargetsParameter": Code.Model_SwitchTargetsParameter = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SwitchTargetsParameter, definitionRow, CodeXls); break;
                     case "Model_SynchronizeSummary": Code.Model_SynchronizeSummary = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SynchronizeSummary, definitionRow, CodeXls); break;
                     case "Model_SynchronizeSummaryExecute": Code.Model_SynchronizeSummaryExecute = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SynchronizeSummaryExecute, definitionRow, CodeXls); break;
+                    case "Model_SysLogLogger": Code.Model_SysLogLogger = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SysLogLogger, definitionRow, CodeXls); break;
+                    case "Model_SysLogUsing": Code.Model_SysLogUsing = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SysLogUsing, definitionRow, CodeXls); break;
                     case "Model_TenantIdParameter": Code.Model_TenantIdParameter = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_TenantIdParameter, definitionRow, CodeXls); break;
                     case "Model_TimeSeriesCases": Code.Model_TimeSeriesCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_TimeSeriesCases, definitionRow, CodeXls); break;
                     case "Model_TimeSeriesJsonCases": Code.Model_TimeSeriesJsonCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_TimeSeriesJsonCases, definitionRow, CodeXls); break;
@@ -822,6 +824,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_Export": Code.Model_Utilities_Export = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Export, definitionRow, CodeXls); break;
                     case "Model_Utilities_ExportCrosstab": Code.Model_Utilities_ExportCrosstab = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ExportCrosstab, definitionRow, CodeXls); break;
                     case "Model_Utilities_FieldCases": Code.Model_Utilities_FieldCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_FieldCases, definitionRow, CodeXls); break;
+                    case "Model_Utilities_FieldCases_RawValue": Code.Model_Utilities_FieldCases_RawValue = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_FieldCases_RawValue, definitionRow, CodeXls); break;
                     case "Model_Utilities_FieldResponse": Code.Model_Utilities_FieldResponse = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_FieldResponse, definitionRow, CodeXls); break;
                     case "Model_Utilities_FieldResponse_ColumnCases": Code.Model_Utilities_FieldResponse_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_FieldResponse_ColumnCases, definitionRow, CodeXls); break;
                     case "Model_Utilities_FieldResponse_ToResponsel": Code.Model_Utilities_FieldResponse_ToResponsel = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_FieldResponse_ToResponsel, definitionRow, CodeXls); break;
@@ -1958,6 +1961,7 @@ namespace Implem.DefinitionAccessor
                     case "Users_LockoutCounter": Column.Users_LockoutCounter = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_LockoutCounter, definitionRow, ColumnXls); break;
                     case "Users_LoginId": Column.Users_LoginId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_LoginId, definitionRow, ColumnXls); break;
                     case "Users_MailAddresses": Column.Users_MailAddresses = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_MailAddresses, definitionRow, ColumnXls); break;
+                    case "Users_Manager": Column.Users_Manager = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_Manager, definitionRow, ColumnXls); break;
                     case "Users_Name": Column.Users_Name = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_Name, definitionRow, ColumnXls); break;
                     case "Users_NumberOfDenial": Column.Users_NumberOfDenial = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_NumberOfDenial, definitionRow, ColumnXls); break;
                     case "Users_NumberOfLogins": Column.Users_NumberOfLogins = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_NumberOfLogins, definitionRow, ColumnXls); break;
@@ -7227,6 +7231,8 @@ namespace Implem.DefinitionAccessor
         public string Model_SwitchTargetsParameter;
         public string Model_SynchronizeSummary;
         public string Model_SynchronizeSummaryExecute;
+        public string Model_SysLogLogger;
+        public string Model_SysLogUsing;
         public string Model_TenantIdParameter;
         public string Model_TimeSeriesCases;
         public string Model_TimeSeriesJsonCases;
@@ -7354,6 +7360,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_Export;
         public string Model_Utilities_ExportCrosstab;
         public string Model_Utilities_FieldCases;
+        public string Model_Utilities_FieldCases_RawValue;
         public string Model_Utilities_FieldResponse;
         public string Model_Utilities_FieldResponse_ColumnCases;
         public string Model_Utilities_FieldResponse_ToResponsel;
@@ -8077,6 +8084,8 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_SwitchTargetsParameter = new CodeDefinition();
         public CodeDefinition Model_SynchronizeSummary = new CodeDefinition();
         public CodeDefinition Model_SynchronizeSummaryExecute = new CodeDefinition();
+        public CodeDefinition Model_SysLogLogger = new CodeDefinition();
+        public CodeDefinition Model_SysLogUsing = new CodeDefinition();
         public CodeDefinition Model_TenantIdParameter = new CodeDefinition();
         public CodeDefinition Model_TimeSeriesCases = new CodeDefinition();
         public CodeDefinition Model_TimeSeriesJsonCases = new CodeDefinition();
@@ -8204,6 +8213,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_Export = new CodeDefinition();
         public CodeDefinition Model_Utilities_ExportCrosstab = new CodeDefinition();
         public CodeDefinition Model_Utilities_FieldCases = new CodeDefinition();
+        public CodeDefinition Model_Utilities_FieldCases_RawValue = new CodeDefinition();
         public CodeDefinition Model_Utilities_FieldResponse = new CodeDefinition();
         public CodeDefinition Model_Utilities_FieldResponse_ColumnCases = new CodeDefinition();
         public CodeDefinition Model_Utilities_FieldResponse_ToResponsel = new CodeDefinition();
@@ -9375,6 +9385,7 @@ namespace Implem.DefinitionAccessor
         public string Users_LockoutCounter;
         public string Users_LoginId;
         public string Users_MailAddresses;
+        public string Users_Manager;
         public string Users_Name;
         public string Users_NumberOfDenial;
         public string Users_NumberOfLogins;
@@ -9943,6 +9954,7 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Users_LockoutCounter = new ColumnDefinition();
         public ColumnDefinition Users_LoginId = new ColumnDefinition();
         public ColumnDefinition Users_MailAddresses = new ColumnDefinition();
+        public ColumnDefinition Users_Manager = new ColumnDefinition();
         public ColumnDefinition Users_Name = new ColumnDefinition();
         public ColumnDefinition Users_NumberOfDenial = new ColumnDefinition();
         public ColumnDefinition Users_NumberOfLogins = new ColumnDefinition();
@@ -13667,6 +13679,8 @@ namespace Implem.DefinitionAccessor
         public string LdapUpdateGroupMembersAndChildren;
         public string AdGroupDeleteToDisable;
         public string ModifyColumn;
+        public string MigrateDatabaseInsert;
+        public string MigrateDatabaseSelectSetval;
     }
 
     /// <summary>
@@ -13717,5 +13731,7 @@ namespace Implem.DefinitionAccessor
         public SqlDefinition ChangeDatabaseOwnerForPostgres = new SqlDefinition();
         public SqlDefinition GrantDatabaseForPostgres = new SqlDefinition();
         public SqlDefinition ModifyColumn = new SqlDefinition();
+        public SqlDefinition MigrateDatabaseInsert = new SqlDefinition();
+        public SqlDefinition MigrateDatabaseSelectSetval = new SqlDefinition();
     }
 }

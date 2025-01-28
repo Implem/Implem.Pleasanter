@@ -1,18 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
-
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <Copyright>Copyright © Implem Inc 2014 - 2024</Copyright>
+    <Year>$([System.DateTime]::Now.Year.ToString())</Year>
+    <Copyright>Copyright © Implem Inc 2014 - $(Year)</Copyright>
     <Description>Business application platform</Description>
     <AssemblyName>Implem.Pleasanter</AssemblyName>
-    <AssemblyVersion>1.4.10.0</AssemblyVersion>
-    <FileVersion>1.4.10.0</FileVersion>
-    <Version>1.4.10.0</Version>
+    <AssemblyVersion>1.4.12.0</AssemblyVersion>
+    <FileVersion>1.4.12.0</FileVersion>
+    <Version>1.4.12.0</Version>
     <Nullable>disable</Nullable>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
-
+    
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <WarningsAsErrors />
     <NoWarn>NU1605;1701;1702</NoWarn>
@@ -67,16 +67,22 @@
     </PackageReference>
     <PackageReference Include="MimeKit" Version="4.8.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="NLog.Web.AspNetCore" Version="5.3.4" />
     <PackageReference Include="Novell.Directory.Ldap.NETStandard" Version="3.6.0" />
     <PackageReference Include="Quartz.AspNetCore" Version="3.13.0" />
     <PackageReference Include="Otp.NET" Version="1.4.0" />
     <PackageReference Include="Sendgrid" Version="9.29.3" />
     <PackageReference Include="SendGrid.SmtpApi" Version="1.4.6" />
     <PackageReference Include="SixLabors.ImageSharp" Version="3.1.5" />
+    <PackageReference Include="StackExchange.Redis" Version="2.7.33" />
     <PackageReference Include="Sustainsys.Saml2" Version="2.10.0" />
     <PackageReference Include="Sustainsys.Saml2.AspNetCore2" Version="2.10.0" />
     <PackageReference Include="System.Diagnostics.PerformanceCounter" Version="8.0.0" />
     <PackageReference Include="System.DirectoryServices" Version="8.0.0" />
+    <PackageReference Include="System.Drawing.Common" Version="4.7.3" />
+    <PackageReference Include="System.Net.Http" Version="4.3.4" />
+    <PackageReference Include="System.Text.Json" Version="8.0.5" />
+    <PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -109,6 +115,8 @@
     <Content Remove="App_Data\Definitions\Definition_Code\Model_SetCopyDefault.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_SetCopyDefaultParameter.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_SetTimeZoneAndLanguage.json" />
+    <Content Remove="App_Data\Definitions\Definition_Code\Model_SysLogLogger.json" />
+    <Content Remove="App_Data\Definitions\Definition_Code\Model_SysLogUsing.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_ApiCreatedMessage.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_ApiCreatedMessage_Table.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_ApiUpdatedMessage.json" />
@@ -153,6 +161,12 @@
 
   <ItemGroup>
     <Folder Include="App_Data\UserPlugins\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="App_Data\Definitions\Definition_Code\Model_SysLogLogger.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

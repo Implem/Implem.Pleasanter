@@ -1,0 +1,33 @@
+﻿{
+    "Id": "NotInheritPermissionsWhenCreatingSite",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Do not inherit permissions when creating a site"
+        },
+        {
+            "Language": "zh",
+            "Body": "创建网站时不继承权限"
+        },
+        {
+            "Language": "ja",
+            "Body": "サイト作成時に継承しない"
+        },
+        {
+            "Language": "de",
+            "Body": "Beim Erstellen einer Site keine Berechtigungen erben"
+        },
+        {
+            "Language": "ko",
+            "Body": "사이트를 만들 때 권한을 상속하지 마세요"
+        },
+        {
+            "Language": "es",
+            "Body": "No heredar permisos al crear un sitio"
+        },
+        {
+            "Language": "vn",
+            "Body": "Không kế thừa quyền khi tạo trang web"
+        }
+    ]
+}

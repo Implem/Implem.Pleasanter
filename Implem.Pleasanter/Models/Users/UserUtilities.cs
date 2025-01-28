@@ -388,7 +388,8 @@ namespace Implem.Pleasanter.Models
                         view: view,
                         dataRows: gridData.DataRows,
                         columns: columns,
-                        checkRow: checkRow));
+                        checkRow: checkRow,
+                        clearCheck: clearCheck));
         }
 
         private static SqlWhereCollection SelectedWhere(
@@ -468,7 +469,7 @@ namespace Implem.Pleasanter.Models
             int? tabIndex = null,
             ServerScriptModelColumn serverScriptModelColumn = null)
         {
-            if (serverScriptModelColumn?.Hide ?? column.Hide == true)
+            if (serverScriptModelColumn?.HideChanged == true && serverScriptModelColumn?.Hide == true)
             {
                 return hb.Td();
             }
@@ -685,6 +686,24 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     column: column,
                                     value: userModel.Dept,
+                                    tabIndex: tabIndex,
+                                    serverScriptModelColumn: serverScriptModelColumn)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty,
+                                    tabIndex: tabIndex,
+                                    serverScriptModelColumn: serverScriptModelColumn);
+                    case "Manager":
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: userModel.Manager,
                                     tabIndex: tabIndex,
                                     serverScriptModelColumn: serverScriptModelColumn)
                                 : hb.Td(
@@ -1325,6 +1344,9 @@ namespace Implem.Pleasanter.Models
                     case "Dept": value = userModel.Dept.GridText(
                         context: context,
                         column: column); break;
+                    case "Manager": value = userModel.Manager.GridText(
+                        context: context,
+                        column: column); break;
                     case "Theme": value = userModel.Theme.GridText(
                         context: context,
                         column: column); break;
@@ -1813,6 +1835,12 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: column);
+                case "Manager":
+                    return userModel.Manager
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
                 case "Theme":
                     return userModel.Theme
                         .ToControl(
@@ -2295,6 +2323,12 @@ namespace Implem.Pleasanter.Models
                                 res.Val(
                                     target: "#Users_DeptId" + idSuffix,
                                     value: userModel.DeptId.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "Manager":
+                                res.Val(
+                                    target: "#Users_Manager" + idSuffix,
+                                    value: userModel.Manager.ToResponse(context: context, ss: ss, column: column),
                                     options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                 break;
                             case "Theme":
@@ -3087,7 +3121,9 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string Import(Context context)
         {
-            var ss = SiteSettingsUtilities.UsersSiteSettings(context: context);
+            var ss = SiteSettingsUtilities.UsersSiteSettings(
+                context: context,
+                setAllChoices: true);
             if (context.ContractSettings.Import == false)
             {
                 return Messages.ResponseRestricted(context: context).ToJson();
@@ -3652,6 +3688,11 @@ namespace Implem.Pleasanter.Models
                             userModel.DeptId = SiteInfo.Dept(
                                 tenantId: context.TenantId,
                                 deptCode: recordingData).Id;
+                            break;
+                        case "Manager":
+                            userModel.Manager = SiteInfo.User(
+                                context: context,
+                                userId: recordingData.ToInt());
                             break;
                         case "Theme":
                             userModel.Theme = recordingData.ToString();
@@ -4729,7 +4770,9 @@ namespace Implem.Pleasanter.Models
                 ? SiteInfo.SiteUsers(context, siteModel.InheritPermission)?
                 .Where(o => !SiteInfo.User(context, o).Disabled).ToArray()
                 : null;
-            var pageSize = Parameters.Api.PageSize;
+            var pageSize = api?.PageSize > 0 && api?.PageSize <= Parameters.Api.PageSize
+                ? api.PageSize
+                : Parameters.Api.PageSize;
             var tableType = (api?.TableType) ?? Sqls.TableTypes.Normal;
             if (userId > 0)
             {

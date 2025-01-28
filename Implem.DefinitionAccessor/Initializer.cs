@@ -43,6 +43,7 @@ namespace Implem.DefinitionAccessor
             SetParameters();
             Environments.ServiceName = Parameters.Service.Name;
             SetRdsParameters();
+            SetMigrationParameters();
             Environments.MachineName = $"{Environment.MachineName}:{Environment.OSVersion}";
             Environments.Application =
                 Assembly.GetExecutingAssembly().ManifestModule.Name.FileNameOnly();
@@ -125,6 +126,7 @@ namespace Implem.DefinitionAccessor
             Parameters.Notification = Read<Notification>();
             Parameters.Permissions = Read<Permissions>();
             Parameters.Rds = Read<Rds>();
+            Parameters.Kvs = Read<Kvs>();
             Parameters.Registration = Read<Registration>();
             Parameters.Reminder = Read<Reminder>();
             Parameters.Script = Read<Script>();
@@ -756,6 +758,17 @@ namespace Implem.DefinitionAccessor
             }
             Environments.DeadlockRetryCount = Parameters.Rds.DeadlockRetryCount;
             Environments.DeadlockRetryInterval = Parameters.Rds.DeadlockRetryInterval;
+        }
+
+        public static void SetMigrationParameters()
+        {
+            if (Parameters.Migration.SourceConnectionString != null &&
+                Parameters.Migration.ServiceName != null)
+            {
+                Parameters.Migration.SourceConnectionString =
+                    Parameters.Migration.SourceConnectionString.Replace(
+                        "#OldServiceName#", Parameters.Migration.ServiceName);
+            }
         }
 
         private static void SetColumnDefinitionAdditional(XlsIo definitionFile)

@@ -15,6 +15,7 @@ using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.ServerScripts;
 using Implem.Pleasanter.Libraries.Settings;
+<!--Model_SysLogUsing-->
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -27,6 +28,7 @@ namespace Implem.Pleasanter.Models
     public class #ModelName#Model : <!--Model_InheritBase--><!--Model_InheritBaseItem--><!--Model_IConvertable-->
     {
 
+<!--Model_SysLogLogger-->
 <!--Model_ItemProperties_Sites-->
 <!--Model_GroupProperties_GroupMembers-->
 <!--Model_GroupProperties_GroupChildren-->

@@ -3313,7 +3313,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     itemModel: null,
                     view: this,
                     where: script => script.WhenViewProcessing == true,
-                    condition: "WhenViewProcessing");
+                    condition: ServerScriptModel.ServerScriptConditions.WhenViewProcessing);
                 WhenViewProcessingServerScriptExecuted = true;
             }
         }
