@@ -1,0 +1,33 @@
+{
+    "Id": "CodeDefinerMigrationErrors",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "The migration process was completed, but some data encountered errors. See {0}."
+        },
+        {
+            "Language": "zh",
+            "Body": "迁移过程已完成，但部分数据出现错误。请参阅 {0}。"
+        },
+        {
+            "Language": "ja",
+            "Body": "移行が完了しましたが、一部のデータにエラーが発生しました。{0} を参照してください。"
+        },
+        {
+            "Language": "de",
+            "Body": "Der Migrationsprozess wurde abgeschlossen, bei einigen Daten sind jedoch Fehler aufgetreten. Siehe {0}."
+        },
+        {
+            "Language": "ko",
+            "Body": "마이그레이션 프로세스가 완료되었지만 일부 데이터에 오류가 발생했습니다. {0} 참조."
+        },
+        {
+            "Language": "es",
+            "Body": "Se completó el proceso de migración, pero algunos datos presentaron errores. Ver {0}."
+        },
+        {
+            "Language": "vn",
+            "Body": "Quá trình di chuyển đã hoàn tất, nhưng một số dữ liệu gặp lỗi. Xem {0}."
+        }
+    ]
+}
