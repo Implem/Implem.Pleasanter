@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Linq;
+using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
 namespace Implem.Pleasanter.Models
 {
     [Serializable]
@@ -138,6 +139,32 @@ namespace Implem.Pleasanter.Models
                     || column.GetDefaultInput(context: context).ToBool() != Disabled);
         }
 
+        public string PropertyValue(Context context, Column column)
+        {
+            switch (column?.ColumnName)
+            {
+                case "ExtensionId": return ExtensionId.ToString();
+                case "TenantId": return TenantId.ToString();
+                case "Ver": return Ver.ToString();
+                case "ExtensionType": return ExtensionType;
+                case "ExtensionName": return ExtensionName;
+                case "ExtensionSettings": return ExtensionSettings;
+                case "Body": return Body;
+                case "Description": return Description;
+                case "Disabled": return Disabled.ToString();
+                case "Comments": return Comments.ToJson();
+                case "Creator": return Creator.Id.ToString();
+                case "Updator": return Updator.Id.ToString();
+                case "CreatedTime": return CreatedTime.Value.ToString();
+                case "UpdatedTime": return UpdatedTime.Value.ToString();
+                case "VerUp": return VerUp.ToString();
+                case "Timestamp": return Timestamp;
+                default: return GetValue(
+                    context: context,
+                    column: column);
+            }
+        }
+
         public ExtensionModel()
         {
         }
@@ -180,11 +207,11 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     column: column);
             }
+            if (clearSessions) ClearSessions(context: context);
             if (extensionApiModel != null)
             {
                 SetByApi(context: context, data: extensionApiModel);
             }
-            if (clearSessions) ClearSessions(context: context);
             MethodType = methodType;
             OnConstructed(context: context);
         }
@@ -248,26 +275,34 @@ namespace Implem.Pleasanter.Models
             return this;
         }
 
-        public ExtensionApiModel GetByApi(Context context)
+        public ExtensionApiModel GetByApi(Context context, SiteSettings ss)
         {
-            return new ExtensionApiModel()
+            var data = new ExtensionApiModel()
             {
-                ApiVersion = context.ApiVersion,
-                ExtensionId = ExtensionId,
-                TenantId = TenantId,
-                Ver = Ver,
-                ExtensionType = ExtensionType,
-                ExtensionName = ExtensionName,
-                ExtensionSettings = ExtensionSettings,
-                Body = Body,
-                Description = Description,
-                Disabled = Disabled,
-                Comments = Comments.ToLocal(context: context).ToJson(),
-                Creator = Creator.Id,
-                Updator = Updator.Id,
-                CreatedTime = CreatedTime.Value.ToLocal(context: context),
-                UpdatedTime = UpdatedTime.Value.ToLocal(context: context)
+                ApiVersion = context.ApiVersion
             };
+            ss.ReadableColumns(context: context, noJoined: true).ForEach(column =>
+            {
+                switch (column.ColumnName)
+                {
+                    case "ExtensionId": data.ExtensionId = ExtensionId; break;
+                    case "TenantId": data.TenantId = TenantId; break;
+                    case "Ver": data.Ver = Ver; break;
+                    case "ExtensionType": data.ExtensionType = ExtensionType; break;
+                    case "ExtensionName": data.ExtensionName = ExtensionName; break;
+                    case "ExtensionSettings": data.ExtensionSettings = ExtensionSettings; break;
+                    case "Body": data.Body = Body; break;
+                    case "Description": data.Description = Description; break;
+                    case "Disabled": data.Disabled = Disabled; break;
+                    case "Creator": data.Creator = Creator.Id; break;
+                    case "Updator": data.Updator = Updator.Id; break;
+                    case "CreatedTime": data.CreatedTime = CreatedTime.Value.ToLocal(context: context); break;
+                    case "UpdatedTime": data.UpdatedTime = UpdatedTime.Value.ToLocal(context: context); break;
+                    case "Comments": data.Comments = Comments.ToLocal(context: context).ToJson(); break;
+                    default: break;
+                }
+            });
+            return data;
         }
 
         public ErrorData Create(
@@ -530,6 +565,18 @@ namespace Implem.Pleasanter.Models
             AttachmentsHash = extensionModel.AttachmentsHash;
         }
 
+        public void SetByApi(Context context, ExtensionApiModel data)
+        {
+            if (data.TenantId != null) TenantId = data.TenantId.ToInt().ToInt();
+            if (data.ExtensionType != null) ExtensionType = data.ExtensionType.ToString().ToString();
+            if (data.ExtensionName != null) ExtensionName = data.ExtensionName.ToString().ToString();
+            if (data.ExtensionSettings != null) ExtensionSettings = data.ExtensionSettings.ToString().ToString();
+            if (data.Body != null) Body = data.Body.ToString().ToString();
+            if (data.Description != null) Description = data.Description.ToString().ToString();
+            if (data.Disabled != null) Disabled = data.Disabled.ToBool().ToBool();
+            if (data.Comments != null) Comments.Prepend(context: context, ss: null, body: data.Comments);
+        }
+
         private void SetBySession(Context context)
         {
         }
@@ -732,45 +779,6 @@ namespace Implem.Pleasanter.Models
                 || Comments_Updated(context: context)
                 || Creator_Updated(context: context)
                 || Updator_Updated(context: context);
-        }
-
-
-        public void SetByApi(Context context, ExtensionApiModel data)
-        {
-            //TenantId = data.TenantId ?? TenantId;
-            ExtensionType = data.ExtensionType ?? ExtensionType;
-            ExtensionName = data.ExtensionName ?? ExtensionName;
-            ExtensionSettings = data.ExtensionSettings == null ? ExtensionSettings : Jsons.ToJson(data.ExtensionSettings);
-            Body = data.Body ?? Body;
-            Description = data.Description ?? Description;
-            Disabled = data.Disabled ;
-            Comments = data.Comments == null ? Comments : Comments.Prepend(context: context, ss: null, body: data.Comments); //TODO: Commentsの処理方法は、他と同じ？
-            //VerUp = data.VerUp?.ToBool() ?? VerUp;
-        }
-
-
-        public string PropertyValue(Context context, Column column)
-        {
-            return column?.ColumnName switch
-            {
-                "ExtensionId" => ExtensionId.ToString(),
-                "TenantId" => TenantId.ToString(),
-                "Ver" => Ver.ToString(),
-                "ExtensionType" => ExtensionType,
-                "ExtensionName" => ExtensionName,
-                "ExtensionSettings" => ExtensionSettings.ToJson(),
-                "Body" => Body,
-                "Description" => Description,
-                "Disabled" => Disabled.ToString(),
-                "Comments" => Comments.ToJson(),
-                "Creator" => Creator.Id.ToString(),
-                "Updator" => Updator.Id.ToString(),
-                "CreatedTime" => CreatedTime.Value.ToString(),
-                "UpdatedTime" => UpdatedTime.Value.ToString(),
-                "VerUp" => VerUp.ToString(),
-                "Timestamp" => Timestamp,
-                _ => null,
-            };
         }
     }
 }

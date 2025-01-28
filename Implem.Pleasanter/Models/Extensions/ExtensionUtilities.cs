@@ -327,7 +327,7 @@ namespace Implem.Pleasanter.Models
                 StatusCode = 200,
                 Response = new
                 {
-                    Data = extensions.Select(o=>o.GetByApi(context: context))
+                    Data = extensions.Select(o=>o.GetByApi(context: context, ss: ss))
                 }
             }.ToJson());
         }
