@@ -6869,34 +6869,12 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     resultHash: resultHash).FirstOrDefault();
+                // 入力必須の項目のうち、ブランクデータがある場合にエラー表示
                 foreach (var rows in csv.Rows)
                 {
-                    var errorCompletionTime = "";
-                    Dictionary<string, Dictionary<string, string>> settingsPerHeaders = new Dictionary<string, Dictionary<string, string>>();
-                    foreach (var item in csv.Headers.Select((header, index) => new { Header = header, Index = index }))
-                    {
-                        ss.ColumnHash.ForEach(column => {
-                            if (column.Value.LabelText == item.Header)
-                            {
-                                settingsPerHeaders.Add(item.Header, new Dictionary<string, string> { { "ColumnName", column.Value.ColumnName }, { "Value", rows[item.Index] }, { "ValidateRequired", column.Value.ValidateRequired.ToString() }, { "ImportKey", column.Value.ImportKey.ToString() } });
-                            }
-                        });
-                    }
-                    settingsPerHeaders.ForEach(settingsByHeader =>
-                    {
-                        if (settingsByHeader.Value["ValidateRequired"].ToBool())
-                        {
-                            ss.ColumnHash.ForEach(column => {
-                                if (settingsByHeader.Value["Value"].IsNullOrEmpty()) {
-                                    var errorCompletionTime = Imports.Validate(
-                                        context: context,
-                                        hash: new Dictionary<int, string> { { 0, settingsByHeader.Key.ToString() } },
-                                        column: ss.GetColumn(context: context, settingsByHeader.Value["ColumnName"]));
-                                }
-                            });
-                        }
-                    });
-                    if (errorCompletionTime != null) return errorCompletionTime;
+                    Dictionary<string, Dictionary<string, string>> settingsPerHeaders = Imports.GetCsvHeaderSettings(csv: csv, ss: ss, rows: rows);
+                    var errorData = Imports.ValidateRequiredCheckForCsvHeader(settingsPerHeaders: settingsPerHeaders, context: context);
+                    if (errorData != null) return errorData;
                 }
                 switch (inputErrorData.Type)
                 {

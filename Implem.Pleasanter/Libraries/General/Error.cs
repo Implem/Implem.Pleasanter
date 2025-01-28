@@ -56,6 +56,7 @@ namespace Implem.Pleasanter.Libraries.General
             InputMailAddress,
             InternalServerError,
             InvalidCsvData,
+            InvalidValidateRequiredCsvData,
             InvalidDateHhMmFormat,
             InvalidFormula,
             InvalidIpAddress,
@@ -318,6 +319,10 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.InvalidCsvData:
                     return Messages.InvalidCsvData(
+                        context: context,
+                        data: data);
+                case Types.InvalidValidateRequiredCsvData:
+                    return Messages.InvalidValidateRequiredCsvData(
                         context: context,
                         data: data);
                 case Types.InvalidDateHhMmFormat:

@@ -2,6 +2,7 @@
 using Implem.ParameterAccessor.Parts;
 using Implem.Pleasanter.Libraries.Requests;
 using System.Linq;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace Implem.Pleasanter.Libraries.Responses
 {
     public static class Messages
@@ -984,6 +985,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-error");
         }
 
+        public static Message InvalidValidateRequiredCsvData(Context context, params string[] data)
+        {
+            return Get(
+                id: "InvalidValidateRequiredCsvData",
+                text: Displays.InvalidValidateRequiredCsvData(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
         public static Message InvalidDateHhMmFormat(Context context, params string[] data)
         {
             return Get(
@@ -1822,6 +1833,27 @@ namespace Implem.Pleasanter.Libraries.Responses
                     context: context,
                     data: data),
                 css: "alert-success");
+        }
+
+        public static Message ValidateRequired(Context context, params string[] data)
+        {
+            return Get(
+                 id: "ValidateRequired",
+                 text: Displays.ValidateRequired(
+                     context: context,
+                     data: data),
+                 css: "alert-success");
+        }
+
+        public static ResponseCollection ValidateRequired(
+             Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: ValidateRequired(
+                    context: context,
+                    data: data),
+                target: target);
         }
 
         public static ResponseCollection ResponseAlreadyAdded(
@@ -2864,6 +2896,17 @@ namespace Implem.Pleasanter.Libraries.Responses
             return ResponseMessage(
                 context: context,
                 message: InvalidCsvData(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseInvalidValidateRequiredCsvData(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: InvalidValidateRequiredCsvData(
                     context: context,
                     data: data),
                 target: target);

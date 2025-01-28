@@ -7226,6 +7226,13 @@ namespace Implem.Pleasanter.Models
                         row: data.Value);
                     issueHash.Add(data.Key, issueModel);
                 }
+                // 入力必須の項目のうち、ブランクデータがある場合にエラー表示
+                foreach (var rows in csv.Rows)
+                {
+                    Dictionary<string, Dictionary<string, string>> settingsPerHeaders = Imports.GetCsvHeaderSettings(csv: csv, ss: ss, rows: rows);
+                    var errorData = Imports.ValidateRequiredCheckForCsvHeader(settingsPerHeaders: settingsPerHeaders, context: context);
+                    if (errorData != null) return errorData;
+                }
                 var errorCompletionTime = Imports.Validate(
                     context: context,
                     hash: issueHash.ToDictionary(
