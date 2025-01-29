@@ -89,7 +89,7 @@ namespace Implem.Pleasanter.Libraries.Models
             return settingsPerHeaders;
         }
 
-        public static string ValidateRequiredCheckForCsvHeader (Dictionary<string, Dictionary<string, string>> settingsPerHeaders, Context context)
+        public static string CheckForBrankDataInValidateRequiredColumn(Dictionary<string, Dictionary<string, string>> settingsPerHeaders, Context context)
         {
             string message = null;
             settingsPerHeaders.ForEach(settingsByHeader =>
@@ -102,6 +102,21 @@ namespace Implem.Pleasanter.Libraries.Models
                     {
                         settingsByHeader.Key
                     }).ToJson();
+                }
+            });
+            return message;
+        }
+
+        public static string CheckForExistColumnValidateRequiredColumn(Dictionary<string, Dictionary<string, string>> settingsPerHeaders, SiteSettings ss, Context context)
+        {
+            string message = null;
+            settingsPerHeaders.ForEach(settingsByHeader =>
+            {
+                if (settingsByHeader.Value["ValidateRequired"].ToBool() && (ss.GridColumn("Title").LabelText == settingsByHeader.Key))
+                {
+                    message = Messages.NotIncludedRequiredColumn(
+                        context: context,
+                        data: ss.GridColumn("Title").LabelText).ToJson();
                 }
             });
             return message;

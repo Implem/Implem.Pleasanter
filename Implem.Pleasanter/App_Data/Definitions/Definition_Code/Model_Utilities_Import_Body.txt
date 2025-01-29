@@ -125,12 +125,15 @@
             #modelName#Hash.Add(data.Key, #modelName#Model);
         }
 
-        // 入力必須の項目のうち、ブランクデータがある場合にエラー表示
         foreach (var rows in csv.Rows)
         {
             Dictionary<string, Dictionary<string, string>> settingsPerHeaders = Imports.GetCsvHeaderSettings(csv: csv, ss: ss, rows: rows);
-            var errorData = Imports.ValidateRequiredCheckForCsvHeader(settingsPerHeaders: settingsPerHeaders, context: context);
-            if (errorData != null) return errorData;
+            // 入力必須項目有無チェック
+            var notVaridateRequiredColumn = Imports.CheckForExistColumnValidateRequiredColumn(settingsPerHeaders: settingsPerHeaders, ss: ss, context: context);
+            if (notVaridateRequiredColumn != null) return notVaridateRequiredColumn;
+            // 入力必須項目のブランクデータ有無チェック
+            var brankDataInValidateRequiredColumn = Imports.CheckForBrankDataInValidateRequiredColumn(settingsPerHeaders: settingsPerHeaders, context: context);
+            if (brankDataInValidateRequiredColumn != null) return brankDataInValidateRequiredColumn;
         }
 
 <!--Model_Utilities_ImportValidatorCases-->
