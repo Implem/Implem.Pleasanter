@@ -13664,6 +13664,8 @@ namespace Implem.DefinitionAccessor
         public string LdapUpdateGroupMembersAndChildren;
         public string AdGroupDeleteToDisable;
         public string ModifyColumn;
+        public string MigrateDatabaseInsert;
+        public string MigrateDatabaseSelectSetval;
     }
 
     /// <summary>
@@ -13714,5 +13716,7 @@ namespace Implem.DefinitionAccessor
         public SqlDefinition ChangeDatabaseOwnerForPostgres = new SqlDefinition();
         public SqlDefinition GrantDatabaseForPostgres = new SqlDefinition();
         public SqlDefinition ModifyColumn = new SqlDefinition();
+        public SqlDefinition MigrateDatabaseInsert = new SqlDefinition();
+        public SqlDefinition MigrateDatabaseSelectSetval = new SqlDefinition();
     }
 }
