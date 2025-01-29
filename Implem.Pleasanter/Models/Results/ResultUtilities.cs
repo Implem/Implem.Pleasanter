@@ -2128,7 +2128,7 @@ namespace Implem.Pleasanter.Models
                 value: tabIndex.ToString(),
                 _using: tabIndex > 0);
         }
-        //|| column.EditorReadOnly    || column.ControlType == "Spinner" && column.EditorReadOnly == false  
+
         public static string NumUnit(
             this ResultModel resultModel,
             Context context,
