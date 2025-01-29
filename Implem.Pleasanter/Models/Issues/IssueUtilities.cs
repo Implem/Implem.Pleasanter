@@ -7149,6 +7149,16 @@ namespace Implem.Pleasanter.Models
             }
             if (csv != null && count > 0)
             {
+                // 入力必須項目有無チェック
+                var notVaridateRequiredColumn = Imports.CheckForExistColumnValidateRequiredColumn(csvHeaders: csv.Headers, ss: ss, context: context);
+                if (notVaridateRequiredColumn != null) return notVaridateRequiredColumn;
+                foreach (var rows in csv.Rows)
+                {
+                    Dictionary<string, Dictionary<string, string>> settingsPerHeaders = Imports.GetCsvHeaderSettings(csv: csv, ss: ss, rows: rows);
+                    // 入力必須項目のブランクデータ有無チェック
+                    var brankDataInValidateRequiredColumn = Imports.CheckForBrankDataInValidateRequiredColumn(settingsPerHeaders: settingsPerHeaders, context: context);
+                    if (brankDataInValidateRequiredColumn != null) return brankDataInValidateRequiredColumn;
+                }
                 var columnHash = ImportUtilities.GetColumnHash(ss, csv);
                 var idColumn = columnHash
                     .Where(o => o.Value.Column.ColumnName == "IssueId")
@@ -7225,16 +7235,6 @@ namespace Implem.Pleasanter.Models
                         columnHash: columnHash,
                         row: data.Value);
                     issueHash.Add(data.Key, issueModel);
-                }
-                foreach (var rows in csv.Rows)
-                {
-                    Dictionary<string, Dictionary<string, string>> settingsPerHeaders = Imports.GetCsvHeaderSettings(csv: csv, ss: ss, rows: rows);
-                    // 入力必須項目有無チェック
-                    var notVaridateRequiredColumn = Imports.CheckForExistColumnValidateRequiredColumn(settingsPerHeaders: settingsPerHeaders, ss: ss, context: context);
-                    if (notVaridateRequiredColumn != null) return notVaridateRequiredColumn;
-                    // 入力必須項目のブランクデータ有無チェック
-                    var brankDataInValidateRequiredColumn = Imports.CheckForBrankDataInValidateRequiredColumn(settingsPerHeaders: settingsPerHeaders, context: context);
-                    if (brankDataInValidateRequiredColumn != null) return brankDataInValidateRequiredColumn;
                 }
                 var errorCompletionTime = Imports.Validate(
                     context: context,

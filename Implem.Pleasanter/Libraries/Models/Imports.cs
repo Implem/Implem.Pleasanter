@@ -107,16 +107,17 @@ namespace Implem.Pleasanter.Libraries.Models
             return message;
         }
 
-        public static string CheckForExistColumnValidateRequiredColumn(Dictionary<string, Dictionary<string, string>> settingsPerHeaders, SiteSettings ss, Context context)
+        public static string CheckForExistColumnValidateRequiredColumn(List<string> csvHeaders, SiteSettings ss, Context context)
         {
             string message = null;
-            settingsPerHeaders.ForEach(settingsByHeader =>
-            {
-                if (settingsByHeader.Value["ValidateRequired"].ToBool() && (ss.GridColumn("Title").LabelText == settingsByHeader.Key))
+            ss.GridColumns.ForEach(ssGridColumn => {
+                var gridColumnName = ssGridColumn;
+                var gridColumnLabelText = ss.GridColumn(gridColumnName).LabelText;
+                if (!csvHeaders.Contains(gridColumnLabelText) && ss.GridColumn(gridColumnName).ValidateRequired.ToBool())
                 {
                     message = Messages.NotIncludedRequiredColumn(
                         context: context,
-                        data: ss.GridColumn("Title").LabelText).ToJson();
+                        data: gridColumnLabelText).ToJson();
                 }
             });
             return message;
