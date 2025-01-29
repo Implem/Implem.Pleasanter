@@ -97,8 +97,8 @@ namespace Implem.Pleasanter.Libraries.Models
                 if (settingsByHeader.Value["ValidateRequired"].ToBool() && settingsByHeader.Value["Value"].IsNullOrEmpty())
                 {
                     message = Messages.ResponseInvalidValidateRequiredCsvData(
-                    context: context,
-                    data: new string[]
+                        context: context,
+                        data: new string[]
                     {
                         settingsByHeader.Key
                     }).ToJson();
@@ -115,9 +115,12 @@ namespace Implem.Pleasanter.Libraries.Models
                 var gridColumnLabelText = ss.GridColumn(gridColumnName).LabelText;
                 if (!csvHeaders.Contains(gridColumnLabelText) && ss.GridColumn(gridColumnName).ValidateRequired.ToBool())
                 {
-                    message = Messages.NotIncludedRequiredColumn(
+                    message = Messages.ResponseNotIncludedRequiredColumn(
                         context: context,
-                        data: gridColumnLabelText).ToJson();
+                        data: new string[]
+                    {
+                        gridColumnName
+                    }).ToJson();
                 }
             });
             return message;
