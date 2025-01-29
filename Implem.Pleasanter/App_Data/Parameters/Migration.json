@@ -1,6 +1,10 @@
 ﻿{
-    "SourceConnectionString": "Server=(local);Database=Implem.Pleasanter;UID=sa;PWD=SetSaPWD;",
+    "Dbms": "SQLServer",
+    "Provider": "Local",
+    "ServiceName": "Implem.Pleasanter",
+    "SourceConnectionString": null,
     "ExcludeTables": [
         "SysLogs"
-    ]
+    ],
+    "AbortWhenException": false
 }
