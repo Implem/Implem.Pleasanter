@@ -2128,15 +2128,14 @@ namespace Implem.Pleasanter.Models
                 value: tabIndex.ToString(),
                 _using: tabIndex > 0);
         }
-
+        //|| column.EditorReadOnly    || column.ControlType == "Spinner" && column.EditorReadOnly == false  
         public static string NumUnit(
             this ResultModel resultModel,
             Context context,
             SiteSettings ss,
             Column column)
         {
-            if (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty) != "Num"
-                || column.ControlType == "Spinner")
+            if (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty) != "Num")      
             {
                 return string.Empty;
             }
