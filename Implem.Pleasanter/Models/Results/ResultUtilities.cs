@@ -2135,7 +2135,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             Column column)
         {
-            if (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty) != "Num")      
+            if (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty) != "Num")
             {
                 return string.Empty;
             }
