@@ -738,6 +738,13 @@ namespace Implem.Pleasanter.Libraries.Security
                 || context.HasPrivilege;
         }
 
+        public static bool CanManageTenantOrEnableManageTenant(Context context)
+        {
+            //テナントの管理者、特権ユーザ、またはPleasanter.netの管理者の場合にTrueを返す
+            return CanManageTenant(context: context)
+                || context.UserSettings?.EnableManageTenant == true;
+        }
+
         public static bool CanManageUser(Context context)
         {
             return (context.User?.TenantManager == true
