@@ -309,7 +309,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                         break;
                 }
             }
-            SiteInfo.Reflesh(context: context);
+            SiteInfo.Refresh(context: context);
             int dataCount = 0;
             if (includeData)
             {
@@ -445,7 +445,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                 statements: StatusUtilities.UpdateStatus(
                     tenantId: context.TenantId,
                     type: StatusUtilities.Types.UsersUpdated));
-            SiteInfo.Reflesh(context: context);
+            SiteInfo.Refresh(context: context);
             if (apiData == null)
             {
                 SessionUtilities.Set(

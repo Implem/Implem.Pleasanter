@@ -1703,7 +1703,7 @@ namespace Implem.Pleasanter.Models
                             .OwnerType("Users")
                             .MailAddress(MailAddress))
                 }).Id.ToInt();
-            SiteInfo.Reflesh(
+            SiteInfo.Refresh(
                 context: context,
                 force: true);
         }
