@@ -2975,7 +2975,7 @@ namespace Implem.Pleasanter.Models
             {
                 var selector = new RecordSelector(context: context);
                 var count = 0;
-                if(selector.All == false && selector.Selected.Any() == false)
+                if (selector.All == false && selector.Selected.Any() == false)
                 {
                     return Messages.ResponseSelectTargets(context: context).ToJson();
                 }
@@ -3252,7 +3252,7 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 ss: ss,
                                 updateMailAddresses: false,
-                                refleshSiteInfo: false,
+                                refreshSiteInfo: false,
                                 get: false);
                             switch (errorData.Type)
                             {
@@ -3261,7 +3261,7 @@ namespace Implem.Pleasanter.Models
                                 case Error.Types.UpdateConflicts:
                                     return new ResponseCollection(context: context)
                                         .Message(Messages.ImportInvalidUserIdAndLoginId(
-                                            context:context,
+                                            context: context,
                                             data: [userModel.UserId.ToString(), userModel.LoginId]))
                                         .ToJson();
                                 default:
@@ -3291,7 +3291,7 @@ namespace Implem.Pleasanter.Models
                         insertCount++;
                     }
                 }
-                SiteInfo.Reflesh(
+                SiteInfo.Refresh(
                     context: context,
                     force: true);
                 return GridRows(
@@ -3473,7 +3473,7 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 ss: ss,
                                 updateMailAddresses: false,
-                                refleshSiteInfo: false,
+                                refreshSiteInfo: false,
                                 get: false);
                             switch (errorData.Type)
                             {
@@ -3510,7 +3510,7 @@ namespace Implem.Pleasanter.Models
                         insertCount++;
                     }
                 }
-                SiteInfo.Reflesh(
+                SiteInfo.Refresh(
                     context: context,
                     force: true);
                 return ApiResults.Success(
@@ -3666,11 +3666,11 @@ namespace Implem.Pleasanter.Models
                         case "Language":
                             userModel.Language = recordingData.ToString();
                             if (userModel.Language.IsNullOrEmpty())
-                            {                                
+                            {
                                 userModel.Language = tenantModel.Language.IsNullOrEmpty()
                                 ? Parameters.Service.DefaultLanguage
                                 : tenantModel.Language;
-                            }                            
+                            }
                             break;
                         case "TimeZone":
                             userModel.TimeZone = recordingData.ToString();
@@ -4019,7 +4019,7 @@ namespace Implem.Pleasanter.Models
             {
                 return Error.Types.JoeAccountCheck.MessageJson(context: context);
             }
-            foreach(var policy in Parameters.Security.PasswordPolicies.Where(o => o.Enabled))
+            foreach (var policy in Parameters.Security.PasswordPolicies.Where(o => o.Enabled))
             {
                 if (!context.Forms.Data("Users_AfterResetPassword").RegexExists(policy.Regex))
                 {
@@ -4571,7 +4571,8 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return HtmlTemplates.Error(
+                default:
+                    return HtmlTemplates.Error(
                     context: context,
                     errorData: invalid);
             }
@@ -4761,7 +4762,8 @@ namespace Implem.Pleasanter.Models
                 switch (invalidOnReading.Type)
                 {
                     case Error.Types.None: break;
-                    default: return ApiResults.Error(
+                    default:
+                        return ApiResults.Error(
                         context: context,
                         errorData: invalidOnReading);
                 }
@@ -4875,7 +4877,8 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return HtmlTemplates.Error(
+                default:
+                    return HtmlTemplates.Error(
                     context: context,
                     errorData: invalid);
             }
@@ -4916,7 +4919,8 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return HtmlTemplates.Error(
+                default:
+                    return HtmlTemplates.Error(
                     context: context,
                     errorData: invalid);
             }
@@ -5036,7 +5040,8 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return ApiResults.Error(
+                default:
+                    return ApiResults.Error(
                     context: context,
                     errorData: invalid);
             }
@@ -5059,8 +5064,8 @@ namespace Implem.Pleasanter.Models
                     }
                 }
             }
-            foreach(var column in ss.Columns
-                .Where(o => o.ValidateRequired ?? false )
+            foreach (var column in ss.Columns
+                .Where(o => o.ValidateRequired ?? false)
                 .Where(o => typeof(UserApiModel).GetField(o.ColumnName) != null))
             {
                 if (userModel.GetType().GetField(column.ColumnName).GetValue(userModel).ToString().IsNullOrEmpty())
@@ -5208,7 +5213,7 @@ namespace Implem.Pleasanter.Models
             }
             var userModel = new UserModel(
                 context: context,
-                ss:ss,
+                ss: ss,
                 userId: userId,
                 userApiModel: userApiModel);
             if (userModel.AccessStatus != Databases.AccessStatuses.Selected)
@@ -5276,7 +5281,7 @@ namespace Implem.Pleasanter.Models
                         .Comments(ssocode)))
                             .AsEnumerable()
                             .FirstOrDefault();
-            if(dataRow == null)
+            if (dataRow == null)
             {
                 return (0, null);
             }
@@ -5655,13 +5660,13 @@ namespace Implem.Pleasanter.Models
             var defaultRegex = Parameters.Security.PasswordPolicies[0].Enabled
                 ? Parameters.Security.PasswordPolicies[0].Regex
                 : "[!-~]{ 6,}";
-            foreach(var policy in Parameters.Security.PasswordPolicies.Skip(1).Where(o => o.Enabled))
+            foreach (var policy in Parameters.Security.PasswordPolicies.Skip(1).Where(o => o.Enabled))
             {
                 regex += "(?=.*?" + policy.Regex + ")";
             }
             regex += defaultRegex;
             var xeger = new Fare.Xeger(defaultRegex, new Random());
-            while(!System.Text.RegularExpressions.Regex.IsMatch(password, $"^{regex}$"))
+            while (!System.Text.RegularExpressions.Regex.IsMatch(password, $"^{regex}$"))
             {
                 password = xeger.Generate();
             }
