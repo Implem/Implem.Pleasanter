@@ -16804,7 +16804,6 @@ namespace Implem.Pleasanter.Models
                         dataLang: "html",
                         labelText: Displays.Body(context: context),
                         text: dashboardPart.HtmlContent)
-                   
                     .Div(
                         id: "DashboardPartCalendarSitesField",
                         css: "both" + hiddenCss(dashboardPart.Type != DashboardPartType.Calendar),
