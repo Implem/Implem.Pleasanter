@@ -1,0 +1,7 @@
+﻿public void SetByApi(Context context, #ModelName#ApiModel data)
+{
+
+<!--Model_SetByApi_ColumnCases-->
+
+    if (data.Comments != null) Comments.Prepend(context: context, ss: null, body: data.Comments);
+}

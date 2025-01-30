@@ -2907,7 +2907,7 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             bool updateMailAddresses = true,
-            bool refleshSiteInfo = true,
+            bool refreshSiteInfo = true,
             SqlParamCollection param = null,
             List<SqlStatement> additionalStatements = null,
             bool otherInitValue = false,
@@ -2985,9 +2985,9 @@ namespace Implem.Pleasanter.Models
                     UpdateMailAddresses(context: context);
                 }
             }
-            if (refleshSiteInfo)
+            if (refreshSiteInfo)
             {
-                SiteInfo.Reflesh(context: context);
+                SiteInfo.Refresh(context: context);
             }
             return new ErrorData(type: Error.Types.None);
         }
@@ -4636,7 +4636,7 @@ namespace Implem.Pleasanter.Models
             var language = Language.IsNullOrEmpty()
                 ? context.Language
                 : Language;
-            if(isAuthenticationByMail)
+            if (isAuthenticationByMail)
             {
                 Repository.ExecuteTable(
                     context: context,
