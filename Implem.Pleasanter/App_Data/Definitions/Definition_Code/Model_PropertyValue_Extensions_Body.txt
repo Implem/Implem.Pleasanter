@@ -1,0 +1,12 @@
+﻿public string PropertyValue(Context context, Column column)
+{
+    switch (column?.ColumnName)
+    {
+
+<!--Model_PropertyValue_ColumnCases-->
+
+        default: return GetValue(
+            context: context,
+            column: column);
+    }
+}

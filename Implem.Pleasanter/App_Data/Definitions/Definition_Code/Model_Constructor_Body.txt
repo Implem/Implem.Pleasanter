@@ -40,6 +40,8 @@ public #ModelName#Model(
     <!--Model_SetCopyDefaultParameter-->
     <!--Model_FormDataParameter-->
     <!--Model_SetByApiParameter-->
+    <!--Model_SetByApiParameter_Extensions-->
+    
 
     SqlColumnCollection column = null,
     bool clearSessions = false,
@@ -63,6 +65,7 @@ public #ModelName#Model(
 
 <!--Model_SetByFormExec-->
 <!--Model_SetByApiExec-->
+<!--Model_SetByApiExec_Extensions-->
 <!--Model_SetByLookupsExec-->
 <!--Model_SetByStatusControlsExec-->
 <!--Model_SetLockedRecord-->
