@@ -5212,6 +5212,7 @@ namespace Implem.Pleasanter.Models
                     LoginExpirationLimit.Value <= DateTime.Now
                 ) ||
                 (
+                    LastLoginTime.Value >= Implem.DefinitionAccessor.Parameters.General.MinTime &&
                     LoginExpirationPeriod != 0 &&
                     LastLoginTime.Value.AddDays(LoginExpirationPeriod).InRange() &&
                     LastLoginTime.Value.AddDays(LoginExpirationPeriod) <= DateTime.Now
