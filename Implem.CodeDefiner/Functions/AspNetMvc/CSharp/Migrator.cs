@@ -123,6 +123,11 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp
             {
                 while (reader.Read())
                 {
+                    if (connTo.State == ConnectionState.Closed)
+                    {
+                        //MySQLの「パケットが大きすぎる場合にコネクションが切断する問題」の対応
+                        connTo.Open();
+                    }
                     var columns = new List<string>();
                     for (int i = 0; i < reader.FieldCount; i++)
                     {
