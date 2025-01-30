@@ -20,7 +20,7 @@ namespace Implem.Pleasanter.Libraries.Models
             {
                 if (!headers.Contains(name))
                 {
-                    return Messages.NotIncludedRequiredColumn(
+                    return Messages.ResponseNotIncludedRequiredColumn(
                         context: context,
                         data: ss.GetColumn(
                             context: context,
