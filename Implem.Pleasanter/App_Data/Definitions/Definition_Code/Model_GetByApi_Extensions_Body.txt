@@ -1,0 +1,25 @@
+﻿public #ModelName#ApiModel GetByApi(Context context, SiteSettings ss<!--Model_GetByApi_GetMailAddressesParameter-->)
+{
+    var data = new #ModelName#ApiModel()
+    {
+        ApiVersion = context.ApiVersion
+    };
+    ss.ReadableColumns(context: context, noJoined: true).ForEach(column =>
+    {
+        switch (column.ColumnName)
+        {
+
+<!--Model_GetByApi_ColumnCases-->
+<!--Model_GetByApi_CompletionTimeColumnCases-->
+
+            case "Comments": data.Comments = Comments.ToLocal(context: context).ToJson(); break;
+            default: break;
+        }
+    });
+<!--Model_GetByApi_GroupMembers-->
+<!--Model_GetByApi_GroupChildren-->
+<!--Model_GetByApi_ItemTitle-->
+<!--Model_GetByApi_MailAddresses-->
+
+    return data;
+}
