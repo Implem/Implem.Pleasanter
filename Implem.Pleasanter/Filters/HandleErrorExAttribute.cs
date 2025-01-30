@@ -24,7 +24,7 @@ namespace Implem.PleasanterFilters
                     context: context,
                     method: nameof(OnException),
                     message: $"{filterContext.Exception.GetType().Name}: {filterContext.Exception.Message}",
-                    errStackTrace: filterContext.Exception.StackTrace,
+                    errStackTrace: filterContext.Exception.ToString(),
                     sysLogType: SysLogModel.SysLogTypes.Exception);
                 var siteId = CanManageSiteId(context: context);
                 SessionUtilities.Set(
