@@ -1,1 +1,1 @@
-﻿bool refleshSiteInfo = true,
+﻿bool refreshSiteInfo = true,

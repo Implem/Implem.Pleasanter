@@ -40,6 +40,7 @@ namespace Implem.Pleasanter.Models
 <!--Base_PropertyUpdated_Bin ( RepeatType = Column, NotBase = 1 ) -->
 <!--Model_SessionProperties ( RepeatType = Column ) -->
 <!--Model_PropertyValue-->
+<!--Model_PropertyValue_Extensions-->
 <!--Model_CsvData-->
 <!--Model_SwitchTargets-->
 <!--Model_Constructor ( HasIdentity = true ) -->
@@ -95,6 +96,7 @@ namespace Implem.Pleasanter.Models
 
 <!--Model_Get-->
 <!--Model_GetByApi-->
+<!--Model_GetByApi_Extensions-->
 <!--Model_ExportByApi-->
 <!--Model_ImportByApi-->
 <!--Model_ToValue-->
@@ -128,6 +130,7 @@ namespace Implem.Pleasanter.Models
 <!--Model_DashboardsCopyAndInit-->
 <!--Model_SetByModel-->
 <!--Model_SetByApi-->
+<!--Model_SetByApi_Extensions-->
 <!--Model_SetByApiImages-->
 <!--Model_SetByDataChanges-->
 <!--Model_SetBySettings-->

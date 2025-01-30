@@ -3456,7 +3456,7 @@ namespace Implem.Pleasanter.Models
                             .SiteId(sourceId),
                         param: Rds.SitesParam().ParentId(destinationId))
                 });
-            SiteInfo.Reflesh(context: context);
+            SiteInfo.Refresh(context: context);
         }
 
         /// <summary>
