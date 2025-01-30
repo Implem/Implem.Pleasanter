@@ -1,0 +1,4 @@
+﻿if (#modelName#ApiModel != null)
+{
+    SetByApi(context: context<!--Model_SiteSettingsBeforeComma-->, data: #modelName#ApiModel);
+}

@@ -1,1 +1,1 @@
-﻿SiteInfo.Reflesh(context: context);
+﻿SiteInfo.Refresh(context: context);
