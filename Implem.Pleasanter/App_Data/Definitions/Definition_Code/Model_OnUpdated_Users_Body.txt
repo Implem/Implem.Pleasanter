@@ -12,7 +12,7 @@
         UpdateMailAddresses(context: context);
     }
 }
-if (refleshSiteInfo)
+if (refreshSiteInfo)
 {
-    SiteInfo.Reflesh(context: context);
+    SiteInfo.Refresh(context: context);
 }
