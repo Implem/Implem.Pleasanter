@@ -1001,7 +1001,7 @@ namespace Implem.Pleasanter.Models
         public ErrorData Update(
             Context context,
             SiteSettings ss,
-            bool refleshSiteInfo = true,
+            bool refreshSiteInfo = true,
             SqlParamCollection param = null,
             List<SqlStatement> additionalStatements = null,
             bool otherInitValue = false,
@@ -1040,9 +1040,9 @@ namespace Implem.Pleasanter.Models
             {
                 Get(context: context, ss: ss);
             }
-            if (refleshSiteInfo)
+            if (refreshSiteInfo)
             {
-                SiteInfo.Reflesh(context: context);
+                SiteInfo.Refresh(context: context);
             }
             return new ErrorData(type: Error.Types.None);
         }
