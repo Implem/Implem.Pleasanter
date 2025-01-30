@@ -488,5 +488,10 @@ namespace Implem.PostgreSql
                 where ""TenantId"" = @ipT
                     and ""Guid"" = @Guid;";
         }
+
+        public string MigrateDatabaseSelectFrom(string tableName)
+        {
+            return $"";
+        }
     }
 }
