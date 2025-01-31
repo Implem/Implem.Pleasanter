@@ -35,6 +35,19 @@ namespace Implem.Pleasanter.Libraries.Models
             IEnumerable<string> headers,
             params string[] columnNames)
         {
+            return ServerScriptColumnValidate(
+                context: context,
+                ss: ss,
+                headers: headers,
+                columnNames: columnNames)?.Text;
+        }
+
+        public static Message ServerScriptColumnValidate(
+            Context context,
+            SiteSettings ss,
+            IEnumerable<string> headers,
+            params string[] columnNames)
+        {
             foreach (var name in columnNames)
             {
                 if (!headers.Contains(name))
@@ -43,7 +56,7 @@ namespace Implem.Pleasanter.Libraries.Models
                         context: context,
                         data: ss.GetColumn(
                             context: context,
-                            columnName: name).LabelText).Text;
+                            columnName: name).LabelText);
                 }
             }
             return null;
