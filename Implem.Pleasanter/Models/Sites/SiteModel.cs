@@ -5910,6 +5910,7 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
+                SiteSettings.SetChoiceHash(context: context);
                 SiteSettings.StatusControls.Copy(selected);
                 res.ReplaceAll("#EditStatusControl", new HtmlBuilder()
                     .EditStatusControl(
@@ -5930,6 +5931,7 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
+                SiteSettings.SetChoiceHash(context: context);
                 SiteSettings.StatusControls.Delete(selected);
                 res.ReplaceAll("#EditStatusControl", new HtmlBuilder()
                     .EditStatusControl(
