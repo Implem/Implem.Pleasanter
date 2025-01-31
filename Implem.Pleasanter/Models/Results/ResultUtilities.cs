@@ -6311,7 +6311,7 @@ namespace Implem.Pleasanter.Models
                 {
                     return 0;
                 }
-                using var exclusiveObj = new Sessions.TableExclusive(context: context);
+                using var exclusiveObj = new Sessions.TableExclusive(context: context, siteId: ss.SiteId);
                 if (!exclusiveObj.TryLock())
                 {
                     return 0;
@@ -6689,7 +6689,7 @@ namespace Implem.Pleasanter.Models
                 {
                     return 0;
                 }
-                using var exclusiveObj = new Sessions.TableExclusive(context: context);
+                using var exclusiveObj = new Sessions.TableExclusive(context: context, siteId: ss.SiteId);
                 if (!exclusiveObj.TryLock())
                 {
                     return 0;
@@ -7397,7 +7397,7 @@ namespace Implem.Pleasanter.Models
             {
                 throw NewProcessingFailureException(message: Messages.BadRequest(context: context));
             }
-            using var exclusiveObj = new Sessions.TableExclusive(context: context);
+            using var exclusiveObj = new Sessions.TableExclusive(context: context, siteId: ss.SiteId);
             if (!exclusiveObj.TryLock())
             {
                 throw NewProcessingFailureException(message: Messages.ImportLock(context: context));
@@ -7925,7 +7925,7 @@ namespace Implem.Pleasanter.Models
         	{
         		throw NewProcessingFailureException(message: Messages.BadRequest(context: context));
         	}
-        	using var exclusiveObj = new Sessions.TableExclusive(context: context);
+            using var exclusiveObj = new Sessions.TableExclusive(context: context, siteId: ss.SiteId);
         	if (!exclusiveObj.TryLock())
         	{
         		throw NewProcessingFailureException(message: Messages.ImportLock(context: context));

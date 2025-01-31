@@ -614,7 +614,7 @@ public static string ImportByServerScript(
     {
         throw NewProcessingFailureException(message: Messages.BadRequest(context: context));
     }
-    using var exclusiveObj = new Sessions.TableExclusive(context: context);
+    using var exclusiveObj = new Sessions.TableExclusive(context: context, siteId: ss.SiteId);
     if (!exclusiveObj.TryLock())
     {
         throw NewProcessingFailureException(message: Messages.ImportLock(context: context));
