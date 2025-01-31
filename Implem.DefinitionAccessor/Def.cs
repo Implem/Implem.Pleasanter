@@ -461,6 +461,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_GetByApi": Code.Model_GetByApi = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetByApi, definitionRow, CodeXls); break;
                     case "Model_GetByApi_ColumnCases": Code.Model_GetByApi_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetByApi_ColumnCases, definitionRow, CodeXls); break;
                     case "Model_GetByApi_CompletionTimeColumnCases": Code.Model_GetByApi_CompletionTimeColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetByApi_CompletionTimeColumnCases, definitionRow, CodeXls); break;
+                    case "Model_GetByApi_Extensions": Code.Model_GetByApi_Extensions = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetByApi_Extensions, definitionRow, CodeXls); break;
                     case "Model_GetByApi_GetMailAddressesParameter": Code.Model_GetByApi_GetMailAddressesParameter = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetByApi_GetMailAddressesParameter, definitionRow, CodeXls); break;
                     case "Model_GetByApi_GroupChildren": Code.Model_GetByApi_GroupChildren = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetByApi_GroupChildren, definitionRow, CodeXls); break;
                     case "Model_GetByApi_GroupMembers": Code.Model_GetByApi_GroupMembers = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetByApi_GroupMembers, definitionRow, CodeXls); break;
@@ -582,6 +583,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_PropertyValue": Code.Model_PropertyValue = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PropertyValue, definitionRow, CodeXls); break;
                     case "Model_PropertyValue_ColumnCases": Code.Model_PropertyValue_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PropertyValue_ColumnCases, definitionRow, CodeXls); break;
                     case "Model_PropertyValue_ColumnCases_ToString": Code.Model_PropertyValue_ColumnCases_ToString = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PropertyValue_ColumnCases_ToString, definitionRow, CodeXls); break;
+                    case "Model_PropertyValue_Extensions": Code.Model_PropertyValue_Extensions = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PropertyValue_Extensions, definitionRow, CodeXls); break;
                     case "Model_PropertyValues_ColumnCases": Code.Model_PropertyValues_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PropertyValues_ColumnCases, definitionRow, CodeXls); break;
                     case "Model_PushState": Code.Model_PushState = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PushState, definitionRow, CodeXls); break;
                     case "Model_PushState_Item": Code.Model_PushState_Item = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PushState_Item, definitionRow, CodeXls); break;
@@ -606,12 +608,15 @@ namespace Implem.DefinitionAccessor
                     case "Model_SetByApi_ColumnCasesGroupChildren": Code.Model_SetByApi_ColumnCasesGroupChildren = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByApi_ColumnCasesGroupChildren, definitionRow, CodeXls); break;
                     case "Model_SetByApi_ColumnCasesGroupMembers": Code.Model_SetByApi_ColumnCasesGroupMembers = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByApi_ColumnCasesGroupMembers, definitionRow, CodeXls); break;
                     case "Model_SetByApi_ColumnCasesSite": Code.Model_SetByApi_ColumnCasesSite = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByApi_ColumnCasesSite, definitionRow, CodeXls); break;
+                    case "Model_SetByApi_Extensions": Code.Model_SetByApi_Extensions = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByApi_Extensions, definitionRow, CodeXls); break;
                     case "Model_SetByApi_ImageHash": Code.Model_SetByApi_ImageHash = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByApi_ImageHash, definitionRow, CodeXls); break;
                     case "Model_SetByApi_RecordPermissions": Code.Model_SetByApi_RecordPermissions = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByApi_RecordPermissions, definitionRow, CodeXls); break;
                     case "Model_SetByApi_Site": Code.Model_SetByApi_Site = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByApi_Site, definitionRow, CodeXls); break;
                     case "Model_SetByApiExec": Code.Model_SetByApiExec = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByApiExec, definitionRow, CodeXls); break;
+                    case "Model_SetByApiExec_Extensions": Code.Model_SetByApiExec_Extensions = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByApiExec_Extensions, definitionRow, CodeXls); break;
                     case "Model_SetByApiImages": Code.Model_SetByApiImages = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByApiImages, definitionRow, CodeXls); break;
                     case "Model_SetByApiParameter": Code.Model_SetByApiParameter = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByApiParameter, definitionRow, CodeXls); break;
+                    case "Model_SetByApiParameter_Extensions": Code.Model_SetByApiParameter_Extensions = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByApiParameter_Extensions, definitionRow, CodeXls); break;
                     case "Model_SetByCsvRow": Code.Model_SetByCsvRow = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByCsvRow, definitionRow, CodeXls); break;
                     case "Model_SetByCsvRowColumnCases": Code.Model_SetByCsvRowColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByCsvRowColumnCases, definitionRow, CodeXls); break;
                     case "Model_SetByCsvRowUserColumnCases": Code.Model_SetByCsvRowUserColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByCsvRowUserColumnCases, definitionRow, CodeXls); break;
@@ -6995,6 +7000,7 @@ namespace Implem.DefinitionAccessor
         public string Model_GetByApi;
         public string Model_GetByApi_ColumnCases;
         public string Model_GetByApi_CompletionTimeColumnCases;
+        public string Model_GetByApi_Extensions;
         public string Model_GetByApi_GetMailAddressesParameter;
         public string Model_GetByApi_GroupChildren;
         public string Model_GetByApi_GroupMembers;
@@ -7116,6 +7122,7 @@ namespace Implem.DefinitionAccessor
         public string Model_PropertyValue;
         public string Model_PropertyValue_ColumnCases;
         public string Model_PropertyValue_ColumnCases_ToString;
+        public string Model_PropertyValue_Extensions;
         public string Model_PropertyValues_ColumnCases;
         public string Model_PushState;
         public string Model_PushState_Item;
@@ -7140,12 +7147,15 @@ namespace Implem.DefinitionAccessor
         public string Model_SetByApi_ColumnCasesGroupChildren;
         public string Model_SetByApi_ColumnCasesGroupMembers;
         public string Model_SetByApi_ColumnCasesSite;
+        public string Model_SetByApi_Extensions;
         public string Model_SetByApi_ImageHash;
         public string Model_SetByApi_RecordPermissions;
         public string Model_SetByApi_Site;
         public string Model_SetByApiExec;
+        public string Model_SetByApiExec_Extensions;
         public string Model_SetByApiImages;
         public string Model_SetByApiParameter;
+        public string Model_SetByApiParameter_Extensions;
         public string Model_SetByCsvRow;
         public string Model_SetByCsvRowColumnCases;
         public string Model_SetByCsvRowUserColumnCases;
@@ -7846,6 +7856,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_GetByApi = new CodeDefinition();
         public CodeDefinition Model_GetByApi_ColumnCases = new CodeDefinition();
         public CodeDefinition Model_GetByApi_CompletionTimeColumnCases = new CodeDefinition();
+        public CodeDefinition Model_GetByApi_Extensions = new CodeDefinition();
         public CodeDefinition Model_GetByApi_GetMailAddressesParameter = new CodeDefinition();
         public CodeDefinition Model_GetByApi_GroupChildren = new CodeDefinition();
         public CodeDefinition Model_GetByApi_GroupMembers = new CodeDefinition();
@@ -7967,6 +7978,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_PropertyValue = new CodeDefinition();
         public CodeDefinition Model_PropertyValue_ColumnCases = new CodeDefinition();
         public CodeDefinition Model_PropertyValue_ColumnCases_ToString = new CodeDefinition();
+        public CodeDefinition Model_PropertyValue_Extensions = new CodeDefinition();
         public CodeDefinition Model_PropertyValues_ColumnCases = new CodeDefinition();
         public CodeDefinition Model_PushState = new CodeDefinition();
         public CodeDefinition Model_PushState_Item = new CodeDefinition();
@@ -7991,12 +8003,15 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_SetByApi_ColumnCasesGroupChildren = new CodeDefinition();
         public CodeDefinition Model_SetByApi_ColumnCasesGroupMembers = new CodeDefinition();
         public CodeDefinition Model_SetByApi_ColumnCasesSite = new CodeDefinition();
+        public CodeDefinition Model_SetByApi_Extensions = new CodeDefinition();
         public CodeDefinition Model_SetByApi_ImageHash = new CodeDefinition();
         public CodeDefinition Model_SetByApi_RecordPermissions = new CodeDefinition();
         public CodeDefinition Model_SetByApi_Site = new CodeDefinition();
         public CodeDefinition Model_SetByApiExec = new CodeDefinition();
+        public CodeDefinition Model_SetByApiExec_Extensions = new CodeDefinition();
         public CodeDefinition Model_SetByApiImages = new CodeDefinition();
         public CodeDefinition Model_SetByApiParameter = new CodeDefinition();
+        public CodeDefinition Model_SetByApiParameter_Extensions = new CodeDefinition();
         public CodeDefinition Model_SetByCsvRow = new CodeDefinition();
         public CodeDefinition Model_SetByCsvRowColumnCases = new CodeDefinition();
         public CodeDefinition Model_SetByCsvRowUserColumnCases = new CodeDefinition();
@@ -13673,6 +13688,8 @@ namespace Implem.DefinitionAccessor
         public string LdapUpdateGroupMembersAndChildren;
         public string AdGroupDeleteToDisable;
         public string ModifyColumn;
+        public string MigrateDatabaseInsert;
+        public string MigrateDatabaseSelectSetval;
     }
 
     /// <summary>
@@ -13723,5 +13740,7 @@ namespace Implem.DefinitionAccessor
         public SqlDefinition ChangeDatabaseOwnerForPostgres = new SqlDefinition();
         public SqlDefinition GrantDatabaseForPostgres = new SqlDefinition();
         public SqlDefinition ModifyColumn = new SqlDefinition();
+        public SqlDefinition MigrateDatabaseInsert = new SqlDefinition();
+        public SqlDefinition MigrateDatabaseSelectSetval = new SqlDefinition();
     }
 }
