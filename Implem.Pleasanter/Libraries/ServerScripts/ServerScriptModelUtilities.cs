@@ -1,8 +1,10 @@
-﻿using Implem.Libraries.Utilities;
+﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using System;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 
 namespace Implem.Pleasanter.Libraries.ServerScripts
@@ -38,5 +40,11 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             var bytes = Encoding.GetEncoding(encoding).GetBytes(s);
             return Convert.ToBase64String(bytes);
         }
+
+        public DateTime MinTime() => Parameters.General.MinTime.ToLocal(context: Context).Date.ToUniversal(context: Context);
+
+        public DateTime MaxTime() => Parameters.General.MaxTime.ToLocal(context: Context).Date.ToUniversal(context: Context);
+
+        public DateTime EmptyTime() => MinTime().AddDays(-1);
     }
 }
