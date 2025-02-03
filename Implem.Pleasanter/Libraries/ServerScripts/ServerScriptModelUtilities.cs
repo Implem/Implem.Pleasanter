@@ -41,18 +41,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             return Convert.ToBase64String(bytes);
         }
 
-<<<<<<< HEAD
         public DateTime MinTime() => Parameters.General.MinTime.ToLocal(context: Context).Date.ToUniversal(context: Context);
 
         public DateTime MaxTime() => Parameters.General.MaxTime.ToLocal(context: Context).Date.ToUniversal(context: Context);
 
         public DateTime EmptyTime() => MinTime().AddDays(-1);
-=======
-        public DateTime EmptyTime() => Parameters.General.MinTime.AddDays(-1);
-
-        public DateTime MinTime() => Parameters.General.MinTime;
-
-        public DateTime MaxTime() => Parameters.General.MaxTime;
->>>>>>> 98bc7f574833e61acaec6963841729a51c48c072
     }
 }
