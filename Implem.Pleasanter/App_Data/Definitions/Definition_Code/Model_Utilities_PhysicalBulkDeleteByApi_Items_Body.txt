@@ -97,7 +97,7 @@ public static long PhysicalBulkDeleteByServerScript(
         {
             return 0;
         }
-        using var exclusiveObj = new Sessions.TableExclusive(context: context);
+        using var exclusiveObj = new Sessions.TableExclusive(context: context, siteId: ss.SiteId);
         if (!exclusiveObj.TryLock())
         {
             return 0;
