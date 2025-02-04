@@ -1,0 +1,9 @@
+﻿private static Exception NewProcessingFailureException(Message message)
+{
+    return NewProcessingFailureException(message.Text, message.Id);
+}
+
+private static Exception NewProcessingFailureException(string message, string id = "")
+{
+    return new Implem.Libraries.Exceptions.ProcessingFailureException(message: message, id: id);
+}
