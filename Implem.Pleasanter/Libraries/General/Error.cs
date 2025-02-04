@@ -28,6 +28,7 @@ namespace Implem.Pleasanter.Libraries.General
             CanNotPerformed,
             CantSetAtTopOfSite,
             CircularGroupChild,
+            CustomAppsLimit,
             CustomError,
             DefinitionNotFound,
             DeleteConflicts,
@@ -44,6 +45,7 @@ namespace Implem.Pleasanter.Libraries.General
             HasNotChangeColumnPermission,
             HasNotPermission,
             ImportInvalidUserIdAndLoginId,
+            ImportLock,
             ImportMax,
             InCircleInvalidToken,
             IncorrectCurrentPassword,
@@ -60,6 +62,7 @@ namespace Implem.Pleasanter.Libraries.General
             InvalidJsonData,
             InvalidMemberKey,
             InvalidMemberType,
+            InvalidPath,
             InvalidRequest,
             InvalidSsoCode,
             invalidUpsertKey,
@@ -205,6 +208,10 @@ namespace Implem.Pleasanter.Libraries.General
                     return Messages.CircularGroupChild(
                         context: context,
                         data: data);
+                case Types.CustomAppsLimit:
+                    return Messages.CustomAppsLimit(
+                        context: context,
+                        data: data);
                 case Types.CustomError:
                     return Messages.CustomError(
                         context: context,
@@ -269,6 +276,10 @@ namespace Implem.Pleasanter.Libraries.General
                     return Messages.ImportInvalidUserIdAndLoginId(
                         context: context,
                         data: data);
+                case Types.ImportLock:
+                    return Messages.ImportLock(
+                        context: context,
+                        data: data);
                 case Types.ImportMax:
                     return Messages.ImportMax(
                         context: context,
@@ -331,6 +342,10 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.InvalidMemberType:
                     return Messages.InvalidMemberType(
+                        context: context,
+                        data: data);
+                case Types.InvalidPath:
+                    return Messages.InvalidPath(
                         context: context,
                         data: data);
                 case Types.InvalidRequest:

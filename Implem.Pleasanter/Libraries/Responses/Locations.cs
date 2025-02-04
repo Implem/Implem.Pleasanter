@@ -293,7 +293,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string AbsoluteDirectUri(Context context)
         {
             return Parameters.Service.AbsoluteUri != null
-                ? $"{Parameters.Service.AbsoluteUri}/{context.Controller}/{context.Id}/index"
+                ? $"{Parameters.Service.AbsoluteUri}/{context.Controller}/{context.Id}/{context.Action}"
                 : context.AbsoluteUri;
         }
 

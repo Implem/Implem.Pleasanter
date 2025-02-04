@@ -247,11 +247,12 @@ private static HtmlBuilder Editor(
                                 .DataMethod("post"),
                             _using: #modelName#Model.MethodType != BaseModel.MethodTypes.New
                                 && !context.Publish)
-                        .FieldSet(
+                        .TabsPanelField(
                             attributes: new HtmlAttributes()
                                 .Id("FieldSetRecordAccessControl")
                                 .DataAction("Permissions")
                                 .DataMethod("post"),
+                            innerId: "FieldSetRecordAccessControlEditor",
                             _using: context.CanManagePermission(ss: ss)
                                 && !ss.Locked()
                                 && #modelName#Model.MethodType != BaseModel.MethodTypes.New)<!--Model_Utilities_EditorMainCommands-->)
@@ -314,6 +315,10 @@ private static HtmlBuilder Editor(
                 .Hidden(
                     controlId: "TriggerRelatingColumns_Editor", 
                     value: Jsons.ToJson(ss.RelatingColumns))
+                .Hidden(
+                    controlId: "NotReturnParentRecord",
+                    css: "control-hidden always-send",
+                    value: context.QueryStrings.Data("NotReturnParentRecord"))
                 .PostInitHiddenData(context: context))
         .OutgoingMailsForm(
             context: context,
@@ -398,8 +403,9 @@ private static HtmlBuilder FieldSetGeneral(
     bool editInDialog = false)
 {
     var mine = #modelName#Model.Mine(context: context);
-    return hb.FieldSet(id: "FieldSetGeneral", action: () => hb
-        .FieldSetGeneralColumns(
+    return hb.TabsPanelField(
+        id: "FieldSetGeneral",
+        action: () => hb.FieldSetGeneralColumns(
             context: context,
             ss: ss,
             #modelName#Model: #modelName#Model,
@@ -457,6 +463,10 @@ public static HtmlBuilder Field(
         context: context,
         ss: ss,
         column: column);
+    var rawValue = #modelName#Model.ControlRawValue(
+        context: context,
+        ss: ss,
+        column: column);
     if (value != null)
     {
         //数値項目の場合、「単位」を値に連結する
@@ -477,6 +487,7 @@ public static HtmlBuilder Field(
                 ?.ServerScriptModelRow
                 ?.Columns.Get(column.ColumnName),
             value: value,
+            rawValue: rawValue,
 
 <!--Model_ControlConstraintsType-->
 
@@ -523,7 +534,7 @@ private static HtmlBuilder FieldSetTabs(
         ss: ss);
     ss.Tabs?.Select((tab, index) => new { tab = tab, index = index + 1 })?.ForEach(data =>
     {
-        hb.FieldSet(
+        hb.TabsPanelField(
             id: $"FieldSetTab{data.tab.Id}",
             css: " fieldset cf ui-tabs-panel ui-corner-bottom ui-widget-content ",
             action: () => hb.Fields(
@@ -761,8 +772,7 @@ public static string NumUnit(
     SiteSettings ss,
     Column column)
 {
-    if (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty) != "Num"
-        || column.ControlType == "Spinner")
+    if (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty) != "Num")
     {
         return string.Empty;
     }
@@ -826,6 +836,61 @@ public static string ControlValue(
                 case "Attachments":
                     return #modelName#Model.GetAttachments(columnName: column.Name)
                         .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                default: return null;
+            }
+    }
+}
+
+public static object ControlRawValue(
+    this #ModelName#Model #modelName#Model,
+    Context context,
+    SiteSettings ss,
+    Column column)
+{
+    switch (column.Name)
+    {
+
+<!--Model_Utilities_FieldCases_RawValue-->
+
+        default:
+            switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
+            {
+                case "Class":
+                    return #modelName#Model.GetClass(columnName: column.Name)
+                        .ToApiValue(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Num":
+                    return #modelName#Model.GetNum(columnName: column.Name)
+                        .ToApiValue(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Date":
+                    return #modelName#Model.GetDate(columnName: column.Name)
+                        .ToApiValue(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Description":
+                    return #modelName#Model.GetDescription(columnName: column.Name)
+                        .ToApiValue(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Check":
+                    return #modelName#Model.GetCheck(columnName: column.Name)
+                        .ToApiValue(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Attachments":
+                    return #modelName#Model.GetAttachments(columnName: column.Name)
+                        .ToApiValue(
                             context: context,
                             ss: ss,
                             column: column);

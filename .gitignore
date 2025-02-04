@@ -80,3 +80,6 @@ TestResults/
 Env.json
 .env
 *.env
+styles.min.css
+responsive.min.css
+/Implem.Pleasanter/wwwroot/operations-tools

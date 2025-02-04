@@ -22,6 +22,7 @@ namespace Implem.Pleasanter.Models
         public string TimeZone { get; set; }
         public string DeptCode { get; set; }
         public int? DeptId { get; set; }
+        public int? Manager { get; set; }
         public string Theme { get; set; }
         public int? FirstAndLastNameOrder { get; set; }
         public string Body { get; set; }
@@ -36,6 +37,7 @@ namespace Implem.Pleasanter.Models
         public bool? AllowGroupAdministration { get; set; }
         public bool? AllowGroupCreation { get; set; }
         public bool? AllowApi { get; set; }
+        public bool? AllowMovingFromTopSite { get; set; }
         public bool? EnableSecondaryAuthentication { get; set; }
         public bool? DisableSecondaryAuthentication { get; set; }
         public bool? Disabled { get; set; }
@@ -81,6 +83,7 @@ namespace Implem.Pleasanter.Models
                 case "TimeZone": return TimeZone;
                 case "DeptCode": return DeptCode;
                 case "DeptId": return DeptId;
+                case "Manager": return Manager;
                 case "Theme": return Theme;
                 case "FirstAndLastNameOrder": return FirstAndLastNameOrder;
                 case "Body": return Body;
@@ -95,6 +98,7 @@ namespace Implem.Pleasanter.Models
                 case "AllowGroupAdministration": return AllowGroupAdministration;
                 case "AllowGroupCreation": return AllowGroupCreation;
                 case "AllowApi": return AllowApi;
+                case "AllowMovingFromTopSite": return AllowMovingFromTopSite;
                 case "EnableSecondaryAuthentication": return EnableSecondaryAuthentication;
                 case "DisableSecondaryAuthentication": return DisableSecondaryAuthentication;
                 case "Disabled": return Disabled;

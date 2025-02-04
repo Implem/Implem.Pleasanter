@@ -374,6 +374,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-success");
         }
 
+        public static Message CodeDefinerCommunityEdition(Context context, params string[] data)
+        {
+            return Get(
+                id: "CodeDefinerCommunityEdition",
+                text: Displays.CodeDefinerCommunityEdition(
+                    context: context,
+                    data: data),
+                css: "alert-success");
+        }
+
         public static Message CodeDefinerCompleted(Context context, params string[] data)
         {
             return Get(
@@ -404,11 +414,41 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-success");
         }
 
+        public static Message CodeDefinerEnterpriseEdition(Context context, params string[] data)
+        {
+            return Get(
+                id: "CodeDefinerEnterpriseEdition",
+                text: Displays.CodeDefinerEnterpriseEdition(
+                    context: context,
+                    data: data),
+                css: "alert-success");
+        }
+
+        public static Message CodeDefinerErrorColumnsShrinked(Context context, params string[] data)
+        {
+            return Get(
+                id: "CodeDefinerErrorColumnsShrinked",
+                text: Displays.CodeDefinerErrorColumnsShrinked(
+                    context: context,
+                    data: data),
+                css: "alert-success");
+        }
+
         public static Message CodeDefinerErrorCount(Context context, params string[] data)
         {
             return Get(
                 id: "CodeDefinerErrorCount",
                 text: Displays.CodeDefinerErrorCount(
+                    context: context,
+                    data: data),
+                css: "alert-success");
+        }
+
+        public static Message CodeDefinerInputYesOrNo(Context context, params string[] data)
+        {
+            return Get(
+                id: "CodeDefinerInputYesOrNo",
+                text: Displays.CodeDefinerInputYesOrNo(
                     context: context,
                     data: data),
                 css: "alert-success");
@@ -424,11 +464,41 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-success");
         }
 
+        public static Message CodeDefinerIssueNewLicense(Context context, params string[] data)
+        {
+            return Get(
+                id: "CodeDefinerIssueNewLicense",
+                text: Displays.CodeDefinerIssueNewLicense(
+                    context: context,
+                    data: data),
+                css: "alert-success");
+        }
+
+        public static Message CodeDefinerLicenseInfo(Context context, params string[] data)
+        {
+            return Get(
+                id: "CodeDefinerLicenseInfo",
+                text: Displays.CodeDefinerLicenseInfo(
+                    context: context,
+                    data: data),
+                css: "alert-success");
+        }
+
         public static Message CodeDefinerMigrationCompleted(Context context, params string[] data)
         {
             return Get(
                 id: "CodeDefinerMigrationCompleted",
                 text: Displays.CodeDefinerMigrationCompleted(
+                    context: context,
+                    data: data),
+                css: "alert-success");
+        }
+
+        public static Message CodeDefinerMigrationErrors(Context context, params string[] data)
+        {
+            return Get(
+                id: "CodeDefinerMigrationErrors",
+                text: Displays.CodeDefinerMigrationErrors(
                     context: context,
                     data: data),
                 css: "alert-success");
@@ -444,11 +514,41 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-success");
         }
 
+        public static Message CodeDefinerRdsCanceled(Context context, params string[] data)
+        {
+            return Get(
+                id: "CodeDefinerRdsCanceled",
+                text: Displays.CodeDefinerRdsCanceled(
+                    context: context,
+                    data: data),
+                css: "alert-success");
+        }
+
         public static Message CodeDefinerRdsCompleted(Context context, params string[] data)
         {
             return Get(
                 id: "CodeDefinerRdsCompleted",
                 text: Displays.CodeDefinerRdsCompleted(
+                    context: context,
+                    data: data),
+                css: "alert-success");
+        }
+
+        public static Message CodeDefinerReducedColumnList(Context context, params string[] data)
+        {
+            return Get(
+                id: "CodeDefinerReducedColumnList",
+                text: Displays.CodeDefinerReducedColumnList(
+                    context: context,
+                    data: data),
+                css: "alert-success");
+        }
+
+        public static Message CodeDefinerSkipUserInput(Context context, params string[] data)
+        {
+            return Get(
+                id: "CodeDefinerSkipUserInput",
+                text: Displays.CodeDefinerSkipUserInput(
                     context: context,
                     data: data),
                 css: "alert-success");
@@ -482,6 +582,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                     context: context,
                     data: data),
                 css: "alert-success");
+        }
+
+        public static Message CustomAppsLimit(Context context, params string[] data)
+        {
+            return Get(
+                id: "CustomAppsLimit",
+                text: Displays.CustomAppsLimit(
+                    context: context,
+                    data: data),
+                css: "alert-error");
         }
 
         public static Message CustomError(Context context, params string[] data)
@@ -754,6 +864,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-error");
         }
 
+        public static Message ImportLock(Context context, params string[] data)
+        {
+            return Get(
+                id: "ImportLock",
+                text: Displays.ImportLock(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
         public static Message ImportMax(Context context, params string[] data)
         {
             return Get(
@@ -929,6 +1049,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 id: "InvalidMemberType",
                 text: Displays.InvalidMemberType(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
+        public static Message InvalidPath(Context context, params string[] data)
+        {
+            return Get(
+                id: "InvalidPath",
+                text: Displays.InvalidPath(
                     context: context,
                     data: data),
                 css: "alert-error");
@@ -1339,6 +1469,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 id: "RebuildingCompleted",
                 text: Displays.RebuildingCompleted(
+                    context: context,
+                    data: data),
+                css: "alert-success");
+        }
+
+        public static Message Registered(Context context, params string[] data)
+        {
+            return Get(
+                id: "Registered",
+                text: Displays.Registered(
                     context: context,
                     data: data),
                 css: "alert-success");
@@ -2068,6 +2208,17 @@ namespace Implem.Pleasanter.Libraries.Responses
                 target: target);
         }
 
+        public static ResponseCollection ResponseCodeDefinerCommunityEdition(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: CodeDefinerCommunityEdition(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
         public static ResponseCollection ResponseCodeDefinerCompleted(
             Context context, string target = null, params string[] data)
         {
@@ -2101,12 +2252,45 @@ namespace Implem.Pleasanter.Libraries.Responses
                 target: target);
         }
 
+        public static ResponseCollection ResponseCodeDefinerEnterpriseEdition(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: CodeDefinerEnterpriseEdition(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseCodeDefinerErrorColumnsShrinked(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: CodeDefinerErrorColumnsShrinked(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
         public static ResponseCollection ResponseCodeDefinerErrorCount(
             Context context, string target = null, params string[] data)
         {
             return ResponseMessage(
                 context: context,
                 message: CodeDefinerErrorCount(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseCodeDefinerInputYesOrNo(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: CodeDefinerInputYesOrNo(
                     context: context,
                     data: data),
                 target: target);
@@ -2123,12 +2307,45 @@ namespace Implem.Pleasanter.Libraries.Responses
                 target: target);
         }
 
+        public static ResponseCollection ResponseCodeDefinerIssueNewLicense(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: CodeDefinerIssueNewLicense(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseCodeDefinerLicenseInfo(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: CodeDefinerLicenseInfo(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
         public static ResponseCollection ResponseCodeDefinerMigrationCompleted(
             Context context, string target = null, params string[] data)
         {
             return ResponseMessage(
                 context: context,
                 message: CodeDefinerMigrationCompleted(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseCodeDefinerMigrationErrors(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: CodeDefinerMigrationErrors(
                     context: context,
                     data: data),
                 target: target);
@@ -2145,12 +2362,45 @@ namespace Implem.Pleasanter.Libraries.Responses
                 target: target);
         }
 
+        public static ResponseCollection ResponseCodeDefinerRdsCanceled(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: CodeDefinerRdsCanceled(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
         public static ResponseCollection ResponseCodeDefinerRdsCompleted(
             Context context, string target = null, params string[] data)
         {
             return ResponseMessage(
                 context: context,
                 message: CodeDefinerRdsCompleted(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseCodeDefinerReducedColumnList(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: CodeDefinerReducedColumnList(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseCodeDefinerSkipUserInput(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: CodeDefinerSkipUserInput(
                     context: context,
                     data: data),
                 target: target);
@@ -2184,6 +2434,17 @@ namespace Implem.Pleasanter.Libraries.Responses
             return ResponseMessage(
                 context: context,
                 message: Created(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseCustomAppsLimit(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: CustomAppsLimit(
                     context: context,
                     data: data),
                 target: target);
@@ -2486,6 +2747,17 @@ namespace Implem.Pleasanter.Libraries.Responses
                 target: target);
         }
 
+        public static ResponseCollection ResponseImportLock(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: ImportLock(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
         public static ResponseCollection ResponseImportMax(
             Context context, string target = null, params string[] data)
         {
@@ -2679,6 +2951,17 @@ namespace Implem.Pleasanter.Libraries.Responses
             return ResponseMessage(
                 context: context,
                 message: InvalidMemberType(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseInvalidPath(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: InvalidPath(
                     context: context,
                     data: data),
                 target: target);
@@ -3130,6 +3413,17 @@ namespace Implem.Pleasanter.Libraries.Responses
             return ResponseMessage(
                 context: context,
                 message: RebuildingCompleted(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseRegistered(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: Registered(
                     context: context,
                     data: data),
                 target: target);

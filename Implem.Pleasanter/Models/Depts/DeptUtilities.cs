@@ -239,7 +239,7 @@ namespace Implem.Pleasanter.Models
                 view: view,
                 checkPermission: true);
             return hb
-                .Table(
+                .GridTable(
                     attributes: new HtmlAttributes()
                         .Id($"Grid{suffix}")
                         .Class(ss.GridCss(context: context))
@@ -392,7 +392,8 @@ namespace Implem.Pleasanter.Models
                         view: view,
                         dataRows: gridData.DataRows,
                         columns: columns,
-                        checkRow: checkRow));
+                        checkRow: checkRow,
+                        clearCheck: clearCheck));
         }
 
         private static SqlWhereCollection SelectedWhere(
@@ -472,7 +473,7 @@ namespace Implem.Pleasanter.Models
             int? tabIndex = null,
             ServerScriptModelColumn serverScriptModelColumn = null)
         {
-            if (serverScriptModelColumn?.Hide == true)
+            if (serverScriptModelColumn?.HideChanged == true && serverScriptModelColumn?.Hide == true)
             {
                 return hb.Td();
             }
@@ -1089,9 +1090,12 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             DeptModel deptModel)
         {
-            return hb.FieldSet(id: "FieldSetGeneral", action: () => hb
-                .FieldSetGeneralColumns(
-                    context: context, ss: ss, deptModel: deptModel));
+            return hb.TabsPanelField(
+                id: "FieldSetGeneral",
+                action: () => hb.FieldSetGeneralColumns(
+                    context: context,
+                    ss: ss,
+                    deptModel: deptModel));
         }
 
         private static HtmlBuilder FieldSetGeneralColumns(
@@ -1768,24 +1772,26 @@ namespace Implem.Pleasanter.Models
                 return Error.Types.HasNotPermission.MessageJson(context: context);
             }
             var hb = new HtmlBuilder();
-            hb
-                .HistoryCommands(context: context, ss: ss)
-                .Table(
-                    attributes: new HtmlAttributes().Class("grid history"),
-                    action: () => hb
-                        .THead(action: () => hb
-                            .GridHeader(
-                                context: context,
-                                ss: ss,
-                                columns: columns,
-                                sort: false,
-                                checkRow: true))
-                        .TBody(action: () => hb
-                            .HistoriesTableBody(
-                                context: context,
-                                ss: ss,
-                                columns: columns,
-                                deptModel: deptModel)));
+            hb.Div(
+                css: "tabs-panel-inner",
+                action: () => hb
+                    .HistoryCommands(context: context, ss: ss)
+                    .GridTable(
+                        css: "history",
+                        action: () => hb
+                            .THead(action: () => hb
+                                .GridHeader(
+                                    context: context,
+                                    ss: ss,
+                                    columns: columns,
+                                    sort: false,
+                                    checkRow: true))
+                            .TBody(action: () => hb
+                                .HistoriesTableBody(
+                                    context: context,
+                                    ss: ss,
+                                    columns: columns,
+                                    deptModel: deptModel))));
             return new DeptsResponseCollection(
                 context: context,
                 deptModel: deptModel)
@@ -1956,7 +1962,7 @@ namespace Implem.Pleasanter.Models
                             var errorData = deptModel.Update(
                                 context: context,
                                 ss: ss,
-                                refleshSiteInfo: false,
+                                refreshSiteInfo: false,
                                 get: false);
                             switch (errorData.Type)
                             {
@@ -1984,7 +1990,7 @@ namespace Implem.Pleasanter.Models
                         insertCount++;
                     }
                 }
-                SiteInfo.Reflesh(
+                SiteInfo.Refresh(
                     context: context,
                     force: true);
                 return GridRows(
@@ -2114,7 +2120,7 @@ namespace Implem.Pleasanter.Models
                             var errorData = deptModel.Update(
                                 context: context,
                                 ss: ss,
-                                refleshSiteInfo: false,
+                                refreshSiteInfo: false,
                                 get: false);
                             switch (errorData.Type)
                             {
@@ -2146,7 +2152,7 @@ namespace Implem.Pleasanter.Models
                         insertCount++;
                     }
                 }
-                SiteInfo.Reflesh(
+                SiteInfo.Refresh(
                     context: context,
                     force: true);
                 return ApiResults.Success(
@@ -2415,7 +2421,9 @@ namespace Implem.Pleasanter.Models
                 ? SiteInfo.SiteDepts(context, siteModel.InheritPermission)?
                     .Where(o => !SiteInfo.User(context, o).Disabled).ToArray()
                 : null;
-            var pageSize = Parameters.Api.PageSize;
+            var pageSize = api?.PageSize > 0 && api?.PageSize <= Parameters.Api.PageSize
+                ? api.PageSize
+                : Parameters.Api.PageSize;
             var tableType = (api?.TableType) ?? Sqls.TableTypes.Normal;
             if (deptId > 0)
             {

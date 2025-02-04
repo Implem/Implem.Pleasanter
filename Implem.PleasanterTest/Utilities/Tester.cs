@@ -182,6 +182,17 @@ namespace Implem.PleasanterTest.Utilities
                             return false;
                         }
                         break;
+                    case HtmlTest.Types.HasInformationMessage:
+                        if (nodes.Count() != 1)
+                        {
+                            return false;
+                        }
+                        else
+                        {
+                            var valueText = nodes[0].GetAttribute("value");
+                            var messages = JsonConvert.DeserializeAnonymousType(valueText, new[] { new { Text = "", Css = "" } });
+                            return messages?.Any(m => m.Css == "alert-information" && m.Text == htmlTest.Value) ?? false;
+                        }
                     case HtmlTest.Types.Text:
                         if (nodes.Count() != 1)
                         {
@@ -222,6 +233,7 @@ namespace Implem.PleasanterTest.Utilities
             {
                 case HtmlTest.Types.NotFoundMessage:
                 case HtmlTest.Types.HasNotPermissionMessage:
+                case HtmlTest.Types.HasInformationMessage:
                     return doc.QuerySelectorAll("#MessageData");
                 default:
                     return doc.QuerySelectorAll(htmlTest.Selector);

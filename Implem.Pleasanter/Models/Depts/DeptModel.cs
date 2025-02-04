@@ -1001,7 +1001,7 @@ namespace Implem.Pleasanter.Models
         public ErrorData Update(
             Context context,
             SiteSettings ss,
-            bool refleshSiteInfo = true,
+            bool refreshSiteInfo = true,
             SqlParamCollection param = null,
             List<SqlStatement> additionalStatements = null,
             bool otherInitValue = false,
@@ -1040,9 +1040,9 @@ namespace Implem.Pleasanter.Models
             {
                 Get(context: context, ss: ss);
             }
-            if (refleshSiteInfo)
+            if (refreshSiteInfo)
             {
-                SiteInfo.Reflesh(context: context);
+                SiteInfo.Refresh(context: context);
             }
             return new ErrorData(type: Error.Types.None);
         }
@@ -1103,7 +1103,7 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         deptModel: this,
                         otherInitValue: otherInitValue)),
-                new SqlStatement(Def.Sql.IfConflicted.Params(DeptId))
+                new SqlStatement()
                 {
                     DataTableName = dataTableName,
                     IfConflicted = true,
@@ -1206,7 +1206,7 @@ namespace Implem.Pleasanter.Models
                 transactional: true,
                 statements: Rds.PhysicalDeleteDepts(
                     tableType: tableType,
-                    param: Rds.DeptsParam().DeptId(DeptId)));
+                    where: Rds.DeptsWhere().DeptId(DeptId)));
             return new ErrorData(type: Error.Types.None);
         }
 

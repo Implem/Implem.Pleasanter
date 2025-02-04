@@ -2506,7 +2506,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 switch (csType)
                 {
                     case Types.CsBool:
-                        defaultValue = "'false'";
+                        defaultValue = context.Sqls.FalseString;
                         break;
                     case Types.CsNumeric:
                         defaultValue = "0";
@@ -3313,7 +3313,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     itemModel: null,
                     view: this,
                     where: script => script.WhenViewProcessing == true,
-                    condition: "WhenViewProcessing");
+                    condition: ServerScriptModel.ServerScriptConditions.WhenViewProcessing);
                 WhenViewProcessingServerScriptExecuted = true;
             }
         }

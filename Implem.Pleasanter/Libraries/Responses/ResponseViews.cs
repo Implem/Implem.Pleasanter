@@ -53,7 +53,7 @@ namespace Implem.Pleasanter.Libraries.Responses
                                 _checked: view.ShowHistory == true,
                                 labelText: Displays.ShowHistory(context: context),
                                 _using: ss.HistoryOnGrid == true));
-                // 一括処理のプルダウンから有効なプロセスを選択したときフィルターを無効にするため非表示にする。一覧に戻るアクションもプルダウンのリセット操作であるためここで統一的に判定できる。
+                // 一括処理のプルダウンから有効なプロセスを選択したときフィルタを無効にするため非表示にする。一覧に戻るアクションもプルダウンのリセット操作であるためここで統一的に判定できる。
                 case "BulkProcessingItems":
                     var processId = context.Forms.Int("BulkProcessingItems");
                     var process = ss.GetProcess(

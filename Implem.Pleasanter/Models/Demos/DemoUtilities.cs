@@ -181,7 +181,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         userHash: userHash,
                         idHash: idHash);
-                    SiteInfo.Reflesh(context: context, force: true);
+                    SiteInfo.Refresh(context: context, force: true);
                 }
                 new UserModel()
                 {
@@ -343,7 +343,7 @@ namespace Implem.Pleasanter.Models
                 statements: Rds.UpdateDemos(
                     param: Rds.DemosParam().Initialized(true),
                     where: Rds.DemosWhere().Passphrase(demoModel.Passphrase.TrimEnd())));
-            SiteInfo.Reflesh(
+            SiteInfo.Refresh(
                 context: context,
                 force: true);
         }
@@ -478,6 +478,16 @@ namespace Implem.Pleasanter.Models
                             .DeptId(idHash.Get(demoDefinition.ClassA).ToInt())
                             .UserId(idHash.Get(demoDefinition.ClassB).ToInt())
                             .Admin(demoDefinition.CheckA))));
+            Def.DemoDefinitionCollection
+                .Where(o => o.Language == context.Language)
+                .Where(o => o.Type == "Groups")
+                .OrderBy(o => o.Id.RegexFirst("[0-9]+").ToInt())
+                .ForEach(demoDefinition => Repository.ExecuteNonQuery(
+                    context: context,
+                    statements: Rds.InsertGroupChildren(
+                        param: Rds.GroupChildrenParam()
+                            .GroupId(idHash.Get(demoDefinition.ParentId).ToInt())
+                            .ChildId(idHash.Get(demoDefinition.Id).ToInt()))));
         }
 
         /// <summary>
@@ -561,6 +571,8 @@ namespace Implem.Pleasanter.Models
                                     .SiteId(raw: Def.Sql.Identity)
                                     .Title(demoDefinition.Title)
                                     .ReferenceType(demoDefinition.ClassA)
+                                    .SiteName(demoDefinition.ClassB)
+                                    .SiteGroupName(demoDefinition.ClassC)
                                     .ParentId(idHash.ContainsKey(demoDefinition.ParentId)
                                         ? idHash.Get(demoDefinition.ParentId)
                                         : 0)
@@ -930,7 +942,7 @@ namespace Implem.Pleasanter.Models
                         var startTime = issueModel.StartTime;
                         var progressRate = demoDefinition.ProgressRate;
                         var status = issueModel.Status.Value;
-                        for (var d = 0; d < days -1; d++)
+                        for (var d = 0; d < days - 1; d++)
                         {
                             issueModel.VerUp = true;
                             issueModel.Update(context: context, ss: ss);
@@ -1013,7 +1025,7 @@ namespace Implem.Pleasanter.Models
                 {
                     var creator = idHash.Get(demoDefinition.Creator);
                     var updator = idHash.Get(demoDefinition.Updator);
-                    context.UserId = updator.ToInt();    
+                    context.UserId = updator.ToInt();
                     var resultId = Repository.ExecuteScalar_response(
                         context: context,
                         selectIdentity: true,
@@ -1278,7 +1290,7 @@ namespace Implem.Pleasanter.Models
                                     .Add(columnBracket: "\"CheckY\"", name: "CheckY", value: demoDefinition.CheckY)
                                     .Add(columnBracket: "\"CheckZ\"", name: "CheckZ", value: demoDefinition.CheckZ)
                                     .Comments(Comments(
-                                        context: context,      
+                                        context: context,
                                         demoModel: demoModel,
                                         idHash: idHash,
                                         parentId: demoDefinition.Id))
@@ -1439,14 +1451,15 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static bool IsItemDefinition(DemoDefinition demoDefinition)
         {
-            switch (demoDefinition.Type) {
+            switch (demoDefinition.Type)
+            {
                 case "Sites":
                 case "Issues":
                 case "Results":
                 case "Wikis":
                     return true;
                 default:
-                   return false;
+                    return false;
             }
         }
 

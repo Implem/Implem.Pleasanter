@@ -38,7 +38,8 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return HtmlTemplates.Error(
+                default:
+                    return HtmlTemplates.Error(
                     context: context,
                     errorData: invalid);
             }
@@ -243,7 +244,7 @@ namespace Implem.Pleasanter.Models
                 view: view,
                 checkPermission: true);
             return hb
-                .Table(
+                .GridTable(
                     attributes: new HtmlAttributes()
                         .Id($"Grid{suffix}")
                         .Class(ss.GridCss(context: context))
@@ -396,7 +397,8 @@ namespace Implem.Pleasanter.Models
                         view: view,
                         dataRows: gridData.DataRows,
                         columns: columns,
-                        checkRow: checkRow));
+                        checkRow: checkRow,
+                        clearCheck: clearCheck));
         }
 
         private static SqlWhereCollection SelectedWhere(
@@ -476,7 +478,7 @@ namespace Implem.Pleasanter.Models
             int? tabIndex = null,
             ServerScriptModelColumn serverScriptModelColumn = null)
         {
-            if (serverScriptModelColumn?.Hide == true)
+            if (serverScriptModelColumn?.HideChanged == true && serverScriptModelColumn?.Hide == true)
             {
                 return hb.Td();
             }
@@ -1146,7 +1148,7 @@ namespace Implem.Pleasanter.Models
                 .Li(action: () => hb
                     .A(
                         href: "#FieldSetGroupChildren",
-                        text: Displays.GroupChildren(context: context),
+                        text: Displays.ChildGroup(context: context),
                         _using: groupModel.MethodType != BaseModel.MethodTypes.New))
                 .Li(
                     _using: groupModel.MethodType != BaseModel.MethodTypes.New,
@@ -1162,9 +1164,12 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             GroupModel groupModel)
         {
-            return hb.FieldSet(id: "FieldSetGeneral", action: () => hb
-                .FieldSetGeneralColumns(
-                    context: context, ss: ss, groupModel: groupModel));
+            return hb.TabsPanelField(
+                id: "FieldSetGeneral",
+                action: () => hb.FieldSetGeneralColumns(
+                    context: context,
+                    ss: ss,
+                    groupModel: groupModel));
         }
 
         private static HtmlBuilder FieldSetGeneralColumns(
@@ -1903,24 +1908,26 @@ namespace Implem.Pleasanter.Models
                 return Error.Types.HasNotPermission.MessageJson(context: context);
             }
             var hb = new HtmlBuilder();
-            hb
-                .HistoryCommands(context: context, ss: ss)
-                .Table(
-                    attributes: new HtmlAttributes().Class("grid history"),
-                    action: () => hb
-                        .THead(action: () => hb
-                            .GridHeader(
-                                context: context,
-                                ss: ss,
-                                columns: columns,
-                                sort: false,
-                                checkRow: true))
-                        .TBody(action: () => hb
-                            .HistoriesTableBody(
-                                context: context,
-                                ss: ss,
-                                columns: columns,
-                                groupModel: groupModel)));
+            hb.Div(
+                css: "tabs-panel-inner",
+                action: () => hb
+                    .HistoryCommands(context: context, ss: ss)
+                    .GridTable(
+                        css: "history",
+                        action: () => hb
+                            .THead(action: () => hb
+                                .GridHeader(
+                                    context: context,
+                                    ss: ss,
+                                    columns: columns,
+                                    sort: false,
+                                    checkRow: true))
+                            .TBody(action: () => hb
+                                .HistoriesTableBody(
+                                    context: context,
+                                    ss: ss,
+                                    columns: columns,
+                                    groupModel: groupModel))));
             return new GroupsResponseCollection(
                 context: context,
                 groupModel: groupModel)
@@ -2227,7 +2234,7 @@ namespace Implem.Pleasanter.Models
                         updateGroupMemberCount: ref updateGroupMemberCount);
                 }
                 GroupMemberUtilities.RefreshAllChildMembers(tenantId: context.TenantId);
-                SiteInfo.Reflesh(
+                SiteInfo.Refresh(
                     context: context,
                     force: true);
                 return GridRows(
@@ -2508,7 +2515,7 @@ namespace Implem.Pleasanter.Models
                         updateGroupMemberCount: ref updateGroupMemberCount);
                 }
                 GroupMemberUtilities.RefreshAllChildMembers(tenantId: context.TenantId);
-                SiteInfo.Reflesh(
+                SiteInfo.Refresh(
                     context: context,
                     force: true);
                 return ApiResults.Success(
@@ -2589,7 +2596,7 @@ namespace Implem.Pleasanter.Models
             var errorData = groupModel.Update(
                 context: context,
                 ss: ss,
-                refleshSiteInfo: false,
+                refreshSiteInfo: false,
                 updateGroupMembers: false,
                 get: false);
             if (errorData.Type == Error.Types.None)
@@ -2696,7 +2703,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static int GetDeptId(Context context, string deptCode)
         {
-            return Repository.ExecuteScalar_int (
+            return Repository.ExecuteScalar_int(
                 context: context,
                 statements: Rds.SelectDepts(
                     column: Rds.DeptsColumn()
@@ -3122,11 +3129,13 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb, Context context, GroupModel groupModel)
         {
             if (groupModel.MethodType == BaseModel.MethodTypes.New) return hb;
-            return hb.FieldSet(id: "FieldSetMembers", action: () => hb
-                .CurrentMembers(
-                    context: context,
-                    groupModel: groupModel)
-                .SelectableMembers(context: context));
+            return hb.TabsPanelField(
+                id: "FieldSetMembers",
+                action: () => hb
+                    .CurrentMembers(
+                        context: context,
+                        groupModel: groupModel)
+                    .SelectableMembers(context: context));
         }
 
         /// <summary>
@@ -3136,11 +3145,13 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb, Context context, GroupModel groupModel)
         {
             if (groupModel.MethodType == BaseModel.MethodTypes.New) return hb;
-            return hb.FieldSet(id: "FieldSetGroupChildren", action: () => hb
-                .CurrentChildren(
-                    context: context,
-                    groupModel: groupModel)
-                .SelectableChildren(context: context));
+            return hb.TabsPanelField(
+                id: "FieldSetGroupChildren",
+                action: () => hb
+                    .CurrentChildren(
+                        context: context,
+                        groupModel: groupModel)
+                    .SelectableChildren(context: context));
         }
 
         /// <summary>
@@ -3914,7 +3925,7 @@ namespace Implem.Pleasanter.Models
                     tenantId: context.TenantId,
                     groupId: childId);
                 data.Add(
-                    $"Group,{childId},", 
+                    $"Group,{childId},",
                     new ControlData(
                         text: group.SelectableText(
                             context: context,
@@ -3975,7 +3986,8 @@ namespace Implem.Pleasanter.Models
                 switch (invalidOnReading.Type)
                 {
                     case Error.Types.None: break;
-                    default: return ApiResults.Error(
+                    default:
+                        return ApiResults.Error(
                         context: context,
                         errorData: invalidOnReading);
                 }
@@ -3984,7 +3996,9 @@ namespace Implem.Pleasanter.Models
                 ? SiteInfo.SiteGroups(context, siteModel.InheritPermission)?
                 .Where(o => !SiteInfo.User(context, o).Disabled).ToArray()
                 : null;
-            var pageSize = Parameters.Api.PageSize;
+            var pageSize = api?.PageSize > 0 && api?.PageSize <= Parameters.Api.PageSize
+                ? api.PageSize
+                : Parameters.Api.PageSize;
             var tableType = (api?.TableType) ?? Sqls.TableTypes.Normal;
             if (groupId > 0)
             {

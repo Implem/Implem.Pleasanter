@@ -13,6 +13,7 @@ using Xunit;
 
 namespace Implem.PleasanterTest.Tests.Settings
 {
+    [Collection(nameof(SiteSettingsUtilitiesTest))]
     public class SiteSettingsUtilitiesTest: IDisposable
     {
         private ParameterAccessor.Parts.User savedUser;

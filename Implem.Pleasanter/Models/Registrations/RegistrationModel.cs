@@ -1058,7 +1058,7 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         registrationModel: this,
                         otherInitValue: otherInitValue)),
-                new SqlStatement(Def.Sql.IfConflicted.Params(RegistrationId))
+                new SqlStatement()
                 {
                     DataTableName = dataTableName,
                     IfConflicted = true,
@@ -1138,7 +1138,7 @@ namespace Implem.Pleasanter.Models
                 transactional: true,
                 statements: Rds.PhysicalDeleteRegistrations(
                     tableType: tableType,
-                    param: Rds.RegistrationsParam().RegistrationId(RegistrationId)));
+                    where: Rds.RegistrationsWhere().RegistrationId(RegistrationId)));
             return new ErrorData(type: Error.Types.None);
         }
 
@@ -1703,7 +1703,7 @@ namespace Implem.Pleasanter.Models
                             .OwnerType("Users")
                             .MailAddress(MailAddress))
                 }).Id.ToInt();
-            SiteInfo.Reflesh(
+            SiteInfo.Refresh(
                 context: context,
                 force: true);
         }

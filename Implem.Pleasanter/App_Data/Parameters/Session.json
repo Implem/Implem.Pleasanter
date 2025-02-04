@@ -1,3 +1,4 @@
 ﻿{
-    "RetentionPeriod": 1440
+    "RetentionPeriod": 1440,
+    "UseKeyValueStore": false
 }

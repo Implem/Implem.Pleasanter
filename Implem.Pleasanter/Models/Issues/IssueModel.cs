@@ -1726,7 +1726,19 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     ss: ss,
                                     value: notification.Body),
-                                values: ss.IncludedColumns(notification.Address)
+                                valuesTo: ss.IncludedColumns(notification.Address)
+                                    .ToDictionary(
+                                        column => column,
+                                        column => PropertyValue(
+                                            context: context,
+                                            column: column)),
+                                valuesCc: ss.IncludedColumns(notification.CcAddress)
+                                    .ToDictionary(
+                                        column => column,
+                                        column => PropertyValue(
+                                            context: context,
+                                            column: column)),
+                                valuesBcc: ss.IncludedColumns(notification.BccAddress)
                                     .ToDictionary(
                                         column => column,
                                         column => PropertyValue(
@@ -2033,7 +2045,19 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     ss: ss,
                                     value: notification.Body),
-                                values: ss.IncludedColumns(notification.Address)
+                                valuesTo: ss.IncludedColumns(notification.Address)
+                                    .ToDictionary(
+                                        column => column,
+                                        column => PropertyValue(
+                                            context: context,
+                                            column: column)),
+                                valuesCc: ss.IncludedColumns(notification.CcAddress)
+                                    .ToDictionary(
+                                        column => column,
+                                        column => PropertyValue(
+                                            context: context,
+                                            column: column)),
+                                valuesBcc: ss.IncludedColumns(notification.BccAddress)
                                     .ToDictionary(
                                         column => column,
                                         column => PropertyValue(
@@ -2156,7 +2180,7 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         issueModel: this,
                         otherInitValue: otherInitValue)),
-                new SqlStatement(Def.Sql.IfConflicted.Params(IssueId))
+                new SqlStatement()
                 {
                     DataTableName = dataTableName,
                     IfConflicted = true,
@@ -2529,7 +2553,7 @@ namespace Implem.Pleasanter.Models
                 transactional: true,
                 statements: Rds.PhysicalDeleteIssues(
                     tableType: tableType,
-                    param: Rds.IssuesParam().SiteId(SiteId).IssueId(IssueId)));
+                    where: Rds.IssuesWhere().SiteId(SiteId).IssueId(IssueId)));
             return new ErrorData(type: Error.Types.None);
         }
 
@@ -2793,7 +2817,8 @@ namespace Implem.Pleasanter.Models
                 Ver = context.QueryStrings.Int("ver");
             }
             var formsSiteId = context.RequestData("FromSiteId").ToLong();
-            if (formsSiteId > 0)
+            var notReturnParentRecord = context.RequestData("NotReturnParentRecord").ToBool();
+            if (formsSiteId > 0 && !notReturnParentRecord)
             {
                 var column = ss.GetColumn(
                     context: context,
@@ -3390,6 +3415,36 @@ namespace Implem.Pleasanter.Models
                                     column: column,
                                     mine: Mine(context: context))));
                         break;
+                    case DataChange.Types.InputValueFormula:
+                        var formulaSet = new FormulaSet()
+                        {
+                            Id = dataChange.Id
+                        };
+                        var err = FormulaBuilder.SetFormula(
+                            formulaSet: formulaSet,
+                            ss: ss,
+                            calculationMethod: "Extended",
+                            target: dataChange.ColumnName,
+                            condition: null,
+                            formula: dataChange.Value,
+                            notUseDisplayName: false,
+                            isDisplayError: dataChange.ValueFormulaIsDisplayError,
+                            outOfCondition: null);
+                        if (err == Error.Types.None)
+                        {
+                            formData[key] = ExecFormulaExtended(
+                                context: context,
+                                ss: ss,
+                                columnName: dataChange.ColumnName,
+                                formulaSet: formulaSet,
+                                isOutOfCondition: false,
+                                outputFormulaLogs: ss.ProcessOutputFormulaLogs);
+                        }
+                        else
+                        {
+                            throw new Exception($"Formula error {formulaSet.Id}:{err.Message(context: context)}");
+                        }
+                        break;
                     case DataChange.Types.InputDate:
                     case DataChange.Types.InputDateTime:
                         var baseDateTimeColumn = ss.GetColumn(
@@ -3462,7 +3517,11 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     link: link,
-                    id: GetClass(link.ColumnName).ToLong(),
+                    id: PropertyValue(
+                        context: context,
+                        column: ss.GetColumn(
+                            context: context,
+                            columnName: link.ColumnName)).ToLong(),
                     formData: formData,
                     blankColumns: link.Lookups
                         ?.Select(lookup => ss.GetColumn(
@@ -3712,12 +3771,13 @@ namespace Implem.Pleasanter.Models
             ss.Formulas?.ForEach(formulaSet =>
             {
                 var columnName = formulaSet.Target;
+                var view = ss.Views?.Get(formulaSet.Condition);
+                var isOutOfCondition = view != null && !Matched(context: context, ss: ss, view: view);
                 if (string.IsNullOrEmpty(formulaSet.CalculationMethod)
                     || formulaSet.CalculationMethod == FormulaSet.CalculationMethods.Default.ToString())
                 {
                     var formula = formulaSet.Formula;
-                    var view = ss.Views?.Get(formulaSet.Condition);
-                    if (view != null && !Matched(context: context, ss: ss, view: view))
+                    if (isOutOfCondition)
                     {
                         if (formulaSet.OutOfCondition != null)
                         {
@@ -3765,62 +3825,89 @@ namespace Implem.Pleasanter.Models
                 }
                 else if (formulaSet.CalculationMethod == FormulaSet.CalculationMethods.Extended.ToString())
                 {
-                    SetExtendedColumnDefaultValue(
-                        ss: ss,
-                        formulaScript: formulaSet.FormulaScript,
-                        calculationMethod: formulaSet.CalculationMethod);
-                    formulaSet = FormulaBuilder.UpdateColumnDisplayText(
-                        ss: ss,
-                        formulaSet: formulaSet);
-                    formulaSet.FormulaScript = FormulaBuilder.ParseFormulaScript(
-                        ss: ss,
-                        formulaScript: formulaSet.FormulaScript,
-                        calculationMethod: formulaSet.CalculationMethod);
-                    var value = FormulaServerScriptUtilities.Execute(
+                    var formula = formulaSet.Formula;
+                    if (isOutOfCondition && formulaSet.FormulaScriptOutOfCondition == null)
+                    {
+                        return;
+                    }
+                    var value = ExecFormulaExtended(
                         context: context,
                         ss: ss,
-                        itemModel: this,
-                        formulaScript: formulaSet.FormulaScript);
-                    switch (value)
+                        columnName: columnName,
+                        formulaSet: formulaSet,
+                        isOutOfCondition: isOutOfCondition,
+                        outputFormulaLogs: ss.OutputFormulaLogs);
+                    var formData =  new Dictionary<string, string>
                     {
-                        case "#N/A":
-                        case "#VALUE!":
-                        case "#REF!":
-                        case "#DIV/0!":
-                        case "#NUM!":
-                        case "#NAME?":
-                        case "#NULL!":
-                        case "Invalid Parameter":
-                            if (formulaSet.IsDisplayError == true)
-                            {
-                                throw new Exception($"Formula error {value}");
-                            }
-                            new SysLogModel(
-                                context: context,
-                                method: nameof(SetByFormula),
-                                message: $"Formula error {value}",
-                                sysLogType: SysLogModel.SysLogTypes.Execption);
-                            break;
-                    }
-                    var formData = new Dictionary<string, string>
-                    {
-                        { $"Issues_{columnName}", value.ToString() }
+                        { $"Issues_{columnName}", value }
                     };
                     SetByFormData(
                         context: context,
                         ss: ss,
                         formData: formData);
-                    if (ss.OutputFormulaLogs == true)
-                    {
-                        context.LogBuilder?.AppendLine($"formulaSet: {formulaSet.GetRecordingData().ToJson()}");
-                        context.LogBuilder?.AppendLine($"formulaSource: {this.ToJson()}");
-                        context.LogBuilder?.AppendLine($"formulaResult: {{\"{columnName}\":{value}}}");
-                    }
                 }
             });
             SetByAfterFormulaServerScript(
                 context: context,
                 ss: ss);
+        }
+
+        private string ExecFormulaExtended(
+            Context context,
+            SiteSettings ss,
+            string columnName,
+            FormulaSet formulaSet,
+            bool isOutOfCondition,
+            bool? outputFormulaLogs)
+        {
+            var script = isOutOfCondition == false
+                ? formulaSet.FormulaScript
+                : formulaSet.FormulaScriptOutOfCondition;
+            if (script == null) script = string.Empty;
+            SetExtendedColumnDefaultValue(
+                ss: ss,
+                formulaScript: script,
+                calculationMethod: formulaSet.CalculationMethod);
+            formulaSet = FormulaBuilder.UpdateColumnDisplayText(
+                ss: ss,
+                formulaSet: formulaSet);
+            script = FormulaBuilder.ParseFormulaScript(
+                ss: ss,
+                formulaScript: script,
+                calculationMethod: formulaSet.CalculationMethod);
+            var value = FormulaServerScriptUtilities.Execute(
+                context: context,
+                ss: ss,
+                itemModel: this,
+                formulaScript: script);
+            switch (value)
+            {
+                case "#N/A":
+                case "#VALUE!":
+                case "#REF!":
+                case "#DIV/0!":
+                case "#NUM!":
+                case "#NAME?":
+                case "#NULL!":
+                case "Invalid Parameter":
+                    if (formulaSet.IsDisplayError == true)
+                    {
+                        throw new Exception($"Formula error {value}");
+                    }
+                    new SysLogModel(
+                        context: context,
+                        method: nameof(SetByFormula),
+                        message: $"Formula error {value}",
+                        sysLogType: SysLogModel.SysLogTypes.Exception);
+                    break;
+            }
+            if (outputFormulaLogs == true)
+            {
+                context.LogBuilder?.AppendLine($"formulaSet: {formulaSet.GetRecordingData().ToJson()}");
+                context.LogBuilder?.AppendLine($"formulaSource: {this.ToJson()}");
+                context.LogBuilder?.AppendLine($"formulaResult: {{\"{columnName}\":{value}}}");
+            }
+            return value.ToString();
         }
 
         public void SetTitle(Context context, SiteSettings ss)
@@ -3931,18 +4018,6 @@ namespace Implem.Pleasanter.Models
                                 column: column,
                                 condition: filter.Value);
                             break;
-                        case "Manager":
-                            match = Manager.Id.Matched(
-                                context: context,
-                                column: column,
-                                condition: filter.Value);
-                            break;
-                        case "Owner":
-                            match = Owner.Id.Matched(
-                                context: context,
-                                column: column,
-                                condition: filter.Value);
-                            break;
                         case "Locked":
                             match = Locked.Matched(
                                 column: column,
@@ -3970,6 +4045,30 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 column: column,
                                 condition: filter.Value) == true;
+                            break;
+                        case "Manager":
+                            if (Manager.Id == 0 && filter.Value == "[\"\\t\"]")
+                            {
+                                match = true;
+                            } else
+                            {
+                                match = Manager.Id.Matched(
+                                    context: context,
+                                    column: column,
+                                    condition: filter.Value);
+                            }
+                            break;
+                        case "Owner":
+                            if (Owner.Id == 0 && filter.Value == "[\"\\t\"]")
+                            {
+                                match = true;
+                            } else
+                            {
+                                match = Owner.Id.Matched(
+                                    context: context,
+                                    column: column,
+                                    condition: filter.Value);
+                            }
                             break;
                         default:
                             switch (Def.ExtendedColumnTypes.Get(filter.Key ?? string.Empty))
@@ -4126,7 +4225,19 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         users: users);
                 }
-                var values = ss.IncludedColumns(notification.Address)
+                var valuesTo = ss.IncludedColumns(notification.Address)
+                    .ToDictionary(
+                        column => column,
+                        column => PropertyValue(
+                            context: context,
+                            column: column));
+                var valuesCc = ss.IncludedColumns(notification.CcAddress)
+                    .ToDictionary(
+                        column => column,
+                        column => PropertyValue(
+                            context: context,
+                            column: column));
+                var valuesBcc = ss.IncludedColumns(notification.BccAddress)
                     .ToDictionary(
                         column => column,
                         column => PropertyValue(
@@ -4156,7 +4267,9 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     ss: ss,
                                     notification: notification),
-                                values: values);
+                                valuesTo: valuesTo,
+                                valuesCc: valuesCc,
+                                valuesBcc: valuesBcc);
                         }
                         break;
                     case "Updated":
@@ -4184,7 +4297,9 @@ namespace Implem.Pleasanter.Models
                                             "[NotificationTrigger]",
                                             Displays.UpdatedWord(context: context))),
                                 body: body,
-                                values: values);
+                                valuesTo: valuesTo,
+                                valuesCc: valuesCc,
+                                valuesBcc: valuesBcc);
                         }
                         break;
                     case "Deleted":
@@ -4207,7 +4322,9 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     ss: ss,
                                     notification: notification),
-                                values: values);
+                                valuesTo: valuesTo,
+                                valuesCc: valuesCc,
+                                valuesBcc: valuesBcc);
                         }
                         break;
                 }

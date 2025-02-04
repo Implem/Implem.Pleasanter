@@ -6,24 +6,26 @@
         return Error.Types.HasNotPermission.MessageJson(context: context);
     }
     var hb = new HtmlBuilder();
-    hb
-        .HistoryCommands(context: context, ss: ss)
-        .Table(
-            attributes: new HtmlAttributes().Class("grid history"),
-            action: () => hb
-                .THead(action: () => hb
-                    .GridHeader(
-                        context: context,
-                        ss: ss,
-                        columns: columns,
-                        sort: false,
-                        checkRow: true))
-                .TBody(action: () => hb
-                    .HistoriesTableBody(
-                        context: context,
-                        ss: ss,
-                        columns: columns,
-                        #modelName#Model: #modelName#Model)));
+    hb.Div(
+        css: "tabs-panel-inner",
+        action: () => hb
+            .HistoryCommands(context: context, ss: ss)
+            .GridTable(
+                css: "history",
+                action: () => hb
+                    .THead(action: () => hb
+                        .GridHeader(
+                            context: context,
+                            ss: ss,
+                            columns: columns,
+                            sort: false,
+                            checkRow: true))
+                    .TBody(action: () => hb
+                        .HistoriesTableBody(
+                            context: context,
+                            ss: ss,
+                            columns: columns,
+                            #modelName#Model: #modelName#Model))));
     return new #TableName#ResponseCollection(
         context: context,
         #modelName#Model: #modelName#Model)

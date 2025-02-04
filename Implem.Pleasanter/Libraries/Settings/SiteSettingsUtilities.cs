@@ -128,7 +128,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "binaries": return BinariesSiteSettings(context: context);
                 case "demos": return DemosSiteSettings(context: context);
                 case "depts": return DeptsSiteSettings(context: context);
-                case "exportsettings": return ExportSettingsSiteSettings(context: context);
                 case "extensions": return ExtensionsSiteSettings(context: context);
                 case "groupchildren": return GroupChildrenSiteSettings(context: context);
                 case "groupmembers": return GroupMembersSiteSettings(context: context);
@@ -199,17 +198,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.SetLinks(context: context);
             ss.SetChoiceHash(context: context, withLink: false);
             ss.PermissionType = Permissions.Admins(context: context);
-            ss.TableType = tableTypes;
-            return ss;
-        }
-
-        public static SiteSettings ExportSettingsSiteSettings(Context context, Sqls.TableTypes tableTypes = Sqls.TableTypes.Normal)
-        {
-            var ss = new SiteSettings()
-            {
-                ReferenceType = "ExportSettings"
-            };
-            ss.Init(context: context);
             ss.TableType = tableTypes;
             return ss;
         }
@@ -404,7 +392,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             return ss;
         }
 
-        public static SiteSettings UsersSiteSettings(Context context, Sqls.TableTypes tableTypes = Sqls.TableTypes.Normal)
+        public static SiteSettings UsersSiteSettings(
+            Context context,
+            Sqls.TableTypes tableTypes = Sqls.TableTypes.Normal,
+            bool setAllChoices = false)
         {
             var ss = new SiteSettings()
             {
@@ -412,7 +403,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             };
             ss.Init(context: context);
             ss.SetLinks(context: context);
-            ss.SetChoiceHash(context: context, withLink: false);
+            ss.SetChoiceHash(
+                context: context,
+                withLink: false,
+                all: setAllChoices);
             ss.PermissionType = Permissions.Admins(context: context);
             ss.TableType = tableTypes;
             // ContractSettingsでAPIが無効化されている場合は無条件で使用できなくする
@@ -761,6 +755,18 @@ namespace Implem.Pleasanter.Libraries.Settings
         public static SiteSettings ApiDeptsSiteSettings(Context context)
         {
             var ss = DeptsSiteSettings(context);
+            ss?.Columns?
+                .Where(c => c.Name == "Disabled")?
+                .ForEach(c => c.CheckFilterControlType = ColumnUtilities.CheckFilterControlTypes.OnAndOff);
+            return ss;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static SiteSettings ApiExtensionsSiteSettings(Context context)
+        {
+            var ss = ExtensionsSiteSettings(context);
             ss?.Columns?
                 .Where(c => c.Name == "Disabled")?
                 .ForEach(c => c.CheckFilterControlType = ColumnUtilities.CheckFilterControlTypes.OnAndOff);

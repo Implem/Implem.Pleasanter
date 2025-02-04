@@ -237,7 +237,9 @@ namespace Implem.Pleasanter.Controllers
             var log = new SysLogModel(context: context);
             var json = UserUtilities.OpenExportSelectorDialog(
                 context: context,
-                ss: SiteSettingsUtilities.UsersSiteSettings(context: context));
+                ss: SiteSettingsUtilities.UsersSiteSettings(
+                    context: context,
+                    setAllChoices: true));
             log.Finish(context: context, responseSize: json.Length);
             return json;
         }

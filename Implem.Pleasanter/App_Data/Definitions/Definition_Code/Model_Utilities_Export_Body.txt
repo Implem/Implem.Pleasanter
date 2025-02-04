@@ -182,6 +182,14 @@ public static ContentResultInheritance ExportByApi(
     {
         return ApiResults.Get(ApiResponses.BadRequest(context: context));
     }
+    using var exclusiveObj = new Sessions.TableExclusive(context: context);
+    if (!exclusiveObj.TryLock())
+    {
+        return ApiResults.Get(new ApiResponse(
+            id: context.Id,
+            statusCode: 429,
+            message: Messages.ImportLock(context: context).Text));
+    }
     var export = api.Export ?? ss.GetExport(
         context: context,
         id: api.ExportId);
@@ -206,4 +214,56 @@ public static ContentResultInheritance ExportByApi(
                     extension: export.Type.ToString()),
                 Content = content
             });
+}
+
+public static bool ExportByServerScript(
+	Context context,
+	SiteSettings ss,
+	string filePath)
+{
+	if (!Mime.ValidateOnApi(contentType: context.ContentType))
+	{
+		throw NewProcessingFailureException(message: Messages.BadRequest(context: context));
+	}
+	if (context.ContractSettings.Export == false)
+	{
+		throw NewProcessingFailureException(message: Messages.BadRequest(context: context));
+	}
+	var invalid = #ModelName#Validators.OnExporting(
+		context: context,
+		ss: ss,
+		api: true);
+	switch (invalid.Type)
+	{
+		case Error.Types.None: break;
+		default:
+			throw NewProcessingFailureException(message: invalid.Message(context: context));
+	}
+	var api = context.RequestDataString.Deserialize<ExportServerScript>();
+	if (api == null)
+	{
+		throw NewProcessingFailureException(message: Messages.BadRequest(context: context));
+	}
+    using var exclusiveObj = new Sessions.TableExclusive(context: context, siteId: ss.SiteId);
+	if (!exclusiveObj.TryLock())
+	{
+		throw NewProcessingFailureException(message: Messages.ImportLock(context: context));
+	}
+	var export = api.Export ?? ss.GetExport(
+		context: context,
+		id: api.ExportId);
+	var content = ExportUtilities.Export(
+		context: context,
+		ss: ss,
+		export: export,
+		where: SelectedWhere(
+			context: context,
+			ss: ss),
+		view: api.View ?? new View());
+    content.ToBytes(
+        api.Encoding == "Shift-JIS"
+            ? System.Text.Encoding.GetEncoding("Shift_JIS")
+            : System.Text.Encoding.UTF8)
+        .Write(filePath: filePath);
+	return true;
 }

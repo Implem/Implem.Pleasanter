@@ -459,6 +459,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                             ss: ss,
                             column: column,
                             type: Type);
+                    case "Manager":
+                        return userModel.Manager.ToLookup(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: Type);
                     case "Theme":
                         return userModel.Theme.ToLookup(
                             context: context,
@@ -539,6 +545,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                             type: Type);
                     case "AllowApi":
                         return userModel.AllowApi.ToLookup(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: Type);
+                    case "AllowMovingFromTopSite":
+                        return userModel.AllowMovingFromTopSite.ToLookup(
                             context: context,
                             ss: ss,
                             column: column,

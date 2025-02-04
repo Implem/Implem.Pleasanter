@@ -1,0 +1,42 @@
+﻿{
+    "Version": 1.017,
+    "ReferenceType": "Results",
+    "EditorColumnHash": {
+        "General": [
+            "ResultId",
+            "Ver",
+            "Title",
+            "Body",
+            "Status",
+            "Manager",
+            "Owner",
+            "Comments",
+            "ClassA"
+        ]
+    },
+    "Columns": [
+        {
+            "ColumnName": "ClassA",
+            "ChoicesText": "[[Users*]]",
+            "UseSearch": true,
+            "SearchType": "PartialMatch"
+        }
+    ],
+    "Formulas": [
+        {
+            "CalculationMethod": "Default",
+            "Target": "NumA",
+            "Formula": {
+                "OperatorType": 0,
+                "Children": [
+                    {
+                        "RawValue": 1.0,
+                        "OperatorType": 0
+                    }
+                ]
+            },
+            "Id": 1
+        }
+    ],
+    "NoDisplayIfReadOnly": false
+}

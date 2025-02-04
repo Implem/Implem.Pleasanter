@@ -22,6 +22,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public int? Priority;
         public bool? NoAddButton;
         public bool? AddSource;
+        public bool? NotReturnParentRecord;
         public bool? ExcludeMe;
         public bool? MembersOnly;
         public bool? SelectNewLink;
@@ -68,6 +69,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                             case "AddSource":
                                 AddSource = true;
                                 break;
+                            case "NotReturnParentRecord":
+                                NotReturnParentRecord = true;
+                                break;
                         }
                     }
                 });
@@ -87,6 +91,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (Priority > 0) link.Priority = Priority;
             if (NoAddButton == true) link.NoAddButton = true;
             if (AddSource == true) link.AddSource = true;
+            if (NotReturnParentRecord == true) link.NotReturnParentRecord = true;
             if (ExcludeMe == true) link.ExcludeMe = true;
             if (MembersOnly == true) link.MembersOnly = true;
             if (SelectNewLink == true) link.SelectNewLink = true;
@@ -212,6 +217,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 || setAllChoices
                                 || selectedValues?.Any() == true)
                             {
+                                // 項目利用時かつ項目候補が無い場合に強制的に作成を行う。実装を見直しする事が望ましい
+                                // 現状のコードではSiteSettings.Init()で全部作る想定だがネストが深い場合は作られない。
+                                if (ss.Destinations == null && search)
+                                {
+                                    ss.SetLinkedSiteSettings(context: context, sources: false);
+                                    ss.SetPermissions(context: context, referenceId: ss.ReferenceId);
+                                }
                                 var currentSs = ss.Destinations?.Get(SiteId);
                                 if (currentSs != null)
                                 {

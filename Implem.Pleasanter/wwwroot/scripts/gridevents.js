@@ -45,36 +45,41 @@
                     $p.syncSend($control);
                     $p.setCurrentIndex();
                 } else {
-                    var func = $grid.attr('data-func');
                     var dataId = $(this).closest('.grid-row').attr('data-id');
-                    var dataVer = $(this).closest('.grid-row').attr('data-ver');
-                    var dataHistory = $(this).closest('.grid-row').attr('data-history');
-                    if (func) {
-                        $p.getData($grid)[$grid.attr('data-name')] = dataId;
-                        $p[func]($grid);
-                    }
-                    else {
-                        var paramVer = dataHistory ? '?ver=' + dataVer : '';
-                        if ($('#EditorDialog').length === 1) {
-                            var data = {};
-                            data.EditInDialog = true;
-                            url = $('#BaseUrl').val() + dataId
-                                + paramVer;
-                            $p.ajax(url, 'post', data);
-                        } else {
-                            var params = [];
-                            var fromTabIndex = $grid.attr('from-tab-index');
-                            if ($grid.attr('data-value') === 'back') {
-                                params.push('back=1');
+                    if ($grid.hasClass('new-tab')) {
+                        url = $('#BaseUrl').val() + dataId;
+                        window.open(url, '_blank', 'noopener noreferrer');
+                    } else {
+                        var func = $grid.attr('data-func');
+                        var dataVer = $(this).closest('.grid-row').attr('data-ver');
+                        var dataHistory = $(this).closest('.grid-row').attr('data-history');
+                        if (func) {
+                            $p.getData($grid)[$grid.attr('data-name')] = dataId;
+                            $p[func]($grid);
+                        }
+                        else {
+                            var paramVer = dataHistory ? '?ver=' + dataVer : '';
+                            if ($('#EditorDialog').length === 1) {
+                                var data = {};
+                                data.EditInDialog = true;
+                                url = $('#BaseUrl').val() + dataId
+                                    + paramVer;
+                                $p.ajax(url, 'post', data);
+                            } else {
+                                var params = [];
+                                var fromTabIndex = $grid.attr('from-tab-index');
+                                if ($grid.attr('data-value') === 'back') {
+                                    params.push('back=1');
+                                }
+                                if (fromTabIndex) {
+                                    params.push('FromTabIndex=' + fromTabIndex);
+                                }
+                                $p.transition($('#BaseUrl').val() + dataId
+                                    + paramVer
+                                    + (params.length
+                                        ? (paramVer ? '$' : '?') + params.join('&')
+                                        : ''));
                             }
-                            if (fromTabIndex) {
-                                params.push('FromTabIndex=' + fromTabIndex);
-                            }
-                            $p.transition($('#BaseUrl').val() + dataId
-                                + paramVer
-                                + (params.length
-                                    ? (paramVer ? '$' : '?') + params.join('&')
-                                    : ''));
                         }
                     }
                 }

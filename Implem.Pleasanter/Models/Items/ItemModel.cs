@@ -211,6 +211,32 @@ namespace Implem.Pleasanter.Models
             return ApiResults.Get(ApiResponses.BadRequest(context: context));
         }
 
+        public bool ExportByServerScript(Context context, string filePath)
+        {
+            SetSite(context: context);
+            switch (Site.ReferenceType)
+            {
+                case "Issues":
+                    return IssueUtilities.ExportByServerScript(
+                        context: context,
+                        ss: Site.IssuesSiteSettings(
+                            context: context,
+                            referenceId: ReferenceId,
+                            setSiteIntegration: true),
+                        filePath: filePath);
+                case "Results":
+                    return ResultUtilities.ExportByServerScript(
+                        context: context,
+                        ss: Site.ResultsSiteSettings(
+                            context: context,
+                            referenceId: ReferenceId,
+                            setSiteIntegration: true),
+                        filePath: filePath);
+                default:
+                    return false;
+            }
+        }
+
         public ContentResultInheritance ImportByApi(Context context)
         {
             SetSite(
@@ -249,6 +275,32 @@ namespace Implem.Pleasanter.Models
                     return ApiResults.Get(ApiResponses.BadRequest(context: context));
             }
             return ApiResults.Get(ApiResponses.BadRequest(context: context));
+        }
+
+        public string ImportByServerScript(Context context, string filePath)
+        {
+            SetSite(context: context);
+            switch (Site.ReferenceType)
+            {
+                case "Issues":
+                    return IssueUtilities.ImportByServerScript(
+                        context: context,
+                        ss: Site.IssuesSiteSettings(
+                            context: context,
+                            referenceId: ReferenceId,
+                            setSiteIntegration: true),
+                        filePath: filePath);
+                case "Results":
+                    return ResultUtilities.ImportByServerScript(
+                        context: context,
+                        ss: Site.ResultsSiteSettings(
+                            context: context,
+                            referenceId: ReferenceId,
+                            setSiteIntegration: true),
+                        filePath: filePath);
+                default:
+                    return null;
+            }
         }
 
         public string Index(Context context)
@@ -1262,6 +1314,13 @@ namespace Implem.Pleasanter.Models
                 var column = Site.SiteSettings.GetColumn(
                     context: context,
                     columnName: columnName);
+                if (column == null)
+                {
+                    Parameters.ExtendedFields.ForEach(extendedField =>
+                    {
+                        if (extendedField.Name == columnName) column = new Implem.Pleasanter.Libraries.Settings.Column(extendedField.Name);
+                    });
+                }
                 return new ResponseCollection(context: context)
                     .Html(
                         "#SetDateRangeDialog",
@@ -3127,6 +3186,111 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public string ImportUserTemplate(Context context)
+        {
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true);
+            switch (Site.ReferenceType)
+            {
+                case "Sites":
+                    return SiteUtilities.ImportUserTemplate(
+                        context: context,
+                        ss: Site.SiteSettings);
+                case "Issues":
+                case "Results":
+                case "Wikis":
+                case "Dashboards":
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+
+        public string DeleteUserTemplate(Context context)
+        {
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true);
+            switch (Site.ReferenceType)
+            {
+                case "Sites":
+                    return SiteUtilities.DeleteUserTemplate(
+                        context: context,
+                        ss: Site.SiteSettings);
+                case "Issues":
+                case "Results":
+                case "Wikis":
+                case "Dashboards":
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+
+        public string UpdateUserTemplate(Context context)
+        {
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true);
+            switch (Site.ReferenceType)
+            {
+                case "Sites":
+                    return SiteUtilities.UpdateUserTemplate(
+                        context: context,
+                        ss: Site.SiteSettings);
+                case "Issues":
+                case "Results":
+                case "Wikis":
+                case "Dashboards":
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+
+        public string SearchUserTemplate(Context context)
+        {
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true);
+            switch (Site.ReferenceType)
+            {
+                case "Sites":
+                    return SiteUtilities.SearchUserTemplate(
+                        context: context,
+                        ss: Site.SiteSettings);
+                case "Issues":
+                case "Results":
+                case "Wikis":
+                case "Dashboards":
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+
+        public string OpenEditUserTemplateDialog(Context context)
+        {
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true);
+            switch (Site.ReferenceType)
+            {
+                case "Sites":
+                    return SiteUtilities.OpenEditUserTemplateDialog(
+                        context: context,
+                        ss: Site.SiteSettings);
+                case "Issues":
+                case "Results":
+                case "Wikis":
+                case "Dashboards":
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+
         public (Plugins.PdfData pdfData, string error) Pdf(Context context, int reportId)
         {
             SetSite(
@@ -3255,10 +3419,16 @@ namespace Implem.Pleasanter.Models
         {
             SetSite(context: context);
             var selected = context.Forms.IntList("EditSummary");
+            using var exclusiveObj = new Sessions.TableExclusive(context: context);
+            if (!exclusiveObj.TryLock())
+            {
+                return Messages.ImportLock(context: context).ToJson();
+            }
             var result = SiteUtilities.SynchronizeSummaries(
                 context: context,
                 siteModel: Site,
-                selected: selected);
+                selected: selected,
+                watchdog: () => exclusiveObj.Refresh());
             if (result.Type == Error.Types.None)
             {
                 return Messages.ResponseSynchronizationCompleted(context: context).ToJson();
@@ -3287,10 +3457,19 @@ namespace Implem.Pleasanter.Models
                         sysLogsStatus: 400,
                         sysLogsDescription: Debugs.GetSysLogsDescription()));
             }
+            using var exclusiveObj = new Sessions.TableExclusive(context: context);
+            if (!exclusiveObj.TryLock())
+            {
+                return ApiResults.Get(new ApiResponse(
+                    id: context.Id,
+                    statusCode: 429,
+                    message: Messages.ImportLock(context: context).Text));
+            }
             var result = SiteUtilities.SynchronizeSummaries(
                 context: context,
                 siteModel: Site,
-                selected: selected);
+                selected: selected,
+                watchdog: () => exclusiveObj.Refresh());
             if (result.Type == Error.Types.SelectTargets)
             {
                 return ApiResults.Success(

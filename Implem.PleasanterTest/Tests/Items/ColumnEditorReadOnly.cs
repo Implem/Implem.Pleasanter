@@ -9,6 +9,7 @@ using Xunit;
 
 namespace Implem.PleasanterTest.Tests.Items
 {
+    [Collection(nameof(ColumnEditorReadOnly))]
     public class ColumnEditorReadOnly
     {
         private Context Context;

@@ -199,7 +199,7 @@ namespace Implem.Pleasanter.Models
                                         .A(
                                             href: "#FieldSetAddressBook",
                                             text: Displays.AddressBook(context: context))))
-                            .FieldSet(id: "FieldSetMailEditor", action: () => hb
+                            .TabsPanelField(id: "FieldSetMailEditor", action: () => hb
                                 .Form(
                                     attributes: new HtmlAttributes()
                                         .Id("OutgoingMailForm")
@@ -213,7 +213,7 @@ namespace Implem.Pleasanter.Models
                                             context: context,
                                             ss: ss,
                                             outgoingMailModel: outgoingMailModel)))
-                            .FieldSet(id: "FieldSetAddressBook", action: () => hb
+                            .TabsPanelField(id: "FieldSetAddressBook", action: () => hb
                                 .Form(
                                     attributes: new HtmlAttributes()
                                         .Id("OutgoingMailDestinationForm")

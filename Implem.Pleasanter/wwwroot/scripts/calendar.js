@@ -207,6 +207,7 @@ function setMonthly(group, data, hash, begin, end, calendarSuffix) {
     data.forEach(function (element) {
         element.From = removeTimeZoneSuffix(element.From);
         element.To = removeTimeZoneSuffix(element.To);
+        if (begin > new Date(element.To)) return;
         var current = new Date(element.From);
         if (current < begin) {
             current = new Date(begin);
@@ -373,7 +374,11 @@ function addItem(group, hash, element, current, calendarSuffix, sub, rank, yearl
     hash[id]++;
 }
 function removeTimeZoneSuffix(datetime_str) {
-    return datetime_str.replace("Z", "");
+    if (datetime_str === undefined) {
+        return datetime_str;
+    } else {
+        return datetime_str.replace("Z", "");
+    }
 }
 
 function margeTime(date, dateTime) {

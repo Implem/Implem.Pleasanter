@@ -2037,6 +2037,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                         case "Dept":
                             sql.Users_Dept(tableName: path, _as: _as);
                             break;
+                        case "Manager":
+                            sql.Users_Manager(tableName: path, _as: _as);
+                            break;
                         case "Theme":
                             sql.Users_Theme(tableName: path, _as: _as);
                             break;
@@ -2078,6 +2081,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                             break;
                         case "AllowApi":
                             sql.Users_AllowApi(tableName: path, _as: _as);
+                            break;
+                        case "AllowMovingFromTopSite":
+                            sql.Users_AllowMovingFromTopSite(tableName: path, _as: _as);
                             break;
                         case "EnableSecondaryAuthentication":
                             sql.Users_EnableSecondaryAuthentication(tableName: path, _as: _as);

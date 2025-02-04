@@ -9,6 +9,7 @@ using Xunit;
 
 namespace Implem.PleasanterTest.Tests.Items
 {
+    [Collection(nameof(ItemsColumnAccessControl))]
     public class ItemsColumnAccessControl
     {
         [Theory]
@@ -26,6 +27,7 @@ namespace Implem.PleasanterTest.Tests.Items
                 httpMethod: "POST",
                 forms: forms);
             var results = Results(context: context);
+            Initializer.SaveResults(results);
             Assert.True(Tester.Test(
                 context: context,
                 results: results,
@@ -38,7 +40,7 @@ namespace Implem.PleasanterTest.Tests.Items
             var baseTests = BaseData.Tests(
                 JsonData.ExistsOne(
                     method: "Html",
-                    target: "#FieldSetColumnAccessControl"),
+                    target: "#FieldSetColumnAccessControlEditor"),
                 JsonData.ExistsOne(
                     method: "RemoveAttr",
                     target: "#FieldSetColumnAccessControl"));

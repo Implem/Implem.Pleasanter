@@ -1,0 +1,33 @@
+﻿{
+    "Id": "InputValueFormula",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Functional operations on values"
+        },
+        {
+            "Language": "ja",
+            "Body": "値の関数操作"
+        },
+        {
+            "Language": "zh-CN",
+            "Body": "对值的函数运算"
+        },
+        {
+            "Language": "de",
+            "Body": "Funktionale Operationen an Werten"
+        },
+        {
+            "Language": "ko",
+            "Body": "값의 함수 조작"
+        },
+        {
+            "Language": "es",
+            "Body": "Operaciones funcionales sobre valores."
+        },
+        {
+            "Language": "vi",
+            "Body": "Các phép toán hàm trên giá trị"
+        }
+    ]
+}

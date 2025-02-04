@@ -1207,7 +1207,7 @@ namespace Implem.Pleasanter.Models
         public ErrorData Update(
             Context context,
             SiteSettings ss,
-            bool refleshSiteInfo = true,
+            bool refreshSiteInfo = true,
             bool updateGroupMembers = true,
             bool updateGroupChildren = true,
             GroupApiModel groupApiModel = null,
@@ -1278,9 +1278,9 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     groupId: GroupId);
             }        
-            if (refleshSiteInfo)
+            if (refreshSiteInfo)
             {
-                SiteInfo.Reflesh(context: context);
+                SiteInfo.Refresh(context: context);
             }
             return new ErrorData(type: Error.Types.None);
         }
@@ -1341,7 +1341,7 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         groupModel: this,
                         otherInitValue: otherInitValue)),
-                new SqlStatement(Def.Sql.IfConflicted.Params(GroupId))
+                new SqlStatement()
                 {
                     DataTableName = dataTableName,
                     IfConflicted = true,
@@ -1644,7 +1644,7 @@ namespace Implem.Pleasanter.Models
                 transactional: true,
                 statements: Rds.PhysicalDeleteGroups(
                     tableType: tableType,
-                    param: Rds.GroupsParam().GroupId(GroupId)));
+                    where: Rds.GroupsWhere().GroupId(GroupId)));
             return new ErrorData(type: Error.Types.None);
         }
 

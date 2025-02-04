@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using System.Threading.Tasks;
 using System;
+using Implem.DefinitionAccessor;
 
 namespace Implem.Pleasanter.Libraries.Security
 {
@@ -68,6 +69,10 @@ namespace Implem.Pleasanter.Libraries.Security
                 key: sessionKey,
                 page: false,
                 sessionGuid: key);
+            if (Parameters.Session.UseKeyValueStore)
+            {
+                Implem.Pleasanter.Libraries.Redis.CacheForRedisConnection.Clear(key);
+            }
             return Task.CompletedTask;
         }
     }

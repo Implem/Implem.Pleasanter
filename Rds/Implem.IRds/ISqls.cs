@@ -39,6 +39,7 @@ namespace Implem.IRds
         string SitePermissionsWhere { get; }
         public string IntegratedSitesPermissionsWhere(string tableName, List<long> sites);
         string UpsertBinary { get; }
-        string GetBinaryHash { get; }
+        string GetBinaryHash(string algorithm);
+        string MigrateDatabaseSelectFrom(string tableName);
     }
 }

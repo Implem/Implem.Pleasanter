@@ -53,6 +53,10 @@ namespace Implem.Pleasanter.Libraries.Extensions
 
         public static bool Matched(this Num value, Column column, string condition)
         {
+            if (column.Nullable == true && value.Value == null)
+            {
+                return condition == "[\"\\t\"]";
+            }
             return value.Value.ToDecimal().Matched(column, condition);
         }
 
@@ -169,24 +173,34 @@ namespace Implem.Pleasanter.Libraries.Extensions
                                 return value?.IndexOf(condition) == 0;
                             }
                         default:
-                            if (param?.Any() == true)
+                            if (param?.Count() == 1 && param.FirstOrDefault() == "\t")
                             {
-                                var x = param.All(o =>
+                                return value == "[]";
+                            }
+                            else if (param?.Any() == true)
+                            {
+                                return param.All(o =>
                                     value?.Contains(o.StringInJson()) == true);
-                                return x;
                             }
                             return true;
                     }
                 }
                 else if (param?.Any() == true)
                 {
+                    // 「状況項目」で「未選択」時の処理
+                    if (column.TypeName.CsTypeSummary() == Types.CsNumeric
+                        && column.Nullable == false
+                        && value == "0")
+                    {
+                        return param.Any(o => o == "\t");
+                    }
                     switch (column.SearchType)
                     {
                         case Column.SearchTypes.ExactMatch:
                         case Column.SearchTypes.ExactMatchMultiple:
-                            return param.Any(o => o == (!value.IsNullOrEmpty()
-                                ? value
-                                : "\t"));
+                            return param.Any(o => !value.IsNullOrEmpty()
+                                ? o == value
+                                : o == "\t");
                         case Column.SearchTypes.ForwardMatch:
                         case Column.SearchTypes.ForwardMatchMultiple:
                             return param.Any(o => !value.IsNullOrEmpty()

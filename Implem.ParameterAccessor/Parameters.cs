@@ -26,6 +26,7 @@ namespace Implem.DefinitionAccessor
         public static List<ExtendedServerScript> ExtendedServerScripts;
         public static List<ExtendedSql> ExtendedSqls;
         public static List<ExtendedStyle> ExtendedStyles;
+        public static List<ExtendedHeadLink> ExtendedHeadLinks;
         public static List<ExtendedPlugin> ExtendedPlugins;
         public static Dictionary<string, string> ExtendedTags;
         public static General General;
@@ -41,6 +42,7 @@ namespace Implem.DefinitionAccessor
         public static Parameter Parameter;
         public static Permissions Permissions;
         public static Rds Rds;
+        public static Kvs Kvs;
         public static Registration Registration;
         public static Reminder Reminder;
         public static Script Script;
@@ -52,6 +54,7 @@ namespace Implem.DefinitionAccessor
         public static SitePackage SitePackage;
         public static SysLog SysLog;
         public static User User;
+        public static CustomApps UserTemplate;
         public static ParameterAccessor.Parts.Version Version;
         public static Validation Validation;
         public static Dashboard Dashboard;
@@ -96,6 +99,12 @@ namespace Implem.DefinitionAccessor
         {
             var prop = License.GetType().GetProperty("DisableAds");
             return (bool?)(prop?.GetValue(License)) ?? false;
+        }
+        public static int Environment()
+        {
+            //1:共用環境、2:DEMO環境、0:その他
+            var prop = License.GetType().GetProperty("Environment");
+            return (int?)(prop?.GetValue(License)) ?? 0;
         }
 
         public static Dictionary<string, object> GetLicenseInfo()

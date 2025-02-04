@@ -33,6 +33,25 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
+        public static HtmlTest Disabled(string selector)
+        {
+            return new HtmlTest()
+            {
+                Type = HtmlTest.Types.Disabled,
+                Selector = selector,
+            };
+        }
+
+        public static HtmlTest InnerHtml(string selector, string value)
+        {
+            return new HtmlTest()
+            {
+                Type = HtmlTest.Types.InnerHtml,
+                Selector = selector,
+                Value = value
+            };
+        }
+
         public static HtmlTest TextContains(string selector, string value)
         {
             return new HtmlTest()
@@ -63,6 +82,15 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
+        public static HtmlTest HasInformationMessage(string message)
+        {
+            return new HtmlTest()
+            {
+                Type = HtmlTest.Types.HasInformationMessage,
+                Value = message
+            };
+        }
+
         public static HtmlTest SelectedOption(string selector, string value)
         {
             return new HtmlTest()
@@ -72,5 +100,16 @@ namespace Implem.PleasanterTest.Utilities
                 Value = value
             };
         }
+        public static HtmlTest Attribute(string selector, string name, string value)
+        {
+            return new HtmlTest()
+            {
+                Name = name,
+                Type = HtmlTest.Types.Attribute,
+                Selector = selector,
+                Value = value
+            };
+        }
+
     }
 }

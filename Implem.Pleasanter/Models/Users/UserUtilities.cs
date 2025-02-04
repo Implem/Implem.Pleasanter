@@ -235,7 +235,7 @@ namespace Implem.Pleasanter.Models
                 view: view,
                 checkPermission: true);
             return hb
-                .Table(
+                .GridTable(
                     attributes: new HtmlAttributes()
                         .Id($"Grid{suffix}")
                         .Class(ss.GridCss(context: context))
@@ -388,7 +388,8 @@ namespace Implem.Pleasanter.Models
                         view: view,
                         dataRows: gridData.DataRows,
                         columns: columns,
-                        checkRow: checkRow));
+                        checkRow: checkRow,
+                        clearCheck: clearCheck));
         }
 
         private static SqlWhereCollection SelectedWhere(
@@ -468,7 +469,7 @@ namespace Implem.Pleasanter.Models
             int? tabIndex = null,
             ServerScriptModelColumn serverScriptModelColumn = null)
         {
-            if (serverScriptModelColumn?.Hide == true)
+            if (serverScriptModelColumn?.HideChanged == true && serverScriptModelColumn?.Hide == true)
             {
                 return hb.Td();
             }
@@ -693,6 +694,24 @@ namespace Implem.Pleasanter.Models
                                     value: string.Empty,
                                     tabIndex: tabIndex,
                                     serverScriptModelColumn: serverScriptModelColumn);
+                    case "Manager":
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: userModel.Manager,
+                                    tabIndex: tabIndex,
+                                    serverScriptModelColumn: serverScriptModelColumn)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty,
+                                    tabIndex: tabIndex,
+                                    serverScriptModelColumn: serverScriptModelColumn);
                     case "Theme":
                         return ss.ReadColumnAccessControls.Allowed(
                             context: context,
@@ -901,6 +920,24 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     column: column,
                                     value: userModel.AllowApi,
+                                    tabIndex: tabIndex,
+                                    serverScriptModelColumn: serverScriptModelColumn)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty,
+                                    tabIndex: tabIndex,
+                                    serverScriptModelColumn: serverScriptModelColumn);
+                    case "AllowMovingFromTopSite":
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: userModel.AllowMovingFromTopSite,
                                     tabIndex: tabIndex,
                                     serverScriptModelColumn: serverScriptModelColumn)
                                 : hb.Td(
@@ -1307,6 +1344,9 @@ namespace Implem.Pleasanter.Models
                     case "Dept": value = userModel.Dept.GridText(
                         context: context,
                         column: column); break;
+                    case "Manager": value = userModel.Manager.GridText(
+                        context: context,
+                        column: column); break;
                     case "Theme": value = userModel.Theme.GridText(
                         context: context,
                         column: column); break;
@@ -1341,6 +1381,9 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         column: column); break;
                     case "AllowApi": value = userModel.AllowApi.GridText(
+                        context: context,
+                        column: column); break;
+                    case "AllowMovingFromTopSite": value = userModel.AllowMovingFromTopSite.GridText(
                         context: context,
                         column: column); break;
                     case "EnableSecondaryAuthentication": value = userModel.EnableSecondaryAuthentication.GridText(
@@ -1631,9 +1674,12 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             UserModel userModel)
         {
-            return hb.FieldSet(id: "FieldSetGeneral", action: () => hb
-                .FieldSetGeneralColumns(
-                    context: context, ss: ss, userModel: userModel));
+            return hb.TabsPanelField(
+                id: "FieldSetGeneral",
+                action: () => hb.FieldSetGeneralColumns(
+                    context: context,
+                    ss: ss,
+                    userModel: userModel));
         }
 
         private static HtmlBuilder FieldSetGeneralColumns(
@@ -1789,6 +1835,12 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: column);
+                case "Manager":
+                    return userModel.Manager
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
                 case "Theme":
                     return userModel.Theme
                         .ToControl(
@@ -1857,6 +1909,12 @@ namespace Implem.Pleasanter.Models
                             column: column);
                 case "AllowApi":
                     return userModel.AllowApi
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "AllowMovingFromTopSite":
+                    return userModel.AllowMovingFromTopSite
                         .ToControl(
                             context: context,
                             ss: ss,
@@ -2267,6 +2325,12 @@ namespace Implem.Pleasanter.Models
                                     value: userModel.DeptId.ToResponse(context: context, ss: ss, column: column),
                                     options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                 break;
+                            case "Manager":
+                                res.Val(
+                                    target: "#Users_Manager" + idSuffix,
+                                    value: userModel.Manager.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
                             case "Theme":
                                 res.Val(
                                     target: "#Users_Theme" + idSuffix,
@@ -2343,6 +2407,12 @@ namespace Implem.Pleasanter.Models
                                 res.Val(
                                     target: "#Users_AllowApi" + idSuffix,
                                     value: userModel.AllowApi,
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "AllowMovingFromTopSite":
+                                res.Val(
+                                    target: "#Users_AllowMovingFromTopSite" + idSuffix,
+                                    value: userModel.AllowMovingFromTopSite,
                                     options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                 break;
                             case "EnableSecondaryAuthentication":
@@ -2787,24 +2857,26 @@ namespace Implem.Pleasanter.Models
                 return Error.Types.HasNotPermission.MessageJson(context: context);
             }
             var hb = new HtmlBuilder();
-            hb
-                .HistoryCommands(context: context, ss: ss)
-                .Table(
-                    attributes: new HtmlAttributes().Class("grid history"),
-                    action: () => hb
-                        .THead(action: () => hb
-                            .GridHeader(
-                                context: context,
-                                ss: ss,
-                                columns: columns,
-                                sort: false,
-                                checkRow: true))
-                        .TBody(action: () => hb
-                            .HistoriesTableBody(
-                                context: context,
-                                ss: ss,
-                                columns: columns,
-                                userModel: userModel)));
+            hb.Div(
+                css: "tabs-panel-inner",
+                action: () => hb
+                    .HistoryCommands(context: context, ss: ss)
+                    .GridTable(
+                        css: "history",
+                        action: () => hb
+                            .THead(action: () => hb
+                                .GridHeader(
+                                    context: context,
+                                    ss: ss,
+                                    columns: columns,
+                                    sort: false,
+                                    checkRow: true))
+                            .TBody(action: () => hb
+                                .HistoriesTableBody(
+                                    context: context,
+                                    ss: ss,
+                                    columns: columns,
+                                    userModel: userModel))));
             return new UsersResponseCollection(
                 context: context,
                 userModel: userModel)
@@ -2903,7 +2975,7 @@ namespace Implem.Pleasanter.Models
             {
                 var selector = new RecordSelector(context: context);
                 var count = 0;
-                if(selector.All == false && selector.Selected.Any() == false)
+                if (selector.All == false && selector.Selected.Any() == false)
                 {
                     return Messages.ResponseSelectTargets(context: context).ToJson();
                 }
@@ -3049,7 +3121,9 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string Import(Context context)
         {
-            var ss = SiteSettingsUtilities.UsersSiteSettings(context: context);
+            var ss = SiteSettingsUtilities.UsersSiteSettings(
+                context: context,
+                setAllChoices: true);
             if (context.ContractSettings.Import == false)
             {
                 return Messages.ResponseRestricted(context: context).ToJson();
@@ -3178,7 +3252,7 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 ss: ss,
                                 updateMailAddresses: false,
-                                refleshSiteInfo: false,
+                                refreshSiteInfo: false,
                                 get: false);
                             switch (errorData.Type)
                             {
@@ -3187,7 +3261,7 @@ namespace Implem.Pleasanter.Models
                                 case Error.Types.UpdateConflicts:
                                     return new ResponseCollection(context: context)
                                         .Message(Messages.ImportInvalidUserIdAndLoginId(
-                                            context:context,
+                                            context: context,
                                             data: [userModel.UserId.ToString(), userModel.LoginId]))
                                         .ToJson();
                                 default:
@@ -3217,7 +3291,7 @@ namespace Implem.Pleasanter.Models
                         insertCount++;
                     }
                 }
-                SiteInfo.Reflesh(
+                SiteInfo.Refresh(
                     context: context,
                     force: true);
                 return GridRows(
@@ -3399,7 +3473,7 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 ss: ss,
                                 updateMailAddresses: false,
-                                refleshSiteInfo: false,
+                                refreshSiteInfo: false,
                                 get: false);
                             switch (errorData.Type)
                             {
@@ -3436,7 +3510,7 @@ namespace Implem.Pleasanter.Models
                         insertCount++;
                     }
                 }
-                SiteInfo.Reflesh(
+                SiteInfo.Refresh(
                     context: context,
                     force: true);
                 return ApiResults.Success(
@@ -3592,11 +3666,11 @@ namespace Implem.Pleasanter.Models
                         case "Language":
                             userModel.Language = recordingData.ToString();
                             if (userModel.Language.IsNullOrEmpty())
-                            {                                
+                            {
                                 userModel.Language = tenantModel.Language.IsNullOrEmpty()
                                 ? Parameters.Service.DefaultLanguage
                                 : tenantModel.Language;
-                            }                            
+                            }
                             break;
                         case "TimeZone":
                             userModel.TimeZone = recordingData.ToString();
@@ -3614,6 +3688,11 @@ namespace Implem.Pleasanter.Models
                             userModel.DeptId = SiteInfo.Dept(
                                 tenantId: context.TenantId,
                                 deptCode: recordingData).Id;
+                            break;
+                        case "Manager":
+                            userModel.Manager = SiteInfo.User(
+                                context: context,
+                                userId: recordingData.ToInt());
                             break;
                         case "Theme":
                             userModel.Theme = recordingData.ToString();
@@ -3940,7 +4019,7 @@ namespace Implem.Pleasanter.Models
             {
                 return Error.Types.JoeAccountCheck.MessageJson(context: context);
             }
-            foreach(var policy in Parameters.Security.PasswordPolicies.Where(o => o.Enabled))
+            foreach (var policy in Parameters.Security.PasswordPolicies.Where(o => o.Enabled))
             {
                 if (!context.Forms.Data("Users_AfterResetPassword").RegexExists(policy.Regex))
                 {
@@ -4440,8 +4519,9 @@ namespace Implem.Pleasanter.Models
             userModel.Session_MailAddresses(
                 context: context,
                 value: listItemCollection.Keys.ToList().ToJson());
-            return hb.FieldSet(id: "FieldSetMailAddresses", action: () => hb
-                .FieldSelectable(
+            return hb.TabsPanelField(
+                id: "FieldSetMailAddresses",
+                action: () => hb.FieldSelectable(
                     controlId: "MailAddresses",
                     fieldCss: "field-vertical w500",
                     controlContainerCss: "container-selectable",
@@ -4491,7 +4571,8 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return HtmlTemplates.Error(
+                default:
+                    return HtmlTemplates.Error(
                     context: context,
                     errorData: invalid);
             }
@@ -4537,13 +4618,14 @@ namespace Implem.Pleasanter.Models
                             .A(
                                 href: "#FieldSetGeneral",
                                 text: Displays.General(context: context))))
-                    .FieldSet(id: "FieldSetGeneral", action: () => hb
-                        .FieldText(
+                    .TabsPanelField(
+                        id: "FieldSetGeneral",
+                        action: () => hb.FieldText(
                             controlId: "ApiKey",
                             fieldCss: "field-wide",
                             labelText: Displays.ApiKey(context: context),
                             text: userModel.ApiKey))
-                    .Div(
+                .Div(
                         id: "ApiEditorCommands",
                         action: () => hb
                             .Button(
@@ -4653,8 +4735,8 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default:
                     return ApiResults.Error(
-                       context: context,
-                       errorData: invalid);
+                        context: context,
+                        errorData: invalid);
             }
             var api = context.RequestDataString.Deserialize<Api>();
             if (api == null && !context.RequestDataString.IsNullOrEmpty())
@@ -4680,7 +4762,8 @@ namespace Implem.Pleasanter.Models
                 switch (invalidOnReading.Type)
                 {
                     case Error.Types.None: break;
-                    default: return ApiResults.Error(
+                    default:
+                        return ApiResults.Error(
                         context: context,
                         errorData: invalidOnReading);
                 }
@@ -4689,7 +4772,9 @@ namespace Implem.Pleasanter.Models
                 ? SiteInfo.SiteUsers(context, siteModel.InheritPermission)?
                 .Where(o => !SiteInfo.User(context, o).Disabled).ToArray()
                 : null;
-            var pageSize = Parameters.Api.PageSize;
+            var pageSize = api?.PageSize > 0 && api?.PageSize <= Parameters.Api.PageSize
+                ? api.PageSize
+                : Parameters.Api.PageSize;
             var tableType = (api?.TableType) ?? Sqls.TableTypes.Normal;
             if (userId > 0)
             {
@@ -4792,7 +4877,8 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return HtmlTemplates.Error(
+                default:
+                    return HtmlTemplates.Error(
                     context: context,
                     errorData: invalid);
             }
@@ -4833,7 +4919,8 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return HtmlTemplates.Error(
+                default:
+                    return HtmlTemplates.Error(
                     context: context,
                     errorData: invalid);
             }
@@ -4953,7 +5040,8 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return ApiResults.Error(
+                default:
+                    return ApiResults.Error(
                     context: context,
                     errorData: invalid);
             }
@@ -4976,8 +5064,8 @@ namespace Implem.Pleasanter.Models
                     }
                 }
             }
-            foreach(var column in ss.Columns
-                .Where(o => o.ValidateRequired ?? false )
+            foreach (var column in ss.Columns
+                .Where(o => o.ValidateRequired ?? false)
                 .Where(o => typeof(UserApiModel).GetField(o.ColumnName) != null))
             {
                 if (userModel.GetType().GetField(column.ColumnName).GetValue(userModel).ToString().IsNullOrEmpty())
@@ -5037,8 +5125,8 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default:
                     return ApiResults.Error(
-                       context: context,
-                       errorData: invalid);
+                        context: context,
+                        errorData: invalid);
             }
             if (Parameters.Security.JoeAccountCheck
                 && (context.RequestDataString.Deserialize<UserApiModel>()?.Password ?? string.Empty) == userModel.LoginId)
@@ -5125,7 +5213,7 @@ namespace Implem.Pleasanter.Models
             }
             var userModel = new UserModel(
                 context: context,
-                ss:ss,
+                ss: ss,
                 userId: userId,
                 userApiModel: userApiModel);
             if (userModel.AccessStatus != Databases.AccessStatuses.Selected)
@@ -5142,8 +5230,8 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default:
                     return ApiResults.Error(
-                       context: context,
-                       errorData: invalid);
+                        context: context,
+                        errorData: invalid);
             }
             var errorData = userModel.Delete(context: context, ss: ss);
             switch (errorData.Type)
@@ -5193,7 +5281,7 @@ namespace Implem.Pleasanter.Models
                         .Comments(ssocode)))
                             .AsEnumerable()
                             .FirstOrDefault();
-            if(dataRow == null)
+            if (dataRow == null)
             {
                 return (0, null);
             }
@@ -5572,13 +5660,13 @@ namespace Implem.Pleasanter.Models
             var defaultRegex = Parameters.Security.PasswordPolicies[0].Enabled
                 ? Parameters.Security.PasswordPolicies[0].Regex
                 : "[!-~]{ 6,}";
-            foreach(var policy in Parameters.Security.PasswordPolicies.Skip(1).Where(o => o.Enabled))
+            foreach (var policy in Parameters.Security.PasswordPolicies.Skip(1).Where(o => o.Enabled))
             {
                 regex += "(?=.*?" + policy.Regex + ")";
             }
             regex += defaultRegex;
             var xeger = new Fare.Xeger(defaultRegex, new Random());
-            while(!System.Text.RegularExpressions.Regex.IsMatch(password, $"^{regex}$"))
+            while (!System.Text.RegularExpressions.Regex.IsMatch(password, $"^{regex}$"))
             {
                 password = xeger.Generate();
             }

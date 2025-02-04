@@ -43,6 +43,7 @@ namespace Implem.DefinitionAccessor
             SetParameters();
             Environments.ServiceName = Parameters.Service.Name;
             SetRdsParameters();
+            SetMigrationParameters();
             Environments.MachineName = $"{Environment.MachineName}:{Environment.OSVersion}";
             Environments.Application =
                 Assembly.GetExecutingAssembly().ManifestModule.Name.FileNameOnly();
@@ -125,6 +126,7 @@ namespace Implem.DefinitionAccessor
             Parameters.Notification = Read<Notification>();
             Parameters.Permissions = Read<Permissions>();
             Parameters.Rds = Read<Rds>();
+            Parameters.Kvs = Read<Kvs>();
             Parameters.Registration = Read<Registration>();
             Parameters.Reminder = Read<Reminder>();
             Parameters.Script = Read<Script>();
@@ -136,6 +138,7 @@ namespace Implem.DefinitionAccessor
             Parameters.SitePackage = Read<SitePackage>();
             Parameters.SysLog = Read<SysLog>();
             Parameters.User = Read<User>();
+            Parameters.UserTemplate = Read<CustomApps>();
             Parameters.Parameter = Read<Parameter>();
             Parameters.Locations = Read<Locations>();
             Parameters.Validation = Read<Validation>();
@@ -181,7 +184,7 @@ namespace Implem.DefinitionAccessor
                 Parameters.CommercialLicense()
                     ? "ee"
                     : "com");
-            if(Parameters.Security.AspNetCoreDataProtection == null)
+            if (Parameters.Security.AspNetCoreDataProtection == null)
             {
                 Parameters.Security.AspNetCoreDataProtection = new AspNetCoreDataProtection();
             }
@@ -490,7 +493,10 @@ namespace Implem.DefinitionAccessor
             path = path ?? Path.Combine(
                 ParametersPath,
                 "ExtendedScripts");
-            foreach (var file in new DirectoryInfo(path).GetFiles("*.js"))
+            var files = new DirectoryInfo(path)
+                .GetFiles("*.js")
+                .OrderBy(file => file.Name);
+            foreach (var file in files)
             {
                 var script = Files.Read(file.FullName);
                 if (script != null)
@@ -503,7 +509,10 @@ namespace Implem.DefinitionAccessor
                     });
                 }
             }
-            foreach (var dir in new DirectoryInfo(path).GetDirectories())
+            var dirs = new DirectoryInfo(path)
+                .GetDirectories()
+                .OrderBy(dir => dir.Name);
+            foreach (var dir in dirs)
             {
                 list = ExtendedScripts(dir.FullName, list);
             }
@@ -611,7 +620,10 @@ namespace Implem.DefinitionAccessor
             path = path ?? Path.Combine(
                 ParametersPath,
                 "ExtendedStyles");
-            foreach (var file in new DirectoryInfo(path).GetFiles("*.css"))
+            var files = new DirectoryInfo(path)
+                .GetFiles("*.css")
+                .OrderBy(file => file.Name);
+            foreach (var file in files)
             {
                 var style = Files.Read(file.FullName);
                 if (style != null)
@@ -624,7 +636,10 @@ namespace Implem.DefinitionAccessor
                     });
                 }
             }
-            foreach (var dir in new DirectoryInfo(path).GetDirectories())
+            var dirs = new DirectoryInfo(path)
+                .GetDirectories()
+                .OrderBy(dir => dir.Name);
+            foreach (var dir in dirs)
             {
                 list = ExtendedStyles(dir.FullName, list);
             }
@@ -743,6 +758,17 @@ namespace Implem.DefinitionAccessor
             }
             Environments.DeadlockRetryCount = Parameters.Rds.DeadlockRetryCount;
             Environments.DeadlockRetryInterval = Parameters.Rds.DeadlockRetryInterval;
+        }
+
+        public static void SetMigrationParameters()
+        {
+            if (Parameters.Migration.SourceConnectionString != null &&
+                Parameters.Migration.ServiceName != null)
+            {
+                Parameters.Migration.SourceConnectionString =
+                    Parameters.Migration.SourceConnectionString.Replace(
+                        "#OldServiceName#", Parameters.Migration.ServiceName);
+            }
         }
 
         private static void SetColumnDefinitionAdditional(XlsIo definitionFile)
@@ -909,6 +935,15 @@ namespace Implem.DefinitionAccessor
                 Def.ColumnDefinitionCollection.FirstOrDefault(o =>
                     o.Id == "Users_AllowGroupCreation").UpdateAccessControl = "ManageService";
             }
+            if (!Parameters.User.DisableMovingFromTopSite)
+            {
+                Def.ColumnDefinitionCollection.FirstOrDefault(o =>
+                    o.Id == "Users_AllowMovingFromTopSite").CreateAccessControl = "ManageService";
+                Def.ColumnDefinitionCollection.FirstOrDefault(o =>
+                    o.Id == "Users_AllowMovingFromTopSite").ReadAccessControl = "ManageService";
+                Def.ColumnDefinitionCollection.FirstOrDefault(o =>
+                    o.Id == "Users_AllowMovingFromTopSite").UpdateAccessControl = "ManageService";
+            }
             switch (Parameters.Security.SecondaryAuthentication?.Mode)
             {
                 case SecondaryAuthentication.SecondaryAuthenticationMode.None:
@@ -926,7 +961,7 @@ namespace Implem.DefinitionAccessor
                     SetManageServiceToDisableSecondaryAuthentication();
                     break;
             }
-            if((Parameters.Security.SecondaryAuthentication?.Mode
+            if ((Parameters.Security.SecondaryAuthentication?.Mode
                 is null
                 or SecondaryAuthentication.SecondaryAuthenticationMode.None)
                     || Parameters.Security.SecondaryAuthentication?.NotificationType
@@ -1042,8 +1077,6 @@ namespace Implem.DefinitionAccessor
         {
             Sqls.LogsPath = Directories.Logs();
             Sqls.SelectIdentity = Def.Sql.SelectIdentity;
-            Sqls.BeginTransaction = Def.Sql.BeginTransaction;
-            Sqls.CommitTransaction = Def.Sql.CommitTransaction;
         }
 
         private static void SetBundleVersions()

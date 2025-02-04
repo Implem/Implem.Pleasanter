@@ -354,6 +354,7 @@ namespace Implem.Pleasanter.Libraries.Models
             string parentClass = context.Forms.Data("RelatingDropDownParentClass");
             var selectedValue = context.Forms.Data("RelatingDropDownSelected");
             var parentDataId = context.Forms.Data("RelatingDropDownParentDataId");
+            var isInitDisplay = context.Forms.Bool("IsInitDisplay");
             var parentIds = parentDataId.Deserialize<List<long>>();
             return RelatingDropDown(
                 context: context,
@@ -363,6 +364,7 @@ namespace Implem.Pleasanter.Libraries.Models
                 selectedValue: selectedValue,
                 searchText: string.Empty,
                 filter: filter,
+                isInitDisplay: isInitDisplay,
                 parentClass: parentClass,
                 parentIds: parentIds);
         }
@@ -375,6 +377,7 @@ namespace Implem.Pleasanter.Libraries.Models
             string searchText,
             string selectedValue,
             bool filter,
+            bool isInitDisplay,
             string parentClass = "",
             List<long> parentIds = null)
         {
@@ -388,6 +391,18 @@ namespace Implem.Pleasanter.Libraries.Models
                 parentIds: parentIds,
                 searchColumnOnly: false,
                 searchFormat: false);
+            if (isInitDisplay)
+            {
+                selectedValue.Deserialize<string[]>().ForEach(o =>
+                {
+                    if (!column.ChoiceHash?.ContainsKey(o) == true)
+                    {
+                        column.AddToChoiceHash(
+                            context: context,
+                            value: o);
+                    }
+                });
+            }
             Dictionary<string, ControlData> optionCollection
                 = new Dictionary<string, ControlData>();
             var multiple = (column.MultipleSelections ?? false) || filter;
@@ -531,12 +546,16 @@ namespace Implem.Pleasanter.Libraries.Models
                 }
                 else
                 {
+                    // ssに項目候補がない場合に、column.SiteSettingsを渡す。実装を見直しする事が望ましい
+                    var currentSs = ss.Destinations?.ContainsKey(link.SiteId) == true
+                        ? ss
+                        : column.SiteSettings;
                     column.SetChoiceHash(
                         context: context,
-                        ss: ss,
+                        ss: currentSs,
                         link: link,
                         searchText: searchText,
-                        parentColumn: ss.GetColumn(
+                        parentColumn: currentSs.GetColumn(
                             context: context,
                             columnName: parentClass),
                         parentIds: parentIds,

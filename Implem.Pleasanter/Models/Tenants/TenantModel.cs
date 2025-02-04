@@ -843,7 +843,7 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         tenantModel: this,
                         otherInitValue: otherInitValue)),
-                new SqlStatement(Def.Sql.IfConflicted.Params(TenantId))
+                new SqlStatement()
                 {
                     DataTableName = dataTableName,
                     IfConflicted = true,
@@ -928,7 +928,7 @@ namespace Implem.Pleasanter.Models
                 transactional: true,
                 statements: Rds.PhysicalDeleteTenants(
                     tableType: tableType,
-                    param: Rds.TenantsParam().TenantId(TenantId)));
+                    where: Rds.TenantsWhere().TenantId(TenantId)));
             return new ErrorData(type: Error.Types.None);
         }
 
@@ -1729,6 +1729,10 @@ namespace Implem.Pleasanter.Models
                     res.Message(invalid.Message(context: context));
                     return;
             }
+            if (TenantSettings.BackgroundServerScripts == null)
+            {
+                TenantSettings.BackgroundServerScripts = new BackgroundServerScripts(context: context);
+            }
             script.Id = TenantSettings.BackgroundServerScripts.Scripts.MaxOrDefault(o => o.Id) + 1;
             TenantSettings.BackgroundServerScripts.Scripts.Add(script);
             Session_TenantSettings(
@@ -1768,6 +1772,8 @@ namespace Implem.Pleasanter.Models
                     disabled: script.Disabled ?? default,
                     body: script.Body,
                     timeOut: script.TimeOut,
+                    functionalize: script.Functionalize,
+                    tryCatch: script.TryCatch,
                     backgoundSchedules: script.backgoundSchedules);
             res
                 .Html("#EditServerScript", new HtmlBuilder()
@@ -1791,6 +1797,8 @@ namespace Implem.Pleasanter.Models
                 disabled: context.Forms.Bool("ServerScriptDisabled"),
                 body: context.Forms.Data("ServerScriptBody"),
                 timeOut: context.Forms.Int("ServerScriptTimeOut"),
+                functionalize: context.Forms.Bool("ServerScriptFunctionalize"),
+                tryCatch: context.Forms.Bool("ServerScriptTryCatch"),
                 backgoundSchedules: context.Forms.Data("BackgroundSchedule").Deserialize<IEnumerable<BackgroundSchedule>>());
         }
 
@@ -1994,7 +2002,9 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void SetByAfterUpdateBackgroundServerScript(Context context, SiteSettings ss)
         {
-            BackgroundServerScriptUtilities.Reschedule(backgroundServerScripts: TenantSettings.BackgroundServerScripts);
+            BackgroundServerScriptUtilities.Reschedule(
+                tenantId: TenantId,
+                backgroundServerScripts: TenantSettings.BackgroundServerScripts);
         }
     }
 }

@@ -19,7 +19,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         public string Name;
         public long? ReferenceId;
         public long? Size;
-        public string Extention;
+        public string Extension;
         public string ContentType;
         public bool? Added;
         public bool? Deleted;
@@ -37,31 +37,34 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         [OnDeserialized]
         private void OnDeserialized(StreamingContext streamingContext)
         {
-            if (!Base64.IsNullOrEmpty() || !Base64Binary.IsNullOrEmpty())
+            if (Guid is not null && Deleted == true)
+                return;
+
+            if (Base64 is null && Base64Binary is null)
+                return;
+
+            var bin = GetBin();
+            Guid = Strings.NewGuid();
+            Size = bin.Length;
+            Extension = Path.GetExtension(Name ?? FileName);
+            ContentType = Strings.CoalesceEmpty(ContentType, "text/plain");
+            Added = true;
+            if (Files.ValidateFileName(Name ?? FileName))
             {
-                var bin = GetBin();
-                Guid = Strings.NewGuid();
-                Size = bin.Length;
-                Extention = Path.GetExtension(Name ?? FileName);
-                ContentType = Strings.CoalesceEmpty(ContentType, "text/plain");
-                Added = true;
-                if (Files.ValidateFileName(Name ?? FileName))
-                {
-                    Files.Write(bin, Path.Combine(Directories.Temp(), Guid, Name ?? FileName));
-                }
-                else
-                {
-                    var context = new Context(
-                        sessionStatus: false,
-                        sessionData: false,
-                        item: false,
-                        setPermissions: false);
-                    new SysLogModel(
-                        context: context,
-                        method: $"{nameof(Attachment)}.{nameof(OnDeserialized)}",
-                        message: $"Invalid File Name: '{Name ?? FileName}'",
-                        sysLogType: SysLogModel.SysLogTypes.Info);
-                }
+                Files.Write(bin, Path.Combine(Directories.Temp(), Guid, Name ?? FileName));
+            }
+            else
+            {
+                var context = new Context(
+                    sessionStatus: false,
+                    sessionData: false,
+                    item: false,
+                    setPermissions: false);
+                new SysLogModel(
+                    context: context,
+                    method: $"{nameof(Attachment)}.{nameof(OnDeserialized)}",
+                    message: $"Invalid File Name: '{Name ?? FileName}'",
+                    sysLogType: SysLogModel.SysLogTypes.Info);
             }
         }
 
@@ -156,7 +159,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                             .Title(Name ?? FileName)
                             .BinaryType("Attachments")
                             .FileName(Name ?? FileName)
-                            .Extension(Extention)
+                            .Extension(Extension)
                             .Size(Size)
                             .ContentType(ContentType),
                         where: Rds.BinariesWhere().Guid(Guid)));
@@ -175,7 +178,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                             .Bin(bin, _using: !IsStoreLocalFolder(column))
                             .Bin(raw: "NULL", _using: IsStoreLocalFolder(column))
                             .FileName(Name ?? FileName)
-                            .Extension(Extention)
+                            .Extension(Extension)
                             .Size(Size)
                             .ContentType(ContentType),
                         where: Rds.BinariesWhere().Guid(Guid)));
@@ -297,7 +300,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                     .Bin(bin, _using: !isLocal)
                     .Bin(raw: "NULL", _using: isLocal)
                     .FileName(Name ?? FileName)
-                    .Extension(Extention)
+                    .Extension(Extension)
                     .Size(Size)
                     .ContentType(ContentType)));
             var response = Repository.ExecuteScalar_response(
@@ -315,6 +318,21 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             Column column,
             byte[] bin = null)
         {
+            static string GetAlgorithmParam()
+            {
+                switch (Parameters.Rds.Dbms)
+                {
+                    case "SQLServer":
+                        return "sha2_256";
+                    case "PostgreSQL":
+                        return "sha256";
+                    case "MySQL":
+                        return string.Empty;
+                    default:
+                        return string.Empty;
+                }
+            }
+
             if (IsStoreLocalFolder(column))
             {
                 var tempFile = Path.Combine(
@@ -340,11 +358,9 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                     var hash = Repository.ExecuteScalar_bytes(
                         context: context,
                         statements: new SqlStatement(
-                            commandText: context.Sqls.GetBinaryHash,
+                            commandText: context.Sqls.GetBinaryHash(algorithm: "sha256"),
                             param: new SqlParamCollection{
-                                { "Algorithm", Parameters.Rds.Dbms == "SQLServer"
-                                    ? "sha2_256"
-                                    : "sha256" },
+                                { "Algorithm", GetAlgorithmParam() },
                                 { "Guid", Guid }
                             }));
                     HashCode = System.Convert.ToBase64String(hash);
@@ -361,9 +377,9 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         public byte[] GetBin(Context context = null)
         {
             var bin = Base64 ?? Base64Binary;
-            return bin.IsNullOrEmpty()
-                ? Files.Bytes(Path.Combine(Directories.Temp(), Guid, Name ?? FileName))
-                : System.Convert.FromBase64String(bin);
+            if(bin is null)
+                return Files.Bytes(Path.Combine(Directories.Temp(), Guid, Name ?? FileName));
+            return System.Convert.FromBase64String(bin);
         }
 
         public bool IsStoreLocalFolder(Column column)

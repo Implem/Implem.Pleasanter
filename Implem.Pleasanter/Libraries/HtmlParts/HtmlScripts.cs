@@ -89,6 +89,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Script(src: Responses.Locations.Get(
                         context: context,
                         parts: "Scripts/Plugins/qrcode.min.js"))
+                    .Script(src:
+                        Responses.Locations.Get(
+                            context: context,
+                            parts: "scripts/plugins/components.bundle.js"),
+                            type: "module",
+                            crossorigin: true
+                    )
                     .Generals(context: context)
                     .Script(
                         src: Responses.Locations.Get(
@@ -117,7 +124,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             && context.Action == "index")
                     .Script(script: "$p.setCalendar();",
                         _using: ss.ReferenceType == "Dashboards" &&
-                             ss.DashboardParts?.Any(part=>part.Type == DashboardPartType.Calendar) == true)
+                             ss.DashboardParts?.Any(part => part.Type == DashboardPartType.Calendar) == true)
                     .Script(script: "$p.setKamban();",
                         _using: ss.ReferenceType == "Dashboards" &&
                              ss.DashboardParts?.Any(part => part.Type == DashboardPartType.Kamban) == true)

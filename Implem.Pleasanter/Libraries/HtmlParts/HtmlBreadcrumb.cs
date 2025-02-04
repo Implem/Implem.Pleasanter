@@ -28,6 +28,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         ss: ss,
                         controller: context.Controller);
                 case "depts":
+                    hb.CopyDirectUrlToClipboard(
+                        context: context,
+                        view: view);
                     return Breadcrumb(
                         hb: hb,
                         context: context,
@@ -39,6 +42,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         context: context,
                         ss: ss);
                 case "groups":
+                    hb.CopyDirectUrlToClipboard(
+                        context: context,
+                        view: view);
                     return Permissions.CanManageTenant(context: context)
                         ? Breadcrumb(
                             hb: hb,
@@ -71,6 +77,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     }
                                 });
                         default:
+                            hb.CopyDirectUrlToClipboard(
+                                context: context,
+                                view: view);
                             return Permissions.CanManageTenant(context: context)
                                 ? Breadcrumb(
                                     hb: hb,
@@ -84,6 +93,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     ss: ss);
                     }
                 case "syslogs":
+                    hb.CopyDirectUrlToClipboard(
+                        context: context,
+                        view: view);
                     return Breadcrumb(
                         hb: hb,
                         context: context,

@@ -21,12 +21,12 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             return notification;
         }
 
-        public ServerScriptModelNotificationModel Get(int Id)
+        public ServerScriptModelNotificationModel Get(int id)
         {
             var notification = new ServerScriptModelNotificationModel(
                 context: Context,
                 ss: SiteSettings,
-                Id: Id);
+                id: id);
             return notification;
         }
     }

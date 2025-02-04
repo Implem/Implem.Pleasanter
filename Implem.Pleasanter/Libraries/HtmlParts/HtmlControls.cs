@@ -26,6 +26,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool alwaysSend = false,
             string accept = null,
             string dataId = null,
+            string dataLang = null,
             string onChange = null,
             string autoComplete = null,
             bool openAnchorNewTab = false,
@@ -42,6 +43,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string validateRegexErrorMessage = null,
             string action = null,
             string method = null,
+            string dataValue = null,
             Dictionary<string, string> attributes = null,
             bool _using = true)
         {
@@ -77,6 +79,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     : "control-textbox anchor hidden", controlCss))
                             .Type("text")
                             .Value(text)
+                            .DataValue(dataValue)
                             .Placeholder(placeholder)
                             .Disabled(disabled)
                             .DataAlwaysSend(alwaysSend)
@@ -142,6 +145,29 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .DataValidateMaxLength(validateMaxLength)
                             .DataAction(action)
                             .DataMethod(method)
+                            .Add(attributes),
+                        text: text);
+                case HtmlTypes.TextTypes.CodeEditor:
+                    return hb.CodeEditor(
+                        attributes: new HtmlAttributes()
+                            .Id(controlId)
+                            .Name(controlId)
+                            .Class(controlCss)
+                            .Placeholder(placeholder)
+                            .Disabled(disabled)
+                            .DataAlwaysSend(alwaysSend)
+                            .DataId(dataId)
+                            .OnChange(onChange)
+                            .AutoComplete(autoComplete)
+                            .DataValidateRequired(validateRequired)
+                            .DataValidateNumber(validateNumber)
+                            .DataValidateDate(validateDate)
+                            .DataValidateEmail(validateEmail)
+                            .DataValidateEqualTo(validateEqualTo)
+                            .DataValidateMaxLength(validateMaxLength)
+                            .DataAction(action)
+                            .DataMethod(method)
+                            .DataLang(dataLang)
                             .Add(attributes),
                         text: text);
                 case HtmlTypes.TextTypes.Password:
@@ -428,17 +454,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 .Add(htmlData.Value.Attributes),
                             action: () =>
                             {
-                                var text = Strings.CoalesceEmpty(
+                                hb.Text(text: Strings.CoalesceEmpty(
                                     htmlData.Value.Text,
-                                    htmlData.Key);
-                                if (text.IsNullOrEmpty())
-                                {
-                                    hb.Raw(text: "&nbsp;");
-                                }
-                                else
-                                {
-                                    hb.Text(text: text);
-                                }
+                                    htmlData.Key));
                             }));
             }
             return hb;
@@ -558,6 +576,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Value(value != null
                         ? value.ToString()
                         : string.Empty)
+                    .Add("data-raw",
+                        value != null
+                            ? value.ToString()
+                            : string.Empty)
                     .DataMin(min, _using: min != -1)
                     .DataMax(max, _using: max != -1)
                     .DataStep(step, _using: step != -1)
@@ -1022,7 +1044,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 .Href(Locations.ShowFile(
                                     context: context,
                                     guid: guid,
-                                    temp: added == true)),
+                                    temp: added == true))
+                                .Target("_blank"),
                             action: () => hb
                                 .Span(css: "ui-icon ui-icon-circle-zoomin show-file"))
                         .A(

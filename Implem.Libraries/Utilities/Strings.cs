@@ -12,10 +12,14 @@ namespace Implem.Libraries.Utilities
                 : self ?? string.Empty;
         }
 
-        public static bool IsNullOrEmpty(this string self) 
-        {
-            return string.IsNullOrEmpty(self); 
-        }
+        public static bool IsNullOrEmpty(this string self)
+            => string.IsNullOrEmpty(self);
+
+        public static bool IsNullOrWhiteSpace(this string self)
+            => string.IsNullOrWhiteSpace(self);
+
+        public static bool IsNoValidCharacters(this string self)
+            => self.IsNullOrEmpty() || self.IsNullOrWhiteSpace();
 
         public static string IsNotEmpty(this string self, string trueStr = null)
         {
@@ -49,7 +53,7 @@ namespace Implem.Libraries.Utilities
                 : strTemp;
         }
 
-        public static string ToUpperFirstChar(this string self) 
+        public static string ToUpperFirstChar(this string self)
         {
             return !self.IsNullOrEmpty()
                 ? self.Length == 1
@@ -106,11 +110,11 @@ namespace Implem.Libraries.Utilities
             {
                 switch (self[count])
                 {
-                    case '(': 
-                        openCount++; 
-                        started = true; 
+                    case '(':
+                        openCount++;
+                        started = true;
                         break;
-                    case ')': 
+                    case ')':
                         openCount--;
                         if (started && openCount == 0)
                         {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 namespace Implem.Pleasanter.Libraries.ServerScripts
 {
@@ -11,6 +12,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         public string Encoding { get; set; } = "utf-8";
         public string MediaType { get; set; } = "application/json";
         public Dictionary<string, string> RequestHeaders { get; set; } = new Dictionary<string, string>();
+        public Dictionary<string, IList<string>> ResponseHeaders { get; set; } = new Dictionary<string, IList<string>>();
         public int StatusCode { get; private set; }
         public bool IsSuccess { get; private set; }
         static ServerScriptModelHttpClient()
@@ -26,6 +28,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 var response = _httpClient.SendAsync(request).Result;
                 StatusCode = (int)response.StatusCode;
                 IsSuccess = response.IsSuccessStatusCode;
+                foreach (var header in response.Headers)
+                {
+                    ResponseHeaders.Add(header.Key, header.Value.ToArray());
+                }
                 var responseContent = response.Content.ReadAsStringAsync().Result;
                 return responseContent;
             }
@@ -47,6 +53,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 var response = _httpClient.SendAsync(request).Result;
                 StatusCode = (int)response.StatusCode;
                 IsSuccess = response.IsSuccessStatusCode;
+                foreach (var header in response.Headers)
+                {
+                    ResponseHeaders.Add(header.Key, header.Value.ToArray());
+                }
                 var responseContent = response.Content.ReadAsStringAsync().Result;
                 return responseContent;
             }
@@ -68,6 +78,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 var response = _httpClient.SendAsync(request).Result;
                 StatusCode = (int)response.StatusCode;
                 IsSuccess = response.IsSuccessStatusCode;
+                foreach (var header in response.Headers)
+                {
+                    ResponseHeaders.Add(header.Key, header.Value.ToArray());
+                }
                 var responseContent = response.Content.ReadAsStringAsync().Result;
                 return responseContent;
             }
@@ -89,6 +103,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 var response = _httpClient.SendAsync(request).Result;
                 StatusCode = (int)response.StatusCode;
                 IsSuccess = response.IsSuccessStatusCode;
+                foreach (var header in response.Headers)
+                {
+                    ResponseHeaders.Add(header.Key, header.Value.ToArray());
+                }
                 var responseContent = response.Content.ReadAsStringAsync().Result;
                 return responseContent;
             }
@@ -106,6 +124,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 var response = _httpClient.SendAsync(request).Result;
                 StatusCode = (int)response.StatusCode;
                 IsSuccess = response.IsSuccessStatusCode;
+                foreach (var header in response.Headers)
+                {
+                    ResponseHeaders.Add(header.Key, header.Value.ToArray());
+                }
                 var responseContent = response.Content.ReadAsStringAsync().Result;
                 return responseContent;
             }

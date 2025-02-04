@@ -79,7 +79,7 @@ namespace Implem.Pleasanter.Models
                         .ToJson();
                 default:
                     return new ResponseCollection(context: context)
-                        .Html(selector, hb.Permission(
+                        .Html(selector + "Editor", hb.Permission(
                             context: context,
                             siteModel: siteModel,
                             referenceId: referenceId,
@@ -150,7 +150,13 @@ namespace Implem.Pleasanter.Models
                         fieldCss: "field-auto-thin both",
                         labelText: Displays.NoDisplayIfReadOnly(context: context),
                         _checked: ss.NoDisplayIfReadOnly,
-                        _using: site));
+                        _using: site)
+                    .FieldCheckBox(
+                        controlId: "NotInheritPermissionsWhenCreatingSite",
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.NotInheritPermissionsWhenCreatingSite(context: context),
+                        _checked: ss.NotInheritPermissionsWhenCreatingSite,
+                        _using: ss.ReferenceType == "Sites"));
         }
 
         /// <summary>
@@ -163,7 +169,7 @@ namespace Implem.Pleasanter.Models
                 ? hb.FieldDropDown(
                     context: context,
                     controlId: "InheritPermission",
-                    fieldCss: "field-auto-thin",
+                    fieldCss: "field-auto",
                     controlCss: " auto-postback search",
                     labelText: Displays.InheritPermission(context: context),
                     optionCollection: InheritTargets(
@@ -1273,7 +1279,7 @@ namespace Implem.Pleasanter.Models
             }
             return new ResponseCollection(context: context)
                 .Html(
-                    "#FieldSetRecordAccessControl",
+                    "#FieldSetRecordAccessControlEditor",
                     new HtmlBuilder().FieldSetRecordAccessControl(
                         context: context,
                         ss: ss))
@@ -1948,7 +1954,7 @@ namespace Implem.Pleasanter.Models
             }
             return new ResponseCollection(context: context)
                 .Html(
-                    "#FieldSetColumnAccessControl",
+                    "#FieldSetColumnAccessControlEditor",
                     new HtmlBuilder().ColumnAccessControl(
                         context: context,
                         ss: ss))
@@ -2269,7 +2275,7 @@ namespace Implem.Pleasanter.Models
                 searchText: context.Forms.Data("SearchColumnAccessControlElements"),
                 currentPermissions: currentPermissions);
             var offset = context.Forms.Int("ColumnAccessControlSourceOffset");
-            return hb.FieldSet(id: "ColumnAccessControlBasicTab", action: () => hb
+            return hb.TabsPanelField(id: "ColumnAccessControlBasicTab", action: () => hb
                 .Div(id: "ColumnAccessControlEditor", action: () => hb
                     .FieldSelectable(
                         controlId: "CurrentColumnAccessControl",
@@ -2344,7 +2350,7 @@ namespace Implem.Pleasanter.Models
             ColumnAccessControl columnAccessControl,
             long referenceId)
         {
-            return hb.FieldSet(id: "ColumnAccessControlOhtersTab", action: () => hb
+            return hb.TabsPanelField(id: "ColumnAccessControlOhtersTab", action: () => hb
                 .PermissionParts(
                     context: context,
                     controlId: "ColumnAccessControlParts",

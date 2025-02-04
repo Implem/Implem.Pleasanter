@@ -18,6 +18,37 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlGrids
     {
+        public static HtmlBuilder GridTable(
+            this HtmlBuilder hb,
+            string id = null,
+            string css = null,
+            HtmlAttributes attributes = null,
+            bool _using = true,
+            Action action = null)
+        {
+            if (attributes != null && _using) {
+                var index = attributes.FindIndex(n => n == "class");
+                if(index != -1)
+                {
+                    attributes[index + 1] = "grid " + attributes[index + 1];
+                }
+            }
+            return _using
+                ? hb.Div(
+                    id: !id.IsNullOrEmpty()
+                        ? id + "Wrap"
+                        : string.Empty,
+                    css: "grid-wrap",
+                    action: () => hb.Table(
+                        id: id,
+                        css: css.IsNullOrEmpty()
+                            ? "grid"
+                            : "grid " + css,
+                        attributes: attributes,
+                        action: action))
+                : hb;
+        }
+
         public static HtmlBuilder GridHeader(
             this HtmlBuilder hb,
             Context context,
@@ -230,7 +261,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             EnumerableRowCollection<DataRow> dataRows,
             FormDataSet formDataSet = null,
             bool editRow = false,
-            bool checkRow = true)
+            bool checkRow = true,
+            bool clearCheck = false)
         {
             dataRows.ForEach(dataRow =>
                 hb.Tr(
@@ -239,7 +271,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     view: view,
                     columns: columns,
                     dataRow: dataRow,
-                    recordSelector: new RecordSelector(context),
+                    recordSelector: clearCheck ? null :new RecordSelector(context),
                     editRow: editRow,
                     checkRow: checkRow,
                     idColumn: Rds.IdColumn(ss.ReferenceType),
@@ -352,7 +384,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         hb.Td(action: () => hb
                             .CheckBox(
                                 controlCss: "grid-check",
-                                _checked: recordSelector.Checked(dataId),
+                                _checked: recordSelector?.Checked(dataId) ?? false,
                                 dataId: dataId.ToString(),
                                 _using: !isHistory));
                     }
@@ -532,7 +564,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                 SiteSettings.TextAlignTypes.Right => " right-align",
                                                 SiteSettings.TextAlignTypes.Center => " center-align",
                                                 _ => string.Empty
-                                            },
+                                            }
+                                            + $" {serverScriptModelColumn?.ExtendedCellCss}",
                                         action: () => hb.Field(
                                             context: context,
                                             column: column,
@@ -599,7 +632,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                 SiteSettings.TextAlignTypes.Right => " right-align",
                                                 SiteSettings.TextAlignTypes.Center => " center-align",
                                                 _ => string.Empty
-                                            },
+                                            }
+                                            + $" {serverScriptModelColumn?.ExtendedCellCss}",
                                         action: () => hb.Field(
                                             context: context,
                                             column: column,
