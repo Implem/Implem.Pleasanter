@@ -1432,18 +1432,6 @@ namespace Implem.Pleasanter.Models
                                 sysLogsDescription: Debugs.GetSysLogsDescription());
                         }
                         break;
-                    case "LoginExpirationLimit":
-                        if (userModel.LoginExpirationLimit_Updated(context: context))
-                        {
-                            return new ErrorData(
-                                context: context,
-                                type: Error.Types.HasNotChangeColumnPermission,
-                                data: column.LabelText,
-                                api: api,
-                                sysLogsStatus: 403,
-                                sysLogsDescription: Debugs.GetSysLogsDescription());
-                        }
-                        break;
                     case "SecretKey":
                         if (userModel.SecretKey_Updated(context: context))
                         {
@@ -1458,6 +1446,18 @@ namespace Implem.Pleasanter.Models
                         break;
                     case "EnableSecretKey":
                         if (userModel.EnableSecretKey_Updated(context: context))
+                        {
+                            return new ErrorData(
+                                context: context,
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText,
+                                api: api,
+                                sysLogsStatus: 403,
+                                sysLogsDescription: Debugs.GetSysLogsDescription());
+                        }
+                        break;
+                    case "LoginExpirationLimit":
+                        if (userModel.LoginExpirationLimit_Updated(context: context))
                         {
                             return new ErrorData(
                                 context: context,
