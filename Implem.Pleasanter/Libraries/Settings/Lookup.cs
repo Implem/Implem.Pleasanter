@@ -591,6 +591,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                             ss: ss,
                             column: column,
                             type: Type);
+                    case "LoginExpirationLimit":
+                        return userModel.LoginExpirationLimit.ToLookup(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: Type);
                     case "SecretKey":
                         return userModel.SecretKey.ToLookup(
                             context: context,
@@ -599,6 +605,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                             type: Type);
                     case "EnableSecretKey":
                         return userModel.EnableSecretKey.ToLookup(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: Type);
+                    case "LoginExpirationPeriod":
+                        return userModel.LoginExpirationPeriod.ToLookup(
                             context: context,
                             ss: ss,
                             column: column,
