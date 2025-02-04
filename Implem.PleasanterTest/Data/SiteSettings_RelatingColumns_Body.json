@@ -1,0 +1,16 @@
+﻿{
+    "Version": 1.017,
+    "ReferenceType": "Results",
+    "SiteSettings": {
+        "Version": 1.017,
+        "ReferenceType": "Issues",
+        "RelatingColumns": [
+            {
+                "Title": "RelatingColumn",
+                "Id": 1
+            }
+        ],
+        "NoDisplayIfReadOnly": false,
+        "NotInheritPermissionsWhenCreatingSite": false
+    }
+}
