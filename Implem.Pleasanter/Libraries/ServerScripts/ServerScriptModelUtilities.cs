@@ -45,6 +45,6 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
 
         public DateTime MaxTime() => Parameters.General.MaxTime.ToLocal(context: Context).Date.ToUniversal(context: Context);
 
-        public DateTime EmptyTime() => MinTime().AddDays(-1);
+        public DateTime EmptyTime() => DateTime.MinValue;
     }
 }
