@@ -4,7 +4,6 @@ using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using System;
-using System.Reflection.Metadata.Ecma335;
 using System.Text;
 
 namespace Implem.Pleasanter.Libraries.ServerScripts
