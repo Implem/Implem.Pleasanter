@@ -9,8 +9,8 @@ using Xunit;
 
 namespace Implem.PleasanterTest.Tests.Settings
 {
-    [Collection(nameof(SiteSettingsCopyStatusControls))]
-    public class SiteSettingsCopyStatusControls
+    [Collection(nameof(SiteSettingsAddStatusControlViewFilter))]
+    public class SiteSettingsAddStatusControlViewFilter
     {
 
         [Theory]
@@ -42,20 +42,22 @@ namespace Implem.PleasanterTest.Tests.Settings
                 new TestPart(
                     title: "サイト設定 - AddStatusControl",
                     forms: FormsUtilities.Get(
-                        new KeyValue("ControlId", "CopyStatusControls"),
-                        new KeyValue("EditStatusControl", @"[""1""]")),
+                        new KeyValue("ControlId", "AddStatusControlViewFilter"),
+                        new KeyValue("StatusControlViewFilterSelector", "ResultId")),
                     baseTests: BaseData.Tests(
                         JsonData.ExistsOne(
-                            method: "ReplaceAll",
-                            target: "#EditStatusControl"),
+                            method: "Append",
+                            target: "#StatusControlViewFiltersTab .items"),
+                        JsonData.ExistsOne(
+                            method: "Remove",
+                            target: "#StatusControlViewFilterSelector option:selected"),
                         JsonData.ExistsOne(
                             method: "SetMemory",
                             target: "formChanged"),
-                        JsonData.TextCountOf(
-                            method: "ReplaceAll",
-                            target: "#EditStatusControl",
-                            value: "<td>test</td>",
-                            estimate: 2)),  
+                        JsonData.TextContains(
+                            method: "Append",
+                            target: "#StatusControlViewFiltersTab .items",
+                            value: @"<label for=""StatusControlViewFilters__ResultId"">ID</label>")),
                     userType: UserData.UserTypes.Privileged)
             };
             foreach (var testPart in testParts)

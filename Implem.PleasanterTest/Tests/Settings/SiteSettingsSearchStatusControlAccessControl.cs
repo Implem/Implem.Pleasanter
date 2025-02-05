@@ -9,8 +9,8 @@ using Xunit;
 
 namespace Implem.PleasanterTest.Tests.Settings
 {
-    [Collection(nameof(SiteSettingsCopyStatusControls))]
-    public class SiteSettingsCopyStatusControls
+    [Collection(nameof(SiteSettingsSearchStatusControlAccessControl))]
+    public class SiteSettingsSearchStatusControlAccessControl
     {
 
         [Theory]
@@ -42,20 +42,22 @@ namespace Implem.PleasanterTest.Tests.Settings
                 new TestPart(
                     title: "サイト設定 - AddStatusControl",
                     forms: FormsUtilities.Get(
-                        new KeyValue("ControlId", "CopyStatusControls"),
-                        new KeyValue("EditStatusControl", @"[""1""]")),
+                        new KeyValue("ControlId", "SearchStatusControlAccessControl"),
+                        new KeyValue("SearchStatusControlAccessControl", "テナント管理者")),
                     baseTests: BaseData.Tests(
                         JsonData.ExistsOne(
-                            method: "ReplaceAll",
-                            target: "#EditStatusControl"),
+                            method: "Html",
+                            target: "#SourceStatusControlAccessControl"),
+                        JsonData.ExistsOne(
+                            method: "SetValue",
+                            target: "#SourceStatusControlAccessControlOffset"),
                         JsonData.ExistsOne(
                             method: "SetMemory",
                             target: "formChanged"),
-                        JsonData.TextCountOf(
-                            method: "ReplaceAll",
-                            target: "#EditStatusControl",
-                            value: "<td>test</td>",
-                            estimate: 2)),  
+                        JsonData.TextContains(
+                            method: "Html",
+                            target: "#SourceStatusControlAccessControl",
+                            value: "テナント管理者")),
                     userType: UserData.UserTypes.Privileged)
             };
             foreach (var testPart in testParts)
