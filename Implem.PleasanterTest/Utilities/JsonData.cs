@@ -89,7 +89,7 @@ namespace Implem.PleasanterTest.Utilities
                 Type = JsonTest.Types.Text,
                 Method = method,
                 Target = target,
-                TextTest= new TextTest()
+                TextTest = new TextTest()
                 {
                     Type = TextTest.Types.Contains,
                     Value = value
@@ -113,6 +113,24 @@ namespace Implem.PleasanterTest.Utilities
                     Type = TextTest.Types.CountOf,
                     Value = value,
                     Estimate = estimate
+                }
+            };
+        }
+
+        public static JsonTest TextCheckOrder(
+            string method,
+            string[] wordArray,
+            string target = null)
+        {
+            return new JsonTest()
+            {
+                Type = JsonTest.Types.Text,
+                Method = method,
+                Target = target,
+                TextTest = new TextTest()
+                {
+                    Type = TextTest.Types.CheckOrder,
+                    WordArray = wordArray
                 }
             };
         }

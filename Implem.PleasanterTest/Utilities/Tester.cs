@@ -391,19 +391,33 @@ namespace Implem.PleasanterTest.Utilities
                     break;
                 case TextTest.Types.CountOf:
                     var count = 0;
-                    int index = results.IndexOf(
+                    var counIndex = results.IndexOf(
                         value: textTest.Value.ToString(),
                         startIndex: 0);
-                    while (index != -1)
+                    while (counIndex != -1)
                     {
                         count++;
-                        index = results.IndexOf(
+                        counIndex = results.IndexOf(
                             value: textTest.Value.ToString(),
-                            startIndex: index + textTest.Value.ToString().Length);
+                            startIndex: counIndex + textTest.Value.ToString().Length);
                     }
                     if (count != textTest.Estimate)
                     {
                         return false;
+                    }
+                    break;
+                case TextTest.Types.CheckOrder:
+                    var orderIndex = 0;
+                    foreach (var word in textTest.WordArray)
+                    {
+                        orderIndex = results.IndexOf(
+                            value: word,
+                            startIndex: orderIndex);
+                        if (orderIndex == -1)
+                        {
+                            return false;
+                        }
+                        orderIndex = orderIndex + word.Length;
                     }
                     break;
                 default:

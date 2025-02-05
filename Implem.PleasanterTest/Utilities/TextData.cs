@@ -40,5 +40,14 @@ namespace Implem.PleasanterTest.Utilities
                 Estimate = estimate
             };
         }
+
+        public static TextTest CheckOrder(string value, string[] wordArray)
+        {
+            return new TextTest()
+            {
+                Type = TextTest.Types.CheckOrder,
+                WordArray = wordArray
+            };
+        }
     }
 }
