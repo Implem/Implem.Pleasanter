@@ -34,14 +34,6 @@ namespace Implem.Pleasanter.Models
                 var apiErrorData = Validators.ValidateApi(context: context, serverScript: serverScript);
                 if (apiErrorData.Type != Error.Types.None)
                     return apiErrorData;
-                var environmentErrorData =
-                    Validators.ValidateEnvironment(
-                        context: context,
-                        api: api,
-                        deniedEnvironment: DeniedEnvironment
-                    );
-                if (environmentErrorData.Type != Error.Types.None)
-                    return environmentErrorData;
             }
             if (!context.CanRead(ss: ss))
                 return new ErrorData(
@@ -72,14 +64,6 @@ namespace Implem.Pleasanter.Models
                 var apiErrorData = Validators.ValidateApi(context: context, serverScript: serverScript);
                 if (apiErrorData.Type != Error.Types.None)
                     return apiErrorData;
-                var environmentErrorData =
-                    Validators.ValidateEnvironment(
-                        context: context,
-                        api: api,
-                        deniedEnvironment: DeniedEnvironment
-                    );
-                if (environmentErrorData.Type != Error.Types.None)
-                    return environmentErrorData;
             }
             if (Parameters.CommercialLicense())
             {
@@ -109,14 +93,6 @@ namespace Implem.Pleasanter.Models
             {
                 var apiErrorData = Validators.ValidateApi(context: context, serverScript: serverScript);
                 if (apiErrorData.Type != Error.Types.None) return apiErrorData;
-                var environmentErrorData =
-                    Validators.ValidateEnvironment(
-                        context: context,
-                        api: api,
-                        deniedEnvironment: DeniedEnvironment
-                    );
-                if (environmentErrorData.Type != Error.Types.None)
-                    return environmentErrorData;
             }
             if (!context.CanCreate(ss: ss))
                 return new ErrorData(
@@ -142,14 +118,6 @@ namespace Implem.Pleasanter.Models
             {
                 var apiErrorData = Validators.ValidateApi(context: context, serverScript: serverScript);
                 if (apiErrorData.Type != Error.Types.None) return apiErrorData;
-                var environmentErrorData =
-                    Validators.ValidateEnvironment(
-                        context: context,
-                        api: api,
-                        deniedEnvironment: DeniedEnvironment
-                    );
-                if (environmentErrorData.Type != Error.Types.None)
-                    return environmentErrorData;
             }
             if (!context.CanUpdate(ss: ss))
                 return new ErrorData(
@@ -176,14 +144,6 @@ namespace Implem.Pleasanter.Models
                 var apiErrorData = Validators.ValidateApi(context: context, serverScript: serverScript);
                 if (apiErrorData.Type != Error.Types.None)
                     return apiErrorData;
-                var environmentErrorData =
-                    Validators.ValidateEnvironment(
-                        context: context,
-                        api: api,
-                        deniedEnvironment: DeniedEnvironment
-                    );
-                if (environmentErrorData.Type != Error.Types.None)
-                    return environmentErrorData;
             }
             if(!context.CanDelete(ss: ss))
                 return new ErrorData(
@@ -240,6 +200,22 @@ namespace Implem.Pleasanter.Models
                 api: api,
                 sysLogsStatus: 200,
                 sysLogsDescription: Debugs.GetSysLogsDescription());
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static ErrorData ValidateEnvironment(Context context, bool api)
+        {
+            var environmentErrorData =
+                Validators.ValidateEnvironment(
+                    context: context,
+                    api: api,
+                    deniedEnvironment: DeniedEnvironment
+                );
+            if (environmentErrorData.Type != Error.Types.None)
+                return environmentErrorData;
+            return SuccessData(context, api);
         }
     }
 }
