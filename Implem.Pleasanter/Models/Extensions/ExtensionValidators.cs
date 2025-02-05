@@ -15,7 +15,10 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static IEnumerable<int> deniedEnvironment = new int[] { 1, 2 };
+        private static IEnumerable<int> DeniedEnvironment
+        {
+            get => new int[] { 1, 2 };
+        }
 
         /// <summary>
         /// Fixed:
@@ -31,12 +34,11 @@ namespace Implem.Pleasanter.Models
                 var apiErrorData = Validators.ValidateApi(context: context, serverScript: serverScript);
                 if (apiErrorData.Type != Error.Types.None)
                     return apiErrorData;
-
                 var environmentErrorData =
                     Validators.ValidateEnvironment(
                         context: context,
                         api: api,
-                        deniedEnvironment: deniedEnvironment
+                        deniedEnvironment: DeniedEnvironment
                     );
                 if (environmentErrorData.Type != Error.Types.None)
                     return environmentErrorData;
@@ -70,22 +72,18 @@ namespace Implem.Pleasanter.Models
                 var apiErrorData = Validators.ValidateApi(context: context, serverScript: serverScript);
                 if (apiErrorData.Type != Error.Types.None)
                     return apiErrorData;
-
                 var environmentErrorData =
                     Validators.ValidateEnvironment(
                         context: context,
                         api: api,
-                        deniedEnvironment: deniedEnvironment
+                        deniedEnvironment: DeniedEnvironment
                     );
                 if (environmentErrorData.Type != Error.Types.None)
                     return environmentErrorData;
             }
-
             if (Parameters.CommercialLicense())
             {
-
             }
-
             if (!context.CanRead(ss: ss))
                 return new ErrorData(
                     context: context,
@@ -111,12 +109,11 @@ namespace Implem.Pleasanter.Models
             {
                 var apiErrorData = Validators.ValidateApi(context: context, serverScript: serverScript);
                 if (apiErrorData.Type != Error.Types.None) return apiErrorData;
-
                 var environmentErrorData =
                     Validators.ValidateEnvironment(
                         context: context,
                         api: api,
-                        deniedEnvironment: deniedEnvironment
+                        deniedEnvironment: DeniedEnvironment
                     );
                 if (environmentErrorData.Type != Error.Types.None)
                     return environmentErrorData;
@@ -145,12 +142,11 @@ namespace Implem.Pleasanter.Models
             {
                 var apiErrorData = Validators.ValidateApi(context: context, serverScript: serverScript);
                 if (apiErrorData.Type != Error.Types.None) return apiErrorData;
-
                 var environmentErrorData =
                     Validators.ValidateEnvironment(
                         context: context,
                         api: api,
-                        deniedEnvironment: deniedEnvironment
+                        deniedEnvironment: DeniedEnvironment
                     );
                 if (environmentErrorData.Type != Error.Types.None)
                     return environmentErrorData;
@@ -180,12 +176,11 @@ namespace Implem.Pleasanter.Models
                 var apiErrorData = Validators.ValidateApi(context: context, serverScript: serverScript);
                 if (apiErrorData.Type != Error.Types.None)
                     return apiErrorData;
-
                 var environmentErrorData =
                     Validators.ValidateEnvironment(
                         context: context,
                         api: api,
-                        deniedEnvironment: deniedEnvironment
+                        deniedEnvironment: DeniedEnvironment
                     );
                 if (environmentErrorData.Type != Error.Types.None)
                     return environmentErrorData;
