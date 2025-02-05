@@ -66,6 +66,24 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
+        public static HtmlTest TextCountOf(
+            string selector,
+            string value,
+            int estimate)
+        {
+            return new HtmlTest()
+            {
+                Type = HtmlTest.Types.Text,
+                Selector = selector,
+                TextTest = new TextTest()
+                {
+                    Type = TextTest.Types.CountOf,
+                    Value = value,
+                    Estimate = estimate
+                }
+            };
+        }
+
         public static HtmlTest NotFoundMessage()
         {
             return new HtmlTest()

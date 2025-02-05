@@ -78,5 +78,43 @@ namespace Implem.PleasanterTest.Utilities
                 Value = message
             };
         }
+
+        public static JsonTest TextContains(
+            string method,
+            string value,
+            string target = null)
+        {
+            return new JsonTest()
+            {
+                Type = JsonTest.Types.Text,
+                Method = method,
+                Target = target,
+                TextTest= new TextTest()
+                {
+                    Type = TextTest.Types.Contains,
+                    Value = value
+                }
+            };
+        }
+
+        public static JsonTest TextCountOf(
+            string method,
+            string value,
+            int estimate,
+            string target = null)
+        {
+            return new JsonTest()
+            {
+                Type = JsonTest.Types.Text,
+                Method = method,
+                Target = target,
+                TextTest = new TextTest()
+                {
+                    Type = TextTest.Types.CountOf,
+                    Value = value,
+                    Estimate = estimate
+                }
+            };
+        }
     }
 }

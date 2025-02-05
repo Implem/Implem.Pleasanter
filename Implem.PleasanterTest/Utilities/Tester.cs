@@ -311,6 +311,19 @@ namespace Implem.PleasanterTest.Utilities
                         }
                     }
                     break;
+                case JsonTest.Types.Text:
+                    if (nodes.Count() != 1)
+                    {
+                        return false;
+                    }
+                    else if (!Text(
+                        context: context,
+                        results: nodes[0].Value.ToString(),
+                        textTest: jsonTest.TextTest))
+                    {
+                        return false;
+                    }
+                    break;
                 default:
                     return false;
             }
@@ -372,6 +385,23 @@ namespace Implem.PleasanterTest.Utilities
                     break;
                 case TextTest.Types.Contains:
                     if (!results.Contains(textTest.Value?.ToString()))
+                    {
+                        return false;
+                    }
+                    break;
+                case TextTest.Types.CountOf:
+                    var count = 0;
+                    int index = results.IndexOf(
+                        value: textTest.Value.ToString(),
+                        startIndex: 0);
+                    while (index != -1)
+                    {
+                        count++;
+                        index = results.IndexOf(
+                            value: textTest.Value.ToString(),
+                            startIndex: index + textTest.Value.ToString().Length);
+                    }
+                    if (count != textTest.Estimate)
                     {
                         return false;
                     }
