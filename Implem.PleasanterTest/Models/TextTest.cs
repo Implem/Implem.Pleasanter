@@ -10,11 +10,13 @@ namespace Implem.PleasanterTest.Models
         {
             Equals,
             ListEquals,
-            Contains
+            Contains,
+            CountOf
         }
 
         public Types Type { get; set; }
         public object Value { get; set; }
+        public int Estimate { get; set; }
 
         public bool ListEquals(string text)
         {
