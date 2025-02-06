@@ -70,6 +70,7 @@ namespace Implem.ParameterAccessor.Parts
         public int CalendarLimit { get; set; }
         public int CalendarYLimit { get; set; }
         public int DefaultCalendarType { get; set; }
+        public bool DisableCalendar { get; set; }
         public int CrosstabBegin { get; set; }
         public int CrosstabEnd { get; set; }
         public int CrosstabXLimit { get; set; }
@@ -87,6 +88,7 @@ namespace Implem.ParameterAccessor.Parts
         public int KambanMinColumns { get; set; }
         public int KambanMaxColumns { get; set; }
         public int KambanColumns { get; set; }
+        public bool DisableKamban { get; set; }
         public int ImageLibPageSize { get; set; }
         public int ImageLibPageSizeMin { get; set; }
         public int ImageLibPageSizeMax { get; set; }

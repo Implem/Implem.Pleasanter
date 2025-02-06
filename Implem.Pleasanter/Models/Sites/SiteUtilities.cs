@@ -3194,6 +3194,8 @@ namespace Implem.Pleasanter.Models
                 siteModel.Title = new Title(context.Forms.Data("SiteTitle"));
                 siteModel.Body = templateDefinition.Body;
                 siteModel.SiteSettings = templateSs;
+                siteModel.SiteSettings.EnableCalendar = context.Forms.Data("DisableCalendar").ToBool() ? !context.Forms.Data("DisableCalendar").ToBool() : !Parameters.General.DisableCalendar;
+                siteModel.SiteSettings.EnableKamban = context.Forms.Data("DisableKamban").ToBool() ? !context.Forms.Data("DisableKamban").ToBool() : !Parameters.General.DisableKamban;
                 siteModel.Create(context: context, otherInitValue: true);
                 return SiteMenuResponse(
                     context: context,
@@ -4679,10 +4681,16 @@ namespace Implem.Pleasanter.Models
                                 controlId: "TemplateId",
                                 css: " always-send")
                             .Div(css: "command-center", action: () => hb
-                                .CheckBox(controlId: "DisableCalendar")
-                                .Label(action: () => hb.Text(text: Displays.DisableCalendar(context: context)))
-                                .CheckBox(controlId: "DisableKamban")
-                                .Label(action: () => hb.Text(text: Displays.DisableKamban(context: context)))
+                                .FieldCheckBox(
+                                    controlId: "DisableCalendar",
+                                    fieldCss: "field-auto-thin",
+                                    labelText: Displays.DisableCalendar(context: context),
+                                    _checked: ss.EnableCalendar == false)
+                                .FieldCheckBox(
+                                    controlId: "DisableKamban",
+                                    fieldCss: "field-auto-thin",
+                                    labelText: Displays.DisableKamban(context: context),
+                                    _checked: ss.EnableCalendar == false)
                             )
                             .P(css: "message-dialog")
                             .Div(css: "command-center", action: () => hb
