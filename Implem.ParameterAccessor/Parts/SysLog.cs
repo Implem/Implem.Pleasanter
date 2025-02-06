@@ -12,5 +12,6 @@ namespace Implem.ParameterAccessor.Parts
         public int ExportLimit;
         public bool EnableLoggingToDatabase = true;
         public bool EnableLoggingToFile; //= false
+        public bool OutputErrorDetails = true;
     }
 }
