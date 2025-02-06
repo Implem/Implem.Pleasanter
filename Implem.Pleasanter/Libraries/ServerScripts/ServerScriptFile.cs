@@ -1,4 +1,5 @@
 ﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Models;
@@ -252,6 +253,60 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 path: null);
         }
 
+        public object Import(
+            ScriptObject callback,
+            string section,
+            string path,
+            long siteId,
+            string json)
+        {
+            object ret = null;
+            CallbackHandler(
+                log: $"$ps.file.import(\"*\",\"{path}\",{siteId},\"{json}\")",
+                callback: callback,
+                code: () =>
+                {
+                    var fullPath = NormalizePath(
+                        section: section,
+                        path: path);
+                    var retJson = ServerScriptUtilities.ImportItem(
+                        context: Context,
+                        id: siteId,
+                        apiRequestBody: json,
+                        filePath: fullPath);
+                    if (!retJson.IsNullOrEmpty())
+                    {
+                        ret = V8ScriptEngine.Current.Evaluate($"JSON.parse('{retJson}')");
+                    }
+                });
+            return ret;
+        }
+
+        public bool Export(
+            ScriptObject callback,
+            string section,
+            string path,
+            long siteId,
+            string json)
+        {
+            var ret = false;
+            CallbackHandler(
+                log: $"$ps.file.export(\"*\",\"{path}\",{siteId},\"{json}\")",
+                callback: callback,
+                code: () =>
+                {
+                    var fullPath = NormalizePath(
+                        section: section,
+                        path: path);
+                    ret = ServerScriptUtilities.ExportItem(
+                        context: Context,
+                        id: siteId,
+                        apiRequestBody: json,
+                        filePath: fullPath);
+                });
+            return ret;
+        }
+
         private static System.Text.Encoding GetEncoding(string encode)
         {
             return System.Text.Encoding.GetEncoding(encode ?? "utf-8");
@@ -262,6 +317,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             string path)
         {
             var rootPath = Parameters.Script.ServerScriptFilePath;
+            if (rootPath == null) throw new ArgumentException(Messages.InvalidPath(Context, "basepath").Text);
             var rootPath1 = rootPath.Replace(Path.DirectorySeparatorChar, '/');
             var rootPath2 = rootPath.Replace('/', Path.DirectorySeparatorChar);
             if (rootPath2 != Path.GetFullPath(rootPath2)) throw new ArgumentException(Messages.InvalidPath(Context, "basepath").Text);
@@ -359,6 +415,14 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     createSection: function(section)
                     {
                         return $ps._utils._f0((cb) => _file_cs.CreateSection(cb, section));
+                    },
+                    import: function(section, path, siteId, param)
+                    {
+                        return $ps._utils._f0((cb) => _file_cs.Import(cb, section, path, siteId, param));
+                    },
+                    export: function(section, path, siteId, param)
+                    {
+                        return $ps._utils._f0((cb) => _file_cs.Export(cb, section, path, siteId, param));
                     },
                 }
             """;
