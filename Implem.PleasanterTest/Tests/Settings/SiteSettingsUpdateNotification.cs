@@ -59,7 +59,32 @@ namespace Implem.PleasanterTest.Tests.Settings
                     forms: FormsUtilities.Get(
                         new KeyValue("ControlId", "UpdateNotification"),
                         new KeyValue("NotificationId", "1"),
-                        new KeyValue("NotificationAddress", "updated.dummy.xunit@implem.dummy.co.jp")),
+                        new KeyValue("NotificationType", "1"),
+                        new KeyValue("NotificationPrefix", ""),
+                        new KeyValue("NotificationSubject", "通知の変更"),
+                        new KeyValue("NotificationAddress", "updated.dummy.xunit@implem.dummy.co.jp"),
+                        new KeyValue("NotificationCcAddress", ""),
+                        new KeyValue("NotificationBccAddress", ""),
+                        new KeyValue("NotificationToken", ""),
+                        new KeyValue("NotificationMethodType", "1"),
+                        new KeyValue("NotificationEncoding", "utf-8"),
+                        new KeyValue("NotificationMediaType", "application/json"),
+                        new KeyValue("NotificationRequestHeaders", ""),
+                        new KeyValue("NotificationUseCustomFormat", "false"),
+                        new KeyValue("NotificationFormat", @"{Url}{""Name"":""[タイトル]""}{""Name"":""[内容]""}{""Name"":""[状況]""}{""Name"":""[管理者]""}
+                            {""Name"":""[担当者]""}{""Name"":""[添付ファイルA]""}{""Name"":""[コメント]""}{UserName}<{MailAddress}>"),
+                        new KeyValue("MonitorChangesColumnsAll", @"[""Title"",""Body"",""Status"",""Manager"",""Owner"",""AttachmentsA"",""Comments""]"),
+                        new KeyValue("BeforeCondition", ""),
+                        new KeyValue("AfterCondition", ""),
+                        new KeyValue("Expression", "1"),
+                        new KeyValue("NotificationAfterCreate", "true"),
+                        new KeyValue("NotificationAfterUpdate", "true"),
+                        new KeyValue("NotificationAfterDelete", "true"),
+                        new KeyValue("NotificationAfterCopy", "true"),
+                        new KeyValue("NotificationAfterBulkUpdate", "true"),
+                        new KeyValue("NotificationAfterBulkDelete", "true"),
+                        new KeyValue("NotificationAfterImport", "true"),
+                        new KeyValue("NotificationDisabled", "false")),
                     baseTests: BaseData.Tests(
                         JsonData.ExistsOne(
                             method: "ReplaceAll",
@@ -69,6 +94,10 @@ namespace Implem.PleasanterTest.Tests.Settings
                         JsonData.ExistsOne(
                             method: "SetMemory",
                             target: "formChanged"),
+                        JsonData.TextContains(
+                            method: "ReplaceAll",
+                            target: "#EditNotification",
+                            value: "通知の変更"),
                         JsonData.TextContains(
                             method: "ReplaceAll",
                             target: "#EditNotification",
