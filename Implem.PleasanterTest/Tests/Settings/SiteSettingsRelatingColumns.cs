@@ -116,19 +116,32 @@ namespace Implem.PleasanterTest.Tests.Settings
                             target:"#EditRelatingColumns",
                             value: "<div id=\"EditRelatingColumnsWrap\" class=\"grid-wrap\"><table data-name=\"RelatingColumnId\" data-func=\"openRelatingColumnDialog\" data-action=\"SetSiteSettings\" data-method=\"post\" id=\"EditRelatingColumns\" class=\"grid\"><thead><tr class=\"ui-widget-header\"><th><input class=\"select-all\" type=\"checkbox\" /><label></label></th><th>タイトル</th><th>リンク</th></tr></thead><tbody></tbody></table></div>")),
                     userType: UserData.UserTypes.Privileged),
-                //new TestPart(
-                //    title: "サイト設定 - RelatingColumns",
-                //    forms: FormsUtilities.Get(
-                //        new KeyValue("ControlId", "RelatingColumnId"),
-                //        new KeyValue("EditBulkUpdateColumns", "[\"1\"]")),
-                //    baseTests: BaseData.Tests(
-                //        JsonData.ExistsOne(
-                //            method: "ReplaceAll",
-                //            target: "#EditBulkUpdateColumns"),
-                //        JsonData.ExistsOne(
-                //            method: "SetMemory",
-                //            target: "formChanged")),
-                //    userType: UserData.UserTypes.Privileged),
+                new TestPart(
+                    title: "サイト設定 - RelatingColumns",
+                    forms: FormsUtilities.Get(
+                        new KeyValue("ControlId", "MoveUpRelatingColumns"),
+                        new KeyValue("EditRelatingColumns", "[\"1\"]")),
+                    baseTests: BaseData.Tests(
+                        JsonData.ExistsOne(
+                            method: "Html",
+                            target: "#EditRelatingColumns"),
+                        JsonData.ExistsOne(
+                            method: "SetMemory",
+                            target: "formChanged")),
+                    userType: UserData.UserTypes.Privileged),
+                new TestPart(
+                    title: "サイト設定 - RelatingColumns",
+                    forms: FormsUtilities.Get(
+                        new KeyValue("ControlId", "MoveDownRelatingColumns"),
+                        new KeyValue("EditRelatingColumns", "[\"1\"]")),
+                    baseTests: BaseData.Tests(
+                        JsonData.ExistsOne(
+                            method: "Html",
+                            target: "#EditRelatingColumns"),
+                        JsonData.ExistsOne(
+                            method: "SetMemory",
+                            target: "formChanged")),
+                    userType: UserData.UserTypes.Privileged),
             };
             foreach (var testPart in testParts)
             {
