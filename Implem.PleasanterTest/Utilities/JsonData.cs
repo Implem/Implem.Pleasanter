@@ -69,6 +69,21 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
+        public static JsonTest HtmlTextContains(
+            string method,
+            string target,
+            string selector,
+            string value)
+        {
+            return new JsonTest()
+            {
+                Type = JsonTest.Types.Html,
+                Method = method,
+                Target = target,
+                HtmlTests = HtmlData.TextContains(selector: selector, value: value).ToSingleList()
+            };
+        }
+
         public static JsonTest Message(string message)
         {
             return new JsonTest()
