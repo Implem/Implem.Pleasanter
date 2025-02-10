@@ -70,6 +70,7 @@ namespace Implem.Pleasanter.Libraries.General
             JoeAccountCheck,
             LockedRecord,
             LockedTable,
+            LoginExpired,
             LoginIdAlreadyUse,
             MailAddressHasNotSet,
             NoLinks,
@@ -374,6 +375,10 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.LockedTable:
                     return Messages.LockedTable(
+                        context: context,
+                        data: data);
+                case Types.LoginExpired:
+                    return Messages.LoginExpired(
                         context: context,
                         data: data);
                 case Types.LoginIdAlreadyUse:
