@@ -1,0 +1,37 @@
+﻿{
+    "Version": 1.017,
+    "ReferenceType": "Results",
+    "Reminders": [
+        {
+            "ReminderType": 1,
+            "Subject": "テスト用リマインダー1",
+            "Body": "[[Records]]",
+            "Line": "[Title] --- [Owner] ([Status])",
+            "From": "from.reminder1@dummy.implem.co.jp",
+            "To": "to.reminder1@dummy.implem.co.jp",
+            "Token": "",
+            "Column": "DateA",
+            "StartDateTime": "2025-02-08T00:00:00",
+            "Type": 10,
+            "Range": 30,
+            "Condition": 0,
+            "Id": 1
+        },
+        {
+            "ReminderType": 1,
+            "Subject": "テスト用リマインダー2",
+            "Body": "[[Records]]",
+            "Line": "[Title] --- [Owner] ([Status])",
+            "From": "from.reminder2@dummy.implem.co.jp",
+            "To": "to.reminder2@dummy.implem.co.jp",
+            "Token": "",
+            "Column": "DateA",
+            "StartDateTime": "2025-02-08T00:00:00",
+            "Type": 10,
+            "Range": 30,
+            "Condition": 0,
+            "Id": 2
+        }
+    ],
+    "NoDisplayIfReadOnly": false
+}
