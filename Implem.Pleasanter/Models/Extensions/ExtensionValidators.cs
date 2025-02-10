@@ -15,6 +15,14 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        private static IEnumerable<int> DeniedEnvironment
+        {
+            get => new int[] { 1, 2 };
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static ErrorData OnEntry(
             Context context,
             SiteSettings ss,
@@ -56,6 +64,9 @@ namespace Implem.Pleasanter.Models
                 var apiErrorData = Validators.ValidateApi(context: context, serverScript: serverScript);
                 if (apiErrorData.Type != Error.Types.None)
                     return apiErrorData;
+            }
+            if (Parameters.CommercialLicense())
+            {
             }
             if (!context.CanRead(ss: ss))
                 return new ErrorData(
@@ -189,6 +200,22 @@ namespace Implem.Pleasanter.Models
                 api: api,
                 sysLogsStatus: 200,
                 sysLogsDescription: Debugs.GetSysLogsDescription());
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static ErrorData ValidateEnvironment(Context context, bool api)
+        {
+            var environmentErrorData =
+                Validators.ValidateEnvironment(
+                    context: context,
+                    api: api,
+                    deniedEnvironment: DeniedEnvironment
+                );
+            if (environmentErrorData.Type != Error.Types.None)
+                return environmentErrorData;
+            return SuccessData(context, api);
         }
     }
 }
