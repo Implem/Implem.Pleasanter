@@ -3111,19 +3111,15 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .Select(o => o.ColumnName).ToList());
         }
 
-        public Dictionary<string, ControlData> MoveTargetsSelectableOptions(
-            Context context, bool enabled = true)
-        {
+        public Dictionary<string, ControlData> MoveTargetsSelectableOptions(Context context)
+        { 
             var options = MoveTargetsOptions(sites: NumberOfMoveTargetsTable(context));
-            return enabled
-                ? MoveTargets?.Any() == true
-                    ? options
-                        .Where(o => MoveTargets.Contains(o.Key.ToLong()))
-                        .ToDictionary(o => o.Key, o => o.Value)
-                    : null
-                : options
-                    .Where(o => MoveTargets?.Contains(o.Key.ToLong()) != true)
-                    .ToDictionary(o => o.Key, o => o.Value);
+            return MoveTargets?.Any() == true
+                ? options
+                    .Where(o => MoveTargets.Contains(o.Key.ToLong()))
+                    .OrderBy(o => MoveTargets.IndexOf(o.Key.ToLong()))
+                    .ToDictionary(o => o.Key, o => o.Value)
+                : null;
         }
 
         public EnumerableRowCollection<DataRow> NumberOfMoveTargetsTable(Context context)
@@ -3143,24 +3139,12 @@ namespace Implem.Pleasanter.Libraries.Settings
         public Dictionary<string, ControlData> MoveTargetsOptions(IEnumerable<DataRow> sites)
         {
             var targets = new Dictionary<string, ControlData>();
-            sites
-                .Where(dataRow => dataRow.String("ReferenceType") == ReferenceType)
-                .ForEach(dataRow =>
-                {
-                    var current = dataRow;
-                    var titles = new List<string>()
-                    {
-                        current.String("Title")
-                    };
-                    while (sites.Any(o => o.Long("SiteId") == current.Long("ParentId")))
-                    {
-                        current = sites.First(o => o.Long("SiteId") == current.Long("ParentId"));
-                        titles.Insert(0, current.String("Title"));
-                    }
-                    targets.Add(
-                        dataRow.String("SiteId"),
-                        new ControlData(titles.Join(" / ")));
-                });
+            foreach(var dataRow in sites.Where(dataRow => dataRow.String("ReferenceType") == ReferenceType))
+            {
+                var siteId = dataRow.String("SiteId");
+                var title = $"[{siteId}] {dataRow.String("Title")}";
+                targets.Add(siteId, new ControlData(title));
+            }
             return targets;
         }
 
