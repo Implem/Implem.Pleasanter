@@ -8,5 +8,5 @@
     "ExportLimit": 10000,
     "EnableLoggingToDatabase": true,
     "EnableLoggingToFile": false,
-    "LogLevelDetails": false
+    "LogLevelDetails": true
 }
