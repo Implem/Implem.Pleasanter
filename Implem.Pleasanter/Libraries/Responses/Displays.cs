@@ -2039,6 +2039,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string CodeDefinerMigrationErrors(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "CodeDefinerMigrationErrors",
+                data: data);
+        }
+
         public static string CodeDefinerMvcCompleted(
             Context context,
             params string[] data)
@@ -6209,6 +6219,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string LoginExpired(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "LoginExpired",
+                data: data);
+        }
+
         public static string LoginIdAlreadyUse(
             Context context,
             params string[] data)
@@ -7116,6 +7136,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "NotInheritPermission",
+                data: data);
+        }
+
+        public static string NotInheritPermissionsWhenCreatingSite(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "NotInheritPermissionsWhenCreatingSite",
                 data: data);
         }
 
@@ -14099,6 +14129,26 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Users_LoginExpirationLimit(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Users_LoginExpirationLimit",
+                data: data);
+        }
+
+        public static string Users_LoginExpirationPeriod(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Users_LoginExpirationPeriod",
+                data: data);
+        }
+
         public static string Users_LoginId(
             Context context,
             params string[] data)
@@ -14116,6 +14166,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Users_MailAddresses",
+                data: data);
+        }
+
+        public static string Users_Manager(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Users_Manager",
                 data: data);
         }
 

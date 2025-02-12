@@ -20,7 +20,7 @@ namespace Implem.Pleasanter.Libraries.Server
         public static DateTime SessionCleanedUpDate;
         public static int? AnonymousId;
 
-        public static void Reflesh(Context context, bool force = false)
+        public static void Refresh(Context context, bool force = false)
         {
             SetAnonymousId(context: context);
             if (context.TenantId == 0)

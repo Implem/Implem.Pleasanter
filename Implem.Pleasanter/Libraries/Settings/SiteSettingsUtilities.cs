@@ -392,7 +392,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             return ss;
         }
 
-        public static SiteSettings UsersSiteSettings(Context context, Sqls.TableTypes tableTypes = Sqls.TableTypes.Normal)
+        public static SiteSettings UsersSiteSettings(
+            Context context,
+            Sqls.TableTypes tableTypes = Sqls.TableTypes.Normal,
+            bool setAllChoices = false)
         {
             var ss = new SiteSettings()
             {
@@ -400,7 +403,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             };
             ss.Init(context: context);
             ss.SetLinks(context: context);
-            ss.SetChoiceHash(context: context, withLink: false);
+            ss.SetChoiceHash(
+                context: context,
+                withLink: false,
+                all: setAllChoices);
             ss.PermissionType = Permissions.Admins(context: context);
             ss.TableType = tableTypes;
             // ContractSettingsでAPIが無効化されている場合は無条件で使用できなくする
@@ -749,6 +755,18 @@ namespace Implem.Pleasanter.Libraries.Settings
         public static SiteSettings ApiDeptsSiteSettings(Context context)
         {
             var ss = DeptsSiteSettings(context);
+            ss?.Columns?
+                .Where(c => c.Name == "Disabled")?
+                .ForEach(c => c.CheckFilterControlType = ColumnUtilities.CheckFilterControlTypes.OnAndOff);
+            return ss;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static SiteSettings ApiExtensionsSiteSettings(Context context)
+        {
+            var ss = ExtensionsSiteSettings(context);
             ss?.Columns?
                 .Where(c => c.Name == "Disabled")?
                 .ForEach(c => c.CheckFilterControlType = ColumnUtilities.CheckFilterControlTypes.OnAndOff);

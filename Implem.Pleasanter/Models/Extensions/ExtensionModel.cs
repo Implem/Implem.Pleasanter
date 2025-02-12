@@ -139,6 +139,32 @@ namespace Implem.Pleasanter.Models
                     || column.GetDefaultInput(context: context).ToBool() != Disabled);
         }
 
+        public string PropertyValue(Context context, Column column)
+        {
+            switch (column?.ColumnName)
+            {
+                case "ExtensionId": return ExtensionId.ToString();
+                case "TenantId": return TenantId.ToString();
+                case "Ver": return Ver.ToString();
+                case "ExtensionType": return ExtensionType;
+                case "ExtensionName": return ExtensionName;
+                case "ExtensionSettings": return ExtensionSettings;
+                case "Body": return Body;
+                case "Description": return Description;
+                case "Disabled": return Disabled.ToString();
+                case "Comments": return Comments.ToJson();
+                case "Creator": return Creator.Id.ToString();
+                case "Updator": return Updator.Id.ToString();
+                case "CreatedTime": return CreatedTime.Value.ToString();
+                case "UpdatedTime": return UpdatedTime.Value.ToString();
+                case "VerUp": return VerUp.ToString();
+                case "Timestamp": return Timestamp;
+                default: return GetValue(
+                    context: context,
+                    column: column);
+            }
+        }
+
         public ExtensionModel()
         {
         }
@@ -156,6 +182,7 @@ namespace Implem.Pleasanter.Models
         public ExtensionModel(
             Context context,
             int extensionId,
+            ExtensionApiModel extensionApiModel = null,
             SqlColumnCollection column = null,
             bool clearSessions = false,
             MethodTypes methodType = MethodTypes.NotSet)
@@ -181,6 +208,10 @@ namespace Implem.Pleasanter.Models
                     column: column);
             }
             if (clearSessions) ClearSessions(context: context);
+            if (extensionApiModel != null)
+            {
+                SetByApi(context: context, data: extensionApiModel);
+            }
             MethodType = methodType;
             OnConstructed(context: context);
         }
@@ -242,6 +273,36 @@ namespace Implem.Pleasanter.Models
                     distinct: distinct,
                     top: top)));
             return this;
+        }
+
+        public ExtensionApiModel GetByApi(Context context, SiteSettings ss)
+        {
+            var data = new ExtensionApiModel()
+            {
+                ApiVersion = context.ApiVersion
+            };
+            ss.ReadableColumns(context: context, noJoined: true).ForEach(column =>
+            {
+                switch (column.ColumnName)
+                {
+                    case "ExtensionId": data.ExtensionId = ExtensionId; break;
+                    case "TenantId": data.TenantId = TenantId; break;
+                    case "Ver": data.Ver = Ver; break;
+                    case "ExtensionType": data.ExtensionType = ExtensionType; break;
+                    case "ExtensionName": data.ExtensionName = ExtensionName; break;
+                    case "ExtensionSettings": data.ExtensionSettings = ExtensionSettings; break;
+                    case "Body": data.Body = Body; break;
+                    case "Description": data.Description = Description; break;
+                    case "Disabled": data.Disabled = Disabled; break;
+                    case "Creator": data.Creator = Creator.Id; break;
+                    case "Updator": data.Updator = Updator.Id; break;
+                    case "CreatedTime": data.CreatedTime = CreatedTime.Value.ToLocal(context: context); break;
+                    case "UpdatedTime": data.UpdatedTime = UpdatedTime.Value.ToLocal(context: context); break;
+                    case "Comments": data.Comments = Comments.ToLocal(context: context).ToJson(); break;
+                    default: break;
+                }
+            });
+            return data;
         }
 
         public ErrorData Create(
@@ -502,6 +563,18 @@ namespace Implem.Pleasanter.Models
             DescriptionHash = extensionModel.DescriptionHash;
             CheckHash = extensionModel.CheckHash;
             AttachmentsHash = extensionModel.AttachmentsHash;
+        }
+
+        public void SetByApi(Context context, ExtensionApiModel data)
+        {
+            if (data.TenantId != null) TenantId = data.TenantId.ToInt().ToInt();
+            if (data.ExtensionType != null) ExtensionType = data.ExtensionType.ToString().ToString();
+            if (data.ExtensionName != null) ExtensionName = data.ExtensionName.ToString().ToString();
+            if (data.ExtensionSettings != null) ExtensionSettings = data.ExtensionSettings.ToString().ToString();
+            if (data.Body != null) Body = data.Body.ToString().ToString();
+            if (data.Description != null) Description = data.Description.ToString().ToString();
+            if (data.Disabled != null) Disabled = data.Disabled.ToBool().ToBool();
+            if (data.Comments != null) Comments.Prepend(context: context, ss: null, body: data.Comments);
         }
 
         private void SetBySession(Context context)

@@ -38,7 +38,8 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return HtmlTemplates.Error(
+                default:
+                    return HtmlTemplates.Error(
                     context: context,
                     errorData: invalid);
             }
@@ -2233,7 +2234,7 @@ namespace Implem.Pleasanter.Models
                         updateGroupMemberCount: ref updateGroupMemberCount);
                 }
                 GroupMemberUtilities.RefreshAllChildMembers(tenantId: context.TenantId);
-                SiteInfo.Reflesh(
+                SiteInfo.Refresh(
                     context: context,
                     force: true);
                 return GridRows(
@@ -2514,7 +2515,7 @@ namespace Implem.Pleasanter.Models
                         updateGroupMemberCount: ref updateGroupMemberCount);
                 }
                 GroupMemberUtilities.RefreshAllChildMembers(tenantId: context.TenantId);
-                SiteInfo.Reflesh(
+                SiteInfo.Refresh(
                     context: context,
                     force: true);
                 return ApiResults.Success(
@@ -2595,7 +2596,7 @@ namespace Implem.Pleasanter.Models
             var errorData = groupModel.Update(
                 context: context,
                 ss: ss,
-                refleshSiteInfo: false,
+                refreshSiteInfo: false,
                 updateGroupMembers: false,
                 get: false);
             if (errorData.Type == Error.Types.None)
@@ -2702,7 +2703,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static int GetDeptId(Context context, string deptCode)
         {
-            return Repository.ExecuteScalar_int (
+            return Repository.ExecuteScalar_int(
                 context: context,
                 statements: Rds.SelectDepts(
                     column: Rds.DeptsColumn()
@@ -3130,7 +3131,7 @@ namespace Implem.Pleasanter.Models
             if (groupModel.MethodType == BaseModel.MethodTypes.New) return hb;
             return hb.TabsPanelField(
                 id: "FieldSetMembers",
-                action: () =>  hb
+                action: () => hb
                     .CurrentMembers(
                         context: context,
                         groupModel: groupModel)
@@ -3924,7 +3925,7 @@ namespace Implem.Pleasanter.Models
                     tenantId: context.TenantId,
                     groupId: childId);
                 data.Add(
-                    $"Group,{childId},", 
+                    $"Group,{childId},",
                     new ControlData(
                         text: group.SelectableText(
                             context: context,
@@ -3985,7 +3986,8 @@ namespace Implem.Pleasanter.Models
                 switch (invalidOnReading.Type)
                 {
                     case Error.Types.None: break;
-                    default: return ApiResults.Error(
+                    default:
+                        return ApiResults.Error(
                         context: context,
                         errorData: invalidOnReading);
                 }
@@ -3994,7 +3996,9 @@ namespace Implem.Pleasanter.Models
                 ? SiteInfo.SiteGroups(context, siteModel.InheritPermission)?
                 .Where(o => !SiteInfo.User(context, o).Disabled).ToArray()
                 : null;
-            var pageSize = Parameters.Api.PageSize;
+            var pageSize = api?.PageSize > 0 && api?.PageSize <= Parameters.Api.PageSize
+                ? api.PageSize
+                : Parameters.Api.PageSize;
             var tableType = (api?.TableType) ?? Sqls.TableTypes.Normal;
             if (groupId > 0)
             {

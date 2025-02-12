@@ -5,9 +5,9 @@
     <Copyright>Copyright © Implem Inc 2014 - $(Year)</Copyright>
     <Description>Business application platform</Description>
     <AssemblyName>Implem.Pleasanter</AssemblyName>
-    <AssemblyVersion>1.4.11.0</AssemblyVersion>
-    <FileVersion>1.4.11.0</FileVersion>
-    <Version>1.4.11.0</Version>
+    <AssemblyVersion>1.4.12.0</AssemblyVersion>
+    <FileVersion>1.4.12.0</FileVersion>
+    <Version>1.4.12.0</Version>
     <Nullable>disable</Nullable>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
@@ -138,6 +138,8 @@
     <Content Remove="App_Data\Definitions\Definition_Column\Tenants_Language.json" />
     <Content Remove="App_Data\Definitions\Definition_Column\Tenants_TimeZone.json" />
     <Content Remove="App_Data\Definitions\Definition_Column\Users_AllowMovingFromTopSite.json" />
+    <Content Remove="App_Data\Definitions\Definition_Column\Users_LoginExpirationLimit.json" />
+    <Content Remove="App_Data\Definitions\Definition_Column\Users_LoginExpirationPeriod.json" />
   </ItemGroup>
 
   <ItemGroup>

@@ -2037,6 +2037,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                         case "Dept":
                             sql.Users_Dept(tableName: path, _as: _as);
                             break;
+                        case "Manager":
+                            sql.Users_Manager(tableName: path, _as: _as);
+                            break;
                         case "Theme":
                             sql.Users_Theme(tableName: path, _as: _as);
                             break;
@@ -2126,6 +2129,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                             break;
                         case "EnableSecretKey":
                             sql.Users_EnableSecretKey(tableName: path, _as: _as);
+                            break;
+                        case "LoginExpirationLimit":
+                            sql.Users_LoginExpirationLimit(tableName: path, _as: _as);
+                            break;
+                        case "LoginExpirationPeriod":
+                            sql.Users_LoginExpirationPeriod(tableName: path, _as: _as);
                             break;
                         case "Comments":
                             sql.Users_Comments(tableName: path, _as: _as);

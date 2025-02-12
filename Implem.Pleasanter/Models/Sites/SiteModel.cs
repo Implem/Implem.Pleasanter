@@ -1225,7 +1225,7 @@ namespace Implem.Pleasanter.Models
                 addUpdatedTimeParam: true,
                 addUpdatorParam: true,
                 updateItems: true);
-            SiteInfo.Reflesh(context: context);
+            SiteInfo.Refresh(context: context);
             return new ErrorData(type: Error.Types.None);
         }
 
@@ -2204,7 +2204,14 @@ namespace Implem.Pleasanter.Models
                 SiteSettings = new SiteSettings(context: context, referenceType: ReferenceType);
             }
             TenantId = context.TenantId;
-            var notInheritPermission = InheritPermission == 0 || RecordPermissions != null;
+            var parentSiteModel = ParentId > 0
+                ? new SiteModel(
+                    context: context,
+                    siteId: ParentId)
+                : null;
+            var notInheritPermission = InheritPermission == 0
+                || RecordPermissions != null
+                || parentSiteModel?.SiteSettings?.NotInheritPermissionsWhenCreatingSite == true;
             var response = Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
@@ -5903,6 +5910,7 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
+                SiteSettings.SetChoiceHash(context: context);
                 SiteSettings.StatusControls.Copy(selected);
                 res.ReplaceAll("#EditStatusControl", new HtmlBuilder()
                     .EditStatusControl(
@@ -5923,6 +5931,7 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
+                SiteSettings.SetChoiceHash(context: context);
                 SiteSettings.StatusControls.Delete(selected);
                 res.ReplaceAll("#EditStatusControl", new HtmlBuilder()
                     .EditStatusControl(
@@ -9303,7 +9312,8 @@ namespace Implem.Pleasanter.Models
         private List<Permission> ParsePermissions(ApiSiteSettingPermission apiSettingPermission, SiteSettings ss, object target = null)
         {
             var permissions = new List<Permission>();
-            if (apiSettingPermission == null) {
+            if (apiSettingPermission == null)
+            {
                 return permissions;
             }
             apiSettingPermission.Users?.ForEach(id => permissions.Add(new Permission(
@@ -9321,7 +9331,8 @@ namespace Implem.Pleasanter.Models
             switch (target)
             {
                 case Process process when target.GetType().Name == nameof(Process):
-                    if (process.Users != null && apiSettingPermission.Users == null) {
+                    if (process.Users != null && apiSettingPermission.Users == null)
+                    {
                         process.Users.ForEach(id => permissions.Add(new Permission(
                             ss: ss,
                             name: "User",
@@ -9375,18 +9386,22 @@ namespace Implem.Pleasanter.Models
         private SettingList<ValidateInput> ParseValidateInputs(SettingList<ValidateInput> validateInputs, Process process)
         {
             var data = new SettingList<ValidateInput>();
-            if (validateInputs == null) {
+            if (validateInputs == null)
+            {
                 return null;
             }
-            validateInputs.ForEach(o => {
+            validateInputs.ForEach(o =>
+            {
                 if (o.Delete != 1)
                 {
                     data.Add(o);
                 }
             });
-            if (process?.ValidateInputs != null) {
+            if (process?.ValidateInputs != null)
+            {
                 var requestIds = validateInputs.Select(o => o.Id).ToArray();
-                process.ValidateInputs.ForEach(o => {
+                process.ValidateInputs.ForEach(o =>
+                {
                     if (!requestIds.Contains(o.Id))
                     {
                         data.Add(o);
@@ -9406,7 +9421,8 @@ namespace Implem.Pleasanter.Models
             {
                 return null;
             }
-            dataChanges.ForEach(o => {
+            dataChanges.ForEach(o =>
+            {
                 if (o.Delete != 1)
                 {
                     data.Add(o);
@@ -9415,7 +9431,8 @@ namespace Implem.Pleasanter.Models
             if (process?.DataChanges != null)
             {
                 var requestIds = dataChanges.Select(o => o.Id).ToArray();
-                process.DataChanges.ForEach(o => {
+                process.DataChanges.ForEach(o =>
+                {
                     if (!requestIds.Contains(o.Id))
                     {
                         data.Add(o);
@@ -9435,7 +9452,8 @@ namespace Implem.Pleasanter.Models
             {
                 return null;
             }
-            notifications.ForEach(o => {
+            notifications.ForEach(o =>
+            {
                 if (o.Delete != 1)
                 {
                     data.Add(o);
@@ -9444,7 +9462,8 @@ namespace Implem.Pleasanter.Models
             if (process?.Notifications != null)
             {
                 var requestIds = notifications.Select(o => o.Id).ToArray();
-                process.Notifications.ForEach(o => {
+                process.Notifications.ForEach(o =>
+                {
                     if (!requestIds.Contains(o.Id))
                     {
                         data.Add(o);
