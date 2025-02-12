@@ -297,6 +297,9 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             int extensionId)
         {
+            var deniedEnvironmentData = ExtensionValidators.ValidateEnvironment(context: context, api: true);
+            if (deniedEnvironmentData.Type != Error.Types.None)
+                return ApiResults.Error(context: context, errorData: deniedEnvironmentData);
             if (!Mime.ValidateOnApi(contentType: context.ContentType))
                 return ApiResults.BadRequest(context: context);
             var invalid = ExtensionValidators.OnEntry(ss:ss, context: context, api: true);
@@ -337,6 +340,9 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static ContentResultInheritance CreateByApi(Context context, SiteSettings ss)
         {
+            var deniedEnvironmentData = ExtensionValidators.ValidateEnvironment(context: context, api: true);
+            if (deniedEnvironmentData.Type != Error.Types.None)
+                return ApiResults.Error(context: context, errorData: deniedEnvironmentData);
             if (!Mime.ValidateOnApi(contentType: context.ContentType))
                 return ApiResults.BadRequest(context: context);
             var extensionApiModel = context.RequestDataString.Deserialize<ExtensionApiModel>();
@@ -364,6 +370,9 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             int extensionId)
         {
+            var deniedEnvironmentData = ExtensionValidators.ValidateEnvironment(context: context, api: true);
+            if(deniedEnvironmentData.Type != Error.Types.None)
+                return ApiResults.Error(context: context, errorData: deniedEnvironmentData);
             if (!Mime.ValidateOnApi(contentType: context.ContentType))
                 return ApiResults.BadRequest(context: context);
             var extensionApiModel = context.RequestDataString.Deserialize<ExtensionApiModel>();
@@ -411,6 +420,9 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static ContentResultInheritance DeleteByApi(Context context, SiteSettings ss, int extensionId)
         {
+            var deniedEnvironmentData = ExtensionValidators.ValidateEnvironment(context: context, api: true);
+            if (deniedEnvironmentData.Type != Error.Types.None)
+                return ApiResults.Error(context: context, errorData: deniedEnvironmentData);
             if (!Mime.ValidateOnApi(contentType: context.ContentType))
                 return ApiResults.BadRequest(context: context);
             var extensionModel = new ExtensionModel(

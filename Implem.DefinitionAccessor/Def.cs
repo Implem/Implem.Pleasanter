@@ -1962,6 +1962,8 @@ namespace Implem.DefinitionAccessor
                     case "Users_LdapSearchRoot": Column.Users_LdapSearchRoot = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_LdapSearchRoot, definitionRow, ColumnXls); break;
                     case "Users_Lockout": Column.Users_Lockout = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_Lockout, definitionRow, ColumnXls); break;
                     case "Users_LockoutCounter": Column.Users_LockoutCounter = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_LockoutCounter, definitionRow, ColumnXls); break;
+                    case "Users_LoginExpirationLimit": Column.Users_LoginExpirationLimit = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_LoginExpirationLimit, definitionRow, ColumnXls); break;
+                    case "Users_LoginExpirationPeriod": Column.Users_LoginExpirationPeriod = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_LoginExpirationPeriod, definitionRow, ColumnXls); break;
                     case "Users_LoginId": Column.Users_LoginId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_LoginId, definitionRow, ColumnXls); break;
                     case "Users_MailAddresses": Column.Users_MailAddresses = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_MailAddresses, definitionRow, ColumnXls); break;
                     case "Users_Manager": Column.Users_Manager = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_Manager, definitionRow, ColumnXls); break;
@@ -9392,6 +9394,8 @@ namespace Implem.DefinitionAccessor
         public string Users_LdapSearchRoot;
         public string Users_Lockout;
         public string Users_LockoutCounter;
+        public string Users_LoginExpirationLimit;
+        public string Users_LoginExpirationPeriod;
         public string Users_LoginId;
         public string Users_MailAddresses;
         public string Users_Manager;
@@ -9961,6 +9965,8 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Users_LdapSearchRoot = new ColumnDefinition();
         public ColumnDefinition Users_Lockout = new ColumnDefinition();
         public ColumnDefinition Users_LockoutCounter = new ColumnDefinition();
+        public ColumnDefinition Users_LoginExpirationLimit = new ColumnDefinition();
+        public ColumnDefinition Users_LoginExpirationPeriod = new ColumnDefinition();
         public ColumnDefinition Users_LoginId = new ColumnDefinition();
         public ColumnDefinition Users_MailAddresses = new ColumnDefinition();
         public ColumnDefinition Users_Manager = new ColumnDefinition();
