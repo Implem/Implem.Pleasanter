@@ -64,6 +64,8 @@ $p.openSiteTitleDialog = function ($control) {
             resizable: false
         });
     } else {
+        $("#DisableCalendar").removeAttr('checked').prop("checked", false).change();
+        $("#DisableKamban").removeAttr('checked').prop("checked", false).change();
         $('#SiteTitleDialog').dialog({
             modal: true,
             width: '370px',
