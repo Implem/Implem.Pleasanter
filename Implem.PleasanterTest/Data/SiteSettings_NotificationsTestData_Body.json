@@ -1,0 +1,33 @@
+﻿{
+    "Version": 1.017,
+    "ReferenceType": "Results",
+    "Notifications": [
+        {
+            "Type": 1,
+            "Prefix": "xUnit",
+            "Subject": "通知テスト1",
+            "Address": "implem.dummy.xunit1@implem.dummy.co.jp",
+            "Encoding": "utf-8",
+            "MediaType": "application/json",
+            "MonitorChangesColumns": [ "Title", "Body", "Status", "Manager", "Owner", "AttachmentsA", "Comments" ],
+            "BeforeCondition": 0,
+            "AfterCondition": 0,
+            "Expression": 1,
+            "Id": 1
+        },
+        {
+            "Type": 1,
+            "Prefix": "xUnit",
+            "Subject": "通知テスト2",
+            "Address": "implem.dummy.xunit2@implem.dummy.co.jp",
+            "Encoding": "utf-8",
+            "MediaType": "application/json",
+            "MonitorChangesColumns": [ "Title", "Body", "Status", "Manager", "Owner", "AttachmentsA", "Comments" ],
+            "BeforeCondition": 0,
+            "AfterCondition": 0,
+            "Expression": 1,
+            "Id": 2
+        }
+    ],
+    "NoDisplayIfReadOnly": false
+}

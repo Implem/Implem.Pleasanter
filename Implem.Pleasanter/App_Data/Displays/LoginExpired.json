@@ -1,0 +1,33 @@
+﻿{
+    "Id": "LoginExpired",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "The number of days until login expiration or deactivation has been exceeded."
+        },
+        {
+            "Language": "zh",
+            "Body": "超过登录到期或停用天数。"
+        },
+        {
+            "Language": "ja",
+            "Body": "ログイン有効期限または無効化までの日数を超過しています。"
+        },
+        {
+            "Language": "de",
+            "Body": "Tage bis zum Ablauf der Anmeldung oder Deaktivierung überschritten."
+        },
+        {
+            "Language": "ko",
+            "Body": "로그인 유효기간 또는 비활성화까지 남은 일수를 초과했습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Días hasta la caducidad de inicio de sesión o desactivación superados."
+        },
+        {
+            "Language": "vn",
+            "Body": "Ngày hết hạn đăng nhập hoặc số ngày cho đến khi quá trình hủy kích hoạt kết thúc."
+        }
+    ]
+}
