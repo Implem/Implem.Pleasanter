@@ -1,0 +1,25 @@
+﻿public bool ExportByServerScript(Context context, string filePath)
+{
+    SetSite(context: context);
+    switch (Site.ReferenceType)
+    {
+        case "Issues":
+            return IssueUtilities.ExportByServerScript(
+                context: context,
+                ss: Site.IssuesSiteSettings(
+                    context: context,
+                    referenceId: ReferenceId,
+                    setSiteIntegration: true),
+                filePath: filePath);
+        case "Results":
+            return ResultUtilities.ExportByServerScript(
+                context: context,
+                ss: Site.ResultsSiteSettings(
+                    context: context,
+                    referenceId: ReferenceId,
+                    setSiteIntegration: true),
+                filePath: filePath);
+        default:
+            return false;
+    }
+}
