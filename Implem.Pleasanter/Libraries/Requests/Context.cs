@@ -145,7 +145,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                 contentType: contentType);
             if (ApiRequestBody != null)
             {
-                SiteInfo.Reflesh(context: this);
+                SiteInfo.Refresh(context: this);
             }
             Api = api;
         }
@@ -747,7 +747,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                     var temp = SiteInfo.TenantCaches.ToDictionary(o => o.Key, o => o.Value);
                     temp.Add(TenantId, new TenantCache(context: this));
                     SiteInfo.TenantCaches = temp;
-                    SiteInfo.Reflesh(context: this);
+                    SiteInfo.Refresh(context: this);
                 }
                 catch (Exception)
                 {

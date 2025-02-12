@@ -891,7 +891,7 @@ namespace Implem.Pleasanter.Models
                 addUpdatedTimeParam: true,
                 addUpdatorParam: true,
                 updateItems: true);
-            SiteInfo.Reflesh(context: context);
+            SiteInfo.Refresh(context: context);
             return new ErrorData(type: Error.Types.None);
         }
 

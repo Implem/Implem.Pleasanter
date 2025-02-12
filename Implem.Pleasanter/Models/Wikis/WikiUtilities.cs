@@ -1174,8 +1174,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             Column column)
         {
-            if (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty) != "Num"
-                || column.ControlType == "Spinner")
+            if (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty) != "Num")
             {
                 return string.Empty;
             }
@@ -1668,7 +1667,9 @@ namespace Implem.Pleasanter.Models
                     errorData: new ErrorData(type: Error.Types.InvalidJsonData));
             }
             var view = api?.View ?? new View();
-            var pageSize = Parameters.Api.PageSize;
+            var pageSize = api?.PageSize > 0 && api?.PageSize < Parameters.Api.PageSize
+                ? api.PageSize
+                : Parameters.Api.PageSize;
             var tableType = (api?.TableType) ?? Sqls.TableTypes.Normal;
             if (wikiId > 0)
             {
@@ -1769,7 +1770,9 @@ namespace Implem.Pleasanter.Models
                     where,
                     orderBy
                 });
-            var pageSize = Parameters.Api.PageSize;
+            var pageSize = api?.PageSize > 0 && api?.PageSize < Parameters.Api.PageSize
+                ? api.PageSize
+                : Parameters.Api.PageSize;
             var tableType = (api?.TableType) ?? Sqls.TableTypes.Normal;
             var wikiCollection = new WikiCollection(
                 context: context,

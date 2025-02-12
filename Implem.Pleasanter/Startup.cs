@@ -469,7 +469,7 @@ namespace Implem.Pleasanter.NetCore
             SiteSettingsMigrator.Migrate(context: context);
             StatusesInitializer.Initialize(context: context);
             NotificationInitializer.Initialize();
-            SiteInfo.Reflesh(context: context);
+            SiteInfo.Refresh(context: context);
             log.Finish(context: context);
         }
     }

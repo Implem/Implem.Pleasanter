@@ -112,7 +112,7 @@ namespace Implem.PleasanterFilters
                 };
                 return;
             }
-            SiteInfo.Reflesh(context: context);
+            SiteInfo.Refresh(context: context);
         }
 
         private bool ValidatePostFiles(Context context, AuthorizationFilterContext filterContext)

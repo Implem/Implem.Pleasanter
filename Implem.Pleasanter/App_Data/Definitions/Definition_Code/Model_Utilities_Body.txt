@@ -78,6 +78,7 @@ namespace Implem.Pleasanter.Models
 <!--Model_Utilities_PhysicalBulkDelete_Items-->
 <!--Model_Utilities_PhysicalBulkDeleteByApi_Items-->
 <!--Model_Utilities_Import-->
+<!--Model_Utilities_NewProcessingFailureException-->
 <!--Model_Utilities_Export-->
 <!--Model_Utilities_ExportCrosstab-->
 <!--Model_Utilities_Calendar-->

@@ -1644,5 +1644,33 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 ? issueRequestString
                 : string.Empty;
         }
+
+        public static string ImportItem(Context context, long id, string apiRequestBody, string filePath)
+        {
+            var apiContext = CreateContext(
+                context: context,
+                controller: "Items",
+                action: "importItem",
+                id: id,
+                apiRequestBody: apiRequestBody);
+            return new ItemModel(
+                context: apiContext,
+                referenceId: id)
+                    .ImportByServerScript(context: apiContext, filePath: filePath);
+        }
+
+        public static bool ExportItem(Context context, long id, string apiRequestBody, string filePath)
+        {
+            var apiContext = CreateContext(
+                context: context,
+                controller: "Items",
+                action: "exportItem",
+                id: id,
+                apiRequestBody: apiRequestBody);
+            return new ItemModel(
+                context: apiContext,
+                referenceId: id)
+                    .ExportByServerScript(context: apiContext, filePath: filePath);
+        }
     }
 }

@@ -30,12 +30,12 @@ namespace Implem.Pleasanter.Models.Sessions
         private readonly Context Context;
         private const string SessionExclusiveGuid = "SessionExclusive";
 
-        protected SessionExclusive(Context context, bool enabled, string key, string comment = "")
+        protected SessionExclusive(Context context, bool enabled, string key, long? siteId = null, string comment = "")
         {
             Key = key;
             Context = context;
             LockObj = enabled
-                ? new Lock(siteId: context.SiteId, userId: context.UserId, comment: comment)
+                ? new Lock(siteId: siteId ?? context.SiteId, userId: context.UserId, comment: comment)
                 : null;
         }
 
@@ -89,11 +89,12 @@ namespace Implem.Pleasanter.Models.Sessions
 
     public class TableExclusive : SessionExclusive
     {
-        public TableExclusive(Context context, [CallerMemberName] string callerMethodName = "")
+        public TableExclusive(Context context, long? siteId = null, [CallerMemberName] string callerMethodName = "")
             : base(
                   context: context,
                   enabled: Parameters.General.BlockSiteTaskWhileRunning == true,
-                  key: $"TableExclusive_SiteId={context.SiteId}",
+                  key: $"TableExclusive_SiteId={siteId ?? context.SiteId}",
+                  siteId: siteId,
                   comment: callerMethodName)
         {
         }

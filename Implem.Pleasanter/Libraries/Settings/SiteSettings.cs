@@ -258,6 +258,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string MailBccDefault;
         public List<string> IntegratedSites;
         public bool NoDisplayIfReadOnly;
+        public bool NotInheritPermissionsWhenCreatingSite;
         public Dictionary<string, Permissions.Types> PermissionForCreating;
         public Dictionary<string, Permissions.Types> PermissionForUpdating;
         public List<ColumnAccessControl> CreateColumnAccessControls;
@@ -1234,6 +1235,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (NoDisplayIfReadOnly == true)
             {
                 ss.NoDisplayIfReadOnly = NoDisplayIfReadOnly;
+            }
+            if (NotInheritPermissionsWhenCreatingSite == true)
+            {
+                ss.NotInheritPermissionsWhenCreatingSite = NotInheritPermissionsWhenCreatingSite;
             }
             if (ProcessOutputFormulaLogs == true)
             {
@@ -3960,6 +3965,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "MailBccDefault": MailBccDefault = value; break;
                 case "IntegratedSites": SetIntegratedSites(value); break;
                 case "NoDisplayIfReadOnly": NoDisplayIfReadOnly = value.ToBool(); break;
+                case "NotInheritPermissionsWhenCreatingSite": NotInheritPermissionsWhenCreatingSite = value.ToBool(); break;
                 case "CurrentPermissionForCreatingAll": SetPermissionForCreating(value); break;
                 case "CurrentPermissionForUpdatingAll": SetPermissionForUpdating(value); break;
                 case "CreateColumnAccessControlAll": SetCreateColumnAccessControl(value); break;

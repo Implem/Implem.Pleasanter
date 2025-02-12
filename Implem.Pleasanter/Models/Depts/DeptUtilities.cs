@@ -1961,7 +1961,7 @@ namespace Implem.Pleasanter.Models
                             var errorData = deptModel.Update(
                                 context: context,
                                 ss: ss,
-                                refleshSiteInfo: false,
+                                refreshSiteInfo: false,
                                 get: false);
                             switch (errorData.Type)
                             {
@@ -1989,7 +1989,7 @@ namespace Implem.Pleasanter.Models
                         insertCount++;
                     }
                 }
-                SiteInfo.Reflesh(
+                SiteInfo.Refresh(
                     context: context,
                     force: true);
                 return GridRows(
@@ -2119,7 +2119,7 @@ namespace Implem.Pleasanter.Models
                             var errorData = deptModel.Update(
                                 context: context,
                                 ss: ss,
-                                refleshSiteInfo: false,
+                                refreshSiteInfo: false,
                                 get: false);
                             switch (errorData.Type)
                             {
@@ -2151,7 +2151,7 @@ namespace Implem.Pleasanter.Models
                         insertCount++;
                     }
                 }
-                SiteInfo.Reflesh(
+                SiteInfo.Refresh(
                     context: context,
                     force: true);
                 return ApiResults.Success(
@@ -2420,7 +2420,9 @@ namespace Implem.Pleasanter.Models
                 ? SiteInfo.SiteDepts(context, siteModel.InheritPermission)?
                     .Where(o => !SiteInfo.User(context, o).Disabled).ToArray()
                 : null;
-            var pageSize = Parameters.Api.PageSize;
+            var pageSize = api?.PageSize > 0 && api?.PageSize <= Parameters.Api.PageSize
+                ? api.PageSize
+                : Parameters.Api.PageSize;
             var tableType = (api?.TableType) ?? Sqls.TableTypes.Normal;
             if (deptId > 0)
             {

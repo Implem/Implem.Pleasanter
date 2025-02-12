@@ -53,6 +53,10 @@ namespace Implem.Pleasanter.Libraries.Extensions
 
         public static bool Matched(this Num value, Column column, string condition)
         {
+            if (column.Nullable == true && value.Value == null)
+            {
+                return condition == "[\"\\t\"]";
+            }
             return value.Value.ToDecimal().Matched(column, condition);
         }
 

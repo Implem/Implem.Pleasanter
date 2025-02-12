@@ -100,6 +100,11 @@ namespace Implem.DefinitionAccessor
             var prop = License.GetType().GetProperty("DisableAds");
             return (bool?)(prop?.GetValue(License)) ?? false;
         }
+        public static int Environment()
+        {
+            var prop = License.GetType().GetProperty("Environment");
+            return (int?)(prop?.GetValue(License)) ?? 0;
+        }
 
         public static Dictionary<string, object> GetLicenseInfo()
         {

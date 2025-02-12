@@ -694,6 +694,24 @@ namespace Implem.Pleasanter.Models
                                     value: string.Empty,
                                     tabIndex: tabIndex,
                                     serverScriptModelColumn: serverScriptModelColumn);
+                    case "Manager":
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: userModel.Manager,
+                                    tabIndex: tabIndex,
+                                    serverScriptModelColumn: serverScriptModelColumn)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty,
+                                    tabIndex: tabIndex,
+                                    serverScriptModelColumn: serverScriptModelColumn);
                     case "Theme":
                         return ss.ReadColumnAccessControls.Allowed(
                             context: context,
@@ -1072,6 +1090,42 @@ namespace Implem.Pleasanter.Models
                                     value: string.Empty,
                                     tabIndex: tabIndex,
                                     serverScriptModelColumn: serverScriptModelColumn);
+                    case "LoginExpirationLimit":
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: userModel.LoginExpirationLimit,
+                                    tabIndex: tabIndex,
+                                    serverScriptModelColumn: serverScriptModelColumn)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty,
+                                    tabIndex: tabIndex,
+                                    serverScriptModelColumn: serverScriptModelColumn);
+                    case "LoginExpirationPeriod":
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: userModel.LoginExpirationPeriod,
+                                    tabIndex: tabIndex,
+                                    serverScriptModelColumn: serverScriptModelColumn)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty,
+                                    tabIndex: tabIndex,
+                                    serverScriptModelColumn: serverScriptModelColumn);
                     case "Comments":
                         return ss.ReadColumnAccessControls.Allowed(
                             context: context,
@@ -1326,6 +1380,9 @@ namespace Implem.Pleasanter.Models
                     case "Dept": value = userModel.Dept.GridText(
                         context: context,
                         column: column); break;
+                    case "Manager": value = userModel.Manager.GridText(
+                        context: context,
+                        column: column); break;
                     case "Theme": value = userModel.Theme.GridText(
                         context: context,
                         column: column); break;
@@ -1387,6 +1444,12 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         column: column); break;
                     case "EnableSecretKey": value = userModel.EnableSecretKey.GridText(
+                        context: context,
+                        column: column); break;
+                    case "LoginExpirationLimit": value = userModel.LoginExpirationLimit.GridText(
+                        context: context,
+                        column: column); break;
+                    case "LoginExpirationPeriod": value = userModel.LoginExpirationPeriod.GridText(
                         context: context,
                         column: column); break;
                     case "Comments": value = userModel.Comments.GridText(
@@ -1814,6 +1877,12 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: column);
+                case "Manager":
+                    return userModel.Manager
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
                 case "Theme":
                     return userModel.Theme
                         .ToControl(
@@ -1972,6 +2041,18 @@ namespace Implem.Pleasanter.Models
                             column: column);
                 case "EnableSecretKey":
                     return userModel.EnableSecretKey
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "LoginExpirationLimit":
+                    return userModel.LoginExpirationLimit
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "LoginExpirationPeriod":
+                    return userModel.LoginExpirationPeriod
                         .ToControl(
                             context: context,
                             ss: ss,
@@ -2298,6 +2379,12 @@ namespace Implem.Pleasanter.Models
                                     value: userModel.DeptId.ToResponse(context: context, ss: ss, column: column),
                                     options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                 break;
+                            case "Manager":
+                                res.Val(
+                                    target: "#Users_Manager" + idSuffix,
+                                    value: userModel.Manager.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
                             case "Theme":
                                 res.Val(
                                     target: "#Users_Theme" + idSuffix,
@@ -2452,6 +2539,18 @@ namespace Implem.Pleasanter.Models
                                 res.Val(
                                     target: "#Users_EnableSecretKey" + idSuffix,
                                     value: userModel.EnableSecretKey,
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "LoginExpirationLimit":
+                                res.Val(
+                                    target: "#Users_LoginExpirationLimit" + idSuffix,
+                                    value: userModel.LoginExpirationLimit.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "LoginExpirationPeriod":
+                                res.Val(
+                                    target: "#Users_LoginExpirationPeriod" + idSuffix,
+                                    value: userModel.LoginExpirationPeriod.ToResponse(context: context, ss: ss, column: column),
                                     options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                 break;
                             default:
@@ -2941,7 +3040,7 @@ namespace Implem.Pleasanter.Models
             {
                 var selector = new RecordSelector(context: context);
                 var count = 0;
-                if(selector.All == false && selector.Selected.Any() == false)
+                if (selector.All == false && selector.Selected.Any() == false)
                 {
                     return Messages.ResponseSelectTargets(context: context).ToJson();
                 }
@@ -3087,7 +3186,9 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string Import(Context context)
         {
-            var ss = SiteSettingsUtilities.UsersSiteSettings(context: context);
+            var ss = SiteSettingsUtilities.UsersSiteSettings(
+                context: context,
+                setAllChoices: true);
             if (context.ContractSettings.Import == false)
             {
                 return Messages.ResponseRestricted(context: context).ToJson();
@@ -3214,7 +3315,7 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 ss: ss,
                                 updateMailAddresses: false,
-                                refleshSiteInfo: false,
+                                refreshSiteInfo: false,
                                 get: false);
                             switch (errorData.Type)
                             {
@@ -3223,7 +3324,7 @@ namespace Implem.Pleasanter.Models
                                 case Error.Types.UpdateConflicts:
                                     return new ResponseCollection(context: context)
                                         .Message(Messages.ImportInvalidUserIdAndLoginId(
-                                            context:context,
+                                            context: context,
                                             data: [userModel.UserId.ToString(), userModel.LoginId]))
                                         .ToJson();
                                 default:
@@ -3253,7 +3354,7 @@ namespace Implem.Pleasanter.Models
                         insertCount++;
                     }
                 }
-                SiteInfo.Reflesh(
+                SiteInfo.Refresh(
                     context: context,
                     force: true);
                 return GridRows(
@@ -3435,7 +3536,7 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 ss: ss,
                                 updateMailAddresses: false,
-                                refleshSiteInfo: false,
+                                refreshSiteInfo: false,
                                 get: false);
                             switch (errorData.Type)
                             {
@@ -3472,7 +3573,7 @@ namespace Implem.Pleasanter.Models
                         insertCount++;
                     }
                 }
-                SiteInfo.Reflesh(
+                SiteInfo.Refresh(
                     context: context,
                     force: true);
                 return ApiResults.Success(
@@ -3628,11 +3729,11 @@ namespace Implem.Pleasanter.Models
                         case "Language":
                             userModel.Language = recordingData.ToString();
                             if (userModel.Language.IsNullOrEmpty())
-                            {                                
+                            {
                                 userModel.Language = tenantModel.Language.IsNullOrEmpty()
                                 ? Parameters.Service.DefaultLanguage
                                 : tenantModel.Language;
-                            }                            
+                            }
                             break;
                         case "TimeZone":
                             userModel.TimeZone = recordingData.ToString();
@@ -3650,6 +3751,11 @@ namespace Implem.Pleasanter.Models
                             userModel.DeptId = SiteInfo.Dept(
                                 tenantId: context.TenantId,
                                 deptCode: recordingData).Id;
+                            break;
+                        case "Manager":
+                            userModel.Manager = SiteInfo.User(
+                                context: context,
+                                userId: recordingData.ToInt());
                             break;
                         case "Theme":
                             userModel.Theme = recordingData.ToString();
@@ -3976,7 +4082,7 @@ namespace Implem.Pleasanter.Models
             {
                 return Error.Types.JoeAccountCheck.MessageJson(context: context);
             }
-            foreach(var policy in Parameters.Security.PasswordPolicies.Where(o => o.Enabled))
+            foreach (var policy in Parameters.Security.PasswordPolicies.Where(o => o.Enabled))
             {
                 if (!context.Forms.Data("Users_AfterResetPassword").RegexExists(policy.Regex))
                 {
@@ -4528,7 +4634,8 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return HtmlTemplates.Error(
+                default:
+                    return HtmlTemplates.Error(
                     context: context,
                     errorData: invalid);
             }
@@ -4718,7 +4825,8 @@ namespace Implem.Pleasanter.Models
                 switch (invalidOnReading.Type)
                 {
                     case Error.Types.None: break;
-                    default: return ApiResults.Error(
+                    default:
+                        return ApiResults.Error(
                         context: context,
                         errorData: invalidOnReading);
                 }
@@ -4727,7 +4835,9 @@ namespace Implem.Pleasanter.Models
                 ? SiteInfo.SiteUsers(context, siteModel.InheritPermission)?
                 .Where(o => !SiteInfo.User(context, o).Disabled).ToArray()
                 : null;
-            var pageSize = Parameters.Api.PageSize;
+            var pageSize = api?.PageSize > 0 && api?.PageSize <= Parameters.Api.PageSize
+                ? api.PageSize
+                : Parameters.Api.PageSize;
             var tableType = (api?.TableType) ?? Sqls.TableTypes.Normal;
             if (userId > 0)
             {
@@ -4830,7 +4940,8 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return HtmlTemplates.Error(
+                default:
+                    return HtmlTemplates.Error(
                     context: context,
                     errorData: invalid);
             }
@@ -4871,7 +4982,8 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return HtmlTemplates.Error(
+                default:
+                    return HtmlTemplates.Error(
                     context: context,
                     errorData: invalid);
             }
@@ -4991,7 +5103,8 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return ApiResults.Error(
+                default:
+                    return ApiResults.Error(
                     context: context,
                     errorData: invalid);
             }
@@ -5014,8 +5127,8 @@ namespace Implem.Pleasanter.Models
                     }
                 }
             }
-            foreach(var column in ss.Columns
-                .Where(o => o.ValidateRequired ?? false )
+            foreach (var column in ss.Columns
+                .Where(o => o.ValidateRequired ?? false)
                 .Where(o => typeof(UserApiModel).GetField(o.ColumnName) != null))
             {
                 if (userModel.GetType().GetField(column.ColumnName).GetValue(userModel).ToString().IsNullOrEmpty())
@@ -5163,7 +5276,7 @@ namespace Implem.Pleasanter.Models
             }
             var userModel = new UserModel(
                 context: context,
-                ss:ss,
+                ss: ss,
                 userId: userId,
                 userApiModel: userApiModel);
             if (userModel.AccessStatus != Databases.AccessStatuses.Selected)
@@ -5231,7 +5344,7 @@ namespace Implem.Pleasanter.Models
                         .Comments(ssocode)))
                             .AsEnumerable()
                             .FirstOrDefault();
-            if(dataRow == null)
+            if (dataRow == null)
             {
                 return (0, null);
             }
@@ -5610,13 +5723,13 @@ namespace Implem.Pleasanter.Models
             var defaultRegex = Parameters.Security.PasswordPolicies[0].Enabled
                 ? Parameters.Security.PasswordPolicies[0].Regex
                 : "[!-~]{ 6,}";
-            foreach(var policy in Parameters.Security.PasswordPolicies.Skip(1).Where(o => o.Enabled))
+            foreach (var policy in Parameters.Security.PasswordPolicies.Skip(1).Where(o => o.Enabled))
             {
                 regex += "(?=.*?" + policy.Regex + ")";
             }
             regex += defaultRegex;
             var xeger = new Fare.Xeger(defaultRegex, new Random());
-            while(!System.Text.RegularExpressions.Regex.IsMatch(password, $"^{regex}$"))
+            while (!System.Text.RegularExpressions.Regex.IsMatch(password, $"^{regex}$"))
             {
                 password = xeger.Generate();
             }

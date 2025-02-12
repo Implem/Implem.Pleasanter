@@ -2871,7 +2871,7 @@ namespace Implem.Pleasanter.Models
                                                 icon: "ui-icon-trash",
                                                 confirm: "ConfirmDelete",
                                                 action: "DeleteUserTemplate"),
-                                            _using: Permissions.CanManageTenant(context: context))
+                                            _using: Permissions.CanManageTenantOrEnableManageTenant(context: context))
                                         .Div(css: "command-left", action: () => hb
                                             .TextBox(
                                                 controlId: "Template_SearchText",
@@ -2902,7 +2902,8 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss)
         {
-            if (Permissions.CanManageTenant(context: context) != true || Parameters.UserTemplate.Enabled != true)
+            if (Permissions.CanManageTenantOrEnableManageTenant(context: context) != true
+                || Parameters.UserTemplate.Enabled != true)
             {
                 return Messages.ResponseHasNotPermission(context: context).ToJson();
             }
@@ -2962,7 +2963,7 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss)
         {
-            if (Permissions.CanManageTenant(context: context) != true)
+            if (Permissions.CanManageTenantOrEnableManageTenant(context: context) != true)
             {
                 return Messages.ResponseHasNotPermission(context: context).ToJson();
             }
@@ -3035,7 +3036,7 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss)
         {
-            if (Permissions.CanManageTenant(context: context) != true)
+            if (Permissions.CanManageTenantOrEnableManageTenant(context: context) != true)
             {
                 return Messages.ResponseHasNotPermission(context: context).ToJson();
             }
@@ -3445,7 +3446,7 @@ namespace Implem.Pleasanter.Models
                             .SiteId(sourceId),
                         param: Rds.SitesParam().ParentId(destinationId))
                 });
-            SiteInfo.Reflesh(context: context);
+            SiteInfo.Refresh(context: context);
         }
 
         /// <summary>
@@ -16783,17 +16784,16 @@ namespace Implem.Pleasanter.Models
                         labelText: Displays.Body(context: context),
                         text: dashboardPart.Content,
                         mobile: context.Mobile)
-                    .Field(
+                    .FieldCodeEditor(
+                        context: context,
+                        controlId: "DashboardPartHtmlContent",
                         fieldId: "DashboardPartHtmlContentField",
                         fieldCss: "field-wide"
                             + hiddenCss(dashboardPart.Type != DashboardPartType.CustomHtml),
+                        controlCss: " always-send",
+                        dataLang: "html",
                         labelText: Displays.Body(context: context),
-                        controlAction: () => hb
-                            .TextArea(
-                                css: "control-textarea always-send",
-                                name: "DashboardPartHtmlContent",
-                                id: "DashboardPartHtmlContent",
-                                text: dashboardPart.HtmlContent))
+                        text: dashboardPart.HtmlContent)
                     .Div(
                         id: "DashboardPartCalendarSitesField",
                         css: "both" + hiddenCss(dashboardPart.Type != DashboardPartType.Calendar),
