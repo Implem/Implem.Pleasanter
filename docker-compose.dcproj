@@ -13,7 +13,7 @@
       <DependentUpon>docker-compose.yml</DependentUpon>
     </None>
     <None Include="docker-compose.yml" />
-    <None Include="docker-compose-for-my-sql.yml" />
+    <None Include="docker-compose-for-mysql.yml" />
     <None Include=".dockerignore" />
   </ItemGroup>
 </Project>
