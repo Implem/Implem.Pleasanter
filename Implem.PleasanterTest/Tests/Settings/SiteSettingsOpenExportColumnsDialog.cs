@@ -83,6 +83,21 @@ namespace Implem.PleasanterTest.Tests.Settings
                             method: "SetMemory",
                             target: "formChanged")),
                     userType: UserData.UserTypes.Privileged),
+                new TestPart(
+                    title: "サイト設定 - OpenExportColumnsDialog",
+                    forms: FormsUtilities.Get(
+                        new KeyValue("ControlId", "SearchExportAccessControl"),
+                        new KeyValue("SearchExportAccessControl", "%")),
+                    sessionData: sessionData,
+                    baseTests: BaseData.Tests(
+                        JsonData.ExistsOne(
+                            method: "Html",
+                            target: "#SourceExportAccessControl"),
+                        JsonData.ExistsOne(
+                            method: "SetMemory",
+                            target: "formChanged")),
+                    userType: UserData.UserTypes.Privileged),
+
             };
             foreach (var testPart in testParts)
             {
