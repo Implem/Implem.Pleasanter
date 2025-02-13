@@ -167,11 +167,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     provider: context.CultureInfoCurrency(context.Language));
             }
             return DateTime.Parse(value.ToString()).ToString(
-                format: format
-                    .Replace("Y", "y")
-                    .Replace("D", "d")
-                    .Replace("H", "h")
-                    .Replace("AM/PM", "tt"),
+                format: format,
                 provider: context.CultureInfoCurrency(context.Language));
         }
 
@@ -1238,7 +1234,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     }
                 }";
         }
-        
+
         private static string GetMinScript()
         {
             return @"
