@@ -64,11 +64,40 @@ $p.openSiteTitleDialog = function ($control) {
             resizable: false
         });
     } else {
+        let selectedValue = $("#StandardTemplates .ui-selected:first").data("value");
+        if (selectedValue != "Template2" && selectedValue != "Template3") {
+            $("#DisableCalendar").closest(".field-auto-thin").hide();
+            $("#DisableCrosstab").closest(".field-auto-thin").hide();
+            $("#DisableTimeSeries").closest(".field-auto-thin").hide();
+            $("#DisableAnaly").closest(".field-auto-thin").hide();
+            $("#DisableKamban").closest(".field-auto-thin").hide();
+            $("#DisableImageLib").closest(".field-auto-thin").hide();
+        } else {
+            $("#DisableCalendar").closest(".field-auto-thin").show();
+            $("#DisableCrosstab").closest(".field-auto-thin").show();
+            $("#DisableTimeSeries").closest(".field-auto-thin").show();
+            $("#DisableAnaly").closest(".field-auto-thin").show();
+            $("#DisableKamban").closest(".field-auto-thin").show();
+            $("#DisableImageLib").closest(".field-auto-thin").show();
+        }
+        if (selectedValue != "Template2") {
+            $("#DisableGantt").closest(".field-auto-thin").hide();
+            $("#DisableBurnDown").closest(".field-auto-thin").hide();
+        } else {
+            $("#DisableGantt").closest(".field-auto-thin").show();
+            $("#DisableBurnDown").closest(".field-auto-thin").show();
+        }
         $("#DisableCalendar").removeAttr('checked').prop("checked", false).change();
+        $("#DisableCrosstab").removeAttr('checked').prop("checked", false).change();
+        $("#DisableGantt").removeAttr('checked').prop("checked", false).change();
+        $("#DisableBurnDown").removeAttr('checked').prop("checked", false).change();
+        $("#DisableTimeSeries").removeAttr('checked').prop("checked", false).change();
+        $("#DisableAnaly").removeAttr('checked').prop("checked", false).change();
         $("#DisableKamban").removeAttr('checked').prop("checked", false).change();
+        $("#DisableImageLib").removeAttr('checked').prop("checked", false).change();
         $('#SiteTitleDialog').dialog({
             modal: true,
-            width: '370px',
+            width: "520px",
             appendTo: '#Application',
             resizable: false
         });

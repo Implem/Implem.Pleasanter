@@ -3194,8 +3194,14 @@ namespace Implem.Pleasanter.Models
                 siteModel.Title = new Title(context.Forms.Data("SiteTitle"));
                 siteModel.Body = templateDefinition.Body;
                 siteModel.SiteSettings = templateSs;
-                siteModel.SiteSettings.EnableCalendar = context.Forms.Data("DisableCalendar").ToBool() ? !context.Forms.Data("DisableCalendar").ToBool() : !Parameters.General.DisableCalendar;
-                siteModel.SiteSettings.EnableKamban = context.Forms.Data("DisableKamban").ToBool() ? !context.Forms.Data("DisableKamban").ToBool() : !Parameters.General.DisableKamban;
+                siteModel.SiteSettings.EnableCalendar = context.Forms.Data("DisableCalendar").ToBool() ? !context.Forms.Data("DisableCalendar").ToBool() : !Parameters.General.DefaultCalendarDisable;
+                siteModel.SiteSettings.EnableCrosstab = context.Forms.Data("DisableCrosstab").ToBool() ? !context.Forms.Data("DisableCrosstab").ToBool() : !Parameters.General.DefaultCrosstabDisable;
+                siteModel.SiteSettings.EnableGantt = context.Forms.Data("DisableGantt").ToBool() ? !context.Forms.Data("DisableGantt").ToBool() : !Parameters.General.DefaultGanttDisable;
+                siteModel.SiteSettings.EnableBurnDown = context.Forms.Data("DisableBurnDown").ToBool() ? !context.Forms.Data("DisableBurnDown").ToBool() : !Parameters.General.DefaultBurnDownDisable;
+                siteModel.SiteSettings.EnableTimeSeries = context.Forms.Data("DisableTimeSeries").ToBool() ? !context.Forms.Data("DisableTimeSeries").ToBool() : !Parameters.General.DefaultTimeSeriesDisable;
+                siteModel.SiteSettings.EnableAnaly = context.Forms.Data("DisableAnaly").ToBool() ? !context.Forms.Data("DisableAnaly").ToBool() : !Parameters.General.DefaultAnalyDisable;
+                siteModel.SiteSettings.EnableKamban = context.Forms.Data("DisableKamban").ToBool() ? !context.Forms.Data("DisableKamban").ToBool() : !Parameters.General.DefaultKambanDisable;
+                siteModel.SiteSettings.EnableImageLib = context.Forms.Data("DisableImageLib").ToBool() ? !context.Forms.Data("DisableImageLib").ToBool() : !Parameters.General.DefaultImageLibDisable;
                 siteModel.Create(context: context, otherInitValue: true);
                 return SiteMenuResponse(
                     context: context,
@@ -4681,17 +4687,48 @@ namespace Implem.Pleasanter.Models
                                 controlId: "TemplateId",
                                 css: " always-send")
                             .Div(css: "command-center", action: () => hb
+                                .P(action: () => hb
+                                    .FieldCheckBox(
+                                        controlId: "DisableCalendar",
+                                        fieldCss: "field-auto-thin",
+                                        labelText: Displays.DisableCalendar(context: context),
+                                        _checked: ss.EnableCalendar == false)
+                                    .FieldCheckBox(
+                                        controlId: "DisableCrosstab",
+                                        fieldCss: "field-auto-thin",
+                                        labelText: Displays.DisableCrosstab(context: context),
+                                        _checked: ss.EnableCrosstab == false)
+                                )
                                 .FieldCheckBox(
-                                    controlId: "DisableCalendar",
+                                    controlId: "DisableGantt",
                                     fieldCss: "field-auto-thin",
-                                    labelText: Displays.DisableCalendar(context: context),
-                                    _checked: ss.EnableCalendar == false)
+                                    labelText: Displays.DisableGantt(context: context),
+                                    _checked: ss.EnableGantt == false)
+                                .FieldCheckBox(
+                                    controlId: "DisableBurnDown",
+                                    fieldCss: "field-auto-thin",
+                                    labelText: Displays.DisableBurnDown(context: context),
+                                    _checked: ss.EnableBurnDown == false)
+                                .FieldCheckBox(
+                                    controlId: "DisableTimeSeries",
+                                    fieldCss: "field-auto-thin",
+                                    labelText: Displays.DisableTimeSeries(context: context),
+                                    _checked: ss.EnableTimeSeries == false)
+                                .FieldCheckBox(
+                                    controlId: "DisableAnaly",
+                                    fieldCss: "field-auto-thin",
+                                    labelText: Displays.DisableAnaly(context: context),
+                                    _checked: ss.EnableAnaly == false)
                                 .FieldCheckBox(
                                     controlId: "DisableKamban",
                                     fieldCss: "field-auto-thin",
                                     labelText: Displays.DisableKamban(context: context),
-                                    _checked: ss.EnableCalendar == false)
-                            )
+                                    _checked: ss.EnableKamban == false)
+                                .FieldCheckBox(
+                                    controlId: "DisableImageLib",
+                                    fieldCss: "field-auto-thin",
+                                    labelText: Displays.DisableImageLib(context: context),
+                                    _checked: ss.EnableImageLib == false))
                             .P(css: "message-dialog")
                             .Div(css: "command-center", action: () => hb
                                 .Button(

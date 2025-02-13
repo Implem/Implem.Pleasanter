@@ -46,6 +46,7 @@ namespace Implem.ParameterAccessor.Parts
         public bool UseNegativeFilters { get; set; }
         public bool AllowCopy { get; set; }
         public bool AllowReferenceCopy { get; set; }
+        public bool DefaultAnalyDisable { get; set; }
         public string CharToAddWhenCopying { get; set; }
         [DefaultValue(@"(?<!\\),")]
         public string ChoiceSplitRegexPattern { get; set; } = @"(?<!\\),";
@@ -70,16 +71,20 @@ namespace Implem.ParameterAccessor.Parts
         public int CalendarLimit { get; set; }
         public int CalendarYLimit { get; set; }
         public int DefaultCalendarType { get; set; }
-        public bool DisableCalendar { get; set; }
+        public bool DefaultCalendarDisable { get; set; }
         public int CrosstabBegin { get; set; }
         public int CrosstabEnd { get; set; }
         public int CrosstabXLimit { get; set; }
         public int CrosstabYLimit { get; set; }
+        public bool DefaultCrosstabDisable { get; set; }
         public int GanttLimit { get; set; }
         public int GanttPeriodMin { get; set; }
         public int GanttPeriodMax { get; set; }
+        public bool DefaultGanttDisable { get; set; }
         public int BurnDownLimit { get; set; }
+        public bool DefaultBurnDownDisable { get; set; }
         public int TimeSeriesLimit { get; set; }
+        public bool DefaultTimeSeriesDisable {  get; set; }
         public int AnalyPartPeriodValueMin { get; set; }
         public int AnalyPartPeriodValueMax { get; set; }
         public int KambanLimit { get; set; }
@@ -88,7 +93,7 @@ namespace Implem.ParameterAccessor.Parts
         public int KambanMinColumns { get; set; }
         public int KambanMaxColumns { get; set; }
         public int KambanColumns { get; set; }
-        public bool DisableKamban { get; set; }
+        public bool DefaultKambanDisable { get; set; }
         public int ImageLibPageSize { get; set; }
         public int ImageLibPageSizeMin { get; set; }
         public int ImageLibPageSizeMax { get; set; }
@@ -96,6 +101,7 @@ namespace Implem.ParameterAccessor.Parts
         public int ImageSizeThumbnail { get; set; }
         public int ImageSizeIcon { get; set; }
         public int ImageSizeLogo { get; set; }
+        public bool DefaultImageLibDisable { get; set; }
         public int DropDownSearchPageSize { get; set; }
         public int SwitchTargetsLimit { get; set; }
         public int SeparateMin { get; set; }
