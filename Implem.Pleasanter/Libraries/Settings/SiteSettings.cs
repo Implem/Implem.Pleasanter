@@ -97,6 +97,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string Title;
         [NonSerialized]
         public string Body;
+        public bool? DisableSiteConditions;
         public bool? GuideAllowExpand;
         public string GuideExpand;
         [NonSerialized]
@@ -733,6 +734,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                 Version = Version,
                 ReferenceType = ReferenceType
             };
+            if (DisableSiteConditions == true)
+            {
+                ss.DisableSiteConditions = DisableSiteConditions;
+            }
             if (GuideAllowExpand == true)
             {
                 ss.GuideAllowExpand = GuideAllowExpand;
@@ -3908,6 +3913,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             switch (propertyName)
             {
+                case "DisableSiteConditions": DisableSiteConditions = value.ToBool(); break;
                 case "GuideAllowExpand": GuideAllowExpand = value.ToBool(); break;
                 case "GuideExpand": GuideExpand = value; break;
                 case "NearCompletionTimeBeforeDays": NearCompletionTimeBeforeDays = value.ToInt(); break;

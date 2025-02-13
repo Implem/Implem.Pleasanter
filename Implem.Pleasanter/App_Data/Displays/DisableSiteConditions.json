@@ -1,0 +1,33 @@
+﻿{
+    "Id": "DisableSiteConditions",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Do not display site information"
+        },
+        {
+            "Language": "zh",
+            "Body": "不显示网站信息"
+        },
+        {
+            "Language": "ja",
+            "Body": "サイト情報を表示しない"
+        },
+        {
+            "Language": "de",
+            "Body": "Keine Seiteninformationen anzeigen"
+        },
+        {
+            "Language": "ko",
+            "Body": "사이트 정보를 표시하지 않음"
+        },
+        {
+            "Language": "es",
+            "Body": "No mostrar información del sitio"
+        },
+        {
+            "Language": "vn",
+            "Body": "Không hiển thị thông tin trang web"
+        }
+    ]
+}

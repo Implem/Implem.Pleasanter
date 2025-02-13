@@ -4493,7 +4493,8 @@ namespace Implem.Pleasanter.Models
                     action: () => hb
                         .ElapsedTime(
                             context: context,
-                            value: condition.UpdatedTime.ToLocal(context: context))
+                            value: condition.UpdatedTime.ToLocal(context: context),
+                            _using: condition.UpdatedTime > DateTime.MinValue)
                         .Span(
                             attributes: new HtmlAttributes()
                                 .Class("reference material-symbols-outlined")
@@ -5280,6 +5281,12 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 referenceType: siteModel.ReferenceType,
                                 methodType: siteModel.MethodType))
+                    .FieldCheckBox(
+                        controlId: "DisableSiteConditions",
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.DisableSiteConditions(context: context),
+                        _checked: Parameters.Site.DisableSiteConditions == true || ss.DisableSiteConditions == true,
+                        disabled: Parameters.Site.DisableSiteConditions == true)
                     .VerUpCheckBox(
                         context: context,
                         ss: ss,
