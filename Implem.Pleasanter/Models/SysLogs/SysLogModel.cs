@@ -3246,7 +3246,7 @@ namespace Implem.Pleasanter.Models
             {
                 logger.ForLogEvent(SysLogType != SysLogTypes.Info ? LogLevel.Error : LogLevel.Info)
                     .Message("UpdateSysLog")
-                    .Property("syslog", ToLogModel(this))
+                    .Property("syslog", ToLogModel(context: context, sysLogModel: this, update: true))
                     .Log();
             }
         }
@@ -3373,7 +3373,7 @@ namespace Implem.Pleasanter.Models
                 // Textize
                 logger.ForLogEvent(sysLogType != SysLogTypes.Info ? LogLevel.Error : LogLevel.Info)
                     .Message("WriteSysLog")
-                    .Property("syslog", ToLogModel(this))
+                    .Property("syslog", ToLogModel(context: context, sysLogModel: this))
                     .Log();
             }
         }
@@ -3554,19 +3554,51 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static SysLogLogModel ToLogModel(SysLogModel s)
+        public static SysLogLogModel ToLogModel(Context context, SysLogModel sysLogModel, bool update = false)
         {
-            var config = new MapperConfiguration(cfg =>
+            return new SysLogLogModel
             {
-                cfg.CreateMap<SysLogModel, SysLogLogModel>()
-                    .ForMember(t => t.SysLogType, option => option.MapFrom(s => s.SysLogType.ToInt()))
-                    .ForMember(t => t.Comments, option => option.MapFrom(s => s.Comments.ToJson()))
-                    .ForMember(t => t.UpdatedTime, opion => opion.MapFrom(s => s.EndTime.Equals(0.ToDateTime(null)) ? s.StartTime : s.EndTime));
-                cfg.CreateMap<User, int>()
-                    .ConstructUsing(s => s.Id);
-            });
-            var mapper = new Mapper(config);
-            return mapper.Map<SysLogLogModel>(s);
+                CreatedTime = sysLogModel.StartTime,
+                SysLogId = sysLogModel.SysLogId,
+                Ver = sysLogModel.Ver,
+                SysLogType = sysLogModel.SysLogType.ToInt(),
+                OnAzure = sysLogModel.OnAzure,
+                MachineName = sysLogModel.MachineName,
+                ServiceName = sysLogModel.ServiceName,
+                TenantName = sysLogModel.TenantName,
+                Application = sysLogModel.Application,
+                Class = sysLogModel.Class,
+                Method = sysLogModel.Method,
+                RequestData = sysLogModel.RequestData,
+                HttpMethod = sysLogModel.HttpMethod,
+                RequestSize = sysLogModel.RequestSize,
+                ResponseSize = sysLogModel.ResponseSize,
+                Elapsed = sysLogModel.Elapsed,
+                ApplicationAge = sysLogModel.ApplicationAge,
+                ApplicationRequestInterval = sysLogModel.ApplicationRequestInterval,
+                SessionAge = sysLogModel.SessionAge,
+                SessionRequestInterval = sysLogModel.SessionRequestInterval,
+                WorkingSet64 = sysLogModel.WorkingSet64,
+                VirtualMemorySize64 = sysLogModel.VirtualMemorySize64,
+                ProcessId = sysLogModel.ProcessId,
+                ProcessName = sysLogModel.ProcessName,
+                BasePriority = sysLogModel.BasePriority,
+                Url = sysLogModel.Url,
+                UrlReferer = sysLogModel.UrlReferer,
+                UserHostName = sysLogModel.UserHostName,
+                UserHostAddress = sysLogModel.UserHostAddress,
+                UserLanguage = sysLogModel.UserLanguage,
+                UserAgent = sysLogModel.UserAgent,
+                SessionGuid = sysLogModel.SessionGuid,
+                ErrMessage = sysLogModel.ErrMessage,
+                ErrStackTrace = sysLogModel.ErrStackTrace,
+                InDebug = sysLogModel.InDebug,
+                AssemblyVersion = sysLogModel.AssemblyVersion,
+                Comments = sysLogModel.Comments.ToJson(),
+                Creator = (!update && context?.User != null) ? context.User.Id : 0,
+                Updator = (update && context?.User != null) ? context.User.Id : 0,
+                UpdatedTime = sysLogModel.EndTime.Equals(0.ToDateTime()) ? sysLogModel.StartTime : sysLogModel.EndTime
+            };
         }
     }
 }
