@@ -3556,49 +3556,17 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static SysLogLogModel ToLogModel(SysLogModel s)
         {
-            return new SysLogLogModel
+            var config = new MapperConfiguration(cfg =>
             {
-                CreatedTime = s.StartTime,
-                SysLogId = s.SysLogId,
-                Ver = s.Ver,
-                SysLogType = s.SysLogType.ToInt(),
-                OnAzure = s.OnAzure,
-                MachineName = s.MachineName,
-                ServiceName = s.ServiceName,
-                TenantName = s.TenantName,
-                Application = s.Application,
-                Class = s.Class,
-                Method = s.Method,
-                RequestData = s.RequestData,
-                HttpMethod = s.HttpMethod,
-                RequestSize = s.RequestSize,
-                ResponseSize = s.ResponseSize,
-                Elapsed = s.Elapsed,
-                ApplicationAge = s.ApplicationAge,
-                ApplicationRequestInterval = s.ApplicationRequestInterval,
-                SessionAge = s.SessionAge,
-                SessionRequestInterval = s.SessionRequestInterval,
-                WorkingSet64 = s.WorkingSet64,
-                VirtualMemorySize64 = s.VirtualMemorySize64,
-                ProcessId = s.ProcessId,
-                ProcessName = s.ProcessName,
-                BasePriority = s.BasePriority,
-                Url = s.Url,
-                UrlReferer = s.UrlReferer,
-                UserHostName = s.UserHostName,
-                UserHostAddress = s.UserHostAddress,
-                UserLanguage = s.UserLanguage,
-                UserAgent = s.UserAgent,
-                SessionGuid = s.SessionGuid,
-                ErrMessage = s.ErrMessage,
-                ErrStackTrace = s.ErrStackTrace,
-                InDebug = s.InDebug,
-                AssemblyVersion = s.AssemblyVersion,
-                Comments = s.Comments.ToJson(),
-                Creator = s.Creator.Id,
-                Updator = s.Updator.Id,
-                UpdatedTime = s.EndTime.Equals(0.ToDateTime()) ? s.StartTime : s.EndTime
-            };
+                cfg.CreateMap<SysLogModel, SysLogLogModel>()
+                    .ForMember(t => t.SysLogType, option => option.MapFrom(s => s.SysLogType.ToInt()))
+                    .ForMember(t => t.Comments, option => option.MapFrom(s => s.Comments.ToJson()))
+                    .ForMember(t => t.UpdatedTime, opion => opion.MapFrom(s => s.EndTime.Equals(0.ToDateTime(null)) ? s.StartTime : s.EndTime));
+                cfg.CreateMap<User, int>()
+                    .ConstructUsing(s => s.Id);
+            });
+            var mapper = new Mapper(config);
+            return mapper.Map<SysLogLogModel>(s);
         }
     }
 }
