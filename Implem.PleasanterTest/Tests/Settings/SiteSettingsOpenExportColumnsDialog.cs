@@ -66,7 +66,23 @@ namespace Implem.PleasanterTest.Tests.Settings
                         JsonData.Html(
                             target: "#ExportColumnsDialog",
                             selector: "#ExportColumnsForm")),
-                    userType: UserData.UserTypes.Privileged)
+                    userType: UserData.UserTypes.Privileged),
+                new TestPart(
+                    title: "サイト設定 - OpenExportColumnsDialog",
+                    forms: FormsUtilities.Get(
+                        new KeyValue("ControlId", "UpdateExportColumn"),
+                        new KeyValue("ExportColumnId", "1"),
+                        new KeyValue("ExportColumnType", "1"),
+                        new KeyValue("EditExport", "[]")),
+                    sessionData: sessionData,
+                    baseTests: BaseData.Tests(
+                        JsonData.ExistsOne(
+                            method: "Html",
+                            target: "#ExportColumns"),
+                        JsonData.ExistsOne(
+                            method: "SetMemory",
+                            target: "formChanged")),
+                    userType: UserData.UserTypes.Privileged),
             };
             foreach (var testPart in testParts)
             {
