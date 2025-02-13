@@ -25,24 +25,15 @@ jobs:
             COMPOSE_DOCKER_CLI_BUILD: true
         steps:
             - uses: actions/checkout@v4
-            - name: Generate init.sql
-              run: |
-                mkdir initdir
-                `cat <<EOT > initdir/init.sql
-                create user 'Implem.Pleasanter_Owner'@'%' identified by '${MYSQL_OWNER_PASSWORD}';
-                grant all on `Implem.Pleasanter`.* to 'Implem.Pleasanter_Owner'@'%' with grant option;
-                create user 'Implem.Pleasanter_User'@'%' identified by '${MYSQL_USER_PASSWORD}';
-                grant select, insert, update, delete, create routine, alter routine on `Implem.Pleasanter`.* to 'Implem.Pleasanter_User'@'%';
-                EOT`
             - name: build on docker compose for MySQL
               working-directory: ./
-              run: docker compose -f docker-compose-for-mysql.yml build Implem.CodeDefiner Implem.PleasanterTest
+              run: docker compose -f docker-compose-for-my-sql.yml build Implem.CodeDefiner Implem.PleasanterTest
             - name: run Implem.CodeDefiner on docker compose for MySQL
-              run: docker compose -f docker-compose-for-mysql.yml run --rm Implem.CodeDefiner _rds /y
+              run: docker compose -f docker-compose-for-my-sql.yml run --rm Implem.CodeDefiner _rds /y
               working-directory: ./
             - name: run Implem.PleasanterTest on docker compose for MySQL
-              run: docker compose -f docker-compose-for-mysql.yml run --rm Implem.PleasanterTest
+              run: docker compose -f docker-compose-for-my-sql.yml run --rm Implem.PleasanterTest
               working-directory: ./
             - name: clean up on docker compose for MySQL
-              run: docker compose -f docker-compose-for-mysql.yml down
+              run: docker compose -f docker-compose-for-my-sql.yml down
               working-directory: ./
