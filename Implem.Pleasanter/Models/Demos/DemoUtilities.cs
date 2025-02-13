@@ -17,6 +17,7 @@ using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Libraries.Web;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -89,9 +90,13 @@ namespace Implem.Pleasanter.Models
         {
             var ss = new SiteSettings();
             var passphrase = Strings.NewGuid();
+            var contractSettingsDefault = Def.ColumnDefinitionCollection
+                .Where(x => x.Id == "Tenants_ContractSettings")
+                .FirstOrDefault()?.DefaultInput;
             var tenantModel = new TenantModel()
             {
                 TenantName = mailAddress,
+                ContractSettings = JsonConvert.DeserializeObject<ContractSettings>(contractSettingsDefault),
                 ContractDeadline = DateTime.Now.AddDays(Parameters.Service.DemoUsagePeriod)
             };
             tenantModel.Create(
