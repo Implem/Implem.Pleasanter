@@ -30,9 +30,9 @@ jobs:
                 mkdir initdir
                 `cat <<EOT > initdir/init.sql
                 create user 'Implem.Pleasanter_Owner'@'%' identified by '${MYSQL_OWNER_PASSWORD}';
-                grant all on \`Implem.Pleasanter\`.* to 'Implem.Pleasanter_Owner'@'%' with grant option;
+                grant all on \\\`Implem.Pleasanter\\\`.* to 'Implem.Pleasanter_Owner'@'%' with grant option;
                 create user 'Implem.Pleasanter_User'@'%' identified by '${MYSQL_USER_PASSWORD}';
-                grant select, insert, update, delete, create routine, alter routine on \`Implem.Pleasanter\`.* to 'Implem.Pleasanter_User'@'%';
+                grant select, insert, update, delete, create routine, alter routine on \\\`Implem.Pleasanter\\\`.* to 'Implem.Pleasanter_User'@'%';
                 EOT`
             - name: build on docker compose for MySQL
               working-directory: ./
