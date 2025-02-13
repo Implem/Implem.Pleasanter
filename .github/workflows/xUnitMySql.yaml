@@ -27,13 +27,13 @@ jobs:
             - uses: actions/checkout@v4
             - name: build on docker compose for MySQL
               working-directory: ./
-              run: docker compose -f docker-compose-for-my-sql.yml build Implem.CodeDefiner Implem.PleasanterTest
+              run: docker compose -f docker-compose-for-mysql.yml build Implem.CodeDefiner Implem.PleasanterTest
             - name: run Implem.CodeDefiner on docker compose for MySQL
-              run: docker compose -f docker-compose-for-my-sql.yml run --rm Implem.CodeDefiner _rds /y
+              run: docker compose -f docker-compose-for-mysql.yml run --rm Implem.CodeDefiner _rds /y
               working-directory: ./
             - name: run Implem.PleasanterTest on docker compose for MySQL
-              run: docker compose -f docker-compose-for-my-sql.yml run --rm Implem.PleasanterTest
+              run: docker compose -f docker-compose-for-mysql.yml run --rm Implem.PleasanterTest
               working-directory: ./
             - name: clean up on docker compose for MySQL
-              run: docker compose -f docker-compose-for-my-sql.yml down
+              run: docker compose -f docker-compose-for-mysql.yml down
               working-directory: ./
