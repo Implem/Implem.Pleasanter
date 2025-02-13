@@ -28,10 +28,10 @@ jobs:
             - name: Generate init.sql
               run: |
                 mkdir initdir
-                echo create user 'Implem.Pleasanter_Owner'@'%' identified by '${MYSQL_OWNER_PASSWORD}'; > initdir/init.sql
-                echo grant all on `Implem.Pleasanter`.* to 'Implem.Pleasanter_Owner'@'%' with grant option; >> initdir/init.sql
-                echo create user 'Implem.Pleasanter_User'@'%' identified by '${MYSQL_USER_PASSWORD}'; >> initdir/init.sql
-                echo grant select, insert, update, delete, create routine, alter routine on `Implem.Pleasanter`.* to 'Implem.Pleasanter_User'@'%'; >> initdir/init.sql
+                echo "create user 'Implem.Pleasanter_Owner'@'%' identified by '${MYSQL_OWNER_PASSWORD}';" > initdir/init.sql
+                echo "grant all on `Implem.Pleasanter`.* to 'Implem.Pleasanter_Owner'@'%' with grant option;" >> initdir/init.sql
+                echo "create user 'Implem.Pleasanter_User'@'%' identified by '${MYSQL_USER_PASSWORD}';" >> initdir/init.sql
+                echo "grant select, insert, update, delete, create routine, alter routine on `Implem.Pleasanter`.* to 'Implem.Pleasanter_User'@'%';" >> initdir/init.sql
             - name: build on docker compose for MySQL
               working-directory: ./
               run: docker compose -f docker-compose-for-mysql.yml build Implem.CodeDefiner Implem.PleasanterTest
