@@ -1,0 +1,22 @@
+﻿{
+    "Version": 1.017,
+    "ReferenceType": "Results",
+    "Htmls": [
+        {
+            "Title": "test1",
+            "PositionType": 1000,
+            "All": true,
+            "Body": "<link href=\"https://cdnjs.cloudflare.com/ajax/libs/pivottable/2.23.0/pivot.min.css\" rel=\"stylesheet\" />",
+            "Id": 1
+        },
+        {
+            "Title": "test2",
+            "PositionType": 1000,
+            "All": true,
+            "Body": "<link href=\"https://cdnjs.cloudflare.com/ajax/libs/pivottable/2.23.0/pivot.min.css\" rel=\"stylesheet\" />",
+            "Id": 1
+        }
+    ],
+    "NoDisplayIfReadOnly": false,
+    "NotInheritPermissionsWhenCreatingSite": false
+}
