@@ -166,9 +166,13 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     format: format,
                     provider: context.CultureInfoCurrency(context.Language));
             }
-            return DateTime.Parse(value.ToString()).ToString(
-                format: format,
-                provider: context.CultureInfoCurrency(context.Language));
+            if (DateTime.TryParse(value.ToString(), out DateTime dateTimeValue))
+            {
+                return dateTimeValue.ToString(
+                    format: format,
+                    provider: context.CultureInfoCurrency(context.Language));
+            }
+            return value.ToString();
         }
 
         private static string GetDateScript()
