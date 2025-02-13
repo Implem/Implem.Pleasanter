@@ -46,7 +46,6 @@ namespace Implem.PleasanterTest.Tests.Settings
                     title: "サイト設定 - RelatingColumns",
                     forms: FormsUtilities.Get(
                         new KeyValue("ControlId", "NewRelatingColumn")),
-                        //new KeyValue("BulkUpdateColumnTitle", "test")),
                     baseTests: BaseData.Tests(
                         JsonData.ExistsOne(
                             method: "Html",
@@ -54,30 +53,38 @@ namespace Implem.PleasanterTest.Tests.Settings
                         JsonData.ExistsOne(
                             method: "SetMemory",
                             target: "formChanged")),
-                        //JsonData.HtmlTextContains(
-                        //    method : "ReplaceAll",
-                        //    target : "#EditBulkUpdateColumns",
-                        //    selector : "#EditBulkUpdateColumns",
-                        //    value : "test")),
+                    userType: UserData.UserTypes.Privileged),
+                new TestPart(
+                    title: "サイト設定 - RelatingColumns",
+                    forms: FormsUtilities.Get(
+                        new KeyValue("ControlId", "EditRelatingColumns"),
+                        new KeyValue("RelatingColumnId", "1")),
+                    baseTests: BaseData.Tests(
+                        JsonData.ExistsOne(
+                            method: "Html",
+                            target: "#RelatingColumnDialog"),
+                        JsonData.ExistsOne(
+                            method: "SetMemory",
+                            target: "formChanged")),
                     userType: UserData.UserTypes.Privileged),
                 new TestPart(
                     title: "サイト設定 - RelatingColumns",
                     forms: FormsUtilities.Get(
                         new KeyValue("ControlId", "UpdateRelatingColumn"),
-                        new KeyValue("RelatingColumnTitle", "RelatingColumn-cahnge"),
-                        new KeyValue("RelatingColumnId",  "1")),
+                        new KeyValue("RelatingColumnId", "1"),
+                        new KeyValue("RelatingColumnTitle", "RelatingColumn-cahnge")),
                     baseTests: BaseData.Tests(
                         JsonData.ExistsOne(
                             method: "Html",
                             target: "#EditRelatingColumns"),
                         JsonData.ExistsOne(
                             method: "SetMemory",
-                            target: "formChanged")),
-                        //JsonData.HtmlTextContains(
-                        //    method : "Html",
-                        //    target : "#EditBulkUpdateColumns",
-                        //    selector : "#EditBulkUpdateColumns",
-                        //    value : "bulkupdatesetting-chage")),
+                            target: "formChanged"),
+                        JsonData.HtmlTextContains(
+                            method : "Html",
+                            target : "#EditRelatingColumns",
+                            selector : "#EditRelatingColumns",
+                            value : "RelatingColumn-cahnge")),
                     userType: UserData.UserTypes.Privileged),
                 new TestPart(
                     title: "サイト設定 - RelatingColumns",
@@ -90,20 +97,19 @@ namespace Implem.PleasanterTest.Tests.Settings
                             target: "#EditRelatingColumns"),
                         JsonData.ExistsOne(
                             method: "SetMemory",
-                            target: "formChanged")),
-                        //JsonData.HtmlTextContains(
-                        //    method : "ReplaceAll",
-                        //    target : "#EditBulkUpdateColumns",
-                        //    selector : "#EditBulkUpdateColumns",
-                        //    value : "bulkupdatesetting")),
+                            target: "formChanged"),
+                        JsonData.HtmlTextContains(
+                            method : "ReplaceAll",
+                            target : "#EditRelatingColumns",
+                            selector : "#EditRelatingColumns",
+                            value : "test")),
                     userType: UserData.UserTypes.Privileged),
                 new TestPart(
                     title: "サイト設定 - RelatingColumns",
                     forms: FormsUtilities.Get(
                         new KeyValue("ControlId", "DeleteRelatingColumns"),
                         new KeyValue("RelatingColumnId", "1"),
-                        new KeyValue("EditRelatingColumns", "[\"1\"]")),
-                        //new KeyValue("BulkUpdateColumnDetailValidateRequired", "false")),EditRelatingColumns, ["1"]
+                        new KeyValue("EditRelatingColumns", "[\"1\"]")),                       
                     baseTests: BaseData.Tests(
                         JsonData.ExistsOne(
                             method: "ReplaceAll",
