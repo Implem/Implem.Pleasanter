@@ -1089,6 +1089,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             bool debug,
             bool onTesting = false)
         {
+            if (ss.ServerScriptsAllDisabled == true)
+            {
+                return null;
+            }
             if (!(Parameters.Script.ServerScript != false
                 && context.ContractSettings.ServerScript != false
                 && context.ServerScriptDisabled == false))

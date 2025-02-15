@@ -204,6 +204,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public SettingList<Script> Scripts;
         public SettingList<Html> Htmls;
         public SettingList<ServerScript> ServerScripts;
+        public bool? ServerScriptsAllDisabled;
         public SettingList<BulkUpdateColumn> BulkUpdateColumns;
         public SettingList<RelatingColumn> RelatingColumns;
         public SettingList<DashboardPart> DashboardParts;
@@ -1251,6 +1252,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (ProcessOutputFormulaLogs == true)
             {
                 ss.ProcessOutputFormulaLogs = ProcessOutputFormulaLogs;
+            }
+            if (ServerScriptsAllDisabled == true)
+            {
+                ss.ServerScriptsAllDisabled = ServerScriptsAllDisabled;
             }
             PermissionForCreating?.Where(o => o.Value > 0).ForEach(data =>
             {
@@ -4043,6 +4048,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .ToList();
                     break;
                 case "ProcessOutputFormulaLogs": ProcessOutputFormulaLogs = value.ToBool(); break;
+                case "ServerScriptsAllDisabled": ServerScriptsAllDisabled = value.ToBool(); break;
             }
         }
 
