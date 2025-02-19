@@ -283,11 +283,22 @@ namespace Implem.Pleasanter.Models
             var view = Views.GetBySession(
                 context: context,
                 ss: ss);
-            var gridData = GetGridData(
-                context: context,
-                ss: ss,
-                view: view,
-                offset: offset);
+            GridData gridData = null;
+            try
+            {
+                gridData = GetGridData(
+                    context: context,
+                    ss: ss,
+                    view: view,
+                    offset: offset);
+            }
+            catch (Implem.Libraries.Exceptions.CanNotGridSortException)
+            {
+                return new ResponseCollection(context: context)
+                    .Message(context.Messages.Last())
+                    .Log(context.GetLog())
+                    .ToJson();
+            }
             var columns = ss.GetGridColumns(
                 context: context,
                 view: view,
