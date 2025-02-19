@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Text.Json;
 namespace Implem.Pleasanter.Libraries.Server
 {
     public class SiteMenu : Dictionary<long, SiteMenuElement>
@@ -115,7 +116,17 @@ namespace Implem.Pleasanter.Libraries.Server
 
         public IEnumerable<SiteCondition> SiteConditions(Context context, SiteSettings ss)
         {
-            var hash = ChildHash(context: context, ss: ss);
+            var hash = Repository.ExecuteTable(
+                context: context,
+                statements: new SqlStatement(
+                    commandText: context.Sqls.GetChildSiteIdList,
+                    param: Rds.SitesParam().SiteId(context.SiteId)))
+                .AsEnumerable()
+                .GroupBy(dataRow => dataRow.Field<long>("RootSiteId"))
+                .ToDictionary(
+                    o => o.Key,
+                    o => o.Select(dataRow => dataRow.Field<long>("SiteId"))
+                    .ToList());
             var sites = Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectSites(
