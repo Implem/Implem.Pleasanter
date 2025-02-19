@@ -1,0 +1,40 @@
+﻿{
+    "Version": 1.017,
+    "ReferenceType": "Results",
+    "ViewLatestId": 2,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "テスト用ビュー1",
+            "DefaultMode": "Index",
+            "ApiColumnKeyDisplayType": 0,
+            "ApiColumnValueDisplayType": 0,
+            "CalendarSiteId": 0,
+            "CalendarTimePeriod": "Monthly",
+            "CalendarFromTo": "DateA",
+            "CrosstabGroupByX": "Status",
+            "CrosstabGroupByY": "Owner",
+            "CrosstabAggregateType": "Total",
+            "CrosstabTimePeriod": "Monthly",
+            "KambanAggregateType": "Count",
+            "ApiDataType": 0
+        },
+        {
+            "Id": 2,
+            "Name": "テスト用ビュー2",
+            "DefaultMode": "Index",
+            "ApiColumnKeyDisplayType": 0,
+            "ApiColumnValueDisplayType": 0,
+            "CalendarSiteId": 0,
+            "CalendarTimePeriod": "Monthly",
+            "CalendarFromTo": "DateA",
+            "CrosstabGroupByX": "Status",
+            "CrosstabGroupByY": "Owner",
+            "CrosstabAggregateType": "Total",
+            "CrosstabTimePeriod": "Monthly",
+            "KambanAggregateType": "Count",
+            "ApiDataType": 0
+        }
+    ],
+    "NoDisplayIfReadOnly": false
+}

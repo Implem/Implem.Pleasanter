@@ -66,6 +66,40 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
+        public static HtmlTest TextCountOf(
+            string selector,
+            string value,
+            int estimate)
+        {
+            return new HtmlTest()
+            {
+                Type = HtmlTest.Types.Text,
+                Selector = selector,
+                TextTest = new TextTest()
+                {
+                    Type = TextTest.Types.CountOf,
+                    Value = value,
+                    Estimate = estimate
+                }
+            };
+        }
+
+        public static HtmlTest TextCheckOrder(
+            string selector,
+            string[] wordArray)
+        {
+            return new HtmlTest()
+            {
+                Type = HtmlTest.Types.Text,
+                Selector = selector,
+                TextTest = new TextTest()
+                {
+                    Type = TextTest.Types.CheckOrder,
+                    WordArray = wordArray
+                }
+            };
+        }
+
         public static HtmlTest NotFoundMessage()
         {
             return new HtmlTest()
@@ -100,6 +134,7 @@ namespace Implem.PleasanterTest.Utilities
                 Value = value
             };
         }
+
         public static HtmlTest Attribute(string selector, string name, string value)
         {
             return new HtmlTest()

@@ -1175,8 +1175,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             Column column)
         {
-            if (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty) != "Num"
-                || column.ControlType == "Spinner")
+            if (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty) != "Num")
             {
                 return string.Empty;
             }

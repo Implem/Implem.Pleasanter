@@ -16794,17 +16794,16 @@ namespace Implem.Pleasanter.Models
                         labelText: Displays.Body(context: context),
                         text: dashboardPart.Content,
                         mobile: context.Mobile)
-                    .Field(
+                    .FieldCodeEditor(
+                        context: context,
+                        controlId: "DashboardPartHtmlContent",
                         fieldId: "DashboardPartHtmlContentField",
                         fieldCss: "field-wide"
                             + hiddenCss(dashboardPart.Type != DashboardPartType.CustomHtml),
+                        controlCss: " always-send",
+                        dataLang: "html",
                         labelText: Displays.Body(context: context),
-                        controlAction: () => hb
-                            .TextArea(
-                                css: "control-textarea always-send",
-                                name: "DashboardPartHtmlContent",
-                                id: "DashboardPartHtmlContent",
-                                text: dashboardPart.HtmlContent))
+                        text: dashboardPart.HtmlContent)
                     .Div(
                         id: "DashboardPartCalendarSitesField",
                         css: "both" + hiddenCss(dashboardPart.Type != DashboardPartType.Calendar),
