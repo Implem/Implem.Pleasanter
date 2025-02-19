@@ -56,7 +56,8 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public string RecordingJson()
         {
-            return null;
+            var obj = this.ToJson().Deserialize<ContractSettings>();
+            return obj.ToJson();
         }
 
         public bool InitialValue(Context context)
