@@ -1,0 +1,27 @@
+﻿{
+    "Version": 1.017,
+    "ReferenceType": "Results",
+    "EditorColumnHash": {
+        "General": [
+            "ResultId",
+            "Ver",
+            "Title",
+            "Body",
+            "Status",
+            "Manager",
+            "Owner",
+            "Comments",
+            "ClassA"
+        ]
+    },
+    "BulkUpdateColumns": [
+        {
+            "Title": "bulkupdatesetting",
+            "Columns": [
+                "Title"
+            ],
+            "Id": 1
+        }
+    ],
+    "NoDisplayIfReadOnly": false
+}

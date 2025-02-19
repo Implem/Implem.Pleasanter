@@ -311,6 +311,19 @@ namespace Implem.PleasanterTest.Utilities
                         }
                     }
                     break;
+                case JsonTest.Types.Text:
+                    if (nodes.Count() != 1)
+                    {
+                        return false;
+                    }
+                    else if (!Text(
+                        context: context,
+                        results: nodes[0].Value.ToString(),
+                        textTest: jsonTest.TextTest))
+                    {
+                        return false;
+                    }
+                    break;
                 default:
                     return false;
             }
@@ -374,6 +387,37 @@ namespace Implem.PleasanterTest.Utilities
                     if (!results.Contains(textTest.Value?.ToString()))
                     {
                         return false;
+                    }
+                    break;
+                case TextTest.Types.CountOf:
+                    var count = 0;
+                    var counIndex = results.IndexOf(
+                        value: textTest.Value.ToString(),
+                        startIndex: 0);
+                    while (counIndex != -1)
+                    {
+                        count++;
+                        counIndex = results.IndexOf(
+                            value: textTest.Value.ToString(),
+                            startIndex: counIndex + textTest.Value.ToString().Length);
+                    }
+                    if (count != textTest.Estimate)
+                    {
+                        return false;
+                    }
+                    break;
+                case TextTest.Types.CheckOrder:
+                    var orderIndex = 0;
+                    foreach (var word in textTest.WordArray)
+                    {
+                        orderIndex = results.IndexOf(
+                            value: word,
+                            startIndex: orderIndex);
+                        if (orderIndex == -1)
+                        {
+                            return false;
+                        }
+                        orderIndex = orderIndex + word.Length;
                     }
                     break;
                 default:
