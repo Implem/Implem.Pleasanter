@@ -3,6 +3,7 @@ using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Requests;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 namespace Implem.Pleasanter.Libraries.General
 {
@@ -89,6 +90,26 @@ namespace Implem.Pleasanter.Libraries.General
                     type: Error.Types.InvalidJsonData,
                     sysLogsStatus: 400);
             }
+
+            return new ErrorData(type: Error.Types.None);
+        }
+
+        public static ErrorData ValidateEnvironment(
+            Context context,
+            bool api,
+            IEnumerable<int> deniedEnvironment)
+        {
+            if (deniedEnvironment.Contains(Parameters.Environment()))
+            {
+                return new ErrorData(
+                    context: context,
+                    type: Error.Types.HasNotPermission,
+                    api: api,
+                    sysLogsStatus: 403,
+                    sysLogsDescription: Debugs.GetSysLogsDescription()
+                );
+            }
+
             return new ErrorData(type: Error.Types.None);
         }
     }
