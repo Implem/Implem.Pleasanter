@@ -500,5 +500,10 @@ namespace Implem.MySql
                     return string.Empty;
             }
         }
+
+        public string MigrateDatabaseSelectFrom(string tableName)
+        {
+            return $"";
+        }
     }
 }

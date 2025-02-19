@@ -1,0 +1,25 @@
+﻿public string ImportByServerScript(Context context, string filePath)
+{
+    SetSite(context: context);
+    switch (Site.ReferenceType)
+    {
+        case "Issues":
+            return IssueUtilities.ImportByServerScript(
+                context: context,
+                ss: Site.IssuesSiteSettings(
+                    context: context,
+                    referenceId: ReferenceId,
+                    setSiteIntegration: true),
+                filePath: filePath);
+        case "Results":
+            return ResultUtilities.ImportByServerScript(
+                context: context,
+                ss: Site.ResultsSiteSettings(
+                    context: context,
+                    referenceId: ReferenceId,
+                    setSiteIntegration: true),
+                filePath: filePath);
+        default:
+            return null;
+    }
+}

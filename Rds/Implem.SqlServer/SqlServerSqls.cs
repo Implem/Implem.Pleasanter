@@ -476,5 +476,10 @@ namespace Implem.SqlServer
                 where ""TenantId"" = @_T
                     and ""Guid"" = @Guid;";
         }
+
+        public string MigrateDatabaseSelectFrom(string tableName)
+        {
+            return $@"select * from ""{tableName}"";";
+        }
     }
 }

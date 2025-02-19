@@ -2039,6 +2039,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string CodeDefinerMigrationErrors(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "CodeDefinerMigrationErrors",
+                data: data);
+        }
+
         public static string CodeDefinerMvcCompleted(
             Context context,
             params string[] data)
@@ -6206,6 +6216,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Login",
+                data: data);
+        }
+
+        public static string LoginExpired(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "LoginExpired",
                 data: data);
         }
 
@@ -14106,6 +14126,26 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Users_LockoutCounter",
+                data: data);
+        }
+
+        public static string Users_LoginExpirationLimit(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Users_LoginExpirationLimit",
+                data: data);
+        }
+
+        public static string Users_LoginExpirationPeriod(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Users_LoginExpirationPeriod",
                 data: data);
         }
 

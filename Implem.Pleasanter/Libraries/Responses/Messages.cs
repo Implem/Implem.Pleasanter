@@ -494,6 +494,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-success");
         }
 
+        public static Message CodeDefinerMigrationErrors(Context context, params string[] data)
+        {
+            return Get(
+                id: "CodeDefinerMigrationErrors",
+                text: Displays.CodeDefinerMigrationErrors(
+                    context: context,
+                    data: data),
+                css: "alert-success");
+        }
+
         public static Message CodeDefinerMvcCompleted(Context context, params string[] data)
         {
             return Get(
@@ -1139,6 +1149,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 id: "LockedTable",
                 text: Displays.LockedTable(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
+        public static Message LoginExpired(Context context, params string[] data)
+        {
+            return Get(
+                id: "LoginExpired",
+                text: Displays.LoginExpired(
                     context: context,
                     data: data),
                 css: "alert-error");
@@ -2330,6 +2350,17 @@ namespace Implem.Pleasanter.Libraries.Responses
                 target: target);
         }
 
+        public static ResponseCollection ResponseCodeDefinerMigrationErrors(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: CodeDefinerMigrationErrors(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
         public static ResponseCollection ResponseCodeDefinerMvcCompleted(
             Context context, string target = null, params string[] data)
         {
@@ -3040,6 +3071,17 @@ namespace Implem.Pleasanter.Libraries.Responses
             return ResponseMessage(
                 context: context,
                 message: LockedTable(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseLoginExpired(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: LoginExpired(
                     context: context,
                     data: data),
                 target: target);

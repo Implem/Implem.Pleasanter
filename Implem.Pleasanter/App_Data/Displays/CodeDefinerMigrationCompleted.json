@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "CodeDefinerMigrationCompleted",
     "Type": 210,
     "Languages": [
@@ -7,7 +7,7 @@
         },
         {
             "Language": "zh",
-            "Body": "解决方案文件已完成备份。"
+            "Body": "迁移已完成。"
         },
         {
             "Language": "ja",
