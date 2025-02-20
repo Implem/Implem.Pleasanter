@@ -1,0 +1,22 @@
+﻿{
+    "Version": 1.017,
+    "ReferenceType": "Results",
+    "ServerScripts": [
+        {
+            "Title": "test1",
+            "Name": "",
+            "BeforeOpeningPage": true,
+            "Body": "context.Log('このサーバスクリプトのIdは2です。')",
+            "Id": 1
+        },
+        {
+            "Title": "test2",
+            "Name": "",
+            "BeforeOpeningPage": true,
+            "Body": "context.Log('このサーバスクリプトのIdは2です。')",
+            "Id": 2
+        }
+    ],
+    "NoDisplayIfReadOnly": false,
+    "NotInheritPermissionsWhenCreatingSite": false
+}
