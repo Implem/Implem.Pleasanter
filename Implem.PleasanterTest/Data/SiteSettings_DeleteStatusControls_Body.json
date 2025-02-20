@@ -1,0 +1,31 @@
+﻿{
+    "Version": 1.017,
+    "ReferenceType": "Results",
+    "StatusControls": [
+        {
+            "Id": 1,
+            "Name": "test1",
+            "Status": -1,
+            "View": {
+                "Id": 0,
+                "ApiColumnKeyDisplayType": 0,
+                "ApiColumnValueDisplayType": 0,
+                "CalendarSiteId": 0,
+                "ApiDataType": 0
+            }
+        },
+        {
+            "Id": 2,
+            "Name": "test2",
+            "Status": -1,
+            "View": {
+                "Id": 0,
+                "ApiColumnKeyDisplayType": 0,
+                "ApiColumnValueDisplayType": 0,
+                "CalendarSiteId": 0,
+                "ApiDataType": 0
+            }
+        }
+    ],
+    "NoDisplayIfReadOnly": false
+}
