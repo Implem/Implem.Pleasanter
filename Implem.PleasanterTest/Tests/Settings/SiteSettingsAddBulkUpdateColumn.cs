@@ -43,6 +43,80 @@ namespace Implem.PleasanterTest.Tests.Settings
             var testParts = new List<TestPart>()
             {
                 new TestPart(
+                    title: "サイト設定 - BulkUpdate",
+                    forms: FormsUtilities.Get(
+                        new KeyValue("ControlId", "MoveUpBulkUpdateColumns"),
+                        new KeyValue("EditBulkUpdateColumns", "[\"1\"]")),
+                    baseTests: BaseData.Tests(
+                        JsonData.ExistsOne(
+                            method: "Html",
+                            target: "#EditBulkUpdateColumns"),
+                        JsonData.ExistsOne(
+                            method: "SetMemory",
+                            target: "formChanged")),
+                    userType: UserData.UserTypes.Privileged),
+                new TestPart(
+                    title: "サイト設定 - BulkUpdate",
+                    forms: FormsUtilities.Get(
+                        new KeyValue("ControlId", "MoveDownBulkUpdateColumns"),
+                        new KeyValue("EditBulkUpdateColumns", "[\"1\"]")),
+                    baseTests: BaseData.Tests(
+                        JsonData.ExistsOne(
+                            method: "Html",
+                            target: "#EditBulkUpdateColumns"),
+                        JsonData.ExistsOne(
+                            method: "SetMemory",
+                            target: "formChanged")),
+                    userType: UserData.UserTypes.Privileged),
+                new TestPart(
+                    title: "サイト設定 - BulkUpdate",
+                    forms: FormsUtilities.Get(
+                        new KeyValue("ControlId", "NewBulkUpdateColumn"),
+                        new KeyValue("EditorColumns", "[]"),
+                        new KeyValue("EditorColumnsAll", "[\"ResultId\",\"Ver\",\"Title\",\"Body\",\"Status\",\"Manager\",\"Owner\",\"Comments\"]")),
+                    baseTests: BaseData.Tests(
+                        JsonData.ExistsOne(
+                            method: "Html",
+                            target: "#BulkUpdateColumnDialog"),
+                        JsonData.ExistsOne(
+                            method: "SetMemory",
+                            target: "formChanged")),
+                    userType: UserData.UserTypes.Privileged),
+                new TestPart(
+                    title: "サイト設定 - BulkUpdate",
+                    forms: FormsUtilities.Get(
+                        new KeyValue("ControlId", "EditBulkUpdateColumns"),
+                        new KeyValue("BulkUpdateColumnId", "1"),
+                        new KeyValue("MoveTargetsColumns", "[]"),
+                        new KeyValue("EditorColumns", "[]"),
+                        new KeyValue("EditorColumnsAll", "[\"ResultId\",\"Ver\",\"Title\",\"Body\",\"Status\",\"Manager\",\"Owner\",\"Comments\"]"),
+                        new KeyValue("EditorColumnsTabsTarget", "0")),
+                    baseTests: BaseData.Tests(
+                        JsonData.ExistsOne(
+                            method: "Html",
+                            target: "#BulkUpdateColumnDialog"),
+                        JsonData.ExistsOne(
+                            method: "SetMemory",
+                            target: "formChanged")),
+                    userType: UserData.UserTypes.Privileged),
+                new TestPart(
+                    title: "サイト設定 - BulkUpdate",
+                    forms: FormsUtilities.Get(
+                        new KeyValue("ControlId", "OpenBulkUpdateColumnDetailDialog"),
+                        new KeyValue("BulkUpdateColumnSourceColumns", "[\"Title\"]"),
+                        new KeyValue("BulkUpdateColumnTitle", "bulkupdatesetting"),
+                        new KeyValue("BulkUpdateColumnColumns", "[\"Title\"]"),
+                        new KeyValue("BulkUpdateColumnColumnsAll", "[\"Title\"]"),
+                        new KeyValue("BulkUpdateColumnDetails", "null")),
+                    baseTests: BaseData.Tests(
+                        JsonData.ExistsOne(
+                            method: "Html",
+                            target: "#BulkUpdateColumnDetailDialog"),
+                        JsonData.ExistsOne(
+                            method: "SetMemory",
+                            target: "formChanged")),
+                    userType: UserData.UserTypes.Privileged),
+                new TestPart(
                     title: "顧客マスタ",
                     forms: FormsUtilities.Get(
                         new KeyValue("ControlId", "AddBulkUpdateColumn"),
