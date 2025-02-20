@@ -284,6 +284,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-error");
         }
 
+        public static Message CanNotGridSort(Context context, params string[] data)
+        {
+            return Get(
+                id: "CanNotGridSort",
+                text: Displays.CanNotGridSort(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
         public static Message CanNotInherit(Context context, params string[] data)
         {
             return Get(
@@ -2114,6 +2124,17 @@ namespace Implem.Pleasanter.Libraries.Responses
             return ResponseMessage(
                 context: context,
                 message: CanNotDisabled(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseCanNotGridSort(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: CanNotGridSort(
                     context: context,
                     data: data),
                 target: target);

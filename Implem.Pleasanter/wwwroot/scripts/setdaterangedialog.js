@@ -25,7 +25,7 @@ $p.openSiteSetDateRangeDialog = function ($control, timepicker) {
         var initValue = JSON.parse($target.val() || 'null');
         var startValue = '';
         var endValue = '';
-        if (Array.isArray(initValue) && initValue.length > 0) {
+        if (Array.isArray(initValue) && initValue.length > 0 && !/^[A-Za-z]*$/.test(initValue)) {
             var values = initValue[0].split(',');
             if (values.length > 0) {
                 startValue = timepicker ? values[0] : values[0].split(' ')[0];
