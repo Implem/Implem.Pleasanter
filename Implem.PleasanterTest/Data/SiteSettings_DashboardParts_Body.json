@@ -1,0 +1,25 @@
+﻿{
+    "Version": 1.017,
+    "ReferenceType": "Dashboards",
+    "DashboardParts": [
+        {
+            "Id": 1,
+            "Title": "DashboardParts",
+            "DisableAsynchronousLoading": false,
+            "Type": 0,
+            "X": 0,
+            "Y": 0,
+            "Width": 2,
+            "Height": 10,
+            "QuickAccessSites": "",
+            "TimeLineItemCount": 0,
+            "CalendarShowStatus": false,
+            "KambanAggregationView": false,
+            "KambanShowStatus": false,
+            "SiteId": 0,
+            "ExtendedCss": ""
+        }
+    ],
+    "NoDisplayIfReadOnly": false,
+    "NotInheritPermissionsWhenCreatingSite": false
+}
