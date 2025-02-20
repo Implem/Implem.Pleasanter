@@ -341,7 +341,7 @@ namespace Implem.Pleasanter.Libraries.Responses
                 text: Displays.CanNotUpdate(
                     context: context,
                     data: data),
-                css: "alert-info");
+                css: "alert-information");
         }
 
         public static Message CantSetAtTopOfSite(Context context, params string[] data)
@@ -811,7 +811,7 @@ namespace Implem.Pleasanter.Libraries.Responses
                 text: Displays.HasBeenDeleted(
                     context: context,
                     data: data),
-                css: "alert-info");
+                css: "alert-information");
         }
 
         public static Message HasBeenMoved(Context context, params string[] data)
@@ -821,7 +821,7 @@ namespace Implem.Pleasanter.Libraries.Responses
                 text: Displays.HasBeenMoved(
                     context: context,
                     data: data),
-                css: "alert-info");
+                css: "alert-information");
         }
 
         public static Message HasNotChangeColumnPermission(Context context, params string[] data)
@@ -911,7 +911,7 @@ namespace Implem.Pleasanter.Libraries.Responses
                 text: Displays.InCompression(
                     context: context,
                     data: data),
-                css: "alert-info");
+                css: "alert-information");
         }
 
         public static Message InCopying(Context context, params string[] data)
@@ -921,7 +921,7 @@ namespace Implem.Pleasanter.Libraries.Responses
                 text: Displays.InCopying(
                     context: context,
                     data: data),
-                css: "alert-info");
+                css: "alert-information");
         }
 
         public static Message IncorrectCurrentPassword(Context context, params string[] data)
@@ -1481,7 +1481,7 @@ namespace Implem.Pleasanter.Libraries.Responses
                 text: Displays.ReadOnlyBecausePreviousVer(
                     context: context,
                     data: data),
-                css: "alert-info");
+                css: "alert-information");
         }
 
         public static Message RebuildingCompleted(Context context, params string[] data)
