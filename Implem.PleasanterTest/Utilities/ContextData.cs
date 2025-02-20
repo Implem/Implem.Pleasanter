@@ -37,6 +37,7 @@ namespace Implem.PleasanterTest.Utilities
             string userTimeZone = null,
             QueryStrings queryStrings = null,
             Forms forms = null,
+            Dictionary<string, string> sessionData = null,
             decimal? apiVersion = null,
             string apiRequestBody = null,
             string apiKey = null,
@@ -99,6 +100,7 @@ namespace Implem.PleasanterTest.Utilities
             context.UserAgent = userAgent;
             context.QueryStrings = queryStrings ?? new QueryStrings();
             context.Forms = forms ?? new Forms();
+            context.SessionData = sessionData ?? new Dictionary<string, string>();
             context.TimeZoneInfo = userTimeZone.IsNullOrEmpty()
                 ? null
                 : TimeZoneInfo.FindSystemTimeZoneById(userTimeZone);
