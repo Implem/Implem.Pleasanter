@@ -715,7 +715,8 @@ public string SelectedIds(Context context)
 {
     SetSite(
         context: context,
-        initSiteSettings: true);
+        initSiteSettings: true,
+        setSiteIntegration: true);
     switch (Site.ReferenceType)
     {
 
