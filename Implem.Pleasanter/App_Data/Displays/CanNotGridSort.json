@@ -1,0 +1,33 @@
+﻿{
+    "Id": "CanNotGridSort",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "This item cannot be sorted"
+        },
+        {
+            "Language": "zh-CN",
+            "Body": "该商品无法排序"
+        },
+        {
+            "Language": "ja",
+            "Body": "この項目は並べ替えることができません"
+        },
+        {
+            "Language": "de",
+            "Body": "Dieser Artikel kann nicht sortiert werden"
+        },
+        {
+            "Language": "ko",
+            "Body": "이 항목은 재정렬할 수 없습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Este artículo no se puede ordenar"
+        },
+        {
+            "Language": "vi",
+            "Body": "Không thể sắp xếp mục này"
+        }
+    ]
+}

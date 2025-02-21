@@ -1,0 +1,12 @@
+﻿{
+    "Id": "SiteSettings_Scripts",
+    "Language": "ja",
+    "Type": "Sites",
+    "ParentId": "SiteSettingFolder",
+    "Title": "サイト設定 - Scripts",
+    "ClassA": "Results",
+    "Creator": "User2",
+    "Updator": "User2",
+    "CreatedTime": "36640",
+    "UpdatedTime": "36640"
+}
