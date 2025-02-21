@@ -343,6 +343,19 @@ namespace Implem.PleasanterTest.Tests.Settings
                             method: "SetMemory",
                             target: "formChanged")),
                     userType: UserData.UserTypes.Privileged),
+                new TestPart(
+                    title: "サイト設定 - DashboardsParts",
+                    forms: FormsUtilities.Get(
+                        new KeyValue("ControlId", "SearchDashboardPartAccessControl"),
+                        new KeyValue("DashboardPartId","1")),
+                    baseTests: BaseData.Tests(
+                        JsonData.ExistsOne(
+                            method: "Html",
+                            target: "#SourceDashboardPartAccessControl"),
+                        JsonData.ExistsOne(
+                            method: "SetMemory",
+                            target: "formChanged")),
+                    userType: UserData.UserTypes.Privileged),
             };
             foreach (var testPart in testParts)
             {
