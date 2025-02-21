@@ -15,25 +15,6 @@ namespace Implem.PleasanterTest.Tests.Settings
     [Collection(nameof(SiteSettingsDashboardParts))]
     public class SiteSettingsDashboardParts
     {
-        public SiteSettingsDashboardParts() {
-            var siteId = Initializer.Sites.Get("サイト設定 - DashboardsParts").SiteId;
-            var setSiteId = Initializer.Sites.Get("WBS").SiteId;
-            Forms forms = FormsUtilities.Get(
-                        new KeyValue("ControlId", "UpdateDashboardPartTimeLineSites"),
-                        new KeyValue("DashboardPartId", "2"),
-                        new KeyValue("DashboardPartKambanSitesEdit", $"{siteId}"));
-            var userModel = UserData.Get(userType: UserData.UserTypes.Privileged);
-            var context = ContextData.Get(
-                userId: userModel.UserId,
-                routeData: RouteData.ItemsSetSiteSettings(id: siteId),
-                httpMethod: "POST",
-                forms: forms);
-            new ItemModel(
-                context: context,
-                referenceId: siteId)
-                    .Update(context: context);
-        }
-
         [Theory]
         [MemberData(nameof(GetData))]
         public void Test(
@@ -312,6 +293,48 @@ namespace Implem.PleasanterTest.Tests.Settings
                         new KeyValue("ControlId", "ClearDashboardView"),
                         new KeyValue("DashboardPartId","2"),
                         new KeyValue("DashboardPartTimeLineSitesEdit",$"{siteId}")),
+                    baseTests: BaseData.Tests(
+                        JsonData.ExistsOne(
+                            method: "Html",
+                            target: "#DashboardPartViewFiltersTabContainer"),
+                        JsonData.ExistsOne(
+                            method: "SetMemory",
+                            target: "formChanged")),
+                    userType: UserData.UserTypes.Privileged),
+                new TestPart(
+                    title: "サイト設定 - DashboardsParts",
+                    forms: FormsUtilities.Get(
+                        new KeyValue("ControlId", "ClearDashboardCalendarView"),
+                        new KeyValue("DashboardPartId","3"),
+                        new KeyValue("DashboardPartCalendarSitesEdit",$"{siteId}")),
+                    baseTests: BaseData.Tests(
+                        JsonData.ExistsOne(
+                            method: "Html",
+                            target: "#DashboardPartViewFiltersTabContainer"),
+                        JsonData.ExistsOne(
+                            method: "SetMemory",
+                            target: "formChanged")),
+                    userType: UserData.UserTypes.Privileged),
+                new TestPart(
+                    title: "サイト設定 - DashboardsParts",
+                    forms: FormsUtilities.Get(
+                        new KeyValue("ControlId", "ClearDashboardKambanView"),
+                        new KeyValue("DashboardPartId","4"),
+                        new KeyValue("DashboardPartKambanSitesEdit",$"{siteId}")),
+                    baseTests: BaseData.Tests(
+                        JsonData.ExistsOne(
+                            method: "Html",
+                            target: "#DashboardPartViewFiltersTabContainer"),
+                        JsonData.ExistsOne(
+                            method: "SetMemory",
+                            target: "formChanged")),
+                    userType: UserData.UserTypes.Privileged),
+                new TestPart(
+                    title: "サイト設定 - DashboardsParts",
+                    forms: FormsUtilities.Get(
+                        new KeyValue("ControlId", "ClearDashboardIndexView"),
+                        new KeyValue("DashboardPartId","5"),
+                        new KeyValue("DashboardPartIndexSitesEdit",$"{siteId}")),
                     baseTests: BaseData.Tests(
                         JsonData.ExistsOne(
                             method: "Html",
