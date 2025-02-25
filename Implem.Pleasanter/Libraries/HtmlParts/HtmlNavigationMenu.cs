@@ -466,30 +466,45 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             }
             else
             {
-                return hb.A(
-                    href: menu.Url
-                        ?? Href(
+                if (menu.MenuId != "SettingsMenu_SmartDesign")
+                {
+                    return hb.A(
+                        href: menu.Url
+                            ?? Href(
+                                context: context,
+                                ss: ss,
+                                siteId: siteId,
+                                menu: menu)
+                            ?? "javascript:void(0);",
+                        target: menu.Target,
+                        attributes: Attributes(
                             context: context,
                             ss: ss,
                             siteId: siteId,
-                            menu: menu)
-                        ?? "javascript:void(0);",
-                    target: menu.Target,
-                    attributes: Attributes(
-                        context: context,
-                        ss: ss,
-                        siteId: siteId,
-                        childMenu: childMenu,
-                        menu: menu),
-                    action: () => hb
-                        .Span(
-                            css: menu.Icon,
-                            _using: context.ThemeVersion1_0())
-                        .Text(text: Text(
-                            context: context,
-                            ss: ss,
-                            menu: menu,
-                            serverScriptLabelText: serverScriptLabelText)));
+                            childMenu: childMenu,
+                            menu: menu),
+                        action: () => hb
+                            .Span(
+                                css: menu.Icon,
+                                _using: context.ThemeVersion1_0())
+                            .Text(text: Text(
+                                context: context,
+                                ss: ss,
+                                menu: menu,
+                                serverScriptLabelText: serverScriptLabelText)));
+                }
+                else
+                {
+                    return hb.A(
+                        href: "javascript: $p.closeSideMenu();",
+                        action: () => hb.SmartDesignLink(
+                            action: () => hb
+                                .Text(text: Text(
+                                    context: context,
+                                    ss: ss,
+                                    menu: menu,
+                                    serverScriptLabelText: serverScriptLabelText))));
+                }
             }
         }
 
@@ -677,6 +692,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         || canManageGroups
                         || canManageUsers
                         || canUnlockSite;
+                case "SettingsMenu_SmartDesign":
                 case "SettingsMenu_SiteSettings":
                     return canManageSite;
                 case "SettingsMenu_SysLogAdmin":
