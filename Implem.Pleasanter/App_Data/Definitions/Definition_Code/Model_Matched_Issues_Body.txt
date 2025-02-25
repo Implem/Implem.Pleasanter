@@ -10,7 +10,7 @@ if (view.Delay == true && !ProgressRate.Delay(
 {
     return false;
 }
-if (view.Overdue == true && CompletionTime.Overdue())
+if (view.Overdue == true && !CompletionTime.Overdue())
 {
     return false;
 }
