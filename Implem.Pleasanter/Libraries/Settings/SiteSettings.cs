@@ -4086,7 +4086,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "ServerScriptsAllDisabled": ServerScriptsAllDisabled = value.ToBool(); break;
                 case "ScriptsAllDisabled": ScriptsAllDisabled = value.ToBool(); break;
                 case "StylesAllDisabled": StylesAllDisabled = value.ToBool(); break;
-                case "HtmlsScriptsAllDisabled": HtmlsAllDisabled = value.ToBool(); break;
+                case "HtmlsAllDisabled": HtmlsAllDisabled = value.ToBool(); break;
             }
         }
 
