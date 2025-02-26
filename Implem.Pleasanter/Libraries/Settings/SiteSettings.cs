@@ -420,6 +420,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             FullTextNumberOfMails = FullTextNumberOfMails ?? Parameters.Search.FullTextNumberOfMails;
             SaveViewType = SaveViewType ?? SaveViewTypes.Session;
             ProcessOutputFormulaLogs = ProcessOutputFormulaLogs ?? false;
+            ServerScriptsAllDisabled = ServerScriptsAllDisabled ?? false;
         }
 
         public void SetLinkedSiteSettings(
@@ -1042,6 +1043,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (ProcessOutputFormulaLogs == true)
             {
                 ss.ProcessOutputFormulaLogs = ProcessOutputFormulaLogs;
+            }
+            if (ServerScriptsAllDisabled == true)
+            {
+                ss.ServerScriptsAllDisabled = ServerScriptsAllDisabled;
             }
             Aggregations?.ForEach(aggregations =>
             {
