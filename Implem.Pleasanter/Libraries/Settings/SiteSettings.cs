@@ -199,10 +199,13 @@ namespace Implem.Pleasanter.Libraries.Settings
         public SettingList<Export> Exports;
         public bool? AllowStandardExport;
         public SettingList<Style> Styles;
+        public bool? StylesAllDisabled;
         public bool? Responsive;
         public bool? DashboardPartsAsynchronousLoading;
         public SettingList<Script> Scripts;
+        public bool? ScriptsAllDisabled;
         public SettingList<Html> Htmls;
+        public bool? HtmlsAllDisabled;
         public SettingList<ServerScript> ServerScripts;
         public bool? ServerScriptsAllDisabled;
         public SettingList<BulkUpdateColumn> BulkUpdateColumns;
@@ -421,6 +424,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             SaveViewType = SaveViewType ?? SaveViewTypes.Session;
             ProcessOutputFormulaLogs = ProcessOutputFormulaLogs ?? false;
             ServerScriptsAllDisabled = ServerScriptsAllDisabled ?? false;
+            ScriptsAllDisabled = ScriptsAllDisabled ?? false;
+            StylesAllDisabled = StylesAllDisabled ?? false;
+            HtmlsAllDisabled = HtmlsAllDisabled ?? false;
         }
 
         public void SetLinkedSiteSettings(
@@ -1048,6 +1054,18 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 ss.ServerScriptsAllDisabled = ServerScriptsAllDisabled;
             }
+            if (ScriptsAllDisabled == true)
+            {
+                ss.ScriptsAllDisabled = ScriptsAllDisabled;
+            }
+            if (StylesAllDisabled == true)
+            {
+                ss.StylesAllDisabled = StylesAllDisabled;
+            }
+            if (HtmlsAllDisabled == true)
+            {
+                ss.HtmlsAllDisabled = HtmlsAllDisabled;
+            }
             Aggregations?.ForEach(aggregations =>
             {
                 if (ss.Aggregations == null)
@@ -1261,6 +1279,18 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (ServerScriptsAllDisabled == true)
             {
                 ss.ServerScriptsAllDisabled = ServerScriptsAllDisabled;
+            }
+            if (ScriptsAllDisabled == true)
+            {
+                ss.ScriptsAllDisabled = ScriptsAllDisabled;
+            }
+            if (StylesAllDisabled == true)
+            {
+                ss.StylesAllDisabled = StylesAllDisabled;
+            }
+            if (HtmlsAllDisabled == true)
+            {
+                ss.HtmlsAllDisabled = HtmlsAllDisabled;
             }
             PermissionForCreating?.Where(o => o.Value > 0).ForEach(data =>
             {
@@ -4054,6 +4084,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                     break;
                 case "ProcessOutputFormulaLogs": ProcessOutputFormulaLogs = value.ToBool(); break;
                 case "ServerScriptsAllDisabled": ServerScriptsAllDisabled = value.ToBool(); break;
+                case "ScriptsAllDisabled": ScriptsAllDisabled = value.ToBool(); break;
+                case "StylesAllDisabled": StylesAllDisabled = value.ToBool(); break;
+                case "HtmlsScriptsAllDisabled": HtmlsAllDisabled = value.ToBool(); break;
             }
         }
 
