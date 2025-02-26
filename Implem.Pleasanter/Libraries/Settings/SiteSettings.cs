@@ -556,6 +556,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 sources: false,
                                 previously: previously,
                                 enableExpandLinkPath: enableExpandLinkPath);
+                            ss.SetPermissions(context: context, referenceId: ss.ReferenceId);
                             break;
                         case "Sources":
                             ss.Links
@@ -577,6 +578,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 sources: true,
                                 previously: previously,
                                 enableExpandLinkPath: enableExpandLinkPath);
+                            ss.SetPermissions(context: context, referenceId: ss.ReferenceId);
                             break;
                     }
                     hash.Add(ss.SiteId, ss);

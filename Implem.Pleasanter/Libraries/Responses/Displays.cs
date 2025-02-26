@@ -1649,6 +1649,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string CanNotGridSort(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "CanNotGridSort",
+                data: data);
+        }
+
         public static string CanNotInherit(
             Context context,
             params string[] data)
