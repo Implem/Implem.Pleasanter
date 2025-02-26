@@ -3246,7 +3246,7 @@ namespace Implem.Pleasanter.Models
             {
                 logger.ForLogEvent(SysLogType != SysLogTypes.Info ? LogLevel.Error : LogLevel.Info)
                     .Message("UpdateSysLog")
-                    .Property("syslog", ToLogModel(this))
+                    .Property("syslog", ToLogModel(context: context, sysLogModel: this, update: true))
                     .Log();
             }
         }
@@ -3373,7 +3373,7 @@ namespace Implem.Pleasanter.Models
                 // Textize
                 logger.ForLogEvent(sysLogType != SysLogTypes.Info ? LogLevel.Error : LogLevel.Info)
                     .Message("WriteSysLog")
-                    .Property("syslog", ToLogModel(this))
+                    .Property("syslog", ToLogModel(context: context, sysLogModel: this))
                     .Log();
             }
         }
@@ -3554,50 +3554,50 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static SysLogLogModel ToLogModel(SysLogModel s)
+        public static SysLogLogModel ToLogModel(Context context, SysLogModel sysLogModel, bool update = false)
         {
             return new SysLogLogModel
             {
-                CreatedTime = s.StartTime,
-                SysLogId = s.SysLogId,
-                Ver = s.Ver,
-                SysLogType = s.SysLogType.ToInt(),
-                OnAzure = s.OnAzure,
-                MachineName = s.MachineName,
-                ServiceName = s.ServiceName,
-                TenantName = s.TenantName,
-                Application = s.Application,
-                Class = s.Class,
-                Method = s.Method,
-                RequestData = s.RequestData,
-                HttpMethod = s.HttpMethod,
-                RequestSize = s.RequestSize,
-                ResponseSize = s.ResponseSize,
-                Elapsed = s.Elapsed,
-                ApplicationAge = s.ApplicationAge,
-                ApplicationRequestInterval = s.ApplicationRequestInterval,
-                SessionAge = s.SessionAge,
-                SessionRequestInterval = s.SessionRequestInterval,
-                WorkingSet64 = s.WorkingSet64,
-                VirtualMemorySize64 = s.VirtualMemorySize64,
-                ProcessId = s.ProcessId,
-                ProcessName = s.ProcessName,
-                BasePriority = s.BasePriority,
-                Url = s.Url,
-                UrlReferer = s.UrlReferer,
-                UserHostName = s.UserHostName,
-                UserHostAddress = s.UserHostAddress,
-                UserLanguage = s.UserLanguage,
-                UserAgent = s.UserAgent,
-                SessionGuid = s.SessionGuid,
-                ErrMessage = s.ErrMessage,
-                ErrStackTrace = s.ErrStackTrace,
-                InDebug = s.InDebug,
-                AssemblyVersion = s.AssemblyVersion,
-                Comments = s.Comments.ToJson(),
-                Creator = s.Creator.Id,
-                Updator = s.Updator.Id,
-                UpdatedTime = s.EndTime.Equals(0.ToDateTime()) ? s.StartTime : s.EndTime
+                CreatedTime = sysLogModel.StartTime,
+                SysLogId = sysLogModel.SysLogId,
+                Ver = sysLogModel.Ver,
+                SysLogType = sysLogModel.SysLogType.ToInt(),
+                OnAzure = sysLogModel.OnAzure,
+                MachineName = sysLogModel.MachineName,
+                ServiceName = sysLogModel.ServiceName,
+                TenantName = sysLogModel.TenantName,
+                Application = sysLogModel.Application,
+                Class = sysLogModel.Class,
+                Method = sysLogModel.Method,
+                RequestData = sysLogModel.RequestData,
+                HttpMethod = sysLogModel.HttpMethod,
+                RequestSize = sysLogModel.RequestSize,
+                ResponseSize = sysLogModel.ResponseSize,
+                Elapsed = sysLogModel.Elapsed,
+                ApplicationAge = sysLogModel.ApplicationAge,
+                ApplicationRequestInterval = sysLogModel.ApplicationRequestInterval,
+                SessionAge = sysLogModel.SessionAge,
+                SessionRequestInterval = sysLogModel.SessionRequestInterval,
+                WorkingSet64 = sysLogModel.WorkingSet64,
+                VirtualMemorySize64 = sysLogModel.VirtualMemorySize64,
+                ProcessId = sysLogModel.ProcessId,
+                ProcessName = sysLogModel.ProcessName,
+                BasePriority = sysLogModel.BasePriority,
+                Url = sysLogModel.Url,
+                UrlReferer = sysLogModel.UrlReferer,
+                UserHostName = sysLogModel.UserHostName,
+                UserHostAddress = sysLogModel.UserHostAddress,
+                UserLanguage = sysLogModel.UserLanguage,
+                UserAgent = sysLogModel.UserAgent,
+                SessionGuid = sysLogModel.SessionGuid,
+                ErrMessage = sysLogModel.ErrMessage,
+                ErrStackTrace = sysLogModel.ErrStackTrace,
+                InDebug = sysLogModel.InDebug,
+                AssemblyVersion = sysLogModel.AssemblyVersion,
+                Comments = sysLogModel.Comments.ToJson(),
+                Creator = (!update && context?.User != null) ? context.User.Id : 0,
+                Updator = (update && context?.User != null) ? context.User.Id : 0,
+                UpdatedTime = sysLogModel.EndTime.Equals(0.ToDateTime()) ? sysLogModel.StartTime : sysLogModel.EndTime
             };
         }
     }
