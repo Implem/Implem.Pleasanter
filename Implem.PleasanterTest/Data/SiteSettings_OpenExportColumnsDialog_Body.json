@@ -1,0 +1,61 @@
+﻿{
+    "Version": 1.017,
+    "ReferenceType": "Results",
+    "Exports": [
+        {
+            "Name": "集計用",
+            "Columns": [
+                {
+                    "Id": 1,
+                    "ColumnName": "ResultId"
+                },
+                {
+                    "Id": 2,
+                    "ColumnName": "Title"
+                },
+                {
+                    "Id": 3,
+                    "ColumnName": "Body"
+                },
+                {
+                    "Id": 4,
+                    "ColumnName": "TitleBody"
+                },
+                {
+                    "Id": 5,
+                    "ColumnName": "Comments"
+                },
+                {
+                    "Id": 6,
+                    "ColumnName": "Status"
+                },
+                {
+                    "Id": 7,
+                    "ColumnName": "Manager"
+                },
+                {
+                    "Id": 8,
+                    "ColumnName": "Owner"
+                },
+                {
+                    "Id": 9,
+                    "ColumnName": "Creator"
+                },
+                {
+                    "Id": 10,
+                    "ColumnName": "Updator"
+                },
+                {
+                    "Id": 11,
+                    "ColumnName": "UpdatedTime"
+                }
+            ],
+            "Type": 0,
+            "DelimiterType": 0,
+            "ExecutionType": 0,
+            "Id": 1
+        }
+    ],
+    "NoDisplayIfReadOnly": false,
+    "NotInheritPermissionsWhenCreatingSite": false
+}

@@ -1,0 +1,20 @@
+﻿{
+    "Version": 1.017,
+    "ReferenceType": "Results",
+    "Styles": [
+        {
+            "Title": "TESTSTYLE2",
+            "All": true,
+            "Body": ".control-test {\n     background-color: green;\n}",
+            "Id": 2
+        },
+        {
+            "Title": "TESTSTYLE1",
+            "All": true,
+            "Body": ".field-test {\n      background-color: red;\n}",
+            "Id": 1
+        }
+    ],
+    "NoDisplayIfReadOnly": false,
+    "NotInheritPermissionsWhenCreatingSite": false
+}

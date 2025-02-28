@@ -45,6 +45,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             errorType: errorType,
                             useNavigationMenu: useNavigationMenu,
                             useSearch: useSearch,
+                            isSearch: isSearch,
                             serverScriptModelRow: serverScriptModelRow));
         }
 
