@@ -14334,7 +14334,12 @@ namespace Implem.Pleasanter.Models
                         icon: "ui-icon-trash",
                         action: "SetSiteSettings",
                         method: "delete",
-                        confirm: Displays.ConfirmDelete(context: context)))
+                        confirm: Displays.ConfirmDelete(context: context))
+                    .FieldCheckBox(
+                        controlId: "StylesAllDisabled",
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.AllDisabled(context: context),
+                        _checked: ss.StylesAllDisabled == true))
                 .EditStyle(
                     context: context,
                     ss: ss)
@@ -14722,7 +14727,12 @@ namespace Implem.Pleasanter.Models
                         icon: "ui-icon-trash",
                         action: "SetSiteSettings",
                         method: "delete",
-                        confirm: Displays.ConfirmDelete(context: context)))
+                        confirm: Displays.ConfirmDelete(context: context))
+                    .FieldCheckBox(
+                        controlId: "ScriptsAllDisabled",
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.AllDisabled(context: context),
+                        _checked: ss.ScriptsAllDisabled == true))
                 .EditScript(
                     context: context,
                     ss: ss));
@@ -15105,7 +15115,12 @@ namespace Implem.Pleasanter.Models
                         icon: "ui-icon-trash",
                         action: "SetSiteSettings",
                         method: "delete",
-                        confirm: Displays.ConfirmDelete(context: context)))
+                        confirm: Displays.ConfirmDelete(context: context))
+                    .FieldCheckBox(
+                        controlId: "HtmlsAllDisabled",
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.AllDisabled(context: context),
+                        _checked: ss.HtmlsAllDisabled == true))
                 .EditHtml(
                     context: context,
                     ss: ss));
@@ -15542,7 +15557,12 @@ namespace Implem.Pleasanter.Models
                         icon: "ui-icon-trash",
                         action: "SetSiteSettings",
                         method: "delete",
-                        confirm: Displays.ConfirmDelete(context: context)))
+                        confirm: Displays.ConfirmDelete(context: context))
+                    .FieldCheckBox(
+                        controlId: "ServerScriptsAllDisabled",
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.AllDisabled(context: context),
+                        _checked: ss.ServerScriptsAllDisabled  == true))
                 .EditServerScript(
                     context: context,
                     ss: ss));
