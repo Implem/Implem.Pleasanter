@@ -3034,7 +3034,7 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     parts: new string[]
                     {
-                        "Items",
+                        context.Controller,
                         userId.ToString() 
                             + (userModel.VerType == Versions.VerTypes.History
                                 ? "?ver=" + context.Forms.Int("Ver") 
