@@ -3244,7 +3244,16 @@ namespace Implem.Pleasanter.Models
             }
             if (Parameters.SysLog.EnableLoggingToFile)
             {
-                logger.ForLogEvent(SysLogType != SysLogTypes.Info ? LogLevel.Error : LogLevel.Info)
+                var logLevel = SysLogType switch
+                {
+                    SysLogTypes.Info => LogLevel.Info,
+                    SysLogTypes.Warning => LogLevel.Warn,
+                    SysLogTypes.UserError => LogLevel.Error,
+                    SysLogTypes.SystemError => LogLevel.Error,
+                    SysLogTypes.Exception => LogLevel.Fatal,
+                    _ => LogLevel.Info
+                };
+                logger.ForLogEvent(logLevel)
                     .Message("UpdateSysLog")
                     .Property("syslog", ToLogModel(context: context, sysLogModel: this, update: true))
                     .Log();
@@ -3370,8 +3379,17 @@ namespace Implem.Pleasanter.Models
             }
             if (Parameters.SysLog.EnableLoggingToFile)
             {
+                var logLevel = sysLogType switch
+                {
+                    SysLogTypes.Info => LogLevel.Info,
+                    SysLogTypes.Warning => LogLevel.Warn,
+                    SysLogTypes.UserError => LogLevel.Error,
+                    SysLogTypes.SystemError => LogLevel.Error,
+                    SysLogTypes.Exception => LogLevel.Fatal,
+                    _ => LogLevel.Info
+                };
                 // Textize
-                logger.ForLogEvent(sysLogType != SysLogTypes.Info ? LogLevel.Error : LogLevel.Info)
+                logger.ForLogEvent(logLevel)
                     .Message("WriteSysLog")
                     .Property("syslog", ToLogModel(context: context, sysLogModel: this))
                     .Log();
