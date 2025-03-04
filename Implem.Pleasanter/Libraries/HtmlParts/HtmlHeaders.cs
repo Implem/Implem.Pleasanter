@@ -156,11 +156,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         {
                             "Binaries",
                             "TenantImageLogo",
-                            BinaryUtilities.TenantImagePrefix(
+                            BinaryUtilities.TenantImageUpdatedTime(
                                 context,
                                 SiteSettingsUtilities.TenantsSiteSettings(context),
                                 context.TenantId,
                                 Images.ImageData.SizeTypes.Logo)
+                                .ToString("?yyyyMMddHHmmss")
                         }))
                 : hb.Img(
                     id: "CorpLogo",

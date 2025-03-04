@@ -51,10 +51,15 @@ namespace Implem.Pleasanter.Libraries.Images
             return File.Exists(Path(ReferenceId, Type, sizeType));
         }
 
-        public string UrlPrefix(SizeTypes sizeType)
+        public DateTime LastWriteTime(SizeTypes sizeType)
         {
-            return new FileInfo(Path(ReferenceId, Type, sizeType))
-                .LastWriteTime.ToString("?yyyyMMddHHmmss");
+            var path = Path(ReferenceId, Type, sizeType);
+            if (!File.Exists(path)) return DateTime.FromOADate(0);
+            return new FileInfo(path).LastWriteTime;
+        }
+
+        {
+            return new FileInfo(Path(ReferenceId, Type, sizeType)).LastWriteTime;
         }
 
         public void WriteToLocal()
