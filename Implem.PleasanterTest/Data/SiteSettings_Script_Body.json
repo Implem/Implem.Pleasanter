@@ -1,0 +1,20 @@
+﻿{
+    "Version": 1.017,
+    "ReferenceType": "Results",
+    "Scripts": [
+        {
+            "Title": "test1",
+            "All": true,
+            "Body": "alert('この画面のアクションの種類は [' + $p.action() + '] です。');",
+            "Id": 1
+        },
+        {
+            "Title": "test2",
+            "All": true,
+            "Body": "alert('この画面のアクションの種類は [' + $p.action() + '] です。');",
+            "Id": 2
+        }
+    ],
+    "NoDisplayIfReadOnly": false,
+    "NotInheritPermissionsWhenCreatingSite": false
+}
