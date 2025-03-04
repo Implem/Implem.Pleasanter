@@ -134,8 +134,7 @@ namespace Implem.Pleasanter.Models
                             Parameters.Service.DemoUsagePeriod.ToString()
                         }),
                     From = MimeKit.MailboxAddress.Parse(Parameters.Mail.SupportFrom),
-                    To = mailAddress,
-                    Bcc = Parameters.Mail.SupportFrom
+                    To = mailAddress
                 },
                 userHash: userHash,
                 async: async,
