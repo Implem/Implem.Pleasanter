@@ -1190,7 +1190,8 @@ namespace Implem.Pleasanter.Models
         {
             SetSite(
                 context: context,
-                initSiteSettings: true);
+                initSiteSettings: true,
+                setSiteIntegration: true);
             switch (Site.ReferenceType)
             {
                 case "Issues":

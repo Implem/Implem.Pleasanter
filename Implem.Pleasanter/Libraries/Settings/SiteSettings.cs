@@ -199,11 +199,15 @@ namespace Implem.Pleasanter.Libraries.Settings
         public SettingList<Export> Exports;
         public bool? AllowStandardExport;
         public SettingList<Style> Styles;
+        public bool? StylesAllDisabled;
         public bool? Responsive;
         public bool? DashboardPartsAsynchronousLoading;
         public SettingList<Script> Scripts;
+        public bool? ScriptsAllDisabled;
         public SettingList<Html> Htmls;
+        public bool? HtmlsAllDisabled;
         public SettingList<ServerScript> ServerScripts;
+        public bool? ServerScriptsAllDisabled;
         public SettingList<BulkUpdateColumn> BulkUpdateColumns;
         public SettingList<RelatingColumn> RelatingColumns;
         public SettingList<DashboardPart> DashboardParts;
@@ -419,6 +423,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             FullTextNumberOfMails = FullTextNumberOfMails ?? Parameters.Search.FullTextNumberOfMails;
             SaveViewType = SaveViewType ?? SaveViewTypes.Session;
             ProcessOutputFormulaLogs = ProcessOutputFormulaLogs ?? false;
+            ServerScriptsAllDisabled = ServerScriptsAllDisabled ?? false;
+            ScriptsAllDisabled = ScriptsAllDisabled ?? false;
+            StylesAllDisabled = StylesAllDisabled ?? false;
+            HtmlsAllDisabled = HtmlsAllDisabled ?? false;
         }
 
         public void SetLinkedSiteSettings(
@@ -548,6 +556,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 sources: false,
                                 previously: previously,
                                 enableExpandLinkPath: enableExpandLinkPath);
+                            ss.SetPermissions(context: context, referenceId: ss.ReferenceId);
                             break;
                         case "Sources":
                             ss.Links
@@ -569,6 +578,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 sources: true,
                                 previously: previously,
                                 enableExpandLinkPath: enableExpandLinkPath);
+                            ss.SetPermissions(context: context, referenceId: ss.ReferenceId);
                             break;
                     }
                     hash.Add(ss.SiteId, ss);
@@ -1042,6 +1052,22 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 ss.ProcessOutputFormulaLogs = ProcessOutputFormulaLogs;
             }
+            if (ServerScriptsAllDisabled == true)
+            {
+                ss.ServerScriptsAllDisabled = ServerScriptsAllDisabled;
+            }
+            if (ScriptsAllDisabled == true)
+            {
+                ss.ScriptsAllDisabled = ScriptsAllDisabled;
+            }
+            if (StylesAllDisabled == true)
+            {
+                ss.StylesAllDisabled = StylesAllDisabled;
+            }
+            if (HtmlsAllDisabled == true)
+            {
+                ss.HtmlsAllDisabled = HtmlsAllDisabled;
+            }
             Aggregations?.ForEach(aggregations =>
             {
                 if (ss.Aggregations == null)
@@ -1251,6 +1277,22 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (ProcessOutputFormulaLogs == true)
             {
                 ss.ProcessOutputFormulaLogs = ProcessOutputFormulaLogs;
+            }
+            if (ServerScriptsAllDisabled == true)
+            {
+                ss.ServerScriptsAllDisabled = ServerScriptsAllDisabled;
+            }
+            if (ScriptsAllDisabled == true)
+            {
+                ss.ScriptsAllDisabled = ScriptsAllDisabled;
+            }
+            if (StylesAllDisabled == true)
+            {
+                ss.StylesAllDisabled = StylesAllDisabled;
+            }
+            if (HtmlsAllDisabled == true)
+            {
+                ss.HtmlsAllDisabled = HtmlsAllDisabled;
             }
             PermissionForCreating?.Where(o => o.Value > 0).ForEach(data =>
             {
@@ -4027,6 +4069,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .ToList();
                     break;
                 case "ProcessOutputFormulaLogs": ProcessOutputFormulaLogs = value.ToBool(); break;
+                case "ServerScriptsAllDisabled": ServerScriptsAllDisabled = value.ToBool(); break;
+                case "ScriptsAllDisabled": ScriptsAllDisabled = value.ToBool(); break;
+                case "StylesAllDisabled": StylesAllDisabled = value.ToBool(); break;
+                case "HtmlsAllDisabled": HtmlsAllDisabled = value.ToBool(); break;
             }
         }
 
