@@ -1878,6 +1878,17 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .ToList();
         }
 
+        public List<string> GetDefaultColumns(Context context)
+        {
+            List<string> defaultGridColumns = DefaultGridColumns(context);
+            List<string> defaultEditorColumns = DefaultEditorColumns(context);
+            defaultGridColumns.AddRange(defaultEditorColumns);
+            var defaultColumns = defaultGridColumns
+                .Distinct()
+                .ToList();
+            return defaultColumns;
+        }
+
         private bool EditorColumn(ColumnDefinition columnDefinition)
         {
             return

@@ -17,6 +17,7 @@ using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Libraries.Web;
+using Implem.Pleasanter.Models.ApiSiteSettings;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -9004,6 +9005,14 @@ namespace Implem.Pleasanter.Models
                     .Events("on_timeseries_load")
                     .ToJson();
             }
+        }
+
+        public static string SmartDesignJson(Context context, SiteSettings ss)
+        {
+            var smartDesignModel = new SmartDesignApiModel(
+                context: context,
+                ss: ss);
+            return smartDesignModel.ToJson();           
         }
 
         private static HtmlBuilder TimeSeries(

@@ -358,6 +358,16 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Get, HttpVerbs.Post)]
+        public ActionResult SmartDesign(long id = 0)
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = new ItemModel(context: context, referenceId: id).SmartDesignJson(context: context);
+            log.Finish(context: context, responseSize: json.Length);
+            return Content(json);
+        }
+
+        [AcceptVerbs(HttpVerbs.Get, HttpVerbs.Post)]
         public ActionResult Edit(long id)
         {
             var context = new Context();
