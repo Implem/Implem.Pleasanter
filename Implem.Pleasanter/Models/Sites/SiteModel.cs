@@ -15,12 +15,20 @@ using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.ServerScripts;
 using Implem.Pleasanter.Libraries.Settings;
+using Implem.Pleasanter.Models.ApiSiteSettings;
+using Microsoft.AspNetCore.Routing;
+using SixLabors.ImageSharp.Formats.Gif;
+using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
+using System.Data.SqlTypes;
 using System.Linq;
+using System.Reflection;
 using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
+using static Implem.Pleasanter.Libraries.Settings.Column;
+using static Implem.Pleasanter.Libraries.Settings.SiteSettings;
 namespace Implem.Pleasanter.Models
 {
     [Serializable]
@@ -2457,6 +2465,132 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public void UpsertColumnsByApi(
+            Context context,
+            SiteSettings siteSetting,
+            List<ApiSiteSettings.ColumnApiSettingModel> columnsApiSiteSetting)
+        {           
+            columnsApiSiteSetting.ForEach(ssApiSetting =>
+            {
+                var currentCloumnsApi = siteSetting.Columns.FirstOrDefault(o =>
+                    o.ColumnName == ssApiSetting.ColumnName);
+                if(ssApiSetting.IsNewEnable)
+                {
+                    currentCloumnsApi = siteSetting.ResetColumn(context, ssApiSetting.ColumnName);
+                }
+                if (currentCloumnsApi != null)
+                {
+                    currentCloumnsApi.Update(
+                    columnName : ssApiSetting.ColumnName,
+                    labelText: ssApiSetting.LabelText,
+                    gridLabalText: ssApiSetting.GridLabelText,
+                    defaultInput: ssApiSetting.DefaultInput,
+                    description: ssApiSetting.Description,
+                    inputGuide: ssApiSetting.InputGuide,
+                    choicesText: ssApiSetting.ChoicesText,
+                    gridFormat: ssApiSetting.GridFormat,
+                    editorFormat: ssApiSetting.EditorFormat,
+                    controlType:ssApiSetting.ControlType,
+                    choicesControlType: ssApiSetting.ChoicesControlType,
+                    format: ssApiSetting.Format,
+                    fieldCss: ssApiSetting.FieldCss,
+                    noWrap: ssApiSetting.NoWrap,
+                    validateRequired: ssApiSetting.ValidateRequired,
+                    maxLength: ssApiSetting.MaxLength,
+                    decimalPlaces: ssApiSetting.DecimalPlaces,
+                    nullable: ssApiSetting.Nullable,
+                    unit: ssApiSetting.Unit,
+                    roundingType: ssApiSetting.RoundingType,
+                    min: ssApiSetting.Min,
+                    max: ssApiSetting.Max,
+                    step: ssApiSetting.Step,
+                    noDuplication : ssApiSetting.NoDuplication,
+                    editorReadOnly: ssApiSetting.EditorReadOnly,
+                    allowDeleteAttachments: ssApiSetting.AllowDeleteAttachments,
+                    link: ssApiSetting.Link,
+                    allowImage : ssApiSetting.AllowImage,
+                    viewerSwitchingType: ssApiSetting.ViewerSwitchingType,
+                    textAlign: ssApiSetting.TextAlign,
+                    limitQuantity: ssApiSetting.LimitQuantity,
+                    limitSize: ssApiSetting.LimitSize,
+                    totalLimitSize: ssApiSetting.TotalLimitSize,
+                    thumbnailLimitSize: ssApiSetting.ThumbnailLimitSize,
+                    dateTimeStep: ssApiSetting.DateTimeStep);
+                }
+            });
+        }
+
+        public void UpsertGridColumnsByApi(
+           SiteSettings siteSetting,
+           List<string> columnsApiSiteSetting)
+        {
+            siteSetting.GridColumns = columnsApiSiteSetting;
+        }
+        
+        public void UpsertFilterColumnsByApi(
+           SiteSettings siteSetting,
+           List<string> columnsApiSiteSetting)
+        {
+            siteSetting.FilterColumns = columnsApiSiteSetting;
+        }
+
+        public void UpsertLinksByApi(
+           SiteSettings siteSetting,
+           List<ApiSiteSettings.LinkApiSettingModel> linksApiSiteSetting)
+        {
+            linksApiSiteSetting.ForEach(linksApiSetting =>
+            {
+                var currentlinks = siteSetting.Links?.FirstOrDefault(o =>
+                    o.ColumnName == linksApiSetting.ColumnName);
+                if(currentlinks != null)
+                {
+                    //更新処理
+                    currentlinks.Update(
+                        columnName: linksApiSetting.ColumnName,
+                        siteId: linksApiSetting.SiteId,
+                        tableName: linksApiSetting.TableName,
+                        priority: linksApiSetting.Priority,
+                        noAddButton: linksApiSetting.NoAddButton,
+                        addSource: linksApiSetting.AddSource,
+                        notReturnParentRecord: linksApiSetting.NotReturnParentRecord,
+                        excludeMe: linksApiSetting.ExcludeMe,
+                        membersOnly: linksApiSetting.MembersOnly,
+                        selectNewLink: linksApiSetting.SelectNewLink,
+                        searchFormat: linksApiSetting.SearchFormat,
+                        view: linksApiSetting.View,
+                        lookups: linksApiSetting.Lookups,
+                        linkActions: linksApiSetting.LinkActions,
+                        jsonFormat: linksApiSetting.JsonFormat);
+                }
+                else
+                {
+                    //Add追加処理
+                    siteSetting.Links.Add(new Link(
+                        columnName: linksApiSetting.ColumnName,
+                        siteId: linksApiSetting.SiteId,
+                        tableName: linksApiSetting.TableName,
+                        priority: linksApiSetting.Priority,
+                        noAddButton: linksApiSetting.NoAddButton,
+                        addSource: linksApiSetting.AddSource,
+                        notReturnParentRecord: linksApiSetting.NotReturnParentRecord,
+                        excludeMe: linksApiSetting.ExcludeMe,
+                        membersOnly: linksApiSetting.MembersOnly,
+                        selectNewLink: linksApiSetting.SelectNewLink,
+                        searchFormat: linksApiSetting.SearchFormat,
+                        view: linksApiSetting.View,
+                        lookups: linksApiSetting.Lookups,
+                        linkActions: linksApiSetting.LinkActions,
+                        jsonFormat: linksApiSetting.JsonFormat));
+                }
+            });
+        }
+        public void UpsertEditorColumnHashByApi(
+           SiteSettings siteSetting,
+           Dictionary<string, List<string>> columnsApiSiteSetting)
+        {
+            //更新EditorColumnHashをそのまま上書き
+            siteSetting.EditorColumnHash = columnsApiSiteSetting;
+        }
         /// <summary>
         /// Fixed:
         /// </summary>

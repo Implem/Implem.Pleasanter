@@ -2458,6 +2458,111 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public static ContentResultInheritance UpsertSiteSettingsByApi(
+            Context context,
+            SiteSettings ss,
+            SiteModel siteModel)
+        {
+            if (!Mime.ValidateOnApi(contentType: context.ContentType))
+            {
+                return ApiResults.BadRequest(context: context);
+            }
+            var api = context.RequestDataString.Deserialize<Api>();
+            if (api == null)
+            {
+                return ApiResults.Error(
+                 context: context,
+                 errorData: new ErrorData(type: Error.Types.InvalidJsonData));
+            }
+            var invalid = SiteValidators.OnUpdating(
+               context: context,
+               ss: ss,
+               siteModel: siteModel);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return ApiResults.Error(
+                      context: context,
+                      errorData: invalid);
+            }
+            if (siteModel.AccessStatus != Databases.AccessStatuses.Selected)
+            {
+                return ApiResults.Error(
+                  context: context,
+                  errorData: invalid);
+            }
+            var siteSettingsApiModel = context.RequestDataString.Deserialize<ApiSiteSettings.SiteSettingsApiModel>();
+            var apiSiteSettingValidator = ApiSiteSettingValidators.OnChageSiteSettingByApi(
+                referenceType: siteModel.ReferenceType,
+                ss: ss,
+                siteSettingsModel: siteSettingsApiModel,
+                context: context);
+            switch (apiSiteSettingValidator.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return ApiResults.Error(
+                      context: context,
+                      errorData: apiSiteSettingValidator);
+            }
+            if (siteSettingsApiModel.Columns != null)
+            {
+                //更新をかける前に新規で追加された項目か判定する
+                siteModel.UpsertColumnsByApi(
+                    context: context,
+                    siteSetting: ss,
+                    columnsApiSiteSetting: siteSettingsApiModel.Columns);
+            }
+            //EditorColumnHash
+            if(siteSettingsApiModel.EditorColumnHash != null)
+            {
+                siteModel.UpsertEditorColumnHashByApi(
+                    siteSetting: ss,
+                    columnsApiSiteSetting: siteSettingsApiModel.EditorColumnHash);
+            }
+            //GridColumns
+            if (siteSettingsApiModel.GridColumns != null)
+            {
+                siteModel.UpsertGridColumnsByApi(
+                    siteSetting: ss,
+                    columnsApiSiteSetting: siteSettingsApiModel.GridColumns);
+            }
+            //FilterColumns
+            if (siteSettingsApiModel.FilterColumns != null)
+            {
+                siteModel.UpsertFilterColumnsByApi(
+                    siteSetting: ss,
+                    columnsApiSiteSetting: siteSettingsApiModel.FilterColumns);
+            }
+            if (siteSettingsApiModel.Links != null)
+            {
+                //ss.Links
+                siteModel.UpsertLinksByApi(
+                    siteSetting: ss,
+                    linksApiSiteSetting: siteSettingsApiModel.Links);
+            }
+            var errorData = siteModel.Update(
+               context: context,
+               ss: ss);
+            switch (errorData.Type)
+            {
+                case Error.Types.None:
+                    return ApiResults.Success(
+                        id: siteModel.SiteId,
+                        limitPerDate: context.ContractSettings.ApiLimit(),
+                        limitRemaining: context.ContractSettings.ApiLimit() - ss.ApiCount,
+                        message: Displays.Updated(
+                            context: context,
+                            data: siteModel.Title.MessageDisplay(context: context)));
+                default:
+                    return ApiResults.Error(
+                      context: context,
+                      errorData: errorData);
+            }
+        }
+
+
         /// <summary>
         /// Fixed:
         /// </summary>
