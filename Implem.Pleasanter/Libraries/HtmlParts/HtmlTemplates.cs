@@ -174,7 +174,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Settings.Html.PositionTypes positionType,
             BaseModel.MethodTypes methodType)
         {
-            if (context.ContractSettings.Html == false) return hb;
+            if (context.ContractSettings.Html == false
+                || ss.HtmlsAllDisabled == true) return hb;
             hb.Raw(ss.GetHtmlBody(
                 context: context,
                 peredicate: o => o.All == true,

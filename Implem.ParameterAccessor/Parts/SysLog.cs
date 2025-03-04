@@ -1,16 +1,18 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 namespace Implem.ParameterAccessor.Parts
 {
     public class SysLog
     {
-        public int RetentionPeriod;
-        public List<string> NotLoggingIp;
-        public bool LoginSuccess;
-        public bool LoginFailure;
-        public bool SignOut;
-        public bool ClientId;
-        public int ExportLimit;
-        public bool EnableLoggingToDatabase = true;
-        public bool EnableLoggingToFile; //= false
+        public int RetentionPeriod { get; set; }
+        public List<string> NotLoggingIp { get; set; }
+        public bool LoginSuccess { get; set; }
+        public bool LoginFailure { get; set; }
+        public bool SignOut { get; set; }
+        public bool ClientId { get; set; }
+        public int ExportLimit { get; set; }
+        [DefaultValue(true)]
+        public bool EnableLoggingToDatabase { get; set; } = true;
+        public bool EnableLoggingToFile { get; set; }
     }
 }
