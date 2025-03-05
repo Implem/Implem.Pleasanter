@@ -6,6 +6,7 @@ using SixLabors.ImageSharp.Formats.Png;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
 using System;
+using System.Data;
 using System.IO;
 namespace Implem.Pleasanter.Libraries.Images
 {
@@ -54,9 +55,13 @@ namespace Implem.Pleasanter.Libraries.Images
 
         public DateTime LastWriteTime(SizeTypes sizeType)
         {
-            var path = Path(ReferenceId, Type, sizeType);
-            if (!File.Exists(path)) return DateTime.FromOADate(0);
-            return new FileInfo(path).LastWriteTime;
+            var file = new FileInfo(Path(
+                referenceId: ReferenceId,
+                type: Type,
+                sizeType: sizeType));
+            return file.Exists
+                ? file.LastWriteTime
+                : DateTime.FromOADate(0);
         }
 
         public void WriteToLocal()
