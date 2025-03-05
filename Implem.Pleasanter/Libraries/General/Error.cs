@@ -22,6 +22,7 @@ namespace Implem.Pleasanter.Libraries.General
             CanNotDelete,
             CannotDeletePermissionInherited,
             CanNotDisabled,
+            CanNotGridSort,
             CanNotInherit,
             CanNotLink,
             CannotMoveMultipleSitesData,
@@ -45,6 +46,7 @@ namespace Implem.Pleasanter.Libraries.General
             HasNotChangeColumnPermission,
             HasNotPermission,
             ImportInvalidUserIdAndLoginId,
+            ImportLock,
             ImportMax,
             InCircleInvalidToken,
             IncorrectCurrentPassword,
@@ -61,6 +63,7 @@ namespace Implem.Pleasanter.Libraries.General
             InvalidJsonData,
             InvalidMemberKey,
             InvalidMemberType,
+            InvalidPath,
             InvalidRequest,
             InvalidSsoCode,
             invalidUpsertKey,
@@ -68,6 +71,7 @@ namespace Implem.Pleasanter.Libraries.General
             JoeAccountCheck,
             LockedRecord,
             LockedTable,
+            LoginExpired,
             LoginIdAlreadyUse,
             MailAddressHasNotSet,
             NoLinks,
@@ -182,6 +186,10 @@ namespace Implem.Pleasanter.Libraries.General
                     return Messages.CanNotDisabled(
                         context: context,
                         data: data);
+                case Types.CanNotGridSort:
+                    return Messages.CanNotGridSort(
+                        context: context,
+                        data: data);
                 case Types.CanNotInherit:
                     return Messages.CanNotInherit(
                         context: context,
@@ -274,6 +282,10 @@ namespace Implem.Pleasanter.Libraries.General
                     return Messages.ImportInvalidUserIdAndLoginId(
                         context: context,
                         data: data);
+                case Types.ImportLock:
+                    return Messages.ImportLock(
+                        context: context,
+                        data: data);
                 case Types.ImportMax:
                     return Messages.ImportMax(
                         context: context,
@@ -338,6 +350,10 @@ namespace Implem.Pleasanter.Libraries.General
                     return Messages.InvalidMemberType(
                         context: context,
                         data: data);
+                case Types.InvalidPath:
+                    return Messages.InvalidPath(
+                        context: context,
+                        data: data);
                 case Types.InvalidRequest:
                     return Messages.InvalidRequest(
                         context: context,
@@ -364,6 +380,10 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.LockedTable:
                     return Messages.LockedTable(
+                        context: context,
+                        data: data);
+                case Types.LoginExpired:
+                    return Messages.LoginExpired(
                         context: context,
                         data: data);
                 case Types.LoginIdAlreadyUse:

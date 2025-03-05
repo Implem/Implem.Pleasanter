@@ -82,23 +82,34 @@ namespace Implem.Pleasanter.Libraries.SitePackages
             {
                 return Messages.ResponseInvalidRequest(context: context).ToJson();
             }
-            var sitePackage = apiData == null
-                ? GetSitePackageFromPostedFile(context: context)
-                : GetSitePackage(
+            try
+            {
+                var sitePackage = apiData == null
+                    ? GetSitePackageFromPostedFile(context: context)
+                    : GetSitePackage(
+                        context: context,
+                        ss: ss,
+                        apiData: apiData);
+                if (sitePackage == null)
+                {
+                    return Messages.ResponseFailedReadFile(context: context).ToJson();
+                }
+                return ImportSitePackage(
                     context: context,
                     ss: ss,
-                    apiData: apiData);
-            return ImportSitePackage(
-                context: context,
-                ss: ss,
-                sitePackage: sitePackage,
-                apiData: apiData,
-                includeData: includeData,
-                includeSitePermission: includeSitePermission,
-                includeRecordPermission: includeRecordPermission,
-                includeColumnPermission: includeColumnPermission,
-                includeNotifications: includeNotifications,
-                includeReminders: includeReminders);
+                    sitePackage: sitePackage,
+                    apiData: apiData,
+                    includeData: includeData,
+                    includeSitePermission: includeSitePermission,
+                    includeRecordPermission: includeRecordPermission,
+                    includeColumnPermission: includeColumnPermission,
+                    includeNotifications: includeNotifications,
+                    includeReminders: includeReminders);
+            }
+            catch
+            {
+                return Messages.ResponseInternalServerError(context: context).ToJson();
+            }
         }
 
         public static string ImportSitePackage(
@@ -298,7 +309,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                         break;
                 }
             }
-            SiteInfo.Reflesh(context: context);
+            SiteInfo.Refresh(context: context);
             int dataCount = 0;
             if (includeData)
             {
@@ -434,7 +445,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                 statements: StatusUtilities.UpdateStatus(
                     tenantId: context.TenantId,
                     type: StatusUtilities.Types.UsersUpdated));
-            SiteInfo.Reflesh(context: context);
+            SiteInfo.Refresh(context: context);
             if (apiData == null)
             {
                 SessionUtilities.Set(
@@ -520,14 +531,21 @@ namespace Implem.Pleasanter.Libraries.SitePackages
 
         public static SitePackage GetSitePackageFromPostedFile(Context context)
         {
-            var serializer = new JsonSerializer();
-            using (var ms = new System.IO.MemoryStream(
-                buffer: context.PostedFiles.FirstOrDefault().Byte(),
-                writable: false))
+            var buffer = context.PostedFiles.FirstOrDefault()?.Byte();
+            if (buffer == null) return null;
+            using (var ms = new System.IO.MemoryStream(buffer, false))
             using (var sr = new System.IO.StreamReader(ms, Encoding.UTF8))
             using (var reader = new JsonTextReader(sr))
             {
-                return serializer.Deserialize<SitePackage>(reader);
+                try
+                {
+                    var serializer = new JsonSerializer();
+                    return serializer.Deserialize<SitePackage>(reader);
+                }
+                catch
+                {
+                    return null;
+                }
             }
         }
 

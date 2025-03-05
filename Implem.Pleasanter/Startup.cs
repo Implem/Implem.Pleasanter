@@ -12,6 +12,7 @@ using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
+using Implem.Pleasanter.Models.SysLogs;
 using Implem.PleasanterFilters;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -29,6 +30,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Primitives;
+using NLog;
+using NLog.Web;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -52,15 +55,18 @@ namespace Implem.Pleasanter.NetCore
             var exceptions = Initializer.Initialize(
                 path: env.ContentRootPath,
                 assemblyVersion: Assembly.GetExecutingAssembly().GetName().Version.ToString());
+            var context = InitializeContext();
             // テンポラリ削除などで発生したエラーをSysLogsに記録する
             if (exceptions.Any())
             {
-                var context = InitializeContext();
                 exceptions.ForEach(e =>
                     new SysLogModel(
                         context: context,
                         e: e));
             }
+            LogManager.Setup()
+                .LoadConfigurationFromAppSettings(environment: env.EnvironmentName)
+                .SetupSerialization(ss => ss.RegisterObjectTransformation<SysLogModel>(s => SysLogModel.ToLogModel(context: context, sysLogModel: s)));
         }
 
         public void ConfigureServices(IServiceCollection services)
@@ -433,7 +439,7 @@ namespace Implem.Pleasanter.NetCore
                 {
                     var context = new Context();
                     var log = new SysLogModel(context: context);
-                    log.SysLogType = SysLogModel.SysLogTypes.Execption;
+                    log.SysLogType = SysLogModel.SysLogTypes.Exception;
                     log.ErrMessage = error.Message;
                     log.ErrStackTrace = error.StackTrace;
                     log.Finish(context: context);
@@ -468,7 +474,7 @@ namespace Implem.Pleasanter.NetCore
             SiteSettingsMigrator.Migrate(context: context);
             StatusesInitializer.Initialize(context: context);
             NotificationInitializer.Initialize();
-            SiteInfo.Reflesh(context: context);
+            SiteInfo.Refresh(context: context);
             log.Finish(context: context);
         }
     }

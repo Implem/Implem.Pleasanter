@@ -97,6 +97,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string Title;
         [NonSerialized]
         public string Body;
+        public bool? DisableSiteConditions;
         public bool? GuideAllowExpand;
         public string GuideExpand;
         [NonSerialized]
@@ -166,6 +167,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? AlwaysRequestSearchCondition;
         public bool? DisableLinkToEdit;
         public bool? OpenEditInNewTab;
+        public bool? EnableExpandLinkPath;
         public int? LinkTableView;
         public int? FirstDayOfWeek;
         public int? FirstMonth;
@@ -198,11 +200,15 @@ namespace Implem.Pleasanter.Libraries.Settings
         public SettingList<Export> Exports;
         public bool? AllowStandardExport;
         public SettingList<Style> Styles;
+        public bool? StylesAllDisabled;
         public bool? Responsive;
         public bool? DashboardPartsAsynchronousLoading;
         public SettingList<Script> Scripts;
+        public bool? ScriptsAllDisabled;
         public SettingList<Html> Htmls;
+        public bool? HtmlsAllDisabled;
         public SettingList<ServerScript> ServerScripts;
+        public bool? ServerScriptsAllDisabled;
         public SettingList<BulkUpdateColumn> BulkUpdateColumns;
         public SettingList<RelatingColumn> RelatingColumns;
         public SettingList<DashboardPart> DashboardParts;
@@ -257,6 +263,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string MailBccDefault;
         public List<string> IntegratedSites;
         public bool NoDisplayIfReadOnly;
+        public bool NotInheritPermissionsWhenCreatingSite;
         public Dictionary<string, Permissions.Types> PermissionForCreating;
         public Dictionary<string, Permissions.Types> PermissionForUpdating;
         public List<ColumnAccessControl> CreateColumnAccessControls;
@@ -290,6 +297,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? EditInDialog;
         // compatibility Version 1.016
         public List<string> EditorColumns;
+        // compatibility Version 1.017
+        public bool? ProcessOutputFormulaLogs;
 
         public SiteSettings()
         {
@@ -414,6 +423,11 @@ namespace Implem.Pleasanter.Libraries.Settings
             FullTextIncludeSiteTitle = FullTextIncludeSiteTitle ?? Parameters.Search.FullTextIncludeSiteTitle;
             FullTextNumberOfMails = FullTextNumberOfMails ?? Parameters.Search.FullTextNumberOfMails;
             SaveViewType = SaveViewType ?? SaveViewTypes.Session;
+            ProcessOutputFormulaLogs = ProcessOutputFormulaLogs ?? false;
+            ServerScriptsAllDisabled = ServerScriptsAllDisabled ?? false;
+            ScriptsAllDisabled = ScriptsAllDisabled ?? false;
+            StylesAllDisabled = StylesAllDisabled ?? false;
+            HtmlsAllDisabled = HtmlsAllDisabled ?? false;
         }
 
         public void SetLinkedSiteSettings(
@@ -421,7 +435,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             Dictionary<long, SiteSettings> joinedSsHash = null,
             bool destinations = true,
             bool sources = true,
-            List<long> previously = null)
+            List<long> previously = null,
+            bool? enableExpandLinkPath = null)
         {
             if ((!destinations || Destinations != null) && (!sources || Sources != null))
             {
@@ -435,6 +450,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                 };
             }
             JoinedSsHash = joinedSsHash;
+            enableExpandLinkPath = enableExpandLinkPath
+                ?? (Parameters.General.EnableExpandLinkPath == true
+                    && EnableExpandLinkPath == true);
             if (destinations)
             {
                 Destinations = SiteSettingsList(
@@ -443,7 +461,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                     joinedSsHash: joinedSsHash,
                     joinStacks: JoinStacks,
                     links: Links,
-                    previously: previously);
+                    previously: previously,
+                    enableExpandLinkPath: enableExpandLinkPath);
             }
             if (sources)
             {
@@ -453,7 +472,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                     joinedSsHash: joinedSsHash,
                     joinStacks: JoinStacks,
                     links: Links,
-                    previously: previously);
+                    previously: previously,
+                    enableExpandLinkPath: enableExpandLinkPath);
             }
             if (destinations && sources)
             {
@@ -468,6 +488,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             List<JoinStack> joinStacks,
             List<Link> links,
             List<long> previously,
+            bool? enableExpandLinkPath,
             Dictionary<long, DataSet> cache = null)
         {
             var hash = new Dictionary<long, SiteSettings>();
@@ -500,9 +521,19 @@ namespace Implem.Pleasanter.Libraries.Settings
                     ss.ParentId = dataRow.Long("ParentId");
                     ss.InheritPermission = dataRow.Long("InheritPermission");
                     ss.Linked = true;
-                    previously = (previously == null)
-                        ? new List<long>()
-                        : previously.Copy();
+                    if (enableExpandLinkPath==true)
+                    {
+                        previously = (previously == null)
+                           ? new List<long>()
+                           : previously.Copy();
+                    }
+                    else
+                    {
+                        if (previously == null)
+                        {
+                            previously = new List<long>();
+                        }
+                    }
                     previously.Add(ss.SiteId);
                     switch (direction)
                     {
@@ -524,7 +555,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 joinedSsHash: joinedSsHash,
                                 destinations: true,
                                 sources: false,
-                                previously: previously);
+                                previously: previously,
+                                enableExpandLinkPath: enableExpandLinkPath);
+                            ss.SetPermissions(context: context, referenceId: ss.ReferenceId);
                             break;
                         case "Sources":
                             ss.Links
@@ -544,7 +577,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 joinedSsHash: joinedSsHash,
                                 destinations: false,
                                 sources: true,
-                                previously: previously);
+                                previously: previously,
+                                enableExpandLinkPath: enableExpandLinkPath);
+                            ss.SetPermissions(context: context, referenceId: ss.ReferenceId);
                             break;
                     }
                     hash.Add(ss.SiteId, ss);
@@ -709,6 +744,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                 Version = Version,
                 ReferenceType = ReferenceType
             };
+            if (DisableSiteConditions == true)
+            {
+                ss.DisableSiteConditions = DisableSiteConditions;
+            }
             if (GuideAllowExpand == true)
             {
                 ss.GuideAllowExpand = GuideAllowExpand;
@@ -760,6 +799,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (OpenEditInNewTab == true)
             {
                 ss.OpenEditInNewTab = OpenEditInNewTab;
+            }
+            if (EnableExpandLinkPath == true)
+            {
+                ss.EnableExpandLinkPath = EnableExpandLinkPath;
             }
             if (LinkTableView != 0)
             {
@@ -1010,6 +1053,26 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 ss.MoveTargets = MoveTargets;
             }
+            if (ProcessOutputFormulaLogs == true)
+            {
+                ss.ProcessOutputFormulaLogs = ProcessOutputFormulaLogs;
+            }
+            if (ServerScriptsAllDisabled == true)
+            {
+                ss.ServerScriptsAllDisabled = ServerScriptsAllDisabled;
+            }
+            if (ScriptsAllDisabled == true)
+            {
+                ss.ScriptsAllDisabled = ScriptsAllDisabled;
+            }
+            if (StylesAllDisabled == true)
+            {
+                ss.StylesAllDisabled = StylesAllDisabled;
+            }
+            if (HtmlsAllDisabled == true)
+            {
+                ss.HtmlsAllDisabled = HtmlsAllDisabled;
+            }
             Aggregations?.ForEach(aggregations =>
             {
                 if (ss.Aggregations == null)
@@ -1211,6 +1274,30 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (NoDisplayIfReadOnly == true)
             {
                 ss.NoDisplayIfReadOnly = NoDisplayIfReadOnly;
+            }
+            if (NotInheritPermissionsWhenCreatingSite == true)
+            {
+                ss.NotInheritPermissionsWhenCreatingSite = NotInheritPermissionsWhenCreatingSite;
+            }
+            if (ProcessOutputFormulaLogs == true)
+            {
+                ss.ProcessOutputFormulaLogs = ProcessOutputFormulaLogs;
+            }
+            if (ServerScriptsAllDisabled == true)
+            {
+                ss.ServerScriptsAllDisabled = ServerScriptsAllDisabled;
+            }
+            if (ScriptsAllDisabled == true)
+            {
+                ss.ScriptsAllDisabled = ScriptsAllDisabled;
+            }
+            if (StylesAllDisabled == true)
+            {
+                ss.StylesAllDisabled = StylesAllDisabled;
+            }
+            if (HtmlsAllDisabled == true)
+            {
+                ss.HtmlsAllDisabled = HtmlsAllDisabled;
             }
             PermissionForCreating?.Where(o => o.Value > 0).ForEach(data =>
             {
@@ -3071,19 +3158,15 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .Select(o => o.ColumnName).ToList());
         }
 
-        public Dictionary<string, ControlData> MoveTargetsSelectableOptions(
-            Context context, bool enabled = true)
-        {
+        public Dictionary<string, ControlData> MoveTargetsSelectableOptions(Context context)
+        { 
             var options = MoveTargetsOptions(sites: NumberOfMoveTargetsTable(context));
-            return enabled
-                ? MoveTargets?.Any() == true
-                    ? options
-                        .Where(o => MoveTargets.Contains(o.Key.ToLong()))
-                        .ToDictionary(o => o.Key, o => o.Value)
-                    : null
-                : options
-                    .Where(o => MoveTargets?.Contains(o.Key.ToLong()) != true)
-                    .ToDictionary(o => o.Key, o => o.Value);
+            return MoveTargets?.Any() == true
+                ? options
+                    .Where(o => MoveTargets.Contains(o.Key.ToLong()))
+                    .OrderBy(o => MoveTargets.IndexOf(o.Key.ToLong()))
+                    .ToDictionary(o => o.Key, o => o.Value)
+                : null;
         }
 
         public EnumerableRowCollection<DataRow> NumberOfMoveTargetsTable(Context context)
@@ -3103,24 +3186,12 @@ namespace Implem.Pleasanter.Libraries.Settings
         public Dictionary<string, ControlData> MoveTargetsOptions(IEnumerable<DataRow> sites)
         {
             var targets = new Dictionary<string, ControlData>();
-            sites
-                .Where(dataRow => dataRow.String("ReferenceType") == ReferenceType)
-                .ForEach(dataRow =>
-                {
-                    var current = dataRow;
-                    var titles = new List<string>()
-                    {
-                        current.String("Title")
-                    };
-                    while (sites.Any(o => o.Long("SiteId") == current.Long("ParentId")))
-                    {
-                        current = sites.First(o => o.Long("SiteId") == current.Long("ParentId"));
-                        titles.Insert(0, current.String("Title"));
-                    }
-                    targets.Add(
-                        dataRow.String("SiteId"),
-                        new ControlData(titles.Join(" / ")));
-                });
+            foreach(var dataRow in sites.Where(dataRow => dataRow.String("ReferenceType") == ReferenceType))
+            {
+                var siteId = dataRow.String("SiteId");
+                var title = $"[{siteId}] {dataRow.String("Title")}";
+                targets.Add(siteId, new ControlData(title));
+            }
             return targets;
         }
 
@@ -3868,6 +3939,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             switch (propertyName)
             {
+                case "DisableSiteConditions": DisableSiteConditions = value.ToBool(); break;
                 case "GuideAllowExpand": GuideAllowExpand = value.ToBool(); break;
                 case "GuideExpand": GuideExpand = value; break;
                 case "NearCompletionTimeBeforeDays": NearCompletionTimeBeforeDays = value.ToInt(); break;
@@ -3880,6 +3952,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "AlwaysRequestSearchCondition": AlwaysRequestSearchCondition = value.ToBool(); break;
                 case "DisableLinkToEdit": DisableLinkToEdit = value.ToBool(); break;
                 case "OpenEditInNewTab": OpenEditInNewTab = value.ToBool(); break;
+                case "EnableExpandLinkPath": EnableExpandLinkPath = value.ToBool();break;
                 case "LinkTableView": LinkTableView = value.ToInt(); break;
                 case "FirstDayOfWeek": FirstDayOfWeek = value.ToInt(); break;
                 case "FirstMonth": FirstMonth = value.ToInt(); break;
@@ -3938,6 +4011,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "MailBccDefault": MailBccDefault = value; break;
                 case "IntegratedSites": SetIntegratedSites(value); break;
                 case "NoDisplayIfReadOnly": NoDisplayIfReadOnly = value.ToBool(); break;
+                case "NotInheritPermissionsWhenCreatingSite": NotInheritPermissionsWhenCreatingSite = value.ToBool(); break;
                 case "CurrentPermissionForCreatingAll": SetPermissionForCreating(value); break;
                 case "CurrentPermissionForUpdatingAll": SetPermissionForUpdating(value); break;
                 case "CreateColumnAccessControlAll": SetCreateColumnAccessControl(value); break;
@@ -4000,6 +4074,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .Select(v => v.Views)
                         .ToList();
                     break;
+                case "ProcessOutputFormulaLogs": ProcessOutputFormulaLogs = value.ToBool(); break;
+                case "ServerScriptsAllDisabled": ServerScriptsAllDisabled = value.ToBool(); break;
+                case "ScriptsAllDisabled": ScriptsAllDisabled = value.ToBool(); break;
+                case "StylesAllDisabled": StylesAllDisabled = value.ToBool(); break;
+                case "HtmlsAllDisabled": HtmlsAllDisabled = value.ToBool(); break;
             }
         }
 
@@ -5007,19 +5086,18 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public bool EnableViewMode(Context context, string name)
         {
-            var canRead = context.CanRead(ss: this);
             switch (name)
             {
                 case "Index": return true;
-                case "Calendar": return canRead && EnableCalendar == true;
-                case "Crosstab": return canRead && EnableCrosstab == true;
-                case "Gantt": return canRead && EnableGantt == true;
-                case "BurnDown": return canRead && EnableBurnDown == true;
-                case "TimeSeries": return canRead && EnableTimeSeries == true;
-                case "Analy": return canRead && EnableAnaly == true;
-                case "Kamban": return canRead && EnableKamban == true;
+                case "Calendar": return EnableCalendar == true;
+                case "Crosstab": return EnableCrosstab == true;
+                case "Gantt": return EnableGantt == true;
+                case "BurnDown": return EnableBurnDown == true;
+                case "TimeSeries": return EnableTimeSeries == true;
+                case "Analy": return EnableAnaly == true;
+                case "Kamban": return EnableKamban == true;
                 case "ImageLib": return context.ContractSettings.Images()
-                    && canRead && EnableImageLib == true;
+                    && EnableImageLib == true;
                 default: return false;
             }
         }
@@ -5826,7 +5904,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         Shared = extendedServerScript.Shared,
                         Body = extendedServerScript.Body
                     })
-                        .Concat(ServerScripts)
+                        .Concat(ServerScripts.Where(script=>script.Disabled != true))
                         .ToList();
                 ServerScriptsAndExtended
                     .Where(serverScript =>

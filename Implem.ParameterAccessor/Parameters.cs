@@ -42,6 +42,7 @@ namespace Implem.DefinitionAccessor
         public static Parameter Parameter;
         public static Permissions Permissions;
         public static Rds Rds;
+        public static Kvs Kvs;
         public static Registration Registration;
         public static Reminder Reminder;
         public static Script Script;
@@ -98,6 +99,12 @@ namespace Implem.DefinitionAccessor
         {
             var prop = License.GetType().GetProperty("DisableAds");
             return (bool?)(prop?.GetValue(License)) ?? false;
+        }
+        public static int Environment()
+        {
+            //1:共用環境、2:DEMO環境、0:その他
+            var prop = License.GetType().GetProperty("Environment");
+            return (int?)(prop?.GetValue(License)) ?? 0;
         }
 
         public static Dictionary<string, object> GetLicenseInfo()

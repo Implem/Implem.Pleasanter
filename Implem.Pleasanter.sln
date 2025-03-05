@@ -18,6 +18,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C3803F6D-E5AE-44CC-AE9F-C907441572A4}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		global.json = global.json
 		LICENSE = LICENSE
 		README.md = README.md
 		README_Pleasanter.md = README_Pleasanter.md
@@ -46,6 +47,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CICD", "CICD", "{EDD4BA11-3
 	ProjectSection(SolutionItems) = preProject
 		.github\workflows\CI.yaml = .github\workflows\CI.yaml
 		.github\workflows\xUnit.yaml = .github\workflows\xUnit.yaml
+		.github\workflows\xUnitMySql.yaml = .github\workflows\xUnitMySql.yaml
 	EndProjectSection
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{10984740-E12C-427F-A980-0100734AE1B9}"
@@ -54,7 +56,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Implem.PleasanterTest", "Im
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Implem.Plugins", "Implem.Plugins\Implem.Plugins.csproj", "{DB7A8513-48C4-4226-92F9-60FD4DB90DD8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Implem.MySql", "Rds\Implem.MySql\Implem.MySql.csproj", "{7BF47007-3BB2-44F6-85B2-E50B215D40ED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Implem.MySql", "Rds\Implem.MySql\Implem.MySql.csproj", "{7BF47007-3BB2-44F6-85B2-E50B215D40ED}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Implem.PleasanterSetup", "Implem.PleasanterSetup\Implem.PleasanterSetup.csproj", "{E199A01A-F139-4361-B4BA-9BE565774B94}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -213,6 +217,16 @@ Global
 		{7BF47007-3BB2-44F6-85B2-E50B215D40ED}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7BF47007-3BB2-44F6-85B2-E50B215D40ED}.SingleImage|Any CPU.ActiveCfg = Debug|Any CPU
 		{7BF47007-3BB2-44F6-85B2-E50B215D40ED}.SingleImage|Any CPU.Build.0 = Debug|Any CPU
+		{E199A01A-F139-4361-B4BA-9BE565774B94}.CD_ROM|Any CPU.ActiveCfg = Debug|Any CPU
+		{E199A01A-F139-4361-B4BA-9BE565774B94}.CD_ROM|Any CPU.Build.0 = Debug|Any CPU
+		{E199A01A-F139-4361-B4BA-9BE565774B94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E199A01A-F139-4361-B4BA-9BE565774B94}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E199A01A-F139-4361-B4BA-9BE565774B94}.DVD-5|Any CPU.ActiveCfg = Debug|Any CPU
+		{E199A01A-F139-4361-B4BA-9BE565774B94}.DVD-5|Any CPU.Build.0 = Debug|Any CPU
+		{E199A01A-F139-4361-B4BA-9BE565774B94}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E199A01A-F139-4361-B4BA-9BE565774B94}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E199A01A-F139-4361-B4BA-9BE565774B94}.SingleImage|Any CPU.ActiveCfg = Debug|Any CPU
+		{E199A01A-F139-4361-B4BA-9BE565774B94}.SingleImage|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -284,6 +284,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-error");
         }
 
+        public static Message CanNotGridSort(Context context, params string[] data)
+        {
+            return Get(
+                id: "CanNotGridSort",
+                text: Displays.CanNotGridSort(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
         public static Message CanNotInherit(Context context, params string[] data)
         {
             return Get(
@@ -331,7 +341,7 @@ namespace Implem.Pleasanter.Libraries.Responses
                 text: Displays.CanNotUpdate(
                     context: context,
                     data: data),
-                css: "alert-info");
+                css: "alert-information");
         }
 
         public static Message CantSetAtTopOfSite(Context context, params string[] data)
@@ -489,6 +499,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 id: "CodeDefinerMigrationCompleted",
                 text: Displays.CodeDefinerMigrationCompleted(
+                    context: context,
+                    data: data),
+                css: "alert-success");
+        }
+
+        public static Message CodeDefinerMigrationErrors(Context context, params string[] data)
+        {
+            return Get(
+                id: "CodeDefinerMigrationErrors",
+                text: Displays.CodeDefinerMigrationErrors(
                     context: context,
                     data: data),
                 css: "alert-success");
@@ -791,7 +811,7 @@ namespace Implem.Pleasanter.Libraries.Responses
                 text: Displays.HasBeenDeleted(
                     context: context,
                     data: data),
-                css: "alert-info");
+                css: "alert-information");
         }
 
         public static Message HasBeenMoved(Context context, params string[] data)
@@ -801,7 +821,7 @@ namespace Implem.Pleasanter.Libraries.Responses
                 text: Displays.HasBeenMoved(
                     context: context,
                     data: data),
-                css: "alert-info");
+                css: "alert-information");
         }
 
         public static Message HasNotChangeColumnPermission(Context context, params string[] data)
@@ -854,6 +874,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-error");
         }
 
+        public static Message ImportLock(Context context, params string[] data)
+        {
+            return Get(
+                id: "ImportLock",
+                text: Displays.ImportLock(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
         public static Message ImportMax(Context context, params string[] data)
         {
             return Get(
@@ -881,7 +911,7 @@ namespace Implem.Pleasanter.Libraries.Responses
                 text: Displays.InCompression(
                     context: context,
                     data: data),
-                css: "alert-info");
+                css: "alert-information");
         }
 
         public static Message InCopying(Context context, params string[] data)
@@ -891,7 +921,7 @@ namespace Implem.Pleasanter.Libraries.Responses
                 text: Displays.InCopying(
                     context: context,
                     data: data),
-                css: "alert-info");
+                css: "alert-information");
         }
 
         public static Message IncorrectCurrentPassword(Context context, params string[] data)
@@ -1034,6 +1064,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-error");
         }
 
+        public static Message InvalidPath(Context context, params string[] data)
+        {
+            return Get(
+                id: "InvalidPath",
+                text: Displays.InvalidPath(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
         public static Message InvalidRequest(Context context, params string[] data)
         {
             return Get(
@@ -1119,6 +1159,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 id: "LockedTable",
                 text: Displays.LockedTable(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
+        public static Message LoginExpired(Context context, params string[] data)
+        {
+            return Get(
+                id: "LoginExpired",
+                text: Displays.LoginExpired(
                     context: context,
                     data: data),
                 css: "alert-error");
@@ -1431,7 +1481,7 @@ namespace Implem.Pleasanter.Libraries.Responses
                 text: Displays.ReadOnlyBecausePreviousVer(
                     context: context,
                     data: data),
-                css: "alert-info");
+                css: "alert-information");
         }
 
         public static Message RebuildingCompleted(Context context, params string[] data)
@@ -2079,6 +2129,17 @@ namespace Implem.Pleasanter.Libraries.Responses
                 target: target);
         }
 
+        public static ResponseCollection ResponseCanNotGridSort(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: CanNotGridSort(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
         public static ResponseCollection ResponseCanNotInherit(
             Context context, string target = null, params string[] data)
         {
@@ -2305,6 +2366,17 @@ namespace Implem.Pleasanter.Libraries.Responses
             return ResponseMessage(
                 context: context,
                 message: CodeDefinerMigrationCompleted(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseCodeDefinerMigrationErrors(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: CodeDefinerMigrationErrors(
                     context: context,
                     data: data),
                 target: target);
@@ -2706,6 +2778,17 @@ namespace Implem.Pleasanter.Libraries.Responses
                 target: target);
         }
 
+        public static ResponseCollection ResponseImportLock(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: ImportLock(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
         public static ResponseCollection ResponseImportMax(
             Context context, string target = null, params string[] data)
         {
@@ -2904,6 +2987,17 @@ namespace Implem.Pleasanter.Libraries.Responses
                 target: target);
         }
 
+        public static ResponseCollection ResponseInvalidPath(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: InvalidPath(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
         public static ResponseCollection ResponseInvalidRequest(
             Context context, string target = null, params string[] data)
         {
@@ -2998,6 +3092,17 @@ namespace Implem.Pleasanter.Libraries.Responses
             return ResponseMessage(
                 context: context,
                 message: LockedTable(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseLoginExpired(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: LoginExpired(
                     context: context,
                     data: data),
                 target: target);

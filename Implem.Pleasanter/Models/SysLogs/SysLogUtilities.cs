@@ -283,11 +283,22 @@ namespace Implem.Pleasanter.Models
             var view = Views.GetBySession(
                 context: context,
                 ss: ss);
-            var gridData = GetGridData(
-                context: context,
-                ss: ss,
-                view: view,
-                offset: offset);
+            GridData gridData = null;
+            try
+            {
+                gridData = GetGridData(
+                    context: context,
+                    ss: ss,
+                    view: view,
+                    offset: offset);
+            }
+            catch (Implem.Libraries.Exceptions.CanNotGridSortException)
+            {
+                return new ResponseCollection(context: context)
+                    .Message(context.Messages.Last())
+                    .Log(context.GetLog())
+                    .ToJson();
+            }
             var columns = ss.GetGridColumns(
                 context: context,
                 view: view,
@@ -381,7 +392,8 @@ namespace Implem.Pleasanter.Models
                         view: view,
                         dataRows: gridData.DataRows,
                         columns: columns,
-                        checkRow: checkRow));
+                        checkRow: checkRow,
+                        clearCheck: clearCheck));
         }
 
         private static SqlWhereCollection SelectedWhere(
@@ -461,7 +473,7 @@ namespace Implem.Pleasanter.Models
             int? tabIndex = null,
             ServerScriptModelColumn serverScriptModelColumn = null)
         {
-            if (serverScriptModelColumn?.Hide ?? column.Hide == true)
+            if (serverScriptModelColumn?.HideChanged == true && serverScriptModelColumn?.Hide == true)
             {
                 return hb.Td();
             }
@@ -2514,7 +2526,7 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     parts: new string[]
                     {
-                        "Items",
+                        context.Controller,
                         sysLogId.ToString() 
                             + (sysLogModel.VerType == Versions.VerTypes.History
                                 ? "?ver=" + context.Forms.Int("Ver") 

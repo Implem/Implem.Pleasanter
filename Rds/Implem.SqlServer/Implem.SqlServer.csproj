@@ -2,10 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <Copyright>Copyright © Implem Inc 2014 - 2024</Copyright>
-    <AssemblyVersion>1.4.9.2</AssemblyVersion>
-    <FileVersion>1.4.9.2</FileVersion>
-    <Version>1.4.9.2</Version>
+    <Year>$([System.DateTime]::Now.Year.ToString())</Year>
+    <Copyright>Copyright © Implem Inc 2014 - $(Year)</Copyright>
+    <AssemblyVersion>1.4.13.0</AssemblyVersion>
+    <FileVersion>1.4.13.0</FileVersion>
+    <Version>1.4.13.0</Version>
     <Nullable>disable</Nullable>
   </PropertyGroup>
 

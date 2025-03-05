@@ -397,6 +397,7 @@ namespace Implem.SqlServer
                             select ""Sites"".""InheritPermission""
                             from ""Sites""
                             where ""Sites"".""SiteId""=""{tableName}_Items"".""SiteId""
+                                and ""{tableName}_Items"".""ReferenceType"" = 'Sites'
                         )
                         and ""Permissions"".""PermissionType"" & 1 = 1
                         and {PermissionsWhere}
@@ -475,5 +476,36 @@ namespace Implem.SqlServer
                 where ""TenantId"" = @_T
                     and ""Guid"" = @Guid;";
         }
+
+        public string MigrateDatabaseSelectFrom(string tableName)
+        {
+            return $@"select * from ""{tableName}"";";
+        }
+
+        public string GetChildSiteIdList { get; } = @"
+            with cte as (
+                select 
+                    ""SiteId"",
+                    ""ParentId"",
+                    ""SiteId"" as ""RootSiteId""
+                from ""Sites""
+                where ""ParentId"" = @SiteId_
+                    and ""TenantId"" = @_T
+                union all
+                select 
+                    c.""SiteId"",
+                    c.""ParentId"",
+                    p.""RootSiteId""
+                from ""Sites"" c
+                inner join cte p 
+                on p.""SiteId"" = c.""ParentId""
+                where c.""TenantId"" = @_T
+            )
+            select 
+                ""RootSiteId"",
+                ""SiteId""
+            from cte
+            order by ""RootSiteId"";";
+
     }
 }

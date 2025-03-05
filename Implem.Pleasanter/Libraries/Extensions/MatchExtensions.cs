@@ -53,6 +53,10 @@ namespace Implem.Pleasanter.Libraries.Extensions
 
         public static bool Matched(this Num value, Column column, string condition)
         {
+            if (column.Nullable == true && value.Value == null)
+            {
+                return condition == "[\"\\t\"]";
+            }
             return value.Value.ToDecimal().Matched(column, condition);
         }
 
@@ -61,7 +65,7 @@ namespace Implem.Pleasanter.Libraries.Extensions
             var param = condition.Deserialize<List<string>>();
             if (param.Any())
             {
-                if (param.All(o => o.RegexExists(@"^[0-9\.]*,[0-9\.]*$")))
+                if (param.All(o => o.RegexExists(@"^-?[0-9\.]*,-?[0-9\.]*$")))
                 {
                     return param.Any(o =>
                         (o.Split_1st().IsNullOrEmpty() || o.Split_1st().ToDecimal() <= value) &&

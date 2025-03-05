@@ -253,11 +253,22 @@ public static string GridRows(
 <!--Model_Utilities_View-->
 <!--Model_Utilities_DashboardView-->
 
-    var gridData = GetGridData(
-        context: context,
-        ss: ss,
-        view: view,
-        offset: offset);
+    GridData gridData = null;
+    try
+    {
+        gridData = GetGridData(
+            context: context,
+            ss: ss,
+            view: view,
+            offset: offset);
+    }
+    catch (Implem.Libraries.Exceptions.CanNotGridSortException)
+    {
+        return new ResponseCollection(context: context)
+            .Message(context.Messages.Last())
+            .Log(context.GetLog())
+            .ToJson();
+    }
 
 <!--Model_Utilities_GetServerScriptModelRow-->
 
@@ -331,7 +342,8 @@ private static HtmlBuilder GridRows(
 <!--Model_Utilities_FormDataSet-->
 <!--Model_Utilities_SetEditRowParameter-->
 
-                checkRow: checkRow));
+                checkRow: checkRow,
+                clearCheck: clearCheck));
 }
 
 <!--Model_Utilities_GridNewRows-->

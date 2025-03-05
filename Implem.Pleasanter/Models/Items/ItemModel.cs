@@ -211,6 +211,32 @@ namespace Implem.Pleasanter.Models
             return ApiResults.Get(ApiResponses.BadRequest(context: context));
         }
 
+        public bool ExportByServerScript(Context context, string filePath)
+        {
+            SetSite(context: context);
+            switch (Site.ReferenceType)
+            {
+                case "Issues":
+                    return IssueUtilities.ExportByServerScript(
+                        context: context,
+                        ss: Site.IssuesSiteSettings(
+                            context: context,
+                            referenceId: ReferenceId,
+                            setSiteIntegration: true),
+                        filePath: filePath);
+                case "Results":
+                    return ResultUtilities.ExportByServerScript(
+                        context: context,
+                        ss: Site.ResultsSiteSettings(
+                            context: context,
+                            referenceId: ReferenceId,
+                            setSiteIntegration: true),
+                        filePath: filePath);
+                default:
+                    return false;
+            }
+        }
+
         public ContentResultInheritance ImportByApi(Context context)
         {
             SetSite(
@@ -249,6 +275,32 @@ namespace Implem.Pleasanter.Models
                     return ApiResults.Get(ApiResponses.BadRequest(context: context));
             }
             return ApiResults.Get(ApiResponses.BadRequest(context: context));
+        }
+
+        public string ImportByServerScript(Context context, string filePath)
+        {
+            SetSite(context: context);
+            switch (Site.ReferenceType)
+            {
+                case "Issues":
+                    return IssueUtilities.ImportByServerScript(
+                        context: context,
+                        ss: Site.IssuesSiteSettings(
+                            context: context,
+                            referenceId: ReferenceId,
+                            setSiteIntegration: true),
+                        filePath: filePath);
+                case "Results":
+                    return ResultUtilities.ImportByServerScript(
+                        context: context,
+                        ss: Site.ResultsSiteSettings(
+                            context: context,
+                            referenceId: ReferenceId,
+                            setSiteIntegration: true),
+                        filePath: filePath);
+                default:
+                    return null;
+            }
         }
 
         public string Index(Context context)
@@ -1138,7 +1190,8 @@ namespace Implem.Pleasanter.Models
         {
             SetSite(
                 context: context,
-                initSiteSettings: true);
+                initSiteSettings: true,
+                setSiteIntegration: true);
             switch (Site.ReferenceType)
             {
                 case "Issues":
@@ -2417,10 +2470,8 @@ namespace Implem.Pleasanter.Models
             return new ResponseCollection(context: context).Html("#MoveTargets", new HtmlBuilder()
                 .OptionCollection(
                     context: context,
-                    optionCollection: Site.SiteSettings.MoveTargetsSelectableOptions(
-                        context: context,
-                        enabled: true)))
-                            .ToJson();
+                    optionCollection: Site.SiteSettings.MoveTargetsSelectableOptions(context: context)))
+                .ToJson();
         }
 
         public string Move(Context context)
@@ -3367,10 +3418,16 @@ namespace Implem.Pleasanter.Models
         {
             SetSite(context: context);
             var selected = context.Forms.IntList("EditSummary");
+            using var exclusiveObj = new Sessions.TableExclusive(context: context);
+            if (!exclusiveObj.TryLock())
+            {
+                return Messages.ImportLock(context: context).ToJson();
+            }
             var result = SiteUtilities.SynchronizeSummaries(
                 context: context,
                 siteModel: Site,
-                selected: selected);
+                selected: selected,
+                watchdog: () => exclusiveObj.Refresh());
             if (result.Type == Error.Types.None)
             {
                 return Messages.ResponseSynchronizationCompleted(context: context).ToJson();
@@ -3399,10 +3456,19 @@ namespace Implem.Pleasanter.Models
                         sysLogsStatus: 400,
                         sysLogsDescription: Debugs.GetSysLogsDescription()));
             }
+            using var exclusiveObj = new Sessions.TableExclusive(context: context);
+            if (!exclusiveObj.TryLock())
+            {
+                return ApiResults.Get(new ApiResponse(
+                    id: context.Id,
+                    statusCode: 429,
+                    message: Messages.ImportLock(context: context).Text));
+            }
             var result = SiteUtilities.SynchronizeSummaries(
                 context: context,
                 siteModel: Site,
-                selected: selected);
+                selected: selected,
+                watchdog: () => exclusiveObj.Refresh());
             if (result.Type == Error.Types.SelectTargets)
             {
                 return ApiResults.Success(

@@ -295,11 +295,22 @@ namespace Implem.Pleasanter.Models
             var view = Views.GetBySession(
                 context: context,
                 ss: ss);
-            var gridData = GetGridData(
-                context: context,
-                ss: ss,
-                view: view,
-                offset: offset);
+            GridData gridData = null;
+            try
+            {
+                gridData = GetGridData(
+                    context: context,
+                    ss: ss,
+                    view: view,
+                    offset: offset);
+            }
+            catch (Implem.Libraries.Exceptions.CanNotGridSortException)
+            {
+                return new ResponseCollection(context: context)
+                    .Message(context.Messages.Last())
+                    .Log(context.GetLog())
+                    .ToJson();
+            }
             var columns = ss.GetGridColumns(
                 context: context,
                 view: view,
@@ -392,7 +403,8 @@ namespace Implem.Pleasanter.Models
                         view: view,
                         dataRows: gridData.DataRows,
                         columns: columns,
-                        checkRow: checkRow));
+                        checkRow: checkRow,
+                        clearCheck: clearCheck));
         }
 
         private static SqlWhereCollection SelectedWhere(
@@ -472,7 +484,7 @@ namespace Implem.Pleasanter.Models
             int? tabIndex = null,
             ServerScriptModelColumn serverScriptModelColumn = null)
         {
-            if (serverScriptModelColumn?.Hide ?? column.Hide == true)
+            if (serverScriptModelColumn?.HideChanged == true && serverScriptModelColumn?.Hide == true)
             {
                 return hb.Td();
             }
@@ -1871,7 +1883,7 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     parts: new string[]
                     {
-                        "Items",
+                        context.Controller,
                         deptId.ToString() 
                             + (deptModel.VerType == Versions.VerTypes.History
                                 ? "?ver=" + context.Forms.Int("Ver") 
@@ -1961,7 +1973,7 @@ namespace Implem.Pleasanter.Models
                             var errorData = deptModel.Update(
                                 context: context,
                                 ss: ss,
-                                refleshSiteInfo: false,
+                                refreshSiteInfo: false,
                                 get: false);
                             switch (errorData.Type)
                             {
@@ -1989,7 +2001,7 @@ namespace Implem.Pleasanter.Models
                         insertCount++;
                     }
                 }
-                SiteInfo.Reflesh(
+                SiteInfo.Refresh(
                     context: context,
                     force: true);
                 return GridRows(
@@ -2119,7 +2131,7 @@ namespace Implem.Pleasanter.Models
                             var errorData = deptModel.Update(
                                 context: context,
                                 ss: ss,
-                                refleshSiteInfo: false,
+                                refreshSiteInfo: false,
                                 get: false);
                             switch (errorData.Type)
                             {
@@ -2151,7 +2163,7 @@ namespace Implem.Pleasanter.Models
                         insertCount++;
                     }
                 }
-                SiteInfo.Reflesh(
+                SiteInfo.Refresh(
                     context: context,
                     force: true);
                 return ApiResults.Success(
@@ -2420,7 +2432,9 @@ namespace Implem.Pleasanter.Models
                 ? SiteInfo.SiteDepts(context, siteModel.InheritPermission)?
                     .Where(o => !SiteInfo.User(context, o).Disabled).ToArray()
                 : null;
-            var pageSize = Parameters.Api.PageSize;
+            var pageSize = api?.PageSize > 0 && api?.PageSize <= Parameters.Api.PageSize
+                ? api.PageSize
+                : Parameters.Api.PageSize;
             var tableType = (api?.TableType) ?? Sqls.TableTypes.Normal;
             if (deptId > 0)
             {

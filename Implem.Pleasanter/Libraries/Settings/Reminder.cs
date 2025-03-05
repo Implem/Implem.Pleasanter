@@ -411,9 +411,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                         Addresses.Get(
                             context: context,
                             addresses: Addresses.ReplacedAddress(
-                                context: context,
-                                column: toColumn,
-                                value: dataRow.String(toColumn.ColumnName)))
+                                                context: context,
+                                                column: toColumn,
+                                                value: dataRow.String(toColumn.ColumnName)))
                                     .ForEach(mailAddress =>
                                     {
                                         if (!hash.ContainsKey(mailAddress))
@@ -551,7 +551,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         {
                             "\"" + orderByColumn.ColumnName + "\""
                         },
-                        _operator: "<'{0}'".Params(
+                        _operator: "<'{0:yyyy/M/d H:m:s.fff}'".Params(
                             DateTime.Now.ToLocal(context: context).Date.AddDays(Range)))
                     .Add(
                         //【完了項目】
@@ -611,7 +611,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                             {
                                 "\"" + orderByColumn.ColumnName + "\""
                             },
-                            _operator: "<'{0}'".Params(
+                            _operator: "<'{0:yyyy/M/d H:m:s.fff}'".Params(
                                 DateTime.Now.ToLocal(context: context).Date),
                             _using: SendCompletedInPast == true));
             var orderBy = new SqlOrderByCollection()

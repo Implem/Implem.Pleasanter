@@ -20,6 +20,14 @@
         {
             return ApiResults.Get(ApiResponses.BadRequest(context: context));
         }
+        using var exclusiveObj = new Sessions.TableExclusive(context: context);
+        if (!exclusiveObj.TryLock())
+        {
+            return ApiResults.Get(new ApiResponse(
+                id: context.Id,
+                statusCode: 429,
+                message: Messages.ImportLock(context: context).Text));
+        }
         var view = recordSelector.View ?? Views.GetBySession(
             context: context,
             ss: ss);
@@ -48,11 +56,14 @@
                     context: context,
                     errorData: invalid);
         }
+        exclusiveObj.Refresh();
         var count = BulkDelete(
             context: context,
             ss: ss,
             where: where,
-            param: param);
+            param: param,
+            watchdog: () => exclusiveObj.Refresh());
+        exclusiveObj.Refresh();
         Summaries.Synchronize(
             context: context,
             ss: ss);
@@ -113,6 +124,11 @@ public static long BulkDeleteByServerScript(
         {
             return 0;
         }
+        using var exclusiveObj = new Sessions.TableExclusive(context: context, siteId: ss.SiteId);
+        if (!exclusiveObj.TryLock())
+        {
+            return 0;
+        }
         var view = recordSelector.View ?? Views.GetBySession(
             context: context,
             ss: ss);
@@ -139,11 +155,13 @@ public static long BulkDeleteByServerScript(
             default:
                 return 0;
         }
+        exclusiveObj.Refresh();
         var count = BulkDelete(
             context: context,
             ss: ss,
             where: where,
-            param: param);
+            param: param,
+            watchdog: () => exclusiveObj.Refresh());
         Summaries.Synchronize(
             context: context,
             ss: ss);

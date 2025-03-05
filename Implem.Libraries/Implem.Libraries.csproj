@@ -2,17 +2,18 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <Copyright>Copyright © Implem Inc 2014 - 2024</Copyright>
-    <AssemblyVersion>1.4.9.2</AssemblyVersion>
-    <FileVersion>1.4.9.2</FileVersion>
-    <Version>1.4.9.2</Version>
+    <Year>$([System.DateTime]::Now.Year.ToString())</Year>
+    <Copyright>Copyright © Implem Inc 2014 - $(Year)</Copyright>
+    <AssemblyVersion>1.4.13.0</AssemblyVersion>
+    <FileVersion>1.4.13.0</FileVersion>
+    <Version>1.4.13.0</Version>
     <Nullable>disable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="CsvHelper" Version="33.0.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="SixLabors.ImageSharp" Version="3.1.5" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="3.1.6" />
     <PackageReference Include="System.IO.FileSystem.Primitives" Version="4.3.0" />
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
   </ItemGroup>
