@@ -14,6 +14,7 @@ namespace Implem.Pleasanter.Models.ApiSiteSettings
         public string Category { get; set; }
         public DragStateApiSettingModel State { get; set; }
 
+        public string LinkName { get; set; }
         //D&D用のパラメータを追加
 
         public DragParamsApiSettingModel()
@@ -82,9 +83,9 @@ namespace Implem.Pleasanter.Models.ApiSiteSettings
                 case "Body":
                 case "StartTime":
                 case "IssueId":
-                case "ResultsId":
+                case "ResultId":
                 case "Ver":
-                    Category = "preset";
+                    Category = "Preset";
                     break;
                 default:
                     switch(Def.ExtendedColumnTypes.Get(column.ColumnName ?? string.Empty)){
@@ -94,10 +95,10 @@ namespace Implem.Pleasanter.Models.ApiSiteSettings
                         case "Check":
                         case "Description":
                         case "Attachments":
-                            Category = "custtom";
+                            Category = "Custom";
                             break;
                         default:
-                            Category = "none";
+                            Category = "None";
                             break;
                     }
                     break;

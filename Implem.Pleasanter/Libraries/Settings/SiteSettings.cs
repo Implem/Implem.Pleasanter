@@ -2737,6 +2737,11 @@ namespace Implem.Pleasanter.Libraries.Settings
             return $"_Links-{ss.SiteId}";
         }
 
+        public string LinkId(long siteId)
+        {
+            return $"_Links-{siteId}";
+        }
+
         public long LinkId(string columnName)
         {
             return columnName.StartsWith("_Links-")
