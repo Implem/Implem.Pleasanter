@@ -2535,13 +2535,14 @@ namespace Implem.Pleasanter.Models
                     siteSetting: ss,
                     columnsApiSiteSetting: siteSettingsApiModel.FilterColumns);
             }
-            if (siteSettingsApiModel.Links != null)
-            {
-                //ss.Links
-                siteModel.UpsertLinksByApi(
-                    siteSetting: ss,
-                    linksApiSiteSetting: siteSettingsApiModel.Links);
-            }
+            //メモ
+            //if (siteSettingsApiModel.Links != null)
+            //{
+            //    //ss.Links
+            //    siteModel.UpsertLinksByApi(
+            //        siteSetting: ss,
+            //        linksApiSiteSetting: siteSettingsApiModel.Links);
+            //}
             var errorData = siteModel.Update(
                context: context,
                ss: ss);

@@ -2516,6 +2516,7 @@ namespace Implem.Pleasanter.Models
                     totalLimitSize: ssApiSetting.TotalLimitSize,
                     thumbnailLimitSize: ssApiSetting.ThumbnailLimitSize,
                     dateTimeStep: ssApiSetting.DateTimeStep);
+                    siteSetting.SetLinks(context, currentCloumnsApi);
                 }
             });
         }
