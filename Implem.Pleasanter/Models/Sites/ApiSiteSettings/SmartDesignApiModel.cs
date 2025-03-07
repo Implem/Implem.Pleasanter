@@ -33,14 +33,17 @@ namespace Implem.Pleasanter.Models.ApiSiteSettings
 
         public SmartDesignApiModel(Context context, SiteSettings ss)
         {
+            var editorColumnList = ss.EditorColumnHash.Get("General");
             DefaultColumns = ss.GetDefaultColumns(context);
-            SetSmartDesignSiteSettings(context, ss);
-            SmartDesignParamHash = GetSmartDesignParam(context, ss);
+            SetSmartDesignSiteSettings(context, ss, editorColumnList);
+            SmartDesignParamHash = GetSmartDesignParam(context, ss, editorColumnList);
         }
 
-        public Dictionary<string, DragParamsApiSettingModel> GetSmartDesignParam(Context context, SiteSettings ss)
+        public Dictionary<string, DragParamsApiSettingModel> GetSmartDesignParam(
+            Context context,
+            SiteSettings ss,
+            List<string> editorColumnList)
         {
-            var editorColumnList = ss.GetEditorColumnNames();
             var defaultColumns = ss.GetDefaultColumns(context);
             var smartDesignParamHash = new Dictionary<string, DragParamsApiSettingModel>();
             SetColumnsParams(
@@ -69,8 +72,15 @@ namespace Implem.Pleasanter.Models.ApiSiteSettings
             Dictionary<string,DragParamsApiSettingModel> smartDesignParamHash,
             List<string> editorColumnList)
         {
+            var notInEditorColumnList = ss.GetEditorColumnNames()
+                .Where(o => !editorColumnList.Contains(o))
+                .ToList(); ;
             ss.Columns.ForEach(column =>
             {
+                if (notInEditorColumnList.Contains(column.ColumnName))
+                {
+                    return;
+                }
                 var dragParamsApiSettingModel = new DragParamsApiSettingModel();
                 dragParamsApiSettingModel.SetType(column);
                 dragParamsApiSettingModel.SetCategory(column);
@@ -78,6 +88,7 @@ namespace Implem.Pleasanter.Models.ApiSiteSettings
                     ss,
                     column,
                     editorColumnList,
+                    notInEditorColumnList,
                     dragParamsApiSettingModel);
                 smartDesignParamHash.Add(column.ColumnName, dragParamsApiSettingModel);
             });
@@ -87,52 +98,46 @@ namespace Implem.Pleasanter.Models.ApiSiteSettings
             SiteSettings ss,
             Libraries.Settings.Column column,
             List<string> editorColumnList,
+            List<string> notInEditorColumnList,
             DragParamsApiSettingModel dragParamsApiSettingModel)
         {
-            if (!column.GridColumn)
+            if (editorColumnList.Contains(column.ColumnName) || !notInEditorColumnList.Contains(column.ColumnName))
+            {
+                dragParamsApiSettingModel.State.Grid = GetStateValue(column.GridColumn, ss.GridColumns, column.ColumnName);
+                dragParamsApiSettingModel.State.Edit = GetStateValue(column.EditorColumn, editorColumnList, column.ColumnName);
+                dragParamsApiSettingModel.State.Filter = GetStateValue(column.FilterColumn, ss.FilterColumns, column.ColumnName);
+            }
+            else
             {
                 dragParamsApiSettingModel.State.Grid = -1;
-            }
-            else if (!ss.GridColumns.Contains(column.ColumnName) && column.GridColumn)
-            {
-                dragParamsApiSettingModel.State.Grid = 0;
-            }
-            else if (ss.GridColumns.Contains(column.ColumnName) && column.GridColumn)
-            {
-                dragParamsApiSettingModel.State.Grid = 1;
-            }
-
-            if (!column.EditorColumn)
-            {
                 dragParamsApiSettingModel.State.Edit = -1;
-            }
-            else if (!editorColumnList.Contains(column.ColumnName) && column.EditorColumn)
-            {
-                dragParamsApiSettingModel.State.Edit = 0;
-            }
-            else if (editorColumnList.Contains(column.ColumnName) && column.EditorColumn)
-            {
-                dragParamsApiSettingModel.State.Edit = 1;
-            }
-
-            if (!column.FilterColumn)
-            {
                 dragParamsApiSettingModel.State.Filter = -1;
-            }
-            else if (!ss.FilterColumns.Contains(column.ColumnName) && column.FilterColumn)
-            {
-                dragParamsApiSettingModel.State.Filter = 0;
-            }
-            else if (ss.FilterColumns.Contains(column.ColumnName) && column.FilterColumn)
-            {
-                dragParamsApiSettingModel.State.Filter = 1;
             }
             return dragParamsApiSettingModel;
         }
 
-        public void SetSmartDesignSiteSettings(Context context, SiteSettings ss)
+        private int GetStateValue(bool columnFlag, List<string> columnList, string columnName)
         {
-            var editorColumnList = ss.EditorColumnHash.Get("General");
+            if (!columnFlag)
+            {
+                return -1;
+            }
+            else if (!columnList.Contains(columnName) && columnFlag)
+            {
+                return 0;
+            }
+            else if (columnList.Contains(columnName) && columnFlag)
+            {
+                return 1;
+            }
+            return -1;
+        }
+
+        public void SetSmartDesignSiteSettings(
+            Context context,
+            SiteSettings ss,
+            List<string> editorColumnList)
+        {
             if (ss.EditorColumnHash != null) SiteSettings.EditorColumnHash = ss.EditorColumnHash;
             if (ss.GridColumns != null) SiteSettings.GridColumns = ss.GridColumns;
             if (ss.FilterColumns != null) SiteSettings.FilterColumns = ss.FilterColumns;
