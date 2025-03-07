@@ -7187,6 +7187,13 @@ namespace Implem.Pleasanter.Models
                 {
                     return Messages.ResponseNotContainKeyColumn(context: context).ToJson();
                 }
+                columnHash
+                    .Where(pair => pair.Value.Column.ColumnName.StartsWith("Date") || pair.Value.Column.ColumnName == "StartTime" || pair.Value.Column.ColumnName == "CompletionTime")
+                    .ForEach(pair =>
+                        pair.Value.Column.RecordingFormat = GetImportDateFormat(
+                            context: context,
+                            csv: csv,
+                            index: pair.Key));
                 var csvRows = csv.Rows
                     .Select((o, i) => new { Index = i, Row = o })
                     .ToDictionary(o => o.Index, o => o.Row);
@@ -7538,6 +7545,13 @@ namespace Implem.Pleasanter.Models
                     statusCode: 500,
                     message: Messages.NotContainKeyColumn(context: context).Text));
                 }
+                columnHash
+                    .Where(pair => pair.Value.Column.ColumnName.StartsWith("Date") || pair.Value.Column.ColumnName == "StartTime" || pair.Value.Column.ColumnName == "CompletionTime")
+                    .ForEach(pair =>
+                        pair.Value.Column.RecordingFormat = GetImportDateFormat(
+                            context: context,
+                            csv: csv,
+                            index: pair.Key));
                 var csvRows = csv.Rows
                     .Select((o, i) => new { Index = i, Row = o })
                     .ToDictionary(o => o.Index, o => o.Row);
@@ -7848,6 +7862,13 @@ namespace Implem.Pleasanter.Models
                 {
                     throw NewProcessingFailureException(message: Messages.NotContainKeyColumn(context: context));
                 }
+                columnHash
+                    .Where(pair => pair.Value.Column.ColumnName.StartsWith("Date") || pair.Value.Column.ColumnName == "StartTime" || pair.Value.Column.ColumnName == "CompletionTime")
+                    .ForEach(pair =>
+                        pair.Value.Column.RecordingFormat = GetImportDateFormat(
+                            context: context,
+                            csv: csv,
+                            index: pair.Key));
                 var csvRows = csv.Rows
                     .Select((o, i) => new { Index = i, Row = o })
                     .ToDictionary(o => o.Index, o => o.Row);
@@ -8048,6 +8069,34 @@ namespace Implem.Pleasanter.Models
             {
                 throw NewProcessingFailureException(message: Messages.FileNotFound(context: context));
             }
+        }
+
+        private static string GetImportDateFormat(
+            Context context,
+            Csv csv,
+            int index)
+        {
+            var formats = new[] { "Ymdahms", "Ymdahm", "Ymda" }
+                .Select(v => Displays.Get(
+                    context: context,
+                    id: v + "Format"))
+                .ToArray();
+            foreach (var data in csv.Rows)
+            {
+                foreach (var format in formats)
+                {
+                    if (DateTime.TryParseExact(
+                        data[index],
+                        format,
+                        context.CultureInfo(),
+                        System.Globalization.DateTimeStyles.None,
+                        out var _))
+                    {
+                        return format;
+                    }
+                }
+            }
+            return null;
         }
 
         private static Exception NewProcessingFailureException(Message message)
