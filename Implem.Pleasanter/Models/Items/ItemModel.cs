@@ -808,7 +808,6 @@ namespace Implem.Pleasanter.Models
                 initSiteSettings: true,
                 setSiteIntegration: true,
                 setAllChoices: true);
-            ViewModes.Set(context: context, siteId: Site.SiteId);
             switch (Site.ReferenceType)
             {
                 case "Issues":
