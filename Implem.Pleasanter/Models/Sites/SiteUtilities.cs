@@ -2459,22 +2459,12 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public static ContentResultInheritance UpsertSiteSettingsByApi(
+        public static string UpdateSmartDesign(
             Context context,
             SiteSettings ss,
-            SiteModel siteModel)
+            SiteModel siteModel,
+            string jsonBody)
         {
-            if (!Mime.ValidateOnApi(contentType: context.ContentType))
-            {
-                return ApiResults.BadRequest(context: context);
-            }
-            var api = context.RequestDataString.Deserialize<Api>();
-            if (api == null)
-            {
-                return ApiResults.Error(
-                 context: context,
-                 errorData: new ErrorData(type: Error.Types.InvalidJsonData));
-            }
             var invalid = SiteValidators.OnUpdating(
                context: context,
                ss: ss,
