@@ -2879,7 +2879,11 @@ namespace Implem.Pleasanter.Models
                             onClick: $"$p.cancelNewRow($(this));",
                             icon: "ui-icon-close",
                             action: "CancelNewRow",
-                            method: "post"));
+                            method: "post")
+                        .Hidden(
+                            controlId: $"{ss.ReferenceType}_NewGrid_{ss.SiteId}_{newRowId}",
+                            value: "1",
+                            alwaysSend: true));
                     columns.ForEach(column =>
                     {
                         if (!column.Joined
