@@ -44,7 +44,6 @@ namespace Implem.Pleasanter.Models.ApiSiteSettings
             SiteSettings ss,
             List<string> editorColumnList)
         {
-            var defaultColumns = ss.GetDefaultColumns(context);
             var smartDesignParamHash = new Dictionary<string, DragParamsApiSettingModel>();
             SetColumnsParams(
                 ss,
