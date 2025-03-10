@@ -41,5 +41,6 @@ namespace Implem.IRds
         string UpsertBinary { get; }
         string GetBinaryHash(string algorithm);
         string MigrateDatabaseSelectFrom(string tableName);
+        string GetChildSiteIdList { get; }
     }
 }
