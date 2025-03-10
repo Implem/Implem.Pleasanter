@@ -367,6 +367,18 @@ namespace Implem.Pleasanter.Controllers
             return Content(json);
         }
 
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult UpdateSmartDesign(long id = 0)
+        {
+            var jsonBody = default(string);
+            var context = new Context();
+            using (var reader = new StreamReader(Request.Body)) jsonBody = reader.ReadToEnd();
+            var log = new SysLogModel(context: context);
+            var json = new ItemModel(context: context, referenceId: id).UpdateSmartDesign(context: context, jsonBody: jsonBody);
+            log.Finish(context: context, responseSize: json.Length);
+            return Content(json);
+        }
+
         [AcceptVerbs(HttpVerbs.Get, HttpVerbs.Post)]
         public ActionResult Edit(long id)
         {

@@ -21,6 +21,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Text.Json;
 using System.Web;
 using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
 namespace Implem.Pleasanter.Models
@@ -2458,22 +2459,12 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public static ContentResultInheritance UpsertSiteSettingsByApi(
+        public static string UpdateSmartDesign(
             Context context,
             SiteSettings ss,
-            SiteModel siteModel)
+            SiteModel siteModel,
+            string jsonBody)
         {
-            if (!Mime.ValidateOnApi(contentType: context.ContentType))
-            {
-                return ApiResults.BadRequest(context: context);
-            }
-            var api = context.RequestDataString.Deserialize<Api>();
-            if (api == null)
-            {
-                return ApiResults.Error(
-                 context: context,
-                 errorData: new ErrorData(type: Error.Types.InvalidJsonData));
-            }
             var invalid = SiteValidators.OnUpdating(
                context: context,
                ss: ss,
@@ -2481,31 +2472,13 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default:
-                    return ApiResults.Error(
-                      context: context,
-                      errorData: invalid);
+                default: return invalid.MessageJson(context: context);
             }
             if (siteModel.AccessStatus != Databases.AccessStatuses.Selected)
             {
-                return ApiResults.Error(
-                  context: context,
-                  errorData: invalid);
+                return Messages.ResponseDeleteConflicts(context: context).ToJson();
             }
-            var siteSettingsApiModel = context.RequestDataString.Deserialize<ApiSiteSettings.SiteSettingsApiModel>();
-            var apiSiteSettingValidator = ApiSiteSettingValidators.OnChageSiteSettingByApi(
-                referenceType: siteModel.ReferenceType,
-                ss: ss,
-                siteSettingsModel: siteSettingsApiModel,
-                context: context);
-            switch (apiSiteSettingValidator.Type)
-            {
-                case Error.Types.None: break;
-                default:
-                    return ApiResults.Error(
-                      context: context,
-                      errorData: apiSiteSettingValidator);
-            }
+            var siteSettingsApiModel = jsonBody.Deserialize<ApiSiteSettings.SiteSettingsApiModel>();
             if (siteSettingsApiModel.Columns != null)
             {
                 //更新をかける前に新規で追加された項目か判定する
@@ -2549,17 +2522,43 @@ namespace Implem.Pleasanter.Models
             switch (errorData.Type)
             {
                 case Error.Types.None:
-                    return ApiResults.Success(
-                        id: siteModel.SiteId,
-                        limitPerDate: context.ContractSettings.ApiLimit(),
-                        limitRemaining: context.ContractSettings.ApiLimit() - ss.ApiCount,
-                        message: Displays.Updated(
+                    string referrer = context.UrlReferrer.Substring(context.UrlReferrer.LastIndexOf('/') + 1).ToLower();
+                    switch (referrer)
+                    {
+                        case "index":
+                            return new ResponseCollection(context: context)
+                                .Response("id", siteModel.SiteId.ToString())
+                                .SetMemory("formChanged", false)
+                                .Href(Locations.Index(
+                                    context: context,
+                                    controller: context.Controller))
+                                .ToJson();
+                        case "new":
+                            //ココだけうまくいかない
+                            return new ResponseCollection(context: context)
+                                .Response("id", siteModel.SiteId.ToString())
+                                .SetMemory("formChanged", false)
+                                .Href(Locations.New(
                             context: context,
-                            data: siteModel.Title.MessageDisplay(context: context)));
+                                    controller: context.Controller))
+                                .ToJson();
+                        case "edit":
                 default:
-                    return ApiResults.Error(
+                            return new ResponseCollection(context: context)
+                                .Response("id", siteModel.SiteId.ToString())
+                                .SetMemory("formChanged", false)
+                                .Href(Locations.Index(
+                                    context: context,
+                                    controller: context.Controller))
+                                .ToJson();
+                    }
+                case Error.Types.UpdateConflicts:
+                    return Messages.ResponseUpdateConflicts(
                       context: context,
-                      errorData: errorData);
+                        data: siteModel.Updator.Name)
+                            .ToJson();
+                default:
+                    return errorData.MessageJson(context: context);
             }
         }
 
