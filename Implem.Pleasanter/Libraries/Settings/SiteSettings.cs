@@ -1880,10 +1880,9 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public List<string> GetDefaultColumns(Context context)
         {
-            List<string> defaultGridColumns = DefaultGridColumns(context);
-            List<string> defaultEditorColumns = DefaultEditorColumns(context);
-            defaultGridColumns.AddRange(defaultEditorColumns);
-            var defaultColumns = defaultGridColumns
+            List<string> defaultColumns = DefaultGridColumns(context)
+                .Concat(DefaultEditorColumns(context))
+                .Concat(DefaultFilterColumns().Where(o => o == "Locked"))
                 .Distinct()
                 .ToList();
             return defaultColumns;
