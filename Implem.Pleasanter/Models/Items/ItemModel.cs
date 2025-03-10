@@ -822,6 +822,29 @@ namespace Implem.Pleasanter.Models
                     return Messages.ResponseNotFound(context: context).ToJson();
             }
         }
+
+        public string UpdateSmartDesign(Context context, string jsonBody, string referenceType = null)
+        {
+            SetSite(
+                context: context,
+                initSiteSettings: true);
+            switch (referenceType ?? Site.ReferenceType)
+            {
+                case "Sites":
+                case "Issues":
+                case "Results":
+                case "Wikis":
+                case "Dashboards":
+                    return SiteUtilities.UpdateSmartDesign(
+                        context: context,
+                        ss: Site.SiteSettings,
+                        siteModel: Site,
+                        jsonBody: jsonBody);
+                default:
+                    return Messages.ResponseNotFound(context: context).ToJson();
+            }
+        }
+
         public string Analy(Context context)
         {
             SetSite(
@@ -2356,38 +2379,6 @@ namespace Implem.Pleasanter.Models
                 case "Wikis":
                 case "Dashboards":
                     return SiteUtilities.UpdateSiteSettingsByApi(
-                        context: context,
-                        ss: Site.SiteSettings,
-                        siteModel: Site);
-                default:
-                    return ApiResults.Get(ApiResponses.NotFound(context: context));
-            }
-        }
-
-        public ContentResultInheritance UpsertSiteSettingsByApi(Context context, string referenceType = null)
-        {
-            SetSite(
-                context: context,
-                initSiteSettings: true);
-            if (!Site.WithinApiLimits(context: context))
-            {
-                return ApiResults.Get(ApiResponses.OverLimitApi(
-                    context: context,
-                    siteId: Site.SiteId,
-                    limitPerSite: context.ContractSettings.ApiLimit()));
-            }
-            if (Site.SiteId == 0)
-            {
-                return ApiResults.Get(ApiResponses.NotFound(context: context));
-            }
-            switch (referenceType ?? Site.ReferenceType)
-            {
-                case "Sites":
-                case "Issues":
-                case "Results":
-                case "Wikis":
-                case "Dashboards":
-                    return SiteUtilities.UpsertSiteSettingsByApi(
                         context: context,
                         ss: Site.SiteSettings,
                         siteModel: Site);
