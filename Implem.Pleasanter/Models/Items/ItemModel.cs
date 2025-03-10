@@ -2514,10 +2514,8 @@ namespace Implem.Pleasanter.Models
             return new ResponseCollection(context: context).Html("#MoveTargets", new HtmlBuilder()
                 .OptionCollection(
                     context: context,
-                    optionCollection: Site.SiteSettings.MoveTargetsSelectableOptions(
-                        context: context,
-                        enabled: true)))
-                            .ToJson();
+                    optionCollection: Site.SiteSettings.MoveTargetsSelectableOptions(context: context)))
+                .ToJson();
         }
 
         public string Move(Context context)
