@@ -2535,6 +2535,31 @@ namespace Implem.Pleasanter.Models
             siteSetting.FilterColumns = columnsApiSiteSetting;
         }
 
+        public void UpsertSectionsByApi(
+           SiteSettings siteSetting,
+           int? sectionLatestId,
+           List<ApiSiteSettings.SectionApiSettingModel> sectionsApiSiteSetting)
+        {
+            if (sectionLatestId != 0)
+            {
+                siteSetting.SectionLatestId = sectionLatestId;
+            }
+            if (sectionsApiSiteSetting != null)
+            {
+                if (siteSetting.Sections == null)
+                {
+                    siteSetting.Sections = new List<Libraries.Settings.Section>();
+                }
+                sectionsApiSiteSetting.ForEach(section =>
+                {
+                    if (section != null)
+                    {
+                        siteSetting.Sections.Add(section.GetRecordingData(siteSetting));
+                    }
+                });
+            }
+        }
+
         public void UpsertLinksByApi(
            SiteSettings siteSetting,
            List<ApiSiteSettings.LinkApiSettingModel> linksApiSiteSetting)

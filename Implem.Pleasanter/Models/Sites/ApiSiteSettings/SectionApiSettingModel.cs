@@ -16,5 +16,14 @@ namespace Implem.Pleasanter.Models.ApiSiteSettings
         public SectionApiSettingModel()
         {
         }
+        public Section GetRecordingData(SiteSettings ss)
+        {
+            var section = new Section();
+            section.Id = Id;
+            section.LabelText = LabelText;
+            section.AllowExpand = AllowExpand;
+            section.Expand = Expand ?? true;
+            return section;
+        }
     }
 }

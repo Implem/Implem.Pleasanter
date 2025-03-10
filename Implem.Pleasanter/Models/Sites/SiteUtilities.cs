@@ -2481,41 +2481,36 @@ namespace Implem.Pleasanter.Models
             var siteSettingsApiModel = jsonBody.Deserialize<ApiSiteSettings.SiteSettingsApiModel>();
             if (siteSettingsApiModel.Columns != null)
             {
-                //更新をかける前に新規で追加された項目か判定する
                 siteModel.UpsertColumnsByApi(
                     context: context,
                     siteSetting: ss,
                     columnsApiSiteSetting: siteSettingsApiModel.Columns);
             }
-            //EditorColumnHash
             if(siteSettingsApiModel.EditorColumnHash != null)
             {
                 siteModel.UpsertEditorColumnHashByApi(
                     siteSetting: ss,
                     columnsApiSiteSetting: siteSettingsApiModel.EditorColumnHash);
             }
-            //GridColumns
             if (siteSettingsApiModel.GridColumns != null)
             {
                 siteModel.UpsertGridColumnsByApi(
                     siteSetting: ss,
                     columnsApiSiteSetting: siteSettingsApiModel.GridColumns);
             }
-            //FilterColumns
             if (siteSettingsApiModel.FilterColumns != null)
             {
                 siteModel.UpsertFilterColumnsByApi(
                     siteSetting: ss,
                     columnsApiSiteSetting: siteSettingsApiModel.FilterColumns);
             }
-            //メモ
-            //if (siteSettingsApiModel.Links != null)
-            //{
-            //    //ss.Links
-            //    siteModel.UpsertLinksByApi(
-            //        siteSetting: ss,
-            //        linksApiSiteSetting: siteSettingsApiModel.Links);
-            //}
+            if (siteSettingsApiModel.Sections != null)
+            {
+                siteModel.UpsertSectionsByApi(
+                    siteSetting: ss,
+                    sectionLatestId: siteSettingsApiModel.SectionLatestId,
+                    sectionsApiSiteSetting: siteSettingsApiModel.Sections);
+            }
             var errorData = siteModel.Update(
                context: context,
                ss: ss);
@@ -2534,7 +2529,7 @@ namespace Implem.Pleasanter.Models
                                     controller: context.Controller))
                                 .ToJson();
                         case "new":
-                            //ココだけうまくいかない
+                            //TODO::ココだけうまくいかない
                             return new ResponseCollection(context: context)
                                 .Response("id", siteModel.SiteId.ToString())
                                 .SetMemory("formChanged", false)
