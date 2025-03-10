@@ -2466,9 +2466,9 @@ namespace Implem.Pleasanter.Models
             string jsonBody)
         {
             var invalid = SiteValidators.OnUpdating(
-               context: context,
-               ss: ss,
-               siteModel: siteModel);
+                context: context,
+                ss: ss,
+                siteModel: siteModel);
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
@@ -2534,11 +2534,11 @@ namespace Implem.Pleasanter.Models
                                 .Response("id", siteModel.SiteId.ToString())
                                 .SetMemory("formChanged", false)
                                 .Href(Locations.New(
-                            context: context,
+                                    context: context,
                                     controller: context.Controller))
                                 .ToJson();
                         case "edit":
-                default:
+                        default:
                             return new ResponseCollection(context: context)
                                 .Response("id", siteModel.SiteId.ToString())
                                 .SetMemory("formChanged", false)
@@ -2549,7 +2549,7 @@ namespace Implem.Pleasanter.Models
                     }
                 case Error.Types.UpdateConflicts:
                     return Messages.ResponseUpdateConflicts(
-                      context: context,
+                        context: context,
                         data: siteModel.Updator.Name)
                             .ToJson();
                 default:

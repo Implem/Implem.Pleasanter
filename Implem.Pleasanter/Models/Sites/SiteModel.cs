@@ -2544,19 +2544,36 @@ namespace Implem.Pleasanter.Models
             {
                 siteSetting.SectionLatestId = sectionLatestId;
             }
+            // 現在のセクションのIDをリストに追加
+            List<int> deleteSelected = new List<int>();
             if (sectionsApiSiteSetting != null)
             {
-                if (siteSetting.Sections == null)
-                {
-                    siteSetting.Sections = new List<Libraries.Settings.Section>();
-                }
-                sectionsApiSiteSetting.ForEach(section =>
-                {
-                    if (section != null)
+                var currentSectionIds = siteSetting.Sections.Select(o => o.Id).ToList();
+                sectionsApiSiteSetting.ForEach(section => {
+                    var currentSection = siteSetting.Sections.FirstOrDefault(o =>
+                     o.Id == section.Id);
+                    //存在する場合
+                    if (currentSection != null)
+                    {
+                        currentSection.Update(
+                            id: section.Id,
+                            labelText: section.LabelText,
+                            allowExpand : section.AllowExpand,
+                            expand : section.Expand,
+                            hide: section.Hide);
+                    }
+                    else
                     {
                         siteSetting.Sections.Add(section.GetRecordingData(siteSetting));
                     }
+                    // 現在のセクションIDリストから更新されたセクションIDを削除
+                    currentSectionIds.Remove(section.Id);
                 });
+                deleteSelected.AddRange(currentSectionIds);
+                if (deleteSelected.Count() != 0)
+                {
+                    siteSetting.Sections.RemoveAll(section => deleteSelected.Contains(section.Id));
+                }
             }
         }
 
