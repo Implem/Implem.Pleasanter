@@ -2544,14 +2544,10 @@ namespace Implem.Pleasanter.Models
             {
                 siteSetting.SectionLatestId = sectionLatestId;
             }
-            //TODO
-            // 現在のセクションのIDをリストに追加
-            //SiteSettings.SectionsとsectionsApiSiteSettingsを比較してSectionsに無いものをdeleteSectionsに格納
             List<int> deleteSections = new List<int>();
             if (sectionsApiSiteSetting != null)
             {
                 var apiSectionIds = sectionsApiSiteSetting.Select(section => section.Id).ToList();
-                // SiteSettings.Sections の各セクションについて、sectionsApiSiteSetting に存在しないものを deleteSections に追加
                 deleteSections = siteSetting.Sections?
                     .Where(section => !apiSectionIds.Contains(section.Id))
                     .Select(section => section.Id)
@@ -2560,7 +2556,6 @@ namespace Implem.Pleasanter.Models
                 sectionsApiSiteSetting.ForEach(section => {
                     var currentSection = siteSetting.Sections?.FirstOrDefault(o =>
                      o.Id == section.Id);
-                    //存在する場合
                     if (currentSection != null)
                     {
                         currentSection.Update(
@@ -2578,9 +2573,7 @@ namespace Implem.Pleasanter.Models
                         }
                         siteSetting.Sections.Add(section.GetRecordingData(siteSetting));
                     }
-                    // 現在のセクションIDリストから更新されたセクションIDを削除
                 });
-                //deleteSections.AddRange(currentSectionIds);
                 if(deleteSections != null)
                 {
                     if (deleteSections.Count() != 0)
