@@ -550,7 +550,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         {
                             "\"" + orderByColumn.ColumnName + "\""
                         },
-                        _operator: "<'{0}'".Params(
+                        _operator: "<'{0:yyyy/M/d H:m:s.fff}'".Params(
                             DateTime.Now.ToLocal(context: context).Date.AddDays(Range)))
                     .Add(
                         tableName: ss.ReferenceType,
@@ -585,7 +585,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                             {
                                 "\"" + orderByColumn.ColumnName + "\""
                             },
-                            _operator: "<'{0}'".Params(
+                            _operator: "<'{0:yyyy/M/d H:m:s.fff}'".Params(
                                 DateTime.Now.ToLocal(context: context).Date),
                             _using: SendCompletedInPast == true));
             var orderBy = new SqlOrderByCollection()

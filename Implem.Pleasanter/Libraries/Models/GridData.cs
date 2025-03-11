@@ -1,10 +1,12 @@
 ﻿using Implem.Libraries.DataSources.Interfaces;
 using Implem.Libraries.DataSources.SqlServer;
+using Implem.Libraries.Exceptions;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Interfaces;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
@@ -127,7 +129,7 @@ namespace Implem.Pleasanter.Libraries.Models
                     transactional: false,
                     statements: statements.ToArray());
             }
-            catch (System.Exception)
+            catch (System.Exception e)
             {
                 Views.SetSession(
                     context: context,
@@ -136,7 +138,9 @@ namespace Implem.Pleasanter.Libraries.Models
                     setSession: true,
                     key: "View",
                     useUsersView: ss.SaveViewType == SiteSettings.SaveViewTypes.User);
-                throw;
+                var message = Messages.CanNotGridSort(context: context);
+                context.Messages.Add(message);
+                throw new CanNotGridSortException(message.Text, e);
             }
             DataRows = dataSet.Tables["Main"].AsEnumerable();
             TotalCount = Rds.Count(dataSet);

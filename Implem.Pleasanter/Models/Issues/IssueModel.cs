@@ -3944,7 +3944,7 @@ namespace Implem.Pleasanter.Models
             {
                 return false;
             }
-            if (view.Overdue == true && CompletionTime.Overdue())
+            if (view.Overdue == true && !CompletionTime.Overdue())
             {
                 return false;
             }

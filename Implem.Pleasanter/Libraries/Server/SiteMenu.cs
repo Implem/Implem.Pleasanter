@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Text.Json;
 namespace Implem.Pleasanter.Libraries.Server
 {
     public class SiteMenu : Dictionary<long, SiteMenuElement>
@@ -115,7 +116,20 @@ namespace Implem.Pleasanter.Libraries.Server
 
         public IEnumerable<SiteCondition> SiteConditions(Context context, SiteSettings ss)
         {
-            var hash = ChildHash(context: context, ss: ss);
+            var sitesOfTenantCaches = SiteInfo.TenantCaches.Get(context.TenantId).Sites;
+            if (Parameters.Site.DisableSiteConditions) {
+                return sitesOfTenantCaches.Select(o =>
+                    new SiteCondition(
+                        siteId: o.Key,
+                        itemCount: 0,
+                        overdueCount: 0,
+                        updatedTime: DateTime.MinValue));
+            }
+            var childHash = ChildHash(context: context, ss: ss);
+            var enabledChildHash = childHash.Where(o =>
+                Jsons.Deserialize<SiteSettings>(
+                    sitesOfTenantCaches[o.Key].String("SiteSettings"))
+                ?.DisableSiteConditions != true);
             var sites = Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectSites(
@@ -124,7 +138,7 @@ namespace Implem.Pleasanter.Libraries.Server
                         .ReferenceType(),
                     where: Rds.SitesWhere()
                         .TenantId(context.TenantId)
-                        .SiteId_In(hash.SelectMany(o => o.Value))
+                        .SiteId_In(enabledChildHash.SelectMany(o => o.Value))
                         .ReferenceType("Sites", _operator: "<>")
                         .Add(
                             raw: Def.Sql.CanReadSites,
@@ -160,7 +174,7 @@ namespace Implem.Pleasanter.Libraries.Server
                         groupBy: Rds.IssuesGroupBy()
                             .SiteId())
                 });
-            return hash.Select(o => SiteCondition(dataSet, o.Key, o.Value)).ToArray();
+            return childHash.Select(o => SiteCondition(dataSet, o.Key, o.Value)).ToArray();
         }
 
         private SiteCondition SiteCondition(DataSet dataSet, long siteId, List<long> children)

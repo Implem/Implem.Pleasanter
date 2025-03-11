@@ -1086,6 +1086,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             bool debug,
             bool onTesting = false)
         {
+            if (ss?.ServerScriptsAllDisabled == true)
+            {
+                return null;
+            }
             if (!(Parameters.Script.ServerScript != false
                 && context.ContractSettings.ServerScript != false
                 && context.ServerScriptDisabled == false))
@@ -1229,6 +1233,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             Func<ServerScript, bool> where,
             ServerScriptConditions condition)
         {
+            if (ss?.ServerScriptsAllDisabled == true)
+            {
+                return null;
+            }
             if (!(Parameters.Script.ServerScript != false
                 && context.ContractSettings.ServerScript != false
                 && context.ServerScriptDisabled == false))
