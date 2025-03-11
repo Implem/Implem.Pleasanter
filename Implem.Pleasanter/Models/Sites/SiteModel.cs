@@ -2544,13 +2544,21 @@ namespace Implem.Pleasanter.Models
             {
                 siteSetting.SectionLatestId = sectionLatestId;
             }
+            //TODO
             // 現在のセクションのIDをリストに追加
-            List<int> deleteSelected = new List<int>();
+            //SiteSettings.SectionsとsectionsApiSiteSettingsを比較してSectionsに無いものをdeleteSectionsに格納
+            List<int> deleteSections = new List<int>();
             if (sectionsApiSiteSetting != null)
             {
-                var currentSectionIds = siteSetting.Sections.Select(o => o.Id).ToList();
+                var apiSectionIds = sectionsApiSiteSetting.Select(section => section.Id).ToList();
+                // SiteSettings.Sections の各セクションについて、sectionsApiSiteSetting に存在しないものを deleteSections に追加
+                deleteSections = siteSetting.Sections?
+                    .Where(section => !apiSectionIds.Contains(section.Id))
+                    .Select(section => section.Id)
+                    .ToList();
+                var currentSectionIds = siteSetting.Sections?.Select(o => o.Id).ToList();
                 sectionsApiSiteSetting.ForEach(section => {
-                    var currentSection = siteSetting.Sections.FirstOrDefault(o =>
+                    var currentSection = siteSetting.Sections?.FirstOrDefault(o =>
                      o.Id == section.Id);
                     //存在する場合
                     if (currentSection != null)
@@ -2564,15 +2572,21 @@ namespace Implem.Pleasanter.Models
                     }
                     else
                     {
+                        if (siteSetting.Sections == null)
+                        {
+                            siteSetting.Sections = new List<Section>(); // 新しいリストを作成
+                        }
                         siteSetting.Sections.Add(section.GetRecordingData(siteSetting));
                     }
                     // 現在のセクションIDリストから更新されたセクションIDを削除
-                    currentSectionIds.Remove(section.Id);
                 });
-                deleteSelected.AddRange(currentSectionIds);
-                if (deleteSelected.Count() != 0)
+                //deleteSections.AddRange(currentSectionIds);
+                if(deleteSections != null)
                 {
-                    siteSetting.Sections.RemoveAll(section => deleteSelected.Contains(section.Id));
+                    if (deleteSections.Count() != 0)
+                    {
+                        siteSetting.Sections.RemoveAll(section => deleteSections.Contains(section.Id));
+                    }
                 }
             }
         }

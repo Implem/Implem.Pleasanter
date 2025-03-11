@@ -2529,7 +2529,6 @@ namespace Implem.Pleasanter.Models
                                     controller: context.Controller))
                                 .ToJson();
                         case "new":
-                            //TODO::ココだけうまくいかない
                             return new ResponseCollection(context: context)
                                 .Response("id", siteModel.SiteId.ToString())
                                 .SetMemory("formChanged", false)
