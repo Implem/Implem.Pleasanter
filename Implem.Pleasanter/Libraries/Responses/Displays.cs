@@ -359,6 +359,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string AllDisabled(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AllDisabled",
+                data: data);
+        }
+
         public static string AllowDeleteAttachments(
             Context context,
             params string[] data)
@@ -1636,6 +1646,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "CanNotDisabled",
+                data: data);
+        }
+
+        public static string CanNotGridSort(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "CanNotGridSort",
                 data: data);
         }
 
@@ -3386,6 +3406,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "DisableLinkToEdit",
+                data: data);
+        }
+
+        public static string DisableSiteConditions(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "DisableSiteConditions",
                 data: data);
         }
 

@@ -345,7 +345,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     {
                         new HttpClient(
                             _context: context,
-                            _text: $"*{Prefix}{title}*\n{body}")
+                            _text: body)
                         {
                             MethodType = MethodType,
                             Encoding = Encoding,
