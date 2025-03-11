@@ -2,7 +2,7 @@
     "TopOrderBy": 0,
     "DisableSiteConditions": false,
     "SimpleMode": {
-        "Enabled": true,
+        "Enabled": false,
         "Default": false,
         "DisplaySwitch": true,
         "Tabs": [
