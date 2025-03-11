@@ -13,8 +13,15 @@ $p.apply = function () {
                 $p.send(ui.newPanel);
             }
         },
-        active: $('#EditorTabsContainer').attr("tab-active")
-    }).addClass('applied');
+        active: $('#EditorTabsContainer').attr("tab-active"),
+        items: "> ul > li:not(.ignore-tab)"
+    }).addClass('applied')
+    .each(function () {
+        if ($(this).attr('id') === 'EditorTabsContainer'
+            && $('#SimpleModeEnabled').length > 0) {
+            SimpleMode.init();
+        }
+    });
     $('.button-icon:not(.applied)').each(function () {
         var $control = $(this);
         var icon = $control.attr('data-icon');
@@ -215,3 +222,251 @@ function replaceMenu() {
             .css('left', $control.offset().left);
     }
 }
+
+
+
+// シンプルモード管理オブジェクト（即時実行関数式でカプセル化）
+const SimpleMode = (function () {
+    'use strict';
+
+    // プライベート変数
+    // 設定値（初期化時に設定）
+    let _enabled = false;
+    let _default = false;
+    let _displaySwitch = false;
+    let _simpleModeTabNames = [];
+
+    // 処理中フラグ（再帰呼び出し防止用）
+    let _processing = false;
+
+    // 初期化済みフラグ
+    let _initialized = false;
+
+    // シンプルモード切替中フラグ - onbeforeunloadイベント制御用
+    let _switchingMode = false;
+
+    // 元のonbeforeunloadイベントハンドラを保存するための変数
+    let _originalBeforeUnload = null;
+
+    // タブIDとタブ名のマッピング
+    const _tabMapping = {
+        'General': '#FieldSetGeneral',
+        'Guide': '#GuideEditor',
+        'SiteImageSettingsEditor': '#SiteImageSettingsEditor',
+        'Styles': '#StylesSettingsEditor',
+        'Scripts': '#ScriptsSettingsEditor',
+        'Html': '#HtmlsSettingsEditor',
+        'DashboardParts': '#DashboardPartSettingsEditor',
+        'DataView': '#ViewsSettingsEditor',
+        'Notifications': '#NotificationsSettingsEditor',
+        'Mail': '#MailSettingsEditor',
+        'Publish': '#PublishSettingsEditor',
+        'Grid': '#GridSettingsEditor',
+        'Filters': '#FiltersSettingsEditor',
+        'Aggregations': '#AggregationsSettingsEditor',
+        'Editor': '#EditorSettingsEditor',
+        'Links': '#LinksSettingsEditor',
+        'Histories': '#HistoriesSettingsEditor',
+        'Move': '#MoveSettingsEditor',
+        'Summaries': '#SummariesSettingsEditor',
+        'Formulas': '#FormulasSettingsEditor',
+        'Processes': '#ProcessesSettingsEditor',
+        'StatusControls': '#StatusControlsSettingsEditor',
+        'Reminders': '#RemindersSettingsEditor',
+        'Import': '#ImportsSettingsEditor',
+        'Export': '#ExportsSettingsEditor',
+        'Calendar': '#CalendarSettingsEditor',
+        'Crosstab': '#CrosstabSettingsEditor',
+        'Gantt': '#GanttSettingsEditor',
+        'BurnDown': '#BurnDownSettingsEditor',
+        'TimeSeries': '#TimeSeriesSettingsEditor',
+        'Analy': '#AnalySettingsEditor',
+        'Kanban': '#KambanSettingsEditor',
+        'ImageLib': '#ImageLibSettingsEditor',
+        'Search': '#SearchSettingsEditor',
+        'SiteIntegration': '#SiteIntegrationEditor',
+        'ServerScript': '#ServerScriptsSettingsEditor',
+        'SiteAccessControl': '#FieldSetSiteAccessControl',
+        'RecordAccessControl': '#FieldSetRecordAccessControl',
+        'ColumnAccessControl': '#FieldSetColumnAccessControl',
+        'ChangeHistoryList': '#FieldSetHistories'
+    };
+
+    /**
+     * シンプルモードを適用する
+     * @private
+     */
+    const _applySimpleMode = function () {
+        // シンプルモード機能が無効の場合は何もしない
+        if (!_enabled) {
+            $('#SimpleModeToggleContainer').hide();
+            return;
+        }
+
+        // 有効なタブIDが無い場合には処理しない
+        const validTabKeys = Object.keys(_tabMapping);
+        const hasValidTab = _simpleModeTabNames.some(tab => validTabKeys.includes(tab));
+        if (!hasValidTab) {
+            $('#SimpleModeToggleContainer').hide();
+            return;
+        }
+
+        // タブが初期化されていない場合は何もしない
+        if (!$('#EditorTabsContainer').hasClass('ui-tabs')) return;
+
+        // ignore-tab クラスではないタブ要素を取得
+        const $tabs = $('#EditorTabs > li:not(.ignore-tab)');
+        let firstVisibleTabIndex = -1;
+
+        // 現在選択されているタブを取得
+        const currentActiveIndex = $('#EditorTabsContainer').tabs('option', 'active');
+        let currentTabVisible = false;
+
+        // すべてのタブを一旦非表示にする（ignore-tab クラスのタブは除外）
+        $tabs.hide();
+
+        // シンプルモードで表示するタブだけを表示する
+        _simpleModeTabNames.forEach(function (tabName) {
+            const tabSelector = _tabMapping[tabName];
+
+            if (tabSelector) {
+                const $tab = $('#EditorTabs > li > a[href="' + tabSelector + '"]').parent();
+
+                if ($tab.length) {
+                    $tab.show();
+
+                    // 現在選択中のタブが表示対象かどうか確認
+                    if ($tabs.index($tab) === currentActiveIndex) {
+                        currentTabVisible = true;
+                    }
+
+                    // 最初に表示されるタブのインデックスを記録
+                    if (firstVisibleTabIndex === -1) {
+                        // ignore-tabを除外したタブリスト内でのインデックスを取得
+                        firstVisibleTabIndex = $tabs.index($tab);
+                    }
+                }
+            }
+        });
+
+        // 現在表示中のタブが非表示になる場合は、表示対象の最初のタブを選択
+        if (!currentTabVisible && firstVisibleTabIndex !== -1) {
+            $('#EditorTabsContainer').tabs('option', 'active', firstVisibleTabIndex);
+        }
+    };
+
+    /**
+     * ノーマルモードを適用する
+     * @private
+     */
+    const _applyNormalMode = function () {
+        // タブが初期化されていない場合は何もしない
+        if (!$('#EditorTabsContainer').hasClass('ui-tabs')) return;
+
+        // すべてのタブを表示（ignore-tab クラスのタブは除外）
+        $('#EditorTabs > li:not(.ignore-tab)').show();
+    };
+
+    /**
+     * モード切替時のチェックボックス制御を行う
+     * @param {boolean} checked チェックボックスのチェック状態
+     * @private
+     */
+    const _toggleWithSafetyCheck = function (checked) {
+        if (_processing) return;
+
+        _processing = true;
+
+        // チェックボックスを一時的に無効化して状態変更を防止
+        $('#SimpleModeToggle').prop('disabled', true);
+
+        // チェックボックスの状態を保証
+        $('#SimpleModeToggle').prop('checked', checked);
+
+        // モード切替
+        if (checked) {
+            _applySimpleMode();
+        } else {
+            _applyNormalMode();
+        }
+
+        // 処理完了後に再度有効化
+        setTimeout(function () {
+            $('#SimpleModeToggle').prop('disabled', false);
+            _processing = false;
+        }, 300); // 処理時間に余裕を持たせるため300msに延長
+    };
+
+    // パブリックメソッド
+    return {
+        /**
+         * 初期化処理
+         * @public
+         */
+        init: function () {
+            // 既に初期化済みの場合は処理しない
+            if (_initialized) return;
+
+            // 設定値を取得
+            _enabled = $('#SimpleModeEnabled').length > 0 && $('#SimpleModeEnabled').val() === 'true';
+            _default = $('#SimpleModeDefault').length > 0 && $('#SimpleModeDefault').val() === 'true';
+            _displaySwitch = $('#SimpleModeDisplaySwitch').length > 0 && $('#SimpleModeDisplaySwitch').val() === 'true';
+            _simpleModeTabNames = $('#SimpleModeTabs').length > 0 ? $('#SimpleModeTabs').val().split(',') : [];
+
+            // シンプルモード機能が無効の場合は何もしない
+            if (!_enabled) {
+                // シンプルモード切り替えUI自体を非表示
+                $('#SimpleModeToggleContainer').hide();
+                return;
+            }
+
+            // シンプルモード切り替えUIを表示
+            $('#SimpleModeToggleContainer').toggle(_displaySwitch);
+
+            // チェックボックスの初期状態を設定
+            $('#SimpleModeToggle').prop('checked', _default);
+
+            // チェックボックスの変更イベントを登録
+            $('#SimpleModeToggle').on('change', function () {
+                _toggleWithSafetyCheck($(this).prop('checked'));
+            });
+
+            // 初期化完了フラグを設定
+            _initialized = true;
+
+            // デフォルトがシンプルモードならすぐに適用
+            if (_default) {
+                _applySimpleMode();
+            }
+        },
+
+        /**
+         * シンプルモードとノーマルモードを切り替える（パブリックアクセス用）
+         * @param {boolean} enableSimpleMode シンプルモードを有効にするかどうか
+         * @public
+         */
+        toggle: function (enableSimpleMode) {
+            _toggleWithSafetyCheck(enableSimpleMode);
+        },
+
+        /**
+         * シンプルモードを適用する（パブリックアクセス用）
+         * @public
+         */
+        applySimpleMode: function () {
+            _applySimpleMode();
+            // UI状態を同期
+            $('#SimpleModeToggle').prop('checked', true);
+        },
+
+        /**
+         * ノーマルモードを適用する（パブリックアクセス用）
+         * @public
+         */
+        applyNormalMode: function () {
+            _applyNormalMode();
+            // UI状態を同期
+            $('#SimpleModeToggle').prop('checked', false);
+        }
+    };
+})();

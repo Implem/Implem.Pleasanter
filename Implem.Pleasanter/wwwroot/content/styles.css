@@ -3930,3 +3930,23 @@ textarea:focus {
 div.lower-search-ui {
     margin: 4px 0px 0px 0px;
 }
+
+
+/* シンプルモードトグル用CSS */
+#SimpleModeToggleContainer {
+    display: none;
+}
+#SimpleModeToggle {
+    display: none;
+}
+#SimpleModeToggle + label {
+    color: var(--primaryDark);
+    font-size: 140%;
+    margin-left: 2px;
+}
+#SimpleModeToggle + label:after {
+    content: "\025bc";
+}
+#SimpleModeToggle:checked + label:after {
+    content: "\025b2";
+}

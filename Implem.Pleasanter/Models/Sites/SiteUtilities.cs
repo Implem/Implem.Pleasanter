@@ -3777,13 +3777,16 @@ namespace Implem.Pleasanter.Models
             return Editor(context: context, siteModel: siteModel);
         }
 
+        //hogehoge
+        //https://api.jqueryui.com/tabs/#:~:text=ui-tabs-anchor%3A%20The%20anchors%20used%20to%20switch%20panels.%20ui-tabs-panel%3A,whose%20corresponding%20tab%20is%20active%20will%20be%20visible.
+        //ui-tabs-anchor
         /// <summary>
         /// Fixed:
         /// </summary>
         private static HtmlBuilder EditorTabs(this HtmlBuilder hb, Context context, SiteModel siteModel)
         {
             var ss = siteModel.SiteSettings;
-            return hb.Ul(id: "EditorTabs", action: () =>
+            var tags =hb.Ul(id: "EditorTabs", action: () =>
             {
                 hb
                     .Li(action: () => hb
@@ -4103,7 +4106,51 @@ namespace Implem.Pleasanter.Models
                                 href: "#FieldSetHistories",
                                 text: Displays.ChangeHistoryList(context: context)));
                 }
+                //SimpleMode
+                hb
+                    .Li(attributes: new HtmlAttributes()
+                            .Id("SimpleModeToggleContainer")
+                            .Class("ignore-tab"),
+                        action: () => hb
+                        .Input(
+                            attributes: new HtmlAttributes()
+                                .Id("SimpleModeToggle")
+                                .Name("SimpleModeToggle")
+                                .Type("checkbox")
+                        )
+                        .Label(
+                            attributes: new HtmlAttributes()
+                                .For("SimpleModeToggle")
+                        )
+                        .Input(
+                            attributes: new HtmlAttributes()
+                                .Type("hidden")
+                                .Id("SimpleModeEnabled")
+                                .Value(Parameters.Site.SimpleMode.Enabled.ToString().ToLower())
+                        )
+                        .Input(
+                            attributes: new HtmlAttributes()
+                                .Type("hidden")
+                                .Id("SimpleModeDefault")
+                                .Value(Parameters.Site.SimpleMode.Default.ToString().ToLower())
+                        )
+                        .Input(
+                            attributes: new HtmlAttributes()
+                                .Type("hidden")
+                                .Id("SimpleModeDisplaySwitch")
+                                .Value(Parameters.Site.SimpleMode.DisplaySwitch.ToString().ToLower())
+                        )
+                        .Input(
+                            attributes: new HtmlAttributes()
+                                .Type("hidden")
+                                .Id("SimpleModeTabs")
+                                .Value(string.Join(",", Parameters.Site.SimpleMode.Tabs.Select(s => s.Trim())))
+                        )
+                     );
+
             });
+
+            return tags;
         }
 
         /// <summary>
