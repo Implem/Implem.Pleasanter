@@ -114,10 +114,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 o.All == true
                                 && o.Disabled != true),
                         _using: context.ContractSettings.Script != false
+                            && ss.ScriptsAllDisabled != true
                             && ss.Scripts?.Any() == true)
                     .Script(
                         script: userScript,
                         _using: context.ContractSettings.Script != false
+                            && ss.ScriptsAllDisabled != true
                             && !userScript.IsNullOrEmpty())
                     .Script(script: "$p.initDashboard();",
                         _using: ss.ReferenceType == "Dashboards"
