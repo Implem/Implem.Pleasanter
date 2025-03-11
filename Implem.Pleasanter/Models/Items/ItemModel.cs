@@ -813,11 +813,13 @@ namespace Implem.Pleasanter.Models
                 case "Issues":
                     return IssueUtilities.SmartDesignJson(
                         context: context,
-                        ss: Site.SiteSettings);
+                        ss: Site.SiteSettings,
+                        siteModel: Site);
                 case "Results":
                     return ResultUtilities.SmartDesignJson(
                         context: context,
-                        ss: Site.SiteSettings);
+                        ss: Site.SiteSettings,
+                        siteModel: Site);
                 default:
                     return Messages.ResponseNotFound(context: context).ToJson();
             }

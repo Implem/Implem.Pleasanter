@@ -9007,11 +9007,12 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public static string SmartDesignJson(Context context, SiteSettings ss)
+        public static string SmartDesignJson(Context context, SiteSettings ss, SiteModel siteModel)
         {
             var smartDesignModel = new SmartDesignApiModel(
                 context: context,
-                ss: ss);
+                ss: ss,
+                timestamp: siteModel.Timestamp);
             return smartDesignModel.ToJson();           
         }
 

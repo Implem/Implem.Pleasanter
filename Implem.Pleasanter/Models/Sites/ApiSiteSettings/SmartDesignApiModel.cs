@@ -26,17 +26,18 @@ namespace Implem.Pleasanter.Models.ApiSiteSettings
 
         public List<string> DefaultColumns = new List<string>();
 
-
+        public string Timestamp { get; set; }
         public SmartDesignApiModel()
         {
         }
 
-        public SmartDesignApiModel(Context context, SiteSettings ss)
+        public SmartDesignApiModel(Context context, SiteSettings ss, string timestamp)
         {
             var editorColumnList = ss.EditorColumnHash.Get("General");
             DefaultColumns = ss.GetDefaultColumns(context);
             SetSmartDesignSiteSettings(context, ss, editorColumnList);
             SmartDesignParamHash = GetSmartDesignParam(context, ss, editorColumnList);
+            Timestamp = timestamp;
         }
 
         public Dictionary<string, DragParamsApiSettingModel> GetSmartDesignParam(
