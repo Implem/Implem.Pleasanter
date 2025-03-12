@@ -224,7 +224,6 @@ function replaceMenu() {
 }
 
 
-
 // シンプルモード管理オブジェクト（即時実行関数式でカプセル化）
 const SimpleMode = (function () {
     'use strict';
@@ -397,6 +396,50 @@ const SimpleMode = (function () {
         }, 300); // 処理時間に余裕を持たせるため300msに延長
     };
 
+    /**
+     * 現在の状態でシンプルモードとノーマルモードに違いがあるかチェックする
+     * @returns {boolean} 違いがあればtrue、なければfalse
+     * @private
+     */
+    const _hasDifferenceBetweenModes = function () {
+        // タブが初期化されていない場合は判定できないのでfalse
+        if (!$('#EditorTabsContainer').hasClass('ui-tabs')) return false;
+
+        // 表示されているタブを取得（ignore-tab クラスのタブは除外）
+        const $tabs = $('#EditorTabs > li:not(.ignore-tab)');
+
+        // 実際に表示されるシンプルモードのタブを数える
+        let simpleModelVisibleTabCount = 0;
+        const simpleModeTabs = new Set();
+
+        _simpleModeTabNames.forEach(function (tabName) {
+            const tabSelector = _tabMapping[tabName];
+            if (tabSelector) {
+                const $tab = $('#EditorTabs > li > a[href="' + tabSelector + '"]').parent();
+                if ($tab.length && !$tab.hasClass('ignore-tab')) {
+                    simpleModelVisibleTabCount++;
+                    simpleModeTabs.add($tab[0]);
+                }
+            }
+        });
+
+        // タブ数が異なる場合は違いがある
+        if (simpleModelVisibleTabCount !== $tabs.length) {
+            return true;
+        }
+
+        // タブ数が同じ場合、全く同じタブかどうかをチェック
+        let allTabsIncluded = true;
+        $tabs.each(function () {
+            if (!simpleModeTabs.has(this)) {
+                allTabsIncluded = false;
+                return false; 
+            }
+        });
+
+        return !allTabsIncluded;
+    };
+
     // パブリックメソッド
     return {
         /**
@@ -420,6 +463,15 @@ const SimpleMode = (function () {
                 return;
             }
 
+            // シンプルモードとノーマルモードに違いがあるかどうか確認（画面上での変更はないので、初期化時のみのチェックで）
+            const hasDifference = _hasDifferenceBetweenModes();
+
+            // 違いがない場合は切り替えUIを非表示
+            if (!hasDifference) {
+                $('#SimpleModeToggleContainer').hide();
+                return;
+            }
+
             // シンプルモード切り替えUIを表示
             $('#SimpleModeToggleContainer').toggle(_displaySwitch);
 
@@ -438,35 +490,7 @@ const SimpleMode = (function () {
             if (_default) {
                 _applySimpleMode();
             }
-        },
-
-        /**
-         * シンプルモードとノーマルモードを切り替える（パブリックアクセス用）
-         * @param {boolean} enableSimpleMode シンプルモードを有効にするかどうか
-         * @public
-         */
-        toggle: function (enableSimpleMode) {
-            _toggleWithSafetyCheck(enableSimpleMode);
-        },
-
-        /**
-         * シンプルモードを適用する（パブリックアクセス用）
-         * @public
-         */
-        applySimpleMode: function () {
-            _applySimpleMode();
-            // UI状態を同期
-            $('#SimpleModeToggle').prop('checked', true);
-        },
-
-        /**
-         * ノーマルモードを適用する（パブリックアクセス用）
-         * @public
-         */
-        applyNormalMode: function () {
-            _applyNormalMode();
-            // UI状態を同期
-            $('#SimpleModeToggle').prop('checked', false);
         }
+
     };
 })();
