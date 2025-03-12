@@ -9438,15 +9438,6 @@ namespace Implem.Pleasanter.Libraries.Responses
                 id: "FilterCondition",
                 data: data);
         }
-        public static string SimpleMode(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "SimpleMode",
-                data: data);
-        }
 
         public static string Sorters(
             Context context,
