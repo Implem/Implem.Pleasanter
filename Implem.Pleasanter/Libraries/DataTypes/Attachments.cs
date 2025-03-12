@@ -62,7 +62,9 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                         .Li(action: context.Action switch
                         {
                             "trashbox" => () => hb
-                                .Text(item.Name),
+                                .Span(
+                                    action: () => hb
+                                        .Text(text: item.Name)),
                             _ => () => hb
                                 .A(
                                     href: Locations.DownloadFile(
