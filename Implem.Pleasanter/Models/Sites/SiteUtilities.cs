@@ -2479,6 +2479,7 @@ namespace Implem.Pleasanter.Models
                 return Messages.ResponseDeleteConflicts(context: context).ToJson();
             }
             var siteSettingsApiModel = jsonBody.Deserialize<ApiSiteSettings.SiteSettingsApiModel>();
+            siteModel.Timestamp = siteSettingsApiModel.Timestamp;
             if (siteSettingsApiModel.Columns != null)
             {
                 siteModel.UpsertColumnsByApi(

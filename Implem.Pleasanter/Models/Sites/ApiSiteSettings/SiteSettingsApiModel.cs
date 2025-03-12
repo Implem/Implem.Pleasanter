@@ -20,7 +20,7 @@ namespace Implem.Pleasanter.Models.ApiSiteSettings
         public int? SectionLatestId;
         public List<SectionApiSettingModel> Sections { get; set; }
         public List<LinkApiSettingModel> Links;
-
+        public string Timestamp;
 
 
         public int? TabLatestId;
