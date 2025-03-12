@@ -59,14 +59,19 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 css: column.CellCss(serverScriptModelColumn?.ExtendedCellCss),
                 action: () => hb
                     .Ol(action: () => ForEach(item => hb
-                        .Li(action: () => hb
-                            .A(
-                                href: Locations.DownloadFile(
-                                    context: context,
-                                    guid: item.Guid),
-                                action: () => hb
-                                    .Text(text: item.Name),
-                                _using: item.Exists(context: context))))));
+                        .Li(action: context.Action switch
+                        {
+                            "trashbox" => () => hb
+                                .Text(item.Name),
+                            _ => () => hb
+                                .A(
+                                    href: Locations.DownloadFile(
+                                        context: context,
+                                        guid: item.Guid),
+                                    action: () => hb
+                                        .Text(text: item.Name),
+                                    _using: item.Exists(context: context))
+                        }))));
         }
 
         public object ToApiDisplayValue(Context context, SiteSettings ss, Column column)
