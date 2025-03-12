@@ -3777,9 +3777,6 @@ namespace Implem.Pleasanter.Models
             return Editor(context: context, siteModel: siteModel);
         }
 
-        //hogehoge
-        //https://api.jqueryui.com/tabs/#:~:text=ui-tabs-anchor%3A%20The%20anchors%20used%20to%20switch%20panels.%20ui-tabs-panel%3A,whose%20corresponding%20tab%20is%20active%20will%20be%20visible.
-        //ui-tabs-anchor
         /// <summary>
         /// Fixed:
         /// </summary>
@@ -4147,9 +4144,7 @@ namespace Implem.Pleasanter.Models
                                 .Value(string.Join(",", Parameters.Site.SimpleMode.Tabs.Select(s => s.Trim())))
                         )
                      );
-
             });
-
             return tags;
         }
 
