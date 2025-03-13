@@ -2521,6 +2521,11 @@ namespace Implem.Pleasanter.Models
             switch (errorData.Type)
             {
                 case Error.Types.None:
+                    SessionUtilities.Set(
+                        context: context,
+                        message: Messages.Updated(
+                            context: context,
+                            data: siteModel.Title.Value));
                     return new SdResponse(
                                 method: "UpdateSuccess",
                                 url: context.UrlReferrer)

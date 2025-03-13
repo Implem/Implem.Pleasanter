@@ -1,6 +1,8 @@
 ﻿using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Models;
 using Newtonsoft.Json;
+using System;
+using System.Linq;
 
 namespace Implem.Pleasanter.Libraries.Responses
 {
@@ -37,20 +39,20 @@ namespace Implem.Pleasanter.Libraries.Responses
             Url = null;
         }
 
-
         public string Href(string url)
         {
-            string referrer = url.Substring(url.LastIndexOf('/') + 1).ToLower();
+            string referrer = url.Split('?')
+                .First()
+                .Split('/')
+                .Last();
             switch (referrer)
             {
-                //ItemNewだと完全なUrlが取得できない
                 case "new":
                 case "edit":
                 case "index":
-                    return url + "?sds=1";
+                    return url;
                 default:
-                    //url.Replace(referrer, "index");
-                    return url.Replace(referrer, "index") + "?sds=1";
+                    return url.Replace(referrer, "index");
             }
         }
 
@@ -58,13 +60,5 @@ namespace Implem.Pleasanter.Libraries.Responses
         {
             return JsonConvert.SerializeObject(this);
         }
-
-        public static string Updated(Context context, params string[] data)
-        {
-            return Displays.Updated(
-                    context: context,
-                    data: data);
-        }
-
     }
 }
