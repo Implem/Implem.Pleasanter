@@ -44,7 +44,7 @@ namespace Implem.Pleasanter.Libraries.Responses
             string referrer = url.Split('?')
                 .First()
                 .Split('/')
-                .Last();
+                .Last();          
             switch (referrer)
             {
                 case "new":
@@ -52,6 +52,12 @@ namespace Implem.Pleasanter.Libraries.Responses
                 case "index":
                     return url;
                 default:
+                    int number;
+                    bool isNumeric = int.TryParse(referrer, out number);
+                    if (isNumeric)
+                    {
+                        return url;
+                    }
                     return url.Replace(referrer, "index");
             }
         }
