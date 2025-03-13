@@ -81,10 +81,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .Style(
                     style: style,
                     _using: context.ContractSettings.Style != false
+                        && ss.StylesAllDisabled != true
                         && !style.IsNullOrEmpty())
                 .Style(
                     style: userStyle,
                     _using: context.ContractSettings.Style != false
+                        && ss.StylesAllDisabled != true
                         && !userStyle.IsNullOrEmpty());
         }
 

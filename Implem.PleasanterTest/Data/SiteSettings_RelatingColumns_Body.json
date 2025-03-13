@@ -1,0 +1,11 @@
+﻿{
+    "Version": 1.017,
+    "ReferenceType": "Results",
+    "RelatingColumns": [
+        {
+            "Title": "test",
+            "Id": 1
+        }
+    ],
+    "NoDisplayIfReadOnly": false
+}

@@ -1,0 +1,70 @@
+﻿version: '3.5'
+
+services:
+  Implem.Pleasanter:
+    build:
+      context: .
+      dockerfile: ./Implem.Pleasanter/Dockerfile.mysql
+      target: testing
+    environment:
+        - Implem.Pleasanter_Rds_MySQL_SaConnectionString=${Implem_Pleasanter_Rds_MySQL_SaConnectionString}
+        - Implem.Pleasanter_Rds_MySQL_OwnerConnectionString=${Implem_Pleasanter_Rds_MySQL_OwnerConnectionString}
+        - Implem.Pleasanter_Rds_MySQL_UserConnectionString=${Implem_Pleasanter_Rds_MySQL_UserConnectionString}
+    image: implem.pleasanter.mysql
+    container_name: pleasanterformysql
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - default
+  Implem.CodeDefiner:
+    build:
+      context: .
+      dockerfile: ./Implem.CodeDefiner/Dockerfile.mysql
+    environment:
+        - Implem.Pleasanter_Rds_MySQL_SaConnectionString=${Implem_Pleasanter_Rds_MySQL_SaConnectionString}
+        - Implem.Pleasanter_Rds_MySQL_OwnerConnectionString=${Implem_Pleasanter_Rds_MySQL_OwnerConnectionString}
+        - Implem.Pleasanter_Rds_MySQL_UserConnectionString=${Implem_Pleasanter_Rds_MySQL_UserConnectionString}
+    image: implem.codedefiner.mysql
+    container_name: codedefinerformysql
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - default
+  Implem.PleasanterTest:
+    build:
+      context: .
+      dockerfile: ./Implem.PleasanterTest/Dockerfile.mysql
+    environment:
+        - Implem.Pleasanter_Rds_MySQL_SaConnectionString=${Implem_Pleasanter_Rds_MySQL_SaConnectionString}
+        - Implem.Pleasanter_Rds_MySQL_OwnerConnectionString=${Implem_Pleasanter_Rds_MySQL_OwnerConnectionString}
+        - Implem.Pleasanter_Rds_MySQL_UserConnectionString=${Implem_Pleasanter_Rds_MySQL_UserConnectionString}
+    image: implem.pleasantertest.mysql
+    container_name: xunittestformysql
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - default
+  db:
+    image: mysql:8.4
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_OWNER_PASSWORD=${MYSQL_OWNER_PASSWORD}
+      - MYSQL_USER_PASSWORD=${MYSQL_USER_PASSWORD}
+    container_name: mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - default
+    healthcheck:
+        test: mysqladmin ping -h 127.0.0.1 -u root -p${MYSQL_ROOT_PASSWORD}
+        interval: 10s
+        timeout: 10s
+        retries: 6
+    volumes:
+        - ./initdir:/docker-entrypoint-initdb.d
+networks:
+  default:
+    name: pleasanternetworkformysql
