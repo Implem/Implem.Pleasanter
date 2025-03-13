@@ -2459,6 +2459,9 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static string UpdateSmartDesign(
             Context context,
             SiteSettings ss,
@@ -2518,40 +2521,17 @@ namespace Implem.Pleasanter.Models
             switch (errorData.Type)
             {
                 case Error.Types.None:
-                    string referrer = context.UrlReferrer.Substring(context.UrlReferrer.LastIndexOf('/') + 1).ToLower();
-                    switch (referrer)
-                    {
-                        case "index":
-                            return new ResponseCollection(context: context)
-                                .Response("id", siteModel.SiteId.ToString())
-                                .SetMemory("formChanged", false)
-                                .Href(Locations.Index(
-                                    context: context,
-                                    controller: context.Controller))
-                                .ToJson();
-                        case "new":
-                            return new ResponseCollection(context: context)
-                                .Response("id", siteModel.SiteId.ToString())
-                                .SetMemory("formChanged", false)
-                                .Href(Locations.New(
-                                    context: context,
-                                    controller: context.Controller))
-                                .ToJson();
-                        case "edit":
-                        default:
-                            return new ResponseCollection(context: context)
-                                .Response("id", siteModel.SiteId.ToString())
-                                .SetMemory("formChanged", false)
-                                .Href(Locations.Index(
-                                    context: context,
-                                    controller: context.Controller))
-                                .ToJson();
-                    }
+                    return new SdResponse(
+                                method: "UpdateSuccess",
+                                url: context.UrlReferrer)
+                                .ToJson();                   
                 case Error.Types.UpdateConflicts:
-                    return Messages.ResponseUpdateConflicts(
-                        context: context,
-                        data: siteModel.Updator.Name)
-                            .ToJson();
+                    return new SdResponse(
+                                method: "UpdateConflicts",
+                                value: Displays.UpdateConflicts(
+                                    context:context,
+                                    data: siteModel.Updator.Name))
+                                .ToJson();
                 default:
                     return errorData.MessageJson(context: context);
             }
