@@ -64,37 +64,53 @@ $p.openSiteTitleDialog = function ($control) {
             resizable: false
         });
     } else {
-        let selectedValue = $("#StandardTemplates .ui-selected:first").data("value");
-        if (selectedValue != "Template2" && selectedValue != "Template3") {
-            $("#DisableCalendar").closest(".field-auto-thin").hide();
-            $("#DisableCrosstab").closest(".field-auto-thin").hide();
-            $("#DisableTimeSeries").closest(".field-auto-thin").hide();
-            $("#DisableAnaly").closest(".field-auto-thin").hide();
-            $("#DisableKamban").closest(".field-auto-thin").hide();
-            $("#DisableImageLib").closest(".field-auto-thin").hide();
+        let selectedValue = $('#StandardTemplates .ui-selected:first').data('value');
+        if (selectedValue != 'Template2' && selectedValue != 'Template3') {
+            $('#DisableCalendar').closest('.field-auto-thin').hide();
+            $('#DisableCrosstab').closest('.field-auto-thin').hide();
+            $('#DisableTimeSeries').closest('.field-auto-thin').hide();
+            $('#DisableAnaly').closest('.field-auto-thin').hide();
+            $('#DisableKamban').closest('.field-auto-thin').hide();
+            $('#DisableImageLib').closest('.field-auto-thin').hide();
         } else {
-            $("#DisableCalendar").closest(".field-auto-thin").show();
-            $("#DisableCrosstab").closest(".field-auto-thin").show();
-            $("#DisableTimeSeries").closest(".field-auto-thin").show();
-            $("#DisableAnaly").closest(".field-auto-thin").show();
-            $("#DisableKamban").closest(".field-auto-thin").show();
-            $("#DisableImageLib").closest(".field-auto-thin").show();
+            $('#DisableCalendar').closest('.field-auto-thin').show();
+            $('#DisableCrosstab').closest('.field-auto-thin').show();
+            $('#DisableTimeSeries').closest('.field-auto-thin').show();
+            $('#DisableAnaly').closest('.field-auto-thin').show();
+            $('#DisableKamban').closest('.field-auto-thin').show();
+            $('#DisableImageLib').closest('.field-auto-thin').show();
         }
-        if (selectedValue != "Template2") {
-            $("#DisableGantt").closest(".field-auto-thin").hide();
-            $("#DisableBurnDown").closest(".field-auto-thin").hide();
+        if (selectedValue != 'Template2') {
+            $('#DisableGantt').closest('.field-auto-thin').hide();
+            $('#DisableBurnDown').closest('.field-auto-thin').hide();
         } else {
-            $("#DisableGantt").closest(".field-auto-thin").show();
-            $("#DisableBurnDown").closest(".field-auto-thin").show();
+            $('#DisableGantt').closest('.field-auto-thin').show();
+            $('#DisableBurnDown').closest('.field-auto-thin').show();
         }
-        $("#DisableCalendar").removeAttr('checked').prop("checked", false).change();
-        $("#DisableCrosstab").removeAttr('checked').prop("checked", false).change();
-        $("#DisableGantt").removeAttr('checked').prop("checked", false).change();
-        $("#DisableBurnDown").removeAttr('checked').prop("checked", false).change();
-        $("#DisableTimeSeries").removeAttr('checked').prop("checked", false).change();
-        $("#DisableAnaly").removeAttr('checked').prop("checked", false).change();
-        $("#DisableKamban").removeAttr('checked').prop("checked", false).change();
-        $("#DisableImageLib").removeAttr('checked').prop("checked", false).change();
+        $('#DisableCalendarLabel').data('calendarDisable') == '1' ?
+            $('#DisableCalendar').attr('checked', true).prop('checked', true).change() :
+            $('#DisableCalendar').removeAttr('checked').prop('checked', false).change();
+        $('#DisableCrosstabLabel').data('crosstabDisable') == '1' ?
+            $('#DisableCrosstab').attr('checked', true).prop('checked', true).change() :
+            $('#DisableCrosstab').removeAttr('checked').prop('checked', false).change();
+        $('#DisableGanttLabel').data('ganttDisable') == '1' ?
+            $('#DisableGantt').attr('checked', true).prop('checked', true).change() :
+            $('#DisableGantt').removeAttr('checked').prop('checked', false).change();
+        $('#DisableBurnDownLabel').data('burnDownDisable') == '1' ?
+            $('#DisableBurnDown').attr('checked', true).prop('checked', true).change() :
+            $('#DisableBurnDown').removeAttr('checked').prop('checked', false).change();
+        $('#DisableTimeSeriesLabel').data('timeSeriesDisable') == '1' ?
+            $('#DisableTimeSeries').attr('checked', true).prop('checked', true).change() :
+            $('#DisableTimeSeries').removeAttr('checked').prop('checked', false).change();
+        $('#DisableAnalyLabel').data('analyDisable') == '1' ?
+            $('#DisableAnaly').attr('checked', true).prop('checked', true).change() :
+            $('#DisableAnaly').removeAttr('checked').prop('checked', false).change();
+        $('#DisableKambanLabel').data('kambanDisable') == '1' ?
+            $('#DisableKamban').attr('checked', true).prop('checked', true).change() :
+            $('#DisableKamban').removeAttr('checked').prop('checked', false).change();
+        $('#DisableImageLibLabel').data('imageLibDisable') == '1' ?
+            $('#DisableImageLib').attr('checked', true).prop('checked', true).change() :
+            $('#DisableImageLib').removeAttr('checked').prop('checked', false).change();
         $('#SiteTitleDialog').dialog({
             modal: true,
             width: "520px",

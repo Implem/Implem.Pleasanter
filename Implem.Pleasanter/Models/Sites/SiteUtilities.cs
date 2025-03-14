@@ -4802,48 +4802,78 @@ namespace Implem.Pleasanter.Models
                                 controlId: "TemplateId",
                                 css: " always-send")
                             .Div(css: "command-center", action: () => hb
-                                .P(action: () => hb
-                                    .FieldCheckBox(
-                                        controlId: "DisableCalendar",
-                                        fieldCss: "field-auto-thin",
-                                        labelText: Displays.DisableCalendar(context: context),
-                                        _checked: ss.EnableCalendar == false)
-                                    .FieldCheckBox(
-                                        controlId: "DisableCrosstab",
-                                        fieldCss: "field-auto-thin",
-                                        labelText: Displays.DisableCrosstab(context: context),
-                                        _checked: ss.EnableCrosstab == false)
-                                )
-                                .FieldCheckBox(
-                                    controlId: "DisableGantt",
-                                    fieldCss: "field-auto-thin",
-                                    labelText: Displays.DisableGantt(context: context),
-                                    _checked: ss.EnableGantt == false)
-                                .FieldCheckBox(
-                                    controlId: "DisableBurnDown",
-                                    fieldCss: "field-auto-thin",
-                                    labelText: Displays.DisableBurnDown(context: context),
-                                    _checked: ss.EnableBurnDown == false)
-                                .FieldCheckBox(
-                                    controlId: "DisableTimeSeries",
-                                    fieldCss: "field-auto-thin",
-                                    labelText: Displays.DisableTimeSeries(context: context),
-                                    _checked: ss.EnableTimeSeries == false)
-                                .FieldCheckBox(
-                                    controlId: "DisableAnaly",
-                                    fieldCss: "field-auto-thin",
-                                    labelText: Displays.DisableAnaly(context: context),
-                                    _checked: ss.EnableAnaly == false)
-                                .FieldCheckBox(
-                                    controlId: "DisableKamban",
-                                    fieldCss: "field-auto-thin",
-                                    labelText: Displays.DisableKamban(context: context),
-                                    _checked: ss.EnableKamban == false)
-                                .FieldCheckBox(
-                                    controlId: "DisableImageLib",
-                                    fieldCss: "field-auto-thin",
-                                    labelText: Displays.DisableImageLib(context: context),
-                                    _checked: ss.EnableImageLib == false))
+                                .Label(
+                                    id: "DisableCalendarLabel",
+                                    attributes: new HtmlAttributes().Add("data-calendarDisable", Parameters.General.DefaultCalendarDisable ? "1" : "0"),
+                                    action: () => hb
+                                        .FieldCheckBox(
+                                            controlId: "DisableCalendar",
+                                            fieldCss: "field-auto-thin",
+                                            labelText: Displays.DisableCalendar(context: context),
+                                            _checked: ss.EnableCalendar == false))
+                                .Label(
+                                    id: "DisableCrosstabLabel",
+                                    attributes: new HtmlAttributes().Add("data-crosstabDisable", Parameters.General.DefaultCrosstabDisable ? "1" : "0"),
+                                    action: () => hb
+                                        .FieldCheckBox(
+                                            controlId: "DisableCrosstab",
+                                            fieldCss: "field-auto-thin",
+                                            labelText: Displays.DisableCrosstab(context: context),
+                                            _checked: ss.EnableCalendar == false))
+                                .Label(
+                                    id: "DisableGanttLabel",
+                                    attributes: new HtmlAttributes().Add("data-ganttDisable", Parameters.General.DefaultGanttDisable ? "1" : "0"),
+                                    action: () => hb
+                                        .FieldCheckBox(
+                                            controlId: "DisableGantt",
+                                            fieldCss: "field-auto-thin",
+                                            labelText: Displays.DisableGantt(context: context),
+                                            _checked: ss.EnableGantt == false))
+                                .Label(
+                                    id: "DisableBurnDownLabel",
+                                    attributes: new HtmlAttributes().Add("data-burnDownDisable", Parameters.General.DefaultBurnDownDisable ? "1" : "0"),
+                                    action: () => hb
+                                        .FieldCheckBox(
+                                            controlId: "DisableBurnDown",
+                                            fieldCss: "field-auto-thin",
+                                            labelText: Displays.DisableBurnDown(context: context),
+                                            _checked: ss.EnableBurnDown == false))
+                                .Label(
+                                    id: "DisableTimeSeriesLabel",
+                                    attributes: new HtmlAttributes().Add("data-timeSeriesDisable", Parameters.General.DefaultTimeSeriesDisable ? "1" : "0"),
+                                    action: () => hb
+                                        .FieldCheckBox(
+                                            controlId: "DisableTimeSeries",
+                                            fieldCss: "field-auto-thin",
+                                            labelText: Displays.DisableTimeSeries(context: context),
+                                            _checked: ss.EnableTimeSeries == false))
+                                .Label(
+                                    id: "DisableAnalyLabel",
+                                    attributes: new HtmlAttributes().Add("data-analyDisable", Parameters.General.DefaultAnalyDisable ? "1" : "0"),
+                                    action: () => hb
+                                        .FieldCheckBox(
+                                            controlId: "DisableAnaly",
+                                            fieldCss: "field-auto-thin",
+                                            labelText: Displays.DisableAnaly(context: context),
+                                            _checked: ss.EnableAnaly == false))
+                                .Label(
+                                    id: "DisableKambanLabel",
+                                    attributes: new HtmlAttributes().Add("data-kambanDisable", Parameters.General.DefaultKambanDisable ? "1" : "0"),
+                                    action: () => hb
+                                        .FieldCheckBox(
+                                            controlId: "DisableKamban",
+                                            fieldCss: "field-auto-thin",
+                                            labelText: Displays.DisableKamban(context: context),
+                                            _checked: ss.EnableKamban == false))
+                                .Label(
+                                    id: "DisableImageLibLabel",
+                                    attributes: new HtmlAttributes().Add("data-imageLibDisable", Parameters.General.DefaultImageLibDisable ? "1" : "0"),
+                                    action: () => hb
+                                        .FieldCheckBox(
+                                            controlId: "DisableImageLib",
+                                            fieldCss: "field-auto-thin",
+                                            labelText: Displays.DisableImageLib(context: context),
+                                            _checked: ss.EnableImageLib == false)))
                             .P(css: "message-dialog")
                             .Div(css: "command-center", action: () => hb
                                 .Button(
