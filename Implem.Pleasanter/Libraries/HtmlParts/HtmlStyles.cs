@@ -81,10 +81,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .Style(
                     style: style,
                     _using: context.ContractSettings.Style != false
+                        && ss.StylesAllDisabled != true
                         && !style.IsNullOrEmpty())
                 .Style(
                     style: userStyle,
                     _using: context.ContractSettings.Style != false
+                        && ss.StylesAllDisabled != true
                         && !userStyle.IsNullOrEmpty());
         }
 
@@ -120,7 +122,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         "Styles/Plugins/jquery.multiselect.css",
                         "Styles/Plugins/jquery.multiselect.filter.css",
                         "Scripts/Plugins/gridstack.js/gridstack.min.css",
-                        "Styles/Plugins/material-symbols-0.26.0/material-symbols/index.css"])
+                        "Styles/Plugins/material-symbols-0.28.0/material-symbols/index.css"])
                 .Link(
                     href: context.VirtualPathToAbsolute($"~/content/styles.min.css?v={Environments.BundlesVersions.Get("styles.css")}"),
                     rel: "stylesheet")

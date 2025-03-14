@@ -1089,6 +1089,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             bool debug,
             bool onTesting = false)
         {
+            if (ss?.ServerScriptsAllDisabled == true)
+            {
+                return null;
+            }
             if (!(Parameters.Script.ServerScript != false
                 && context.ContractSettings.ServerScript != false
                 && context.ServerScriptDisabled == false))
@@ -1235,6 +1239,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             Func<ServerScript, bool> where,
             ServerScriptConditions condition)
         {
+            if (ss?.ServerScriptsAllDisabled == true)
+            {
+                return null;
+            }
             if (!(Parameters.Script.ServerScript != false
                 && context.ContractSettings.ServerScript != false
                 && context.ServerScriptDisabled == false))
@@ -1649,6 +1657,34 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             return model is string issueRequestString
                 ? issueRequestString
                 : string.Empty;
+        }
+
+        public static string ImportItem(Context context, long id, string apiRequestBody, string filePath)
+        {
+            var apiContext = CreateContext(
+                context: context,
+                controller: "Items",
+                action: "importItem",
+                id: id,
+                apiRequestBody: apiRequestBody);
+            return new ItemModel(
+                context: apiContext,
+                referenceId: id)
+                    .ImportByServerScript(context: apiContext, filePath: filePath);
+        }
+
+        public static bool ExportItem(Context context, long id, string apiRequestBody, string filePath)
+        {
+            var apiContext = CreateContext(
+                context: context,
+                controller: "Items",
+                action: "exportItem",
+                id: id,
+                apiRequestBody: apiRequestBody);
+            return new ItemModel(
+                context: apiContext,
+                referenceId: id)
+                    .ExportByServerScript(context: apiContext, filePath: filePath);
         }
     }
 }

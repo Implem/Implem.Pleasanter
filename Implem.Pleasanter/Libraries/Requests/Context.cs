@@ -145,7 +145,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                 contentType: contentType);
             if (ApiRequestBody != null)
             {
-                SiteInfo.Reflesh(context: this);
+                SiteInfo.Refresh(context: this);
             }
             Api = api;
         }
@@ -752,7 +752,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                     var temp = SiteInfo.TenantCaches.ToDictionary(o => o.Key, o => o.Value);
                     temp.Add(TenantId, new TenantCache(context: this));
                     SiteInfo.TenantCaches = temp;
-                    SiteInfo.Reflesh(context: this);
+                    SiteInfo.Refresh(context: this);
                 }
                 catch (Exception)
                 {
@@ -1019,7 +1019,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         private string CreateFormStringRaw(HttpRequest request)
         {
             if (!AspNetCoreHttpContext.Current.Request.HasFormContentType) return string.Empty;
-            if (request.Form.Count == 1 && string.IsNullOrEmpty(request.Form.Keys.First())) return request.Form.First().Value;
+            if (request.Form.Count == 1 && string.IsNullOrEmpty(request.Form.First().Value)) return request.Form.First().Key;
             return string.Join('&', request.Form?.Select(data => $"{HttpUtility.UrlEncode(data.Key)}={HttpUtility.UrlEncode(data.Value)}"));
         }
 

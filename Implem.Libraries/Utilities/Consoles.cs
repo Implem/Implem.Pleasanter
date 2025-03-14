@@ -33,6 +33,8 @@ namespace Implem.Libraries.Utilities
             if (type == Types.Error) ErrorCount++;
             if (abort)
             {
+                Trace.WriteLine("\r\nAbort. Press any key to close.");
+                Trace.Flush();
                 Console.ReadKey();
                 Environment.Exit(-1);
             }

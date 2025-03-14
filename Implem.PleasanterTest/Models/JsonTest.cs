@@ -9,7 +9,8 @@ namespace Implem.PleasanterTest.Models
             Exists,
             ExistsOne,
             Html,
-            Message
+            Message,
+            Text
         }
 
         public Types Type { get; set; }
@@ -18,5 +19,6 @@ namespace Implem.PleasanterTest.Models
         public object Value { get; set; }
         public string Options { get; set; }
         public List<HtmlTest> HtmlTests { get; set; }
+        public TextTest TextTest { get; set; }
     }
 }

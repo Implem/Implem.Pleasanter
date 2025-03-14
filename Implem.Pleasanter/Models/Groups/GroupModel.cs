@@ -1207,7 +1207,7 @@ namespace Implem.Pleasanter.Models
         public ErrorData Update(
             Context context,
             SiteSettings ss,
-            bool refleshSiteInfo = true,
+            bool refreshSiteInfo = true,
             bool updateGroupMembers = true,
             bool updateGroupChildren = true,
             GroupApiModel groupApiModel = null,
@@ -1278,9 +1278,9 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     groupId: GroupId);
             }        
-            if (refleshSiteInfo)
+            if (refreshSiteInfo)
             {
-                SiteInfo.Reflesh(context: context);
+                SiteInfo.Refresh(context: context);
             }
             return new ErrorData(type: Error.Types.None);
         }

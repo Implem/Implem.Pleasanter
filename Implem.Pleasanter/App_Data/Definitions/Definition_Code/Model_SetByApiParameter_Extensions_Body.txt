@@ -1,0 +1,1 @@
+﻿#ModelName#ApiModel #modelName#ApiModel = null,

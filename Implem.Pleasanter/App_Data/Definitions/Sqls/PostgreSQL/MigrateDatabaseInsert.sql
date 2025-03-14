@@ -1,0 +1,1 @@
+﻿insert into "#TableName#" (#ColumnNames#) values (#Values#);

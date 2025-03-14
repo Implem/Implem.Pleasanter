@@ -55,10 +55,10 @@ namespace Implem.Pleasanter.NetCore
             var exceptions = Initializer.Initialize(
                 path: env.ContentRootPath,
                 assemblyVersion: Assembly.GetExecutingAssembly().GetName().Version.ToString());
+            var context = InitializeContext();
             // テンポラリ削除などで発生したエラーをSysLogsに記録する
             if (exceptions.Any())
             {
-                var context = InitializeContext();
                 exceptions.ForEach(e =>
                     new SysLogModel(
                         context: context,
@@ -66,7 +66,7 @@ namespace Implem.Pleasanter.NetCore
             }
             LogManager.Setup()
                 .LoadConfigurationFromAppSettings(environment: env.EnvironmentName)
-                .SetupSerialization(ss => ss.RegisterObjectTransformation<SysLogModel>(s => SysLogModel.ToLogModel(s)));
+                .SetupSerialization(ss => ss.RegisterObjectTransformation<SysLogModel>(s => SysLogModel.ToLogModel(context: context, sysLogModel: s)));
         }
 
         public void ConfigureServices(IServiceCollection services)
@@ -474,7 +474,7 @@ namespace Implem.Pleasanter.NetCore
             SiteSettingsMigrator.Migrate(context: context);
             StatusesInitializer.Initialize(context: context);
             NotificationInitializer.Initialize();
-            SiteInfo.Reflesh(context: context);
+            SiteInfo.Refresh(context: context);
             log.Finish(context: context);
         }
     }

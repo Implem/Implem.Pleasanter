@@ -22,6 +22,7 @@ namespace Implem.Pleasanter.Libraries.General
             CanNotDelete,
             CannotDeletePermissionInherited,
             CanNotDisabled,
+            CanNotGridSort,
             CanNotInherit,
             CanNotLink,
             CannotMoveMultipleSitesData,
@@ -71,6 +72,7 @@ namespace Implem.Pleasanter.Libraries.General
             JoeAccountCheck,
             LockedRecord,
             LockedTable,
+            LoginExpired,
             LoginIdAlreadyUse,
             MailAddressHasNotSet,
             NoLinks,
@@ -184,6 +186,10 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.CanNotDisabled:
                     return Messages.CanNotDisabled(
+                        context: context,
+                        data: data);
+                case Types.CanNotGridSort:
+                    return Messages.CanNotGridSort(
                         context: context,
                         data: data);
                 case Types.CanNotInherit:
@@ -380,6 +386,10 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.LockedTable:
                     return Messages.LockedTable(
+                        context: context,
+                        data: data);
+                case Types.LoginExpired:
+                    return Messages.LoginExpired(
                         context: context,
                         data: data);
                 case Types.LoginIdAlreadyUse:
