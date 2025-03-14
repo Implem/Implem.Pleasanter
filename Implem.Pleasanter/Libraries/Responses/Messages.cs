@@ -1494,6 +1494,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-success");
         }
 
+        public static Message RejectNullImport(Context context, params string[] data)
+        {
+            return Get(
+                id: "RejectNullImport",
+                text: Displays.RejectNullImport(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
         public static Message ReminderErrorContent(Context context, params string[] data)
         {
             return Get(
@@ -3435,6 +3445,17 @@ namespace Implem.Pleasanter.Libraries.Responses
             return ResponseMessage(
                 context: context,
                 message: RegisteredDemo(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseRejectNullImport(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: RejectNullImport(
                     context: context,
                     data: data),
                 target: target);

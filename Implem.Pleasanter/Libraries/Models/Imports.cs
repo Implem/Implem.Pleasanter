@@ -107,7 +107,7 @@ namespace Implem.Pleasanter.Libraries.Models
             return message;
         }
 
-        public static string CheckForExistColumnValidateRequiredColumn(List<string> csvHeaders, SiteSettings ss, Context context)
+        public static string CheckForExistValidateRequiredColumn(List<string> csvHeaders, SiteSettings ss, Context context)
         {
             string message = null;
             ss.GridColumns.ForEach(ssGridColumn => {

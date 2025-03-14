@@ -13401,7 +13401,14 @@ namespace Implem.Pleasanter.Models
                         .ToDictionary(
                             o => o.ColumnName,
                             o => o.LabelText),
-                    selectedValue: ss.DefaultImportKey));
+                    selectedValue: ss.DefaultImportKey)
+                .FieldCheckBox(
+                    controlId: "RejectNullImport",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.RejectNullImport(context: context),
+                    _checked: ss.RejectNullImport == true,
+                    controlCss: " always-send",
+                    _using: context.Controller == "items"));
         }
 
         /// <summary>

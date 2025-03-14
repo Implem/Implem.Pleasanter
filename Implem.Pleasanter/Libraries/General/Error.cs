@@ -95,6 +95,7 @@ namespace Implem.Pleasanter.Libraries.General
             PermissionNotSelfChange,
             PleaseInputData,
             PleaseUncheck,
+            RejectNullImport,
             ReminderErrorContent,
             ReminderErrorTitle,
             RequireMailAddresses,
@@ -475,6 +476,10 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.PleaseUncheck:
                     return Messages.PleaseUncheck(
+                        context: context,
+                        data: data);
+                case Types.RejectNullImport:
+                    return Messages.RejectNullImport(
                         context: context,
                         data: data);
                 case Types.ReminderErrorContent:

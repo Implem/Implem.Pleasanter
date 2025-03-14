@@ -8389,6 +8389,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string RejectNullImport(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "RejectNullImport",
+                data: data);
+        }
+
         public static string RelatingColumn(
             Context context,
             params string[] data)
