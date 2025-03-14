@@ -27,8 +27,8 @@
             "Value": "テスト用Wiki"
         },
         {
-            "ElementXpath": "//button[@data-action='CreateByTemplate']",
-            "Action": "Click"
+            "Action": "Script",
+            "Value": "document.getElementById('CreateByTemplate').click();"
         }
     ]
 }

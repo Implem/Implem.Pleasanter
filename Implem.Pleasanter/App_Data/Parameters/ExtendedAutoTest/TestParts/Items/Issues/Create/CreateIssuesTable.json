@@ -27,8 +27,8 @@
             "Value": "テスト用期限付きテーブル"
         },
         {
-            "ElementXpath": "//button[@data-action='CreateByTemplate']",
-            "Action": "Click"
+            "Action": "Script",
+            "Value": "document.getElementById('CreateByTemplate').click();"
         }
     ]
 }
