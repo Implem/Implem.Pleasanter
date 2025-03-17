@@ -3305,7 +3305,7 @@ namespace Implem.Pleasanter.Models
             List<Process> processes)
         {
             var process = processes?.FirstOrDefault(o => !o.SuccessMessage.IsNullOrEmpty()
-    && o.MatchConditions);
+                && o.MatchConditions);
             if (process == null)
             {
                 return Messages.Created(

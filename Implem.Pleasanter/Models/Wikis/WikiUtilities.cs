@@ -1820,13 +1820,15 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             WikiModel wikiModel,
-            Process process)
+            List<Process> processes)
         {
+            var process = processes?.FirstOrDefault(o => !o.SuccessMessage.IsNullOrEmpty()
+                && o.MatchConditions);
             if (process == null)
             {
                 return Messages.Created(
                     context: context,
-                    data: wikiModel.Title.DisplayValue);
+                    data: wikiModel.Title.MessageDisplay(context: context));
             }
             else
             {
