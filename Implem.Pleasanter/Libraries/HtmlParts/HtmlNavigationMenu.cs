@@ -693,7 +693,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         || canManageUsers
                         || canUnlockSite;
                 case "SettingsMenu_SmartDesign":
-                    return ss.ReferenceType != "Sites"
+                    return canManageSite
+                        && ss.ReferenceType != "Sites"
                         && ss.ReferenceType != "Wikis"
                         && ss.ReferenceType != "Dashboards";
                 case "SettingsMenu_SiteSettings":
