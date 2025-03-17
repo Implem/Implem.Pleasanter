@@ -333,16 +333,16 @@ const SimpleMode = (function () {
 
                 if ($tab.length) {
                     $tab.show();
-
+                    const tabIndex = $tabs.index($tab);
                     // 現在選択中のタブが表示対象かどうか確認
-                    if ($tabs.index($tab) === currentActiveIndex) {
+                    if (tabIndex === currentActiveIndex) {
                         currentTabVisible = true;
                     }
 
-                    // 最初に表示されるタブのインデックスを記録
-                    if (firstVisibleTabIndex === -1) {
+                    // Site.jsonに定義される順序がDOM上のタブ順と一致するわけではないので現在のタブインデックスがより小さいものであれば設定する
+                    if (firstVisibleTabIndex === -1 || tabIndex < firstVisibleTabIndex) {
                         // ignore-tabを除外したタブリスト内でのインデックスを取得
-                        firstVisibleTabIndex = $tabs.index($tab);
+                        firstVisibleTabIndex = tabIndex;
                     }
                 }
             }
