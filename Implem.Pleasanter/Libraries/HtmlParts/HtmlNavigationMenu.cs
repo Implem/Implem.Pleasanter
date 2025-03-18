@@ -499,11 +499,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         href: "javascript: $p.closeSideMenu();",
                         action: () => hb.SmartDesignLink(
                             action: () => hb
-                                .Text(text: Text(
-                                    context: context,
-                                    ss: ss,
-                                    menu: menu,
-                                    serverScriptLabelText: serverScriptLabelText))));
+                                .Text(text: Displays.SmartDesign(context: context))));
                 }
             }
         }
