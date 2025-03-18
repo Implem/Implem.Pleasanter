@@ -285,11 +285,22 @@ namespace Implem.Pleasanter.Models
             var view = Views.GetBySession(
                 context: context,
                 ss: ss);
-            var gridData = GetGridData(
-                context: context,
-                ss: ss,
-                view: view,
-                offset: offset);
+            GridData gridData = null;
+            try
+            {
+                gridData = GetGridData(
+                    context: context,
+                    ss: ss,
+                    view: view,
+                    offset: offset);
+            }
+            catch (Implem.Libraries.Exceptions.CanNotGridSortException)
+            {
+                return new ResponseCollection(context: context)
+                    .Message(context.Messages.Last())
+                    .Log(context.GetLog())
+                    .ToJson();
+            }
             var columns = ss.GetGridColumns(
                 context: context,
                 view: view,
@@ -3651,6 +3662,109 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public static string MoveTargetsSourceColumnsJson(
+            Context context,
+            long referenceId)
+        {
+            var siteModel = new SiteModel(
+                context: context,
+                siteId: context.SiteId);
+            var moveTargetsColumns = Jsons.Deserialize<List<long>>(context.Forms["MoveTargetsColumnsAll"]) ?? new List<long>();
+            moveTargetsColumns.Add(siteModel.SiteId);
+            var where = Rds.SitesWhere()
+                .TenantId(context.TenantId)
+                .SiteId_In(
+                    value: moveTargetsColumns,
+                    negative: true)
+                .ReferenceType(siteModel.ReferenceType)
+                .Add(
+                    raw: Def.Sql.CanReadSites,
+                    _using: !context.HasPrivilege)
+                .SqlWhereLike(
+                    tableName: "Sites",
+                    name: "SearchText",
+                    searchText: context.Forms.Data("MoveTargetsSourceColumnsText"),
+                    clauseCollection: new List<string>()
+                    {
+                        Rds.Sites_Title_WhereLike(factory: context),
+                        Rds.Sites_SiteId_WhereLike(factory: context)
+                    });
+            var offset = context.Forms.Data("ControlId") != "MoveTargetsSourceColumnsText"
+                ? context.Forms.Int("MoveTargetsSourceColumnsOffset")
+                : 0;
+            var pageSize = Parameters.General.DropDownSearchPageSize;
+            var statements = new List<SqlStatement>()
+            {
+                Rds.SelectSites(
+                    offset: offset,
+                    pageSize: pageSize,
+                    dataTableName: "Main",
+                    column: Rds.SitesColumn()
+                        .SiteId()
+                        .Title(),
+                    join: Rds.SitesJoinDefault(),
+                    where: where,
+                    orderBy: Rds.SitesOrderBy()
+                        .Title()
+                        .SiteId()),
+                Rds.SelectCount(
+                    tableName: "Sites",
+                    join: Rds.SitesJoinDefault(),
+                    where: where)
+            };
+            var dataSet = Repository.ExecuteDataSet(
+                context: context,
+                statements: statements.ToArray());
+            var totalCount = Rds.Count(dataSet);
+            var listItemCollection = dataSet.Tables["Main"].AsEnumerable();
+            var responseCollection = new ResponseCollection();
+            var nextOffset = Paging.NextOffset(
+                offset: offset,
+                totalCount: totalCount,
+                pageSize: pageSize);
+            if (context.Forms.Data("ControlId") != "MoveTargetsSourceColumnsText")
+            {
+                return responseCollection
+                    .Append(
+                        target: "#MoveTargetsSourceColumns",
+                        value: MoveTargetListItems(listItemCollection: listItemCollection))
+                    .Val(
+                        target: "#MoveTargetsSourceColumnsOffset",
+                        value: nextOffset)
+                    .ToJson();
+            }
+            else
+            {
+                return responseCollection
+                    .Invoke(
+                        methodName: "clearScrollTop",
+                        args: "MoveTargetsSourceColumnsWrapper")
+                    .Html(
+                        target: "#MoveTargetsSourceColumns",
+                        value: MoveTargetListItems(listItemCollection: listItemCollection))
+                    .Val(
+                        target: "#MoveTargetsSourceColumnsOffset",
+                        value: nextOffset)
+                    .ToJson();
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder MoveTargetListItems(EnumerableRowCollection<DataRow> listItemCollection)
+        {
+            return new HtmlBuilder()
+                .SelectableItems(
+                    listItemCollection: listItemCollection
+                        .ToDictionary(
+                            dataRow => dataRow.String("SiteId"),
+                            dataRow => new ControlData($"[{dataRow.String("SiteId")}] {dataRow.String("Title")}")));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static string Editor(Context context, long siteId, bool clearSessions)
         {
             var siteModel = new SiteModel(
@@ -4490,7 +4604,8 @@ namespace Implem.Pleasanter.Models
                     action: () => hb
                         .ElapsedTime(
                             context: context,
-                            value: condition.UpdatedTime.ToLocal(context: context))
+                            value: condition.UpdatedTime.ToLocal(context: context),
+                            _using: condition.UpdatedTime > DateTime.MinValue)
                         .Span(
                             attributes: new HtmlAttributes()
                                 .Class("reference material-symbols-outlined")
@@ -4864,6 +4979,9 @@ namespace Implem.Pleasanter.Models
                 title: siteModel.MethodType == BaseModel.MethodTypes.New
                     ? Displays.Sites(context: context) + " - " + Displays.New(context: context)
                     : siteModel.Title + " - " + Displays.Manage(context: context),
+                script: siteModel.MethodType == BaseModel.MethodTypes.Edit
+                    ? "$p.setPaging('MoveTargetsSourceColumns');"
+                    : null,
                 action: () => hb
                     .Editor(context: context, siteModel: siteModel)
                     .Hidden(
@@ -5277,6 +5395,12 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 referenceType: siteModel.ReferenceType,
                                 methodType: siteModel.MethodType))
+                    .FieldCheckBox(
+                        controlId: "DisableSiteConditions",
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.DisableSiteConditions(context: context),
+                        _checked: Parameters.Site.DisableSiteConditions == true || ss.DisableSiteConditions == true,
+                        disabled: Parameters.Site.DisableSiteConditions == true)
                     .VerUpCheckBox(
                         context: context,
                         ss: ss,
@@ -8265,7 +8389,12 @@ namespace Implem.Pleasanter.Models
                             controlWrapperCss: " h350",
                             controlCss: " always-send send-all",
                             labelText: Displays.CurrentSettings(context: context),
-                            listItemCollection: ss.MoveTargetsSelectableOptions(context: context),
+                            listItemCollection: SiteInfo.Sites(context: context)
+                                .Where(o => ss.MoveTargets?.Contains(o.Key) == true)
+                                .OrderBy(o => ss.MoveTargets.IndexOf(o.Key.ToLong()))
+                                .ToDictionary(
+                                    o => o.Key.ToString(),
+                                    o => new ControlData($"[{o.Key}] {o.Value.String("Title")}")),
                             commandOptionPositionIsTop: true,
                             commandOptionAction: () => hb
                                 .Div(css: "command-center", action: () => hb
@@ -8293,8 +8422,8 @@ namespace Implem.Pleasanter.Models
                             controlContainerCss: "container-selectable",
                             controlWrapperCss: " h350",
                             labelText: Displays.OptionList(context: context),
-                            listItemCollection: ss.MoveTargetsSelectableOptions(
-                                context: context, enabled: false),
+                            action: "MoveTargetsSourceColumns",
+                            method: "Post",
                             commandOptionPositionIsTop: true,
                             commandOptionAction: () => hb
                                 .Div(css: "command-center", action: () => hb
@@ -8303,7 +8432,22 @@ namespace Implem.Pleasanter.Models
                                         text: Displays.ToEnable(context: context),
                                         controlCss: "button-icon",
                                         onClick: "$p.moveColumns(event, $(this),'MoveTargets');",
-                                        icon: "ui-icon-circle-triangle-w")))));
+                                        icon: "ui-icon-circle-triangle-w")
+                                    .TextBox(
+                                        controlId: "MoveTargetsSourceColumnsText",
+                                        controlCss: " always-send auto-postback w100",
+                                        placeholder: Displays.Search(context: context),
+                                        action: "MoveTargetsSourceColumns",
+                                        method: "post")
+                                    .Button(
+                                        text: Displays.Search(context: context),
+                                        controlCss: "button-icon",
+                                        onClick: "$p.send($('#MoveTargetsSourceColumnsText'));",
+                                        icon: "ui-icon-search")
+                                    .Hidden(
+                                        controlId: "MoveTargetsSourceColumnsOffset",
+                                        value: "0",
+                                        css: "always-send")))));
         }
 
         /// <summary>
@@ -14320,7 +14464,12 @@ namespace Implem.Pleasanter.Models
                         icon: "ui-icon-trash",
                         action: "SetSiteSettings",
                         method: "delete",
-                        confirm: Displays.ConfirmDelete(context: context)))
+                        confirm: Displays.ConfirmDelete(context: context))
+                    .FieldCheckBox(
+                        controlId: "StylesAllDisabled",
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.AllDisabled(context: context),
+                        _checked: ss.StylesAllDisabled == true))
                 .EditStyle(
                     context: context,
                     ss: ss)
@@ -14708,7 +14857,12 @@ namespace Implem.Pleasanter.Models
                         icon: "ui-icon-trash",
                         action: "SetSiteSettings",
                         method: "delete",
-                        confirm: Displays.ConfirmDelete(context: context)))
+                        confirm: Displays.ConfirmDelete(context: context))
+                    .FieldCheckBox(
+                        controlId: "ScriptsAllDisabled",
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.AllDisabled(context: context),
+                        _checked: ss.ScriptsAllDisabled == true))
                 .EditScript(
                     context: context,
                     ss: ss));
@@ -15091,7 +15245,12 @@ namespace Implem.Pleasanter.Models
                         icon: "ui-icon-trash",
                         action: "SetSiteSettings",
                         method: "delete",
-                        confirm: Displays.ConfirmDelete(context: context)))
+                        confirm: Displays.ConfirmDelete(context: context))
+                    .FieldCheckBox(
+                        controlId: "HtmlsAllDisabled",
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.AllDisabled(context: context),
+                        _checked: ss.HtmlsAllDisabled == true))
                 .EditHtml(
                     context: context,
                     ss: ss));
@@ -15528,7 +15687,12 @@ namespace Implem.Pleasanter.Models
                         icon: "ui-icon-trash",
                         action: "SetSiteSettings",
                         method: "delete",
-                        confirm: Displays.ConfirmDelete(context: context)))
+                        confirm: Displays.ConfirmDelete(context: context))
+                    .FieldCheckBox(
+                        controlId: "ServerScriptsAllDisabled",
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.AllDisabled(context: context),
+                        _checked: ss.ServerScriptsAllDisabled  == true))
                 .EditServerScript(
                     context: context,
                     ss: ss));

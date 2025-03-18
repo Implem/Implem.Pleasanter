@@ -320,11 +320,22 @@ namespace Implem.Pleasanter.Models
                 : Views.GetBySession(
                     context: context,
                     ss: ss);
-            var gridData = GetGridData(
-                context: context,
-                ss: ss,
-                view: view,
-                offset: offset);
+            GridData gridData = null;
+            try
+            {
+                gridData = GetGridData(
+                    context: context,
+                    ss: ss,
+                    view: view,
+                    offset: offset);
+            }
+            catch (Implem.Libraries.Exceptions.CanNotGridSortException)
+            {
+                return new ResponseCollection(context: context)
+                    .Message(context.Messages.Last())
+                    .Log(context.GetLog())
+                    .ToJson();
+            }
             var serverScriptModelRow = ss.GetServerScriptModelRow(
                 context: context,
                 view: view,
@@ -3079,7 +3090,11 @@ namespace Implem.Pleasanter.Models
                             onClick: $"$p.cancelNewRow($(this));",
                             icon: "ui-icon-close",
                             action: "CancelNewRow",
-                            method: "post"));
+                            method: "post")
+                        .Hidden(
+                            controlId: $"{ss.ReferenceType}_NewGrid_{ss.SiteId}_{newRowId}",
+                            value: "1",
+                            alwaysSend: true));
                     columns.ForEach(column =>
                     {
                         if (!column.Joined
@@ -3098,7 +3113,6 @@ namespace Implem.Pleasanter.Models
                                     issueModel: issueModel,
                                     column: column,
                                     controlOnly: true,
-                                    alwaysSend: true,
                                     idSuffix: $"_{ss.SiteId}_{newRowId}"));
                         }
                         else if (!column.Joined
@@ -6091,7 +6105,7 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     parts: new string[]
                     {
-                        "Items",
+                        context.Controller,
                         issueId.ToString() 
                             + (issueModel.VerType == Versions.VerTypes.History
                                 ? "?ver=" + context.Forms.Int("Ver") 

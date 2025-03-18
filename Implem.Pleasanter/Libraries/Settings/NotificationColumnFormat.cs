@@ -1,5 +1,5 @@
-﻿using Implem.Libraries.Utilities;
-using DiffMatchPatch;
+﻿using DiffMatchPatch;
+using Implem.Libraries.Utilities;
 using System.Collections.Generic;
 
 namespace Implem.Pleasanter.Libraries.Settings
@@ -49,9 +49,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ? updated
                     ? !saved.IsNullOrEmpty()
                         ? GetColumnDisplayText(
-                            column:column,
-                            saved:saved,
-                            self:self)
+                            column: column,
+                            saved: saved,
+                            self: self)
                         : $"{Header(column)}{Self(self)}"
                     : Always == true
                         ? $"{Header(column)}{Self(self)}"
@@ -61,7 +61,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         private string GetColumnDisplayText(Column column, string saved, string self)
         {
-            switch(DisplayTypes)
+            switch (DisplayTypes)
             {
                 case ValueDisplayTypes.BeforeChange:
                     return $"{Header(column)}{Self(saved)}";
@@ -113,6 +113,8 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         private string GetDiff(Column column, string saved, string self)
         {
+            saved ??= "";
+            self ??= "";
             string startBracket = Strings.CoalesceEmpty(StartBracket, "(");
             string endBracket = Strings.CoalesceEmpty(EndBracket, ")");
             string deletePrefixSymbol = Strings.CoalesceEmpty(DeletePrefixSymbol, "-");
@@ -120,13 +122,17 @@ namespace Implem.Pleasanter.Libraries.Settings
             string addPrefixSymbol = Strings.CoalesceEmpty(AddPrefixSymbol, "+");
             string addSuffixSymbol = Strings.CoalesceEmpty(AddSuffixSymbol, "");
             string diffText = "";
-            diff_match_patch dmp = new diff_match_patch();
-            dmp.Diff_Timeout = 0;
-            List<Diff> results = dmp.diff_main(saved, self ?? "");
-            foreach (Diff diff in results)
+            var dmp = new diff_match_patch()
             {
-                string start = diff.text.StartsWith("\n") ? "\n" + startBracket : startBracket;
-                string end = diff.text.EndsWith("\n") ? endBracket + "\n" : endBracket;
+                Diff_Timeout = 3,
+                Diff_EditCost = 4,
+            };
+            var results = dmp.diff_main(saved, self);
+            dmp.diff_cleanupSemantic(results);
+            foreach (var diff in results)
+            {
+                string start = diff.text.StartsWith("\n") ? $"\n{startBracket}" : startBracket;
+                string end = diff.text.EndsWith("\n") ? $"{endBracket}\n" : endBracket;
                 switch (diff.operation)
                 {
                     case Operation.EQUAL:

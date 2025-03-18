@@ -481,5 +481,31 @@ namespace Implem.SqlServer
         {
             return $@"select * from ""{tableName}"";";
         }
+
+        public string GetChildSiteIdList { get; } = @"
+            with cte as (
+                select 
+                    ""SiteId"",
+                    ""ParentId"",
+                    ""SiteId"" as ""RootSiteId""
+                from ""Sites""
+                where ""ParentId"" = @SiteId_
+                    and ""TenantId"" = @_T
+                union all
+                select 
+                    c.""SiteId"",
+                    c.""ParentId"",
+                    p.""RootSiteId""
+                from ""Sites"" c
+                inner join cte p 
+                on p.""SiteId"" = c.""ParentId""
+                where c.""TenantId"" = @_T
+            )
+            select 
+                ""RootSiteId"",
+                ""SiteId""
+            from cte
+            order by ""RootSiteId"";";
+
     }
 }

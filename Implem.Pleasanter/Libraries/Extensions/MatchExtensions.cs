@@ -65,7 +65,7 @@ namespace Implem.Pleasanter.Libraries.Extensions
             var param = condition.Deserialize<List<string>>();
             if (param.Any())
             {
-                if (param.All(o => o.RegexExists(@"^[0-9\.]*,[0-9\.]*$")))
+                if (param.All(o => o.RegexExists(@"^-?[0-9\.]*,-?[0-9\.]*$")))
                 {
                     return param.Any(o =>
                         (o.Split_1st().IsNullOrEmpty() || o.Split_1st().ToDecimal() <= value) &&
