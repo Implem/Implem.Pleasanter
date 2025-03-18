@@ -23,6 +23,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             Default = Default ?? 1;
             Step = Step ?? 1;
+            ResetType = ResetType ?? AutoNumberingResetTypes.None;
         }
 
         public AutoNumbering GetRecordingData()
