@@ -18,12 +18,15 @@ namespace Implem.PleasanterTest.Models
         public List<BaseTest> BaseTests { get; set; }
         public UserModel UserModel { get; set; }
         public Dictionary<string, string> ExtendedParams {  get; set; }
+        public Dictionary<string, string> SessionData {  get; set; }
+
 
         public TestPart(
             string title = null,
             Dictionary<string, string> routeData = null,
             QueryStrings queryStrings = null,
             Forms forms = null,
+            Dictionary<string, string> sessionData = null,
             object apiRequestBody = null,
             string guid = null,
             string fileName = null,
@@ -41,6 +44,7 @@ namespace Implem.PleasanterTest.Models
             BaseTests = baseTests;
             UserModel = UserData.Get(userType: userType);
             ExtendedParams = extendedParams;
+            SessionData = sessionData;
         }
     }
 }
