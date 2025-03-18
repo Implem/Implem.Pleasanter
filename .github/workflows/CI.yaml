@@ -39,7 +39,7 @@ jobs:
               run: docker compose run --rm --name codedefiner Implem.CodeDefiner _rds /y
               working-directory: ./
             - name: run Implem.Pleasanter on docker compose
-              run: docker compose run -d -p 50001:80 --rm --name pleasanter Implem.Pleasanter
+              run: docker compose run -d -p 50001:8080 --rm --name pleasanter Implem.Pleasanter
               working-directory: ./
             - name: build Implem.TestAutomation
               run: dotnet build "Implem.TestAutomation.csproj" -c Release
