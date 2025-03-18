@@ -557,11 +557,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 siteId.ToString(),
                                 "Binaries",
                                 "SiteImageIcon",
-                                BinaryUtilities.SiteImagePrefix(
+                                BinaryUtilities.SiteImageUpdatedTime(
                                     context: context,
                                     ss: ss,
                                     referenceId: siteId,
                                     sizeType: ImageData.SizeTypes.Icon)
+                                    .ToString("?yyyyMMddHHmmss")
                             }),
                         css: "site-image-icon")
                     : hb;
