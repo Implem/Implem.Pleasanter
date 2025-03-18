@@ -1,0 +1,34 @@
+﻿{
+    "Id": "AdditionalColumns",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Additional Items"
+        },
+        {
+            "Language": "zh",
+            "Body": "附加项目"
+        },
+        {
+            "Language": "ja",
+            "Body": "追加項目"
+        },
+        {
+            "Language": "de",
+            "Body": "Zusätzliche Elemente"
+        },
+        {
+            "Language": "ko",
+            "Body": "추가 항목"
+        },
+        {
+            "Language": "es",
+            "Body": "Elementos adicionales"
+        },
+        {
+            "Language": "vn",
+            "Body": "Mục bổ sung"
+        }
+    ]
+}
