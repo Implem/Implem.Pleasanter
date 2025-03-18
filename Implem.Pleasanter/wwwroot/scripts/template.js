@@ -54,6 +54,11 @@ $p.setTemplateViewer = function () {
     $('.template-tab-container').tabs().addClass('applied');
 }
 
+$p.createSite = async function ($control) {
+    await $p.send($control);
+    window.location.reload();
+}
+
 $p.openSiteTitleDialog = function ($control) {
     if ($('#FieldSetUserTemplate').attr('aria-hidden') === 'false') {
         $('#CreateUserTemplate_Title').text($('#SiteTitle').val());
@@ -87,30 +92,6 @@ $p.openSiteTitleDialog = function ($control) {
             $('#DisableGantt').closest('.field-auto-thin').show();
             $('#DisableBurnDown').closest('.field-auto-thin').show();
         }
-        $('#DisableCalendarLabel').data('calendarDisable') == '1' ?
-            $('#DisableCalendar').attr('checked', true).prop('checked', true).change() :
-            $('#DisableCalendar').removeAttr('checked').prop('checked', false).change();
-        $('#DisableCrosstabLabel').data('crosstabDisable') == '1' ?
-            $('#DisableCrosstab').attr('checked', true).prop('checked', true).change() :
-            $('#DisableCrosstab').removeAttr('checked').prop('checked', false).change();
-        $('#DisableGanttLabel').data('ganttDisable') == '1' ?
-            $('#DisableGantt').attr('checked', true).prop('checked', true).change() :
-            $('#DisableGantt').removeAttr('checked').prop('checked', false).change();
-        $('#DisableBurnDownLabel').data('burnDownDisable') == '1' ?
-            $('#DisableBurnDown').attr('checked', true).prop('checked', true).change() :
-            $('#DisableBurnDown').removeAttr('checked').prop('checked', false).change();
-        $('#DisableTimeSeriesLabel').data('timeSeriesDisable') == '1' ?
-            $('#DisableTimeSeries').attr('checked', true).prop('checked', true).change() :
-            $('#DisableTimeSeries').removeAttr('checked').prop('checked', false).change();
-        $('#DisableAnalyLabel').data('analyDisable') == '1' ?
-            $('#DisableAnaly').attr('checked', true).prop('checked', true).change() :
-            $('#DisableAnaly').removeAttr('checked').prop('checked', false).change();
-        $('#DisableKambanLabel').data('kambanDisable') == '1' ?
-            $('#DisableKamban').attr('checked', true).prop('checked', true).change() :
-            $('#DisableKamban').removeAttr('checked').prop('checked', false).change();
-        $('#DisableImageLibLabel').data('imageLibDisable') == '1' ?
-            $('#DisableImageLib').attr('checked', true).prop('checked', true).change() :
-            $('#DisableImageLib').removeAttr('checked').prop('checked', false).change();
         $('#SiteTitleDialog').dialog({
             modal: true,
             width: "520px",
