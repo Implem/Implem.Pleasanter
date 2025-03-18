@@ -4647,24 +4647,24 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-                private static bool HasInvalidValueAsApiDataAtUpdate(ResultApiModel model)
+        private static bool HasInvalidValueAsApiDataAtUpdate(ResultApiModel model)
+        {
+            if (model is null)
+                return false;
+            foreach (var o in model.AttachmentsHash)
+            {
+                foreach (var attachment in o.Value)
                 {
-                    if (model is null)
-                        return false;
-                    foreach (var o in model.AttachmentsHash)
-                    {
-                        foreach (var attachment in o.Value)
-                        {
-                            if (attachment.Deleted ?? false)
-                                continue;
-                            if (attachment.Name.IsNullOrEmpty())
-                                return true;
-                            if (attachment.Base64 is null && attachment.Base64Binary is null)
-                                return true;
-                        }
-                    }
-                    return false;
+                    if (attachment.Deleted ?? false)
+                        continue;
+                    if (attachment.Name.IsNullOrEmpty())
+                        return true;
+                    if (attachment.Base64 is null && attachment.Base64Binary is null)
+                        return true;
                 }
+            }
+            return false;
+        }
 
         public static ContentResultInheritance UpsertByApi(
             Context context,
@@ -4732,72 +4732,17 @@ namespace Implem.Pleasanter.Models
             switch (resultModel.AccessStatus)
             {
                 case Databases.AccessStatuses.Selected:
-                    break;
+                    return UpdateByApi(
+                        context: context, 
+                        ss: ss, 
+                        resultId: resultModel.ResultId, 
+                        previousTitle: resultModel.Title.DisplayValue);
                 case Databases.AccessStatuses.NotFound:
                     return CreateByApi(context: context, ss: ss);
                 case Databases.AccessStatuses.Overlap:
                     return ApiResults.Get(ApiResponses.Overlap(context: context));
                 default:
                     return ApiResults.Get(ApiResponses.NotFound(context: context));
-            }
-            // サイトの書き込み権限で可否判定を行い、レコード単位のアクセス権はチェックは行わない。
-            var invalid = ResultValidators.OnUpdating(
-                context: context,
-                ss: ss,
-                resultModel: resultModel,
-                api: true,
-                serverScript: true);
-            switch (invalid.Type)
-            {
-                case Error.Types.None: break;
-                default:
-                    return ApiResults.Error(
-                context: context,
-                errorData: invalid);
-            }
-            resultModel.SiteId = ss.SiteId;
-            resultModel.SetTitle(
-                context: context,
-                ss: ss);
-            resultModel.VerUp = Versions.MustVerUp(
-                context: context,
-                ss: ss,
-                baseModel: resultModel);
-            var errorData = resultModel.Update(
-                context: context,
-                ss: ss,
-                notice: true,
-                previousTitle: previousTitle);
-            BinaryUtilities.UploadImage(
-                context: context,
-                ss: ss,
-                id: resultModel.ResultId,
-                postedFileHash: resultModel.PostedImageHash);
-            switch (errorData.Type)
-            {
-                case Error.Types.None:
-                    return ApiResults.Success(
-                        resultModel.ResultId,
-                        limitPerDate: context.ContractSettings.ApiLimit(),
-                        limitRemaining: context.ContractSettings.ApiLimit() - ss.ApiCount,
-                        message: Displays.Updated(
-                            context: context,
-                            data: resultModel.Title.MessageDisplay(context: context)));
-                case Error.Types.Duplicated:
-                    var duplicatedColumn = ss.GetColumn(
-                        context: context,
-                        columnName: errorData.ColumnName);
-                    return ApiResults.Duplicated(
-                        context: context,
-                        message: duplicatedColumn?.MessageWhenDuplicated.IsNullOrEmpty() != false
-                            ? Displays.Duplicated(
-                                context: context,
-                                data: duplicatedColumn?.LabelText)
-                            : duplicatedColumn?.MessageWhenDuplicated);
-                default:
-                    return ApiResults.Error(
-                        context: context,
-                        errorData: errorData);
             }
         }
 

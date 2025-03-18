@@ -2306,24 +2306,24 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-                private static bool HasInvalidValueAsApiDataAtUpdate(WikiApiModel model)
+        private static bool HasInvalidValueAsApiDataAtUpdate(WikiApiModel model)
+        {
+            if (model is null)
+                return false;
+            foreach (var o in model.AttachmentsHash)
+            {
+                foreach (var attachment in o.Value)
                 {
-                    if (model is null)
-                        return false;
-                    foreach (var o in model.AttachmentsHash)
-                    {
-                        foreach (var attachment in o.Value)
-                        {
-                            if (attachment.Deleted ?? false)
-                                continue;
-                            if (attachment.Name.IsNullOrEmpty())
-                                return true;
-                            if (attachment.Base64 is null && attachment.Base64Binary is null)
-                                return true;
-                        }
-                    }
-                    return false;
+                    if (attachment.Deleted ?? false)
+                        continue;
+                    if (attachment.Name.IsNullOrEmpty())
+                        return true;
+                    if (attachment.Base64 is null && attachment.Base64Binary is null)
+                        return true;
                 }
+            }
+            return false;
+        }
 
         public static string Delete(Context context, SiteSettings ss, long wikiId)
         {
