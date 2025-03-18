@@ -151,7 +151,10 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                                 var gridData = new GridData(
                                     context: context,
                                     ss: ss,
-                                    view: view);
+                                    view: view,
+                                    where: packageSiteModel.ReferenceType == "Issues"
+                                        ? Rds.IssuesWhere().SiteId(ss.SiteId)
+                                        : Rds.ResultsWhere().SiteId(ss.SiteId));
                                 if (gridData.TotalCount > 0)
                                 {
                                     Data.Add(gridData.GetJsonExport(

@@ -404,6 +404,7 @@ namespace Implem.MySql
                             select ""Sites"".""InheritPermission""
                             from ""Sites""
                             where ""Sites"".""SiteId""=""{tableName}_Items"".""SiteId""
+                                and ""{tableName}_Items"".""ReferenceType"" = 'Sites'
                         )
                         and ""Permissions"".""PermissionType"" & 1 = 1
                         and {PermissionsWhere}
@@ -504,5 +505,30 @@ namespace Implem.MySql
         {
             return $"";
         }
+
+        public string GetChildSiteIdList { get; } = @"
+            with recursive cte as (
+                select 
+                    ""SiteId"",
+                    ""ParentId"",
+                    ""SiteId"" as ""RootSiteId""
+                from ""Sites""
+                where ""ParentId"" = @SiteId_
+                    and ""TenantId"" = @ipT
+                union all
+                select 
+                    c.""SiteId"",
+                    c.""ParentId"",
+                    p.""RootSiteId""
+                from ""Sites"" c
+                inner join cte p 
+                on p.""SiteId"" = c.""ParentId""
+                where c.""TenantId"" = @ipT
+            )
+            select 
+                ""RootSiteId"",
+                ""SiteId""
+            from cte
+            order by ""RootSiteId""";
     }
 }

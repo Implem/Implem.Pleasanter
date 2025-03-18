@@ -30,5 +30,24 @@ namespace Implem.PleasanterTest.Utilities
                 Value = value
             };
         }
+
+        public static TextTest CountOf(string value, int estimate)
+        {
+            return new TextTest()
+            {
+                Type = TextTest.Types.CountOf,
+                Value = value,
+                Estimate = estimate
+            };
+        }
+
+        public static TextTest CheckOrder(string value, string[] wordArray)
+        {
+            return new TextTest()
+            {
+                Type = TextTest.Types.CheckOrder,
+                WordArray = wordArray
+            };
+        }
     }
 }
