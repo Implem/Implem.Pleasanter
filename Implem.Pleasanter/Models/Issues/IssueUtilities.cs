@@ -5019,55 +5019,17 @@ namespace Implem.Pleasanter.Models
             switch (issueModel.AccessStatus)
             {
                 case Databases.AccessStatuses.Selected:
-                    break;
+                    return UpdateByServerScript(
+                        context: context,
+                        ss: ss,
+                        issueId: issueModel.IssueId, 
+                        previousTitle: issueModel.Title.DisplayValue,
+                        model: model);
                 case Databases.AccessStatuses.NotFound:
                     return CreateByServerScript(
                         context: context,
                         ss: ss,
                         model: model);
-                default:
-                    return false;
-            }
-            // サイトの書き込み権限で可否判定を行い、レコード単位のアクセス権はチェックは行わない。
-            var invalid = IssueValidators.OnUpdating(
-                context: context,
-                ss: ss,
-                issueModel: issueModel,
-                api: true,
-                serverScript: true);
-            switch (invalid.Type)
-            {
-                case Error.Types.None:
-                    break;
-                default:
-                    return false;
-            }
-            issueModel.SiteId = ss.SiteId;
-            issueModel.SetTitle(
-                context: context,
-                ss: ss);
-            issueModel.VerUp = Versions.MustVerUp(
-                context: context,
-                ss: ss,
-                baseModel: issueModel);
-            var errorData = issueModel.Update(
-                context: context,
-                ss: ss,
-                notice: true,
-                previousTitle: previousTitle);
-            switch (errorData.Type)
-            {
-                case Error.Types.None:
-                    if (model is Libraries.ServerScripts.ServerScriptModelApiModel serverScriptModelApiModel)
-                    {
-                        if (serverScriptModelApiModel.Model is IssueModel data)
-                        {
-                            data.SetByModel(issueModel: issueModel);
-                        }
-                    }
-                    return true;
-                case Error.Types.Duplicated:
-                    return false;
                 default:
                     return false;
             }

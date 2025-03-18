@@ -4801,55 +4801,17 @@ namespace Implem.Pleasanter.Models
             switch (resultModel.AccessStatus)
             {
                 case Databases.AccessStatuses.Selected:
-                    break;
+                    return UpdateByServerScript(
+                        context: context,
+                        ss: ss,
+                        resultId: resultModel.ResultId, 
+                        previousTitle: resultModel.Title.DisplayValue,
+                        model: model);
                 case Databases.AccessStatuses.NotFound:
                     return CreateByServerScript(
                         context: context,
                         ss: ss,
                         model: model);
-                default:
-                    return false;
-            }
-            // サイトの書き込み権限で可否判定を行い、レコード単位のアクセス権はチェックは行わない。
-            var invalid = ResultValidators.OnUpdating(
-                context: context,
-                ss: ss,
-                resultModel: resultModel,
-                api: true,
-                serverScript: true);
-            switch (invalid.Type)
-            {
-                case Error.Types.None:
-                    break;
-                default:
-                    return false;
-            }
-            resultModel.SiteId = ss.SiteId;
-            resultModel.SetTitle(
-                context: context,
-                ss: ss);
-            resultModel.VerUp = Versions.MustVerUp(
-                context: context,
-                ss: ss,
-                baseModel: resultModel);
-            var errorData = resultModel.Update(
-                context: context,
-                ss: ss,
-                notice: true,
-                previousTitle: previousTitle);
-            switch (errorData.Type)
-            {
-                case Error.Types.None:
-                    if (model is Libraries.ServerScripts.ServerScriptModelApiModel serverScriptModelApiModel)
-                    {
-                        if (serverScriptModelApiModel.Model is ResultModel data)
-                        {
-                            data.SetByModel(resultModel: resultModel);
-                        }
-                    }
-                    return true;
-                case Error.Types.Duplicated:
-                    return false;
                 default:
                     return false;
             }
