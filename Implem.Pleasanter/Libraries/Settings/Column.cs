@@ -1515,7 +1515,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (column.LabelTextDefault != labelText)
             {
                 LabelText = labelText;
-                GridLabelText = labelText;
+                if (GridLabelText == column.LabelTextDefault)
+                {
+                    GridLabelText = labelText;
+                }
             }
             if (defaultInput != null) DefaultInput = defaultInput;
             if (description != null) Description = description;
