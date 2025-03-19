@@ -24,14 +24,18 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 try
                 {
                     using (var con = LdapConnection(
-                        ldap.LdapSyncUser,
-                        ldap.LdapSyncPassword, 
+                        ldap.LdapLoginPattern != null
+                            ? ldap.LdapLoginPattern.Replace("{loginId}", loginId)
+                            : loginId,
+                        password,
                         ldap))
                     {
                         var entry = con.Search(
                             con.DN(ldap),
                             Novell.Directory.Ldap.LdapConnection.ScopeSub,
-                            $"({ldap.LdapSearchProperty}={loginId})",
+                            ldap.LdapSearchPattern != null
+                                ? ldap.LdapSearchPattern.Replace("{loginId}", loginId)
+                                : $"({ldap.LdapSearchProperty}={loginId})",
                             null,
                             false).FindOne();
                         if (entry != null)
@@ -71,8 +75,9 @@ namespace Implem.Pleasanter.Libraries.DataSources
             {
                 var root = new DirectoryEntry(ldap.LdapSearchRoot);
                 var searcher = new DirectorySearcher(root);
-                searcher.Filter = "({0}={1})".Params(
-                    ldap.LdapSearchProperty, loginId.Split_2nd('\\'));
+                searcher.Filter = ldap.LdapSearchPattern != null
+                    ? ldap.LdapSearchPattern.Replace("{loginId}", loginId)
+                    : $"({ldap.LdapSearchProperty}={loginId.Split_2nd('\\')})";
                 try
                 {
                     var searchResult = searcher.FindOne();
