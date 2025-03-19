@@ -3205,14 +3205,14 @@ namespace Implem.Pleasanter.Models
                 siteModel.Title = new Title(context.Forms.Data("SiteTitle"));
                 siteModel.Body = templateDefinition.Body;
                 siteModel.SiteSettings = templateSs;
-                siteModel.SiteSettings.EnableCalendar = context.Forms.Data("DisableCalendar").ToBool() ? !context.Forms.Data("DisableCalendar").ToBool() : !Parameters.General.DefaultCalendarDisable;
-                siteModel.SiteSettings.EnableCrosstab = context.Forms.Data("DisableCrosstab").ToBool() ? !context.Forms.Data("DisableCrosstab").ToBool() : !Parameters.General.DefaultCrosstabDisable;
-                siteModel.SiteSettings.EnableGantt = context.Forms.Data("DisableGantt").ToBool() ? !context.Forms.Data("DisableGantt").ToBool() : !Parameters.General.DefaultGanttDisable;
-                siteModel.SiteSettings.EnableBurnDown = context.Forms.Data("DisableBurnDown").ToBool() ? !context.Forms.Data("DisableBurnDown").ToBool() : !Parameters.General.DefaultBurnDownDisable;
-                siteModel.SiteSettings.EnableTimeSeries = context.Forms.Data("DisableTimeSeries").ToBool() ? !context.Forms.Data("DisableTimeSeries").ToBool() : !Parameters.General.DefaultTimeSeriesDisable;
-                siteModel.SiteSettings.EnableAnaly = context.Forms.Data("DisableAnaly").ToBool() ? !context.Forms.Data("DisableAnaly").ToBool() : !Parameters.General.DefaultAnalyDisable;
-                siteModel.SiteSettings.EnableKamban = context.Forms.Data("DisableKamban").ToBool() ? !context.Forms.Data("DisableKamban").ToBool() : !Parameters.General.DefaultKambanDisable;
-                siteModel.SiteSettings.EnableImageLib = context.Forms.Data("DisableImageLib").ToBool() ? !context.Forms.Data("DisableImageLib").ToBool() : !Parameters.General.DefaultImageLibDisable;
+                siteModel.SiteSettings.EnableCalendar = context.Forms.Data("DisableCalendar").ToBool();
+                siteModel.SiteSettings.EnableCrosstab = context.Forms.Data("DisableCrosstab").ToBool();
+                siteModel.SiteSettings.EnableGantt = context.Forms.Data("DisableGantt").ToBool();
+                siteModel.SiteSettings.EnableBurnDown = context.Forms.Data("DisableBurnDown").ToBool();
+                siteModel.SiteSettings.EnableTimeSeries = context.Forms.Data("DisableTimeSeries").ToBool();
+                siteModel.SiteSettings.EnableAnaly = context.Forms.Data("DisableAnaly").ToBool();
+                siteModel.SiteSettings.EnableKamban = context.Forms.Data("DisableKamban").ToBool();
+                siteModel.SiteSettings.EnableImageLib = context.Forms.Data("DisableImageLib").ToBool();
                 siteModel.Create(context: context, otherInitValue: true);
                 return SiteMenuResponse(
                     context: context,
@@ -4806,8 +4806,7 @@ namespace Implem.Pleasanter.Models
                                     controlId: "DisableCalendar",
                                     fieldCss: "field-auto-thin",
                                     labelText: Displays.DisableCalendar(context: context),
-                                    //_checked: ss.EnableCalendar == Parameters.General.DefaultCalendarDisable)
-                                    _checked: ss.EnableCalendar == true)
+                                    _checked: ss.EnableCalendar == Parameters.General.DefaultCalendarDisable)
                                 .FieldCheckBox(
                                     controlId: "DisableCrosstab",
                                     fieldCss: "field-auto-thin",
