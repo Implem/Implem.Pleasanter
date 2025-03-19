@@ -1474,6 +1474,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         public void Update(
+            Column column,
             string columnName,
             string labelText,
             string gridLabalText,
@@ -1511,8 +1512,11 @@ namespace Implem.Pleasanter.Libraries.Settings
             int? dateTimeStep)
         {
             if (columnName != null) ColumnName = columnName;
-            if (labelText != null) LabelText = labelText;
-            if (gridLabalText != null) GridLabelText = gridLabalText;
+            if (column.LabelTextDefault != labelText)
+            {
+                LabelText = labelText;
+                GridLabelText = labelText;
+            }
             if (defaultInput != null) DefaultInput = defaultInput;
             if (description != null) Description = description;
             if (inputGuide != null) InputGuide = inputGuide;

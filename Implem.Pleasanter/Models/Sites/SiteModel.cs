@@ -2474,14 +2474,20 @@ namespace Implem.Pleasanter.Models
             {
                 var currentCloumnsApi = siteSetting.Columns.FirstOrDefault(o =>
                     o.ColumnName == ssApiSetting.ColumnName);
-                if(ssApiSetting.IsNewEnable)
+                var defaultColumnHash = new Column();
+                if (siteSetting.ColumnHash.ContainsKey(ssApiSetting.ColumnName))
+                {
+                    defaultColumnHash = siteSetting.ColumnHash[ssApiSetting.ColumnName];
+                }
+                if (ssApiSetting.IsNewEnable)
                 {
                     currentCloumnsApi = siteSetting.ResetColumn(context, ssApiSetting.ColumnName);
                 }
                 if (currentCloumnsApi != null)
                 {
                     currentCloumnsApi.Update(
-                    columnName : ssApiSetting.ColumnName,
+                        column: defaultColumnHash,
+                        columnName: ssApiSetting.ColumnName,
                     labelText: ssApiSetting.LabelText,
                     gridLabalText: ssApiSetting.GridLabelText,
                     defaultInput: ssApiSetting.DefaultInput,
@@ -2490,7 +2496,7 @@ namespace Implem.Pleasanter.Models
                     choicesText: ssApiSetting.ChoicesText,
                     gridFormat: ssApiSetting.GridFormat,
                     editorFormat: ssApiSetting.EditorFormat,
-                    controlType:ssApiSetting.ControlType,
+                        controlType: ssApiSetting.ControlType,
                     choicesControlType: ssApiSetting.ChoicesControlType,
                     format: ssApiSetting.Format,
                     fieldCss: ssApiSetting.FieldCss,
@@ -2504,11 +2510,11 @@ namespace Implem.Pleasanter.Models
                     min: ssApiSetting.Min,
                     max: ssApiSetting.Max,
                     step: ssApiSetting.Step,
-                    noDuplication : ssApiSetting.NoDuplication,
+                        noDuplication: ssApiSetting.NoDuplication,
                     editorReadOnly: ssApiSetting.EditorReadOnly,
                     allowDeleteAttachments: ssApiSetting.AllowDeleteAttachments,
                     link: ssApiSetting.Link,
-                    allowImage : ssApiSetting.AllowImage,
+                        allowImage: ssApiSetting.AllowImage,
                     viewerSwitchingType: ssApiSetting.ViewerSwitchingType,
                     textAlign: ssApiSetting.TextAlign,
                     limitQuantity: ssApiSetting.LimitQuantity,
