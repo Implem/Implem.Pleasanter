@@ -120,8 +120,7 @@ namespace Implem.Pleasanter.Libraries.General
             UserDisabled,
             UserLockout,
             UserNotSelfDelete,
-            UsersLimit,
-            NotRequiredColumn
+            UsersLimit
         }
 
         public static bool Has(this Types type)
