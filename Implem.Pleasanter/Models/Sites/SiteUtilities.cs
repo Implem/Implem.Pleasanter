@@ -4303,16 +4303,13 @@ namespace Implem.Pleasanter.Models
             bool toParent = false,
             IEnumerable<SiteCondition> siteConditions = null)
         {
-            var hasImage = BinaryUtilities.ExistsSiteImage(
+            var siteImageUpdatedTime = BinaryUtilities.SiteImageUpdatedTime(
                 context: context,
                 ss: ss,
                 referenceId: siteId,
                 sizeType: Libraries.Images.ImageData.SizeTypes.Thumbnail);
-            var siteImagePrefix = BinaryUtilities.SiteImagePrefix(
-                context: context,
-                ss: ss,
-                referenceId: siteId,
-                sizeType: Libraries.Images.ImageData.SizeTypes.Thumbnail);
+            var hasImage = siteImageUpdatedTime > DateTime.FromOADate(0);
+            var siteImagePrefix = siteImageUpdatedTime.ToString("?yyyyMMddHHmmss");
             return hb.Li(
                 attributes: new HtmlAttributes()
                     .Class(Css.Class("nav-site " + referenceType.ToLower() +
