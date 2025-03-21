@@ -1989,6 +1989,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string CloseDialogWithoutSaving(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "CloseDialogWithoutSaving",
+                data: data);
+        }
+
         public static string CodeDefinerBackupCompleted(
             Context context,
             params string[] data)
@@ -9706,6 +9716,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "SmartDesign",
+                data: data);
+        }
+
+        public static string SmartDesignExit(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SmartDesignExit",
                 data: data);
         }
 
