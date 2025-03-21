@@ -1,0 +1,12 @@
+﻿{
+    "Id": "DashboardPartReference_Wikis",
+    "Language": "ja",
+    "Type": "Sites",
+    "ParentId": "DashboardPartFolder",
+    "Title": "参照先(Wiki)",
+    "ClassA": "Results",
+    "Creator": "User2",
+    "Updator": "User2",
+    "CreatedTime": "36640",
+    "UpdatedTime": "36640"
+}

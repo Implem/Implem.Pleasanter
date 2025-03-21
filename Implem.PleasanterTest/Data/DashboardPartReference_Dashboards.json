@@ -1,0 +1,12 @@
+﻿{
+    "Id": "DashboardPartReference_Dashboards",
+    "Language": "ja",
+    "Type": "Sites",
+    "ParentId": "DashboardPartFolder",
+    "Title": "参照先(ダッシュボード)",
+    "ClassA": "Results",
+    "Creator": "User2",
+    "Updator": "User2",
+    "CreatedTime": "36640",
+    "UpdatedTime": "36640"
+}
