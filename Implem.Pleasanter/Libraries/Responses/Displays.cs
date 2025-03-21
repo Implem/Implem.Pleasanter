@@ -3579,6 +3579,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string DragColumn(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "DragColumn",
+                data: data);
+        }
+
         public static string DropDownList(
             Context context,
             params string[] data)
