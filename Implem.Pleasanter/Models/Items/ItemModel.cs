@@ -801,7 +801,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public string SmartDesignJson(Context context)
+         public string SmartDesignJson(Context context)
         {
             SetSite(
                 context: context,
@@ -835,8 +835,6 @@ namespace Implem.Pleasanter.Models
                 case "Sites":
                 case "Issues":
                 case "Results":
-                case "Wikis":
-                case "Dashboards":
                     return SiteUtilities.UpdateSmartDesign(
                         context: context,
                         ss: Site.SiteSettings,

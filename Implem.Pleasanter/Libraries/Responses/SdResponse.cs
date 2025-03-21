@@ -2,6 +2,7 @@
 using Implem.Pleasanter.Models;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Implem.Pleasanter.Libraries.Responses
@@ -44,27 +45,37 @@ namespace Implem.Pleasanter.Libraries.Responses
             string referrer = url.Split('?')
                 .First()
                 .Split('/')
-                .Last();          
-            switch (referrer)
+                .Last();
+            if (referrer is "new" or "edit" or "index")
             {
-                case "new":
-                case "edit":
-                case "index":
-                    return url;
-                default:
-                    int number;
-                    bool isNumeric = int.TryParse(referrer, out number);
-                    if (isNumeric)
-                    {
-                        return url;
-                    }
-                    return url.Replace(referrer, "index");
+                return url;
             }
+            return int.TryParse(referrer, out _) ? url : url.Replace(referrer, "index");
         }
 
         public string ToJson()
         {
             return JsonConvert.SerializeObject(this);
+        }
+
+        public static SdResponse SdResponseJson(
+            ResponseCollection response)
+        {
+            response.Select(o =>
+            {
+                if (o.Method == "Messages")
+                {
+                    var value = o.Value as Dictionary<string, object>;
+                    if (value != null && value.ContainsKey("Id") && value.ContainsKey("Text"))
+                    {
+                        return new SdResponse(
+                            method: value["Id"].ToString(),
+                            value: value["Text"]);
+                    }
+                }
+                return null;
+            });
+            return null;
         }
     }
 }

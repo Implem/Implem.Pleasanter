@@ -17,6 +17,7 @@ using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Libraries.Web;
+using Implem.Pleasanter.Models.ApiSiteSettings;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -2475,11 +2476,12 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return invalid.MessageJson(context: context);
+                default: return invalid.SdMessageJson(context: context);
             }
             if (siteModel.AccessStatus != Databases.AccessStatuses.Selected)
             {
-                return Messages.ResponseDeleteConflicts(context: context).ToJson();
+                var response = Messages.ResponseDeleteConflicts(context: context);
+                return SdResponse.SdResponseJson(response).ToJson();
             }
             var siteSettingsApiModel = jsonBody.Deserialize<ApiSiteSettings.SiteSettingsApiModel>();
             siteModel.Timestamp = siteSettingsApiModel.Timestamp;
@@ -2541,7 +2543,6 @@ namespace Implem.Pleasanter.Models
                     return errorData.MessageJson(context: context);
             }
         }
-
 
         /// <summary>
         /// Fixed:
