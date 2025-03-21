@@ -801,7 +801,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public string SmartDesignJson(Context context)
+         public string SmartDesignJson(Context context)
         {
             SetSite(
                 context: context,

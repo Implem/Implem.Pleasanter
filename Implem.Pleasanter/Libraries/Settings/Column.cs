@@ -1554,8 +1554,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (dateTimeStep != null) DateTimeStep = dateTimeStep;
         }
 
-
-
         private void SelectColumns(
             SqlColumnCollection sql,
             string tableName,
