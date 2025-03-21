@@ -358,7 +358,7 @@ namespace Implem.Pleasanter.Controllers
             return Content(json);
         }
 
-        [AcceptVerbs(HttpVerbs.Get, HttpVerbs.Post)]
+        [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult SmartDesign(long id = 0)
         {
             var context = new Context();

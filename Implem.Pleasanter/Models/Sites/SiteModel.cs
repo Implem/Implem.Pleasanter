@@ -16,16 +16,11 @@ using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.ServerScripts;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models.ApiSiteSettings;
-using Microsoft.AspNetCore.Routing;
-using SixLabors.ImageSharp.Formats.Gif;
-using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
-using System.Data.SqlTypes;
 using System.Linq;
-using System.Reflection;
 using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
 using static Implem.Pleasanter.Libraries.Settings.Column;
 using static Implem.Pleasanter.Libraries.Settings.SiteSettings;
@@ -2465,6 +2460,9 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public void UpsertColumnsByApi(
             Context context,
             SiteSettings siteSetting,
@@ -2474,14 +2472,20 @@ namespace Implem.Pleasanter.Models
             {
                 var currentCloumnsApi = siteSetting.Columns.FirstOrDefault(o =>
                     o.ColumnName == ssApiSetting.ColumnName);
-                if(ssApiSetting.IsNewEnable)
+                var defaultColumnHash = new Column();
+                if (siteSetting.ColumnHash.ContainsKey(ssApiSetting.ColumnName))
+                {
+                    defaultColumnHash = siteSetting.ColumnHash[ssApiSetting.ColumnName];
+                }
+                if (ssApiSetting.IsNewEnable)
                 {
                     currentCloumnsApi = siteSetting.ResetColumn(context, ssApiSetting.ColumnName);
                 }
                 if (currentCloumnsApi != null)
                 {
                     currentCloumnsApi.Update(
-                    columnName : ssApiSetting.ColumnName,
+                        column: defaultColumnHash,
+                        columnName: ssApiSetting.ColumnName,
                     labelText: ssApiSetting.LabelText,
                     gridLabalText: ssApiSetting.GridLabelText,
                     defaultInput: ssApiSetting.DefaultInput,
@@ -2490,7 +2494,7 @@ namespace Implem.Pleasanter.Models
                     choicesText: ssApiSetting.ChoicesText,
                     gridFormat: ssApiSetting.GridFormat,
                     editorFormat: ssApiSetting.EditorFormat,
-                    controlType:ssApiSetting.ControlType,
+                        controlType: ssApiSetting.ControlType,
                     choicesControlType: ssApiSetting.ChoicesControlType,
                     format: ssApiSetting.Format,
                     fieldCss: ssApiSetting.FieldCss,
@@ -2504,11 +2508,11 @@ namespace Implem.Pleasanter.Models
                     min: ssApiSetting.Min,
                     max: ssApiSetting.Max,
                     step: ssApiSetting.Step,
-                    noDuplication : ssApiSetting.NoDuplication,
+                        noDuplication: ssApiSetting.NoDuplication,
                     editorReadOnly: ssApiSetting.EditorReadOnly,
                     allowDeleteAttachments: ssApiSetting.AllowDeleteAttachments,
                     link: ssApiSetting.Link,
-                    allowImage : ssApiSetting.AllowImage,
+                        allowImage: ssApiSetting.AllowImage,
                     viewerSwitchingType: ssApiSetting.ViewerSwitchingType,
                     textAlign: ssApiSetting.TextAlign,
                     limitQuantity: ssApiSetting.LimitQuantity,
@@ -2521,13 +2525,19 @@ namespace Implem.Pleasanter.Models
             });
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public void UpsertGridColumnsByApi(
            SiteSettings siteSetting,
            List<string> columnsApiSiteSetting)
         {
             siteSetting.GridColumns = columnsApiSiteSetting;
         }
-        
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public void UpsertFilterColumnsByApi(
            SiteSettings siteSetting,
            List<string> columnsApiSiteSetting)
@@ -2535,6 +2545,9 @@ namespace Implem.Pleasanter.Models
             siteSetting.FilterColumns = columnsApiSiteSetting;
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public void UpsertSectionsByApi(
            SiteSettings siteSetting,
            int? sectionLatestId,
@@ -2584,6 +2597,9 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public void UpsertLinksByApi(
            SiteSettings siteSetting,
            List<ApiSiteSettings.LinkApiSettingModel> linksApiSiteSetting)
@@ -2634,6 +2650,10 @@ namespace Implem.Pleasanter.Models
                 }
             });
         }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public void UpsertEditorColumnHashByApi(
            SiteSettings siteSetting,
            Dictionary<string, List<string>> columnsApiSiteSetting)
@@ -2641,6 +2661,7 @@ namespace Implem.Pleasanter.Models
             //更新EditorColumnHashをそのまま上書き
             siteSetting.EditorColumnHash = columnsApiSiteSetting;
         }
+
         /// <summary>
         /// Fixed:
         /// </summary>
