@@ -835,8 +835,6 @@ namespace Implem.Pleasanter.Models
                 case "Sites":
                 case "Issues":
                 case "Results":
-                case "Wikis":
-                case "Dashboards":
                     return SiteUtilities.UpdateSmartDesign(
                         context: context,
                         ss: Site.SiteSettings,

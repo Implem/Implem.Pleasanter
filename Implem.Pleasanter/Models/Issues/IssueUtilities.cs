@@ -10482,6 +10482,10 @@ namespace Implem.Pleasanter.Models
 
         public static string SmartDesignJson(Context context, SiteSettings ss,SiteModel siteModel)
         {
+            if (!context.CanManageSite(ss: ss))
+            {
+                return Messages.ResponseHasNotPermission(context: context).ToJson();
+            }
             var smartDesignModel = new SmartDesignApiModel(
                 context: context,
                 ss: ss,
