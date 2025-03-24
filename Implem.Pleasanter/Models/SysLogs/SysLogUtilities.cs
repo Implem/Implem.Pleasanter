@@ -2192,7 +2192,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             sysLogModel: sysLogModel,
-                            process: processes?.FirstOrDefault(o => o.MatchConditions)));
+                            processes: processes));
                     return new ResponseCollection(
                         context: context,
                         id: sysLogModel.SysLogId)
@@ -2219,13 +2219,15 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             SysLogModel sysLogModel,
-            Process process)
+            List<Process> processes)
         {
+            var process = processes?.FirstOrDefault(o => !o.SuccessMessage.IsNullOrEmpty()
+                && o.MatchConditions);
             if (process == null)
             {
                 return Messages.Created(
                     context: context,
-                    data: sysLogModel.Title.Value);
+                    data: sysLogModel.Title.MessageDisplay(context: context));
             }
             else
             {
@@ -2526,7 +2528,7 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     parts: new string[]
                     {
-                        "Items",
+                        context.Controller,
                         sysLogId.ToString() 
                             + (sysLogModel.VerType == Versions.VerTypes.History
                                 ? "?ver=" + context.Forms.Int("Ver") 
