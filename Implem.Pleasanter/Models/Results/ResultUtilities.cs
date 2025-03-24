@@ -3255,7 +3255,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             resultModel: resultModel,
-                            process: processes?.FirstOrDefault(o => o.MatchConditions)));
+                            processes: processes));
                     return new ResponseCollection(
                         context: context,
                         id: resultModel.ResultId)
@@ -3305,13 +3305,15 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             ResultModel resultModel,
-            Process process)
+            List<Process> processes)
         {
+            var process = processes?.FirstOrDefault(o => !o.SuccessMessage.IsNullOrEmpty()
+                && o.MatchConditions);
             if (process == null)
             {
                 return Messages.Created(
                     context: context,
-                    data: resultModel.Title.DisplayValue);
+                    data: resultModel.Title.MessageDisplay(context: context));
             }
             else
             {
@@ -3408,7 +3410,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             resultModel: resultModel,
-                            process: process).Text);
+                            processes: process?.ToSingleList()).Text);
                 case Error.Types.Duplicated:
                     var duplicatedColumn = ss.GetColumn(
                         context: context,

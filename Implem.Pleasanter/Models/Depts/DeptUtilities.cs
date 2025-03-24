@@ -1549,7 +1549,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             deptModel: deptModel,
-                            process: processes?.FirstOrDefault(o => o.MatchConditions)));
+                            processes: processes));
                     return new ResponseCollection(
                         context: context,
                         id: deptModel.DeptId)
@@ -1576,13 +1576,15 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             DeptModel deptModel,
-            Process process)
+            List<Process> processes)
         {
+            var process = processes?.FirstOrDefault(o => !o.SuccessMessage.IsNullOrEmpty()
+                && o.MatchConditions);
             if (process == null)
             {
                 return Messages.Created(
                     context: context,
-                    data: deptModel.Title.Value);
+                    data: deptModel.Title.MessageDisplay(context: context));
             }
             else
             {
