@@ -2519,7 +2519,8 @@ namespace Implem.Pleasanter.Models
             }
             var errorData = siteModel.Update(
                context: context,
-               ss: ss);
+               ss: ss,
+               setBySession:false);
             switch (errorData.Type)
             {
                 case Error.Types.None:
