@@ -51,7 +51,9 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: implem/pleasanter
-          tags: codedefiner
+          tags: |
+            codedefiner
+            codedefiner-${{ steps.split.outputs.RELEASEVER }}
       - name: Build and push (CodeDefiner)
         uses: docker/build-push-action@v5
         with:
