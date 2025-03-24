@@ -2,13 +2,15 @@
     Context context,
     SiteSettings ss,
     #ModelName#Model #modelName#Model,
-    Process process)
+    List<Process> processes)
 {
+    var process = processes?.FirstOrDefault(o => !o.SuccessMessage.IsNullOrEmpty()
+        && o.MatchConditions);
     if (process == null)
     {
         return Messages.Created(
             context: context,
-            data: #modelName#Model.Title.<!--Model_Utilities_TitleDisplay-->Value);
+            data: #modelName#Model.Title.MessageDisplay(context: context));
     }
     else
     {

@@ -4,7 +4,7 @@
         context: context,
         ss: ss,
         #modelName#Model: #modelName#Model,
-        process: processes?.FirstOrDefault(o => o.MatchConditions)));
+        processes: processes));
 return new ResponseCollection(
     context: context,
     id: #modelName#Model.#ModelName#Id)

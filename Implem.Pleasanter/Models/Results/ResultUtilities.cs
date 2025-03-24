@@ -2879,7 +2879,11 @@ namespace Implem.Pleasanter.Models
                             onClick: $"$p.cancelNewRow($(this));",
                             icon: "ui-icon-close",
                             action: "CancelNewRow",
-                            method: "post"));
+                            method: "post")
+                        .Hidden(
+                            controlId: $"{ss.ReferenceType}_NewGrid_{ss.SiteId}_{newRowId}",
+                            value: "1",
+                            alwaysSend: true));
                     columns.ForEach(column =>
                     {
                         if (!column.Joined
@@ -2898,7 +2902,6 @@ namespace Implem.Pleasanter.Models
                                     resultModel: resultModel,
                                     column: column,
                                     controlOnly: true,
-                                    alwaysSend: true,
                                     idSuffix: $"_{ss.SiteId}_{newRowId}"));
                         }
                         else if (!column.Joined
@@ -3252,7 +3255,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             resultModel: resultModel,
-                            process: processes?.FirstOrDefault(o => o.MatchConditions)));
+                            processes: processes));
                     return new ResponseCollection(
                         context: context,
                         id: resultModel.ResultId)
@@ -3302,13 +3305,15 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             ResultModel resultModel,
-            Process process)
+            List<Process> processes)
         {
+            var process = processes?.FirstOrDefault(o => !o.SuccessMessage.IsNullOrEmpty()
+                && o.MatchConditions);
             if (process == null)
             {
                 return Messages.Created(
                     context: context,
-                    data: resultModel.Title.DisplayValue);
+                    data: resultModel.Title.MessageDisplay(context: context));
             }
             else
             {
@@ -3405,7 +3410,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             resultModel: resultModel,
-                            process: process).Text);
+                            processes: process?.ToSingleList()).Text);
                 case Error.Types.Duplicated:
                     var duplicatedColumn = ss.GetColumn(
                         context: context,
@@ -4653,13 +4658,15 @@ namespace Implem.Pleasanter.Models
                 return false;
             foreach (var o in model.AttachmentsHash)
             {
+                //api/binaries/{guid}/upload 起点のAttachmentsHashのKeyにはpostfix "#Uploading" が付いている
+                var isUploading = o.Key.EndsWith("#Uploading");
                 foreach (var attachment in o.Value)
                 {
                     if (attachment.Deleted ?? false)
                         continue;
                     if (attachment.Name.IsNullOrEmpty())
                         return true;
-                    if (attachment.Base64 is null && attachment.Base64Binary is null)
+                    if (!isUploading && attachment.Base64 is null && attachment.Base64Binary is null)
                         return true;
                 }
             }
