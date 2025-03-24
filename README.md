@@ -39,43 +39,84 @@ Pleasanter is a development platform that utilizes both no-code and low-code app
 First, please make sure that Docker is available :)
 If necessary, run the Docker command with sudo when executing it.
 
-1. Create docker network
+1. Create directory and files
+   - Create the following directories and files.
+      ```
+      pleasanter/  
+      ├── .env  
+      └── compose.yaml
+      ```
+2. Edit files
+   - Edit each file as follows. “{{ ... }}” should be modified accordingly.
+     - .env
+        ```
+        POSTGRES_VERSION={{PostgreSQL Version}}
+        POSTGRES_USER={{Sa User}}
+        POSTGRES_PASSWORD={{Sa Password}}
+        POSTGRES_DB={{System DB}}
+        POSTGRES_HOST_AUTH_METHOD=scram-sha-256
+        POSTGRES_INITDB_ARGS="--auth-host=scram-sha-256 --encoding=UTF-8"
+        PLEASANTER_VERSION={{Pleasanter Version}}
+        Implem_Pleasanter_Rds_PostgreSQL_SaConnectionString='Server=db;Database={{System DB}};UID={{Sa User}};PWD={{Sa password}}'
+        Implem_Pleasanter_Rds_PostgreSQL_OwnerConnectionString='Server=db;Database=#ServiceName#;UID=#ServiceName#_Owner;PWD={{Owner password}}'
+        Implem_Pleasanter_Rds_PostgreSQL_UserConnectionString='Server=db;Database=#ServiceName#;UID=#ServiceName#_User;PWD={{User password}}'
+        ```
+
+     - compose.yaml
+         ```
+         services:
+           db:
+             container_name: postgres
+             image: postgres:${POSTGRES_VERSION}
+             environment:
+               - POSTGRES_USER
+               - POSTGRES_PASSWORD
+               - POSTGRES_DB
+               - POSTGRES_HOST_AUTH_METHOD
+               - POSTGRES_INITDB_ARGS
+             volumes:
+               - type: volume
+                 source: pg_data
+                 target: /var/lib/postgresql/data
+           pleasanter:
+             container_name: pleasanter
+             image: implem/pleasanter:${PLEASANTER_VERSION}
+             depends_on:
+               - db
+             ports:
+               - '50001:8080'
+             environment:
+               Implem.Pleasanter_Rds_PostgreSQL_SaConnectionString: ${Implem_Pleasanter_Rds_PostgreSQL_SaConnectionString}
+               Implem.Pleasanter_Rds_PostgreSQL_OwnerConnectionString: ${Implem_Pleasanter_Rds_PostgreSQL_OwnerConnectionString}
+               Implem.Pleasanter_Rds_PostgreSQL_UserConnectionString: ${Implem_Pleasanter_Rds_PostgreSQL_UserConnectionString}
+           codedefiner:
+             container_name: codedefiner
+             image: implem/pleasanter:codedefiner
+             depends_on:
+               - db
+             environment:
+               Implem.Pleasanter_Rds_PostgreSQL_SaConnectionString: ${Implem_Pleasanter_Rds_PostgreSQL_SaConnectionString}
+               Implem.Pleasanter_Rds_PostgreSQL_OwnerConnectionString: ${Implem_Pleasanter_Rds_PostgreSQL_OwnerConnectionString}
+               Implem.Pleasanter_Rds_PostgreSQL_UserConnectionString: ${Implem_Pleasanter_Rds_PostgreSQL_UserConnectionString}
+         volumes:
+           pg_data:
+             name: ${COMPOSE_PROJECT_NAME:-default}_pg_data_volume
+         ```
+3. Get image
+   ```
+   docker compose pull
+   ```
+
+4. Run CodeDefiner
 
    ```shell
-   docker network create pleasanter-net
+   docker compose run --rm codedefiner _rds /l "<language>" /z "<timezone>"
    ```
 
-1. Run PostgreSQL
-
-   ```shell
-   docker run --rm -d \
-       --network pleasanter-net \
-       --name db \
-       --env POSTGRES_USER=postgres \
-       --env POSTGRES_PASSWORD=<Any Sa password> \
-       --env POSTGRES_DB=postgres \
-       postgres:15
-   ```
-
-1. Environment variables
-
-   Set the required environment variables. It is easy to write them in your `env-list` file.
-   Example:
-
-   ```text
-    Implem.Pleasanter_Rds_PostgreSQL_SaConnectionString=Server=db;Database=postgres;UID=postgres;PWD=<Any Sa password>
-    Implem.Pleasanter_Rds_PostgreSQL_OwnerConnectionString=Server=db;Database=#ServiceName#;UID=#ServiceName#_Owner;PWD=<Any Owner password>
-    Implem.Pleasanter_Rds_PostgreSQL_UserConnectionString=Server=db;Database=#ServiceName#;UID=#ServiceName#_User;PWD=<Any User password>
-   ```
-
-1. Run CodeDefiner
-
-   ```shell
-   docker run --rm --network pleasanter-net \
-       --name codedefiner \
-       --env-file env-list \
-       implem/pleasanter:codedefiner _rds
-   ```
+   - example
+      ```
+      docker compose run --rm codedefiner _rds /l "ja" /z "Asia/Tokyo"
+      ```
 
 > [!NOTE]
 > In version 1.4.8.0, the behavior of the CodeDefiner's _rds command has been changed.
@@ -86,11 +127,7 @@ If necessary, run the Docker command with sudo when executing it.
 1. Start Pleasanter
 
    ```shell
-   docker run --rm --network pleasanter-net \
-       --name pleasanter \
-       --env-file env-list \
-       -p 50001:8080 \
-       implem/pleasanter
+   docker compose up -d pleasanter
    ```
 
    `50001` in `-p` is the port of the site when accessing. (Change it as necessary)
@@ -98,13 +135,10 @@ If necessary, run the Docker command with sudo when executing it.
 
    When you access the site, you will be asked to log in. Enter the initial user name: `Administrator` and initial password: `pleasanter` to log in.
 
-   If you want to stop pleasanter container, press Ctrl-C.
-
 1. Terminate
 
    ```shell
-   docker stop db
-   docker network rm pleasanter-net
+   docker compose down
    ```
 
 ### Demonstration

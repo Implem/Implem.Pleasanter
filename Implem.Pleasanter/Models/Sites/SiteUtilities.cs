@@ -1102,13 +1102,15 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             SiteModel siteModel,
-            Process process)
+            List<Process> processes)
         {
+            var process = processes?.FirstOrDefault(o => !o.SuccessMessage.IsNullOrEmpty()
+                && o.MatchConditions);
             if (process == null)
             {
                 return Messages.Created(
                     context: context,
-                    data: siteModel.Title.Value);
+                    data: siteModel.Title.MessageDisplay(context: context));
             }
             else
             {
@@ -4345,16 +4347,13 @@ namespace Implem.Pleasanter.Models
             bool toParent = false,
             IEnumerable<SiteCondition> siteConditions = null)
         {
-            var hasImage = BinaryUtilities.ExistsSiteImage(
+            var siteImageUpdatedTime = BinaryUtilities.SiteImageUpdatedTime(
                 context: context,
                 ss: ss,
                 referenceId: siteId,
                 sizeType: Libraries.Images.ImageData.SizeTypes.Thumbnail);
-            var siteImagePrefix = BinaryUtilities.SiteImagePrefix(
-                context: context,
-                ss: ss,
-                referenceId: siteId,
-                sizeType: Libraries.Images.ImageData.SizeTypes.Thumbnail);
+            var hasImage = siteImageUpdatedTime > DateTime.FromOADate(0);
+            var siteImagePrefix = siteImageUpdatedTime.ToString("?yyyyMMddHHmmss");
             return hb.Li(
                 attributes: new HtmlAttributes()
                     .Class(Css.Class("nav-site " + referenceType.ToLower() +
