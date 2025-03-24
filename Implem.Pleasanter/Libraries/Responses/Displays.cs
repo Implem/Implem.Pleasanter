@@ -8869,6 +8869,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string ResetAdditionalItemsEditing(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ResetAdditionalItemsEditing",
+                data: data);
+        }
+
         public static string ResetCalendarView(
             Context context,
             params string[] data)
