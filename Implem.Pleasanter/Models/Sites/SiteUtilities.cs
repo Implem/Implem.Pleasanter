@@ -1102,13 +1102,15 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             SiteModel siteModel,
-            Process process)
+            List<Process> processes)
         {
+            var process = processes?.FirstOrDefault(o => !o.SuccessMessage.IsNullOrEmpty()
+                && o.MatchConditions);
             if (process == null)
             {
                 return Messages.Created(
                     context: context,
-                    data: siteModel.Title.Value);
+                    data: siteModel.Title.MessageDisplay(context: context));
             }
             else
             {
@@ -3783,7 +3785,7 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder EditorTabs(this HtmlBuilder hb, Context context, SiteModel siteModel)
         {
             var ss = siteModel.SiteSettings;
-            return hb.Ul(id: "EditorTabs", action: () =>
+            var tags =hb.Ul(id: "EditorTabs", action: () =>
             {
                 hb
                     .Li(action: () => hb
@@ -4103,7 +4105,49 @@ namespace Implem.Pleasanter.Models
                                 href: "#FieldSetHistories",
                                 text: Displays.ChangeHistoryList(context: context)));
                 }
+                //SimpleMode
+                hb
+                    .Li(attributes: new HtmlAttributes()
+                            .Id("SimpleModeToggleContainer")
+                            .Class("ignore-tab"),
+                        action: () => hb
+                        .Input(
+                            attributes: new HtmlAttributes()
+                                .Id("SimpleModeToggle")
+                                .Name("SimpleModeToggle")
+                                .Type("checkbox")
+                        )
+                        .Label(
+                            attributes: new HtmlAttributes()
+                                .For("SimpleModeToggle")
+                        )
+                        .Input(
+                            attributes: new HtmlAttributes()
+                                .Type("hidden")
+                                .Id("SimpleModeEnabled")
+                                .Value(Parameters.Site.SimpleMode.Enabled.ToString().ToLower())
+                        )
+                        .Input(
+                            attributes: new HtmlAttributes()
+                                .Type("hidden")
+                                .Id("SimpleModeDefault")
+                                .Value(Parameters.Site.SimpleMode.Default.ToString().ToLower())
+                        )
+                        .Input(
+                            attributes: new HtmlAttributes()
+                                .Type("hidden")
+                                .Id("SimpleModeDisplaySwitch")
+                                .Value(Parameters.Site.SimpleMode.DisplaySwitch.ToString().ToLower())
+                        )
+                        .Input(
+                            attributes: new HtmlAttributes()
+                                .Type("hidden")
+                                .Id("SimpleModeTabs")
+                                .Value(string.Join(",", Parameters.Site.SimpleMode.Tabs.Select(s => s.Trim())))
+                        )
+                     );
             });
+            return tags;
         }
 
         /// <summary>
