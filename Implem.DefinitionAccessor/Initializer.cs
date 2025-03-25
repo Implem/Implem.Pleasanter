@@ -714,6 +714,15 @@ namespace Implem.DefinitionAccessor
             SetColumnDefinitionAccessControl();
         }
 
+        public static void SetDefinitionsTrial()
+        {
+            // TrialLicenseで初期化後にカラム数を伸長するための処理
+            Def.SetColumnDefinition();
+            SetColumnDefinitionAccessControl();
+            SetTimeZone();
+            SetLanguage();
+        }
+
         public static XlsIo DefinitionFile(string name)
         {
             var path = name == "Demo" && Environments.PleasanterTest

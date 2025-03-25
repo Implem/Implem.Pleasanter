@@ -1,9 +1,9 @@
-﻿using CsvHelper;
-using Implem.CodeDefiner.Functions.Rds.Parts;
+﻿using Implem.CodeDefiner.Functions.Rds.Parts;
+using Implem.CodeDefiner.Utilities;
 using Implem.DefinitionAccessor;
 using Implem.IRds;
-using Implem.Libraries.Classes;
 using Implem.Libraries.Utilities;
+using Implem.ParameterAccessor.Parts;
 using MySqlConnector;
 using Npgsql;
 using System;
@@ -15,7 +15,7 @@ namespace Implem.CodeDefiner.Functions.Rds
 {
     internal class Configurator
     {
-        internal static bool Configure(ISqlObjectFactory factory, bool force, bool noInput)
+        internal static bool Configure(ISqlObjectFactory factory, bool force, bool noInput, bool showLicenseInfo = true)
         {
             if (Environments.RdsProvider == "Local")
             {
@@ -27,7 +27,8 @@ namespace Implem.CodeDefiner.Functions.Rds
             if (CheckColumnsShrinkage(
                 factory: factory,
                 force: force,
-                noInput: noInput))
+                noInput: noInput,
+                showLicenseInfo: showLicenseInfo))
             {
                 TablesConfigurator.Configure(factory: factory);
                 if (Environments.RdsProvider == "Local")
@@ -44,9 +45,14 @@ namespace Implem.CodeDefiner.Functions.Rds
         private static bool CheckColumnsShrinkage(
             ISqlObjectFactory factory,
             bool force = false,
-            bool noInput = false)
+            bool noInput = false,
+            bool showLicenseInfo = true)
         {
-            OutputLicenseInfo();
+            if (showLicenseInfo)
+            {
+                TrialLicenseUtilities.Initialize(factory: factory);
+                OutputLicenseInfo();
+            }
             var defIssuesColumns = ExtractColumnsFromColumnDefinitionCollection("Issues");
             var defResultsColumns = ExtractColumnsFromColumnDefinitionCollection("Results");
             var currentIssuesColumns = GetCurrentColumns(
@@ -78,9 +84,8 @@ namespace Implem.CodeDefiner.Functions.Rds
                     type: Consoles.Types.Info);
                 return true;
             }
-            Console.WriteLine(DisplayAccessor.Displays.Get("CodeDefinerInputYesOrNo"));
-            var inputKey = Console.ReadLine().ToLower();
-            if (inputKey != "y" && inputKey != "yes")
+            Console.WriteLine(DisplayAccessor.Displays.Get("CodeDefinerEnterpriseInputYesOrNo"));
+            if (!ConsoleInputYes())
             {
                 Consoles.Write(
                     text: DisplayAccessor.Displays.Get("CodeDefinerRdsCanceled"),
@@ -138,7 +143,14 @@ namespace Implem.CodeDefiner.Functions.Rds
                     Parameters.Licensee() ?? String.Empty,
                     Parameters.LicensedUsers()),
                 Consoles.Types.Info);
-            if (Parameters.LicenseDeadline() == DateTime.MinValue
+            if (Parameters.TrialLicense != null)
+            {
+                Consoles.Write(
+                    DisplayAccessor.Displays.Get("CodeDefinerCommunityEdition"),
+                    Consoles.Types.Info);
+                return;
+            }
+            else if (Parameters.LicenseDeadline() == DateTime.MinValue
                 && Parameters.Licensee().IsNullOrEmpty()
                 && Parameters.LicensedUsers() == 0)
             {
@@ -147,14 +159,14 @@ namespace Implem.CodeDefiner.Functions.Rds
                     Consoles.Types.Info);
                 return;
             }
-            if (Parameters.LicenseDeadline() < DateTime.Now)
+            else if (Parameters.LicenseDeadline() < DateTime.Now)
             {
                 Consoles.Write(
                     DisplayAccessor.Displays.Get("CodeDefinerIssueNewLicense"),
                     Consoles.Types.Info);
                 return;
             }
-            if (Parameters.CommercialLicense())
+            else if (Parameters.CommercialLicense())
             {
                 Consoles.Write(
                     DisplayAccessor.Displays.Get("CodeDefinerEnterpriseEdition"),
@@ -182,6 +194,144 @@ namespace Implem.CodeDefiner.Functions.Rds
                 return true;
             }
             return false;
+        }
+
+        internal static bool TrialConfigure(
+            ISqlObjectFactory factory,
+            bool noInput,
+            bool useExColumnsFile)
+        {
+            TrialLicenseUtilities.Initialize(factory: factory);
+            OutputLicenseInfo();
+            switch (TrialLicenseUtilities.GetStatus())
+            {
+                case TrialLicenseUtilities.Status.CommercialLicenseActive:
+                    Consoles.Write(
+                        text: DisplayAccessor.Displays.Get("CodeDefinerEnterpriseEdition"),
+                        type: Consoles.Types.Error);
+                    Consoles.Write(
+                        text: DisplayAccessor.Displays.Get("CodeDefinerRdsCanceled"),
+                        type: Consoles.Types.Error);
+                    break;
+                case TrialLicenseUtilities.Status.CommercialLicenseExpired:
+                    Consoles.Write(
+                        text: DisplayAccessor.Displays.Get("CodeDefinerIssueNewLicense"),
+                        type: Consoles.Types.Error);
+                    Consoles.Write(
+                        text: DisplayAccessor.Displays.Get("CodeDefinerRdsCanceled"),
+                        type: Consoles.Types.Error);
+                    break;
+                case TrialLicenseUtilities.Status.TrialLicenseActive:
+                    {
+                        Console.WriteLine(DisplayAccessor.Displays.Get("CodeDefinerTrialInputYesOrNo"));
+                        if (noInput)
+                        {
+                            Consoles.Write(
+                                text: DisplayAccessor.Displays.Get("CodeDefinerSkipUserInput"),
+                                type: Consoles.Types.Info);
+                        }
+                        else
+                        {
+                            if (!ConsoleInputYes())
+                            {
+                                Consoles.Write(
+                                    text: DisplayAccessor.Displays.Get("CodeDefinerRdsCanceled"),
+                                    type: Consoles.Types.Error);
+                                return false;
+                            }
+                        }
+                        TrialLicenseUtilities.SetTrialLicenseExtendedColumns(
+                            factory: factory,
+                            useExColumnsFile: useExColumnsFile);
+                        var completed = Configure(
+                            factory: factory,
+                            force: false,
+                            noInput: true,
+                            showLicenseInfo: false);
+                        return completed;
+                    }
+                case TrialLicenseUtilities.Status.TrialLicenseExpired:
+                    {
+                        Console.WriteLine(DisplayAccessor.Displays.Get("CodeDefinerTrialShrinked"));
+                        Console.WriteLine(DisplayAccessor.Displays.Get("CodeDefinerTrialInputYesOrNo"));
+                        if (noInput)
+                        {
+                            Consoles.Write(
+                                text: DisplayAccessor.Displays.Get("CodeDefinerSkipUserInput"),
+                                type: Consoles.Types.Info);
+                        }
+                        else
+                        {
+                            if (!ConsoleInputYes())
+                            {
+                                Consoles.Write(
+                                    text: DisplayAccessor.Displays.Get("CodeDefinerRdsCanceled"),
+                                    type: Consoles.Types.Error);
+                                return false;
+                            }
+                        }
+                        Parameters.TrialLicense = new TrialLicense()
+                        {
+                            Deadline = DateTime.Now.Date
+                        };
+                        TrialLicenseUtilities.SetTrialLicenseExtendedColumns(
+                            factory: factory,
+                            useExColumnsFile: useExColumnsFile);
+                        var completed = Configure(
+                            factory: factory,
+                            force: true,
+                            noInput: true,
+                            showLicenseInfo: false);
+                        TrialLicenseUtilities.ClearExtendedColumns(factory: factory);
+                        TrialLicenseUtilities.Registration(
+                            factory: factory,
+                            useExColumnsFile: useExColumnsFile);
+                        return completed;
+                    }
+                case TrialLicenseUtilities.Status.CommunityLicenseActive:
+                    {
+                        Console.WriteLine(DisplayAccessor.Displays.Get("CodeDefinerTrialInputYesOrNo"));
+                        if (noInput)
+                        {
+                            Consoles.Write(
+                                text: DisplayAccessor.Displays.Get("CodeDefinerSkipUserInput"),
+                                type: Consoles.Types.Info);
+                        }
+                        else
+                        {
+                            if (!ConsoleInputYes())
+                            {
+                                Consoles.Write(
+                                    text: DisplayAccessor.Displays.Get("CodeDefinerRdsCanceled"),
+                                    type: Consoles.Types.Error);
+                                return false;
+                            }
+                        }
+                        Parameters.TrialLicense = new TrialLicense()
+                        {
+                            Deadline = DateTime.Now.Date
+                        };
+                        TrialLicenseUtilities.SetTrialLicenseExtendedColumns(
+                            factory: factory,
+                            useExColumnsFile: useExColumnsFile);
+                        var completed = Configure(
+                            factory: factory,
+                            force: true,
+                            noInput: true,
+                            showLicenseInfo: false);
+                        TrialLicenseUtilities.Registration(
+                            factory: factory,
+                            useExColumnsFile: useExColumnsFile);
+                        return completed;
+                    }
+            }
+            return false;
+        }
+
+        private static bool ConsoleInputYes()
+        {
+            var inputKey = Console.ReadLine().ToLower();
+            return (inputKey == "y" || inputKey == "yes");
         }
     }
 }

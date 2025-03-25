@@ -434,6 +434,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-success");
         }
 
+        public static Message CodeDefinerEnterpriseInputYesOrNo(Context context, params string[] data)
+        {
+            return Get(
+                id: "CodeDefinerEnterpriseInputYesOrNo",
+                text: Displays.CodeDefinerEnterpriseInputYesOrNo(
+                    context: context,
+                    data: data),
+                css: "alert-success");
+        }
+
         public static Message CodeDefinerErrorColumnsShrinked(Context context, params string[] data)
         {
             return Get(
@@ -449,16 +459,6 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 id: "CodeDefinerErrorCount",
                 text: Displays.CodeDefinerErrorCount(
-                    context: context,
-                    data: data),
-                css: "alert-success");
-        }
-
-        public static Message CodeDefinerInputYesOrNo(Context context, params string[] data)
-        {
-            return Get(
-                id: "CodeDefinerInputYesOrNo",
-                text: Displays.CodeDefinerInputYesOrNo(
                     context: context,
                     data: data),
                 css: "alert-success");
@@ -559,6 +559,26 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 id: "CodeDefinerSkipUserInput",
                 text: Displays.CodeDefinerSkipUserInput(
+                    context: context,
+                    data: data),
+                css: "alert-success");
+        }
+
+        public static Message CodeDefinerTrialInputYesOrNo(Context context, params string[] data)
+        {
+            return Get(
+                id: "CodeDefinerTrialInputYesOrNo",
+                text: Displays.CodeDefinerTrialInputYesOrNo(
+                    context: context,
+                    data: data),
+                css: "alert-success");
+        }
+
+        public static Message CodeDefinerTrialShrinked(Context context, params string[] data)
+        {
+            return Get(
+                id: "CodeDefinerTrialShrinked",
+                text: Displays.CodeDefinerTrialShrinked(
                     context: context,
                     data: data),
                 css: "alert-success");
@@ -2294,6 +2314,17 @@ namespace Implem.Pleasanter.Libraries.Responses
                 target: target);
         }
 
+        public static ResponseCollection ResponseCodeDefinerEnterpriseInputYesOrNo(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: CodeDefinerEnterpriseInputYesOrNo(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
         public static ResponseCollection ResponseCodeDefinerErrorColumnsShrinked(
             Context context, string target = null, params string[] data)
         {
@@ -2311,17 +2342,6 @@ namespace Implem.Pleasanter.Libraries.Responses
             return ResponseMessage(
                 context: context,
                 message: CodeDefinerErrorCount(
-                    context: context,
-                    data: data),
-                target: target);
-        }
-
-        public static ResponseCollection ResponseCodeDefinerInputYesOrNo(
-            Context context, string target = null, params string[] data)
-        {
-            return ResponseMessage(
-                context: context,
-                message: CodeDefinerInputYesOrNo(
                     context: context,
                     data: data),
                 target: target);
@@ -2432,6 +2452,28 @@ namespace Implem.Pleasanter.Libraries.Responses
             return ResponseMessage(
                 context: context,
                 message: CodeDefinerSkipUserInput(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseCodeDefinerTrialInputYesOrNo(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: CodeDefinerTrialInputYesOrNo(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseCodeDefinerTrialShrinked(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: CodeDefinerTrialShrinked(
                     context: context,
                     data: data),
                 target: target);
