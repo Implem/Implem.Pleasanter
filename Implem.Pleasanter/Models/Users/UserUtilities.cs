@@ -2695,7 +2695,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             userModel: userModel,
-                            process: processes?.FirstOrDefault(o => o.MatchConditions)));
+                            processes: processes));
                     return new ResponseCollection(
                         context: context,
                         id: userModel.UserId)
@@ -2722,13 +2722,15 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             UserModel userModel,
-            Process process)
+            List<Process> processes)
         {
+            var process = processes?.FirstOrDefault(o => !o.SuccessMessage.IsNullOrEmpty()
+                && o.MatchConditions);
             if (process == null)
             {
                 return Messages.Created(
                     context: context,
-                    data: userModel.Title.Value);
+                    data: userModel.Title.MessageDisplay(context: context));
             }
             else
             {
