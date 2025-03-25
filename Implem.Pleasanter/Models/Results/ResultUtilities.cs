@@ -4656,13 +4656,15 @@ namespace Implem.Pleasanter.Models
                         return false;
                     foreach (var o in model.AttachmentsHash)
                     {
+                        //api/binaries/{guid}/upload 起点のAttachmentsHashのKeyにはpostfix "#Uploading" が付いている
+                        var isUploading = o.Key.EndsWith("#Uploading");
                         foreach (var attachment in o.Value)
                         {
                             if (attachment.Deleted ?? false)
                                 continue;
                             if (attachment.Name.IsNullOrEmpty())
                                 return true;
-                            if (attachment.Base64 is null && attachment.Base64Binary is null)
+                            if (!isUploading && attachment.Base64 is null && attachment.Base64Binary is null)
                                 return true;
                         }
                     }
