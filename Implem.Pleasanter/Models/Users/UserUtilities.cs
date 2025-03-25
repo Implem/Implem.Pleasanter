@@ -2684,7 +2684,7 @@ namespace Implem.Pleasanter.Models
                     return policy.ResponseMessage(context: context).ToJson();
                 }
             }
-            List<Process> processes = null;
+            var processes = (List<Process>)null;
             var errorData = userModel.Create(context: context, ss: ss);
             switch (errorData.Type)
             {
@@ -2768,7 +2768,7 @@ namespace Implem.Pleasanter.Models
             {
                 return Messages.ResponseDeleteConflicts(context: context).ToJson();
             }
-            List<Process> processes = null;
+            var processes = (List<Process>)null;
             var errorData = userModel.Update(context: context, ss: ss);
             switch (errorData.Type)
             {
