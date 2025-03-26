@@ -1124,6 +1124,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-error");
         }
 
+        public static Message InvalidValidateRequiredCsvData(Context context, params string[] data)
+        {
+            return Get(
+                id: "InvalidValidateRequiredCsvData",
+                text: Displays.InvalidValidateRequiredCsvData(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
         public static Message InviteMessage(Context context, params string[] data)
         {
             return Get(
@@ -1274,6 +1284,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-error");
         }
 
+        public static Message NotIncludedRequiredColumn(Context context, params string[] data)
+        {
+            return Get(
+                id: "NotIncludedRequiredColumn",
+                text: Displays.NotIncludedRequiredColumn(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
         public static Message NotLockedRecord(Context context, params string[] data)
         {
             return Get(
@@ -1289,16 +1309,6 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 id: "NotMatchRegex",
                 text: Displays.NotMatchRegex(
-                    context: context,
-                    data: data),
-                css: "alert-error");
-        }
-
-        public static Message NotRequiredColumn(Context context, params string[] data)
-        {
-            return Get(
-                id: "NotRequiredColumn",
-                text: Displays.NotRequiredColumn(
                     context: context,
                     data: data),
                 css: "alert-error");
@@ -1532,6 +1542,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                     context: context,
                     data: data),
                 css: "alert-success");
+        }
+
+        public static Message RejectNullImport(Context context, params string[] data)
+        {
+            return Get(
+                id: "RejectNullImport",
+                text: Displays.RejectNullImport(
+                    context: context,
+                    data: data),
+                css: "alert-error");
         }
 
         public static Message ReminderErrorContent(Context context, params string[] data)
@@ -3073,6 +3093,17 @@ namespace Implem.Pleasanter.Libraries.Responses
                 target: target);
         }
 
+        public static ResponseCollection ResponseInvalidValidateRequiredCsvData(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: InvalidValidateRequiredCsvData(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
         public static ResponseCollection ResponseInviteMessage(
             Context context, string target = null, params string[] data)
         {
@@ -3238,6 +3269,17 @@ namespace Implem.Pleasanter.Libraries.Responses
                 target: target);
         }
 
+        public static ResponseCollection ResponseNotIncludedRequiredColumn(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: NotIncludedRequiredColumn(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
         public static ResponseCollection ResponseNotLockedRecord(
             Context context, string target = null, params string[] data)
         {
@@ -3255,17 +3297,6 @@ namespace Implem.Pleasanter.Libraries.Responses
             return ResponseMessage(
                 context: context,
                 message: NotMatchRegex(
-                    context: context,
-                    data: data),
-                target: target);
-        }
-
-        public static ResponseCollection ResponseNotRequiredColumn(
-            Context context, string target = null, params string[] data)
-        {
-            return ResponseMessage(
-                context: context,
-                message: NotRequiredColumn(
                     context: context,
                     data: data),
                 target: target);
@@ -3519,6 +3550,17 @@ namespace Implem.Pleasanter.Libraries.Responses
             return ResponseMessage(
                 context: context,
                 message: RegisteredDemo(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseRejectNullImport(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: RejectNullImport(
                     context: context,
                     data: data),
                 target: target);
