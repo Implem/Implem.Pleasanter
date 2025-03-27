@@ -4472,6 +4472,31 @@ namespace Implem.Pleasanter.Models
                                                 id: "LoginGuideBottom"))))
                                 .Div(id: "SecondaryAuthentications")
                                 .Div(id: "TotpRegister")))
+                    .Div(
+                        id: "LoginTrialMessage",
+                        action: () => hb
+                            .Div(
+                                action: () => hb
+                                    .Span(action: () => hb
+                                        .A(
+                                            href: Parameters.General.HtmlTrialLicenseUrl,
+                                            action: () => hb
+                                                .Text(text: Displays.TrialLicenseInUse(context: context)))))
+                            .Div(
+                                action: () => hb
+                                    .Span(action: () => hb
+                                        .Text(text: Displays.TrialLicenseDeadline(context: context)))
+                                    .Span(css: "license-deadline",
+                                        action: () => hb
+                                            .Text(text: Parameters.LicenseDeadline().ToString("yyyy/MM/dd"))))
+                            .Div(
+                                action: () => hb
+                                    .Span(action: () => hb
+                                        .A(
+                                            href: Parameters.General.HtmlEnterPriseEditionUrl,
+                                            action: () => hb
+                                                .Text(text: Displays.SwitchToCommercialLicense(context: context))))),
+                        _using: (Parameters.GetLicenseType() & 0x08) != 0)
                     .Form(
                         attributes: new HtmlAttributes()
                             .Id("DemoForm")
@@ -5151,7 +5176,7 @@ namespace Implem.Pleasanter.Models
                 {
                     return ApiResults.Error(
                         context: context,
-                        errorData: new ErrorData(type: Error.Types.NotRequiredColumn),
+                        errorData: new ErrorData(type: Error.Types.NotIncludedRequiredColumn),
                         data: column.ColumnName);
                 }
             }
@@ -5249,7 +5274,7 @@ namespace Implem.Pleasanter.Models
                 {
                     return ApiResults.Error(
                         context: context,
-                        errorData: new ErrorData(type: Error.Types.NotRequiredColumn),
+                        errorData: new ErrorData(type: Error.Types.NotIncludedRequiredColumn),
                         data: column.ColumnName);
                 }
             }

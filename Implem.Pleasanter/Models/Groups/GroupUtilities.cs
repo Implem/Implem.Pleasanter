@@ -4165,7 +4165,7 @@ namespace Implem.Pleasanter.Models
                 {
                     return ApiResults.Error(
                         context: context,
-                        errorData: new ErrorData(type: Error.Types.NotRequiredColumn),
+                        errorData: new ErrorData(type: Error.Types.NotIncludedRequiredColumn),
                         data: column.ColumnName);
                 }
             }
@@ -4232,7 +4232,7 @@ namespace Implem.Pleasanter.Models
                 {
                     return ApiResults.Error(
                         context: context,
-                        errorData: new ErrorData(type: Error.Types.NotRequiredColumn),
+                        errorData: new ErrorData(type: Error.Types.NotIncludedRequiredColumn),
                         data: column.ColumnName);
                 }
             }

@@ -1,5 +1,5 @@
-{
-    "Id": "NotRequiredColumn",
+﻿{
+    "Id": "NotIncludedRequiredColumn",
     "Type": 240,
     "Languages": [
         {

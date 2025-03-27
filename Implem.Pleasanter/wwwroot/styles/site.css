@@ -3976,3 +3976,19 @@ div.lower-search-ui {
     margin-top: -0.05em;
     content: "unfold_more";
 }
+
+#LoginTrialMessage {
+    color: var(--base-text);
+    text-align: center;
+    margin: 16px;
+}
+
+#LoginTrialMessage span {
+    margin: 10px;
+    line-height: 30px;
+}
+
+#LoginTrialMessage span.license-deadline {
+    color: #ff0000;
+    font-weight: bold;
+}
