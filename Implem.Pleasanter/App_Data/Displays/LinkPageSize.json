@@ -1,0 +1,33 @@
+﻿{
+    "Id": "LinkPageSize",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Number of displays"
+        },
+        {
+            "Language": "zh",
+            "Body": "显示器数量"
+        },
+        {
+            "Language": "ja",
+            "Body": "表示数"
+        },
+        {
+            "Language": "de",
+            "Body": "Anzahl der Anzeigen"
+        },
+        {
+            "Language": "ko",
+            "Body": "디스플레이 개수"
+        },
+        {
+            "Language": "es",
+            "Body": "Número de pantallas"
+        },
+        {
+            "Language": "vn",
+            "Body": "Số lượng jispy"
+        }
+    ]
+}

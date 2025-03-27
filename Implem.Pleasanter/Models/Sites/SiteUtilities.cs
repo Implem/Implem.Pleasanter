@@ -8343,6 +8343,16 @@ namespace Implem.Pleasanter.Models
                     optionCollection: ss.ViewSelectableOptions(),
                     selectedValue: ss.LinkTableView?.ToString(),
                     insertBlank: true,
+                    _using: ss.Views?.Any() == true)
+                .FieldSpinner(
+                    controlId: "LinkPageSize",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.LinkPageSize(context: context),
+                    value: ss.LinkPageSize.ToInt(),
+                    min: Parameters.General.LinkPageSizeMin.ToDecimal(),
+                    max: Parameters.General.LinkPageSizeMax.ToDecimal(),
+                    step: 1,
+                    width: 25,
                     _using: ss.Views?.Any() == true));
         }
 

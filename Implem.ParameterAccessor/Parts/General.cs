@@ -114,5 +114,8 @@ namespace Implem.ParameterAccessor.Parts
         public int BulkUpsertMax { get; set; }
         public bool EnableExpandLinkPath { get; set; }
         public bool BlockSiteTaskWhileRunning { get; set; }
+        public int LinkPageSize { get; set; }
+        public bool LinkPageSizeMin { get; set; }
+        public bool LinkPageSizeMax { get; set; }
     }
 }

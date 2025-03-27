@@ -169,6 +169,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? OpenEditInNewTab;
         public bool? EnableExpandLinkPath;
         public int? LinkTableView;
+        public int? LinkPageSize;
         public int? FirstDayOfWeek;
         public int? FirstMonth;
         public List<string> GridColumns;
@@ -807,6 +808,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (LinkTableView != 0)
             {
                 ss.LinkTableView = LinkTableView;
+            }
+            if (LinkPageSize != 0)
+            {
+                ss.LinkPageSize = LinkPageSize;
             }
             if (FirstDayOfWeek != param.FirstDayOfWeek)
             {
@@ -3954,6 +3959,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "OpenEditInNewTab": OpenEditInNewTab = value.ToBool(); break;
                 case "EnableExpandLinkPath": EnableExpandLinkPath = value.ToBool();break;
                 case "LinkTableView": LinkTableView = value.ToInt(); break;
+                case "LinkPageSize": LinkPageSize = value.ToInt(); break;
                 case "FirstDayOfWeek": FirstDayOfWeek = value.ToInt(); break;
                 case "FirstMonth": FirstMonth = value.ToInt(); break;
                 case "Responsive": Responsive = value.ToBool(); break;
