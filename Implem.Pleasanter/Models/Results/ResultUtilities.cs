@@ -441,6 +441,11 @@ namespace Implem.Pleasanter.Models
                         gridData.TotalCount))
                     .Val("#GridRowIds", gridData.DataRows.Select(g => g.Long("ResultId")).ToJson())
                     .Val("#GridColumns", columns.Select(o => o.ColumnName).ToJson())
+                    // BulkUpdateのように一覧内でダイアログ(form)を作成した場合に、$p.data.MainForm内のデータがクリアされない為の暫定処理
+                    .Invoke("clearData", "GridCheckAll", _using: clearCheck)
+                    .Invoke("clearData", "GridCheckedItems", _using: clearCheck)
+                    .Invoke("clearData", "GridUnCheckedItems", _using: clearCheck)
+                    .Invoke("clearData", "OriginalId", _using: clearCheck)
                     .Paging("#Grid")
                     .Message(message)
                     .Messages(context.Messages)
