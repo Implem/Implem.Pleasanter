@@ -77,11 +77,20 @@ namespace Implem.Pleasanter.Models.ApiSiteSettings
                 .ToList(); ;
             ss.Columns.ForEach(column =>
             {
+                var dragParamsApiSettingModel = new DragParamsApiSettingModel();
                 if (notInEditorColumnList.Contains(column.ColumnName))
                 {
+                    dragParamsApiSettingModel.SetType(column);
+                    dragParamsApiSettingModel.SetCategory(column);
+                    dragParamsApiSettingModel = SetState(
+                        ss,
+                        column,
+                        editorColumnList,
+                        notInEditorColumnList,
+                        dragParamsApiSettingModel);
+                    smartDesignParamHash.Add(column.ColumnName, dragParamsApiSettingModel);
                     return;
                 }
-                var dragParamsApiSettingModel = new DragParamsApiSettingModel();
                 dragParamsApiSettingModel.SetType(column);
                 dragParamsApiSettingModel.SetCategory(column);
                 dragParamsApiSettingModel = SetState(
