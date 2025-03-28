@@ -495,11 +495,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 }
                 else
                 {
-                    return hb.A(
-                        href: "javascript: $p.closeSideMenu();",
-                        action: () => hb.SmartDesignLink(
-                            action: () => hb
-                                .Text(text: Displays.SmartDesign(context: context))));
+                    return hb.SmartDesignLink(
+                        action: () => hb.A(
+                            href: "javascript: $p.closeSideMenu();",
+                            action: () => hb.Text(text: Displays.SmartDesign(context: context))
+                        ));
                 }
             }
         }
@@ -692,7 +692,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     return canManageSite
                         && ss.ReferenceType != "Sites"
                         && ss.ReferenceType != "Wikis"
-                        && ss.ReferenceType != "Dashboards";
+                        && ss.ReferenceType != "Dashboards"
+                        && !context.Mobile
+                        && !context.Responsive
+                        && context.ThemeVersionForCss() >= 2.0M;
                 case "SettingsMenu_SiteSettings":
                     return canManageSite;
                 case "SettingsMenu_SysLogAdmin":
