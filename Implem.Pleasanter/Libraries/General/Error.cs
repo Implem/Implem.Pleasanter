@@ -69,6 +69,7 @@ namespace Implem.Pleasanter.Libraries.General
             InvalidRequest,
             InvalidSsoCode,
             invalidUpsertKey,
+            InvalidValidateRequiredCsvData,
             ItemsLimit,
             JoeAccountCheck,
             LockedRecord,
@@ -79,9 +80,9 @@ namespace Implem.Pleasanter.Libraries.General
             NoLinks,
             NotContainKeyColumn,
             NotFound,
+            NotIncludedRequiredColumn,
             NotLockedRecord,
             NotMatchRegex,
-            NotRequiredColumn,
             Overlap,
             OverlapCsvImport,
             OverLimitApi,
@@ -98,6 +99,7 @@ namespace Implem.Pleasanter.Libraries.General
             PermissionNotSelfChange,
             PleaseInputData,
             PleaseUncheck,
+            RejectNullImport,
             ReminderErrorContent,
             ReminderErrorTitle,
             RequireMailAddresses,
@@ -368,6 +370,10 @@ namespace Implem.Pleasanter.Libraries.General
                     return Messages.invalidUpsertKey(
                         context: context,
                         data: data);
+                case Types.InvalidValidateRequiredCsvData:
+                    return Messages.InvalidValidateRequiredCsvData(
+                        context: context,
+                        data: data);
                 case Types.ItemsLimit:
                     return Messages.ItemsLimit(
                         context: context,
@@ -408,16 +414,16 @@ namespace Implem.Pleasanter.Libraries.General
                     return Messages.NotFound(
                         context: context,
                         data: data);
+                case Types.NotIncludedRequiredColumn:
+                    return Messages.NotIncludedRequiredColumn(
+                        context: context,
+                        data: data);
                 case Types.NotLockedRecord:
                     return Messages.NotLockedRecord(
                         context: context,
                         data: data);
                 case Types.NotMatchRegex:
                     return Messages.NotMatchRegex(
-                        context: context,
-                        data: data);
-                case Types.NotRequiredColumn:
-                    return Messages.NotRequiredColumn(
                         context: context,
                         data: data);
                 case Types.Overlap:
@@ -482,6 +488,10 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.PleaseUncheck:
                     return Messages.PleaseUncheck(
+                        context: context,
+                        data: data);
+                case Types.RejectNullImport:
+                    return Messages.RejectNullImport(
                         context: context,
                         data: data);
                 case Types.ReminderErrorContent:

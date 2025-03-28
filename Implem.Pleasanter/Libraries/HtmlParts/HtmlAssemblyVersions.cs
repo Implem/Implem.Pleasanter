@@ -20,6 +20,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             var ss = new SiteSettings();
             var plan = context.ContractSettings.DisplayName;
             var databaseSize = DatabaseSize(context: context);
+            var isCommercialLicense = (Parameters.GetLicenseType() & 0x04) != 0;
+            var isTrialLicense = (Parameters.GetLicenseType() & 0x08) != 0;
             return hb
                 .Template(
                     context: context,
@@ -46,7 +48,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     .Text(text: Displays.License(context: context)))
                                 .Span(action: () =>
                                 {
-                                    if (Parameters.CommercialLicense())
+                                    if (isCommercialLicense)
                                     {
                                         hb.Text(text: Displays.CommercialLicense(context: context));
                                     }
@@ -62,17 +64,32 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 action: () => hb
                                     .Span(action: () => hb
                                         .A(
+                                            href: Parameters.General.HtmlTrialLicenseUrl,
+                                            action: () => hb
+                                                .Text(text: Displays.TrialLicenseInUse(context: context)))),
+                                _using: isTrialLicense)
+                            .Div(
+                                action: () => hb
+                                    .Span(action: () => hb
+                                        .Text(text: Displays.TrialLicenseDeadline(context: context)))
+                                    .Span(action: () => hb
+                                        .Text(text: Parameters.LicenseDeadline().ToString("yyyy/MM/dd"))),
+                                _using: isTrialLicense)
+                            .Div(
+                                action: () => hb
+                                    .Span(action: () => hb
+                                        .A(
                                             href: Parameters.General.HtmlEnterPriseEditionUrl,
                                             action: () => hb
                                                 .Text(text: Displays.SwitchToCommercialLicense(context: context)))),
-                                _using: !Parameters.CommercialLicense())
+                                _using: !isCommercialLicense)
                             .Div(
                                 action: () => hb
                                     .Span(action: () => hb
                                         .Text(text: Displays.LicenseDeadline(context: context)))
                                     .Span(action: () => hb
                                         .Text(text: Parameters.LicenseDeadline().ToString("yyyy/MM/dd"))),
-                                _using: Parameters.CommercialLicense()
+                                _using: isCommercialLicense
                                     && Parameters.Version.ShowDeadline)
                             .Div(
                                 action: () => hb
@@ -80,7 +97,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         .Text(text: Displays.Licensee(context: context)))
                                     .Span(action: () => hb
                                         .Text(text: Parameters.Licensee())),
-                                _using: Parameters.CommercialLicense()
+                                _using: isCommercialLicense
                                     && Parameters.Version.ShowLicensee)
                             .Div(
                                 action: () => hb
@@ -90,7 +107,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         .Text(text: Parameters.LicensedUsers() == 0
                                             ? Displays.Unlimited(context: context)
                                             : Parameters.LicensedUsers().ToString())),
-                                _using: Parameters.CommercialLicense()
+                                _using: isCommercialLicense
                                     && Parameters.Version.ShowMaximumNumberOfUsers)
                             .Div(
                                 action: () => hb

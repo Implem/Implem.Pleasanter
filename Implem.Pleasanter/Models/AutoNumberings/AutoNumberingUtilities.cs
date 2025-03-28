@@ -152,33 +152,25 @@ namespace Implem.Pleasanter.Models
             AutoNumbering autoNumbering,
             string key)
         {
-            if (Rds.ExecuteScalar_string(
+            var table = Rds.ExecuteTable(
                 context: context,
                 statements: Rds.SelectAutoNumberings(
                     column: Rds.AutoNumberingsColumn()
-                        .Key(),
+                        .Number(function: Sqls.Functions.Max),
                     where: Rds.AutoNumberingsWhere()
                         .TenantId(context.TenantId)
                         .ReferenceId(ss.SiteId)
                         .ColumnName(autoNumbering.ColumnName)
-                        .Key(key),
-                    top: 1)) == key)
-            {
-                return Rds.ExecuteScalar_decimal(
-                    context: context,
-                    statements: Rds.SelectAutoNumberings(
-                        column: Rds.AutoNumberingsColumn()
-                            .Number(function: Sqls.Functions.Max),
-                        where: Rds.AutoNumberingsWhere()
-                            .TenantId(context.TenantId)
-                            .ReferenceId(ss.SiteId)
-                            .ColumnName(autoNumbering.ColumnName)
-                            .Key(key))) + autoNumbering.Step.ToDecimal();
-            }
-            else
-            {
-                return autoNumbering.Default.ToDecimal();
-            }
+                        .Add(or: Rds.AutoNumberingsWhere()
+                            .Key(key)
+                            // Issue#1657 過去の不具合データがテーブルに残っている場合、そのデータを加味するために追加
+                            .Key(raw: "''", _using: key == "None")),
+                    top: 1))
+                .AsEnumerable()
+                .FirstOrDefault();
+            return table?.IsNull("NumberMax") ?? true
+                ? autoNumbering.Default.ToDecimal()
+                : table.Field<decimal>("NumberMax") + autoNumbering.Step.ToDecimal();
         }
 
         /// <summary>
