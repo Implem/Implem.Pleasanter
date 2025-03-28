@@ -2059,6 +2059,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string CodeDefinerEnterpriseInputYesOrNo(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "CodeDefinerEnterpriseInputYesOrNo",
+                data: data);
+        }
+
         public static string CodeDefinerErrorColumnsShrinked(
             Context context,
             params string[] data)
@@ -2076,16 +2086,6 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "CodeDefinerErrorCount",
-                data: data);
-        }
-
-        public static string CodeDefinerInputYesOrNo(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "CodeDefinerInputYesOrNo",
                 data: data);
         }
 
@@ -2186,6 +2186,26 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "CodeDefinerSkipUserInput",
+                data: data);
+        }
+
+        public static string CodeDefinerTrialInputYesOrNo(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "CodeDefinerTrialInputYesOrNo",
+                data: data);
+        }
+
+        public static string CodeDefinerTrialShrinked(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "CodeDefinerTrialShrinked",
                 data: data);
         }
 
@@ -5679,6 +5699,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string InvalidValidateRequiredCsvData(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "InvalidValidateRequiredCsvData",
+                data: data);
+        }
+
         public static string InvitationMailBody(
             Context context,
             params string[] data)
@@ -7359,6 +7389,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string NotIncludedRequiredColumn(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "NotIncludedRequiredColumn",
+                data: data);
+        }
+
         public static string NotInheritPermission(
             Context context,
             params string[] data)
@@ -7436,16 +7476,6 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "NotOutput",
-                data: data);
-        }
-
-        public static string NotRequiredColumn(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "NotRequiredColumn",
                 data: data);
         }
 
@@ -8656,6 +8686,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "RegisteredDemo",
+                data: data);
+        }
+
+        public static string RejectNullImport(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "RejectNullImport",
                 data: data);
         }
 
@@ -10586,6 +10626,26 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "TrashBox",
+                data: data);
+        }
+
+        public static string TrialLicenseDeadline(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "TrialLicenseDeadline",
+                data: data);
+        }
+
+        public static string TrialLicenseInUse(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "TrialLicenseInUse",
                 data: data);
         }
 

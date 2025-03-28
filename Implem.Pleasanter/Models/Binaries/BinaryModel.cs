@@ -850,7 +850,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public string SiteImagePrefix(
+        public DateTime SiteImageUpdatedTime(
             Context context, Libraries.Images.ImageData.SizeTypes sizeType)
         {
             switch (Parameters.BinaryStorage.GetSiteImageProvider())
@@ -858,7 +858,7 @@ namespace Implem.Pleasanter.Models
                 case "Local":
                     return new Libraries.Images.ImageData(
                         ReferenceId, Libraries.Images.ImageData.Types.SiteImage)
-                            .UrlPrefix(sizeType);
+                            .LastWriteTime(sizeType);
                 default:
                     return Repository.ExecuteScalar_datetime(
                         context: context,
@@ -867,15 +867,14 @@ namespace Implem.Pleasanter.Models
                                 .UpdatedTime(function: Sqls.Functions.Max),
                             where: Rds.BinariesWhere()
                                 .ReferenceId(ReferenceId)
-                                .BinaryType("SiteImage")))
-                                    .ToString("?yyyyMMddHHmmss");
+                                .BinaryType("SiteImage")));
             }
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        public string TenantImagePrefix(
+        public DateTime TenantImageUpdatedTime(
             Context context, Libraries.Images.ImageData.SizeTypes sizeType)
         {
             switch (Parameters.BinaryStorage.GetSiteImageProvider())
@@ -883,7 +882,7 @@ namespace Implem.Pleasanter.Models
                 case "Local":
                     return new Libraries.Images.ImageData(
                         ReferenceId, Libraries.Images.ImageData.Types.TenantImage)
-                            .UrlPrefix(sizeType);
+                            .LastWriteTime(sizeType);
                 default:
                     return Repository.ExecuteScalar_datetime(
                         context: context,
@@ -892,8 +891,7 @@ namespace Implem.Pleasanter.Models
                                 .UpdatedTime(function: Sqls.Functions.Max),
                             where: Rds.BinariesWhere()
                                 .ReferenceId(ReferenceId)
-                                .BinaryType("TenantImage")))
-                                    .ToString("?yyyyMMddHHmmss");
+                                .BinaryType("TenantImage")));
             }
         }
 
