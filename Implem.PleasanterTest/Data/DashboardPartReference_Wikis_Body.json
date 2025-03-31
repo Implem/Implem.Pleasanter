@@ -1,0 +1,6 @@
+﻿{
+    "Version": 1.017,
+    "ReferenceType": "Wikis",
+    "NoDisplayIfReadOnly": false,
+    "NotInheritPermissionsWhenCreatingSite": false
+}
