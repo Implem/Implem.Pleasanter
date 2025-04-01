@@ -38,6 +38,7 @@ namespace Implem.Pleasanter.Models.ApiSiteSettings
             SetSmartDesignSiteSettings(context, ss, editorColumnList);
             SmartDesignParamHash = GetSmartDesignParam(context, ss, editorColumnList);
             Timestamp = timestamp;
+            SiteSettings.Links.RemoveAll(links => links.SiteId == 0);
         }
 
         public Dictionary<string, DragParamsApiSettingModel> GetSmartDesignParam(
@@ -177,7 +178,7 @@ namespace Implem.Pleasanter.Models.ApiSiteSettings
                 dragParamsApiSettingModel.State.Filter = -1;
                 dragParamsApiSettingModel.Category = "Links";
                 dragParamsApiSettingModel.Type = "LinkTable";
-                if (!SmartDesignParamHash.ContainsKey(linkColumn))
+                if (!smartDesignParamHash.ContainsKey(linkColumn))
                 {
                     smartDesignParamHash.Add(linkColumn, dragParamsApiSettingModel);
                 }
@@ -208,7 +209,7 @@ namespace Implem.Pleasanter.Models.ApiSiteSettings
                 dragParamsApiSettingModel.State.Filter = -1;
                 dragParamsApiSettingModel.Category = "Links";
                 dragParamsApiSettingModel.Type = "LinkTable";
-                if (!SmartDesignParamHash.ContainsKey(linkColumn))
+                if (!smartDesignParamHash.ContainsKey(linkColumn))
                 {
                     smartDesignParamHash.Add(linkColumn, dragParamsApiSettingModel);
                 }
