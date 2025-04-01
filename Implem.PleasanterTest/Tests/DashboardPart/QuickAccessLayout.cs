@@ -36,10 +36,8 @@ namespace Implem.PleasanterTest.Tests.DashboardPart
             {
                 // サイト設定更新
                 case "UpdateCommand":
-                    new ItemModel(
-                        context: context,
-                        referenceId: siteIdCollection.Get("参照元(ダッシュボード)"))
-                    .Update(context: context);
+                    var updateDashboardPartsSiteSettings = new UpdateDashboardPartsSiteSettings(sessionData: sessionData, userId: userModel.UserId, forms: forms, siteId: siteIdCollection.Get("参照元(ダッシュボード)"));
+                    updateDashboardPartsSiteSettings.Update();
                     break;
                 // 今回 xUnit
                 default:
