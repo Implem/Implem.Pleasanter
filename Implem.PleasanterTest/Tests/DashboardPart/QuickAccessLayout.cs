@@ -67,6 +67,9 @@ namespace Implem.PleasanterTest.Tests.DashboardPart
                 },
                 {
                     "参照先(記録テーブル)", Initializer.Sites.Get("参照先(記録テーブル)").SiteId
+                },
+                                {
+                    "参照先(期限付きテーブル)", Initializer.Sites.Get("参照先(期限付きテーブル)").SiteId
                 }
             };
             var testParts = new List<TestPart>()
