@@ -211,6 +211,9 @@
     --sd-unit-edit-tag-required-text: var(--nonColor16);
     --sd-unit-edit-tag-required-bg: var(--primaryColor);
     --sd-unit-edit-tag-required-border: var(--primaryColor);
+    --sd-unit-edit-tag-readonly-text: var(--nonColor12);
+    --sd-unit-edit-tag-readonly-bg: var(--nonColor03);
+    --sd-unit-edit-tag-readonly-border: var(--nonColor08);
     --sd-unit-edit-section-text: var(--nonColor16);
     --sd-unit-edit-section-bg: var(--primaryColor);
     --sd-unit-edit-break-border: var(--nonColor08);
