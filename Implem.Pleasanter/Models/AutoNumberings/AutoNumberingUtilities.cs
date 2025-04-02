@@ -91,7 +91,7 @@ namespace Implem.Pleasanter.Models
                     {
                         throw;
                     }
-                    if (--retryCnt == 0)
+                    if (--retryCnt <= 0)
                     {
                         new SysLogModel(
                             context: context,
