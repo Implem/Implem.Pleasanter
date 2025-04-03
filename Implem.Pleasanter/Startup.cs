@@ -11,8 +11,8 @@ using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
+using Implem.Pleasanter.Libraries.TrialLicenses;
 using Implem.Pleasanter.Models;
-using Implem.Pleasanter.Models.SysLogs;
 using Implem.PleasanterFilters;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -64,6 +64,7 @@ namespace Implem.Pleasanter.NetCore
                         context: context,
                         e: e));
             }
+            TrialLicenseUtilities.Initialize();
             LogManager.Setup()
                 .LoadConfigurationFromAppSettings(environment: env.EnvironmentName)
                 .SetupSerialization(ss => ss.RegisterObjectTransformation<SysLogModel>(s => SysLogModel.ToLogModel(context: context, sysLogModel: s)));

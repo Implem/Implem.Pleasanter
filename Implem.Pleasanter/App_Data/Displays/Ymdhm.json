@@ -1,6 +1,7 @@
-{
+﻿{
     "Id": "Ymdhm",
     "Type": 120,
+    "ClientScript": true,
     "Languages": [
         {
             "Body": "Date and time (minutes)"

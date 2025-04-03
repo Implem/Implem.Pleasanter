@@ -1,0 +1,34 @@
+﻿{
+    "Id": "ErrorMessageSample",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "This is a sample error message."
+        },
+        {
+            "Language": "zh",
+            "Body": "这是一个错误信息示例。"
+        },
+        {
+            "Language": "ja",
+            "Body": "エラーメッセージのサンプルです。"
+        },
+        {
+            "Language": "de",
+            "Body": "Dies ist ein Beispiel für eine Fehlermeldung."
+        },
+        {
+            "Language": "ko",
+            "Body": "이것은 오류 메시지 샘플입니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Este es un ejemplo de mensaje de error."
+        },
+        {
+            "Language": "vn",
+            "Body": "Đây là một mẫu thông báo lỗi."
+        }
+    ]
+}

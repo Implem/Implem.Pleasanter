@@ -1,6 +1,7 @@
-{
+﻿{
     "Id": "Ymdhms",
     "Type": 120,
+    "ClientScript": true,
     "Languages": [
         {
             "Body": "Date and time (seconds)"

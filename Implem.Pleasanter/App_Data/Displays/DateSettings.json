@@ -1,0 +1,34 @@
+﻿{
+    "Id": "DateSettings",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Date Settings"
+        },
+        {
+            "Language": "zh",
+            "Body": "日期设置"
+        },
+        {
+            "Language": "ja",
+            "Body": "日付設定"
+        },
+        {
+            "Language": "de",
+            "Body": "Datumeinstellungen"
+        },
+        {
+            "Language": "ko",
+            "Body": "날짜 설정"
+        },
+        {
+            "Language": "es",
+            "Body": "Configuración de fecha"
+        },
+        {
+            "Language": "vn",
+            "Body": "Cài đặt ngày"
+        }
+    ]
+}

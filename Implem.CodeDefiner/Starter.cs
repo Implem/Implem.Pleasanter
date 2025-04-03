@@ -1,15 +1,11 @@
-﻿using CsvHelper;
-using Implem.CodeDefiner.Functions.Patch;
-using Implem.CodeDefiner.Settings;
+﻿using Implem.CodeDefiner.Settings;
+using Implem.CodeDefiner.Utilities;
 using Implem.DefinitionAccessor;
 using Implem.Factory;
 using Implem.IRds;
-using Implem.Libraries.Classes;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Exceptions;
 using Implem.Libraries.Utilities;
-using Implem.ParameterAccessor.Parts;
-using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
@@ -19,8 +15,6 @@ using System.IO.Compression;
 using System.Linq;
 using System.Reflection;
 using System.Text.Json;
-using System.Text.RegularExpressions;
-using System.Xml.Xsl;
 
 namespace Implem.CodeDefiner
 {
@@ -115,6 +109,12 @@ namespace Implem.CodeDefiner
                         MergeParameters(
                             backUpPath: argHash.Get("b"),
                             installPath: argHash.Get("i"));
+                        break;
+                    case "trial":
+                        TrialConfigureDatabase(
+                            factory: factory,
+                            noInput: argHash.ContainsKey("y"),
+                            useExColumnsFile: argHash.ContainsKey("e"));
                         break;
                     default:
                         WriteErrorToConsole(args);
@@ -398,6 +398,7 @@ namespace Implem.CodeDefiner
                     noInput: noInput);
                 if (completed)
                 {
+                    TrialLicenseUtilities.ClearRegistration(factory: factory);
                     Consoles.Write(
                         text: DisplayAccessor.Displays.Get("CodeDefinerRdsCompleted"),
                         type: Consoles.Types.Success);
@@ -420,7 +421,7 @@ namespace Implem.CodeDefiner
             }
         }
 
-        private static void TryOpenConnections(ISqlObjectFactory factory)
+        private static bool TryOpenConnections(ISqlObjectFactory factory)
         {
             int number;
             string message;
@@ -429,7 +430,9 @@ namespace Implem.CodeDefiner
                 out number, out message, Parameters.Rds.SaConnectionString))
             {
                 Consoles.Write($"[{number}] {message}",Consoles.Types.Error, true);
+                return false;
             }
+            return true;
         }
 
         private static void CreateDefinitionAccessorCode()
@@ -562,6 +565,42 @@ namespace Implem.CodeDefiner
             Consoles.Write(
                 DisplayAccessor.Displays.Get("CodeDefinerRdsCompleted"),
                 Consoles.Types.Success);
+        }
+
+        private static void TrialConfigureDatabase(
+            ISqlObjectFactory factory,
+            bool noInput = false,
+            bool useExColumnsFile = false)
+        {
+            try
+            {
+                if (!TryOpenConnections(factory)) return;
+                var completed = Functions.Rds.Configurator.TrialConfigure(
+                    factory: factory,
+                    noInput: noInput,
+                    useExColumnsFile: useExColumnsFile);
+                if (completed)
+                {
+                    Consoles.Write(
+                        text: DisplayAccessor.Displays.Get("CodeDefinerRdsCompleted"),
+                        type: Consoles.Types.Success);
+                    CompleteConfigureDatabase = true;
+                }
+            }
+            catch (System.Data.SqlClient.SqlException e)
+            {
+                Consoles.Write(
+                    text: $"[{e.Number}] {e.Message}",
+                    type: Consoles.Types.Error,
+                    abort: true);
+            }
+            catch (Exception e)
+            {
+                Consoles.Write(
+                    text: e.ToString(),
+                    type: Consoles.Types.Error,
+                    abort: true);
+            }
         }
 
         private static void WaitConsole(string[] args)

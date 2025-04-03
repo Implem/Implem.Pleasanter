@@ -1,6 +1,7 @@
-{
+﻿{
     "Id": "Cancel",
     "Type": 110,
+    "ClientScript": true,
     "Languages": [
         {
             "Body": "Cancel"

@@ -3938,3 +3938,65 @@ textarea:focus {
 div.lower-search-ui {
     margin: 4px 0px 0px 0px;
 }
+
+/* シンプルモードトグル用CSS */
+#SimpleModeToggleContainer {
+    display: none;
+    border: 1px solid transparent;
+    border-bottom: 0;
+}
+#SimpleModeToggle {
+    display: none;
+}
+#SimpleModeToggle + label {
+    position: relative;
+    display: block;
+    padding: 0.5em 0.5em;
+    color: var(--primaryDark);
+}
+#SimpleModeToggle + label:before {
+    color: transparent;
+    content: "\025b2";
+}
+#SimpleModeToggle + label:after {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    display: inline-block;
+    margin-top: 0.05em;
+    font-family: "Material Symbols Sharp";
+    font-size: 22px;
+    font-weight: normal;
+    -webkit-font-smoothing: antialiased;
+    font-style: normal;
+    font-feature-settings: "liga";
+    -webkit-font-feature-settings: "liga";
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    vertical-align: bottom;
+    white-space: nowrap;
+    word-wrap: normal;
+    content: "unfold_less";
+    transform: translate(-50%, -50%);
+}
+#SimpleModeToggle:checked + label:after {
+    margin-top: -0.05em;
+    content: "unfold_more";
+}
+
+#LoginTrialMessage {
+    color: var(--base-text);
+    text-align: center;
+    margin: 16px;
+}
+
+#LoginTrialMessage span {
+    margin: 10px;
+    line-height: 30px;
+}
+
+#LoginTrialMessage span.license-deadline {
+    color: #ff0000;
+    font-weight: bold;
+}
