@@ -71,26 +71,26 @@ $p.openSiteTitleDialog = function ($control) {
     } else {
         let selectedValue = $('#StandardTemplates .ui-selected:first').data('value');
         if (selectedValue != 'Template2' && selectedValue != 'Template3') {
-            $('#DisableCalendar').closest('.field-auto-thin').hide();
-            $('#DisableCrosstab').closest('.field-auto-thin').hide();
-            $('#DisableTimeSeries').closest('.field-auto-thin').hide();
-            $('#DisableAnaly').closest('.field-auto-thin').hide();
-            $('#DisableKamban').closest('.field-auto-thin').hide();
-            $('#DisableImageLib').closest('.field-auto-thin').hide();
+            $('#DisableCalendar').change().closest('.field-auto-thin').hide();
+            $('#DisableCrosstab').change().closest('.field-auto-thin').hide();
+            $('#DisableTimeSeries').change().closest('.field-auto-thin').hide();
+            $('#DisableAnaly').change().closest('.field-auto-thin').hide();
+            $('#DisableKamban').change().closest('.field-auto-thin').hide();
+            $('#DisableImageLib').change().closest('.field-auto-thin').hide();
         } else {
-            $('#DisableCalendar').closest('.field-auto-thin').show();
-            $('#DisableCrosstab').closest('.field-auto-thin').show();
-            $('#DisableTimeSeries').closest('.field-auto-thin').show();
-            $('#DisableAnaly').closest('.field-auto-thin').show();
-            $('#DisableKamban').closest('.field-auto-thin').show();
-            $('#DisableImageLib').closest('.field-auto-thin').show();
+            $('#DisableCalendar').change().closest('.field-auto-thin').show();
+            $('#DisableCrosstab').change().closest('.field-auto-thin').show();
+            $('#DisableTimeSeries').change().closest('.field-auto-thin').show();
+            $('#DisableAnaly').change().closest('.field-auto-thin').show();
+            $('#DisableKamban').change().closest('.field-auto-thin').show();
+            $('#DisableImageLib').change().closest('.field-auto-thin').show();
         }
         if (selectedValue != 'Template2') {
-            $('#DisableGantt').closest('.field-auto-thin').hide();
-            $('#DisableBurnDown').closest('.field-auto-thin').hide();
+            $('#DisableGantt').change().closest('.field-auto-thin').hide();
+            $('#DisableBurnDown').change().closest('.field-auto-thin').hide();
         } else {
-            $('#DisableGantt').closest('.field-auto-thin').show();
-            $('#DisableBurnDown').closest('.field-auto-thin').show();
+            $('#DisableGantt').change().closest('.field-auto-thin').show();
+            $('#DisableBurnDown').change().closest('.field-auto-thin').show();
         }
         $('#SiteTitleDialog').dialog({
             modal: true,
