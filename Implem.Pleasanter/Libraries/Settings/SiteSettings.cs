@@ -4243,9 +4243,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "TextAlign": column.TextAlign = (TextAlignTypes)value.ToInt(); break;
                 case "Description": column.Description = value; break;
                 case "InputGuide": column.InputGuide = value; break;
-                case "ChoicesText":
-                    column.ChoicesText = value; SetLinks(
-                    context: context, column: column); break;
+                case "ChoicesText": column.ChoicesText = value; SetLinks(context: context, column: column); break;
                 case "UseSearch": column.UseSearch = value.ToBool(); break;
                 case "MultipleSelections": column.MultipleSelections = value.ToBool(); break;
                 case "NotInsertBlankChoice": column.NotInsertBlankChoice = value.ToBool(); break;
@@ -4257,21 +4255,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "GridFormat": column.GridFormat = value; break;
                 case "EditorFormat": column.EditorFormat = value; break;
                 case "ExportFormat": column.ExportFormat = value; break;
-                case "CheckFilterControlType":
-                    column.CheckFilterControlType =
-                    (ColumnUtilities.CheckFilterControlTypes)value.ToInt(); break;
+                case "CheckFilterControlType": column.CheckFilterControlType = (ColumnUtilities.CheckFilterControlTypes)value.ToInt(); break;
                 case "NumFilterMin": column.NumFilterMin = value.ToDecimal(); break;
                 case "NumFilterMax": column.NumFilterMax = value.ToDecimal(); break;
                 case "NumFilterStep": column.NumFilterStep = value.ToDecimal(); break;
-                case "DateFilterSetMode":
-                    column.DateFilterSetMode =
-                    (ColumnUtilities.DateFilterSetMode)value.ToInt(); break;
-                case "SearchTypes":
-                    column.SearchType =
-                    (Column.SearchTypes)value.ToInt(); break;
-                case "FullTextTypes":
-                    column.FullTextType =
-                    (Column.FullTextTypes)value.ToInt(); break;
+                case "DateFilterSetMode": column.DateFilterSetMode = (ColumnUtilities.DateFilterSetMode)value.ToInt(); break;
+                case "SearchTypes": column.SearchType = (Column.SearchTypes)value.ToInt(); break;
+                case "FullTextTypes": column.FullTextType = (Column.FullTextTypes)value.ToInt(); break;
                 case "DateFilterMinSpan": column.DateFilterMinSpan = value.ToInt(); break;
                 case "DateFilterMaxSpan": column.DateFilterMaxSpan = value.ToInt(); break;
                 case "DateFilterFy": column.DateFilterFy = value.ToBool(); break;
