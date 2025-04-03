@@ -5113,9 +5113,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "TimeSeries": return EnableTimeSeries == true;
                 case "Analy": return EnableAnaly == true;
                 case "Kamban": return EnableKamban == true;
-                case "ImageLib":
-                    return context.ContractSettings.Images()
-                    && EnableImageLib == true;
+                case "ImageLib": return context.ContractSettings.Images() && EnableImageLib == true;
                 default: return false;
             }
         }
