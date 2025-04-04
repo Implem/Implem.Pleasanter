@@ -8,7 +8,6 @@ using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlScripts
@@ -23,7 +22,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             if (!context.Ajax)
             {
                 var extendedScripts = ExtendedScripts(context: context);
-                var cacheBustingCode = WebUtility.UrlEncode((context.ThemeVersionForCss() + Environments.AssemblyVersion).Split(".").Join(""));
                 return hb
                     .Script(src: Responses.Locations.Get(
                         context: context,
@@ -94,7 +92,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Script(src:
                         Responses.Locations.Get(
                             context: context,
-                            parts: $"scripts/plugins/components.bundle.js?v={cacheBustingCode}"),
+                            parts: "scripts/plugins/components.bundle.js"),
                             type: "module",
                             crossorigin: true
                     )
