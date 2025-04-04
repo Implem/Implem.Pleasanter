@@ -574,6 +574,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-success");
         }
 
+        public static Message CodeDefinerTrialLicenseExpired(Context context, params string[] data)
+        {
+            return Get(
+                id: "CodeDefinerTrialLicenseExpired",
+                text: Displays.CodeDefinerTrialLicenseExpired(
+                    context: context,
+                    data: data),
+                css: "alert-success");
+        }
+
         public static Message CodeDefinerTrialShrinked(Context context, params string[] data)
         {
             return Get(
@@ -2483,6 +2493,17 @@ namespace Implem.Pleasanter.Libraries.Responses
             return ResponseMessage(
                 context: context,
                 message: CodeDefinerTrialInputYesOrNo(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseCodeDefinerTrialLicenseExpired(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: CodeDefinerTrialLicenseExpired(
                     context: context,
                     data: data),
                 target: target);

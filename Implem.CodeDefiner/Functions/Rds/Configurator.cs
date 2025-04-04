@@ -252,41 +252,13 @@ namespace Implem.CodeDefiner.Functions.Rds
                     }
                 case TrialLicenseUtilities.Status.TrialLicenseExpired:
                     {
-                        Console.WriteLine(DisplayAccessor.Displays.Get("CodeDefinerTrialShrinked"));
-                        Console.WriteLine(DisplayAccessor.Displays.Get("CodeDefinerTrialInputYesOrNo"));
-                        if (noInput)
-                        {
-                            Consoles.Write(
-                                text: DisplayAccessor.Displays.Get("CodeDefinerSkipUserInput"),
-                                type: Consoles.Types.Info);
-                        }
-                        else
-                        {
-                            if (!ConsoleInputYes())
-                            {
-                                Consoles.Write(
-                                    text: DisplayAccessor.Displays.Get("CodeDefinerRdsCanceled"),
-                                    type: Consoles.Types.Error);
-                                return false;
-                            }
-                        }
-                        Parameters.TrialLicense = new TrialLicense()
-                        {
-                            Deadline = DateTime.Now.Date
-                        };
-                        TrialLicenseUtilities.SetTrialLicenseExtendedColumns(
-                            factory: factory,
-                            useExColumnsFile: useExColumnsFile);
-                        var completed = Configure(
-                            factory: factory,
-                            force: true,
-                            noInput: true,
-                            showLicenseInfo: false);
-                        TrialLicenseUtilities.ClearExtendedColumns(factory: factory);
-                        TrialLicenseUtilities.Registration(
-                            factory: factory,
-                            useExColumnsFile: useExColumnsFile);
-                        return completed;
+                        Consoles.Write(
+                            text: DisplayAccessor.Displays.Get("CodeDefinerTrialLicenseExpired"),
+                            type: Consoles.Types.Error);
+                        Consoles.Write(
+                            text: DisplayAccessor.Displays.Get("CodeDefinerRdsCanceled"),
+                            type: Consoles.Types.Error);
+                        return false;
                     }
                 case TrialLicenseUtilities.Status.CommunityLicenseActive:
                     {
