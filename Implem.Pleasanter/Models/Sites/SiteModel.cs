@@ -2467,10 +2467,10 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings siteSetting,
             List<ApiSiteSettings.ColumnApiSettingModel> columnsApiSiteSetting)
-        {           
+        {
             columnsApiSiteSetting.ForEach(ssApiSetting =>
             {
-                var currentCloumnsApi = siteSetting.Columns.FirstOrDefault(o =>
+                var currentColumnsApi = siteSetting.Columns.FirstOrDefault(o =>
                     o.ColumnName == ssApiSetting.ColumnName);
                 var defaultColumnHash = new Column();
                 if (siteSetting.ColumnHash.ContainsKey(ssApiSetting.ColumnName))
@@ -2479,11 +2479,11 @@ namespace Implem.Pleasanter.Models
                 }
                 if (ssApiSetting.IsNewEnable)
                 {
-                    currentCloumnsApi = siteSetting.ResetColumn(context, ssApiSetting.ColumnName);
+                    currentColumnsApi = siteSetting.ResetColumn(context, ssApiSetting.ColumnName);
                 }
-                if (currentCloumnsApi != null)
+                if (currentColumnsApi != null)
                 {
-                    currentCloumnsApi.Update(
+                    currentColumnsApi.Update(
                         column: defaultColumnHash,
                         columnName: ssApiSetting.ColumnName,
                         labelText: ssApiSetting.LabelText,
@@ -2520,7 +2520,7 @@ namespace Implem.Pleasanter.Models
                         totalLimitSize: ssApiSetting.TotalLimitSize,
                         thumbnailLimitSize: ssApiSetting.ThumbnailLimitSize,
                         dateTimeStep: ssApiSetting.DateTimeStep);
-                    siteSetting.SetLinks(context, currentCloumnsApi);
+                    siteSetting.SetLinks(context, currentColumnsApi);
                 }
             });
         }
