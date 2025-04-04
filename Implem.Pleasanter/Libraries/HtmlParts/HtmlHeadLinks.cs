@@ -7,6 +7,7 @@ using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlHeadLink
@@ -72,6 +73,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder LinkedHeadLink(
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
+            var cacheBustingCode = WebUtility.UrlEncode((context.ThemeVersionForCss() + Environments.AssemblyVersion).Split(".").Join(""));
             return hb
                 .Link(
                     href: Responses.Locations.Get(
@@ -81,7 +83,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .Link(
                     href: Responses.Locations.Get(
                         context: context,
-                        parts: "scripts/plugins/vendor.bundle.js"),
+                        parts: $"scripts/plugins/vendor.bundle.js?v={cacheBustingCode}"),
                     rel: "modulepreload",
                     crossorigin: true);
         }
