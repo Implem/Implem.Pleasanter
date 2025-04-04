@@ -76,6 +76,7 @@ namespace Implem.Pleasanter.Models.ApiSiteSettings
             var notInEditorColumnList = ss.GetEditorColumnNames()
                 .Where(o => !editorColumnList.Contains(o))
                 .ToList(); ;
+            //SmartDesignで利用するパラメータの設定
             ss.Columns.ForEach(column =>
             {
                 var dragParamsApiSettingModel = new DragParamsApiSettingModel();
@@ -102,6 +103,27 @@ namespace Implem.Pleasanter.Models.ApiSiteSettings
                     dragParamsApiSettingModel);
                 smartDesignParamHash.Add(column.ColumnName, dragParamsApiSettingModel);
             });
+            //リンク先の項目に-1を設定
+            var linksColumn =  ss.GridColumns
+                .Where(o => o.Contains("~"))
+                .ToList();
+            linksColumn.ForEach(column =>
+            {
+                var dragParamsApiSettingModel = new DragParamsApiSettingModel();
+                UnusedColumn(dragParamsApiSettingModel, column);
+                smartDesignParamHash.Add(column, dragParamsApiSettingModel);
+            });
+        }
+
+        public void UnusedColumn(
+            DragParamsApiSettingModel dragParamsApiSettingModel,
+            string columnName)
+        {
+            dragParamsApiSettingModel.Type = null;
+            dragParamsApiSettingModel.Category = "None";
+            dragParamsApiSettingModel.State.Edit = -1;
+            dragParamsApiSettingModel.State.Grid = -1;
+            dragParamsApiSettingModel.State.Filter = -1;
         }
 
         public DragParamsApiSettingModel SetState(

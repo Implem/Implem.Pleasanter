@@ -2582,7 +2582,7 @@ namespace Implem.Pleasanter.Models
                     {
                         if (siteSetting.Sections == null)
                         {
-                            siteSetting.Sections = new List<Section>(); // 新しいリストを作成
+                            siteSetting.Sections = new List<Section>();
                         }
                         siteSetting.Sections.Add(section.GetRecordingData(siteSetting));
                     }
