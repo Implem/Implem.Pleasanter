@@ -1,11 +1,9 @@
-﻿using Implem.CodeDefiner.Functions.Rds.Parts;
-using Implem.DefinitionAccessor;
+﻿using Implem.DefinitionAccessor;
 using Implem.IRds;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.ParameterAccessor.Parts;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -69,51 +67,6 @@ namespace Implem.CodeDefiner.Utilities
                 factory: factory,
                 page: page,
                 value: dbObj.ToJson()) == 1;
-        }
-
-        internal static void ClearRegistration(ISqlObjectFactory factory)
-        {
-            const string page = "Info";
-            ClearDBRecode(
-                factory: factory,
-                page: page);
-        }
-
-        internal static void ClearExtendedColumns(
-            ISqlObjectFactory factory)
-        {
-            var tables = new string[] { "Depts", "Groups", "Users", "Issues", "Results" };
-            var tablesPostfix = new string[] { "", "_deleted", "_history" };
-            var columns = new string[] { "Class", "Num", "Date", "Description", "Check", "Attachments" };
-            var regExColumn = new System.Text.RegularExpressions.Regex($"^({columns.Join("|")})([0-9]+)$");
-            foreach (var table in tables)
-            {
-                var nullSetStr = GetCurrentColumns(
-                    factory: factory,
-                    tableName: table)
-                        .Where(column => regExColumn.IsMatch(column))
-                        .Select(column => $"\"{column}\" = null")
-                        .Join(",");
-                if (!nullSetStr.IsNullOrEmpty())
-                {
-                    foreach (var postfix in tablesPostfix)
-                    {
-                        try
-                        {
-                            var tableName = table + postfix;
-                            using var sqlIo = Def.SqlIoByAdmin(factory: factory);
-                            sqlIo.ExecuteNonQuery(
-                                factory: factory,
-                                dbTransaction: null,
-                                dbConnection: null,
-                                commandText: $"update \"{tableName}\" set {nullSetStr};");
-                        }
-                        catch (Exception)
-                        {
-                        }
-                    }
-                }
-            }
         }
 
         internal static void SetTrialLicenseExtendedColumns(
@@ -204,15 +157,6 @@ namespace Implem.CodeDefiner.Utilities
             {
                 return null;
             }
-        }
-
-        private static List<string> GetCurrentColumns(
-            ISqlObjectFactory factory, string tableName)
-        {
-            return Columns
-                .Get(factory: factory, sourceTableName: tableName)
-                .Select(o => o["ColumnName"].ToString())
-                .ToList();
         }
 
         private static ExtendedColumns[] GetDefaultExtendedColumns()
