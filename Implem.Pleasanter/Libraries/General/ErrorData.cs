@@ -55,5 +55,12 @@ namespace Implem.Pleasanter.Libraries.General
                 context: context,
                 data: Data);
         }
+
+        public string SdMessageJson(Context context)
+        {
+            return Type.SdMessageJson(
+                context: context,
+                data: Data);
+        }
     }
 }

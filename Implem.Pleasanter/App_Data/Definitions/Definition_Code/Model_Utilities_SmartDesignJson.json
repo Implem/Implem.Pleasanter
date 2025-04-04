@@ -1,0 +1,7 @@
+﻿{
+    "Id": "Model_Utilities_SmartDesignJson",
+    "Indent": "2",
+    "ItemOnly": "1",
+    "Exclude": "Dashboards,Sites,Wikis",
+    "Inculude": "Issues,Results"
+}

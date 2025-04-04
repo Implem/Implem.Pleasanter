@@ -1,0 +1,34 @@
+﻿{
+    "Id": "IssueId",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "ID"
+        },
+        {
+            "Language": "zh",
+            "Body": "ID"
+        },
+        {
+            "Language": "ja",
+            "Body": "ID"
+        },
+        {
+            "Language": "de",
+            "Body": "ID"
+        },
+        {
+            "Language": "ko",
+            "Body": "ID"
+        },
+        {
+            "Language": "es",
+            "Body": "ID"
+        },
+        {
+            "Language": "vn",
+            "Body": "ID"
+        }
+    ]
+}

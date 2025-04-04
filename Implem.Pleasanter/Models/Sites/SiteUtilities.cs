@@ -17,6 +17,7 @@ using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Libraries.Web;
+using Implem.Pleasanter.Models.ApiSiteSettings;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -2457,6 +2458,91 @@ namespace Implem.Pleasanter.Models
                     return ApiResults.Error(
                       context: context,
                       errorData: errorData);
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string UpdateSmartDesign(
+            Context context,
+            SiteSettings ss,
+            SiteModel siteModel,
+            string jsonBody)
+        {
+            var invalid = SiteValidators.OnUpdating(
+                context: context,
+                ss: ss,
+                siteModel: siteModel);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default: return invalid.SdMessageJson(context: context);
+            }
+            if (siteModel.AccessStatus != Databases.AccessStatuses.Selected)
+            {
+                var response = Messages.ResponseDeleteConflicts(context: context);
+                return SdResponse.SdResponseJson(response).ToJson();
+            }
+            var siteSettingsApiModel = jsonBody.Deserialize<ApiSiteSettings.SiteSettingsApiModel>();
+            siteModel.Timestamp = siteSettingsApiModel.Timestamp;
+            if (siteSettingsApiModel.Columns != null)
+            {
+                siteModel.UpsertColumnsByApi(
+                    context: context,
+                    siteSetting: ss,
+                    columnsApiSiteSetting: siteSettingsApiModel.Columns);
+            }
+            if(siteSettingsApiModel.EditorColumnHash != null)
+            {
+                siteModel.UpsertEditorColumnHashByApi(
+                    siteSetting: ss,
+                    columnsApiSiteSetting: siteSettingsApiModel.EditorColumnHash);
+            }
+            if (siteSettingsApiModel.GridColumns != null)
+            {
+                siteModel.UpsertGridColumnsByApi(
+                    siteSetting: ss,
+                    columnsApiSiteSetting: siteSettingsApiModel.GridColumns);
+            }
+            if (siteSettingsApiModel.FilterColumns != null)
+            {
+                siteModel.UpsertFilterColumnsByApi(
+                    siteSetting: ss,
+                    columnsApiSiteSetting: siteSettingsApiModel.FilterColumns);
+            }
+            if (siteSettingsApiModel.Sections != null)
+            {
+                siteModel.UpsertSectionsByApi(
+                    siteSetting: ss,
+                    sectionLatestId: siteSettingsApiModel.SectionLatestId,
+                    sectionsApiSiteSetting: siteSettingsApiModel.Sections);
+            }
+            var errorData = siteModel.Update(
+               context: context,
+               ss: ss,
+               setBySession:false);
+            switch (errorData.Type)
+            {
+                case Error.Types.None:
+                    SessionUtilities.Set(
+                        context: context,
+                        message: Messages.Updated(
+                            context: context,
+                            data: siteModel.Title.Value));
+                    return new SdResponse(
+                                method: "UpdateSuccess",
+                                url: context.UrlReferrer)
+                                .ToJson();                   
+                case Error.Types.UpdateConflicts:
+                    return new SdResponse(
+                                method: "UpdateConflicts",
+                                value: Displays.UpdateConflicts(
+                                    context:context,
+                                    data: siteModel.Updator.Name))
+                                .ToJson();
+                default:
+                    return errorData.MessageJson(context: context);
             }
         }
 
