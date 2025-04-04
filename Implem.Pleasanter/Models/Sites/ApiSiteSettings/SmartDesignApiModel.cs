@@ -47,6 +47,10 @@ namespace Implem.Pleasanter.Models.ApiSiteSettings
             List<string> editorColumnList)
         {
             var smartDesignParamHash = new Dictionary<string, DragParamsApiSettingModel>();
+            var otherEditorColumns = ss.EditorColumnHash
+                .Where(kvp => kvp.Key != "General")
+                .SelectMany(kvp => kvp.Value)
+                .ToList();
             SetColumnsParams(
                 ss,
                 smartDesignParamHash,
@@ -56,14 +60,16 @@ namespace Implem.Pleasanter.Models.ApiSiteSettings
                 SetDestinationLink(
                     ss,
                     editorColumnList,
-                    smartDesignParamHash);
+                    smartDesignParamHash,
+                    otherEditorColumns);
             }
             if (ss.Sources != null && ss.Sources.Count > 0)
             {
                 SetSourcesLink(
                     ss,
                     editorColumnList,
-                    smartDesignParamHash);
+                    smartDesignParamHash,
+                    otherEditorColumns);
             }
             return smartDesignParamHash;
         }
@@ -76,6 +82,7 @@ namespace Implem.Pleasanter.Models.ApiSiteSettings
             var notInEditorColumnList = ss.GetEditorColumnNames()
                 .Where(o => !editorColumnList.Contains(o))
                 .ToList(); ;
+            //SmartDesignで利用するパラメータの設定
             ss.Columns.ForEach(column =>
             {
                 var dragParamsApiSettingModel = new DragParamsApiSettingModel();
@@ -102,6 +109,27 @@ namespace Implem.Pleasanter.Models.ApiSiteSettings
                     dragParamsApiSettingModel);
                 smartDesignParamHash.Add(column.ColumnName, dragParamsApiSettingModel);
             });
+            //リンク先の項目に-1を設定
+            var linksColumn =  ss.GridColumns
+                .Where(o => o.Contains("~"))
+                .ToList();
+            linksColumn.ForEach(column =>
+            {
+                var dragParamsApiSettingModel = new DragParamsApiSettingModel();
+                UnusedColumn(dragParamsApiSettingModel, column);
+                smartDesignParamHash.Add(column, dragParamsApiSettingModel);
+            });
+        }
+
+        public void UnusedColumn(
+            DragParamsApiSettingModel dragParamsApiSettingModel,
+            string columnName)
+        {
+            dragParamsApiSettingModel.Type = null;
+            dragParamsApiSettingModel.Category = "None";
+            dragParamsApiSettingModel.State.Edit = -1;
+            dragParamsApiSettingModel.State.Grid = -1;
+            dragParamsApiSettingModel.State.Filter = -1;
         }
 
         public DragParamsApiSettingModel SetState(
@@ -148,7 +176,22 @@ namespace Implem.Pleasanter.Models.ApiSiteSettings
             SiteSettings ss,
             List<string> editorColumnList)
         {
-            if (ss.EditorColumnHash != null) SiteSettings.EditorColumnHash = ss.EditorColumnHash;
+            if (ss.EditorColumnHash != null)
+            {
+                var generalColumns = ss.EditorColumnHash["General"];
+                var removeLinksColumnList = generalColumns
+                    .Where(column => column.StartsWith("_Links-"))
+                    .Select(column => new { Column = column, Id = long.Parse(column.Substring("_Links-".Length)) })
+                    .Where(x => !ss.Destinations.ContainsKey(x.Id) && !ss.Sources.ContainsKey(x.Id))
+                    .Select(x => x.Column)
+                    .ToList();
+                foreach (var key in removeLinksColumnList)
+                {
+                    generalColumns.Remove(key);
+                }
+                ss.EditorColumnHash["General"] = generalColumns;
+                SiteSettings.EditorColumnHash = ss.EditorColumnHash;
+            }
             if (ss.GridColumns != null) SiteSettings.GridColumns = ss.GridColumns;
             if (ss.FilterColumns != null) SiteSettings.FilterColumns = ss.FilterColumns;
             if (ss.Links != null) SiteSettings.Links = ss.Links;
@@ -160,7 +203,8 @@ namespace Implem.Pleasanter.Models.ApiSiteSettings
         public Dictionary<string, DragParamsApiSettingModel> SetDestinationLink(
             SiteSettings ss,
             List<string> editorColumnList,
-            Dictionary<string, DragParamsApiSettingModel> smartDesignParamHash)
+            Dictionary<string, DragParamsApiSettingModel> smartDesignParamHash,
+            List<string> otherEditorColumns)
         {
             var linkColumnList = ss.Links.Select(link => ss.LinkId(link.SiteId)).ToList();
             foreach (var linkColumn in linkColumnList)
@@ -170,10 +214,18 @@ namespace Implem.Pleasanter.Models.ApiSiteSettings
                     .Where(o => o.Key == ss.LinkId(linkColumn))
                     .Select(o => o.Value.Title)
                     .FirstOrDefault();
-                dragParamsApiSettingModel.State.Edit =
-                        editorColumnList.Contains(linkColumn)
-                        ? 1
-                        : 0;
+                if (editorColumnList.Contains(linkColumn))
+                {
+                    dragParamsApiSettingModel.State.Edit = 1;
+                }
+                else if (otherEditorColumns.Any(column => column.StartsWith("_Links-") && long.Parse(column.Substring("_Links-".Length)) == ss.LinkId(linkColumn)))
+                {
+                    dragParamsApiSettingModel.State.Edit = -1;
+                }
+                else
+                {
+                    dragParamsApiSettingModel.State.Edit = 0;
+                }
                 dragParamsApiSettingModel.State.Grid = -1;
                 dragParamsApiSettingModel.State.Filter = -1;
                 dragParamsApiSettingModel.Category = "Links";
@@ -193,7 +245,8 @@ namespace Implem.Pleasanter.Models.ApiSiteSettings
         public Dictionary<string, DragParamsApiSettingModel> SetSourcesLink(
             SiteSettings ss,
             List<string> editorColumnList,
-            Dictionary<string, DragParamsApiSettingModel> smartDesignParamHash)
+            Dictionary<string, DragParamsApiSettingModel> smartDesignParamHash,
+            List<string> otherEditorColumns)
         {
             ss.Sources.ForEach(source =>
             {
@@ -201,10 +254,18 @@ namespace Implem.Pleasanter.Models.ApiSiteSettings
                 SiteSettings.Links.Add(new Link { SiteId = source.Key });
                 var linkColumn = ss.LinkId(source.Key);
                 dragParamsApiSettingModel.LinkName = source.Value.Title;
-                dragParamsApiSettingModel.State.Edit =
-                    editorColumnList.Contains(linkColumn)
-                    ? 1
-                    : 0;
+                if (editorColumnList.Contains(linkColumn))
+                {
+                    dragParamsApiSettingModel.State.Edit = 1;
+                }
+                else if (otherEditorColumns.Any(column => column.StartsWith("_Links-") && long.Parse(column.Substring("_Links-".Length)) == ss.LinkId(linkColumn)))
+                {
+                    dragParamsApiSettingModel.State.Edit = -1;
+                }
+                else
+                {
+                    dragParamsApiSettingModel.State.Edit = 0;
+                }
                 dragParamsApiSettingModel.State.Grid = -1;
                 dragParamsApiSettingModel.State.Filter = -1;
                 dragParamsApiSettingModel.Category = "Links";
