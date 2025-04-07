@@ -113,11 +113,23 @@ namespace Implem.Pleasanter.Models.ApiSiteSettings
             var linksColumn =  ss.GridColumns
                 .Where(o => o.Contains("~"))
                 .ToList();
+            var filterColumns = ss.FilterColumns
+                .Where(o => o.Contains("~"))
+                .ToList();
             linksColumn.ForEach(column =>
             {
                 var dragParamsApiSettingModel = new DragParamsApiSettingModel();
                 UnusedColumn(dragParamsApiSettingModel, column);
                 smartDesignParamHash.Add(column, dragParamsApiSettingModel);
+            });
+            filterColumns.ForEach(column =>
+            {
+                if (!smartDesignParamHash.ContainsKey(column))
+                {
+                    var dragParamsApiSettingModel = new DragParamsApiSettingModel();
+                    UnusedColumn(dragParamsApiSettingModel, column);
+                    smartDesignParamHash.Add(column, dragParamsApiSettingModel);
+                };
             });
         }
 
