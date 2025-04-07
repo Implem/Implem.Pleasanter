@@ -13,9 +13,7 @@ namespace Implem.Pleasanter.Models.ApiSiteSettings
         public string Type { get; set; }
         public string Category { get; set; }
         public DragStateApiSettingModel State { get; set; }
-
         public string LinkName { get; set; }
-        //D&D用のパラメータを追加
 
         public DragParamsApiSettingModel()
         {
@@ -48,11 +46,6 @@ namespace Implem.Pleasanter.Models.ApiSiteSettings
                 case "StartTime":
                     Type = "Date";
                     break;
-                //近い項目の形がわかるようにする。
-                //case "IssueId":
-                //case "ResultsId":
-                //case "Ver":
-                //    break;
                 default:
                     Type = Def.ExtendedColumnTypes.Get(column.ColumnName ?? string.Empty);
                     if (Type.IsNullOrEmpty())
