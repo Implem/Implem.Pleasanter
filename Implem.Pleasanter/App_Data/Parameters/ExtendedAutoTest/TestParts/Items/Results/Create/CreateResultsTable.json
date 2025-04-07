@@ -11,7 +11,7 @@
         {
             "ElementXpath": "//li[@data-value='Template3']",
             "Action": "Click",
-            "Description" : "記録テーブルのテンプレートを選択する。"
+            "Description": "記録テーブルのテンプレートを選択する。"
         },
         {
             "ElementId": "OpenSiteTitleDialog",
@@ -27,8 +27,8 @@
             "Value": "テスト用記録テーブル"
         },
         {
-            "ElementXpath": "//button[@data-action='CreateByTemplate']",
-            "Action": "Click"
+            "Action": "Script",
+            "Value": "document.getElementById('CreateByTemplate').click();"
         }
     ]
 }

@@ -17,6 +17,7 @@ using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Libraries.Web;
+using Implem.Pleasanter.Models.ApiSiteSettings;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -1102,13 +1103,15 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             SiteModel siteModel,
-            Process process)
+            List<Process> processes)
         {
+            var process = processes?.FirstOrDefault(o => !o.SuccessMessage.IsNullOrEmpty()
+                && o.MatchConditions);
             if (process == null)
             {
                 return Messages.Created(
                     context: context,
-                    data: siteModel.Title.Value);
+                    data: siteModel.Title.MessageDisplay(context: context));
             }
             else
             {
@@ -2461,6 +2464,91 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public static string UpdateSmartDesign(
+            Context context,
+            SiteSettings ss,
+            SiteModel siteModel,
+            string jsonBody)
+        {
+            var invalid = SiteValidators.OnUpdating(
+                context: context,
+                ss: ss,
+                siteModel: siteModel);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default: return invalid.SdMessageJson(context: context);
+            }
+            if (siteModel.AccessStatus != Databases.AccessStatuses.Selected)
+            {
+                var response = Messages.ResponseDeleteConflicts(context: context);
+                return SdResponse.SdResponseJson(response).ToJson();
+            }
+            var siteSettingsApiModel = jsonBody.Deserialize<ApiSiteSettings.SiteSettingsApiModel>();
+            siteModel.Timestamp = siteSettingsApiModel.Timestamp;
+            if (siteSettingsApiModel.Columns != null)
+            {
+                siteModel.UpsertColumnsByApi(
+                    context: context,
+                    siteSetting: ss,
+                    columnsApiSiteSetting: siteSettingsApiModel.Columns);
+            }
+            if(siteSettingsApiModel.EditorColumnHash != null)
+            {
+                siteModel.UpsertEditorColumnHashByApi(
+                    siteSetting: ss,
+                    columnsApiSiteSetting: siteSettingsApiModel.EditorColumnHash);
+            }
+            if (siteSettingsApiModel.GridColumns != null)
+            {
+                siteModel.UpsertGridColumnsByApi(
+                    siteSetting: ss,
+                    columnsApiSiteSetting: siteSettingsApiModel.GridColumns);
+            }
+            if (siteSettingsApiModel.FilterColumns != null)
+            {
+                siteModel.UpsertFilterColumnsByApi(
+                    siteSetting: ss,
+                    columnsApiSiteSetting: siteSettingsApiModel.FilterColumns);
+            }
+            if (siteSettingsApiModel.Sections != null)
+            {
+                siteModel.UpsertSectionsByApi(
+                    siteSetting: ss,
+                    sectionLatestId: siteSettingsApiModel.SectionLatestId,
+                    sectionsApiSiteSetting: siteSettingsApiModel.Sections);
+            }
+            var errorData = siteModel.Update(
+               context: context,
+               ss: ss,
+               setBySession:false);
+            switch (errorData.Type)
+            {
+                case Error.Types.None:
+                    SessionUtilities.Set(
+                        context: context,
+                        message: Messages.Updated(
+                            context: context,
+                            data: siteModel.Title.Value));
+                    return new SdResponse(
+                                method: "UpdateSuccess",
+                                url: context.UrlReferrer)
+                                .ToJson();                   
+                case Error.Types.UpdateConflicts:
+                    return new SdResponse(
+                                method: "UpdateConflicts",
+                                value: Displays.UpdateConflicts(
+                                    context:context,
+                                    data: siteModel.Updator.Name))
+                                .ToJson();
+                default:
+                    return errorData.MessageJson(context: context);
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static string Templates(Context context, long parentId, long inheritPermission)
         {
             var siteModel = new SiteModel(
@@ -2508,21 +2596,21 @@ namespace Implem.Pleasanter.Models
                                 text: Displays.Create(context: context),
                                 controlCss: "button-icon hidden button-positive",
                                 onClick: "$p.openSiteTitleDialog($(this));",
-                                icon: "ui-icon-disk"))
-                    .Div(
-                        attributes: new HtmlAttributes()
-                            .Id("ImportUserTemplateDialog")
-                            .Class("dialog")
-                            .Title(Displays.ImportSitePackage(context: context)),
-                        action: () => hb.ImportUserTemplateDialog(context: context, ss: ss))
-                    .Div(
-                        attributes: new HtmlAttributes()
-                            .Id("EditUserTemplateDialog")
-                            .Class("dialog")
-                            .Title(Displays.AdvancedSetting(context: context)))
-                    .CreateUserTemplateDialog(
-                        context: context,
-                        ss: siteModel.SiteSettings))
+                                icon: "ui-icon-disk")
+                            .Div(
+                                attributes: new HtmlAttributes()
+                                    .Id("ImportUserTemplateDialog")
+                                    .Class("dialog")
+                                    .Title(Displays.ImportSitePackage(context: context)),
+                                action: () => hb.ImportUserTemplateDialog(context: context, ss: ss))
+                            .Div(
+                                attributes: new HtmlAttributes()
+                                    .Id("EditUserTemplateDialog")
+                                    .Class("dialog")
+                                    .Title(Displays.AdvancedSetting(context: context)))
+                            .CreateUserTemplateDialog(
+                                context: context,
+                                ss: siteModel.SiteSettings)))
                 .Invoke("setTemplate")
                 .ToJson();
         }
@@ -3662,6 +3750,109 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public static string MoveTargetsSourceColumnsJson(
+            Context context,
+            long referenceId)
+        {
+            var siteModel = new SiteModel(
+                context: context,
+                siteId: context.SiteId);
+            var moveTargetsColumns = Jsons.Deserialize<List<long>>(context.Forms["MoveTargetsColumnsAll"]) ?? new List<long>();
+            moveTargetsColumns.Add(siteModel.SiteId);
+            var where = Rds.SitesWhere()
+                .TenantId(context.TenantId)
+                .SiteId_In(
+                    value: moveTargetsColumns,
+                    negative: true)
+                .ReferenceType(siteModel.ReferenceType)
+                .Add(
+                    raw: Def.Sql.CanReadSites,
+                    _using: !context.HasPrivilege)
+                .SqlWhereLike(
+                    tableName: "Sites",
+                    name: "SearchText",
+                    searchText: context.Forms.Data("MoveTargetsSourceColumnsText"),
+                    clauseCollection: new List<string>()
+                    {
+                        Rds.Sites_Title_WhereLike(factory: context),
+                        Rds.Sites_SiteId_WhereLike(factory: context)
+                    });
+            var offset = context.Forms.Data("ControlId") != "MoveTargetsSourceColumnsText"
+                ? context.Forms.Int("MoveTargetsSourceColumnsOffset")
+                : 0;
+            var pageSize = Parameters.General.DropDownSearchPageSize;
+            var statements = new List<SqlStatement>()
+            {
+                Rds.SelectSites(
+                    offset: offset,
+                    pageSize: pageSize,
+                    dataTableName: "Main",
+                    column: Rds.SitesColumn()
+                        .SiteId()
+                        .Title(),
+                    join: Rds.SitesJoinDefault(),
+                    where: where,
+                    orderBy: Rds.SitesOrderBy()
+                        .Title()
+                        .SiteId()),
+                Rds.SelectCount(
+                    tableName: "Sites",
+                    join: Rds.SitesJoinDefault(),
+                    where: where)
+            };
+            var dataSet = Repository.ExecuteDataSet(
+                context: context,
+                statements: statements.ToArray());
+            var totalCount = Rds.Count(dataSet);
+            var listItemCollection = dataSet.Tables["Main"].AsEnumerable();
+            var responseCollection = new ResponseCollection();
+            var nextOffset = Paging.NextOffset(
+                offset: offset,
+                totalCount: totalCount,
+                pageSize: pageSize);
+            if (context.Forms.Data("ControlId") != "MoveTargetsSourceColumnsText")
+            {
+                return responseCollection
+                    .Append(
+                        target: "#MoveTargetsSourceColumns",
+                        value: MoveTargetListItems(listItemCollection: listItemCollection))
+                    .Val(
+                        target: "#MoveTargetsSourceColumnsOffset",
+                        value: nextOffset)
+                    .ToJson();
+            }
+            else
+            {
+                return responseCollection
+                    .Invoke(
+                        methodName: "clearScrollTop",
+                        args: "MoveTargetsSourceColumnsWrapper")
+                    .Html(
+                        target: "#MoveTargetsSourceColumns",
+                        value: MoveTargetListItems(listItemCollection: listItemCollection))
+                    .Val(
+                        target: "#MoveTargetsSourceColumnsOffset",
+                        value: nextOffset)
+                    .ToJson();
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder MoveTargetListItems(EnumerableRowCollection<DataRow> listItemCollection)
+        {
+            return new HtmlBuilder()
+                .SelectableItems(
+                    listItemCollection: listItemCollection
+                        .ToDictionary(
+                            dataRow => dataRow.String("SiteId"),
+                            dataRow => new ControlData($"[{dataRow.String("SiteId")}] {dataRow.String("Title")}")));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static string Editor(Context context, long siteId, bool clearSessions)
         {
             var siteModel = new SiteModel(
@@ -3680,7 +3871,7 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder EditorTabs(this HtmlBuilder hb, Context context, SiteModel siteModel)
         {
             var ss = siteModel.SiteSettings;
-            return hb.Ul(id: "EditorTabs", action: () =>
+            var tags =hb.Ul(id: "EditorTabs", action: () =>
             {
                 hb
                     .Li(action: () => hb
@@ -4000,7 +4191,49 @@ namespace Implem.Pleasanter.Models
                                 href: "#FieldSetHistories",
                                 text: Displays.ChangeHistoryList(context: context)));
                 }
+                //SimpleMode
+                hb
+                    .Li(attributes: new HtmlAttributes()
+                            .Id("SimpleModeToggleContainer")
+                            .Class("ignore-tab"),
+                        action: () => hb
+                        .Input(
+                            attributes: new HtmlAttributes()
+                                .Id("SimpleModeToggle")
+                                .Name("SimpleModeToggle")
+                                .Type("checkbox")
+                        )
+                        .Label(
+                            attributes: new HtmlAttributes()
+                                .For("SimpleModeToggle")
+                        )
+                        .Input(
+                            attributes: new HtmlAttributes()
+                                .Type("hidden")
+                                .Id("SimpleModeEnabled")
+                                .Value(Parameters.Site.SimpleMode.Enabled.ToString().ToLower())
+                        )
+                        .Input(
+                            attributes: new HtmlAttributes()
+                                .Type("hidden")
+                                .Id("SimpleModeDefault")
+                                .Value(Parameters.Site.SimpleMode.Default.ToString().ToLower())
+                        )
+                        .Input(
+                            attributes: new HtmlAttributes()
+                                .Type("hidden")
+                                .Id("SimpleModeDisplaySwitch")
+                                .Value(Parameters.Site.SimpleMode.DisplaySwitch.ToString().ToLower())
+                        )
+                        .Input(
+                            attributes: new HtmlAttributes()
+                                .Type("hidden")
+                                .Id("SimpleModeTabs")
+                                .Value(string.Join(",", Parameters.Site.SimpleMode.Tabs.Select(s => s.Trim())))
+                        )
+                     );
             });
+            return tags;
         }
 
         /// <summary>
@@ -4200,16 +4433,13 @@ namespace Implem.Pleasanter.Models
             bool toParent = false,
             IEnumerable<SiteCondition> siteConditions = null)
         {
-            var hasImage = BinaryUtilities.ExistsSiteImage(
+            var siteImageUpdatedTime = BinaryUtilities.SiteImageUpdatedTime(
                 context: context,
                 ss: ss,
                 referenceId: siteId,
                 sizeType: Libraries.Images.ImageData.SizeTypes.Thumbnail);
-            var siteImagePrefix = BinaryUtilities.SiteImagePrefix(
-                context: context,
-                ss: ss,
-                referenceId: siteId,
-                sizeType: Libraries.Images.ImageData.SizeTypes.Thumbnail);
+            var hasImage = siteImageUpdatedTime > DateTime.FromOADate(0);
+            var siteImagePrefix = siteImageUpdatedTime.ToString("?yyyyMMddHHmmss");
             return hb.Li(
                 attributes: new HtmlAttributes()
                     .Class(Css.Class("nav-site " + referenceType.ToLower() +
@@ -4504,7 +4734,8 @@ namespace Implem.Pleasanter.Models
                     action: () => hb
                         .ElapsedTime(
                             context: context,
-                            value: condition.UpdatedTime.ToLocal(context: context))
+                            value: condition.UpdatedTime.ToLocal(context: context),
+                            _using: condition.UpdatedTime > DateTime.MinValue)
                         .Span(
                             attributes: new HtmlAttributes()
                                 .Class("reference material-symbols-outlined")
@@ -4878,6 +5109,9 @@ namespace Implem.Pleasanter.Models
                 title: siteModel.MethodType == BaseModel.MethodTypes.New
                     ? Displays.Sites(context: context) + " - " + Displays.New(context: context)
                     : siteModel.Title + " - " + Displays.Manage(context: context),
+                script: siteModel.MethodType == BaseModel.MethodTypes.Edit
+                    ? "$p.setPaging('MoveTargetsSourceColumns');"
+                    : null,
                 action: () => hb
                     .Editor(context: context, siteModel: siteModel)
                     .Hidden(
@@ -5291,6 +5525,12 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 referenceType: siteModel.ReferenceType,
                                 methodType: siteModel.MethodType))
+                    .FieldCheckBox(
+                        controlId: "DisableSiteConditions",
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.DisableSiteConditions(context: context),
+                        _checked: Parameters.Site.DisableSiteConditions == true || ss.DisableSiteConditions == true,
+                        disabled: Parameters.Site.DisableSiteConditions == true)
                     .VerUpCheckBox(
                         context: context,
                         ss: ss,
@@ -8279,7 +8519,12 @@ namespace Implem.Pleasanter.Models
                             controlWrapperCss: " h350",
                             controlCss: " always-send send-all",
                             labelText: Displays.CurrentSettings(context: context),
-                            listItemCollection: ss.MoveTargetsSelectableOptions(context: context),
+                            listItemCollection: SiteInfo.Sites(context: context)
+                                .Where(o => ss.MoveTargets?.Contains(o.Key) == true)
+                                .OrderBy(o => ss.MoveTargets.IndexOf(o.Key.ToLong()))
+                                .ToDictionary(
+                                    o => o.Key.ToString(),
+                                    o => new ControlData($"[{o.Key}] {o.Value.String("Title")}")),
                             commandOptionPositionIsTop: true,
                             commandOptionAction: () => hb
                                 .Div(css: "command-center", action: () => hb
@@ -8307,8 +8552,8 @@ namespace Implem.Pleasanter.Models
                             controlContainerCss: "container-selectable",
                             controlWrapperCss: " h350",
                             labelText: Displays.OptionList(context: context),
-                            listItemCollection: ss.MoveTargetsSelectableOptions(
-                                context: context, enabled: false),
+                            action: "MoveTargetsSourceColumns",
+                            method: "Post",
                             commandOptionPositionIsTop: true,
                             commandOptionAction: () => hb
                                 .Div(css: "command-center", action: () => hb
@@ -8317,7 +8562,22 @@ namespace Implem.Pleasanter.Models
                                         text: Displays.ToEnable(context: context),
                                         controlCss: "button-icon",
                                         onClick: "$p.moveColumns(event, $(this),'MoveTargets');",
-                                        icon: "ui-icon-circle-triangle-w")))));
+                                        icon: "ui-icon-circle-triangle-w")
+                                    .TextBox(
+                                        controlId: "MoveTargetsSourceColumnsText",
+                                        controlCss: " always-send auto-postback w100",
+                                        placeholder: Displays.Search(context: context),
+                                        action: "MoveTargetsSourceColumns",
+                                        method: "post")
+                                    .Button(
+                                        text: Displays.Search(context: context),
+                                        controlCss: "button-icon",
+                                        onClick: "$p.send($('#MoveTargetsSourceColumnsText'));",
+                                        icon: "ui-icon-search")
+                                    .Hidden(
+                                        controlId: "MoveTargetsSourceColumnsOffset",
+                                        value: "0",
+                                        css: "always-send")))));
         }
 
         /// <summary>
@@ -13413,7 +13673,14 @@ namespace Implem.Pleasanter.Models
                         .ToDictionary(
                             o => o.ColumnName,
                             o => o.LabelText),
-                    selectedValue: ss.DefaultImportKey));
+                    selectedValue: ss.DefaultImportKey)
+                .FieldCheckBox(
+                    controlId: "RejectNullImport",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.RejectNullImport(context: context),
+                    _checked: ss.RejectNullImport == true,
+                    controlCss: " always-send",
+                    _using: context.Controller == "items"));
         }
 
         /// <summary>
@@ -14334,7 +14601,12 @@ namespace Implem.Pleasanter.Models
                         icon: "ui-icon-trash",
                         action: "SetSiteSettings",
                         method: "delete",
-                        confirm: Displays.ConfirmDelete(context: context)))
+                        confirm: Displays.ConfirmDelete(context: context))
+                    .FieldCheckBox(
+                        controlId: "StylesAllDisabled",
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.AllDisabled(context: context),
+                        _checked: ss.StylesAllDisabled == true))
                 .EditStyle(
                     context: context,
                     ss: ss)
@@ -14722,7 +14994,12 @@ namespace Implem.Pleasanter.Models
                         icon: "ui-icon-trash",
                         action: "SetSiteSettings",
                         method: "delete",
-                        confirm: Displays.ConfirmDelete(context: context)))
+                        confirm: Displays.ConfirmDelete(context: context))
+                    .FieldCheckBox(
+                        controlId: "ScriptsAllDisabled",
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.AllDisabled(context: context),
+                        _checked: ss.ScriptsAllDisabled == true))
                 .EditScript(
                     context: context,
                     ss: ss));
@@ -15105,7 +15382,12 @@ namespace Implem.Pleasanter.Models
                         icon: "ui-icon-trash",
                         action: "SetSiteSettings",
                         method: "delete",
-                        confirm: Displays.ConfirmDelete(context: context)))
+                        confirm: Displays.ConfirmDelete(context: context))
+                    .FieldCheckBox(
+                        controlId: "HtmlsAllDisabled",
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.AllDisabled(context: context),
+                        _checked: ss.HtmlsAllDisabled == true))
                 .EditHtml(
                     context: context,
                     ss: ss));
@@ -15542,7 +15824,12 @@ namespace Implem.Pleasanter.Models
                         icon: "ui-icon-trash",
                         action: "SetSiteSettings",
                         method: "delete",
-                        confirm: Displays.ConfirmDelete(context: context)))
+                        confirm: Displays.ConfirmDelete(context: context))
+                    .FieldCheckBox(
+                        controlId: "ServerScriptsAllDisabled",
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.AllDisabled(context: context),
+                        _checked: ss.ServerScriptsAllDisabled  == true))
                 .EditServerScript(
                     context: context,
                     ss: ss));
@@ -17961,7 +18248,7 @@ namespace Implem.Pleasanter.Models
                                 labelText: Displays.Title(context: context))
                             .Div(css: "command-center", action: () => hb
                                 .Button(
-                                    controlId: "CreateByTemplate",
+                                    controlId: "CreateUserTemplate",
                                     text: Displays.Create(context: context),
                                     controlCss: "button-icon validate button-positive",
                                     onClick: "$p.send($(this), 'SiteTitleForm');",

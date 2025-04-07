@@ -177,7 +177,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Settings.Html.PositionTypes positionType,
             BaseModel.MethodTypes methodType)
         {
-            if (context.ContractSettings.Html == false) return hb;
+            if (context.ContractSettings.Html == false
+                || ss.HtmlsAllDisabled == true) return hb;
             hb.Raw(ss.GetHtmlBody(
                 context: context,
                 peredicate: o => o.All == true,
@@ -559,11 +560,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 siteId.ToString(),
                                 "Binaries",
                                 "SiteImageIcon",
-                                BinaryUtilities.SiteImagePrefix(
+                                BinaryUtilities.SiteImageUpdatedTime(
                                     context: context,
                                     ss: ss,
                                     referenceId: siteId,
                                     sizeType: ImageData.SizeTypes.Icon)
+                                    .ToString("?yyyyMMddHHmmss")
                             }),
                         css: "site-image-icon")
                     : hb;

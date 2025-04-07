@@ -22,6 +22,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             if (!context.Ajax)
             {
                 var extendedScripts = ExtendedScripts(context: context);
+                var webComponentsHash = "2014150";
                 return hb
                     .Script(src: Responses.Locations.Get(
                         context: context,
@@ -92,7 +93,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Script(src:
                         Responses.Locations.Get(
                             context: context,
-                            parts: "scripts/plugins/components.bundle.js"),
+                            parts: $"scripts/plugins/components.bundle.js?v={webComponentsHash}"),
                             type: "module",
                             crossorigin: true
                     )
@@ -114,10 +115,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 o.All == true
                                 && o.Disabled != true),
                         _using: context.ContractSettings.Script != false
+                            && ss.ScriptsAllDisabled != true
                             && ss.Scripts?.Any() == true)
                     .Script(
                         script: userScript,
                         _using: context.ContractSettings.Script != false
+                            && ss.ScriptsAllDisabled != true
                             && !userScript.IsNullOrEmpty())
                     .Script(script: "$p.initDashboard();",
                         _using: ss.ReferenceType == "Dashboards"

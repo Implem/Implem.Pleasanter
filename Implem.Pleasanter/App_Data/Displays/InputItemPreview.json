@@ -1,0 +1,34 @@
+﻿{
+    "Id": "InputItemPreview",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Input Item Preview"
+        },
+        {
+            "Language": "zh",
+            "Body": "输入项预览"
+        },
+        {
+            "Language": "ja",
+            "Body": "入力項目のプレビュー"
+        },
+        {
+            "Language": "de",
+            "Body": "Vorschau der Eingabefelder"
+        },
+        {
+            "Language": "ko",
+            "Body": "입력 항목 미리보기"
+        },
+        {
+            "Language": "es",
+            "Body": "Vista previa de los elementos de entrada"
+        },
+        {
+            "Language": "vn",
+            "Body": "Xem trước các mục nhập"
+        }
+    ]
+}

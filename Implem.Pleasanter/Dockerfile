@@ -40,8 +40,11 @@ RUN cat App_Data/Parameters/Rds.json \
 
 FROM publish AS settings
 RUN cat App_Data/Parameters/Service.json \
-    | jq '.WithoutChangeDefaultPassword|=true | .ShowStartGuide|=false | .Demo|=false' \
+    | jq '.TimeZoneDefault|="Asia/Tokyo" | .DefaultLanguage|="ja" | .WithoutChangeDefaultPassword|=true | .ShowStartGuide|=false | .Demo|=false' \
     > /app/publish/App_Data/Parameters/Service.json
+RUN cat App_Data/Parameters/User.json \
+    | jq '.Theme|="sunny"' \
+    > /app/publish/App_Data/Parameters/User.json
 
 FROM base AS testing
 WORKDIR /app

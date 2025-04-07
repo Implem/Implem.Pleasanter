@@ -1818,13 +1818,15 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             RegistrationModel registrationModel,
-            Process process)
+            List<Process> processes)
         {
+            var process = processes?.FirstOrDefault(o => !o.SuccessMessage.IsNullOrEmpty()
+                && o.MatchConditions);
             if (process == null)
             {
                 return Messages.Created(
                     context: context,
-                    data: registrationModel.Title.Value);
+                    data: registrationModel.Title.MessageDisplay(context: context));
             }
             else
             {
@@ -2125,7 +2127,7 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     parts: new string[]
                     {
-                        "Items",
+                        context.Controller,
                         registrationId.ToString() 
                             + (registrationModel.VerType == Versions.VerTypes.History
                                 ? "?ver=" + context.Forms.Int("Ver") 
