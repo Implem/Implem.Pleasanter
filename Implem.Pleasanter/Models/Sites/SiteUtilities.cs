@@ -2596,21 +2596,21 @@ namespace Implem.Pleasanter.Models
                                 text: Displays.Create(context: context),
                                 controlCss: "button-icon hidden button-positive",
                                 onClick: "$p.openSiteTitleDialog($(this));",
-                                icon: "ui-icon-disk"))
-                    .Div(
-                        attributes: new HtmlAttributes()
-                            .Id("ImportUserTemplateDialog")
-                            .Class("dialog")
-                            .Title(Displays.ImportSitePackage(context: context)),
-                        action: () => hb.ImportUserTemplateDialog(context: context, ss: ss))
-                    .Div(
-                        attributes: new HtmlAttributes()
-                            .Id("EditUserTemplateDialog")
-                            .Class("dialog")
-                            .Title(Displays.AdvancedSetting(context: context)))
-                    .CreateUserTemplateDialog(
-                        context: context,
-                        ss: siteModel.SiteSettings))
+                                icon: "ui-icon-disk")
+                            .Div(
+                                attributes: new HtmlAttributes()
+                                    .Id("ImportUserTemplateDialog")
+                                    .Class("dialog")
+                                    .Title(Displays.ImportSitePackage(context: context)),
+                                action: () => hb.ImportUserTemplateDialog(context: context, ss: ss))
+                            .Div(
+                                attributes: new HtmlAttributes()
+                                    .Id("EditUserTemplateDialog")
+                                    .Class("dialog")
+                                    .Title(Displays.AdvancedSetting(context: context)))
+                            .CreateUserTemplateDialog(
+                                context: context,
+                                ss: siteModel.SiteSettings)))
                 .Invoke("setTemplate")
                 .ToJson();
         }
@@ -18248,7 +18248,7 @@ namespace Implem.Pleasanter.Models
                                 labelText: Displays.Title(context: context))
                             .Div(css: "command-center", action: () => hb
                                 .Button(
-                                    controlId: "CreateByTemplate",
+                                    controlId: "CreateUserTemplate",
                                     text: Displays.Create(context: context),
                                     controlCss: "button-icon validate button-positive",
                                     onClick: "$p.send($(this), 'SiteTitleForm');",
