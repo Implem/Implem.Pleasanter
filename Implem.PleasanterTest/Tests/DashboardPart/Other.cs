@@ -44,22 +44,31 @@ namespace Implem.PleasanterTest.Tests.DashboardPart
                         referenceId: targetSiteId)
                     .Update(context: context);
                     break;
-                // 期限付きテーブルにテスト用レコードを作成
-                case "CreateCommand":
-
-                    break;
                 // 今回 xUnit
-                case "FullCalendarBody_8":
+                default:
                     var results = "";
-                    if (context.Forms.Get("Target") == "カレンダー内で次月に移動") results = new ItemModel(context: context, referenceId: targetSiteId).CalendarJson(context: context);
-                    if (context.Forms.Get("Target") == "カレンダー内のレコードを移動")
+                    if (context.Forms.Get("Target") == "カレンダー内で次月に移動")
                     {
+                        results = new ItemModel(context: context, referenceId: targetSiteId).CalendarJson(context: context);
+                    } else
+                    {
+                        // 期限付き/記録テーブルにテスト用レコードを作成
                         var json = new ItemModel(
                            context: context,
-                           referenceId: siteIdCollection.Get("参照先(期限付きテーブル)"))
-                       .Create(context: context);
-                        context.Forms.Add("EventId", json.Deserialize<ResponseCollection>()[0].Value.ToString());
-                        results = new ItemModel(context: context, referenceId: targetSiteId).UpdateByCalendar(context: context);
+                           referenceId: context.Forms.Get("SiteId").ToLong())
+                        .Create(context: context);
+                        if (context.Forms.Get("Target") == "カレンダー内のレコードを移動")
+                        {
+                            context.Forms.Add("EventId", json.Deserialize<ResponseCollection>()[0].Value.ToString());
+                            results = new ItemModel(context: context, referenceId: targetSiteId).UpdateByCalendar(context: context);
+                        } else if (context.Forms.Get("Target") == "カンバン内のレコードを移動")
+                        {
+                            context.Forms.Add("KambanId", json.Deserialize<ResponseCollection>()[0].Value.ToString());
+                            results = new ItemModel(context: context, referenceId: targetSiteId).UpdateByKamban(context: context);
+                        } else if (context.Forms.Get("Target") == "一覧上で追加レコードを読み込む")
+                        {
+                            results = new ItemModel(context: context, referenceId: targetSiteId).GridRows(context: context);
+                        }
                     }
                     Initializer.SaveResults(results);
                     Assert.True(Tester.Test(
@@ -124,7 +133,34 @@ namespace Implem.PleasanterTest.Tests.DashboardPart
                     baseTests: BaseData.Tests(
                         JsonData.ExistsOne(
                             method: "ReplaceAll",
-                            target: "#DashboardPart_8")))
+                            target: "#DashboardPart_8"))),
+                // 「カンバン内のレコードを移動」
+                new TestPart(
+                    forms: FormsUtilities.Get(
+                        new KeyValue("ControlId", "KambanBody_12"),
+                        new KeyValue("Target", "カンバン内のレコードを移動"),
+                        new KeyValue("KambanSuffix_12", "12"),
+                        new KeyValue("SiteId", siteIdCollection.Get("参照先(記録テーブル)").ToString()),
+                        // 期限付きテーブルにテスト用レコードを作成
+                        new KeyValue("Issues_Title","テスト用レコード")),
+                    baseTests: BaseData.Tests(
+                        JsonData.ExistsOne(
+                            method: "Html",
+                            target: "#DashboardPart_12"))),
+                // 一覧上で追加レコードを読み込む
+                new TestPart(
+                    forms: FormsUtilities.Get(
+                        new KeyValue("ControlId", "Grid"),
+                        new KeyValue("Target", "一覧上で追加レコードを読み込む"),
+                        new KeyValue("IndexSuffix", "_14"),
+                        new KeyValue("SiteId", siteIdCollection.Get("参照先(期限付きテーブル)").ToString()),
+                        // 期限付きテーブルにテスト用レコードを作成
+                        new KeyValue("Issues_Title","テスト用レコード"),
+                        new KeyValue("Issues_CompletionTime","2025/04/11")),
+                    baseTests: BaseData.Tests(
+                        JsonData.ExistsOne(
+                            method: "Append",
+                            target: "#Grid_14")))
             };
             foreach (var testPart in testParts)
             {
