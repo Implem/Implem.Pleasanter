@@ -1,0 +1,34 @@
+﻿{
+    "Id": "Image",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Image"
+        },
+        {
+            "Language": "zh",
+            "Body": "图像"
+        },
+        {
+            "Language": "ja",
+            "Body": "画像"
+        },
+        {
+            "Language": "de",
+            "Body": "Bild"
+        },
+        {
+            "Language": "ko",
+            "Body": "이미지"
+        },
+        {
+            "Language": "es",
+            "Body": "Imagen"
+        },
+        {
+            "Language": "vn",
+            "Body": "Hình ảnh"
+        }
+    ]
+}

@@ -17,6 +17,7 @@ using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Libraries.Web;
+using Implem.Pleasanter.Models.ApiSiteSettings;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -9610,6 +9611,19 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 updated: updated);
+        }
+
+        public static string SmartDesignJson(Context context, SiteSettings ss,SiteModel siteModel)
+        {
+            if (!context.CanManageSite(ss: ss))
+            {
+                return Messages.ResponseHasNotPermission(context: context).ToJson();
+            }
+            var smartDesignModel = new SmartDesignApiModel(
+                context: context,
+                ss: ss,
+                timestamp: siteModel.Timestamp);
+            return smartDesignModel.ToJson();
         }
 
         public static (Plugins.PdfData pdfData, string error) Pdf(
