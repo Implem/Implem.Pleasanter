@@ -809,11 +809,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     },
                                 extendedHtmlBeforeLabel: extendedHtmlBeforeLabel,
                                 extendedHtmlBetweenLabelAndControl: extendedHtmlBetweenLabelAndControl,
-                                extendedHtmlAfterControl: extendedHtmlAfterControl,
-                                controlOption: () => hb
-                                    .Div(
-                                        css: "ui-icon ui-icon-clock current-time",
-                                        _using: !Parameters.General.HideCurrentTimeIcon));
+                                extendedHtmlAfterControl: extendedHtmlAfterControl);
                         case ControlTypes.CheckBox:
                             return hb.FieldCheckBox(
                                 fieldId: controlId + "Field",
