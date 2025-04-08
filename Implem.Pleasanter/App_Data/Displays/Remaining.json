@@ -1,0 +1,34 @@
+﻿{
+    "Id": "Remaining",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Rem."
+        },
+        {
+            "Language": "zh",
+            "Body": "剩余"
+        },
+        {
+            "Language": "ja",
+            "Body": "残り"
+        },
+        {
+            "Language": "de",
+            "Body": "Verbl."
+        },
+        {
+            "Language": "ko",
+            "Body": "남은"
+        },
+        {
+            "Language": "es",
+            "Body": "Rest."
+        },
+        {
+            "Language": "vn",
+            "Body": "Còn lại"
+        }
+    ]
+}

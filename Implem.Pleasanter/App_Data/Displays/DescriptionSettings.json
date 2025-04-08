@@ -1,0 +1,34 @@
+﻿{
+    "Id": "DescriptionSettings",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Description Settings"
+        },
+        {
+            "Language": "zh",
+            "Body": "说明设置"
+        },
+        {
+            "Language": "ja",
+            "Body": "説明設定"
+        },
+        {
+            "Language": "de",
+            "Body": "Beschreibungs-Einstellungen"
+        },
+        {
+            "Language": "ko",
+            "Body": "설명 설정"
+        },
+        {
+            "Language": "es",
+            "Body": "Configuración de descripción"
+        },
+        {
+            "Language": "vn",
+            "Body": "Cài đặt mô tả"
+        }
+    ]
+}

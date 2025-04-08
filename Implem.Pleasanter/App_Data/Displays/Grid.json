@@ -1,6 +1,7 @@
-{
+﻿{
     "Id": "Grid",
     "Type": 110,
+    "ClientScript": true,
     "Languages": [
         {
             "Body": "Grid"

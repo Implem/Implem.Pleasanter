@@ -17,6 +17,7 @@ using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Libraries.Web;
+using Implem.Pleasanter.Models.ApiSiteSettings;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -7073,6 +7074,21 @@ namespace Implem.Pleasanter.Models
             }
             if (csv != null && count > 0)
             {
+                var rejectNullImport = (bool)ss.RejectNullImport;
+                // 「空白データのインポートを拒否する：true」の場合、チェック処理を実行
+                if (rejectNullImport)
+                {
+                    // 入力必須項目がインポートデータに含まれているかチェック処理を実行
+                    var notVaridateRequiredColumn = Imports.CheckForExistValidateRequiredColumn(csvHeaders: csv.Headers, ss: ss, context: context);
+                    if (notVaridateRequiredColumn != null) return notVaridateRequiredColumn;
+                    foreach (var rows in csv.Rows)
+                    {
+                        Dictionary<string, Dictionary<string, string>> settingsPerHeaders = Imports.GetCsvHeaderSettings(csv: csv, ss: ss, rows: rows);
+                        // 入力必須項目に空白だ含まれているかチェック処理を実行
+                        var brankDataInValidateRequiredColumn = Imports.CheckForBrankDataInValidateRequiredColumn(settingsPerHeaders: settingsPerHeaders, context: context);
+                        if (brankDataInValidateRequiredColumn != null) return brankDataInValidateRequiredColumn;
+                    }
+                }
                 var columnHash = ImportUtilities.GetColumnHash(ss, csv);
                 var idColumn = columnHash
                     .Where(o => o.Value.Column.ColumnName == "IssueId")
@@ -10391,6 +10407,19 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 updated: updated);
+        }
+
+        public static string SmartDesignJson(Context context, SiteSettings ss,SiteModel siteModel)
+        {
+            if (!context.CanManageSite(ss: ss))
+            {
+                return Messages.ResponseHasNotPermission(context: context).ToJson();
+            }
+            var smartDesignModel = new SmartDesignApiModel(
+                context: context,
+                ss: ss,
+                timestamp: siteModel.Timestamp);
+            return smartDesignModel.ToJson();
         }
 
         public static (Plugins.PdfData pdfData, string error) Pdf(

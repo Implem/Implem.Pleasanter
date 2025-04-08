@@ -76,6 +76,11 @@
         "Icon": "ui-icon ui-icon-gear",
         "ChildMenus": [
             {
+                "MenuId": "SettingsMenu_SmartDesign",
+                "Name": "スマートデザイン",
+                "Icon": "ui-icon ui-icon-gear"
+            },
+            {
                 "MenuId": "SettingsMenu_SiteSettings",
                 "Name": "{SiteSettingsDisplayName}",
                 "Icon": "ui-icon ui-icon-gear",
