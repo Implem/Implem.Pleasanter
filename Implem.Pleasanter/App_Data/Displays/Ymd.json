@@ -1,6 +1,7 @@
-{
+﻿{
     "Id": "Ymd",
     "Type": 120,
+    "ClientScript": true,
     "Languages": [
         {
             "Body": "Date"

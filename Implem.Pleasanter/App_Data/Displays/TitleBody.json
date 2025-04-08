@@ -1,0 +1,34 @@
+﻿{
+    "Id": "TitleBody",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Title/Content"
+        },
+        {
+            "Language": "zh",
+            "Body": "标题/目录"
+        },
+        {
+            "Language": "ja",
+            "Body": "タイトル/内容"
+        },
+        {
+            "Language": "de",
+            "Body": "Titel/Inhalt"
+        },
+        {
+            "Language": "ko",
+            "Body": "제목/콘텐츠"
+        },
+        {
+            "Language": "es",
+            "Body": "Título/Contenido"
+        },
+        {
+            "Language": "vn",
+            "Body": "Tiêu đề/Nội dung"
+        }
+    ]
+}

@@ -1,6 +1,8 @@
 ﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
+using System.Collections.Generic;
+using System.Linq;
 namespace Implem.Pleasanter.Libraries.General
 {
     public static class Error
@@ -593,6 +595,21 @@ namespace Implem.Pleasanter.Libraries.General
             return new ResponseCollection(context: context).Message(type.Message(
                 context: context,
                 data: data)).ToJson();
+        }
+
+        public static string SdMessageJson(this Types type, Context context, params string[] data)
+        {
+            var response = type.Message(
+                context: context,
+                data: data);
+            var value = new Dictionary<string, string>
+                   {
+                       { "Id", response.Id.ToString() },
+                       { "Text", response.Text }
+                   };
+            return new SdResponse(
+                method: value["Id"],
+                value: value["Text"]).ToJson();
         }
     }
 }

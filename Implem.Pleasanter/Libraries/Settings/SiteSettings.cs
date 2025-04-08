@@ -1889,6 +1889,16 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .ToList();
         }
 
+        public List<string> GetDefaultColumns(Context context)
+        {
+            List<string> defaultColumns = DefaultGridColumns(context)
+                .Concat(DefaultEditorColumns(context))
+                .Concat(DefaultFilterColumns().Where(o => o == "Locked"))
+                .Distinct()
+                .ToList();
+            return defaultColumns;
+        }
+
         private bool EditorColumn(ColumnDefinition columnDefinition)
         {
             return
@@ -2735,6 +2745,11 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string LinkId(SiteSettings ss)
         {
             return $"_Links-{ss.SiteId}";
+        }
+
+        public string LinkId(long siteId)
+        {
+            return $"_Links-{siteId}";
         }
 
         public long LinkId(string columnName)
