@@ -433,6 +433,47 @@ input {
     }
 }
 
+/* select-field */
+.select-field {
+    position: relative;
+    display: block;
+    .control-textbox {
+        float: none;
+        padding-right: 24px;
+    }
+    .ui-icon-person {
+        top: 0;
+        right: 0;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 24px;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        font-family: "Material Symbols Sharp";
+        font-size: 16px;
+        font-weight: normal;
+        -webkit-font-smoothing: antialiased;
+        font-style: normal;
+        font-feature-settings: "liga";
+        -webkit-font-feature-settings: "liga";
+        font-variation-settings: "FILL" 1;
+        line-height: 1;
+        letter-spacing: normal;
+        text-indent: 0;
+        text-transform: none;
+        white-space: nowrap;
+        word-wrap: normal;
+        background: none;
+        direction: ltr;
+        &::selection {
+            background-color: transparent;
+        }
+    }
+}
+
 /* dropdown */
 .control-dropdown {
     overflow: hidden;

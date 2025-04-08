@@ -595,10 +595,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         hb
                                             .Div(
                                                 css: "ui-icon ui-icon-person current-user",
+                                                action: () => hb.Text(text: "person"),
                                                 _using: !Parameters.General.HideCurrentUserIcon
                                                     && column.Type == Column.Types.User)
                                             .Div(
                                                 css: "ui-icon ui-icon-person current-dept",
+                                                action: () => hb.Text(text: "person"),
                                                 _using: !Parameters.General.HideCurrentDeptIcon
                                                     && column.Type == Column.Types.Dept);
                                     }
@@ -1671,8 +1673,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 validateRequired: validateRequired,
                                 action: action,
                                 method: method,
-                                column: column);
-                        controlOption?.Invoke();
+                                column: column,
+                                controlOption: controlOption);
                     })
                 : hb;
         }
