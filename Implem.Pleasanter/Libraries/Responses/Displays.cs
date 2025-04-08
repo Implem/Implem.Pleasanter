@@ -2199,6 +2199,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string CodeDefinerTrialLicenseExpired(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "CodeDefinerTrialLicenseExpired",
+                data: data);
+        }
+
         public static string CodeDefinerTrialShrinked(
             Context context,
             params string[] data)

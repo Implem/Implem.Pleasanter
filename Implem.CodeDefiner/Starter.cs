@@ -1,5 +1,4 @@
 ﻿using Implem.CodeDefiner.Settings;
-using Implem.CodeDefiner.Utilities;
 using Implem.DefinitionAccessor;
 using Implem.Factory;
 using Implem.IRds;
@@ -398,7 +397,6 @@ namespace Implem.CodeDefiner
                     noInput: noInput);
                 if (completed)
                 {
-                    TrialLicenseUtilities.ClearRegistration(factory: factory);
                     Consoles.Write(
                         text: DisplayAccessor.Displays.Get("CodeDefinerRdsCompleted"),
                         type: Consoles.Types.Success);
