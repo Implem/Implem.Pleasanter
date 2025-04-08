@@ -1,5 +1,4 @@
 ﻿using Implem.Libraries.Utilities;
-using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
@@ -7,8 +6,6 @@ using Implem.Pleasanter.Models;
 using Implem.PleasanterTest.Models;
 using Implem.PleasanterTest.Utilities;
 using System.Collections.Generic;
-using System.Reflection.Metadata;
-using System.Web.Mvc;
 using Xunit;
 
 namespace Implem.PleasanterTest.Tests.DashboardPart
@@ -34,13 +31,26 @@ namespace Implem.PleasanterTest.Tests.DashboardPart
                 routeData: RouteData.ItemsIndex(id: targetSiteId),
                 forms: forms,
                 sessionData: sessionData);
-            var results = Results(context: context, siteId: targetSiteId);
-            Initializer.SaveResults(results);
-            Assert.True(Tester.Test(
-                context: context,
-                results: results,
-                baseTests: baseTests));
+            var itemModel = new ItemModel(context: context, referenceId: targetSiteId);
+            var results = "";
+            switch (context.Forms.Get("ControlId"))
+            {
+                // 事前準備
+                // 各ダッシュボードパーツのサイトIDを上書き
+                case "UpdateCommand":
+                    itemModel.Update(context: context);
+                    break;
+                // 今回 xUnit
+                default:
+                    results = Results(itemModel: itemModel, context: context, siteId: targetSiteId);
+                    Initializer.SaveResults(results);
+                    Assert.True(Tester.Test(
+                        context: context,
+                        results: results,
+                        baseTests: baseTests));
+                    break;
             }
+        }
 
         public static IEnumerable<object[]> GetData()
         {
@@ -150,16 +160,12 @@ namespace Implem.PleasanterTest.Tests.DashboardPart
             };
         }
 
-        private static string Results(Context context, long siteId)
+        private static string Results(ItemModel itemModel, Context context, long siteId)
         {
-            var itemModel = new ItemModel(context: context, referenceId: siteId);
+            
             switch (context.Forms.Get("ControlId"))
             {
-                // 事前準備
-                // 各ダッシュボードパーツのサイトIDを上書き
-                case "UpdateCommand":
-                    itemModel.Update(context: context);
-                    return null;
+
                 // 今回 xUnit
                 default:
                     if (context.Forms.Get("Target") == "カレンダー内で次月に移動")
