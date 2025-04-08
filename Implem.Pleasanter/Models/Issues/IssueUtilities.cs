@@ -17,6 +17,7 @@ using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Libraries.Web;
+using Implem.Pleasanter.Models.ApiSiteSettings;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -3090,7 +3091,11 @@ namespace Implem.Pleasanter.Models
                             onClick: $"$p.cancelNewRow($(this));",
                             icon: "ui-icon-close",
                             action: "CancelNewRow",
-                            method: "post"));
+                            method: "post")
+                        .Hidden(
+                            controlId: $"{ss.ReferenceType}_NewGrid_{ss.SiteId}_{newRowId}",
+                            value: "1",
+                            alwaysSend: true));
                     columns.ForEach(column =>
                     {
                         if (!column.Joined
@@ -3109,7 +3114,6 @@ namespace Implem.Pleasanter.Models
                                     issueModel: issueModel,
                                     column: column,
                                     controlOnly: true,
-                                    alwaysSend: true,
                                     idSuffix: $"_{ss.SiteId}_{newRowId}"));
                         }
                         else if (!column.Joined
@@ -3463,7 +3467,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             issueModel: issueModel,
-                            process: processes?.FirstOrDefault(o => o.MatchConditions)));
+                            processes: processes));
                     return new ResponseCollection(
                         context: context,
                         id: issueModel.IssueId)
@@ -3513,13 +3517,15 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             IssueModel issueModel,
-            Process process)
+            List<Process> processes)
         {
+            var process = processes?.FirstOrDefault(o => !o.SuccessMessage.IsNullOrEmpty()
+                && o.MatchConditions);
             if (process == null)
             {
                 return Messages.Created(
                     context: context,
-                    data: issueModel.Title.DisplayValue);
+                    data: issueModel.Title.MessageDisplay(context: context));
             }
             else
             {
@@ -3616,7 +3622,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             issueModel: issueModel,
-                            process: process).Text);
+                            processes: process?.ToSingleList()).Text);
                 case Error.Types.Duplicated:
                     var duplicatedColumn = ss.GetColumn(
                         context: context,
@@ -4865,24 +4871,26 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-                private static bool HasInvalidValueAsApiDataAtUpdate(IssueApiModel model)
+        private static bool HasInvalidValueAsApiDataAtUpdate(IssueApiModel model)
+        {
+            if (model is null)
+                return false;
+            foreach (var o in model.AttachmentsHash)
+            {
+                //api/binaries/{guid}/upload 起点のAttachmentsHashのKeyにはpostfix "#Uploading" が付いている
+                var isUploading = o.Key.EndsWith("#Uploading");
+                foreach (var attachment in o.Value)
                 {
-                    if (model is null)
-                        return false;
-                    foreach (var o in model.AttachmentsHash)
-                    {
-                        foreach (var attachment in o.Value)
-                        {
-                            if (attachment.Deleted ?? false)
-                                continue;
-                            if (attachment.Name.IsNullOrEmpty())
-                                return true;
-                            if (attachment.Base64 is null && attachment.Base64Binary is null)
-                                return true;
-                        }
-                    }
-                    return false;
+                    if (attachment.Deleted ?? false)
+                        continue;
+                    if (attachment.Name.IsNullOrEmpty())
+                        return true;
+                    if (!isUploading && attachment.Base64 is null && attachment.Base64Binary is null)
+                        return true;
                 }
+            }
+            return false;
+        }
 
         public static ContentResultInheritance UpsertByApi(
             Context context,
@@ -4950,72 +4958,17 @@ namespace Implem.Pleasanter.Models
             switch (issueModel.AccessStatus)
             {
                 case Databases.AccessStatuses.Selected:
-                    break;
+                    return UpdateByApi(
+                        context: context, 
+                        ss: ss, 
+                        issueId: issueModel.IssueId, 
+                        previousTitle: issueModel.Title.DisplayValue);
                 case Databases.AccessStatuses.NotFound:
                     return CreateByApi(context: context, ss: ss);
                 case Databases.AccessStatuses.Overlap:
                     return ApiResults.Get(ApiResponses.Overlap(context: context));
                 default:
                     return ApiResults.Get(ApiResponses.NotFound(context: context));
-            }
-            // サイトの書き込み権限で可否判定を行い、レコード単位のアクセス権はチェックは行わない。
-            var invalid = IssueValidators.OnUpdating(
-                context: context,
-                ss: ss,
-                issueModel: issueModel,
-                api: true,
-                serverScript: true);
-            switch (invalid.Type)
-            {
-                case Error.Types.None: break;
-                default:
-                    return ApiResults.Error(
-                context: context,
-                errorData: invalid);
-            }
-            issueModel.SiteId = ss.SiteId;
-            issueModel.SetTitle(
-                context: context,
-                ss: ss);
-            issueModel.VerUp = Versions.MustVerUp(
-                context: context,
-                ss: ss,
-                baseModel: issueModel);
-            var errorData = issueModel.Update(
-                context: context,
-                ss: ss,
-                notice: true,
-                previousTitle: previousTitle);
-            BinaryUtilities.UploadImage(
-                context: context,
-                ss: ss,
-                id: issueModel.IssueId,
-                postedFileHash: issueModel.PostedImageHash);
-            switch (errorData.Type)
-            {
-                case Error.Types.None:
-                    return ApiResults.Success(
-                        issueModel.IssueId,
-                        limitPerDate: context.ContractSettings.ApiLimit(),
-                        limitRemaining: context.ContractSettings.ApiLimit() - ss.ApiCount,
-                        message: Displays.Updated(
-                            context: context,
-                            data: issueModel.Title.MessageDisplay(context: context)));
-                case Error.Types.Duplicated:
-                    var duplicatedColumn = ss.GetColumn(
-                        context: context,
-                        columnName: errorData.ColumnName);
-                    return ApiResults.Duplicated(
-                        context: context,
-                        message: duplicatedColumn?.MessageWhenDuplicated.IsNullOrEmpty() != false
-                            ? Displays.Duplicated(
-                                context: context,
-                                data: duplicatedColumn?.LabelText)
-                            : duplicatedColumn?.MessageWhenDuplicated);
-                default:
-                    return ApiResults.Error(
-                        context: context,
-                        errorData: errorData);
             }
         }
 
@@ -5074,55 +5027,17 @@ namespace Implem.Pleasanter.Models
             switch (issueModel.AccessStatus)
             {
                 case Databases.AccessStatuses.Selected:
-                    break;
+                    return UpdateByServerScript(
+                        context: context,
+                        ss: ss,
+                        issueId: issueModel.IssueId, 
+                        previousTitle: issueModel.Title.DisplayValue,
+                        model: model);
                 case Databases.AccessStatuses.NotFound:
                     return CreateByServerScript(
                         context: context,
                         ss: ss,
                         model: model);
-                default:
-                    return false;
-            }
-            // サイトの書き込み権限で可否判定を行い、レコード単位のアクセス権はチェックは行わない。
-            var invalid = IssueValidators.OnUpdating(
-                context: context,
-                ss: ss,
-                issueModel: issueModel,
-                api: true,
-                serverScript: true);
-            switch (invalid.Type)
-            {
-                case Error.Types.None:
-                    break;
-                default:
-                    return false;
-            }
-            issueModel.SiteId = ss.SiteId;
-            issueModel.SetTitle(
-                context: context,
-                ss: ss);
-            issueModel.VerUp = Versions.MustVerUp(
-                context: context,
-                ss: ss,
-                baseModel: issueModel);
-            var errorData = issueModel.Update(
-                context: context,
-                ss: ss,
-                notice: true,
-                previousTitle: previousTitle);
-            switch (errorData.Type)
-            {
-                case Error.Types.None:
-                    if (model is Libraries.ServerScripts.ServerScriptModelApiModel serverScriptModelApiModel)
-                    {
-                        if (serverScriptModelApiModel.Model is IssueModel data)
-                        {
-                            data.SetByModel(issueModel: issueModel);
-                        }
-                    }
-                    return true;
-                case Error.Types.Duplicated:
-                    return false;
                 default:
                     return false;
             }
@@ -7159,6 +7074,21 @@ namespace Implem.Pleasanter.Models
             }
             if (csv != null && count > 0)
             {
+                var rejectNullImport = (bool)ss.RejectNullImport;
+                // 「空白データのインポートを拒否する：true」の場合、チェック処理を実行
+                if (rejectNullImport)
+                {
+                    // 入力必須項目がインポートデータに含まれているかチェック処理を実行
+                    var notVaridateRequiredColumn = Imports.CheckForExistValidateRequiredColumn(csvHeaders: csv.Headers, ss: ss, context: context);
+                    if (notVaridateRequiredColumn != null) return notVaridateRequiredColumn;
+                    foreach (var rows in csv.Rows)
+                    {
+                        Dictionary<string, Dictionary<string, string>> settingsPerHeaders = Imports.GetCsvHeaderSettings(csv: csv, ss: ss, rows: rows);
+                        // 入力必須項目に空白だ含まれているかチェック処理を実行
+                        var brankDataInValidateRequiredColumn = Imports.CheckForBrankDataInValidateRequiredColumn(settingsPerHeaders: settingsPerHeaders, context: context);
+                        if (brankDataInValidateRequiredColumn != null) return brankDataInValidateRequiredColumn;
+                    }
+                }
                 var columnHash = ImportUtilities.GetColumnHash(ss, csv);
                 var idColumn = columnHash
                     .Where(o => o.Value.Column.ColumnName == "IssueId")
@@ -10526,6 +10456,19 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 updated: updated);
+        }
+
+        public static string SmartDesignJson(Context context, SiteSettings ss,SiteModel siteModel)
+        {
+            if (!context.CanManageSite(ss: ss))
+            {
+                return Messages.ResponseHasNotPermission(context: context).ToJson();
+            }
+            var smartDesignModel = new SmartDesignApiModel(
+                context: context,
+                ss: ss,
+                timestamp: siteModel.Timestamp);
+            return smartDesignModel.ToJson();
         }
 
         public static (Plugins.PdfData pdfData, string error) Pdf(

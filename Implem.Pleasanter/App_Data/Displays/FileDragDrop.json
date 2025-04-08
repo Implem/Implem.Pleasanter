@@ -1,6 +1,7 @@
-{
+﻿{
     "Id": "FileDragDrop",
     "Type": 210,
+    "ClientScript": true,
     "Languages": [
         {
             "Body": "Please drag and drop the file."

@@ -1,0 +1,34 @@
+﻿{
+    "Id": "StartTime",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Start"
+        },
+        {
+            "Language": "zh",
+            "Body": "开始"
+        },
+        {
+            "Language": "ja",
+            "Body": "開始"
+        },
+        {
+            "Language": "de",
+            "Body": "Starten"
+        },
+        {
+            "Language": "ko",
+            "Body": "시작"
+        },
+        {
+            "Language": "es",
+            "Body": "Comienzo"
+        },
+        {
+            "Language": "vn",
+            "Body": "Bắt đầu"
+        }
+    ]
+}

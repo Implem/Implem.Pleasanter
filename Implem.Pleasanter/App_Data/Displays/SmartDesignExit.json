@@ -1,0 +1,34 @@
+﻿{
+    "Id": "SmartDesignExit",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Do you want to exit Smart Design without saving changes?"
+        },
+        {
+            "Language": "zh",
+            "Body": "您确定要在不保存更改的情况下退出智能设计吗？"
+        },
+        {
+            "Language": "ja",
+            "Body": "変更内容を保存せずにスマートデザインを終了してもいいですか？"
+        },
+        {
+            "Language": "de",
+            "Body": "Möchten Sie Smart Design ohne Speichern der Änderungen beenden?"
+        },
+        {
+            "Language": "ko",
+            "Body": "변경 사항을 저장하지 않고 스마트 디자인을 종료하시겠습니까?"
+        },
+        {
+            "Language": "es",
+            "Body": "¿Desea salir del Diseño Inteligente sin guardar los cambios?"
+        },
+        {
+            "Language": "vn",
+            "Body": "Bạn có muốn thoát Thiết kế thông minh mà không lưu các thay đổi không?"
+        }
+    ]
+}
