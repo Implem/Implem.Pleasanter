@@ -373,6 +373,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_ApiProcessId": Code.Model_ApiProcessId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ApiProcessId, definitionRow, CodeXls); break;
                     case "Model_ApiPropertyCases": Code.Model_ApiPropertyCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ApiPropertyCases, definitionRow, CodeXls); break;
                     case "Model_ApiPropertyNullType": Code.Model_ApiPropertyNullType = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ApiPropertyNullType, definitionRow, CodeXls); break;
+                    case "Model_ApiSiteSettingsUsing": Code.Model_ApiSiteSettingsUsing = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ApiSiteSettingsUsing, definitionRow, CodeXls); break;
                     case "Model_ApiValueCases": Code.Model_ApiValueCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ApiValueCases, definitionRow, CodeXls); break;
                     case "Model_BulkDeleteByApiCases": Code.Model_BulkDeleteByApiCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_BulkDeleteByApiCases, definitionRow, CodeXls); break;
                     case "Model_BulkDeleteCases": Code.Model_BulkDeleteCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_BulkDeleteCases, definitionRow, CodeXls); break;
@@ -689,6 +690,8 @@ namespace Implem.DefinitionAccessor
                     case "Model_SiteSettingsParameterOnly": Code.Model_SiteSettingsParameterOnly = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SiteSettingsParameterOnly, definitionRow, CodeXls); break;
                     case "Model_SiteSettingsWithParameterName": Code.Model_SiteSettingsWithParameterName = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SiteSettingsWithParameterName, definitionRow, CodeXls); break;
                     case "Model_SiteSettingsWithParameterNameLower": Code.Model_SiteSettingsWithParameterNameLower = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SiteSettingsWithParameterNameLower, definitionRow, CodeXls); break;
+                    case "Model_SmartDesignJsonCases": Code.Model_SmartDesignJsonCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SmartDesignJsonCases, definitionRow, CodeXls); break;
+                    case "Model_StaticUsing": Code.Model_StaticUsing = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_StaticUsing, definitionRow, CodeXls); break;
                     case "Model_SwitchItems": Code.Model_SwitchItems = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SwitchItems, definitionRow, CodeXls); break;
                     case "Model_SwitchItems2": Code.Model_SwitchItems2 = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SwitchItems2, definitionRow, CodeXls); break;
                     case "Model_SwitchItemsLockMethods": Code.Model_SwitchItemsLockMethods = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SwitchItemsLockMethods, definitionRow, CodeXls); break;
@@ -929,6 +932,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_SiteIdParam": Code.Model_Utilities_SiteIdParam = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SiteIdParam, definitionRow, CodeXls); break;
                     case "Model_Utilities_SiteModel": Code.Model_Utilities_SiteModel = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SiteModel, definitionRow, CodeXls); break;
                     case "Model_Utilities_SiteSettingsUtilities": Code.Model_Utilities_SiteSettingsUtilities = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SiteSettingsUtilities, definitionRow, CodeXls); break;
+                    case "Model_Utilities_SmartDesignJson": Code.Model_Utilities_SmartDesignJson = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SmartDesignJson, definitionRow, CodeXls); break;
                     case "Model_Utilities_SqlColumn_SiteId": Code.Model_Utilities_SqlColumn_SiteId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SqlColumn_SiteId, definitionRow, CodeXls); break;
                     case "Model_Utilities_SqlWhereTenantId": Code.Model_Utilities_SqlWhereTenantId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SqlWhereTenantId, definitionRow, CodeXls); break;
                     case "Model_Utilities_TableDisplayNameCases": Code.Model_Utilities_TableDisplayNameCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_TableDisplayNameCases, definitionRow, CodeXls); break;
@@ -6914,6 +6918,7 @@ namespace Implem.DefinitionAccessor
         public string Model_ApiProcessId;
         public string Model_ApiPropertyCases;
         public string Model_ApiPropertyNullType;
+        public string Model_ApiSiteSettingsUsing;
         public string Model_ApiValueCases;
         public string Model_BulkDeleteByApiCases;
         public string Model_BulkDeleteCases;
@@ -7230,6 +7235,8 @@ namespace Implem.DefinitionAccessor
         public string Model_SiteSettingsParameterOnly;
         public string Model_SiteSettingsWithParameterName;
         public string Model_SiteSettingsWithParameterNameLower;
+        public string Model_SmartDesignJsonCases;
+        public string Model_StaticUsing;
         public string Model_SwitchItems;
         public string Model_SwitchItems2;
         public string Model_SwitchItemsLockMethods;
@@ -7470,6 +7477,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_SiteIdParam;
         public string Model_Utilities_SiteModel;
         public string Model_Utilities_SiteSettingsUtilities;
+        public string Model_Utilities_SmartDesignJson;
         public string Model_Utilities_SqlColumn_SiteId;
         public string Model_Utilities_SqlWhereTenantId;
         public string Model_Utilities_TableDisplayNameCases;
@@ -7770,6 +7778,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_ApiProcessId = new CodeDefinition();
         public CodeDefinition Model_ApiPropertyCases = new CodeDefinition();
         public CodeDefinition Model_ApiPropertyNullType = new CodeDefinition();
+        public CodeDefinition Model_ApiSiteSettingsUsing = new CodeDefinition();
         public CodeDefinition Model_ApiValueCases = new CodeDefinition();
         public CodeDefinition Model_BulkDeleteByApiCases = new CodeDefinition();
         public CodeDefinition Model_BulkDeleteCases = new CodeDefinition();
@@ -8086,6 +8095,8 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_SiteSettingsParameterOnly = new CodeDefinition();
         public CodeDefinition Model_SiteSettingsWithParameterName = new CodeDefinition();
         public CodeDefinition Model_SiteSettingsWithParameterNameLower = new CodeDefinition();
+        public CodeDefinition Model_SmartDesignJsonCases = new CodeDefinition();
+        public CodeDefinition Model_StaticUsing = new CodeDefinition();
         public CodeDefinition Model_SwitchItems = new CodeDefinition();
         public CodeDefinition Model_SwitchItems2 = new CodeDefinition();
         public CodeDefinition Model_SwitchItemsLockMethods = new CodeDefinition();
@@ -8326,6 +8337,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_SiteIdParam = new CodeDefinition();
         public CodeDefinition Model_Utilities_SiteModel = new CodeDefinition();
         public CodeDefinition Model_Utilities_SiteSettingsUtilities = new CodeDefinition();
+        public CodeDefinition Model_Utilities_SmartDesignJson = new CodeDefinition();
         public CodeDefinition Model_Utilities_SqlColumn_SiteId = new CodeDefinition();
         public CodeDefinition Model_Utilities_SqlWhereTenantId = new CodeDefinition();
         public CodeDefinition Model_Utilities_TableDisplayNameCases = new CodeDefinition();

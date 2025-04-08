@@ -196,6 +196,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public SettingList<Reminder> Reminders;
         public string ImportEncoding;
         public bool? UpdatableImport;
+        public bool? RejectNullImport;
         public string DefaultImportKey;
         public SettingList<Export> Exports;
         public bool? AllowStandardExport;
@@ -378,6 +379,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             CharToAddWhenCopying = CharToAddWhenCopying ?? Parameters.General.CharToAddWhenCopying;
             AllowSeparate = AllowSeparate ?? false;
             AllowLockTable = AllowLockTable ?? false;
+            RejectNullImport = RejectNullImport ?? false;
             AllowRestoreHistories = AllowRestoreHistories ?? true;
             AllowPhysicalDeleteHistories = AllowPhysicalDeleteHistories ?? true;
             HideLink = HideLink ?? false;
@@ -791,6 +793,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (OpenEditInNewTab == true)
             {
                 ss.OpenEditInNewTab = OpenEditInNewTab;
+            }
+            if (RejectNullImport == true)
+            {
+                ss.RejectNullImport = RejectNullImport;
             }
             if (EnableExpandLinkPath == true)
             {
@@ -1875,6 +1881,16 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .ToList();
         }
 
+        public List<string> GetDefaultColumns(Context context)
+        {
+            List<string> defaultColumns = DefaultGridColumns(context)
+                .Concat(DefaultEditorColumns(context))
+                .Concat(DefaultFilterColumns().Where(o => o == "Locked"))
+                .Distinct()
+                .ToList();
+            return defaultColumns;
+        }
+
         private bool EditorColumn(ColumnDefinition columnDefinition)
         {
             return
@@ -2718,6 +2734,11 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string LinkId(SiteSettings ss)
         {
             return $"_Links-{ss.SiteId}";
+        }
+
+        public string LinkId(long siteId)
+        {
+            return $"_Links-{siteId}";
         }
 
         public long LinkId(string columnName)
@@ -3959,6 +3980,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "DeleteImageWhenDeleting": DeleteImageWhenDeleting = value.ToBool(); break;
                 case "ImportEncoding": ImportEncoding = value; break;
                 case "UpdatableImport": UpdatableImport = value.ToBool(); break;
+                case "RejectNullImport": RejectNullImport = value.ToBool(); break;
                 case "DefaultImportKey": DefaultImportKey = value; break;
                 case "AllowStandardExport": AllowStandardExport = value.ToBool(); break;
                 case "EnableCalendar": EnableCalendar = value.ToBool(); break;

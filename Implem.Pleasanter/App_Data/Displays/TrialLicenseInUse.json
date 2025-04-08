@@ -1,0 +1,33 @@
+﻿{
+    "Id": "TrialLicenseInUse",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Pleasanter Extensions trial in progress"
+        },
+        {
+            "Language": "ja",
+            "Body": "Pleasanter Extensions トライアル中"
+        },
+        {
+            "Language": "zh",
+            "Body": "Pleasanter Extensions 试用正在进行中"
+        },
+        {
+            "Language": "de",
+            "Body": "Pleasanter Extensions-Testversion läuft"
+        },
+        {
+            "Language": "ko",
+            "Body": "Pleasanter Extensions 평가판"
+        },
+        {
+            "Language": "es",
+            "Body": "Prueba de Pleasanter Extensions en curso"
+        },
+        {
+            "Language": "vi",
+            "Body": "Đang tiến hành thử nghiệm Tiện ích mở rộng Pleasanter"
+        }
+    ]
+}

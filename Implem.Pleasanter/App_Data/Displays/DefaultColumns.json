@@ -1,0 +1,34 @@
+﻿{
+    "Id": "DefaultColumns",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Default Columns"
+        },
+        {
+            "Language": "zh",
+            "Body": "默认列"
+        },
+        {
+            "Language": "ja",
+            "Body": "基本項目"
+        },
+        {
+            "Language": "de",
+            "Body": "Standardspalten"
+        },
+        {
+            "Language": "ko",
+            "Body": "기본 열"
+        },
+        {
+            "Language": "es",
+            "Body": "Columnas predeterminadas"
+        },
+        {
+            "Language": "vn",
+            "Body": "Cột mặc định"
+        }
+    ]
+}

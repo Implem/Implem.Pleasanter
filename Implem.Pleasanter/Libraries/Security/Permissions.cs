@@ -435,6 +435,7 @@ namespace Implem.Pleasanter.Libraries.Security
         {
             return ss.PermissionType != null
                 || ss.ItemPermissionType != null
+                || ss.ReferenceType == null
                 || context.HasPrivilege
                 || isSearch;
         }

@@ -1,0 +1,34 @@
+﻿{
+    "Id": "Ver",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Version"
+        },
+        {
+            "Language": "zh",
+            "Body": "版本"
+        },
+        {
+            "Language": "ja",
+            "Body": "バージョン"
+        },
+        {
+            "Language": "de",
+            "Body": "Version"
+        },
+        {
+            "Language": "ko",
+            "Body": "버전"
+        },
+        {
+            "Language": "es",
+            "Body": "Versión"
+        },
+        {
+            "Language": "vn",
+            "Body": "Phiên bản"
+        }
+    ]
+}

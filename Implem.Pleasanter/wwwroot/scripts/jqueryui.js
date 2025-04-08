@@ -13,8 +13,15 @@ $p.apply = function () {
                 $p.send(ui.newPanel);
             }
         },
-        active: $('#EditorTabsContainer').attr("tab-active")
-    }).addClass('applied');
+        active: $('#EditorTabsContainer').attr("tab-active"),
+        items: "> ul > li:not(.ignore-tab)"
+    }).addClass('applied')
+    .each(function () {
+        if ($(this).attr('id') === 'EditorTabsContainer'
+            && $('#SimpleModeEnabled').length > 0) {
+            SimpleMode.init();
+        }
+    });
     $('.button-icon:not(.applied)').each(function () {
         var $control = $(this);
         var icon = $control.attr('data-icon');
@@ -215,3 +222,233 @@ function replaceMenu() {
             .css('left', $control.offset().left);
     }
 }
+
+
+const SimpleMode = (function () {
+    'use strict';
+
+    let _enabled = false;
+    let _default = false;
+    let _displaySwitch = false;
+    let _simpleModeTabNames = [];
+
+    let _processing = false;
+
+    let _initialized = false;
+
+    let _switchingMode = false;
+
+    let _originalBeforeUnload = null;
+
+    const _tabMapping = {
+        'General': '#FieldSetGeneral',
+        'Guide': '#GuideEditor',
+        'SiteImageSettingsEditor': '#SiteImageSettingsEditor',
+        'Styles': '#StylesSettingsEditor',
+        'Scripts': '#ScriptsSettingsEditor',
+        'Html': '#HtmlsSettingsEditor',
+        'DashboardParts': '#DashboardPartSettingsEditor',
+        'DataView': '#ViewsSettingsEditor',
+        'Notifications': '#NotificationsSettingsEditor',
+        'Mail': '#MailSettingsEditor',
+        'Publish': '#PublishSettingsEditor',
+        'Grid': '#GridSettingsEditor',
+        'Filters': '#FiltersSettingsEditor',
+        'Aggregations': '#AggregationsSettingsEditor',
+        'Editor': '#EditorSettingsEditor',
+        'Links': '#LinksSettingsEditor',
+        'Histories': '#HistoriesSettingsEditor',
+        'Move': '#MoveSettingsEditor',
+        'Summaries': '#SummariesSettingsEditor',
+        'Formulas': '#FormulasSettingsEditor',
+        'Processes': '#ProcessesSettingsEditor',
+        'StatusControls': '#StatusControlsSettingsEditor',
+        'Reminders': '#RemindersSettingsEditor',
+        'Import': '#ImportsSettingsEditor',
+        'Export': '#ExportsSettingsEditor',
+        'Calendar': '#CalendarSettingsEditor',
+        'Crosstab': '#CrosstabSettingsEditor',
+        'Gantt': '#GanttSettingsEditor',
+        'BurnDown': '#BurnDownSettingsEditor',
+        'TimeSeries': '#TimeSeriesSettingsEditor',
+        'Analy': '#AnalySettingsEditor',
+        'Kanban': '#KambanSettingsEditor',
+        'ImageLib': '#ImageLibSettingsEditor',
+        'Search': '#SearchSettingsEditor',
+        'SiteIntegration': '#SiteIntegrationEditor',
+        'ServerScript': '#ServerScriptsSettingsEditor',
+        'SiteAccessControl': '#FieldSetSiteAccessControl',
+        'RecordAccessControl': '#FieldSetRecordAccessControl',
+        'ColumnAccessControl': '#FieldSetColumnAccessControl',
+        'ChangeHistoryList': '#FieldSetHistories'
+    };
+
+    /**
+     * シンプルモードを適用する
+     * @private
+     */
+    const _applySimpleMode = function () {
+        if (!_enabled) {
+            $('#SimpleModeToggleContainer').hide();
+            return;
+        }
+
+        const validTabKeys = Object.keys(_tabMapping);
+        const hasValidTab = _simpleModeTabNames.some(tab => validTabKeys.includes(tab));
+        if (!hasValidTab) {
+            $('#SimpleModeToggleContainer').hide();
+            return;
+        }
+
+        if (!$('#EditorTabsContainer').hasClass('ui-tabs')) return;
+
+        const $tabs = $('#EditorTabs > li:not(.ignore-tab)');
+        let firstVisibleTabIndex = -1;
+
+        const currentActiveIndex = $('#EditorTabsContainer').tabs('option', 'active');
+        let currentTabVisible = false;
+
+        $tabs.hide();
+
+        _simpleModeTabNames.forEach(function (tabName) {
+            const tabSelector = _tabMapping[tabName];
+
+            if (tabSelector) {
+                const $tab = $('#EditorTabs > li > a[href="' + tabSelector + '"]').parent();
+
+                if ($tab.length) {
+                    $tab.show();
+                    const tabIndex = $tabs.index($tab);
+                    if (tabIndex === currentActiveIndex) {
+                        currentTabVisible = true;
+                    }
+
+                    if (firstVisibleTabIndex === -1 || tabIndex < firstVisibleTabIndex) {
+                        firstVisibleTabIndex = tabIndex;
+                    }
+                }
+            }
+        });
+
+        if (!currentTabVisible && firstVisibleTabIndex !== -1) {
+            $('#EditorTabsContainer').tabs('option', 'active', firstVisibleTabIndex);
+        }
+    };
+
+    /**
+     * ノーマルモードを適用する
+     * @private
+     */
+    const _applyNormalMode = function () {
+        if (!$('#EditorTabsContainer').hasClass('ui-tabs')) return;
+
+        $('#EditorTabs > li:not(.ignore-tab)').show();
+    };
+
+    /**
+     * モード切替時のチェックボックス制御を行う
+     * @param {boolean} checked チェックボックスのチェック状態
+     * @private
+     */
+    const _toggleWithSafetyCheck = function (checked) {
+        if (_processing) return;
+
+        _processing = true;
+
+        $('#SimpleModeToggle').prop('disabled', true);
+
+        $('#SimpleModeToggle').prop('checked', checked);
+
+        if (checked) {
+            _applySimpleMode();
+        } else {
+            _applyNormalMode();
+        }
+
+        setTimeout(function () {
+            $('#SimpleModeToggle').prop('disabled', false);
+            _processing = false;
+        }, 300); // 処理時間に余裕を持たせるため300msに延長
+    };
+
+    /**
+     * 現在の状態でシンプルモードとノーマルモードに違いがあるかチェックする
+     * @returns {boolean} 違いがあればtrue、なければfalse
+     * @private
+     */
+    const _hasDifferenceBetweenModes = function () {
+        if (!$('#EditorTabsContainer').hasClass('ui-tabs')) return false;
+
+        const $tabs = $('#EditorTabs > li:not(.ignore-tab)');
+
+        let simpleModelVisibleTabCount = 0;
+        const simpleModeTabs = new Set();
+
+        _simpleModeTabNames.forEach(function (tabName) {
+            const tabSelector = _tabMapping[tabName];
+            if (tabSelector) {
+                const $tab = $('#EditorTabs > li > a[href="' + tabSelector + '"]').parent();
+                if ($tab.length && !$tab.hasClass('ignore-tab')) {
+                    simpleModelVisibleTabCount++;
+                    simpleModeTabs.add($tab[0]);
+                }
+            }
+        });
+
+        if (simpleModelVisibleTabCount !== $tabs.length) {
+            return true;
+        }
+
+        let allTabsIncluded = true;
+        $tabs.each(function () {
+            if (!simpleModeTabs.has(this)) {
+                allTabsIncluded = false;
+                return false; 
+            }
+        });
+
+        return !allTabsIncluded;
+    };
+
+    return {
+        /**
+         * 初期化処理
+         * @public
+         */
+        init: function () {
+            if (_initialized) return;
+
+            _enabled = $('#SimpleModeEnabled').length > 0 && $('#SimpleModeEnabled').val() === 'true';
+            _default = $('#SimpleModeDefault').length > 0 && $('#SimpleModeDefault').val() === 'true';
+            _displaySwitch = $('#SimpleModeDisplaySwitch').length > 0 && $('#SimpleModeDisplaySwitch').val() === 'true';
+            _simpleModeTabNames = $('#SimpleModeTabs').length > 0 ? $('#SimpleModeTabs').val().split(',') : [];
+
+            if (!_enabled) {
+                $('#SimpleModeToggleContainer').hide();
+                return;
+            }
+
+            const hasDifference = _hasDifferenceBetweenModes();
+
+            if (!hasDifference) {
+                $('#SimpleModeToggleContainer').hide();
+                return;
+            }
+
+            $('#SimpleModeToggleContainer').toggle(_displaySwitch);
+
+            $('#SimpleModeToggle').prop('checked', _default);
+
+            $('#SimpleModeToggle').on('change', function () {
+                _toggleWithSafetyCheck($(this).prop('checked'));
+            });
+
+            _initialized = true;
+
+            if (_default) {
+                _applySimpleMode();
+            }
+        }
+
+    };
+})();
