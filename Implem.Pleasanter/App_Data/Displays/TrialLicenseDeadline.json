@@ -1,0 +1,33 @@
+﻿{
+    "Id": "TrialLicenseDeadline",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Trial period"
+        },
+        {
+            "Language": "ja",
+            "Body": "トライアル期限"
+        },
+        {
+            "Language": "zh",
+            "Body": "试用期"
+        },
+        {
+            "Language": "de",
+            "Body": "Probezeit"
+        },
+        {
+            "Language": "ko",
+            "Body": "평가판 마감"
+        },
+        {
+            "Language": "es",
+            "Body": "Período de prueba"
+        },
+        {
+            "Language": "vi",
+            "Body": "Thời gian dùng thử"
+        }
+    ]
+}

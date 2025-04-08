@@ -1,6 +1,7 @@
 ﻿{
     "Id": "TextAlign",
     "Type": 110,
+    "ClientScript": true,
     "Languages": [
         {
             "Body": "Text alignment"

@@ -1,0 +1,34 @@
+﻿{
+    "Id": "SectionSettings",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Section Settings"
+        },
+        {
+            "Language": "zh",
+            "Body": "部分设置"
+        },
+        {
+            "Language": "ja",
+            "Body": "見出し設定"
+        },
+        {
+            "Language": "de",
+            "Body": "Abschnittseinstellungen"
+        },
+        {
+            "Language": "ko",
+            "Body": "섹션 설정"
+        },
+        {
+            "Language": "es",
+            "Body": "Configuración de sección"
+        },
+        {
+            "Language": "vn",
+            "Body": "Cài đặt đầu đề"
+        }
+    ]
+}

@@ -1,0 +1,34 @@
+﻿{
+    "Id": "UnusedFilterItems",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Drag the items you don't use in the filter here"
+        },
+        {
+            "Language": "zh",
+            "Body": "将您在过滤器中不使用的项目\\n拖到这里"
+        },
+        {
+            "Language": "ja",
+            "Body": "フィルタで使用しない項目は\\nこちらにドラッグ"
+        },
+        {
+            "Language": "de",
+            "Body": "Ziehen Sie die nicht verwendeten Elemente\\nim Filter hierher"
+        },
+        {
+            "Language": "ko",
+            "Body": "필터에서 사용하지 않는 항목을\\n여기에 드래그하세요"
+        },
+        {
+            "Language": "es",
+            "Body": "Arrastra los elementos que no uses\\nen el filtro aquí"
+        },
+        {
+            "Language": "vn",
+            "Body": "Kéo các mục không sử dụng\\ntrong bộ lọc vào đây"
+        }
+    ]
+}

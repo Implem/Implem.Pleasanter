@@ -1,0 +1,34 @@
+﻿{
+    "Id": "DragColumn",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Drag the columns you want to use."
+        },
+        {
+            "Language": "zh",
+            "Body": "拖动你想要使用的列。"
+        },
+        {
+            "Language": "ja",
+            "Body": "使用したい項目をドラッグしてください。"
+        },
+        {
+            "Language": "de",
+            "Body": "Ziehen Sie die Spalten, die Sie verwenden möchten."
+        },
+        {
+            "Language": "ko",
+            "Body": "사용하려는 열을 드래그하십시오."
+        },
+        {
+            "Language": "es",
+            "Body": "Arrastra las columnas que quieras usar."
+        },
+        {
+            "Language": "vn",
+            "Body": "Kéo các cột bạn muốn sử dụng."
+        }
+    ]
+}
