@@ -1,0 +1,5 @@
+﻿{
+    "Id": "Model_Utilities_ImportIssueDateColumnWhere",
+    "RepeatType": "Column",
+    "Include": "CompletionTime,StartTime"
+}
