@@ -1,0 +1,34 @@
+﻿{
+    "Id": "UnusedGridItems",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Drag the items you don't use in the list here"
+        },
+        {
+            "Language": "zh",
+            "Body": "将您在列表中不使用的项目\\n拖到这里"
+        },
+        {
+            "Language": "ja",
+            "Body": "一覧で使用しない項目は\\nこちらにドラッグ"
+        },
+        {
+            "Language": "de",
+            "Body": "Ziehen Sie die nicht verwendeten Elemente\\nin der Liste hierher"
+        },
+        {
+            "Language": "ko",
+            "Body": "목록에서 사용하지 않는 항목을\\n여기에 드래그하세요"
+        },
+        {
+            "Language": "es",
+            "Body": "Arrastra los elementos que no uses\\nen la lista aquí"
+        },
+        {
+            "Language": "vn",
+            "Body": "Kéo các mục không sử dụng\\ntrong danh sách vào đây"
+        }
+    ]
+}

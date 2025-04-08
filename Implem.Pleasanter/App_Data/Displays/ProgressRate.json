@@ -1,0 +1,34 @@
+﻿{
+    "Id": "ProgressRate",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Progression rate"
+        },
+        {
+            "Language": "zh",
+            "Body": "进展率"
+        },
+        {
+            "Language": "ja",
+            "Body": "進捗率"
+        },
+        {
+            "Language": "de",
+            "Body": "Fortschritt"
+        },
+        {
+            "Language": "ko",
+            "Body": "진행률"
+        },
+        {
+            "Language": "es",
+            "Body": "Índice de progresión"
+        },
+        {
+            "Language": "vn",
+            "Body": "Tỉ lệ tiến độ"
+        }
+    ]
+}

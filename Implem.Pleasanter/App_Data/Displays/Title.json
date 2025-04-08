@@ -1,6 +1,7 @@
-{
+﻿{
     "Id": "Title",
     "Type": 110,
+    "ClientScript": true,
     "Languages": [
         {
             "Body": "Title"

@@ -1,0 +1,34 @@
+﻿{
+    "Id": "BasicSettings",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Basic Settings"
+        },
+        {
+            "Language": "zh",
+            "Body": "基本设置"
+        },
+        {
+            "Language": "ja",
+            "Body": "基本設定"
+        },
+        {
+            "Language": "de",
+            "Body": "Grundeinstellungen"
+        },
+        {
+            "Language": "ko",
+            "Body": "기본 설정"
+        },
+        {
+            "Language": "es",
+            "Body": "Configuración básica"
+        },
+        {
+            "Language": "vn",
+            "Body": "Cài đặt cơ bản"
+        }
+    ]
+}

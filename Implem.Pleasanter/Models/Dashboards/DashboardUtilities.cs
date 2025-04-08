@@ -1121,13 +1121,15 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             DashboardModel dashboardModel,
-            Process process)
+            List<Process> processes)
         {
+            var process = processes?.FirstOrDefault(o => !o.SuccessMessage.IsNullOrEmpty()
+                && o.MatchConditions);
             if (process == null)
             {
                 return Messages.Created(
                     context: context,
-                    data: dashboardModel.Title.Value);
+                    data: dashboardModel.Title.MessageDisplay(context: context));
             }
             else
             {
