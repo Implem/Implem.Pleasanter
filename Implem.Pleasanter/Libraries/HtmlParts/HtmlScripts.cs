@@ -22,6 +22,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             if (!context.Ajax)
             {
                 var extendedScripts = ExtendedScripts(context: context);
+                var webComponentsHash = "2014150";
                 return hb
                     .Script(src: Responses.Locations.Get(
                         context: context,
@@ -92,7 +93,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Script(src:
                         Responses.Locations.Get(
                             context: context,
-                            parts: "scripts/plugins/components.bundle.js"),
+                            parts: $"scripts/plugins/components.bundle.js?v={webComponentsHash}"),
                             type: "module",
                             crossorigin: true
                     )
