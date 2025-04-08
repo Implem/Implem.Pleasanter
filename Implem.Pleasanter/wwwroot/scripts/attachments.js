@@ -271,9 +271,10 @@
 
 $p.deleteAttachment = function ($control, $data) {
     var json = JSON.parse($control.val());
-    json.filter(function (item, index, array) {
+    var target = json.find(v => v.Guid == $data.attr('data-id') && v.Overwritten && v.Added != true);
+    json = json.filter(function (item, index, array) {
         if (item.Added === true) {
-            if (item.Guid.toString() === $data.attr('data-id')) {
+            if (item.Guid === $data.attr('data-id') || (target != null && item.Name == target.Name)) {
                 var data = {};
                 data.Guid = item.Guid;
                 url = $('.main-form')
@@ -281,7 +282,7 @@ $p.deleteAttachment = function ($control, $data) {
                     .replace('_action_', $data.attr('data-action'));
                 $p.ajax(url, 'post', data);
                 $('#' + item.Guid).remove();
-                array.splice(index, 1);
+                return false;
             }
         } else {
             if (item.Guid === $data.attr('data-id')) {
@@ -290,7 +291,6 @@ $p.deleteAttachment = function ($control, $data) {
                     $data.parent().addClass('preparation-delete');
                     $data.removeClass('ui-icon-circle-close');
                     $data.addClass('ui-icon-trash');
-
                 } else {
                     item.Deleted = false;
                     $data.parent().removeClass('preparation-delete');
@@ -299,6 +299,7 @@ $p.deleteAttachment = function ($control, $data) {
                 }
             }
         }
+        return true;
     });
     json = JSON.stringify(json);
     $control.val(json);
