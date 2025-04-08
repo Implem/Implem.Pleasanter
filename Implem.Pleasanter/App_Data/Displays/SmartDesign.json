@@ -1,0 +1,34 @@
+﻿{
+    "Id": "SmartDesign",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Smart Design"
+        },
+        {
+            "Language": "zh",
+            "Body": "智能设计"
+        },
+        {
+            "Language": "ja",
+            "Body": "スマートデザイン"
+        },
+        {
+            "Language": "de",
+            "Body": "Smart Design"
+        },
+        {
+            "Language": "ko",
+            "Body": "스마트 디자인"
+        },
+        {
+            "Language": "es",
+            "Body": "Diseño inteligente"
+        },
+        {
+            "Language": "vn",
+            "Body": "Thiết kế thông minh"
+        }
+    ]
+}

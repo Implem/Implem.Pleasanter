@@ -16,6 +16,7 @@ namespace Implem.ParameterAccessor.Parts
         public string HtmlContactUrl { get; set; }
         public string HtmlAGPLUrl { get; set; }
         public string HtmlEnterPriseEditionUrl { get; set; }
+        public string HtmlTrialLicenseUrl { get; set; }
         public string HtmlCasesUrl { get; set; }
         public string HtmlUrlPrefix { get; set; }
         public bool DisplayLogoText { get; set; }

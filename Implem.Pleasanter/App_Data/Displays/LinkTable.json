@@ -1,0 +1,34 @@
+﻿{
+    "Id": "LinkTable",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Link Table"
+        },
+        {
+            "Language": "zh",
+            "Body": "链接表"
+        },
+        {
+            "Language": "ja",
+            "Body": "リンクテーブル"
+        },
+        {
+            "Language": "de",
+            "Body": "Linktabelle"
+        },
+        {
+            "Language": "ko",
+            "Body": "링크 테이블"
+        },
+        {
+            "Language": "es",
+            "Body": "Tabla de enlace"
+        },
+        {
+            "Language": "vn",
+            "Body": "Bảng liên kết"
+        }
+    ]
+}
