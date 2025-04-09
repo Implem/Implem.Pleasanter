@@ -68,7 +68,7 @@
                 context: context, 
                 ss: ss, 
                 #modelName#Id: #modelName#Model.#ModelName#Id, 
-                previousTitle: #modelName#Model.Title.DisplayValue);
+                previousTitle: previousTitle);
         case Databases.AccessStatuses.NotFound:
             return CreateByApi(context: context, ss: ss);
         case Databases.AccessStatuses.Overlap:
