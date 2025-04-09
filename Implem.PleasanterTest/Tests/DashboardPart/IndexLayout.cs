@@ -13,7 +13,7 @@ using Xunit;
 namespace Implem.PleasanterTest.Tests.DashboardPart
 {
     [Collection(nameof(QuickAccessLayout))]
-    public class CustomLayout
+    public class IndexLayout
     {
         [Theory]
         [MemberData(nameof(GetData))]
@@ -79,12 +79,30 @@ namespace Implem.PleasanterTest.Tests.DashboardPart
                         // ダッシュボードパーツの確認
                         HtmlData.TextContains(
                             selector: "#DashboardPartLayouts",
-                            value: "DashboardPart_6"),
+                            value: "DashboardPart_14"),
                         // タイトルが表示されていることの確認
                         HtmlData.TextContains(
                             selector: "#DashboardPartLayouts",
-                            value: "CustomLayout(「タイトルを表示する：true」)")))
-            };
+                            value: "IndexLayout(「タイトルを表示する：true」「参照先が期限付きテーブル」)"))),
+                new TestPart(
+                    baseTests: BaseData.Tests(
+                        // ダッシュボードパーツの確認
+                        HtmlData.TextContains(
+                            selector: "#DashboardPartLayouts",
+                            value: "DashboardPart_15"),
+                        HtmlData.TextContains(
+                            selector: "#DashboardPartLayouts",
+                            value: "{&quot;id&quot;:15,&quot;x&quot;:0,&quot;y&quot;:0,&quot;w&quot;:2,&quot;h&quot;:10,&quot;content&quot;:&quot;<div data-id=\\&quot;15\\&quot; id=\\&quot;DashboardPart_15\\&quot; class=\\&quot;dashboard-index-container \\&quot;></div>&quot;}"))),
+                new TestPart(
+                    baseTests: BaseData.Tests(
+                        //// ダッシュボードパーツの確認
+                        HtmlData.TextContains(
+                            selector: "#DashboardPartLayouts",
+                            value: "DashboardPart_16"),
+                        HtmlData.TextContains(
+                            selector: "#DashboardPartLayouts",
+                            value: "{&quot;id&quot;:16,&quot;x&quot;:0,&quot;y&quot;:0,&quot;w&quot;:2,&quot;h&quot;:10,&quot;content&quot;:&quot;<div data-id=\\&quot;16\\&quot; id=\\&quot;DashboardPart_16\\&quot; class=\\&quot;dashboard-index-container \\&quot;></div>&quot;}"))),
+             };
             foreach (var testPart in testParts)
             {
                 yield return TestData(
