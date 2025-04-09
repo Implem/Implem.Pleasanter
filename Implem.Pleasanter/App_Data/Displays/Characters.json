@@ -1,0 +1,34 @@
+﻿{
+    "Id": "Characters",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Characters"
+        },
+        {
+            "Language": "zh",
+            "Body": "字符"
+        },
+        {
+            "Language": "ja",
+            "Body": "文字"
+        },
+        {
+            "Language": "de",
+            "Body": "Zeichen"
+        },
+        {
+            "Language": "ko",
+            "Body": "문자"
+        },
+        {
+            "Language": "es",
+            "Body": "Caracteres"
+        },
+        {
+            "Language": "vn",
+            "Body": "Ký tự"
+        }
+    ]
+}

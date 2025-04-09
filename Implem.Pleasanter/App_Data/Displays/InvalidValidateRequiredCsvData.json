@@ -1,0 +1,33 @@
+﻿{
+    "Id": "InvalidValidateRequiredCsvData",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "The value of the required field is invalid."
+        },
+        {
+            "Language": "zh",
+            "Body": "必填字段的值无效。"
+        },
+        {
+            "Language": "ja",
+            "Body": "入力必須項目の値が不正です。"
+        },
+        {
+            "Language": "de",
+            "Body": "Der Wert des erforderlichen Feldes ist ungültig."
+        },
+        {
+            "Language": "ko",
+            "Body": "입력 필수 항목의 값이 올바르지 않습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "DEl valor del campo requerido no es válido."
+        },
+        {
+            "Language": "vn",
+            "Body": "Giá trị của trường bắt buộc không hợp lệ."
+        }
+    ]
+}

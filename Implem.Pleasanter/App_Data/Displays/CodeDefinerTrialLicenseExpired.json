@@ -1,0 +1,9 @@
+﻿{
+    "Id": "CodeDefinerTrialLicenseExpired",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "Trial period has expired. You can not rerun."
+        }
+    ]
+}

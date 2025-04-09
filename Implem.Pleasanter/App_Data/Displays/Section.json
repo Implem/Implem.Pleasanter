@@ -1,6 +1,7 @@
-{
+﻿{
     "Id": "Section",
     "Type": 110,
+    "ClientScript": true,
     "Languages": [
         {
             "Body": "Section"

@@ -404,7 +404,7 @@ namespace Implem.Pleasanter.Models
                 if (extensionModel.GetType().GetField(column.ColumnName).GetValue(extensionModel).ToString().IsNullOrEmpty())
                     return ApiResults.Error(
                         context: context,
-                        errorData: new ErrorData(type: Error.Types.NotRequiredColumn),
+                        errorData: new ErrorData(type: Error.Types.NotIncludedRequiredColumn),
                         data: column.ColumnName);
             }
             var errorData = extensionModel.Update(context: context, ss: ss, get: false);
