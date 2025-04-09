@@ -47,7 +47,6 @@ namespace Implem.ParameterAccessor.Parts
         public bool UseNegativeFilters { get; set; }
         public bool AllowCopy { get; set; }
         public bool AllowReferenceCopy { get; set; }
-        public bool DefaultAnalyDisable { get; set; }
         public string CharToAddWhenCopying { get; set; }
         [DefaultValue(@"(?<!\\),")]
         public string ChoiceSplitRegexPattern { get; set; } = @"(?<!\\),";
@@ -88,6 +87,7 @@ namespace Implem.ParameterAccessor.Parts
         public bool DefaultTimeSeriesDisable {  get; set; }
         public int AnalyPartPeriodValueMin { get; set; }
         public int AnalyPartPeriodValueMax { get; set; }
+        public bool DefaultAnalyDisable { get; set; }
         public int KambanLimit { get; set; }
         public int KambanXLimit { get; set; }
         public int KambanYLimit { get; set; }
