@@ -74,6 +74,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         context: context,
                         ss: ss,
                         serverScriptModelRow: serverScriptModelRow)
+                    .LoaderContainer(
+                        context: context,
+                        ss: ss)
                     .VideoDialog(
                         context: context,
                         ss: ss)
@@ -557,11 +560,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 siteId.ToString(),
                                 "Binaries",
                                 "SiteImageIcon",
-                                BinaryUtilities.SiteImagePrefix(
+                                BinaryUtilities.SiteImageUpdatedTime(
                                     context: context,
                                     ss: ss,
                                     referenceId: siteId,
                                     sizeType: ImageData.SizeTypes.Icon)
+                                    .ToString("?yyyyMMddHHmmss")
                             }),
                         css: "site-image-icon")
                     : hb;
@@ -620,6 +624,18 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 : hb;
         }
 
+        private static HtmlBuilder LoaderContainer(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss = null)
+        {
+            return !context.Ajax
+                ? hb.Div(
+                    id: "LoaderContainer",
+                    action: () =>
+                        hb.Div(css: "loader"))
+                : hb;
+        }
 
         private static HtmlBuilder HiddenData(
             this HtmlBuilder hb,

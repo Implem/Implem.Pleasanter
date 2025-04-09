@@ -1,0 +1,33 @@
+﻿{
+    "Id": "RejectNullImport",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "Refuse to import blank data"
+        },
+        {
+            "Language": "zh",
+            "Body": "拒绝导入空白数据."
+        },
+        {
+            "Language": "ja",
+            "Body": "入力必須項目の空白をエラーにする"
+        },
+        {
+            "Language": "de",
+            "Body": "Importieren leerer Daten ablehnen。"
+        },
+        {
+            "Language": "ko",
+            "Body": "빈 데이터 가져오기 거부."
+        },
+        {
+            "Language": "es",
+            "Body": "Negarse a importar datos en blanco."
+        },
+        {
+            "Language": "vn",
+            "Body": "Từ chối nhập dữ liệu trống."
+        }
+    ]
+}

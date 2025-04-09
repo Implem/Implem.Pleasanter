@@ -1,6 +1,7 @@
-{
+﻿{
     "Id": "Attachments",
     "Type": 110,
+    "ClientScript": true,
     "Languages": [
         {
             "Body": "Attachments"
