@@ -1,6 +1,7 @@
-{
+﻿{
     "Id": "Normal",
     "Type": 110,
+    "ClientScript": true,
     "Languages": [
         {
             "Body": "Normal"

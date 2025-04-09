@@ -17,6 +17,7 @@ using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Libraries.Web;
+using Implem.Pleasanter.Models.ApiSiteSettings;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -2466,6 +2467,91 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public static string UpdateSmartDesign(
+            Context context,
+            SiteSettings ss,
+            SiteModel siteModel,
+            string jsonBody)
+        {
+            var invalid = SiteValidators.OnUpdating(
+                context: context,
+                ss: ss,
+                siteModel: siteModel);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default: return invalid.SdMessageJson(context: context);
+            }
+            if (siteModel.AccessStatus != Databases.AccessStatuses.Selected)
+            {
+                var response = Messages.ResponseDeleteConflicts(context: context);
+                return SdResponse.SdResponseJson(response).ToJson();
+            }
+            var siteSettingsApiModel = jsonBody.Deserialize<ApiSiteSettings.SiteSettingsApiModel>();
+            siteModel.Timestamp = siteSettingsApiModel.Timestamp;
+            if (siteSettingsApiModel.Columns != null)
+            {
+                siteModel.UpsertColumnsByApi(
+                    context: context,
+                    siteSetting: ss,
+                    columnsApiSiteSetting: siteSettingsApiModel.Columns);
+            }
+            if(siteSettingsApiModel.EditorColumnHash != null)
+            {
+                siteModel.UpsertEditorColumnHashByApi(
+                    siteSetting: ss,
+                    columnsApiSiteSetting: siteSettingsApiModel.EditorColumnHash);
+            }
+            if (siteSettingsApiModel.GridColumns != null)
+            {
+                siteModel.UpsertGridColumnsByApi(
+                    siteSetting: ss,
+                    columnsApiSiteSetting: siteSettingsApiModel.GridColumns);
+            }
+            if (siteSettingsApiModel.FilterColumns != null)
+            {
+                siteModel.UpsertFilterColumnsByApi(
+                    siteSetting: ss,
+                    columnsApiSiteSetting: siteSettingsApiModel.FilterColumns);
+            }
+            if (siteSettingsApiModel.Sections != null)
+            {
+                siteModel.UpsertSectionsByApi(
+                    siteSetting: ss,
+                    sectionLatestId: siteSettingsApiModel.SectionLatestId,
+                    sectionsApiSiteSetting: siteSettingsApiModel.Sections);
+            }
+            var errorData = siteModel.Update(
+               context: context,
+               ss: ss,
+               setBySession:false);
+            switch (errorData.Type)
+            {
+                case Error.Types.None:
+                    SessionUtilities.Set(
+                        context: context,
+                        message: Messages.Updated(
+                            context: context,
+                            data: siteModel.Title.Value));
+                    return new SdResponse(
+                                method: "UpdateSuccess",
+                                url: context.UrlReferrer)
+                                .ToJson();                   
+                case Error.Types.UpdateConflicts:
+                    return new SdResponse(
+                                method: "UpdateConflicts",
+                                value: Displays.UpdateConflicts(
+                                    context:context,
+                                    data: siteModel.Updator.Name))
+                                .ToJson();
+                default:
+                    return errorData.MessageJson(context: context);
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static string Templates(Context context, long parentId, long inheritPermission)
         {
             var siteModel = new SiteModel(
@@ -2513,21 +2599,21 @@ namespace Implem.Pleasanter.Models
                                 text: Displays.Create(context: context),
                                 controlCss: "button-icon hidden button-positive",
                                 onClick: "$p.openSiteTitleDialog($(this));",
-                                icon: "ui-icon-disk"))
-                    .Div(
-                        attributes: new HtmlAttributes()
-                            .Id("ImportUserTemplateDialog")
-                            .Class("dialog")
-                            .Title(Displays.ImportSitePackage(context: context)),
-                        action: () => hb.ImportUserTemplateDialog(context: context, ss: ss))
-                    .Div(
-                        attributes: new HtmlAttributes()
-                            .Id("EditUserTemplateDialog")
-                            .Class("dialog")
-                            .Title(Displays.AdvancedSetting(context: context)))
-                    .CreateUserTemplateDialog(
-                        context: context,
-                        ss: siteModel.SiteSettings))
+                                icon: "ui-icon-disk")
+                            .Div(
+                                attributes: new HtmlAttributes()
+                                    .Id("ImportUserTemplateDialog")
+                                    .Class("dialog")
+                                    .Title(Displays.ImportSitePackage(context: context)),
+                                action: () => hb.ImportUserTemplateDialog(context: context, ss: ss))
+                            .Div(
+                                attributes: new HtmlAttributes()
+                                    .Id("EditUserTemplateDialog")
+                                    .Class("dialog")
+                                    .Title(Displays.AdvancedSetting(context: context)))
+                            .CreateUserTemplateDialog(
+                                context: context,
+                                ss: siteModel.SiteSettings)))
                 .Invoke("setTemplate")
                 .ToJson();
         }
@@ -18165,7 +18251,7 @@ namespace Implem.Pleasanter.Models
                                 labelText: Displays.Title(context: context))
                             .Div(css: "command-center", action: () => hb
                                 .Button(
-                                    controlId: "CreateByTemplate",
+                                    controlId: "CreateUserTemplate",
                                     text: Displays.Create(context: context),
                                     controlCss: "button-icon validate button-positive",
                                     onClick: "$p.send($(this), 'SiteTitleForm');",

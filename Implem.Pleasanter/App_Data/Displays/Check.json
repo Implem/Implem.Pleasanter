@@ -1,6 +1,7 @@
-{
+﻿{
     "Id": "Check",
     "Type": 110,
+    "ClientScript": true,
     "Languages": [
         {
             "Body": "Check"

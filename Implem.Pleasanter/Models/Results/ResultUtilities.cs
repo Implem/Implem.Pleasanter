@@ -17,6 +17,7 @@ using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Libraries.Web;
+using Implem.Pleasanter.Models.ApiSiteSettings;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -6738,6 +6739,13 @@ namespace Implem.Pleasanter.Models
                 {
                     return Messages.ResponseNotContainKeyColumn(context: context).ToJson();
                 }
+                columnHash
+                    .Where(pair => pair.Value.Column.ColumnName.StartsWith("Date"))
+                    .ForEach(pair =>
+                        pair.Value.Column.RecordingFormat = GetImportDateFormat(
+                            context: context,
+                            csv: csv,
+                            index: pair.Key));
                 var csvRows = csv.Rows
                     .Select((o, i) => new { Index = i, Row = o })
                     .ToDictionary(o => o.Index, o => o.Row);
@@ -7082,6 +7090,13 @@ namespace Implem.Pleasanter.Models
                     statusCode: 500,
                     message: Messages.NotContainKeyColumn(context: context).Text));
                 }
+                columnHash
+                    .Where(pair => pair.Value.Column.ColumnName.StartsWith("Date"))
+                    .ForEach(pair =>
+                        pair.Value.Column.RecordingFormat = GetImportDateFormat(
+                            context: context,
+                            csv: csv,
+                            index: pair.Key));
                 var csvRows = csv.Rows
                     .Select((o, i) => new { Index = i, Row = o })
                     .ToDictionary(o => o.Index, o => o.Row);
@@ -7392,6 +7407,13 @@ namespace Implem.Pleasanter.Models
                 {
                     throw NewProcessingFailureException(message: Messages.NotContainKeyColumn(context: context));
                 }
+                columnHash
+                    .Where(pair => pair.Value.Column.ColumnName.StartsWith("Date"))
+                    .ForEach(pair =>
+                        pair.Value.Column.RecordingFormat = GetImportDateFormat(
+                            context: context,
+                            csv: csv,
+                            index: pair.Key));
                 var csvRows = csv.Rows
                     .Select((o, i) => new { Index = i, Row = o })
                     .ToDictionary(o => o.Index, o => o.Row);
@@ -7592,6 +7614,34 @@ namespace Implem.Pleasanter.Models
             {
                 throw NewProcessingFailureException(message: Messages.FileNotFound(context: context));
             }
+        }
+
+        private static string GetImportDateFormat(
+            Context context,
+            Csv csv,
+            int index)
+        {
+            var formats = new[] { "Ymdahms", "Ymdahm", "Ymda" }
+                .Select(v => Displays.Get(
+                    context: context,
+                    id: v + "Format"))
+                .ToArray();
+            foreach (var data in csv.Rows)
+            {
+                foreach (var format in formats)
+                {
+                    if (DateTime.TryParseExact(
+                        data[index],
+                        format,
+                        context.CultureInfo(),
+                        System.Globalization.DateTimeStyles.None,
+                        out var _))
+                    {
+                        return format;
+                    }
+                }
+            }
+            return null;
         }
 
         private static Exception NewProcessingFailureException(Message message)
@@ -9595,6 +9645,19 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 updated: updated);
+        }
+
+        public static string SmartDesignJson(Context context, SiteSettings ss,SiteModel siteModel)
+        {
+            if (!context.CanManageSite(ss: ss))
+            {
+                return Messages.ResponseHasNotPermission(context: context).ToJson();
+            }
+            var smartDesignModel = new SmartDesignApiModel(
+                context: context,
+                ss: ss,
+                timestamp: siteModel.Timestamp);
+            return smartDesignModel.ToJson();
         }
 
         public static (Plugins.PdfData pdfData, string error) Pdf(

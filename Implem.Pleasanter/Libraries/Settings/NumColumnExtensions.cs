@@ -14,9 +14,11 @@ namespace Implem.Pleasanter.Libraries.Settings
             var max = column.NumFilterMax;
             var step = column.NumFilterStep;
             var data = new Dictionary<string, ControlData>();
+            var limit = Parameters.General.DropDownSearchPageSize;
             if (!column.Required)
             {
                 data.Add("\t", new ControlData(Displays.NotSet(context: context)));
+                limit++;
             }
             if (min < max && step > 0)
             {
@@ -28,7 +30,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     lessThan: true);
                 for (var num = min; num < max; num += step)
                 {
-                    if (data.Count < Parameters.General.DropDownSearchPageSize)
+                    if (data.Count < limit)
                     {
                         data.Add(
                             context: context,
@@ -41,7 +43,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         break;
                     }
                 }
-                if (data.Count < Parameters.General.DropDownSearchPageSize)
+                if (data.Count < limit)
                 {
                     data.Add(
                         context: context,

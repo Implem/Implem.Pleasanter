@@ -1,0 +1,34 @@
+﻿{
+    "Id": "ConfirmDeleteItem",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "'{0}' do you want to delete?"
+        },
+        {
+            "Language": "zh",
+            "Body": "您确定要删除 '{0}' 吗？"
+        },
+        {
+            "Language": "ja",
+            "Body": "「{0}」 を削除していいですか？"
+        },
+        {
+            "Language": "de",
+            "Body": "Möchten Sie '{0}' löschen?"
+        },
+        {
+            "Language": "ko",
+            "Body": "'{0}'을(를) 삭제하시겠습니까?"
+        },
+        {
+            "Language": "es",
+            "Body": "¿Quieres eliminar '{0}'?"
+        },
+        {
+            "Language": "vn",
+            "Body": "Bạn có muốn xóa '{0}' không?"
+        }
+    ]
+}

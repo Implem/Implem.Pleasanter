@@ -169,7 +169,7 @@
             "Width": 2,
             "Height": 10,
             "TimeLineItemCount": 0,
-            "HtmlContent": "",
+            "HtmlContent": "<p>Hello,Pleasanter!</p>",
             "CalendarShowStatus": false,
             "KambanAggregationView": false,
             "KambanShowStatus": false,

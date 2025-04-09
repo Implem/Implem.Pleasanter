@@ -1,6 +1,7 @@
-{
+﻿{
     "Id": "DefaultInput",
     "Type": 110,
+    "ClientScript": true,
     "Languages": [
         {
             "Body": "Default value"
