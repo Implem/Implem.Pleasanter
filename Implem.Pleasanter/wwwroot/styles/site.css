@@ -2078,6 +2078,7 @@ td > .field-wide {
 
 .field-label {
     overflow: hidden;
+    text-align-last: right;
 }
 
 label.required:after {
