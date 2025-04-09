@@ -82,13 +82,11 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             long referenceId,
-            Libraries.Images.ImageData.SizeTypes sizeType,
-            bool isSearch = false)
+            Libraries.Images.ImageData.SizeTypes sizeType)
         {
             var invalid = BinaryValidators.OnGetting(
                 context: context,
-                ss: ss,
-                isSearch: isSearch);
+                ss: ss);
             switch (invalid.Type)
             {
                 case Error.Types.None: break;

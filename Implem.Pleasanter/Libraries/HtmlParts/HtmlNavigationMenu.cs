@@ -25,7 +25,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Error.Types errorType,
             bool useNavigationMenu,
             bool useSearch,
-            bool isSearch,
             ServerScriptModelRow serverScriptModelRow)
         {
             if (errorType == Error.Types.None
@@ -41,7 +40,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         siteId: siteId,
                         referenceType: referenceType,
                         useSearch: useSearch,
-                        isSearch: isSearch,
                         serverScriptModelRow: serverScriptModelRow);
                 }
                 else if (context.ThemeVersionOver2_0() && context.Action != "login")
@@ -75,7 +73,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                 siteId: siteId,
                                                 referenceType: referenceType,
                                                 useSearch: useSearch,
-                                                isSearch: isSearch,
                                                 serverScriptModelRow: serverScriptModelRow)))
                                 .Div(
                                     css: "hamburger-closelabel",
@@ -120,7 +117,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             long siteId,
             string referenceType,
             bool useSearch,
-            bool isSearch,
             ServerScriptModelRow serverScriptModelRow)
         {
             return hb.Nav(
@@ -138,7 +134,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         menus: ExtendedAssembleNavigationMenu(
                             navigationMenus: Parameters.NavigationMenus,
                             extendedNavigationMenus: ExtendedNavigationMenu(context)),
-                        isSearch: isSearch,
                         serverScriptModelRow: serverScriptModelRow)
                     .Search(
                         context: context,
@@ -159,7 +154,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string cssUiWidget = null,
             List<NavigationMenu> menus = null,
             bool childMenu = false,
-            bool isSearch = false,
             ServerScriptModelRow serverScriptModelRow = null)
         {
             if (menus?.Any() != true)
@@ -184,7 +178,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     ss: ss,
                                     referenceType: referenceType,
                                     siteId: siteId,
-                                    isSearch: isSearch,
                                     menu: menu)))
                         {
                             if (context.ThemeVersion1_0())
@@ -635,8 +628,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Context context,
             SiteSettings ss,
             string referenceType,
-            long siteId,
-            bool isSearch,
+            long siteId
             NavigationMenu menu)
         {
             var canCreateGroups = context.UserSettings?.AllowGroupCreation(context: context) == true;
@@ -677,8 +669,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 && ss.ReferenceType != "Wikis"
                                 && context.Action != "trashbox"
                                 && ss.ReferenceType != "Dashboards"
-                                && !(ss.ReferenceType == "Sites" && context.Action == "edit")
-                                && !isSearch;
+                                && ss.ReferenceType == null
+                                && !(ss.ReferenceType == "Sites" && context.Action == "edit");
                 case "ViewModeMenu":
                     return Def.ViewModeDefinitionCollection
                         .Any(o => o.ReferenceType == referenceType);
