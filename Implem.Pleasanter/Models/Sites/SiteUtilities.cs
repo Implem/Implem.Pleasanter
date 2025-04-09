@@ -15910,6 +15910,10 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .Text(text: Displays.BeforeOpeningRow(context: context)))
                     .Th(action: () => hb
+                        .Text(text: Displays.BeforeBulkDelete(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.AfterBulkDelete(context: context)))
+                    .Th(action: () => hb
                         .Text(text: Displays.Shared(context: context)))));
         }
 
@@ -16001,6 +16005,14 @@ namespace Implem.Pleasanter.Models
                                 .Span(
                                     css: "ui-icon ui-icon-circle-check",
                                     _using: script.BeforeOpeningRow == true))
+                            .Td(action: () => hb
+                                .Span(
+                                    css: "ui-icon ui-icon-circle-check",
+                                    _using: script.BeforeBulkDelete == true))
+                            .Td(action: () => hb
+                                .Span(
+                                    css: "ui-icon ui-icon-circle-check",
+                                    _using: script.AfterBulkDelete == true))
                             .Td(action: () => hb
                                 .Span(
                                     css: "ui-icon ui-icon-circle-check",
@@ -16165,6 +16177,18 @@ namespace Implem.Pleasanter.Models
                                 controlCss: " always-send",
                                 labelText: Displays.BeforeOpeningRow(context: context),
                                 _checked: script.BeforeOpeningRow == true)
+                            .FieldCheckBox(
+                                controlId: "ServerScriptBeforeBulkDelete",
+                                fieldCss: outputDestinationCss,
+                                controlCss: " always-send",
+                                labelText: Displays.BeforeBulkDelete(context: context),
+                                _checked: script.BeforeBulkDelete == true)
+                            .FieldCheckBox(
+                                controlId: "ServerScriptAfterBulkDelete",
+                                fieldCss: outputDestinationCss,
+                                controlCss: " always-send",
+                                labelText: Displays.AfterBulkDelete(context: context),
+                                _checked: script.AfterBulkDelete == true)
                             .FieldCheckBox(
                                 controlId: "ServerScriptShared",
                                 fieldCss: outputDestinationCss,

@@ -15,6 +15,8 @@
         public bool? AfterDelete;
         public bool? BeforeOpeningPage;
         public bool? BeforeOpeningRow;
+        public bool? BeforeBulkDelete;
+        public bool? AfterBulkDelete;
         public bool? Shared;
         public string Body;
     }

@@ -200,6 +200,8 @@ namespace Implem.Pleasanter.Models
             public bool? AfterDelete { get; set; }
             public bool? BeforeOpeningPage { get; set; }
             public bool? BeforeOpeningRow { get; set; }
+            public bool? BeforeBulkDelete { get; set; }
+            public bool? AfterBulkDelete { get; set; }
             public bool? Shared { get; set; }
             //public string? Body{ get; set; }
         }
