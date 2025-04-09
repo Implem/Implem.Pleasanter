@@ -281,6 +281,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string ControlFormat;
         public string BinaryStorageProvider;
         public bool? AddSource;
+        [NonSerialized]
+        public string RecordingFormat;
 
         public Column()
         {
@@ -714,7 +716,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .GroupBy(o => o.Value)
                 .Select(o => o.FirstOrDefault())
                 .Where(o => selected?.Any() != true || selected.Contains(o.Value))
-                .Take(limit > 0 ? limit + 1 : int.MaxValue)
+                .Take(limit > 0 ? limit : int.MaxValue)
                 .ForEach(choice =>
                     hash.Add(
                         choice.Value,
@@ -849,7 +851,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
             else if (TypeName == "datetime")
             {
-                return value?.ToDateTime().ToUniversal(context: context).ToString()
+                return value?.ToDateTime(format: RecordingFormat).ToUniversal(context: context).ToString()
                     ?? string.Empty;
             }
             else if (HasChoices())
