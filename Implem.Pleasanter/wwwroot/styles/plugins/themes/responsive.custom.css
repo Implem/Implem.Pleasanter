@@ -249,6 +249,7 @@
             margin: 0;
             padding: 0 0 4px 0;
             text-align: initial;
+            text-align-last: initial;
         }
         .field-control {
             float: none;
