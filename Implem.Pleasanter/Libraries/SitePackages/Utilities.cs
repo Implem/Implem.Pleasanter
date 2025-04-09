@@ -106,8 +106,11 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                     includeNotifications: includeNotifications,
                     includeReminders: includeReminders);
             }
-            catch
+            catch(Exception e)
             {
+                new SysLogModel(
+                    context: context,
+                    e: e);
                 return Messages.ResponseInternalServerError(context: context).ToJson();
             }
         }
@@ -647,12 +650,13 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                     status: model.Status).Value)
                 .WorkValue(value: model.WorkValue?.Value, _using: model.WorkValue != null)
                 .ProgressRate(value: model.ProgressRate?.Value, _using: model.ProgressRate != null)
-                .Status(model.Status?.Value, _using: model.Status != null)
+                .Status(model.Status?.Value ?? ss.ColumnHash["Status"].DefaultInput.ToInt())
                 .Manager(model.Manager?.Id, _using: model.Manager != null)
                 .Owner(model.Owner?.Id, _using: model.Owner != null)
                 .Comments(model.Comments?.ToJson(), _using: model.Comments?.Any() == true);
             model.ClassHash
                 ?.Where(o => ss.ColumnDefinitionHash.ContainsKey(o.Key))
+                .Where(o => o.Value != null)
                 .ForEach(o =>
                     param.Add(
                         columnBracket: $"\"{o.Key}\"",
@@ -723,6 +727,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                 .Comments(model.Comments?.ToJson(), _using: model.Comments?.Any() == true);
             model.ClassHash
                 ?.Where(o => ss.ColumnDefinitionHash.ContainsKey(o.Key))
+                .Where(o => o.Value != null)
                 .ForEach(o =>
                     param.Add(
                         columnBracket: $"\"{o.Key}\"",
