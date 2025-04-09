@@ -855,6 +855,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_History_Sites": Code.Model_Utilities_History_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_History_Sites, definitionRow, CodeXls); break;
                     case "Model_Utilities_ImageLib": Code.Model_Utilities_ImageLib = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ImageLib, definitionRow, CodeXls); break;
                     case "Model_Utilities_Import": Code.Model_Utilities_Import = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Import, definitionRow, CodeXls); break;
+                    case "Model_Utilities_ImportIssueDateColumnWhere": Code.Model_Utilities_ImportIssueDateColumnWhere = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ImportIssueDateColumnWhere, definitionRow, CodeXls); break;
                     case "Model_Utilities_ImportSettings": Code.Model_Utilities_ImportSettings = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ImportSettings, definitionRow, CodeXls); break;
                     case "Model_Utilities_ImportValidatorCases": Code.Model_Utilities_ImportValidatorCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ImportValidatorCases, definitionRow, CodeXls); break;
                     case "Model_Utilities_ImportValidatorHeaders": Code.Model_Utilities_ImportValidatorHeaders = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ImportValidatorHeaders, definitionRow, CodeXls); break;
@@ -7400,6 +7401,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_History_Sites;
         public string Model_Utilities_ImageLib;
         public string Model_Utilities_Import;
+        public string Model_Utilities_ImportIssueDateColumnWhere;
         public string Model_Utilities_ImportSettings;
         public string Model_Utilities_ImportValidatorCases;
         public string Model_Utilities_ImportValidatorHeaders;
@@ -8260,6 +8262,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_History_Sites = new CodeDefinition();
         public CodeDefinition Model_Utilities_ImageLib = new CodeDefinition();
         public CodeDefinition Model_Utilities_Import = new CodeDefinition();
+        public CodeDefinition Model_Utilities_ImportIssueDateColumnWhere = new CodeDefinition();
         public CodeDefinition Model_Utilities_ImportSettings = new CodeDefinition();
         public CodeDefinition Model_Utilities_ImportValidatorCases = new CodeDefinition();
         public CodeDefinition Model_Utilities_ImportValidatorHeaders = new CodeDefinition();
