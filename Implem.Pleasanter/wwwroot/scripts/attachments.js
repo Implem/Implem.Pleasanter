@@ -99,6 +99,9 @@
 
     function upload(fileIndex, file, uuid, fileHash) {
         sendData.formData.FileHash = fileHash;
+        for (const key of Object.keys($p.data.MainForm)) {
+            formData[key] = $p.data.MainForm[key];
+        }
         if ($("#IsNew").length) {
             sendData.formData.IsNew = $("#IsNew").val();
         }
