@@ -716,7 +716,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .GroupBy(o => o.Value)
                 .Select(o => o.FirstOrDefault())
                 .Where(o => selected?.Any() != true || selected.Contains(o.Value))
-                .Take(limit > 0 ? limit + 1 : int.MaxValue)
+                .Take(limit > 0 ? limit : int.MaxValue)
                 .ForEach(choice =>
                     hash.Add(
                         choice.Value,
