@@ -479,7 +479,8 @@ input {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    &:has(+ .current-user) {
+    &:has(+ .current-user),
+    &:has(+ .current-dept) {
         padding-right: 24px;
         appearance: none;
         + .ui-icon {
