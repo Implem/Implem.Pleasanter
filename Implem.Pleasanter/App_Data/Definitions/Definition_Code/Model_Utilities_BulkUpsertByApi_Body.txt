@@ -8,7 +8,8 @@
     }
     var api = context.RequestDataString.Deserialize<Api>();
     var list = context.RequestDataString.Deserialize<#ModelName#s.#ModelName#BulkUpsertApiModel>();
-    if (list?.Data == null)
+    if (list?.Data == null ||
+        (list.KeyNotFoundCreate == false && list.Keys == null))
     {
         return ApiResults.Error(
             context: context,
@@ -22,6 +23,15 @@
             message: Error.Types.ImportMax.Message(
                 context: context,
                 data: Parameters.General.BulkUpsertMax.ToString()).Text));
+    }
+    var (isValid, missingKeys) = ValidateJsonKeys(jsonString: context.RequestDataString, ss: ss);
+    if (!isValid)
+    {
+        return ApiResults.Error(
+            context: context,
+            errorData: new ErrorData(
+                type: Error.Types.invalidUpsertKey,
+                data: $"({string.Join(", ", missingKeys)})"));
     }
     using var exclusiveObj = new Sessions.TableExclusive(context: context);
     if (!exclusiveObj.TryLock())
