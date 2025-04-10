@@ -1,0 +1,1 @@
+﻿var processes = ss.Processes?.FirstOrDefault(process => process.Id == #modelName#ApiModel.ProcessId)?.ToSingleList();

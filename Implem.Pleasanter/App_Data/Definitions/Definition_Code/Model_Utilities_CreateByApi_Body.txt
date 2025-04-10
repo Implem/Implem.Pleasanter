@@ -24,37 +24,15 @@
         ss: ss,
         #modelName#Id: 0,
         #modelName#ApiModel: #modelName#ApiModel);
-    var invalid = #ModelName#Validators.OnCreating(
+
+<!--Model_Utilities_SetProcesses_Null-->
+<!--Model_Utilities_SetProcesses-->
+    var errorData = ApplyCreateByApi(
         context: context,
         ss: ss,
         #modelName#Model: #modelName#Model,
-        api: true);
-    switch (invalid.Type)
-    {
-        case Error.Types.None: break;
-        default: return ApiResults.Error(
-            context: context,
-            errorData: invalid);
-    }
-    #modelName#Model.SiteId = ss.SiteId;
-    #modelName#Model.SetTitle(
-        context: context,
-        ss: ss);
+        processes: processes);
 
-<!--Model_Utilities_SetProcessApi_Tables-->
-
-    var errorData = #modelName#Model.Create(
-        context: context,
-        ss: ss,
-
-<!--Model_Utilities_SetProcessParamApi-->
-
-        notice: true);
-    BinaryUtilities.UploadImage(
-        context: context,
-        ss: ss,
-        id: #modelName#Model.#ModelName#Id,
-        postedFileHash: #modelName#Model.PostedImageHash);
     switch (errorData.Type)
     {
 
@@ -67,6 +45,39 @@
                 context: context,
                 errorData: errorData);
     }
+}
+
+private static ErrorData ApplyCreateByApi(
+    Context context,
+    SiteSettings ss,
+    #ModelName#Model #modelName#Model,
+    List<Process> processes)
+{
+    var invalid = #ModelName#Validators.OnCreating(
+        context: context,
+        ss: ss,
+        #modelName#Model: #modelName#Model,
+        api: true);
+    if (invalid.Type != Error.Types.None) return invalid;
+
+    #modelName#Model.SiteId = ss.SiteId;
+    #modelName#Model.SetTitle(
+        context: context,
+        ss: ss);
+
+<!--Model_Utilities_SetProcessApi_Tables-->
+
+    var errorData = #modelName#Model.Create(
+        context: context,
+        ss: ss,
+        processes: processes,
+        notice: true);
+    BinaryUtilities.UploadImage(
+        context: context,
+        ss: ss,
+        id: #modelName#Model.#ModelName#Id,
+        postedFileHash: #modelName#Model.PostedImageHash);
+    return errorData;
 }
 
 public static bool CreateByServerScript(Context context, SiteSettings ss, object model)

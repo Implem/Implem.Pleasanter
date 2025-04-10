@@ -3190,3 +3190,11 @@ body:has(input#Controller[value="syslogs"]) {
         }
     }
 }
+
+#LoaderContainer {
+    background-color: rgba(255, 255, 255, 0.5);
+    .loader {
+        border-color: var(--primaryColor);
+        border-right-color: transparent;
+    }
+}

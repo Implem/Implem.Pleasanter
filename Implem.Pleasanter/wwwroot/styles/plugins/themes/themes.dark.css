@@ -30,3 +30,8 @@
         fill: var(--control-error);
     }
 }
+
+/* [.loading]  ------------------------------------------------------ */
+#LoaderContainer {
+    background-color: rgba(0, 0, 0, 0.3);
+}

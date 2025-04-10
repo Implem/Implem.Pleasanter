@@ -1,5 +1,4 @@
-﻿var process = ss.Processes?.FirstOrDefault(process => process.Id == #modelName#ApiModel.ProcessId);
-if (process != null)
+﻿foreach(var process in processes ?? new List<Process>())
 {
     process.MatchConditions = #modelName#Model.GetProcessMatchConditions(
         context: context,
@@ -16,6 +15,6 @@ if (process != null)
     }
     else if ((process.ExecutionType ?? Process.ExecutionTypes.AddedButton) == Process.ExecutionTypes.AddedButton)
     {
-        return ApiResults.BadRequest(context: context);
+        return new ErrorData(Error.Types.BadRequest);
     }
 }
