@@ -1809,6 +1809,13 @@ body {
     }
     #Links {
         .fieldset {
+            > .legend {
+                .ui-icon {
+                    &:after {
+                        content: "link";
+                    }
+                }
+            }
             > div {
                 display: flex;
                 flex-direction: column;
