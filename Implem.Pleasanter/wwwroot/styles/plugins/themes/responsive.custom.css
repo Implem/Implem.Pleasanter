@@ -1955,10 +1955,8 @@
                 width: 100%;
             }
         }
-        #SearchEditorColumnDialogInput {
-            + .both {
-                margin-top: 50px;
-            }
+        .fieldset:has(#SearchEditorColumnDialogInput) {
+            padding-bottom: 56px;
         }
         .fieldset:nth-of-type(2) {
             &::before,

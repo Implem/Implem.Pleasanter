@@ -93,13 +93,14 @@ $p.getValue = function (name) {
     if (dataRaw !== null) {
         return dataRaw;
     }
-    //Input要素はvalue,またはchecked、それ以外はtextContentを返す
+    //Input要素はvalue,またはchecked、Selsect要素は$control.val() それ以外はtextContentを返す
     switch (element.tagName) {
         case 'INPUT':
             return (element.type === 'checkbox')
                 ? element.checked
                 : element.value;
         case 'SELECT':
+            return $control.val();
         case 'TEXTAREA':
             return element.value;
         default:
