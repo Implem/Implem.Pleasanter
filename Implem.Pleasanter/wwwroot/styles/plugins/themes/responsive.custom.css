@@ -249,6 +249,7 @@
             margin: 0;
             padding: 0 0 4px 0;
             text-align: initial;
+            text-align-last: initial;
         }
         .field-control {
             float: none;
@@ -1954,10 +1955,8 @@
                 width: 100%;
             }
         }
-        #SearchEditorColumnDialogInput {
-            + .both {
-                margin-top: 50px;
-            }
+        .fieldset:has(#SearchEditorColumnDialogInput) {
+            padding-bottom: 56px;
         }
         .fieldset:nth-of-type(2) {
             &::before,

@@ -355,6 +355,14 @@ pre {
     visibility: hidden;
 }
 
+#SiteTitleDialog .field-normal {
+    margin-left: 60px;
+}
+
+#SiteTitleDialog .field-auto-thin {
+    width: 220px;
+}
+
 #Demo {
     width: 500px;
     margin: 0px auto;
@@ -2078,6 +2086,7 @@ td > .field-wide {
 
 .field-label {
     overflow: hidden;
+    text-align-last: right;
 }
 
 label.required:after {

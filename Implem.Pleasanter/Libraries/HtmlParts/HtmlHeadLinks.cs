@@ -72,16 +72,24 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder LinkedHeadLink(
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
+            var webComponentsHash = "2014160";
             return hb
                 .Link(
                     href: Responses.Locations.Get(
                         context: context,
                         parts: "favicon.ico"),
                     rel: "shortcut icon")
+
                 .Link(
                     href: Responses.Locations.Get(
                         context: context,
-                        parts: "scripts/plugins/vendor.bundle.js"),
+                        parts: $"scripts/plugins/components.bundle.js?v={webComponentsHash}"),
+                    rel: "modulepreload",
+                    crossorigin: true)
+                .Link(
+                    href: Responses.Locations.Get(
+                        context: context,
+                        parts: $"scripts/plugins/vendor.bundle.js?v={webComponentsHash}"),
                     rel: "modulepreload",
                     crossorigin: true);
         }

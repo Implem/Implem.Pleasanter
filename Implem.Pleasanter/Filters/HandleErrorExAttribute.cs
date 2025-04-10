@@ -1,4 +1,5 @@
-﻿using Implem.Pleasanter.Libraries.General;
+﻿using Implem.DefinitionAccessor;
+using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
@@ -24,7 +25,9 @@ namespace Implem.PleasanterFilters
                     context: context,
                     method: nameof(OnException),
                     message: $"{filterContext.Exception.GetType().Name}: {filterContext.Exception.Message}",
-                    errStackTrace: filterContext.Exception.StackTrace,
+                    errStackTrace: Parameters.SysLog.OutputErrorDetails
+                        ? filterContext.Exception.ToString()
+                        : filterContext.Exception.StackTrace,
                     sysLogType: SysLogModel.SysLogTypes.Exception);
                 var siteId = CanManageSiteId(context: context);
                 SessionUtilities.Set(

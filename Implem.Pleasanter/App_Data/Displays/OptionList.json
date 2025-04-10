@@ -1,6 +1,7 @@
-{
+﻿{
     "Id": "OptionList",
     "Type": 110,
+    "ClientScript": true,
     "Languages": [
         {
             "Body": "Option list"

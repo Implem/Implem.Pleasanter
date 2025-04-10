@@ -1859,7 +1859,7 @@ namespace Implem.Pleasanter.Models
             {
                 return Messages.ResponseDeleteConflicts(context: context).ToJson();
             }
-            List<Process> processes = null;
+            var processes = (List<Process>)null;
             var errorData = registrationModel.Update(context: context, ss: ss);
             switch (errorData.Type)
             {

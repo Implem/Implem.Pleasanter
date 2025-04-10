@@ -1,0 +1,34 @@
+﻿{
+    "Id": "ResetAdditionalItemsEditing",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Please note that the editing of additional items will be reset."
+        },
+        {
+            "Language": "zh",
+            "Body": "请注意，附加项目的编辑内容将被重置。"
+        },
+        {
+            "Language": "ja",
+            "Body": "追加項目の編集内容はリセットされますのでご注意ください"
+        },
+        {
+            "Language": "de",
+            "Body": "Bitte beachten Sie, dass die Bearbeitung zusätzlicher Elemente zurückgesetzt wird."
+        },
+        {
+            "Language": "ko",
+            "Body": "추가 항목의 편집 내용은 리셋됩니다. 주의해 주세요."
+        },
+        {
+            "Language": "es",
+            "Body": "Tenga en cuenta que la edición de elementos adicionales se restablecerá."
+        },
+        {
+            "Language": "vn",
+            "Body": "Lưu ý rằng việc chỉnh sửa mục bổ sung sẽ bị đặt lại."
+        }
+    ]
+}

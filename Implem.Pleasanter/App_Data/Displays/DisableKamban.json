@@ -1,0 +1,33 @@
+﻿{
+    "Id": "DisableKamban",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Hide Kamban"
+        },
+        {
+            "Language": "zh",
+            "Body": "隐藏看板"
+        },
+        {
+            "Language": "ja",
+            "Body": "カンバンを非表示"
+        },
+        {
+            "Language": "de",
+            "Body": "Kamban ausblenden"
+        },
+        {
+            "Language": "ko",
+            "Body": "칸반 숨기기"
+        },
+        {
+            "Language": "es",
+            "Body": "Ocultar Kamban"
+        },
+        {
+            "Language": "vn",
+            "Body": "Ẩn Kamban"
+        }
+    ]
+}

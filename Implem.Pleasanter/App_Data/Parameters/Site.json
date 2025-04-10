@@ -8,6 +8,7 @@
         "Tabs": [
             "General",
             "Grid",
+            "Filters",
             "DashboardParts",
             "Editor",
             "SiteAccessControl"
