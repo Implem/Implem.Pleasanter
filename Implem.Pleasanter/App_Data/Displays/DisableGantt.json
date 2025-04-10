@@ -1,0 +1,33 @@
+﻿{
+    "Id": "DisableGantt",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Hide gantt chart"
+        },
+        {
+            "Language": "zh",
+            "Body": "隐藏甘特图"
+        },
+        {
+            "Language": "ja",
+            "Body": "ガントチャートを非表示"
+        },
+        {
+            "Language": "de",
+            "Body": "Gantt-Diagramm ausblenden"
+        },
+        {
+            "Language": "ko",
+            "Body": "간트 차트 숨기기"
+        },
+        {
+            "Language": "es",
+            "Body": "Nascondere il diagramma di Gantt"
+        },
+        {
+            "Language": "vn",
+            "Body": "Ẩn biểu đồ Gantt"
+        }
+    ]
+}

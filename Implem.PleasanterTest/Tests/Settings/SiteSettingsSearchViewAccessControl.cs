@@ -10,8 +10,8 @@ using Xunit;
 
 namespace Implem.PleasanterTest.Tests.Settings
 {
-    [Collection(nameof(SiteSettingSearchViewAccessControl))]
-    public class SiteSettingSearchViewAccessControl
+    [Collection(nameof(SiteSettingsSearchViewAccessControl))]
+    public class SiteSettingsSearchViewAccessControl
     {
 
         [Theory]
