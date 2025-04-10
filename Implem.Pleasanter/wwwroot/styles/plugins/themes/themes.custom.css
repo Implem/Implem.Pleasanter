@@ -2895,10 +2895,26 @@ body:has(input#Controller[value="syslogs"]) {
         }
     }
     td {
-        padding: 8px 4px;
+        padding: 4px 4px;
         border: 1px solid var(--base-border);
         &.hover {
             background-color: var(--primaryColor);
+        }
+        .day {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            line-height: 1;
+            border-radius: 100%;
+        }
+        &.today {
+            .day {
+                color: var(--invert-text);
+                font-weight: bold;
+                background-color: var(--primaryColor);
+            }
         }
     }
     .dragging {
@@ -2976,6 +2992,9 @@ body:has(input#Controller[value="syslogs"]) {
         background-color: var(--grid-cell-bg);
         a {
             color: var(--base-text);
+        }
+        &.fc-day-today {
+            background-color: var(--primarySub04);
         }
     }
     .fc-day-other {
@@ -3219,5 +3238,13 @@ body:has(input#Controller[value="syslogs"]) {
         &:hover {
             background-color: var(--commonColor01);
         }
+    }
+}
+
+#LoaderContainer {
+    background-color: rgba(255, 255, 255, 0.5);
+    .loader {
+        border-color: var(--primaryColor);
+        border-right-color: transparent;
     }
 }

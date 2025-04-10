@@ -1,4 +1,5 @@
 ﻿$p.loading = function ($control) {
+    $('#LoaderContainer').css('display', 'block');
     if ($control) {
         if ($control.prop('tagName') === 'BUTTON') {
             $control.prop('disabled', true).addClass('loading');
@@ -13,6 +14,7 @@
 }
 
 $p.loaded = function () {
+    $('#LoaderContainer').css('display', 'none');
     $('button.loading').each(function () {
         var $control = $(this);
         $control
