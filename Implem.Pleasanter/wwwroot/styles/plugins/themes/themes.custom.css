@@ -694,6 +694,24 @@ input {
             display: none;
         }
     }
+    &.link-creations {
+        > .legend {
+            .ui-icon {
+                &:after {
+                    content: "link";
+                }
+            }
+        }
+        &.is-sources {
+            > .legend {
+                .ui-icon {
+                    &:after {
+                        content: "add_link";
+                    }
+                }
+            }
+        }
+    }
 }
 /* field-vertical */
 .field-vertical {
