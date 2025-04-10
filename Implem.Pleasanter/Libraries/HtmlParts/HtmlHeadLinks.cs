@@ -72,7 +72,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder LinkedHeadLink(
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
-            var webComponentsHash = "2014150";
+            var webComponentsHash = "2014160";
             return hb
                 .Link(
                     href: Responses.Locations.Get(
