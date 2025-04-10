@@ -137,7 +137,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .Link(
                     href: Responses.Locations.Get(
                         context: context,
-                        parts: "Styles/responsive.modern.css"),
+                        parts: $"Styles/site.modern.css?v={cacheBustingCode}"),
+                    rel: "stylesheet")
+                .Link(
+                    href: Responses.Locations.Get(
+                        context: context,
+                        parts: $"Styles/responsive.modern.css?v={cacheBustingCode}"),
                     rel: "stylesheet",
                     _using: Parameters.Mobile.Responsive
                         && context.Mobile

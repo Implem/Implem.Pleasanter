@@ -1071,15 +1071,18 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
             }
+            var processes = (List<Process>)null;
             var errorData = siteModel.Create(context: context);
             switch (errorData.Type)
             {
                 case Error.Types.None:
                     SessionUtilities.Set(
                         context: context,
-                        message: Messages.Created(
+                        message: CreatedMessage(
                             context: context,
-                            data: siteModel.Title.Value));
+                            ss: ss,
+                            siteModel: siteModel,
+                            processes: processes));
                     return new ResponseCollection(context: context)
                         .Response("id", siteModel.SiteId.ToString())
                         .SetMemory("formChanged", false)
@@ -1147,7 +1150,7 @@ namespace Implem.Pleasanter.Models
             {
                 return Messages.ResponseDeleteConflicts(context: context).ToJson();
             }
-            List<Process> processes = null;
+            var processes = (List<Process>)null;
             if (context.Forms.Exists("InheritPermission"))
             {
                 // アクセス権を継承しないを指定している状態でCurrentPermissionsAllがクライアントから
