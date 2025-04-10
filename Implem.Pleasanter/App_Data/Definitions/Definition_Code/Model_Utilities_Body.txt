@@ -17,6 +17,7 @@ using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Libraries.Web;
+<!--Model_ApiSiteSettingsUsing-->
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -89,6 +90,7 @@ namespace Implem.Pleasanter.Models
 <!--Model_Utilities_Analy-->
 <!--Model_Utilities_Kamban-->
 <!--Model_Utilities_UpdateByKamban-->
+<!--Model_Utilities_SmartDesignJson-->
 <!--Model_Utilities_Pdf-->
 <!--Model_Utilities_UnlockRecord-->
 <!--Model_Utilities_ImageLib-->

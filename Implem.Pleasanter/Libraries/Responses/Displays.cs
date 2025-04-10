@@ -129,6 +129,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string AdditionalColumns(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AdditionalColumns",
+                data: data);
+        }
+
         public static string AddPermission(
             Context context,
             params string[] data)
@@ -396,6 +406,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "AllowBulkUpdate",
+                data: data);
+        }
+
+        public static string AllowCollapse(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AllowCollapse",
                 data: data);
         }
 
@@ -879,6 +899,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string AttachedDataSample(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AttachedDataSample",
+                data: data);
+        }
+
         public static string Attachments(
             Context context,
             params string[] data)
@@ -1306,6 +1336,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Basic",
+                data: data);
+        }
+
+        public static string BasicSettings(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BasicSettings",
                 data: data);
         }
 
@@ -1809,6 +1849,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Characters(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Characters",
+                data: data);
+        }
+
         public static string CharToAddWhenCopying(
             Context context,
             params string[] data)
@@ -1899,6 +1949,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string ClassSettings(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ClassSettings",
+                data: data);
+        }
+
         public static string Clear(
             Context context,
             params string[] data)
@@ -1926,6 +1986,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Close",
+                data: data);
+        }
+
+        public static string CloseDialogWithoutSaving(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "CloseDialogWithoutSaving",
                 data: data);
         }
 
@@ -2129,6 +2199,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string CodeDefinerTrialLicenseExpired(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "CodeDefinerTrialLicenseExpired",
+                data: data);
+        }
+
         public static string CodeDefinerTrialShrinked(
             Context context,
             params string[] data)
@@ -2259,6 +2339,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string CompletionTime(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "CompletionTime",
+                data: data);
+        }
+
         public static string Condition(
             Context context,
             params string[] data)
@@ -2306,6 +2396,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "ConfirmDelete",
+                data: data);
+        }
+
+        public static string ConfirmDeleteItem(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ConfirmDeleteItem",
                 data: data);
         }
 
@@ -2999,6 +3099,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string DateSettings(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "DateSettings",
+                data: data);
+        }
+
         public static string Day(
             Context context,
             params string[] data)
@@ -3096,6 +3206,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "DefaultAddressBook",
+                data: data);
+        }
+
+        public static string DefaultColumns(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "DefaultColumns",
                 data: data);
         }
 
@@ -3339,6 +3459,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string DescriptionSettings(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "DescriptionSettings",
+                data: data);
+        }
+
         public static string DesktopDisplay(
             Context context,
             params string[] data)
@@ -3399,6 +3529,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string DisableAnaly(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "DisableAnaly",
+                data: data);
+        }
+
         public static string DisableAsynchronousLoading(
             Context context,
             params string[] data)
@@ -3409,6 +3549,36 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string DisableBurnDown(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "DisableBurnDown",
+                data: data);
+        }
+
+        public static string DisableCalendar(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "DisableCalendar",
+                data: data);
+        }
+
+        public static string DisableCrosstab(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "DisableCrosstab",
+                data: data);
+        }
+
         public static string Disabled(
             Context context,
             params string[] data)
@@ -3416,6 +3586,36 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Disabled",
+                data: data);
+        }
+
+        public static string DisableGantt(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "DisableGantt",
+                data: data);
+        }
+
+        public static string DisableImageLib(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "DisableImageLib",
+                data: data);
+        }
+
+        public static string DisableKamban(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "DisableKamban",
                 data: data);
         }
 
@@ -3446,6 +3646,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "DisableStartGuide",
+                data: data);
+        }
+
+        public static string DisableTimeSeries(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "DisableTimeSeries",
                 data: data);
         }
 
@@ -3486,6 +3696,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "DisplayTitle",
+                data: data);
+        }
+
+        public static string DragColumn(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "DragColumn",
                 data: data);
         }
 
@@ -3736,6 +3956,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "ErrorMessage",
+                data: data);
+        }
+
+        public static string ErrorMessageSample(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ErrorMessageSample",
                 data: data);
         }
 
@@ -5009,6 +5239,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Image(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Image",
+                data: data);
+        }
+
         public static string ImageAndText(
             Context context,
             params string[] data)
@@ -5359,6 +5599,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string InputItemPreview(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "InputItemPreview",
+                data: data);
+        }
+
         public static string InputMailAddress(
             Context context,
             params string[] data)
@@ -5616,6 +5866,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Inviting",
+                data: data);
+        }
+
+        public static string IssueId(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "IssueId",
                 data: data);
         }
 
@@ -6119,6 +6379,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string LineBreak(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "LineBreak",
+                data: data);
+        }
+
         public static string LineChart(
             Context context,
             params string[] data)
@@ -6199,6 +6469,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string LinkTable(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "LinkTable",
+                data: data);
+        }
+
         public static string List(
             Context context,
             params string[] data)
@@ -6236,6 +6516,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "LocalFolder",
+                data: data);
+        }
+
+        public static string Locked(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Locked",
                 data: data);
         }
 
@@ -7409,6 +7699,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string NumSettings(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "NumSettings",
+                data: data);
+        }
+
         public static string October(
             Context context,
             params string[] data)
@@ -7829,6 +8129,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Owner(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Owner",
+                data: data);
+        }
+
         public static string ParameterSyntaxError(
             Context context,
             params string[] data)
@@ -8179,6 +8489,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string ProgressRate(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ProgressRate",
+                data: data);
+        }
+
         public static string Project(
             Context context,
             params string[] data)
@@ -8499,6 +8819,26 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Remaining(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Remaining",
+                data: data);
+        }
+
+        public static string RemainingWorkValue(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "RemainingWorkValue",
+                data: data);
+        }
+
         public static string ReminderErrorContent(
             Context context,
             params string[] data)
@@ -8659,6 +8999,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string ResetAdditionalItemsEditing(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ResetAdditionalItemsEditing",
+                data: data);
+        }
+
         public static string ResetCalendarView(
             Context context,
             params string[] data)
@@ -8766,6 +9116,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Restricted",
+                data: data);
+        }
+
+        public static string ResultId(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ResultId",
                 data: data);
         }
 
@@ -9049,6 +9409,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string SectionSettings(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SectionSettings",
+                data: data);
+        }
+
         public static string Select(
             Context context,
             params string[] data)
@@ -9289,6 +9659,26 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string ShowAttachmentStatus(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ShowAttachmentStatus",
+                data: data);
+        }
+
+        public static string ShowErrorMessage(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ShowErrorMessage",
+                data: data);
+        }
+
         public static string ShowHistory(
             Context context,
             params string[] data)
@@ -9459,6 +9849,26 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string SmartDesign(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SmartDesign",
+                data: data);
+        }
+
+        public static string SmartDesignExit(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SmartDesignExit",
+                data: data);
+        }
+
         public static string SortBy(
             Context context,
             params string[] data)
@@ -9566,6 +9976,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "StartDateTime",
+                data: data);
+        }
+
+        public static string StartTime(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "StartTime",
                 data: data);
         }
 
@@ -10099,6 +10519,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string TitleBody(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "TitleBody",
+                data: data);
+        }
+
         public static string TitleSeparator(
             Context context,
             params string[] data)
@@ -10409,6 +10839,26 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string UnusedFilterItems(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "UnusedFilterItems",
+                data: data);
+        }
+
+        public static string UnusedGridItems(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "UnusedGridItems",
+                data: data);
+        }
+
         public static string UpdatableImport(
             Context context,
             params string[] data)
@@ -10486,6 +10936,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "UpdatedWord",
+                data: data);
+        }
+
+        public static string Updator(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Updator",
                 data: data);
         }
 
@@ -10896,6 +11356,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "ValueAndDisplayName",
+                data: data);
+        }
+
+        public static string Ver(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Ver",
                 data: data);
         }
 

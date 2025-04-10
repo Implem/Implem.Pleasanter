@@ -373,6 +373,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_ApiProcessId": Code.Model_ApiProcessId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ApiProcessId, definitionRow, CodeXls); break;
                     case "Model_ApiPropertyCases": Code.Model_ApiPropertyCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ApiPropertyCases, definitionRow, CodeXls); break;
                     case "Model_ApiPropertyNullType": Code.Model_ApiPropertyNullType = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ApiPropertyNullType, definitionRow, CodeXls); break;
+                    case "Model_ApiSiteSettingsUsing": Code.Model_ApiSiteSettingsUsing = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ApiSiteSettingsUsing, definitionRow, CodeXls); break;
                     case "Model_ApiValueCases": Code.Model_ApiValueCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ApiValueCases, definitionRow, CodeXls); break;
                     case "Model_BulkDeleteByApiCases": Code.Model_BulkDeleteByApiCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_BulkDeleteByApiCases, definitionRow, CodeXls); break;
                     case "Model_BulkDeleteCases": Code.Model_BulkDeleteCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_BulkDeleteCases, definitionRow, CodeXls); break;
@@ -689,6 +690,8 @@ namespace Implem.DefinitionAccessor
                     case "Model_SiteSettingsParameterOnly": Code.Model_SiteSettingsParameterOnly = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SiteSettingsParameterOnly, definitionRow, CodeXls); break;
                     case "Model_SiteSettingsWithParameterName": Code.Model_SiteSettingsWithParameterName = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SiteSettingsWithParameterName, definitionRow, CodeXls); break;
                     case "Model_SiteSettingsWithParameterNameLower": Code.Model_SiteSettingsWithParameterNameLower = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SiteSettingsWithParameterNameLower, definitionRow, CodeXls); break;
+                    case "Model_SmartDesignJsonCases": Code.Model_SmartDesignJsonCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SmartDesignJsonCases, definitionRow, CodeXls); break;
+                    case "Model_StaticUsing": Code.Model_StaticUsing = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_StaticUsing, definitionRow, CodeXls); break;
                     case "Model_SwitchItems": Code.Model_SwitchItems = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SwitchItems, definitionRow, CodeXls); break;
                     case "Model_SwitchItems2": Code.Model_SwitchItems2 = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SwitchItems2, definitionRow, CodeXls); break;
                     case "Model_SwitchItemsLockMethods": Code.Model_SwitchItemsLockMethods = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SwitchItemsLockMethods, definitionRow, CodeXls); break;
@@ -791,7 +794,6 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_Create_OnCreating_Tables": Code.Model_Utilities_Create_OnCreating_Tables = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Create_OnCreating_Tables, definitionRow, CodeXls); break;
                     case "Model_Utilities_Create_PasswordPolicies": Code.Model_Utilities_Create_PasswordPolicies = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Create_PasswordPolicies, definitionRow, CodeXls); break;
                     case "Model_Utilities_Create_SetCopyDefault": Code.Model_Utilities_Create_SetCopyDefault = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Create_SetCopyDefault, definitionRow, CodeXls); break;
-                    case "Model_Utilities_Create_SetProcess": Code.Model_Utilities_Create_SetProcess = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Create_SetProcess, definitionRow, CodeXls); break;
                     case "Model_Utilities_Create_Tables": Code.Model_Utilities_Create_Tables = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Create_Tables, definitionRow, CodeXls); break;
                     case "Model_Utilities_CreateByApi": Code.Model_Utilities_CreateByApi = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CreateByApi, definitionRow, CodeXls); break;
                     case "Model_Utilities_CreatedMessage": Code.Model_Utilities_CreatedMessage = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CreatedMessage, definitionRow, CodeXls); break;
@@ -852,6 +854,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_History_Sites": Code.Model_Utilities_History_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_History_Sites, definitionRow, CodeXls); break;
                     case "Model_Utilities_ImageLib": Code.Model_Utilities_ImageLib = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ImageLib, definitionRow, CodeXls); break;
                     case "Model_Utilities_Import": Code.Model_Utilities_Import = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Import, definitionRow, CodeXls); break;
+                    case "Model_Utilities_ImportIssueDateColumnWhere": Code.Model_Utilities_ImportIssueDateColumnWhere = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ImportIssueDateColumnWhere, definitionRow, CodeXls); break;
                     case "Model_Utilities_ImportSettings": Code.Model_Utilities_ImportSettings = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ImportSettings, definitionRow, CodeXls); break;
                     case "Model_Utilities_ImportValidatorCases": Code.Model_Utilities_ImportValidatorCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ImportValidatorCases, definitionRow, CodeXls); break;
                     case "Model_Utilities_ImportValidatorHeaders": Code.Model_Utilities_ImportValidatorHeaders = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ImportValidatorHeaders, definitionRow, CodeXls); break;
@@ -920,8 +923,9 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_SetPaging_Script": Code.Model_Utilities_SetPaging_Script = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SetPaging_Script, definitionRow, CodeXls); break;
                     case "Model_Utilities_SetProcess_Tables": Code.Model_Utilities_SetProcess_Tables = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SetProcess_Tables, definitionRow, CodeXls); break;
                     case "Model_Utilities_SetProcessApi_Tables": Code.Model_Utilities_SetProcessApi_Tables = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SetProcessApi_Tables, definitionRow, CodeXls); break;
+                    case "Model_Utilities_SetProcesses": Code.Model_Utilities_SetProcesses = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SetProcesses, definitionRow, CodeXls); break;
+                    case "Model_Utilities_SetProcesses_Null": Code.Model_Utilities_SetProcesses_Null = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SetProcesses_Null, definitionRow, CodeXls); break;
                     case "Model_Utilities_SetProcessMatchConditions": Code.Model_Utilities_SetProcessMatchConditions = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SetProcessMatchConditions, definitionRow, CodeXls); break;
-                    case "Model_Utilities_SetProcessParamApi": Code.Model_Utilities_SetProcessParamApi = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SetProcessParamApi, definitionRow, CodeXls); break;
                     case "Model_Utilities_SetSiteSettings": Code.Model_Utilities_SetSiteSettings = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SetSiteSettings, definitionRow, CodeXls); break;
                     case "Model_Utilities_SetStatusReadOnly": Code.Model_Utilities_SetStatusReadOnly = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SetStatusReadOnly, definitionRow, CodeXls); break;
                     case "Model_Utilities_SetSwitchTargets": Code.Model_Utilities_SetSwitchTargets = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SetSwitchTargets, definitionRow, CodeXls); break;
@@ -929,6 +933,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_SiteIdParam": Code.Model_Utilities_SiteIdParam = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SiteIdParam, definitionRow, CodeXls); break;
                     case "Model_Utilities_SiteModel": Code.Model_Utilities_SiteModel = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SiteModel, definitionRow, CodeXls); break;
                     case "Model_Utilities_SiteSettingsUtilities": Code.Model_Utilities_SiteSettingsUtilities = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SiteSettingsUtilities, definitionRow, CodeXls); break;
+                    case "Model_Utilities_SmartDesignJson": Code.Model_Utilities_SmartDesignJson = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SmartDesignJson, definitionRow, CodeXls); break;
                     case "Model_Utilities_SqlColumn_SiteId": Code.Model_Utilities_SqlColumn_SiteId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SqlColumn_SiteId, definitionRow, CodeXls); break;
                     case "Model_Utilities_SqlWhereTenantId": Code.Model_Utilities_SqlWhereTenantId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SqlWhereTenantId, definitionRow, CodeXls); break;
                     case "Model_Utilities_TableDisplayNameCases": Code.Model_Utilities_TableDisplayNameCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_TableDisplayNameCases, definitionRow, CodeXls); break;
@@ -949,7 +954,6 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_Update_NewModel_Sites": Code.Model_Utilities_Update_NewModel_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Update_NewModel_Sites, definitionRow, CodeXls); break;
                     case "Model_Utilities_Update_Response": Code.Model_Utilities_Update_Response = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Update_Response, definitionRow, CodeXls); break;
                     case "Model_Utilities_Update_Response_Tables": Code.Model_Utilities_Update_Response_Tables = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Update_Response_Tables, definitionRow, CodeXls); break;
-                    case "Model_Utilities_Update_SetProcess": Code.Model_Utilities_Update_SetProcess = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Update_SetProcess, definitionRow, CodeXls); break;
                     case "Model_Utilities_UpdateByApi": Code.Model_Utilities_UpdateByApi = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_UpdateByApi, definitionRow, CodeXls); break;
                     case "Model_Utilities_UpdateByGrid": Code.Model_Utilities_UpdateByGrid = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_UpdateByGrid, definitionRow, CodeXls); break;
                     case "Model_Utilities_UpdateByKamban": Code.Model_Utilities_UpdateByKamban = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_UpdateByKamban, definitionRow, CodeXls); break;
@@ -6914,6 +6918,7 @@ namespace Implem.DefinitionAccessor
         public string Model_ApiProcessId;
         public string Model_ApiPropertyCases;
         public string Model_ApiPropertyNullType;
+        public string Model_ApiSiteSettingsUsing;
         public string Model_ApiValueCases;
         public string Model_BulkDeleteByApiCases;
         public string Model_BulkDeleteCases;
@@ -7230,6 +7235,8 @@ namespace Implem.DefinitionAccessor
         public string Model_SiteSettingsParameterOnly;
         public string Model_SiteSettingsWithParameterName;
         public string Model_SiteSettingsWithParameterNameLower;
+        public string Model_SmartDesignJsonCases;
+        public string Model_StaticUsing;
         public string Model_SwitchItems;
         public string Model_SwitchItems2;
         public string Model_SwitchItemsLockMethods;
@@ -7332,7 +7339,6 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_Create_OnCreating_Tables;
         public string Model_Utilities_Create_PasswordPolicies;
         public string Model_Utilities_Create_SetCopyDefault;
-        public string Model_Utilities_Create_SetProcess;
         public string Model_Utilities_Create_Tables;
         public string Model_Utilities_CreateByApi;
         public string Model_Utilities_CreatedMessage;
@@ -7393,6 +7399,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_History_Sites;
         public string Model_Utilities_ImageLib;
         public string Model_Utilities_Import;
+        public string Model_Utilities_ImportIssueDateColumnWhere;
         public string Model_Utilities_ImportSettings;
         public string Model_Utilities_ImportValidatorCases;
         public string Model_Utilities_ImportValidatorHeaders;
@@ -7461,8 +7468,9 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_SetPaging_Script;
         public string Model_Utilities_SetProcess_Tables;
         public string Model_Utilities_SetProcessApi_Tables;
+        public string Model_Utilities_SetProcesses;
+        public string Model_Utilities_SetProcesses_Null;
         public string Model_Utilities_SetProcessMatchConditions;
-        public string Model_Utilities_SetProcessParamApi;
         public string Model_Utilities_SetSiteSettings;
         public string Model_Utilities_SetStatusReadOnly;
         public string Model_Utilities_SetSwitchTargets;
@@ -7470,6 +7478,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_SiteIdParam;
         public string Model_Utilities_SiteModel;
         public string Model_Utilities_SiteSettingsUtilities;
+        public string Model_Utilities_SmartDesignJson;
         public string Model_Utilities_SqlColumn_SiteId;
         public string Model_Utilities_SqlWhereTenantId;
         public string Model_Utilities_TableDisplayNameCases;
@@ -7490,7 +7499,6 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_Update_NewModel_Sites;
         public string Model_Utilities_Update_Response;
         public string Model_Utilities_Update_Response_Tables;
-        public string Model_Utilities_Update_SetProcess;
         public string Model_Utilities_UpdateByApi;
         public string Model_Utilities_UpdateByGrid;
         public string Model_Utilities_UpdateByKamban;
@@ -7770,6 +7778,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_ApiProcessId = new CodeDefinition();
         public CodeDefinition Model_ApiPropertyCases = new CodeDefinition();
         public CodeDefinition Model_ApiPropertyNullType = new CodeDefinition();
+        public CodeDefinition Model_ApiSiteSettingsUsing = new CodeDefinition();
         public CodeDefinition Model_ApiValueCases = new CodeDefinition();
         public CodeDefinition Model_BulkDeleteByApiCases = new CodeDefinition();
         public CodeDefinition Model_BulkDeleteCases = new CodeDefinition();
@@ -8086,6 +8095,8 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_SiteSettingsParameterOnly = new CodeDefinition();
         public CodeDefinition Model_SiteSettingsWithParameterName = new CodeDefinition();
         public CodeDefinition Model_SiteSettingsWithParameterNameLower = new CodeDefinition();
+        public CodeDefinition Model_SmartDesignJsonCases = new CodeDefinition();
+        public CodeDefinition Model_StaticUsing = new CodeDefinition();
         public CodeDefinition Model_SwitchItems = new CodeDefinition();
         public CodeDefinition Model_SwitchItems2 = new CodeDefinition();
         public CodeDefinition Model_SwitchItemsLockMethods = new CodeDefinition();
@@ -8188,7 +8199,6 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_Create_OnCreating_Tables = new CodeDefinition();
         public CodeDefinition Model_Utilities_Create_PasswordPolicies = new CodeDefinition();
         public CodeDefinition Model_Utilities_Create_SetCopyDefault = new CodeDefinition();
-        public CodeDefinition Model_Utilities_Create_SetProcess = new CodeDefinition();
         public CodeDefinition Model_Utilities_Create_Tables = new CodeDefinition();
         public CodeDefinition Model_Utilities_CreateByApi = new CodeDefinition();
         public CodeDefinition Model_Utilities_CreatedMessage = new CodeDefinition();
@@ -8249,6 +8259,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_History_Sites = new CodeDefinition();
         public CodeDefinition Model_Utilities_ImageLib = new CodeDefinition();
         public CodeDefinition Model_Utilities_Import = new CodeDefinition();
+        public CodeDefinition Model_Utilities_ImportIssueDateColumnWhere = new CodeDefinition();
         public CodeDefinition Model_Utilities_ImportSettings = new CodeDefinition();
         public CodeDefinition Model_Utilities_ImportValidatorCases = new CodeDefinition();
         public CodeDefinition Model_Utilities_ImportValidatorHeaders = new CodeDefinition();
@@ -8317,8 +8328,9 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_SetPaging_Script = new CodeDefinition();
         public CodeDefinition Model_Utilities_SetProcess_Tables = new CodeDefinition();
         public CodeDefinition Model_Utilities_SetProcessApi_Tables = new CodeDefinition();
+        public CodeDefinition Model_Utilities_SetProcesses = new CodeDefinition();
+        public CodeDefinition Model_Utilities_SetProcesses_Null = new CodeDefinition();
         public CodeDefinition Model_Utilities_SetProcessMatchConditions = new CodeDefinition();
-        public CodeDefinition Model_Utilities_SetProcessParamApi = new CodeDefinition();
         public CodeDefinition Model_Utilities_SetSiteSettings = new CodeDefinition();
         public CodeDefinition Model_Utilities_SetStatusReadOnly = new CodeDefinition();
         public CodeDefinition Model_Utilities_SetSwitchTargets = new CodeDefinition();
@@ -8326,6 +8338,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_SiteIdParam = new CodeDefinition();
         public CodeDefinition Model_Utilities_SiteModel = new CodeDefinition();
         public CodeDefinition Model_Utilities_SiteSettingsUtilities = new CodeDefinition();
+        public CodeDefinition Model_Utilities_SmartDesignJson = new CodeDefinition();
         public CodeDefinition Model_Utilities_SqlColumn_SiteId = new CodeDefinition();
         public CodeDefinition Model_Utilities_SqlWhereTenantId = new CodeDefinition();
         public CodeDefinition Model_Utilities_TableDisplayNameCases = new CodeDefinition();
@@ -8346,7 +8359,6 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_Update_NewModel_Sites = new CodeDefinition();
         public CodeDefinition Model_Utilities_Update_Response = new CodeDefinition();
         public CodeDefinition Model_Utilities_Update_Response_Tables = new CodeDefinition();
-        public CodeDefinition Model_Utilities_Update_SetProcess = new CodeDefinition();
         public CodeDefinition Model_Utilities_UpdateByApi = new CodeDefinition();
         public CodeDefinition Model_Utilities_UpdateByGrid = new CodeDefinition();
         public CodeDefinition Model_Utilities_UpdateByKamban = new CodeDefinition();

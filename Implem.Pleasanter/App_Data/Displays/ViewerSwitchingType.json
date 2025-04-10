@@ -1,6 +1,7 @@
 ﻿{
     "Id": "ViewerSwitchingType",
     "Type": 110,
+    "ClientScript": true,
     "Languages": [
         {
             "Body": "Viewer switching"

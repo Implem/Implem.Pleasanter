@@ -4,6 +4,7 @@ using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Search;
+using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Libraries.Web;
 using Implem.Pleasanter.Models;
 using Implem.PleasanterFilters;
@@ -354,6 +355,36 @@ namespace Implem.Pleasanter.Controllers
             log.Finish(
                 context: context,
                 responseSize: json.Length);
+            return Content(json);
+        }
+
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult SmartDesign(long id = 0)
+        {
+            var context = new Context();
+            if (!context.Ajax)
+            {
+                return BadRequest();
+            }
+            else
+            {
+                var log = new SysLogModel(context: context);
+                var json = new ItemModel(context: context, referenceId: id).SmartDesignJson(context: context);
+                log.Finish(context: context, responseSize: json.Length);
+                return Content(json);
+            }
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult UpdateSmartDesign(long id = 0)
+        {
+            var jsonBody = default(string);
+            var context = new Context();
+            using (var reader = new StreamReader(Request.Body)) jsonBody = reader.ReadToEnd();
+            var log = new SysLogModel(context: context);
+            var json = new ItemModel(context: context, referenceId: id).UpdateSmartDesign(
+                context: context,
+                jsonBody: jsonBody);
             return Content(json);
         }
 

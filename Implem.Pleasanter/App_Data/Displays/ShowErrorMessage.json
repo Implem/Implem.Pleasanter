@@ -1,0 +1,34 @@
+﻿{
+    "Id": "ShowErrorMessage",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Show error message"
+        },
+        {
+            "Language": "zh",
+            "Body": "显示错误信息"
+        },
+        {
+            "Language": "ja",
+            "Body": "エラーメッセージを表示"
+        },
+        {
+            "Language": "de",
+            "Body": "Fehlermeldung anzeigen"
+        },
+        {
+            "Language": "ko",
+            "Body": "에러 메시지 표시"
+        },
+        {
+            "Language": "es",
+            "Body": "Mostrar mensaje de error"
+        },
+        {
+            "Language": "vn",
+            "Body": "Hiển thị thông báo lỗi"
+        }
+    ]
+}

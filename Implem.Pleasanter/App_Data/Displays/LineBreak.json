@@ -1,0 +1,34 @@
+﻿{
+    "Id": "LineBreak",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Line Break"
+        },
+        {
+            "Language": "zh",
+            "Body": "换行"
+        },
+        {
+            "Language": "ja",
+            "Body": "改行"
+        },
+        {
+            "Language": "de",
+            "Body": "Zeilenumbruch"
+        },
+        {
+            "Language": "ko",
+            "Body": "줄 바꿈"
+        },
+        {
+            "Language": "es",
+            "Body": "Salto de línea"
+        },
+        {
+            "Language": "vn",
+            "Body": "Ngắt dòng"
+        }
+    ]
+}

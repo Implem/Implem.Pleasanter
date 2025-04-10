@@ -1,0 +1,34 @@
+﻿{
+    "Id": "Owner",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Owner"
+        },
+        {
+            "Language": "zh",
+            "Body": "所有者"
+        },
+        {
+            "Language": "ja",
+            "Body": "担当者"
+        },
+        {
+            "Language": "de",
+            "Body": "Verantwortlicher"
+        },
+        {
+            "Language": "ko",
+            "Body": "소유자"
+        },
+        {
+            "Language": "es",
+            "Body": "Propietario"
+        },
+        {
+            "Language": "vn",
+            "Body": "Người phụ trách"
+        }
+    ]
+}

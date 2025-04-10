@@ -1,6 +1,7 @@
-{
+﻿{
     "Id": "Others",
     "Type": 110,
+    "ClientScript": true,
     "Languages": [
         {
             "Body": "Others"

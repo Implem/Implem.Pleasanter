@@ -1,0 +1,34 @@
+﻿{
+    "Id": "Locked",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Locked"
+        },
+        {
+            "Language": "zh",
+            "Body": "已锁定"
+        },
+        {
+            "Language": "ja",
+            "Body": "ロック"
+        },
+        {
+            "Language": "de",
+            "Body": "Gesperrt"
+        },
+        {
+            "Language": "ko",
+            "Body": "잠김"
+        },
+        {
+            "Language": "es",
+            "Body": "Bloqueado"
+        },
+        {
+            "Language": "vn",
+            "Body": "Khóa"
+        }
+    ]
+}
