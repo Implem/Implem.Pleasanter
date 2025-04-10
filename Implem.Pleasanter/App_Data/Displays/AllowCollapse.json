@@ -1,0 +1,34 @@
+﻿{
+    "Id": "AllowCollapse",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Allow collapse"
+        },
+        {
+            "Language": "zh",
+            "Body": "允许折叠"
+        },
+        {
+            "Language": "ja",
+            "Body": "折りたたみを許可"
+        },
+        {
+            "Language": "de",
+            "Body": "Klappen erlauben"
+        },
+        {
+            "Language": "ko",
+            "Body": "접기 허용"
+        },
+        {
+            "Language": "es",
+            "Body": "Permitir colapsar"
+        },
+        {
+            "Language": "vn",
+            "Body": "Cho phép thu gọn"
+        }
+    ]
+}

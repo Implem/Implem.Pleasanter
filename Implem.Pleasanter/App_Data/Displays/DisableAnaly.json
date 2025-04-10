@@ -1,0 +1,33 @@
+﻿{
+    "Id": "DisableAnaly",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Hide analysis chart"
+        },
+        {
+            "Language": "zh",
+            "Body": "隐藏分析图表"
+        },
+        {
+            "Language": "ja",
+            "Body": "分析チャートを非表示"
+        },
+        {
+            "Language": "de",
+            "Body": "Analysediagramm ausblenden"
+        },
+        {
+            "Language": "ko",
+            "Body": "분석 차트 숨기기"
+        },
+        {
+            "Language": "es",
+            "Body": "Grafico dell'analisi di occultamento"
+        },
+        {
+            "Language": "vn",
+            "Body": "Ẩn biểu đồ phân tích"
+        }
+    ]
+}

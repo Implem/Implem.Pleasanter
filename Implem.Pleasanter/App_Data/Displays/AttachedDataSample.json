@@ -1,0 +1,34 @@
+﻿{
+    "Id": "AttachedDataSample",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Attached Data Sample"
+        },
+        {
+            "Language": "zh",
+            "Body": "附加数据样本"
+        },
+        {
+            "Language": "ja",
+            "Body": "添付データサンプル"
+        },
+        {
+            "Language": "de",
+            "Body": "Angehängtes Datensample"
+        },
+        {
+            "Language": "ko",
+            "Body": "첨부된 데이터 샘플"
+        },
+        {
+            "Language": "es",
+            "Body": "Muestra de datos adjuntos"
+        },
+        {
+            "Language": "vn",
+            "Body": "Mẫu dữ liệu đính kèm"
+        }
+    ]
+}

@@ -1,0 +1,34 @@
+﻿{
+    "Id": "ShowAttachmentStatus",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Show attachment status"
+        },
+        {
+            "Language": "zh",
+            "Body": "显示附件状态"
+        },
+        {
+            "Language": "ja",
+            "Body": "添付有り状態を表示"
+        },
+        {
+            "Language": "de",
+            "Body": "Anlagenstatus anzeigen"
+        },
+        {
+            "Language": "ko",
+            "Body": "첨부 상태 표시"
+        },
+        {
+            "Language": "es",
+            "Body": "Mostrar estado de adjunto"
+        },
+        {
+            "Language": "vn",
+            "Body": "Hiển thị trạng thái tệp đính kèm"
+        }
+    ]
+}
