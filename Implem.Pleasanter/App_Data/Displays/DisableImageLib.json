@@ -1,0 +1,33 @@
+﻿{
+    "Id": "DisableImageLib",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Hide image library"
+        },
+        {
+            "Language": "zh",
+            "Body": "隐藏图片库"
+        },
+        {
+            "Language": "ja",
+            "Body": "画像ライブラリを非表示"
+        },
+        {
+            "Language": "de",
+            "Body": "Bildbibliothek ausblenden"
+        },
+        {
+            "Language": "ko",
+            "Body": "이미지 라이브러리 숨기기"
+        },
+        {
+            "Language": "es",
+            "Body": "Nascondere la libreria di immagini"
+        },
+        {
+            "Language": "vn",
+            "Body": "Ẩn thư viện hình ảnh"
+        }
+    ]
+}
