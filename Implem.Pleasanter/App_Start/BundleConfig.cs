@@ -78,6 +78,7 @@ namespace Implem.Pleasanter.App_Start
                 "~/scripts/multiselect.js",
                 "~/scripts/navigation.js",
                 "~/scripts/navigationevents.js",
+                "~/scripts/observer.js",
                 "~/scripts/outgoingmail.js",
                 "~/scripts/outgoingmailevents.js",
                 "~/scripts/permission.js",

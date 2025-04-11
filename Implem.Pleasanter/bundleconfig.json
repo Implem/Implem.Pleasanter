@@ -86,6 +86,7 @@
             "wwwroot/scripts/multiselect.js",
             "wwwroot/scripts/navigation.js",
             "wwwroot/scripts/navigationevents.js",
+            "wwwroot/scripts/observer.js",
             "wwwroot/scripts/outgoingmail.js",
             "wwwroot/scripts/outgoingmailevents.js",
             "wwwroot/scripts/permission.js",

@@ -18,8 +18,10 @@ $p.paging = function (selector) {
     }
     var $control = $(selector);
     var $offset = $(selector + 'Offset');
+    var $observer = $(selector + 'Observer');
     if ($control.length) {
-        if ($(window).scrollTop() + $(window).height() >= $control.offset().top + $control.height()) {
+        var $target = $observer || $control
+        if ($(window).scrollTop() + $(window).height() >= $target.offset().top + $target.height()) {
             if ($offset.val() !== '-1') {
                 $p.setData($offset);
                 $offset.val('-1');
