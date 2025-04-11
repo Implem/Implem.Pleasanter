@@ -3376,15 +3376,6 @@ input[type="password"]::-ms-reveal {
     + span {
     white-space: nowrap;
 }
-.field-wide
-    .ui-widget.ui-state-default.ui-multiselect
-    .ui-multiselect-open
-    + span {
-    display: -webkit-box;
-    max-height: 4.7em;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3;
-}
 
 .ui-multiselect-menu {
     width: auto !important;
@@ -3987,9 +3978,9 @@ div.lower-search-ui {
 }
 
 #LoginTrialMessage {
+    margin: 16px;
     color: var(--base-text);
     text-align: center;
-    margin: 16px;
 }
 
 #LoginTrialMessage span {
