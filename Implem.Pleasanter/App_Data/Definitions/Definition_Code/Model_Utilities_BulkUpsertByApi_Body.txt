@@ -8,8 +8,7 @@
     }
     var api = context.RequestDataString.Deserialize<Api>();
     var bulkUpsertModel = context.RequestDataString.Deserialize<#ModelName#s.#ModelName#BulkUpsertApiModel>();
-    if (bulkUpsertModel?.Data == null ||
-        (bulkUpsertModel.KeyNotFoundCreate == false && bulkUpsertModel.Keys == null))
+    if (bulkUpsertModel?.Data == null)
     {
         return ApiResults.Error(
             context: context,

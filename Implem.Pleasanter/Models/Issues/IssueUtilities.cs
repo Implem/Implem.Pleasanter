@@ -5107,17 +5107,12 @@ namespace Implem.Pleasanter.Models
             bool allKeysValid = true;
             var root = Newtonsoft.Json.Linq.JObject.Parse(jsonString);
             root.TryGetValue("Keys", StringComparison.OrdinalIgnoreCase, out var keysToken);
-            var keysArray = (Newtonsoft.Json.Linq.JArray)keysToken;
+            var keysArray = (Newtonsoft.Json.Linq.JArray)keysToken ?? new Newtonsoft.Json.Linq.JArray();
             bool hasDataArray = root.TryGetValue("Data", StringComparison.OrdinalIgnoreCase, out var dataToken) && dataToken?.Type == Newtonsoft.Json.Linq.JTokenType.Array;
             var dataArray = hasDataArray ? (Newtonsoft.Json.Linq.JArray)dataToken : null;
             bool keyNotFoundCreateIsTrue = root.TryGetValue("KeyNotFoundCreate", StringComparison.OrdinalIgnoreCase, out var knfcToken)
                                                 && knfcToken?.Type == Newtonsoft.Json.Linq.JTokenType.Boolean
                                                 && (bool)knfcToken;
-            // 特殊条件: Data配列があり、KeyNotFoundCreateがtrueなら、キーチェックをスキップ（BulkInsertとして動作とするため）
-            if (hasDataArray && keyNotFoundCreateIsTrue)
-            {
-                return (true, missingKeys); 
-            }
             foreach (var keyElement in keysArray)
             {
                 if (keyElement?.Type != Newtonsoft.Json.Linq.JTokenType.String)
@@ -5249,8 +5244,7 @@ namespace Implem.Pleasanter.Models
             }
             var api = context.RequestDataString.Deserialize<Api>();
             var bulkUpsertModel = context.RequestDataString.Deserialize<Issues.IssueBulkUpsertApiModel>();
-            if (bulkUpsertModel?.Data == null ||
-                (bulkUpsertModel.KeyNotFoundCreate == false && bulkUpsertModel.Keys == null))
+            if (bulkUpsertModel?.Data == null)
             {
                 return ApiResults.Error(
                     context: context,
