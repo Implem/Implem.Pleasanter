@@ -22,7 +22,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             if (!context.Ajax)
             {
                 var extendedScripts = ExtendedScripts(context: context);
-                var webComponentsHash = "2014150";
+                var webComponentsHash = "2014160";
                 return hb
                     .Script(src: Responses.Locations.Get(
                         context: context,
