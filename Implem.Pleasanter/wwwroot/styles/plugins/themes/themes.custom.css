@@ -433,12 +433,54 @@ input {
     }
 }
 
+/* select-field */
+.select-field {
+    position: relative;
+    display: block;
+    .control-textbox {
+        float: none;
+        padding-right: 24px;
+    }
+    .ui-icon-person {
+        top: 0;
+        right: 0;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 24px;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        font-family: "Material Symbols Sharp";
+        font-size: 16px;
+        font-weight: normal;
+        -webkit-font-smoothing: antialiased;
+        font-style: normal;
+        font-feature-settings: "liga";
+        -webkit-font-feature-settings: "liga";
+        font-variation-settings: "FILL" 1;
+        line-height: 1;
+        letter-spacing: normal;
+        text-indent: 0;
+        text-transform: none;
+        white-space: nowrap;
+        word-wrap: normal;
+        background: none;
+        direction: ltr;
+        &::selection {
+            background-color: transparent;
+        }
+    }
+}
+
 /* dropdown */
 .control-dropdown {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    &:has(+ .current-user) {
+    &:has(+ .current-user),
+    &:has(+ .current-dept) {
         padding-right: 24px;
         appearance: none;
         + .ui-icon {
@@ -457,13 +499,45 @@ input {
     &[type="file"] {
         padding: 1px;
     }
-    &.datepicker {
-        &:has(~ .current-time) {
-            padding-right: 24px;
-        }
-        ~ .current-time {
-            right: 4px;
-            z-index: 2;
+}
+
+/* input-date */
+.date-field {
+    position: relative;
+    display: block;
+    .control-textbox {
+        float: none;
+        padding-right: 24px;
+    }
+    .current-time {
+        top: 0;
+        right: 0;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 24px;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        font-family: "Material Symbols Sharp";
+        font-size: 16px;
+        font-weight: normal;
+        -webkit-font-smoothing: antialiased;
+        font-style: normal;
+        font-feature-settings: "liga";
+        -webkit-font-feature-settings: "liga";
+        font-variation-settings: "FILL" 1;
+        line-height: 1;
+        letter-spacing: normal;
+        text-indent: 0;
+        text-transform: none;
+        white-space: nowrap;
+        word-wrap: normal;
+        background: none;
+        direction: ltr;
+        &::selection {
+            background-color: transparent;
         }
     }
 }
@@ -2832,10 +2906,26 @@ body:has(input#Controller[value="syslogs"]) {
         }
     }
     td {
-        padding: 8px 4px;
+        padding: 4px 4px;
         border: 1px solid var(--base-border);
         &.hover {
             background-color: var(--primaryColor);
+        }
+        .day {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            line-height: 1;
+            border-radius: 100%;
+        }
+        &.today {
+            .day {
+                color: var(--invert-text);
+                font-weight: bold;
+                background-color: var(--primaryColor);
+            }
         }
     }
     .dragging {
@@ -2913,6 +3003,9 @@ body:has(input#Controller[value="syslogs"]) {
         background-color: var(--grid-cell-bg);
         a {
             color: var(--base-text);
+        }
+        &.fc-day-today {
+            background-color: var(--primarySub04);
         }
     }
     .fc-day-other {
@@ -3156,5 +3249,13 @@ body:has(input#Controller[value="syslogs"]) {
         &:hover {
             background-color: var(--commonColor01);
         }
+    }
+}
+
+#LoaderContainer {
+    background-color: rgba(255, 255, 255, 0.5);
+    .loader {
+        border-color: var(--primaryColor);
+        border-right-color: transparent;
     }
 }

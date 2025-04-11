@@ -2181,7 +2181,7 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
             }
-            List<Process> processes = null;
+            var processes = (List<Process>)null;
             var errorData = sysLogModel.Create(context: context, ss: ss);
             switch (errorData.Type)
             {
@@ -2260,7 +2260,7 @@ namespace Implem.Pleasanter.Models
             {
                 return Messages.ResponseDeleteConflicts(context: context).ToJson();
             }
-            List<Process> processes = null;
+            var processes = (List<Process>)null;
             var errorData = sysLogModel.Update(context: context, ss: ss);
             switch (errorData.Type)
             {

@@ -1331,7 +1331,7 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
             }
-            List<Process> processes = null;
+            var processes = (List<Process>)null;
             var errorData = tenantModel.Create(context: context, ss: ss);
             switch (errorData.Type)
             {
@@ -1410,7 +1410,7 @@ namespace Implem.Pleasanter.Models
             {
                 return Messages.ResponseDeleteConflicts(context: context).ToJson();
             }
-            List<Process> processes = null;
+            var processes = (List<Process>)null;
             var errorData = tenantModel.Update(context: context, ss: ss);
             switch (errorData.Type)
             {
@@ -2092,7 +2092,10 @@ namespace Implem.Pleasanter.Models
                 controlCss: " always-send search",
                 labelText: labelText,
                 optionCollection: optionCollection,
-                controlOption: () => hb.Div(css: "ui-icon ui-icon-person current-user"),
+                controlOption: () => hb.Div(
+                    css: "ui-icon ui-icon-person current-user",
+                    action: () => hb.Text(text: "person"),
+                    _using: !Parameters.General.HideCurrentUserIcon),
                 selectedValue: userId == 0 ? "" : userId.ToString());
             return hb;
         }
