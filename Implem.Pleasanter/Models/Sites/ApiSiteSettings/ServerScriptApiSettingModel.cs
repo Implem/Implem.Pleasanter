@@ -25,11 +25,11 @@ namespace Implem.Pleasanter.Models.ApiSiteSettings
         public bool? ServerScriptBeforeUpdate { get; set; }
         public bool? ServerScriptAfterUpdate { get; set; }
         public bool? ServerScriptBeforeDelete { get; set; }
+        public bool? ServerScriptBeforeBulkDelete { get; set; }
         public bool? ServerScriptAfterDelete { get; set; }
+        public bool? ServerScriptAfterBulkDelete { get; set; }
         public bool? ServerScriptBeforeOpeningPage { get; set; }
         public bool? ServerScriptBeforeOpeningRow { get; set; }
-        public bool? ServerScriptBeforeBulkDelete { get; set; }
-        public bool? ServerScriptAfterBulkDelete { get; set; }
         public bool? ServerScriptShared { get; set; }
         public int? Delete { get; set; }
         public string HtmlPositionType { get; set; }

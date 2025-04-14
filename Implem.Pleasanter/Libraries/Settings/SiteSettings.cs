@@ -5920,11 +5920,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                         BeforeUpdate = extendedServerScript.BeforeUpdate,
                         AfterUpdate = extendedServerScript.AfterUpdate,
                         BeforeDelete = extendedServerScript.BeforeDelete,
+                        BeforeBulkDelete = extendedServerScript.BeforeDelete,
                         AfterDelete = extendedServerScript.AfterDelete,
+                        AfterBulkDelete = extendedServerScript.AfterBulkDelete,
                         BeforeOpeningPage = extendedServerScript.BeforeOpeningPage,
                         BeforeOpeningRow = extendedServerScript.BeforeOpeningRow,
-                        BeforeBulkDelete = extendedServerScript.BeforeDelete,
-                        AfterBulkDelete = extendedServerScript.AfterBulkDelete,
                         Shared = extendedServerScript.Shared,
                         Body = extendedServerScript.Body
                     })
@@ -5942,11 +5942,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                         || serverScript.BeforeUpdate == true
                         || serverScript.AfterUpdate == true
                         || serverScript.BeforeDelete == true
-                        || serverScript.AfterDelete == true
-                        || serverScript.BeforeOpeningPage == true
-                        || serverScript.BeforeOpeningRow == true
                         || serverScript.BeforeBulkDelete == true
-                        || serverScript.AfterBulkDelete == true)
+                        || serverScript.AfterDelete == true
+                        || serverScript.AfterBulkDelete == true
+                        || serverScript.BeforeOpeningPage == true
+                        || serverScript.BeforeOpeningRow == true)
                     .ForEach(serverScript =>
                     {
                         serverScript.SetDebug();
