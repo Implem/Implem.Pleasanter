@@ -21,7 +21,7 @@ $p.paging = function (selector) {
     var $observer = $(selector + 'Observer');
     if ($control.length) {
         var $target = $observer || $control
-        if ($(window).scrollTop() + $(window).height() >= $target.offset().top + $target.height()) {
+        if ($(window).scrollTop() + window.innerHeight >= $target.offset().top + $target.height()) {
             if ($offset.val() !== '-1') {
                 $p.setData($offset);
                 $offset.val('-1');
