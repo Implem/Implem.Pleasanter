@@ -18,7 +18,7 @@ $p.pageObserve = function (selector) {
 
     if (contents && contents.parentNode) {
         observerTarget.setAttribute('id', observerTargetName);
-        observerTarget.style.height = 0;
+        observerTarget.style.height = `1px`;
         contents.parentNode.insertBefore(observerTarget, contents.nextSibling);
         intersectionObserver.observe(observerTarget);
         mutationObserver.observe(document.getElementById('ViewModeContainer'),{ attributes: false, childList: true, subtree: true });
