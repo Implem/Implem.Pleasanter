@@ -4,7 +4,6 @@ $p.pageObserve = function (selector) {
     const contents = document.getElementById(selector);
     const mutationObserver = new MutationObserver(() => {
         if(!document.querySelector(`#${selector}`)){
-            console.log("observer disconnect")
             intersectionObserver.disconnect();
             mutationObserver.disconnect();
         }
@@ -12,7 +11,6 @@ $p.pageObserve = function (selector) {
     const intersectionObserver = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
             if (entry.isIntersecting) {
-                console.log("Loading more content...");
                 $p.paging (`#${selector}`);
             }
         });

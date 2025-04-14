@@ -57,7 +57,6 @@ namespace Implem.Pleasanter.App_Start
                 "~/scripts/gridevents.js",
                 "~/scripts/group.js",
                 "~/scripts/imagelib.js",
-                "~/scripts/imagelibevents.js",
                 "~/scripts/import.js",
                 "~/scripts/item.js",
                 "~/scripts/jqueryui.js",

@@ -65,7 +65,6 @@
             "wwwroot/scripts/gridevents.js",
             "wwwroot/scripts/group.js",
             "wwwroot/scripts/imagelib.js",
-            "wwwroot/scripts/imagelibevents.js",
             "wwwroot/scripts/import.js",
             "wwwroot/scripts/item.js",
             "wwwroot/scripts/jqueryui.js",
