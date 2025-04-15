@@ -4957,7 +4957,7 @@ namespace Implem.Pleasanter.Models
                         updateCount++;
                     }
                     else if (resultModel.AccessStatus == Databases.AccessStatuses.NotFound
-                        && (api.Keys?.Count == 0 || bulkUpsertModel.KeyNotFoundCreate == true))
+                        && ((api.Keys?.Count ?? 0) == 0 || bulkUpsertModel.KeyNotFoundCreate == true))
                     {
                         // Keysの指定が無い場合は全て新規作成。
                         // Keysの指定があり、該当レコードがなく KeyNotFoundCreate =true の場合に新規作成
