@@ -141,7 +141,6 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 ss: ss);
             Items = new ServerScriptModelApiItems(
                 context: context,
-                ss: ss,
                 onTesting: onTesting);
             Hidden = new ServerScriptModelHidden();
             Responses = new ServerScriptModelResponses();
