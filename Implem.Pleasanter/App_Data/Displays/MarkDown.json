@@ -1,6 +1,7 @@
-{
+﻿{
     "Id": "MarkDown",
     "Type": 110,
+    "ClientScript": true,
     "Languages": [
         {
             "Body": "Markdown"

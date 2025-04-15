@@ -801,6 +801,50 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+         public string SmartDesignJson(Context context)
+        {
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true,
+                setAllChoices: true);
+            switch (Site.ReferenceType)
+            {
+                case "Issues":
+                    return IssueUtilities.SmartDesignJson(
+                        context: context,
+                        ss: Site.SiteSettings,
+                        siteModel: Site);
+                case "Results":
+                    return ResultUtilities.SmartDesignJson(
+                        context: context,
+                        ss: Site.SiteSettings,
+                        siteModel: Site);
+                default:
+                    return Messages.ResponseNotFound(context: context).ToJson();
+            }
+        }
+
+        public string UpdateSmartDesign(Context context, string jsonBody, string referenceType = null)
+        {
+            SetSite(
+                context: context,
+                initSiteSettings: true);
+            switch (referenceType ?? Site.ReferenceType)
+            {
+                case "Sites":
+                case "Issues":
+                case "Results":
+                    return SiteUtilities.UpdateSmartDesign(
+                        context: context,
+                        ss: Site.SiteSettings,
+                        siteModel: Site,
+                        jsonBody: jsonBody);
+                default:
+                    return Messages.ResponseNotFound(context: context).ToJson();
+            }
+        }
+
         public string Analy(Context context)
         {
             SetSite(

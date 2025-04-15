@@ -1,0 +1,33 @@
+﻿{
+    "Id": "DisableTimeSeries",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Hide time series chart"
+        },
+        {
+            "Language": "zh",
+            "Body": "隐藏时间序列图"
+        },
+        {
+            "Language": "ja",
+            "Body": "時系列チャートを非表示"
+        },
+        {
+            "Language": "de",
+            "Body": "Zeitreihendiagramm ausblenden"
+        },
+        {
+            "Language": "ko",
+            "Body": "시계열 차트 숨기기"
+        },
+        {
+            "Language": "es",
+            "Body": "Nascondere il grafico della serie temporale"
+        },
+        {
+            "Language": "vn",
+            "Body": "Ẩn biểu đồ chuỗi thời gian"
+        }
+    ]
+}

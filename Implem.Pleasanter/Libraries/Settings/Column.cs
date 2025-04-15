@@ -8,6 +8,7 @@ using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
+using Implem.Pleasanter.Models.ApiSiteSettings;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
@@ -280,6 +281,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string ControlFormat;
         public string BinaryStorageProvider;
         public bool? AddSource;
+        [NonSerialized]
+        public string RecordingFormat;
 
         public Column()
         {
@@ -625,8 +628,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 .Where(o => o.SiteId > 0)
                                 .Where(o => o.ColumnName == ColumnName)
                                 .All(o => Permissions.CanRead(
-	                                context: context,
-	                                siteId: o.SiteId)) == true)
+                                    context: context,
+                                    siteId: o.SiteId)) == true)
                         {
                             var title = SiteSettings.LinkedItemTitle(
                                 context: context,
@@ -713,7 +716,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .GroupBy(o => o.Value)
                 .Select(o => o.FirstOrDefault())
                 .Where(o => selected?.Any() != true || selected.Contains(o.Value))
-                .Take(limit > 0 ? limit + 1 : int.MaxValue)
+                .Take(limit > 0 ? limit : int.MaxValue)
                 .ForEach(choice =>
                     hash.Add(
                         choice.Value,
@@ -848,7 +851,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
             else if (TypeName == "datetime")
             {
-                return value?.ToDateTime().ToUniversal(context: context).ToString()
+                return value?.ToDateTime(format: RecordingFormat).ToUniversal(context: context).ToString()
                     ?? string.Empty;
             }
             else if (HasChoices())
@@ -1470,6 +1473,91 @@ namespace Implem.Pleasanter.Libraries.Settings
                 context: context,
                 dt: dt)
                     .ToString(format);
+        }
+
+        public void Update(
+            Column column,
+            string columnName,
+            string labelText,
+            string gridLabalText,
+            string defaultInput,
+            string description,
+            string inputGuide,
+            string choicesText,
+            string gridFormat,
+            string editorFormat,
+            string controlType,
+            string choicesControlType,
+            string format,
+            string fieldCss,
+            bool? noWrap,
+            bool? validateRequired,
+            decimal? maxLength,
+            int? decimalPlaces,
+            bool? nullable,
+            string unit,
+            SiteSettings.RoundingTypes? roundingType,
+            decimal? min,
+            decimal? max,
+            decimal? step,
+            bool? noDuplication,
+            bool? editorReadOnly,
+            bool? allowDeleteAttachments,
+            bool? link,
+            bool? allowImage,
+            ViewerSwitchingTypes? viewerSwitchingType,
+            SiteSettings.TextAlignTypes? textAlign,
+            decimal? limitQuantity,
+            decimal? limitSize,
+            decimal? totalLimitSize,
+            decimal? thumbnailLimitSize,
+            int? dateTimeStep)
+        {
+            if (columnName != null) ColumnName = columnName;
+            if (column.LabelTextDefault != labelText)
+            {
+                if(GridLabelText != LabelText)
+                {
+                    LabelText = labelText;
+                }
+                else
+                {
+                    LabelText = labelText;
+                    GridLabelText = labelText;
+                }
+            }
+            if (defaultInput != null) DefaultInput = defaultInput;
+            if (description != null) Description = description;
+            if (inputGuide != null) InputGuide = inputGuide;
+            if (choicesText != null) ChoicesText = choicesText;
+            if (gridFormat != null) GridFormat = gridFormat;
+            if (editorFormat != null) EditorFormat = editorFormat;
+            if (controlType != null) ControlType = controlType;
+            if (choicesControlType != null) ChoicesControlType = choicesControlType;
+            if (format != null) Format = format;
+            if (fieldCss != null) FieldCss = fieldCss;
+            if (noWrap != null) NoWrap = noWrap;
+            if (validateRequired != null) ValidateRequired = validateRequired;
+            if (maxLength != null) MaxLength = maxLength;
+            if (decimalPlaces != null) DecimalPlaces = decimalPlaces;
+            if (nullable != null) Nullable = nullable;
+            if (unit != null) Unit = unit;
+            if (roundingType != null) RoundingType = roundingType;
+            if (min != null) Min = min;
+            if (max != null) Max = max;
+            if (step != null) Step = step;
+            if (noDuplication != null) NoDuplication = noDuplication;
+            if (editorReadOnly != null) EditorReadOnly = editorReadOnly;
+            if (allowDeleteAttachments != null) AllowDeleteAttachments = allowDeleteAttachments;
+            if (link != null) Link = link;
+            if (allowImage != null) AllowImage = allowImage;
+            if (viewerSwitchingType != null) ViewerSwitchingType = viewerSwitchingType;
+            if (textAlign != null) TextAlign = textAlign;
+            if (limitQuantity != null) LimitQuantity = limitQuantity;
+            if (limitSize != null) LimitSize = limitSize;
+            if (totalLimitSize != null) TotalLimitSize = totalLimitSize;
+            if (thumbnailLimitSize != null) ThumbnailLimitSize = thumbnailLimitSize;
+            if (dateTimeStep != null) DateTimeStep = dateTimeStep;
         }
 
         private void SelectColumns(

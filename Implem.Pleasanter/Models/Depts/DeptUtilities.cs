@@ -1538,7 +1538,7 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
             }
-            List<Process> processes = null;
+            var processes = (List<Process>)null;
             var errorData = deptModel.Create(context: context, ss: ss);
             switch (errorData.Type)
             {
@@ -1617,7 +1617,7 @@ namespace Implem.Pleasanter.Models
             {
                 return Messages.ResponseDeleteConflicts(context: context).ToJson();
             }
-            List<Process> processes = null;
+            var processes = (List<Process>)null;
             var errorData = deptModel.Update(context: context, ss: ss);
             switch (errorData.Type)
             {
@@ -2590,7 +2590,7 @@ namespace Implem.Pleasanter.Models
                 {
                     return ApiResults.Error(
                         context: context,
-                        errorData: new ErrorData(type: Error.Types.NotRequiredColumn),
+                        errorData: new ErrorData(type: Error.Types.NotIncludedRequiredColumn),
                         data: column.ColumnName);
                 }
             }
@@ -2656,7 +2656,7 @@ namespace Implem.Pleasanter.Models
                 {
                     return ApiResults.Error(
                         context: context,
-                        errorData: new ErrorData(type: Error.Types.NotRequiredColumn),
+                        errorData: new ErrorData(type: Error.Types.NotIncludedRequiredColumn),
                         data: column.ColumnName);
                 }
             }

@@ -1,0 +1,34 @@
+﻿{
+    "Id": "NumSettings",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Numeric value setting"
+        },
+        {
+            "Language": "zh",
+            "Body": "数字值设置"
+        },
+        {
+            "Language": "ja",
+            "Body": "数値設定"
+        },
+        {
+            "Language": "de",
+            "Body": "Einstellung des numerischen Werts"
+        },
+        {
+            "Language": "ko",
+            "Body": "수치값 설정"
+        },
+        {
+            "Language": "es",
+            "Body": "Configuración de valor numérico"
+        },
+        {
+            "Language": "vn",
+            "Body": "Cài đặt giá trị số"
+        }
+    ]
+}

@@ -355,6 +355,14 @@ pre {
     visibility: hidden;
 }
 
+#SiteTitleDialog .field-normal {
+    margin-left: 60px;
+}
+
+#SiteTitleDialog .field-auto-thin {
+    width: 220px;
+}
+
 #Demo {
     width: 500px;
     margin: 0px auto;
@@ -3975,4 +3983,20 @@ div.lower-search-ui {
 #SimpleModeToggle:checked + label:after {
     margin-top: -0.05em;
     content: "unfold_more";
+}
+
+#LoginTrialMessage {
+    color: var(--base-text);
+    text-align: center;
+    margin: 16px;
+}
+
+#LoginTrialMessage span {
+    margin: 10px;
+    line-height: 30px;
+}
+
+#LoginTrialMessage span.license-deadline {
+    color: #ff0000;
+    font-weight: bold;
 }

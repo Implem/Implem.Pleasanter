@@ -17,6 +17,7 @@ using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Libraries.Web;
+using Implem.Pleasanter.Models.ApiSiteSettings;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -1070,15 +1071,18 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
             }
+            var processes = (List<Process>)null;
             var errorData = siteModel.Create(context: context);
             switch (errorData.Type)
             {
                 case Error.Types.None:
                     SessionUtilities.Set(
                         context: context,
-                        message: Messages.Created(
+                        message: CreatedMessage(
                             context: context,
-                            data: siteModel.Title.Value));
+                            ss: ss,
+                            siteModel: siteModel,
+                            processes: processes));
                     return new ResponseCollection(context: context)
                         .Response("id", siteModel.SiteId.ToString())
                         .SetMemory("formChanged", false)
@@ -1146,7 +1150,7 @@ namespace Implem.Pleasanter.Models
             {
                 return Messages.ResponseDeleteConflicts(context: context).ToJson();
             }
-            List<Process> processes = null;
+            var processes = (List<Process>)null;
             if (context.Forms.Exists("InheritPermission"))
             {
                 // アクセス権を継承しないを指定している状態でCurrentPermissionsAllがクライアントから
@@ -2463,6 +2467,91 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public static string UpdateSmartDesign(
+            Context context,
+            SiteSettings ss,
+            SiteModel siteModel,
+            string jsonBody)
+        {
+            var invalid = SiteValidators.OnUpdating(
+                context: context,
+                ss: ss,
+                siteModel: siteModel);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default: return invalid.SdMessageJson(context: context);
+            }
+            if (siteModel.AccessStatus != Databases.AccessStatuses.Selected)
+            {
+                var response = Messages.ResponseDeleteConflicts(context: context);
+                return SdResponse.SdResponseJson(response).ToJson();
+            }
+            var siteSettingsApiModel = jsonBody.Deserialize<ApiSiteSettings.SiteSettingsApiModel>();
+            siteModel.Timestamp = siteSettingsApiModel.Timestamp;
+            if (siteSettingsApiModel.Columns != null)
+            {
+                siteModel.UpsertColumnsByApi(
+                    context: context,
+                    siteSetting: ss,
+                    columnsApiSiteSetting: siteSettingsApiModel.Columns);
+            }
+            if(siteSettingsApiModel.EditorColumnHash != null)
+            {
+                siteModel.UpsertEditorColumnHashByApi(
+                    siteSetting: ss,
+                    columnsApiSiteSetting: siteSettingsApiModel.EditorColumnHash);
+            }
+            if (siteSettingsApiModel.GridColumns != null)
+            {
+                siteModel.UpsertGridColumnsByApi(
+                    siteSetting: ss,
+                    columnsApiSiteSetting: siteSettingsApiModel.GridColumns);
+            }
+            if (siteSettingsApiModel.FilterColumns != null)
+            {
+                siteModel.UpsertFilterColumnsByApi(
+                    siteSetting: ss,
+                    columnsApiSiteSetting: siteSettingsApiModel.FilterColumns);
+            }
+            if (siteSettingsApiModel.Sections != null)
+            {
+                siteModel.UpsertSectionsByApi(
+                    siteSetting: ss,
+                    sectionLatestId: siteSettingsApiModel.SectionLatestId,
+                    sectionsApiSiteSetting: siteSettingsApiModel.Sections);
+            }
+            var errorData = siteModel.Update(
+               context: context,
+               ss: ss,
+               setBySession:false);
+            switch (errorData.Type)
+            {
+                case Error.Types.None:
+                    SessionUtilities.Set(
+                        context: context,
+                        message: Messages.Updated(
+                            context: context,
+                            data: siteModel.Title.Value));
+                    return new SdResponse(
+                                method: "UpdateSuccess",
+                                url: context.UrlReferrer)
+                                .ToJson();                   
+                case Error.Types.UpdateConflicts:
+                    return new SdResponse(
+                                method: "UpdateConflicts",
+                                value: Displays.UpdateConflicts(
+                                    context:context,
+                                    data: siteModel.Updator.Name))
+                                .ToJson();
+                default:
+                    return errorData.MessageJson(context: context);
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static string Templates(Context context, long parentId, long inheritPermission)
         {
             var siteModel = new SiteModel(
@@ -2510,21 +2599,21 @@ namespace Implem.Pleasanter.Models
                                 text: Displays.Create(context: context),
                                 controlCss: "button-icon hidden button-positive",
                                 onClick: "$p.openSiteTitleDialog($(this));",
-                                icon: "ui-icon-disk"))
-                    .Div(
-                        attributes: new HtmlAttributes()
-                            .Id("ImportUserTemplateDialog")
-                            .Class("dialog")
-                            .Title(Displays.ImportSitePackage(context: context)),
-                        action: () => hb.ImportUserTemplateDialog(context: context, ss: ss))
-                    .Div(
-                        attributes: new HtmlAttributes()
-                            .Id("EditUserTemplateDialog")
-                            .Class("dialog")
-                            .Title(Displays.AdvancedSetting(context: context)))
-                    .CreateUserTemplateDialog(
-                        context: context,
-                        ss: siteModel.SiteSettings))
+                                icon: "ui-icon-disk")
+                            .Div(
+                                attributes: new HtmlAttributes()
+                                    .Id("ImportUserTemplateDialog")
+                                    .Class("dialog")
+                                    .Title(Displays.ImportSitePackage(context: context)),
+                                action: () => hb.ImportUserTemplateDialog(context: context, ss: ss))
+                            .Div(
+                                attributes: new HtmlAttributes()
+                                    .Id("EditUserTemplateDialog")
+                                    .Class("dialog")
+                                    .Title(Displays.AdvancedSetting(context: context)))
+                            .CreateUserTemplateDialog(
+                                context: context,
+                                ss: siteModel.SiteSettings)))
                 .Invoke("setTemplate")
                 .ToJson();
         }
@@ -3207,6 +3296,14 @@ namespace Implem.Pleasanter.Models
                 siteModel.Title = new Title(context.Forms.Data("SiteTitle"));
                 siteModel.Body = templateDefinition.Body;
                 siteModel.SiteSettings = templateSs;
+                siteModel.SiteSettings.EnableCalendar = !context.Forms.Data("DisableCalendar").ToBool();
+                siteModel.SiteSettings.EnableCrosstab = !context.Forms.Data("DisableCrosstab").ToBool();
+                siteModel.SiteSettings.EnableGantt = !context.Forms.Data("DisableGantt").ToBool();
+                siteModel.SiteSettings.EnableBurnDown = !context.Forms.Data("DisableBurnDown").ToBool();
+                siteModel.SiteSettings.EnableTimeSeries = !context.Forms.Data("DisableTimeSeries").ToBool();
+                siteModel.SiteSettings.EnableAnaly = !context.Forms.Data("DisableAnaly").ToBool();
+                siteModel.SiteSettings.EnableKamban = !context.Forms.Data("DisableKamban").ToBool();
+                siteModel.SiteSettings.EnableImageLib = !context.Forms.Data("DisableImageLib").ToBool();
                 siteModel.Create(context: context, otherInitValue: true);
                 return SiteMenuResponse(
                     context: context,
@@ -4834,6 +4931,47 @@ namespace Implem.Pleasanter.Models
                             .Hidden(
                                 controlId: "TemplateId",
                                 css: " always-send")
+                            .Div(css: "command-center", action: () => hb
+                                .FieldCheckBox(
+                                    controlId: "DisableCalendar",
+                                    fieldCss: "field-auto-thin",
+                                    labelText: Displays.DisableCalendar(context: context),
+                                    _checked: Parameters.General.DefaultCalendarDisable)
+                                .FieldCheckBox(
+                                    controlId: "DisableCrosstab",
+                                    fieldCss: "field-auto-thin",
+                                    labelText: Displays.DisableCrosstab(context: context),
+                                    _checked: Parameters.General.DefaultCrosstabDisable)
+                                .FieldCheckBox(
+                                    controlId: "DisableGantt",
+                                    fieldCss: "field-auto-thin",
+                                    labelText: Displays.DisableGantt(context: context),
+                                    _checked: Parameters.General.DefaultGanttDisable)
+                                .FieldCheckBox(
+                                    controlId: "DisableBurnDown",
+                                    fieldCss: "field-auto-thin",
+                                    labelText: Displays.DisableBurnDown(context: context),
+                                    _checked: Parameters.General.DefaultBurnDownDisable)
+                                .FieldCheckBox(
+                                    controlId: "DisableTimeSeries",
+                                    fieldCss: "field-auto-thin",
+                                    labelText: Displays.DisableTimeSeries(context: context),
+                                    _checked: Parameters.General.DefaultTimeSeriesDisable)
+                                .FieldCheckBox(
+                                    controlId: "DisableAnaly",
+                                    fieldCss: "field-auto-thin",
+                                    labelText: Displays.DisableAnaly(context: context),
+                                    _checked: Parameters.General.DefaultAnalyDisable)
+                                .FieldCheckBox(
+                                    controlId: "DisableKamban",
+                                    fieldCss: "field-auto-thin",
+                                    labelText: Displays.DisableKamban(context: context),
+                                    _checked: Parameters.General.DefaultKambanDisable)
+                                .FieldCheckBox(
+                                    controlId: "DisableImageLib",
+                                    fieldCss: "field-auto-thin",
+                                    labelText: Displays.DisableImageLib(context: context),
+                                    _checked: Parameters.General.DefaultImageLibDisable))
                             .P(css: "message-dialog")
                             .Div(css: "command-center", action: () => hb
                                 .Button(
@@ -13454,7 +13592,6 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 id: "YmdhmFormat"))
                             : null,
-                        format: Displays.YmdhmDatePickerFormat(context: context),
                         timepiker: true,
                         validateRequired: true,
                         validateDate: true)
@@ -13597,7 +13734,14 @@ namespace Implem.Pleasanter.Models
                         .ToDictionary(
                             o => o.ColumnName,
                             o => o.LabelText),
-                    selectedValue: ss.DefaultImportKey));
+                    selectedValue: ss.DefaultImportKey)
+                .FieldCheckBox(
+                    controlId: "RejectNullImport",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.RejectNullImport(context: context),
+                    _checked: ss.RejectNullImport == true,
+                    controlCss: " always-send",
+                    _using: context.Controller == "items"));
         }
 
         /// <summary>
@@ -18165,7 +18309,7 @@ namespace Implem.Pleasanter.Models
                                 labelText: Displays.Title(context: context))
                             .Div(css: "command-center", action: () => hb
                                 .Button(
-                                    controlId: "CreateByTemplate",
+                                    controlId: "CreateUserTemplate",
                                     text: Displays.Create(context: context),
                                     controlCss: "button-icon validate button-positive",
                                     onClick: "$p.send($(this), 'SiteTitleForm');",

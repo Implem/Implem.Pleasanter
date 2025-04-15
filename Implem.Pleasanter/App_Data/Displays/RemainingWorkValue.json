@@ -1,0 +1,34 @@
+﻿{
+    "Id": "RemainingWorkValue",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Remaining work volume"
+        },
+        {
+            "Language": "zh",
+            "Body": "当前剩余工作量"
+        },
+        {
+            "Language": "ja",
+            "Body": "残作業量"
+        },
+        {
+            "Language": "de",
+            "Body": "Verbleibender Arbeitsaufwand"
+        },
+        {
+            "Language": "ko",
+            "Body": "남은 작업 볼륨"
+        },
+        {
+            "Language": "es",
+            "Body": "Volumen de trabajo restante"
+        },
+        {
+            "Language": "vn",
+            "Body": "Khối lượng công việc còn lại"
+        }
+    ]
+}
