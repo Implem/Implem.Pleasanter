@@ -1031,6 +1031,10 @@ namespace Implem.Pleasanter.Models
                 view: null,
                 where: script => script.AfterBulkDelete == true,
                 condition: ServerScriptConditions.AfterBulkDelete);
+            if (scriptValues != null)
+            {
+                ServerScriptModelRow = scriptValues;
+            }
         }
 
         public void SetByBeforeDeleteServerScript(
@@ -1059,6 +1063,10 @@ namespace Implem.Pleasanter.Models
                 view: null,
                 where: script => script.BeforeBulkDelete == true,
                 condition: ServerScriptConditions.BeforeBulkDelete);
+            if (scriptValues != null)
+            {
+                ServerScriptModelRow = scriptValues;
+            }
         }
 
         public override ServerScriptModelRow SetByBeforeOpeningRowServerScript(
