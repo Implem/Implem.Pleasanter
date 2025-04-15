@@ -2092,7 +2092,10 @@ namespace Implem.Pleasanter.Models
                 controlCss: " always-send search",
                 labelText: labelText,
                 optionCollection: optionCollection,
-                controlOption: () => hb.Div(css: "ui-icon ui-icon-person current-user"),
+                controlOption: () => hb.Div(
+                    css: "ui-icon ui-icon-person current-user",
+                    action: () => hb.Text(text: "person"),
+                    _using: !Parameters.General.HideCurrentUserIcon),
                 selectedValue: userId == 0 ? "" : userId.ToString());
             return hb;
         }

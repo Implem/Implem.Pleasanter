@@ -103,11 +103,6 @@
             width: 100%;
             padding: 8px;
         }
-        &.datepicker {
-            ~ .ui-icon {
-                top: 15px;
-            }
-        }
     }
 
     /* checkbox */
@@ -132,11 +127,6 @@
     .control-dropdown {
         height: 40px;
         padding: 8px 16px 8px 16px;
-        &:has(+ .current-user) {
-            + .ui-icon {
-                top: 15px;
-            }
-        }
     }
 
     /* selectable */
