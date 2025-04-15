@@ -9,7 +9,6 @@ using Implem.Pleasanter.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using static Implem.Pleasanter.Models.SiteUtilities;
 namespace Implem.Pleasanter.Libraries.Settings
 {
     [Serializable]
@@ -246,8 +245,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 context: context,
                                 ss: ss,
                                 where: where,
-                                param: null,
-                                bulkDeleteType: BulkDeleteTypes.DeleteWithLinks);
+                                param: null);
                             break;
                     }
                     Summaries.Synchronize(
@@ -272,8 +270,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 context: context,
                                 ss: ss,
                                 where: where,
-                                param: null,
-                                bulkDeleteType: BulkDeleteTypes.DeleteWithLinks);
+                                param: null);
                             break;
                     }
                     Summaries.Synchronize(

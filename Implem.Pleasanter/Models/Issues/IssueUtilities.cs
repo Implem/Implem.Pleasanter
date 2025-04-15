@@ -24,15 +24,15 @@ using System.Data;
 using System.Linq;
 using System.Web;
 using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
-using static Implem.Pleasanter.Models.SiteUtilities;
 namespace Implem.Pleasanter.Models
 {
     public static class IssueUtilities
     {
-        private static Stack<List<long>> BulkDeleteIdsStack = new Stack<List<long>>();
+        private static List<long> BulkDeleteIds = null;
+
         public static List<long> GetBulkDeleteIds()
         {
-            return BulkDeleteIdsStack.Peek();
+            return BulkDeleteIds;
         }
 
         public static string Index(Context context, SiteSettings ss)
@@ -6332,7 +6332,6 @@ namespace Implem.Pleasanter.Models
                     ss: ss,
                     where: where,
                     param: param,
-                    bulkDeleteType: BulkDeleteTypes.Grid,
                     watchdog: () => exclusiveObj.Refresh());
                 exclusiveObj.Refresh();
                 Summaries.Synchronize(context: context, ss: ss);
@@ -6376,49 +6375,19 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        private static List<long> GetBulkDeleteIds(
-            SqlWhereCollection where,
-            BulkDeleteTypes bulkDeleteType)
-        {
-            var bulkDeleteIds = new List<long>();
-            switch (bulkDeleteType)
-            {
-                case BulkDeleteTypes.Grid:
-                    bulkDeleteIds = where[0].Raw
-                        .Replace("(", "")
-                        .Replace(")", "")
-                        .Split(",")
-                        .Select(long.Parse)
-                        .ToList();
-                    //TODO: Gridかつヘッダーのチェックで全件削除するパターンはwhereの構造が異なるので調査して更新
-                    break;
-                case BulkDeleteTypes.Api:
-                    //TODO: 調査して更新
-                    break;
-                case BulkDeleteTypes.ServerScript:
-                    //TODO: 調査して更新
-                    break;
-                case BulkDeleteTypes.DeleteWithLinks:
-                    //TODO: 調査して更新
-                    break;
-                default:
-                    break;
-            }
-            return bulkDeleteIds;
-        }
-
         public static int BulkDelete(
             Context context,
             SiteSettings ss,
             SqlWhereCollection where,
             SqlParamCollection param,
-            BulkDeleteTypes bulkDeleteType,
             Action watchdog = null)
         {
-            // BulkDeleteIdsStackのひとつの要素はこのBulkDeleteメソッドの範囲内のみ設定する。
-            BulkDeleteIdsStack.Push(GetBulkDeleteIds(
-                where: where,
-                bulkDeleteType: bulkDeleteType));
+            BulkDeleteIds = where[0].Raw
+                .Replace("(", "")
+                .Replace(")", "")
+                .Split(",")
+                .Select(long.Parse)
+                .ToList();
             var issueModel = new IssueModel(
                 context: context,
                 ss: ss);
@@ -6513,8 +6482,7 @@ namespace Implem.Pleasanter.Models
             issueModel.SetByAfterBulkDeleteServerScript(
                 context: context,
                 ss: ss);
-            // BulkDeleteIdsStackにひとつの要素がセットされている範囲はここまで。
-            BulkDeleteIdsStack.Pop();
+            BulkDeleteIds = null;
             return affectedRows;
         }
 
@@ -6582,7 +6550,6 @@ namespace Implem.Pleasanter.Models
                     ss: ss,
                     where: where,
                     param: param,
-                    bulkDeleteType: BulkDeleteTypes.Api,
                     watchdog: () => exclusiveObj.Refresh());
                 exclusiveObj.Refresh();
                 Summaries.Synchronize(
@@ -6682,7 +6649,6 @@ namespace Implem.Pleasanter.Models
                     ss: ss,
                     where: where,
                     param: param,
-                    bulkDeleteType: BulkDeleteTypes.ServerScript,
                     watchdog: () => exclusiveObj.Refresh());
                 Summaries.Synchronize(
                     context: context,

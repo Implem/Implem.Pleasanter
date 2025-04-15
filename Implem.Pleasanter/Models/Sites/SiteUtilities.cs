@@ -28,14 +28,6 @@ namespace Implem.Pleasanter.Models
 {
     public static class SiteUtilities
     {
-        public enum BulkDeleteTypes
-        {
-            Grid,
-            Api,
-            ServerScript,
-            DeleteWithLinks
-        }
-
         public static string Index(Context context, SiteSettings ss)
         {
             var hb = new HtmlBuilder();
