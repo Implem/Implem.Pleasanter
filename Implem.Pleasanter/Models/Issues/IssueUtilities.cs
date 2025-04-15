@@ -28,13 +28,6 @@ namespace Implem.Pleasanter.Models
 {
     public static class IssueUtilities
     {
-        private static List<long> BulkDeleteIds = null;
-
-        public static List<long> GetBulkDeleteIds()
-        {
-            return BulkDeleteIds;
-        }
-
         public static string Index(Context context, SiteSettings ss)
         {
             var hb = new HtmlBuilder();
@@ -6382,12 +6375,6 @@ namespace Implem.Pleasanter.Models
             SqlParamCollection param,
             Action watchdog = null)
         {
-            BulkDeleteIds = where[0].Raw
-                .Replace("(", "")
-                .Replace(")", "")
-                .Split(",")
-                .Select(long.Parse)
-                .ToList();
             var issueModel = new IssueModel(
                 context: context,
                 ss: ss);
@@ -6482,7 +6469,6 @@ namespace Implem.Pleasanter.Models
             issueModel.SetByAfterBulkDeleteServerScript(
                 context: context,
                 ss: ss);
-            BulkDeleteIds = null;
             return affectedRows;
         }
 
