@@ -3359,10 +3359,9 @@ namespace Implem.Pleasanter.Models
                 resultId: 0,
                 resultApiModel: resultApiModel);
             // ss.Processes の順序のままに、ProcessId を取得する（resultApiModel.ProcessIdsの順ではない）
-            var processes = (resultApiModel.ProcessIds != null
-                ? ss.Processes?.Where(process => resultApiModel.ProcessIds.Contains(process.Id)).ToList()  
-                : ss.Processes?.Where(process => process.Id == resultApiModel.ProcessId)).ToList()
-                ?? new List<Process>();
+            var processes = resultApiModel?.ProcessIds != null
+                ? ss.Processes?.Where(process => resultApiModel.ProcessIds.Contains(process.Id)).ToList()
+                : ss.Processes?.Where(process => process.Id == resultApiModel?.ProcessId).ToList();
             var errorData = ApplyCreateByApi(
                 context: context,
                 ss: ss,
@@ -4521,10 +4520,9 @@ namespace Implem.Pleasanter.Models
                 return ApiResults.Get(ApiResponses.NotFound(context: context));
             }
             // ss.Processes の順序のままに、ProcessId を取得する（resultApiModel.ProcessIdsの順ではない）
-            var processes = (resultApiModel.ProcessIds != null
-                ? ss.Processes?.Where(process => resultApiModel.ProcessIds.Contains(process.Id)).ToList()  
-                : ss.Processes?.Where(process => process.Id == resultApiModel.ProcessId)).ToList()
-                ?? new List<Process>();
+            var processes = resultApiModel?.ProcessIds != null
+                ? ss.Processes?.Where(process => resultApiModel.ProcessIds.Contains(process.Id)).ToList()
+                : ss.Processes?.Where(process => process.Id == resultApiModel?.ProcessId).ToList();
             var errorData = ApplyUpdateByApi(
                 context: context,
                 ss: ss,
@@ -4942,10 +4940,9 @@ namespace Implem.Pleasanter.Models
                             return new ErrorData(type: Error.Types.NotFound);
                     }
                     // ss.Processes の順序のままに、ProcessId を取得する（resultApiModel.ProcessIdsの順ではない）
-                    var processes = (resultApiModel.ProcessIds != null
-                        ? ss.Processes?.Where(process => resultApiModel.ProcessIds.Contains(process.Id)).ToList()  
-                        : ss.Processes?.Where(process => process.Id == resultApiModel.ProcessId)).ToList()
-                        ?? new List<Process>();
+                    var processes = resultApiModel?.ProcessIds != null
+                        ? ss.Processes?.Where(process => resultApiModel.ProcessIds.Contains(process.Id)).ToList()
+                        : ss.Processes?.Where(process => process.Id == resultApiModel?.ProcessId).ToList();
                     if (resultModel.AccessStatus == Databases.AccessStatuses.Selected)
                     {
                         // Keysの指定があり、該当レコードがある場合に更新

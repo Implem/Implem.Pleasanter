@@ -84,10 +84,9 @@
                     return new ErrorData(type: Error.Types.NotFound);
             }
             // ss.Processes の順序のままに、ProcessId を取得する（#modelName#ApiModel.ProcessIdsの順ではない）
-            var processes = (#modelName#ApiModel.ProcessIds != null
-                ? ss.Processes?.Where(process => #modelName#ApiModel.ProcessIds.Contains(process.Id)).ToList()  
-                : ss.Processes?.Where(process => process.Id == #modelName#ApiModel.ProcessId)).ToList()
-                ?? new List<Process>();
+            var processes = #modelName#ApiModel?.ProcessIds != null
+                ? ss.Processes?.Where(process => #modelName#ApiModel.ProcessIds.Contains(process.Id)).ToList()
+                : ss.Processes?.Where(process => process.Id == #modelName#ApiModel?.ProcessId).ToList();
             if (#modelName#Model.AccessStatus == Databases.AccessStatuses.Selected)
             {
                 // Keysの指定があり、該当レコードがある場合に更新
