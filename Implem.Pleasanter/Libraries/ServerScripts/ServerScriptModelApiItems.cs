@@ -3,16 +3,22 @@ using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
+using System.Collections.Generic;
 namespace Implem.Pleasanter.Libraries.ServerScripts
 {
     public class ServerScriptModelApiItems
     {
         private readonly Context Context;
+        private readonly SiteSettings SiteSettings;
         private readonly bool OnTesting;
 
-        public ServerScriptModelApiItems(Context context, bool onTesting)
+        public ServerScriptModelApiItems(
+            Context context,
+            bool onTesting,
+            SiteSettings ss = null)
         {
             Context = context;
+            SiteSettings = ss;
             OnTesting = onTesting;
         }
 
@@ -273,6 +279,19 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 view: view,
                 columnName: columnName,
                 function: function);
+        }
+
+        public List<long> GetBulkDeleteIds()
+        {
+            switch (SiteSettings.ReferenceType)
+            {
+                case "Issues":
+                    return IssueUtilities.GetBulkDeleteIds();
+                case "Results":
+                    return ResultUtilities.GetBulkDeleteIds();
+                default:
+                    return null;
+            }
         }
     }
 }

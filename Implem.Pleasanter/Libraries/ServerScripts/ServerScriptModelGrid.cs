@@ -37,18 +37,5 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     return null;
             }
         }
-
-        public List<long> GetBulkDeleteIds()
-        {
-            switch (SiteSettings.ReferenceType)
-            {
-                case "Issues":
-                    return IssueUtilities.GetBulkDeleteIds();
-                case "Results":
-                    return ResultUtilities.GetBulkDeleteIds();
-                default:
-                    return null;
-            }
-        }
     }
 }
