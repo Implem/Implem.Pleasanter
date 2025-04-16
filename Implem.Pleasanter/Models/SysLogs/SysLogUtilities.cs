@@ -2653,13 +2653,51 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static void PhysicalDelete(Context context)
         {
-            Repository.ExecuteNonQuery(
-                context: context,
-                statements: Rds.PhysicalDeleteSysLogs(
-                    where: Rds.SysLogsWhere().CreatedTime(
-                        DateTime.Now.Date.AddDays(
-                            Parameters.SysLog.RetentionPeriod * -1),
-                        _operator: "<")));
+            var chunkSize = Parameters.BackgroundService.DeleteSysLogsChunkSize;
+            if (chunkSize <= 0)
+            {
+                Repository.ExecuteNonQuery(
+                    context: context,
+                    statements: Rds.PhysicalDeleteSysLogs(
+                        where: Rds.SysLogsWhere().CreatedTime(
+                            DateTime.Now.Date.AddDays(
+                                Parameters.SysLog.RetentionPeriod * -1),
+                            _operator: "<")));
+            }
+            else
+            {
+                // dbmsによって delete文 の limit句 の指定方法が違うために、SysLogId(Primary Key)で条件を作成している。
+                var (min, max) = Repository.ExecuteTable(
+                    context: context,
+                    statements: Rds.SelectSysLogs(
+                        column: Rds.SysLogsColumn()
+                            .SysLogs_SysLogId(function: Sqls.Functions.Min, _as: "SysLogIdMin")
+                            .SysLogs_SysLogId(function: Sqls.Functions.Max, _as: "SysLogIdMax"),
+                        where: Rds.SysLogsWhere().CreatedTime(
+                                DateTime.Now.Date.AddDays(
+                                    Parameters.SysLog.RetentionPeriod * -1),
+                                _operator: "<")))
+                            .AsEnumerable()
+                            .Select(o => ( min: o["SysLogIdMin"].ToLong(), max: o["SysLogIdMax"].ToLong() ))
+                            .FirstOrDefault((min: 0L, max: 0L));
+                if (min != 0 && max != 0)
+                {
+                    for (var i = min; i <= max; i += chunkSize)
+                    {
+                        Repository.ExecuteNonQuery(
+                            context: context,
+                            statements: Rds.PhysicalDeleteSysLogs(
+                                where: Rds.SysLogsWhere()
+                                    .CreatedTime(
+                                        DateTime.Now.Date.AddDays(
+                                            Parameters.SysLog.RetentionPeriod * -1),
+                                        _operator: "<")
+                                    .SysLogId_Between(
+                                        begin: i,
+                                        end: i + chunkSize - 1)));
+                    }
+                }
+            }
         }
     }
 }
