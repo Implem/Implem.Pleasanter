@@ -1,4 +1,5 @@
-﻿using Implem.Libraries.Utilities;
+﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Requests;
@@ -102,29 +103,34 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .DataMethod(method)
                             .Add(attributes));
                 case HtmlTypes.TextTypes.DateTime:
-                    return hb.Input(attributes: new HtmlAttributes()
-                        .Id(controlId)
-                        .Name(controlId)
-                        .Class(Css.Class("control-textbox datepicker", controlCss))
-                        .Type("text")
-                        .Value(text)
-                        .Placeholder(placeholder)
-                        .Disabled(disabled)
-                        .DataAlwaysSend(alwaysSend)
-                        .DataId(dataId)
-                        .OnChange(onChange)
-                        .AutoComplete(autoComplete ?? "off")
-                        .DataFormat(format)
-                        .DataTimepicker(timepicker)
-                        .DataValidateRequired(validateRequired)
-                        .DataValidateNumber(validateNumber)
-                        .DataValidateDate(validateDate)
-                        .DataValidateEmail(validateEmail)
-                        .DataValidateEqualTo(validateEqualTo)
-                        .DataValidateMaxLength(validateMaxLength)
-                        .DataAction(action)
-                        .DataMethod(method)
-                        .Add(attributes));
+                    return hb.Div(
+                        css: "date-field",
+                        action: () => hb.Input(attributes: new HtmlAttributes()
+                            .Id(controlId)
+                            .Name(controlId)
+                            .Class(Css.Class("control-textbox datepicker", controlCss))
+                            .Type("text")
+                            .Value(text)
+                            .Placeholder(placeholder)
+                            .Disabled(disabled)
+                            .DataAlwaysSend(alwaysSend)
+                            .DataId(dataId)
+                            .OnChange(onChange)
+                            .AutoComplete(autoComplete ?? "off")
+                            .DataFormat(format)
+                            .DataTimepicker(timepicker)
+                            .DataValidateRequired(validateRequired)
+                            .DataValidateNumber(validateNumber)
+                            .DataValidateDate(validateDate)
+                            .DataValidateEmail(validateEmail)
+                            .DataValidateEqualTo(validateEqualTo)
+                            .DataValidateMaxLength(validateMaxLength)
+                            .DataAction(action)
+                            .DataMethod(method)
+                            .Add(attributes)).Div(
+                                css: "ui-icon ui-icon-clock current-time",
+                                action: () => hb.Text(text: "schedule"),
+                                _using: !Parameters.General.HideCurrentTimeIcon));
                 case HtmlTypes.TextTypes.MultiLine:
                     return hb.TextArea(
                         attributes: new HtmlAttributes()
@@ -382,38 +388,44 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string action = null,
             string method = null,
             Column column = null,
+            Action controlOption = null,
             bool _using = true)
         {
             var srcId = column?.RelatingSrcId().ToString() ?? string.Empty;
             return _using
-                ? hb.Select(
-                    attributes: new HtmlAttributes()
-                        .Id(controlId)
-                        .Name(controlId)
-                        .Class(Css.Class(
-                            "control-dropdown" + (optionCollection?.Any(o =>
-                                !o.Value.Css.IsNullOrEmpty() ||
-                                !o.Value.Style.IsNullOrEmpty()) == true
-                                    ? " has-css"
-                                    : string.Empty),
-                            controlCss))
-                        .DataId(srcId)
-                        .Multiple(multiple)
-                        .Disabled(disabled)
-                        .DataAlwaysSend(alwaysSend)
-                        .OnChange(onChange)
-                        .DataValidateRequired(validateRequired)
-                        .DataAction(action)
-                        .DataMethod(method),
-                    action: () => hb
-                        .OptionCollection(
-                            context: context,
-                            optionCollection: optionCollection,
-                            selectedValue: selectedValue,
-                            multiple: multiple,
-                            addSelectedValue: addSelectedValue,
-                            insertBlank: insertBlank,
-                            column: column))
+                ? hb.Div(
+                    css: "select-field",
+                    action: () => {
+                        hb.Select(
+                            attributes: new HtmlAttributes()
+                                .Id(controlId)
+                                .Name(controlId)
+                                .Class(Css.Class(
+                                    "control-dropdown" + (optionCollection?.Any(o =>
+                                        !o.Value.Css.IsNullOrEmpty() ||
+                                        !o.Value.Style.IsNullOrEmpty()) == true
+                                            ? " has-css"
+                                            : string.Empty),
+                                    controlCss))
+                                .DataId(srcId)
+                                .Multiple(multiple)
+                                .Disabled(disabled)
+                                .DataAlwaysSend(alwaysSend)
+                                .OnChange(onChange)
+                                .DataValidateRequired(validateRequired)
+                                .DataAction(action)
+                                .DataMethod(method),
+                            action: () => hb
+                                .OptionCollection(
+                                    context: context,
+                                    optionCollection: optionCollection,
+                                    selectedValue: selectedValue,
+                                    multiple: multiple,
+                                    addSelectedValue: addSelectedValue,
+                                    insertBlank: insertBlank,
+                                    column: column));
+                            controlOption?.Invoke();
+                        })
                 : hb;
         }
 
