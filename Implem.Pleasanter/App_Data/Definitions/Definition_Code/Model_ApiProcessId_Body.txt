@@ -1,1 +1,2 @@
 ﻿public int? ProcessId { get; set; }
+public int?[] ProcessIds { get; set; }

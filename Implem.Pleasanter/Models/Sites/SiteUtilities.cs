@@ -6801,21 +6801,22 @@ namespace Implem.Pleasanter.Models
                             controlId: "SearchEditorColumnDialogInput",
                             css: "always-send",
                             action: "SetSiteSettings",
-                            method: "post")
-                        .Div(
-                            css: "both",
-                            action: () => hb
-                                .EditorOtherColumn(
-                                    context: context,
-                                    ss: ss)
-                                .Button(
-                                    controlId: "OpenEditorOtherColumnDialog",
-                                    text: Displays.AdvancedSetting(context: context),
-                                    controlCss: "button-icon",
-                                    onClick: "$p.openEditorColumnDialog($(this));",
-                                    icon: "ui-icon-gear",
-                                    action: "SetSiteSettings",
-                                    method: "put")))
+                            method: "post"))
+                .FieldSet(
+                    css: " enclosed-thin",
+                    legendText: Displays.OtherColumnsSettings(context: context),
+                    action: () => hb
+                        .EditorOtherColumn(
+                            context: context,
+                            ss: ss)
+                        .Button(
+                            controlId: "OpenEditorOtherColumnDialog",
+                            text: Displays.AdvancedSetting(context: context),
+                            controlCss: "button-icon",
+                            onClick: "$p.openEditorColumnDialog($(this));",
+                            icon: "ui-icon-gear",
+                            action: "SetSiteSettings",
+                            method: "put"))
                 .FieldSet(
                     css: " enclosed-thin",
                     legendText: Displays.TabSettings(context: context),
@@ -7001,7 +7002,7 @@ namespace Implem.Pleasanter.Models
                 controlId: "EditorOtherColumn",
                 fieldCss: "field-auto-thin",
                 controlCss: " always-send",
-                labelText: Displays.OtherColumns(context: context),
+                controlOnly: true,
                 optionCollection: new Dictionary<string, ControlData>
                 {
                     {
