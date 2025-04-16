@@ -23,6 +23,15 @@
                 context: context,
                 data: Parameters.General.BulkUpsertMax.ToString()).Text));
     }
+    var (isValid, missingKeys) = ValidateJsonKeys(jsonString: context.RequestDataString, ss: ss);
+    if (!isValid)
+    {
+        return ApiResults.Error(
+            context: context,
+            errorData: new ErrorData(
+                type: Error.Types.invalidUpsertKey,
+                data: $"({string.Join(", ", missingKeys)})"));
+    }
     using var exclusiveObj = new Sessions.TableExclusive(context: context);
     if (!exclusiveObj.TryLock())
     {
