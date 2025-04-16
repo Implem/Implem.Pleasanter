@@ -3358,7 +3358,10 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 resultId: 0,
                 resultApiModel: resultApiModel);
-            var processes = ss.Processes?.FirstOrDefault(process => process.Id == resultApiModel.ProcessId)?.ToSingleList();
+            // ss.Processes の順序のままに、ProcessId を取得する（resultApiModel.ProcessIdsの順ではない）
+            var processes = resultApiModel?.ProcessIds != null
+                ? ss.Processes?.Where(process => resultApiModel.ProcessIds.Contains(process.Id)).ToList()
+                : ss.Processes?.Where(process => process.Id == resultApiModel?.ProcessId).ToList();
             var errorData = ApplyCreateByApi(
                 context: context,
                 ss: ss,
@@ -4516,7 +4519,10 @@ namespace Implem.Pleasanter.Models
             {
                 return ApiResults.Get(ApiResponses.NotFound(context: context));
             }
-            var processes = ss.Processes?.FirstOrDefault(process => process.Id == resultApiModel.ProcessId)?.ToSingleList();
+            // ss.Processes の順序のままに、ProcessId を取得する（resultApiModel.ProcessIdsの順ではない）
+            var processes = resultApiModel?.ProcessIds != null
+                ? ss.Processes?.Where(process => resultApiModel.ProcessIds.Contains(process.Id)).ToList()
+                : ss.Processes?.Where(process => process.Id == resultApiModel?.ProcessId).ToList();
             var errorData = ApplyUpdateByApi(
                 context: context,
                 ss: ss,
@@ -5110,7 +5116,10 @@ namespace Implem.Pleasanter.Models
                         default:
                             return new ErrorData(type: Error.Types.NotFound);
                     }
-                    var processes = ss.Processes?.FirstOrDefault(process => process.Id == resultApiModel.ProcessId)?.ToSingleList();
+                    // ss.Processes の順序のままに、ProcessId を取得する（resultApiModel.ProcessIdsの順ではない）
+                    var processes = resultApiModel?.ProcessIds != null
+                        ? ss.Processes?.Where(process => resultApiModel.ProcessIds.Contains(process.Id)).ToList()
+                        : ss.Processes?.Where(process => process.Id == resultApiModel?.ProcessId).ToList();
                     if (resultModel.AccessStatus == Databases.AccessStatuses.Selected)
                     {
                         // Keysの指定があり、該当レコードがある場合に更新
