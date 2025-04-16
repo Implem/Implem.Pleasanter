@@ -10,6 +10,7 @@ namespace Implem.ParameterAccessor.Parts
         public bool SyncByLdap;
         public List<string> SyncByLdapTime;
         public bool DeleteSysLogs;
+        public int DeleteSysLogsChunkSize;
         public List<string> DeleteSysLogsTime;
         public bool DeleteTemporaryFiles;
         public List<string> DeleteTemporaryFilesTime;
