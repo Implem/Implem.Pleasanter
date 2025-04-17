@@ -2808,8 +2808,10 @@ body:has(input#Controller[value="syslogs"]) {
 
 /* [TabeleSetting > Dialog] ProcessViewFiltersTab */
 #ProcessViewFiltersTab {
-    > .field-wide {
-        margin-top: 16px;
+    .tabs-panel-inner {
+        .field-wide {
+            margin-top: 16px;
+        }
     }
 }
 
