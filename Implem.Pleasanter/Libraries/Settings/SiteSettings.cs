@@ -523,7 +523,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     ss.ParentId = dataRow.Long("ParentId");
                     ss.InheritPermission = dataRow.Long("InheritPermission");
                     ss.Linked = true;
-                    if (enableExpandLinkPath==true)
+                    if (enableExpandLinkPath == true)
                     {
                         previously = (previously == null)
                            ? new List<long>()
@@ -1215,7 +1215,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             });
             Htmls?.ForEach(html =>
             {
-                if(ss.Htmls == null)
+                if (ss.Htmls == null)
                 {
                     ss.Htmls = new SettingList<Html>();
                 }
@@ -1247,7 +1247,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             });
             DashboardParts?.ForEach(dashboards =>
             {
-                if(ss.DashboardParts == null)
+                if (ss.DashboardParts == null)
                 {
                     ss.DashboardParts = new SettingList<DashboardPart>();
                 }
@@ -3180,7 +3180,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         public Dictionary<string, ControlData> MoveTargetsSelectableOptions(Context context)
-        { 
+        {
             var options = MoveTargetsOptions(sites: NumberOfMoveTargetsTable(context));
             return MoveTargets?.Any() == true
                 ? options
@@ -3207,7 +3207,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public Dictionary<string, ControlData> MoveTargetsOptions(IEnumerable<DataRow> sites)
         {
             var targets = new Dictionary<string, ControlData>();
-            foreach(var dataRow in sites.Where(dataRow => dataRow.String("ReferenceType") == ReferenceType))
+            foreach (var dataRow in sites.Where(dataRow => dataRow.String("ReferenceType") == ReferenceType))
             {
                 var siteId = dataRow.String("SiteId");
                 var title = $"[{siteId}] {dataRow.String("Title")}";
@@ -3973,7 +3973,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "AlwaysRequestSearchCondition": AlwaysRequestSearchCondition = value.ToBool(); break;
                 case "DisableLinkToEdit": DisableLinkToEdit = value.ToBool(); break;
                 case "OpenEditInNewTab": OpenEditInNewTab = value.ToBool(); break;
-                case "EnableExpandLinkPath": EnableExpandLinkPath = value.ToBool();break;
+                case "EnableExpandLinkPath": EnableExpandLinkPath = value.ToBool(); break;
                 case "LinkTableView": LinkTableView = value.ToInt(); break;
                 case "FirstDayOfWeek": FirstDayOfWeek = value.ToInt(); break;
                 case "FirstMonth": FirstMonth = value.ToInt(); break;
@@ -4243,8 +4243,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "TextAlign": column.TextAlign = (TextAlignTypes)value.ToInt(); break;
                 case "Description": column.Description = value; break;
                 case "InputGuide": column.InputGuide = value; break;
-                case "ChoicesText": column.ChoicesText = value; SetLinks(
-                    context: context, column: column); break;
+                case "ChoicesText": column.ChoicesText = value; SetLinks(context: context, column: column); break;
                 case "UseSearch": column.UseSearch = value.ToBool(); break;
                 case "MultipleSelections": column.MultipleSelections = value.ToBool(); break;
                 case "NotInsertBlankChoice": column.NotInsertBlankChoice = value.ToBool(); break;
@@ -4256,17 +4255,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "GridFormat": column.GridFormat = value; break;
                 case "EditorFormat": column.EditorFormat = value; break;
                 case "ExportFormat": column.ExportFormat = value; break;
-                case "CheckFilterControlType": column.CheckFilterControlType =
-                    (ColumnUtilities.CheckFilterControlTypes)value.ToInt(); break;
+                case "CheckFilterControlType": column.CheckFilterControlType = (ColumnUtilities.CheckFilterControlTypes)value.ToInt(); break;
                 case "NumFilterMin": column.NumFilterMin = value.ToDecimal(); break;
                 case "NumFilterMax": column.NumFilterMax = value.ToDecimal(); break;
                 case "NumFilterStep": column.NumFilterStep = value.ToDecimal(); break;
-                case "DateFilterSetMode": column.DateFilterSetMode =
-                    (ColumnUtilities.DateFilterSetMode)value.ToInt(); break;
-                case "SearchTypes": column.SearchType =
-                    (Column.SearchTypes)value.ToInt(); break;
-                case "FullTextTypes": column.FullTextType =
-                    (Column.FullTextTypes)value.ToInt(); break;
+                case "DateFilterSetMode": column.DateFilterSetMode = (ColumnUtilities.DateFilterSetMode)value.ToInt(); break;
+                case "SearchTypes": column.SearchType = (Column.SearchTypes)value.ToInt(); break;
+                case "FullTextTypes": column.FullTextType = (Column.FullTextTypes)value.ToInt(); break;
                 case "DateFilterMinSpan": column.DateFilterMinSpan = value.ToInt(); break;
                 case "DateFilterMaxSpan": column.DateFilterMaxSpan = value.ToInt(); break;
                 case "DateFilterFy": column.DateFilterFy = value.ToBool(); break;
@@ -5118,8 +5113,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "TimeSeries": return EnableTimeSeries == true;
                 case "Analy": return EnableAnaly == true;
                 case "Kamban": return EnableKamban == true;
-                case "ImageLib": return context.ContractSettings.Images()
-                    && EnableImageLib == true;
+                case "ImageLib": return context.ContractSettings.Images() && EnableImageLib == true;
                 default: return false;
             }
         }
@@ -5461,7 +5455,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             return !IsSiteEditor(context: context)
                 ? Styles?
-                    .Where(style =>style.Disabled != true
+                    .Where(style => style.Disabled != true
                         && peredicate(style))
                     .Select(o => o.Body).Join("\n")
                 : null;
@@ -5924,9 +5918,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                         BeforeOpeningPage = extendedServerScript.BeforeOpeningPage,
                         BeforeOpeningRow = extendedServerScript.BeforeOpeningRow,
                         Shared = extendedServerScript.Shared,
+                        Functionalize = extendedServerScript.Functionalize,
+                        TryCatch = extendedServerScript.TryCatch,
                         Body = extendedServerScript.Body
                     })
-                        .Concat(ServerScripts.Where(script=>script.Disabled != true))
+                        .Concat(ServerScripts.Where(script => script.Disabled != true))
                         .ToList();
                 ServerScriptsAndExtended
                     .Where(serverScript =>
