@@ -1723,7 +1723,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 var response = Repository.ExecuteScalar_datetime(
                     context: apiContext,
                     statements: statements);
-                return response <= modelUtilities.MinTime()
+                return response < modelUtilities.MinTime()
                     ? modelUtilities.EmptyTime()
                     : response;
             }
