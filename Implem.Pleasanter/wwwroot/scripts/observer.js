@@ -3,6 +3,7 @@ $p.pageObserve = function (selector) {
     const observerTargetName = `${selector}Observer`;
     const contents = document.getElementById(selector);
     const mutationObserver = new MutationObserver(() => {
+        observerTarget.style.width = `${contents.scrollWidth}px`;
         if(!document.querySelector(`#${selector}`)){
             intersectionObserver.disconnect();
             mutationObserver.disconnect();
@@ -18,6 +19,7 @@ $p.pageObserve = function (selector) {
 
     if (contents && contents.parentNode) {
         observerTarget.setAttribute('id', observerTargetName);
+        observerTarget.style.width = `${contents.scrollWidth}px`;
         observerTarget.style.height = `1px`;
         contents.parentNode.insertBefore(observerTarget, contents.nextSibling);
         intersectionObserver.observe(observerTarget);
