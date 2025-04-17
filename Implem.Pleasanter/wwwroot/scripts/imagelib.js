@@ -1,5 +1,5 @@
 ﻿$p.setImageLib = function () {
-    $p.paging('#ImageLib');
+    $p.pageObserve('ImageLib')
 }
 
 $p.deleteImage = function ($control) {

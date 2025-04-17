@@ -1234,7 +1234,9 @@ th.calendar-header {
 .dashboard-kamban-header > th {
     overflow-x: hidden;
 }
-
+#ImageLib {
+    overflow: hidden;
+}
 #ImageLib .item {
     position: relative;
     float: left;
