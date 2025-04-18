@@ -8474,6 +8474,15 @@ namespace Implem.Pleasanter.Models
                                         controlCss: "button-icon",
                                         onClick: "$p.moveColumns(event, $(this),'Link');",
                                         icon: "ui-icon-circle-triangle-w"))))
+                .FieldSpinner(
+                    controlId: "LinkPageSize",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.LinkPageSize(context: context),
+                    value: ss.LinkPageSize.ToInt(),
+                    min: Parameters.General.LinkPageSizeMin.ToDecimal(),
+                    max: Parameters.General.LinkPageSizeMax.ToDecimal(),
+                    step: 1,
+                    width: 25)
                 .FieldDropDown(
                     context: context,
                     controlId: "LinkTableView",
@@ -8483,16 +8492,7 @@ namespace Implem.Pleasanter.Models
                     selectedValue: ss.LinkTableView?.ToString(),
                     insertBlank: true,
                     _using: ss.Views?.Any() == true)
-                .FieldSpinner(
-                    controlId: "LinkPageSize",
-                    fieldCss: "field-auto-thin",
-                    labelText: Displays.LinkPageSize(context: context),
-                    value: ss.LinkPageSize.ToInt(),
-                    min: Parameters.General.LinkPageSizeMin.ToDecimal(),
-                    max: Parameters.General.LinkPageSizeMax.ToDecimal(),
-                    step: 1,
-                    width: 25,
-                    _using: ss.Views?.Any() == true));
+                );
         }
 
         /// <summary>
