@@ -113,5 +113,7 @@
     "GroupsDepthMax": 30,
     "BulkUpsertMax": 0,
     "EnableExpandLinkPath": false,
-    "BlockSiteTaskWhileRunning": false
+    "BlockSiteTaskWhileRunning": false,
+    "LinkPageSizeMin": 0,
+    "LinkPageSizeMax": 100
 }
