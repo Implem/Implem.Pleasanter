@@ -7919,6 +7919,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string OtherColumnsSettings(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "OtherColumnsSettings",
+                data: data);
+        }
+
         public static string Others(
             Context context,
             params string[] data)

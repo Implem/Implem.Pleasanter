@@ -1,5 +1,5 @@
 ﻿$p.setGrid = function () {
-    $p.paging('#Grid');
+    $p.pageObserve('Grid')
 }
 $p.setDashboardGrid = function () {
     var elementsWithGridId = document.querySelectorAll('[id*="Grid_"]');
