@@ -1289,6 +1289,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             format: format,
                             timepicker: timepiker,
                             alwaysSend: alwaysSend,
+                            unit: unit,
                             onChange: onChange,
                             openAnchorNewTab: openAnchorNewTab,
                             anchorFormat: anchorFormat,
@@ -1307,19 +1308,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             dataValue: dataValue,
                             dataLang: dataLang,
                             attributes: attributes);
-                        if (textType == HtmlTypes.TextTypes.Password)
-                        {
-                            hb.Div(
-                                attributes: new HtmlAttributes()
-                                    .Class("material-symbols-outlined show-password")
-                                    .OnClick("$p.showPassword(this)"),
-                                action: () => hb.Text("visibility"));
-                        }
                         controlOption?.Invoke();
-                        hb.Span(
-                            css: "unit",
-                            _using: !unit.IsNullOrEmpty(),
-                            action: () => hb.Text(unit));
                     })
                 : hb;
         }

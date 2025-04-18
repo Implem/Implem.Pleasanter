@@ -25,6 +25,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool timepicker = false,
             bool disabled = false,
             bool alwaysSend = false,
+            string unit = null,
             string accept = null,
             string dataId = null,
             string dataLang = null,
@@ -71,37 +72,42 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 .Class("ui-icon ui-icon-pencil button-edit-markdown")
                                 .OnClick($"$p.toggleAnchor($('#{controlId}'));"),
                             _using: !anchorFormat.IsNullOrEmpty())
-                        .Input(attributes: new HtmlAttributes()
-                            .Id(controlId)
-                            .Name(controlId)
-                            .Class(Css.Class(
-                                anchorFormat.IsNullOrEmpty()
-                                    ? "control-textbox"
-                                    : "control-textbox anchor hidden", controlCss))
-                            .Type("text")
-                            .Value(text)
-                            .DataValue(dataValue)
-                            .Placeholder(placeholder)
-                            .Disabled(disabled)
-                            .DataAlwaysSend(alwaysSend)
-                            .DataId(dataId)
-                            .OnChange(onChange)
-                            .AutoComplete(autoComplete)
-                            .DataValidateRequired(validateRequired)
-                            .DataValidateNumber(validateNumber)
-                            .DataValidateMinNumber(
-                                validateMinNumber, _using: validateMinNumber != validateMaxNumber)
-                            .DataValidateMaxNumber(
-                                validateMaxNumber, _using: validateMinNumber != validateMaxNumber)
-                            .DataValidateDate(validateDate)
-                            .DataValidateEmail(validateEmail)
-                            .DataValidateEqualTo(validateEqualTo)
-                            .DataValidateMaxLength(validateMaxLength)
-                            .DataValidateRegex(validateRegex)
-                            .DataValidateRegexErrorMessage(validateRegexErrorMessage)
-                            .DataAction(action)
-                            .DataMethod(method)
-                            .Add(attributes));
+                        .Div(
+                            css: "input-field",
+                            action: () => hb.Input(attributes: new HtmlAttributes()
+                                .Id(controlId)
+                                .Name(controlId)
+                                .Class(Css.Class(
+                                    anchorFormat.IsNullOrEmpty()
+                                        ? "control-textbox"
+                                        : "control-textbox anchor hidden", controlCss))
+                                .Type("text")
+                                .Value(text)
+                                .DataValue(dataValue)
+                                .Placeholder(placeholder)
+                                .Disabled(disabled)
+                                .DataAlwaysSend(alwaysSend)
+                                .DataId(dataId)
+                                .OnChange(onChange)
+                                .AutoComplete(autoComplete)
+                                .DataValidateRequired(validateRequired)
+                                .DataValidateNumber(validateNumber)
+                                .DataValidateMinNumber(
+                                    validateMinNumber, _using: validateMinNumber != validateMaxNumber)
+                                .DataValidateMaxNumber(
+                                    validateMaxNumber, _using: validateMinNumber != validateMaxNumber)
+                                .DataValidateDate(validateDate)
+                                .DataValidateEmail(validateEmail)
+                                .DataValidateEqualTo(validateEqualTo)
+                                .DataValidateMaxLength(validateMaxLength)
+                                .DataValidateRegex(validateRegex)
+                                .DataValidateRegexErrorMessage(validateRegexErrorMessage)
+                                .DataAction(action)
+                                .DataMethod(method)
+                                .Add(attributes)).Span(
+                                    css: "unit",
+                                    _using: !unit.IsNullOrEmpty(),
+                                    action: () => hb.Text(unit)));
                 case HtmlTypes.TextTypes.DateTime:
                     return hb.Div(
                         css: "date-field",
@@ -177,26 +183,32 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .Add(attributes),
                         text: text);
                 case HtmlTypes.TextTypes.Password:
-                    return hb.Input(attributes: new HtmlAttributes()
-                        .Id(controlId)
-                        .Name(controlId)
-                        .Class(Css.Class("control-textbox", controlCss))
-                        .Type("password")
-                        .Value(text)
-                        .Placeholder(placeholder)
-                        .Disabled(disabled)
-                        .DataAlwaysSend(alwaysSend)
-                        .DataId(dataId)
-                        .OnChange(onChange)
-                        .AutoComplete(autoComplete)
-                        .DataValidateRequired(validateRequired)
-                        .DataValidateNumber(validateNumber)
-                        .DataValidateDate(validateDate)
-                        .DataValidateEmail(validateEmail)
-                        .DataValidateEqualTo(validateEqualTo)
-                        .DataValidateMaxLength(validateMaxLength)
-                        .Add(attributes)
-                        .Add("data-passwordgenerator", Implem.DefinitionAccessor.Parameters.Security.PasswordGenerator ? "1" : "0"));
+                    return hb.Input(
+                        attributes: new HtmlAttributes()
+                            .Id(controlId)
+                            .Name(controlId)
+                            .Class(Css.Class("control-textbox", controlCss))
+                            .Type("password")
+                            .Value(text)
+                            .Placeholder(placeholder)
+                            .Disabled(disabled)
+                            .DataAlwaysSend(alwaysSend)
+                            .DataId(dataId)
+                            .OnChange(onChange)
+                            .AutoComplete(autoComplete)
+                            .DataValidateRequired(validateRequired)
+                            .DataValidateNumber(validateNumber)
+                            .DataValidateDate(validateDate)
+                            .DataValidateEmail(validateEmail)
+                            .DataValidateEqualTo(validateEqualTo)
+                            .DataValidateMaxLength(validateMaxLength)
+                            .Add(attributes)
+                            .Add("data-passwordgenerator", Implem.DefinitionAccessor.Parameters.Security.PasswordGenerator ? "1" : "0"))
+                        .Div(
+                            attributes: new HtmlAttributes()
+                                .Class("material-symbols-outlined show-password")
+                                .OnClick("$p.showPassword(this)"),
+                            action: () => hb.Text("visibility"));
                 case HtmlTypes.TextTypes.File:
                     return hb.Input(attributes: new HtmlAttributes()
                         .Id(controlId)

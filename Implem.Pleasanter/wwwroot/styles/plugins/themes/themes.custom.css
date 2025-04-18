@@ -491,6 +491,23 @@ input {
 }
 
 /* input-field */
+.input-field {
+    /* .with-unit */
+    &:has(.with-unit) {
+        display: flex;
+        gap: 0 4px;
+        align-items: center;
+        .control-textbox {
+            float: none;
+            width: 100%;
+        }
+        .unit {
+            float: none;
+            padding: 0;
+        }
+    }
+}
+
 .control-textbox {
     position: relative;
     overflow: hidden;
@@ -745,23 +762,24 @@ input {
 
 /* field-control */
 .field-control {
-    label {
-        &.error {
-            top: 0;
-            top: 0;
-            z-index: 3;
-            padding: 4px 8px;
-            color: var(--control-error);
-            background-color: transparent;
-            border: none;
-            border-radius: 0;
-        }
-    }
     .control-spinner {
         ~ .error {
             top: -10px;
             padding-right: 20px;
         }
+    }
+}
+
+/* error */
+label {
+    &.error {
+        top: 0;
+        z-index: 3;
+        padding: 2px 0 0;
+        color: var(--control-error);
+        background-color: transparent;
+        border: none;
+        border-radius: 0;
     }
 }
 

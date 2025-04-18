@@ -266,7 +266,9 @@
     .control-textbox {
         height: auto;
     }
-
+    .with-unit + label.error {
+        top: 18px;
+    }
     .ui-widget.ui-widget-content {
         font-size: 2.6vw;
     }

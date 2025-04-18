@@ -1,4 +1,8 @@
-﻿#LoaderContainer {
+﻿.field-control:has(.unit) .error {
+    width: 70%;
+}
+
+#LoaderContainer {
     position: fixed;
     top: 0;
     left: 0;
