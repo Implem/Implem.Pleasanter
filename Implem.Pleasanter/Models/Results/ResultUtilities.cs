@@ -3358,7 +3358,10 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 resultId: 0,
                 resultApiModel: resultApiModel);
-            var processes = ss.Processes?.FirstOrDefault(process => process.Id == resultApiModel.ProcessId)?.ToSingleList();
+            // ss.Processes の順序のままに、ProcessId を取得する（resultApiModel.ProcessIdsの順ではない）
+            var processes = resultApiModel?.ProcessIds != null
+                ? ss.Processes?.Where(process => resultApiModel.ProcessIds.Contains(process.Id)).ToList()
+                : ss.Processes?.Where(process => process.Id == resultApiModel?.ProcessId).ToList();
             var errorData = ApplyCreateByApi(
                 context: context,
                 ss: ss,
@@ -4516,7 +4519,10 @@ namespace Implem.Pleasanter.Models
             {
                 return ApiResults.Get(ApiResponses.NotFound(context: context));
             }
-            var processes = ss.Processes?.FirstOrDefault(process => process.Id == resultApiModel.ProcessId)?.ToSingleList();
+            // ss.Processes の順序のままに、ProcessId を取得する（resultApiModel.ProcessIdsの順ではない）
+            var processes = resultApiModel?.ProcessIds != null
+                ? ss.Processes?.Where(process => resultApiModel.ProcessIds.Contains(process.Id)).ToList()
+                : ss.Processes?.Where(process => process.Id == resultApiModel?.ProcessId).ToList();
             var errorData = ApplyUpdateByApi(
                 context: context,
                 ss: ss,
@@ -4714,6 +4720,15 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     errorData: new ErrorData(type: Error.Types.InvalidJsonData));
             }
+            var (isValid, missingKeys) = ValidateJsonKeys(jsonString: context.RequestDataString, ss: ss);
+            if (!isValid)
+            {
+                return ApiResults.Error(
+                    context: context,
+                    errorData: new ErrorData(
+                        type: Error.Types.invalidUpsertKey,
+                        data: $"({string.Join(", ", missingKeys)})"));
+            }
             var error = new ErrorData(Error.Types.None);
             api.View = api.View ?? new View();
             api.Keys.ForEach(columnName =>
@@ -4777,6 +4792,160 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        //Upsert, BulkUpsert時に、JSONデータとしてKeysに定義したものが、正しい名称かまたは条件として設定されているかを確認する。
+
+        private static bool CheckKeyExists(string key, Newtonsoft.Json.Linq.JToken elementToCheck, SiteSettings ss)
+        {
+            if (!ss.ColumnDefinitionHash.ContainsKey(key))
+            {
+                // ColumnDefinitionHash に定義されている名称のみKeysに指定可能とする。
+                return false;
+            }
+            // チェック対象がオブジェクトでない場合はキーを検索できない
+            if (elementToCheck?.Type != Newtonsoft.Json.Linq.JTokenType.Object)
+            {
+                return false;
+            }
+            var objToCheck = (Newtonsoft.Json.Linq.JObject)elementToCheck;
+            bool found = false;
+            Newtonsoft.Json.Linq.JToken hashToken;
+            Newtonsoft.Json.Linq.JToken valueToken = null;
+            switch (Def.ExtendedColumnTypes.Get(key))
+            {
+                case "Class":
+                    if (objToCheck.TryGetValue("ClassHash", StringComparison.OrdinalIgnoreCase, out hashToken) && hashToken?.Type == Newtonsoft.Json.Linq.JTokenType.Object)
+                    {
+                        var hashObj = (Newtonsoft.Json.Linq.JObject)hashToken;
+                        if (hashObj.ContainsKey(key))
+                        {
+                            valueToken = hashObj[key];
+                            if (valueToken?.Type == Newtonsoft.Json.Linq.JTokenType.String)
+                            {
+                                found = !string.IsNullOrEmpty((string)valueToken);
+                            }
+                        }
+                    }
+                    break;
+                case "Num":
+                    if (objToCheck.TryGetValue("NumHash", StringComparison.OrdinalIgnoreCase, out hashToken) && hashToken?.Type == Newtonsoft.Json.Linq.JTokenType.Object)
+                    {
+                        var hashObj = (Newtonsoft.Json.Linq.JObject)hashToken;
+                        if (hashObj.ContainsKey(key))
+                        {
+                            valueToken = hashObj[key];
+                            found = (valueToken?.Type != Newtonsoft.Json.Linq.JTokenType.Null);
+                        }
+                    }
+                    break;
+                case "Date":
+                    if (objToCheck.TryGetValue("DateHash", StringComparison.OrdinalIgnoreCase, out hashToken) && hashToken?.Type == Newtonsoft.Json.Linq.JTokenType.Object)
+                    {
+                        var hashObj = (Newtonsoft.Json.Linq.JObject)hashToken;
+                        if (hashObj.ContainsKey(key))
+                        {
+                            valueToken = hashObj[key];
+                            found = (valueToken?.Type != Newtonsoft.Json.Linq.JTokenType.Null);
+                        }
+                    }
+                    break;
+                case "Description":
+                    if (objToCheck.TryGetValue("DescriptionHash", StringComparison.OrdinalIgnoreCase, out hashToken) && hashToken?.Type == Newtonsoft.Json.Linq.JTokenType.Object)
+                    {
+                        var hashObj = (Newtonsoft.Json.Linq.JObject)hashToken;
+                        if (hashObj.ContainsKey(key))
+                        {
+                            valueToken = hashObj[key];
+                            if (valueToken?.Type == Newtonsoft.Json.Linq.JTokenType.String)
+                            {
+                                found = !string.IsNullOrEmpty((string)valueToken);
+                            }
+                        }
+                    }
+                    break;
+                case "Check":
+                    if (objToCheck.TryGetValue("CheckHash", StringComparison.OrdinalIgnoreCase, out hashToken) && hashToken?.Type == Newtonsoft.Json.Linq.JTokenType.Object)
+                    {
+                        var hashObj = (Newtonsoft.Json.Linq.JObject)hashToken;
+                        if (hashObj.ContainsKey(key))
+                        {
+                            valueToken = hashObj[key];
+                            found = (valueToken?.Type != Newtonsoft.Json.Linq.JTokenType.Null);
+                        }
+                    }
+                    break;
+                case "Attachments":
+                    // AttachmentsAなどは何も該当しない条件でWhere句を生成するので検索条件に含めてはいけない。
+                    return false;
+                default:
+                    if (objToCheck.TryGetValue(key, StringComparison.OrdinalIgnoreCase, out valueToken))
+                    {
+                        found = (valueToken?.Type != Newtonsoft.Json.Linq.JTokenType.Null);
+                    }
+                    break;
+            }
+            return found;
+        }
+
+        //Upsert, BulkUpsert時に、JSONデータとしてKeysに定義したものが、正しい名称かまたは条件として設定されているかを確認する。
+        //他箇所の処理による前提条件あり（JSONデシリアライズ可能、Keys配列定義有り【BulkUpsertの場合は"KeyNotFoundCreate": falseの場合に限る】）
+
+        public static (bool isValid, List<string> missingKeys) ValidateJsonKeys(string jsonString, SiteSettings ss)
+        {
+            var missingKeys = new List<string>();
+            bool allKeysValid = true;
+            var root = Newtonsoft.Json.Linq.JObject.Parse(jsonString);
+            root.TryGetValue("Keys", StringComparison.OrdinalIgnoreCase, out var keysToken);
+            var keysArray = (Newtonsoft.Json.Linq.JArray)keysToken ?? new Newtonsoft.Json.Linq.JArray();
+            bool hasDataArray = root.TryGetValue("Data", StringComparison.OrdinalIgnoreCase, out var dataToken) && dataToken?.Type == Newtonsoft.Json.Linq.JTokenType.Array;
+            var dataArray = hasDataArray ? (Newtonsoft.Json.Linq.JArray)dataToken : null;
+            bool keyNotFoundCreateIsTrue = root.TryGetValue("KeyNotFoundCreate", StringComparison.OrdinalIgnoreCase, out var knfcToken)
+                                                && knfcToken?.Type == Newtonsoft.Json.Linq.JTokenType.Boolean
+                                                && (bool)knfcToken;
+            foreach (var keyElement in keysArray)
+            {
+                if (keyElement?.Type != Newtonsoft.Json.Linq.JTokenType.String)
+                {
+                    allKeysValid = false;
+                    missingKeys.Add($"{keyElement}");
+                    continue;
+                }
+                var key = (string)keyElement;
+                bool currentKeyIsValid = false;
+                // Data配列が存在するパターン(BulkUpsert)
+                if (hasDataArray)
+                {
+                    // Data配列が空の場合は検索条件がが存在しえない
+                    if (dataArray.Count == 0)
+                    {
+                        currentKeyIsValid = false;
+                    }
+                    else
+                    {
+                        // Data配列内の各要素でキーが存在および妥当性をチェックする
+                        currentKeyIsValid = dataArray.All(dataItem => CheckKeyExists(
+                                                                                key: key,
+                                                                                elementToCheck: dataItem,
+                                                                                ss: ss));
+                    }
+                }
+                // Data配列が存在しないパターン (Upsert)
+                else
+                {
+                    currentKeyIsValid = CheckKeyExists(
+                                                    key: key,
+                                                    elementToCheck: root,
+                                                    ss: ss);
+                }
+                // 現在のキーが無効だった場合、全体の結果を無効にし、リストに追加
+                if (!currentKeyIsValid)
+                {
+                    allKeysValid = false;
+                    missingKeys.Add(key);
+                }
+            }
+            return (allKeysValid, missingKeys);
+        }
+
         public static bool UpsertByServerScript(
             Context context,
             SiteSettings ss,
@@ -4788,6 +4957,11 @@ namespace Implem.Pleasanter.Models
             if (api?.Keys?.Any() != true || resultApiModel == null)
             {
                 context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+                return false;
+            }
+            var (isValid, missingKeys) = ValidateJsonKeys(jsonString: context.RequestDataString, ss: ss);
+            if (!isValid)
+            {
                 return false;
             }
             var error = Error.Types.None;
@@ -4873,6 +5047,15 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         data: Parameters.General.BulkUpsertMax.ToString()).Text));
             }
+            var (isValid, missingKeys) = ValidateJsonKeys(jsonString: context.RequestDataString, ss: ss);
+            if (!isValid)
+            {
+                return ApiResults.Error(
+                    context: context,
+                    errorData: new ErrorData(
+                        type: Error.Types.invalidUpsertKey,
+                        data: $"({string.Join(", ", missingKeys)})"));
+            }
             using var exclusiveObj = new Sessions.TableExclusive(context: context);
             if (!exclusiveObj.TryLock())
             {
@@ -4933,7 +5116,10 @@ namespace Implem.Pleasanter.Models
                         default:
                             return new ErrorData(type: Error.Types.NotFound);
                     }
-                    var processes = ss.Processes?.FirstOrDefault(process => process.Id == resultApiModel.ProcessId)?.ToSingleList();
+                    // ss.Processes の順序のままに、ProcessId を取得する（resultApiModel.ProcessIdsの順ではない）
+                    var processes = resultApiModel?.ProcessIds != null
+                        ? ss.Processes?.Where(process => resultApiModel.ProcessIds.Contains(process.Id)).ToList()
+                        : ss.Processes?.Where(process => process.Id == resultApiModel?.ProcessId).ToList();
                     if (resultModel.AccessStatus == Databases.AccessStatuses.Selected)
                     {
                         // Keysの指定があり、該当レコードがある場合に更新
@@ -4948,7 +5134,7 @@ namespace Implem.Pleasanter.Models
                         updateCount++;
                     }
                     else if (resultModel.AccessStatus == Databases.AccessStatuses.NotFound
-                        && (api.Keys?.Count == 0 || bulkUpsertModel.KeyNotFoundCreate == true))
+                        && ((api.Keys?.Count ?? 0) == 0 || bulkUpsertModel.KeyNotFoundCreate == true))
                     {
                         // Keysの指定が無い場合は全て新規作成。
                         // Keysの指定があり、該当レコードがなく KeyNotFoundCreate =true の場合に新規作成
@@ -9900,7 +10086,7 @@ namespace Implem.Pleasanter.Models
                             ss: ss,
                             dataRow: dataRow));
             return (new ResponseCollection(context: context))
-                .Append("#ImageLib", hb)
+                .Append("#ImageLibBody", hb)
                 .Val("#ImageLibOffset", ss.ImageLibNextOffset(
                     offset,
                     imageLibData.DataRows.Count(),

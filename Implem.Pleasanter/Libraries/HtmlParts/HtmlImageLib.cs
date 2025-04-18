@@ -22,17 +22,17 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .DataMethod("post"),
                 action: () =>
                     hb
+                        .ImageLibBody(
+                            context: context,
+                            ss: ss,
+                            imageLibData: imageLibData))
                         .Hidden(
                             controlId: "ImageLibOffset",
                             value: ss.ImageLibNextOffset(
                                 0,
                                 imageLibData.DataRows.Count(),
                                 imageLibData.TotalCount)
-                                    .ToString())
-                        .ImageLibBody(
-                            context: context,
-                            ss: ss,
-                            imageLibData: imageLibData));
+                                    .ToString());
         }
 
         public static HtmlBuilder ImageLibBody(

@@ -1234,7 +1234,9 @@ th.calendar-header {
 .dashboard-kamban-header > th {
     overflow-x: hidden;
 }
-
+#ImageLib {
+    overflow: hidden;
+}
 #ImageLib .item {
     position: relative;
     float: left;
@@ -2086,7 +2088,6 @@ td > .field-wide {
 
 .field-label {
     overflow: hidden;
-    text-align-last: right;
 }
 
 label.required:after {
@@ -2623,6 +2624,11 @@ _:future,
 .center-align {
     text-align: center;
     text-align-last: center;
+}
+
+.center-align .field-label {
+    text-align: right;
+    text-align-last: right;
 }
 
 .tooltip {
