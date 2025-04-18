@@ -8491,8 +8491,7 @@ namespace Implem.Pleasanter.Models
                     optionCollection: ss.ViewSelectableOptions(),
                     selectedValue: ss.LinkTableView?.ToString(),
                     insertBlank: true,
-                    _using: ss.Views?.Any() == true)
-                );
+                    _using: ss.Views?.Any() == true));
         }
 
         /// <summary>
