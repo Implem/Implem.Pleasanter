@@ -28,7 +28,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 methodType != BaseModel.MethodTypes.New &&
                 links.Any()
                     ? hb.FieldSet(
-                        css: " enclosed link-creations",
+                        css: " enclosed link-creations is-sources",
                         legendText: Displays.LinkCreations(context: context),
                         action: () => hb
                             .LinkCreations(

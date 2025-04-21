@@ -38,6 +38,8 @@
             background-color: var(--primaryDark);
         }
     }
+}
+
 /* [.loading]  ------------------------------------------------------ */
 #LoaderContainer {
     background-color: rgba(0, 0, 0, 0.3);
