@@ -81,7 +81,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     anchorFormat.IsNullOrEmpty()
                                         ? "control-textbox"
                                         : "control-textbox anchor hidden", controlCss))
-                                .Type("text")
+                                .Type(validateNumber ? "number" : "text")
                                 .Value(text)
                                 .DataValue(dataValue)
                                 .Placeholder(placeholder)
