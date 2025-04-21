@@ -1,4 +1,4 @@
-﻿@media screen and (max-width: 1024px) and (min-width: 0px) {
+﻿@media screen and (max-width: 1024px) and (min-width: 0) {
     #LoginFieldSet {
         width: 100%;
         padding: 10px;
@@ -10,24 +10,24 @@
         font-size: 5vw;
     }
     #LoginFieldSet input[type="checkbox"] {
-        margin: 20px 0px 0px 10px;
+        margin: 20px 0 0 10px;
         transform: scale(2);
     }
     #LoginFieldSet button {
         font-size: 4vw;
     }
     #LoginFieldSet .container-normal {
-        margin-left: 0px;
+        margin-left: 0;
     }
     #LoginFieldSet .field-wide,
     #LoginFieldSet .field-normal {
         float: left;
         width: 100%;
-        margin: 10px 0px;
+        margin: 10px 0;
     }
     #LoginFieldSet .field-normal .control-checkbox + label {
         width: auto;
-        margin: 0px 0px 0px 30px;
+        margin: 0 0 0 30px;
     }
     #Logins .field-label {
         width: auto;
@@ -55,12 +55,12 @@
         font-size: 4vw;
     }
     #DemoFields .container-normal {
-        margin-left: 0px;
+        margin-left: 0;
     }
     #DemoFields .field-normal {
         float: left;
         width: 100%;
-        margin: 10px 0px;
+        margin: 10px 0;
     }
     #StartGuide {
         display: none;
@@ -90,21 +90,17 @@
         width: auto;
         height: auto;
     }
-
     #Breadcrumb {
         font-size: 2.6vw;
     }
-
     #ViewSelectorField {
         position: relative;
         margin-bottom: 5px;
         font-size: 2.8vw;
     }
-
     #HeaderTitleContainer {
         margin-bottom: 3%;
     }
-
     #ViewFilters {
         padding-bottom: 2%;
         font-size: 2.6vw;
@@ -148,7 +144,6 @@
         width: 100% !important;
         height: 6vw;
     }
-
     .field-auto-thin input[type="checkbox"],
     .field-auto-thin input[type="radio"] {
         width: 2.6vw;
@@ -164,7 +159,6 @@
     .field-auto-thin > .field-label {
         padding: 0;
     }
-
     #RecordInfo div {
         clear: both;
         margin-right: 0;
@@ -172,7 +166,6 @@
     #RecordInfo div p {
         font-size: 2.6vw;
     }
-
     #Application {
         padding-top: 0;
         padding-bottom: 15%;
@@ -181,7 +174,6 @@
         display: flex;
         flex-direction: column;
     }
-
     #RecordInfo {
         margin-bottom: 2%;
     }
@@ -210,7 +202,6 @@
     .ui-tabs .ui-tabs-panel {
         padding: 1%;
     }
-
     .field-wide,
     .field-markdown {
         float: none;
@@ -227,7 +218,6 @@
     .field-normal.right-align {
         text-align: left;
     }
-
     .field-markdown > .field-label,
     .field-normal > .field-label,
     .field-wide > .field-label {
@@ -243,9 +233,6 @@
     .field-wide > .field-label label {
         font-weight: bold;
     }
-
-    .field-normal > .field-control {
-    }
     .field-normal .container-normal,
     .field-control .container-normal {
         margin-left: 0;
@@ -253,8 +240,10 @@
     .control-dropdown {
         height: auto;
     }
-    .ui-spinner a.ui-spinner-button {
+    .spinner-field .ui-spinner .ui-spinner-up,
+    .spinner-field .ui-spinner .ui-spinner-down {
         height: 50%;
+        margin: 0;
     }
 
     .field-normal .control-text {
@@ -275,14 +264,12 @@
     #Guide {
         font-size: 2.6vw;
     }
-
     .alert-success,
     .alert-warning,
     .alert-error {
         height: auto;
         font-size: 2.6vw;
     }
-
     #MainCommandsContainer {
         z-index: 200;
         height: auto;
@@ -292,7 +279,6 @@
     #Footer {
         z-index: 102;
     }
-
     .ui-tabs .ui-tabs-nav {
         padding: 1%;
         font-size: 2.6vw;
@@ -314,8 +300,7 @@
 #GuideExpand {
     width: 100px;
 }
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
+@media screen and (max-width: 1024px) and (min-width: 0) {
     body {
         min-width: 320px !important;
     }
@@ -330,7 +315,6 @@
     #MainContainer {
         min-height: 100vh;
     }
-
     #Header a#navtgl {
         position: absolute;
         top: 1.4vw;
@@ -367,7 +351,6 @@
     #Header a#navtgl::after {
         transform: translateY(-7px);
     }
-
     * #Navigations {
         box-sizing: border-box;
     }
@@ -387,31 +370,25 @@
         border: none;
         transition: right ease-out 0.3s;
     }
-
     #Navigations:not(.open) {
         pointer-events: none;
     }
-
     #Navigations.open {
         right: 0 !important;
     }
-
     #NavigationMenu > li.sub-menu > div.hover {
         background: none;
     }
-
     #NavigationMenu {
         float: none;
         margin-right: 0;
         margin-bottom: 3%;
     }
-
     #SearchField {
         float: none;
         margin: 0;
         color: #000;
     }
-
     #NavigationMenu > li {
         position: relative;
         display: block;
@@ -434,7 +411,6 @@
         font-weight: bold;
         text-decoration: none;
     }
-
     #NavigationMenu .menu {
         position: relative;
         top: 0;
@@ -447,12 +423,10 @@
     .pc-dn {
         display: block !important;
     }
-
     #NavigationMenu .menu > li > a.ui-state-active {
         font-weight: normal;
         text-decoration: none;
     }
-
     .ui-menu .ui-menu-item {
         border-top: 1px solid #d19405;
     }
@@ -460,12 +434,8 @@
         background: #fff;
         border: 1px solid #d19405;
     }
-
-    .ui-widget-header .ui-icon {
-    }
 }
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
+@media screen and (max-width: 1024px) and (min-width: 0) {
     #SiteMenu .nav-site {
         float: none;
         width: 20vw;
@@ -474,34 +444,29 @@
         text-align: center;
         border-radius: 0.5vw;
     }
-
     #SiteMenu .sortable {
         display: flex;
         flex-wrap: wrap;
         align-items: flex-start;
         justify-content: flex-start;
     }
-
     #SiteMenu .nav-site.sites {
         width: 20vw !important;
         height: 20vw !important;
         background: #fff;
         border-radius: 5px;
     }
-
     #SiteMenu .nav-site .heading {
         top: -3vw;
         width: 8vw;
         height: 3vw;
     }
-
     #SiteMenu .nav-site.sites.to-parent {
         height: auto !important;
         margin-top: 3%;
         margin-bottom: 0;
         box-shadow: none;
     }
-
     #SiteMenu .nav-site.sites.to-parent span.title {
         position: relative;
         top: 0;
@@ -509,16 +474,13 @@
         margin-left: 0;
         text-align: left;
     }
-
     #SiteMenu .nav-site.sites.to-parent .heading {
         display: none;
     }
-
     #SiteMenu .nav-site a {
         padding: 0;
         overflow: inherit;
     }
-
     #SiteMenu .nav-site .site-image-thumbnail {
         position: relative;
         top: inherit;
@@ -563,13 +525,11 @@
         line-height: 6vw;
         border-radius: 3vw;
     }
-
     #SiteMenu .nav-site .conditions .overdue::before,
     #SiteMenu .nav-site .conditions .overdue::after {
         display: none;
         content: initial;
     }
-
     #SiteMenu .nav-site[data-type="Wikis"] {
         position: relative;
         width: 20vw;
@@ -596,18 +556,15 @@
     #SiteMenu .nav-site[data-type="Wikis"] a img {
         margin-top: 15%;
     }
-
     #SiteMenu .nav-site.sites.to-parent {
         height: auto !important;
         text-align: left;
         background: none;
         border: none;
     }
-
     #SiteMenu .nav-site.to-parent .ui-icon {
         display: none;
     }
-
     #SiteMenu .nav-site.to-parent a {
         position: relative;
         display: inline-block;
@@ -642,7 +599,6 @@
         -webkit-transform: rotate(45deg);
         transform: rotate(45deg);
     }
-
     #SiteMenu .nav-site span.title {
         position: absolute;
         top: 22vw;
@@ -656,15 +612,14 @@
         text-overflow: ellipsis;
         white-space: nowrap;
     }
-
     #SiteMenu .nav-site .stacking1 {
         position: absolute;
         top: 1px;
         left: 1px;
         width: 20vw;
         height: 20vw;
-        border-right: solid 1px silver;
-        border-bottom: solid 1px silver;
+        border-right: solid 1px #c0c0c0;
+        border-bottom: solid 1px #c0c0c0;
         border-radius: 5px;
     }
     #SiteMenu .nav-site .stacking2 {
@@ -673,8 +628,8 @@
         left: 4px;
         width: 20vw;
         height: 20vw;
-        border-right: solid 1px silver;
-        border-bottom: solid 1px silver;
+        border-right: solid 1px #c0c0c0;
+        border-bottom: solid 1px #c0c0c0;
         border-radius: 5px;
     }
     #SiteMenu .nav-sites .to-parent a img {
@@ -684,13 +639,7 @@
         padding: 0 0 0 15px;
     }
 }
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
-    #EditorTabs {
-    }
-    #Application {
-    }
-
+@media screen and (max-width: 1024px) and (min-width: 0) {
     #FieldSetStandard {
         display: flex;
         flex-direction: column;
@@ -705,7 +654,6 @@
         float: none;
         order: 1;
     }
-
     .template-viewer-container {
         float: none;
         margin: 0;
@@ -716,33 +664,28 @@
     .template-selectable {
         width: 100%;
     }
-
     .template-tab-container {
         min-height: 10px;
     }
-
     .field-vertical {
         float: none;
         width: 100%;
         padding: 0 0 20px 0;
     }
-
     .container-selectable .wrapper {
         min-height: auto;
     }
     .h350 {
         height: auto;
     }
-
     #EditInDialogBody {
         padding-bottom: 15%;
     }
-
     .links {
         overflow: auto;
     }
 }
-@media screen and (max-width: 1024px) and (min-width: 0px) {
+@media screen and (max-width: 1024px) and (min-width: 0) {
     #FieldSetHistories {
         width: 100%;
         overflow: auto;
@@ -780,7 +723,6 @@
     .grid > tbody td p {
         white-space: nowrap;
     }
-
     #Calendar {
         font-size: 2.6vw;
     }
@@ -793,7 +735,6 @@
     #CalendarMonth {
         display: block;
     }
-
     #Calendar .field-auto-thin {
         display: flex;
         align-items: center;
@@ -808,7 +749,6 @@
     #Calendar .field-auto-thin select {
         max-width: none;
     }
-
     #CalendarTimePeriod,
     #CalendarFromTo,
     #CalendarMonth {
@@ -820,7 +760,6 @@
     .w100 {
         width: auto;
     }
-
     #CrosstabBody {
         margin-top: 3%;
     }
@@ -845,7 +784,6 @@
         align-items: center;
         justify-content: space-between;
     }
-
     #Crosstab .field-auto-thin {
         display: flex;
         align-items: center;
@@ -875,11 +813,9 @@
         margin-top: 1%;
         font-size: 2.6vw;
     }
-
     .svg-crosstab {
         display: block;
     }
-
     #ViewModeContainer .both {
         display: flex;
         flex-wrap: wrap;
@@ -910,7 +846,6 @@
         text-align: left;
         white-space: nowrap;
     }
-
     #GanttAxis {
         position: relative;
         bottom: 0;
@@ -920,11 +855,9 @@
     #Gantt {
         width: 1500px;
     }
-
     #BurnDown {
         width: 1500px;
     }
-
     #TimeSeriesBody {
         width: 1500px;
         margin-left: -5%;
@@ -933,14 +866,12 @@
     #TimeSeries {
         width: 1500px;
     }
-
     #ViewModeContainer #Kamban.both .field-auto-thin:nth-child(3) {
         width: 48%;
     }
     #ViewModeContainer #Kamban.both .field-auto-thin .field-control {
         width: 100%;
     }
-
     #KambanBody {
         margin-top: 3%;
     }
@@ -960,8 +891,7 @@
         white-space: nowrap;
     }
 }
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
+@media screen and (max-width: 1024px) and (min-width: 0) {
     #Header {
         padding: 0 calc(5vw);
     }
@@ -1004,20 +934,17 @@
         font-size: 16px;
     }
 }
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
+@media screen and (max-width: 1024px) and (min-width: 0) {
     #HeaderTitle {
         font-size: 16px;
     }
 }
-
 @media screen and (max-width: 1024px) and (min-width: 768px) {
     #HeaderTitle {
         font-size: 35px;
     }
 }
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
+@media screen and (max-width: 1024px) and (min-width: 0) {
     .command-center {
         padding: 0;
     }
@@ -1029,14 +956,12 @@
         margin: auto 0;
     }
 }
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
+@media screen and (max-width: 1024px) and (min-width: 0) {
     #ViewSelector {
         font-size: 2.6vw;
     }
 }
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
+@media screen and (max-width: 1024px) and (min-width: 0) {
     #Logo a {
         display: inline-flex;
         align-items: center;
@@ -1052,15 +977,13 @@
         margin-top: 0;
     }
 }
-
 @media screen and (max-width: 1024px) and (min-width: 768px) {
     #Logo #ProductLogo {
         padding-left: 16px;
         font-size: 32px;
     }
 }
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
+@media screen and (max-width: 1024px) and (min-width: 0) {
     #Editor .field-control .container-normal {
         width: calc(100% - 18px);
     }
@@ -1069,7 +992,6 @@
         top: calc(3vw - 6px);
     }
 }
-
 @media screen and (max-width: 1024px) and (min-width: 768px) {
     #Editor .field-control .container-normal {
         width: calc(100% - 36px);
@@ -1080,8 +1002,7 @@
         right: -30px;
     }
 }
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
+@media screen and (max-width: 1024px) and (min-width: 0) {
     #FieldSetAddressBook #OutgoingMailDestinationForm .container-left {
         width: 38vw;
     }
@@ -1110,20 +1031,17 @@
         margin-left: 40vw;
     }
 }
-
 @media screen and (max-width: 1024px) and (min-width: 768px) {
     #FieldSetAddressBook #OutgoingMailDestinationForm .container-left {
         width: 33vw;
     }
 }
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
+@media screen and (max-width: 1024px) and (min-width: 0) {
     #Issues_WorkValue {
         width: 100px;
     }
 }
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
+@media screen and (max-width: 1024px) and (min-width: 0) {
     #Users_LoginId,
     #Users_Password {
         height: 40px;
@@ -1147,7 +1065,7 @@
     }
     #LoginFieldSet .field-wide,
     #LoginFieldSet .field-normal {
-        margin: 0px 0px;
+        margin: 0 0;
     }
     #LoginFieldSet .field-normal .control-checkbox + label {
         margin: auto 0;
@@ -1158,8 +1076,7 @@
         width: 100%;
     }
 }
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
+@media screen and (max-width: 1024px) and (min-width: 0) {
     #Editor .field-markdown > .field-label > label {
         font-weight: bold;
     }
@@ -1171,8 +1088,7 @@
         height: 100%;
     }
 }
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
+@media screen and (max-width: 1024px) and (min-width: 0) {
     #GridCheckAll {
         margin-top: 0;
     }
@@ -1190,8 +1106,7 @@
         font-size: 0.75em;
     }
 }
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
+@media screen and (max-width: 1024px) and (min-width: 0) {
     #Editor #EditorTabsContainer fieldset .wrapper {
         max-height: 250px;
         overflow: auto;
@@ -1538,8 +1453,7 @@
         margin-top: 10px;
     }
 }
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
+@media screen and (max-width: 1024px) and (min-width: 0) {
     #Aggregations {
         display: flex;
         flex-wrap: wrap;
@@ -1576,14 +1490,12 @@
         width: 100%;
     }
 }
-
 @media screen and (max-width: 1024px) and (min-width: 768px) {
     #Aggregations {
         row-gap: 15px;
     }
 }
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
+@media screen and (max-width: 1024px) and (min-width: 0) {
     #ViewModeContainer .grid {
         vertical-align: middle;
     }
@@ -1596,8 +1508,7 @@
         padding-top: 2px;
     }
 }
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
+@media screen and (max-width: 1024px) and (min-width: 0) {
     #SearchField #Search {
         width: 100%;
         font-size: 3vw;
@@ -1606,8 +1517,7 @@
         font-size: 3vw;
     }
 }
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
+@media screen and (max-width: 1024px) and (min-width: 0) {
     #ViewFilters #ViewFilters_Reset {
         margin-right: 0;
         margin-left: auto;
@@ -1689,8 +1599,7 @@
         right: 0;
     }
 }
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
+@media screen and (max-width: 1024px) and (min-width: 0) {
     #EditorTabsContainer .legend.applied {
         display: flex;
         align-items: center;
@@ -1745,7 +1654,7 @@
         top: 0.5vw;
         width: 18px;
         height: 18px;
-        margin-right: 0px;
+        margin-right: 0;
     }
     #EditorTabsContainer
         #PermissionEditor
@@ -1769,14 +1678,12 @@
         min-height: 15vw;
     }
 }
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
+@media screen and (max-width: 1024px) and (min-width: 0) {
     thead > tr.ui-widget-header th div > span {
         font-size: 2.8vw;
         white-space: nowrap;
     }
 }
-
 @media screen and (max-width: 1024px) and (min-width: 768px) {
     #EditorTabsContainer
         .field-control
@@ -1786,8 +1693,7 @@
         right: 4px;
     }
 }
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
+@media screen and (max-width: 1024px) and (min-width: 0) {
     #EditorTabsContainer {
         overflow: auto;
     }
@@ -1802,8 +1708,7 @@
         font-size: 2.6vw;
     }
 }
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
+@media screen and (max-width: 1024px) and (min-width: 0) {
     body {
         overflow-x: hidden;
     }
@@ -1824,8 +1729,6 @@
         height: 100%;
         background: rgba(0, 0, 0, 0.5);
     }
-    #MainContainer {
-    }
     header#Header {
         position: sticky;
         top: 0;
@@ -1838,7 +1741,6 @@
         z-index: 1000;
         transition: all 0.5s ease;
     }
-
     #Header a#navtgl.on::before,
     #Header a#navtgl.on span,
     #Header a#navtgl.on::after {
@@ -1867,8 +1769,7 @@
         transform: rotate(-45deg);
     }
 }
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
+@media screen and (max-width: 1024px) and (min-width: 0) {
     #OutgoingMailsForm {
         width: 100%;
         font-size: 2.6vw;
@@ -1960,14 +1861,12 @@
         margin-right: 0;
     }
 }
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
+@media screen and (max-width: 1024px) and (min-width: 0) {
     #SiteMenu li.ui-sortable-handle {
         touch-action: unset;
     }
 }
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
+@media screen and (max-width: 1024px) and (min-width: 0) {
     .xdsoft_datetimepicker span {
         font-size: 2.6vw;
     }
@@ -2035,7 +1934,6 @@
         font-size: 2.6vw;
     }
 }
-
 @media screen and (max-width: 1024px) and (min-width: 768px) {
     .xdsoft_datetimepicker
         .xdsoft_datepicker
@@ -2062,8 +1960,7 @@
         font-size: 16px;
     }
 }
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
+@media screen and (max-width: 1024px) and (min-width: 0) {
     .message span.body {
         display: flex;
         align-items: center;
@@ -2075,8 +1972,7 @@
         margin: auto;
     }
 }
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
+@media screen and (max-width: 1024px) and (min-width: 0) {
     #Navigations #NavigationMenu #NewMenuContainer {
         background: unset;
         border: none;
@@ -2093,7 +1989,6 @@
         font-size: 3vw;
     }
 }
-
 @media screen and (max-width: 1024px) and (min-width: 768px) {
     #Navigations
         #NavigationMenu
@@ -2103,8 +1998,7 @@
         padding-left: 4vw;
     }
 }
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
+@media screen and (max-width: 1024px) and (min-width: 0) {
     #Editor
         .field-normal
         .field-control
@@ -2115,7 +2009,6 @@
         margin-right: 6px;
     }
 }
-
 @media screen and (max-width: 1024px) and (min-width: 768px) {
     #Editor
         .field-normal
@@ -2125,8 +2018,7 @@
         margin-right: 12px;
     }
 }
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
+@media screen and (max-width: 1024px) and (min-width: 0) {
     #Editor #EditorTabsContainer .field-normal:not(.hidden),
     #Editor #EditorTabsContainer .field-wide:not(.hidden),
     #Editor #EditorTabsContainer .field-markdown:not(.hidden) {
@@ -2135,15 +2027,14 @@
         padding-bottom: 0;
     }
 }
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
+@media screen and (max-width: 1024px) and (min-width: 0) {
     #ViewModeContainer #Calendar.both select {
         height: 6vw;
         font-size: 2.6vw;
     }
     #ViewModeContainer #Calendar.both .field-label {
         min-width: 16%;
-        margin-right: 0px;
+        margin-right: 0;
     }
     #ViewModeContainer
         #Calendar.both
@@ -2239,8 +2130,7 @@
         overflow-x: hidden;
     }
 }
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
+@media screen and (max-width: 1024px) and (min-width: 0) {
     #ViewModeContainer .both {
         column-gap: 16px;
     }
@@ -2340,8 +2230,7 @@
         width: 500%;
     }
 }
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
+@media screen and (max-width: 1024px) and (min-width: 0) {
     #ViewModeContainer #Kamban.both .field-auto-thin select {
         font-size: 2.6vw;
     }
@@ -2414,7 +2303,7 @@
         .kamban-item {
         display: -webkit-box;
         height: 4vw;
-        padding: 0px 16px 0px 5px;
+        padding: 0 16px 0 5px;
         overflow: hidden;
         white-space: pre-line;
         touch-action: auto;
@@ -2422,7 +2311,6 @@
         -webkit-box-orient: vertical;
     }
 }
-
 @media screen and (max-width: 1024px) and (min-width: 768px) {
     #ViewModeContainer
         #Kamban.both
@@ -2439,8 +2327,7 @@
         height: 16px;
     }
 }
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
+@media screen and (max-width: 1024px) and (min-width: 0) {
     #ViewModeContainer
         #Calendar
         #FullCalendar.fc
@@ -2470,8 +2357,7 @@
         border-radius: 0.25em;
     }
 }
-
-@media screen and (max-width: 768px) and (min-width: 0px) {
+@media screen and (max-width: 768px) and (min-width: 0) {
     #ViewModeContainer
         #Calendar
         #FullCalendar.fc
@@ -2491,8 +2377,7 @@
         border-radius: 0 0.25em 0.25em 0;
     }
 }
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
+@media screen and (max-width: 1024px) and (min-width: 0) {
     #RecordSwitchers {
         display: flex;
         align-items: center;
@@ -2517,7 +2402,6 @@
         margin-top: 0.15vw;
     }
 }
-
 @media screen and (max-width: 1024px) and (min-width: 0) {
     #Editor #RecordHeader .user {
         display: flex;
@@ -2530,7 +2414,6 @@
         top: calc(3vw - 6.5px);
     }
 }
-
 @media screen and (max-width: 1024px) and (min-width: 768px) {
     .ui-icon {
         margin-right: 4px;
@@ -2547,8 +2430,7 @@
         right: -30px;
     }
 }
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
+@media screen and (max-width: 1024px) and (min-width: 0) {
     #OutgoingMailDialog .field-wide {
         padding-bottom: 5px;
     }
@@ -2566,8 +2448,7 @@
         height: 20vw;
     }
 }
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
+@media screen and (max-width: 1024px) and (min-width: 0) {
     .show-password {
         top: calc(50% - 12px);
         right: 10px;
@@ -2587,20 +2468,17 @@
         align-items: center;
     }
 }
-
 @media screen and (max-width: 1024px) and (min-width: 768px) {
     .show-password {
         transform: scale(1.5);
     }
 }
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
+@media screen and (max-width: 1024px) and (min-width: 0) {
     #Navigations.open {
         padding-top: 18vw;
     }
 }
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
+@media screen and (max-width: 1024px) and (min-width: 0) {
     #ViewModeContainer .field-auto-thin > .field-label {
         padding: 7px 2vw 7px 0;
     }
@@ -2644,8 +2522,7 @@
         white-space: nowrap;
     }
 }
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
+@media screen and (max-width: 1024px) and (min-width: 0) {
     #ImportSettingsDialog .control-checkbox + label {
         margin: 1.8vw 0 0 1vw;
     }
@@ -2660,14 +2537,12 @@
         padding: 2vw 0;
     }
 }
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
+@media screen and (max-width: 1024px) and (min-width: 0) {
     #ExportSelectorDialog .command-center {
         padding: 2vw 0;
     }
 }
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
+@media screen and (max-width: 1024px) and (min-width: 0) {
     #ViewModeContainer #Grid .control-dropdown,
     #ViewModeContainer #Grid .datepicker {
         width: 25vw;
@@ -2685,8 +2560,7 @@
         max-height: 6vw;
     }
 }
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
+@media screen and (max-width: 1024px) and (min-width: 0) {
     #ViewModeContainer .both #TimeSeriesValueField,
     #ViewModeContainer .both #TimeSeriesChartTypeField,
     #ViewModeContainer .both #TimeSeriesHorizontalAxisField {
@@ -2715,16 +2589,14 @@
         min-width: 68%;
     }
 }
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
+@media screen and (max-width: 1024px) and (min-width: 0) {
     #ApiEditorCommands {
         display: flex;
         justify-content: center;
         padding: 10vw 0;
     }
 }
-
-@media screen and (max-width: 1024px) and (min-width: 0px) {
+@media screen and (max-width: 1024px) and (min-width: 0) {
     #Editor #TenantForm #EditorTabsContainer .fieldset .field-auto-thin {
         width: 100%;
         height: 7vw;
@@ -2779,13 +2651,11 @@
         text-align: left;
     }
 }
-
 @media screen and (max-width: 1024px) and (min-width: 0) {
     #Versions span {
         margin: 20px 10px 20px 0;
     }
 }
-
 @media screen and (max-width: 767px) and (min-width: 0) {
     #Versions {
         width: auto;

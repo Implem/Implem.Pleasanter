@@ -248,23 +248,6 @@ html .ui-button.ui-state-disabled:active {
     }
 }
 
-/* spinner */
-.ui-spinner {
-    border-radius: 4px;
-    &:has(.ui-spinner-input) {
-        background-color: var(--control-bg);
-        .ui-spinner-input {
-            border: none;
-        }
-    }
-    &:has(.ui-spinner-input:focus) {
-        background-color: var(--control-bg-focus);
-    }
-    &:has(.error) {
-        border: solid 1px var(--warning-color);
-    }
-}
-
 /* slider */
 .ui-slider {
     .ui-slider-handle {
@@ -366,14 +349,10 @@ html .ui-button.ui-state-disabled:active {
     transition: color 150ms ease-out, background 150ms ease-out,
         border 150ms ease-out;
     &:focus {
-        &:not(.control-spinner) {
-            border: 1px solid var(--control-border-focus);
-        }
+        border: 1px solid var(--control-border-focus);
     }
-    &:not(:is(.control-spinner)) {
-        &.error {
-            border: solid 1px var(--warning-color);
-        }
+    &.error {
+        border: solid 1px var(--warning-color);
     }
     &:not(.has-css) {
         &:focus {
@@ -406,9 +385,7 @@ input {
     color: var(--control-text);
     background-color: var(--control-bg);
     &:focus {
-        &:not(.control-spinner) {
-            border: 1px solid var(--control-border-focus);
-        }
+        border: 1px solid var(--control-border-focus);
     }
 }
 .ui-widget.ui-state-default.ui-multiselect {
@@ -505,6 +482,30 @@ input {
             float: none;
             padding: 0;
         }
+        ~ .error {
+            width: 100%;
+        }
+    }
+}
+
+/* spinner-field */
+.spinner-field {
+    .control-spinner {
+        color: var(--control-text);
+        background-color: var(--control-bg);
+    }
+    .ui-spinner {
+        background-color: transparent;
+        border: none;
+    }
+    /* .with-unit */
+    &:has(.with-unit) {
+        .ui-spinner {
+            width: 100%;
+        }
+        ~ .error {
+            width: 100%;
+        }
     }
 }
 
@@ -557,11 +558,6 @@ input {
             background-color: transparent;
         }
     }
-}
-
-/* input-spinner */
-.control-spinner {
-    color: var(--control-text);
 }
 
 /* fileUpload */
@@ -757,16 +753,6 @@ input {
     }
     .field-label:has(label:empty) {
         display: none;
-    }
-}
-
-/* field-control */
-.field-control {
-    .control-spinner {
-        ~ .error {
-            top: -10px;
-            padding-right: 20px;
-        }
     }
 }
 

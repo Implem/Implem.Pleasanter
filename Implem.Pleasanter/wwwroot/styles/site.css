@@ -2408,12 +2408,13 @@ label.required:after {
 }
 
 .control-spinner {
-    display: block;
-    float: left;
-    width: auto;
-    height: 22px;
-    padding: 1px;
+    width: 100% !important;
+    height: 30px;
+    margin: 0;
+    padding: 4px 22px 4px 4px;
     color: black;
+    border: solid 1px silver;
+    border-radius: 5px;
 }
 
 .control-checkbox {
@@ -2951,10 +2952,6 @@ label.error {
     border-radius: 0px 0px 5px 5px / 0px 0px 5px 5px;
 }
 
-.ui-spinner > label.error {
-    margin-top: 3px;
-}
-
 .error {
     border: solid 1px red;
 }
@@ -3342,11 +3339,27 @@ input[type="password"]::-ms-reveal {
     margin: 6px 0px 0px 0px;
 }
 
-.ui-spinner {
+.spinner-field .ui-spinner {
     display: block;
-    float: left;
-    max-height: 46px;
-    background: white;
+    background: #fff;
+    border: none;
+    border-radius: 5px;
+}
+.spinner-field .ui-spinner .ui-spinner-up,
+.spinner-field .ui-spinner .ui-spinner-down {
+    right: 1px;
+    z-index: 3;
+    width: 20px;
+    height: 14px;
+}
+
+.spinner-field .ui-spinner .ui-spinner-up {
+    top: 1px;
+    border-radius: 0 5px 0 0;
+}
+.spinner-field .ui-spinner .ui-spinner-down {
+    bottom: 1px;
+    border-radius: 0 0 5px 0;
 }
 
 .ui-widget.ui-state-default.ui-multiselect {

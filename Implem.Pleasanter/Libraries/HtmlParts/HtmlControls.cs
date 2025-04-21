@@ -580,6 +580,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             decimal max = -1,
             decimal step = -1,
             int width = -1,
+            string unit = null,
             bool alwaysSend = false,
             bool allowBalnk = false,
             string onChange = null,
@@ -589,30 +590,35 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool _using = true)
         {
             return _using
-                ? hb.Input(attributes: new HtmlAttributes()
-                    .Id(controlId)
-                    .Name(controlId)
-                    .Class(Css.Class("control-spinner", controlCss)
-                        + (allowBalnk
-                            ? " allow-blank"
-                            : string.Empty))
-                    .Type("number")
-                    .Value(value != null
-                        ? value.ToString()
-                        : string.Empty)
-                    .Add("data-raw",
-                        value != null
+                ? hb.Div(
+                    css: "spinner-field",
+                    action: () => hb.Input(attributes: new HtmlAttributes()
+                        .Id(controlId)
+                        .Name(controlId)
+                        .Class(Css.Class("control-spinner", controlCss)
+                            + (allowBalnk
+                                ? " allow-blank"
+                                : string.Empty))
+                        .Type("number")
+                        .Value(value != null
                             ? value.ToString()
                             : string.Empty)
-                    .DataMin(min, _using: min != -1)
-                    .DataMax(max, _using: max != -1)
-                    .DataStep(step, _using: step != -1)
-                    .DataWidth(width, _using: width != -1)
-                    .DataAlwaysSend(alwaysSend)
-                    .OnChange(onChange)
-                    .DataValidateRequired(validateRequired)
-                    .DataAction(action)
-                    .DataMethod(method))
+                        .Add("data-raw",
+                            value != null
+                                ? value.ToString()
+                                : string.Empty)
+                        .DataMin(min, _using: min != -1)
+                        .DataMax(max, _using: max != -1)
+                        .DataStep(step, _using: step != -1)
+                        .DataWidth(width, _using: width != -1)
+                        .DataAlwaysSend(alwaysSend)
+                        .OnChange(onChange)
+                        .DataValidateRequired(validateRequired)
+                        .DataAction(action)
+                        .DataMethod(method)).Span(
+                            css: "unit",
+                            _using: !unit.IsNullOrEmpty(),
+                            action: () => hb.Text(unit)))
                 : hb;
         }
 
