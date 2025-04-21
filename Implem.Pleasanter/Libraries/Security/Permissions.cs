@@ -474,7 +474,8 @@ namespace Implem.Pleasanter.Libraries.Security
                         || context.UserSettings?.EnableManageTenant == true;
                 case "users":
                     return CanManageTenant(context: context)
-                        || context.UserId == context.Id;
+                        || context.UserId == context.Id
+                        || context.UserSettings?.EnableManageTenant == true;
                 case "registrations":
                     return CanManageRegistrations(context: context, any: true);
                 case "publishes":
@@ -506,7 +507,14 @@ namespace Implem.Pleasanter.Libraries.Security
                     return false;
                 case "depts":
                 case "users":
-                    return CanManageTenant(context: context);
+                    if (context.UserSettings?.EnableManageTenant == true)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        return CanManageTenant(context: context);
+                    }
                 case "registrations":
                     return CanManageRegistrations(context: context);
                 case "groups":
@@ -549,7 +557,8 @@ namespace Implem.Pleasanter.Libraries.Security
                         || context.UserSettings?.EnableManageTenant == true;
                 case "users":
                     return CanManageTenant(context: context)
-                        || context.UserId == context.Id;
+                        || context.UserId == context.Id
+                        || context.UserSettings?.EnableManageTenant == true;
                 case "registrations":
                     return CanManageRegistrations(context: context, any: true);
                 case "extensions":
@@ -751,6 +760,15 @@ namespace Implem.Pleasanter.Libraries.Security
             return (context.User?.TenantManager == true
                 && Parameters.Service.ShowProfiles)
                     || context.HasPrivilege;
+        }
+
+        //メソッド名を考える
+        public static bool CannotManageUsers(Context context)
+        {
+            return (context.UserSettings?.EnableManageTenant == false
+                || context.UserSettings?.EnableManageTenant == null)
+                && !context.HasPrivilege
+                && !Parameters.Service.ShowProfiles;
         }
 
         public static bool CanManageRegistrations(Context context, bool any = false)

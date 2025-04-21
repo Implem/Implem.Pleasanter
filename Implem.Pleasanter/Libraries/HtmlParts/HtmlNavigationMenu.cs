@@ -644,9 +644,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 ss: ss,
                 site: true);
             var canManageSysLogs = context.HasPrivilege;
-            var canManageDepts = Permissions.CanManageTenant(context: context);
+            var canManageDepts = Permissions.CanManageTenant(context: context)
+                || context.UserSettings?.EnableManageTenant == true;
             var canManageGroups = context.UserSettings?.AllowGroupAdministration(context: context) == true;
-            var canManageUsers = Permissions.CanManageUser(context: context);
+            var canManageUsers = Permissions.CanManageUser(context: context)
+                || context.UserSettings?.EnableManageTenant == true;
             var canManageRegistrations = Permissions.CanManageRegistrations(context: context);
             var canManageTenants = Permissions.CanManageTenant(context: context)
                 || context.UserSettings?.EnableManageTenant == true;
@@ -673,12 +675,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         : ss.ReferenceType == "Groups"
                             ? canCreateGroups
                                 && context.Action != "trashbox"
-                            : context.CanCreate(ss: ss, site: true)
-                                && ss.ReferenceType != "Wikis"
-                                && context.Action != "trashbox"
-                                && ss.ReferenceType != "Dashboards"
-                                && !(ss.ReferenceType == "Sites" && context.Action == "edit")
-                                && !isSearch;
+                            : ss.ReferenceType == "Users" || ss.ReferenceType == "Depts"
+                                ? !context.UserSettings?.EnableManageTenant == true
+                                : context.CanCreate(ss: ss, site: true)
+                                    && ss.ReferenceType != "Wikis"
+                                    && context.Action != "trashbox"
+                                    && ss.ReferenceType != "Dashboards"
+                                    && !(ss.ReferenceType == "Sites" && context.Action == "edit")
+                                    && !isSearch;
                 case "ViewModeMenu":
                     return Def.ViewModeDefinitionCollection
                         .Any(o => o.ReferenceType == referenceType);

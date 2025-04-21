@@ -32,11 +32,12 @@ namespace Implem.Pleasanter.Models
                 }
                 return new ErrorData(type: Error.Types.None);
             }
-            if (!Parameters.Service.ShowProfiles && !context.HasPrivilege)
+            if (Permissions.CannotManageUsers(context:context))
             {
                 return new ErrorData(type: Error.Types.InvalidRequest);
             }
             return Permissions.CanManageTenant(context: context)
+                || context.UserSettings?.EnableManageTenant == true
                 ? new ErrorData(type: Error.Types.None)
                 : new ErrorData(type: Error.Types.HasNotPermission);
         }
@@ -89,7 +90,7 @@ namespace Implem.Pleasanter.Models
                     return apiErrorData;
                 }
             }
-            if (!Parameters.Service.ShowProfiles && !context.HasPrivilege)
+            if (Permissions.CannotManageUsers(context: context))
             {
                 return new ErrorData(type: Error.Types.InvalidRequest);
             }
@@ -954,7 +955,7 @@ namespace Implem.Pleasanter.Models
                     return apiErrorData;
                 }
             }
-            if (!Parameters.Service.ShowProfiles && !context.HasPrivilege)
+            if (Permissions.CannotManageUsers(context: context))
             {
                 return new ErrorData(type: Error.Types.InvalidRequest);
             }

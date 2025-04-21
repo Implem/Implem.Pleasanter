@@ -1712,7 +1712,8 @@ namespace Implem.Pleasanter.Models
                     .A(
                         href: "#FieldSetMailAddresses",
                         text: Displays.MailAddresses(context: context),
-                        _using: userModel.MethodType != BaseModel.MethodTypes.New))
+                        _using: userModel.MethodType != BaseModel.MethodTypes.New
+                        && !context.UserSettings?.EnableManageTenant == true))
                 .Li(
                     _using: userModel.MethodType != BaseModel.MethodTypes.New,
                     action: () => hb
@@ -4607,6 +4608,7 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb, Context context, UserModel userModel)
         {
             if (userModel.MethodType == BaseModel.MethodTypes.New) return hb;
+            if (context.UserSettings?.EnableManageTenant == true) return hb;
             var listItemCollection = Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectMailAddresses(
