@@ -136,6 +136,15 @@ $p.applyValidator = function () {
         email: $p.display('ValidateEmail'),
         equalTo: $p.display('ValidateEqualTo'),
         maxlength: $p.display('ValidateMaxLength'),
+        url: $p.display('ValidationFormat'),
+        number: $p.display('ValidationFormat'),
+        digits: $p.display('ValidationFormat'),
+        creditcard: $p.display('ValidationFormat'),
+        minlength: $p.display('ValidationFormat'),
+        rangelength: $p.display('ValidationFormat'),
+        range: $p.display('ValidationFormat'),
+        max: $p.display('ValidationFormat'),
+        min: $p.display('ValidationFormat')
     });
     $('form').each(function () {
         $(this).validate({
