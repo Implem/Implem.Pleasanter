@@ -16,6 +16,8 @@
         public bool? BeforeOpeningPage;
         public bool? BeforeOpeningRow;
         public bool? Shared;
+        public bool? Functionalize;
+        public bool? TryCatch;
         public string Body;
     }
 }

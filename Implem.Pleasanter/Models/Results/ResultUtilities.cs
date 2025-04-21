@@ -10077,7 +10077,7 @@ namespace Implem.Pleasanter.Models
                             ss: ss,
                             dataRow: dataRow));
             return (new ResponseCollection(context: context))
-                .Append("#ImageLib", hb)
+                .Append("#ImageLibBody", hb)
                 .Val("#ImageLibOffset", ss.ImageLibNextOffset(
                     offset,
                     imageLibData.DataRows.Count(),
