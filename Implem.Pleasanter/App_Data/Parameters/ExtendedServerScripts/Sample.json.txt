@@ -22,5 +22,7 @@
     "BeforeOpeningPage": false,
     "BeforeOpeningRow": false,
     "Shared": false,
+    "Functionalize": false,
+    "TryCatch": false,
     "Body": "-- Write an arbitrary javascript."
 }

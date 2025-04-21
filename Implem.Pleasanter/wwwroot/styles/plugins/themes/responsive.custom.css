@@ -103,11 +103,6 @@
             width: 100%;
             padding: 8px;
         }
-        &.datepicker {
-            ~ .ui-icon {
-                top: 15px;
-            }
-        }
     }
 
     /* checkbox */
@@ -132,11 +127,6 @@
     .control-dropdown {
         height: 40px;
         padding: 8px 16px 8px 16px;
-        &:has(+ .current-user) {
-            + .ui-icon {
-                top: 15px;
-            }
-        }
     }
 
     /* selectable */
@@ -249,6 +239,7 @@
             margin: 0;
             padding: 0 0 4px 0;
             text-align: initial;
+            text-align-last: initial;
         }
         .field-control {
             float: none;
@@ -1954,10 +1945,8 @@
                 width: 100%;
             }
         }
-        #SearchEditorColumnDialogInput {
-            + .both {
-                margin-top: 50px;
-            }
+        .fieldset:has(#SearchEditorColumnDialogInput) {
+            padding-bottom: 56px;
         }
         .fieldset:nth-of-type(2) {
             &::before,

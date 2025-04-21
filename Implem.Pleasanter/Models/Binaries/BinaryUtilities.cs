@@ -1172,7 +1172,8 @@ namespace Implem.Pleasanter.Models
                     return new IssueModel(
                             context: context,
                             ss: ss,
-                            issueId: context.Id)
+                            issueId: context.Id,
+                            formData: context.Forms)
                         .GetStatusControl(
                             context: context,
                             ss: ss,
@@ -1181,7 +1182,8 @@ namespace Implem.Pleasanter.Models
                     return new ResultModel(
                             context: context,
                             ss: ss,
-                            resultId: context.Id)
+                            resultId: context.Id,
+                            formData: context.Forms)
                         .GetStatusControl(
                             context: context,
                             ss: ss,

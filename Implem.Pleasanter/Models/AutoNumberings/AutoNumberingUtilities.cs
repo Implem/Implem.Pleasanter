@@ -37,6 +37,11 @@ namespace Implem.Pleasanter.Models
             Dictionary<string, string> data,
             SqlStatement updateModel)
         {
+            if (autoNumbering.Step == 0)
+            {
+                throw new ArgumentException(
+                    $"AutomaticNumbering 'Step=0' error autoNumbering={autoNumbering.ToJson()}, siteId={ss.SiteId}");
+            }
             var now = DateTime.Now.ToLocal(context: context);
             var format = Format(
                 autoNumbering: autoNumbering,
@@ -47,6 +52,7 @@ namespace Implem.Pleasanter.Models
                 format: format);
             var success = false;
             string value;
+            var retryCnt = 5;
             do
             {
                 var number = NextNumber(
@@ -83,6 +89,15 @@ namespace Implem.Pleasanter.Models
                 {
                     if (context.SqlErrors.ErrorCode(e) != context.SqlErrors.ErrorCodeDuplicatePk)
                     {
+                        throw;
+                    }
+                    if (--retryCnt <= 0)
+                    {
+                        new SysLogModel(
+                            context: context,
+                            method: nameof(ExecuteAutomaticNumbering),
+                            message: $"AutomaticNumbering retry error autoNumbering={autoNumbering.ToJson()}, siteId={ss.SiteId}",
+                            sysLogType: SysLogModel.SysLogTypes.Exception);
                         throw;
                     }
                 }
