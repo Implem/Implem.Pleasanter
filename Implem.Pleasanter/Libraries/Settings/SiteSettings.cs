@@ -5914,7 +5914,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         BeforeUpdate = extendedServerScript.BeforeUpdate,
                         AfterUpdate = extendedServerScript.AfterUpdate,
                         BeforeDelete = extendedServerScript.BeforeDelete,
-                        BeforeBulkDelete = extendedServerScript.BeforeDelete,
+                        BeforeBulkDelete = extendedServerScript.BeforeBulkDelete,
                         AfterDelete = extendedServerScript.AfterDelete,
                         AfterBulkDelete = extendedServerScript.AfterBulkDelete,
                         BeforeOpeningPage = extendedServerScript.BeforeOpeningPage,
