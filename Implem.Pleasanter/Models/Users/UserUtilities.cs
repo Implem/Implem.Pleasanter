@@ -1713,7 +1713,7 @@ namespace Implem.Pleasanter.Models
                         href: "#FieldSetMailAddresses",
                         text: Displays.MailAddresses(context: context),
                         _using: userModel.MethodType != BaseModel.MethodTypes.New
-                        && !context.UserSettings?.EnableManageTenant == true))
+                        || !context.UserSettings?.EnableManageTenant == true))
                 .Li(
                     _using: userModel.MethodType != BaseModel.MethodTypes.New,
                     action: () => hb
@@ -2133,7 +2133,8 @@ namespace Implem.Pleasanter.Models
                             .UserId(userModel.UserId)
                             .Password(_operator: "is not null"))))
             {
-                if (userModel.Self(context: context))
+                if (userModel.Self(context: context)
+                    && context.UserSettings?.EnableManageTenant != true)
                 {
                     hb.Button(
                         controlId: "OpenChangePasswordDialog",
