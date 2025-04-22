@@ -713,14 +713,85 @@ input {
         background: var(--base-bg-light);
         border: 1px solid var(--base-border);
         border-radius: 4px;
+        &:has(.legend) {
+            padding: 16px;
+            border: 1px solid var(--fieldset-group-border);
+            box-shadow: 0 0 4px var(--base-shadow);
+        }
+        + .fieldset {
+            margin-top: 32px;
+        }
     }
-    .legend {
+    > .legend {
         display: flex;
+        gap: 4px;
         align-items: center;
-        color: var(--base-text);
+        width: calc(100% + 34px);
+        margin: 0 -17px;
+        padding: 8px;
+        color: var(--fieldset-group-header-text);
+        font-family: "游ゴシック体", YuGothic, "游ゴシック Medium",
+            "Yu Gothic Medium", "游ゴシック", "Yu Gothic", sans-serif;
+        font-weight: bold;
+        letter-spacing: 0.04em;
+        text-align: center;
+        background-color: var(--fieldset-group-header-bg);
+        border: 1px solid var(--fieldset-group-header-border);
+        border-radius: 4px 4px 0 0;
         .ui-icon {
-            float: none;
-            margin-top: 0;
+            display: block;
+            width: auto;
+            height: auto;
+            margin: 0;
+            font-family: "Material Symbols Sharp";
+            font-size: 24px;
+            font-weight: normal;
+            -webkit-font-smoothing: antialiased;
+            font-style: normal;
+            font-feature-settings: "liga";
+            -webkit-font-feature-settings: "liga";
+            font-variation-settings: "FILL" 1;
+            line-height: 1;
+            letter-spacing: normal;
+            text-indent: 0;
+            text-transform: none;
+            white-space: nowrap;
+            word-wrap: normal;
+            background: none;
+            direction: ltr;
+        }
+        &:empty {
+            display: none;
+        }
+    }
+    &.is-featured {
+        > .legend {
+            color: var(--fieldset-group-header-featured-text);
+            background-color: var(--fieldset-group-header-featured-bg);
+            border-color: var(--fieldset-group-header-featured-border);
+        }
+    }
+    &.link-creations {
+        > .legend {
+            .ui-icon {
+                &:after {
+                    content: "link";
+                }
+            }
+        }
+        &.is-sources {
+            > .legend {
+                .ui-icon {
+                    &:after {
+                        content: "add_link";
+                    }
+                }
+            }
+        }
+        > div div:has(+ .grid-wrap) {
+            .button {
+                margin-bottom: 16px;
+            }
         }
     }
 }
@@ -1411,6 +1482,17 @@ body {
     }
 }
 
+/* #Application > #Guide */
+#Demo {
+    .legend {
+        .ui-icon {
+            &::after {
+                content: "sync_saved_locally";
+            }
+        }
+    }
+}
+
 /* #Application > #TitleContainer */
 #TitleContainer {
     display: flex;
@@ -1820,6 +1902,13 @@ body {
     }
     #Links {
         .fieldset {
+            > .legend {
+                .ui-icon {
+                    &:after {
+                        content: "link";
+                    }
+                }
+            }
             > div {
                 display: flex;
                 flex-direction: column;
