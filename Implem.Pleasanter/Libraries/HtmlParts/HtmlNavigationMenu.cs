@@ -675,14 +675,18 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         : ss.ReferenceType == "Groups"
                             ? canCreateGroups
                                 && context.Action != "trashbox"
-                            : ss.ReferenceType == "Users" || ss.ReferenceType == "Depts"
+                            : ss.ReferenceType == "Users"
+                                && context.UserSettings?.EnableManageTenant == true
                                 ? !context.UserSettings?.EnableManageTenant == true
-                                : context.CanCreate(ss: ss, site: true)
-                                    && ss.ReferenceType != "Wikis"
-                                    && context.Action != "trashbox"
-                                    && ss.ReferenceType != "Dashboards"
-                                    && !(ss.ReferenceType == "Sites" && context.Action == "edit")
-                                    && !isSearch;
+                                : ss.ReferenceType == "Depts"
+                                    && context.UserSettings?.EnableManageTenant == true
+                                    ? !context.UserSettings?.EnableManageTenant == true
+                                    : context.CanCreate(ss: ss, site: true)
+                                        && ss.ReferenceType != "Wikis"
+                                        && context.Action != "trashbox"
+                                        && ss.ReferenceType != "Dashboards"
+                                        && !(ss.ReferenceType == "Sites" && context.Action == "edit")
+                                        && !isSearch;
                 case "ViewModeMenu":
                     return Def.ViewModeDefinitionCollection
                         .Any(o => o.ReferenceType == referenceType);
