@@ -6198,10 +6198,10 @@ namespace Implem.Pleasanter.Models
             SqlParamCollection param,
             Action watchdog = null)
         {
-            var resultModel = new ResultModel(
+            var model = new ResultModel(
                 context: context,
                 ss: ss);
-            resultModel.SetByBeforeBulkDeleteServerScript(
+            model.SetByBeforeBulkDeleteServerScript(
                 context: context,
                 ss: ss);
             var sub = Rds.SelectResults(
@@ -6289,7 +6289,7 @@ namespace Implem.Pleasanter.Models
                     siteId: ss.SiteId,
                     referenceId: referenceId));
             }
-            resultModel.SetByAfterBulkDeleteServerScript(
+            model.SetByAfterBulkDeleteServerScript(
                 context: context,
                 ss: ss);
             return affectedRows;
