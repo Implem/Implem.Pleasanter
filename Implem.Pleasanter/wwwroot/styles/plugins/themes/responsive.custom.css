@@ -1,4 +1,8 @@
 ﻿@media screen and (max-width: 1024px) and (min-width: 0px) {
+    head {
+        font-family: "responsive";
+    }
+
     /* Reset ---------------------------------------------------------------- */
     body {
         min-width: 320px;
@@ -1078,9 +1082,6 @@
             width: max-content;
         }
     }
-    #GridHeaderMenus {
-        display: none;
-    }
     #ViewModeContainer:has(#Grid) {
         position: relative;
         .grid-wrap {
@@ -1101,6 +1102,7 @@
     }
     .menu-sort {
         position: absolute !important;
+        top: 0 !important;
         .grid-header-filter {
             border-top: 1px solid var(--base-border);
             .field-auto-thin {

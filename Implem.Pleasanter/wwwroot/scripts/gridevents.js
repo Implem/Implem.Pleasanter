@@ -92,73 +92,134 @@
 });
 
 $(function () {
-    var timer;
-    var intervalTimer;
-    $(document).on('mouseenter', 'table > thead > tr > th.sortable', function () {
-        clearTimeout(timer);
-        clearInterval(intervalTimer);
-        if ($(".menu-sort:visible").length) {
-            $(".menu-sort:visible").hide();
-        }
-        if ($('.ui-multiselect-close:visible').length) {
-            $('.ui-multiselect-close:visible').click();
-        }
-        timer = setTimeout(function ($control) {
-            var dataName = $control.attr('data-name');
-            $menuSort = $(".menu-sort[id='GridHeaderMenu__" + dataName + "']");
-            $menuSort.css('width', '');
-            $menuSort
-                .css('position', 'fixed')
-                .css('top', $control.offset().top + $control.outerHeight() - $(window).scrollTop())
-                .css('left', $control.offset().left - $(window).scrollLeft())
-                .outerWidth($control.outerWidth() > $menuSort.outerWidth()
-                    ? $control.outerWidth()
-                    : $menuSort.outerWidth())
-                .show();
+    var showTimer;
+    var hideTimer;
+    var isRwd = $('head').css('font-family') === 'responsive';
+    var spToggle = false;
+    var filterHide = function () {
+        if ($(".menu-sort:visible").length) $(".menu-sort:visible").hide();
+        if ($('.ui-multiselect-close:visible').length) $('.ui-multiselect-close:visible').click();
+        spToggle = false;
+    }
+
+    var filterShow = function ($control) {
+        filterHide()
+        var dataName = $control.attr('data-name');
+        $menuSort = $(".menu-sort[id='GridHeaderMenu__" + dataName + "']");
+        $menuSort.css('width', 'auto');
+
+        var cssProps = (() => {
+            if (!isRwd) {
+                return {
+                    position: 'fixed',
+                    top: $control.offset().top + $control.outerHeight() - $(window).scrollTop(),
+                    left: $control.offset().left - $(window).scrollLeft(),
+                    width: Math.max($control.outerWidth(), $menuSort.outerWidth())
+                }
+            } else {
+                var stageWidth = $('#ViewModeContainer').width();
+                var cssWidth = Math.max($control.outerWidth(), $menuSort.outerWidth());
+                var cssLeft = $control.offset().left;
+                cssLeft = cssLeft + cssWidth > stageWidth ? stageWidth - cssWidth : cssLeft;
+                return {
+                    position: 'absolute',
+                    marginTop: $control.outerHeight() - 1,
+                    left: cssLeft,
+                    width: cssWidth
+                }
+            }
+        })();
+        $menuSort.css(cssProps).show();
+    }
+
+    $(document).on('mouseenter', '#Grid th.sortable', function () {
+        if (isRwd) return false;
+        clearTimeout(showTimer);
+        clearTimeout(hideTimer);
+        showTimer = setTimeout(function ($control) {
+            filterShow($control)
         }, 700, $(this));
     });
-    $(document).on('mouseenter', 'body > thead > tr > th.sortable', function () {
-        clearTimeout(timer);
-        clearInterval(intervalTimer);
-        if ($(".menu-sort:visible").length) {
-            $(".menu-sort:visible").hide();
-        }
-        if ($('.ui-multiselect-close:visible').length) {
-            $('.ui-multiselect-close:visible').click();
-        }
-        timer = setTimeout(function ($control) {
-            var dataName = $control.attr('data-name');
-            $menuSort = $(".menu-sort[id='GridHeaderMenu__" + dataName + "']");
-            $menuSort.css('width', '');
-            $menuSort
-                .css('position', 'fixed')
-                .css('top', $control.position().top + $control.outerHeight())
-                .css('left', $control.position().left + $control.offsetParent().offset().left - window.pageXOffset)
-                .outerWidth($control.outerWidth() > $menuSort.outerWidth()
-                    ? $control.outerWidth()
-                    : $menuSort.outerWidth())
-                .show();
-        }, 700, $(this));
-    });
-    $(document).on('mouseenter', '#GridHeaderMenus', function () {
-        clearInterval(intervalTimer);
-    });
-    $(document).on('mouseleave', 'th.sortable', function () {
-        clearTimeout(timer);
-        clearInterval(intervalTimer);
-        intervalTimer = setInterval(function () {
-            $('ul[id^=GridHeaderMenu__').hide();
+
+    $(document).on('mouseleave', '#Grid th.sortable', function () {
+        if (isRwd) return false;
+        clearTimeout(showTimer);
+        clearTimeout(hideTimer);
+        hideTimer = setTimeout(function () {
+            filterHide();
         }, 1000);
     });
-    $(document).on('mouseleave', '.menu-sort', function () {
-        if (!$('.ui-multiselect-menu:visible').length) {
-            $('.menu-sort:visible').hide();
+
+    $(document).on('mouseenter', '#GridHeaderMenus', function () {
+        if (isRwd) return false;
+        clearTimeout(showTimer);
+        clearTimeout(hideTimer);
+    });
+
+    $(document).on('mouseleave', '#GridHeaderMenus', function () {
+        if (isRwd) return false
+        if ($('.ui-multiselect-menu:visible').length) return false;
+        if ($('#GridHeaderMenus .menu-sort input:focus').length) return false;
+        filterHide();
+    });
+
+    $(window).scroll(function () {
+        if (!$('#GridHeaderMenus.length')) return false;
+        filterHide();
+    });
+
+    if ($('#GridHeaderMenus .menu-sort input').length) {
+        $('#GridHeaderMenus').find(".menu-sort input").on('blur', function () {
+            if ($('#GridHeaderMenus:hover').length) return false;
+            filterHide();
+        });
+        $('#GridHeaderMenus').find('.menu-sort input').on('keydown', function (e) {
+            if (e.keyCode === 13) {
+                setTimeout(function () {
+                    filterHide();
+                }, 300);
+            }
+        });
+    }
+
+    $(document).on('click', 'th.sortable', function (e) {
+        if (!$('#GridHeaderMenus').length || !isRwd) {
+            var $control = $(this).find('div');
+            sort($control, $control.attr('data-order-type'));
+        } else {
+            if (!$(".menu-sort[id='GridHeaderMenu__" + $(this).attr('data-name') + "']:visible").length) {
+                spToggle = true;
+                filterShow($(this));
+            } else {
+                filterHide();
+            }
+        }
+        e.stopPropagation();
+    });
+
+    // レスポンシブのみ
+    document.addEventListener('touchstart', function (e) {
+        if (isRwd) return false
+        if (!e.target.closest('#GridHeaderMenus')) {
+            setTimeout(function () {
+                if (spToggle) {
+                    spToggle = false;
+                } else {
+                    filterHide();
+                }
+            });
         }
     });
+    $('#ViewModeContainer .grid-wrap').scroll(function () {
+        if (!$('#GridHeaderMenus.length')) return false;
+        filterHide();
+    });
+
     $(document).on('click', '.menu-sort > li.sort', function (e) {
         sort($($(this).parent().attr('data-target')), $(this).attr('data-order-type'));
         e.stopPropagation();
     });
+
     $(document).on('click', '.menu-sort > li.reset', function (e) {
         var $control = $(this);
         var $grid = $control.closest('.grid');
@@ -170,11 +231,6 @@ $(function () {
             delete data[$(this).attr('data-id')];
         });
         $p.send($('#ViewSorters_Reset'));
-        e.stopPropagation();
-    });
-    $(document).on('click', 'th.sortable', function (e) {
-        var $control = $(this).find('div');
-        sort($control, $control.attr('data-order-type'));
         e.stopPropagation();
     });
 
@@ -189,6 +245,7 @@ $(function () {
         delete data[$control.attr('id')];
     }
 });
+
 
 $(function () {
     var timer;
