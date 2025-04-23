@@ -1359,6 +1359,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string BeforeBulkDelete(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BeforeBulkDelete",
+                data: data);
+        }
+
         public static string BeforeCondition(
             Context context,
             params string[] data)

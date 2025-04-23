@@ -12,7 +12,9 @@
         public bool? BeforeUpdate;
         public bool? AfterUpdate;
         public bool? BeforeDelete;
+        public bool? BeforeBulkDelete;
         public bool? AfterDelete;
+        public bool? AfterBulkDelete;
         public bool? BeforeOpeningPage;
         public bool? BeforeOpeningRow;
         public bool? Shared;
