@@ -628,7 +628,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Context context,
             SiteSettings ss,
             string referenceType,
-            long siteId
+            long siteId,
             NavigationMenu menu)
         {
             var canCreateGroups = context.UserSettings?.AllowGroupCreation(context: context) == true;
@@ -669,7 +669,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 && ss.ReferenceType != "Wikis"
                                 && context.Action != "trashbox"
                                 && ss.ReferenceType != "Dashboards"
-                                && ss.ReferenceType == null
+                                && ss.ReferenceType != null
                                 && !(ss.ReferenceType == "Sites" && context.Action == "edit");
                 case "ViewModeMenu":
                     return Def.ViewModeDefinitionCollection
