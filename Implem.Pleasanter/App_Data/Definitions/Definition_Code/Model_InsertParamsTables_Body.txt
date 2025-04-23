@@ -1,0 +1,13 @@
+﻿param: param ?? Rds.#TableName#ParamDefault(
+    context: context,
+    ss: ss,
+    #modelName#Model: this,
+    setDefault: true,
+    otherInitValue: otherInitValue)
+        .MigrationParams(
+            creator: Creator?.Id,
+            updator: Updator?.Id,
+            createdTime: CreatedTime?.Value,
+            updatedTime: UpdatedTime?.Value,
+            _using: migrationMode),
+addUpdatorParam: !migrationMode),

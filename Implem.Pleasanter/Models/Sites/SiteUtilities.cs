@@ -13732,7 +13732,13 @@ namespace Implem.Pleasanter.Models
                     labelText: Displays.RejectNullImport(context: context),
                     _checked: ss.RejectNullImport == true,
                     controlCss: " always-send",
-                    _using: context.Controller == "items"));
+                    _using: context.Controller == "items")
+                .FieldCheckBox(
+                    controlId: "AllowMigrationMode",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.AllowMigrationMode(context: context),
+                    _checked: ss.AllowMigrationMode == true,
+                    controlCss: " always-send"));
         }
 
         /// <summary>

@@ -621,6 +621,7 @@ namespace Implem.Pleasanter.Models
             List<Process> processes = null,
             bool extendedSqls = true,
             bool notice = false,
+            bool migrationMode = false,
             string noticeType = "Created",
             bool otherInitValue = false,
             bool get = true)
@@ -637,6 +638,7 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 tableType: tableType,
                 param: param,
+                migrationMode: migrationMode,
                 otherInitValue: otherInitValue));
             var response = Repository.ExecuteScalar_response(
                 context: context,
@@ -735,6 +737,7 @@ namespace Implem.Pleasanter.Models
             string dataTableName = null,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
+            bool migrationMode = false,
             bool otherInitValue = false)
         {
             var statements = new List<SqlStatement>();

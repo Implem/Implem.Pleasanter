@@ -3365,8 +3365,10 @@ namespace Implem.Pleasanter.Models
             var errorData = ApplyCreateByApi(
                 context: context,
                 ss: ss,
+                processes: processes,
                 resultModel: resultModel,
-                processes: processes);
+                migrationMode: ss.AllowMigrationMode == true
+                    && resultApiModel?.MigrationMode == true);
             switch (errorData.Type)
             {
                 case Error.Types.None:
@@ -3401,7 +3403,8 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             ResultModel resultModel,
-            List<Process> processes)
+            List<Process> processes,
+            bool migrationMode = false)
         {
             var invalid = ResultValidators.OnCreating(
                 context: context,
@@ -3437,7 +3440,8 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 processes: processes,
-                notice: true);
+                notice: true,
+                migrationMode: migrationMode);
             BinaryUtilities.UploadImage(
                 context: context,
                 ss: ss,
@@ -6845,6 +6849,8 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 referenceId: siteModel.SiteId,
                 setAllChoices: true);
+            var migrationMode = ss.AllowMigrationMode == true
+                && context.Forms.Bool("MigrationMode");
             var invalid = ResultValidators.OnImporting(
                 context: context,
                 ss: ss);
@@ -6983,7 +6989,8 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         columnHash: columnHash,
-                        row: data.Value);
+                        row: data.Value,
+                        migrationMode: migrationMode);
                     resultHash.Add(data.Key, resultModel);
                 }
                 var inputErrorData = ResultValidators.OnInputValidating(
@@ -7044,7 +7051,8 @@ namespace Implem.Pleasanter.Models
                                         context: context,
                                         ss: ss,
                                         columnHash: columnHash,
-                                        row: csvRows.Get(data.Key));
+                                        row: csvRows.Get(data.Key),
+                                        migrationMode: migrationMode);
                                     switch (resultModel.AccessStatus)
                                     {
                                         case Databases.AccessStatuses.Selected:
@@ -7075,7 +7083,8 @@ namespace Implem.Pleasanter.Models
                                             errorData = resultModel.Create(
                                                 context: context,
                                                 ss: ss,
-                                                extendedSqls: false);
+                                                extendedSqls: false,
+                                                migrationMode: migrationMode);
                                             insertCount++;
                                             break;
                                         default:
@@ -7094,7 +7103,8 @@ namespace Implem.Pleasanter.Models
                         var errorData = resultModel.Create(
                             context: context,
                             ss: ss,
-                            extendedSqls: false);
+                            extendedSqls: false,
+                            migrationMode: migrationMode);
                         switch (errorData.Type)
                         {
                             case Error.Types.None:
@@ -7209,6 +7219,8 @@ namespace Implem.Pleasanter.Models
             var updatableImport = api.UpdatableImport;
             var encoding = api.Encoding;
             var key = api.Key;
+            var migrationMode = ss.AllowMigrationMode == true
+                && api.MigrationMode;
             Csv csv;
             try
             {
@@ -7334,7 +7346,8 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         columnHash: columnHash,
-                        row: data.Value);
+                        row: data.Value,
+                        migrationMode: migrationMode);
                     resultHash.Add(data.Key, resultModel);
                 }
                 var inputErrorData = ResultValidators.OnInputValidating(
@@ -7386,7 +7399,8 @@ namespace Implem.Pleasanter.Models
                                         context: context,
                                         ss: ss,
                                         columnHash: columnHash,
-                                        row: csvRows.Get(data.Key));
+                                        row: csvRows.Get(data.Key),
+                                        migrationMode: migrationMode);
                                     switch (resultModel.AccessStatus)
                                     {
                                         case Databases.AccessStatuses.Selected:
@@ -7417,7 +7431,8 @@ namespace Implem.Pleasanter.Models
                                             errorData = resultModel.Create(
                                                 context: context,
                                                 ss: ss,
-                                                extendedSqls: false);
+                                                extendedSqls: false,
+                                                migrationMode: migrationMode);
                                             insertCount++;
                                             break;
                                         default:
@@ -7441,7 +7456,8 @@ namespace Implem.Pleasanter.Models
                         var errorData = resultModel.Create(
                             context: context,
                             ss: ss,
-                            extendedSqls: false);
+                            extendedSqls: false,
+                            migrationMode: migrationMode);
                         switch (errorData.Type)
                         {
                             case Error.Types.None:
@@ -7545,6 +7561,8 @@ namespace Implem.Pleasanter.Models
             var updatableImport = api.UpdatableImport;
             var encoding = api.Encoding;
             var key = api.Key;
+            var migrationMode = ss.AllowMigrationMode == true
+                && api.MigrationMode;
             Csv csv;
             try
             {
@@ -7649,7 +7667,8 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         columnHash: columnHash,
-                        row: data.Value);
+                        row: data.Value,
+                        migrationMode: migrationMode);
                     resultHash.Add(data.Key, resultModel);
                 }
                 var inputErrorData = ResultValidators.OnInputValidating(
@@ -7700,7 +7719,8 @@ namespace Implem.Pleasanter.Models
                                         context: context,
                                         ss: ss,
                                         columnHash: columnHash,
-                                        row: csvRows.Get(data.Key));
+                                        row: csvRows.Get(data.Key),
+                                        migrationMode: migrationMode);
                                     switch (resultModel.AccessStatus)
                                     {
                                         case Databases.AccessStatuses.Selected:
@@ -7731,7 +7751,8 @@ namespace Implem.Pleasanter.Models
                                             errorData = resultModel.Create(
                                                 context: context,
                                                 ss: ss,
-                                                extendedSqls: false);
+                                                extendedSqls: false,
+                                                migrationMode: migrationMode);
                                             insertCount++;
                                             break;
                                         default:
@@ -7750,7 +7771,8 @@ namespace Implem.Pleasanter.Models
                         var errorData = resultModel.Create(
                             context: context,
                             ss: ss,
-                            extendedSqls: false);
+                            extendedSqls: false,
+                            migrationMode: migrationMode);
                         switch (errorData.Type)
                         {
                             case Error.Types.None:
