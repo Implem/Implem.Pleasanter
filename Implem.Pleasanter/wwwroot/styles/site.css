@@ -1869,6 +1869,7 @@ th.calendar-header {
     clear: both;
     padding: 5px 5px 5px 5px;
     text-align: center;
+    position: relative;
 }
 
 .command-center > button {
@@ -4019,4 +4020,57 @@ div.lower-search-ui {
 #LoginTrialMessage span.license-deadline {
     color: #ff0000;
     font-weight: bold;
+}
+
+#OpenSearchEditorColumnDialog,
+#DoNotHaveEnoughColumns > a {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+
+#DoNotHaveEnoughColumns {
+    border: none;
+    background: none;
+}
+
+#HowToDevelopEfficientlyStyle,
+#HowToDevelopEfficientlyScript,
+#HowToDevelopEfficientlyHtml,
+#HowToDevelopEfficientlyServerScript {
+    border: none;
+    background: none;
+}
+
+#DoNotHaveEnoughColumns > a,
+[id^="HowToDevelopEfficiently"] > a {
+    color: blue !important;
+    text-decoration: none !important;
+}
+
+/*
+#HowToDevelopEfficientlyHiddenStyle,
+#HowToDevelopEfficientlyHiddenScript,
+#HowToDevelopEfficientlyHiddenHtml,
+#HowToDevelopEfficientlyHiddenServerScript {
+    visibility: hidden;
+}
+*/
+
+#HowToDevelopEfficientlyStyleField,
+#HowToDevelopEfficientlyScriptField,
+#HowToDevelopEfficientlyHtmlField,
+#HowToDevelopEfficientlyServerScriptField,
+#HowToDevelopEfficientlyStyleHiddenField,
+#HowToDevelopEfficientlyScriptHiddenField,
+#HowToDevelopEfficientlyHtmlHiddenField
+#HowToDevelopEfficientlyServerScriptHiddenField {
+    display: inline-block;
+}
+
+#HowToDevelopEfficientlyStyleHidden,
+#HowToDevelopEfficientlyScriptHidden,
+#HowToDevelopEfficientlyHtmlHidden,
+#HowToDevelopEfficientlyServerScriptHidden {
+    visibility: hidden;
 }
