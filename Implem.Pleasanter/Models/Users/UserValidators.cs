@@ -1728,7 +1728,7 @@ namespace Implem.Pleasanter.Models
                     return apiErrorData;
                 }
             }
-            if (!Parameters.Service.ShowProfiles && !context.HasPrivilege)
+            if (Permissions.CannotManageUsers(context: context))
             {
                 return new ErrorData(type: Error.Types.InvalidRequest);
             }

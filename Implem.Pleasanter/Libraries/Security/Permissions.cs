@@ -679,12 +679,14 @@ namespace Implem.Pleasanter.Libraries.Security
                 case "syslogs":
                     return context.HasPrivilege;
                 case "depts":
-                    return CanManageTenant(context: context);
+                    return CanManageTenant(context: context)
+                        || context.UserSettings?.EnableManageTenant == true;
                 case "groups":
                     return CanManageTenant(context: context)
                         || context.UserSettings?.EnableManageTenant == true;
                 case "users":
-                    return CanManageTenant(context: context);
+                    return CanManageTenant(context: context)
+                        || context.UserSettings?.EnableManageTenant == true;
                 default:
                     return context.ItemsCan(ss: ss, type: Types.Export, site: site);
             }
