@@ -30,7 +30,14 @@ namespace Implem.Pleasanter.Controllers.Api
                 contentType: Request.ContentType,
                 api: true);
             var log = new SysLogModel(context: context);
-            var result = context.Authenticated
+            //Extensions APIが無効な場合は403を返す
+            if (!context.AllowExtensionsApi)
+            {
+                return ApiResults.Forbidden(context: context);
+                
+            }
+            //特権ユーザのみ
+            var result = context.Authenticated && context.HasPrivilege
                 ? ExtensionUtilities.GetByApi(
                     context: context,
                     ss: SiteSettingsUtilities.ApiExtensionsSiteSettings(context),
@@ -54,7 +61,13 @@ namespace Implem.Pleasanter.Controllers.Api
                 contentType: Request.ContentType,
                 api: true);
             var log = new SysLogModel(context: context);
-            var result = context.Authenticated
+            //Extensions APIが無効な場合は403を返す
+            if (!context.AllowExtensionsApi)
+            {
+                return ApiResults.Forbidden(context: context);
+            }
+            //特権ユーザのみ
+            var result = context.Authenticated && context.HasPrivilege
                 ? ExtensionUtilities.CreateByApi(
                     context: context,
                     ss: SiteSettingsUtilities.ApiExtensionsSiteSettings(context))
@@ -77,7 +90,13 @@ namespace Implem.Pleasanter.Controllers.Api
                 contentType: Request.ContentType,
                 api: true);
             var log = new SysLogModel(context: context);
-            var result = context.Authenticated
+            //Extensions APIが無効な場合は403を返す
+            if (!context.AllowExtensionsApi)
+            {
+                return ApiResults.Forbidden(context: context);
+            }
+            //特権ユーザのみ
+            var result = context.Authenticated && context.HasPrivilege
                 ? ExtensionUtilities.UpdateByApi(
                     context: context,
                     ss: SiteSettingsUtilities.ApiExtensionsSiteSettings(context),
@@ -101,7 +120,13 @@ namespace Implem.Pleasanter.Controllers.Api
                 contentType: Request.ContentType,
                 api: true);
             var log = new SysLogModel(context: context);
-            var result = context.Authenticated
+            //Extensions APIが無効な場合は403を返す
+            if (!context.AllowExtensionsApi)
+            {
+                return ApiResults.Forbidden(context: context);
+            }
+            //特権ユーザのみ
+            var result = context.Authenticated && context.HasPrivilege
                 ? ExtensionUtilities.DeleteByApi(
                     context: context,
                     ss: SiteSettingsUtilities.ApiExtensionsSiteSettings(context),

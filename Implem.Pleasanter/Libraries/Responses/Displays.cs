@@ -14199,6 +14199,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Tenants_AllowExtensionsApi(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Tenants_AllowExtensionsApi",
+                data: data);
+        }
+
         public static string Tenants_Body(
             Context context,
             params string[] data)
