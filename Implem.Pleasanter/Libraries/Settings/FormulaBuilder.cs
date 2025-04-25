@@ -1,5 +1,6 @@
 ﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.General;
+using Microsoft.Identity.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -315,7 +316,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     {
                         formulaScript = System.Text.RegularExpressions.Regex.Replace(
                             input: formulaScript,
-                        pattern: $@"\b{System.Text.RegularExpressions.Regex.Escape(oldMapping.Get(column.ColumnName))}\b"
+                        pattern: @"(?<!\$)" + $@"\b{System.Text.RegularExpressions.Regex.Escape(oldMapping.Get(column.ColumnName))}\b"
                                + $"(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)",
                             replacement: column.LabelText);
                     }
