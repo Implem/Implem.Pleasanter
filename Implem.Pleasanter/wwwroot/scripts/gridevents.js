@@ -199,7 +199,7 @@ $(function () {
 
     // レスポンシブのみ
     document.addEventListener('touchstart', function (e) {
-        if (isRwd) return false
+        if (!isRwd) return false
         if (!e.target.closest('#GridHeaderMenus')) {
             setTimeout(function () {
                 if (spToggle) {
