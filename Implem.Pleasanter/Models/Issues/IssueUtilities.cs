@@ -5272,7 +5272,7 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     errorData: new ErrorData(
                         type: Error.Types.invalidUpsertKey,
-                        data: $"({string.Join(", ", missingKeys)})"));
+                        data: $"({missingKeys.Join()})"));
             }
             using var exclusiveObj = new Sessions.TableExclusive(context: context);
             if (!exclusiveObj.TryLock())
@@ -5282,47 +5282,66 @@ namespace Implem.Pleasanter.Models
                     statusCode: 429,
                     message: Messages.ImportLock(context: context).Text));
             }
+            var viewsDic = new Dictionary<long?, View>();
+            // Keysの指定がある場合は、該当レコードを取得するための条件を保持していく。
+            // APIのパラメータ自体のチェックは、実質的な一括処理より前にに行っておく。
+            if (api.Keys?.Count > 0)
+            { 
+                var errorData = new List<string>();
+                foreach (var (issueApiModel, index) in bulkUpsertModel.Data.Select((value, index) => (value, index)))
+                {
+                    var view = api.View ?? new View();
+                    foreach (var columnName in api.Keys)
+                    {
+                        var objectValue = issueApiModel.ObjectValue(columnName: columnName);
+                        if (objectValue == null) continue;
+                        var column = ss.GetColumn(
+                            context: context,
+                            columnName: columnName);
+                        if (column?.TypeName == "datetime"
+                            && objectValue.ToDateTime().InRange() == false)
+                        {
+                            errorData.Add($"'{columnName}'='{objectValue.ToStr()}'");
+                            continue;
+                        }
+                        view.AddColumnFilterHash(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            objectValue: objectValue);
+                        view.AddColumnFilterSearchTypes(
+                            columnName: columnName,
+                            searchType: Column.SearchTypes.ExactMatch);
+                    }
+                    viewsDic.Add(key: index, value: view);
+                }
+                if (errorData.Any())
+                {
+                    return ApiResults.Error(
+                        context: context,
+                        errorData: new ErrorData(
+                            type: Error.Types.invalidUpsertKey,
+                            data: $"({errorData.Join()})"));
+                }
+            }
             var recodeCount = 0;
             var insertCount = 0;
             var updateCount = 0;
             var error = DoBulkUpsert();
+            // 一括処理の実行
             ErrorData DoBulkUpsert()
             {
-                foreach (var issueApiModel in bulkUpsertModel.Data)
+                foreach (var (issueApiModel, index) in bulkUpsertModel.Data.Select((value, index) => (value, index)))
                 {
                     recodeCount++;
                     exclusiveObj.Refresh();
-                    var view = api.View ?? new View();
-                    foreach(var columnName in api.Keys??new List<string>())
-                    {
-                        var objectValue = issueApiModel.ObjectValue(columnName: columnName);
-                        if (objectValue != null)
-                        {
-                            var column = ss.GetColumn(
-                                context: context,
-                                columnName: columnName);
-                            if (column?.TypeName == "datetime"
-                                && objectValue.ToDateTime().InRange() == false)
-                            {
-                                return new ErrorData(
-                                    type: Error.Types.invalidUpsertKey,
-                                    data: $"('{columnName}'='{objectValue.ToStr()}')");
-                            }
-                            view.AddColumnFilterHash(
-                                context: context,
-                                ss: ss,
-                                column: column,
-                                objectValue: objectValue);
-                            view.AddColumnFilterSearchTypes(
-                                columnName: columnName,
-                                searchType: Column.SearchTypes.ExactMatch);
-                        }
-                    }
+                    View view;
+                    viewsDic.TryGetValue(index, out view); 
                     var issueModel = new IssueModel(
                         context: context,
                         ss: ss,
                         issueId: 0,
-                        view: api.Keys?.Count > 0 ? view : null,
+                        view: view, //api.Keys?.Count > 0 でない場合はnull
                         issueApiModel: issueApiModel);
                     switch (issueModel.AccessStatus)
                     {
@@ -5399,9 +5418,10 @@ namespace Implem.Pleasanter.Models
                             ).Join()
                         + ")";
                 }
+                var statusCode = ApiResponses.StatusCode(error.Type);
                 return ApiResults.Get(new ApiResponse(
                     id: context.Id,
-                    statusCode: 500,
+                    statusCode: statusCode,
                     message: Displays.FailedBulkUpsert(
                         context: context,
                         data: new string[]
