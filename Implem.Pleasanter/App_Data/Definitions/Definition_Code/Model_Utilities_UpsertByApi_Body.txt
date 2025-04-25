@@ -21,7 +21,7 @@
         return ApiResults.Error(
             context: context,
             errorData: new ErrorData(
-                type: Error.Types.invalidUpsertKey,
+                type: Error.Types.InvalidUpsertKey,
                 data: $"({string.Join(", ", missingKeys)})"));
     }
     var error = new ErrorData(Error.Types.None);
@@ -39,7 +39,7 @@
                 && objectValue.ToDateTime().InRange() == false)
             {
                 error = new ErrorData(
-                    type: Error.Types.invalidUpsertKey,
+                    type: Error.Types.InvalidUpsertKey,
                     data: $"('{columnName}'='{objectValue.ToStr()}')");
                 return;
             }

@@ -63,7 +63,7 @@ namespace Implem.Pleasanter.Libraries.Responses
                     return NotMatchRegex(
                         context: context,
                         errorData: errorData);
-                case General.Error.Types.invalidUpsertKey:
+                case General.Error.Types.InvalidUpsertKey:
                     return InvalidUpsertKey(
                         context: context,
                         errorData: errorData);
@@ -83,7 +83,7 @@ namespace Implem.Pleasanter.Libraries.Responses
                 case General.Error.Types.BadRequest:
                 case General.Error.Types.InvalidJsonData:
                 case General.Error.Types.Overlap:
-                case General.Error.Types.invalidUpsertKey:
+                case General.Error.Types.InvalidUpsertKey:
                     return 400;
                 case General.Error.Types.Unauthorized:
                     return 401;
@@ -250,7 +250,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         private static ApiResponse InvalidUpsertKey(Context context, ErrorData errorData)
         {
             var statusCode = StatusCode(errorData.Type);
-            var message = Displays.invalidUpsertKey(
+            var message = Displays.InvalidUpsertKey(
                 context: context,
                 data: errorData.Data);
             return new ApiResponse(id: context.Id, statusCode: statusCode, message: message);

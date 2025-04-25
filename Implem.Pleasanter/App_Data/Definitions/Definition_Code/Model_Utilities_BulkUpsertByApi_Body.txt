@@ -29,7 +29,7 @@
         return ApiResults.Error(
             context: context,
             errorData: new ErrorData(
-                type: Error.Types.invalidUpsertKey,
+                type: Error.Types.InvalidUpsertKey,
                 data: $"({missingKeys.Join()})"));
     }
     using var exclusiveObj = new Sessions.TableExclusive(context: context);
@@ -81,7 +81,7 @@
             return ApiResults.Error(
                 context: context,
                 errorData: new ErrorData(
-                    type: Error.Types.invalidUpsertKey,
+                    type: Error.Types.InvalidUpsertKey,
                     data: $"({errorData.Join()})"));
         }
     }

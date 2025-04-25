@@ -1124,11 +1124,11 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-error");
         }
 
-        public static Message invalidUpsertKey(Context context, params string[] data)
+        public static Message InvalidUpsertKey(Context context, params string[] data)
         {
             return Get(
-                id: "invalidUpsertKey",
-                text: Displays.invalidUpsertKey(
+                id: "InvalidUpsertKey",
+                text: Displays.InvalidUpsertKey(
                     context: context,
                     data: data),
                 css: "alert-error");
@@ -3103,12 +3103,12 @@ namespace Implem.Pleasanter.Libraries.Responses
                 target: target);
         }
 
-        public static ResponseCollection ResponseinvalidUpsertKey(
+        public static ResponseCollection ResponseInvalidUpsertKey(
             Context context, string target = null, params string[] data)
         {
             return ResponseMessage(
                 context: context,
-                message: invalidUpsertKey(
+                message: InvalidUpsertKey(
                     context: context,
                     data: data),
                 target: target);

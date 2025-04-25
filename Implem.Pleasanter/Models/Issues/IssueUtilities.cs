@@ -4944,7 +4944,7 @@ namespace Implem.Pleasanter.Models
                 return ApiResults.Error(
                     context: context,
                     errorData: new ErrorData(
-                        type: Error.Types.invalidUpsertKey,
+                        type: Error.Types.InvalidUpsertKey,
                         data: $"({string.Join(", ", missingKeys)})"));
             }
             var error = new ErrorData(Error.Types.None);
@@ -4962,7 +4962,7 @@ namespace Implem.Pleasanter.Models
                         && objectValue.ToDateTime().InRange() == false)
                     {
                         error = new ErrorData(
-                            type: Error.Types.invalidUpsertKey,
+                            type: Error.Types.InvalidUpsertKey,
                             data: $"('{columnName}'='{objectValue.ToStr()}')");
                         return;
                     }
@@ -5196,7 +5196,7 @@ namespace Implem.Pleasanter.Models
                     if (column?.TypeName == "datetime"
                         && objectValue.ToDateTime().InRange() == false)
                     {
-                        error = Error.Types.invalidUpsertKey;
+                        error = Error.Types.InvalidUpsertKey;
                         return;
                     }
                     api.View.AddColumnFilterHash(
@@ -5271,7 +5271,7 @@ namespace Implem.Pleasanter.Models
                 return ApiResults.Error(
                     context: context,
                     errorData: new ErrorData(
-                        type: Error.Types.invalidUpsertKey,
+                        type: Error.Types.InvalidUpsertKey,
                         data: $"({missingKeys.Join()})"));
             }
             using var exclusiveObj = new Sessions.TableExclusive(context: context);
@@ -5320,7 +5320,7 @@ namespace Implem.Pleasanter.Models
                     return ApiResults.Error(
                         context: context,
                         errorData: new ErrorData(
-                            type: Error.Types.invalidUpsertKey,
+                            type: Error.Types.InvalidUpsertKey,
                             data: $"({errorData.Join()})"));
                 }
             }
