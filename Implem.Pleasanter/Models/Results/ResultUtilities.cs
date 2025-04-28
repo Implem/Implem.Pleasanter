@@ -4713,8 +4713,8 @@ namespace Implem.Pleasanter.Models
                 return ApiResults.BadRequest(context: context);
             }
             var api = context.RequestDataString.Deserialize<Api>();
-            var data = context.RequestDataString.Deserialize<ResultApiModel>();
-            if (api?.Keys?.Any() != true || data == null)
+            var resultApiModel = context.RequestDataString.Deserialize<ResultApiModel>();
+            if (api?.Keys?.Any() != true ||resultApiModel == null)
             {
                 return ApiResults.Error(
                     context: context,
@@ -4730,50 +4730,43 @@ namespace Implem.Pleasanter.Models
                         data: $"({string.Join(", ", missingKeys)})"));
             }
             var error = new ErrorData(Error.Types.None);
-            api.View = api.View ?? new View();
-            api.Keys.ForEach(columnName =>
+            var view = api.View ?? new View();
+            var errorData = new List<string>();
+            foreach (var columnName in api.Keys)
             {
-                if (error.Type != Error.Types.None) return;
-                var objectValue = data.ObjectValue(columnName: columnName);
-                if (objectValue != null)
+                var objectValue = resultApiModel.ObjectValue(columnName: columnName);
+                if (objectValue == null) continue;
+                var column = ss.GetColumn(
+                    context: context,
+                    columnName: columnName);
+                if (column?.TypeName == "datetime"
+                    && objectValue.ToDateTime().InRange() == false)
                 {
-                    var column = ss.GetColumn(
-                        context: context,
-                        columnName: columnName);
-                    if (column?.TypeName == "datetime"
-                        && objectValue.ToDateTime().InRange() == false)
-                    {
-                        error = new ErrorData(
-                            type: Error.Types.InvalidUpsertKey,
-                            data: $"('{columnName}'='{objectValue.ToStr()}')");
-                        return;
-                    }
-                    api.View.AddColumnFilterHash(
-                        context: context,
-                        ss: ss,
-                        column: column,
-                        objectValue: objectValue);
-                    api.View.AddColumnFilterSearchTypes(
-                        columnName: columnName,
-                        searchType: Column.SearchTypes.ExactMatch);
+                    errorData.Add($"'{columnName}'='{objectValue.ToStr()}'");
+                    continue;
                 }
-            });
-            if (error.Type != Error.Types.None)
+                view.AddColumnFilterHash(
+                    context: context,
+                    ss: ss,
+                    column: column,
+                    objectValue: objectValue);
+                view.AddColumnFilterSearchTypes(
+                    columnName: columnName,
+                    searchType: Column.SearchTypes.ExactMatch);
+            }
+            if (errorData.Any())
             {
                 return ApiResults.Error(
                     context: context,
-                    errorData: error);
-            }
-            var resultApiModel = context.RequestDataString.Deserialize<ResultApiModel>();
-            if (resultApiModel == null)
-            {
-                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+                    errorData: new ErrorData(
+                        type: Error.Types.InvalidUpsertKey,
+                        data: $"({errorData.Join()})"));
             }
             var resultModel = new ResultModel(
                 context: context,
                 ss: ss,
                 resultId: 0,
-                view: api.View,
+                view: view,
                 resultApiModel: resultApiModel);
             switch (resultModel.AccessStatus)
             {
