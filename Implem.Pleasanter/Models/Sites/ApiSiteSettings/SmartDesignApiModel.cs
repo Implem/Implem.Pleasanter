@@ -40,7 +40,6 @@ namespace Implem.Pleasanter.Models.ApiSiteSettings
             SetSmartDesignSiteSettings(context, ss, editorColumnList);
             SmartDesignParamHash = GetSmartDesignParam(context, ss, editorColumnList);
             Timestamp = timestamp;
-            //[[Users]],Wikisなどリンクテーブルが作成されないリンクを省く
             RemoveLinks(context: context);
         }
 
