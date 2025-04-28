@@ -14,6 +14,8 @@ using System.Collections;
 using System.Net.Security;
 using NLog.Targets;
 using Implem.Pleasanter.Libraries.Responses;
+using Implem.Pleasanter.Libraries.Server;
+using Implem.ParameterAccessor.Parts;
 
 namespace Implem.Pleasanter.Models.ApiSiteSettings
 {
@@ -38,7 +40,19 @@ namespace Implem.Pleasanter.Models.ApiSiteSettings
             SetSmartDesignSiteSettings(context, ss, editorColumnList);
             SmartDesignParamHash = GetSmartDesignParam(context, ss, editorColumnList);
             Timestamp = timestamp;
-            SiteSettings.Links.RemoveAll(links => links.SiteId == 0);
+            //[[Users]],Wikisなどリンクテーブルが作成されないリンクを省く
+            RemoveLinks(context: context);
+        }
+
+        public void RemoveLinks(Context context)
+        {
+            SiteSettings?.Links?.RemoveAll(link =>
+            {
+                var site = SiteInfo.Sites(context: context).Get(link.SiteId);
+                return site == null
+                    || (site.String("ReferenceType") == "Wikis"
+                    || link.SiteId == 0);
+            });
         }
 
         public Dictionary<string, DragParamsApiSettingModel> GetSmartDesignParam(
