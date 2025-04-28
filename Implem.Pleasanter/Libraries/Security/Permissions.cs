@@ -506,6 +506,8 @@ namespace Implem.Pleasanter.Libraries.Security
                 case "syslogs":
                     return false;
                 case "depts":
+                    return CanManageTenant(context: context)
+                        || context.UserSettings?.EnableManageTenant == true;
                 case "users":
                     if (context.UserSettings?.EnableManageTenant == true)
                     {

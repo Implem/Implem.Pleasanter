@@ -680,7 +680,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 ? !context.UserSettings?.EnableManageTenant == true
                                 : ss.ReferenceType == "Depts"
                                     && context.UserSettings?.EnableManageTenant == true
-                                    ? !context.UserSettings?.EnableManageTenant == true
+                                    ? context.UserSettings?.EnableManageTenant == true
                                     : context.CanCreate(ss: ss, site: true)
                                         && ss.ReferenceType != "Wikis"
                                         && context.Action != "trashbox"
