@@ -43,17 +43,6 @@ namespace Implem.Pleasanter.Models.ApiSiteSettings
             RemoveLinks(context: context);
         }
 
-        public void RemoveLinks(Context context)
-        {
-            SiteSettings?.Links?.RemoveAll(link =>
-            {
-                var site = SiteInfo.Sites(context: context).Get(link.SiteId);
-                return site == null
-                    || (site.String("ReferenceType") == "Wikis"
-                    || link.SiteId == 0);
-            });
-        }
-
         public Dictionary<string, DragParamsApiSettingModel> GetSmartDesignParam(
             Context context,
             SiteSettings ss,
@@ -305,6 +294,17 @@ namespace Implem.Pleasanter.Models.ApiSiteSettings
                 }
             });
             return smartDesignParamHash;
+        }
+
+        public void RemoveLinks(Context context)
+        {
+            SiteSettings?.Links?.RemoveAll(link =>
+            {
+                var site = SiteInfo.Sites(context: context).Get(link.SiteId);
+                return site == null
+                    || (site.String("ReferenceType") == "Wikis"
+                    || link.SiteId == 0);
+            });
         }
     }
 }
