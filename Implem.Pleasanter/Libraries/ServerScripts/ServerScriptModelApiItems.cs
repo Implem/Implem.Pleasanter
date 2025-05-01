@@ -3,6 +3,7 @@ using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
+using System;
 namespace Implem.Pleasanter.Libraries.ServerScripts
 {
     public class ServerScriptModelApiItems
@@ -217,7 +218,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
 
         public decimal Sum(object siteId, string columnName, string view = null)
         {
-            return CreateAggregate(
+            return CreateAggregate<decimal>(
                 siteId: siteId,
                 columnName: columnName,
                 view: view,
@@ -226,7 +227,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
 
         public decimal Average(object siteId, string columnName, string view = null)
         {
-            return CreateAggregate(
+            return CreateAggregate<decimal>(
                 siteId: siteId,
                 columnName: columnName,
                 view: view,
@@ -235,7 +236,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
 
         public decimal Max(object siteId, string columnName, string view = null)
         {
-            return CreateAggregate(
+            return CreateAggregate<decimal>(
                 siteId: siteId,
                 columnName: columnName,
                 view: view,
@@ -244,7 +245,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
 
         public decimal Min(object siteId, string columnName, string view = null)
         {
-            return CreateAggregate(
+            return CreateAggregate<decimal>(
                 siteId: siteId,
                 columnName: columnName,
                 view: view,
@@ -262,17 +263,56 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 view: view);
         }
 
-        private decimal CreateAggregate(object siteId, string columnName, string view, Sqls.Functions function)
+        public DateTime MaxDate(object siteId, string columnName, string view = null)
+        {
+            return CreateAggregate<DateTime>(
+                siteId: siteId,
+                columnName: columnName,
+                view: view,
+                function: Sqls.Functions.Max);
+        }
+
+        public DateTime MinDate(object siteId, string columnName, string view = null)
+        {
+            return CreateAggregate<DateTime>(
+                siteId: siteId,
+                columnName: columnName,
+                view: view,
+                function: Sqls.Functions.Min);
+        }
+
+        private T CreateAggregate<T>(object siteId, string columnName, string view, Sqls.Functions function)
         {
             var ss = SiteSettingsUtilities.Get(
                 context: Context,
                 siteId: siteId.ToLong());
-            return ServerScriptUtilities.Aggregate(
-                context: Context,
-                ss: ss,
-                view: view,
-                columnName: columnName,
-                function: function);
+
+            if (typeof(T) == typeof(DateTime))
+            {
+                var modelUtilities = new ServerScriptModelUtilities(
+                    context: Context,
+                    ss: ss);
+                return (T)Convert.ChangeType(
+                    value: ServerScriptUtilities.Aggregate(
+                        context: Context,
+                        ss: ss,
+                        view: view,
+                        columnName: columnName,
+                        function: function,
+                        modelUtilities: modelUtilities),
+                    conversionType: typeof(T));
+            }
+            else
+            {
+                return (T)Convert.ChangeType(
+                    value: ServerScriptUtilities.Aggregate(
+                        context: Context,
+                        ss: ss,
+                        view: view,
+                        columnName: columnName,
+                        function: function),
+                    conversionType: typeof(T));
+            }
         }
     }
 }
