@@ -1,7 +1,7 @@
 ﻿name: build and xUnit test for MySQL
 on:
   schedule:
-    - cron: '0 13 * * *'   # UTC (= 22:00 JST)
+    - cron: '0 13 * * *'   # UTC (= 22:00 JST)  # test
   pull_request:
     types:
       - closed
