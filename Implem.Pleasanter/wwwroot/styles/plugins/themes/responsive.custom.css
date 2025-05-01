@@ -136,37 +136,6 @@
         }
     }
 
-    /* spinner */
-    .container-normal:has(> .ui-spinner) {
-        display: flex;
-        gap: 8px;
-        align-items: center;
-        .ui-spinner {
-            .ui-spinner-input {
-                height: 38px;
-                margin: 0;
-                margin-right: 30px;
-                padding: 8px 4px 8px 4px;
-                text-align: center;
-            }
-            + .unit {
-                float: none;
-                padding: 0;
-            }
-            a {
-                background: transparent;
-                border: none;
-                border-radius: 0;
-                box-shadow: none;
-            }
-            label {
-                &.error {
-                    margin-top: -4px;
-                }
-            }
-        }
-    }
-
     /* markup,markdown  */
     .field-control {
         .control-markup,
@@ -175,6 +144,19 @@
             padding: 8px 16px;
             font-size: 14px;
             line-height: 1.6;
+        }
+    }
+
+    /* spinner-field */
+    .spinner-field {
+        .control-spinner {
+            height: 40px;
+            padding: 8px 32px 8px 16px;
+        }
+        .ui-spinner {
+            .ui-spinner-button {
+                height: 50%;
+            }
         }
     }
 
