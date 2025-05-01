@@ -79,7 +79,7 @@ namespace Implem.CodeDefiner.Functions.Rds
                     .Replace("#Uid_Owner#", ocn["uid"]));
         }
 
-        private static bool Exists(ISqlObjectFactory factory, string databaseName)
+        internal static bool Exists(ISqlObjectFactory factory, string databaseName)
         {
             var isExists = Def.SqlIoBySa(factory).ExecuteTable(
                 factory: factory,

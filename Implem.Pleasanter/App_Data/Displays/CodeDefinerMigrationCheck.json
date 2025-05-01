@@ -1,0 +1,9 @@
+﻿{
+    "Id": "CodeDefinerMigrationCheck",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "Check for changes in database tables."
+        }
+    ]
+}
