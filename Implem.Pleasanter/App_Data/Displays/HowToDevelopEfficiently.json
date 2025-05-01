@@ -1,0 +1,33 @@
+﻿{
+    "Id": "HowToDevelopEfficiently",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "💡 How to develop efficiently?"
+        },
+        {
+            "Language": "zh",
+            "Body": "💡 如何高效开发？"
+        },
+        {
+            "Language": "ja",
+            "Body": "💡 効率的に開発するには？"
+        },
+        {
+            "Language": "de",
+            "Body": "💡 Wie kann man effizient entwickeln?"
+        },
+        {
+            "Language": "ko",
+            "Body": "💡 효율적으로 개발하는 방법?"
+        },
+        {
+            "Language": "es",
+            "Body": "💡 ¿Cómo desarrollarse de manera eficiente?"
+        },
+        {
+            "Language": "vn",
+            "Body": "💡 Làm thế nào để phát triển hiệu quả?"
+        }
+    ]
+}
