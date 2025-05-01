@@ -11389,6 +11389,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string ValidationFormat(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ValidationFormat",
+                data: data);
+        }
+
         public static string Value(
             Context context,
             params string[] data)
