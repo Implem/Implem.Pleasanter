@@ -21,4 +21,17 @@
             }
         }
     }
+
+    #ViewModeContainer:has(#Grid) {
+        position: relative;
+        .menu-sort {
+            position: absolute !important;
+            top: 0 !important;
+            margin-left: -5vw;
+            .field-control,
+            .field-auto-thin {
+                float: none;
+            }
+        }
+    }
 }
