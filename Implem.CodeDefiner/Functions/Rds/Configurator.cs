@@ -15,29 +15,77 @@ namespace Implem.CodeDefiner.Functions.Rds
 {
     internal class Configurator
     {
-        internal static bool Configure(ISqlObjectFactory factory, bool force, bool noInput, bool showLicenseInfo = true)
+        internal static bool Configure(
+            ISqlObjectFactory factory,
+            bool force,
+            bool noInput,
+            bool showLicenseInfo = true,
+            bool checkMigration = false)
         {
-            if (Environments.RdsProvider == "Local")
+            if (checkMigration == false)
             {
-                UsersConfigurator.KillTask(factory: factory);
-                RdsConfigurator.Configure(factory: factory);
-                UsersConfigurator.Configure(factory: factory);
-                SchemaConfigurator.Configure(factory: factory);
-            }
-            if (CheckColumnsShrinkage(
-                factory: factory,
-                force: force,
-                noInput: noInput,
-                showLicenseInfo: showLicenseInfo))
-            {
-                TablesConfigurator.Configure(factory: factory);
                 if (Environments.RdsProvider == "Local")
                 {
-                    PrivilegeConfigurator.Configure(factory: factory);
+                    UsersConfigurator.KillTask(factory: factory);
+                    RdsConfigurator.Configure(factory: factory);
+                    UsersConfigurator.Configure(factory: factory);
+                    SchemaConfigurator.Configure(factory: factory);
+                }
+                if (CheckColumnsShrinkage(
+                    factory: factory,
+                    force: force,
+                    noInput: noInput,
+                    showLicenseInfo: showLicenseInfo))
+                {
+                    TablesConfigurator.Configure(factory: factory);
+                    if (Environments.RdsProvider == "Local")
+                    {
+                        PrivilegeConfigurator.Configure(factory: factory);
+                    }
+                    return true;
+                }
+                return false;
+            }
+            else
+            {
+                var isCreatingDb = false;
+                if (Environments.RdsProvider == "Local")
+                {
+                    // DBの存在チェックとスキーマ名取得のための呼び出し
+                    isCreatingDb = !RdsConfigurator.Exists(factory: factory, databaseName: Environments.ServiceName);
+                    // クラスとメソッド(+@付与)にダミーを指定したパラメータ情報出力
+                    var ocn = new Libraries.Classes.TextData(Parameters.Rds.OwnerConnectionString, ';', '=');
+                    var ucn = new Libraries.Classes.TextData(Parameters.Rds.UserConnectionString, ';', '=');
+                    Consoles.Write(Environments.ServiceName, Consoles.Types.Info, callerFilePath: "/RdsConfigurator.cs", callerMemberName: "Database@");
+                    Consoles.Write(ocn["uid"], Consoles.Types.Info, callerFilePath: "/UsersConfigurator.cs", callerMemberName: "Execute@");
+                    Consoles.Write(ucn["uid"], Consoles.Types.Info, callerFilePath: "/UsersConfigurator.cs", callerMemberName: "Execute@");
+                    Consoles.Write(factory.SqlDefinitionSetting.SchemaName, Consoles.Types.Info, callerFilePath: "/SchemaConfigurator.cs", callerMemberName: "Configure@");
+                }
+                if (showLicenseInfo)
+                {
+                    TrialLicenseUtilities.Initialize(factory: factory);
+                    OutputLicenseInfo();
+                }
+                Consoles.Write(
+                    text: DisplayAccessor.Displays.Get("CodeDefinerMigrationCheck"),
+                    type: Consoles.Types.Info);
+                if (isCreatingDb)
+                {
+                    Consoles.Write(
+                        text: DisplayAccessor.Displays.Get("CodeDefinerDatabaseNotFound"),
+                        type: Consoles.Types.Info);
+                    return true;
+                }
+                var isChanged = TablesConfigurator.Configure(factory: factory, checkMigration: checkMigration);
+                if (!isChanged)
+                {
+                    Consoles.Write(
+                        text: DisplayAccessor.Displays.Get("CodeDefinerMigrationCheckNoChanges"),
+                        type: Consoles.Types.Info);
+                    return true;
                 }
                 return true;
             }
-            return false;
         }
 
         /// <param name="force">項目の拡張縮小にかかわず、強制的に更新させるためのフラグ</param>
