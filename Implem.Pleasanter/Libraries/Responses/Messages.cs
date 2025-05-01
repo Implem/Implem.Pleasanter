@@ -414,6 +414,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-success");
         }
 
+        public static Message CodeDefinerDatabaseNotFound(Context context, params string[] data)
+        {
+            return Get(
+                id: "CodeDefinerDatabaseNotFound",
+                text: Displays.CodeDefinerDatabaseNotFound(
+                    context: context,
+                    data: data),
+                css: "alert-success");
+        }
+
         public static Message CodeDefinerDefCompleted(Context context, params string[] data)
         {
             return Get(
@@ -489,6 +499,26 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 id: "CodeDefinerLicenseInfo",
                 text: Displays.CodeDefinerLicenseInfo(
+                    context: context,
+                    data: data),
+                css: "alert-success");
+        }
+
+        public static Message CodeDefinerMigrationCheck(Context context, params string[] data)
+        {
+            return Get(
+                id: "CodeDefinerMigrationCheck",
+                text: Displays.CodeDefinerMigrationCheck(
+                    context: context,
+                    data: data),
+                css: "alert-success");
+        }
+
+        public static Message CodeDefinerMigrationCheckNoChanges(Context context, params string[] data)
+        {
+            return Get(
+                id: "CodeDefinerMigrationCheckNoChanges",
+                text: Displays.CodeDefinerMigrationCheckNoChanges(
                     context: context,
                     data: data),
                 css: "alert-success");
@@ -2322,6 +2352,17 @@ namespace Implem.Pleasanter.Libraries.Responses
                 target: target);
         }
 
+        public static ResponseCollection ResponseCodeDefinerDatabaseNotFound(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: CodeDefinerDatabaseNotFound(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
         public static ResponseCollection ResponseCodeDefinerDefCompleted(
             Context context, string target = null, params string[] data)
         {
@@ -2405,6 +2446,28 @@ namespace Implem.Pleasanter.Libraries.Responses
             return ResponseMessage(
                 context: context,
                 message: CodeDefinerLicenseInfo(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseCodeDefinerMigrationCheck(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: CodeDefinerMigrationCheck(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseCodeDefinerMigrationCheckNoChanges(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: CodeDefinerMigrationCheckNoChanges(
                     context: context,
                     data: data),
                 target: target);

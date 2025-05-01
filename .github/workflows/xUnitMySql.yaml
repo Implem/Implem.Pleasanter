@@ -4,15 +4,12 @@ on:
     - cron: '0 13 * * *'   # UTC (= 22:00 JST)
   pull_request:
     types:
-      - opened
-      - synchronize
-      - reopened
-      - ready_for_review
+      - closed
   workflow_dispatch:
 jobs:
     run_xunit_test:
         name: Run xUnit test for MySQL
-        if: github.repository == 'Implem/Implem.Pleasanter.NetCore.Private' && github.event.pull_request.draft == false
+        if: github.repository == 'Implem/Implem.Pleasanter.NetCore.Private' && github.event.pull_request.merged == true
         runs-on: ubuntu-latest
         env:
             Implem_Pleasanter_Rds_MySQL_SaConnectionString: ${{ secrets.PLEASANTER_MYSQL_RDS_SA_CONN }}
