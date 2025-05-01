@@ -15,6 +15,7 @@ namespace Implem.Pleasanter.Models
         public DateTime? ContractDeadline { get; set; }
         public bool? DisableAllUsersPermission { get; set; }
         public bool? DisableApi { get; set; }
+        public bool? AllowExtensionsApi { get; set; }
         public bool? DisableStartGuide { get; set; }
         public int? LogoType { get; set; }
         public string HtmlTitleTop { get; set; }
@@ -50,6 +51,7 @@ namespace Implem.Pleasanter.Models
                 case "ContractDeadline": return ContractDeadline;
                 case "DisableAllUsersPermission": return DisableAllUsersPermission;
                 case "DisableApi": return DisableApi;
+                case "AllowExtensionsApi": return AllowExtensionsApi;
                 case "DisableStartGuide": return DisableStartGuide;
                 case "LogoType": return LogoType;
                 case "HtmlTitleTop": return HtmlTitleTop;
