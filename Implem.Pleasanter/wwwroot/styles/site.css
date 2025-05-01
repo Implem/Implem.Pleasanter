@@ -826,8 +826,8 @@ pre {
     color: red;
 }
 
-.CalendarDate {
-    margin-right: 10px;
+#CalendarShowStatus {
+    margin-left: 10px;
 }
 
 .CalendarBody table {
@@ -1033,8 +1033,8 @@ th.calendar-header {
     cursor: auto;
 }
 
-#GanttStartDate {
-    margin-right: 10px;
+#GanttPreviousButton {
+    margin-left: 10px;
 }
 
 #GanttAxis {
