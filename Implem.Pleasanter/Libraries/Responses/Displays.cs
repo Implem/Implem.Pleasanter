@@ -5819,13 +5819,13 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
-        public static string invalidUpsertKey(
+        public static string InvalidUpsertKey(
             Context context,
             params string[] data)
         {
             return Get(
                 context: context,
-                id: "invalidUpsertKey",
+                id: "InvalidUpsertKey",
                 data: data);
         }
 
