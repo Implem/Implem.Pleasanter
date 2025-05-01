@@ -1807,6 +1807,10 @@ th.calendar-header {
     min-inline-size: 0;
 }
 
+.fieldset .legend {
+    cursor: default;
+}
+
 .fieldset.enclosed {
     clear: both;
     margin: 0px 0px 10px 0px;
@@ -1843,6 +1847,10 @@ th.calendar-header {
 .fieldset[class^="enclosed"] > legend {
     margin: 0px 0px 0px 10px;
     font-weight: bold;
+}
+
+.fieldset > legend .ui-icon {
+    display: none;
 }
 
 .command-field {

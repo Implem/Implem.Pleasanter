@@ -19,7 +19,9 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? BeforeUpdate;
         public bool? AfterUpdate;
         public bool? BeforeDelete;
+        public bool? BeforeBulkDelete;
         public bool? AfterDelete;
+        public bool? AfterBulkDelete;
         public bool? BeforeOpeningPage;
         public bool? BeforeOpeningRow;
         public bool? Shared;
@@ -50,7 +52,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool? beforeUpdate,
             bool? afterUpdate,
             bool? beforeDelete,
+            bool? beforeBulkDelete,
             bool? afterDelete,
+            bool? afterBulkDelete,
             bool? beforeOpeningPage,
             bool? beforeOpeningRow,
             string body,
@@ -74,7 +78,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             BeforeUpdate = beforeUpdate;
             AfterUpdate = afterUpdate;
             BeforeDelete = beforeDelete;
+            BeforeBulkDelete = beforeBulkDelete;
             AfterDelete = afterDelete;
+            AfterBulkDelete = afterBulkDelete;
             BeforeOpeningPage = beforeOpeningPage;
             BeforeOpeningRow = beforeOpeningRow;
             Body = body;
@@ -99,7 +105,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool? beforeUpdate,
             bool? afterUpdate,
             bool? beforeDelete,
+            bool? beforeBulkDelete,
             bool? afterDelete,
+            bool? afterBulkDelete,
             bool? beforeOpeningPage,
             bool? beforeOpeningRow,
             bool? shared,
@@ -122,7 +130,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (beforeUpdate != null) BeforeUpdate = beforeUpdate;
             if (afterUpdate != null) AfterUpdate = afterUpdate;
             if (beforeDelete != null) BeforeDelete = beforeDelete;
+            if (beforeBulkDelete != null) BeforeBulkDelete = beforeBulkDelete;
             if (afterDelete != null) AfterDelete = afterDelete;
+            if (afterBulkDelete != null) AfterBulkDelete = afterBulkDelete;
             if (beforeOpeningPage != null) BeforeOpeningPage = beforeOpeningPage;
             if (beforeOpeningRow != null) BeforeOpeningRow = beforeOpeningRow;
             if (shared != null) Shared = shared;
@@ -150,7 +160,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (BeforeUpdate == true) script.BeforeUpdate = true;
             if (AfterUpdate == true) script.AfterUpdate = true;
             if (BeforeDelete == true) script.BeforeDelete = true;
+            if (BeforeBulkDelete == true) script.BeforeBulkDelete = true;
             if (AfterDelete == true) script.AfterDelete = true;
+            if (AfterBulkDelete == true) script.AfterBulkDelete = true;
             if (BeforeOpeningPage == true) script.BeforeOpeningPage = true;
             if (BeforeOpeningRow == true) script.BeforeOpeningRow = true;
             if (Shared == true) script.Shared = true;
