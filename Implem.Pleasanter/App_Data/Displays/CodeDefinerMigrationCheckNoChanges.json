@@ -1,0 +1,9 @@
+﻿{
+    "Id": "CodeDefinerMigrationCheckNoChanges",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "No changes to the database tables."
+        }
+    ]
+}

@@ -6574,6 +6574,12 @@ namespace Implem.Pleasanter.Models
             SqlParamCollection param,
             Action watchdog = null)
         {
+            var model = new IssueModel(
+                context: context,
+                ss: ss);
+            model.SetByBeforeBulkDeleteServerScript(
+                context: context,
+                ss: ss);
             var sub = Rds.SelectIssues(
                 column: Rds.IssuesColumn().IssueId(),
                 join: ss.Join(
@@ -6659,6 +6665,9 @@ namespace Implem.Pleasanter.Models
                     siteId: ss.SiteId,
                     referenceId: referenceId));
             }
+            model.SetByAfterBulkDeleteServerScript(
+                context: context,
+                ss: ss);
             return affectedRows;
         }
 

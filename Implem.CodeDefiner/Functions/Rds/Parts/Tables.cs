@@ -1,5 +1,4 @@
-﻿using Implem.CodeDefiner.Functions.Rds.Parts.MySql;
-using Implem.DefinitionAccessor;
+﻿using Implem.DefinitionAccessor;
 using Implem.IRds;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
@@ -17,9 +16,11 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
             Sqls.TableTypes tableType,
             IEnumerable<ColumnDefinition> columnDefinitionCollection,
             IEnumerable<IndexInfo> tableIndexCollection,
-            string tableNameTemp = "")
+            string tableNameTemp = "",
+            bool checkMigration = false)
         {
             Consoles.Write(sourceTableName, Consoles.Types.Info);
+            if (checkMigration == true) return;
             if (tableNameTemp.IsNullOrEmpty())
             {
                 tableNameTemp = sourceTableName;
@@ -42,9 +43,11 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
             string sourceTableName,
             Sqls.TableTypes tableType,
             IEnumerable<ColumnDefinition> columnDefinitionCollection,
-            IEnumerable<IndexInfo> tableIndexCollection)
+            IEnumerable<IndexInfo> tableIndexCollection,
+            bool checkMigration)
         {
-            Consoles.Write(generalTableName, Consoles.Types.Info);
+            Consoles.Write(sourceTableName, Consoles.Types.Info);
+            if (checkMigration == true) return;
             var destinationTableName = DateTimes.Full() + "_" + sourceTableName;
             CreateTable(
                 factory: factory,
