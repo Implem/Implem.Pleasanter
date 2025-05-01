@@ -71,7 +71,6 @@
             "wwwroot/scripts/kamban.js",
             "wwwroot/scripts/kambanevents.js",
             "wwwroot/scripts/keyevents.js",
-            "wwwroot/scripts/legendevents.js",
             "wwwroot/scripts/loading.js",
             "wwwroot/scripts/lockevents.js",
             "wwwroot/scripts/log.js",

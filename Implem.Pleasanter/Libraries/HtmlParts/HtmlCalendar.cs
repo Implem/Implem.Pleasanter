@@ -82,7 +82,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     textType: HtmlTypes.TextTypes.DateTime,
                     fieldCss: "field-auto-thin",
                     controlId: $"CalendarDate{suffix}",
-                    controlCss: " w100 auto-postback CalendarDate",
+                    controlCss: " w150 auto-postback CalendarDate",
                     labelText: "",
                     text: date
                         .ToLocal(context: context)

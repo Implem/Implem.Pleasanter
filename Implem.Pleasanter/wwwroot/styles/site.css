@@ -826,8 +826,8 @@ pre {
     color: red;
 }
 
-.CalendarDate {
-    margin-right: 10px;
+#CalendarShowStatus {
+    margin-left: 10px;
 }
 
 .CalendarBody table {
@@ -1033,8 +1033,8 @@ th.calendar-header {
     cursor: auto;
 }
 
-#GanttStartDate {
-    margin-right: 10px;
+#GanttPreviousButton {
+    margin-left: 10px;
 }
 
 #GanttAxis {
@@ -2416,12 +2416,13 @@ label.required:after {
 }
 
 .control-spinner {
-    display: block;
-    float: left;
-    width: auto;
-    height: 22px;
-    padding: 1px;
+    width: 100% !important;
+    height: 30px;
+    margin: 0;
+    padding: 4px 22px 4px 4px;
     color: black;
+    border: solid 1px silver;
+    border-radius: 5px;
 }
 
 .control-checkbox {
@@ -2954,13 +2955,10 @@ label.error {
     width: 100%;
     padding: 0px 5px;
     color: red;
+    font-size: 11px;
     background-color: white;
     border-top: none;
     border-radius: 0px 0px 5px 5px / 0px 0px 5px 5px;
-}
-
-.ui-spinner > label.error {
-    margin-top: 3px;
 }
 
 .error {
@@ -3350,11 +3348,27 @@ input[type="password"]::-ms-reveal {
     margin: 6px 0px 0px 0px;
 }
 
-.ui-spinner {
+.spinner-field .ui-spinner {
     display: block;
-    float: left;
-    max-height: 46px;
-    background: white;
+    background: #fff;
+    border: none;
+    border-radius: 5px;
+}
+.spinner-field .ui-spinner .ui-spinner-up,
+.spinner-field .ui-spinner .ui-spinner-down {
+    right: 1px;
+    z-index: 3;
+    width: 20px;
+    height: 14px;
+}
+
+.spinner-field .ui-spinner .ui-spinner-up {
+    top: 1px;
+    border-radius: 0 5px 0 0;
+}
+.spinner-field .ui-spinner .ui-spinner-down {
+    bottom: 1px;
+    border-radius: 0 0 5px 0;
 }
 
 .ui-widget.ui-state-default.ui-multiselect {

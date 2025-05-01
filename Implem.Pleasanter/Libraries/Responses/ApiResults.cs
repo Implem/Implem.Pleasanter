@@ -31,15 +31,16 @@ namespace Implem.Pleasanter.Libraries.Responses
 
         public static ContentResultInheritance Get(ApiResponse apiResponse)
         {
-            return Get(apiResponse.ToJson());
+            return Get(apiResponse.ToJson(), apiResponse.StatusCode);
         }
 
-        public static ContentResultInheritance Get(string apiResponse)
+        public static ContentResultInheritance Get(string apiResponse, int? statusCode = null)
         {
             return new ContentResultInheritance
             {
                 ContentType = "application/json;charset=utf-8",
-                Content = apiResponse
+                Content = apiResponse,
+                StatusCode = statusCode
             };
         }
 
