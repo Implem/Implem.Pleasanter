@@ -5914,7 +5914,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                         BeforeUpdate = extendedServerScript.BeforeUpdate,
                         AfterUpdate = extendedServerScript.AfterUpdate,
                         BeforeDelete = extendedServerScript.BeforeDelete,
+                        BeforeBulkDelete = extendedServerScript.BeforeBulkDelete,
                         AfterDelete = extendedServerScript.AfterDelete,
+                        AfterBulkDelete = extendedServerScript.AfterBulkDelete,
                         BeforeOpeningPage = extendedServerScript.BeforeOpeningPage,
                         BeforeOpeningRow = extendedServerScript.BeforeOpeningRow,
                         Shared = extendedServerScript.Shared,
@@ -5936,7 +5938,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                         || serverScript.BeforeUpdate == true
                         || serverScript.AfterUpdate == true
                         || serverScript.BeforeDelete == true
+                        || serverScript.BeforeBulkDelete == true
                         || serverScript.AfterDelete == true
+                        || serverScript.AfterBulkDelete == true
                         || serverScript.BeforeOpeningPage == true
                         || serverScript.BeforeOpeningRow == true)
                     .ForEach(serverScript =>
