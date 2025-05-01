@@ -1,0 +1,34 @@
+﻿{
+    "Id": "ValidationFormat",
+    "Type": 410,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "The entered value is invalid."
+        },
+        {
+            "Language": "zh",
+            "Body": "输入的值无效。"
+        },
+        {
+            "Language": "ja",
+            "Body": "入力した値が不正です。"
+        },
+        {
+            "Language": "de",
+            "Body": "Der eingegebene Wert ist ungültig."
+        },
+        {
+            "Language": "ko",
+            "Body": "입력한 값이 올바르지 않습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "El valor ingresado no es válido."
+        },
+        {
+            "Language": "vn",
+            "Body": "Giá trị đã nhập không hợp lệ."
+        }
+    ]
+}
