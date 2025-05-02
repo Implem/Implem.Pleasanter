@@ -9,7 +9,7 @@ on:
 jobs:
     run_xunit_test:
         name: Run xUnit test for MySQL
-        if: github.repository == 'Implem/Implem.Pleasanter.NetCore.Private' && github.event.pull_request.merged == true
+        if: github.repository == 'Implem/Implem.Pleasanter.NetCore.Private' && ( github.event.pull_request.merged == true || github.event_name == 'schedule' )
         runs-on: ubuntu-latest
         env:
             Implem_Pleasanter_Rds_MySQL_SaConnectionString: ${{ secrets.PLEASANTER_MYSQL_RDS_SA_CONN }}
