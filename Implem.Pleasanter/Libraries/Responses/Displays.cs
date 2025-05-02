@@ -1369,6 +1369,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string BeforeBulkDelete(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BeforeBulkDelete",
+                data: data);
+        }
+
         public static string BeforeCondition(
             Context context,
             params string[] data)
@@ -2049,6 +2059,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string CodeDefinerDatabaseNotFound(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "CodeDefinerDatabaseNotFound",
+                data: data);
+        }
+
         public static string CodeDefinerDefCompleted(
             Context context,
             params string[] data)
@@ -2126,6 +2146,26 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "CodeDefinerLicenseInfo",
+                data: data);
+        }
+
+        public static string CodeDefinerMigrationCheck(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "CodeDefinerMigrationCheck",
+                data: data);
+        }
+
+        public static string CodeDefinerMigrationCheckNoChanges(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "CodeDefinerMigrationCheckNoChanges",
                 data: data);
         }
 
@@ -5789,13 +5829,13 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
-        public static string invalidUpsertKey(
+        public static string InvalidUpsertKey(
             Context context,
             params string[] data)
         {
             return Get(
                 context: context,
-                id: "invalidUpsertKey",
+                id: "InvalidUpsertKey",
                 data: data);
         }
 
@@ -11369,6 +11409,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string ValidationFormat(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ValidationFormat",
+                data: data);
+        }
+
         public static string Value(
             Context context,
             params string[] data)
@@ -14206,6 +14256,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "SysLogs_WorkingSet64",
+                data: data);
+        }
+
+        public static string Tenants_AllowExtensionsApi(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Tenants_AllowExtensionsApi",
                 data: data);
         }
 

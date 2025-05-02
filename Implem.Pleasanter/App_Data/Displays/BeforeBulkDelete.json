@@ -1,0 +1,33 @@
+﻿{
+    "Id": "BeforeBulkDelete",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Before bulk delete"
+        },
+        {
+            "Language": "zh",
+            "Body": "批量删除前"
+        },
+        {
+            "Language": "ja",
+            "Body": "一括削除前"
+        },
+        {
+            "Language": "de",
+            "Body": "Vor Massenlöschung"
+        },
+        {
+            "Language": "ko",
+            "Body": "일괄 삭제 전"
+        },
+        {
+            "Language": "es",
+            "Body": "Antes de la eliminación masiva"
+        },
+        {
+            "Language": "vn",
+            "Body": "Trước khi xóa hàng loạt"
+        }
+    ]
+}

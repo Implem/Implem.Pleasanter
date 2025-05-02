@@ -68,7 +68,7 @@ namespace Implem.Pleasanter.Libraries.General
             InvalidPath,
             InvalidRequest,
             InvalidSsoCode,
-            invalidUpsertKey,
+            InvalidUpsertKey,
             InvalidValidateRequiredCsvData,
             ItemsLimit,
             JoeAccountCheck,
@@ -366,8 +366,8 @@ namespace Implem.Pleasanter.Libraries.General
                     return Messages.InvalidSsoCode(
                         context: context,
                         data: data);
-                case Types.invalidUpsertKey:
-                    return Messages.invalidUpsertKey(
+                case Types.InvalidUpsertKey:
+                    return Messages.InvalidUpsertKey(
                         context: context,
                         data: data);
                 case Types.InvalidValidateRequiredCsvData:
