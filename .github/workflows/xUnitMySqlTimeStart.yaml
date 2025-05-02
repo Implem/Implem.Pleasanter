@@ -1,13 +1,10 @@
-﻿name: build and xUnit test for MySQL
+﻿name: build and xUnit test for MySQL Time Start
 on:
-  pull_request:
-    types:
-      - closed
-  workflow_dispatch:
+  schedule:
+    - cron: '0 13 * * *'   # UTC (= 22:00 JST)
 jobs:
     run_xunit_test:
-        name: Run xUnit test for MySQL
-        if: github.repository == 'Implem/Implem.Pleasanter.NetCore.Private' && github.event.pull_request.merged == true
+        name: Run xUnit test for MySQL Time Start
         runs-on: ubuntu-latest
         env:
             Implem_Pleasanter_Rds_MySQL_SaConnectionString: ${{ secrets.PLEASANTER_MYSQL_RDS_SA_CONN }}

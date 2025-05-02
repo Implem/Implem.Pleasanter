@@ -48,6 +48,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CICD", "CICD", "{EDD4BA11-3
 		.github\workflows\CI.yaml = .github\workflows\CI.yaml
 		.github\workflows\xUnit.yaml = .github\workflows\xUnit.yaml
 		.github\workflows\xUnitMySql.yaml = .github\workflows\xUnitMySql.yaml
+		.github\workflows\xUnitMySqlTimeStart.yaml = .github\workflows\xUnitMySqlTimeStart.yaml
 	EndProjectSection
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{10984740-E12C-427F-A980-0100734AE1B9}"
