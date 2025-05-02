@@ -3729,16 +3729,6 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
-        public static string DoNotHaveEnoughColumns(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "DoNotHaveEnoughColumns",
-                data: data);
-        }
-
         public static string DisplayTitle(
             Context context,
             params string[] data)
@@ -3746,6 +3736,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "DisplayTitle",
+                data: data);
+        }
+
+        public static string DoNotHaveEnoughColumns(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "DoNotHaveEnoughColumns",
                 data: data);
         }
 
@@ -5160,8 +5160,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         }
 
         public static string HowToDevelopEfficiently(
-                    Context context,
-                    params string[] data)
+            Context context,
+            params string[] data)
         {
             return Get(
                 context: context,
