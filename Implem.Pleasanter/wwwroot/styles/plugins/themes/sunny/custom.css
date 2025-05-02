@@ -89,11 +89,3 @@
 .grid-row .ui-icon {
     background-image: url("images/ui-icons_d19405_256x240.png");
 }
-
-#DoNotHaveEnoughColumns > a {
-    margin-right: 170px;
-    margin-bottom: 20px;
-    /*width: calc(100%);
-    max-width: calc(100%);
-    min-width: calc(100%);*/
-}

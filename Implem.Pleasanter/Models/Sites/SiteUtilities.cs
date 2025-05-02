@@ -16,7 +16,6 @@ using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
-using Implem.Pleasanter.Libraries.ViewModes;
 using Implem.Pleasanter.Libraries.Web;
 using Implem.Pleasanter.Models.ApiSiteSettings;
 using System;
@@ -6805,11 +6804,10 @@ namespace Implem.Pleasanter.Models
                             fieldId: "DoNotHaveEnoughColumnsField",
                             controlId: "DoNotHaveEnoughColumns",
                             controlOnly: true,
-                            //fieldCss: "field-wide",
                             text: Displays.DoNotHaveEnoughColumns(context: context),
                             openAnchorNewTab: true,
                             anchorFormat: Parameters.General.HtmlSupportUrl,
-                            _using: showLinkText) // sasaki_
+                            _using: showLinkText)
                         .Hidden(
                             controlId: "SearchEditorColumnDialogInput",
                             css: "always-send",
@@ -14994,7 +14992,7 @@ namespace Implem.Pleasanter.Models
                             text: Displays.HowToDevelopEfficiently(context: context),
                             openAnchorNewTab: true,
                             anchorFormat: Parameters.General.HtmlCodeAssistUrl,
-                            _using: showLinkText)// sasaki_
+                            _using: showLinkText)
                         .Button(
                             controlId: "AddStyle",
                             text: Displays.Add(context: context),
@@ -15023,7 +15021,7 @@ namespace Implem.Pleasanter.Models
                             controlId: "HowToDevelopEfficientlyStyleHidden",
                             controlOnly: true,
                             text: Displays.HowToDevelopEfficiently(context: context),
-                            _using: showLinkText)));// sasaki_
+                            _using: showLinkText)));
         }
 
         /// <summary>
@@ -15398,7 +15396,7 @@ namespace Implem.Pleasanter.Models
                             text: Displays.HowToDevelopEfficiently(context: context),
                             openAnchorNewTab: true,
                             anchorFormat: Parameters.General.HtmlCodeAssistUrl,
-                            _using: showLinkText)// sasaki_
+                            _using: showLinkText)
                         .Button(
                             controlId: "AddScript",
                             text: Displays.Add(context: context),
@@ -15427,7 +15425,7 @@ namespace Implem.Pleasanter.Models
                             controlId: "HowToDevelopEfficientlyScriptHidden",
                             controlOnly: true,
                             text: Displays.HowToDevelopEfficiently(context: context),
-                            _using: showLinkText)));// sasaki_
+                            _using: showLinkText)));
         }
 
         /// <summary>
@@ -15855,7 +15853,7 @@ namespace Implem.Pleasanter.Models
                             text: Displays.HowToDevelopEfficiently(context: context),
                             openAnchorNewTab: true,
                             anchorFormat: Parameters.General.HtmlCodeAssistUrl,
-                            _using: showLinkText)// sasaki_
+                            _using: showLinkText)
                         .Button(
                             controlId: "AddHtml",
                             text: Displays.Add(context: context),
@@ -15884,7 +15882,7 @@ namespace Implem.Pleasanter.Models
                             controlId: "HowToDevelopEfficientlyHtmlHidden",
                             controlOnly: true,
                             text: Displays.HowToDevelopEfficiently(context: context),
-                            _using: showLinkText)));// sasaki_
+                            _using: showLinkText)));
         }
 
         /// <summary>
@@ -16319,7 +16317,7 @@ namespace Implem.Pleasanter.Models
                             text: Displays.HowToDevelopEfficiently(context: context),
                             openAnchorNewTab: true,
                             anchorFormat: Parameters.General.HtmlCodeAssistUrl,
-                            _using: showLinkText) // sasaki_
+                            _using: showLinkText)
                         .Button(
                             controlId: "AddServerScript",
                             text: Displays.Add(context: context),
@@ -16348,7 +16346,7 @@ namespace Implem.Pleasanter.Models
                             controlId: "HowToDevelopEfficientlyServerScriptHidden",
                             controlOnly: true,
                             text: Displays.HowToDevelopEfficiently(context: context),
-                            _using: showLinkText)));// sasaki_
+                            _using: showLinkText)));
         }
 
         /// <summary>

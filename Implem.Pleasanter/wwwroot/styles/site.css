@@ -4034,43 +4034,31 @@ div.lower-search-ui {
     background: none;
 }
 
-#HowToDevelopEfficientlyStyle,
-#HowToDevelopEfficientlyScript,
-#HowToDevelopEfficientlyHtml,
-#HowToDevelopEfficientlyServerScript {
-    border: none;
-    background: none;
-}
-
 #DoNotHaveEnoughColumns > a,
 [id^="HowToDevelopEfficiently"] > a {
     color: blue !important;
     text-decoration: none !important;
 }
 
-/*
-#HowToDevelopEfficientlyHiddenStyle,
-#HowToDevelopEfficientlyHiddenScript,
-#HowToDevelopEfficientlyHiddenHtml,
-#HowToDevelopEfficientlyHiddenServerScript {
-    visibility: hidden;
-}
-*/
-
-#HowToDevelopEfficientlyStyleField,
-#HowToDevelopEfficientlyScriptField,
-#HowToDevelopEfficientlyHtmlField,
-#HowToDevelopEfficientlyServerScriptField,
-#HowToDevelopEfficientlyStyleHiddenField,
-#HowToDevelopEfficientlyScriptHiddenField,
-#HowToDevelopEfficientlyHtmlHiddenField
-#HowToDevelopEfficientlyServerScriptHiddenField {
-    display: inline-block;
+#StyleForm #HowToDevelopEfficientlyStyle,
+#ScriptForm #HowToDevelopEfficientlyScript,
+#HtmlForm #HowToDevelopEfficientlyHtml,
+#ServerScriptForm #HowToDevelopEfficientlyServerScript {
+    border: none;
+    background: none;
 }
 
-#HowToDevelopEfficientlyStyleHidden,
-#HowToDevelopEfficientlyScriptHidden,
-#HowToDevelopEfficientlyHtmlHidden,
-#HowToDevelopEfficientlyServerScriptHidden {
+#StyleForm #HowToDevelopEfficientlyStyleHidden,
+#ScriptForm #HowToDevelopEfficientlyScriptHidden,
+#HtmlForm #HowToDevelopEfficientlyHtmlHidden,
+#ServerScriptForm #HowToDevelopEfficientlyServerScriptHidden {
     visibility: hidden;
+}
+
+#StyleForm .command-center,
+#ScriptForm .command-center,
+#HtmlForm .command-center,
+#ServerScriptForm .command-center {
+    display: inline-flex;
+    margin-left: 35%;
 }
