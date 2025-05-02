@@ -1915,6 +1915,7 @@ namespace Implem.DefinitionAccessor
                     case "SysLogs_UserLanguage": Column.SysLogs_UserLanguage = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_UserLanguage, definitionRow, ColumnXls); break;
                     case "SysLogs_VirtualMemorySize64": Column.SysLogs_VirtualMemorySize64 = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_VirtualMemorySize64, definitionRow, ColumnXls); break;
                     case "SysLogs_WorkingSet64": Column.SysLogs_WorkingSet64 = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_WorkingSet64, definitionRow, ColumnXls); break;
+                    case "Tenants_AllowExtensionsApi": Column.Tenants_AllowExtensionsApi = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_AllowExtensionsApi, definitionRow, ColumnXls); break;
                     case "Tenants_Body": Column.Tenants_Body = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_Body, definitionRow, ColumnXls); break;
                     case "Tenants_ContractDeadline": Column.Tenants_ContractDeadline = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_ContractDeadline, definitionRow, ColumnXls); break;
                     case "Tenants_ContractSettings": Column.Tenants_ContractSettings = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_ContractSettings, definitionRow, ColumnXls); break;
@@ -9355,6 +9356,7 @@ namespace Implem.DefinitionAccessor
         public string SysLogs_UserLanguage;
         public string SysLogs_VirtualMemorySize64;
         public string SysLogs_WorkingSet64;
+        public string Tenants_AllowExtensionsApi;
         public string Tenants_Body;
         public string Tenants_ContractDeadline;
         public string Tenants_ContractSettings;
@@ -9926,6 +9928,7 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition SysLogs_UserLanguage = new ColumnDefinition();
         public ColumnDefinition SysLogs_VirtualMemorySize64 = new ColumnDefinition();
         public ColumnDefinition SysLogs_WorkingSet64 = new ColumnDefinition();
+        public ColumnDefinition Tenants_AllowExtensionsApi = new ColumnDefinition();
         public ColumnDefinition Tenants_Body = new ColumnDefinition();
         public ColumnDefinition Tenants_ContractDeadline = new ColumnDefinition();
         public ColumnDefinition Tenants_ContractSettings = new ColumnDefinition();

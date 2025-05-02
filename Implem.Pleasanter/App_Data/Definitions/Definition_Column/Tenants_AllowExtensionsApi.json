@@ -1,0 +1,18 @@
+﻿{
+    "Id": "Tenants_AllowExtensionsApi",
+    "ModelName": "Tenant",
+    "TableName": "Tenants",
+    "Label": "テナント",
+    "ColumnName": "AllowExtensionsApi",
+    "LabelText": "Extensions APIを許可する",
+    "No": "108",
+    "History": "108",
+    "TypeName": "bit",
+    "Nullable": "1",
+    "LabelText_en": "Allow extensions API",
+    "LabelText_zh": "允许扩展 API",
+    "LabelText_de": "Erweiterungen-API zulassen",
+    "LabelText_ko": "확장 API 허용",
+    "LabelText_es": "Permitir API de extensiones",
+    "LabelText_vn": "Cho phép API tiện ích mở rộng"
+}

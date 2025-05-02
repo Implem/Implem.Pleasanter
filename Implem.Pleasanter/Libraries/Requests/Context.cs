@@ -83,6 +83,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public string RecordTitle { get; set; }
         public bool DisableAllUsersPermission { get; set; }
         public bool DisableApi { get; set; }
+        public bool AllowExtensionsApi { get; set; }
         public bool DisableStartGuide { get; set; }
         public string HtmlTitleTop { get; set; }
         public string HtmlTitleSite { get; set; }
@@ -500,6 +501,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                             .LogoType()
                             .DisableAllUsersPermission()
                             .DisableApi()
+                            .AllowExtensionsApi()
                             .DisableStartGuide()
                             .HtmlTitleTop()
                             .HtmlTitleSite()
@@ -519,6 +521,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                     LogoType = (TenantModel.LogoTypes)dataRow.Int("LogoType");
                     DisableAllUsersPermission = dataRow.Bool("DisableAllUsersPermission");
                     DisableApi = dataRow.Bool("DisableApi");
+                    AllowExtensionsApi = dataRow.Bool("AllowExtensionsApi");
                     DisableStartGuide = dataRow.Bool("DisableStartGuide");
                     HtmlTitleTop = dataRow.String("HtmlTitleTop");
                     HtmlTitleSite = dataRow.String("HtmlTitleSite");
