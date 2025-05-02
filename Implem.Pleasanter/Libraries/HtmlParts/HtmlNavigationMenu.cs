@@ -670,23 +670,22 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             switch (menu.MenuId)
             {
                 case "NewMenu":
+                    if (ss.ReferenceType == "Users"
+                        && context.UserSettings?.EnableManageTenant == true)
+                    {
+                        return false;
+                    }
                     return ss.ReferenceType == "Sites" && context.Action == "index"
                         ? context.CanManageSite(ss: ss)
                         : ss.ReferenceType == "Groups"
                             ? canCreateGroups
                                 && context.Action != "trashbox"
-                            : ss.ReferenceType == "Users"
-                                && context.UserSettings?.EnableManageTenant == true
-                                ? !context.UserSettings?.EnableManageTenant == true
-                                : ss.ReferenceType == "Depts"
-                                    && context.UserSettings?.EnableManageTenant == true
-                                    ? context.UserSettings?.EnableManageTenant == true
-                                    : context.CanCreate(ss: ss, site: true)
-                                        && ss.ReferenceType != "Wikis"
-                                        && context.Action != "trashbox"
-                                        && ss.ReferenceType != "Dashboards"
-                                        && !(ss.ReferenceType == "Sites" && context.Action == "edit")
-                                        && !isSearch;
+                            : context.CanCreate(ss: ss, site: true)
+                                && ss.ReferenceType != "Wikis"
+                                && context.Action != "trashbox"
+                                && ss.ReferenceType != "Dashboards"
+                                && ss.ReferenceType != null
+                                && !(ss.ReferenceType == "Sites" && context.Action == "edit");
                 case "ViewModeMenu":
                     return Def.ViewModeDefinitionCollection
                         .Any(o => o.ReferenceType == referenceType);
