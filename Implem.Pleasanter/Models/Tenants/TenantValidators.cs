@@ -284,6 +284,21 @@ namespace Implem.Pleasanter.Models
                                 sysLogsDescription: Debugs.GetSysLogsDescription());
                         }
                         break;
+                    case "AllowExtensionsApi":
+                        if (tenantModel.AllowExtensionsApi_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
+                        {
+                            return new ErrorData(
+                                context: context,
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText,
+                                api: api,
+                                sysLogsStatus: 403,
+                                sysLogsDescription: Debugs.GetSysLogsDescription());
+                        }
+                        break;
                     case "DisableStartGuide":
                         if (tenantModel.DisableStartGuide_Updated(
                             context: context,
@@ -691,6 +706,18 @@ namespace Implem.Pleasanter.Models
                         break;
                     case "DisableApi":
                         if (tenantModel.DisableApi_Updated(context: context))
+                        {
+                            return new ErrorData(
+                                context: context,
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText,
+                                api: api,
+                                sysLogsStatus: 403,
+                                sysLogsDescription: Debugs.GetSysLogsDescription());
+                        }
+                        break;
+                    case "AllowExtensionsApi":
+                        if (tenantModel.AllowExtensionsApi_Updated(context: context))
                         {
                             return new ErrorData(
                                 context: context,
