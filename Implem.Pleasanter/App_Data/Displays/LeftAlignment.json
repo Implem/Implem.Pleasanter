@@ -1,6 +1,7 @@
 ﻿{
     "Id": "LeftAlignment",
     "Type": 110,
+    "ClientScript": true,
     "Languages": [
         {
             "Body": "Left alignment"

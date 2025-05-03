@@ -1341,7 +1341,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             tenantModel: tenantModel,
-                            process: processes?.FirstOrDefault(o => o.MatchConditions)));
+                            processes: processes));
                     return new ResponseCollection(
                         context: context,
                         id: tenantModel.TenantId)
@@ -1368,13 +1368,15 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             TenantModel tenantModel,
-            Process process)
+            List<Process> processes)
         {
+            var process = processes?.FirstOrDefault(o => !o.SuccessMessage.IsNullOrEmpty()
+                && o.MatchConditions);
             if (process == null)
             {
                 return Messages.Created(
                     context: context,
-                    data: tenantModel.Title.Value);
+                    data: tenantModel.Title.MessageDisplay(context: context));
             }
             else
             {

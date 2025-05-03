@@ -114,7 +114,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static string SiteImagePrefix(
+        public static DateTime SiteImageUpdatedTime(
             Context context,
             SiteSettings ss,
             long referenceId,
@@ -126,9 +126,9 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return string.Empty;
+                default: return DateTime.FromOADate(0);
             }
-            return new BinaryModel(referenceId).SiteImagePrefix(
+            return new BinaryModel(referenceId).SiteImageUpdatedTime(
                 context: context,
                 sizeType: sizeType);
         }
@@ -136,7 +136,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static string TenantImagePrefix(
+        public static DateTime TenantImageUpdatedTime(
             Context context,
             SiteSettings ss,
             long referenceId,
@@ -148,9 +148,9 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return string.Empty;
+                default: return DateTime.FromOADate(0);
             }
-            return new BinaryModel(referenceId).TenantImagePrefix(
+            return new BinaryModel(referenceId).TenantImageUpdatedTime(
                 context: context,
                 sizeType: sizeType);
         }

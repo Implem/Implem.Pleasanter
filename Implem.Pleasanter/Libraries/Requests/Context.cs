@@ -1014,7 +1014,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         private string CreateFormStringRaw(HttpRequest request)
         {
             if (!AspNetCoreHttpContext.Current.Request.HasFormContentType) return string.Empty;
-            if (request.Form.Count == 1 && string.IsNullOrEmpty(request.Form.Keys.First())) return request.Form.First().Value;
+            if (request.Form.Count == 1 && string.IsNullOrEmpty(request.Form.First().Value)) return request.Form.First().Key;
             return string.Join('&', request.Form?.Select(data => $"{HttpUtility.UrlEncode(data.Key)}={HttpUtility.UrlEncode(data.Value)}"));
         }
 

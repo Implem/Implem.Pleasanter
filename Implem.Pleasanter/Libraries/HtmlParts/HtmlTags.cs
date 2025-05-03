@@ -805,5 +805,34 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Text(text: text))
                 : hb;
         }
+
+        public static HtmlBuilder SmartDesignLink(
+            this HtmlBuilder hb,
+            string id = null,
+            string css = null,
+            string href = null,
+            string target = null,
+            string dataTooltip = null,
+            HtmlAttributes attributes = null,
+            string text = null,
+            bool _using = true,
+            Action action = null)
+        {
+            return _using
+                ? hb.Append(
+                    tag: "smart-design-link",
+                    id: id,
+                    css: css,
+                    attributes: (attributes ?? new HtmlAttributes())
+                        .Id(id)
+                        .Class(css)
+                        .Href(href)
+                        .DataTooltip(dataTooltip)
+                        .Target(target),
+                    action: action != null
+                        ? action
+                        : () => hb.Text(text))
+                : hb;
+        }
     }
 }

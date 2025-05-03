@@ -1,6 +1,7 @@
 ﻿{
     "Id": "RadioButton",
     "Type": 110,
+    "ClientScript": true,
     "Languages": [
         {
             "Body": "Radio button"

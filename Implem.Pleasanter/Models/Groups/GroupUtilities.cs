@@ -1664,7 +1664,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             groupModel: groupModel,
-                            process: processes?.FirstOrDefault(o => o.MatchConditions)));
+                            processes: processes));
                     return new ResponseCollection(
                         context: context,
                         id: groupModel.GroupId)
@@ -1691,13 +1691,15 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             GroupModel groupModel,
-            Process process)
+            List<Process> processes)
         {
+            var process = processes?.FirstOrDefault(o => !o.SuccessMessage.IsNullOrEmpty()
+                && o.MatchConditions);
             if (process == null)
             {
                 return Messages.Created(
                     context: context,
-                    data: groupModel.Title.Value);
+                    data: groupModel.Title.MessageDisplay(context: context));
             }
             else
             {
@@ -4162,7 +4164,7 @@ namespace Implem.Pleasanter.Models
                 {
                     return ApiResults.Error(
                         context: context,
-                        errorData: new ErrorData(type: Error.Types.NotRequiredColumn),
+                        errorData: new ErrorData(type: Error.Types.NotIncludedRequiredColumn),
                         data: column.ColumnName);
                 }
             }
@@ -4229,7 +4231,7 @@ namespace Implem.Pleasanter.Models
                 {
                     return ApiResults.Error(
                         context: context,
-                        errorData: new ErrorData(type: Error.Types.NotRequiredColumn),
+                        errorData: new ErrorData(type: Error.Types.NotIncludedRequiredColumn),
                         data: column.ColumnName);
                 }
             }

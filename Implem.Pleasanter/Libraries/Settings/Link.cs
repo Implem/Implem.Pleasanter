@@ -3,6 +3,7 @@ using Implem.Libraries.DataSources.Interfaces;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
+using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
@@ -11,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Threading;
 namespace Implem.Pleasanter.Libraries.Settings
 {
     [Serializable]
@@ -77,6 +79,40 @@ namespace Implem.Pleasanter.Libraries.Settings
                 });
         }
 
+        public Link(
+            string columnName,
+            long siteId,
+            string tableName,
+            int? priority,
+            bool? noAddButton,
+            bool? addSource,
+            bool? notReturnParentRecord,
+            bool? excludeMe,
+            bool? membersOnly,
+            bool? selectNewLink,
+            string searchFormat,
+            View view,
+            Lookups lookups,
+            LinkActions linkActions,
+            bool? jsonFormat)
+        {
+            ColumnName = columnName;
+            SiteId = siteId;
+            TableName = tableName;
+            Priority = priority;
+            NoAddButton = noAddButton;
+            AddSource = addSource;
+            NotReturnParentRecord = notReturnParentRecord;
+            ExcludeMe = excludeMe;
+            MembersOnly = membersOnly;
+            SelectNewLink = selectNewLink;
+            SearchFormat = searchFormat;
+            View = view;
+            Lookups = lookups;
+            LinkActions = linkActions;
+            JsonFormat = jsonFormat;
+        }
+
         public string LinkedTableName()
         {
             return $"{ColumnName}~{SiteId}";
@@ -123,6 +159,40 @@ namespace Implem.Pleasanter.Libraries.Settings
                 default:
                     return ss;
             }
+        }
+
+        public void Update(
+            string columnName,
+            long siteId,
+            string tableName,
+            int? priority,
+            bool? noAddButton,
+            bool? addSource,
+            bool? notReturnParentRecord,
+            bool? excludeMe,
+            bool? membersOnly,
+            bool? selectNewLink,
+            string searchFormat,
+            View view,
+            Lookups lookups,
+            LinkActions linkActions,
+            bool? jsonFormat)
+        {
+            ColumnName = columnName;
+            SiteId = siteId;
+            if (tableName != null) TableName = tableName;
+            if (priority != null) Priority = priority;
+            if (noAddButton != null) NoAddButton = noAddButton;
+            if (addSource != null) AddSource = addSource;
+            if (notReturnParentRecord != null) NotReturnParentRecord = notReturnParentRecord;
+            if (excludeMe != null) ExcludeMe = excludeMe;
+            if (membersOnly != null) MembersOnly = membersOnly;
+            if (selectNewLink != null) SelectNewLink = selectNewLink;
+            if (searchFormat != null) SearchFormat = searchFormat;
+            if (view != null) View = view;
+            if (lookups != null) Lookups = lookups;
+            if (linkActions != null) LinkActions = linkActions;
+            if (jsonFormat != null) JsonFormat = jsonFormat;
         }
 
         public void SetChoiceHash(
