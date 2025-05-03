@@ -1,6 +1,6 @@
 ﻿{
     "Name": "Implem.Pleasanter",
-    "EnvironmentName": "Implem.Pleasanter.Env",
+    "EnvironmentName": null,
     "TimeZoneDefault": "UTC",
     "DefaultPassword": "pleasanter",
     "DeploymentEnvironment": null,
