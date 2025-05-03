@@ -1,4 +1,5 @@
 ﻿using Implem.Pleasanter.Libraries.Requests;
+using System.Collections.Generic;
 namespace Implem.Pleasanter.Libraries.Settings
 {
     public class Section
@@ -48,6 +49,20 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             var data = context.Forms.Bool(controlId);
             return data;
+        }
+
+        public void Update(
+            int id,
+            string labelText,
+            bool? allowExpand,
+            bool? expand,
+            bool? hide)
+        {
+            Id = id;
+            if (labelText != null) LabelText = labelText;
+            if (allowExpand != null) AllowExpand = allowExpand;
+            if (expand != null) Expand = expand;
+            if (hide != null) Hide = hide;
         }
     }
 }

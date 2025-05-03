@@ -60,25 +60,38 @@ namespace Implem.DefinitionAccessor
         public static Dashboard Dashboard;
         public static GroupChildren GroupChildren;
         public static OutputCache OutputCache;
+        public static TrialLicense TrialLicense;
 
         public static bool CommercialLicense()
         {
-            return License.Check();
+            return TrialLicense?.Check() ?? License.Check();
         }
 
         public static int LicensedUsers()
         {
-            return License.Users;
+            return TrialLicense?.Users ?? License.Users;
         }
 
         public static DateTime LicenseDeadline()
         {
-            return License.Deadline;
+            return TrialLicense?.Deadline ?? License.Deadline;
         }
 
         public static string Licensee()
         {
-            return License.Licensee;
+            return TrialLicense?.Licensee ?? License.Licensee;
+        }
+
+        public static int GetLicenseType()
+        {
+            if (License.Deadline == DateTime.MinValue
+                && (License.Licensee == null || License.Licensee == "")
+                && License.Users == 0)
+            {
+                if (TrialLicense == null) return 0x02;
+                return TrialLicense.Check() ? 0x08 : 0x09;
+            }
+            return License.Check() ? 0x04 : 0x05;
         }
 
         public static string Copyright()
@@ -100,10 +113,16 @@ namespace Implem.DefinitionAccessor
             var prop = License.GetType().GetProperty("DisableAds");
             return (bool?)(prop?.GetValue(License)) ?? false;
         }
+
         public static int Environment()
         {
             var prop = License.GetType().GetProperty("Environment");
-            return (int?)(prop?.GetValue(License)) ?? 0;
+            var retVal = (int?)(prop?.GetValue(License)) ?? 0;
+            return retVal != 0
+                ? retVal
+                : TrialLicense != null
+                    ? 3
+                    : 0;
         }
 
         public static Dictionary<string, object> GetLicenseInfo()

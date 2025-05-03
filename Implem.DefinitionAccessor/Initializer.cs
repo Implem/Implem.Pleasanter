@@ -714,6 +714,14 @@ namespace Implem.DefinitionAccessor
             SetColumnDefinitionAccessControl();
         }
 
+        public static void SetDefinitionsTrial()
+        {
+            Def.SetColumnDefinition();
+            SetColumnDefinitionAccessControl();
+            SetTimeZone();
+            SetLanguage();
+        }
+
         public static XlsIo DefinitionFile(string name)
         {
             var path = name == "Demo" && Environments.PleasanterTest

@@ -143,24 +143,23 @@ public static bool UpdateByServerScript(
             return false;
     }
 }
-        private static bool HasInvalidValueAsApiDataAtUpdate(#ModelName#ApiModel model)
+
+private static bool HasInvalidValueAsApiDataAtUpdate(#ModelName#ApiModel model)
+{
+    if (model is null)
+        return false;
+    foreach (var o in model.AttachmentsHash)
+    {
+        var isUploading = o.Key.EndsWith("#Uploading");
+        foreach (var attachment in o.Value)
         {
-            if (model is null)
-                return false;
-
-            foreach (var o in model.AttachmentsHash)
-            {
-                foreach (var attachment in o.Value)
-                {
-                    if (attachment.Deleted ?? false)
-                        continue;
-
-                    if (attachment.Name.IsNullOrEmpty())
-                        return true;
-
-                    if (attachment.Base64 is null && attachment.Base64Binary is null)
-                        return true;
-                }
-            }
-            return false;
+            if (attachment.Deleted ?? false)
+                continue;
+            if (attachment.Name.IsNullOrEmpty())
+                return true;
+            if (!isUploading && attachment.Base64 is null && attachment.Base64Binary is null)
+                return true;
         }
+    }
+    return false;
+}

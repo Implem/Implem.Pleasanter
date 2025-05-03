@@ -53,54 +53,17 @@
     switch (#modelName#Model.AccessStatus)
     {
         case Databases.AccessStatuses.Selected:
-            break;
+            return UpdateByServerScript(
+                context: context,
+                ss: ss,
+                #modelName#Id: #modelName#Model.#ModelName#Id, 
+                previousTitle: #modelName#Model.Title.DisplayValue,
+                model: model);
         case Databases.AccessStatuses.NotFound:
             return CreateByServerScript(
                 context: context,
                 ss: ss,
                 model: model);
-        default:
-            return false;
-    }
-    var invalid = #ModelName#Validators.OnUpdating(
-        context: context,
-        ss: ss,
-        #modelName#Model: #modelName#Model,
-        api: true,
-        serverScript: true);
-    switch (invalid.Type)
-    {
-        case Error.Types.None:
-            break;
-        default:
-            return false;
-    }
-    #modelName#Model.SiteId = ss.SiteId;
-    #modelName#Model.SetTitle(
-        context: context,
-        ss: ss);
-    #modelName#Model.VerUp = Versions.MustVerUp(
-        context: context,
-        ss: ss,
-        baseModel: #modelName#Model);
-    var errorData = #modelName#Model.Update(
-        context: context,
-        ss: ss,
-        notice: true,
-        previousTitle: previousTitle);
-    switch (errorData.Type)
-    {
-        case Error.Types.None:
-            if (model is Libraries.ServerScripts.ServerScriptModelApiModel serverScriptModelApiModel)
-            {
-                if (serverScriptModelApiModel.Model is #ModelName#Model data)
-                {
-                    data.SetByModel(#modelName#Model: #modelName#Model);
-                }
-            }
-            return true;
-        case Error.Types.Duplicated:
-            return false;
         default:
             return false;
     }

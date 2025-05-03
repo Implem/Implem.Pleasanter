@@ -1,0 +1,34 @@
+﻿{
+    "Id": "Updator",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Updated by"
+        },
+        {
+            "Language": "zh",
+            "Body": "更新人员"
+        },
+        {
+            "Language": "ja",
+            "Body": "更新者"
+        },
+        {
+            "Language": "de",
+            "Body": "Aktualisiert von"
+        },
+        {
+            "Language": "ko",
+            "Body": "업데이트자"
+        },
+        {
+            "Language": "es",
+            "Body": "Actualizado por"
+        },
+        {
+            "Language": "vn",
+            "Body": "Người cập nhật"
+        }
+    ]
+}

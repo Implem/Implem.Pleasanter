@@ -64,62 +64,16 @@
     switch (#modelName#Model.AccessStatus)
     {
         case Databases.AccessStatuses.Selected:
-            break;
+            return UpdateByApi(
+                context: context, 
+                ss: ss, 
+                #modelName#Id: #modelName#Model.#ModelName#Id, 
+                previousTitle: #modelName#Model.Title.DisplayValue);
         case Databases.AccessStatuses.NotFound:
             return CreateByApi(context: context, ss: ss);
         case Databases.AccessStatuses.Overlap:
             return ApiResults.Get(ApiResponses.Overlap(context: context));
         default:
             return ApiResults.Get(ApiResponses.NotFound(context: context));
-    }
-    var invalid = #ModelName#Validators.OnUpdating(
-        context: context,
-        ss: ss,
-        #modelName#Model: #modelName#Model,
-        api: true,
-        serverScript: true);
-    switch (invalid.Type)
-    {
-        case Error.Types.None: break;
-        default:
-            return ApiResults.Error(
-        context: context,
-        errorData: invalid);
-    }
-    #modelName#Model.SiteId = ss.SiteId;
-    #modelName#Model.SetTitle(
-        context: context,
-        ss: ss);
-    #modelName#Model.VerUp = Versions.MustVerUp(
-        context: context,
-        ss: ss,
-        baseModel: #modelName#Model);
-    var errorData = #modelName#Model.Update(
-        context: context,
-        ss: ss,
-        notice: true,
-        previousTitle: previousTitle);
-    BinaryUtilities.UploadImage(
-        context: context,
-        ss: ss,
-        id: #modelName#Model.#ModelName#Id,
-        postedFileHash: #modelName#Model.PostedImageHash);
-    switch (errorData.Type)
-    {
-        case Error.Types.None:
-            return ApiResults.Success(
-                #modelName#Model.#ModelName#Id,
-                limitPerDate: context.ContractSettings.ApiLimit(),
-                limitRemaining: context.ContractSettings.ApiLimit() - ss.ApiCount,
-                message: Displays.Updated(
-                    context: context,
-                    data: #modelName#Model.Title.MessageDisplay(context: context)));
-
-<!--Model_Utilities_ApiDuplicatedMessage-->
-
-        default:
-            return ApiResults.Error(
-                context: context,
-                errorData: errorData);
     }
 }

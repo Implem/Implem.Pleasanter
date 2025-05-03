@@ -47,6 +47,18 @@
     }
     if (csv != null && count > 0)
     {
+        var rejectNullImport = (bool)ss.RejectNullImport;
+        if (rejectNullImport)
+        {
+            var notVaridateRequiredColumn = Imports.CheckForExistValidateRequiredColumn(csvHeaders: csv.Headers, ss: ss, context: context);
+            if (notVaridateRequiredColumn != null) return notVaridateRequiredColumn;
+            foreach (var rows in csv.Rows)
+            {
+                Dictionary<string, Dictionary<string, string>> settingsPerHeaders = Imports.GetCsvHeaderSettings(csv: csv, ss: ss, rows: rows);
+                var brankDataInValidateRequiredColumn = Imports.CheckForBrankDataInValidateRequiredColumn(settingsPerHeaders: settingsPerHeaders, context: context);
+                if (brankDataInValidateRequiredColumn != null) return brankDataInValidateRequiredColumn;
+            }
+        }
         var columnHash = ImportUtilities.GetColumnHash(ss, csv);
         var idColumn = columnHash
             .Where(o => o.Value.Column.ColumnName == "#ModelName#Id")

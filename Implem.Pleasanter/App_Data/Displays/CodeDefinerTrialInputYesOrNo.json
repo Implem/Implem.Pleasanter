@@ -1,0 +1,9 @@
+﻿{
+    "Id": "CodeDefinerTrialInputYesOrNo",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "Type \"y\" (yes) to continue the Pleasanter Extensions Trial process, otherwise type \"n\" (no)."
+        }
+    ]
+}
