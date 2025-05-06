@@ -8,7 +8,9 @@ namespace Implem.CodeDefiner.Functions.Rds
 {
     public static class TimeConverter
     {
-        public static void Convert(ISqlObjectFactory factory)
+        public static void Convert(
+            ISqlObjectFactory factory,
+            int hourOffset)
         {
             Def.ColumnDefinitionCollection
                 .Where(columnDefinition => columnDefinition.TableName != "_Bases")
@@ -21,17 +23,17 @@ namespace Implem.CodeDefiner.Functions.Rds
                         factory: factory,
                         tableName: tableName,
                         suffix: string.Empty,
-                        offset: -9);
+                        hourOffset: hourOffset);
                     Convert(
                         factory: factory,
                         tableName: tableName,
                         suffix: "_deleted",
-                        offset: -9);
+                        hourOffset: hourOffset);
                     Convert(
                         factory: factory,
                         tableName: tableName,
                         suffix: "_history",
-                        offset: -9);
+                        hourOffset: hourOffset);
                 });
         }
 
@@ -39,14 +41,14 @@ namespace Implem.CodeDefiner.Functions.Rds
             ISqlObjectFactory factory,
             string tableName,
             string suffix,
-            int offset)
+            int hourOffset)
         {
             Consoles.Write(tableName + suffix, Consoles.Types.Info);
             ConvertDateTimeColumns(
                 factory: factory,
                 tableName: tableName,
                 suffix: suffix,
-                offset: offset);
+                hourOffset: hourOffset);
             ConvertComments(
                 factory: factory,
                 tableName: tableName,
@@ -57,7 +59,7 @@ namespace Implem.CodeDefiner.Functions.Rds
             ISqlObjectFactory factory,
             string tableName,
             string suffix,
-            int offset)
+            int hourOffset)
         {
             var commandText = $"update \"{tableName}{suffix}\" set\n"
                 + Def.ColumnDefinitionCollection
@@ -65,7 +67,7 @@ namespace Implem.CodeDefiner.Functions.Rds
                     .Where(columnDefinition => columnDefinition.TypeName == "datetime")
                     .Where(columnDefinition => !columnDefinition.NotUpdate)
                     .Select(columnDefinition => columnDefinition.ColumnName)
-                    .Select(columnName => $"\"{columnName}\"=dateadd(hour, {offset}, \"{columnName}\")")
+                    .Select(columnName => $"\"{columnName}\"=dateadd(hour, {hourOffset}, \"{columnName}\")")
                     .Join("\n,");
             Def.SqlIoBySa(
                 factory: factory,
