@@ -226,7 +226,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         originEndDate = endDate;
                     if (startDate === 0 && endDate === 0)
                     {
-                        if(['Y', 'M', 'D', 'MD', 'YM', 'YD'].includes(unit) ) 
+                        if(['Y', 'M', 'D', 'H', 'N', 'S', 'MD', 'YM', 'YD'].includes(unit) ) 
                         {
                             return 0;
                         }
