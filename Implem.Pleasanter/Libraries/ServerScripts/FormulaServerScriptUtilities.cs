@@ -280,6 +280,12 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                                 || (endDate >= startDate && startDate >= -2203915324000))
                                 ? diff
                                 : (startDate < endDate ? diff - 1 : diff);
+                        case 'H':
+                            return Math.floor((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60));
+                        case 'N':
+                            return Math.floor((endDate.getTime() - startDate.getTime()) / (1000 * 60));
+                        case 'S':
+                            return Math.floor((endDate.getTime() - startDate.getTime()) / 1000);
                         case 'MD':
                             return endDate.getDate() - startDate.getDate()
                                 + (endDate.getDate() >= startDate.getDate() ? 0 : new Date(endDate.setDate(0)).getDate());
