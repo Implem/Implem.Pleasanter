@@ -20,28 +20,33 @@ namespace Implem.CodeDefiner.Functions.Rds
                     Convert(
                         factory: factory,
                         tableName: tableName,
-                        suffix: string.Empty);
+                        suffix: string.Empty,
+                        offset: -9);
                     Convert(
                         factory: factory,
                         tableName: tableName,
-                        suffix: "_deleted");
+                        suffix: "_deleted",
+                        offset: -9);
                     Convert(
                         factory: factory,
                         tableName: tableName,
-                        suffix: "_history");
+                        suffix: "_history",
+                        offset: -9);
                 });
         }
 
         private static void Convert(
             ISqlObjectFactory factory,
             string tableName,
-            string suffix)
+            string suffix,
+            int offset)
         {
             Consoles.Write(tableName + suffix, Consoles.Types.Info);
             ConvertDateTimeColumns(
                 factory: factory,
                 tableName: tableName,
-                suffix: suffix);
+                suffix: suffix,
+                offset: offset);
             ConvertComments(
                 factory: factory,
                 tableName: tableName,
@@ -51,7 +56,8 @@ namespace Implem.CodeDefiner.Functions.Rds
         private static void ConvertDateTimeColumns(
             ISqlObjectFactory factory,
             string tableName,
-            string suffix)
+            string suffix,
+            int offset)
         {
             var commandText = $"update \"{tableName}{suffix}\" set\n"
                 + Def.ColumnDefinitionCollection
@@ -59,7 +65,7 @@ namespace Implem.CodeDefiner.Functions.Rds
                     .Where(columnDefinition => columnDefinition.TypeName == "datetime")
                     .Where(columnDefinition => !columnDefinition.NotUpdate)
                     .Select(columnDefinition => columnDefinition.ColumnName)
-                    .Select(columnName => $"\"{columnName}\"=dateadd(hour, -9, \"{columnName}\")")
+                    .Select(columnName => $"\"{columnName}\"=dateadd(hour, {offset}, \"{columnName}\")")
                     .Join("\n,");
             Def.SqlIoBySa(
                 factory: factory,
