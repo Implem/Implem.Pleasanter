@@ -36,7 +36,7 @@ $p.userId = function () {
 }
 
 $p.groupIds = function () {
-    return JSON.parse($('#GroupIds').val())
+    return JSON.parse($('#GroupIds').val());
 }
 
 $p.userName = function () {
