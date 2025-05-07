@@ -991,6 +991,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Validator_RecordPermissions": Code.Model_Validator_RecordPermissions = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_RecordPermissions, definitionRow, CodeXls); break;
                     case "Model_Validator_ShowProfiles": Code.Model_Validator_ShowProfiles = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_ShowProfiles, definitionRow, CodeXls); break;
                     case "Model_Validator_ShowProfilesAndHasPrivilege": Code.Model_Validator_ShowProfilesAndHasPrivilege = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_ShowProfilesAndHasPrivilege, definitionRow, CodeXls); break;
+                    case "Model_Validator_ShowProfilesAndHasPrivilegeAndEnableManageTenant": Code.Model_Validator_ShowProfilesAndHasPrivilegeAndEnableManageTenant = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_ShowProfilesAndHasPrivilegeAndEnableManageTenant, definitionRow, CodeXls); break;
                     case "Model_ValidatorMethods": Code.Model_ValidatorMethods = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ValidatorMethods, definitionRow, CodeXls); break;
                     case "Model_ValidatorMethods_Binaries": Code.Model_ValidatorMethods_Binaries = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ValidatorMethods_Binaries, definitionRow, CodeXls); break;
                     case "Model_ViewAfterComma": Code.Model_ViewAfterComma = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ViewAfterComma, definitionRow, CodeXls); break;
@@ -1915,6 +1916,7 @@ namespace Implem.DefinitionAccessor
                     case "SysLogs_UserLanguage": Column.SysLogs_UserLanguage = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_UserLanguage, definitionRow, ColumnXls); break;
                     case "SysLogs_VirtualMemorySize64": Column.SysLogs_VirtualMemorySize64 = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_VirtualMemorySize64, definitionRow, ColumnXls); break;
                     case "SysLogs_WorkingSet64": Column.SysLogs_WorkingSet64 = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_WorkingSet64, definitionRow, ColumnXls); break;
+                    case "Tenants_AllowExtensionsApi": Column.Tenants_AllowExtensionsApi = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_AllowExtensionsApi, definitionRow, ColumnXls); break;
                     case "Tenants_Body": Column.Tenants_Body = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_Body, definitionRow, ColumnXls); break;
                     case "Tenants_ContractDeadline": Column.Tenants_ContractDeadline = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_ContractDeadline, definitionRow, ColumnXls); break;
                     case "Tenants_ContractSettings": Column.Tenants_ContractSettings = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_ContractSettings, definitionRow, ColumnXls); break;
@@ -7536,6 +7538,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Validator_RecordPermissions;
         public string Model_Validator_ShowProfiles;
         public string Model_Validator_ShowProfilesAndHasPrivilege;
+        public string Model_Validator_ShowProfilesAndHasPrivilegeAndEnableManageTenant;
         public string Model_ValidatorMethods;
         public string Model_ValidatorMethods_Binaries;
         public string Model_ViewAfterComma;
@@ -8396,6 +8399,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Validator_RecordPermissions = new CodeDefinition();
         public CodeDefinition Model_Validator_ShowProfiles = new CodeDefinition();
         public CodeDefinition Model_Validator_ShowProfilesAndHasPrivilege = new CodeDefinition();
+        public CodeDefinition Model_Validator_ShowProfilesAndHasPrivilegeAndEnableManageTenant = new CodeDefinition();
         public CodeDefinition Model_ValidatorMethods = new CodeDefinition();
         public CodeDefinition Model_ValidatorMethods_Binaries = new CodeDefinition();
         public CodeDefinition Model_ViewAfterComma = new CodeDefinition();
@@ -9355,6 +9359,7 @@ namespace Implem.DefinitionAccessor
         public string SysLogs_UserLanguage;
         public string SysLogs_VirtualMemorySize64;
         public string SysLogs_WorkingSet64;
+        public string Tenants_AllowExtensionsApi;
         public string Tenants_Body;
         public string Tenants_ContractDeadline;
         public string Tenants_ContractSettings;
@@ -9926,6 +9931,7 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition SysLogs_UserLanguage = new ColumnDefinition();
         public ColumnDefinition SysLogs_VirtualMemorySize64 = new ColumnDefinition();
         public ColumnDefinition SysLogs_WorkingSet64 = new ColumnDefinition();
+        public ColumnDefinition Tenants_AllowExtensionsApi = new ColumnDefinition();
         public ColumnDefinition Tenants_Body = new ColumnDefinition();
         public ColumnDefinition Tenants_ContractDeadline = new ColumnDefinition();
         public ColumnDefinition Tenants_ContractSettings = new ColumnDefinition();

@@ -6673,6 +6673,8 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder EditorSettingsEditor(
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
+            var showLinkText = !Parameters.DisableAds()
+                && (!Parameters.CommercialLicense() || Parameters.Service.Demo);
             return hb.TabsPanelField(id: "EditorSettingsEditor", action: () => hb
                 .FieldSet(
                     css: " enclosed",
@@ -6793,10 +6795,19 @@ namespace Implem.Pleasanter.Models
                                         onClick: "$p.enableColumns(event, $(this),'Editor', 'EditorSourceColumnsType');",
                                         icon: "ui-icon-circle-triangle-w",
                                         action: "SetSiteSettings",
-                                        method: "post")),
-                            setSearchOptionButton: true,
-                            searchOptionId: "OpenSearchEditorColumnDialog",
-                            searchOptionFunction: "$p.openSearchEditorColumnDialog($(this));")
+                                        method: "post")
+                                    .SearchOptionButton(
+                                        setSearchOptionButton: true,
+                                        searchOptionId: "OpenSearchEditorColumnDialog",
+                                        searchOptionFunction: "$p.openSearchEditorColumnDialog($(this));")))
+                        .FieldText(
+                            fieldId: "DoNotHaveEnoughColumnsField",
+                            controlId: "DoNotHaveEnoughColumns",
+                            controlOnly: true,
+                            text: Displays.DoNotHaveEnoughColumns(context: context),
+                            openAnchorNewTab: true,
+                            anchorFormat: Parameters.General.HtmlSupportUrl,
+                            _using: showLinkText)
                         .Hidden(
                             controlId: "SearchEditorColumnDialogInput",
                             css: "always-send",
@@ -14854,6 +14865,8 @@ namespace Implem.Pleasanter.Models
                 (ss.ReferenceType == "Sites"
                     ? " hidden"
                     : string.Empty);
+            var showLinkText = !Parameters.DisableAds()
+                && (!Parameters.CommercialLicense() || Parameters.Service.Demo);
             return hb.Form(
                 attributes: new HtmlAttributes()
                     .Id("StyleForm")
@@ -14972,6 +14985,14 @@ namespace Implem.Pleasanter.Models
                         _using: ss.ReferenceType == "Dashboards")
                     .P(css: "message-dialog")
                     .Div(css: "command-center", action: () => hb
+                        .FieldText(
+                            fieldId: "HowToDevelopEfficientlyStyleField",
+                            controlId: "HowToDevelopEfficientlyStyle",
+                            controlOnly: true,
+                            text: Displays.HowToDevelopEfficiently(context: context),
+                            openAnchorNewTab: true,
+                            anchorFormat: Parameters.General.HtmlCodeAssistUrl,
+                            _using: showLinkText)
                         .Button(
                             controlId: "AddStyle",
                             text: Displays.Add(context: context),
@@ -14994,7 +15015,13 @@ namespace Implem.Pleasanter.Models
                             text: Displays.Cancel(context: context),
                             controlCss: "button-icon button-neutral",
                             onClick: "$p.closeDialog($(this));",
-                            icon: "ui-icon-cancel")));
+                            icon: "ui-icon-cancel")
+                        .FieldText(
+                            fieldId: "HowToDevelopEfficientlyStyleHiddenField",
+                            controlId: "HowToDevelopEfficientlyStyleHidden",
+                            controlOnly: true,
+                            text: Displays.HowToDevelopEfficiently(context: context),
+                            _using: showLinkText)));
         }
 
         /// <summary>
@@ -15242,6 +15269,8 @@ namespace Implem.Pleasanter.Models
                 (ss.ReferenceType == "Sites"
                     ? " hidden"
                     : string.Empty);
+            var showLinkText = !Parameters.DisableAds()
+                && (!Parameters.CommercialLicense() || Parameters.Service.Demo);
             return hb.Form(
                 attributes: new HtmlAttributes()
                     .Id("ScriptForm")
@@ -15360,6 +15389,14 @@ namespace Implem.Pleasanter.Models
                         _using: ss.ReferenceType == "Dashboards")
                     .P(css: "message-dialog")
                     .Div(css: "command-center", action: () => hb
+                        .FieldText(
+                            fieldId: "HowToDevelopEfficientlyScriptField",
+                            controlId: "HowToDevelopEfficientlyScript",
+                            controlOnly: true,
+                            text: Displays.HowToDevelopEfficiently(context: context),
+                            openAnchorNewTab: true,
+                            anchorFormat: Parameters.General.HtmlCodeAssistUrl,
+                            _using: showLinkText)
                         .Button(
                             controlId: "AddScript",
                             text: Displays.Add(context: context),
@@ -15382,7 +15419,13 @@ namespace Implem.Pleasanter.Models
                             text: Displays.Cancel(context: context),
                             controlCss: "button-icon button-neutral",
                             onClick: "$p.closeDialog($(this));",
-                            icon: "ui-icon-cancel")));
+                            icon: "ui-icon-cancel")
+                        .FieldText(
+                            fieldId: "HowToDevelopEfficientlyScriptHiddenField",
+                            controlId: "HowToDevelopEfficientlyScriptHidden",
+                            controlOnly: true,
+                            text: Displays.HowToDevelopEfficiently(context: context),
+                            _using: showLinkText)));
         }
 
         /// <summary>
@@ -15657,6 +15700,8 @@ namespace Implem.Pleasanter.Models
                 (ss.ReferenceType == "Sites"
                     ? " hidden"
                     : string.Empty);
+            var showLinkText = !Parameters.DisableAds()
+                && (!Parameters.CommercialLicense() || Parameters.Service.Demo);
             return hb.Form(
                 attributes: new HtmlAttributes()
                     .Id("HtmlForm")
@@ -15801,6 +15846,14 @@ namespace Implem.Pleasanter.Models
                         _using: ss.ReferenceType == "Dashboards")
                     .P(css: "message-dialog")
                     .Div(css: "command-center", action: () => hb
+                        .FieldText(
+                            fieldId: "HowToDevelopEfficientlyHtmlField",
+                            controlId: "HowToDevelopEfficientlyHtml",
+                            controlOnly: true,
+                            text: Displays.HowToDevelopEfficiently(context: context),
+                            openAnchorNewTab: true,
+                            anchorFormat: Parameters.General.HtmlCodeAssistUrl,
+                            _using: showLinkText)
                         .Button(
                             controlId: "AddHtml",
                             text: Displays.Add(context: context),
@@ -15823,7 +15876,13 @@ namespace Implem.Pleasanter.Models
                             text: Displays.Cancel(context: context),
                             controlCss: "button-icon button-neutral",
                             onClick: "$p.closeDialog($(this));",
-                            icon: "ui-icon-cancel")));
+                            icon: "ui-icon-cancel")
+                        .FieldText(
+                            fieldId: "HowToDevelopEfficientlyHtmlHiddenField",
+                            controlId: "HowToDevelopEfficientlyHtmlHidden",
+                            controlOnly: true,
+                            text: Displays.HowToDevelopEfficiently(context: context),
+                            _using: showLinkText)));
         }
 
         /// <summary>
@@ -15956,9 +16015,9 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .Text(text: Displays.BeforeDelete(context: context)))
                     .Th(action: () => hb
-                        .Text(text: Displays.BeforeBulkDelete(context: context)))
-                    .Th(action: () => hb
                         .Text(text: Displays.AfterDelete(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.BeforeBulkDelete(context: context)))
                     .Th(action: () => hb
                         .Text(text: Displays.AfterBulkDelete(context: context)))
                     .Th(action: () => hb
@@ -16048,11 +16107,11 @@ namespace Implem.Pleasanter.Models
                             .Td(action: () => hb
                                 .Span(
                                     css: "ui-icon ui-icon-circle-check",
-                                    _using: script.BeforeBulkDelete == true))
+                                    _using: script.AfterDelete == true))
                             .Td(action: () => hb
                                 .Span(
                                     css: "ui-icon ui-icon-circle-check",
-                                    _using: script.AfterDelete == true))
+                                    _using: script.BeforeBulkDelete == true))
                             .Td(action: () => hb
                                 .Span(
                                     css: "ui-icon ui-icon-circle-check",
@@ -16084,6 +16143,8 @@ namespace Implem.Pleasanter.Models
                 (ss.ReferenceType == "Sites"
                     ? " hidden"
                     : string.Empty);
+            var showLinkText = !Parameters.DisableAds()
+                && (!Parameters.CommercialLicense() || Parameters.Service.Demo);
             return hb.Form(
                 attributes: new HtmlAttributes()
                     .Id("ServerScriptForm")
@@ -16212,17 +16273,17 @@ namespace Implem.Pleasanter.Models
                                 labelText: Displays.BeforeDelete(context: context),
                                 _checked: script.BeforeDelete == true)
                             .FieldCheckBox(
-                                controlId: "ServerScriptBeforeBulkDelete",
-                                fieldCss: outputDestinationCss,
-                                controlCss: " always-send",
-                                labelText: Displays.BeforeBulkDelete(context: context),
-                                _checked: script.BeforeBulkDelete == true)
-                            .FieldCheckBox(
                                 controlId: "ServerScriptAfterDelete",
                                 fieldCss: outputDestinationCss,
                                 controlCss: " always-send",
                                 labelText: Displays.AfterDelete(context: context),
                                 _checked: script.AfterDelete == true)
+                            .FieldCheckBox(
+                                controlId: "ServerScriptBeforeBulkDelete",
+                                fieldCss: outputDestinationCss,
+                                controlCss: " always-send",
+                                labelText: Displays.BeforeBulkDelete(context: context),
+                                _checked: script.BeforeBulkDelete == true)
                             .FieldCheckBox(
                                 controlId: "ServerScriptAfterBulkDelete",
                                 fieldCss: outputDestinationCss,
@@ -16249,6 +16310,14 @@ namespace Implem.Pleasanter.Models
                                 _checked: script.Shared == true))
                     .P(css: "message-dialog")
                     .Div(css: "command-center", action: () => hb
+                        .FieldText(
+                            fieldId: "HowToDevelopEfficientlyServerScriptField",
+                            controlId: "HowToDevelopEfficientlyServerScript",
+                            controlOnly: true,
+                            text: Displays.HowToDevelopEfficiently(context: context),
+                            openAnchorNewTab: true,
+                            anchorFormat: Parameters.General.HtmlCodeAssistUrl,
+                            _using: showLinkText)
                         .Button(
                             controlId: "AddServerScript",
                             text: Displays.Add(context: context),
@@ -16271,7 +16340,13 @@ namespace Implem.Pleasanter.Models
                             text: Displays.Cancel(context: context),
                             controlCss: "button-icon button-neutral",
                             onClick: "$p.closeDialog($(this));",
-                            icon: "ui-icon-cancel")));
+                            icon: "ui-icon-cancel")
+                        .FieldText(
+                            fieldId: "HowToDevelopEfficientlyServerScriptHiddenField",
+                            controlId: "HowToDevelopEfficientlyServerScriptHidden",
+                            controlOnly: true,
+                            text: Displays.HowToDevelopEfficiently(context: context),
+                            _using: showLinkText)));
         }
 
         /// <summary>
