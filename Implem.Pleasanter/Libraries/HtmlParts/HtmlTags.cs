@@ -810,14 +810,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             string id = null,
             string css = null,
-            string href = null,
-            string target = null,
-            string dataTooltip = null,
             HtmlAttributes attributes = null,
             string text = null,
             bool _using = true,
             Action action = null)
         {
+            var showExtendInfo = !Parameters.DisableAds()
+                && (!Parameters.CommercialLicense() || Parameters.Service.Demo);
             return _using
                 ? hb.Append(
                     tag: "smart-design-link",
@@ -826,9 +825,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     attributes: (attributes ?? new HtmlAttributes())
                         .Id(id)
                         .Class(css)
-                        .Href(href)
-                        .DataTooltip(dataTooltip)
-                        .Target(target),
+                        .DataExtendInfo(showExtendInfo),
                     action: action != null
                         ? action
                         : () => hb.Text(text))

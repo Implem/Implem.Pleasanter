@@ -735,12 +735,22 @@ namespace Implem.Pleasanter.Libraries.Html
             }
             return this;
         }
+
         public HtmlAttributes DataLang(string value, bool _using = true)
         {
             if (!value.IsNullOrEmpty() && _using)
             {
                 Add("data-lang");
                 Add(value);
+            }
+            return this;
+        }
+
+        public HtmlAttributes DataExtendInfo(bool value, bool _using = true)
+        {
+            if (_using && value)
+            {
+                Add("data-extend-info");
             }
             return this;
         }
