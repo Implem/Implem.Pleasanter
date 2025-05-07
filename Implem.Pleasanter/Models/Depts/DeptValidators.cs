@@ -33,6 +33,7 @@ namespace Implem.Pleasanter.Models
                 return new ErrorData(type: Error.Types.None);
             }
             return Permissions.CanManageTenant(context: context)
+                || context.UserSettings?.EnableManageTenant == true
                 ? new ErrorData(type: Error.Types.None)
                 : new ErrorData(type: Error.Types.HasNotPermission);
         }
