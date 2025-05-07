@@ -4513,7 +4513,7 @@ namespace Implem.Pleasanter.Models
                         action: () => hb
                             .Div(id: "Demo", action: () => hb
                                 .FieldSet(
-                                    css: " enclosed-thin",
+                                    css: " enclosed-thin is-featured",
                                     legendText: Displays.ViewDemoEnvironment(context: context),
                                     action: () => hb
                                         .Div(id: "DemoFields", action: () => hb
