@@ -3579,16 +3579,6 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
-        public static string DisableAnaly(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "DisableAnaly",
-                data: data);
-        }
-
         public static string DisableAsynchronousLoading(
             Context context,
             params string[] data)
@@ -3599,36 +3589,6 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
-        public static string DisableBurnDown(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "DisableBurnDown",
-                data: data);
-        }
-
-        public static string DisableCalendar(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "DisableCalendar",
-                data: data);
-        }
-
-        public static string DisableCrosstab(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "DisableCrosstab",
-                data: data);
-        }
-
         public static string Disabled(
             Context context,
             params string[] data)
@@ -3636,36 +3596,6 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Disabled",
-                data: data);
-        }
-
-        public static string DisableGantt(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "DisableGantt",
-                data: data);
-        }
-
-        public static string DisableImageLib(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "DisableImageLib",
-                data: data);
-        }
-
-        public static string DisableKamban(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "DisableKamban",
                 data: data);
         }
 
@@ -3696,16 +3626,6 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "DisableStartGuide",
-                data: data);
-        }
-
-        public static string DisableTimeSeries(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "DisableTimeSeries",
                 data: data);
         }
 
