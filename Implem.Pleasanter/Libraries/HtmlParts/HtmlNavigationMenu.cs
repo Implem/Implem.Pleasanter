@@ -636,9 +636,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 ss: ss,
                 site: true);
             var canManageSysLogs = context.HasPrivilege;
-            var canManageDepts = Permissions.CanManageTenant(context: context);
+            var canManageDepts = Permissions.CanManageTenant(context: context)
+                || context.UserSettings?.EnableManageTenant == true;
             var canManageGroups = context.UserSettings?.AllowGroupAdministration(context: context) == true;
-            var canManageUsers = Permissions.CanManageUser(context: context);
+            var canManageUsers = Permissions.CanManageUser(context: context)
+                || context.UserSettings?.EnableManageTenant == true;
             var canManageRegistrations = Permissions.CanManageRegistrations(context: context);
             var canManageTenants = Permissions.CanManageTenant(context: context)
                 || context.UserSettings?.EnableManageTenant == true;
@@ -660,6 +662,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             switch (menu.MenuId)
             {
                 case "NewMenu":
+                    if (ss.ReferenceType == "Users"
+                        && context.UserSettings?.EnableManageTenant == true)
+                    {
+                        return false;
+                    }
                     return ss.ReferenceType == "Sites" && context.Action == "index"
                         ? context.CanManageSite(ss: ss)
                         : ss.ReferenceType == "Groups"
