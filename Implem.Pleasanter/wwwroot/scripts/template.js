@@ -54,11 +54,6 @@ $p.setTemplateViewer = function () {
     $('.template-tab-container').tabs().addClass('applied');
 }
 
-$p.createSite = async function ($control) {
-    await $p.send($control);
-    window.location.reload();
-}
-
 $p.openSiteTitleDialog = function ($control) {
     if ($('#FieldSetUserTemplate').attr('aria-hidden') === 'false') {
         $('#CreateUserTemplate_Title').text($('#SiteTitle').val());
@@ -69,32 +64,9 @@ $p.openSiteTitleDialog = function ($control) {
             resizable: false
         });
     } else {
-        let selectedValue = $('#StandardTemplates .ui-selected:first').data('value');
-        if (selectedValue != 'Template2' && selectedValue != 'Template3') {
-            $('#DisableCalendar').change().closest('.field-auto-thin').hide();
-            $('#DisableCrosstab').change().closest('.field-auto-thin').hide();
-            $('#DisableTimeSeries').change().closest('.field-auto-thin').hide();
-            $('#DisableAnaly').change().closest('.field-auto-thin').hide();
-            $('#DisableKamban').change().closest('.field-auto-thin').hide();
-            $('#DisableImageLib').change().closest('.field-auto-thin').hide();
-        } else {
-            $('#DisableCalendar').change().closest('.field-auto-thin').show();
-            $('#DisableCrosstab').change().closest('.field-auto-thin').show();
-            $('#DisableTimeSeries').change().closest('.field-auto-thin').show();
-            $('#DisableAnaly').change().closest('.field-auto-thin').show();
-            $('#DisableKamban').change().closest('.field-auto-thin').show();
-            $('#DisableImageLib').change().closest('.field-auto-thin').show();
-        }
-        if (selectedValue != 'Template2') {
-            $('#DisableGantt').change().closest('.field-auto-thin').hide();
-            $('#DisableBurnDown').change().closest('.field-auto-thin').hide();
-        } else {
-            $('#DisableGantt').change().closest('.field-auto-thin').show();
-            $('#DisableBurnDown').change().closest('.field-auto-thin').show();
-        }
         $('#SiteTitleDialog').dialog({
             modal: true,
-            width: "520px",
+            width: '370px',
             appendTo: '#Application',
             resizable: false
         });

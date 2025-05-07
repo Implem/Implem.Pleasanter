@@ -1,0 +1,4 @@
+﻿if (Permissions.CannotManageUsers(context: context))
+{
+    return new ErrorData(type: Error.Types.InvalidRequest);
+}
