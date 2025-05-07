@@ -73,7 +73,7 @@ public static ErrorData OnEditing(
 {
 
 <!--Model_Validator_Api-->
-<!--Model_Validator_ShowProfilesAndHasPrivilege-->
+<!--Model_Validator_ShowProfilesAndHasPrivilegeAndEnableManageTenant-->
 
     if (ss.GetNoDisplayIfReadOnly(context: context))
     {
@@ -314,7 +314,7 @@ public static ErrorData OnUpdating(
 
 <!--Model_Validator_RecordPermissions-->
 <!--Model_Validator_Api-->
-<!--Model_Validator_ShowProfilesAndHasPrivilege-->
+<!--Model_Validator_ShowProfilesAndHasPrivilegeAndEnableManageTenant-->
 <!--Model_Validator_LockedTable-->
 <!--Model_Validator_LockedRecord-->
 <!--Model_Validator_OnUpdating_Users-->
@@ -567,7 +567,7 @@ public static ErrorData OnExporting(
 {
 
 <!--Model_Validator_Api-->
-<!--Model_Validator_ShowProfilesAndHasPrivilege-->
+<!--Model_Validator_ShowProfilesAndHasPrivilegeAndEnableManageTenant-->
 
     return context.CanExport(ss: ss)
         ? new ErrorData(
