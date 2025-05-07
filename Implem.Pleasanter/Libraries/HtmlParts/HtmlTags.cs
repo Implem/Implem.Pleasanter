@@ -815,7 +815,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool _using = true,
             Action action = null)
         {
-            var showExtendInfo = !Parameters.DisableAds()
+            var showable = !Parameters.DisableAds()
                 && (!Parameters.CommercialLicense() || Parameters.Service.Demo);
             return _using
                 ? hb.Append(
@@ -825,7 +825,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     attributes: (attributes ?? new HtmlAttributes())
                         .Id(id)
                         .Class(css)
-                        .DataExtendInfo(showExtendInfo),
+                        .DataSupportUrl(showable),
                     action: action != null
                         ? action
                         : () => hb.Text(text))

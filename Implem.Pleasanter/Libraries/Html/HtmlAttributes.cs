@@ -1,4 +1,5 @@
-﻿using Implem.Libraries.Utilities;
+﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Web;
@@ -746,11 +747,12 @@ namespace Implem.Pleasanter.Libraries.Html
             return this;
         }
 
-        public HtmlAttributes DataExtendInfo(bool value, bool _using = true)
+        public HtmlAttributes DataSupportUrl(bool value, bool _using = true)
         {
             if (_using && value)
             {
-                Add("data-extend-info");
+                Add("data-support-url");
+                Add(Parameters.General.HtmlSupportUrl);
             }
             return this;
         }
