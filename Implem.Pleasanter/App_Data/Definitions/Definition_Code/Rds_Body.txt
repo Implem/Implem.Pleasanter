@@ -696,24 +696,26 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         sub: null,
                         raw: null);
                 }
-                if (createdTime != null)
-                {
-                    self.Add(
-                        columnBracket: "\"CreatedTime\"",
-                        name: "CreatedTime",
-                        value: createdTime,
-                        sub: null,
-                        raw: null);
-                }
-                if (updatedTime != null)
-                {
-                    self.Add(
-                        columnBracket: "\"UpdatedTime\"",
-                        name: "UpdatedTime",
-                        value: updatedTime,
-                        sub: null,
-                        raw: null);
-                }
+                self.Add(
+                    columnBracket: "\"CreatedTime\"",
+                    name: "CreatedTime",
+                    value: createdTime == null
+                        ? DateTime.Now
+                        : createdTime.ToDateTime().InRange()
+                            ? createdTime
+                            : DateTime.Now,
+                    sub: null,
+                    raw: null);
+                self.Add(
+                    columnBracket: "\"UpdatedTime\"",
+                    name: "UpdatedTime",
+                    value: updatedTime == null
+                        ? DateTime.Now
+                        : updatedTime.ToDateTime().InRange()
+                            ? updatedTime
+                            : DateTime.Now,
+                    sub: null,
+                    raw: null);
                 return self;
             }
         }
