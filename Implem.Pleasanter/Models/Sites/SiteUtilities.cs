@@ -3296,14 +3296,6 @@ namespace Implem.Pleasanter.Models
                 siteModel.Title = new Title(context.Forms.Data("SiteTitle"));
                 siteModel.Body = templateDefinition.Body;
                 siteModel.SiteSettings = templateSs;
-                siteModel.SiteSettings.EnableCalendar = !context.Forms.Data("DisableCalendar").ToBool();
-                siteModel.SiteSettings.EnableCrosstab = !context.Forms.Data("DisableCrosstab").ToBool();
-                siteModel.SiteSettings.EnableGantt = !context.Forms.Data("DisableGantt").ToBool();
-                siteModel.SiteSettings.EnableBurnDown = !context.Forms.Data("DisableBurnDown").ToBool();
-                siteModel.SiteSettings.EnableTimeSeries = !context.Forms.Data("DisableTimeSeries").ToBool();
-                siteModel.SiteSettings.EnableAnaly = !context.Forms.Data("DisableAnaly").ToBool();
-                siteModel.SiteSettings.EnableKamban = !context.Forms.Data("DisableKamban").ToBool();
-                siteModel.SiteSettings.EnableImageLib = !context.Forms.Data("DisableImageLib").ToBool();
                 siteModel.Create(context: context, otherInitValue: true);
                 return SiteMenuResponse(
                     context: context,
@@ -4931,47 +4923,6 @@ namespace Implem.Pleasanter.Models
                             .Hidden(
                                 controlId: "TemplateId",
                                 css: " always-send")
-                            .Div(css: "command-center", action: () => hb
-                                .FieldCheckBox(
-                                    controlId: "DisableCalendar",
-                                    fieldCss: "field-auto-thin",
-                                    labelText: Displays.DisableCalendar(context: context),
-                                    _checked: Parameters.General.DefaultCalendarDisable)
-                                .FieldCheckBox(
-                                    controlId: "DisableCrosstab",
-                                    fieldCss: "field-auto-thin",
-                                    labelText: Displays.DisableCrosstab(context: context),
-                                    _checked: Parameters.General.DefaultCrosstabDisable)
-                                .FieldCheckBox(
-                                    controlId: "DisableGantt",
-                                    fieldCss: "field-auto-thin",
-                                    labelText: Displays.DisableGantt(context: context),
-                                    _checked: Parameters.General.DefaultGanttDisable)
-                                .FieldCheckBox(
-                                    controlId: "DisableBurnDown",
-                                    fieldCss: "field-auto-thin",
-                                    labelText: Displays.DisableBurnDown(context: context),
-                                    _checked: Parameters.General.DefaultBurnDownDisable)
-                                .FieldCheckBox(
-                                    controlId: "DisableTimeSeries",
-                                    fieldCss: "field-auto-thin",
-                                    labelText: Displays.DisableTimeSeries(context: context),
-                                    _checked: Parameters.General.DefaultTimeSeriesDisable)
-                                .FieldCheckBox(
-                                    controlId: "DisableAnaly",
-                                    fieldCss: "field-auto-thin",
-                                    labelText: Displays.DisableAnaly(context: context),
-                                    _checked: Parameters.General.DefaultAnalyDisable)
-                                .FieldCheckBox(
-                                    controlId: "DisableKamban",
-                                    fieldCss: "field-auto-thin",
-                                    labelText: Displays.DisableKamban(context: context),
-                                    _checked: Parameters.General.DefaultKambanDisable)
-                                .FieldCheckBox(
-                                    controlId: "DisableImageLib",
-                                    fieldCss: "field-auto-thin",
-                                    labelText: Displays.DisableImageLib(context: context),
-                                    _checked: Parameters.General.DefaultImageLibDisable))
                             .P(css: "message-dialog")
                             .Div(css: "command-center", action: () => hb
                                 .Button(
