@@ -70,13 +70,6 @@
                 $control.focus();
             }
         });
-        $('label.error').each(function (index, element) {
-            // 複数選択の分類項目に対応するためエラー表示の位置をフィールドの最下段に移動する
-            // マークダウン項目は画像アイコンなどがあるため、移動しない
-            if (!$(element).prev().hasClass('control-markdown')) {
-                $(element).appendTo($(element).parent());
-            }
-        });
     }
 
     $p.formValidate = function ($form, $control) {
@@ -118,7 +111,17 @@
                 }
             });
         }
-        $form.validate();
+        $form.validate({
+            errorPlacement: function(error, element) {
+                // 複数選択の分類項目に対応するためエラー表示の位置をフィールドの最下段に移動する
+                // マークダウン項目は画像アイコンなどがあるため、移動しない
+                if(!element.closest('.field-markdown').length){
+                    element.closest('.container-normal').append(error);
+                }else{
+                    error.insertAfter(element);
+                }
+            }
+        });
     }
     $p.applyValidator();
 });
@@ -132,10 +135,30 @@ $p.applyValidator = function () {
         date: $p.display('ValidateDate'),
         email: $p.display('ValidateEmail'),
         equalTo: $p.display('ValidateEqualTo'),
-        maxlength: $p.display('ValidateMaxLength')
+        maxlength: $p.display('ValidateMaxLength'),
+        url: $p.display('ValidationFormat'),
+        number: $p.display('ValidationFormat'),
+        digits: $p.display('ValidationFormat'),
+        creditcard: $p.display('ValidationFormat'),
+        minlength: $p.display('ValidationFormat'),
+        rangelength: $p.display('ValidationFormat'),
+        range: $p.display('ValidationFormat'),
+        max: $p.display('ValidationFormat'),
+        min: $p.display('ValidationFormat')
     });
     $('form').each(function () {
-        $(this).validate({ ignore: '' });
+        $(this).validate({
+            ignore: '',
+            errorPlacement: function(error, element) {
+                // 複数選択の分類項目に対応するためエラー表示の位置をフィールドの最下段に移動する
+                // マークダウン項目は画像アイコンなどがあるため、移動しない
+                if(!element.closest('.field-markdown').length){
+                    element.closest('.container-normal').append(error);
+                }else{
+                    error.insertAfter(element);
+                }
+            }
+        });
     });
     $('[data-validate-required="1"]').each(function () {
         $(this).rules('add', { required: true });
