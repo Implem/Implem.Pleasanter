@@ -4038,40 +4038,37 @@ div.lower-search-ui {
 
 #DoNotHaveEnoughColumnsField span > a {
     color: #00f;
-    text-decoration: none
+    text-decoration: none;
 }
 
-#StyleForm .command-center,
-#ScriptForm .command-center,
-#HtmlForm .command-center,
-#ServerScriptForm .command-center {
+#DoNotHaveEnoughColumnsField span > a:hover {
+    text-decoration: underline;
+}
+
+.command-center.has-link {
     display: flex;
 }
 
-#StyleForm #HowToDevelopEfficientlyStyleField .field-control,
-#StyleForm #HowToDevelopEfficientlyStyleField .container-normal,
-#ScriptForm #HowToDevelopEfficientlyScript .container-normal,
-#ScriptForm #HowToDevelopEfficientlyScript .field-control,
-#HtmlForm #HowToDevelopEfficientlyHtml .field-control,
-#HtmlForm #HowToDevelopEfficientlyHtml .container-normal,
-#ServerScriptForm #HowToDevelopEfficientlyServerScript .field-control,
-#ServerScriptForm #HowToDevelopEfficientlyServerScript .container-normal {
-    display: flex;
-}
-
-#HowToDevelopEfficientlyStyle,
-#HowToDevelopEfficientlyScript,
-#HowToDevelopEfficientlyHtml,
-#HowToDevelopEfficientlyServerScript {
-    border: none;
-    background: none;
+.command-center.has-link::after {
+    content: '';
     flex: 1;
 }
 
-#HowToDevelopEfficientlyStyle > a,
-#HowToDevelopEfficientlyScript > a,
-#HowToDevelopEfficientlyHtml > a,
-#HowToDevelopEfficientlyServerScript > a {
+.command-center.has-link #link-item {
+    flex: 1;
+    text-align: right;
+}
+
+.command-center.has-link #link-item .control-text {
+    border: none;
+    background: none;
+}
+
+.command-center.has-link #link-item span > a {
     color: #00f;
     text-decoration: none;
+}
+
+.command-center.has-link #link-item span > a:hover {
+    text-decoration: underline
 }

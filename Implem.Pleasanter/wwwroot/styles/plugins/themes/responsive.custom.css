@@ -905,19 +905,6 @@
         #EditorSettingsEditor #DoNotHaveEnoughColumnsField .field-control .container-normal {
             width: 200%;
         }
-        #StyleForm #HowToDevelopEfficientlyStyleField,
-        #ScriptForm #HowToDevelopEfficientlyScriptField,
-        #HtmlForm #HowToDevelopEfficientlyHtmlField,
-        #ServerScriptForm #HowToDevelopEfficientlyServerScriptField {
-            display: flow;
-            min-height: 40px;
-        }
-        #StyleForm #HowToDevelopEfficientlyStyleHiddenField,
-        #ScriptForm #HowToDevelopEfficientlyScriptHiddenField,
-        #HtmlForm #HowToDevelopEfficientlyHtmlHiddenField,
-        #ServerScriptForm #HowToDevelopEfficientlyServerScriptHiddenField {
-            display: none;
-        }
         #StyleForm .command-center,
         #ScriptForm .command-center,
         #HtmlForm .command-center,
@@ -931,12 +918,14 @@
         #ServerScriptForm #AddServerScript {
             margin-right: 10px;
         }
+        .command-center.has-link #link-item {
+            text-align: center;
+        }
 }
 
     /* !#Editor > #EditorTabsContainer */
     body:not(:has(#Editor)) {
         #EditorTabsContainer {
-            &.max {
                 width: 100%;
             }
         }

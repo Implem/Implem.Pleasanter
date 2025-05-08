@@ -2678,16 +2678,7 @@
     margin-left: 0;
 }
 
-#StyleForm #HowToDevelopEfficientlyStyle,
-#ScriptForm #HowToDevelopEfficientlyScript,
-#HtmlForm #HowToDevelopEfficientlyHtml,
-#ServerScriptForm #HowToDevelopEfficientlyServerScript {
-    display: block;
-}
-
-#StyleForm #HowToDevelopEfficientlyStyleHidden,
-#ScriptForm #HowToDevelopEfficientlyScriptHidden,
-#HtmlForm #HowToDevelopEfficientlyHtmlHidden,
-#ServerScriptForm #HowToDevelopEfficientlyServerScriptHidden {
-    display: none;
+.command-center.has-link #link-item .control-text {
+    display: inline-block;
+    text-align: center;
 }

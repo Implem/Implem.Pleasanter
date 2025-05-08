@@ -14867,6 +14867,9 @@ namespace Implem.Pleasanter.Models
                     : string.Empty);
             var showLinkText = !Parameters.DisableAds()
                 && (!Parameters.CommercialLicense() || Parameters.Service.Demo);
+            var hasLink = showLinkText
+                ? " has-link"
+                : string.Empty;
             return hb.Form(
                 attributes: new HtmlAttributes()
                     .Id("StyleForm")
@@ -14984,10 +14987,9 @@ namespace Implem.Pleasanter.Models
                         value: "1",
                         _using: ss.ReferenceType == "Dashboards")
                     .P(css: "message-dialog")
-                    .Div(css: "command-center", action: () => hb
+                    .Div(css: "command-center" + hasLink, action: () => hb
                         .FieldText(
-                            fieldId: "HowToDevelopEfficientlyStyleField",
-                            controlId: "HowToDevelopEfficientlyStyle",
+                            fieldId: "link-item",
                             controlOnly: true,
                             text: Displays.HowToDevelopEfficiently(context: context),
                             openAnchorNewTab: true,
@@ -15265,6 +15267,9 @@ namespace Implem.Pleasanter.Models
                     : string.Empty);
             var showLinkText = !Parameters.DisableAds()
                 && (!Parameters.CommercialLicense() || Parameters.Service.Demo);
+            var hasLink = showLinkText
+                ? " has-link"
+                : string.Empty;
             return hb.Form(
                 attributes: new HtmlAttributes()
                     .Id("ScriptForm")
@@ -15382,10 +15387,9 @@ namespace Implem.Pleasanter.Models
                         value: "1",
                         _using: ss.ReferenceType == "Dashboards")
                     .P(css: "message-dialog")
-                    .Div(css: "command-center", action: () => hb
+                    .Div(css: "command-center" + hasLink, action: () => hb
                         .FieldText(
-                            fieldId: "HowToDevelopEfficientlyScriptField",
-                            controlId: "HowToDevelopEfficientlyScript",
+                            fieldId: "link-item",
                             controlOnly: true,
                             text: Displays.HowToDevelopEfficiently(context: context),
                             openAnchorNewTab: true,
@@ -15690,6 +15694,9 @@ namespace Implem.Pleasanter.Models
                     : string.Empty);
             var showLinkText = !Parameters.DisableAds()
                 && (!Parameters.CommercialLicense() || Parameters.Service.Demo);
+            var hasLink = showLinkText
+                ? " has-link"
+                : string.Empty;
             return hb.Form(
                 attributes: new HtmlAttributes()
                     .Id("HtmlForm")
@@ -15833,10 +15840,9 @@ namespace Implem.Pleasanter.Models
                         value: "1",
                         _using: ss.ReferenceType == "Dashboards")
                     .P(css: "message-dialog")
-                    .Div(css: "command-center", action: () => hb
+                    .Div(css: "command-center" + hasLink, action: () => hb
                         .FieldText(
-                            fieldId: "HowToDevelopEfficientlyHtmlField",
-                            controlId: "HowToDevelopEfficientlyHtml",
+                            fieldId: "link-item",
                             controlOnly: true,
                             text: Displays.HowToDevelopEfficiently(context: context),
                             openAnchorNewTab: true,
@@ -16127,6 +16133,9 @@ namespace Implem.Pleasanter.Models
                     : string.Empty);
             var showLinkText = !Parameters.DisableAds()
                 && (!Parameters.CommercialLicense() || Parameters.Service.Demo);
+            var hasLink = showLinkText
+                ? " has-link"
+                : string.Empty;
             return hb.Form(
                 attributes: new HtmlAttributes()
                     .Id("ServerScriptForm")
@@ -16291,10 +16300,9 @@ namespace Implem.Pleasanter.Models
                                 labelText: Displays.Shared(context: context),
                                 _checked: script.Shared == true))
                     .P(css: "message-dialog")
-                    .Div(css: "command-center", action: () => hb
+                    .Div(css: "command-center" + hasLink, action: () => hb
                         .FieldText(
-                            fieldId: "HowToDevelopEfficientlyServerScriptField",
-                            controlId: "HowToDevelopEfficientlyServerScript",
+                            fieldId: "link-item",
                             controlOnly: true,
                             text: Displays.HowToDevelopEfficiently(context: context),
                             openAnchorNewTab: true,
