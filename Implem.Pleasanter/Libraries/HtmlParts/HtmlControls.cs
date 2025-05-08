@@ -16,6 +16,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
     {
         public static HtmlBuilder TextBox(
             this HtmlBuilder hb,
+            Context context = null,
             HtmlTypes.TextTypes textType = HtmlTypes.TextTypes.Normal,
             string controlId = null,
             string controlCss = null,
@@ -109,7 +110,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     _using: !unit.IsNullOrEmpty(),
                                     action: () => hb.Text(unit)));
                 case HtmlTypes.TextTypes.DateTime:
-                    return !Parameters.General.UseOldDatepicker ?
+                    return !Parameters.General.UseOldDatepicker && context.ThemeVersionForCss() >= 2.0M ?
                         hb.DateField(
                             css: "date-field",
                             action: () => hb.Input(attributes: new HtmlAttributes()
