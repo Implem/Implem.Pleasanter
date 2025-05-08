@@ -30,24 +30,26 @@
             setDateFormat();
 
             // current-dateボタンのイベントを追加
-            params.currentElem?.addEventListener('click', onCurrent);
+            if(params.currentElem) params.currentElem.addEventListener('click', onCurrent);
         };
 
         const initDatePicker = () => {
             this.dataPicker = flatpickr(params.inputElm, {
-                locale: {
-                    ...flatpickr.l10ns.default,
-                    ...(params.language === 'ja' ? flatpickr.l10ns.ja : {}),
-                    firstDayOfWeek: 1
-                },
+                locale: Object.assign(
+                    {},
+                    flatpickr.l10ns.default,
+                    params.language === 'ja' ? flatpickr.l10ns.ja : {},
+                    { firstDayOfWeek: 1 }
+                ),
                 enableTime: params.inputElm.dataset.timepicker === '1',
-                enableSeconds: params.inputElm.dataset.format?.includes(':s') || false,
+                enableSeconds: params.inputElm.dataset.format && params.inputElm.dataset.format.includes(':s') || false,
                 minuteIncrement: Number(params.inputElm.dataset.step || 1),
                 allowInput: !params.isRwd ? true : false,
                 disableMobile: true,
                 dateFormat: params.dateFormat,
                 onReady: function(selectedDates, dateStr, instance) {
-                    const timeInputs = instance.timeContainer?.querySelectorAll("input[type='number']");
+                    if(instance.timeContainer) return false
+                    const timeInputs = instance.timeContainer.querySelectorAll("input[type='number']");
                     if (timeInputs) {
                         timeInputs.forEach(input => {
                             input.addEventListener("focus", function (e) {
