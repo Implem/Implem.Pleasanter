@@ -1321,9 +1321,6 @@ namespace Implem.Pleasanter.Models
                     case "Body": value = issueModel.Body.GridText(
                         context: context,
                         column: column); break;
-                    case "TitleBody": value = issueModel.TitleBody.GridText(
-                        context: context,
-                        column: column); break;
                     case "StartTime": value = issueModel.StartTime.GridText(
                         context: context,
                         column: column); break;
