@@ -1,4 +1,8 @@
 ﻿@media screen and (max-width: 1024px) and (min-width: 0px) {
+    head {
+        font-family: "responsive";
+    }
+
     /* Reset ---------------------------------------------------------------- */
     body {
         min-width: 320px;
@@ -136,37 +140,6 @@
         }
     }
 
-    /* spinner */
-    .container-normal:has(> .ui-spinner) {
-        display: flex;
-        gap: 8px;
-        align-items: center;
-        .ui-spinner {
-            .ui-spinner-input {
-                height: 38px;
-                margin: 0;
-                margin-right: 30px;
-                padding: 8px 4px 8px 4px;
-                text-align: center;
-            }
-            + .unit {
-                float: none;
-                padding: 0;
-            }
-            a {
-                background: transparent;
-                border: none;
-                border-radius: 0;
-                box-shadow: none;
-            }
-            label {
-                &.error {
-                    margin-top: -4px;
-                }
-            }
-        }
-    }
-
     /* markup,markdown  */
     .field-control {
         .control-markup,
@@ -175,6 +148,19 @@
             padding: 8px 16px;
             font-size: 14px;
             line-height: 1.6;
+        }
+    }
+
+    /* spinner-field */
+    .spinner-field {
+        .control-spinner {
+            height: 40px;
+            padding: 8px 32px 8px 16px;
+        }
+        .ui-spinner {
+            .ui-spinner-button {
+                height: 50%;
+            }
         }
     }
 
@@ -1078,9 +1064,6 @@
             width: max-content;
         }
     }
-    #GridHeaderMenus {
-        display: none;
-    }
     #ViewModeContainer:has(#Grid) {
         position: relative;
         .grid-wrap {
@@ -1101,6 +1084,7 @@
     }
     .menu-sort {
         position: absolute !important;
+        top: 0 !important;
         .grid-header-filter {
             border-top: 1px solid var(--base-border);
             .field-auto-thin {
