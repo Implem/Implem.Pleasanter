@@ -5,6 +5,8 @@
         context: context,
         referenceId: siteModel.SiteId,
         setAllChoices: true);
+    var migrationMode = ss.AllowMigrationMode == true
+        && context.Forms.Bool("MigrationMode");
     var invalid = #ModelName#Validators.OnImporting(
         context: context,
         ss: ss);
@@ -143,7 +145,8 @@
                 context: context,
                 ss: ss,
                 columnHash: columnHash,
-                row: data.Value);
+                row: data.Value,
+                migrationMode: migrationMode);
             #modelName#Hash.Add(data.Key, #modelName#Model);
         }
 
@@ -180,7 +183,8 @@
                                 context: context,
                                 ss: ss,
                                 columnHash: columnHash,
-                                row: csvRows.Get(data.Key));
+                                row: csvRows.Get(data.Key),
+                                migrationMode: migrationMode);
                             switch (#modelName#Model.AccessStatus)
                             {
                                 case Databases.AccessStatuses.Selected:
@@ -211,7 +215,8 @@
                                     errorData = #modelName#Model.Create(
                                         context: context,
                                         ss: ss,
-                                        extendedSqls: false);
+                                        extendedSqls: false,
+                                        migrationMode: migrationMode);
                                     insertCount++;
                                     break;
                                 default:
@@ -230,7 +235,8 @@
                 var errorData = #modelName#Model.Create(
                     context: context,
                     ss: ss,
-                    extendedSqls: false);
+                    extendedSqls: false,
+                    migrationMode: migrationMode);
                 switch (errorData.Type)
                 {
                     case Error.Types.None:
@@ -325,6 +331,8 @@ public static ContentResultInheritance ImportByApi(
     var updatableImport = api.UpdatableImport;
     var encoding = api.Encoding;
     var key = api.Key;
+    var migrationMode = ss.AllowMigrationMode == true
+        && api.MigrationMode;
     Csv csv;
     try
     {
@@ -450,7 +458,8 @@ public static ContentResultInheritance ImportByApi(
                 context: context,
                 ss: ss,
                 columnHash: columnHash,
-                row: data.Value);
+                row: data.Value,
+                migrationMode: migrationMode);
             #modelName#Hash.Add(data.Key, #modelName#Model);
         }
         var inputErrorData = #ModelName#Validators.OnInputValidating(
@@ -502,7 +511,8 @@ public static ContentResultInheritance ImportByApi(
                                 context: context,
                                 ss: ss,
                                 columnHash: columnHash,
-                                row: csvRows.Get(data.Key));
+                                row: csvRows.Get(data.Key),
+                                migrationMode: migrationMode);
                             switch (#modelName#Model.AccessStatus)
                             {
                                 case Databases.AccessStatuses.Selected:
@@ -533,7 +543,8 @@ public static ContentResultInheritance ImportByApi(
                                     errorData = #modelName#Model.Create(
                                         context: context,
                                         ss: ss,
-                                        extendedSqls: false);
+                                        extendedSqls: false,
+                                        migrationMode: migrationMode);
                                     insertCount++;
                                     break;
                                 default:
@@ -557,7 +568,8 @@ public static ContentResultInheritance ImportByApi(
                 var errorData = #modelName#Model.Create(
                     context: context,
                     ss: ss,
-                    extendedSqls: false);
+                    extendedSqls: false,
+                    migrationMode: migrationMode);
                 switch (errorData.Type)
                 {
                     case Error.Types.None:
@@ -661,6 +673,8 @@ public static string ImportByServerScript(
     var updatableImport = api.UpdatableImport;
     var encoding = api.Encoding;
     var key = api.Key;
+    var migrationMode = ss.AllowMigrationMode == true
+        && api.MigrationMode;
     Csv csv;
     try
     {
@@ -765,7 +779,8 @@ public static string ImportByServerScript(
                 context: context,
                 ss: ss,
                 columnHash: columnHash,
-                row: data.Value);
+                row: data.Value,
+                migrationMode: migrationMode);
             #modelName#Hash.Add(data.Key, #modelName#Model);
         }
         var inputErrorData = #ModelName#Validators.OnInputValidating(
@@ -816,7 +831,8 @@ public static string ImportByServerScript(
                                 context: context,
                                 ss: ss,
                                 columnHash: columnHash,
-                                row: csvRows.Get(data.Key));
+                                row: csvRows.Get(data.Key),
+                                migrationMode: migrationMode);
                             switch (#modelName#Model.AccessStatus)
                             {
                                 case Databases.AccessStatuses.Selected:
@@ -847,7 +863,8 @@ public static string ImportByServerScript(
                                     errorData = #modelName#Model.Create(
                                         context: context,
                                         ss: ss,
-                                        extendedSqls: false);
+                                        extendedSqls: false,
+                                        migrationMode: migrationMode);
                                     insertCount++;
                                     break;
                                 default:
@@ -866,7 +883,8 @@ public static string ImportByServerScript(
                 var errorData = #modelName#Model.Create(
                     context: context,
                     ss: ss,
-                    extendedSqls: false);
+                    extendedSqls: false,
+                    migrationMode: migrationMode);
                 switch (errorData.Type)
                 {
                     case Error.Types.None:
