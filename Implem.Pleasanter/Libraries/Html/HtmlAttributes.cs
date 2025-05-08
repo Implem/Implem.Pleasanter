@@ -745,6 +745,16 @@ namespace Implem.Pleasanter.Libraries.Html
             return this;
         }
 
+        public HtmlAttributes DataHideCurrent(bool value, bool _using = true)
+        {
+            if (value && _using)
+            {
+                Add("data-hide-current");
+                Add("1");
+            }
+            return this;
+        }
+
         public HtmlAttributes Crossorigin(bool value, bool _using = true)
         {
             if (value && _using)

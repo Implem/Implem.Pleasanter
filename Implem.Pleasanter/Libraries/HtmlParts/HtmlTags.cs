@@ -796,7 +796,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     tag: "date-field",
                     id: id,
                     css: css,
-                    attributes: attributes,
+                    attributes: (attributes ?? new HtmlAttributes())
+                        .Id(id)
+                        .Class(css)
+                        .DataHideCurrent(Parameters.General.HideCurrentTimeIcon),
                     action: action)
                 : hb;
         }

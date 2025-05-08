@@ -6,10 +6,14 @@
 
     connectedCallback() {
         this.shadowRoot.innerHTML = this.render();
+        if(this.dataset.hideCurrent){
+            this.shadowRoot.querySelector('.current-date').remove()
+        }
         if(!this.querySelector('input')) return;
 
         const params = {
             isRwd: $('head').css('font-family') === 'responsive',
+            hideCurrent: this.dataset.hideCurrent,
             inputElm: this.querySelector('input'),
             dateFormat: this.querySelector('input').dataset.format.replace(/s/g, 'S'),
             dateFnsFormat: null,
@@ -26,7 +30,7 @@
             setDateFormat();
 
             // current-dateボタンのイベントを追加
-            params.currentElem.addEventListener('click', onCurrent);
+            params.currentElem?.addEventListener('click', onCurrent);
         };
 
         const initDatePicker = () => {
