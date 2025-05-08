@@ -9,6 +9,7 @@
         if(!this.querySelector('input')) return;
 
         const params = {
+            isRwd: $('head').css('font-family') === 'responsive',
             inputElm: this.querySelector('input'),
             dateFormat: this.querySelector('input').dataset.format.replace(/s/g, 'S'),
             dateFnsFormat: null,
@@ -38,7 +39,7 @@
                 enableTime: params.inputElm.dataset.timepicker === '1',
                 enableSeconds: params.inputElm.dataset.format?.includes(':s') || false,
                 minuteIncrement: Number(params.inputElm.dataset.step || 1),
-                allowInput: true, //TODO:スマホの時はinputを許可しない
+                allowInput: !params.isRwd ? true : false,
                 disableMobile: true,
                 dateFormat: params.dateFormat,
                 onReady: function(selectedDates, dateStr, instance) {
