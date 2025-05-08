@@ -6802,7 +6802,7 @@ namespace Implem.Pleasanter.Models
                                         searchOptionFunction: "$p.openSearchEditorColumnDialog($(this));")))
                         .FieldText(
                             fieldId: "DoNotHaveEnoughColumnsField",
-                            controlId: "DoNotHaveEnoughColumns",
+                            fieldCss: "field-wide",
                             controlOnly: true,
                             text: Displays.DoNotHaveEnoughColumns(context: context),
                             openAnchorNewTab: true,
@@ -15015,13 +15015,7 @@ namespace Implem.Pleasanter.Models
                             text: Displays.Cancel(context: context),
                             controlCss: "button-icon button-neutral",
                             onClick: "$p.closeDialog($(this));",
-                            icon: "ui-icon-cancel")
-                        .FieldText(
-                            fieldId: "HowToDevelopEfficientlyStyleHiddenField",
-                            controlId: "HowToDevelopEfficientlyStyleHidden",
-                            controlOnly: true,
-                            text: Displays.HowToDevelopEfficiently(context: context),
-                            _using: showLinkText)));
+                            icon: "ui-icon-cancel")));
         }
 
         /// <summary>
@@ -15419,13 +15413,7 @@ namespace Implem.Pleasanter.Models
                             text: Displays.Cancel(context: context),
                             controlCss: "button-icon button-neutral",
                             onClick: "$p.closeDialog($(this));",
-                            icon: "ui-icon-cancel")
-                        .FieldText(
-                            fieldId: "HowToDevelopEfficientlyScriptHiddenField",
-                            controlId: "HowToDevelopEfficientlyScriptHidden",
-                            controlOnly: true,
-                            text: Displays.HowToDevelopEfficiently(context: context),
-                            _using: showLinkText)));
+                            icon: "ui-icon-cancel")));
         }
 
         /// <summary>
@@ -15876,13 +15864,7 @@ namespace Implem.Pleasanter.Models
                             text: Displays.Cancel(context: context),
                             controlCss: "button-icon button-neutral",
                             onClick: "$p.closeDialog($(this));",
-                            icon: "ui-icon-cancel")
-                        .FieldText(
-                            fieldId: "HowToDevelopEfficientlyHtmlHiddenField",
-                            controlId: "HowToDevelopEfficientlyHtmlHidden",
-                            controlOnly: true,
-                            text: Displays.HowToDevelopEfficiently(context: context),
-                            _using: showLinkText)));
+                            icon: "ui-icon-cancel")));
         }
 
         /// <summary>
@@ -16340,13 +16322,7 @@ namespace Implem.Pleasanter.Models
                             text: Displays.Cancel(context: context),
                             controlCss: "button-icon button-neutral",
                             onClick: "$p.closeDialog($(this));",
-                            icon: "ui-icon-cancel")
-                        .FieldText(
-                            fieldId: "HowToDevelopEfficientlyServerScriptHiddenField",
-                            controlId: "HowToDevelopEfficientlyServerScriptHidden",
-                            controlOnly: true,
-                            text: Displays.HowToDevelopEfficiently(context: context),
-                            _using: showLinkText)));
+                            icon: "ui-icon-cancel")));
         }
 
         /// <summary>

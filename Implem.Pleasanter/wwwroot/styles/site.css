@@ -4022,43 +4022,56 @@ div.lower-search-ui {
     font-weight: bold;
 }
 
-#OpenSearchEditorColumnDialog,
-#DoNotHaveEnoughColumns > a {
+#OpenSearchEditorColumnDialog {
     position: absolute;
     right: 0;
     bottom: 0;
 }
 
-#DoNotHaveEnoughColumns {
+#DoNotHaveEnoughColumnsField span {
+    overflow: hidden;
+    width: 100%;
+    text-align: right;
     border: none;
     background: none;
 }
 
-#DoNotHaveEnoughColumns > a,
-[id^="HowToDevelopEfficiently"] > a {
-    color: blue !important;
-    text-decoration: none !important;
-}
-
-#StyleForm #HowToDevelopEfficientlyStyle,
-#ScriptForm #HowToDevelopEfficientlyScript,
-#HtmlForm #HowToDevelopEfficientlyHtml,
-#ServerScriptForm #HowToDevelopEfficientlyServerScript {
-    border: none;
-    background: none;
-}
-
-#StyleForm #HowToDevelopEfficientlyStyleHidden,
-#ScriptForm #HowToDevelopEfficientlyScriptHidden,
-#HtmlForm #HowToDevelopEfficientlyHtmlHidden,
-#ServerScriptForm #HowToDevelopEfficientlyServerScriptHidden {
-    visibility: hidden;
+#DoNotHaveEnoughColumnsField span > a {
+    color: #00f;
+    text-decoration: none
 }
 
 #StyleForm .command-center,
 #ScriptForm .command-center,
 #HtmlForm .command-center,
 #ServerScriptForm .command-center {
-    display: inline-flex;
-    margin-left: 35%;
+    display: flex;
+}
+
+#StyleForm #HowToDevelopEfficientlyStyleField .field-control,
+#StyleForm #HowToDevelopEfficientlyStyleField .container-normal,
+#ScriptForm #HowToDevelopEfficientlyScript .container-normal,
+#ScriptForm #HowToDevelopEfficientlyScript .field-control,
+#HtmlForm #HowToDevelopEfficientlyHtml .field-control,
+#HtmlForm #HowToDevelopEfficientlyHtml .container-normal,
+#ServerScriptForm #HowToDevelopEfficientlyServerScript .field-control,
+#ServerScriptForm #HowToDevelopEfficientlyServerScript .container-normal {
+    display: flex;
+}
+
+#HowToDevelopEfficientlyStyle,
+#HowToDevelopEfficientlyScript,
+#HowToDevelopEfficientlyHtml,
+#HowToDevelopEfficientlyServerScript {
+    border: none;
+    background: none;
+    flex: 1;
+}
+
+#HowToDevelopEfficientlyStyle > a,
+#HowToDevelopEfficientlyScript > a,
+#HowToDevelopEfficientlyHtml > a,
+#HowToDevelopEfficientlyServerScript > a {
+    color: #00f;
+    text-decoration: none;
 }
