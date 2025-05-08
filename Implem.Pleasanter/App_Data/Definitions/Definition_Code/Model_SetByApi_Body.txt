@@ -89,6 +89,7 @@
         SetAttachments(columnName: columnName, value: newAttachments);
     });
 
+<!--Model_SetByApi_MigrationMode-->
 <!--Model_SetByApi_ImageHash-->
 <!--Model_SetByApi_RecordPermissions-->
 <!--Model_SetByForm_SetByFormula-->
