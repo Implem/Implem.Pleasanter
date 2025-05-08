@@ -109,37 +109,60 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     _using: !unit.IsNullOrEmpty(),
                                     action: () => hb.Text(unit)));
                 case HtmlTypes.TextTypes.DateTime:
-                    return hb.DateField(
-                    //return hb.Div(
-                        css: "date-field",
-                        action: () => hb.Input(attributes: new HtmlAttributes()
-                            .Id(controlId)
-                            .Name(controlId)
-                            .Class(Css.Class("control-textbox", controlCss))
-                            //.Class(Css.Class("control-textbox datepicker", controlCss))
-                            .Type("text")
-                            .Value(text)
-                            .Placeholder(placeholder)
-                            .Disabled(disabled)
-                            .DataAlwaysSend(alwaysSend)
-                            .DataId(dataId)
-                            .OnChange(onChange)
-                            .AutoComplete(autoComplete ?? "off")
-                            .DataFormat(format)
-                            .DataTimepicker(timepicker)
-                            .DataValidateRequired(validateRequired)
-                            .DataValidateNumber(validateNumber)
-                            .DataValidateDate(validateDate)
-                            .DataValidateEmail(validateEmail)
-                            .DataValidateEqualTo(validateEqualTo)
-                            .DataValidateMaxLength(validateMaxLength)
-                            .DataAction(action)
-                            .DataMethod(method)
-                            .Add(attributes)));
-                            //.Add(attributes)).Div(
-                            //    css: "ui-icon ui-icon-clock current-time",
-                            //    action: () => hb.Text(text: "schedule"),
-                            //    _using: !Parameters.General.HideCurrentTimeIcon));
+                    return !Parameters.General.UseOldDatepicker ?
+                        hb.DateField(
+                            css: "date-field",
+                            action: () => hb.Input(attributes: new HtmlAttributes()
+                                .Id(controlId)
+                                .Name(controlId)
+                                .Class(Css.Class("control-textbox", controlCss))
+                                .Type("text")
+                                .Value(text)
+                                .Placeholder(placeholder)
+                                .Disabled(disabled)
+                                .DataAlwaysSend(alwaysSend)
+                                .DataId(dataId)
+                                .OnChange(onChange)
+                                .AutoComplete(autoComplete ?? "off")
+                                .DataFormat(format)
+                                .DataTimepicker(timepicker)
+                                .DataValidateRequired(validateRequired)
+                                .DataValidateNumber(validateNumber)
+                                .DataValidateDate(validateDate)
+                                .DataValidateEmail(validateEmail)
+                                .DataValidateEqualTo(validateEqualTo)
+                                .DataValidateMaxLength(validateMaxLength)
+                                .DataAction(action)
+                                .DataMethod(method)
+                                .Add(attributes)))
+                        : hb.Div(
+                            css: "date-field",
+                            action: () => hb.Input(attributes: new HtmlAttributes()
+                                .Id(controlId)
+                                .Name(controlId)
+                                .Class(Css.Class("control-textbox datepicker", controlCss))
+                                .Type("text")
+                                .Value(text)
+                                .Placeholder(placeholder)
+                                .Disabled(disabled)
+                                .DataAlwaysSend(alwaysSend)
+                                .DataId(dataId)
+                                .OnChange(onChange)
+                                .AutoComplete(autoComplete ?? "off")
+                                .DataFormat(format)
+                                .DataTimepicker(timepicker)
+                                .DataValidateRequired(validateRequired)
+                                .DataValidateNumber(validateNumber)
+                                .DataValidateDate(validateDate)
+                                .DataValidateEmail(validateEmail)
+                                .DataValidateEqualTo(validateEqualTo)
+                                .DataValidateMaxLength(validateMaxLength)
+                                .DataAction(action)
+                                .DataMethod(method)
+                                .Add(attributes)).Div(
+                                    css: "ui-icon ui-icon-clock current-time",
+                                    action: () => hb.Text(text: "schedule"),
+                                    _using: !Parameters.General.HideCurrentTimeIcon));
                 case HtmlTypes.TextTypes.MultiLine:
                     return hb.TextArea(
                         attributes: new HtmlAttributes()
