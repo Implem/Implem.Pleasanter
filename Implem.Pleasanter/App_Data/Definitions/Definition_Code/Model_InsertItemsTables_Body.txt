@@ -1,0 +1,14 @@
+﻿Rds.InsertItems(
+    dataTableName: dataTableName,
+    selectIdentity: true,
+    param: Rds.ItemsParam()
+        .ReferenceType("#TableName#")
+        .SiteId(SiteId)
+        .Title(Title.DisplayValue)
+        .MigrationParams(
+            creator: Creator?.Id,
+            updator: Updator?.Id,
+            createdTime: CreatedTime?.Value,
+            updatedTime: UpdatedTime?.Value,
+            _using: migrationMode),
+    addUpdatorParam: !migrationMode),

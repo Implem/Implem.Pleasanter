@@ -744,6 +744,12 @@ namespace Implem.Pleasanter.Models
                             _using: context.ContractSettings.Api != false
                                 && Parameters.User.DisableApi != true)
                         .FieldCheckBox(
+                            controlId: "Tenants_AllowExtensionsApi",
+                            fieldCss: "field-auto-thin",
+                            _checked: tenantModel.AllowExtensionsApi,
+                            labelText: Displays.Tenants_AllowExtensionsApi(context: context),
+                            _using: context.HasPrivilege)
+                        .FieldCheckBox(
                             controlId: "Tenants_DisableStartGuide",
                             fieldCss: "field-auto-thin",
                             _checked: tenantModel.DisableStartGuide,
@@ -1159,6 +1165,12 @@ namespace Implem.Pleasanter.Models
                                 res.Val(
                                     target: "#Tenants_DisableApi" + idSuffix,
                                     value: tenantModel.DisableApi,
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "AllowExtensionsApi":
+                                res.Val(
+                                    target: "#Tenants_AllowExtensionsApi" + idSuffix,
+                                    value: tenantModel.AllowExtensionsApi,
                                     options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                 break;
                             case "DisableStartGuide":

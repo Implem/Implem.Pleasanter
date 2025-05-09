@@ -3296,14 +3296,6 @@ namespace Implem.Pleasanter.Models
                 siteModel.Title = new Title(context.Forms.Data("SiteTitle"));
                 siteModel.Body = templateDefinition.Body;
                 siteModel.SiteSettings = templateSs;
-                siteModel.SiteSettings.EnableCalendar = !context.Forms.Data("DisableCalendar").ToBool();
-                siteModel.SiteSettings.EnableCrosstab = !context.Forms.Data("DisableCrosstab").ToBool();
-                siteModel.SiteSettings.EnableGantt = !context.Forms.Data("DisableGantt").ToBool();
-                siteModel.SiteSettings.EnableBurnDown = !context.Forms.Data("DisableBurnDown").ToBool();
-                siteModel.SiteSettings.EnableTimeSeries = !context.Forms.Data("DisableTimeSeries").ToBool();
-                siteModel.SiteSettings.EnableAnaly = !context.Forms.Data("DisableAnaly").ToBool();
-                siteModel.SiteSettings.EnableKamban = !context.Forms.Data("DisableKamban").ToBool();
-                siteModel.SiteSettings.EnableImageLib = !context.Forms.Data("DisableImageLib").ToBool();
                 siteModel.Create(context: context, otherInitValue: true);
                 return SiteMenuResponse(
                     context: context,
@@ -4931,47 +4923,6 @@ namespace Implem.Pleasanter.Models
                             .Hidden(
                                 controlId: "TemplateId",
                                 css: " always-send")
-                            .Div(css: "command-center", action: () => hb
-                                .FieldCheckBox(
-                                    controlId: "DisableCalendar",
-                                    fieldCss: "field-auto-thin",
-                                    labelText: Displays.DisableCalendar(context: context),
-                                    _checked: Parameters.General.DefaultCalendarDisable)
-                                .FieldCheckBox(
-                                    controlId: "DisableCrosstab",
-                                    fieldCss: "field-auto-thin",
-                                    labelText: Displays.DisableCrosstab(context: context),
-                                    _checked: Parameters.General.DefaultCrosstabDisable)
-                                .FieldCheckBox(
-                                    controlId: "DisableGantt",
-                                    fieldCss: "field-auto-thin",
-                                    labelText: Displays.DisableGantt(context: context),
-                                    _checked: Parameters.General.DefaultGanttDisable)
-                                .FieldCheckBox(
-                                    controlId: "DisableBurnDown",
-                                    fieldCss: "field-auto-thin",
-                                    labelText: Displays.DisableBurnDown(context: context),
-                                    _checked: Parameters.General.DefaultBurnDownDisable)
-                                .FieldCheckBox(
-                                    controlId: "DisableTimeSeries",
-                                    fieldCss: "field-auto-thin",
-                                    labelText: Displays.DisableTimeSeries(context: context),
-                                    _checked: Parameters.General.DefaultTimeSeriesDisable)
-                                .FieldCheckBox(
-                                    controlId: "DisableAnaly",
-                                    fieldCss: "field-auto-thin",
-                                    labelText: Displays.DisableAnaly(context: context),
-                                    _checked: Parameters.General.DefaultAnalyDisable)
-                                .FieldCheckBox(
-                                    controlId: "DisableKamban",
-                                    fieldCss: "field-auto-thin",
-                                    labelText: Displays.DisableKamban(context: context),
-                                    _checked: Parameters.General.DefaultKambanDisable)
-                                .FieldCheckBox(
-                                    controlId: "DisableImageLib",
-                                    fieldCss: "field-auto-thin",
-                                    labelText: Displays.DisableImageLib(context: context),
-                                    _checked: Parameters.General.DefaultImageLibDisable))
                             .P(css: "message-dialog")
                             .Div(css: "command-center", action: () => hb
                                 .Button(
@@ -6673,6 +6624,8 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder EditorSettingsEditor(
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
+            var showLinkText = !Parameters.DisableAds()
+                && (!Parameters.CommercialLicense() || Parameters.Service.Demo);
             return hb.TabsPanelField(id: "EditorSettingsEditor", action: () => hb
                 .FieldSet(
                     css: " enclosed",
@@ -6793,10 +6746,19 @@ namespace Implem.Pleasanter.Models
                                         onClick: "$p.enableColumns(event, $(this),'Editor', 'EditorSourceColumnsType');",
                                         icon: "ui-icon-circle-triangle-w",
                                         action: "SetSiteSettings",
-                                        method: "post")),
-                            setSearchOptionButton: true,
-                            searchOptionId: "OpenSearchEditorColumnDialog",
-                            searchOptionFunction: "$p.openSearchEditorColumnDialog($(this));")
+                                        method: "post")
+                                    .SearchOptionButton(
+                                        setSearchOptionButton: true,
+                                        searchOptionId: "OpenSearchEditorColumnDialog",
+                                        searchOptionFunction: "$p.openSearchEditorColumnDialog($(this));")))
+                        .Div(
+                            id: "DoNotHaveEnoughColumnsField",
+                            css: "fieldset-inner-bottom is-right",
+                            action: () => hb.A(
+                                text: Displays.DoNotHaveEnoughColumns(context: context),
+                                href: Parameters.General.RecommendUrl1 + "?re=EditorSettings",
+                                target: "_blank"),
+                            _using: showLinkText)
                         .Hidden(
                             controlId: "SearchEditorColumnDialogInput",
                             css: "always-send",
@@ -13732,7 +13694,13 @@ namespace Implem.Pleasanter.Models
                     labelText: Displays.RejectNullImport(context: context),
                     _checked: ss.RejectNullImport == true,
                     controlCss: " always-send",
-                    _using: context.Controller == "items"));
+                    _using: context.Controller == "items")
+                .FieldCheckBox(
+                    controlId: "AllowMigrationMode",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.AllowMigrationMode(context: context),
+                    _checked: ss.AllowMigrationMode == true,
+                    controlCss: " always-send"));
         }
 
         /// <summary>
@@ -14854,6 +14822,11 @@ namespace Implem.Pleasanter.Models
                 (ss.ReferenceType == "Sites"
                     ? " hidden"
                     : string.Empty);
+            var showLinkText = !Parameters.DisableAds()
+                && (!Parameters.CommercialLicense() || Parameters.Service.Demo);
+            var hasLink = showLinkText
+                ? " has-link"
+                : string.Empty;
             return hb.Form(
                 attributes: new HtmlAttributes()
                     .Id("StyleForm")
@@ -14971,7 +14944,14 @@ namespace Implem.Pleasanter.Models
                         value: "1",
                         _using: ss.ReferenceType == "Dashboards")
                     .P(css: "message-dialog")
-                    .Div(css: "command-center", action: () => hb
+                    .Div(css: "command-center" + hasLink, action: () => hb
+                        .Div(
+                            css: "link-item",
+                            action: () => hb.A(
+                                text: Displays.HowToDevelopEfficiently(context: context),
+                                href: Parameters.General.RecommendUrl2 + "?re=StylesSettings",
+                                target: "_blank"),
+                            _using: showLinkText)
                         .Button(
                             controlId: "AddStyle",
                             text: Displays.Add(context: context),
@@ -15242,6 +15222,11 @@ namespace Implem.Pleasanter.Models
                 (ss.ReferenceType == "Sites"
                     ? " hidden"
                     : string.Empty);
+            var showLinkText = !Parameters.DisableAds()
+                && (!Parameters.CommercialLicense() || Parameters.Service.Demo);
+            var hasLink = showLinkText
+                ? " has-link"
+                : string.Empty;
             return hb.Form(
                 attributes: new HtmlAttributes()
                     .Id("ScriptForm")
@@ -15359,7 +15344,14 @@ namespace Implem.Pleasanter.Models
                         value: "1",
                         _using: ss.ReferenceType == "Dashboards")
                     .P(css: "message-dialog")
-                    .Div(css: "command-center", action: () => hb
+                    .Div(css: "command-center" + hasLink, action: () => hb
+                        .Div(
+                            css: "link-item",
+                            action: () => hb.A(
+                                text: Displays.HowToDevelopEfficiently(context: context),
+                                href: Parameters.General.RecommendUrl2 + "?re=ScriptsSettings",
+                                target: "_blank"),
+                            _using: showLinkText)
                         .Button(
                             controlId: "AddScript",
                             text: Displays.Add(context: context),
@@ -15657,6 +15649,11 @@ namespace Implem.Pleasanter.Models
                 (ss.ReferenceType == "Sites"
                     ? " hidden"
                     : string.Empty);
+            var showLinkText = !Parameters.DisableAds()
+                && (!Parameters.CommercialLicense() || Parameters.Service.Demo);
+            var hasLink = showLinkText
+                ? " has-link"
+                : string.Empty;
             return hb.Form(
                 attributes: new HtmlAttributes()
                     .Id("HtmlForm")
@@ -15800,7 +15797,14 @@ namespace Implem.Pleasanter.Models
                         value: "1",
                         _using: ss.ReferenceType == "Dashboards")
                     .P(css: "message-dialog")
-                    .Div(css: "command-center", action: () => hb
+                    .Div(css: "command-center" + hasLink, action: () => hb
+                        .Div(
+                            css: "link-item",
+                            action: () => hb.A(
+                                text: Displays.HowToDevelopEfficiently(context: context),
+                                href: Parameters.General.RecommendUrl2 + "?re=HtmlsSettings",
+                                target: "_blank"),
+                            _using: showLinkText)
                         .Button(
                             controlId: "AddHtml",
                             text: Displays.Add(context: context),
@@ -15956,9 +15960,9 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .Text(text: Displays.BeforeDelete(context: context)))
                     .Th(action: () => hb
-                        .Text(text: Displays.BeforeBulkDelete(context: context)))
-                    .Th(action: () => hb
                         .Text(text: Displays.AfterDelete(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.BeforeBulkDelete(context: context)))
                     .Th(action: () => hb
                         .Text(text: Displays.AfterBulkDelete(context: context)))
                     .Th(action: () => hb
@@ -16048,11 +16052,11 @@ namespace Implem.Pleasanter.Models
                             .Td(action: () => hb
                                 .Span(
                                     css: "ui-icon ui-icon-circle-check",
-                                    _using: script.BeforeBulkDelete == true))
+                                    _using: script.AfterDelete == true))
                             .Td(action: () => hb
                                 .Span(
                                     css: "ui-icon ui-icon-circle-check",
-                                    _using: script.AfterDelete == true))
+                                    _using: script.BeforeBulkDelete == true))
                             .Td(action: () => hb
                                 .Span(
                                     css: "ui-icon ui-icon-circle-check",
@@ -16084,6 +16088,11 @@ namespace Implem.Pleasanter.Models
                 (ss.ReferenceType == "Sites"
                     ? " hidden"
                     : string.Empty);
+            var showLinkText = !Parameters.DisableAds()
+                && (!Parameters.CommercialLicense() || Parameters.Service.Demo);
+            var hasLink = showLinkText
+                ? " has-link"
+                : string.Empty;
             return hb.Form(
                 attributes: new HtmlAttributes()
                     .Id("ServerScriptForm")
@@ -16212,17 +16221,17 @@ namespace Implem.Pleasanter.Models
                                 labelText: Displays.BeforeDelete(context: context),
                                 _checked: script.BeforeDelete == true)
                             .FieldCheckBox(
-                                controlId: "ServerScriptBeforeBulkDelete",
-                                fieldCss: outputDestinationCss,
-                                controlCss: " always-send",
-                                labelText: Displays.BeforeBulkDelete(context: context),
-                                _checked: script.BeforeBulkDelete == true)
-                            .FieldCheckBox(
                                 controlId: "ServerScriptAfterDelete",
                                 fieldCss: outputDestinationCss,
                                 controlCss: " always-send",
                                 labelText: Displays.AfterDelete(context: context),
                                 _checked: script.AfterDelete == true)
+                            .FieldCheckBox(
+                                controlId: "ServerScriptBeforeBulkDelete",
+                                fieldCss: outputDestinationCss,
+                                controlCss: " always-send",
+                                labelText: Displays.BeforeBulkDelete(context: context),
+                                _checked: script.BeforeBulkDelete == true)
                             .FieldCheckBox(
                                 controlId: "ServerScriptAfterBulkDelete",
                                 fieldCss: outputDestinationCss,
@@ -16248,7 +16257,14 @@ namespace Implem.Pleasanter.Models
                                 labelText: Displays.Shared(context: context),
                                 _checked: script.Shared == true))
                     .P(css: "message-dialog")
-                    .Div(css: "command-center", action: () => hb
+                    .Div(css: "command-center" + hasLink, action: () => hb
+                        .Div(
+                            css: "link-item",
+                            action: () => hb.A(
+                                text: Displays.HowToDevelopEfficiently(context: context),
+                                href: Parameters.General.RecommendUrl2 + "?re=ServerScriptsSettings",
+                                target: "_blank"),
+                            _using: showLinkText)
                         .Button(
                             controlId: "AddServerScript",
                             text: Displays.Add(context: context),

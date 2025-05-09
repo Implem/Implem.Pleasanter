@@ -1,0 +1,9 @@
+﻿{
+    "Id": "CodeDefinerDatabaseNotFound",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "Database not found."
+        }
+    ]
+}

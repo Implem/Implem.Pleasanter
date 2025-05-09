@@ -1,33 +1,33 @@
 ﻿{
-    "Id": "DisableAnaly",
+    "Id": "MigrationMode",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Hide analysis chart"
+            "Body": "Migration mode"
         },
         {
             "Language": "zh",
-            "Body": "隐藏分析图表"
+            "Body": "迁移模式"
         },
         {
             "Language": "ja",
-            "Body": "分析チャートを非表示"
+            "Body": "移行モード"
         },
         {
             "Language": "de",
-            "Body": "Analysediagramm ausblenden"
+            "Body": "Migrationsmodus"
         },
         {
             "Language": "ko",
-            "Body": "분석 차트 숨기기"
+            "Body": "마이그레이션 모드"
         },
         {
             "Language": "es",
-            "Body": "Grafico dell'analisi di occultamento"
+            "Body": "Modo de migración"
         },
         {
             "Language": "vn",
-            "Body": "Ẩn biểu đồ phân tích"
+            "Body": "Chế độ di chuyển"
         }
     ]
 }

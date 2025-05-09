@@ -1,0 +1,6 @@
+﻿param: param ?? Rds.#TableName#ParamDefault(
+    context: context,
+    ss: ss,
+    #modelName#Model: this,
+    setDefault: true,
+    otherInitValue: otherInitValue))<!--Comma ( ItemOnly = 1 ) --><!--Comma ( UpdateMonitor = 1 ) -->

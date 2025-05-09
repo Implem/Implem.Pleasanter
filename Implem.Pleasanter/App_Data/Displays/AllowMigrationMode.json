@@ -1,33 +1,33 @@
 ﻿{
-    "Id": "DisableCalendar",
+    "Id": "AllowMigrationMode",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Hide calendar"
+            "Body": "Allow migration mode"
         },
         {
             "Language": "zh",
-            "Body": "隐藏日历"
+            "Body": "允许迁移模式"
         },
         {
             "Language": "ja",
-            "Body": "カレンダーを非表示"
+            "Body": "移行モードを許可"
         },
         {
             "Language": "de",
-            "Body": "Kalender ausblenden"
+            "Body": "Migrationsmodus erlauben"
         },
         {
             "Language": "ko",
-            "Body": "캘린더 숨기기"
+            "Body": "마이그레이션 모드 허용"
         },
         {
             "Language": "es",
-            "Body": "Ocultar calendario"
+            "Body": "Permitir modo de migración"
         },
         {
             "Language": "vn",
-            "Body": "Ẩn lịch"
+            "Body": "Cho phép chế độ di chuyển"
         }
     ]
 }
