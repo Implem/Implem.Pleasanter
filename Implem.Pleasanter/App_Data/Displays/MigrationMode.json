@@ -1,0 +1,33 @@
+﻿{
+    "Id": "MigrationMode",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Migration mode"
+        },
+        {
+            "Language": "zh",
+            "Body": "迁移模式"
+        },
+        {
+            "Language": "ja",
+            "Body": "移行モード"
+        },
+        {
+            "Language": "de",
+            "Body": "Migrationsmodus"
+        },
+        {
+            "Language": "ko",
+            "Body": "마이그레이션 모드"
+        },
+        {
+            "Language": "es",
+            "Body": "Modo de migración"
+        },
+        {
+            "Language": "vn",
+            "Body": "Chế độ di chuyển"
+        }
+    ]
+}

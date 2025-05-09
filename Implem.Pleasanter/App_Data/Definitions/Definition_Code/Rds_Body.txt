@@ -663,6 +663,63 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
 <!--Rds_Restore-->
+
+        public static SqlParamCollection MigrationParams(
+            this SqlParamCollection self,
+            int? creator,
+            int? updator,
+            DateTime? createdTime,
+            DateTime? updatedTime,
+            bool _using = true)
+        {
+            if (!_using)
+            {
+                return self;
+            }
+            else
+            {
+                if (creator != null)
+                {
+                    self.Add(
+                        columnBracket: "\"Creator\"",
+                        name: "Creator",
+                        value: creator,
+                        sub: null,
+                        raw: null);
+                }
+                if (updator != null)
+                {
+                    self.Add(
+                        columnBracket: "\"Updator\"",
+                        name: "Updator",
+                        value: updator,
+                        sub: null,
+                        raw: null);
+                }
+                self.Add(
+                    columnBracket: "\"CreatedTime\"",
+                    name: "CreatedTime",
+                    value: createdTime == null
+                        ? DateTime.Now
+                        : createdTime.ToDateTime().InRange()
+                            ? createdTime
+                            : DateTime.Now,
+                    sub: null,
+                    raw: null);
+                self.Add(
+                    columnBracket: "\"UpdatedTime\"",
+                    name: "UpdatedTime",
+                    value: updatedTime == null
+                        ? DateTime.Now
+                        : updatedTime.ToDateTime().InRange()
+                            ? updatedTime
+                            : DateTime.Now,
+                    sub: null,
+                    raw: null);
+                return self;
+            }
+        }
+
 <!--Rds_Columns-->
 <!--Rds_Defaults-->
 <!--Rds_TitleColumn-->

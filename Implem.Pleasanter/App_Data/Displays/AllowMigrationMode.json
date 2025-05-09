@@ -1,0 +1,33 @@
+﻿{
+    "Id": "AllowMigrationMode",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Allow migration mode"
+        },
+        {
+            "Language": "zh",
+            "Body": "允许迁移模式"
+        },
+        {
+            "Language": "ja",
+            "Body": "移行モードを許可"
+        },
+        {
+            "Language": "de",
+            "Body": "Migrationsmodus erlauben"
+        },
+        {
+            "Language": "ko",
+            "Body": "마이그레이션 모드 허용"
+        },
+        {
+            "Language": "es",
+            "Body": "Permitir modo de migración"
+        },
+        {
+            "Language": "vn",
+            "Body": "Cho phép chế độ di chuyển"
+        }
+    ]
+}

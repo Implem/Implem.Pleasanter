@@ -6,6 +6,7 @@
 
 <!--Model_CreateParams-->
 <!--Model_CreateParams_Wikis-->
+<!--Model_MigrationModeParam-->
 <!--Model_CreateParams_SetByApi-->
 
     string noticeType = "Created",
@@ -30,6 +31,7 @@
         tableType: tableType,
         param: param,
 
+<!--Model_CreateStatementsParams_Items-->
 <!--Model_CreateStatementsParams_GroupMembers-->
 
         otherInitValue: otherInitValue));
@@ -66,6 +68,7 @@ public List<SqlStatement> CreateStatements(
     SqlParamCollection param = null,
 
 <!--Model_CreateStatementsParams_GroupMembersUsing-->
+<!--Model_MigrationModeParam-->
 
     bool otherInitValue = false)
 {
@@ -77,20 +80,15 @@ public List<SqlStatement> CreateStatements(
     {
 
 <!--Model_InsertItems-->
+<!--Model_InsertItemsTables-->
 
         Rds.Insert#TableName#(
             dataTableName: dataTableName,
             tableType: tableType,
 
 <!--Model_SelectIdentity-->
-
-            param: param ?? Rds.#TableName#ParamDefault(
-                context: context,
-                ss: ss,
-                #modelName#Model: this,
-                setDefault: true,
-                otherInitValue: otherInitValue))<!--Comma ( ItemOnly = 1 ) --><!--Comma ( UpdateMonitor = 1 ) -->
-
+<!--Model_InsertParams-->
+<!--Model_InsertParamsTables-->
 <!--Model_InsertGroupMember-->
 <!--Model_InsertLinksByCreate-->
 <!--Model_UpdateStatus-->

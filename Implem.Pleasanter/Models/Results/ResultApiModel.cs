@@ -23,6 +23,7 @@ namespace Implem.Pleasanter.Models
         public string ItemTitle { get; set; }
         public int? ProcessId { get; set; }
         public int?[] ProcessIds { get; set; }
+        public bool? MigrationMode { get; set; }
 
         public ResultApiModel()
         {

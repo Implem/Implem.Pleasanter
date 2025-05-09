@@ -2669,3 +2669,15 @@
         margin: 0 10px 0 0;
     }
 }
+
+#StyleForm .command-center,
+#ScriptForm .command-center,
+#HtmlForm .command-center,
+#ServerScriptForm .command-center {
+    display: block;
+    margin-left: 0;
+}
+
+.command-center.has-link .link-item {
+    text-align: center;
+}
