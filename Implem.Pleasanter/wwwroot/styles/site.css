@@ -1853,6 +1853,21 @@ th.calendar-header {
     display: none;
 }
 
+.fieldset-inner-bottom.is-right {
+    clear: both;
+    text-align: right;
+    padding: 8px;
+}
+
+.fieldset-inner-bottom a {
+    color: #00f;
+    text-decoration: none;
+}
+
+.fieldset-inner-bottom a:hover {
+    text-decoration: underline;
+}
+
 .command-field {
     clear: both;
     padding: 10px 5px 5px 136px;
@@ -1869,12 +1884,37 @@ th.calendar-header {
     clear: both;
     padding: 5px 5px 5px 5px;
     text-align: center;
+    position: relative;
 }
 
 .command-center > button {
     display: inline;
     float: none;
     margin: 2px 4px;
+}
+
+.command-center.has-link {
+    display: flex;
+    align-items: center;
+}
+
+.command-center.has-link::after {
+    content: '';
+    flex: 1;
+}
+
+.command-center.has-link .link-item {
+    flex: 1;
+    text-align: right;
+}
+
+.command-center.has-link .link-item a {
+    color: #00f;
+    text-decoration: none;
+}
+
+.command-center.has-link .link-item a:hover {
+    text-decoration: underline;
 }
 
 .command-left {
@@ -4019,4 +4059,10 @@ div.lower-search-ui {
 #LoginTrialMessage span.license-deadline {
     color: #ff0000;
     font-weight: bold;
+}
+
+#OpenSearchEditorColumnDialog {
+    position: absolute;
+    right: 0;
+    bottom: 0;
 }

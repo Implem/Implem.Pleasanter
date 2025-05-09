@@ -3669,6 +3669,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string DoNotHaveEnoughColumns(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "DoNotHaveEnoughColumns",
+                data: data);
+        }
+
         public static string DragColumn(
             Context context,
             params string[] data)
@@ -5076,6 +5086,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "HoursAgoNoArgs",
+                data: data);
+        }
+
+        public static string HowToDevelopEfficiently(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "HowToDevelopEfficiently",
                 data: data);
         }
 

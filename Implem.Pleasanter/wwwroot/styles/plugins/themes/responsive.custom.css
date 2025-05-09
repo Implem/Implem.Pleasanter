@@ -898,12 +898,34 @@
             width: 100%;
             box-shadow: 0 2px 1px var(--base-shadow);
         }
-    }
+        #EditorSettingsEditor .field-control #ToEnableEditorColumns {
+            margin-right: 50px;
+        }
+        #EditorSettingsEditor #DoNotHaveEnoughColumnsField,
+        #EditorSettingsEditor #DoNotHaveEnoughColumnsField .field-control .container-normal {
+            width: 200%;
+        }
+        #StyleForm .command-center,
+        #ScriptForm .command-center,
+        #HtmlForm .command-center,
+        #ServerScriptForm .command-center {
+            display: block;
+            margin-left: 0;
+        }
+        #StyleForm #AddStyle,
+        #ScriptForm #AddScript,
+        #HtmlForm #AddHtml,
+        #ServerScriptForm #AddServerScript {
+            margin-right: 10px;
+        }
+        .command-center.has-link .link-item {
+            text-align: center;
+        }
+}
 
     /* !#Editor > #EditorTabsContainer */
     body:not(:has(#Editor)) {
         #EditorTabsContainer {
-            &.max {
                 width: 100%;
             }
         }
@@ -1911,7 +1933,7 @@
         #OpenSearchEditorColumnDialog {
             position: absolute;
             right: 0;
-            bottom: -46px;
+            bottom: 0;
             display: flex;
             align-items: center;
             height: 38px;
