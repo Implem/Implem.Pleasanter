@@ -27,12 +27,14 @@
 
 <!--Model_Utilities_SetProcesses_Null-->
 <!--Model_Utilities_SetProcesses-->
+
     var errorData = ApplyCreateByApi(
         context: context,
         ss: ss,
+        processes: processes,
         #modelName#Model: #modelName#Model,
-        processes: processes);
-
+        migrationMode: ss.AllowMigrationMode == true
+            && #modelName#ApiModel?.MigrationMode == true);
     switch (errorData.Type)
     {
 
@@ -51,7 +53,8 @@ private static ErrorData ApplyCreateByApi(
     Context context,
     SiteSettings ss,
     #ModelName#Model #modelName#Model,
-    List<Process> processes)
+    List<Process> processes,
+    bool migrationMode = false)
 {
     var invalid = #ModelName#Validators.OnCreating(
         context: context,
@@ -71,7 +74,8 @@ private static ErrorData ApplyCreateByApi(
         context: context,
         ss: ss,
         processes: processes,
-        notice: true);
+        notice: true,
+        migrationMode: migrationMode);
     BinaryUtilities.UploadImage(
         context: context,
         ss: ss,
