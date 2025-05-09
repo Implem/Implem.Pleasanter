@@ -4058,11 +4058,11 @@ div.lower-search-ui {
     padding: 8px;
 }
 
-.fieldset-inner-bottom.is-right a {
+.fieldset-inner-bottom a {
     color: #00f;
     text-decoration: none;
 }
 
-.fieldset-inner-bottom.is-right a:hover {
+.fieldset-inner-bottom a:hover {
     text-decoration: underline;
 }

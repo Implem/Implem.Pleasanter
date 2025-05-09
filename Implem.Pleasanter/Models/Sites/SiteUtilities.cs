@@ -6624,7 +6624,7 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder EditorSettingsEditor(
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
-            var showable = !Parameters.DisableAds()
+            var showLinkText = !Parameters.DisableAds()
                 && (!Parameters.CommercialLicense() || Parameters.Service.Demo);
             return hb.TabsPanelField(id: "EditorSettingsEditor", action: () => hb
                 .FieldSet(
@@ -6758,7 +6758,7 @@ namespace Implem.Pleasanter.Models
                                 text: Displays.DoNotHaveEnoughColumns(context: context),
                                 href: Parameters.General.HtmlSupportUrl,
                                 target: "_blank"),
-                            _using: showable)
+                            _using: showLinkText)
                         .Hidden(
                             controlId: "SearchEditorColumnDialogInput",
                             css: "always-send",
@@ -14822,9 +14822,9 @@ namespace Implem.Pleasanter.Models
                 (ss.ReferenceType == "Sites"
                     ? " hidden"
                     : string.Empty);
-            var showable = !Parameters.DisableAds()
+            var showLinkText = !Parameters.DisableAds()
                 && (!Parameters.CommercialLicense() || Parameters.Service.Demo);
-            var hasLink = showable
+            var hasLink = showLinkText
                 ? " has-link"
                 : string.Empty;
             return hb.Form(
@@ -14951,7 +14951,7 @@ namespace Implem.Pleasanter.Models
                                 text: Displays.HowToDevelopEfficiently(context: context),
                                 href: Parameters.General.HtmlCodeAssistUrl,
                                 target: "_blank"),
-                            _using: showable)
+                            _using: showLinkText)
                         .Button(
                             controlId: "AddStyle",
                             text: Displays.Add(context: context),
@@ -15222,9 +15222,9 @@ namespace Implem.Pleasanter.Models
                 (ss.ReferenceType == "Sites"
                     ? " hidden"
                     : string.Empty);
-            var showable = !Parameters.DisableAds()
+            var showLinkText = !Parameters.DisableAds()
                 && (!Parameters.CommercialLicense() || Parameters.Service.Demo);
-            var hasLink = showable
+            var hasLink = showLinkText
                 ? " has-link"
                 : string.Empty;
             return hb.Form(
@@ -15351,7 +15351,7 @@ namespace Implem.Pleasanter.Models
                                 text: Displays.HowToDevelopEfficiently(context: context),
                                 href: Parameters.General.HtmlCodeAssistUrl,
                                 target: "_blank"),
-                            _using: showable)
+                            _using: showLinkText)
                         .Button(
                             controlId: "AddScript",
                             text: Displays.Add(context: context),
@@ -15649,9 +15649,9 @@ namespace Implem.Pleasanter.Models
                 (ss.ReferenceType == "Sites"
                     ? " hidden"
                     : string.Empty);
-            var showable = !Parameters.DisableAds()
+            var showLinkText = !Parameters.DisableAds()
                 && (!Parameters.CommercialLicense() || Parameters.Service.Demo);
-            var hasLink = showable
+            var hasLink = showLinkText
                 ? " has-link"
                 : string.Empty;
             return hb.Form(
@@ -15804,7 +15804,7 @@ namespace Implem.Pleasanter.Models
                                 text: Displays.HowToDevelopEfficiently(context: context),
                                 href: Parameters.General.HtmlCodeAssistUrl,
                                 target: "_blank"),
-                            _using: showable)
+                            _using: showLinkText)
                         .Button(
                             controlId: "AddHtml",
                             text: Displays.Add(context: context),
@@ -16088,9 +16088,9 @@ namespace Implem.Pleasanter.Models
                 (ss.ReferenceType == "Sites"
                     ? " hidden"
                     : string.Empty);
-            var showable = !Parameters.DisableAds()
+            var showLinkText = !Parameters.DisableAds()
                 && (!Parameters.CommercialLicense() || Parameters.Service.Demo);
-            var hasLink = showable
+            var hasLink = showLinkText
                 ? " has-link"
                 : string.Empty;
             return hb.Form(
@@ -16264,7 +16264,7 @@ namespace Implem.Pleasanter.Models
                                 text: Displays.HowToDevelopEfficiently(context: context),
                                 href: Parameters.General.HtmlCodeAssistUrl,
                                 target: "_blank"),
-                            _using: showable)
+                            _using: showLinkText)
                         .Button(
                             controlId: "AddServerScript",
                             text: Displays.Add(context: context),
