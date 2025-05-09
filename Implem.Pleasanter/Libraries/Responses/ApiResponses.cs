@@ -63,18 +63,53 @@ namespace Implem.Pleasanter.Libraries.Responses
                     return NotMatchRegex(
                         context: context,
                         errorData: errorData);
+                case General.Error.Types.InvalidUpsertKey:
+                    return InvalidUpsertKey(
+                        context: context,
+                        errorData: errorData);
                 default:
-                    return new ApiResponse(
-                        id: context.Id,
-                        statusCode: 500,
-                        message: dataList?.Any() == true
-                            ? Displays.Get(
-                                context: context,
-                                id: errorData.Type.ToString()).Params(dataList.ToArray())
-                            : Displays.Get(
-                                context: context,
-                                id: errorData.Type.ToString()));
+                    var message = Displays.Get(context: context, id: errorData.Type.ToString());
+                    if (dataList?.Any() == true) message = message.Params(dataList.ToArray());
+                    return new ApiResponse(id: context.Id, statusCode: 500, message: message);
             }
+        }
+
+        public static int StatusCode(Error.Types errorType)
+        {
+            switch (errorType)
+            {
+                case General.Error.Types.None:
+                    return 200;
+                case General.Error.Types.BadRequest:
+                case General.Error.Types.InvalidJsonData:
+                case General.Error.Types.Overlap:
+                case General.Error.Types.InvalidUpsertKey:
+                    return 400;
+                case General.Error.Types.Unauthorized:
+                    return 401;
+                case General.Error.Types.NotFound:
+                    return 404;
+                case General.Error.Types.InvalidRequest:
+                case General.Error.Types.HasNotPermission:
+                    return 403;
+                case General.Error.Types.OverLimitApi:
+                    return 429;
+                case General.Error.Types.OverLimitQuantity:
+                    return 441;
+                case General.Error.Types.OverLimitSize:
+                    return 442;
+                case General.Error.Types.OverTotalLimitSize:
+                    return 443;
+                case General.Error.Types.OverTenantStorageSize:
+                    return 444;
+                case General.Error.Types.LockedTable:
+                case General.Error.Types.LockedRecord:
+                    return 405;
+                case General.Error.Types.TooLongText:
+                case General.Error.Types.NotMatchRegex:
+                    return 422;
+            }
+            return 500;
         }
 
         public static ApiResponse BadRequest(Context context)
@@ -211,6 +246,14 @@ namespace Implem.Pleasanter.Libraries.Responses
                 id: context.Id,
                 statusCode: 409,
                 message: message);
+        }
+        private static ApiResponse InvalidUpsertKey(Context context, ErrorData errorData)
+        {
+            var statusCode = StatusCode(errorData.Type);
+            var message = Displays.InvalidUpsertKey(
+                context: context,
+                data: errorData.Data);
+            return new ApiResponse(id: context.Id, statusCode: statusCode, message: message);
         }
     }
 }

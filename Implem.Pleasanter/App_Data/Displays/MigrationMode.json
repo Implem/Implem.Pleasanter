@@ -1,33 +1,33 @@
 ﻿{
-    "Id": "DisableGantt",
+    "Id": "MigrationMode",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Hide gantt chart"
+            "Body": "Migration mode"
         },
         {
             "Language": "zh",
-            "Body": "隐藏甘特图"
+            "Body": "迁移模式"
         },
         {
             "Language": "ja",
-            "Body": "ガントチャートを非表示"
+            "Body": "移行モード"
         },
         {
             "Language": "de",
-            "Body": "Gantt-Diagramm ausblenden"
+            "Body": "Migrationsmodus"
         },
         {
             "Language": "ko",
-            "Body": "간트 차트 숨기기"
+            "Body": "마이그레이션 모드"
         },
         {
             "Language": "es",
-            "Body": "Nascondere il diagramma di Gantt"
+            "Body": "Modo de migración"
         },
         {
             "Language": "vn",
-            "Body": "Ẩn biểu đồ Gantt"
+            "Body": "Chế độ di chuyển"
         }
     ]
 }

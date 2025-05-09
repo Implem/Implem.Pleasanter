@@ -30,7 +30,7 @@
             if (column?.TypeName == "datetime"
                 && objectValue.ToDateTime().InRange() == false)
             {
-                error = Error.Types.invalidUpsertKey;
+                error = Error.Types.InvalidUpsertKey;
                 return;
             }
             api.View.AddColumnFilterHash(

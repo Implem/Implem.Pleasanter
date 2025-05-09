@@ -1,6 +1,7 @@
 ﻿using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
+using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Settings;
 using System.Collections.Generic;
 using System.Linq;
@@ -66,6 +67,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         _checked: false,
                         controlCss: " always-send",
                         _using: context.Controller == "groups")
+                    .FieldCheckBox(
+                        controlId: "MigrationMode",
+                        fieldCss: "field-wide",
+                        labelText: Displays.MigrationMode(context: context),
+                        _checked: false,
+                        controlCss: " always-send",
+                        _using: context.Controller == "items"
+                            && context.CanManageSite(ss: ss)
+                            && ss.AllowMigrationMode == true)
                     .P(css: "message-dialog")
                     .Div(
                         css: "command-center",

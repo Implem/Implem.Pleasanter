@@ -199,6 +199,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? UpdatableImport;
         public bool? RejectNullImport;
         public string DefaultImportKey;
+        public bool? AllowMigrationMode;
         public SettingList<Export> Exports;
         public bool? AllowStandardExport;
         public SettingList<Style> Styles;
@@ -1181,6 +1182,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (!DefaultImportKey.IsNullOrEmpty())
             {
                 ss.DefaultImportKey = DefaultImportKey;
+            }
+            if (AllowMigrationMode == true)
+            {
+                ss.AllowMigrationMode = AllowMigrationMode;
             }
             Exports?.ForEach(exportSetting =>
             {
@@ -4002,6 +4007,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "UpdatableImport": UpdatableImport = value.ToBool(); break;
                 case "RejectNullImport": RejectNullImport = value.ToBool(); break;
                 case "DefaultImportKey": DefaultImportKey = value; break;
+                case "AllowMigrationMode": AllowMigrationMode = value.ToBool(); break;
                 case "AllowStandardExport": AllowStandardExport = value.ToBool(); break;
                 case "EnableCalendar": EnableCalendar = value.ToBool(); break;
                 case "CalendarType": CalendarType = value.ToEnum(defaultValue: (CalendarTypes)Parameters.General.DefaultCalendarType); break;
@@ -5920,7 +5926,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                         BeforeUpdate = extendedServerScript.BeforeUpdate,
                         AfterUpdate = extendedServerScript.AfterUpdate,
                         BeforeDelete = extendedServerScript.BeforeDelete,
+                        BeforeBulkDelete = extendedServerScript.BeforeBulkDelete,
                         AfterDelete = extendedServerScript.AfterDelete,
+                        AfterBulkDelete = extendedServerScript.AfterBulkDelete,
                         BeforeOpeningPage = extendedServerScript.BeforeOpeningPage,
                         BeforeOpeningRow = extendedServerScript.BeforeOpeningRow,
                         Shared = extendedServerScript.Shared,
@@ -5942,7 +5950,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                         || serverScript.BeforeUpdate == true
                         || serverScript.AfterUpdate == true
                         || serverScript.BeforeDelete == true
+                        || serverScript.BeforeBulkDelete == true
                         || serverScript.AfterDelete == true
+                        || serverScript.AfterBulkDelete == true
                         || serverScript.BeforeOpeningPage == true
                         || serverScript.BeforeOpeningRow == true)
                     .ForEach(serverScript =>

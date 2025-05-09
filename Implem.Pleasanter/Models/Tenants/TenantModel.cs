@@ -34,6 +34,7 @@ namespace Implem.Pleasanter.Models
         public DateTime ContractDeadline = 0.ToDateTime();
         public bool DisableAllUsersPermission = false;
         public bool DisableApi = false;
+        public bool AllowExtensionsApi = false;
         public bool DisableStartGuide = false;
         public LogoTypes LogoType = (LogoTypes)0;
         public string HtmlTitleTop = "[ProductName]";
@@ -54,6 +55,7 @@ namespace Implem.Pleasanter.Models
         public DateTime SavedContractDeadline = 0.ToDateTime();
         public bool SavedDisableAllUsersPermission = false;
         public bool SavedDisableApi = false;
+        public bool SavedAllowExtensionsApi = false;
         public bool SavedDisableStartGuide = false;
         public int SavedLogoType = 0;
         public string SavedHtmlTitleTop = "[ProductName]";
@@ -149,6 +151,18 @@ namespace Implem.Pleasanter.Models
                 &&  (column == null
                     || column.DefaultInput.IsNullOrEmpty()
                     || column.GetDefaultInput(context: context).ToBool() != DisableApi);
+        }
+
+        public bool AllowExtensionsApi_Updated(Context context, bool copy = false, Column column = null)
+        {
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToBool() != AllowExtensionsApi;
+            }
+            return AllowExtensionsApi != SavedAllowExtensionsApi
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToBool() != AllowExtensionsApi);
         }
 
         public bool DisableStartGuide_Updated(Context context, bool copy = false, Column column = null)
@@ -491,6 +505,7 @@ namespace Implem.Pleasanter.Models
                     case "ContractDeadline": data.ContractDeadline = ContractDeadline.ToLocal(context: context); break;
                     case "DisableAllUsersPermission": data.DisableAllUsersPermission = DisableAllUsersPermission; break;
                     case "DisableApi": data.DisableApi = DisableApi; break;
+                    case "AllowExtensionsApi": data.AllowExtensionsApi = AllowExtensionsApi; break;
                     case "DisableStartGuide": data.DisableStartGuide = DisableStartGuide; break;
                     case "LogoType": data.LogoType = LogoType.ToInt(); break;
                     case "HtmlTitleTop": data.HtmlTitleTop = HtmlTitleTop; break;
@@ -561,6 +576,11 @@ namespace Implem.Pleasanter.Models
                         column: column);
                 case "DisableApi":
                     return DisableApi.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "AllowExtensionsApi":
+                    return AllowExtensionsApi.ToDisplay(
                         context: context,
                         ss: ss,
                         column: column);
@@ -969,6 +989,7 @@ namespace Implem.Pleasanter.Models
                     case "Tenants_ContractDeadline": ContractDeadline = value.ToDateTime().ToUniversal(context: context); break;
                     case "Tenants_DisableAllUsersPermission": DisableAllUsersPermission = value.ToBool(); break;
                     case "Tenants_DisableApi": DisableApi = value.ToBool(); break;
+                    case "Tenants_AllowExtensionsApi": AllowExtensionsApi = value.ToBool(); break;
                     case "Tenants_DisableStartGuide": DisableStartGuide = value.ToBool(); break;
                     case "Tenants_LogoType": LogoType = (LogoTypes)value.ToInt(); break;
                     case "Tenants_HtmlTitleTop": HtmlTitleTop = value.ToString(); break;
@@ -1051,6 +1072,7 @@ namespace Implem.Pleasanter.Models
             ContractDeadline = tenantModel.ContractDeadline;
             DisableAllUsersPermission = tenantModel.DisableAllUsersPermission;
             DisableApi = tenantModel.DisableApi;
+            AllowExtensionsApi = tenantModel.AllowExtensionsApi;
             DisableStartGuide = tenantModel.DisableStartGuide;
             LogoType = tenantModel.LogoType;
             HtmlTitleTop = tenantModel.HtmlTitleTop;
@@ -1086,6 +1108,7 @@ namespace Implem.Pleasanter.Models
             if (data.ContractDeadline != null) ContractDeadline = data.ContractDeadline.ToDateTime().ToDateTime().ToUniversal(context: context);
             if (data.DisableAllUsersPermission != null) DisableAllUsersPermission = data.DisableAllUsersPermission.ToBool().ToBool();
             if (data.DisableApi != null) DisableApi = data.DisableApi.ToBool().ToBool();
+            if (data.AllowExtensionsApi != null) AllowExtensionsApi = data.AllowExtensionsApi.ToBool().ToBool();
             if (data.DisableStartGuide != null) DisableStartGuide = data.DisableStartGuide.ToBool().ToBool();
             if (data.LogoType != null) LogoType = (LogoTypes)data.LogoType.ToInt().ToInt();
             if (data.HtmlTitleTop != null) HtmlTitleTop = data.HtmlTitleTop.ToString().ToString();
@@ -1278,6 +1301,10 @@ namespace Implem.Pleasanter.Models
                             DisableApi = dataRow[column.ColumnName].ToBool();
                             SavedDisableApi = DisableApi;
                             break;
+                        case "AllowExtensionsApi":
+                            AllowExtensionsApi = dataRow[column.ColumnName].ToBool();
+                            SavedAllowExtensionsApi = AllowExtensionsApi;
+                            break;
                         case "DisableStartGuide":
                             DisableStartGuide = dataRow[column.ColumnName].ToBool();
                             SavedDisableStartGuide = DisableStartGuide;
@@ -1423,6 +1450,7 @@ namespace Implem.Pleasanter.Models
                 || ContractDeadline_Updated(context: context)
                 || DisableAllUsersPermission_Updated(context: context)
                 || DisableApi_Updated(context: context)
+                || AllowExtensionsApi_Updated(context: context)
                 || DisableStartGuide_Updated(context: context)
                 || LogoType_Updated(context: context)
                 || HtmlTitleTop_Updated(context: context)
@@ -1474,6 +1502,7 @@ namespace Implem.Pleasanter.Models
                 || ContractDeadline_Updated(context: context)
                 || DisableAllUsersPermission_Updated(context: context)
                 || DisableApi_Updated(context: context)
+                || AllowExtensionsApi_Updated(context: context)
                 || DisableStartGuide_Updated(context: context)
                 || LogoType_Updated(context: context)
                 || HtmlTitleTop_Updated(context: context)

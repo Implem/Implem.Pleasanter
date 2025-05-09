@@ -1,33 +1,33 @@
 ﻿{
-    "Id": "DisableAnaly",
+    "Id": "BeforeBulkDelete",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Hide analysis chart"
+            "Body": "Before bulk delete"
         },
         {
             "Language": "zh",
-            "Body": "隐藏分析图表"
+            "Body": "批量删除前"
         },
         {
             "Language": "ja",
-            "Body": "分析チャートを非表示"
+            "Body": "一括削除前"
         },
         {
             "Language": "de",
-            "Body": "Analysediagramm ausblenden"
+            "Body": "Vor Massenlöschung"
         },
         {
             "Language": "ko",
-            "Body": "분석 차트 숨기기"
+            "Body": "일괄 삭제 전"
         },
         {
             "Language": "es",
-            "Body": "Grafico dell'analisi di occultamento"
+            "Body": "Antes de la eliminación masiva"
         },
         {
             "Language": "vn",
-            "Body": "Ẩn biểu đồ phân tích"
+            "Body": "Trước khi xóa hàng loạt"
         }
     ]
 }

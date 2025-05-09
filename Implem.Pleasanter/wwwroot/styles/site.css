@@ -826,8 +826,8 @@ pre {
     color: red;
 }
 
-.CalendarDate {
-    margin-right: 10px;
+#CalendarShowStatus {
+    margin-left: 10px;
 }
 
 .CalendarBody table {
@@ -1033,8 +1033,8 @@ th.calendar-header {
     cursor: auto;
 }
 
-#GanttStartDate {
-    margin-right: 10px;
+#GanttPreviousButton {
+    margin-left: 10px;
 }
 
 #GanttAxis {
@@ -1807,6 +1807,10 @@ th.calendar-header {
     min-inline-size: 0;
 }
 
+.fieldset .legend {
+    cursor: default;
+}
+
 .fieldset.enclosed {
     clear: both;
     margin: 0px 0px 10px 0px;
@@ -1845,6 +1849,25 @@ th.calendar-header {
     font-weight: bold;
 }
 
+.fieldset > legend .ui-icon {
+    display: none;
+}
+
+.fieldset-inner-bottom.is-right {
+    clear: both;
+    text-align: right;
+    padding: 8px;
+}
+
+.fieldset-inner-bottom a {
+    color: #00f;
+    text-decoration: none;
+}
+
+.fieldset-inner-bottom a:hover {
+    text-decoration: underline;
+}
+
 .command-field {
     clear: both;
     padding: 10px 5px 5px 136px;
@@ -1861,12 +1884,37 @@ th.calendar-header {
     clear: both;
     padding: 5px 5px 5px 5px;
     text-align: center;
+    position: relative;
 }
 
 .command-center > button {
     display: inline;
     float: none;
     margin: 2px 4px;
+}
+
+.command-center.has-link {
+    display: flex;
+    align-items: center;
+}
+
+.command-center.has-link::after {
+    content: '';
+    flex: 1;
+}
+
+.command-center.has-link .link-item {
+    flex: 1;
+    text-align: right;
+}
+
+.command-center.has-link .link-item a {
+    color: #00f;
+    text-decoration: none;
+}
+
+.command-center.has-link .link-item a:hover {
+    text-decoration: underline;
 }
 
 .command-left {
@@ -2408,12 +2456,13 @@ label.required:after {
 }
 
 .control-spinner {
-    display: block;
-    float: left;
-    width: auto;
-    height: 22px;
-    padding: 1px;
+    width: 100% !important;
+    height: 30px;
+    margin: 0;
+    padding: 4px 22px 4px 4px;
     color: black;
+    border: solid 1px silver;
+    border-radius: 5px;
 }
 
 .control-checkbox {
@@ -2946,13 +2995,10 @@ label.error {
     width: 100%;
     padding: 0px 5px;
     color: red;
+    font-size: 11px;
     background-color: white;
     border-top: none;
     border-radius: 0px 0px 5px 5px / 0px 0px 5px 5px;
-}
-
-.ui-spinner > label.error {
-    margin-top: 3px;
 }
 
 .error {
@@ -3342,11 +3388,27 @@ input[type="password"]::-ms-reveal {
     margin: 6px 0px 0px 0px;
 }
 
-.ui-spinner {
+.spinner-field .ui-spinner {
     display: block;
-    float: left;
-    max-height: 46px;
-    background: white;
+    background: #fff;
+    border: none;
+    border-radius: 5px;
+}
+.spinner-field .ui-spinner .ui-spinner-up,
+.spinner-field .ui-spinner .ui-spinner-down {
+    right: 1px;
+    z-index: 3;
+    width: 20px;
+    height: 14px;
+}
+
+.spinner-field .ui-spinner .ui-spinner-up {
+    top: 1px;
+    border-radius: 0 5px 0 0;
+}
+.spinner-field .ui-spinner .ui-spinner-down {
+    bottom: 1px;
+    border-radius: 0 0 5px 0;
 }
 
 .ui-widget.ui-state-default.ui-multiselect {
@@ -3997,4 +4059,10 @@ div.lower-search-ui {
 #LoginTrialMessage span.license-deadline {
     color: #ff0000;
     font-weight: bold;
+}
+
+#OpenSearchEditorColumnDialog {
+    position: absolute;
+    right: 0;
+    bottom: 0;
 }

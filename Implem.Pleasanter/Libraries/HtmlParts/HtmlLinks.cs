@@ -191,7 +191,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             // linksはHtmlLinkCreations.Linksメソッドで生成される
             return dataRows?.Any() == true || addButton
                 ? hb.FieldSet(
-                    css: " enclosed link-creations",
+                    css: addButton? " enclosed link-creations is-sources" : " enclosed link-creations",
                     legendText: Displays.Links(context: context),
                     action: () => hb.Div(action: () =>
                     {
