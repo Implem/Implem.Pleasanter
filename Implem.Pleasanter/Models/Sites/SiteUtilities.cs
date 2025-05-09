@@ -6756,7 +6756,7 @@ namespace Implem.Pleasanter.Models
                             css: "fieldset-inner-bottom is-right",
                             action: () => hb.A(
                                 text: Displays.DoNotHaveEnoughColumns(context: context),
-                                href: Parameters.General.HtmlSupportUrl,
+                                href: Parameters.General.RecommendUrl1 + "?re=EditorSettings",
                                 target: "_blank"),
                             _using: showLinkText)
                         .Hidden(
@@ -14949,7 +14949,7 @@ namespace Implem.Pleasanter.Models
                             css: "link-item",
                             action: () => hb.A(
                                 text: Displays.HowToDevelopEfficiently(context: context),
-                                href: Parameters.General.HtmlCodeAssistUrl,
+                                href: Parameters.General.RecommendUrl2 + "?re=StylesSettings",
                                 target: "_blank"),
                             _using: showLinkText)
                         .Button(
@@ -15349,7 +15349,7 @@ namespace Implem.Pleasanter.Models
                             css: "link-item",
                             action: () => hb.A(
                                 text: Displays.HowToDevelopEfficiently(context: context),
-                                href: Parameters.General.HtmlCodeAssistUrl,
+                                href: Parameters.General.RecommendUrl2 + "?re=ScriptsSettings",
                                 target: "_blank"),
                             _using: showLinkText)
                         .Button(
@@ -15802,7 +15802,7 @@ namespace Implem.Pleasanter.Models
                             css: "link-item",
                             action: () => hb.A(
                                 text: Displays.HowToDevelopEfficiently(context: context),
-                                href: Parameters.General.HtmlCodeAssistUrl,
+                                href: Parameters.General.RecommendUrl2 + "?re=HtmlsSettings",
                                 target: "_blank"),
                             _using: showLinkText)
                         .Button(
@@ -16262,7 +16262,7 @@ namespace Implem.Pleasanter.Models
                             css: "link-item",
                             action: () => hb.A(
                                 text: Displays.HowToDevelopEfficiently(context: context),
-                                href: Parameters.General.HtmlCodeAssistUrl,
+                                href: Parameters.General.RecommendUrl2 + "?re=ServerScriptsSettings",
                                 target: "_blank"),
                             _using: showLinkText)
                         .Button(

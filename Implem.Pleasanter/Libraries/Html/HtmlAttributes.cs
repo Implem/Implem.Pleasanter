@@ -752,7 +752,7 @@ namespace Implem.Pleasanter.Libraries.Html
             if (_using && value)
             {
                 Add("data-support-url");
-                Add(Parameters.General.HtmlSupportUrl);
+                Add(Parameters.General.RecommendUrl1 + "?re=SmartDesign");
             }
             return this;
         }
