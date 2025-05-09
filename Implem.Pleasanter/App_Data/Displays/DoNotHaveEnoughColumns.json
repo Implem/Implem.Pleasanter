@@ -1,0 +1,34 @@
+﻿{
+    "Id": "DoNotHaveEnoughColumns",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "💡 I don't have enough columns?"
+        },
+        {
+            "Language": "zh",
+            "Body": "💡 我没有足够的列？"
+        },
+        {
+            "Language": "ja",
+            "Body": "💡 項目数が足りない場合は？"
+        },
+        {
+            "Language": "de",
+            "Body": "💡 Ich habe nicht genügend Spalten?"
+        },
+        {
+            "Language": "ko",
+            "Body": "💡 열이 충분하지 않습니까?"
+        },
+        {
+            "Language": "es",
+            "Body": "💡 ¿No tengo suficientes columnas?"
+        },
+        {
+            "Language": "vn",
+            "Body": "💡 Tôi không có đủ cột?"
+        }
+    ]
+}

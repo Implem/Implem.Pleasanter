@@ -808,6 +808,14 @@ input {
         }
     }
 }
+
+/* fieldset-inner-bottom */
+.fieldset-inner-bottom {
+    a {
+        color: var(--link-text);
+    }
+}
+
 /* field-vertical */
 .field-vertical {
     width: calc(50% - 8px);
@@ -902,6 +910,13 @@ label {
     }
     > .w150 {
         flex: 1;
+    }
+    &.has-link {
+        .link-item {
+            a {
+                color: var(--link-text);
+            }
+        }
     }
 }
 .command-left {
