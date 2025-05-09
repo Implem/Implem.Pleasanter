@@ -1,0 +1,28 @@
+﻿if (ss.AllowMigrationMode == true
+    && data.MigrationMode == true)
+{
+    if (data.Creator != null)
+    {
+        Creator = SiteInfo.User(
+            context: context,
+            userId: data.Creator.ToInt());
+    }
+    if (data.Updator != null)
+    {
+        Updator = SiteInfo.User(
+        context: context,
+        userId: data.Updator.ToInt());
+    }
+    if (data.CreatedTime != null)
+    {
+        CreatedTime = new Time(
+        context: context,
+        value: data.CreatedTime.ToDateTime());
+    }
+    if (data.UpdatedTime != null)
+    {
+        UpdatedTime = new Time(
+        context: context,
+        value: data.UpdatedTime.ToDateTime());
+    }
+}
