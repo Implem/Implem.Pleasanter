@@ -918,7 +918,7 @@
         #ServerScriptForm #AddServerScript {
             margin-right: 10px;
         }
-        .command-center.has-link #link-item {
+        .command-center.has-link .link-item {
             text-align: center;
         }
 }

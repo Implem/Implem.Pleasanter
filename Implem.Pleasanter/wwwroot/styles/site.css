@@ -4028,25 +4028,9 @@ div.lower-search-ui {
     bottom: 0;
 }
 
-#DoNotHaveEnoughColumnsField span {
-    overflow: hidden;
-    width: 100%;
-    text-align: right;
-    border: none;
-    background: none;
-}
-
-#DoNotHaveEnoughColumnsField span > a {
-    color: #00f;
-    text-decoration: none;
-}
-
-#DoNotHaveEnoughColumnsField span > a:hover {
-    text-decoration: underline;
-}
-
 .command-center.has-link {
     display: flex;
+    align-items: center;
 }
 
 .command-center.has-link::after {
@@ -4054,21 +4038,31 @@ div.lower-search-ui {
     flex: 1;
 }
 
-.command-center.has-link #link-item {
+.command-center.has-link .link-item {
     flex: 1;
     text-align: right;
 }
 
-.command-center.has-link #link-item .control-text {
-    border: none;
-    background: none;
-}
-
-.command-center.has-link #link-item span > a {
+.command-center.has-link .link-item a {
     color: #00f;
     text-decoration: none;
 }
 
-.command-center.has-link #link-item span > a:hover {
-    text-decoration: underline
+.command-center.has-link .link-item a:hover {
+    text-decoration: underline;
+}
+
+.fieldset-inner-bottom.is-right {
+    clear: both;
+    text-align: right;
+    padding: 8px;
+}
+
+.fieldset-inner-bottom.is-right a {
+    color: #00f;
+    text-decoration: none;
+}
+
+.fieldset-inner-bottom.is-right a:hover {
+    text-decoration: underline;
 }

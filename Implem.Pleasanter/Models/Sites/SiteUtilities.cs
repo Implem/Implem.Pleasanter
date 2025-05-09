@@ -6624,7 +6624,7 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder EditorSettingsEditor(
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
-            var showLinkText = !Parameters.DisableAds()
+            var showable = !Parameters.DisableAds()
                 && (!Parameters.CommercialLicense() || Parameters.Service.Demo);
             return hb.TabsPanelField(id: "EditorSettingsEditor", action: () => hb
                 .FieldSet(
@@ -6751,14 +6751,14 @@ namespace Implem.Pleasanter.Models
                                         setSearchOptionButton: true,
                                         searchOptionId: "OpenSearchEditorColumnDialog",
                                         searchOptionFunction: "$p.openSearchEditorColumnDialog($(this));")))
-                        .FieldText(
-                            fieldId: "DoNotHaveEnoughColumnsField",
-                            fieldCss: "field-wide",
-                            controlOnly: true,
-                            text: Displays.DoNotHaveEnoughColumns(context: context),
-                            openAnchorNewTab: true,
-                            anchorFormat: Parameters.General.HtmlSupportUrl,
-                            _using: showLinkText)
+                        .Div(
+                            id: "DoNotHaveEnoughColumnsField",
+                            css: "fieldset-inner-bottom is-right",
+                            action: () => hb.A(
+                                text: Displays.DoNotHaveEnoughColumns(context: context),
+                                href: Parameters.General.HtmlSupportUrl,
+                                target: "_blank"),
+                            _using: showable)
                         .Hidden(
                             controlId: "SearchEditorColumnDialogInput",
                             css: "always-send",
@@ -14822,9 +14822,9 @@ namespace Implem.Pleasanter.Models
                 (ss.ReferenceType == "Sites"
                     ? " hidden"
                     : string.Empty);
-            var showLinkText = !Parameters.DisableAds()
+            var showable = !Parameters.DisableAds()
                 && (!Parameters.CommercialLicense() || Parameters.Service.Demo);
-            var hasLink = showLinkText
+            var hasLink = showable
                 ? " has-link"
                 : string.Empty;
             return hb.Form(
@@ -14945,13 +14945,13 @@ namespace Implem.Pleasanter.Models
                         _using: ss.ReferenceType == "Dashboards")
                     .P(css: "message-dialog")
                     .Div(css: "command-center" + hasLink, action: () => hb
-                        .FieldText(
-                            fieldId: "link-item",
-                            controlOnly: true,
-                            text: Displays.HowToDevelopEfficiently(context: context),
-                            openAnchorNewTab: true,
-                            anchorFormat: Parameters.General.HtmlCodeAssistUrl,
-                            _using: showLinkText)
+                        .Div(
+                            css: "link-item",
+                            action: () => hb.A(
+                                text: Displays.HowToDevelopEfficiently(context: context),
+                                href: Parameters.General.HtmlCodeAssistUrl,
+                                target: "_blank"),
+                            _using: showable)
                         .Button(
                             controlId: "AddStyle",
                             text: Displays.Add(context: context),
@@ -15222,9 +15222,9 @@ namespace Implem.Pleasanter.Models
                 (ss.ReferenceType == "Sites"
                     ? " hidden"
                     : string.Empty);
-            var showLinkText = !Parameters.DisableAds()
+            var showable = !Parameters.DisableAds()
                 && (!Parameters.CommercialLicense() || Parameters.Service.Demo);
-            var hasLink = showLinkText
+            var hasLink = showable
                 ? " has-link"
                 : string.Empty;
             return hb.Form(
@@ -15345,13 +15345,13 @@ namespace Implem.Pleasanter.Models
                         _using: ss.ReferenceType == "Dashboards")
                     .P(css: "message-dialog")
                     .Div(css: "command-center" + hasLink, action: () => hb
-                        .FieldText(
-                            fieldId: "link-item",
-                            controlOnly: true,
-                            text: Displays.HowToDevelopEfficiently(context: context),
-                            openAnchorNewTab: true,
-                            anchorFormat: Parameters.General.HtmlCodeAssistUrl,
-                            _using: showLinkText)
+                        .Div(
+                            css: "link-item",
+                            action: () => hb.A(
+                                text: Displays.HowToDevelopEfficiently(context: context),
+                                href: Parameters.General.HtmlCodeAssistUrl,
+                                target: "_blank"),
+                            _using: showable)
                         .Button(
                             controlId: "AddScript",
                             text: Displays.Add(context: context),
@@ -15649,9 +15649,9 @@ namespace Implem.Pleasanter.Models
                 (ss.ReferenceType == "Sites"
                     ? " hidden"
                     : string.Empty);
-            var showLinkText = !Parameters.DisableAds()
+            var showable = !Parameters.DisableAds()
                 && (!Parameters.CommercialLicense() || Parameters.Service.Demo);
-            var hasLink = showLinkText
+            var hasLink = showable
                 ? " has-link"
                 : string.Empty;
             return hb.Form(
@@ -15798,13 +15798,13 @@ namespace Implem.Pleasanter.Models
                         _using: ss.ReferenceType == "Dashboards")
                     .P(css: "message-dialog")
                     .Div(css: "command-center" + hasLink, action: () => hb
-                        .FieldText(
-                            fieldId: "link-item",
-                            controlOnly: true,
-                            text: Displays.HowToDevelopEfficiently(context: context),
-                            openAnchorNewTab: true,
-                            anchorFormat: Parameters.General.HtmlCodeAssistUrl,
-                            _using: showLinkText)
+                        .Div(
+                            css: "link-item",
+                            action: () => hb.A(
+                                text: Displays.HowToDevelopEfficiently(context: context),
+                                href: Parameters.General.HtmlCodeAssistUrl,
+                                target: "_blank"),
+                            _using: showable)
                         .Button(
                             controlId: "AddHtml",
                             text: Displays.Add(context: context),
@@ -16088,9 +16088,9 @@ namespace Implem.Pleasanter.Models
                 (ss.ReferenceType == "Sites"
                     ? " hidden"
                     : string.Empty);
-            var showLinkText = !Parameters.DisableAds()
+            var showable = !Parameters.DisableAds()
                 && (!Parameters.CommercialLicense() || Parameters.Service.Demo);
-            var hasLink = showLinkText
+            var hasLink = showable
                 ? " has-link"
                 : string.Empty;
             return hb.Form(
@@ -16258,13 +16258,13 @@ namespace Implem.Pleasanter.Models
                                 _checked: script.Shared == true))
                     .P(css: "message-dialog")
                     .Div(css: "command-center" + hasLink, action: () => hb
-                        .FieldText(
-                            fieldId: "link-item",
-                            controlOnly: true,
-                            text: Displays.HowToDevelopEfficiently(context: context),
-                            openAnchorNewTab: true,
-                            anchorFormat: Parameters.General.HtmlCodeAssistUrl,
-                            _using: showLinkText)
+                        .Div(
+                            css: "link-item",
+                            action: () => hb.A(
+                                text: Displays.HowToDevelopEfficiently(context: context),
+                                href: Parameters.General.HtmlCodeAssistUrl,
+                                target: "_blank"),
+                            _using: showable)
                         .Button(
                             controlId: "AddServerScript",
                             text: Displays.Add(context: context),

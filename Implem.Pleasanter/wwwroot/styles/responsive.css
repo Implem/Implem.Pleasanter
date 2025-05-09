@@ -2678,7 +2678,6 @@
     margin-left: 0;
 }
 
-.command-center.has-link #link-item .control-text {
-    display: inline-block;
+.command-center.has-link .link-item {
     text-align: center;
 }
