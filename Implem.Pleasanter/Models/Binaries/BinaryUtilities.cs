@@ -82,13 +82,11 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             long referenceId,
-            Libraries.Images.ImageData.SizeTypes sizeType,
-            bool isSearch = false)
+            Libraries.Images.ImageData.SizeTypes sizeType)
         {
             var invalid = BinaryValidators.OnGetting(
                 context: context,
-                ss: ss,
-                isSearch: isSearch);
+                ss: ss);
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
@@ -114,7 +112,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static string SiteImagePrefix(
+        public static DateTime SiteImageUpdatedTime(
             Context context,
             SiteSettings ss,
             long referenceId,
@@ -126,9 +124,9 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return string.Empty;
+                default: return DateTime.FromOADate(0);
             }
-            return new BinaryModel(referenceId).SiteImagePrefix(
+            return new BinaryModel(referenceId).SiteImageUpdatedTime(
                 context: context,
                 sizeType: sizeType);
         }
@@ -136,7 +134,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static string TenantImagePrefix(
+        public static DateTime TenantImageUpdatedTime(
             Context context,
             SiteSettings ss,
             long referenceId,
@@ -148,9 +146,9 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return string.Empty;
+                default: return DateTime.FromOADate(0);
             }
-            return new BinaryModel(referenceId).TenantImagePrefix(
+            return new BinaryModel(referenceId).TenantImageUpdatedTime(
                 context: context,
                 sizeType: sizeType);
         }
@@ -808,7 +806,7 @@ namespace Implem.Pleasanter.Models
                     case Error.Types.OverLimitQuantity:
                         return Messages.ResponseOverLimitQuantity(
                             context: context,
-                            data: column.LimitQuantity.ToString()).ToJson();
+                            data: column.LimitQuantity.ToInt().ToString()).ToJson();
                     case Error.Types.OverLimitSize:
                         return Messages.ResponseOverLimitSize(
                             context: context,
@@ -1174,7 +1172,8 @@ namespace Implem.Pleasanter.Models
                     return new IssueModel(
                             context: context,
                             ss: ss,
-                            issueId: context.Id)
+                            issueId: context.Id,
+                            formData: context.Forms)
                         .GetStatusControl(
                             context: context,
                             ss: ss,
@@ -1183,7 +1182,8 @@ namespace Implem.Pleasanter.Models
                     return new ResultModel(
                             context: context,
                             ss: ss,
-                            resultId: context.Id)
+                            resultId: context.Id,
+                            formData: context.Forms)
                         .GetStatusControl(
                             context: context,
                             ss: ss,

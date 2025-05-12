@@ -33,11 +33,18 @@
             case Error.Types.None: break;
             default: return invalid.MessageJson(context: context);
         }
+        using var exclusiveObj = new Sessions.TableExclusive(context: context);
+        if (!exclusiveObj.TryLock())
+        {
+            return Error.Types.ImportLock.MessageJson(context: context);
+        }
         var count = BulkDelete(
             context: context,
             ss: ss,
             where: where,
-            param: param);
+            param: param,
+            watchdog: () => exclusiveObj.Refresh());
+        exclusiveObj.Refresh();
         Summaries.Synchronize(context: context, ss: ss);
         var data = new string[]
         {
@@ -64,6 +71,7 @@
                     body: body.ToString());
             }
         });
+        exclusiveObj.Refresh();
         return GridRows(
             context: context,
             ss: ss,
@@ -82,8 +90,15 @@ public static int BulkDelete(
     Context context,
     SiteSettings ss,
     SqlWhereCollection where,
-    SqlParamCollection param)
+    SqlParamCollection param,
+    Action watchdog = null)
 {
+    var model = new #ModelName#Model(
+        context: context,
+        ss: ss);
+    model.SetByBeforeBulkDeleteServerScript(
+        context: context,
+        ss: ss);
     var sub = Rds.Select#TableName#(
         column: Rds.#TableName#Column().#ModelName#Id(),
         join: ss.Join(
@@ -146,6 +161,7 @@ public static int BulkDelete(
     statements.OnBulkDeletedExtendedSqls(
         context: context,
         siteId: ss.SiteId);
+    watchdog?.Invoke();
     var ids = Rds.ExecuteTable(
         context: context,
         statements: Rds.SelectBinaries(
@@ -156,6 +172,7 @@ public static int BulkDelete(
                     .AsEnumerable()
                     .Select(dataRow => dataRow.Long("ReferenceId"))
                     .ToList();
+    watchdog?.Invoke();
     var affectedRows = Repository.ExecuteScalar_response(
         context: context,
         transactional: true,
@@ -167,5 +184,8 @@ public static int BulkDelete(
             siteId: ss.SiteId,
             referenceId: referenceId));
     }
+    model.SetByAfterBulkDeleteServerScript(
+        context: context,
+        ss: ss);
     return affectedRows;
 }

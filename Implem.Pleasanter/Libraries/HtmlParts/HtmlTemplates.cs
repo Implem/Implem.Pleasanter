@@ -36,7 +36,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string script = null,
             string userScript = null,
             string userStyle = null,
-            bool isSearch = false,
             BaseModel.MethodTypes methodType = BaseModel.MethodTypes.NotSet,
             ServerScriptModelRow serverScriptModelRow = null,
             Action action = null)
@@ -64,8 +63,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         useSearch: useSearch,
                         useNavigationMenu: useNavigationMenu,
                         serverScriptModelRow: serverScriptModelRow,
-                        action: action,
-                        isSearch: isSearch)
+                        action: action)
                     .TemplateDialogs(
                         context: context,
                         ss: ss,
@@ -74,6 +72,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         context: context,
                         ss: ss,
                         serverScriptModelRow: serverScriptModelRow)
+                    .LoaderContainer(
+                        context: context,
+                        ss: ss)
                     .VideoDialog(
                         context: context,
                         ss: ss)
@@ -174,7 +175,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Settings.Html.PositionTypes positionType,
             BaseModel.MethodTypes methodType)
         {
-            if (context.ContractSettings.Html == false) return hb;
+            if (context.ContractSettings.Html == false
+                || ss.HtmlsAllDisabled == true) return hb;
             hb.Raw(ss.GetHtmlBody(
                 context: context,
                 peredicate: o => o.All == true,
@@ -244,7 +246,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool useTitle = true,
             bool useSearch = true,
             bool useNavigationMenu = true,
-            bool isSearch = false,
             ServerScriptModelRow serverScriptModelRow = null,
             Action action = null)
         {
@@ -257,7 +258,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     errorType: errorType,
                     useNavigationMenu: useNavigationMenu,
                     useSearch: useSearch,
-                    isSearch: isSearch,
                     serverScriptModelRow: serverScriptModelRow)
                 .Content(
                     context: context,
@@ -556,11 +556,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 siteId.ToString(),
                                 "Binaries",
                                 "SiteImageIcon",
-                                BinaryUtilities.SiteImagePrefix(
+                                BinaryUtilities.SiteImageUpdatedTime(
                                     context: context,
                                     ss: ss,
                                     referenceId: siteId,
                                     sizeType: ImageData.SizeTypes.Icon)
+                                    .ToString("?yyyyMMddHHmmss")
                             }),
                         css: "site-image-icon")
                     : hb;
@@ -619,6 +620,18 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 : hb;
         }
 
+        private static HtmlBuilder LoaderContainer(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss = null)
+        {
+            return !context.Ajax
+                ? hb.Div(
+                    id: "LoaderContainer",
+                    action: () =>
+                        hb.Div(css: "loader"))
+                : hb;
+        }
 
         private static HtmlBuilder HiddenData(
             this HtmlBuilder hb,

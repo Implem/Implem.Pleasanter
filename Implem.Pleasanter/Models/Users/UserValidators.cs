@@ -32,11 +32,12 @@ namespace Implem.Pleasanter.Models
                 }
                 return new ErrorData(type: Error.Types.None);
             }
-            if (!Parameters.Service.ShowProfiles && !context.HasPrivilege)
+            if (Permissions.CannotManageUsers(context:context))
             {
                 return new ErrorData(type: Error.Types.InvalidRequest);
             }
             return Permissions.CanManageTenant(context: context)
+                || context.UserSettings?.EnableManageTenant == true
                 ? new ErrorData(type: Error.Types.None)
                 : new ErrorData(type: Error.Types.HasNotPermission);
         }
@@ -89,7 +90,7 @@ namespace Implem.Pleasanter.Models
                     return apiErrorData;
                 }
             }
-            if (!Parameters.Service.ShowProfiles && !context.HasPrivilege)
+            if (Permissions.CannotManageUsers(context: context))
             {
                 return new ErrorData(type: Error.Types.InvalidRequest);
             }
@@ -351,6 +352,21 @@ namespace Implem.Pleasanter.Models
                         break;
                     case "DeptId":
                         if (userModel.DeptId_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
+                        {
+                            return new ErrorData(
+                                context: context,
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText,
+                                api: api,
+                                sysLogsStatus: 403,
+                                sysLogsDescription: Debugs.GetSysLogsDescription());
+                        }
+                        break;
+                    case "Manager":
+                        if (userModel.Manager_Updated(
                             context: context,
                             column: column,
                             copy: copy))
@@ -679,6 +695,21 @@ namespace Implem.Pleasanter.Models
                                 sysLogsDescription: Debugs.GetSysLogsDescription());
                         }
                         break;
+                    case "LoginExpirationPeriod":
+                        if (userModel.LoginExpirationPeriod_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
+                        {
+                            return new ErrorData(
+                                context: context,
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText,
+                                api: api,
+                                sysLogsStatus: 403,
+                                sysLogsDescription: Debugs.GetSysLogsDescription());
+                        }
+                        break;
                     case "Birthday":
                         if (userModel.Birthday_Updated(
                             context: context,
@@ -756,6 +787,21 @@ namespace Implem.Pleasanter.Models
                         break;
                     case "SynchronizedTime":
                         if (userModel.SynchronizedTime_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
+                        {
+                            return new ErrorData(
+                                context: context,
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText,
+                                api: api,
+                                sysLogsStatus: 403,
+                                sysLogsDescription: Debugs.GetSysLogsDescription());
+                        }
+                        break;
+                    case "LoginExpirationLimit":
+                        if (userModel.LoginExpirationLimit_Updated(
                             context: context,
                             column: column,
                             copy: copy))
@@ -909,7 +955,7 @@ namespace Implem.Pleasanter.Models
                     return apiErrorData;
                 }
             }
-            if (!Parameters.Service.ShowProfiles && !context.HasPrivilege)
+            if (Permissions.CannotManageUsers(context: context))
             {
                 return new ErrorData(type: Error.Types.InvalidRequest);
             }
@@ -1077,6 +1123,18 @@ namespace Implem.Pleasanter.Models
                         break;
                     case "DeptId":
                         if (userModel.DeptId_Updated(context: context))
+                        {
+                            return new ErrorData(
+                                context: context,
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText,
+                                api: api,
+                                sysLogsStatus: 403,
+                                sysLogsDescription: Debugs.GetSysLogsDescription());
+                        }
+                        break;
+                    case "Manager":
+                        if (userModel.Manager_Updated(context: context))
                         {
                             return new ErrorData(
                                 context: context,
@@ -1399,6 +1457,30 @@ namespace Implem.Pleasanter.Models
                                 sysLogsDescription: Debugs.GetSysLogsDescription());
                         }
                         break;
+                    case "LoginExpirationLimit":
+                        if (userModel.LoginExpirationLimit_Updated(context: context))
+                        {
+                            return new ErrorData(
+                                context: context,
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText,
+                                api: api,
+                                sysLogsStatus: 403,
+                                sysLogsDescription: Debugs.GetSysLogsDescription());
+                        }
+                        break;
+                    case "LoginExpirationPeriod":
+                        if (userModel.LoginExpirationPeriod_Updated(context: context))
+                        {
+                            return new ErrorData(
+                                context: context,
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText,
+                                api: api,
+                                sysLogsStatus: 403,
+                                sysLogsDescription: Debugs.GetSysLogsDescription());
+                        }
+                        break;
                     case "Comments":
                         if (userModel.Comments_Updated(context: context))
                         {
@@ -1646,7 +1728,7 @@ namespace Implem.Pleasanter.Models
                     return apiErrorData;
                 }
             }
-            if (!Parameters.Service.ShowProfiles && !context.HasPrivilege)
+            if (Permissions.CannotManageUsers(context: context))
             {
                 return new ErrorData(type: Error.Types.InvalidRequest);
             }

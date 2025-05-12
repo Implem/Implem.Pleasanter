@@ -9166,6 +9166,50 @@ namespace Implem.Pleasanter.Libraries.Responses
             return res.ValAndFormData("#Users_DeptId", value);
         }
 
+        public static UsersResponseCollection Manager(
+            this UsersResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Users_Manager",
+                res.UserModel.Manager.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Manager")));
+        }
+
+        public static UsersResponseCollection Manager(
+            this UsersResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Users_Manager", value);
+        }
+
+        public static UsersResponseCollection Manager_FormData(
+            this UsersResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Users_Manager",
+                res.UserModel.Manager.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Manager")));
+        }
+
+        public static UsersResponseCollection Manager_FormData(
+            this UsersResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Users_Manager", value);
+        }
+
         public static UsersResponseCollection Theme(
             this UsersResponseCollection res,
             Context context,
@@ -10352,6 +10396,94 @@ namespace Implem.Pleasanter.Libraries.Responses
             this UsersResponseCollection res, Context context, string value)
         {
             return res.ValAndFormData("#Users_EnableSecretKey", value);
+        }
+
+        public static UsersResponseCollection LoginExpirationLimit(
+            this UsersResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Users_LoginExpirationLimit",
+                res.UserModel.LoginExpirationLimit.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "LoginExpirationLimit")));
+        }
+
+        public static UsersResponseCollection LoginExpirationLimit(
+            this UsersResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Users_LoginExpirationLimit", value);
+        }
+
+        public static UsersResponseCollection LoginExpirationLimit_FormData(
+            this UsersResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Users_LoginExpirationLimit",
+                res.UserModel.LoginExpirationLimit.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "LoginExpirationLimit")));
+        }
+
+        public static UsersResponseCollection LoginExpirationLimit_FormData(
+            this UsersResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Users_LoginExpirationLimit", value);
+        }
+
+        public static UsersResponseCollection LoginExpirationPeriod(
+            this UsersResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Users_LoginExpirationPeriod",
+                res.UserModel.LoginExpirationPeriod.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "LoginExpirationPeriod")));
+        }
+
+        public static UsersResponseCollection LoginExpirationPeriod(
+            this UsersResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Users_LoginExpirationPeriod", value);
+        }
+
+        public static UsersResponseCollection LoginExpirationPeriod_FormData(
+            this UsersResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Users_LoginExpirationPeriod",
+                res.UserModel.LoginExpirationPeriod.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "LoginExpirationPeriod")));
+        }
+
+        public static UsersResponseCollection LoginExpirationPeriod_FormData(
+            this UsersResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Users_LoginExpirationPeriod", value);
         }
 
         public static UsersResponseCollection Comments(

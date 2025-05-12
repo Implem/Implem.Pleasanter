@@ -15,42 +15,26 @@
     {
         context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
     }
+    if(HasInvalidValueAsApiDataAtCreate(#modelName#ApiModel))
+    {
+        context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+    }
     var #modelName#Model = new #ModelName#Model(
         context: context,
         ss: ss,
         #modelName#Id: 0,
         #modelName#ApiModel: #modelName#ApiModel);
-    var invalid = #ModelName#Validators.OnCreating(
+
+<!--Model_Utilities_SetProcesses_Null-->
+<!--Model_Utilities_SetProcesses-->
+
+    var errorData = ApplyCreateByApi(
         context: context,
         ss: ss,
+        processes: processes,
         #modelName#Model: #modelName#Model,
-        api: true);
-    switch (invalid.Type)
-    {
-        case Error.Types.None: break;
-        default: return ApiResults.Error(
-            context: context,
-            errorData: invalid);
-    }
-    #modelName#Model.SiteId = ss.SiteId;
-    #modelName#Model.SetTitle(
-        context: context,
-        ss: ss);
-
-<!--Model_Utilities_SetProcessApi_Tables-->
-
-    var errorData = #modelName#Model.Create(
-        context: context,
-        ss: ss,
-
-<!--Model_Utilities_SetProcessParamApi-->
-
-        notice: true);
-    BinaryUtilities.UploadImage(
-        context: context,
-        ss: ss,
-        id: #modelName#Model.#ModelName#Id,
-        postedFileHash: #modelName#Model.PostedImageHash);
+        migrationMode: ss.AllowMigrationMode == true
+            && #modelName#ApiModel?.MigrationMode == true);
     switch (errorData.Type)
     {
 
@@ -65,6 +49,41 @@
     }
 }
 
+private static ErrorData ApplyCreateByApi(
+    Context context,
+    SiteSettings ss,
+    #ModelName#Model #modelName#Model,
+    List<Process> processes,
+    bool migrationMode = false)
+{
+    var invalid = #ModelName#Validators.OnCreating(
+        context: context,
+        ss: ss,
+        #modelName#Model: #modelName#Model,
+        api: true);
+    if (invalid.Type != Error.Types.None) return invalid;
+
+    #modelName#Model.SiteId = ss.SiteId;
+    #modelName#Model.SetTitle(
+        context: context,
+        ss: ss);
+
+<!--Model_Utilities_SetProcessApi_Tables-->
+
+    var errorData = #modelName#Model.Create(
+        context: context,
+        ss: ss,
+        processes: processes,
+        notice: true,
+        migrationMode: migrationMode);
+    BinaryUtilities.UploadImage(
+        context: context,
+        ss: ss,
+        id: #modelName#Model.#ModelName#Id,
+        postedFileHash: #modelName#Model.PostedImageHash);
+    return errorData;
+}
+
 public static bool CreateByServerScript(Context context, SiteSettings ss, object model)
 {
     if (context.ContractSettings.ItemsLimit(context: context, siteId: ss.SiteId))
@@ -73,6 +92,10 @@ public static bool CreateByServerScript(Context context, SiteSettings ss, object
     }
     var #modelName#ApiModel = context.RequestDataString.Deserialize<#ModelName#ApiModel>();
     if (#modelName#ApiModel == null)
+    {
+        context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+    }
+    if(HasInvalidValueAsApiDataAtCreate(#modelName#ApiModel))
     {
         context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
     }
@@ -116,4 +139,26 @@ public static bool CreateByServerScript(Context context, SiteSettings ss, object
         default:
             return false;
     }
+}
+
+private static bool HasInvalidValueAsApiDataAtCreate(#ModelName#ApiModel model)
+{
+    if (model is null)
+        return false;
+
+    foreach (var o in model.AttachmentsHash)
+    {
+        foreach (var attachment in o.Value)
+        {
+            if (attachment.Deleted ?? false)
+                continue;
+
+            if (attachment.Name.IsNullOrEmpty())
+                return true;
+
+            if (attachment.Base64 is null && attachment.Base64Binary is null)
+                return true;
+        }
+    }
+    return false;
 }

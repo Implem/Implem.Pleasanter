@@ -1825,7 +1825,7 @@ namespace Implem.Pleasanter.Models
                 formulaSet: formulaSet);
             script = FormulaBuilder.ParseFormulaScript(
                 ss: ss,
-                formulaScript: script,
+                formulaScript: formulaSet.FormulaScript,
                 calculationMethod: formulaSet.CalculationMethod);
             var value = FormulaServerScriptUtilities.Execute(
                 context: context,
@@ -1850,7 +1850,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         method: nameof(SetByFormula),
                         message: $"Formula error {value}",
-                        sysLogType: SysLogModel.SysLogTypes.Execption);
+                        sysLogType: SysLogModel.SysLogTypes.Exception);
                     break;
             }
             if (outputFormulaLogs == true)

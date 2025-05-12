@@ -138,9 +138,111 @@
     --template-warning-text: var(--commonColor01);
     --template-warning-bg: var(--commonColor04);
 
+    /* fieldsetGroup */
+    --fieldset-group-border: var(--base-border);
+    --fieldset-group-header--text: var(--base-text);
+    --fieldset-group-header-bg: #efefef;
+    --fieldset-group-header-border: var(--base-border);
+    --fieldset-group-header-featured-text: var(--invert-text);
+    --fieldset-group-header-featured-bg: var(--primaryColor);
+    --fieldset-group-header-featured-border: var(--primaryColor);
+
     /* parts  ----------------------------------------------------------*/
     --start-guide-hover: var(--primarySub04);
     --password-tool-icon: var(--nonColor07);
     --tooltip-text: var(--nonColor16);
     --tooltip-bg: rgba(0, 0, 0, 0.7);
+
+    /*WebComponents  ----------------------------------------------------------*/
+    /* modal */
+    --u-modal-bg: rgb(0 0 0 / 50%);
+    --u-modal-close: var(--nonColor16);
+    --u-modal-scroll: var(--nonColor10);
+    --u-modal-scroll-hover: var(--nonColor09);
+
+    /* SmartDesign  ----------------------------------------------------------*/
+    --sd-base-text: var(--base-text);
+    --sd-base-bg: var(--base-bg);
+    --sd-base-shadow: var(--base-shadow);
+    --sd-base-border: var(--base-border);
+    --sd-base-outer: rgba(255, 255, 255, 0.2);
+    --sd-base-stage: rgba(255, 255, 255, 0.6);
+    --sd-base-loader: var(--primaryColor);
+    --sd-body-border: var(--nonColor11);
+    --sd-body-inner: var(--primarySub03);
+    --sd-header-bg: var(--sd-base-bg);
+    --sd-header-border: var(--sd-base-border);
+    --sd-header-icon: var(--nonColor08);
+    --sd-header-close: var(--nonColor08);
+    --sd-footer-command: var(--footer-command-bg);
+    --sd-tab-label: var(--btn-normal-label);
+    --sd-tab-bg: var(--btn-normal-bg);
+    --sd-tab-border: var(--btn-normal-border);
+    --sd-tab-hover: var(--btn-normal-hover);
+    --sd-tab-active-label: var(--btn-positive-label);
+    --sd-tab-active-bg: var(--btn-positive-bg);
+    --sd-tab-active-border: var(--btn-positive-border);
+    --sd-tab-active-hover: var(--btn-positive-hover);
+    --sd-resource-bg: var(--nonColor13);
+    --sd-resource-border: var(--sd-base-border);
+    --sd-resource-scroll: var(--nonColor10);
+    --sd-resource-category-bg: var(--sd-base-bg);
+    --sd-resource-category-border: var(--sd-base-border);
+    --sd-resource-category-icon-open: var(--nonColor09);
+    --sd-resource-category-icon-close: var(--primaryColor);
+    --sd-resource-remove-text: var(--nonColor07);
+    --sd-resource-remove-bg: var(--sd-base-bg);
+    --sd-resource-remove-border: var(--sd-base-border);
+    --sd-resource-remove-hover: var(--commonColor01);
+    --sd-resource-remove-outer: rgba(0, 0, 0, 0.3);
+    --sd-sortable-scroll: var(--nonColor08);
+    --sd-sortable-scroll-hover: var(--nonColor09);
+    --sd-sortable-empty-bg: rgba(255, 255, 255, 0.8);
+    --sd-sortable-empty-text: var(--nonColor03);
+    --sd-sortable-empty-border: var(--primarySub01);
+    --sd-unit-resource-bg: var(--nonColor14);
+    --sd-unit-sortable-bg: var(--sd-base-bg);
+    --sd-unit-border: var(--sd-base-border);
+    --sd-unit-icon-symbol: var(--nonColor16);
+    --sd-unit-icon-bg: var(--primaryColor);
+    --sd-unit-icon-setting: var(--nonColor07);
+    --sd-unit-handler: var(--nonColor07);
+    --sd-unit-filter-opacity: 0.5;
+    --sd-unit-ghost-border: var(--primaryDark);
+    --sd-unit-ghost-opacity: 0.8;
+    --sd-unit-edit-count-text: var(--nonColor16);
+    --sd-unit-edit-count-bg: var(--nonColor09);
+    --sd-unit-edit-tag-text: var(--sd-base-text);
+    --sd-unit-edit-tag-bg: var(--nonColor14);
+    --sd-unit-edit-tag-border: var(--nonColor10);
+    --sd-unit-edit-tag-required-text: var(--primaryDark);
+    --sd-unit-edit-tag-required-bg: var(--primarySub03);
+    --sd-unit-edit-tag-required-border: var(--primaryColor);
+    --sd-unit-edit-tag-readonly-text: var(--nonColor14);
+    --sd-unit-edit-tag-readonly-bg: var(--nonColor08);
+    --sd-unit-edit-tag-readonly-border: var(--nonColor08);
+    --sd-unit-edit-section-text: var(--nonColor16);
+    --sd-unit-edit-section-bg: var(--primaryColor);
+    --sd-unit-edit-break-border: var(--nonColor09);
+    --sd-unit-edit-delete-icon: var(--btn-negative-label);
+    --sd-unit-edit-delete-bg: var(--btn-negative-bg);
+    --sd-unit-grid-header-text: var(--nonColor16);
+    --sd-unit-grid-header-bg: var(--primaryColor);
+    --sd-unit-grid-cell-bg: var(--grid-cell-bg);
+    --sd-unit-grid-cell-border: var(--grid-cell-border);
+    --sd-unit-grid-cell-vborder: var(--grid-cell-vborder);
+    --sd-unit-grid-shadow-color: var(--nonColor12);
+    --sd-modal-bg: var(--sd-base-bg);
+    --sd-modal-text: var(--sd-base-text);
+    --sd-modal-border: var(--sd-base-border);
+    --sd-modal-header-text: var(--nonColor16);
+    --sd-modal-header-bg: var(--primaryColor);
+    --sd-modal-header-sub: var(--primaryDark);
+    --sd-modal-heading-border: var(--sd-base-border);
+    --sd-modal-required-text: #f00;
+    --sd-modal-preview-bg01: rgba(238 238 238 / 50%);
+    --sd-modal-preview-bg02: rgba(255 255 255 / 0);
+    --sd-modal-preview-controller-bg: rgba(0, 0, 0, 0.6);
+    --sd-modal-preview-controller-text: var(--nonColor16);
+    --sd-modal-delete-warning: var(--commonColor01);
 }

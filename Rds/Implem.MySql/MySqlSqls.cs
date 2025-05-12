@@ -284,6 +284,56 @@ namespace Implem.MySql
                         and ""P"".""UserId""=-1
                 )
             )";
+        public string PermissionsWhereForIntegratedSites { get; } = @"
+            (
+                exists
+                (
+                    select ""Depts"".""DeptId"" as ""Id""
+                    from ""Depts""
+                    where ""Depts"".""TenantId""=@ipT
+                        and ""Depts"".""DeptId""=@ipD
+                        and ""Depts"".""Disabled""=0
+                        and ""Permissions"".""DeptId""=""Depts"".""DeptId""
+                        and @ipD<>0
+                    union all
+                    select ""Groups"".""GroupId"" as ""Id""
+                    from ""Groups"" inner join ""GroupMembers"" on ""Groups"".""GroupId""=""GroupMembers"".""GroupId""
+                    where ""Groups"".""TenantId""=@ipT
+                        and ""Groups"".""Disabled""=0
+                        and ""Permissions"".""GroupId""=""Groups"".""GroupId""
+                        and exists
+                        (
+                            select ""DeptId""
+                            from ""Depts""
+                            where ""Depts"".""TenantId""=@ipT
+                                and ""Depts"".""DeptId""=@ipD
+                                and ""Depts"".""Disabled""=0
+                                and ""GroupMembers"".""DeptId""=""Depts"".""DeptId""
+                                and @ipD<>0
+                        )
+                    union all
+                    select ""Groups"".""GroupId"" as ""Id""
+                    from ""Groups"" inner join ""GroupMembers"" on ""Groups"".""GroupId""=""GroupMembers"".""GroupId""
+                    where ""Groups"".""TenantId""=@ipT
+                        and ""Groups"".""Disabled""=0
+                        and ""Permissions"".""GroupId""=""Groups"".""GroupId""
+                        and ""GroupMembers"".""UserId""=@ipU
+                        and @ipU<>0
+                    union all
+                    select ""P"".""UserId"" as ""Id""
+                    from ""Permissions"" as ""P""
+                    where ""P"".""ReferenceId""=""Permissions"".""ReferenceId""
+                        and ""P"".""UserId""=""Permissions"".""UserId""
+                        and ""P"".""UserId""=@ipU
+                        and @ipU<>0
+                    union all
+                    select ""P"".""UserId"" as ""Id""
+                    from ""Permissions"" as ""P""
+                    where ""P"".""ReferenceId""=""Permissions"".""ReferenceId""
+                        and ""P"".""PermissionType"" & 1 = 1
+                        and ""P"".""UserId""=-1
+                )
+            )";
 
         public string SiteDeptWhere { get; } = @"
             (
@@ -406,13 +456,13 @@ namespace Implem.MySql
                             where ""Sites"".""SiteId""=""{tableName}_Items"".""SiteId""
                         )
                         and ""Permissions"".""PermissionType"" & 1 = 1
-                        and {PermissionsWhere}
+                        and {PermissionsWhereForIntegratedSites}
                     union
                     select ""Permissions"".""ReferenceId""
                     from ""Permissions""
                     where ""Permissions"".""ReferenceId""=""{tableName}_Items"".""ReferenceId""
                         and ""Permissions"".""PermissionType"" & 1 = 1
-                        and {PermissionsWhere}
+                        and {PermissionsWhereForIntegratedSites}
                 )";
         }
 
@@ -499,5 +549,35 @@ namespace Implem.MySql
                     return string.Empty;
             }
         }
+
+        public string MigrateDatabaseSelectFrom(string tableName)
+        {
+            return $"";
+        }
+
+        public string GetChildSiteIdList { get; } = @"
+            with recursive cte as (
+                select 
+                    ""SiteId"",
+                    ""ParentId"",
+                    ""SiteId"" as ""RootSiteId""
+                from ""Sites""
+                where ""ParentId"" = @SiteId_
+                    and ""TenantId"" = @ipT
+                union all
+                select 
+                    c.""SiteId"",
+                    c.""ParentId"",
+                    p.""RootSiteId""
+                from ""Sites"" c
+                inner join cte p 
+                on p.""SiteId"" = c.""ParentId""
+                where c.""TenantId"" = @ipT
+            )
+            select 
+                ""RootSiteId"",
+                ""SiteId""
+            from cte
+            order by ""RootSiteId""";
     }
 }

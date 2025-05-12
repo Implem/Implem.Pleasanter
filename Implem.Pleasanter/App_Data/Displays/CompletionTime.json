@@ -1,0 +1,34 @@
+﻿{
+    "Id": "CompletionTime",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Completion"
+        },
+        {
+            "Language": "zh",
+            "Body": "完成"
+        },
+        {
+            "Language": "ja",
+            "Body": "完了"
+        },
+        {
+            "Language": "de",
+            "Body": "Abschluss"
+        },
+        {
+            "Language": "ko",
+            "Body": "완료"
+        },
+        {
+            "Language": "es",
+            "Body": "Finalización"
+        },
+        {
+            "Language": "vn",
+            "Body": "Kết thúc"
+        }
+    ]
+}

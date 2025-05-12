@@ -15,18 +15,22 @@ using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.ServerScripts;
 using Implem.Pleasanter.Libraries.Settings;
+<!--Model_ApiSiteSettingsUsing-->
+<!--Model_SysLogUsing-->
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Linq;
 using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
+<!--Model_StaticUsing-->
 namespace Implem.Pleasanter.Models
 {
     [Serializable]
     public class #ModelName#Model : <!--Model_InheritBase--><!--Model_InheritBaseItem--><!--Model_IConvertable-->
     {
 
+<!--Model_SysLogLogger-->
 <!--Model_ItemProperties_Sites-->
 <!--Model_GroupProperties_GroupMembers-->
 <!--Model_GroupProperties_GroupChildren-->
@@ -38,6 +42,7 @@ namespace Implem.Pleasanter.Models
 <!--Base_PropertyUpdated_Bin ( RepeatType = Column, NotBase = 1 ) -->
 <!--Model_SessionProperties ( RepeatType = Column ) -->
 <!--Model_PropertyValue-->
+<!--Model_PropertyValue_Extensions-->
 <!--Model_CsvData-->
 <!--Model_SwitchTargets-->
 <!--Model_Constructor ( HasIdentity = true ) -->
@@ -93,8 +98,11 @@ namespace Implem.Pleasanter.Models
 
 <!--Model_Get-->
 <!--Model_GetByApi-->
+<!--Model_GetByApi_Extensions-->
 <!--Model_ExportByApi-->
+<!--Model_ExportByServerScript-->
 <!--Model_ImportByApi-->
+<!--Model_ImportByServerScript-->
 <!--Model_ToValue-->
 <!--Model_ToValueApiDisplayValue-->
 <!--Model_ToDisplay-->
@@ -126,6 +134,7 @@ namespace Implem.Pleasanter.Models
 <!--Model_DashboardsCopyAndInit-->
 <!--Model_SetByModel-->
 <!--Model_SetByApi-->
+<!--Model_SetByApi_Extensions-->
 <!--Model_SetByApiImages-->
 <!--Model_SetByDataChanges-->
 <!--Model_SetBySettings-->

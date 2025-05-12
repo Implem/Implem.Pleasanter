@@ -1,6 +1,7 @@
-{
+﻿{
     "Id": "MaxLength",
     "Type": 110,
+    "ClientScript": true,
     "Languages": [
         {
             "Body": "Maximum number of characters"

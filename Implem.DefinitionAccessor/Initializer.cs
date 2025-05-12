@@ -43,6 +43,7 @@ namespace Implem.DefinitionAccessor
             SetParameters();
             Environments.ServiceName = Parameters.Service.Name;
             SetRdsParameters();
+            SetMigrationParameters();
             Environments.MachineName = $"{Environment.MachineName}:{Environment.OSVersion}";
             Environments.Application =
                 Assembly.GetExecutingAssembly().ManifestModule.Name.FileNameOnly();
@@ -183,6 +184,12 @@ namespace Implem.DefinitionAccessor
                 Parameters.CommercialLicense()
                     ? "ee"
                     : "com");
+            Parameters.General.RecommendUrl1 = Strings.CoalesceEmpty(
+                Parameters.General.RecommendUrl1,
+                "https://pleasanter.org/enterprise");
+            Parameters.General.RecommendUrl2 = Strings.CoalesceEmpty(
+                Parameters.General.RecommendUrl2,
+                "https://pleasanter.org/ja/manual/pleasanter-code-assist-overview");
             if (Parameters.Security.AspNetCoreDataProtection == null)
             {
                 Parameters.Security.AspNetCoreDataProtection = new AspNetCoreDataProtection();
@@ -204,6 +211,10 @@ namespace Implem.DefinitionAccessor
                 Parameters.Service.DeploymentEnvironment,
                 Environment.GetEnvironmentVariable($"{Parameters.Service.EnvironmentName}_Service_DeploymentEnvironment"),
                 Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_Service_DeploymentEnvironment"));
+            Parameters.Kvs.ConnectionStringForSession = Strings.CoalesceEmpty(
+                Parameters.Kvs.ConnectionStringForSession,
+                Environment.GetEnvironmentVariable($"{Parameters.Service.EnvironmentName}_Kvs_ConnectionStringForSession"),
+                Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_Kvs_ConnectionStringForSession"));
         }
 
         public static void ReloadParameters()
@@ -713,6 +724,15 @@ namespace Implem.DefinitionAccessor
             SetColumnDefinitionAccessControl();
         }
 
+        public static void SetDefinitionsTrial()
+        {
+            // TrialLicenseで初期化後にカラム数を伸長するための処理
+            Def.SetColumnDefinition();
+            SetColumnDefinitionAccessControl();
+            SetTimeZone();
+            SetLanguage();
+        }
+
         public static XlsIo DefinitionFile(string name)
         {
             var path = name == "Demo" && Environments.PleasanterTest
@@ -757,6 +777,17 @@ namespace Implem.DefinitionAccessor
             }
             Environments.DeadlockRetryCount = Parameters.Rds.DeadlockRetryCount;
             Environments.DeadlockRetryInterval = Parameters.Rds.DeadlockRetryInterval;
+        }
+
+        public static void SetMigrationParameters()
+        {
+            if (Parameters.Migration.SourceConnectionString != null &&
+                Parameters.Migration.ServiceName != null)
+            {
+                Parameters.Migration.SourceConnectionString =
+                    Parameters.Migration.SourceConnectionString.Replace(
+                        "#OldServiceName#", Parameters.Migration.ServiceName);
+            }
         }
 
         private static void SetColumnDefinitionAdditional(XlsIo definitionFile)

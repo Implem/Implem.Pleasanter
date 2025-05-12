@@ -5,5 +5,8 @@
     "LoginFailure": false,
     "SignOut": false,
     "ClientId": false,
-    "ExportLimit": 10000
+    "ExportLimit": 10000,
+    "EnableLoggingToDatabase": true,
+    "EnableLoggingToFile": false,
+    "OutputErrorDetails": true
 }

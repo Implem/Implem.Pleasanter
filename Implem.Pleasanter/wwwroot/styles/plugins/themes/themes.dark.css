@@ -8,6 +8,17 @@
     background: transparent;
 }
 
+/* dashboard */
+.grid-stack-item-content {
+    .dashboard-timeline-header a {
+        color: var(--base-text);
+    }
+    .dashboard-timeline-item,
+    .dashboard-part-nav-item {
+        background-color: var(--nonColor06);
+    }
+}
+
 /* [.grid]  ------------------------------------------------------ */
 .grid {
     /* IssuesTableItem */
@@ -18,4 +29,18 @@
     .svg-progress-rate.warning text {
         fill: var(--control-error);
     }
+}
+
+#FullCalendar,
+.grid-stack-item .fc {
+    td {
+        &.fc-day-today {
+            background-color: var(--primaryDark);
+        }
+    }
+}
+
+/* [.loading]  ------------------------------------------------------ */
+#LoaderContainer {
+    background-color: rgba(0, 0, 0, 0.3);
 }

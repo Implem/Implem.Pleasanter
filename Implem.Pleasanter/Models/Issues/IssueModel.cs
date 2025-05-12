@@ -15,6 +15,7 @@ using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.ServerScripts;
 using Implem.Pleasanter.Libraries.Settings;
+using Implem.Pleasanter.Models.ApiSiteSettings;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -1629,6 +1630,7 @@ namespace Implem.Pleasanter.Models
             bool synchronizeSummary = true,
             bool forceSynchronizeSourceSummary = false,
             bool notice = false,
+            bool migrationMode = false,
             string noticeType = "Created",
             bool otherInitValue = false,
             bool get = true)
@@ -1652,6 +1654,7 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 tableType: tableType,
                 param: param,
+                migrationMode: migrationMode,
                 otherInitValue: otherInitValue));
             try
             {
@@ -1809,6 +1812,7 @@ namespace Implem.Pleasanter.Models
             string dataTableName = null,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
+            bool migrationMode = false,
             bool otherInitValue = false)
         {
             var statements = new List<SqlStatement>();
@@ -1821,7 +1825,14 @@ namespace Implem.Pleasanter.Models
                     param: Rds.ItemsParam()
                         .ReferenceType("Issues")
                         .SiteId(SiteId)
-                        .Title(Title.DisplayValue)),
+                        .Title(Title.DisplayValue)
+                        .MigrationParams(
+                            creator: Creator?.Id,
+                            updator: Updator?.Id,
+                            createdTime: CreatedTime?.Value,
+                            updatedTime: UpdatedTime?.Value,
+                            _using: migrationMode),
+                    addUpdatorParam: !migrationMode),
                 Rds.InsertIssues(
                     dataTableName: dataTableName,
                     tableType: tableType,
@@ -1830,7 +1841,14 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         issueModel: this,
                         setDefault: true,
-                        otherInitValue: otherInitValue)),
+                        otherInitValue: otherInitValue)
+                            .MigrationParams(
+                                creator: Creator?.Id,
+                                updator: Updator?.Id,
+                                createdTime: CreatedTime?.Value,
+                                updatedTime: UpdatedTime?.Value,
+                                _using: migrationMode),
+                    addUpdatorParam: !migrationMode),
                 InsertLinks(
                     context: context,
                     ss: ss,
@@ -2361,13 +2379,6 @@ namespace Implem.Pleasanter.Models
             SetBySession(context: context);
             var statements = new List<SqlStatement>
             {
-                Rds.InsertItems(
-                    dataTableName: dataTableName,
-                    selectIdentity: true,
-                    param: Rds.ItemsParam()
-                        .ReferenceType("Issues")
-                        .SiteId(SiteId)
-                        .Title(Title.DisplayValue)),
                 Rds.UpdateOrInsertIssues(
                     where: where ?? Rds.IssuesWhereDefault(
                         context: context,
@@ -2956,7 +2967,8 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             Dictionary<int, ImportColumn> columnHash,
-            List<string> row)
+            List<string> row,
+            bool migrationMode = false)
         {
             columnHash
                 .Where(column =>
@@ -3032,6 +3044,32 @@ namespace Implem.Pleasanter.Models
                                 column: column.Value.Column,
                                 value: recordingData);
                             break;
+                    }
+                    if (migrationMode)
+                    {
+                        switch (column.Value.Column.ColumnName)
+                        {
+                            case "Creator":
+                                Creator = SiteInfo.User(
+                                    context: context,
+                                    userId: recordingData.ToInt());
+                                break;
+                            case "Updator":
+                                Updator = SiteInfo.User(
+                                    context: context,
+                                    userId: recordingData.ToInt());
+                                break;
+                            case "CreatedTime":
+                                CreatedTime = new Time(
+                                    context: context,
+                                    value: recordingData.ToDateTime());
+                                break;
+                            case "UpdatedTime":
+                                UpdatedTime = new Time(
+                                    context: context,
+                                    value: recordingData.ToDateTime());
+                                break;
+                        }
                     }
                 });
             SetBySettings(
@@ -3259,6 +3297,34 @@ namespace Implem.Pleasanter.Models
                 }
                 SetAttachments(columnName: columnName, value: newAttachments);
             });
+            if (ss.AllowMigrationMode == true
+                && data.MigrationMode == true)
+            {
+                if (data.Creator != null)
+                {
+                    Creator = SiteInfo.User(
+                        context: context,
+                        userId: data.Creator.ToInt());
+                }
+                if (data.Updator != null)
+                {
+                    Updator = SiteInfo.User(
+                    context: context,
+                    userId: data.Updator.ToInt());
+                }
+                if (data.CreatedTime != null)
+                {
+                    CreatedTime = new Time(
+                    context: context,
+                    value: data.CreatedTime.ToDateTime());
+                }
+                if (data.UpdatedTime != null)
+                {
+                    UpdatedTime = new Time(
+                    context: context,
+                    value: data.UpdatedTime.ToDateTime());
+                }
+            }
             data.ImageHash?.ForEach(o =>
             {
                 var bytes = Convert.FromBase64String(o.Value.Base64);
@@ -3517,7 +3583,11 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     link: link,
-                    id: GetClass(link.ColumnName).ToLong(),
+                    id: PropertyValue(
+                        context: context,
+                        column: ss.GetColumn(
+                            context: context,
+                            columnName: link.ColumnName)).ToLong(),
                     formData: formData,
                     blankColumns: link.Lookups
                         ?.Select(lookup => ss.GetColumn(
@@ -3869,7 +3939,7 @@ namespace Implem.Pleasanter.Models
                 formulaSet: formulaSet);
             script = FormulaBuilder.ParseFormulaScript(
                 ss: ss,
-                formulaScript: script,
+                formulaScript: formulaSet.FormulaScript,
                 calculationMethod: formulaSet.CalculationMethod);
             var value = FormulaServerScriptUtilities.Execute(
                 context: context,
@@ -3894,7 +3964,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         method: nameof(SetByFormula),
                         message: $"Formula error {value}",
-                        sysLogType: SysLogModel.SysLogTypes.Execption);
+                        sysLogType: SysLogModel.SysLogTypes.Exception);
                     break;
             }
             if (outputFormulaLogs == true)
@@ -3945,7 +4015,7 @@ namespace Implem.Pleasanter.Models
             {
                 return false;
             }
-            if (view.Overdue == true && CompletionTime.Overdue())
+            if (view.Overdue == true && !CompletionTime.Overdue())
             {
                 return false;
             }

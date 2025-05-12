@@ -136,11 +136,17 @@ public static string BulkUpdate(Context context, SiteSettings ss)
         case Error.Types.None: break;
         default: return invalid.MessageJson(context: context);
     }
+    using var exclusiveObj = new Sessions.TableExclusive(context: context);
+    if (!exclusiveObj.TryLock())
+    {
+        return Error.Types.ImportLock.MessageJson(context: context);
+    }
     var count = BulkUpdate(
         context: context,
         ss: ss,
         columns: columns,
-        where: where);
+        where: where,
+        watchdog: () => exclusiveObj.Refresh());
     var data = new string[]
     {
         ss.Title,
@@ -186,13 +192,15 @@ private static int BulkUpdate(
     Context context,
     SiteSettings ss,
     List<Column> columns,
-    SqlWhereCollection where)
+    SqlWhereCollection where,
+    Action watchdog = null)
 {
     var onBulkUpdatingExtendedStatements = new List<SqlStatement>().OnBulkUpdatingExtendedSqls(
         context: context,
         siteId: ss.SiteId);
     if (onBulkUpdatingExtendedStatements.Count > 0)
     {
+        watchdog?.Invoke();
         Repository.ExecuteNonQuery(
             context: context,
             transactional: true,
@@ -210,6 +218,7 @@ private static int BulkUpdate(
             }),
         where: where).ForEach(#modelName#Model =>
         {
+            watchdog?.Invoke();
             #modelName#Model.SetByForm(
                 context: context,
                 ss: ss,
@@ -232,6 +241,7 @@ private static int BulkUpdate(
         siteId: ss.SiteId);
     if (onBulkUpdatedExtendedStatements.Count > 0)
     {
+        watchdog?.Invoke();
         Repository.ExecuteNonQuery(
             context: context,
             transactional: true,

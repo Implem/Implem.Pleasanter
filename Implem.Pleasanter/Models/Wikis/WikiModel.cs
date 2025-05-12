@@ -621,6 +621,7 @@ namespace Implem.Pleasanter.Models
             List<Process> processes = null,
             bool extendedSqls = true,
             bool notice = false,
+            bool migrationMode = false,
             string noticeType = "Created",
             bool otherInitValue = false,
             bool get = true)
@@ -637,6 +638,7 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 tableType: tableType,
                 param: param,
+                migrationMode: migrationMode,
                 otherInitValue: otherInitValue));
             var response = Repository.ExecuteScalar_response(
                 context: context,
@@ -735,6 +737,7 @@ namespace Implem.Pleasanter.Models
             string dataTableName = null,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
+            bool migrationMode = false,
             bool otherInitValue = false)
         {
             var statements = new List<SqlStatement>();
@@ -891,7 +894,7 @@ namespace Implem.Pleasanter.Models
                 addUpdatedTimeParam: true,
                 addUpdatorParam: true,
                 updateItems: true);
-            SiteInfo.Reflesh(context: context);
+            SiteInfo.Refresh(context: context);
             return new ErrorData(type: Error.Types.None);
         }
 
@@ -1565,7 +1568,7 @@ namespace Implem.Pleasanter.Models
                 formulaSet: formulaSet);
             script = FormulaBuilder.ParseFormulaScript(
                 ss: ss,
-                formulaScript: script,
+                formulaScript: formulaSet.FormulaScript,
                 calculationMethod: formulaSet.CalculationMethod);
             var value = FormulaServerScriptUtilities.Execute(
                 context: context,
@@ -1590,7 +1593,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         method: nameof(SetByFormula),
                         message: $"Formula error {value}",
-                        sysLogType: SysLogModel.SysLogTypes.Execption);
+                        sysLogType: SysLogModel.SysLogTypes.Exception);
                     break;
             }
             if (outputFormulaLogs == true)

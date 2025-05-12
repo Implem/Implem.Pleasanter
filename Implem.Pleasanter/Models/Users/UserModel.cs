@@ -44,6 +44,7 @@ namespace Implem.Pleasanter.Models
         public string TimeZone = "UTC";
         public string DeptCode = string.Empty;
         public int DeptId = 0;
+        public User Manager = new User();
         public string Theme = string.Empty;
         public Names.FirstAndLastNameOrders FirstAndLastNameOrder = (Names.FirstAndLastNameOrders)2;
         public string Body = string.Empty;
@@ -82,6 +83,8 @@ namespace Implem.Pleasanter.Models
         public DateTime SynchronizedTime = 0.ToDateTime();
         public string SecretKey = string.Empty;
         public bool EnableSecretKey = false;
+        public Time LoginExpirationLimit = new Time();
+        public int LoginExpirationPeriod = 0;
 
         public TimeZoneInfo TimeZoneInfo
         {
@@ -125,6 +128,7 @@ namespace Implem.Pleasanter.Models
         public string SavedTimeZone = "UTC";
         public string SavedDeptCode = string.Empty;
         public int SavedDeptId = 0;
+        public int SavedManager = 0;
         public string SavedTheme = string.Empty;
         public int SavedFirstAndLastNameOrder = 2;
         public string SavedBody = string.Empty;
@@ -163,6 +167,8 @@ namespace Implem.Pleasanter.Models
         public DateTime SavedSynchronizedTime = 0.ToDateTime();
         public string SavedSecretKey = string.Empty;
         public bool SavedEnableSecretKey = false;
+        public DateTime SavedLoginExpirationLimit = 0.ToDateTime();
+        public int SavedLoginExpirationPeriod = 0;
 
         public bool TenantId_Updated(Context context, bool copy = false, Column column = null)
         {
@@ -318,6 +324,18 @@ namespace Implem.Pleasanter.Models
                 &&  (column == null
                     || column.DefaultInput.IsNullOrEmpty()
                     || column.GetDefaultInput(context: context).ToInt() != DeptId);
+        }
+
+        public bool Manager_Updated(Context context, bool copy = false, Column column = null)
+        {
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToInt() != Manager.Id;
+            }
+            return Manager.Id != SavedManager
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToInt() != Manager.Id);
         }
 
         public bool Theme_Updated(Context context, bool copy = false, Column column = null)
@@ -620,6 +638,18 @@ namespace Implem.Pleasanter.Models
                     || column.GetDefaultInput(context: context).ToBool() != EnableSecretKey);
         }
 
+        public bool LoginExpirationPeriod_Updated(Context context, bool copy = false, Column column = null)
+        {
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToInt() != LoginExpirationPeriod;
+            }
+            return LoginExpirationPeriod != SavedLoginExpirationPeriod
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToInt() != LoginExpirationPeriod);
+        }
+
         public bool Birthday_Updated(Context context, bool copy = false, Column column = null)
         {
             if (copy && column?.CopyByDefault == true)
@@ -690,6 +720,18 @@ namespace Implem.Pleasanter.Models
                 && (column == null
                     || column.DefaultInput.IsNullOrEmpty()
                     || column.DefaultTime(context: context).Date != SynchronizedTime.Date);
+        }
+
+        public bool LoginExpirationLimit_Updated(Context context, bool copy = false, Column column = null)
+        {
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToDateTime() != LoginExpirationLimit.Value;
+            }
+            return LoginExpirationLimit.Value != SavedLoginExpirationLimit
+                && (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.DefaultTime(context: context).Date != LoginExpirationLimit.Value.Date);
         }
 
         public UserSettings Session_UserSettings(Context context)
@@ -946,6 +988,18 @@ namespace Implem.Pleasanter.Models
                         column: column,
                         mine: mine)
                             ? Dept.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "Manager":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? Manager.ToExport(
                                 context: context,
                                 column: column,
                                 exportColumn: exportColumn)
@@ -1299,6 +1353,30 @@ namespace Implem.Pleasanter.Models
                                 exportColumn: exportColumn)
                             : string.Empty;
                     break;
+                case "LoginExpirationLimit":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? LoginExpirationLimit.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "LoginExpirationPeriod":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? LoginExpirationPeriod.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
                 case "Comments":
                     value = ss.ReadColumnAccessControls.Allowed(
                         context: context,
@@ -1637,6 +1715,7 @@ namespace Implem.Pleasanter.Models
                     case "TimeZone": data.TimeZone = TimeZone; break;
                     case "DeptCode": data.DeptCode = DeptCode; break;
                     case "DeptId": data.DeptId = DeptId; break;
+                    case "Manager": data.Manager = Manager.Id; break;
                     case "Theme": data.Theme = Theme; break;
                     case "FirstAndLastNameOrder": data.FirstAndLastNameOrder = FirstAndLastNameOrder.ToInt(); break;
                     case "Body": data.Body = Body; break;
@@ -1666,6 +1745,8 @@ namespace Implem.Pleasanter.Models
                     case "SynchronizedTime": data.SynchronizedTime = SynchronizedTime.ToLocal(context: context); break;
                     case "SecretKey": data.SecretKey = SecretKey; break;
                     case "EnableSecretKey": data.EnableSecretKey = EnableSecretKey; break;
+                    case "LoginExpirationLimit": data.LoginExpirationLimit = LoginExpirationLimit.Value.ToLocal(context: context); break;
+                    case "LoginExpirationPeriod": data.LoginExpirationPeriod = LoginExpirationPeriod; break;
                     case "Creator": data.Creator = Creator.Id; break;
                     case "Updator": data.Updator = Updator.Id; break;
                     case "CreatedTime": data.CreatedTime = CreatedTime.Value.ToLocal(context: context); break;
@@ -1786,6 +1867,11 @@ namespace Implem.Pleasanter.Models
                         column: column);
                 case "DeptId":
                     return DeptId.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Manager":
+                    return Manager.ToDisplay(
                         context: context,
                         ss: ss,
                         column: column);
@@ -1946,6 +2032,16 @@ namespace Implem.Pleasanter.Models
                         column: column);
                 case "EnableSecretKey":
                     return EnableSecretKey.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "LoginExpirationLimit":
+                    return LoginExpirationLimit.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "LoginExpirationPeriod":
+                    return LoginExpirationPeriod.ToDisplay(
                         context: context,
                         ss: ss,
                         column: column);
@@ -2145,6 +2241,11 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column);
+                case "Manager":
+                    return Manager.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
                 case "Theme":
                     return Theme.ToApiDisplayValue(
                         context: context,
@@ -2317,6 +2418,16 @@ namespace Implem.Pleasanter.Models
                         column: column);
                 case "EnableSecretKey":
                     return EnableSecretKey.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "LoginExpirationLimit":
+                    return LoginExpirationLimit.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "LoginExpirationPeriod":
+                    return LoginExpirationPeriod.ToApiDisplayValue(
                         context: context,
                         ss: ss,
                         column: column);
@@ -2516,6 +2627,11 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column);
+                case "Manager":
+                    return Manager.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
                 case "Theme":
                     return Theme.ToApiValue(
                         context: context,
@@ -2688,6 +2804,16 @@ namespace Implem.Pleasanter.Models
                         column: column);
                 case "EnableSecretKey":
                     return EnableSecretKey.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "LoginExpirationLimit":
+                    return LoginExpirationLimit.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "LoginExpirationPeriod":
+                    return LoginExpirationPeriod.ToApiValue(
                         context: context,
                         ss: ss,
                         column: column);
@@ -2865,7 +2991,7 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             bool updateMailAddresses = true,
-            bool refleshSiteInfo = true,
+            bool refreshSiteInfo = true,
             SqlParamCollection param = null,
             List<SqlStatement> additionalStatements = null,
             bool otherInitValue = false,
@@ -2878,6 +3004,10 @@ namespace Implem.Pleasanter.Models
                 userApiModel != null &&
                 userApiModel.MailAddresses != null)
             {
+                if (context.UserSettings.EnableManageTenant == true)
+                {
+                    return new ErrorData(type: Error.Types.HasNotPermission);
+                }
                 var errorData = UserValidators.OnApiUpdatingMailAddress(userApiModel: userApiModel);
                 if (errorData.Type != Error.Types.None)
                 {
@@ -2943,9 +3073,9 @@ namespace Implem.Pleasanter.Models
                     UpdateMailAddresses(context: context);
                 }
             }
-            if (refleshSiteInfo)
+            if (refreshSiteInfo)
             {
-                SiteInfo.Reflesh(context: context);
+                SiteInfo.Refresh(context: context);
             }
             return new ErrorData(type: Error.Types.None);
         }
@@ -3127,6 +3257,7 @@ namespace Implem.Pleasanter.Models
                     case "Users_TimeZone": TimeZone = value.ToString(); break;
                     case "Users_DeptCode": DeptCode = value.ToString(); break;
                     case "Users_DeptId": DeptId = value.ToInt(); break;
+                    case "Users_Manager": Manager = SiteInfo.User(context: context, userId: value.ToInt()); break;
                     case "Users_Theme": Theme = value.ToString(); break;
                     case "Users_FirstAndLastNameOrder": FirstAndLastNameOrder = (Names.FirstAndLastNameOrders)value.ToInt(); break;
                     case "Users_Body": Body = value.ToString(); break;
@@ -3160,6 +3291,8 @@ namespace Implem.Pleasanter.Models
                     case "Users_SynchronizedTime": SynchronizedTime = value.ToDateTime().ToUniversal(context: context); break;
                     case "Users_SecretKey": SecretKey = value.ToString(); break;
                     case "Users_EnableSecretKey": EnableSecretKey = value.ToBool(); break;
+                    case "Users_LoginExpirationLimit": LoginExpirationLimit = new Time(context, value.ToDateTime(), byForm: true); break;
+                    case "Users_LoginExpirationPeriod": LoginExpirationPeriod = value.ToInt(); break;
                     case "Users_Timestamp": Timestamp = value.ToString(); break;
                     case "Comments": Comments.Prepend(
                         context: context,
@@ -3241,6 +3374,7 @@ namespace Implem.Pleasanter.Models
             TimeZone = userModel.TimeZone;
             DeptCode = userModel.DeptCode;
             DeptId = userModel.DeptId;
+            Manager = userModel.Manager;
             Theme = userModel.Theme;
             FirstAndLastNameOrder = userModel.FirstAndLastNameOrder;
             Body = userModel.Body;
@@ -3279,6 +3413,8 @@ namespace Implem.Pleasanter.Models
             SynchronizedTime = userModel.SynchronizedTime;
             SecretKey = userModel.SecretKey;
             EnableSecretKey = userModel.EnableSecretKey;
+            LoginExpirationLimit = userModel.LoginExpirationLimit;
+            LoginExpirationPeriod = userModel.LoginExpirationPeriod;
             Comments = userModel.Comments;
             Creator = userModel.Creator;
             Updator = userModel.Updator;
@@ -3309,6 +3445,7 @@ namespace Implem.Pleasanter.Models
             if (data.TimeZone != null) TimeZone = data.TimeZone.ToString().ToString();
             if (data.DeptCode != null) DeptCode = data.DeptCode.ToString().ToString();
             if (data.DeptId != null) DeptId = data.DeptId.ToInt().ToInt();
+            if (data.Manager != null) Manager = SiteInfo.User(context: context, userId: data.Manager.ToInt());
             if (data.Theme != null) Theme = data.Theme.ToString().ToString();
             if (data.FirstAndLastNameOrder != null) FirstAndLastNameOrder = (Names.FirstAndLastNameOrders)data.FirstAndLastNameOrder.ToInt().ToInt();
             if (data.Body != null) Body = data.Body.ToString().ToString();
@@ -3334,6 +3471,8 @@ namespace Implem.Pleasanter.Models
             if (data.SynchronizedTime != null) SynchronizedTime = data.SynchronizedTime.ToDateTime().ToDateTime().ToUniversal(context: context);
             if (data.SecretKey != null) SecretKey = data.SecretKey.ToString().ToString();
             if (data.EnableSecretKey != null) EnableSecretKey = data.EnableSecretKey.ToBool().ToBool();
+            if (data.LoginExpirationLimit != null) LoginExpirationLimit = new Time(context, data.LoginExpirationLimit.ToDateTime(), byForm: true);
+            if (data.LoginExpirationPeriod != null) LoginExpirationPeriod = data.LoginExpirationPeriod.ToInt().ToInt();
             if (data.Comments != null) Comments.Prepend(context: context, ss: ss, body: data.Comments);
             if (data.VerUp != null) VerUp = data.VerUp.ToBool();
             data.ClassHash?.ForEach(o => SetClass(
@@ -3547,6 +3686,10 @@ namespace Implem.Pleasanter.Models
                             DeptId = dataRow[column.ColumnName].ToInt();
                             SavedDeptId = DeptId;
                             break;
+                        case "Manager":
+                            Manager = SiteInfo.User(context: context, userId: dataRow.Int(column.ColumnName));
+                            SavedManager = Manager.Id;
+                            break;
                         case "Theme":
                             Theme = dataRow[column.ColumnName].ToString();
                             SavedTheme = Theme;
@@ -3667,6 +3810,14 @@ namespace Implem.Pleasanter.Models
                             EnableSecretKey = dataRow[column.ColumnName].ToBool();
                             SavedEnableSecretKey = EnableSecretKey;
                             break;
+                        case "LoginExpirationLimit":
+                            LoginExpirationLimit = new Time(context, dataRow, column.ColumnName);
+                            SavedLoginExpirationLimit = LoginExpirationLimit.Value;
+                            break;
+                        case "LoginExpirationPeriod":
+                            LoginExpirationPeriod = dataRow[column.ColumnName].ToInt();
+                            SavedLoginExpirationPeriod = LoginExpirationPeriod;
+                            break;
                         case "Comments":
                             Comments = dataRow[column.ColumnName].ToString().Deserialize<Comments>() ?? new Comments();
                             SavedComments = Comments.ToJson();
@@ -3770,6 +3921,7 @@ namespace Implem.Pleasanter.Models
                 || Language_Updated(context: context)
                 || TimeZone_Updated(context: context)
                 || DeptId_Updated(context: context)
+                || Manager_Updated(context: context)
                 || Theme_Updated(context: context)
                 || FirstAndLastNameOrder_Updated(context: context)
                 || Body_Updated(context: context)
@@ -3800,6 +3952,8 @@ namespace Implem.Pleasanter.Models
                 || SynchronizedTime_Updated(context: context)
                 || SecretKey_Updated(context: context)
                 || EnableSecretKey_Updated(context: context)
+                || LoginExpirationLimit_Updated(context: context)
+                || LoginExpirationPeriod_Updated(context: context)
                 || Comments_Updated(context: context)
                 || Creator_Updated(context: context)
                 || Updator_Updated(context: context);
@@ -3845,6 +3999,7 @@ namespace Implem.Pleasanter.Models
                 || Language_Updated(context: context)
                 || TimeZone_Updated(context: context)
                 || DeptId_Updated(context: context)
+                || Manager_Updated(context: context)
                 || Theme_Updated(context: context)
                 || FirstAndLastNameOrder_Updated(context: context)
                 || Body_Updated(context: context)
@@ -3875,6 +4030,8 @@ namespace Implem.Pleasanter.Models
                 || SynchronizedTime_Updated(context: context)
                 || SecretKey_Updated(context: context)
                 || EnableSecretKey_Updated(context: context)
+                || LoginExpirationLimit_Updated(context: context)
+                || LoginExpirationPeriod_Updated(context: context)
                 || Comments_Updated(context: context)
                 || Creator_Updated(context: context)
                 || Updator_Updated(context: context);
@@ -3886,6 +4043,7 @@ namespace Implem.Pleasanter.Models
             {
                 var mine = new List<string>();
                 var userId = context.UserId;
+                if (SavedManager == userId) mine.Add("Manager");
                 if (SavedCreator == userId) mine.Add("Creator");
                 if (SavedUpdator == userId) mine.Add("Updator");
                 MineCache = mine;
@@ -4075,6 +4233,10 @@ namespace Implem.Pleasanter.Models
             }
             if (Authenticate(context: context))
             {
+                if (LoginExpired())
+                {
+                    return DenyLoginExpired(context: context);
+                }
                 if (!AllowedIpAddress(context))
                 {
                     return InvalidIpAddress(context: context);
@@ -4584,7 +4746,7 @@ namespace Implem.Pleasanter.Models
             var language = Language.IsNullOrEmpty()
                 ? context.Language
                 : Language;
-            if(isAuthenticationByMail)
+            if (isAuthenticationByMail)
             {
                 Repository.ExecuteTable(
                     context: context,
@@ -4960,6 +5122,18 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        private string DenyLoginExpired(Context context)
+        {
+            DenyLog(context: context, disableUpdateLastLoginTime: true);
+            return Messages.ResponseLoginExpired(
+                context: context,
+                target: "#LoginMessage")
+                    .Focus("#Password").ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public void DenyLog(Context context, bool disableUpdateLastLoginTime = false)
         {
             LoginFailureLog(
@@ -5029,6 +5203,24 @@ namespace Implem.Pleasanter.Models
             return
                 PasswordExpirationTime.Value.InRange() &&
                 PasswordExpirationTime.Value <= DateTime.Now;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private bool LoginExpired()
+        {
+            return
+                (
+                    LoginExpirationLimit.Value.InRange() &&
+                    LoginExpirationLimit.Value <= DateTime.Now
+                ) ||
+                (
+                    LastLoginTime.Value >= Implem.DefinitionAccessor.Parameters.General.MinTime &&
+                    LoginExpirationPeriod != 0 &&
+                    LastLoginTime.Value.AddDays(LoginExpirationPeriod).InRange() &&
+                    LastLoginTime.Value.AddDays(LoginExpirationPeriod) <= DateTime.Now
+                );
         }
 
         /// <summary>

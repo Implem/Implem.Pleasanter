@@ -28,6 +28,7 @@ namespace Implem.PleasanterTest.Utilities
             string absoluteUri = "http://localhost:59802/",
             string absolutePath = "",
             string url = "",
+            string redirectUrl = "", 
             string urlReferrer = "",
             string query = "",
             string userHostName = "::1",
@@ -36,6 +37,7 @@ namespace Implem.PleasanterTest.Utilities
             string userTimeZone = null,
             QueryStrings queryStrings = null,
             Forms forms = null,
+            Dictionary<string, string> sessionData = null,
             decimal? apiVersion = null,
             string apiRequestBody = null,
             string apiKey = null,
@@ -86,6 +88,7 @@ namespace Implem.PleasanterTest.Utilities
             context.AbsoluteUri = absoluteUri;
             context.AbsolutePath = absolutePath;
             context.Url = url;
+            context.RedirectData.Url = redirectUrl;
             context.UrlReferrer = urlReferrer;
             context.Query = query;
             context.Controller = context.RouteData.Get("controller")?.ToLower() ?? string.Empty;
@@ -97,6 +100,7 @@ namespace Implem.PleasanterTest.Utilities
             context.UserAgent = userAgent;
             context.QueryStrings = queryStrings ?? new QueryStrings();
             context.Forms = forms ?? new Forms();
+            context.SessionData = sessionData ?? new Dictionary<string, string>();
             context.TimeZoneInfo = userTimeZone.IsNullOrEmpty()
                 ? null
                 : TimeZoneInfo.FindSystemTimeZoneById(userTimeZone);

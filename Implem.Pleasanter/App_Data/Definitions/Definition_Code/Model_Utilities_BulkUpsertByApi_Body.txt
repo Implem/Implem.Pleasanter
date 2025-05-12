@@ -7,14 +7,14 @@
         return ApiResults.BadRequest(context: context);
     }
     var api = context.RequestDataString.Deserialize<Api>();
-    var list = context.RequestDataString.Deserialize<#ModelName#s.#ModelName#BulkUpsertApiModel>();
-    if (list?.Data == null)
+    var bulkUpsertModel = context.RequestDataString.Deserialize<#ModelName#s.#ModelName#BulkUpsertApiModel>();
+    if (bulkUpsertModel?.Data == null)
     {
         return ApiResults.Error(
             context: context,
             errorData: new ErrorData(type: Error.Types.InvalidJsonData));
     }
-    if (Parameters.General.BulkUpsertMax > 0 && Parameters.General.BulkUpsertMax < list.Data.Count)
+    if (Parameters.General.BulkUpsertMax > 0 && Parameters.General.BulkUpsertMax < bulkUpsertModel.Data.Count)
     {
         return ApiResults.Get(new ApiResponse(
             id: context.Id,
@@ -23,30 +23,47 @@
                 context: context,
                 data: Parameters.General.BulkUpsertMax.ToString()).Text));
     }
-    var recodeCount = 0;
-    var insertCount = 0;
-    var updateCount = 0;
-    var error = new ErrorData(type: Error.Types.None);
-    foreach (var #modelName#ApiModel in list.Data)
+    var (isValid, missingKeys) = ValidateJsonKeys(jsonString: context.RequestDataString, ss: ss);
+    if (!isValid)
     {
-        recodeCount++;
-        var view = api.View ?? new View();
-        api.Keys?.ForEach(columnName =>
+        return ApiResults.Error(
+            context: context,
+            errorData: new ErrorData(
+                type: Error.Types.InvalidUpsertKey,
+                data: $"({missingKeys.Join()})"));
+    }
+    using var exclusiveObj = new Sessions.TableExclusive(context: context);
+    if (!exclusiveObj.TryLock())
+    {
+        return ApiResults.Get(new ApiResponse(
+            id: context.Id,
+            statusCode: 429,
+            message: Messages.ImportLock(context: context).Text));
+    }
+
+
+
+    var viewsDic = new Dictionary<long?, View>();
+    // Keysの指定がある場合は、該当レコードを取得するための条件を保持していく。
+    // APIのパラメータ自体のチェックは、実質的な一括処理より前にに行っておく。
+    if (api.Keys?.Count > 0)
+    { 
+        var errorData = new List<string>();
+        foreach (var (#modelName#ApiModel, index) in bulkUpsertModel.Data.Select((value, index) => (value, index)))
         {
-            if (error.Type != Error.Types.None) return;
-            var objectValue = #modelName#ApiModel.ObjectValue(columnName: columnName);
-            if (objectValue != null)
+            var view = api.View ?? new View();
+            foreach (var columnName in api.Keys)
             {
+                var objectValue = #modelName#ApiModel.ObjectValue(columnName: columnName);
+                if (objectValue == null) continue;
                 var column = ss.GetColumn(
                     context: context,
                     columnName: columnName);
                 if (column?.TypeName == "datetime"
                     && objectValue.ToDateTime().InRange() == false)
                 {
-                    error = new ErrorData(
-                        type: Error.Types.invalidUpsertKey,
-                        data: $"('{columnName}'='{objectValue.ToStr()}')");
-                    return;
+                    errorData.Add($"'{columnName}'='{objectValue.ToStr()}'");
+                    continue;
                 }
                 view.AddColumnFilterHash(
                     context: context,
@@ -57,86 +74,81 @@
                     columnName: columnName,
                     searchType: Column.SearchTypes.ExactMatch);
             }
-        });
-        if (error.Type != Error.Types.None) break;
-        var #modelName#Model = new #ModelName#Model(
-            context: context,
-            ss: ss,
-            #modelName#Id: 0,
-            view: api.Keys?.Any() != true ? null : view,
-            #modelName#ApiModel: #modelName#ApiModel);
-        switch (#modelName#Model.AccessStatus)
-        {
-            case Databases.AccessStatuses.Selected:
-            case Databases.AccessStatuses.NotFound:
-                break;
-            case Databases.AccessStatuses.Overlap:
-                error = new ErrorData(type: Error.Types.Overlap);
-                break;
-            default:
-                error = new ErrorData(type: Error.Types.NotFound);
-                break;
+            viewsDic.Add(key: index, value: view);
         }
-        if (error.Type != Error.Types.None) break;
-        if (#modelName#Model.AccessStatus == Databases.AccessStatuses.Selected)
+        if (errorData.Any())
         {
-            // Keysの指定があり、該当レコードがある場合に更新
-            // サイトの書き込み権限で可否判定を行い、レコード単位のアクセス権はチェックは行わない。
-            error = #ModelName#Validators.OnUpdating(
+            return ApiResults.Error(
                 context: context,
-                ss: ss,
-                #modelName#Model: #modelName#Model,
-                api: true,
-                serverScript: true);
-            if (error.Type != Error.Types.None) break;
-            #modelName#Model.SiteId = ss.SiteId;
-            #modelName#Model.SetTitle(
-                context: context,
-                ss: ss);
-            #modelName#Model.VerUp = Versions.MustVerUp(
-                context: context,
-                ss: ss,
-                baseModel: #modelName#Model);
-            error = #modelName#Model.Update(
-                context: context,
-                ss: ss,
-                notice: true);
-            BinaryUtilities.UploadImage(
-                context: context,
-                ss: ss,
-                id: #modelName#Model.#ModelName#Id,
-                postedFileHash: #modelName#Model.PostedImageHash);
-            if (error.Type != Error.Types.None) break;
-            updateCount++;
-        }
-        else if (#modelName#Model.AccessStatus == Databases.AccessStatuses.NotFound
-            && (api.Keys?.Any() != true || list.KeyNotFoundCreate != false))
-        {
-            // Keysの指定が無い場合は全て新規作成。
-            // Keysの指定があり、該当レコードがなく KeyNotFoundCreate =true の場合に新規作成
-            error = #ModelName#Validators.OnCreating(
-                context: context,
-                ss: ss,
-                #modelName#Model: #modelName#Model,
-                api: true);
-            if (error.Type != Error.Types.None) break;
-            #modelName#Model.SiteId = ss.SiteId;
-            #modelName#Model.SetTitle(
-                context: context,
-                ss: ss);
-            var errorData = #modelName#Model.Create(
-                context: context,
-                ss: ss,
-                notice: true);
-            BinaryUtilities.UploadImage(
-                context: context,
-                ss: ss,
-                id: #modelName#Model.#ModelName#Id,
-                postedFileHash: #modelName#Model.PostedImageHash);
-            if (error.Type != Error.Types.None) break;
-            insertCount++;
+                errorData: new ErrorData(
+                    type: Error.Types.InvalidUpsertKey,
+                    data: $"({errorData.Join()})"));
         }
     }
+    var recodeCount = 0;
+    var insertCount = 0;
+    var updateCount = 0;
+    var error = DoBulkUpsert();
+    // 一括処理の実行
+    ErrorData DoBulkUpsert()
+    {
+        foreach (var (#modelName#ApiModel, index) in bulkUpsertModel.Data.Select((value, index) => (value, index)))
+        {
+            recodeCount++;
+            exclusiveObj.Refresh();
+            View view;
+            viewsDic.TryGetValue(index, out view); 
+            var #modelName#Model = new #ModelName#Model(
+                context: context,
+                ss: ss,
+                #modelName#Id: 0,
+                view: view, //api.Keys?.Count > 0 でない場合はnull
+                #modelName#ApiModel: #modelName#ApiModel);
+            switch (#modelName#Model.AccessStatus)
+            {
+                case Databases.AccessStatuses.Selected:
+                case Databases.AccessStatuses.NotFound:
+                    break;
+                case Databases.AccessStatuses.Overlap:
+                    return new ErrorData(type: Error.Types.Overlap);
+                default:
+                    return new ErrorData(type: Error.Types.NotFound);
+            }
+            // ss.Processes の順序のままに、ProcessId を取得する（#modelName#ApiModel.ProcessIdsの順ではない）
+            var processes = #modelName#ApiModel?.ProcessIds != null
+                ? ss.Processes?.Where(process => #modelName#ApiModel.ProcessIds.Contains(process.Id)).ToList()
+                : ss.Processes?.Where(process => process.Id == #modelName#ApiModel?.ProcessId).ToList();
+            if (#modelName#Model.AccessStatus == Databases.AccessStatuses.Selected)
+            {
+                // Keysの指定があり、該当レコードがある場合に更新
+                // サイトの書き込み権限で可否判定を行い、レコード単位のアクセス権はチェックは行わない。
+                error = ApplyUpdateByApi(
+                    context: context,
+                    ss: ss,
+                    #modelName#Model: #modelName#Model,
+                    processes: processes,
+                    previousTitle: null);
+                if (error.Type != Error.Types.None) return error;
+                updateCount++;
+            }
+            else if (#modelName#Model.AccessStatus == Databases.AccessStatuses.NotFound
+                && ((api.Keys?.Count ?? 0) == 0 || bulkUpsertModel.KeyNotFoundCreate == true))
+            {
+                // Keysの指定が無い場合は全て新規作成。
+                // Keysの指定があり、該当レコードがなく KeyNotFoundCreate =true の場合に新規作成
+                error = ApplyCreateByApi(
+                    context: context,
+                    ss: ss,
+                    #modelName#Model: #modelName#Model,
+                    processes: processes);
+                if (error.Type != Error.Types.None) return error;
+                insertCount++;
+            }
+        }
+        return new ErrorData(Error.Types.None);
+    }
+    exclusiveObj.Refresh();
+
     if (error.Type != Error.Types.None)
     {
         // エラー時の戻り
@@ -159,18 +171,19 @@
                 : duplicatedColumn?.MessageWhenDuplicated;
         }
         var recodeIndex = recodeCount.ToString();
-        if(api.Keys?.Any() != false)
+        if (api.Keys?.Count > 0)
         {
-            var #modelName#ApiModel = list.Data[recodeCount - 1];
+            var #modelName#ApiModel = bulkUpsertModel.Data[recodeCount - 1];
             recodeIndex += "("
                 + api.Keys.Select(
                         columnName => $"{columnName}={#modelName#ApiModel.ObjectValue(columnName: columnName) ?? string.Empty}"
                     ).Join()
                 + ")";
         }
+        var statusCode = ApiResponses.StatusCode(error.Type);
         return ApiResults.Get(new ApiResponse(
             id: context.Id,
-            statusCode: 500,
+            statusCode: statusCode,
             message: Displays.FailedBulkUpsert(
                 context: context,
                 data: new string[]

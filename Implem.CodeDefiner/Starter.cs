@@ -1,15 +1,10 @@
-﻿using CsvHelper;
-using Implem.CodeDefiner.Functions.Patch;
-using Implem.CodeDefiner.Settings;
+﻿using Implem.CodeDefiner.Settings;
 using Implem.DefinitionAccessor;
 using Implem.Factory;
 using Implem.IRds;
-using Implem.Libraries.Classes;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Exceptions;
 using Implem.Libraries.Utilities;
-using Implem.ParameterAccessor.Parts;
-using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
@@ -18,19 +13,23 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Reflection;
-using System.Text.RegularExpressions;
-using System.Xml.Xsl;
+using System.Text.Json;
 
 namespace Implem.CodeDefiner
 {
     public class Starter
     {
         private static ISqlObjectFactory factory;
+        private static bool CompleteConfigureDatabase = false;
+        private static string LogFolderName;
+        private static string LogNameText;
 
         public static void Main(string[] args)
         {
-            Directory.CreateDirectory("logs");
-            var logName = Path.Combine("logs", $"Implem.CodeDefiner_{DateTime.Now.ToString("yyyyMMdd_HHmmss")}.log");
+            LogFolderName = "logs";
+            LogNameText = $"Implem.CodeDefiner_{DateTime.Now.ToString("yyyyMMdd_HHmmss")}";
+            Directory.CreateDirectory(LogFolderName);
+            var logName = Path.Combine(LogFolderName, $"{LogNameText}.log");
             Trace.Listeners.Add(new TextWriterTraceListener(logName));
             Trace.Listeners.Add(new TextWriterTraceListener(Console.Out));
             AppDomain.CurrentDomain.UnhandledException += (_, e) =>
@@ -71,7 +70,8 @@ namespace Implem.CodeDefiner
                         ConfigureDatabase(
                             factory: factory,
                             force: argHash.ContainsKey("f"),
-                            noInput : argHash.ContainsKey("y"));
+                            noInput : argHash.ContainsKey("y"),
+                            checkMigration: argHash.ContainsKey("c"));
                         break;
                     case "rds":
                         ConfigureDatabase(
@@ -95,11 +95,12 @@ namespace Implem.CodeDefiner
                         CreateSolutionBackup();
                         break;
                     case "migrate":
+                        CanMigrate();
                         ConfigureDatabase(
                             factory: factory,
                             force: argHash.ContainsKey("f"),
                             noInput: argHash.ContainsKey("y"));
-                        MigrateDatabase();
+                        if (CompleteConfigureDatabase) MigrateDatabase(factoryTo: factory);
                         break;
                     case "ConvertTime":
                         ConvertTime(factory: factory);
@@ -108,6 +109,12 @@ namespace Implem.CodeDefiner
                         MergeParameters(
                             backUpPath: argHash.Get("b"),
                             installPath: argHash.Get("i"));
+                        break;
+                    case "trial":
+                        TrialConfigureDatabase(
+                            factory: factory,
+                            noInput: argHash.ContainsKey("y"),
+                            useExColumnsFile: argHash.ContainsKey("e"));
                         break;
                     default:
                         WriteErrorToConsole(args);
@@ -174,6 +181,12 @@ namespace Implem.CodeDefiner
             {
                 Consoles.Write(
                     "DirectoryNotFoundException : " + e.Message,
+                    Consoles.Types.Error);
+            }
+            catch (JsonException e)
+            {
+                Consoles.Write(
+                    "JsonException : " + e.Message + "\n" + e.StackTrace,
                     Consoles.Types.Error);
             }
             catch (Exception e)
@@ -308,11 +321,11 @@ namespace Implem.CodeDefiner
             var currentVersionObj = new System.Version(currentVersion);
             var patchDir = new DirectoryInfo(patchSourcePath);
             DirectoryInfo[] dirs = patchDir.GetDirectories();
-            if(newVersionObj < currentVersionObj)
+            if (newVersionObj < currentVersionObj)
             {
                 throw new InvalidVersionException("Invalid Version" + $" From:{currentVersionObj}" + $" To:{newVersionObj}");
             }
-            if(!dirs.Any(o => o.Name == currentVersion))
+            if (!dirs.Any(o => o.Name == currentVersion))
             {
                 throw new InvalidVersionException("Invalid Version:" + currentVersionObj);
             }
@@ -374,7 +387,8 @@ namespace Implem.CodeDefiner
         private static void ConfigureDatabase(
             ISqlObjectFactory factory,
             bool force = false,
-            bool noInput = false)
+            bool noInput = false,
+            bool checkMigration = false)
         {
             try
             {
@@ -382,12 +396,14 @@ namespace Implem.CodeDefiner
                 var completed = Functions.Rds.Configurator.Configure(
                     factory: factory,
                     force: force,
-                    noInput: noInput);
+                    noInput: noInput,
+                    checkMigration: checkMigration);
                 if (completed)
                 {
                     Consoles.Write(
                         text: DisplayAccessor.Displays.Get("CodeDefinerRdsCompleted"),
                         type: Consoles.Types.Success);
+                    CompleteConfigureDatabase = true;
                 }
             }
             catch (System.Data.SqlClient.SqlException e)
@@ -397,7 +413,7 @@ namespace Implem.CodeDefiner
                     type: Consoles.Types.Error,
                     abort: true);
             }
-            catch (System.Exception e)
+            catch (Exception e)
             {
                 Consoles.Write(
                     text: e.ToString(),
@@ -406,7 +422,7 @@ namespace Implem.CodeDefiner
             }
         }
 
-        private static void TryOpenConnections(ISqlObjectFactory factory)
+        private static bool TryOpenConnections(ISqlObjectFactory factory)
         {
             int number;
             string message;
@@ -415,7 +431,9 @@ namespace Implem.CodeDefiner
                 out number, out message, Parameters.Rds.SaConnectionString))
             {
                 Consoles.Write($"[{number}] {message}",Consoles.Types.Error, true);
+                return false;
             }
+            return true;
         }
 
         private static void CreateDefinitionAccessorCode()
@@ -442,12 +460,103 @@ namespace Implem.CodeDefiner
                 Consoles.Types.Success);
         }
 
-        private static void MigrateDatabase()
+        private static void MigrateDatabase(ISqlObjectFactory factoryTo)
         {
-            Functions.AspNetMvc.CSharp.Migrator.MigrateDatabaseAsync();
-            Consoles.Write(
-                DisplayAccessor.Displays.Get("CodeDefinerMigrationCompleted"),
-                Consoles.Types.Success);
+            bool success = Functions.AspNetMvc.CSharp.Migrator.MigrateDatabaseAsync(
+                logFolderName: LogFolderName,
+                logNameText: LogNameText,
+                factoryFrom: RdsFactory.Create(Parameters.Migration.Dbms),
+                factoryTo: factoryTo);
+            if (success)
+            {
+                Consoles.Write(
+                    DisplayAccessor.Displays.Get("CodeDefinerMigrationCompleted"),
+                    Consoles.Types.Success);
+            }
+            else
+            {
+                Consoles.Write(
+                    string.Format(DisplayAccessor.Displays.Get($"CodeDefinerMigrationErrors"),
+                        Path.GetFullPath(Path.Combine(LogFolderName, $"{LogNameText}_Migrate.log"))),
+                    Consoles.Types.Error);
+            }
+        }
+
+        private static void CanMigrate()
+        {
+            //移行可能な条件を追加する場合、以下処理を見直すこと。
+            var checkMigrationDbms = false;
+            switch (Parameters.Migration.Dbms)
+            {
+                case "SQLServer":
+                    checkMigrationDbms = true;
+                    break;
+                default:
+                    break;
+            }
+            if (!checkMigrationDbms)
+            {
+                throw new JsonException($"The value \"{Parameters.Migration.Dbms}\" cannot be set for \"Dbms\" in Migration.json.");
+            }
+            var checkMigrationProvider = false;
+            switch (Parameters.Migration.Provider)
+            {
+                case "Local":
+                    checkMigrationProvider = true;
+                    break;
+                default:
+                    break;
+            }
+            if (!checkMigrationProvider)
+            {
+                throw new JsonException($"The value \"{Parameters.Migration.Provider}\" cannot be set for \"Provider\" in Migration.json.");
+            }
+            var checkRdsDbms = false;
+            switch (Parameters.Rds.Dbms)
+            {
+                case "PostgreSQL":
+                case "MySQL":
+                    checkRdsDbms = true;
+                    break;
+                default:
+                    break;
+            }
+            if (!checkRdsDbms)
+            {
+                throw new JsonException($"The value \"{Parameters.Rds.Dbms}\" cannot be set for \"Dbms\" in Rds.json.");
+            }
+            var checkRdsProvider = false;
+            switch (Parameters.Rds.Provider)
+            {
+                case "Local":
+                    checkRdsProvider = true;
+                    break;
+                default:
+                    break;
+            }
+            if (!checkRdsProvider)
+            {
+                throw new JsonException($"The value \"{Parameters.Rds.Provider}\" cannot be set for \"Provider\" in Rds.json.");
+            }
+            if (Parameters.Rds.Dbms != Parameters.Migration.Dbms ||
+                Parameters.Rds.Provider != Parameters.Migration.Provider ||
+                Parameters.Migration.ServiceName != Parameters.Service.Name)
+            {
+                return;
+            }
+            DbConnectionStringBuilder o = new DbConnectionStringBuilder() { ConnectionString = Parameters.Migration.SourceConnectionString };
+            DbConnectionStringBuilder n = new DbConnectionStringBuilder() { ConnectionString = Parameters.Rds.OwnerConnectionString };
+            var oldInfo = (
+                server: o.ContainsKey("server") ? o["server"].ToString() : "",
+                dataSource: o.ContainsKey("data source") ? o["data source"].ToString() : "");
+            var newInfo = (
+                server: n.ContainsKey("server") ? n["server"].ToString() : "",
+                dataSource: n.ContainsKey("data source") ? n["data source"].ToString() : "");
+            if (oldInfo.server != "" && newInfo.server != "" && oldInfo.server == newInfo.server
+                || oldInfo.dataSource != "" && newInfo.dataSource != "" && oldInfo.dataSource == newInfo.dataSource)
+            {
+                throw new JsonException($"The same schema cannot be specified for both Migration.json and Rds.json.");
+            }
         }
 
         private static void ConvertTime(ISqlObjectFactory factory)
@@ -457,6 +566,42 @@ namespace Implem.CodeDefiner
             Consoles.Write(
                 DisplayAccessor.Displays.Get("CodeDefinerRdsCompleted"),
                 Consoles.Types.Success);
+        }
+
+        private static void TrialConfigureDatabase(
+            ISqlObjectFactory factory,
+            bool noInput = false,
+            bool useExColumnsFile = false)
+        {
+            try
+            {
+                if (!TryOpenConnections(factory)) return;
+                var completed = Functions.Rds.Configurator.TrialConfigure(
+                    factory: factory,
+                    noInput: noInput,
+                    useExColumnsFile: useExColumnsFile);
+                if (completed)
+                {
+                    Consoles.Write(
+                        text: DisplayAccessor.Displays.Get("CodeDefinerRdsCompleted"),
+                        type: Consoles.Types.Success);
+                    CompleteConfigureDatabase = true;
+                }
+            }
+            catch (System.Data.SqlClient.SqlException e)
+            {
+                Consoles.Write(
+                    text: $"[{e.Number}] {e.Message}",
+                    type: Consoles.Types.Error,
+                    abort: true);
+            }
+            catch (Exception e)
+            {
+                Consoles.Write(
+                    text: e.ToString(),
+                    type: Consoles.Types.Error,
+                    abort: true);
+            }
         }
 
         private static void WaitConsole(string[] args)

@@ -1,10 +1,12 @@
 ﻿using Implem.Libraries.DataSources.Interfaces;
 using Implem.Libraries.DataSources.SqlServer;
+using Implem.Libraries.Exceptions;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Interfaces;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
@@ -63,14 +65,21 @@ namespace Implem.Pleasanter.Libraries.Models
             int pageSize = 0,
             bool count = true)
         {
+            var gridColumns = ss.GetGridColumns(
+                context: context,
+                view: view,
+                includedColumns: true);
+            if (!gridColumns.Any(o => o.ColumnName == "Ver"))
+            {
+                gridColumns.Add(ss.GetColumn(
+                    context: context,
+                    columnName: "Ver"));
+            }
             column = column ?? ColumnUtilities.SqlColumnCollection(
                 context: context,
                 ss: ss,
                 view: view,
-                columns: ss.GetGridColumns(
-                    context: context,
-                    view: view,
-                    includedColumns: true));
+                columns: gridColumns);
             where = view.Where(
                 context: context,
                 ss: ss,
@@ -120,7 +129,7 @@ namespace Implem.Pleasanter.Libraries.Models
                     transactional: false,
                     statements: statements.ToArray());
             }
-            catch (System.Exception)
+            catch (System.Exception e)
             {
                 Views.SetSession(
                     context: context,
@@ -129,7 +138,10 @@ namespace Implem.Pleasanter.Libraries.Models
                     setSession: true,
                     key: "View",
                     useUsersView: ss.SaveViewType == SiteSettings.SaveViewTypes.User);
-                throw;
+                // SQL文のOrder句内のサブクエリで例外が発生する為の暫定対応。抜本的な対応はSQL文の見直しが必要。(Issue #1584)
+                var message = Messages.CanNotGridSort(context: context);
+                context.Messages.Add(message);
+                throw new CanNotGridSortException(message.Text, e);
             }
             DataRows = dataSet.Tables["Main"].AsEnumerable();
             TotalCount = Rds.Count(dataSet);

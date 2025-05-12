@@ -689,7 +689,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 view.Overdue = false;
                 view.Search = string.Empty;
                 view.ColumnFilterHash?.Clear();
-            } 
+            }
             columnFilterHash?.ForEach(columnFilter =>
             {
                 if (view.ColumnFilterHash == null)
@@ -776,7 +776,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             SiteSettings ss,
             IssueModel issueModel,
             ExpandoObject data,
-            Dictionary<string, Column> columns)
+            Dictionary<string, Column> columns,
+            ServerScriptConditions condition)
         {
             SetValue(
                 columnName: nameof(IssueModel.Title),
@@ -893,7 +894,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             SiteSettings ss,
             ResultModel resultModel,
             ExpandoObject data,
-            Dictionary<string, Column> columns)
+            Dictionary<string, Column> columns,
+            ServerScriptConditions condition)
         {
             SetValue(
                 columnName: nameof(ResultModel.Title),
@@ -1046,7 +1048,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                             ss: ss,
                             issueModel: issueModel,
                             data: data.Model,
-                            columns: valueColumnDictionary);
+                            columns: valueColumnDictionary,
+                            ParseServerScriptCondition(data.Context.Condition));
                     }
                     break;
                 case "Results":
@@ -1057,7 +1060,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                             ss: ss,
                             resultModel: resultModel,
                             data: data.Model,
-                            columns: valueColumnDictionary);
+                            columns: valueColumnDictionary,
+                            ParseServerScriptCondition(data.Context.Condition));
                     }
                     break;
             }
@@ -1067,6 +1071,13 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             return scriptValues;
         }
 
+        private static ServerScriptConditions ParseServerScriptCondition(string s)
+        {
+            return Enum.TryParse<ServerScriptConditions>(s, out var condition)
+                ? condition
+                : ServerScriptConditions.None;
+        }
+
         public static ServerScriptModelRow Execute(
             Context context,
             SiteSettings ss,
@@ -1074,10 +1085,14 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             BaseItemModel itemModel,
             View view,
             ServerScript[] scripts,
-            string condition,
+            ServerScriptConditions condition,
             bool debug,
             bool onTesting = false)
         {
+            if (ss?.ServerScriptsAllDisabled == true)
+            {
+                return null;
+            }
             if (!(Parameters.Script.ServerScript != false
                 && context.ContractSettings.ServerScript != false
                 && context.ServerScriptDisabled == false))
@@ -1117,6 +1132,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     try
                     {
                         engine.ContinuationCallback = model.ContinuationCallback;
+                        engine.Execute(ServerScriptJsLibraries.ScriptInit(), debug: false);
                         engine.AddHostType(typeof(Newtonsoft.Json.JsonConvert));
                         engine.AddHostObject("context", model.Context);
                         engine.AddHostObject("grid", model.Grid);
@@ -1139,8 +1155,21 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                             engine.AddHostObject("httpClient", model.HttpClient);
                         }
                         engine.AddHostObject("utilities", model.Utilities);
+                        engine.AddHostObject("logs", model.Logs);
+                        if (!Parameters.Script.DisableServerScriptFile)
+                        {
+                            engine.AddHostObject("_file_cs", model.File);
+                            engine.Execute(model.File.Script(), debug: false);
+                        }
+                        engine.AddHostObject("_csv_cs", model.Csv);
+                        engine.Execute(model.Csv.Script(), debug: false);
                         engine.Execute(ServerScriptJsLibraries.Scripts(), debug: false);
-                        engine.Execute(scripts.Select(o => o.Body).Join("\n"), debug: debug);
+                        engine.Execute(
+                            code: scripts.Select(script =>
+                                ProcessedBody(
+                                    ss: ss,
+                                    script: script)).Join("\n"),
+                            debug: debug);
                     }
                     finally
                     {
@@ -1152,12 +1181,32 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     ss: ss,
                     model: itemModel,
                     // ビュー処理時以外はViewの値を変更しない
-                    view: condition == "WhenViewProcessing"
+                    view: condition == ServerScriptConditions.WhenViewProcessing
                         ? view
                         : null,
                     data: model);
             }
             return scriptValues;
+        }
+
+        private static string ProcessedBody(SiteSettings ss, ServerScript script)
+        {
+            var body = script.Body;
+            if (script.Functionalize == true)
+            {
+                body = $"(()=>{{\n{script.Body}\n}})();";
+            }
+            if (script.TryCatch == true)
+            {
+                var description = System.Web.HttpUtility.JavaScriptStringEncode(new List<string>()
+                {
+                    script.Id.ToString(),
+                    script.Title,
+                    script.Name
+                }.Where(o => o?.Trim().IsNullOrEmpty() == false).Join("_"));
+                body = $"try{{\n{body}\n}}catch(e){{\nlogs.LogException('{description}\\n' + e.stack);\n}}";
+            }
+            return body;
         }
 
         private static DateTime GetTimeOut(ServerScript[] scripts)
@@ -1188,8 +1237,12 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             BaseItemModel itemModel,
             View view,
             Func<ServerScript, bool> where,
-            string condition)
+            ServerScriptConditions condition)
         {
+            if (ss?.ServerScriptsAllDisabled == true)
+            {
+                return null;
+            }
             if (!(Parameters.Script.ServerScript != false
                 && context.ContractSettings.ServerScript != false
                 && context.ServerScriptDisabled == false))
@@ -1599,11 +1652,116 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             return 0;
         }
 
+        public static DateTime Aggregate(
+            Context context,
+            SiteSettings ss,
+            string view,
+            string columnName,
+            Sqls.Functions function,
+            ServerScriptModelUtilities modelUtilities
+            )
+        {
+            if (ss == null)
+            {
+                return modelUtilities.EmptyTime();
+            }
+            var apiContext = CreateContext(
+                context: context,
+                controller: "Items",
+                action: "Aggregate",
+                id: ss.SiteId,
+                apiRequestBody: view);
+            var where = (view.IsNullOrEmpty()
+                ? new View()
+                : apiContext.RequestDataString.Deserialize<Api>()?.View)
+                    ?.Where(
+                        context: apiContext,
+                        ss: ss);
+            var join = ss.Join(
+                context: apiContext,
+                join: new IJoin[]
+                {
+                    where
+                });
+            var column = ss.GetColumn(
+                context: apiContext,
+                columnName: columnName);
+            if (where != null
+                && (column?.TypeName == "datetime")
+                && apiContext.CanRead(ss: ss)
+                && column.CanRead(
+                    context: apiContext,
+                    ss: ss,
+                    mine: null,
+                    noCache: true))
+            {
+                switch (ss.ReferenceType)
+                {
+                    case "Issues":
+                        return GetDatetimeResponse(
+                            statements: Rds.SelectIssues(
+                                column: Rds.IssuesColumn().Add(
+                                    column: column,
+                                    function: function),
+                                join: join,
+                                where: where)
+                            );
+                    case "Results":
+                        return GetDatetimeResponse(
+                            statements: Rds.SelectResults(
+                                column: Rds.ResultsColumn().Add(
+                                    column: column,
+                                    function: function),
+                                join: join,
+                                where: where)
+                            );
+                }
+            }
+            return modelUtilities.EmptyTime();
+            DateTime GetDatetimeResponse(SqlStatement statements)
+            {
+                var response = Repository.ExecuteScalar_datetime(
+                    context: apiContext,
+                    statements: statements);
+                return response < modelUtilities.MinTime()
+                    ? modelUtilities.EmptyTime()
+                    : response;
+            }
+        }
+
         private static string GetApiRequestBody(object model)
         {
             return model is string issueRequestString
                 ? issueRequestString
                 : string.Empty;
+        }
+
+        public static string ImportItem(Context context, long id, string apiRequestBody, string filePath)
+        {
+            var apiContext = CreateContext(
+                context: context,
+                controller: "Items",
+                action: "importItem",
+                id: id,
+                apiRequestBody: apiRequestBody);
+            return new ItemModel(
+                context: apiContext,
+                referenceId: id)
+                    .ImportByServerScript(context: apiContext, filePath: filePath);
+        }
+
+        public static bool ExportItem(Context context, long id, string apiRequestBody, string filePath)
+        {
+            var apiContext = CreateContext(
+                context: context,
+                controller: "Items",
+                action: "exportItem",
+                id: id,
+                apiRequestBody: apiRequestBody);
+            return new ItemModel(
+                context: apiContext,
+                referenceId: id)
+                    .ExportByServerScript(context: apiContext, filePath: filePath);
         }
     }
 }

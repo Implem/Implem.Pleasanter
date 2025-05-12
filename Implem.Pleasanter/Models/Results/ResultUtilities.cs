@@ -17,6 +17,7 @@ using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Libraries.Web;
+using Implem.Pleasanter.Models.ApiSiteSettings;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -320,11 +321,22 @@ namespace Implem.Pleasanter.Models
                 : Views.GetBySession(
                     context: context,
                     ss: ss);
-            var gridData = GetGridData(
-                context: context,
-                ss: ss,
-                view: view,
-                offset: offset);
+            GridData gridData = null;
+            try
+            {
+                gridData = GetGridData(
+                    context: context,
+                    ss: ss,
+                    view: view,
+                    offset: offset);
+            }
+            catch (Implem.Libraries.Exceptions.CanNotGridSortException)
+            {
+                return new ResponseCollection(context: context)
+                    .Message(context.Messages.Last())
+                    .Log(context.GetLog())
+                    .ToJson();
+            }
             var serverScriptModelRow = ss.GetServerScriptModelRow(
                 context: context,
                 view: view,
@@ -430,6 +442,11 @@ namespace Implem.Pleasanter.Models
                         gridData.TotalCount))
                     .Val("#GridRowIds", gridData.DataRows.Select(g => g.Long("ResultId")).ToJson())
                     .Val("#GridColumns", columns.Select(o => o.ColumnName).ToJson())
+                    // BulkUpdateのように一覧内でダイアログ(form)を作成した場合に、$p.data.MainForm内のデータがクリアされない為の暫定処理
+                    .Invoke("clearData", "GridCheckAll", _using: clearCheck)
+                    .Invoke("clearData", "GridCheckedItems", _using: clearCheck)
+                    .Invoke("clearData", "GridUnCheckedItems", _using: clearCheck)
+                    .Invoke("clearData", "OriginalId", _using: clearCheck)
                     .Paging("#Grid")
                     .Message(message)
                     .Messages(context.Messages)
@@ -1825,6 +1842,10 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 column: column);
+            var rawValue = resultModel.ControlRawValue(
+                context: context,
+                ss: ss,
+                column: column);
             if (value != null)
             {
                 //数値項目の場合、「単位」を値に連結する
@@ -1845,6 +1866,7 @@ namespace Implem.Pleasanter.Models
                         ?.ServerScriptModelRow
                         ?.Columns.Get(column.ColumnName),
                     value: value,
+                    rawValue: rawValue,
                     controlConstraintsType: resultModel.GetStatusControl(
                         context: context,
                         ss: ss,
@@ -2130,8 +2152,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             Column column)
         {
-            if (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty) != "Num"
-                || column.ControlType == "Spinner")
+            if (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty) != "Num")
             {
                 return string.Empty;
             }
@@ -2241,6 +2262,106 @@ namespace Implem.Pleasanter.Models
                         case "Attachments":
                             return resultModel.GetAttachments(columnName: column.Name)
                                 .ToControl(
+                                    context: context,
+                                    ss: ss,
+                                    column: column);
+                        default: return null;
+                    }
+            }
+        }
+
+        public static object ControlRawValue(
+            this ResultModel resultModel,
+            Context context,
+            SiteSettings ss,
+            Column column)
+        {
+            switch (column.Name)
+            {
+                case "ResultId":
+                    return resultModel.ResultId
+                        .ToApiValue(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Ver":
+                    return resultModel.Ver
+                        .ToApiValue(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Title":
+                    return resultModel.Title
+                        .ToApiValue(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Body":
+                    return resultModel.Body
+                        .ToApiValue(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Status":
+                    return resultModel.Status
+                        .ToApiValue(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Manager":
+                    return resultModel.Manager
+                        .ToApiValue(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Owner":
+                    return resultModel.Owner
+                        .ToApiValue(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Locked":
+                    return resultModel.Locked
+                        .ToApiValue(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                default:
+                    switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
+                    {
+                        case "Class":
+                            return resultModel.GetClass(columnName: column.Name)
+                                .ToApiValue(
+                                    context: context,
+                                    ss: ss,
+                                    column: column);
+                        case "Num":
+                            return resultModel.GetNum(columnName: column.Name)
+                                .ToApiValue(
+                                    context: context,
+                                    ss: ss,
+                                    column: column);
+                        case "Date":
+                            return resultModel.GetDate(columnName: column.Name)
+                                .ToApiValue(
+                                    context: context,
+                                    ss: ss,
+                                    column: column);
+                        case "Description":
+                            return resultModel.GetDescription(columnName: column.Name)
+                                .ToApiValue(
+                                    context: context,
+                                    ss: ss,
+                                    column: column);
+                        case "Check":
+                            return resultModel.GetCheck(columnName: column.Name)
+                                .ToApiValue(
+                                    context: context,
+                                    ss: ss,
+                                    column: column);
+                        case "Attachments":
+                            return resultModel.GetAttachments(columnName: column.Name)
+                                .ToApiValue(
                                     context: context,
                                     ss: ss,
                                     column: column);
@@ -2764,7 +2885,11 @@ namespace Implem.Pleasanter.Models
                             onClick: $"$p.cancelNewRow($(this));",
                             icon: "ui-icon-close",
                             action: "CancelNewRow",
-                            method: "post"));
+                            method: "post")
+                        .Hidden(
+                            controlId: $"{ss.ReferenceType}_NewGrid_{ss.SiteId}_{newRowId}",
+                            value: "1",
+                            alwaysSend: true));
                     columns.ForEach(column =>
                     {
                         if (!column.Joined
@@ -2783,7 +2908,6 @@ namespace Implem.Pleasanter.Models
                                     resultModel: resultModel,
                                     column: column,
                                     controlOnly: true,
-                                    alwaysSend: true,
                                     idSuffix: $"_{ss.SiteId}_{newRowId}"));
                         }
                         else if (!column.Joined
@@ -2907,7 +3031,9 @@ namespace Implem.Pleasanter.Models
                     errorData: new ErrorData(type: Error.Types.InvalidJsonData));
             }
             var view = api?.View ?? new View();
-            var pageSize = Parameters.Api.PageSize;
+            var pageSize = api?.PageSize > 0 && api?.PageSize < Parameters.Api.PageSize
+                ? api.PageSize
+                : Parameters.Api.PageSize;
             var tableType = (api?.TableType) ?? Sqls.TableTypes.Normal;
             if (resultId > 0)
             {
@@ -3008,7 +3134,9 @@ namespace Implem.Pleasanter.Models
                     where,
                     orderBy
                 });
-            var pageSize = Parameters.Api.PageSize;
+            var pageSize = api?.PageSize > 0 && api?.PageSize < Parameters.Api.PageSize
+                ? api.PageSize
+                : Parameters.Api.PageSize;
             var tableType = (api?.TableType) ?? Sqls.TableTypes.Normal;
             var resultCollection = new ResultCollection(
                 context: context,
@@ -3133,7 +3261,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             resultModel: resultModel,
-                            process: processes?.FirstOrDefault(o => o.MatchConditions)));
+                            processes: processes));
                     return new ResponseCollection(
                         context: context,
                         id: resultModel.ResultId)
@@ -3183,13 +3311,15 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             ResultModel resultModel,
-            Process process)
+            List<Process> processes)
         {
+            var process = processes?.FirstOrDefault(o => !o.SuccessMessage.IsNullOrEmpty()
+                && o.MatchConditions);
             if (process == null)
             {
                 return Messages.Created(
                     context: context,
-                    data: resultModel.Title.DisplayValue);
+                    data: resultModel.Title.MessageDisplay(context: context));
             }
             else
             {
@@ -3219,58 +3349,26 @@ namespace Implem.Pleasanter.Models
             {
                 context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
             }
+            if(HasInvalidValueAsApiDataAtCreate(resultApiModel))
+            {
+                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+            }
             var resultModel = new ResultModel(
                 context: context,
                 ss: ss,
                 resultId: 0,
                 resultApiModel: resultApiModel);
-            var invalid = ResultValidators.OnCreating(
+            // ss.Processes の順序のままに、ProcessId を取得する（resultApiModel.ProcessIdsの順ではない）
+            var processes = resultApiModel?.ProcessIds != null
+                ? ss.Processes?.Where(process => resultApiModel.ProcessIds.Contains(process.Id)).ToList()
+                : ss.Processes?.Where(process => process.Id == resultApiModel?.ProcessId).ToList();
+            var errorData = ApplyCreateByApi(
                 context: context,
                 ss: ss,
+                processes: processes,
                 resultModel: resultModel,
-                api: true);
-            switch (invalid.Type)
-            {
-                case Error.Types.None: break;
-                default: return ApiResults.Error(
-                    context: context,
-                    errorData: invalid);
-            }
-            resultModel.SiteId = ss.SiteId;
-            resultModel.SetTitle(
-                context: context,
-                ss: ss);
-            var process = ss.Processes?.FirstOrDefault(process => process.Id == resultApiModel.ProcessId);
-            if (process != null)
-            {
-                process.MatchConditions = resultModel.GetProcessMatchConditions(
-                    context: context,
-                    ss: ss,
-                    process: process);
-                if (process.MatchConditions && process.Accessable(
-                    context: context,
-                    ss: ss))
-                {
-                    resultModel.SetByProcess(
-                        context: context,
-                        ss: ss,
-                        process: process);
-                }
-                else if ((process.ExecutionType ?? Process.ExecutionTypes.AddedButton) == Process.ExecutionTypes.AddedButton)
-                {
-                    return ApiResults.BadRequest(context: context);
-                }
-            }
-            var errorData = resultModel.Create(
-                context: context,
-                ss: ss,
-                processes: process?.ToSingleList(),
-                notice: true);
-            BinaryUtilities.UploadImage(
-                context: context,
-                ss: ss,
-                id: resultModel.ResultId,
-                postedFileHash: resultModel.PostedImageHash);
+                migrationMode: ss.AllowMigrationMode == true
+                    && resultApiModel?.MigrationMode == true);
             switch (errorData.Type)
             {
                 case Error.Types.None:
@@ -3282,7 +3380,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             resultModel: resultModel,
-                            process: process).Text);
+                            processes: processes).Text);
                 case Error.Types.Duplicated:
                     var duplicatedColumn = ss.GetColumn(
                         context: context,
@@ -3301,6 +3399,57 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        private static ErrorData ApplyCreateByApi(
+            Context context,
+            SiteSettings ss,
+            ResultModel resultModel,
+            List<Process> processes,
+            bool migrationMode = false)
+        {
+            var invalid = ResultValidators.OnCreating(
+                context: context,
+                ss: ss,
+                resultModel: resultModel,
+                api: true);
+            if (invalid.Type != Error.Types.None) return invalid;
+            resultModel.SiteId = ss.SiteId;
+            resultModel.SetTitle(
+                context: context,
+                ss: ss);
+            foreach(var process in processes ?? new List<Process>())
+            {
+                process.MatchConditions = resultModel.GetProcessMatchConditions(
+                    context: context,
+                    ss: ss,
+                    process: process);
+                if (process.MatchConditions && process.Accessable(
+                    context: context,
+                    ss: ss))
+                {
+                    resultModel.SetByProcess(
+                        context: context,
+                        ss: ss,
+                        process: process);
+                }
+                else if ((process.ExecutionType ?? Process.ExecutionTypes.AddedButton) == Process.ExecutionTypes.AddedButton)
+                {
+                    return new ErrorData(Error.Types.BadRequest);
+                }
+            }
+            var errorData = resultModel.Create(
+                context: context,
+                ss: ss,
+                processes: processes,
+                notice: true,
+                migrationMode: migrationMode);
+            BinaryUtilities.UploadImage(
+                context: context,
+                ss: ss,
+                id: resultModel.ResultId,
+                postedFileHash: resultModel.PostedImageHash);
+            return errorData;
+        }
+
         public static bool CreateByServerScript(Context context, SiteSettings ss, object model)
         {
             if (context.ContractSettings.ItemsLimit(context: context, siteId: ss.SiteId))
@@ -3309,6 +3458,10 @@ namespace Implem.Pleasanter.Models
             }
             var resultApiModel = context.RequestDataString.Deserialize<ResultApiModel>();
             if (resultApiModel == null)
+            {
+                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+            }
+            if(HasInvalidValueAsApiDataAtCreate(resultApiModel))
             {
                 context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
             }
@@ -3352,6 +3505,25 @@ namespace Implem.Pleasanter.Models
                 default:
                     return false;
             }
+        }
+
+        private static bool HasInvalidValueAsApiDataAtCreate(ResultApiModel model)
+        {
+            if (model is null)
+                return false;
+            foreach (var o in model.AttachmentsHash)
+            {
+                foreach (var attachment in o.Value)
+                {
+                    if (attachment.Deleted ?? false)
+                        continue;
+                    if (attachment.Name.IsNullOrEmpty())
+                        return true;
+                    if (attachment.Base64 is null && attachment.Base64Binary is null)
+                        return true;
+                }
+            }
+            return false;
         }
 
         public static string Update(Context context, SiteSettings ss, long resultId, string previousTitle)
@@ -3745,11 +3917,17 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
             }
+            using var exclusiveObj = new Sessions.TableExclusive(context: context);
+            if (!exclusiveObj.TryLock())
+            {
+                return Error.Types.ImportLock.MessageJson(context: context);
+            }
             var count = BulkUpdate(
                 context: context,
                 ss: ss,
                 columns: columns,
-                where: where);
+                where: where,
+                watchdog: () => exclusiveObj.Refresh());
             var data = new string[]
             {
                 ss.Title,
@@ -3795,13 +3973,15 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             List<Column> columns,
-            SqlWhereCollection where)
+            SqlWhereCollection where,
+            Action watchdog = null)
         {
             var onBulkUpdatingExtendedStatements = new List<SqlStatement>().OnBulkUpdatingExtendedSqls(
                 context: context,
                 siteId: ss.SiteId);
             if (onBulkUpdatingExtendedStatements.Count > 0)
             {
+                watchdog?.Invoke();
                 Repository.ExecuteNonQuery(
                     context: context,
                     transactional: true,
@@ -3819,6 +3999,7 @@ namespace Implem.Pleasanter.Models
                     }),
                 where: where).ForEach(resultModel =>
                 {
+                    watchdog?.Invoke();
                     resultModel.SetByForm(
                         context: context,
                         ss: ss,
@@ -3841,6 +4022,7 @@ namespace Implem.Pleasanter.Models
                 siteId: ss.SiteId);
             if (onBulkUpdatedExtendedStatements.Count > 0)
             {
+                watchdog?.Invoke();
                 Repository.ExecuteNonQuery(
                     context: context,
                     transactional: true,
@@ -4328,6 +4510,10 @@ namespace Implem.Pleasanter.Models
             {
                 context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
             }
+            if(HasInvalidValueAsApiDataAtUpdate(resultApiModel))
+            {
+                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+            }
             var resultModel = new ResultModel(
                 context: context,
                 ss: ss,
@@ -4337,58 +4523,16 @@ namespace Implem.Pleasanter.Models
             {
                 return ApiResults.Get(ApiResponses.NotFound(context: context));
             }
-            var invalid = ResultValidators.OnUpdating(
+            // ss.Processes の順序のままに、ProcessId を取得する（resultApiModel.ProcessIdsの順ではない）
+            var processes = resultApiModel?.ProcessIds != null
+                ? ss.Processes?.Where(process => resultApiModel.ProcessIds.Contains(process.Id)).ToList()
+                : ss.Processes?.Where(process => process.Id == resultApiModel?.ProcessId).ToList();
+            var errorData = ApplyUpdateByApi(
                 context: context,
                 ss: ss,
                 resultModel: resultModel,
-                api: true);
-            switch (invalid.Type)
-            {
-                case Error.Types.None: break;
-                default: return ApiResults.Error(
-                    context: context,
-                    errorData: invalid);
-            }
-            resultModel.SiteId = ss.SiteId;
-            resultModel.SetTitle(
-                context: context,
-                ss: ss);
-            resultModel.VerUp = Versions.MustVerUp(
-                context: context,
-                ss: ss,
-                baseModel: resultModel);
-            var process = ss.Processes?.FirstOrDefault(process => process.Id == resultApiModel.ProcessId);
-            if (process != null)
-            {
-                process.MatchConditions = resultModel.GetProcessMatchConditions(
-                    context: context,
-                    ss: ss,
-                    process: process);
-                if (process.MatchConditions && process.Accessable(
-                    context: context,
-                    ss: ss))
-                {
-                    resultModel.SetByProcess(
-                        context: context,
-                        ss: ss,
-                        process: process);
-                }
-                else if ((process.ExecutionType ?? Process.ExecutionTypes.AddedButton) == Process.ExecutionTypes.AddedButton)
-                {
-                    return ApiResults.BadRequest(context: context);
-                }
-            }
-            var errorData = resultModel.Update(
-                context: context,
-                ss: ss,
-                processes: process?.ToSingleList(),
-                notice: true,
+                processes: processes,
                 previousTitle: previousTitle);
-            BinaryUtilities.UploadImage(
-                context: context,
-                ss: ss,
-                id: resultModel.ResultId,
-                postedFileHash: resultModel.PostedImageHash);
             switch (errorData.Type)
             {
                 case Error.Types.None:
@@ -4400,7 +4544,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             resultModel: resultModel,
-                            processes: process?.ToSingleList()).Text);
+                            processes: processes).Text);
                 case Error.Types.Duplicated:
                     var duplicatedColumn = ss.GetColumn(
                         context: context,
@@ -4419,6 +4563,61 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        private static ErrorData ApplyUpdateByApi(
+            Context context,
+            SiteSettings ss,
+            ResultModel resultModel,
+            List<Process> processes,
+            string previousTitle)
+        {
+            var invalid = ResultValidators.OnUpdating(
+                context: context,
+                ss: ss,
+                resultModel: resultModel,
+                api: true);
+            if (invalid.Type != Error.Types.None) return invalid;
+            resultModel.SiteId = ss.SiteId;
+            resultModel.SetTitle(
+                context: context,
+                ss: ss);
+            resultModel.VerUp = Versions.MustVerUp(
+                context: context,
+                ss: ss,
+                baseModel: resultModel);
+            foreach(var process in processes ?? new List<Process>())
+            {
+                process.MatchConditions = resultModel.GetProcessMatchConditions(
+                    context: context,
+                    ss: ss,
+                    process: process);
+                if (process.MatchConditions && process.Accessable(
+                    context: context,
+                    ss: ss))
+                {
+                    resultModel.SetByProcess(
+                        context: context,
+                        ss: ss,
+                        process: process);
+                }
+                else if ((process.ExecutionType ?? Process.ExecutionTypes.AddedButton) == Process.ExecutionTypes.AddedButton)
+                {
+                    return new ErrorData(Error.Types.BadRequest);
+                }
+            }
+            var errorData = resultModel.Update(
+                context: context,
+                ss: ss,
+                processes: processes,
+                notice: true,
+                previousTitle: previousTitle);
+            BinaryUtilities.UploadImage(
+                context: context,
+                ss: ss,
+                id: resultModel.ResultId,
+                postedFileHash: resultModel.PostedImageHash);
+            return errorData;
+        }
+
         public static bool UpdateByServerScript(
             Context context,
             SiteSettings ss,
@@ -4428,6 +4627,10 @@ namespace Implem.Pleasanter.Models
         {
             var resultApiModel = context.RequestDataString.Deserialize<ResultApiModel>();
             if (resultApiModel == null)
+            {
+                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+            }
+            if(HasInvalidValueAsApiDataAtUpdate(resultApiModel))
             {
                 context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
             }
@@ -4483,6 +4686,27 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        private static bool HasInvalidValueAsApiDataAtUpdate(ResultApiModel model)
+        {
+            if (model is null)
+                return false;
+            foreach (var o in model.AttachmentsHash)
+            {
+                //api/binaries/{guid}/upload 起点のAttachmentsHashのKeyにはpostfix "#Uploading" が付いている
+                var isUploading = o.Key.EndsWith("#Uploading");
+                foreach (var attachment in o.Value)
+                {
+                    if (attachment.Deleted ?? false)
+                        continue;
+                    if (attachment.Name.IsNullOrEmpty())
+                        return true;
+                    if (!isUploading && attachment.Base64 is null && attachment.Base64Binary is null)
+                        return true;
+                }
+            }
+            return false;
+        }
+
         public static ContentResultInheritance UpsertByApi(
             Context context,
             SiteSettings ss,
@@ -4493,63 +4717,69 @@ namespace Implem.Pleasanter.Models
                 return ApiResults.BadRequest(context: context);
             }
             var api = context.RequestDataString.Deserialize<Api>();
-            var data = context.RequestDataString.Deserialize<ResultApiModel>();
-            if (api?.Keys?.Any() != true || data == null)
+            var resultApiModel = context.RequestDataString.Deserialize<ResultApiModel>();
+            if (api?.Keys?.Any() != true ||resultApiModel == null)
             {
                 return ApiResults.Error(
                     context: context,
                     errorData: new ErrorData(type: Error.Types.InvalidJsonData));
             }
-            var error = new ErrorData(Error.Types.None);
-            api.View = api.View ?? new View();
-            api.Keys.ForEach(columnName =>
-            {
-                if (error.Type != Error.Types.None) return;
-                var objectValue = data.ObjectValue(columnName: columnName);
-                if (objectValue != null)
-                {
-                    var column = ss.GetColumn(
-                        context: context,
-                        columnName: columnName);
-                    if (column?.TypeName == "datetime"
-                        && objectValue.ToDateTime().InRange() == false)
-                    {
-                        error = new ErrorData(
-                            type: Error.Types.invalidUpsertKey,
-                            data: $"('{columnName}'='{objectValue.ToStr()}')");
-                        return;
-                    }
-                    api.View.AddColumnFilterHash(
-                        context: context,
-                        ss: ss,
-                        column: column,
-                        objectValue: objectValue);
-                    api.View.AddColumnFilterSearchTypes(
-                        columnName: columnName,
-                        searchType: Column.SearchTypes.ExactMatch);
-                }
-            });
-            if (error.Type != Error.Types.None)
+            var (isValid, missingKeys) = ValidateJsonKeys(jsonString: context.RequestDataString, ss: ss);
+            if (!isValid)
             {
                 return ApiResults.Error(
                     context: context,
-                    errorData: error);
+                    errorData: new ErrorData(
+                        type: Error.Types.InvalidUpsertKey,
+                        data: $"({string.Join(", ", missingKeys)})"));
             }
-            var resultApiModel = context.RequestDataString.Deserialize<ResultApiModel>();
-            if (resultApiModel == null)
+            var error = new ErrorData(Error.Types.None);
+            var view = api.View ?? new View();
+            var errorData = new List<string>();
+            foreach (var columnName in api.Keys)
             {
-                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+                var objectValue = resultApiModel.ObjectValue(columnName: columnName);
+                if (objectValue == null) continue;
+                var column = ss.GetColumn(
+                    context: context,
+                    columnName: columnName);
+                if (column?.TypeName == "datetime"
+                    && objectValue.ToDateTime().InRange() == false)
+                {
+                    errorData.Add($"'{columnName}'='{objectValue.ToStr()}'");
+                    continue;
+                }
+                view.AddColumnFilterHash(
+                    context: context,
+                    ss: ss,
+                    column: column,
+                    objectValue: objectValue);
+                view.AddColumnFilterSearchTypes(
+                    columnName: columnName,
+                    searchType: Column.SearchTypes.ExactMatch);
+            }
+            if (errorData.Any())
+            {
+                return ApiResults.Error(
+                    context: context,
+                    errorData: new ErrorData(
+                        type: Error.Types.InvalidUpsertKey,
+                        data: $"({errorData.Join()})"));
             }
             var resultModel = new ResultModel(
                 context: context,
                 ss: ss,
                 resultId: 0,
-                view: api.View,
+                view: view,
                 resultApiModel: resultApiModel);
             switch (resultModel.AccessStatus)
             {
                 case Databases.AccessStatuses.Selected:
-                    break;
+                    return UpdateByApi(
+                        context: context, 
+                        ss: ss, 
+                        resultId: resultModel.ResultId, 
+                        previousTitle: previousTitle);
                 case Databases.AccessStatuses.NotFound:
                     return CreateByApi(context: context, ss: ss);
                 case Databases.AccessStatuses.Overlap:
@@ -4557,65 +4787,160 @@ namespace Implem.Pleasanter.Models
                 default:
                     return ApiResults.Get(ApiResponses.NotFound(context: context));
             }
-            // サイトの書き込み権限で可否判定を行い、レコード単位のアクセス権はチェックは行わない。
-            var invalid = ResultValidators.OnUpdating(
-                context: context,
-                ss: ss,
-                resultModel: resultModel,
-                api: true,
-                serverScript: true);
-            switch (invalid.Type)
+        }
+
+        //Upsert, BulkUpsert時に、JSONデータとしてKeysに定義したものが、正しい名称かまたは条件として設定されているかを確認する。
+
+        private static bool CheckKeyExists(string key, Newtonsoft.Json.Linq.JToken elementToCheck, SiteSettings ss)
+        {
+            if (!ss.ColumnDefinitionHash.ContainsKey(key))
             {
-                case Error.Types.None: break;
-                default:
-                    return ApiResults.Error(
-                context: context,
-                errorData: invalid);
+                // ColumnDefinitionHash に定義されている名称のみKeysに指定可能とする。
+                return false;
             }
-            resultModel.SiteId = ss.SiteId;
-            resultModel.SetTitle(
-                context: context,
-                ss: ss);
-            resultModel.VerUp = Versions.MustVerUp(
-                context: context,
-                ss: ss,
-                baseModel: resultModel);
-            var errorData = resultModel.Update(
-                context: context,
-                ss: ss,
-                notice: true,
-                previousTitle: previousTitle);
-            BinaryUtilities.UploadImage(
-                context: context,
-                ss: ss,
-                id: resultModel.ResultId,
-                postedFileHash: resultModel.PostedImageHash);
-            switch (errorData.Type)
+            // チェック対象がオブジェクトでない場合はキーを検索できない
+            if (elementToCheck?.Type != Newtonsoft.Json.Linq.JTokenType.Object)
             {
-                case Error.Types.None:
-                    return ApiResults.Success(
-                        resultModel.ResultId,
-                        limitPerDate: context.ContractSettings.ApiLimit(),
-                        limitRemaining: context.ContractSettings.ApiLimit() - ss.ApiCount,
-                        message: Displays.Updated(
-                            context: context,
-                            data: resultModel.Title.MessageDisplay(context: context)));
-                case Error.Types.Duplicated:
-                    var duplicatedColumn = ss.GetColumn(
-                        context: context,
-                        columnName: errorData.ColumnName);
-                    return ApiResults.Duplicated(
-                        context: context,
-                        message: duplicatedColumn?.MessageWhenDuplicated.IsNullOrEmpty() != false
-                            ? Displays.Duplicated(
-                                context: context,
-                                data: duplicatedColumn?.LabelText)
-                            : duplicatedColumn?.MessageWhenDuplicated);
-                default:
-                    return ApiResults.Error(
-                        context: context,
-                        errorData: errorData);
+                return false;
             }
+            var objToCheck = (Newtonsoft.Json.Linq.JObject)elementToCheck;
+            bool found = false;
+            Newtonsoft.Json.Linq.JToken hashToken;
+            Newtonsoft.Json.Linq.JToken valueToken = null;
+            switch (Def.ExtendedColumnTypes.Get(key))
+            {
+                case "Class":
+                    if (objToCheck.TryGetValue("ClassHash", StringComparison.OrdinalIgnoreCase, out hashToken) && hashToken?.Type == Newtonsoft.Json.Linq.JTokenType.Object)
+                    {
+                        var hashObj = (Newtonsoft.Json.Linq.JObject)hashToken;
+                        if (hashObj.ContainsKey(key))
+                        {
+                            valueToken = hashObj[key];
+                            if (valueToken?.Type == Newtonsoft.Json.Linq.JTokenType.String)
+                            {
+                                found = !string.IsNullOrEmpty((string)valueToken);
+                            }
+                        }
+                    }
+                    break;
+                case "Num":
+                    if (objToCheck.TryGetValue("NumHash", StringComparison.OrdinalIgnoreCase, out hashToken) && hashToken?.Type == Newtonsoft.Json.Linq.JTokenType.Object)
+                    {
+                        var hashObj = (Newtonsoft.Json.Linq.JObject)hashToken;
+                        if (hashObj.ContainsKey(key))
+                        {
+                            valueToken = hashObj[key];
+                            found = (valueToken?.Type != Newtonsoft.Json.Linq.JTokenType.Null);
+                        }
+                    }
+                    break;
+                case "Date":
+                    if (objToCheck.TryGetValue("DateHash", StringComparison.OrdinalIgnoreCase, out hashToken) && hashToken?.Type == Newtonsoft.Json.Linq.JTokenType.Object)
+                    {
+                        var hashObj = (Newtonsoft.Json.Linq.JObject)hashToken;
+                        if (hashObj.ContainsKey(key))
+                        {
+                            valueToken = hashObj[key];
+                            found = (valueToken?.Type != Newtonsoft.Json.Linq.JTokenType.Null);
+                        }
+                    }
+                    break;
+                case "Description":
+                    if (objToCheck.TryGetValue("DescriptionHash", StringComparison.OrdinalIgnoreCase, out hashToken) && hashToken?.Type == Newtonsoft.Json.Linq.JTokenType.Object)
+                    {
+                        var hashObj = (Newtonsoft.Json.Linq.JObject)hashToken;
+                        if (hashObj.ContainsKey(key))
+                        {
+                            valueToken = hashObj[key];
+                            if (valueToken?.Type == Newtonsoft.Json.Linq.JTokenType.String)
+                            {
+                                found = !string.IsNullOrEmpty((string)valueToken);
+                            }
+                        }
+                    }
+                    break;
+                case "Check":
+                    if (objToCheck.TryGetValue("CheckHash", StringComparison.OrdinalIgnoreCase, out hashToken) && hashToken?.Type == Newtonsoft.Json.Linq.JTokenType.Object)
+                    {
+                        var hashObj = (Newtonsoft.Json.Linq.JObject)hashToken;
+                        if (hashObj.ContainsKey(key))
+                        {
+                            valueToken = hashObj[key];
+                            found = (valueToken?.Type != Newtonsoft.Json.Linq.JTokenType.Null);
+                        }
+                    }
+                    break;
+                case "Attachments":
+                    // AttachmentsAなどは何も該当しない条件でWhere句を生成するので検索条件に含めてはいけない。
+                    return false;
+                default:
+                    if (objToCheck.TryGetValue(key, StringComparison.OrdinalIgnoreCase, out valueToken))
+                    {
+                        found = (valueToken?.Type != Newtonsoft.Json.Linq.JTokenType.Null);
+                    }
+                    break;
+            }
+            return found;
+        }
+
+        //Upsert, BulkUpsert時に、JSONデータとしてKeysに定義したものが、正しい名称かまたは条件として設定されているかを確認する。
+        //他箇所の処理による前提条件あり（JSONデシリアライズ可能、Keys配列定義有り【BulkUpsertの場合は"KeyNotFoundCreate": falseの場合に限る】）
+
+        public static (bool isValid, List<string> missingKeys) ValidateJsonKeys(string jsonString, SiteSettings ss)
+        {
+            var missingKeys = new List<string>();
+            bool allKeysValid = true;
+            var root = Newtonsoft.Json.Linq.JObject.Parse(jsonString);
+            root.TryGetValue("Keys", StringComparison.OrdinalIgnoreCase, out var keysToken);
+            var keysArray = (Newtonsoft.Json.Linq.JArray)keysToken ?? new Newtonsoft.Json.Linq.JArray();
+            bool hasDataArray = root.TryGetValue("Data", StringComparison.OrdinalIgnoreCase, out var dataToken) && dataToken?.Type == Newtonsoft.Json.Linq.JTokenType.Array;
+            var dataArray = hasDataArray ? (Newtonsoft.Json.Linq.JArray)dataToken : null;
+            bool keyNotFoundCreateIsTrue = root.TryGetValue("KeyNotFoundCreate", StringComparison.OrdinalIgnoreCase, out var knfcToken)
+                                                && knfcToken?.Type == Newtonsoft.Json.Linq.JTokenType.Boolean
+                                                && (bool)knfcToken;
+            foreach (var keyElement in keysArray)
+            {
+                if (keyElement?.Type != Newtonsoft.Json.Linq.JTokenType.String)
+                {
+                    allKeysValid = false;
+                    missingKeys.Add($"{keyElement}");
+                    continue;
+                }
+                var key = (string)keyElement;
+                bool currentKeyIsValid = false;
+                // Data配列が存在するパターン(BulkUpsert)
+                if (hasDataArray)
+                {
+                    // Data配列が空の場合は検索条件がが存在しえない
+                    if (dataArray.Count == 0)
+                    {
+                        currentKeyIsValid = false;
+                    }
+                    else
+                    {
+                        // Data配列内の各要素でキーが存在および妥当性をチェックする
+                        currentKeyIsValid = dataArray.All(dataItem => CheckKeyExists(
+                                                                                key: key,
+                                                                                elementToCheck: dataItem,
+                                                                                ss: ss));
+                    }
+                }
+                // Data配列が存在しないパターン (Upsert)
+                else
+                {
+                    currentKeyIsValid = CheckKeyExists(
+                                                    key: key,
+                                                    elementToCheck: root,
+                                                    ss: ss);
+                }
+                // 現在のキーが無効だった場合、全体の結果を無効にし、リストに追加
+                if (!currentKeyIsValid)
+                {
+                    allKeysValid = false;
+                    missingKeys.Add(key);
+                }
+            }
+            return (allKeysValid, missingKeys);
         }
 
         public static bool UpsertByServerScript(
@@ -4629,6 +4954,11 @@ namespace Implem.Pleasanter.Models
             if (api?.Keys?.Any() != true || resultApiModel == null)
             {
                 context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+                return false;
+            }
+            var (isValid, missingKeys) = ValidateJsonKeys(jsonString: context.RequestDataString, ss: ss);
+            if (!isValid)
+            {
                 return false;
             }
             var error = Error.Types.None;
@@ -4645,7 +4975,7 @@ namespace Implem.Pleasanter.Models
                     if (column?.TypeName == "datetime"
                         && objectValue.ToDateTime().InRange() == false)
                     {
-                        error = Error.Types.invalidUpsertKey;
+                        error = Error.Types.InvalidUpsertKey;
                         return;
                     }
                     api.View.AddColumnFilterHash(
@@ -4673,55 +5003,17 @@ namespace Implem.Pleasanter.Models
             switch (resultModel.AccessStatus)
             {
                 case Databases.AccessStatuses.Selected:
-                    break;
+                    return UpdateByServerScript(
+                        context: context,
+                        ss: ss,
+                        resultId: resultModel.ResultId, 
+                        previousTitle: resultModel.Title.DisplayValue,
+                        model: model);
                 case Databases.AccessStatuses.NotFound:
                     return CreateByServerScript(
                         context: context,
                         ss: ss,
                         model: model);
-                default:
-                    return false;
-            }
-            // サイトの書き込み権限で可否判定を行い、レコード単位のアクセス権はチェックは行わない。
-            var invalid = ResultValidators.OnUpdating(
-                context: context,
-                ss: ss,
-                resultModel: resultModel,
-                api: true,
-                serverScript: true);
-            switch (invalid.Type)
-            {
-                case Error.Types.None:
-                    break;
-                default:
-                    return false;
-            }
-            resultModel.SiteId = ss.SiteId;
-            resultModel.SetTitle(
-                context: context,
-                ss: ss);
-            resultModel.VerUp = Versions.MustVerUp(
-                context: context,
-                ss: ss,
-                baseModel: resultModel);
-            var errorData = resultModel.Update(
-                context: context,
-                ss: ss,
-                notice: true,
-                previousTitle: previousTitle);
-            switch (errorData.Type)
-            {
-                case Error.Types.None:
-                    if (model is Libraries.ServerScripts.ServerScriptModelApiModel serverScriptModelApiModel)
-                    {
-                        if (serverScriptModelApiModel.Model is ResultModel data)
-                        {
-                            data.SetByModel(resultModel: resultModel);
-                        }
-                    }
-                    return true;
-                case Error.Types.Duplicated:
-                    return false;
                 default:
                     return false;
             }
@@ -4736,14 +5028,14 @@ namespace Implem.Pleasanter.Models
                 return ApiResults.BadRequest(context: context);
             }
             var api = context.RequestDataString.Deserialize<Api>();
-            var list = context.RequestDataString.Deserialize<Results.ResultBulkUpsertApiModel>();
-            if (list?.Data == null)
+            var bulkUpsertModel = context.RequestDataString.Deserialize<Results.ResultBulkUpsertApiModel>();
+            if (bulkUpsertModel?.Data == null)
             {
                 return ApiResults.Error(
                     context: context,
                     errorData: new ErrorData(type: Error.Types.InvalidJsonData));
             }
-            if (Parameters.General.BulkUpsertMax > 0 && Parameters.General.BulkUpsertMax < list.Data.Count)
+            if (Parameters.General.BulkUpsertMax > 0 && Parameters.General.BulkUpsertMax < bulkUpsertModel.Data.Count)
             {
                 return ApiResults.Get(new ApiResponse(
                     id: context.Id,
@@ -4752,30 +5044,44 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         data: Parameters.General.BulkUpsertMax.ToString()).Text));
             }
-            var recodeCount = 0;
-            var insertCount = 0;
-            var updateCount = 0;
-            var error = new ErrorData(type: Error.Types.None);
-            foreach (var resultApiModel in list.Data)
+            var (isValid, missingKeys) = ValidateJsonKeys(jsonString: context.RequestDataString, ss: ss);
+            if (!isValid)
             {
-                recodeCount++;
-                var view = api.View ?? new View();
-                api.Keys?.ForEach(columnName =>
+                return ApiResults.Error(
+                    context: context,
+                    errorData: new ErrorData(
+                        type: Error.Types.InvalidUpsertKey,
+                        data: $"({missingKeys.Join()})"));
+            }
+            using var exclusiveObj = new Sessions.TableExclusive(context: context);
+            if (!exclusiveObj.TryLock())
+            {
+                return ApiResults.Get(new ApiResponse(
+                    id: context.Id,
+                    statusCode: 429,
+                    message: Messages.ImportLock(context: context).Text));
+            }
+            var viewsDic = new Dictionary<long?, View>();
+            // Keysの指定がある場合は、該当レコードを取得するための条件を保持していく。
+            // APIのパラメータ自体のチェックは、実質的な一括処理より前にに行っておく。
+            if (api.Keys?.Count > 0)
+            { 
+                var errorData = new List<string>();
+                foreach (var (resultApiModel, index) in bulkUpsertModel.Data.Select((value, index) => (value, index)))
                 {
-                    if (error.Type != Error.Types.None) return;
-                    var objectValue = resultApiModel.ObjectValue(columnName: columnName);
-                    if (objectValue != null)
+                    var view = api.View ?? new View();
+                    foreach (var columnName in api.Keys)
                     {
+                        var objectValue = resultApiModel.ObjectValue(columnName: columnName);
+                        if (objectValue == null) continue;
                         var column = ss.GetColumn(
                             context: context,
                             columnName: columnName);
                         if (column?.TypeName == "datetime"
                             && objectValue.ToDateTime().InRange() == false)
                         {
-                            error = new ErrorData(
-                                type: Error.Types.invalidUpsertKey,
-                                data: $"('{columnName}'='{objectValue.ToStr()}')");
-                            return;
+                            errorData.Add($"'{columnName}'='{objectValue.ToStr()}'");
+                            continue;
                         }
                         view.AddColumnFilterHash(
                             context: context,
@@ -4786,86 +5092,80 @@ namespace Implem.Pleasanter.Models
                             columnName: columnName,
                             searchType: Column.SearchTypes.ExactMatch);
                     }
-                });
-                if (error.Type != Error.Types.None) break;
-                var resultModel = new ResultModel(
-                    context: context,
-                    ss: ss,
-                    resultId: 0,
-                    view: api.Keys?.Any() != true ? null : view,
-                    resultApiModel: resultApiModel);
-                switch (resultModel.AccessStatus)
-                {
-                    case Databases.AccessStatuses.Selected:
-                    case Databases.AccessStatuses.NotFound:
-                        break;
-                    case Databases.AccessStatuses.Overlap:
-                        error = new ErrorData(type: Error.Types.Overlap);
-                        break;
-                    default:
-                        error = new ErrorData(type: Error.Types.NotFound);
-                        break;
+                    viewsDic.Add(key: index, value: view);
                 }
-                if (error.Type != Error.Types.None) break;
-                if (resultModel.AccessStatus == Databases.AccessStatuses.Selected)
+                if (errorData.Any())
                 {
-                    // Keysの指定があり、該当レコードがある場合に更新
-                    // サイトの書き込み権限で可否判定を行い、レコード単位のアクセス権はチェックは行わない。
-                    error = ResultValidators.OnUpdating(
+                    return ApiResults.Error(
                         context: context,
-                        ss: ss,
-                        resultModel: resultModel,
-                        api: true,
-                        serverScript: true);
-                    if (error.Type != Error.Types.None) break;
-                    resultModel.SiteId = ss.SiteId;
-                    resultModel.SetTitle(
-                        context: context,
-                        ss: ss);
-                    resultModel.VerUp = Versions.MustVerUp(
-                        context: context,
-                        ss: ss,
-                        baseModel: resultModel);
-                    error = resultModel.Update(
-                        context: context,
-                        ss: ss,
-                        notice: true);
-                    BinaryUtilities.UploadImage(
-                        context: context,
-                        ss: ss,
-                        id: resultModel.ResultId,
-                        postedFileHash: resultModel.PostedImageHash);
-                    if (error.Type != Error.Types.None) break;
-                    updateCount++;
-                }
-                else if (resultModel.AccessStatus == Databases.AccessStatuses.NotFound
-                    && (api.Keys?.Any() != true || list.KeyNotFoundCreate != false))
-                {
-                    // Keysの指定が無い場合は全て新規作成。
-                    // Keysの指定があり、該当レコードがなく KeyNotFoundCreate =true の場合に新規作成
-                    error = ResultValidators.OnCreating(
-                        context: context,
-                        ss: ss,
-                        resultModel: resultModel,
-                        api: true);
-                    if (error.Type != Error.Types.None) break;
-                    resultModel.SiteId = ss.SiteId;
-                    resultModel.SetTitle(
-                        context: context,
-                        ss: ss);
-                    var errorData = resultModel.Create(
-                        context: context,
-                        ss: ss,
-                        notice: true);
-                    BinaryUtilities.UploadImage(
-                        context: context,
-                        ss: ss,
-                        id: resultModel.ResultId,
-                        postedFileHash: resultModel.PostedImageHash);
-                    if (error.Type != Error.Types.None) break;
-                    insertCount++;
+                        errorData: new ErrorData(
+                            type: Error.Types.InvalidUpsertKey,
+                            data: $"({errorData.Join()})"));
                 }
             }
+            var recodeCount = 0;
+            var insertCount = 0;
+            var updateCount = 0;
+            var error = DoBulkUpsert();
+            // 一括処理の実行
+            ErrorData DoBulkUpsert()
+            {
+                foreach (var (resultApiModel, index) in bulkUpsertModel.Data.Select((value, index) => (value, index)))
+                {
+                    recodeCount++;
+                    exclusiveObj.Refresh();
+                    View view;
+                    viewsDic.TryGetValue(index, out view); 
+                    var resultModel = new ResultModel(
+                        context: context,
+                        ss: ss,
+                        resultId: 0,
+                        view: view, //api.Keys?.Count > 0 でない場合はnull
+                        resultApiModel: resultApiModel);
+                    switch (resultModel.AccessStatus)
+                    {
+                        case Databases.AccessStatuses.Selected:
+                        case Databases.AccessStatuses.NotFound:
+                            break;
+                        case Databases.AccessStatuses.Overlap:
+                            return new ErrorData(type: Error.Types.Overlap);
+                        default:
+                            return new ErrorData(type: Error.Types.NotFound);
+                    }
+                    // ss.Processes の順序のままに、ProcessId を取得する（resultApiModel.ProcessIdsの順ではない）
+                    var processes = resultApiModel?.ProcessIds != null
+                        ? ss.Processes?.Where(process => resultApiModel.ProcessIds.Contains(process.Id)).ToList()
+                        : ss.Processes?.Where(process => process.Id == resultApiModel?.ProcessId).ToList();
+                    if (resultModel.AccessStatus == Databases.AccessStatuses.Selected)
+                    {
+                        // Keysの指定があり、該当レコードがある場合に更新
+                        // サイトの書き込み権限で可否判定を行い、レコード単位のアクセス権はチェックは行わない。
+                        error = ApplyUpdateByApi(
+                            context: context,
+                            ss: ss,
+                            resultModel: resultModel,
+                            processes: processes,
+                            previousTitle: null);
+                        if (error.Type != Error.Types.None) return error;
+                        updateCount++;
+                    }
+                    else if (resultModel.AccessStatus == Databases.AccessStatuses.NotFound
+                        && ((api.Keys?.Count ?? 0) == 0 || bulkUpsertModel.KeyNotFoundCreate == true))
+                    {
+                        // Keysの指定が無い場合は全て新規作成。
+                        // Keysの指定があり、該当レコードがなく KeyNotFoundCreate =true の場合に新規作成
+                        error = ApplyCreateByApi(
+                            context: context,
+                            ss: ss,
+                            resultModel: resultModel,
+                            processes: processes);
+                        if (error.Type != Error.Types.None) return error;
+                        insertCount++;
+                    }
+                }
+                return new ErrorData(Error.Types.None);
+            }
+            exclusiveObj.Refresh();
             if (error.Type != Error.Types.None)
             {
                 // エラー時の戻り
@@ -4888,18 +5188,19 @@ namespace Implem.Pleasanter.Models
                         : duplicatedColumn?.MessageWhenDuplicated;
                 }
                 var recodeIndex = recodeCount.ToString();
-                if(api.Keys?.Any() != false)
+                if (api.Keys?.Count > 0)
                 {
-                    var resultApiModel = list.Data[recodeCount - 1];
+                    var resultApiModel = bulkUpsertModel.Data[recodeCount - 1];
                     recodeIndex += "("
                         + api.Keys.Select(
                                 columnName => $"{columnName}={resultApiModel.ObjectValue(columnName: columnName) ?? string.Empty}"
                             ).Join()
                         + ")";
                 }
+                var statusCode = ApiResponses.StatusCode(error.Type);
                 return ApiResults.Get(new ApiResponse(
                     id: context.Id,
-                    statusCode: 500,
+                    statusCode: statusCode,
                     message: Displays.FailedBulkUpsert(
                         context: context,
                         data: new string[]
@@ -5691,7 +5992,7 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     parts: new string[]
                     {
-                        "Items",
+                        context.Controller,
                         resultId.ToString() 
                             + (resultModel.VerType == Versions.VerTypes.History
                                 ? "?ver=" + context.Forms.Int("Ver") 
@@ -5854,11 +6155,18 @@ namespace Implem.Pleasanter.Models
                     case Error.Types.None: break;
                     default: return invalid.MessageJson(context: context);
                 }
+                using var exclusiveObj = new Sessions.TableExclusive(context: context);
+                if (!exclusiveObj.TryLock())
+                {
+                    return Error.Types.ImportLock.MessageJson(context: context);
+                }
                 var count = BulkDelete(
                     context: context,
                     ss: ss,
                     where: where,
-                    param: param);
+                    param: param,
+                    watchdog: () => exclusiveObj.Refresh());
+                exclusiveObj.Refresh();
                 Summaries.Synchronize(context: context, ss: ss);
                 var data = new string[]
                 {
@@ -5885,6 +6193,7 @@ namespace Implem.Pleasanter.Models
                             body: body.ToString());
                     }
                 });
+                exclusiveObj.Refresh();
                 return GridRows(
                     context: context,
                     ss: ss,
@@ -5903,8 +6212,15 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             SqlWhereCollection where,
-            SqlParamCollection param)
+            SqlParamCollection param,
+            Action watchdog = null)
         {
+            var model = new ResultModel(
+                context: context,
+                ss: ss);
+            model.SetByBeforeBulkDeleteServerScript(
+                context: context,
+                ss: ss);
             var sub = Rds.SelectResults(
                 column: Rds.ResultsColumn().ResultId(),
                 join: ss.Join(
@@ -5967,6 +6283,7 @@ namespace Implem.Pleasanter.Models
             statements.OnBulkDeletedExtendedSqls(
                 context: context,
                 siteId: ss.SiteId);
+            watchdog?.Invoke();
             var ids = Rds.ExecuteTable(
                 context: context,
                 statements: Rds.SelectBinaries(
@@ -5977,6 +6294,7 @@ namespace Implem.Pleasanter.Models
                             .AsEnumerable()
                             .Select(dataRow => dataRow.Long("ReferenceId"))
                             .ToList();
+            watchdog?.Invoke();
             var affectedRows = Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
@@ -5988,6 +6306,9 @@ namespace Implem.Pleasanter.Models
                     siteId: ss.SiteId,
                     referenceId: referenceId));
             }
+            model.SetByAfterBulkDeleteServerScript(
+                context: context,
+                ss: ss);
             return affectedRows;
         }
 
@@ -6012,6 +6333,14 @@ namespace Implem.Pleasanter.Models
                 if (selectedWhere == null && recordSelector.View == null)
                 {
                     return ApiResults.Get(ApiResponses.BadRequest(context: context));
+                }
+                using var exclusiveObj = new Sessions.TableExclusive(context: context);
+                if (!exclusiveObj.TryLock())
+                {
+                    return ApiResults.Get(new ApiResponse(
+                        id: context.Id,
+                        statusCode: 429,
+                        message: Messages.ImportLock(context: context).Text));
                 }
                 var view = recordSelector.View ?? Views.GetBySession(
                     context: context,
@@ -6041,11 +6370,14 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             errorData: invalid);
                 }
+                exclusiveObj.Refresh();
                 var count = BulkDelete(
                     context: context,
                     ss: ss,
                     where: where,
-                    param: param);
+                    param: param,
+                    watchdog: () => exclusiveObj.Refresh());
+                exclusiveObj.Refresh();
                 Summaries.Synchronize(
                     context: context,
                     ss: ss);
@@ -6106,6 +6438,11 @@ namespace Implem.Pleasanter.Models
                 {
                     return 0;
                 }
+                using var exclusiveObj = new Sessions.TableExclusive(context: context, siteId: ss.SiteId);
+                if (!exclusiveObj.TryLock())
+                {
+                    return 0;
+                }
                 var view = recordSelector.View ?? Views.GetBySession(
                     context: context,
                     ss: ss);
@@ -6132,11 +6469,13 @@ namespace Implem.Pleasanter.Models
                     default:
                         return 0;
                 }
+                exclusiveObj.Refresh();
                 var count = BulkDelete(
                     context: context,
                     ss: ss,
                     where: where,
-                    param: param);
+                    param: param,
+                    watchdog: () => exclusiveObj.Refresh());
                 Summaries.Synchronize(
                     context: context,
                     ss: ss);
@@ -6477,6 +6816,11 @@ namespace Implem.Pleasanter.Models
                 {
                     return 0;
                 }
+                using var exclusiveObj = new Sessions.TableExclusive(context: context, siteId: ss.SiteId);
+                if (!exclusiveObj.TryLock())
+                {
+                    return 0;
+                }
                 var view = recordSelector.View ?? Views.GetBySession(
                     context: context,
                     ss: ss);
@@ -6527,6 +6871,8 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 referenceId: siteModel.SiteId,
                 setAllChoices: true);
+            var migrationMode = ss.AllowMigrationMode == true
+                && context.Forms.Bool("MigrationMode");
             var invalid = ResultValidators.OnImporting(
                 context: context,
                 ss: ss);
@@ -6534,6 +6880,11 @@ namespace Implem.Pleasanter.Models
             {
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
+            }
+            using var exclusiveObj = new Sessions.TableExclusive(context: context);
+            if (!exclusiveObj.TryLock())
+            {
+                return Error.Types.ImportLock.MessageJson(context: context);
             }
             var res = new ResponseCollection(context: context);
             Csv csv;
@@ -6547,6 +6898,7 @@ namespace Implem.Pleasanter.Models
             {
                 return Messages.ResponseFailedReadFile(context: context).ToJson();
             }
+            exclusiveObj.Refresh();
             var count = csv.Rows.Count();
             if (Parameters.General.ImportMax > 0 && Parameters.General.ImportMax < count)
             {
@@ -6563,6 +6915,21 @@ namespace Implem.Pleasanter.Models
             }
             if (csv != null && count > 0)
             {
+                var rejectNullImport = (bool)ss.RejectNullImport;
+                // 「空白データのインポートを拒否する：true」の場合、チェック処理を実行
+                if (rejectNullImport)
+                {
+                    // 入力必須項目がインポートデータに含まれているかチェック処理を実行
+                    var notVaridateRequiredColumn = Imports.CheckForExistValidateRequiredColumn(csvHeaders: csv.Headers, ss: ss, context: context);
+                    if (notVaridateRequiredColumn != null) return notVaridateRequiredColumn;
+                    foreach (var rows in csv.Rows)
+                    {
+                        Dictionary<string, Dictionary<string, string>> settingsPerHeaders = Imports.GetCsvHeaderSettings(csv: csv, ss: ss, rows: rows);
+                        // 入力必須項目に空白だ含まれているかチェック処理を実行
+                        var brankDataInValidateRequiredColumn = Imports.CheckForBrankDataInValidateRequiredColumn(settingsPerHeaders: settingsPerHeaders, context: context);
+                        if (brankDataInValidateRequiredColumn != null) return brankDataInValidateRequiredColumn;
+                    }
+                }
                 var columnHash = ImportUtilities.GetColumnHash(ss, csv);
                 var idColumn = columnHash
                     .Where(o => o.Value.Column.ColumnName == "ResultId")
@@ -6591,11 +6958,19 @@ namespace Implem.Pleasanter.Models
                 {
                     return Messages.ResponseNotContainKeyColumn(context: context).ToJson();
                 }
+                columnHash
+                    .Where(pair => pair.Value.Column.ColumnName.StartsWith("Date"))
+                    .ForEach(pair =>
+                        pair.Value.Column.RecordingFormat = GetImportDateFormat(
+                            context: context,
+                            csv: csv,
+                            index: pair.Key));
                 var csvRows = csv.Rows
                     .Select((o, i) => new { Index = i, Row = o })
                     .ToDictionary(o => o.Index, o => o.Row);
                 foreach (var data in csvRows)
                 {
+                    exclusiveObj.Refresh();
                     var resultModel = new ResultModel(
                         context: context,
                         ss: ss);
@@ -6636,7 +7011,8 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         columnHash: columnHash,
-                        row: data.Value);
+                        row: data.Value,
+                        migrationMode: migrationMode);
                     resultHash.Add(data.Key, resultModel);
                 }
                 var inputErrorData = ResultValidators.OnInputValidating(
@@ -6652,6 +7028,7 @@ namespace Implem.Pleasanter.Models
                 var updateCount = 0;
                 foreach (var data in resultHash)
                 {
+                    exclusiveObj.Refresh();
                     var resultModel = data.Value;
                     if (resultModel.AccessStatus == Databases.AccessStatuses.Selected)
                     {
@@ -6696,7 +7073,8 @@ namespace Implem.Pleasanter.Models
                                         context: context,
                                         ss: ss,
                                         columnHash: columnHash,
-                                        row: csvRows.Get(data.Key));
+                                        row: csvRows.Get(data.Key),
+                                        migrationMode: migrationMode);
                                     switch (resultModel.AccessStatus)
                                     {
                                         case Databases.AccessStatuses.Selected:
@@ -6727,7 +7105,8 @@ namespace Implem.Pleasanter.Models
                                             errorData = resultModel.Create(
                                                 context: context,
                                                 ss: ss,
-                                                extendedSqls: false);
+                                                extendedSqls: false,
+                                                migrationMode: migrationMode);
                                             insertCount++;
                                             break;
                                         default:
@@ -6746,7 +7125,8 @@ namespace Implem.Pleasanter.Models
                         var errorData = resultModel.Create(
                             context: context,
                             ss: ss,
-                            extendedSqls: false);
+                            extendedSqls: false,
+                            migrationMode: migrationMode);
                         switch (errorData.Type)
                         {
                             case Error.Types.None:
@@ -6838,6 +7218,14 @@ namespace Implem.Pleasanter.Models
             {
                 return null;
             }
+            using var exclusiveObj = new Sessions.TableExclusive(context: context);
+            if (!exclusiveObj.TryLock())
+            {
+                return ApiResults.Get(new ApiResponse(
+                    id: context.Id,
+                    statusCode: 429,
+                    message: Messages.ImportLock(context: context).Text));
+            }
             var invalid = ResultValidators.OnImporting(
                 context: context,
                 ss: ss,
@@ -6853,6 +7241,8 @@ namespace Implem.Pleasanter.Models
             var updatableImport = api.UpdatableImport;
             var encoding = api.Encoding;
             var key = api.Key;
+            var migrationMode = ss.AllowMigrationMode == true
+                && api.MigrationMode;
             Csv csv;
             try
             {
@@ -6925,11 +7315,19 @@ namespace Implem.Pleasanter.Models
                     statusCode: 500,
                     message: Messages.NotContainKeyColumn(context: context).Text));
                 }
+                columnHash
+                    .Where(pair => pair.Value.Column.ColumnName.StartsWith("Date"))
+                    .ForEach(pair =>
+                        pair.Value.Column.RecordingFormat = GetImportDateFormat(
+                            context: context,
+                            csv: csv,
+                            index: pair.Key));
                 var csvRows = csv.Rows
                     .Select((o, i) => new { Index = i, Row = o })
                     .ToDictionary(o => o.Index, o => o.Row);
                 foreach (var data in csvRows)
                 {
+                    exclusiveObj.Refresh();
                     var resultModel = new ResultModel(
                         context: context,
                         ss: ss);
@@ -6970,7 +7368,8 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         columnHash: columnHash,
-                        row: data.Value);
+                        row: data.Value,
+                        migrationMode: migrationMode);
                     resultHash.Add(data.Key, resultModel);
                 }
                 var inputErrorData = ResultValidators.OnInputValidating(
@@ -6989,6 +7388,7 @@ namespace Implem.Pleasanter.Models
                 var updateCount = 0;
                 foreach (var data in resultHash)
                 {
+                    exclusiveObj.Refresh();
                     var resultModel = data.Value;
                     if (resultModel.AccessStatus == Databases.AccessStatuses.Selected)
                     {
@@ -7021,7 +7421,8 @@ namespace Implem.Pleasanter.Models
                                         context: context,
                                         ss: ss,
                                         columnHash: columnHash,
-                                        row: csvRows.Get(data.Key));
+                                        row: csvRows.Get(data.Key),
+                                        migrationMode: migrationMode);
                                     switch (resultModel.AccessStatus)
                                     {
                                         case Databases.AccessStatuses.Selected:
@@ -7052,7 +7453,8 @@ namespace Implem.Pleasanter.Models
                                             errorData = resultModel.Create(
                                                 context: context,
                                                 ss: ss,
-                                                extendedSqls: false);
+                                                extendedSqls: false,
+                                                migrationMode: migrationMode);
                                             insertCount++;
                                             break;
                                         default:
@@ -7076,7 +7478,8 @@ namespace Implem.Pleasanter.Models
                         var errorData = resultModel.Create(
                             context: context,
                             ss: ss,
-                            extendedSqls: false);
+                            extendedSqls: false,
+                            migrationMode: migrationMode);
                         switch (errorData.Type)
                         {
                             case Error.Types.None:
@@ -7100,6 +7503,7 @@ namespace Implem.Pleasanter.Models
                         insertCount++;
                     }
                 }
+                exclusiveObj.Refresh();
                 ImportUtilities.SetOnImportedExtendedSqls(context, ss);
                 ss.Notifications.ForEach(notification =>
                 {
@@ -7146,6 +7550,343 @@ namespace Implem.Pleasanter.Models
                     statusCode: 500,
                     message: Messages.FileNotFound(context: context).Text));
             }
+        }
+
+        public static string ImportByServerScript(
+            Context context,
+            SiteSettings ss,
+            string filePath)
+        {
+            if (!Mime.ValidateOnApi(contentType: context.ContentType, multipart: true))
+            {
+                throw NewProcessingFailureException(message: Messages.BadRequest(context: context));
+            }
+            if (context.ContractSettings.Import == false)
+            {
+                throw NewProcessingFailureException(message: Messages.BadRequest(context: context));
+            }
+            using var exclusiveObj = new Sessions.TableExclusive(context: context, siteId: ss.SiteId);
+            if (!exclusiveObj.TryLock())
+            {
+                throw NewProcessingFailureException(message: Messages.ImportLock(context: context));
+            }
+            var invalid = ResultValidators.OnImporting(
+                context: context,
+                ss: ss,
+                serverScript: true);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default: throw NewProcessingFailureException(message: invalid.Message(context: context));
+            }
+            var api = context.RequestDataString.Deserialize<ImportApi>();
+            var updatableImport = api.UpdatableImport;
+            var encoding = api.Encoding;
+            var key = api.Key;
+            var migrationMode = ss.AllowMigrationMode == true
+                && api.MigrationMode;
+            Csv csv;
+            try
+            {
+                csv = new Csv(
+                    csv: Files.Bytes(filePath),
+                    encoding: encoding);
+            }
+            catch
+            {
+                throw NewProcessingFailureException(message: Messages.FailedReadFile(context: context));
+            }
+            var count = csv.Rows.Count();
+            if (Parameters.General.ImportMax > 0 && Parameters.General.ImportMax < count)
+            {
+                throw NewProcessingFailureException(message: Messages.ImportMax(context: context, Parameters.General.ImportMax.ToString()));
+            }
+            if (context.ContractSettings.ItemsLimit(
+                context: context,
+                siteId: ss.SiteId,
+                number: count))
+            {
+                throw NewProcessingFailureException(message: Messages.ItemsLimit(context: context));
+            }
+            if (csv != null && count > 0)
+            {
+                var columnHash = ImportUtilities.GetColumnHash(ss, csv);
+                var idColumn = columnHash
+                    .Where(o => o.Value.Column.ColumnName == "ResultId")
+                    .Select(o => new { Id = o.Key })
+                    .FirstOrDefault()?.Id ?? -1;
+                if (updatableImport && idColumn > -1)
+                {
+                    var exists = ExistsLockedRecord(
+                        context: context,
+                        ss: ss,
+                        targets: csv.Rows.Select(o => o[idColumn].ToLong()).ToList());
+                    switch (exists.Type)
+                    {
+                        case Error.Types.None: break;
+                        default: throw NewProcessingFailureException(message: exists.Message(context: context));
+                    }
+                }
+                var invalidColumn = Imports.ServerScriptColumnValidate(context, ss, columnHash.Values.Select(o => o.Column.ColumnName));
+                if (invalidColumn != null) throw NewProcessingFailureException(message: invalidColumn);
+                ImportUtilities.SetOnImportingExtendedSqls(context, ss);
+                var resultHash = new Dictionary<int, ResultModel>();
+                var importKeyColumnName = key;
+                var importKeyColumn = columnHash
+                    .FirstOrDefault(column => column.Value.Column.ColumnName == importKeyColumnName);
+                if (updatableImport && importKeyColumn.Value == null)
+                {
+                    throw NewProcessingFailureException(message: Messages.NotContainKeyColumn(context: context));
+                }
+                columnHash
+                    .Where(pair => pair.Value.Column.ColumnName.StartsWith("Date"))
+                    .ForEach(pair =>
+                        pair.Value.Column.RecordingFormat = GetImportDateFormat(
+                            context: context,
+                            csv: csv,
+                            index: pair.Key));
+                var csvRows = csv.Rows
+                    .Select((o, i) => new { Index = i, Row = o })
+                    .ToDictionary(o => o.Index, o => o.Row);
+                foreach (var data in csvRows)
+                {
+                    exclusiveObj.Refresh();
+                    var resultModel = new ResultModel(
+                        context: context,
+                        ss: ss);
+                    if (updatableImport
+                        && !data.Value[importKeyColumn.Key].IsNullOrEmpty())
+                    {
+                        var view = new View();
+                        view.AddColumnFilterHash(
+                            context: context,
+                            ss: ss,
+                            column: importKeyColumn.Value.Column,
+                            objectValue: data.Value[importKeyColumn.Key]);
+                        view.AddColumnFilterSearchTypes(
+                            columnName: importKeyColumnName,
+                            searchType: Column.SearchTypes.ExactMatch);
+                        var model = new ResultModel(
+                            context: context,
+                            ss: ss,
+                            resultId: 0,
+                            view: view);
+                        if (model.AccessStatus == Databases.AccessStatuses.Selected)
+                        {
+                            resultModel = model;
+                        }
+                        else if (model.AccessStatus == Databases.AccessStatuses.Overlap)
+                        {
+                            throw NewProcessingFailureException(
+                                message:  Messages.OverlapCsvImport(
+                                    context: context,
+                                    (data.Key + 1).ToString(),
+                                    importKeyColumn.Value.Column.GridLabelText,
+                                    data.Value[importKeyColumn.Key]));
+                        }
+                    }
+                    resultModel.SetByCsvRow(
+                        context: context,
+                        ss: ss,
+                        columnHash: columnHash,
+                        row: data.Value,
+                        migrationMode: migrationMode);
+                    resultHash.Add(data.Key, resultModel);
+                }
+                var inputErrorData = ResultValidators.OnInputValidating(
+                    context: context,
+                    ss: ss,
+                    resultHash: resultHash,
+                    api: true).FirstOrDefault();
+                switch (inputErrorData.Type)
+                {
+                    case Error.Types.None: break;
+                    default: throw NewProcessingFailureException(message: inputErrorData.Message(context: context));
+                }
+                var insertCount = 0;
+                var updateCount = 0;
+                foreach (var data in resultHash)
+                {
+                    exclusiveObj.Refresh();
+                    var resultModel = data.Value;
+                    if (resultModel.AccessStatus == Databases.AccessStatuses.Selected)
+                    {
+                        ErrorData errorData = null;
+                        while (errorData?.Type != Error.Types.None)
+                        {
+                            switch (errorData?.Type)
+                            {
+                                case Error.Types.Duplicated:
+                                    var duplicatedColumn = ss.GetColumn(
+                                        context: context,
+                                        columnName: errorData.ColumnName);
+                                    throw NewProcessingFailureException(
+                                        message: $"{
+                                            (duplicatedColumn?.MessageWhenDuplicated.IsNullOrEmpty() != false
+                                                    ? Displays.Duplicated(
+                                                        context: context,
+                                                        data: duplicatedColumn?.LabelText)
+                                                    : duplicatedColumn?.MessageWhenDuplicated)}",
+                                        id: Messages.Duplicated(context:context).Id);
+                                case null:
+                                case Error.Types.UpdateConflicts:
+                                    // 初回(null)
+                                    // または更新の競合が発生した場合
+                                    resultModel = new ResultModel(
+                                        context: context,
+                                        ss: ss,
+                                        resultId: resultModel.ResultId);
+                                    var previousTitle = resultModel.Title.DisplayValue;
+                                    resultModel.SetByCsvRow(
+                                        context: context,
+                                        ss: ss,
+                                        columnHash: columnHash,
+                                        row: csvRows.Get(data.Key),
+                                        migrationMode: migrationMode);
+                                    switch (resultModel.AccessStatus)
+                                    {
+                                        case Databases.AccessStatuses.Selected:
+                                            // 更新による競合のため再更新
+                                            if (resultModel.Updated(context: context, ss: ss))
+                                            {
+                                                resultModel.VerUp = Versions.MustVerUp(
+                                                    context: context,
+                                                    ss: ss,
+                                                    baseModel: resultModel);
+                                                errorData = resultModel.Update(
+                                                    context: context,
+                                                    ss: ss,
+                                                    extendedSqls: false,
+                                                    previousTitle: previousTitle,
+                                                    get: false);
+                                                updateCount++;
+                                            }
+                                            else
+                                            {
+                                                errorData = new ErrorData(type: Error.Types.None);
+                                            }
+                                            break;
+                                        case Databases.AccessStatuses.NotFound:
+                                            // 削除による競合のため再作成
+                                            resultModel.ResultId = 0;
+                                            resultModel.Ver = 1;
+                                            errorData = resultModel.Create(
+                                                context: context,
+                                                ss: ss,
+                                                extendedSqls: false,
+                                                migrationMode: migrationMode);
+                                            insertCount++;
+                                            break;
+                                        default:
+                                            throw NewProcessingFailureException(message: Messages.UpdateConflicts(context: context));
+                                    }
+                                    break;
+                                default:
+                                    throw NewProcessingFailureException(message: errorData.Message(context: context));
+                            }
+                        }
+                    }
+                    else
+                    {
+                        resultModel.ResultId = 0;
+                        resultModel.Ver = 1;
+                        var errorData = resultModel.Create(
+                            context: context,
+                            ss: ss,
+                            extendedSqls: false,
+                            migrationMode: migrationMode);
+                        switch (errorData.Type)
+                        {
+                            case Error.Types.None:
+                                break;
+                            case Error.Types.Duplicated:
+                                var duplicatedColumn = ss.GetColumn(
+                                    context: context,
+                                    columnName: errorData.ColumnName);
+                                throw NewProcessingFailureException(
+                                    message: $"{(duplicatedColumn?.MessageWhenDuplicated.IsNullOrEmpty() != false
+                                            ? Displays.Duplicated(
+                                                context: context,
+                                                data: duplicatedColumn?.LabelText)
+                                            : duplicatedColumn?.MessageWhenDuplicated)}",
+                                    id: Messages.Duplicated(context: context).Id);
+                            default:
+                                throw NewProcessingFailureException(message: errorData.Message(context: context));
+                        }
+                        insertCount++;
+                    }
+                }
+                exclusiveObj.Refresh();
+                ImportUtilities.SetOnImportedExtendedSqls(context, ss);
+                ss.Notifications.ForEach(notification =>
+                {
+                    var body = new System.Text.StringBuilder();
+                    body.Append(Locations.ItemIndexAbsoluteUri(
+                        context: context,
+                        ss.SiteId) + "\n");
+                    body.Append(
+                        $"{Displays.Results_Updator(context: context)}: ",
+                        $"{context.User.Name}\n");
+                    if (notification.AfterImport != false)
+                    {
+                        notification.Send(
+                            context: context,
+                            ss: ss,
+                            title: Displays.Imported(
+                                context: context,
+                                data: new string[]
+                                {
+                                    ss.Title,
+                                    insertCount.ToString(),
+                                    updateCount.ToString()
+                                }),
+                            body: body.ToString());
+                    }
+                });
+                return new { insertCount = insertCount, updateCount = updateCount }.ToJson();
+            }
+            else
+            {
+                throw NewProcessingFailureException(message: Messages.FileNotFound(context: context));
+            }
+        }
+
+        private static string GetImportDateFormat(
+            Context context,
+            Csv csv,
+            int index)
+        {
+            var formats = new[] { "Ymdahms", "Ymdahm", "Ymda" }
+                .Select(v => Displays.Get(
+                    context: context,
+                    id: v + "Format"))
+                .ToArray();
+            foreach (var data in csv.Rows)
+            {
+                foreach (var format in formats)
+                {
+                    if (DateTime.TryParseExact(
+                        data[index],
+                        format,
+                        context.CultureInfo(),
+                        System.Globalization.DateTimeStyles.None,
+                        out var _))
+                    {
+                        return format;
+                    }
+                }
+            }
+            return null;
+        }
+
+        private static Exception NewProcessingFailureException(Message message)
+        {
+            return NewProcessingFailureException(message.Text, message.Id);
+        }
+
+        private static Exception NewProcessingFailureException(string message, string id = "")
+        {
+            return new Implem.Libraries.Exceptions.ProcessingFailureException(message: message, id: id);
         }
 
         public static string OpenExportSelectorDialog(
@@ -7331,6 +8072,14 @@ namespace Implem.Pleasanter.Models
             {
                 return ApiResults.Get(ApiResponses.BadRequest(context: context));
             }
+            using var exclusiveObj = new Sessions.TableExclusive(context: context);
+            if (!exclusiveObj.TryLock())
+            {
+                return ApiResults.Get(new ApiResponse(
+                    id: context.Id,
+                    statusCode: 429,
+                    message: Messages.ImportLock(context: context).Text));
+            }
             var export = api.Export ?? ss.GetExport(
                 context: context,
                 id: api.ExportId);
@@ -7355,6 +8104,58 @@ namespace Implem.Pleasanter.Models
                             extension: export.Type.ToString()),
                         Content = content
                     });
+        }
+
+        public static bool ExportByServerScript(
+        	Context context,
+        	SiteSettings ss,
+        	string filePath)
+        {
+        	if (!Mime.ValidateOnApi(contentType: context.ContentType))
+        	{
+        		throw NewProcessingFailureException(message: Messages.BadRequest(context: context));
+        	}
+        	if (context.ContractSettings.Export == false)
+        	{
+        		throw NewProcessingFailureException(message: Messages.BadRequest(context: context));
+        	}
+        	var invalid = ResultValidators.OnExporting(
+        		context: context,
+        		ss: ss,
+        		api: true);
+        	switch (invalid.Type)
+        	{
+        		case Error.Types.None: break;
+        		default:
+        			throw NewProcessingFailureException(message: invalid.Message(context: context));
+        	}
+        	var api = context.RequestDataString.Deserialize<ExportServerScript>();
+        	if (api == null)
+        	{
+        		throw NewProcessingFailureException(message: Messages.BadRequest(context: context));
+        	}
+            using var exclusiveObj = new Sessions.TableExclusive(context: context, siteId: ss.SiteId);
+        	if (!exclusiveObj.TryLock())
+        	{
+        		throw NewProcessingFailureException(message: Messages.ImportLock(context: context));
+        	}
+        	var export = api.Export ?? ss.GetExport(
+        		context: context,
+        		id: api.ExportId);
+        	var content = ExportUtilities.Export(
+        		context: context,
+        		ss: ss,
+        		export: export,
+        		where: SelectedWhere(
+        			context: context,
+        			ss: ss),
+        		view: api.View ?? new View());
+            content.ToBytes(
+                api.Encoding == "Shift-JIS"
+                    ? System.Text.Encoding.GetEncoding("Shift_JIS")
+                    : System.Text.Encoding.UTF8)
+                .Write(filePath: filePath);
+        	return true;
         }
 
         public static ResponseFile ExportCrosstab(
@@ -9081,6 +9882,19 @@ namespace Implem.Pleasanter.Models
                 updated: updated);
         }
 
+        public static string SmartDesignJson(Context context, SiteSettings ss,SiteModel siteModel)
+        {
+            if (!context.CanManageSite(ss: ss))
+            {
+                return Messages.ResponseHasNotPermission(context: context).ToJson();
+            }
+            var smartDesignModel = new SmartDesignApiModel(
+                context: context,
+                ss: ss,
+                timestamp: siteModel.Timestamp);
+            return smartDesignModel.ToJson();
+        }
+
         public static (Plugins.PdfData pdfData, string error) Pdf(
             Context context,
             SiteSettings ss,
@@ -9307,7 +10121,7 @@ namespace Implem.Pleasanter.Models
                             ss: ss,
                             dataRow: dataRow));
             return (new ResponseCollection(context: context))
-                .Append("#ImageLib", hb)
+                .Append("#ImageLibBody", hb)
                 .Val("#ImageLibOffset", ss.ImageLibNextOffset(
                     offset,
                     imageLibData.DataRows.Count(),

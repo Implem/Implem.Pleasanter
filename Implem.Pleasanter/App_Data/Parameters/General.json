@@ -10,6 +10,7 @@
     "HtmlSupportUrl": "https://pleasanter.org/support",
     "HtmlContactUrl": "https://pleasanter.org/contact/",
     "HtmlAGPLUrl": "https://github.com/Implem/Implem.Pleasanter/blob/master/LICENSE",
+    "HtmlTrialLicenseUrl": "https://pleasanter.org/ja/manual/pleasanter-extensions-trial",
     "HtmlEnterpriseEditionUrl": "https://pleasanter.org/enterprise",
     "HtmlCasesUrl": "https://pleasanter.org/cases",
     "DisplayLogoText": false,
@@ -41,6 +42,9 @@
     "AllowCopy": true,
     "AllowReferenceCopy": false,
     "CharToAddWhenCopying": " - コピー",
+    "ChoiceSplitRegexPattern": "(?<!\\\\),",
+    "ChoiceReplaceRegexPattern": "\\\\(,)",
+    "ChoiceReplaceRegexReplacement": "$1",
     "UpdateResponseType": 0,
     "SolutionBackupPath": "",
     "SolutionBackupExcludeDirectories": "\\Backups,\\Histories,\\BinaryStorage,\\App_Data\\Logs,\\Temp,\\packages,\\bin,\\obj,\\PublishProfiles,\\BuildProcessTemplates,\\Parameters\\CustomDefinitions,\\Parameters\\ExtendedColumns",
@@ -99,5 +103,7 @@
     "EnableLightBox": true,
     "EnableCodeEditor": true,
     "GroupsDepthMax": 30,
-    "BulkUpsertMax": 0
+    "BulkUpsertMax": 0,
+    "EnableExpandLinkPath": false,
+    "BlockSiteTaskWhileRunning": false
 }

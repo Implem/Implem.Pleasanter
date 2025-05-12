@@ -53,11 +53,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 ? null
                                 : new Dictionary<string, string>() {
                                     { "data-step", column.DateTimeStep?.ToString() }
-                                },
-                            controlOption: () => hb
-                                .Div(
-                                    css: "ui-icon ui-icon-clock current-time",
-                                    _using: !Parameters.General.HideCurrentTimeIcon))
+                                })
                         .FieldTextBox(
                             textType: HtmlTypes.TextTypes.DateTime,
                             fieldId: "DateRangeEndField",
@@ -79,11 +75,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 ? null
                                 : new Dictionary<string, string>() {
                                     { "data-step", column.DateTimeStep?.ToString() }
-                                },
-                            controlOption: () => hb
-                                .Div(
-                                    css: "ui-icon ui-icon-clock current-time",
-                                    _using: !Parameters.General.HideCurrentTimeIcon))
+                                })
                         .P(css: "message-dialog")
                         .Div(
                             css: "command-center",

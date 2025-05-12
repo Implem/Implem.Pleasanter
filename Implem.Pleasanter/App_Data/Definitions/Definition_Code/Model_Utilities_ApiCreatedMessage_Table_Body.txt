@@ -7,4 +7,4 @@
             context: context,
             ss: ss,
             #modelName#Model: #modelName#Model,
-            process: process).Text);
+            processes: processes).Text);

@@ -1,0 +1,33 @@
+﻿{
+    "Id": "ExpandLinkPath",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Include same site with different link paths"
+        },
+        {
+            "Language": "zh",
+            "Body": "包含具有不同链接路径的同一站点"
+        },
+        {
+            "Language": "ja",
+            "Body": "リンクの経路が異なる同一サイトを含める"
+        },
+        {
+            "Language": "de",
+            "Body": "Gleiche Seite mit unterschiedlichen Linkpfaden einbeziehen"
+        },
+        {
+            "Language": "ko",
+            "Body": "다른 링크 경로가 있는 동일 사이트 포함"
+        },
+        {
+            "Language": "es",
+            "Body": "Incluir el mismo sitio con diferentes rutas de enlace"
+        },
+        {
+            "Language": "vn",
+            "Body": "Bao gồm cùng một trang web với các đường dẫn liên kết khác nhau"
+        }
+    ]
+}

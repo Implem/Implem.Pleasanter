@@ -11,6 +11,9 @@ namespace Implem.Pleasanter.Models.ApiSiteSettings
         public string Title { get; set; }
         public string Name { get; set; }
         public string Body { get; set; }
+        public bool? Functionalize { get; set; }
+        public bool? TryCatch { get; set; }
+        public bool? Disabled { get; set; }
         public bool? ServerScriptWhenloadingSiteSettings { get; set; }
         public bool? ServerScriptWhenViewProcessing { get; set; }
         public bool? ServerScriptWhenloadingRecord { get; set; }
@@ -22,7 +25,9 @@ namespace Implem.Pleasanter.Models.ApiSiteSettings
         public bool? ServerScriptBeforeUpdate { get; set; }
         public bool? ServerScriptAfterUpdate { get; set; }
         public bool? ServerScriptBeforeDelete { get; set; }
+        public bool? ServerScriptBeforeBulkDelete { get; set; }
         public bool? ServerScriptAfterDelete { get; set; }
+        public bool? ServerScriptAfterBulkDelete { get; set; }
         public bool? ServerScriptBeforeOpeningPage { get; set; }
         public bool? ServerScriptBeforeOpeningRow { get; set; }
         public bool? ServerScriptShared { get; set; }

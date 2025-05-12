@@ -38,7 +38,8 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return HtmlTemplates.Error(
+                default:
+                    return HtmlTemplates.Error(
                     context: context,
                     errorData: invalid);
             }
@@ -299,11 +300,22 @@ namespace Implem.Pleasanter.Models
             var view = Views.GetBySession(
                 context: context,
                 ss: ss);
-            var gridData = GetGridData(
-                context: context,
-                ss: ss,
-                view: view,
-                offset: offset);
+            GridData gridData = null;
+            try
+            {
+                gridData = GetGridData(
+                    context: context,
+                    ss: ss,
+                    view: view,
+                    offset: offset);
+            }
+            catch (Implem.Libraries.Exceptions.CanNotGridSortException)
+            {
+                return new ResponseCollection(context: context)
+                    .Message(context.Messages.Last())
+                    .Log(context.GetLog())
+                    .ToJson();
+            }
             var columns = ss.GetGridColumns(
                 context: context,
                 view: view,
@@ -1642,7 +1654,7 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
             }
-            List<Process> processes = null;
+            var processes = (List<Process>)null;
             var errorData = groupModel.Create(context: context, ss: ss);
             switch (errorData.Type)
             {
@@ -1653,7 +1665,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             groupModel: groupModel,
-                            process: processes?.FirstOrDefault(o => o.MatchConditions)));
+                            processes: processes));
                     return new ResponseCollection(
                         context: context,
                         id: groupModel.GroupId)
@@ -1680,13 +1692,15 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             GroupModel groupModel,
-            Process process)
+            List<Process> processes)
         {
+            var process = processes?.FirstOrDefault(o => !o.SuccessMessage.IsNullOrEmpty()
+                && o.MatchConditions);
             if (process == null)
             {
                 return Messages.Created(
                     context: context,
-                    data: groupModel.Title.Value);
+                    data: groupModel.Title.MessageDisplay(context: context));
             }
             else
             {
@@ -1719,7 +1733,7 @@ namespace Implem.Pleasanter.Models
             {
                 return Messages.ResponseDeleteConflicts(context: context).ToJson();
             }
-            List<Process> processes = null;
+            var processes = (List<Process>)null;
             var errorData = groupModel.Update(context: context, ss: ss);
             switch (errorData.Type)
             {
@@ -2007,7 +2021,7 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     parts: new string[]
                     {
-                        "Items",
+                        context.Controller,
                         groupId.ToString() 
                             + (groupModel.VerType == Versions.VerTypes.History
                                 ? "?ver=" + context.Forms.Int("Ver") 
@@ -2233,7 +2247,7 @@ namespace Implem.Pleasanter.Models
                         updateGroupMemberCount: ref updateGroupMemberCount);
                 }
                 GroupMemberUtilities.RefreshAllChildMembers(tenantId: context.TenantId);
-                SiteInfo.Reflesh(
+                SiteInfo.Refresh(
                     context: context,
                     force: true);
                 return GridRows(
@@ -2514,7 +2528,7 @@ namespace Implem.Pleasanter.Models
                         updateGroupMemberCount: ref updateGroupMemberCount);
                 }
                 GroupMemberUtilities.RefreshAllChildMembers(tenantId: context.TenantId);
-                SiteInfo.Reflesh(
+                SiteInfo.Refresh(
                     context: context,
                     force: true);
                 return ApiResults.Success(
@@ -2595,7 +2609,7 @@ namespace Implem.Pleasanter.Models
             var errorData = groupModel.Update(
                 context: context,
                 ss: ss,
-                refleshSiteInfo: false,
+                refreshSiteInfo: false,
                 updateGroupMembers: false,
                 get: false);
             if (errorData.Type == Error.Types.None)
@@ -2702,7 +2716,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static int GetDeptId(Context context, string deptCode)
         {
-            return Repository.ExecuteScalar_int (
+            return Repository.ExecuteScalar_int(
                 context: context,
                 statements: Rds.SelectDepts(
                     column: Rds.DeptsColumn()
@@ -3130,7 +3144,7 @@ namespace Implem.Pleasanter.Models
             if (groupModel.MethodType == BaseModel.MethodTypes.New) return hb;
             return hb.TabsPanelField(
                 id: "FieldSetMembers",
-                action: () =>  hb
+                action: () => hb
                     .CurrentMembers(
                         context: context,
                         groupModel: groupModel)
@@ -3924,7 +3938,7 @@ namespace Implem.Pleasanter.Models
                     tenantId: context.TenantId,
                     groupId: childId);
                 data.Add(
-                    $"Group,{childId},", 
+                    $"Group,{childId},",
                     new ControlData(
                         text: group.SelectableText(
                             context: context,
@@ -3985,7 +3999,8 @@ namespace Implem.Pleasanter.Models
                 switch (invalidOnReading.Type)
                 {
                     case Error.Types.None: break;
-                    default: return ApiResults.Error(
+                    default:
+                        return ApiResults.Error(
                         context: context,
                         errorData: invalidOnReading);
                 }
@@ -3994,7 +4009,9 @@ namespace Implem.Pleasanter.Models
                 ? SiteInfo.SiteGroups(context, siteModel.InheritPermission)?
                 .Where(o => !SiteInfo.User(context, o).Disabled).ToArray()
                 : null;
-            var pageSize = Parameters.Api.PageSize;
+            var pageSize = api?.PageSize > 0 && api?.PageSize <= Parameters.Api.PageSize
+                ? api.PageSize
+                : Parameters.Api.PageSize;
             var tableType = (api?.TableType) ?? Sqls.TableTypes.Normal;
             if (groupId > 0)
             {
@@ -4148,7 +4165,7 @@ namespace Implem.Pleasanter.Models
                 {
                     return ApiResults.Error(
                         context: context,
-                        errorData: new ErrorData(type: Error.Types.NotRequiredColumn),
+                        errorData: new ErrorData(type: Error.Types.NotIncludedRequiredColumn),
                         data: column.ColumnName);
                 }
             }
@@ -4215,7 +4232,7 @@ namespace Implem.Pleasanter.Models
                 {
                     return ApiResults.Error(
                         context: context,
-                        errorData: new ErrorData(type: Error.Types.NotRequiredColumn),
+                        errorData: new ErrorData(type: Error.Types.NotIncludedRequiredColumn),
                         data: column.ColumnName);
                 }
             }

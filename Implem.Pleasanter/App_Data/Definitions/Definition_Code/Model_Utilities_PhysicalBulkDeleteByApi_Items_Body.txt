@@ -97,6 +97,11 @@ public static long PhysicalBulkDeleteByServerScript(
         {
             return 0;
         }
+        using var exclusiveObj = new Sessions.TableExclusive(context: context, siteId: ss.SiteId);
+        if (!exclusiveObj.TryLock())
+        {
+            return 0;
+        }
         var view = recordSelector.View ?? Views.GetBySession(
             context: context,
             ss: ss);

@@ -438,12 +438,12 @@ namespace Implem.Pleasanter.Libraries.Security
                     mine: mine) != false;
         }
 
-        public static bool HasPermission(this Context context, SiteSettings ss, bool isSearch = false)
+        public static bool HasPermission(this Context context, SiteSettings ss)
         {
             return ss.PermissionType != null
                 || ss.ItemPermissionType != null
-                || context.HasPrivilege
-                || isSearch;
+                || ss.ReferenceType == null
+                || context.HasPrivilege;
         }
 
         public static Types SiteTopPermission(this Context context)
@@ -473,11 +473,14 @@ namespace Implem.Pleasanter.Libraries.Security
                         || context.UserSettings?.EnableManageTenant == true;
                 case "users":
                     return CanManageTenant(context: context)
-                        || context.UserId == context.Id;
+                        || context.UserId == context.Id
+                        || context.UserSettings?.EnableManageTenant == true;
                 case "registrations":
                     return CanManageRegistrations(context: context, any: true);
                 case "publishes":
                     return context.Publish;
+                case "extensions":
+                    return CanManageTenant(context: context);
                 default:
                     if (ss.IsSiteEditor(context: context) || ss.IsDashboardEditor(context: context))
                     {
@@ -502,8 +505,17 @@ namespace Implem.Pleasanter.Libraries.Security
                 case "syslogs":
                     return false;
                 case "depts":
+                    return CanManageTenant(context: context)
+                        || context.UserSettings?.EnableManageTenant == true;
                 case "users":
-                    return CanManageTenant(context: context);
+                    if (context.UserSettings?.EnableManageTenant == true)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        return CanManageTenant(context: context);
+                    }
                 case "registrations":
                     return CanManageRegistrations(context: context);
                 case "groups":
@@ -511,6 +523,8 @@ namespace Implem.Pleasanter.Libraries.Security
                         || context.UserSettings?.EnableManageTenant == true;
                 case "versions":
                     return false;
+                case "extensions":
+                    return CanManageTenant(context: context);
                 default:
                     if (ss.IsSiteEditor(context: context) || ss.IsDashboardEditor(context: context))
                     {
@@ -544,9 +558,12 @@ namespace Implem.Pleasanter.Libraries.Security
                         || context.UserSettings?.EnableManageTenant == true;
                 case "users":
                     return CanManageTenant(context: context)
-                        || context.UserId == context.Id;
+                        || context.UserId == context.Id
+                        || context.UserSettings?.EnableManageTenant == true;
                 case "registrations":
                     return CanManageRegistrations(context: context, any: true);
+                case "extensions":
+                    return CanManageTenant(context: context);
                 default:
                     if (ss.IsSiteEditor(context: context) || ss.IsDashboardEditor(context: context))
                     {
@@ -587,6 +604,8 @@ namespace Implem.Pleasanter.Libraries.Security
                         && context.UserId != context.Id;
                 case "registrations":
                     return PrivilegedUsers(loginId: context.LoginId);
+                case "extensions":
+                    return CanManageTenant(context: context);
                 default:
                     if (ss.IsSiteEditor(context: context) || ss.IsDashboardEditor(context: context))
                     {
@@ -661,12 +680,14 @@ namespace Implem.Pleasanter.Libraries.Security
                 case "syslogs":
                     return context.HasPrivilege;
                 case "depts":
-                    return CanManageTenant(context: context);
+                    return CanManageTenant(context: context)
+                        || context.UserSettings?.EnableManageTenant == true;
                 case "groups":
                     return CanManageTenant(context: context)
                         || context.UserSettings?.EnableManageTenant == true;
                 case "users":
-                    return CanManageTenant(context: context);
+                    return CanManageTenant(context: context)
+                        || context.UserSettings?.EnableManageTenant == true;
                 default:
                     return context.ItemsCan(ss: ss, type: Types.Export, site: site);
             }
@@ -730,11 +751,27 @@ namespace Implem.Pleasanter.Libraries.Security
                 || context.HasPrivilege;
         }
 
+        public static bool CanManageTenantOrEnableManageTenant(Context context)
+        {
+            //テナントの管理者、特権ユーザ、またはPleasanter.netの管理者の場合にTrueを返す
+            return CanManageTenant(context: context)
+                || context.UserSettings?.EnableManageTenant == true;
+        }
+
         public static bool CanManageUser(Context context)
         {
             return (context.User?.TenantManager == true
                 && Parameters.Service.ShowProfiles)
                     || context.HasPrivilege;
+        }
+
+        //メソッド名を考える
+        public static bool CannotManageUsers(Context context)
+        {
+            return (context.UserSettings?.EnableManageTenant == false
+                || context.UserSettings?.EnableManageTenant == null)
+                && !context.HasPrivilege
+                && !Parameters.Service.ShowProfiles;
         }
 
         public static bool CanManageRegistrations(Context context, bool any = false)

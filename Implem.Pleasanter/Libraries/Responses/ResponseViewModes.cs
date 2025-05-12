@@ -78,13 +78,13 @@ namespace Implem.Pleasanter.Libraries.Responses
                         serverScriptModelRow: serverScriptModelRow))
                 .Val("#EditOnGrid", editOnGrid.ToOneOrZeroString())
                 .SetMemory("formChanged", false, _using: !editOnGrid)
-                .Invoke(invoke)
-                .Message(message)
-                .LoadScroll(loadScroll)
                 .ClearFormData(
                     context: context,
                     ss: ss,
                     editOnGrid: editOnGrid)
+                .Invoke(invoke)
+                .Message(message)
+                .LoadScroll(loadScroll)
                 .FilterField(
                     context: context,
                     ss: ss,
@@ -130,6 +130,26 @@ namespace Implem.Pleasanter.Libraries.Responses
                     type: ss.SaveViewType == SiteSettings.SaveViewTypes.None
                         ? "ignoreView"
                         : null);
+            }
+            if (ss.SaveViewType == SiteSettings.SaveViewTypes.None)
+            {
+                var controlId = context.Forms.Get("ControlId") ?? string.Empty;
+                if (controlId == "ViewFilters_Reset")
+                {
+                    foreach (var key in context.Forms.Keys)
+                    {
+                        if (key.StartsWith("ViewFilters_") || key.StartsWith("ViewSorters_"))
+                        {
+                            res.ClearFormData(target: key);
+                        }
+                    }
+                }
+                else if (controlId.StartsWith("ViewFilters_") || controlId.StartsWith("ViewSorters_"))
+                {
+                    res.SetFormData(
+                        target: controlId,
+                        value: context.Forms.Get(controlId) ?? string.Empty);
+                }
             }
             return res;
         }

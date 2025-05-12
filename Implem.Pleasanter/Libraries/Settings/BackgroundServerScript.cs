@@ -6,7 +6,6 @@ namespace Implem.Pleasanter.Libraries.Settings
 {
     public class BackgroundServerScript : ServerScript
     {
-        public bool? Disabled;
         public SettingList<BackgroundSchedule> backgoundSchedules = new SettingList<BackgroundSchedule>();
         public int UserId;
         public string ServerScriptSchedule1;
@@ -27,6 +26,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool disabled,
             string body,
             int? timeOut,
+            bool? functionalize,
+            bool? tryCatch,
             IEnumerable<BackgroundSchedule> backgoundSchedules) : base(
                 id: id,
                 title: title,
@@ -41,15 +42,20 @@ namespace Implem.Pleasanter.Libraries.Settings
                 beforeUpdate: false,
                 afterUpdate: false,
                 beforeDelete: false,
+                beforeBulkDelete: false,
                 afterDelete: false,
+                afterBulkDelete: false,
                 beforeOpeningPage: false,
                 beforeOpeningRow: false,
                 shared: shared,
                 background: true,
                 body: body,
-                timeOut: timeOut)
+                functionalize: functionalize,
+                tryCatch: tryCatch,
+                timeOut: timeOut,
+                disabled: disabled)
         {
-            Disabled = disabled;
+
             UserId = userId;
             this.backgoundSchedules = backgoundSchedules.ToJson().Deserialize<SettingList<BackgroundSchedule>>();
         }
@@ -74,6 +80,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool disabled,
             string body,
             int? timeOut,
+            bool? functionalize,
+            bool? tryCatch,
             IEnumerable<BackgroundSchedule> backgoundSchedules)
         {
             Update(
@@ -89,14 +97,19 @@ namespace Implem.Pleasanter.Libraries.Settings
                 beforeUpdate: false,
                 afterUpdate: false,
                 beforeDelete: false,
+                beforeBulkDelete: false,
                 afterDelete: false,
+                afterBulkDelete: false,
                 beforeOpeningPage: false,
                 beforeOpeningRow: false,
                 shared: shared,
                 background: true,
                 body: body,
+                functionalize: functionalize,
+                tryCatch: tryCatch,
+                disabled: disabled,
                 timeOut: timeOut);
-            Disabled = disabled;
+
             UserId = userId;
             this.backgoundSchedules = backgoundSchedules.ToJson().Deserialize<SettingList<BackgroundSchedule>>();
         }

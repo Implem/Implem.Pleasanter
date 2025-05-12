@@ -90,9 +90,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     action: () => hb
                                         .Span(
                                             css: "ui-icon ui-icon-person")
-                                        .Text(SiteInfo.UserName(
-                                            context: context,
-                                            userId: context.UserId)))
+                                        .Span(
+                                            css: "account-name",
+                                            action: () => hb.Text(SiteInfo.UserName(
+                                                context: context,
+                                                userId: context.UserId))))
                                 .Search(
                                     context: context,
                                     _using: useSearch && !Parameters.Search.DisableCrossSearch));
@@ -457,30 +459,41 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             }
             else
             {
-                return hb.A(
-                    href: menu.Url
-                        ?? Href(
+                if (menu.MenuId != "SettingsMenu_SmartDesign")
+                {
+                    return hb.A(
+                        href: menu.Url
+                            ?? Href(
+                                context: context,
+                                ss: ss,
+                                siteId: siteId,
+                                menu: menu)
+                            ?? "javascript:void(0);",
+                        target: menu.Target,
+                        attributes: Attributes(
                             context: context,
                             ss: ss,
                             siteId: siteId,
-                            menu: menu)
-                        ?? "javascript:void(0);",
-                    target: menu.Target,
-                    attributes: Attributes(
-                        context: context,
-                        ss: ss,
-                        siteId: siteId,
-                        childMenu: childMenu,
-                        menu: menu),
-                    action: () => hb
-                        .Span(
-                            css: menu.Icon,
-                            _using: context.ThemeVersion1_0())
-                        .Text(text: Text(
-                            context: context,
-                            ss: ss,
-                            menu: menu,
-                            serverScriptLabelText: serverScriptLabelText)));
+                            childMenu: childMenu,
+                            menu: menu),
+                        action: () => hb
+                            .Span(
+                                css: menu.Icon,
+                                _using: context.ThemeVersion1_0())
+                            .Text(text: Text(
+                                context: context,
+                                ss: ss,
+                                menu: menu,
+                                serverScriptLabelText: serverScriptLabelText)));
+                }
+                else
+                {
+                    return hb.SmartDesignLink(
+                        action: () => hb.A(
+                            href: "javascript: $p.closeSideMenu();",
+                            action: () => hb.Text(text: Displays.SmartDesign(context: context))
+                        ));
+                }
             }
         }
 
@@ -623,9 +636,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 ss: ss,
                 site: true);
             var canManageSysLogs = context.HasPrivilege;
-            var canManageDepts = Permissions.CanManageTenant(context: context);
+            var canManageDepts = Permissions.CanManageTenant(context: context)
+                || context.UserSettings?.EnableManageTenant == true;
             var canManageGroups = context.UserSettings?.AllowGroupAdministration(context: context) == true;
-            var canManageUsers = Permissions.CanManageUser(context: context);
+            var canManageUsers = Permissions.CanManageUser(context: context)
+                || context.UserSettings?.EnableManageTenant == true;
             var canManageRegistrations = Permissions.CanManageRegistrations(context: context);
             var canManageTenants = Permissions.CanManageTenant(context: context)
                 || context.UserSettings?.EnableManageTenant == true;
@@ -647,6 +662,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             switch (menu.MenuId)
             {
                 case "NewMenu":
+                    if (ss.ReferenceType == "Users"
+                        && context.UserSettings?.EnableManageTenant == true)
+                    {
+                        return false;
+                    }
                     return ss.ReferenceType == "Sites" && context.Action == "index"
                         ? context.CanManageSite(ss: ss)
                         : ss.ReferenceType == "Groups"
@@ -656,6 +676,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 && ss.ReferenceType != "Wikis"
                                 && context.Action != "trashbox"
                                 && ss.ReferenceType != "Dashboards"
+                                && ss.ReferenceType != null
                                 && !(ss.ReferenceType == "Sites" && context.Action == "edit");
                 case "ViewModeMenu":
                     return Def.ViewModeDefinitionCollection
@@ -666,6 +687,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         || canManageGroups
                         || canManageUsers
                         || canUnlockSite;
+                case "SettingsMenu_SmartDesign":
+                    return canManageSite
+                        && ss.ReferenceType != "Sites"
+                        && ss.ReferenceType != "Wikis"
+                        && ss.ReferenceType != "Dashboards"
+                        && !context.Mobile
+                        && !context.Responsive
+                        && context.ThemeVersionForCss() >= 2.0M;
                 case "SettingsMenu_SiteSettings":
                     return canManageSite;
                 case "SettingsMenu_SysLogAdmin":

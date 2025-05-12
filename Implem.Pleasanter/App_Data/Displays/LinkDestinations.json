@@ -1,6 +1,7 @@
-{
+﻿{
     "Id": "LinkDestinations",
     "Type": 110,
+    "ClientScript": true,
     "Languages": [
         {
             "Body": "Link destinations"

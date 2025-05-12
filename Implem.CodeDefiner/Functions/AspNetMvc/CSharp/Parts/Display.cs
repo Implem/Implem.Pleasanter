@@ -74,7 +74,7 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
                 case DisplayAccessor.Displays.Types.Success:
                     return "alert-success";
                 case DisplayAccessor.Displays.Types.Information:
-                    return "alert-info";
+                    return "alert-information";
                 case DisplayAccessor.Displays.Types.Warning:
                     return "alert-warning";
                 case DisplayAccessor.Displays.Types.Error:

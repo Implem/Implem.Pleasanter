@@ -42,7 +42,7 @@ namespace Implem.PleasanterTest.Tests.Items
             var baseTests = BaseData.Tests(
                 JsonData.ExistsOne(
                     method: "Append",
-                    target: "#ImageLib"),
+                    target: "#ImageLibBody"),
                 JsonData.ExistsOne(
                     method: "SetValue",
                     target: "#ImageLibOffset"),

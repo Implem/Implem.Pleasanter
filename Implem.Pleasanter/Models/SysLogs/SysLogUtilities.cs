@@ -283,11 +283,22 @@ namespace Implem.Pleasanter.Models
             var view = Views.GetBySession(
                 context: context,
                 ss: ss);
-            var gridData = GetGridData(
-                context: context,
-                ss: ss,
-                view: view,
-                offset: offset);
+            GridData gridData = null;
+            try
+            {
+                gridData = GetGridData(
+                    context: context,
+                    ss: ss,
+                    view: view,
+                    offset: offset);
+            }
+            catch (Implem.Libraries.Exceptions.CanNotGridSortException)
+            {
+                return new ResponseCollection(context: context)
+                    .Message(context.Messages.Last())
+                    .Log(context.GetLog())
+                    .ToJson();
+            }
             var columns = ss.GetGridColumns(
                 context: context,
                 view: view,
@@ -2170,7 +2181,7 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
             }
-            List<Process> processes = null;
+            var processes = (List<Process>)null;
             var errorData = sysLogModel.Create(context: context, ss: ss);
             switch (errorData.Type)
             {
@@ -2181,7 +2192,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             sysLogModel: sysLogModel,
-                            process: processes?.FirstOrDefault(o => o.MatchConditions)));
+                            processes: processes));
                     return new ResponseCollection(
                         context: context,
                         id: sysLogModel.SysLogId)
@@ -2208,13 +2219,15 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             SysLogModel sysLogModel,
-            Process process)
+            List<Process> processes)
         {
+            var process = processes?.FirstOrDefault(o => !o.SuccessMessage.IsNullOrEmpty()
+                && o.MatchConditions);
             if (process == null)
             {
                 return Messages.Created(
                     context: context,
-                    data: sysLogModel.Title.Value);
+                    data: sysLogModel.Title.MessageDisplay(context: context));
             }
             else
             {
@@ -2247,7 +2260,7 @@ namespace Implem.Pleasanter.Models
             {
                 return Messages.ResponseDeleteConflicts(context: context).ToJson();
             }
-            List<Process> processes = null;
+            var processes = (List<Process>)null;
             var errorData = sysLogModel.Update(context: context, ss: ss);
             switch (errorData.Type)
             {
@@ -2515,7 +2528,7 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     parts: new string[]
                     {
-                        "Items",
+                        context.Controller,
                         sysLogId.ToString() 
                             + (sysLogModel.VerType == Versions.VerTypes.History
                                 ? "?ver=" + context.Forms.Int("Ver") 
@@ -2640,13 +2653,51 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static void PhysicalDelete(Context context)
         {
-            Repository.ExecuteNonQuery(
-                context: context,
-                statements: Rds.PhysicalDeleteSysLogs(
-                    where: Rds.SysLogsWhere().CreatedTime(
-                        DateTime.Now.Date.AddDays(
-                            Parameters.SysLog.RetentionPeriod * -1),
-                        _operator: "<")));
+            var chunkSize = Parameters.BackgroundService.DeleteSysLogsChunkSize;
+            if (chunkSize <= 0)
+            {
+                Repository.ExecuteNonQuery(
+                    context: context,
+                    statements: Rds.PhysicalDeleteSysLogs(
+                        where: Rds.SysLogsWhere().CreatedTime(
+                            DateTime.Now.Date.AddDays(
+                                Parameters.SysLog.RetentionPeriod * -1),
+                            _operator: "<")));
+            }
+            else
+            {
+                // dbmsによって delete文 の limit句 の指定方法が違うために、SysLogId(Primary Key)で条件を作成している。
+                var (min, max) = Repository.ExecuteTable(
+                    context: context,
+                    statements: Rds.SelectSysLogs(
+                        column: Rds.SysLogsColumn()
+                            .SysLogs_SysLogId(function: Sqls.Functions.Min, _as: "SysLogIdMin")
+                            .SysLogs_SysLogId(function: Sqls.Functions.Max, _as: "SysLogIdMax"),
+                        where: Rds.SysLogsWhere().CreatedTime(
+                                DateTime.Now.Date.AddDays(
+                                    Parameters.SysLog.RetentionPeriod * -1),
+                                _operator: "<")))
+                            .AsEnumerable()
+                            .Select(o => ( min: o["SysLogIdMin"].ToLong(), max: o["SysLogIdMax"].ToLong() ))
+                            .FirstOrDefault((min: 0L, max: 0L));
+                if (min != 0 && max != 0)
+                {
+                    for (var i = min; i <= max; i += chunkSize)
+                    {
+                        Repository.ExecuteNonQuery(
+                            context: context,
+                            statements: Rds.PhysicalDeleteSysLogs(
+                                where: Rds.SysLogsWhere()
+                                    .CreatedTime(
+                                        DateTime.Now.Date.AddDays(
+                                            Parameters.SysLog.RetentionPeriod * -1),
+                                        _operator: "<")
+                                    .SysLogId_Between(
+                                        begin: i,
+                                        end: i + chunkSize - 1)));
+                    }
+                }
+            }
         }
     }
 }

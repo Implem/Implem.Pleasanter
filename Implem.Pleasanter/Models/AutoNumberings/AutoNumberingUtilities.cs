@@ -37,6 +37,11 @@ namespace Implem.Pleasanter.Models
             Dictionary<string, string> data,
             SqlStatement updateModel)
         {
+            if (autoNumbering.Step == 0)
+            {
+                throw new ArgumentException(
+                    $"AutomaticNumbering 'Step=0' error autoNumbering={autoNumbering.ToJson()}, siteId={ss.SiteId}");
+            }
             var now = DateTime.Now.ToLocal(context: context);
             var format = Format(
                 autoNumbering: autoNumbering,
@@ -47,6 +52,7 @@ namespace Implem.Pleasanter.Models
                 format: format);
             var success = false;
             string value;
+            var retryCnt = 5;
             do
             {
                 var number = NextNumber(
@@ -83,6 +89,15 @@ namespace Implem.Pleasanter.Models
                 {
                     if (context.SqlErrors.ErrorCode(e) != context.SqlErrors.ErrorCodeDuplicatePk)
                     {
+                        throw;
+                    }
+                    if (--retryCnt <= 0)
+                    {
+                        new SysLogModel(
+                            context: context,
+                            method: nameof(ExecuteAutomaticNumbering),
+                            message: $"AutomaticNumbering retry error autoNumbering={autoNumbering.ToJson()}, siteId={ss.SiteId}",
+                            sysLogType: SysLogModel.SysLogTypes.Exception);
                         throw;
                     }
                 }
@@ -151,33 +166,25 @@ namespace Implem.Pleasanter.Models
             AutoNumbering autoNumbering,
             string key)
         {
-            if (Rds.ExecuteScalar_string(
+            var table = Rds.ExecuteTable(
                 context: context,
                 statements: Rds.SelectAutoNumberings(
                     column: Rds.AutoNumberingsColumn()
-                        .Key(),
+                        .Number(function: Sqls.Functions.Max),
                     where: Rds.AutoNumberingsWhere()
                         .TenantId(context.TenantId)
                         .ReferenceId(ss.SiteId)
                         .ColumnName(autoNumbering.ColumnName)
-                        .Key(key),
-                    top: 1)) == key)
-            {
-                return Rds.ExecuteScalar_decimal(
-                    context: context,
-                    statements: Rds.SelectAutoNumberings(
-                        column: Rds.AutoNumberingsColumn()
-                            .Number(function: Sqls.Functions.Max),
-                        where: Rds.AutoNumberingsWhere()
-                            .TenantId(context.TenantId)
-                            .ReferenceId(ss.SiteId)
-                            .ColumnName(autoNumbering.ColumnName)
-                            .Key(key))) + autoNumbering.Step.ToDecimal();
-            }
-            else
-            {
-                return autoNumbering.Default.ToDecimal();
-            }
+                        .Add(or: Rds.AutoNumberingsWhere()
+                            .Key(key)
+                            // Issue#1657 過去の不具合データがテーブルに残っている場合、そのデータを加味するために追加
+                            .Key(raw: "''", _using: key == "None")),
+                    top: 1))
+                .AsEnumerable()
+                .FirstOrDefault();
+            return table?.IsNull("NumberMax") ?? true
+                ? autoNumbering.Default.ToDecimal()
+                : table.Field<decimal>("NumberMax") + autoNumbering.Step.ToDecimal();
         }
 
         /// <summary>

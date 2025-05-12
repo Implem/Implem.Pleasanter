@@ -1,0 +1,37 @@
+@media screen and (max-width: 1024px) and (min-width: 0px) {
+    #Application:has(#Grid) {
+        &:not(:has(#Calendar)) {
+            padding-bottom: 0;
+            + #BottomMargin {
+                display: none;
+            }
+            #ViewModeContainer {
+                overflow: initial;
+                .grid-wrap {
+                    max-height: calc(
+                        100vh - 14.6vw - (2.8vw * 1.4 + 10px + 23vw)
+                    );
+                    margin-bottom: calc(2.8vw * 1.4 + 10px + 23vw);
+                    padding-top: 0;
+                    overflow: auto;
+                }
+            }
+            #KambanBody {
+                width: 100%;
+            }
+        }
+    }
+
+    #ViewModeContainer:has(#Grid) {
+        position: relative;
+        .menu-sort {
+            position: absolute !important;
+            top: 0 !important;
+            margin-left: -5vw;
+            .field-control,
+            .field-auto-thin {
+                float: none;
+            }
+        }
+    }
+}

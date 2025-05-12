@@ -191,7 +191,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             // linksはHtmlLinkCreations.Linksメソッドで生成される
             return dataRows?.Any() == true || addButton
                 ? hb.FieldSet(
-                    css: " enclosed link-creations",
+                    css: addButton? " enclosed link-creations is-sources" : " enclosed link-creations",
                     legendText: Displays.Links(context: context),
                     action: () => hb.Div(action: () =>
                     {
@@ -203,7 +203,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 linkId: id,
                                 sourceId: link.SourceId,
                                 text: link.SiteTitle,
-                                tabIndex: tabIndex));
+                                tabIndex: tabIndex,
+                                notReturnParentRecord: link.NotReturnParentRecord ?? false));
                         }
                         hb.LinkTable(
                             context: context,

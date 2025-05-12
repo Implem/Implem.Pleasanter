@@ -1,6 +1,8 @@
 ﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
+using System.Collections.Generic;
+using System.Linq;
 namespace Implem.Pleasanter.Libraries.General
 {
     public static class Error
@@ -22,6 +24,7 @@ namespace Implem.Pleasanter.Libraries.General
             CanNotDelete,
             CannotDeletePermissionInherited,
             CanNotDisabled,
+            CanNotGridSort,
             CanNotInherit,
             CanNotLink,
             CannotMoveMultipleSitesData,
@@ -45,6 +48,7 @@ namespace Implem.Pleasanter.Libraries.General
             HasNotChangeColumnPermission,
             HasNotPermission,
             ImportInvalidUserIdAndLoginId,
+            ImportLock,
             ImportMax,
             InCircleInvalidToken,
             IncorrectCurrentPassword,
@@ -61,21 +65,24 @@ namespace Implem.Pleasanter.Libraries.General
             InvalidJsonData,
             InvalidMemberKey,
             InvalidMemberType,
+            InvalidPath,
             InvalidRequest,
             InvalidSsoCode,
-            invalidUpsertKey,
+            InvalidUpsertKey,
+            InvalidValidateRequiredCsvData,
             ItemsLimit,
             JoeAccountCheck,
             LockedRecord,
             LockedTable,
+            LoginExpired,
             LoginIdAlreadyUse,
             MailAddressHasNotSet,
             NoLinks,
             NotContainKeyColumn,
             NotFound,
+            NotIncludedRequiredColumn,
             NotLockedRecord,
             NotMatchRegex,
-            NotRequiredColumn,
             Overlap,
             OverlapCsvImport,
             OverLimitApi,
@@ -92,6 +99,7 @@ namespace Implem.Pleasanter.Libraries.General
             PermissionNotSelfChange,
             PleaseInputData,
             PleaseUncheck,
+            RejectNullImport,
             ReminderErrorContent,
             ReminderErrorTitle,
             RequireMailAddresses,
@@ -180,6 +188,10 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.CanNotDisabled:
                     return Messages.CanNotDisabled(
+                        context: context,
+                        data: data);
+                case Types.CanNotGridSort:
+                    return Messages.CanNotGridSort(
                         context: context,
                         data: data);
                 case Types.CanNotInherit:
@@ -274,6 +286,10 @@ namespace Implem.Pleasanter.Libraries.General
                     return Messages.ImportInvalidUserIdAndLoginId(
                         context: context,
                         data: data);
+                case Types.ImportLock:
+                    return Messages.ImportLock(
+                        context: context,
+                        data: data);
                 case Types.ImportMax:
                     return Messages.ImportMax(
                         context: context,
@@ -338,6 +354,10 @@ namespace Implem.Pleasanter.Libraries.General
                     return Messages.InvalidMemberType(
                         context: context,
                         data: data);
+                case Types.InvalidPath:
+                    return Messages.InvalidPath(
+                        context: context,
+                        data: data);
                 case Types.InvalidRequest:
                     return Messages.InvalidRequest(
                         context: context,
@@ -346,8 +366,12 @@ namespace Implem.Pleasanter.Libraries.General
                     return Messages.InvalidSsoCode(
                         context: context,
                         data: data);
-                case Types.invalidUpsertKey:
-                    return Messages.invalidUpsertKey(
+                case Types.InvalidUpsertKey:
+                    return Messages.InvalidUpsertKey(
+                        context: context,
+                        data: data);
+                case Types.InvalidValidateRequiredCsvData:
+                    return Messages.InvalidValidateRequiredCsvData(
                         context: context,
                         data: data);
                 case Types.ItemsLimit:
@@ -364,6 +388,10 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.LockedTable:
                     return Messages.LockedTable(
+                        context: context,
+                        data: data);
+                case Types.LoginExpired:
+                    return Messages.LoginExpired(
                         context: context,
                         data: data);
                 case Types.LoginIdAlreadyUse:
@@ -386,16 +414,16 @@ namespace Implem.Pleasanter.Libraries.General
                     return Messages.NotFound(
                         context: context,
                         data: data);
+                case Types.NotIncludedRequiredColumn:
+                    return Messages.NotIncludedRequiredColumn(
+                        context: context,
+                        data: data);
                 case Types.NotLockedRecord:
                     return Messages.NotLockedRecord(
                         context: context,
                         data: data);
                 case Types.NotMatchRegex:
                     return Messages.NotMatchRegex(
-                        context: context,
-                        data: data);
-                case Types.NotRequiredColumn:
-                    return Messages.NotRequiredColumn(
                         context: context,
                         data: data);
                 case Types.Overlap:
@@ -460,6 +488,10 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.PleaseUncheck:
                     return Messages.PleaseUncheck(
+                        context: context,
+                        data: data);
+                case Types.RejectNullImport:
+                    return Messages.RejectNullImport(
                         context: context,
                         data: data);
                 case Types.ReminderErrorContent:
@@ -563,6 +595,21 @@ namespace Implem.Pleasanter.Libraries.General
             return new ResponseCollection(context: context).Message(type.Message(
                 context: context,
                 data: data)).ToJson();
+        }
+
+        public static string SdMessageJson(this Types type, Context context, params string[] data)
+        {
+            var response = type.Message(
+                context: context,
+                data: data);
+            var value = new Dictionary<string, string>
+                   {
+                       { "Id", response.Id.ToString() },
+                       { "Text", response.Text }
+                   };
+            return new SdResponse(
+                method: value["Id"],
+                value: value["Text"]).ToJson();
         }
     }
 }

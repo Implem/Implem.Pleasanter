@@ -1,3 +1,17 @@
 ﻿{
-    "TopOrderBy": 0
+    "TopOrderBy": 0,
+    "DisableSiteConditions": false,
+    "SimpleMode": {
+        "Enabled": false,
+        "Default": false,
+        "DisplaySwitch": true,
+        "Tabs": [
+            "General",
+            "Grid",
+            "Filters",
+            "DashboardParts",
+            "Editor",
+            "SiteAccessControl"
+        ]
+    }
 }

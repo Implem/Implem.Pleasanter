@@ -15,12 +15,15 @@ using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.ServerScripts;
 using Implem.Pleasanter.Libraries.Settings;
+using Implem.Pleasanter.Models.ApiSiteSettings;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Linq;
 using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
+using static Implem.Pleasanter.Libraries.Settings.Column;
+using static Implem.Pleasanter.Libraries.Settings.SiteSettings;
 namespace Implem.Pleasanter.Models
 {
     [Serializable]
@@ -1225,7 +1228,7 @@ namespace Implem.Pleasanter.Models
                 addUpdatedTimeParam: true,
                 addUpdatorParam: true,
                 updateItems: true);
-            SiteInfo.Reflesh(context: context);
+            SiteInfo.Refresh(context: context);
             return new ErrorData(type: Error.Types.None);
         }
 
@@ -2204,7 +2207,14 @@ namespace Implem.Pleasanter.Models
                 SiteSettings = new SiteSettings(context: context, referenceType: ReferenceType);
             }
             TenantId = context.TenantId;
-            var notInheritPermission = InheritPermission == 0 || RecordPermissions != null;
+            var parentSiteModel = ParentId > 0
+                ? new SiteModel(
+                    context: context,
+                    siteId: ParentId)
+                : null;
+            var notInheritPermission = InheritPermission == 0
+                || RecordPermissions != null
+                || parentSiteModel?.SiteSettings?.NotInheritPermissionsWhenCreatingSite == true;
             var response = Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
@@ -2402,12 +2412,17 @@ namespace Implem.Pleasanter.Models
                             beforeUpdate: ssApiSetting.ServerScriptBeforeUpdate,
                             afterUpdate: ssApiSetting.ServerScriptAfterUpdate,
                             beforeDelete: ssApiSetting.ServerScriptBeforeDelete,
+                            beforeBulkDelete: ssApiSetting.ServerScriptBeforeBulkDelete,
                             afterDelete: ssApiSetting.ServerScriptAfterDelete,
+                            afterBulkDelete: ssApiSetting.ServerScriptAfterBulkDelete,
                             beforeOpeningPage: ssApiSetting.ServerScriptBeforeOpeningPage,
                             beforeOpeningRow: ssApiSetting.ServerScriptBeforeOpeningRow,
                             shared: ssApiSetting.ServerScriptShared,
-                            background: default,
                             body: ssApiSetting.Body,
+                            functionalize: ssApiSetting.Functionalize,
+                            tryCatch: ssApiSetting.TryCatch,
+                            disabled: ssApiSetting.Disabled,
+                            background: default,
                             timeOut: default);
                     }
                     else
@@ -2427,11 +2442,16 @@ namespace Implem.Pleasanter.Models
                             beforeUpdate: ssApiSetting.ServerScriptBeforeUpdate,
                             afterUpdate: ssApiSetting.ServerScriptAfterUpdate,
                             beforeDelete: ssApiSetting.ServerScriptBeforeDelete,
+                            beforeBulkDelete: ssApiSetting.ServerScriptBeforeBulkDelete,
                             afterDelete: ssApiSetting.ServerScriptAfterDelete,
+                            afterBulkDelete: ssApiSetting.ServerScriptAfterBulkDelete,
                             beforeOpeningPage: ssApiSetting.ServerScriptBeforeOpeningPage,
                             beforeOpeningRow: ssApiSetting.ServerScriptBeforeOpeningRow,
                             shared: ssApiSetting.ServerScriptShared,
                             body: ssApiSetting.Body,
+                            functionalize: ssApiSetting.Functionalize,
+                            tryCatch: ssApiSetting.TryCatch,
+                            disabled: ssApiSetting.Disabled,
                             background: default,
                             timeOut: default));
                     }
@@ -2442,6 +2462,207 @@ namespace Implem.Pleasanter.Models
             {
                 siteSetting.ServerScripts.Delete(deleteSelected);
             }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public void UpsertColumnsByApi(
+            Context context,
+            SiteSettings siteSetting,
+            List<ApiSiteSettings.ColumnApiSettingModel> columnsApiSiteSetting)
+        {
+            columnsApiSiteSetting.ForEach(ssApiSetting =>
+            {
+                var currentColumnsApi = siteSetting.Columns.FirstOrDefault(o =>
+                    o.ColumnName == ssApiSetting.ColumnName);
+                var defaultColumnHash = new Column();
+                if (siteSetting.ColumnHash.ContainsKey(ssApiSetting.ColumnName))
+                {
+                    defaultColumnHash = siteSetting.ColumnHash[ssApiSetting.ColumnName];
+                }
+                if (ssApiSetting.IsNewEnable)
+                {
+                    currentColumnsApi = siteSetting.ResetColumn(context, ssApiSetting.ColumnName);
+                }
+                if (currentColumnsApi != null)
+                {
+                    currentColumnsApi.Update(
+                        column: defaultColumnHash,
+                        columnName: ssApiSetting.ColumnName,
+                        labelText: ssApiSetting.LabelText,
+                        gridLabalText: ssApiSetting.GridLabelText,
+                        defaultInput: ssApiSetting.DefaultInput,
+                        description: ssApiSetting.Description,
+                        inputGuide: ssApiSetting.InputGuide,
+                        choicesText: ssApiSetting.ChoicesText,
+                        gridFormat: ssApiSetting.GridFormat,
+                        editorFormat: ssApiSetting.EditorFormat,
+                        controlType: ssApiSetting.ControlType,
+                        choicesControlType: ssApiSetting.ChoicesControlType,
+                        format: ssApiSetting.Format,
+                        fieldCss: ssApiSetting.FieldCss,
+                        noWrap: ssApiSetting.NoWrap,
+                        validateRequired: ssApiSetting.ValidateRequired,
+                        maxLength: ssApiSetting.MaxLength,
+                        decimalPlaces: ssApiSetting.DecimalPlaces,
+                        nullable: ssApiSetting.Nullable,
+                        unit: ssApiSetting.Unit,
+                        roundingType: ssApiSetting.RoundingType,
+                        min: ssApiSetting.Min,
+                        max: ssApiSetting.Max,
+                        step: ssApiSetting.Step,
+                        noDuplication: ssApiSetting.NoDuplication,
+                        editorReadOnly: ssApiSetting.EditorReadOnly,
+                        allowDeleteAttachments: ssApiSetting.AllowDeleteAttachments,
+                        link: ssApiSetting.Link,
+                        allowImage: ssApiSetting.AllowImage,
+                        viewerSwitchingType: ssApiSetting.ViewerSwitchingType,
+                        textAlign: ssApiSetting.TextAlign,
+                        limitQuantity: ssApiSetting.LimitQuantity,
+                        limitSize: ssApiSetting.LimitSize,
+                        totalLimitSize: ssApiSetting.TotalLimitSize,
+                        thumbnailLimitSize: ssApiSetting.ThumbnailLimitSize,
+                        dateTimeStep: ssApiSetting.DateTimeStep);
+                    siteSetting.SetLinks(context, currentColumnsApi);
+                }
+            });
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public void UpsertGridColumnsByApi(
+           SiteSettings siteSetting,
+           List<string> columnsApiSiteSetting)
+        {
+            siteSetting.GridColumns = columnsApiSiteSetting;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public void UpsertFilterColumnsByApi(
+           SiteSettings siteSetting,
+           List<string> columnsApiSiteSetting)
+        {
+            siteSetting.FilterColumns = columnsApiSiteSetting;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public void UpsertSectionsByApi(
+           SiteSettings siteSetting,
+           int? sectionLatestId,
+           List<ApiSiteSettings.SectionApiSettingModel> sectionsApiSiteSetting)
+        {
+            if (sectionLatestId != 0)
+            {
+                siteSetting.SectionLatestId = sectionLatestId;
+            }
+            List<int> deleteSections = new List<int>();
+            if (sectionsApiSiteSetting != null)
+            {
+                var apiSectionIds = sectionsApiSiteSetting.Select(section => section.Id).ToList();
+                deleteSections = siteSetting.Sections?
+                    .Where(section => !apiSectionIds.Contains(section.Id))
+                    .Select(section => section.Id)
+                    .ToList();
+                var currentSectionIds = siteSetting.Sections?.Select(o => o.Id).ToList();
+                sectionsApiSiteSetting.ForEach(section => {
+                    var currentSection = siteSetting.Sections?.FirstOrDefault(o =>
+                     o.Id == section.Id);
+                    if (currentSection != null)
+                    {
+                        currentSection.Update(
+                            id: section.Id,
+                            labelText: section.LabelText,
+                            allowExpand : section.AllowExpand,
+                            expand : section.Expand,
+                            hide: section.Hide);
+                    }
+                    else
+                    {
+                        if (siteSetting.Sections == null)
+                        {
+                            siteSetting.Sections = new List<Section>();
+                        }
+                        siteSetting.Sections.Add(section.GetRecordingData(siteSetting));
+                    }
+                });
+                if(deleteSections != null)
+                {
+                    if (deleteSections.Count() != 0)
+                    {
+                        siteSetting.Sections.RemoveAll(section => deleteSections.Contains(section.Id));
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public void UpsertLinksByApi(
+           SiteSettings siteSetting,
+           List<ApiSiteSettings.LinkApiSettingModel> linksApiSiteSetting)
+        {
+            linksApiSiteSetting.ForEach(linksApiSetting =>
+            {
+                var currentlinks = siteSetting.Links?.FirstOrDefault(o =>
+                    o.ColumnName == linksApiSetting.ColumnName);
+                if(currentlinks != null)
+                {
+                    //更新処理
+                    currentlinks.Update(
+                        columnName: linksApiSetting.ColumnName,
+                        siteId: linksApiSetting.SiteId,
+                        tableName: linksApiSetting.TableName,
+                        priority: linksApiSetting.Priority,
+                        noAddButton: linksApiSetting.NoAddButton,
+                        addSource: linksApiSetting.AddSource,
+                        notReturnParentRecord: linksApiSetting.NotReturnParentRecord,
+                        excludeMe: linksApiSetting.ExcludeMe,
+                        membersOnly: linksApiSetting.MembersOnly,
+                        selectNewLink: linksApiSetting.SelectNewLink,
+                        searchFormat: linksApiSetting.SearchFormat,
+                        view: linksApiSetting.View,
+                        lookups: linksApiSetting.Lookups,
+                        linkActions: linksApiSetting.LinkActions,
+                        jsonFormat: linksApiSetting.JsonFormat);
+                }
+                else
+                {
+                    //Add追加処理
+                    siteSetting.Links.Add(new Link(
+                        columnName: linksApiSetting.ColumnName,
+                        siteId: linksApiSetting.SiteId,
+                        tableName: linksApiSetting.TableName,
+                        priority: linksApiSetting.Priority,
+                        noAddButton: linksApiSetting.NoAddButton,
+                        addSource: linksApiSetting.AddSource,
+                        notReturnParentRecord: linksApiSetting.NotReturnParentRecord,
+                        excludeMe: linksApiSetting.ExcludeMe,
+                        membersOnly: linksApiSetting.MembersOnly,
+                        selectNewLink: linksApiSetting.SelectNewLink,
+                        searchFormat: linksApiSetting.SearchFormat,
+                        view: linksApiSetting.View,
+                        lookups: linksApiSetting.Lookups,
+                        linkActions: linksApiSetting.LinkActions,
+                        jsonFormat: linksApiSetting.JsonFormat));
+                }
+            });
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public void UpsertEditorColumnHashByApi(
+           SiteSettings siteSetting,
+           Dictionary<string, List<string>> columnsApiSiteSetting)
+        {
+            siteSetting.EditorColumnHash["General"] = columnsApiSiteSetting.Get("General");
         }
 
         /// <summary>
@@ -2677,6 +2898,7 @@ namespace Implem.Pleasanter.Models
                         changedStatus: processApiSiteSetting.ChangedStatus,
                         description: processApiSiteSetting.Description,
                         tooltip: processApiSiteSetting.Tooltip,
+                        icon: processApiSiteSetting.Icon,
                         confirmationMessage: processApiSiteSetting.ConfirmationMessage,
                         successMessage: processApiSiteSetting.SuccessMessage,
                         onClick: processApiSiteSetting.OnClick,
@@ -2712,6 +2934,7 @@ namespace Implem.Pleasanter.Models
                         changedStatus: processApiSiteSetting.ChangedStatus != null ? (int)processApiSiteSetting.ChangedStatus : default,
                         description: processApiSiteSetting.Description,
                         tooltip: processApiSiteSetting.Tooltip,
+                        icon: processApiSiteSetting.Icon,
                         confirmationMessage: processApiSiteSetting.ConfirmationMessage,
                         successMessage: processApiSiteSetting.SuccessMessage,
                         onClick: processApiSiteSetting.OnClick,
@@ -4993,6 +5216,7 @@ namespace Implem.Pleasanter.Models
                 changedStatus: context.Forms.Int("ProcessChangedStatus"),
                 description: context.Forms.Data("ProcessDescription"),
                 tooltip: context.Forms.Data("ProcessTooltip"),
+                icon: context.Forms.Data("ProcessIcon"),
                 confirmationMessage: context.Forms.Data("ProcessConfirmationMessage"),
                 successMessage: SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessSuccessMessage")),
                 onClick: context.Forms.Data("ProcessOnClick"),
@@ -5052,6 +5276,7 @@ namespace Implem.Pleasanter.Models
                     changedStatus: context.Forms.Int("ProcessChangedStatus"),
                     description: context.Forms.Data("ProcessDescription"),
                     tooltip: context.Forms.Data("ProcessTooltip"),
+                    icon: context.Forms.Data("ProcessIcon"),
                     confirmationMessage: context.Forms.Data("ProcessConfirmationMessage"),
                     successMessage: SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessSuccessMessage")),
                     onClick: context.Forms.Data("ProcessOnClick"),
@@ -5893,6 +6118,7 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
+                SiteSettings.SetChoiceHash(context: context);
                 SiteSettings.StatusControls.Copy(selected);
                 res.ReplaceAll("#EditStatusControl", new HtmlBuilder()
                     .EditStatusControl(
@@ -5913,6 +6139,7 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
+                SiteSettings.SetChoiceHash(context: context);
                 SiteSettings.StatusControls.Delete(selected);
                 res.ReplaceAll("#EditStatusControl", new HtmlBuilder()
                     .EditStatusControl(
@@ -7778,12 +8005,17 @@ namespace Implem.Pleasanter.Models
                 beforeUpdate: context.Forms.Bool("ServerScriptBeforeUpdate"),
                 afterUpdate: context.Forms.Bool("ServerScriptAfterUpdate"),
                 beforeDelete: context.Forms.Bool("ServerScriptBeforeDelete"),
+                beforeBulkDelete: context.Forms.Bool("ServerScriptBeforeBulkDelete"),
                 afterDelete: context.Forms.Bool("ServerScriptAfterDelete"),
+                afterBulkDelete: context.Forms.Bool("ServerScriptBeforeAfterBulkDelete"),
                 beforeOpeningPage: context.Forms.Bool("ServerScriptBeforeOpeningPage"),
                 beforeOpeningRow: context.Forms.Bool("ServerScriptBeforeOpeningRow"),
                 shared: context.Forms.Bool("ServerScriptShared"),
                 background: false,
                 body: context.Forms.Data("ServerScriptBody"),
+                functionalize: context.Forms.Bool("ServerScriptFunctionalize"),
+                tryCatch: context.Forms.Bool("ServerScriptTryCatch"),
+                disabled: context.Forms.Bool("ServerScriptDisabled"),
                 timeOut: GetServerScriptTimeOutValue(context: context));
             var invalid = ServerScriptValidators.OnCreating(
                 context: context,
@@ -7809,12 +8041,17 @@ namespace Implem.Pleasanter.Models
                 beforeUpdate: script.BeforeUpdate ?? default,
                 afterUpdate: script.AfterUpdate ?? default,
                 beforeDelete: script.BeforeDelete ?? default,
+                beforeBulkDelete: script.BeforeBulkDelete ?? default,
                 afterDelete: script.AfterDelete ?? default,
+                afterBulkDelete: script.AfterBulkDelete ?? default,
                 beforeOpeningPage: script.BeforeOpeningPage ?? default,
                 beforeOpeningRow: script.BeforeOpeningRow ?? default,
                 shared: script.Shared ?? default,
                 background: script.Background ?? default,
                 body: script.Body,
+                functionalize: script.Functionalize,
+                tryCatch: script.TryCatch,
+                disabled: script.Disabled,
                 timeOut: script.TimeOut));
             res
                 .ReplaceAll("#EditServerScript", new HtmlBuilder()
@@ -7843,12 +8080,17 @@ namespace Implem.Pleasanter.Models
                 beforeUpdate: context.Forms.Bool("ServerScriptBeforeUpdate"),
                 afterUpdate: context.Forms.Bool("ServerScriptAfterUpdate"),
                 beforeDelete: context.Forms.Bool("ServerScriptBeforeDelete"),
+                beforeBulkDelete: context.Forms.Bool("ServerScriptBeforeBulkDelete"),
                 afterDelete: context.Forms.Bool("ServerScriptAfterDelete"),
+                afterBulkDelete: context.Forms.Bool("ServerScriptAfterBulkDelete"),
                 beforeOpeningPage: context.Forms.Bool("ServerScriptBeforeOpeningPage"),
                 beforeOpeningRow: context.Forms.Bool("ServerScriptBeforeOpeningRow"),
                 shared: context.Forms.Bool("ServerScriptShared"),
                 background: false,
                 body: context.Forms.Data("ServerScriptBody"),
+                functionalize: context.Forms.Bool("ServerScriptFunctionalize"),
+                tryCatch: context.Forms.Bool("ServerScriptTryCatch"),
+                disabled: context.Forms.Bool("ServerScriptDisabled"),
                 timeOut: GetServerScriptTimeOutValue(context: context));
             var invalid = ServerScriptValidators.OnUpdating(
                 context: context,
@@ -7875,12 +8117,17 @@ namespace Implem.Pleasanter.Models
                     beforeUpdate: script.BeforeUpdate ?? default,
                     afterUpdate: script.AfterUpdate ?? default,
                     beforeDelete: script.BeforeDelete ?? default,
+                    beforeBulkDelete: script.BeforeBulkDelete ?? default,
                     afterDelete: script.AfterDelete ?? default,
+                    afterBulkDelete: script.AfterBulkDelete ?? default,
                     beforeOpeningPage: script.BeforeOpeningPage ?? default,
                     beforeOpeningRow: script.BeforeOpeningRow ?? default,
                     shared: script.Shared ?? default,
                     background: script.Background ?? default,
                     body: script.Body,
+                    functionalize: script.Functionalize,
+                    tryCatch: script.TryCatch,
+                    disabled: script.Disabled,
                     timeOut: script.TimeOut);
             res
                 .Html("#EditServerScript", new HtmlBuilder()
@@ -9281,7 +9528,8 @@ namespace Implem.Pleasanter.Models
         private List<Permission> ParsePermissions(ApiSiteSettingPermission apiSettingPermission, SiteSettings ss, object target = null)
         {
             var permissions = new List<Permission>();
-            if (apiSettingPermission == null) {
+            if (apiSettingPermission == null)
+            {
                 return permissions;
             }
             apiSettingPermission.Users?.ForEach(id => permissions.Add(new Permission(
@@ -9299,7 +9547,8 @@ namespace Implem.Pleasanter.Models
             switch (target)
             {
                 case Process process when target.GetType().Name == nameof(Process):
-                    if (process.Users != null && apiSettingPermission.Users == null) {
+                    if (process.Users != null && apiSettingPermission.Users == null)
+                    {
                         process.Users.ForEach(id => permissions.Add(new Permission(
                             ss: ss,
                             name: "User",
@@ -9353,18 +9602,22 @@ namespace Implem.Pleasanter.Models
         private SettingList<ValidateInput> ParseValidateInputs(SettingList<ValidateInput> validateInputs, Process process)
         {
             var data = new SettingList<ValidateInput>();
-            if (validateInputs == null) {
+            if (validateInputs == null)
+            {
                 return null;
             }
-            validateInputs.ForEach(o => {
+            validateInputs.ForEach(o =>
+            {
                 if (o.Delete != 1)
                 {
                     data.Add(o);
                 }
             });
-            if (process?.ValidateInputs != null) {
+            if (process?.ValidateInputs != null)
+            {
                 var requestIds = validateInputs.Select(o => o.Id).ToArray();
-                process.ValidateInputs.ForEach(o => {
+                process.ValidateInputs.ForEach(o =>
+                {
                     if (!requestIds.Contains(o.Id))
                     {
                         data.Add(o);
@@ -9384,7 +9637,8 @@ namespace Implem.Pleasanter.Models
             {
                 return null;
             }
-            dataChanges.ForEach(o => {
+            dataChanges.ForEach(o =>
+            {
                 if (o.Delete != 1)
                 {
                     data.Add(o);
@@ -9393,7 +9647,8 @@ namespace Implem.Pleasanter.Models
             if (process?.DataChanges != null)
             {
                 var requestIds = dataChanges.Select(o => o.Id).ToArray();
-                process.DataChanges.ForEach(o => {
+                process.DataChanges.ForEach(o =>
+                {
                     if (!requestIds.Contains(o.Id))
                     {
                         data.Add(o);
@@ -9413,7 +9668,8 @@ namespace Implem.Pleasanter.Models
             {
                 return null;
             }
-            notifications.ForEach(o => {
+            notifications.ForEach(o =>
+            {
                 if (o.Delete != 1)
                 {
                     data.Add(o);
@@ -9422,7 +9678,8 @@ namespace Implem.Pleasanter.Models
             if (process?.Notifications != null)
             {
                 var requestIds = notifications.Select(o => o.Id).ToArray();
-                process.Notifications.ForEach(o => {
+                process.Notifications.ForEach(o =>
+                {
                     if (!requestIds.Contains(o.Id))
                     {
                         data.Add(o);

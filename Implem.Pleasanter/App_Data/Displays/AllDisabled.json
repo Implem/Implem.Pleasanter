@@ -1,0 +1,33 @@
+﻿{
+    "Id": "AllDisabled",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "All disabled"
+        },
+        {
+            "Language": "zh",
+            "Body": "全部禁用"
+        },
+        {
+            "Language": "ja",
+            "Body": "全て無効化"
+        },
+        {
+            "Language": "de",
+            "Body": "Alle deaktiviert"
+        },
+        {
+            "Language": "ko",
+            "Body": "모두 비활성화됨"
+        },
+        {
+            "Language": "es",
+            "Body": "Todo deshabilitado"
+        },
+        {
+            "Language": "vn",
+            "Body": "Tất cả bị vô hiệu hóa"
+        }
+    ]
+}

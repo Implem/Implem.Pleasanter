@@ -1,0 +1,34 @@
+﻿{
+    "Id": "ClassSettings",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Class Settings"
+        },
+        {
+            "Language": "zh",
+            "Body": "类别设置"
+        },
+        {
+            "Language": "ja",
+            "Body": "分類設定"
+        },
+        {
+            "Language": "de",
+            "Body": "Klassen-Einstellungen"
+        },
+        {
+            "Language": "ko",
+            "Body": "클래스 설정"
+        },
+        {
+            "Language": "es",
+            "Body": "Configuración de clase"
+        },
+        {
+            "Language": "vn",
+            "Body": "Cài đặt phân loại"
+        }
+    ]
+}
