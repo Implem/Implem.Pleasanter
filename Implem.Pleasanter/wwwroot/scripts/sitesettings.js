@@ -200,6 +200,9 @@ $p.setHtml = function ($control) {
 }
 
 $p.openServerScriptDialog = function ($control) {
+    if ($('#DropDownSearchDialog').data('ui-dialog')) {
+        $('#DropDownSearchDialog').dialog('destroy').remove();
+    }
     $p.data.ServerScriptForm = {};
     $p.openSiteSettingsDialog($control, '#ServerScriptDialog');
 }
