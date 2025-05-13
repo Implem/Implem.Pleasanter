@@ -30,3 +30,17 @@
         fill: var(--control-error);
     }
 }
+
+#FullCalendar,
+.grid-stack-item .fc {
+    td {
+        &.fc-day-today {
+            background-color: var(--primaryDark);
+        }
+    }
+}
+
+/* [.loading]  ------------------------------------------------------ */
+#LoaderContainer {
+    background-color: rgba(0, 0, 0, 0.3);
+}

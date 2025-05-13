@@ -5,6 +5,8 @@
         context: context,
         referenceId: siteModel.SiteId,
         setAllChoices: true);
+    var migrationMode = ss.AllowMigrationMode == true
+        && context.Forms.Bool("MigrationMode");
     var invalid = #ModelName#Validators.OnImporting(
         context: context,
         ss: ss);
@@ -90,6 +92,13 @@
         {
             return Messages.ResponseNotContainKeyColumn(context: context).ToJson();
         }
+        columnHash
+            .Where(pair => pair.Value.Column.ColumnName.StartsWith("Date")<!--Model_Utilities_ImportIssueDateColumnWhere-->)
+            .ForEach(pair =>
+                pair.Value.Column.RecordingFormat = GetImportDateFormat(
+                    context: context,
+                    csv: csv,
+                    index: pair.Key));
         var csvRows = csv.Rows
             .Select((o, i) => new { Index = i, Row = o })
             .ToDictionary(o => o.Index, o => o.Row);
@@ -136,7 +145,8 @@
                 context: context,
                 ss: ss,
                 columnHash: columnHash,
-                row: data.Value);
+                row: data.Value,
+                migrationMode: migrationMode);
             #modelName#Hash.Add(data.Key, #modelName#Model);
         }
 
@@ -173,7 +183,8 @@
                                 context: context,
                                 ss: ss,
                                 columnHash: columnHash,
-                                row: csvRows.Get(data.Key));
+                                row: csvRows.Get(data.Key),
+                                migrationMode: migrationMode);
                             switch (#modelName#Model.AccessStatus)
                             {
                                 case Databases.AccessStatuses.Selected:
@@ -204,7 +215,8 @@
                                     errorData = #modelName#Model.Create(
                                         context: context,
                                         ss: ss,
-                                        extendedSqls: false);
+                                        extendedSqls: false,
+                                        migrationMode: migrationMode);
                                     insertCount++;
                                     break;
                                 default:
@@ -223,7 +235,8 @@
                 var errorData = #modelName#Model.Create(
                     context: context,
                     ss: ss,
-                    extendedSqls: false);
+                    extendedSqls: false,
+                    migrationMode: migrationMode);
                 switch (errorData.Type)
                 {
                     case Error.Types.None:
@@ -318,6 +331,8 @@ public static ContentResultInheritance ImportByApi(
     var updatableImport = api.UpdatableImport;
     var encoding = api.Encoding;
     var key = api.Key;
+    var migrationMode = ss.AllowMigrationMode == true
+        && api.MigrationMode;
     Csv csv;
     try
     {
@@ -390,6 +405,13 @@ public static ContentResultInheritance ImportByApi(
             statusCode: 500,
             message: Messages.NotContainKeyColumn(context: context).Text));
         }
+        columnHash
+            .Where(pair => pair.Value.Column.ColumnName.StartsWith("Date")<!--Model_Utilities_ImportIssueDateColumnWhere-->)
+            .ForEach(pair =>
+                pair.Value.Column.RecordingFormat = GetImportDateFormat(
+                    context: context,
+                    csv: csv,
+                    index: pair.Key));
         var csvRows = csv.Rows
             .Select((o, i) => new { Index = i, Row = o })
             .ToDictionary(o => o.Index, o => o.Row);
@@ -436,7 +458,8 @@ public static ContentResultInheritance ImportByApi(
                 context: context,
                 ss: ss,
                 columnHash: columnHash,
-                row: data.Value);
+                row: data.Value,
+                migrationMode: migrationMode);
             #modelName#Hash.Add(data.Key, #modelName#Model);
         }
         var inputErrorData = #ModelName#Validators.OnInputValidating(
@@ -488,7 +511,8 @@ public static ContentResultInheritance ImportByApi(
                                 context: context,
                                 ss: ss,
                                 columnHash: columnHash,
-                                row: csvRows.Get(data.Key));
+                                row: csvRows.Get(data.Key),
+                                migrationMode: migrationMode);
                             switch (#modelName#Model.AccessStatus)
                             {
                                 case Databases.AccessStatuses.Selected:
@@ -519,7 +543,8 @@ public static ContentResultInheritance ImportByApi(
                                     errorData = #modelName#Model.Create(
                                         context: context,
                                         ss: ss,
-                                        extendedSqls: false);
+                                        extendedSqls: false,
+                                        migrationMode: migrationMode);
                                     insertCount++;
                                     break;
                                 default:
@@ -543,7 +568,8 @@ public static ContentResultInheritance ImportByApi(
                 var errorData = #modelName#Model.Create(
                     context: context,
                     ss: ss,
-                    extendedSqls: false);
+                    extendedSqls: false,
+                    migrationMode: migrationMode);
                 switch (errorData.Type)
                 {
                     case Error.Types.None:
@@ -647,6 +673,8 @@ public static string ImportByServerScript(
     var updatableImport = api.UpdatableImport;
     var encoding = api.Encoding;
     var key = api.Key;
+    var migrationMode = ss.AllowMigrationMode == true
+        && api.MigrationMode;
     Csv csv;
     try
     {
@@ -700,6 +728,13 @@ public static string ImportByServerScript(
         {
             throw NewProcessingFailureException(message: Messages.NotContainKeyColumn(context: context));
         }
+        columnHash
+            .Where(pair => pair.Value.Column.ColumnName.StartsWith("Date")<!--Model_Utilities_ImportIssueDateColumnWhere-->)
+            .ForEach(pair =>
+                pair.Value.Column.RecordingFormat = GetImportDateFormat(
+                    context: context,
+                    csv: csv,
+                    index: pair.Key));
         var csvRows = csv.Rows
             .Select((o, i) => new { Index = i, Row = o })
             .ToDictionary(o => o.Index, o => o.Row);
@@ -744,7 +779,8 @@ public static string ImportByServerScript(
                 context: context,
                 ss: ss,
                 columnHash: columnHash,
-                row: data.Value);
+                row: data.Value,
+                migrationMode: migrationMode);
             #modelName#Hash.Add(data.Key, #modelName#Model);
         }
         var inputErrorData = #ModelName#Validators.OnInputValidating(
@@ -795,7 +831,8 @@ public static string ImportByServerScript(
                                 context: context,
                                 ss: ss,
                                 columnHash: columnHash,
-                                row: csvRows.Get(data.Key));
+                                row: csvRows.Get(data.Key),
+                                migrationMode: migrationMode);
                             switch (#modelName#Model.AccessStatus)
                             {
                                 case Databases.AccessStatuses.Selected:
@@ -826,7 +863,8 @@ public static string ImportByServerScript(
                                     errorData = #modelName#Model.Create(
                                         context: context,
                                         ss: ss,
-                                        extendedSqls: false);
+                                        extendedSqls: false,
+                                        migrationMode: migrationMode);
                                     insertCount++;
                                     break;
                                 default:
@@ -845,7 +883,8 @@ public static string ImportByServerScript(
                 var errorData = #modelName#Model.Create(
                     context: context,
                     ss: ss,
-                    extendedSqls: false);
+                    extendedSqls: false,
+                    migrationMode: migrationMode);
                 switch (errorData.Type)
                 {
                     case Error.Types.None:
@@ -900,4 +939,32 @@ public static string ImportByServerScript(
     {
         throw NewProcessingFailureException(message: Messages.FileNotFound(context: context));
     }
+}
+
+private static string GetImportDateFormat(
+    Context context,
+    Csv csv,
+    int index)
+{
+    var formats = new[] { "Ymdahms", "Ymdahm", "Ymda" }
+        .Select(v => Displays.Get(
+            context: context,
+            id: v + "Format"))
+        .ToArray();
+    foreach (var data in csv.Rows)
+    {
+        foreach (var format in formats)
+        {
+            if (DateTime.TryParseExact(
+                data[index],
+                format,
+                context.CultureInfo(),
+                System.Globalization.DateTimeStyles.None,
+                out var _))
+            {
+                return format;
+            }
+        }
+    }
+    return null;
 }

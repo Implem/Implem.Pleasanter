@@ -1,0 +1,33 @@
+﻿{
+    "Id": "OtherColumnsSettings",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Other columns settings"
+        },
+        {
+            "Language": "zh",
+            "Body": "其他项设置"
+        },
+        {
+            "Language": "ja",
+            "Body": "その他の項目の設定"
+        },
+        {
+            "Language": "de",
+            "Body": "Einstellungen anderer Spalten"
+        },
+        {
+            "Language": "ko",
+            "Body": "기타 항목 설정"
+        },
+        {
+            "Language": "es",
+            "Body": "Configuración de otras columnas"
+        },
+        {
+            "Language": "vn",
+            "Body": "Cài đặt cột khác"
+        }
+    ]
+}

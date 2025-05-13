@@ -52,7 +52,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             AfterCreate,
             BeforeCreate,
             AfterDelete,
+            AfterBulkDelete,
             BeforeDelete,
+            BeforeBulkDelete,
             BackgroundServerScript
         }
 

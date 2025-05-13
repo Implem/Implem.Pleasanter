@@ -1867,31 +1867,14 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 wikiId: 0,
                 wikiApiModel: wikiApiModel);
-            var invalid = WikiValidators.OnCreating(
+            var processes = (List<Process>)null;
+            var errorData = ApplyCreateByApi(
                 context: context,
                 ss: ss,
+                processes: processes,
                 wikiModel: wikiModel,
-                api: true);
-            switch (invalid.Type)
-            {
-                case Error.Types.None: break;
-                default: return ApiResults.Error(
-                    context: context,
-                    errorData: invalid);
-            }
-            wikiModel.SiteId = ss.SiteId;
-            wikiModel.SetTitle(
-                context: context,
-                ss: ss);
-            var errorData = wikiModel.Create(
-                context: context,
-                ss: ss,
-                notice: true);
-            BinaryUtilities.UploadImage(
-                context: context,
-                ss: ss,
-                id: wikiModel.WikiId,
-                postedFileHash: wikiModel.PostedImageHash);
+                migrationMode: ss.AllowMigrationMode == true
+                    && wikiApiModel?.MigrationMode == true);
             switch (errorData.Type)
             {
                 case Error.Types.None:
@@ -1907,6 +1890,37 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         errorData: errorData);
             }
+        }
+
+        private static ErrorData ApplyCreateByApi(
+            Context context,
+            SiteSettings ss,
+            WikiModel wikiModel,
+            List<Process> processes,
+            bool migrationMode = false)
+        {
+            var invalid = WikiValidators.OnCreating(
+                context: context,
+                ss: ss,
+                wikiModel: wikiModel,
+                api: true);
+            if (invalid.Type != Error.Types.None) return invalid;
+            wikiModel.SiteId = ss.SiteId;
+            wikiModel.SetTitle(
+                context: context,
+                ss: ss);
+            var errorData = wikiModel.Create(
+                context: context,
+                ss: ss,
+                processes: processes,
+                notice: true,
+                migrationMode: migrationMode);
+            BinaryUtilities.UploadImage(
+                context: context,
+                ss: ss,
+                id: wikiModel.WikiId,
+                postedFileHash: wikiModel.PostedImageHash);
+            return errorData;
         }
 
         public static bool CreateByServerScript(Context context, SiteSettings ss, object model)
@@ -2005,7 +2019,7 @@ namespace Implem.Pleasanter.Models
             {
                 return Messages.ResponseDeleteConflicts(context: context).ToJson();
             }
-            List<Process> processes = null;
+            var processes = (List<Process>)null;
             var errorData = wikiModel.Update(
                 context: context,
                 ss: ss,
@@ -2193,36 +2207,13 @@ namespace Implem.Pleasanter.Models
             {
                 return ApiResults.Get(ApiResponses.NotFound(context: context));
             }
-            var invalid = WikiValidators.OnUpdating(
+            var processes = (List<Process>)null;
+            var errorData = ApplyUpdateByApi(
                 context: context,
                 ss: ss,
                 wikiModel: wikiModel,
-                api: true);
-            switch (invalid.Type)
-            {
-                case Error.Types.None: break;
-                default: return ApiResults.Error(
-                    context: context,
-                    errorData: invalid);
-            }
-            wikiModel.SiteId = ss.SiteId;
-            wikiModel.SetTitle(
-                context: context,
-                ss: ss);
-            wikiModel.VerUp = Versions.MustVerUp(
-                context: context,
-                ss: ss,
-                baseModel: wikiModel);
-            var errorData = wikiModel.Update(
-                context: context,
-                ss: ss,
-                notice: true,
+                processes: processes,
                 previousTitle: previousTitle);
-            BinaryUtilities.UploadImage(
-                context: context,
-                ss: ss,
-                id: wikiModel.WikiId,
-                postedFileHash: wikiModel.PostedImageHash);
             switch (errorData.Type)
             {
                 case Error.Types.None:
@@ -2238,6 +2229,41 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         errorData: errorData);
             }
+        }
+
+        private static ErrorData ApplyUpdateByApi(
+            Context context,
+            SiteSettings ss,
+            WikiModel wikiModel,
+            List<Process> processes,
+            string previousTitle)
+        {
+            var invalid = WikiValidators.OnUpdating(
+                context: context,
+                ss: ss,
+                wikiModel: wikiModel,
+                api: true);
+            if (invalid.Type != Error.Types.None) return invalid;
+            wikiModel.SiteId = ss.SiteId;
+            wikiModel.SetTitle(
+                context: context,
+                ss: ss);
+            wikiModel.VerUp = Versions.MustVerUp(
+                context: context,
+                ss: ss,
+                baseModel: wikiModel);
+            var errorData = wikiModel.Update(
+                context: context,
+                ss: ss,
+                processes: processes,
+                notice: true,
+                previousTitle: previousTitle);
+            BinaryUtilities.UploadImage(
+                context: context,
+                ss: ss,
+                id: wikiModel.WikiId,
+                postedFileHash: wikiModel.PostedImageHash);
+            return errorData;
         }
 
         public static bool UpdateByServerScript(

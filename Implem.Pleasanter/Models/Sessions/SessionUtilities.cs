@@ -54,6 +54,12 @@ namespace Implem.Pleasanter.Models
                 }
                 return sessions;
             }
+            var where = Rds.SessionsWhere()
+                            .SessionGuid(sessionGuid ?? context.SessionGuid)
+                            .Add(raw: $"((\"UserArea\" is null) or (\"UserArea\" {context.Sqls.IsNotTrue}))", _using: !includeUserArea)
+                            .Add(or: Rds.SessionsWhere()
+                                .Page(context.Page, _using: context.Page != null)
+                                .Page(raw: "''"));
             return Repository.ExecuteTable(
                 context: context,
                 statements: new SqlStatement[]

@@ -1712,7 +1712,8 @@ namespace Implem.Pleasanter.Models
                     .A(
                         href: "#FieldSetMailAddresses",
                         text: Displays.MailAddresses(context: context),
-                        _using: userModel.MethodType != BaseModel.MethodTypes.New))
+                        _using: userModel.MethodType != BaseModel.MethodTypes.New
+                        || !context.UserSettings?.EnableManageTenant == true))
                 .Li(
                     _using: userModel.MethodType != BaseModel.MethodTypes.New,
                     action: () => hb
@@ -2132,7 +2133,8 @@ namespace Implem.Pleasanter.Models
                             .UserId(userModel.UserId)
                             .Password(_operator: "is not null"))))
             {
-                if (userModel.Self(context: context))
+                if (userModel.Self(context: context)
+                    && context.UserSettings?.EnableManageTenant != true)
                 {
                     hb.Button(
                         controlId: "OpenChangePasswordDialog",
@@ -2684,7 +2686,7 @@ namespace Implem.Pleasanter.Models
                     return policy.ResponseMessage(context: context).ToJson();
                 }
             }
-            List<Process> processes = null;
+            var processes = (List<Process>)null;
             var errorData = userModel.Create(context: context, ss: ss);
             switch (errorData.Type)
             {
@@ -2768,7 +2770,7 @@ namespace Implem.Pleasanter.Models
             {
                 return Messages.ResponseDeleteConflicts(context: context).ToJson();
             }
-            List<Process> processes = null;
+            var processes = (List<Process>)null;
             var errorData = userModel.Update(context: context, ss: ss);
             switch (errorData.Type)
             {
@@ -4511,7 +4513,7 @@ namespace Implem.Pleasanter.Models
                         action: () => hb
                             .Div(id: "Demo", action: () => hb
                                 .FieldSet(
-                                    css: " enclosed-thin",
+                                    css: " enclosed-thin is-featured",
                                     legendText: Displays.ViewDemoEnvironment(context: context),
                                     action: () => hb
                                         .Div(id: "DemoFields", action: () => hb
@@ -4607,6 +4609,7 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb, Context context, UserModel userModel)
         {
             if (userModel.MethodType == BaseModel.MethodTypes.New) return hb;
+            if (context.UserSettings?.EnableManageTenant == true) return hb;
             var listItemCollection = Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectMailAddresses(

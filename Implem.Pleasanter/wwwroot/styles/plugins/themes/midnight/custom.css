@@ -1,4 +1,4 @@
-﻿@import url(../themes.dark.css?2014102);
+﻿@import url(../themes.dark.css?2014160);
 
 :root {
     /* ColorScheme ---------------------------------------------------------- */
@@ -139,6 +139,15 @@
     --template-description-bg: var(--commonColor05);
     --template-warning-text: var(--commonColor01);
     --template-warning-bg: var(--commonColor04);
+
+    /* fieldsetGroup */
+    --fieldset-group-border: var(--nonColor06);
+    --fieldset-group-header-text: var(--base-text);
+    --fieldset-group-header-bg: var(--nonColor01);
+    --fieldset-group-header-border: var(--nonColor06);
+    --fieldset-group-header-featured-text: var(--base-text);
+    --fieldset-group-header-featured-bg: var(--primaryColor);
+    --fieldset-group-header-featured-border: var(--primaryColor);
 
     /* parts  ----------------------------------------------------------*/
     --start-guide-hover: var(--nonColor08);

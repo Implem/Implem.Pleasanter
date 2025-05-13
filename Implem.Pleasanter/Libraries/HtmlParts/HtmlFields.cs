@@ -595,10 +595,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         hb
                                             .Div(
                                                 css: "ui-icon ui-icon-person current-user",
+                                                action: () => hb.Text(text: "person"),
                                                 _using: !Parameters.General.HideCurrentUserIcon
                                                     && column.Type == Column.Types.User)
                                             .Div(
                                                 css: "ui-icon ui-icon-person current-dept",
+                                                action: () => hb.Text(text: "person"),
                                                 _using: !Parameters.General.HideCurrentDeptIcon
                                                     && column.Type == Column.Types.Dept);
                                     }
@@ -809,11 +811,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     },
                                 extendedHtmlBeforeLabel: extendedHtmlBeforeLabel,
                                 extendedHtmlBetweenLabelAndControl: extendedHtmlBetweenLabelAndControl,
-                                extendedHtmlAfterControl: extendedHtmlAfterControl,
-                                controlOption: () => hb
-                                    .Div(
-                                        css: "ui-icon ui-icon-clock current-time",
-                                        _using: !Parameters.General.HideCurrentTimeIcon));
+                                extendedHtmlAfterControl: extendedHtmlAfterControl);
                         case ControlTypes.CheckBox:
                             return hb.FieldCheckBox(
                                 fieldId: controlId + "Field",
@@ -1291,6 +1289,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             format: format,
                             timepicker: timepiker,
                             alwaysSend: alwaysSend,
+                            unit: unit,
                             onChange: onChange,
                             openAnchorNewTab: openAnchorNewTab,
                             anchorFormat: anchorFormat,
@@ -1309,19 +1308,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             dataValue: dataValue,
                             dataLang: dataLang,
                             attributes: attributes);
-                        if (textType == HtmlTypes.TextTypes.Password)
-                        {
-                            hb.Div(
-                                attributes: new HtmlAttributes()
-                                    .Class("material-symbols-outlined show-password")
-                                    .OnClick("$p.showPassword(this)"),
-                                action: () => hb.Text("visibility"));
-                        }
                         controlOption?.Invoke();
-                        hb.Span(
-                            css: "unit",
-                            _using: !unit.IsNullOrEmpty(),
-                            action: () => hb.Text(unit));
                     })
                 : hb;
         }
@@ -1671,8 +1658,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 validateRequired: validateRequired,
                                 action: action,
                                 method: method,
-                                column: column);
-                        controlOption?.Invoke();
+                                column: column,
+                                controlOption: controlOption);
                     })
                 : hb;
         }
@@ -1877,23 +1864,22 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     {
                         hb.Spinner(
                             controlId: controlId,
-                            controlCss: controlCss,
+                            controlCss: controlCss +
+                                (!unit.IsNullOrEmpty()
+                                    ? " with-unit"
+                                    : string.Empty),
                             value: value,
                             min: min,
                             max: max,
                             step: step,
                             width: width,
+                            unit:unit,
                             alwaysSend: alwaysSend,
                             allowBalnk: allowBlank,
                             onChange: onChange,
                             validateRequired: validateRequired,
                             action: action,
                             method: method);
-                        if (unit != string.Empty)
-                        {
-                            hb.Span(css: "unit", action: () => hb
-                                .Text(unit));
-                        }
                     })
                 : hb;
         }

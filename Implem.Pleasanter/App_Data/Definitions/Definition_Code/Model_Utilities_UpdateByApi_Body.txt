@@ -26,18 +26,44 @@
     {
         return ApiResults.Get(ApiResponses.NotFound(context: context));
     }
+
+<!--Model_Utilities_SetProcesses_Null-->
+<!--Model_Utilities_SetProcesses-->
+    var errorData = ApplyUpdateByApi(
+        context: context,
+        ss: ss,
+        #modelName#Model: #modelName#Model,
+        processes: processes,
+        previousTitle: previousTitle);
+
+    switch (errorData.Type)
+    {
+
+<!--Model_Utilities_ApiUpdatedMessage-->
+<!--Model_Utilities_ApiUpdatedMessage_Table-->
+<!--Model_Utilities_ApiDuplicatedMessage-->
+
+        default:
+            return ApiResults.Error(
+                context: context,
+                errorData: errorData);
+    }
+}
+
+private static ErrorData ApplyUpdateByApi(
+    Context context,
+    SiteSettings ss,
+    #ModelName#Model #modelName#Model,
+    List<Process> processes,
+    string previousTitle)
+{
     var invalid = #ModelName#Validators.OnUpdating(
         context: context,
         ss: ss,
         #modelName#Model: #modelName#Model,
         api: true);
-    switch (invalid.Type)
-    {
-        case Error.Types.None: break;
-        default: return ApiResults.Error(
-            context: context,
-            errorData: invalid);
-    }
+    if (invalid.Type != Error.Types.None) return invalid;
+
     #modelName#Model.SiteId = ss.SiteId;
     #modelName#Model.SetTitle(
         context: context,
@@ -52,9 +78,7 @@
     var errorData = #modelName#Model.Update(
         context: context,
         ss: ss,
-
-<!--Model_Utilities_SetProcessParamApi-->
-
+        processes: processes,
         notice: true,
         previousTitle: previousTitle);
     BinaryUtilities.UploadImage(
@@ -62,18 +86,7 @@
         ss: ss,
         id: #modelName#Model.#ModelName#Id,
         postedFileHash: #modelName#Model.PostedImageHash);
-    switch (errorData.Type)
-    {
-
-<!--Model_Utilities_ApiUpdatedMessage-->
-<!--Model_Utilities_ApiUpdatedMessage_Table-->
-<!--Model_Utilities_ApiDuplicatedMessage-->
-
-        default:
-            return ApiResults.Error(
-                context: context,
-                errorData: errorData);
-    }
+    return errorData;
 }
 
 public static bool UpdateByServerScript(

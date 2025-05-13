@@ -82,13 +82,11 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             long referenceId,
-            Libraries.Images.ImageData.SizeTypes sizeType,
-            bool isSearch = false)
+            Libraries.Images.ImageData.SizeTypes sizeType)
         {
             var invalid = BinaryValidators.OnGetting(
                 context: context,
-                ss: ss,
-                isSearch: isSearch);
+                ss: ss);
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
@@ -1174,7 +1172,8 @@ namespace Implem.Pleasanter.Models
                     return new IssueModel(
                             context: context,
                             ss: ss,
-                            issueId: context.Id)
+                            issueId: context.Id,
+                            formData: context.Forms)
                         .GetStatusControl(
                             context: context,
                             ss: ss,
@@ -1183,7 +1182,8 @@ namespace Implem.Pleasanter.Models
                     return new ResultModel(
                             context: context,
                             ss: ss,
-                            resultId: context.Id)
+                            resultId: context.Id,
+                            formData: context.Forms)
                         .GetStatusControl(
                             context: context,
                             ss: ss,
