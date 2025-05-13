@@ -11,6 +11,11 @@
         context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
         return false;
     }
+    var (isValid, missingKeys) = ValidateJsonKeys(jsonString: context.RequestDataString, ss: ss);
+    if (!isValid)
+    {
+        return false;
+    }
     var error = Error.Types.None;
     api.View = api.View ?? new View();
     api.Keys.ForEach(columnName =>
@@ -25,7 +30,7 @@
             if (column?.TypeName == "datetime"
                 && objectValue.ToDateTime().InRange() == false)
             {
-                error = Error.Types.invalidUpsertKey;
+                error = Error.Types.InvalidUpsertKey;
                 return;
             }
             api.View.AddColumnFilterHash(

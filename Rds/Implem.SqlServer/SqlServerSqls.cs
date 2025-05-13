@@ -278,6 +278,57 @@ namespace Implem.SqlServer
                 )
             )";
 
+        public string PermissionsWhereForIntegratedSites { get; } = @"
+            (
+                exists
+                (
+                    select ""Depts"".""DeptId"" as ""Id""
+                    from ""Depts""
+                    where ""Depts"".""TenantId""=@_T
+                        and ""Depts"".""DeptId""=@_D
+                        and ""Depts"".""Disabled""='false'
+                        and ""Permissions"".""DeptId""=""Depts"".""DeptId""
+                        and @_D<>0
+                    union all
+                    select ""Groups"".""GroupId"" as ""Id""
+                    from ""Groups"" inner join ""GroupMembers"" on ""Groups"".""GroupId""=""GroupMembers"".""GroupId""
+                    where ""Groups"".""TenantId""=@_T
+                        and ""Groups"".""Disabled""='false'
+                        and ""Permissions"".""GroupId""=""Groups"".""GroupId""
+                        and exists
+                        (
+                            select ""DeptId""
+                            from ""Depts""
+                            where ""Depts"".""TenantId""=@_T
+                                and ""Depts"".""DeptId""=@_D
+                                and ""Depts"".""Disabled""='false'
+                                and ""GroupMembers"".""DeptId""=""Depts"".""DeptId""
+                                and @_D<>0
+                        )
+                    union all
+                    select ""Groups"".""GroupId"" as ""Id""
+                    from ""Groups"" inner join ""GroupMembers"" on ""Groups"".""GroupId""=""GroupMembers"".""GroupId""
+                    where ""Groups"".""TenantId""=@_T
+                        and ""Groups"".""Disabled""='false'
+                        and ""Permissions"".""GroupId""=""Groups"".""GroupId""
+                        and ""GroupMembers"".""UserId""=@_U
+                        and @_U<>0
+                    union all
+                    select ""P"".""UserId"" as ""Id""
+                    from ""Permissions"" as ""P""
+                    where ""P"".""ReferenceId""=""Permissions"".""ReferenceId""
+                        and ""P"".""UserId""=""Permissions"".""UserId""
+                        and ""P"".""UserId""=@_U
+                        and @_U<>0
+                    union all
+                    select ""P"".""UserId"" as ""Id""
+                    from ""Permissions"" as ""P""
+                    where ""P"".""ReferenceId""=""Permissions"".""ReferenceId""
+                        and ""P"".""PermissionType"" & 1 = 1
+                        and ""P"".""UserId""=-1
+                )
+            )";
+
         public string SiteDeptWhere { get; } = @"
             (
                 exists
@@ -397,16 +448,15 @@ namespace Implem.SqlServer
                             select ""Sites"".""InheritPermission""
                             from ""Sites""
                             where ""Sites"".""SiteId""=""{tableName}_Items"".""SiteId""
-                                and ""{tableName}_Items"".""ReferenceType"" = 'Sites'
                         )
                         and ""Permissions"".""PermissionType"" & 1 = 1
-                        and {PermissionsWhere}
+                        and {PermissionsWhereForIntegratedSites}
                     union
                     select ""Permissions"".""ReferenceId""
                     from ""Permissions""
                     where ""Permissions"".""ReferenceId""=""{tableName}_Items"".""ReferenceId""
                         and ""Permissions"".""PermissionType"" & 1 = 1
-                        and {PermissionsWhere}
+                        and {PermissionsWhereForIntegratedSites}
                 )";
         }
 

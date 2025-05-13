@@ -1,4 +1,5 @@
-﻿using Implem.Libraries.Utilities;
+﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Requests;
@@ -24,6 +25,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool timepicker = false,
             bool disabled = false,
             bool alwaysSend = false,
+            string unit = null,
             string accept = null,
             string dataId = null,
             string dataLang = null,
@@ -70,61 +72,71 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 .Class("ui-icon ui-icon-pencil button-edit-markdown")
                                 .OnClick($"$p.toggleAnchor($('#{controlId}'));"),
                             _using: !anchorFormat.IsNullOrEmpty())
-                        .Input(attributes: new HtmlAttributes()
+                        .Div(
+                            css: "input-field",
+                            action: () => hb.Input(attributes: new HtmlAttributes()
+                                .Id(controlId)
+                                .Name(controlId)
+                                .Class(Css.Class(
+                                    anchorFormat.IsNullOrEmpty()
+                                        ? "control-textbox"
+                                        : "control-textbox anchor hidden", controlCss))
+                                .Type(validateNumber ? "number" : "text")
+                                .Value(text)
+                                .DataValue(dataValue)
+                                .Placeholder(placeholder)
+                                .Disabled(disabled)
+                                .DataAlwaysSend(alwaysSend)
+                                .DataId(dataId)
+                                .OnChange(onChange)
+                                .AutoComplete(autoComplete)
+                                .DataValidateRequired(validateRequired)
+                                .DataValidateNumber(validateNumber)
+                                .DataValidateMinNumber(
+                                    validateMinNumber, _using: validateMinNumber != validateMaxNumber)
+                                .DataValidateMaxNumber(
+                                    validateMaxNumber, _using: validateMinNumber != validateMaxNumber)
+                                .DataValidateDate(validateDate)
+                                .DataValidateEmail(validateEmail)
+                                .DataValidateEqualTo(validateEqualTo)
+                                .DataValidateMaxLength(validateMaxLength)
+                                .DataValidateRegex(validateRegex)
+                                .DataValidateRegexErrorMessage(validateRegexErrorMessage)
+                                .DataAction(action)
+                                .DataMethod(method)
+                                .Add(attributes)).Span(
+                                    css: "unit",
+                                    _using: !unit.IsNullOrEmpty(),
+                                    action: () => hb.Text(unit)));
+                case HtmlTypes.TextTypes.DateTime:
+                    return hb.Div(
+                        css: "date-field",
+                        action: () => hb.Input(attributes: new HtmlAttributes()
                             .Id(controlId)
                             .Name(controlId)
-                            .Class(Css.Class(
-                                anchorFormat.IsNullOrEmpty()
-                                    ? "control-textbox"
-                                    : "control-textbox anchor hidden", controlCss))
+                            .Class(Css.Class("control-textbox datepicker", controlCss))
                             .Type("text")
                             .Value(text)
-                            .DataValue(dataValue)
                             .Placeholder(placeholder)
                             .Disabled(disabled)
                             .DataAlwaysSend(alwaysSend)
                             .DataId(dataId)
                             .OnChange(onChange)
-                            .AutoComplete(autoComplete)
+                            .AutoComplete(autoComplete ?? "off")
+                            .DataFormat(format)
+                            .DataTimepicker(timepicker)
                             .DataValidateRequired(validateRequired)
                             .DataValidateNumber(validateNumber)
-                            .DataValidateMinNumber(
-                                validateMinNumber, _using: validateMinNumber != validateMaxNumber)
-                            .DataValidateMaxNumber(
-                                validateMaxNumber, _using: validateMinNumber != validateMaxNumber)
                             .DataValidateDate(validateDate)
                             .DataValidateEmail(validateEmail)
                             .DataValidateEqualTo(validateEqualTo)
                             .DataValidateMaxLength(validateMaxLength)
-                            .DataValidateRegex(validateRegex)
-                            .DataValidateRegexErrorMessage(validateRegexErrorMessage)
                             .DataAction(action)
                             .DataMethod(method)
-                            .Add(attributes));
-                case HtmlTypes.TextTypes.DateTime:
-                    return hb.Input(attributes: new HtmlAttributes()
-                        .Id(controlId)
-                        .Name(controlId)
-                        .Class(Css.Class("control-textbox datepicker", controlCss))
-                        .Type("text")
-                        .Value(text)
-                        .Placeholder(placeholder)
-                        .Disabled(disabled)
-                        .DataAlwaysSend(alwaysSend)
-                        .DataId(dataId)
-                        .OnChange(onChange)
-                        .AutoComplete(autoComplete ?? "off")
-                        .DataFormat(format)
-                        .DataTimepicker(timepicker)
-                        .DataValidateRequired(validateRequired)
-                        .DataValidateNumber(validateNumber)
-                        .DataValidateDate(validateDate)
-                        .DataValidateEmail(validateEmail)
-                        .DataValidateEqualTo(validateEqualTo)
-                        .DataValidateMaxLength(validateMaxLength)
-                        .DataAction(action)
-                        .DataMethod(method)
-                        .Add(attributes));
+                            .Add(attributes)).Div(
+                                css: "ui-icon ui-icon-clock current-time",
+                                action: () => hb.Text(text: "schedule"),
+                                _using: !Parameters.General.HideCurrentTimeIcon));
                 case HtmlTypes.TextTypes.MultiLine:
                     return hb.TextArea(
                         attributes: new HtmlAttributes()
@@ -171,26 +183,32 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .Add(attributes),
                         text: text);
                 case HtmlTypes.TextTypes.Password:
-                    return hb.Input(attributes: new HtmlAttributes()
-                        .Id(controlId)
-                        .Name(controlId)
-                        .Class(Css.Class("control-textbox", controlCss))
-                        .Type("password")
-                        .Value(text)
-                        .Placeholder(placeholder)
-                        .Disabled(disabled)
-                        .DataAlwaysSend(alwaysSend)
-                        .DataId(dataId)
-                        .OnChange(onChange)
-                        .AutoComplete(autoComplete)
-                        .DataValidateRequired(validateRequired)
-                        .DataValidateNumber(validateNumber)
-                        .DataValidateDate(validateDate)
-                        .DataValidateEmail(validateEmail)
-                        .DataValidateEqualTo(validateEqualTo)
-                        .DataValidateMaxLength(validateMaxLength)
-                        .Add(attributes)
-                        .Add("data-passwordgenerator", Implem.DefinitionAccessor.Parameters.Security.PasswordGenerator ? "1" : "0"));
+                    return hb.Input(
+                        attributes: new HtmlAttributes()
+                            .Id(controlId)
+                            .Name(controlId)
+                            .Class(Css.Class("control-textbox", controlCss))
+                            .Type("password")
+                            .Value(text)
+                            .Placeholder(placeholder)
+                            .Disabled(disabled)
+                            .DataAlwaysSend(alwaysSend)
+                            .DataId(dataId)
+                            .OnChange(onChange)
+                            .AutoComplete(autoComplete)
+                            .DataValidateRequired(validateRequired)
+                            .DataValidateNumber(validateNumber)
+                            .DataValidateDate(validateDate)
+                            .DataValidateEmail(validateEmail)
+                            .DataValidateEqualTo(validateEqualTo)
+                            .DataValidateMaxLength(validateMaxLength)
+                            .Add(attributes)
+                            .Add("data-passwordgenerator", Implem.DefinitionAccessor.Parameters.Security.PasswordGenerator ? "1" : "0"))
+                        .Div(
+                            attributes: new HtmlAttributes()
+                                .Class("material-symbols-outlined show-password")
+                                .OnClick("$p.showPassword(this)"),
+                            action: () => hb.Text("visibility"));
                 case HtmlTypes.TextTypes.File:
                     return hb.Input(attributes: new HtmlAttributes()
                         .Id(controlId)
@@ -382,38 +400,44 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string action = null,
             string method = null,
             Column column = null,
+            Action controlOption = null,
             bool _using = true)
         {
             var srcId = column?.RelatingSrcId().ToString() ?? string.Empty;
             return _using
-                ? hb.Select(
-                    attributes: new HtmlAttributes()
-                        .Id(controlId)
-                        .Name(controlId)
-                        .Class(Css.Class(
-                            "control-dropdown" + (optionCollection?.Any(o =>
-                                !o.Value.Css.IsNullOrEmpty() ||
-                                !o.Value.Style.IsNullOrEmpty()) == true
-                                    ? " has-css"
-                                    : string.Empty),
-                            controlCss))
-                        .DataId(srcId)
-                        .Multiple(multiple)
-                        .Disabled(disabled)
-                        .DataAlwaysSend(alwaysSend)
-                        .OnChange(onChange)
-                        .DataValidateRequired(validateRequired)
-                        .DataAction(action)
-                        .DataMethod(method),
-                    action: () => hb
-                        .OptionCollection(
-                            context: context,
-                            optionCollection: optionCollection,
-                            selectedValue: selectedValue,
-                            multiple: multiple,
-                            addSelectedValue: addSelectedValue,
-                            insertBlank: insertBlank,
-                            column: column))
+                ? hb.Div(
+                    css: "select-field",
+                    action: () => {
+                        hb.Select(
+                            attributes: new HtmlAttributes()
+                                .Id(controlId)
+                                .Name(controlId)
+                                .Class(Css.Class(
+                                    "control-dropdown" + (optionCollection?.Any(o =>
+                                        !o.Value.Css.IsNullOrEmpty() ||
+                                        !o.Value.Style.IsNullOrEmpty()) == true
+                                            ? " has-css"
+                                            : string.Empty),
+                                    controlCss))
+                                .DataId(srcId)
+                                .Multiple(multiple)
+                                .Disabled(disabled)
+                                .DataAlwaysSend(alwaysSend)
+                                .OnChange(onChange)
+                                .DataValidateRequired(validateRequired)
+                                .DataAction(action)
+                                .DataMethod(method),
+                            action: () => hb
+                                .OptionCollection(
+                                    context: context,
+                                    optionCollection: optionCollection,
+                                    selectedValue: selectedValue,
+                                    multiple: multiple,
+                                    addSelectedValue: addSelectedValue,
+                                    insertBlank: insertBlank,
+                                    column: column));
+                            controlOption?.Invoke();
+                        })
                 : hb;
         }
 
@@ -556,6 +580,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             decimal max = -1,
             decimal step = -1,
             int width = -1,
+            string unit = null,
             bool alwaysSend = false,
             bool allowBalnk = false,
             string onChange = null,
@@ -565,30 +590,35 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool _using = true)
         {
             return _using
-                ? hb.Input(attributes: new HtmlAttributes()
-                    .Id(controlId)
-                    .Name(controlId)
-                    .Class(Css.Class("control-spinner", controlCss)
-                        + (allowBalnk
-                            ? " allow-blank"
-                            : string.Empty))
-                    .Type("number")
-                    .Value(value != null
-                        ? value.ToString()
-                        : string.Empty)
-                    .Add("data-raw",
-                        value != null
+                ? hb.Div(
+                    css: "spinner-field",
+                    action: () => hb.Input(attributes: new HtmlAttributes()
+                        .Id(controlId)
+                        .Name(controlId)
+                        .Class(Css.Class("control-spinner", controlCss)
+                            + (allowBalnk
+                                ? " allow-blank"
+                                : string.Empty))
+                        .Type("number")
+                        .Value(value != null
                             ? value.ToString()
                             : string.Empty)
-                    .DataMin(min, _using: min != -1)
-                    .DataMax(max, _using: max != -1)
-                    .DataStep(step, _using: step != -1)
-                    .DataWidth(width, _using: width != -1)
-                    .DataAlwaysSend(alwaysSend)
-                    .OnChange(onChange)
-                    .DataValidateRequired(validateRequired)
-                    .DataAction(action)
-                    .DataMethod(method))
+                        .Add("data-raw",
+                            value != null
+                                ? value.ToString()
+                                : string.Empty)
+                        .DataMin(min, _using: min != -1)
+                        .DataMax(max, _using: max != -1)
+                        .DataStep(step, _using: step != -1)
+                        .DataWidth(width, _using: width != -1)
+                        .DataAlwaysSend(alwaysSend)
+                        .OnChange(onChange)
+                        .DataValidateRequired(validateRequired)
+                        .DataAction(action)
+                        .DataMethod(method)).Span(
+                            css: "unit",
+                            _using: !unit.IsNullOrEmpty(),
+                            action: () => hb.Text(unit)))
                 : hb;
         }
 

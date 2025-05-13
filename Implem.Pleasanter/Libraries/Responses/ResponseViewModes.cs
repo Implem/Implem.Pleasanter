@@ -131,6 +131,26 @@ namespace Implem.Pleasanter.Libraries.Responses
                         ? "ignoreView"
                         : null);
             }
+            if (ss.SaveViewType == SiteSettings.SaveViewTypes.None)
+            {
+                var controlId = context.Forms.Get("ControlId") ?? string.Empty;
+                if (controlId == "ViewFilters_Reset")
+                {
+                    foreach (var key in context.Forms.Keys)
+                    {
+                        if (key.StartsWith("ViewFilters_") || key.StartsWith("ViewSorters_"))
+                        {
+                            res.ClearFormData(target: key);
+                        }
+                    }
+                }
+                else if (controlId.StartsWith("ViewFilters_") || controlId.StartsWith("ViewSorters_"))
+                {
+                    res.SetFormData(
+                        target: controlId,
+                        value: context.Forms.Get(controlId) ?? string.Empty);
+                }
+            }
             return res;
         }
     }

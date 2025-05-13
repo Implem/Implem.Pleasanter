@@ -3004,6 +3004,10 @@ namespace Implem.Pleasanter.Models
                 userApiModel != null &&
                 userApiModel.MailAddresses != null)
             {
+                if (context.UserSettings.EnableManageTenant == true)
+                {
+                    return new ErrorData(type: Error.Types.HasNotPermission);
+                }
                 var errorData = UserValidators.OnApiUpdatingMailAddress(userApiModel: userApiModel);
                 if (errorData.Type != Error.Types.None)
                 {

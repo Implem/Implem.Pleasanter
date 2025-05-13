@@ -9,7 +9,7 @@ namespace Implem.Pleasanter.Libraries.Resources
         {
             switch (viewMode)
             {
-                case "index": return "$p.paging('#Grid')";
+                case "index": return "$p.setGrid()";
                 case "calendar": return "$p.setCalendar();";
                 case "crosstab": return "$p.setCrosstab();";
                 case "gantt": return "$p.drawGantt();";

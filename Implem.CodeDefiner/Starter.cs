@@ -69,7 +69,8 @@ namespace Implem.CodeDefiner
                         ConfigureDatabase(
                             factory: factory,
                             force: argHash.ContainsKey("f"),
-                            noInput : argHash.ContainsKey("y"));
+                            noInput : argHash.ContainsKey("y"),
+                            checkMigration: argHash.ContainsKey("c"));
                         break;
                     case "rds":
                         ConfigureDatabase(
@@ -385,7 +386,8 @@ namespace Implem.CodeDefiner
         private static void ConfigureDatabase(
             ISqlObjectFactory factory,
             bool force = false,
-            bool noInput = false)
+            bool noInput = false,
+            bool checkMigration = false)
         {
             try
             {
@@ -393,7 +395,8 @@ namespace Implem.CodeDefiner
                 var completed = Functions.Rds.Configurator.Configure(
                     factory: factory,
                     force: force,
-                    noInput: noInput);
+                    noInput: noInput,
+                    checkMigration: checkMigration);
                 if (completed)
                 {
                     Consoles.Write(

@@ -1646,6 +1646,83 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             return 0;
         }
 
+        public static DateTime Aggregate(
+            Context context,
+            SiteSettings ss,
+            string view,
+            string columnName,
+            Sqls.Functions function,
+            ServerScriptModelUtilities modelUtilities
+            )
+        {
+            if (ss == null)
+            {
+                return modelUtilities.EmptyTime();
+            }
+            var apiContext = CreateContext(
+                context: context,
+                controller: "Items",
+                action: "Aggregate",
+                id: ss.SiteId,
+                apiRequestBody: view);
+            var where = (view.IsNullOrEmpty()
+                ? new View()
+                : apiContext.RequestDataString.Deserialize<Api>()?.View)
+                    ?.Where(
+                        context: apiContext,
+                        ss: ss);
+            var join = ss.Join(
+                context: apiContext,
+                join: new IJoin[]
+                {
+                    where
+                });
+            var column = ss.GetColumn(
+                context: apiContext,
+                columnName: columnName);
+            if (where != null
+                && (column?.TypeName == "datetime")
+                && apiContext.CanRead(ss: ss)
+                && column.CanRead(
+                    context: apiContext,
+                    ss: ss,
+                    mine: null,
+                    noCache: true))
+            {
+                switch (ss.ReferenceType)
+                {
+                    case "Issues":
+                        return GetDatetimeResponse(
+                            statements: Rds.SelectIssues(
+                                column: Rds.IssuesColumn().Add(
+                                    column: column,
+                                    function: function),
+                                join: join,
+                                where: where)
+                            );
+                    case "Results":
+                        return GetDatetimeResponse(
+                            statements: Rds.SelectResults(
+                                column: Rds.ResultsColumn().Add(
+                                    column: column,
+                                    function: function),
+                                join: join,
+                                where: where)
+                            );
+                }
+            }
+            return modelUtilities.EmptyTime();
+            DateTime GetDatetimeResponse(SqlStatement statements)
+            {
+                var response = Repository.ExecuteScalar_datetime(
+                    context: apiContext,
+                    statements: statements);
+                return response < modelUtilities.MinTime()
+                    ? modelUtilities.EmptyTime()
+                    : response;
+            }
+        }
+
         private static string GetApiRequestBody(object model)
         {
             return model is string issueRequestString

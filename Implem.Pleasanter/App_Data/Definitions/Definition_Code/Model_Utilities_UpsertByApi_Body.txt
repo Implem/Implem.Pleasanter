@@ -8,58 +8,60 @@
         return ApiResults.BadRequest(context: context);
     }
     var api = context.RequestDataString.Deserialize<Api>();
-    var data = context.RequestDataString.Deserialize<#ModelName#ApiModel>();
-    if (api?.Keys?.Any() != true || data == null)
+    var #modelName#ApiModel = context.RequestDataString.Deserialize<#ModelName#ApiModel>();
+    if (api?.Keys?.Any() != true ||#modelName#ApiModel == null)
     {
         return ApiResults.Error(
             context: context,
             errorData: new ErrorData(type: Error.Types.InvalidJsonData));
     }
-    var error = new ErrorData(Error.Types.None);
-    api.View = api.View ?? new View();
-    api.Keys.ForEach(columnName =>
-    {
-        if (error.Type != Error.Types.None) return;
-        var objectValue = data.ObjectValue(columnName: columnName);
-        if (objectValue != null)
-        {
-            var column = ss.GetColumn(
-                context: context,
-                columnName: columnName);
-            if (column?.TypeName == "datetime"
-                && objectValue.ToDateTime().InRange() == false)
-            {
-                error = new ErrorData(
-                    type: Error.Types.invalidUpsertKey,
-                    data: $"('{columnName}'='{objectValue.ToStr()}')");
-                return;
-            }
-            api.View.AddColumnFilterHash(
-                context: context,
-                ss: ss,
-                column: column,
-                objectValue: objectValue);
-            api.View.AddColumnFilterSearchTypes(
-                columnName: columnName,
-                searchType: Column.SearchTypes.ExactMatch);
-        }
-    });
-    if (error.Type != Error.Types.None)
+    var (isValid, missingKeys) = ValidateJsonKeys(jsonString: context.RequestDataString, ss: ss);
+    if (!isValid)
     {
         return ApiResults.Error(
             context: context,
-            errorData: error);
+            errorData: new ErrorData(
+                type: Error.Types.InvalidUpsertKey,
+                data: $"({string.Join(", ", missingKeys)})"));
     }
-    var #modelName#ApiModel = context.RequestDataString.Deserialize<#ModelName#ApiModel>();
-    if (#modelName#ApiModel == null)
+    var error = new ErrorData(Error.Types.None);
+    var view = api.View ?? new View();
+    var errorData = new List<string>();
+    foreach (var columnName in api.Keys)
     {
-        context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+        var objectValue = #modelName#ApiModel.ObjectValue(columnName: columnName);
+        if (objectValue == null) continue;
+        var column = ss.GetColumn(
+            context: context,
+            columnName: columnName);
+        if (column?.TypeName == "datetime"
+            && objectValue.ToDateTime().InRange() == false)
+        {
+            errorData.Add($"'{columnName}'='{objectValue.ToStr()}'");
+            continue;
+        }
+        view.AddColumnFilterHash(
+            context: context,
+            ss: ss,
+            column: column,
+            objectValue: objectValue);
+        view.AddColumnFilterSearchTypes(
+            columnName: columnName,
+            searchType: Column.SearchTypes.ExactMatch);
+    }
+    if (errorData.Any())
+    {
+        return ApiResults.Error(
+            context: context,
+            errorData: new ErrorData(
+                type: Error.Types.InvalidUpsertKey,
+                data: $"({errorData.Join()})"));
     }
     var #modelName#Model = new #ModelName#Model(
         context: context,
         ss: ss,
         #modelName#Id: 0,
-        view: api.View,
+        view: view,
         #modelName#ApiModel: #modelName#ApiModel);
     switch (#modelName#Model.AccessStatus)
     {
@@ -68,7 +70,7 @@
                 context: context, 
                 ss: ss, 
                 #modelName#Id: #modelName#Model.#ModelName#Id, 
-                previousTitle: #modelName#Model.Title.DisplayValue);
+                previousTitle: previousTitle);
         case Databases.AccessStatuses.NotFound:
             return CreateByApi(context: context, ss: ss);
         case Databases.AccessStatuses.Overlap:
@@ -76,4 +78,155 @@
         default:
             return ApiResults.Get(ApiResponses.NotFound(context: context));
     }
+}
+
+private static bool CheckKeyExists(string key, Newtonsoft.Json.Linq.JToken elementToCheck, SiteSettings ss)
+{
+    if (!ss.ColumnDefinitionHash.ContainsKey(key))
+    {
+        return false;
+    }
+
+    if (elementToCheck?.Type != Newtonsoft.Json.Linq.JTokenType.Object)
+    {
+        return false;
+    }
+    var objToCheck = (Newtonsoft.Json.Linq.JObject)elementToCheck;
+    bool found = false;
+    Newtonsoft.Json.Linq.JToken hashToken;
+    Newtonsoft.Json.Linq.JToken valueToken = null;
+
+    switch (Def.ExtendedColumnTypes.Get(key))
+    {
+        case "Class":
+            if (objToCheck.TryGetValue("ClassHash", StringComparison.OrdinalIgnoreCase, out hashToken) && hashToken?.Type == Newtonsoft.Json.Linq.JTokenType.Object)
+            {
+                var hashObj = (Newtonsoft.Json.Linq.JObject)hashToken;
+                if (hashObj.ContainsKey(key))
+                {
+                    valueToken = hashObj[key];
+                    if (valueToken?.Type == Newtonsoft.Json.Linq.JTokenType.String)
+                    {
+                        found = !string.IsNullOrEmpty((string)valueToken);
+                    }
+                }
+            }
+            break;
+
+        case "Num":
+            if (objToCheck.TryGetValue("NumHash", StringComparison.OrdinalIgnoreCase, out hashToken) && hashToken?.Type == Newtonsoft.Json.Linq.JTokenType.Object)
+            {
+                var hashObj = (Newtonsoft.Json.Linq.JObject)hashToken;
+                if (hashObj.ContainsKey(key))
+                {
+                    valueToken = hashObj[key];
+                    found = (valueToken?.Type != Newtonsoft.Json.Linq.JTokenType.Null);
+                }
+            }
+            break;
+
+        case "Date":
+            if (objToCheck.TryGetValue("DateHash", StringComparison.OrdinalIgnoreCase, out hashToken) && hashToken?.Type == Newtonsoft.Json.Linq.JTokenType.Object)
+            {
+                var hashObj = (Newtonsoft.Json.Linq.JObject)hashToken;
+                if (hashObj.ContainsKey(key))
+                {
+                    valueToken = hashObj[key];
+                    found = (valueToken?.Type != Newtonsoft.Json.Linq.JTokenType.Null);
+                }
+            }
+            break;
+
+        case "Description":
+            if (objToCheck.TryGetValue("DescriptionHash", StringComparison.OrdinalIgnoreCase, out hashToken) && hashToken?.Type == Newtonsoft.Json.Linq.JTokenType.Object)
+            {
+                var hashObj = (Newtonsoft.Json.Linq.JObject)hashToken;
+                if (hashObj.ContainsKey(key))
+                {
+                    valueToken = hashObj[key];
+                    if (valueToken?.Type == Newtonsoft.Json.Linq.JTokenType.String)
+                    {
+                        found = !string.IsNullOrEmpty((string)valueToken);
+                    }
+                }
+            }
+            break;
+
+        case "Check":
+            if (objToCheck.TryGetValue("CheckHash", StringComparison.OrdinalIgnoreCase, out hashToken) && hashToken?.Type == Newtonsoft.Json.Linq.JTokenType.Object)
+            {
+                var hashObj = (Newtonsoft.Json.Linq.JObject)hashToken;
+                if (hashObj.ContainsKey(key))
+                {
+                    valueToken = hashObj[key];
+                    found = (valueToken?.Type != Newtonsoft.Json.Linq.JTokenType.Null);
+                }
+            }
+            break;
+
+        case "Attachments":
+            return false;
+
+        default:
+            if (objToCheck.TryGetValue(key, StringComparison.OrdinalIgnoreCase, out valueToken))
+            {
+                found = (valueToken?.Type != Newtonsoft.Json.Linq.JTokenType.Null);
+            }
+            break;
+    }
+    return found;
+}
+public static (bool isValid, List<string> missingKeys) ValidateJsonKeys(string jsonString, SiteSettings ss)
+{
+    var missingKeys = new List<string>();
+
+    bool allKeysValid = true;
+    var root = Newtonsoft.Json.Linq.JObject.Parse(jsonString);
+
+    root.TryGetValue("Keys", StringComparison.OrdinalIgnoreCase, out var keysToken);
+    var keysArray = (Newtonsoft.Json.Linq.JArray)keysToken ?? new Newtonsoft.Json.Linq.JArray();
+    bool hasDataArray = root.TryGetValue("Data", StringComparison.OrdinalIgnoreCase, out var dataToken) && dataToken?.Type == Newtonsoft.Json.Linq.JTokenType.Array;
+    var dataArray = hasDataArray ? (Newtonsoft.Json.Linq.JArray)dataToken : null;
+    bool keyNotFoundCreateIsTrue = root.TryGetValue("KeyNotFoundCreate", StringComparison.OrdinalIgnoreCase, out var knfcToken)
+                                        && knfcToken?.Type == Newtonsoft.Json.Linq.JTokenType.Boolean
+                                        && (bool)knfcToken;
+    foreach (var keyElement in keysArray)
+    {
+        if (keyElement?.Type != Newtonsoft.Json.Linq.JTokenType.String)
+        {
+            allKeysValid = false;
+            missingKeys.Add($"{keyElement}");
+            continue;
+        }
+        var key = (string)keyElement;
+        bool currentKeyIsValid = false;
+
+        if (hasDataArray)
+        {
+            if (dataArray.Count == 0)
+            {
+                currentKeyIsValid = false;
+            }
+            else
+            {
+                currentKeyIsValid = dataArray.All(dataItem => CheckKeyExists(
+                                                                        key: key,
+                                                                        elementToCheck: dataItem,
+                                                                        ss: ss));
+            }
+        }
+        else
+        {
+            currentKeyIsValid = CheckKeyExists(
+                                            key: key,
+                                            elementToCheck: root,
+                                            ss: ss);
+        }
+        if (!currentKeyIsValid)
+        {
+            allKeysValid = false;
+            missingKeys.Add(key);
+        }
+    }
+    return (allKeysValid, missingKeys);
 }

@@ -1,0 +1,3 @@
+﻿var processes = #modelName#ApiModel?.ProcessIds != null
+    ? ss.Processes?.Where(process => #modelName#ApiModel.ProcessIds.Contains(process.Id)).ToList()
+    : ss.Processes?.Where(process => process.Id == #modelName#ApiModel?.ProcessId).ToList();

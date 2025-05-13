@@ -81,6 +81,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 context: context,
                                 view: view);
                             return Permissions.CanManageTenant(context: context)
+                                || context.UserSettings?.EnableManageTenant == true
                                 ? Breadcrumb(
                                     hb: hb,
                                     context: context,

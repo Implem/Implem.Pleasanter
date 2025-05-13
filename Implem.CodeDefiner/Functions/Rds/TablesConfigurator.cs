@@ -10,15 +10,19 @@ namespace Implem.CodeDefiner.Functions.Rds
 {
     internal class TablesConfigurator
     {
-        internal static void Configure(ISqlObjectFactory factory)
+        internal static bool Configure(
+            ISqlObjectFactory factory,
+            bool checkMigration = false)
         {
+            var isChanged = false;
             Def.TableNameCollection().ForEach(generalTableName =>
             {
                 try
                 {
-                    ConfigureTableSet(
+                    isChanged |= ConfigureTableSet(
                         factory: factory,
-                        generalTableName: generalTableName);
+                        generalTableName: generalTableName,
+                        checkMigration: checkMigration);
                 }
                 catch (System.Data.SqlClient.SqlException e)
                 {
@@ -48,6 +52,7 @@ namespace Implem.CodeDefiner.Functions.Rds
             {
                 Consoles.Write($"{e.Message}", Consoles.Types.Error);
             }
+            return isChanged;
         }
 
         private static void ConfigureFullTextIndexSqlServer(ISqlObjectFactory factory)
@@ -120,7 +125,10 @@ namespace Implem.CodeDefiner.Functions.Rds
             }
         }
 
-        private static void ConfigureTableSet(ISqlObjectFactory factory, string generalTableName)
+        private static bool ConfigureTableSet(
+            ISqlObjectFactory factory,
+            string generalTableName,
+            bool checkMigration)
         {
             Consoles.Write(generalTableName, Consoles.Types.Info);
             var deletedTableName = generalTableName + "_deleted";
@@ -136,33 +144,40 @@ namespace Implem.CodeDefiner.Functions.Rds
             var columnDefinitionHistoryCollection = columnDefinitionCollection
                 .Where(o => o.History > 0)
                 .OrderBy(o => o.History);
-            ConfigureTablePart(
+            var isChanged = false;
+            isChanged |= ConfigureTablePart(
                 factory: factory,
                 generalTableName: generalTableName,
                 sourceTableName: generalTableName,
                 tableType: Sqls.TableTypes.Normal,
-                columnDefinitionCollection: columnDefinitionCollection);
-            ConfigureTablePart(
+                columnDefinitionCollection: columnDefinitionCollection,
+                checkMigration: checkMigration);
+            isChanged |= ConfigureTablePart(
                 factory: factory,
                 generalTableName: generalTableName,
                 sourceTableName: deletedTableName,
                 tableType: Sqls.TableTypes.Deleted,
-                columnDefinitionCollection: columnDefinitionCollection);
-            ConfigureTablePart(
+                columnDefinitionCollection: columnDefinitionCollection,
+                checkMigration: checkMigration);
+            isChanged |= ConfigureTablePart(
                 factory: factory,
                 generalTableName: generalTableName,
                 sourceTableName: historyTableName,
                 tableType: Sqls.TableTypes.History,
-                columnDefinitionCollection: columnDefinitionHistoryCollection);
+                columnDefinitionCollection: columnDefinitionHistoryCollection,
+                checkMigration: checkMigration);
+            return isChanged;
         }
 
-        private static void ConfigureTablePart(
+        private static bool ConfigureTablePart(
             ISqlObjectFactory factory,
             string generalTableName,
             string sourceTableName,
             Sqls.TableTypes tableType,
-            IEnumerable<ColumnDefinition> columnDefinitionCollection)
+            IEnumerable<ColumnDefinition> columnDefinitionCollection,
+            bool checkMigration)
         {
+            var isChanged = false;
             if (!Tables.Exists(factory: factory, sourceTableName: sourceTableName))
             {
                 Tables.CreateTable(
@@ -175,7 +190,9 @@ namespace Implem.CodeDefiner.Functions.Rds
                         factory: factory,
                         generalTableName: generalTableName,
                         sourceTableName: sourceTableName,
-                        tableType: tableType));
+                        tableType: tableType),
+                    checkMigration: checkMigration);
+                isChanged = true;
             }
             else
             {
@@ -197,9 +214,12 @@ namespace Implem.CodeDefiner.Functions.Rds
                             factory: factory,
                             generalTableName: generalTableName,
                             sourceTableName: sourceTableName,
-                            tableType: tableType));
+                            tableType: tableType),
+                        checkMigration: checkMigration);
+                    isChanged = true;
                 }
             }
+            return isChanged;
         }
     }
 }
