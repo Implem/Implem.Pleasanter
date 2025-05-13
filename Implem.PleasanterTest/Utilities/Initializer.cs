@@ -205,13 +205,13 @@ namespace Implem.PleasanterTest.Utilities
                 var fileStream = new FileStream(filePath, FileMode.Open);
                 var file = new FormFile(fileStream, 0, fileStream.Length, null, Path.GetFileName(filePath));
                 SetPostedFiles(context, file);
-                var model = new ItemModel(
+                new ItemModel(
                     context: context,
                     referenceId: 0)
                     .ImportSitePackage(context: context);
             }
         }
-        public static void SetPostedFiles(Context context, IFormFile file)
+        private static void SetPostedFiles(Context context, IFormFile file)
         {
             if (context.PostedFiles.Count > 0)
             {
@@ -232,6 +232,47 @@ namespace Implem.PleasanterTest.Utilities
                     : new System.Net.Http.Headers.ContentRangeHeaderValue(0, 0, 0),
                 InputStream = file.OpenReadStream()
             });
+        }
+        public static void InsertCommonPermissions(string title)
+        {
+            // サイトパッケージから追加したテストデータにアクセス権を付与。
+            // ※サイトパッケージから追加したテストデータでは、アクセス権はテストの直前に付与します。(使用例：CircleReference)
+            // →仕様：テナント管理者に511のアクセス権を付与、全組織に31のアクセス権を付与。
+            // →仕様の根拠：標準的なデモ用のサイト(Defで管理しているもの)と同様としている。
+            // ※他のアクセス権のパターンは別のメソッドを追加して対応してください。(todo)
+            // ※フォルダ内の個別テーブルはサイトパッケージからインポートした時点でアクセス権継承設定があるものとします。
+            var siteId = GetSiteIdByPackageTitle(title);
+
+            // テナント管理者にアクセス権を付与
+            var privilegeUserId = Users.Values
+                .Where(user => user.Name == "テナント管理者")
+                .Select(user => user.UserId)
+                .FirstOrDefault();
+            Repository.ExecuteNonQuery(
+                    context: Context,
+                    statements: Rds.InsertPermissions(
+                        param: Rds.PermissionsParam()
+                            .ReferenceId(siteId)
+                            .DeptId(0)
+                            .GroupId(0)
+                            .UserId(privilegeUserId)
+                            .PermissionType(511)));
+            // 各組織にアクセス権を付与
+            var depts = Depts;
+        }
+        public static long GetSiteIdByPackageTitle(string title)
+        {
+            // サイトパッケージから追加したテストデータはInitializerのフィールドに登録されないので、
+            // タイトルをキーにサイトIDを取得する際は、DB検索で取得する。
+            return Repository.ExecuteScalar_long(
+                context: Context,
+                statements: Rds.SelectSites(
+                    column: Rds.SitesColumn().SiteId(),
+                    where: Rds.SitesWhere()
+                        .TenantId(TenantId)
+                        .Title(title),
+                    orderBy: Rds.SitesOrderBy().SiteId(),
+                    top: 1));
         }
     }
 }
