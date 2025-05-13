@@ -190,48 +190,45 @@ namespace Implem.PleasanterTest.Utilities
                     param: Rds.UsersParam()
                         .Password("ABCDEF".Sha512Cng())));
             //サイトパッケージをテストデータとして登録。
-            ImportSitePackageForTest(context: Context);
-
+            ImportSitePackageForTest();
         }
-        private static void ImportSitePackageForTest(Context context)
+        private static void ImportSitePackageForTest()
         {
-            context.HasPrivilege = true;
+            var hasPrivilege = Context.HasPrivilege;
+            Context.HasPrivilege = true;
             // IncludeData(データを含める)のみ選択状態にする。
             // IncludeSitePermission | IncludeRecordPermission | IncludeColumnPermission | IncludeNotifications | IncludeReminders は非選択。
-            context.Forms.Add("IncludeData", "True");
+            Context.Forms.Add("IncludeData", "True");
             var path = Path.Combine(Directories.PleasanterTest(), "Data_Package");
             foreach (var filePath in Directory.GetFiles(path))
             {
                 var fileStream = new FileStream(filePath, FileMode.Open);
                 var file = new FormFile(fileStream, 0, fileStream.Length, null, Path.GetFileName(filePath));
-                SetPostedFiles(context, file);
+                if (Context.PostedFiles.Count > 0)
+                {
+                    Context.PostedFiles.RemoveAt(0);
+                }
+                Context.PostedFiles.Add(new PostedFile()
+                {
+                    Guid = new HttpPostedFile(file).WriteToTemp(Context),
+                    FileName = file.FileName.Split(System.IO.Path.DirectorySeparatorChar).Last(),
+                    Extension = new HttpPostedFile(file).Extension(),
+                    Size = file.Length,
+                    ContentType = "application/json",
+                    ContentRange = file.Length > 0
+                        ? new System.Net.Http.Headers.ContentRangeHeaderValue(
+                            0,
+                            file.Length - 1,
+                            file.Length)
+                        : new System.Net.Http.Headers.ContentRangeHeaderValue(0, 0, 0),
+                    InputStream = file.OpenReadStream()
+                });
                 new ItemModel(
-                    context: context,
+                    context: Context,
                     referenceId: 0)
-                    .ImportSitePackage(context: context);
+                    .ImportSitePackage(context: Context);
+                Context.HasPrivilege = hasPrivilege;
             }
-        }
-        private static void SetPostedFiles(Context context, IFormFile file)
-        {
-            if (context.PostedFiles.Count > 0)
-            {
-                context.PostedFiles.RemoveAt(0);
-            }
-            context.PostedFiles.Add(new PostedFile()
-            {
-                Guid = new HttpPostedFile(file).WriteToTemp(context),
-                FileName = file.FileName.Split(System.IO.Path.DirectorySeparatorChar).Last(),
-                Extension = new HttpPostedFile(file).Extension(),
-                Size = file.Length,
-                ContentType = "application/json",
-                ContentRange = file.Length > 0
-                    ? new System.Net.Http.Headers.ContentRangeHeaderValue(
-                        0,
-                        file.Length - 1,
-                        file.Length)
-                    : new System.Net.Http.Headers.ContentRangeHeaderValue(0, 0, 0),
-                InputStream = file.OpenReadStream()
-            });
         }
         public static void InsertCommonPermissions(string title)
         {
