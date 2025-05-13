@@ -241,6 +241,7 @@ namespace Implem.PleasanterTest.Utilities
             // →仕様の根拠：標準的なデモ用のサイト(Defで管理しているもの)と同様としている。
             // ※他のアクセス権のパターンは別のメソッドを追加して対応してください。(todo)
             // ※フォルダ内の個別テーブルはサイトパッケージからインポートした時点でアクセス権継承設定があるものとします。
+
             var siteId = GetSiteIdByPackageTitle(title);
 
             // テナント管理者にアクセス権を付与
@@ -249,16 +250,28 @@ namespace Implem.PleasanterTest.Utilities
                 .Select(user => user.UserId)
                 .FirstOrDefault();
             Repository.ExecuteNonQuery(
-                    context: Context,
-                    statements: Rds.InsertPermissions(
-                        param: Rds.PermissionsParam()
-                            .ReferenceId(siteId)
-                            .DeptId(0)
-                            .GroupId(0)
-                            .UserId(privilegeUserId)
-                            .PermissionType(511)));
-            // 各組織にアクセス権を付与
-            var depts = Depts;
+                context: Context,
+                statements: Rds.InsertPermissions(
+                    param: Rds.PermissionsParam()
+                        .ReferenceId(siteId)
+                        .DeptId(0)
+                        .GroupId(0)
+                        .UserId(privilegeUserId)
+                        .PermissionType(511)));
+            // 全組織にアクセス権を付与
+            Depts.Values
+                .ForEach(dept =>
+                {
+                    Repository.ExecuteNonQuery(
+                        context: Context,
+                        statements: Rds.InsertPermissions(
+                            param: Rds.PermissionsParam()
+                                .ReferenceId(siteId)
+                                .DeptId(dept.DeptId)
+                                .GroupId(0)
+                                .UserId(0)
+                                .PermissionType(31)));
+                });
         }
         public static long GetSiteIdByPackageTitle(string title)
         {
