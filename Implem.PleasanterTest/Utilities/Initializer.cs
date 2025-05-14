@@ -213,7 +213,7 @@ namespace Implem.PleasanterTest.Utilities
                 Context.PostedFiles.Add(new PostedFile()
                 {
                     Guid = new HttpPostedFile(file).WriteToTemp(Context),
-                    FileName = file.FileName.Split(System.IO.Path.DirectorySeparatorChar).Last(),
+                    FileName = file.FileName.Split(Path.DirectorySeparatorChar).Last(),
                     Extension = new HttpPostedFile(file).Extension(),
                     Size = file.Length,
                     ContentType = "application/json",
@@ -229,8 +229,8 @@ namespace Implem.PleasanterTest.Utilities
                     context: Context,
                     referenceId: 0)
                     .ImportSitePackage(context: Context);
-                Context.HasPrivilege = hasPrivilege;
             }
+            Context.HasPrivilege = hasPrivilege;
         }
         private static void InsertPermissionsForSitePackages()
         {
