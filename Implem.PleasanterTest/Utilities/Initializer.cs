@@ -189,8 +189,10 @@ namespace Implem.PleasanterTest.Utilities
                         .TenantId(TenantId),
                     param: Rds.UsersParam()
                         .Password("ABCDEF".Sha512Cng())));
-            //サイトパッケージをテストデータとして登録。
+            // サイトパッケージをテストデータとして登録。
             ImportSitePackageForTest();
+            // サイトパッケージから追加したテストデータのサイトにアクセス権を付与
+            InsertPermissionsForSitePackages();
         }
         private static void ImportSitePackageForTest()
         {
@@ -230,14 +232,17 @@ namespace Implem.PleasanterTest.Utilities
                 Context.HasPrivilege = hasPrivilege;
             }
         }
-        public static void InsertCommonPermissions(string title)
+        private static void InsertPermissionsForSitePackages()
+        {
+            InsertCommonPermissions("循環");
+        }
+        private static void InsertCommonPermissions(string title)
         {
             // サイトパッケージから追加したテストデータにアクセス権を付与。
-            // ※サイトパッケージから追加したテストデータでは、アクセス権はテストの直前に付与します。(使用例：CircleReference)
             // →仕様：テナント管理者に511のアクセス権を付与、全組織に31のアクセス権を付与。
             // →仕様の根拠：標準的なデモ用のサイト(Defで管理しているもの)と同様としている。
             // ※他のアクセス権のパターンは別のメソッドを追加して対応してください。(todo)
-            // ※フォルダ内の個別テーブルはサイトパッケージからインポートした時点でアクセス権継承設定があるものとします。
+            // ※フォルダが内包するテーブルは、サイトパッケージからインポートの時点でアクセス権継承設定があれば、個別対応不要です。
 
             var siteId = GetSiteIdByPackageTitle(title);
 

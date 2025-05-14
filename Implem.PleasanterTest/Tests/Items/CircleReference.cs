@@ -19,7 +19,7 @@ namespace Implem.PleasanterTest.Tests.Items
             List<BaseTest> baseTests)
         {
             // 操作するテーブルのIDをDB検索で取得
-            // (サイトパッケージからテストデータを追加すると、Initializerのフィールドに登録されないので考慮してテストを記述)
+            // (サイトパッケージからテストデータを追加するため、Initializerのフィールドに登録されないので考慮してテストを記述)
             var id = Initializer.GetSiteIdByPackageTitle(title);
             var context = ContextData.Get(
                 userId: userModel.UserId,
@@ -35,8 +35,6 @@ namespace Implem.PleasanterTest.Tests.Items
 
         public static IEnumerable<object[]> GetData()
         {
-            // サイトパッケージから追加したテストデータ(フォルダ)に標準的なアクセス権を付与
-            Initializer.InsertCommonPermissions("循環");
             // テスト対象はフォルダ内のテーブル3件
             var testParts = new List<TestPart>()
             {
