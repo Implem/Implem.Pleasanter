@@ -29,7 +29,8 @@ namespace Implem.CodeDefiner.Functions.Rds
                     commandText: Def.Sql.GrantPrivilegeAdmin
                         .Replace("#Uid#", cn["uid"])
                         .Replace("#ServiceName#", Environments.ServiceName)
-                        .Replace("#SchemaName#", factory.SqlDefinitionSetting.SchemaName));
+                        .Replace("#SchemaName#", factory.SqlDefinitionSetting.SchemaName)
+                        .Replace("#MySqlConnectingHost#", Parameters.Rds.MySqlConnectingHost));
             }
             else
             {
@@ -42,7 +43,8 @@ namespace Implem.CodeDefiner.Functions.Rds
                         .Replace("#Uid#", cn["uid"])
                         .Replace("#Oid#", ocn["uid"])
                         .Replace("#ServiceName#", Environments.ServiceName)
-                        .Replace("#SchemaName#", factory.SqlDefinitionSetting.SchemaName));
+                        .Replace("#SchemaName#", factory.SqlDefinitionSetting.SchemaName)
+                        .Replace("#MySqlConnectingHost#", Parameters.Rds.MySqlConnectingHost));
             }
         }
     }

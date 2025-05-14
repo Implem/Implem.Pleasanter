@@ -1,2 +1,2 @@
-﻿create user "#Uid#"@"localhost" identified by '#Pwd#';
-grant all on "#ServiceName#".* to "#Uid#"@"localhost" with grant option;
+﻿create user "#Uid#"@"#MySqlConnectingHost#" identified by '#Pwd#';
+grant all on "#ServiceName#".* to "#Uid#"@"#MySqlConnectingHost#" with grant option;

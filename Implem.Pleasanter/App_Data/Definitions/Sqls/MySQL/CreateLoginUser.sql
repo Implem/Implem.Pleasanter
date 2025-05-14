@@ -1,1 +1,1 @@
-﻿create user "#Uid#"@"localhost" identified by '#Pwd#';
+﻿create user "#Uid#"@"#MySqlConnectingHost#" identified by '#Pwd#';

@@ -33,14 +33,19 @@ namespace Implem.CodeDefiner.Functions.Rds
         private static string AlterLoginRoleCommandText(string pwd)
         {
             return Def.Sql.AlterLoginRole
-                .Replace("#Pwd#", pwd);
+                .Replace("#Pwd#", pwd)
+                .Replace("#MySqlConnectingHost#", Parameters.Rds.MySqlConnectingHost);
         }
 
         private static string CreateUserCommandText(string uid, string pwd)
         {
             return uid.EndsWith("_Owner")
-                ? Def.Sql.CreateLoginAdmin.Replace("#Pwd#", pwd)
-                : Def.Sql.CreateLoginUser.Replace("#Pwd#", pwd);
+                ? Def.Sql.CreateLoginAdmin
+                    .Replace("#Pwd#", pwd)
+                    .Replace("#MySqlConnectingHost#", Parameters.Rds.MySqlConnectingHost)
+                : Def.Sql.CreateLoginUser
+                    .Replace("#Pwd#", pwd)
+                    .Replace("#MySqlConnectingHost#", Parameters.Rds.MySqlConnectingHost);
         }
 
         private static void Create(ISqlObjectFactory factory, string uid, string sql)
@@ -65,7 +70,10 @@ namespace Implem.CodeDefiner.Functions.Rds
         {
             return Def.SqlIoBySa(factory).ExecuteTable(
                 factory: factory,
-                commandText: sql.Replace("#Uid#", uid).Replace("#ServiceName#", Environments.ServiceName))
+                commandText: sql
+                    .Replace("#Uid#", uid)
+                    .Replace("#ServiceName#", Environments.ServiceName)
+                    .Replace("#MySqlConnectingHost#", Parameters.Rds.MySqlConnectingHost))
                 .Rows.Count == 1;
         }
 
