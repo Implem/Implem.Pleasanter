@@ -8,6 +8,8 @@ using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
+using Implem.Pleasanter.Models;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -253,6 +255,79 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 }
             }
             return null;
+        }
+
+        public Comments ClearAndSplitPrepend(
+            Context context,
+            SiteSettings ss,
+            string body,
+            bool force = false)
+        {
+            if (body.Trim() != string.Empty || force == true)
+            {
+                Clear();
+                var splitComments = ToSplitComments(
+                    context: context,
+                    comments: body);
+                foreach (var splitComment in splitComments)
+                {
+                    Insert(0, new Comment
+                    {
+                        CommentId = CommentId(),
+                        CreatedTime = DateTime.Now,
+                        Creator = context.UserId,
+                        Body = splitComment,
+                        Created = true
+                    });
+                }
+            }
+            return this;
+        }
+
+        private List<string> ToSplitComments(Context context, string comments)
+        {
+            var originalComments = new List<string> { comments };
+            if (string.IsNullOrWhiteSpace(comments)
+                || !comments.TrimStart().StartsWith("[")
+                || !comments.TrimEnd().EndsWith("]"))
+            {
+                return originalComments;
+            }
+            try
+            {
+                var commentsJArray = JArray.Parse(comments);
+                var sortedComments = commentsJArray
+                    .OfType<JObject>()
+                    .Where(jobject =>
+                    {
+                        var commentKeys = new[] { "CommentId", "CreatedTime", "Creator", "Body" };
+                        var jobjectKeys = jobject
+                            .Properties()
+                            .Select(p => p.Name)
+                            .OrderBy(name => name);
+                        return commentKeys
+                            .OrderBy(key => key)
+                            .SequenceEqual(jobjectKeys);
+                    })
+                    .ToDictionary(
+                        jobject => (int)jobject["CommentId"],
+                        jobject => (string)jobject["Body"]);
+                if (sortedComments.Count == 0
+                    || sortedComments.Count != commentsJArray.Count) {
+                    return originalComments;
+                }
+                return sortedComments
+                    .OrderBy(pair => pair.Key)
+                    .Select(pair => pair.Value)
+                    .ToList();
+            }
+            catch (Exception e)
+            {
+                new SysLogModel(
+                    context: context,
+                    e: e);
+                return originalComments;
+            }
         }
     }
 }

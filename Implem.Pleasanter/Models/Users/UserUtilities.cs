@@ -3830,10 +3830,9 @@ namespace Implem.Pleasanter.Models
                             userModel.SynchronizedTime = recordingData.ToDateTime();
                             break;
                         case "Comments":
-                            if (userModel.AccessStatus != Databases.AccessStatuses.Selected &&
-                                !data.Row[column.Key].IsNullOrEmpty())
+                            if (!data.Row[column.Key].IsNullOrEmpty())
                             {
-                                userModel.Comments.Prepend(
+                                userModel.Comments.ClearAndSplitPrepend(
                                     context: context,
                                     ss: ss,
                                     body: data.Row[column.Key]);
