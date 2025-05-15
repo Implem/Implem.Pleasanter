@@ -14,12 +14,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             if (!Permissions.CanManageTenant(context: context))
             {
-                if(!(context.UserSettings?.EnableManageTenant == true))
-                {
-                    return HtmlTemplates.Error(
+                return HtmlTemplates.Error(
                     context: context,
                     errorData: new ErrorData(type: Error.Types.HasNotPermission));
-                }
             }
             var ss = new SiteSettings();
             return hb.Template(
@@ -83,8 +80,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                             .Div(action: () => hb
                                             .Text(Displays.Users(context: context)))
                                             .StackStyles()),
-                                _using: Permissions.CanManageUser(context: context)
-                                    || context.UserSettings.EnableManageTenant == true)
+                                _using: Permissions.CanManageUser(context: context))
                             .Li(
                                 css: "nav-site", action: () => hb
                                     .A(
