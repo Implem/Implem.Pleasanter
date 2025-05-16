@@ -184,7 +184,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 : column.Display(
                     context: context,
                     value: Value,
-                    format: column.Format == "C" || column.Format == "N");
+                    format: column.Format == "C" || column.Format == "N" || column.EditorReadOnly == true);
         }
 
         public void FullText(
