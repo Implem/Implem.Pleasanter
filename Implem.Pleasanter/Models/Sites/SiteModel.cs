@@ -1,4 +1,5 @@
-﻿using Implem.DefinitionAccessor;
+﻿using Azure;
+using Implem.DefinitionAccessor;
 using Implem.Libraries.Classes;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
@@ -16,6 +17,8 @@ using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.ServerScripts;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models.ApiSiteSettings;
+using Microsoft.IdentityModel.Tokens;
+using Quartz.Util;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -382,11 +385,27 @@ namespace Implem.Pleasanter.Models
 
         public void Session_SiteSettings(Context context, string value)
         {
-            SessionUtilities.Set(
+            string key = "SiteSettings";
+            if (Parameters.Session.UseKeyValueStore)
+            {
+                string pageName = context.Page ?? string.Empty;
+                StackExchange.Redis.IDatabase iDatabase = Implem.Pleasanter.Libraries.Redis.CacheForRedisConnection.Connection.GetDatabase();
+                string fieldName = pageName.IsNullOrEmpty() ? $"{key}" : $"{key}_{pageName}";
+                StackExchange.Redis.HashEntry[] hashEntrys = new StackExchange.Redis.HashEntry[] { new StackExchange.Redis.HashEntry(fieldName, value) };
+                iDatabase.HashSet(
+                    context.SessionGuid,
+                    hashEntrys
+                );
+                iDatabase.KeyExpire(context.SessionGuid, TimeSpan.FromMinutes(Parameters.Session.RetentionPeriod));
+            }
+            else
+            {
+                SessionUtilities.Set(
                 context: context,
-                key: "SiteSettings",
+                key: key,
                 value: value,
                 page: true);
+            }
         }
 
         public List<string> Session_MonitorChangesColumns(Context context)
@@ -398,11 +417,27 @@ namespace Implem.Pleasanter.Models
 
         public void Session_MonitorChangesColumns(Context context, string value)
         {
-            SessionUtilities.Set(
+            string key = "MonitorChangesColumns";
+            if (Parameters.Session.UseKeyValueStore)
+            {
+                string pageName = context.Page ?? string.Empty;
+                StackExchange.Redis.IDatabase iDatabase = Implem.Pleasanter.Libraries.Redis.CacheForRedisConnection.Connection.GetDatabase();
+                string fieldName = pageName.IsNullOrEmpty() ? $"{key}" : $"{key}_{pageName}";
+                StackExchange.Redis.HashEntry[] hashEntrys = new StackExchange.Redis.HashEntry[] { new StackExchange.Redis.HashEntry(fieldName, value) };
+                iDatabase.HashSet(
+                    context.SessionGuid,
+                    hashEntrys
+                );
+                iDatabase.KeyExpire(context.SessionGuid, TimeSpan.FromMinutes(Parameters.Session.RetentionPeriod));
+            }
+            else
+            {
+                SessionUtilities.Set(
                 context: context,
-                key: "MonitorChangesColumns",
+                key: key,
                 value: value,
                 page: true);
+            }
         }
 
         public List<string> Session_TitleColumns(Context context)
@@ -414,11 +449,27 @@ namespace Implem.Pleasanter.Models
 
         public void Session_TitleColumns(Context context, string value)
         {
-            SessionUtilities.Set(
+            string key = "TitleColumns";
+            if (Parameters.Session.UseKeyValueStore)
+            {
+                string pageName = context.Page ?? string.Empty;
+                StackExchange.Redis.IDatabase iDatabase = Implem.Pleasanter.Libraries.Redis.CacheForRedisConnection.Connection.GetDatabase();
+                string fieldName = pageName.IsNullOrEmpty() ? $"{key}" : $"{key}_{pageName}";
+                StackExchange.Redis.HashEntry[] hashEntrys = new StackExchange.Redis.HashEntry[] { new StackExchange.Redis.HashEntry(fieldName, value) };
+                iDatabase.HashSet(
+                    context.SessionGuid,
+                    hashEntrys
+                );
+                iDatabase.KeyExpire(context.SessionGuid, TimeSpan.FromMinutes(Parameters.Session.RetentionPeriod));
+            }
+            else
+            {
+                SessionUtilities.Set(
                 context: context,
-                key: "TitleColumns",
+                key: key,
                 value: value,
                 page: true);
+            }
         }
 
         public Export Session_Export(Context context)
@@ -430,11 +481,27 @@ namespace Implem.Pleasanter.Models
 
         public void Session_Export(Context context, string value)
         {
-            SessionUtilities.Set(
+            string key = "Export";
+            if (Parameters.Session.UseKeyValueStore)
+            {
+                string pageName = context.Page ?? string.Empty;
+                StackExchange.Redis.IDatabase iDatabase = Implem.Pleasanter.Libraries.Redis.CacheForRedisConnection.Connection.GetDatabase();
+                string fieldName = pageName.IsNullOrEmpty() ? $"{key}" : $"{key}_{pageName}";
+                StackExchange.Redis.HashEntry[] hashEntrys = new StackExchange.Redis.HashEntry[] { new StackExchange.Redis.HashEntry(fieldName, value) };
+                iDatabase.HashSet(
+                    context.SessionGuid,
+                    hashEntrys
+                );
+                iDatabase.KeyExpire(context.SessionGuid, TimeSpan.FromMinutes(Parameters.Session.RetentionPeriod));
+            }
+            else
+            {
+                SessionUtilities.Set(
                 context: context,
-                key: "Export",
+                key: key,
                 value: value,
                 page: true);
+            }
         }
 
         public bool Session_DisableSiteCreatorPermission(Context context)
@@ -446,11 +513,27 @@ namespace Implem.Pleasanter.Models
 
         public void Session_DisableSiteCreatorPermission(Context context, string value)
         {
-            SessionUtilities.Set(
+            string key = "DisableSiteCreatorPermission";
+            if (Parameters.Session.UseKeyValueStore)
+            {
+                string pageName = context.Page ?? string.Empty;
+                StackExchange.Redis.IDatabase iDatabase = Implem.Pleasanter.Libraries.Redis.CacheForRedisConnection.Connection.GetDatabase();
+                string fieldName = pageName.IsNullOrEmpty() ? $"{key}" : $"{key}_{pageName}";
+                StackExchange.Redis.HashEntry[] hashEntrys = new StackExchange.Redis.HashEntry[] { new StackExchange.Redis.HashEntry(fieldName, value) };
+                iDatabase.HashSet(
+                    context.SessionGuid,
+                    hashEntrys
+                );
+                iDatabase.KeyExpire(context.SessionGuid, TimeSpan.FromMinutes(Parameters.Session.RetentionPeriod));
+            }
+            else
+            {
+                SessionUtilities.Set(
                 context: context,
-                key: "DisableSiteCreatorPermission",
+                key: key,
                 value: value,
                 page: true);
+            }
         }
 
         public string PropertyValue(Context context, Column column)
