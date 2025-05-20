@@ -14,5 +14,7 @@ namespace Implem.ParameterAccessor.Parts
         [DefaultValue(true)]
         public bool EnableLoggingToDatabase { get; set; } = true;
         public bool EnableLoggingToFile { get; set; }
+        [DefaultValue(true)]
+        public bool OutputErrorDetails { get; set; } = true;
     }
 }

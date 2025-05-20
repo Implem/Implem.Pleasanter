@@ -98,6 +98,7 @@ $p.getValue = function (name) {
                 ? element.checked
                 : element.value;
         case 'SELECT':
+            return $control.val();
         case 'TEXTAREA':
             return element.value;
         default:

@@ -25,7 +25,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Error.Types errorType,
             bool useNavigationMenu,
             bool useSearch,
-            bool isSearch,
             ServerScriptModelRow serverScriptModelRow)
         {
             if (errorType == Error.Types.None
@@ -41,7 +40,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         siteId: siteId,
                         referenceType: referenceType,
                         useSearch: useSearch,
-                        isSearch: isSearch,
                         serverScriptModelRow: serverScriptModelRow);
                 }
                 else if (context.ThemeVersionOver2_0() && context.Action != "login")
@@ -75,7 +73,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                 siteId: siteId,
                                                 referenceType: referenceType,
                                                 useSearch: useSearch,
-                                                isSearch: isSearch,
                                                 serverScriptModelRow: serverScriptModelRow)))
                                 .Div(
                                     css: "hamburger-closelabel",
@@ -120,7 +117,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             long siteId,
             string referenceType,
             bool useSearch,
-            bool isSearch,
             ServerScriptModelRow serverScriptModelRow)
         {
             return hb.Nav(
@@ -138,7 +134,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         menus: ExtendedAssembleNavigationMenu(
                             navigationMenus: Parameters.NavigationMenus,
                             extendedNavigationMenus: ExtendedNavigationMenu(context)),
-                        isSearch: isSearch,
                         serverScriptModelRow: serverScriptModelRow)
                     .Search(
                         context: context,
@@ -159,7 +154,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string cssUiWidget = null,
             List<NavigationMenu> menus = null,
             bool childMenu = false,
-            bool isSearch = false,
             ServerScriptModelRow serverScriptModelRow = null)
         {
             if (menus?.Any() != true)
@@ -184,7 +178,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     ss: ss,
                                     referenceType: referenceType,
                                     siteId: siteId,
-                                    isSearch: isSearch,
                                     menu: menu)))
                         {
                             if (context.ThemeVersion1_0())
@@ -634,7 +627,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             SiteSettings ss,
             string referenceType,
             long siteId,
-            bool isSearch,
             NavigationMenu menu)
         {
             var canCreateGroups = context.UserSettings?.AllowGroupCreation(context: context) == true;
@@ -642,9 +634,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 ss: ss,
                 site: true);
             var canManageSysLogs = context.HasPrivilege;
-            var canManageDepts = Permissions.CanManageTenant(context: context);
+            var canManageDepts = Permissions.CanManageTenant(context: context)
+                || context.UserSettings?.EnableManageTenant == true;
             var canManageGroups = context.UserSettings?.AllowGroupAdministration(context: context) == true;
-            var canManageUsers = Permissions.CanManageUser(context: context);
+            var canManageUsers = Permissions.CanManageUser(context: context)
+                || context.UserSettings?.EnableManageTenant == true;
             var canManageRegistrations = Permissions.CanManageRegistrations(context: context);
             var canManageTenants = Permissions.CanManageTenant(context: context)
                 || context.UserSettings?.EnableManageTenant == true;
@@ -666,6 +660,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             switch (menu.MenuId)
             {
                 case "NewMenu":
+                    if (ss.ReferenceType == "Users"
+                        && context.UserSettings?.EnableManageTenant == true)
+                    {
+                        return false;
+                    }
                     return ss.ReferenceType == "Sites" && context.Action == "index"
                         ? context.CanManageSite(ss: ss)
                         : ss.ReferenceType == "Groups"
@@ -675,8 +674,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 && ss.ReferenceType != "Wikis"
                                 && context.Action != "trashbox"
                                 && ss.ReferenceType != "Dashboards"
-                                && !(ss.ReferenceType == "Sites" && context.Action == "edit")
-                                && !isSearch;
+                                && ss.ReferenceType != null
+                                && !(ss.ReferenceType == "Sites" && context.Action == "edit");
                 case "ViewModeMenu":
                     return Def.ViewModeDefinitionCollection
                         .Any(o => o.ReferenceType == referenceType);

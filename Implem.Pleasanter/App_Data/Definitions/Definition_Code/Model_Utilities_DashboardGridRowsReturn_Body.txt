@@ -51,6 +51,12 @@
             gridData.TotalCount))
         .Val("#GridRowIds", gridData.DataRows.Select(g => g.Long("#ModelName#Id")).ToJson())
         .Val("#GridColumns", columns.Select(o => o.ColumnName).ToJson())
+
+        .Invoke("clearData", "GridCheckAll", _using: clearCheck)
+        .Invoke("clearData", "GridCheckedItems", _using: clearCheck)
+        .Invoke("clearData", "GridUnCheckedItems", _using: clearCheck)
+        .Invoke("clearData", "OriginalId", _using: clearCheck)
+
         .Paging("#Grid")
         .Message(message)
         .Messages(context.Messages)

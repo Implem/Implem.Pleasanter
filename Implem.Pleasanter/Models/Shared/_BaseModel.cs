@@ -1018,6 +1018,20 @@ namespace Implem.Pleasanter.Models
                 condition: ServerScriptConditions.AfterDelete);
         }
 
+        public void SetByAfterBulkDeleteServerScript(
+            Context context,
+            SiteSettings ss)
+        {
+            ServerScriptUtilities.Execute(
+                context: context,
+                ss: ss,
+                gridData: null,
+                itemModel: null,
+                view: null,
+                where: script => script.AfterBulkDelete == true,
+                condition: ServerScriptConditions.AfterBulkDelete);
+        }
+
         public void SetByBeforeDeleteServerScript(
             Context context,
             SiteSettings ss)
@@ -1030,6 +1044,20 @@ namespace Implem.Pleasanter.Models
                 view: null,
                 where: script => script.BeforeDelete == true,
                 condition: ServerScriptConditions.BeforeDelete);
+        }
+
+        public void SetByBeforeBulkDeleteServerScript(
+            Context context,
+            SiteSettings ss)
+        {
+            ServerScriptUtilities.Execute(
+                context: context,
+                ss: ss,
+                gridData: null,
+                itemModel: null,
+                view: null,
+                where: script => script.BeforeBulkDelete == true,
+                condition: ServerScriptConditions.BeforeBulkDelete);
         }
 
         public override ServerScriptModelRow SetByBeforeOpeningRowServerScript(

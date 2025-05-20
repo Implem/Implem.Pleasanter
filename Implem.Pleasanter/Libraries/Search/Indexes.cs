@@ -252,8 +252,7 @@ namespace Implem.Pleasanter.Libraries.Search
                 text: context.QueryStrings.Data("text"),
                 offset: 0,
                 results: dataSet?.Tables["SearchResults"].AsEnumerable(),
-                count: Rds.Count(dataSet),
-                isSearch: true).ToString();
+                count: Rds.Count(dataSet)).ToString();
         }
 
         /// <summary>
@@ -280,8 +279,7 @@ namespace Implem.Pleasanter.Libraries.Search
                             text: searchText,
                             offset: 0,
                             results: dataRows,
-                            count: Rds.Count(dataSet),
-                            isSearch: true))
+                            count: Rds.Count(dataSet)))
                     .Focus("#Search")
                     .ToJson()
                 : res
@@ -310,8 +308,7 @@ namespace Implem.Pleasanter.Libraries.Search
             string text,
             int offset,
             EnumerableRowCollection<DataRow> results,
-            int count,
-            bool isSearch = false)
+            int count)
         {
             var hb = new HtmlBuilder();
             var searchIndexes = text.SearchIndexes();
@@ -325,7 +322,6 @@ namespace Implem.Pleasanter.Libraries.Search
                 useTitle: false,
                 useSearch: false,
                 useBreadcrumb: false,
-                isSearch: isSearch,
                 action: () => hb
                     .Div(id: "SearchResults", action: () => hb
                         .Command(

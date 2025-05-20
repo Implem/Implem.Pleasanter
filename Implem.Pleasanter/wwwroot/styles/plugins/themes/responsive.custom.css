@@ -1,4 +1,8 @@
 ﻿@media screen and (max-width: 1024px) and (min-width: 0px) {
+    head {
+        font-family: "responsive";
+    }
+
     /* Reset ---------------------------------------------------------------- */
     body {
         min-width: 320px;
@@ -103,11 +107,6 @@
             width: 100%;
             padding: 8px;
         }
-        &.datepicker {
-            ~ .ui-icon {
-                top: 15px;
-            }
-        }
     }
 
     /* checkbox */
@@ -132,48 +131,12 @@
     .control-dropdown {
         height: 40px;
         padding: 8px 16px 8px 16px;
-        &:has(+ .current-user) {
-            + .ui-icon {
-                top: 15px;
-            }
-        }
     }
 
     /* selectable */
     .ui-selectable {
         .ui-widget-content {
             padding: 8px;
-        }
-    }
-
-    /* spinner */
-    .container-normal:has(> .ui-spinner) {
-        display: flex;
-        gap: 8px;
-        align-items: center;
-        .ui-spinner {
-            .ui-spinner-input {
-                height: 38px;
-                margin: 0;
-                margin-right: 30px;
-                padding: 8px 4px 8px 4px;
-                text-align: center;
-            }
-            + .unit {
-                float: none;
-                padding: 0;
-            }
-            a {
-                background: transparent;
-                border: none;
-                border-radius: 0;
-                box-shadow: none;
-            }
-            label {
-                &.error {
-                    margin-top: -4px;
-                }
-            }
         }
     }
 
@@ -185,6 +148,19 @@
             padding: 8px 16px;
             font-size: 14px;
             line-height: 1.6;
+        }
+    }
+
+    /* spinner-field */
+    .spinner-field {
+        .control-spinner {
+            height: 40px;
+            padding: 8px 32px 8px 16px;
+        }
+        .ui-spinner {
+            .ui-spinner-button {
+                height: 50%;
+            }
         }
     }
 
@@ -249,6 +225,7 @@
             margin: 0;
             padding: 0 0 4px 0;
             text-align: initial;
+            text-align-last: initial;
         }
         .field-control {
             float: none;
@@ -921,12 +898,34 @@
             width: 100%;
             box-shadow: 0 2px 1px var(--base-shadow);
         }
-    }
+        #EditorSettingsEditor .field-control #ToEnableEditorColumns {
+            margin-right: 50px;
+        }
+        #EditorSettingsEditor #DoNotHaveEnoughColumnsField,
+        #EditorSettingsEditor #DoNotHaveEnoughColumnsField .field-control .container-normal {
+            width: 200%;
+        }
+        #StyleForm .command-center,
+        #ScriptForm .command-center,
+        #HtmlForm .command-center,
+        #ServerScriptForm .command-center {
+            display: block;
+            margin-left: 0;
+        }
+        #StyleForm #AddStyle,
+        #ScriptForm #AddScript,
+        #HtmlForm #AddHtml,
+        #ServerScriptForm #AddServerScript {
+            margin-right: 10px;
+        }
+        .command-center.has-link .link-item {
+            text-align: center;
+        }
+}
 
     /* !#Editor > #EditorTabsContainer */
     body:not(:has(#Editor)) {
         #EditorTabsContainer {
-            &.max {
                 width: 100%;
             }
         }
@@ -1087,9 +1086,6 @@
             width: max-content;
         }
     }
-    #GridHeaderMenus {
-        display: none;
-    }
     #ViewModeContainer:has(#Grid) {
         position: relative;
         .grid-wrap {
@@ -1110,6 +1106,7 @@
     }
     .menu-sort {
         position: absolute !important;
+        top: 0 !important;
         .grid-header-filter {
             border-top: 1px solid var(--base-border);
             .field-auto-thin {
@@ -1936,7 +1933,7 @@
         #OpenSearchEditorColumnDialog {
             position: absolute;
             right: 0;
-            bottom: -46px;
+            bottom: 0;
             display: flex;
             align-items: center;
             height: 38px;
@@ -1954,10 +1951,8 @@
                 width: 100%;
             }
         }
-        #SearchEditorColumnDialogInput {
-            + .both {
-                margin-top: 50px;
-            }
+        .fieldset:has(#SearchEditorColumnDialogInput) {
+            padding-bottom: 56px;
         }
         .fieldset:nth-of-type(2) {
             &::before,

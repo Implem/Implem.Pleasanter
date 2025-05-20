@@ -2,7 +2,8 @@
     Context context,
     SiteSettings ss,
     Dictionary<int, ImportColumn> columnHash,
-    List<string> row)
+    List<string> row,
+    bool migrationMode = false)
 {
     columnHash
         .Where(column =>
@@ -48,6 +49,32 @@
                         column: column.Value.Column,
                         value: recordingData);
                     break;
+            }
+            if (migrationMode)
+            {
+                switch (column.Value.Column.ColumnName)
+                {
+                    case "Creator":
+                        Creator = SiteInfo.User(
+                            context: context,
+                            userId: recordingData.ToInt());
+                        break;
+                    case "Updator":
+                        Updator = SiteInfo.User(
+                            context: context,
+                            userId: recordingData.ToInt());
+                        break;
+                    case "CreatedTime":
+                        CreatedTime = new Time(
+                            context: context,
+                            value: recordingData.ToDateTime());
+                        break;
+                    case "UpdatedTime":
+                        UpdatedTime = new Time(
+                            context: context,
+                            value: recordingData.ToDateTime());
+                        break;
+                }
             }
         });
     SetBySettings(
