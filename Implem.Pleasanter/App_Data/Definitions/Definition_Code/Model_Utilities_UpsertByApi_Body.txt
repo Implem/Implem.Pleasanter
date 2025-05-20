@@ -109,6 +109,10 @@ private static bool CheckKeyExists(string key, Newtonsoft.Json.Linq.JToken eleme
                     {
                         found = !string.IsNullOrEmpty((string)valueToken);
                     }
+                    else
+                    {
+                        found = (valueToken?.Type != Newtonsoft.Json.Linq.JTokenType.Null);
+                    }
                 }
             }
             break;
@@ -147,6 +151,10 @@ private static bool CheckKeyExists(string key, Newtonsoft.Json.Linq.JToken eleme
                     if (valueToken?.Type == Newtonsoft.Json.Linq.JTokenType.String)
                     {
                         found = !string.IsNullOrEmpty((string)valueToken);
+                    }
+                    else
+                    {
+                        found = (valueToken?.Type != Newtonsoft.Json.Linq.JTokenType.Null);
                     }
                 }
             }
