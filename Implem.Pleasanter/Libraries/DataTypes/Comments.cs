@@ -261,14 +261,21 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             Context context,
             SiteSettings ss,
             string body,
+            bool update,
             bool force = false)
         {
             if (body.Trim() != string.Empty || force == true)
             {
-                Clear();
                 var splitComments = ToSplitComments(
                     context: context,
                     comments: body);
+                if (update
+                    && splitComments.Count == 1
+                    && splitComments.First() == body)
+                {
+                    return this;
+                }
+                Clear();
                 foreach (var splitComment in splitComments)
                 {
                     Insert(0, new Comment

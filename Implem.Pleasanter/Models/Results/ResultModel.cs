@@ -2737,7 +2737,8 @@ namespace Implem.Pleasanter.Models
                                 Comments.ClearAndSplitPrepend(
                                     context: context,
                                     ss: ss,
-                                    body: row[column.Key]);
+                                    body: row[column.Key],
+                                    update: AccessStatus == Databases.AccessStatuses.Selected);
                             }
                             break;
                         default:

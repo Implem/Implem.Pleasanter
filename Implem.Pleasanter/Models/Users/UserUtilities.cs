@@ -3835,7 +3835,8 @@ namespace Implem.Pleasanter.Models
                                 userModel.Comments.ClearAndSplitPrepend(
                                     context: context,
                                     ss: ss,
-                                    body: data.Row[column.Key]);
+                                    body: data.Row[column.Key],
+                                    update: userModel.AccessStatus == Databases.AccessStatuses.Selected);
                             }
                             break;
                         default:

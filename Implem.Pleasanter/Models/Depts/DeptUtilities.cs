@@ -2255,7 +2255,8 @@ namespace Implem.Pleasanter.Models
                                 deptModel.Comments.ClearAndSplitPrepend(
                                     context: context,
                                     ss: ss,
-                                    body: data.Row[column.Key]);
+                                    body: data.Row[column.Key],
+                                    update: deptModel.AccessStatus == Databases.AccessStatuses.Selected);
                             }
                             break;
                         case "Disabled":

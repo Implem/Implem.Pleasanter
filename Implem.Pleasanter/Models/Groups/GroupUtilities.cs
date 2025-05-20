@@ -2128,7 +2128,8 @@ namespace Implem.Pleasanter.Models
                                     groupModel.Comments.ClearAndSplitPrepend(
                                         context: context,
                                         ss: ss,
-                                        body: data.Row[column.Key]);
+                                        body: data.Row[column.Key],
+                                        update: groupModel.AccessStatus == Databases.AccessStatuses.Selected);
                                 }
                                 break;
                             case "Disabled":
@@ -2396,7 +2397,8 @@ namespace Implem.Pleasanter.Models
                                     groupModel.Comments.ClearAndSplitPrepend(
                                         context: context,
                                         ss: ss,
-                                        body: data.Row[column.Key]);
+                                        body: data.Row[column.Key],
+                                        update: groupModel.AccessStatus == Databases.AccessStatuses.Selected);
                                 }
                                 break;
                             case "Disabled":
