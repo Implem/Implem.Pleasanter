@@ -391,11 +391,21 @@ namespace Implem.Pleasanter.Models
                 string pageName = context.Page ?? string.Empty;
                 StackExchange.Redis.IDatabase iDatabase = Implem.Pleasanter.Libraries.Redis.CacheForRedisConnection.Connection.GetDatabase();
                 string fieldName = pageName.IsNullOrEmpty() ? $"{key}" : $"{key}_{pageName}";
-                StackExchange.Redis.HashEntry[] hashEntrys = new StackExchange.Redis.HashEntry[] { new StackExchange.Redis.HashEntry(fieldName, value) };
-                iDatabase.HashSet(
-                    context.SessionGuid,
-                    hashEntrys
-                );
+                if(value == null)
+                {
+                    iDatabase.HashDelete(
+                        context.SessionGuid,
+                        fieldName
+                    );
+                }
+                else
+                {
+                    StackExchange.Redis.HashEntry[] hashEntrys = new StackExchange.Redis.HashEntry[] { new StackExchange.Redis.HashEntry(fieldName, value) };
+                    iDatabase.HashSet(
+                        context.SessionGuid,
+                        hashEntrys
+                    );
+                }
                 iDatabase.KeyExpire(context.SessionGuid, TimeSpan.FromMinutes(Parameters.Session.RetentionPeriod));
             }
             else
@@ -420,6 +430,7 @@ namespace Implem.Pleasanter.Models
             string key = "MonitorChangesColumns";
             if (Parameters.Session.UseKeyValueStore)
             {
+                /*
                 string pageName = context.Page ?? string.Empty;
                 StackExchange.Redis.IDatabase iDatabase = Implem.Pleasanter.Libraries.Redis.CacheForRedisConnection.Connection.GetDatabase();
                 string fieldName = pageName.IsNullOrEmpty() ? $"{key}" : $"{key}_{pageName}";
@@ -429,6 +440,7 @@ namespace Implem.Pleasanter.Models
                     hashEntrys
                 );
                 iDatabase.KeyExpire(context.SessionGuid, TimeSpan.FromMinutes(Parameters.Session.RetentionPeriod));
+                */
             }
             else
             {
@@ -452,6 +464,7 @@ namespace Implem.Pleasanter.Models
             string key = "TitleColumns";
             if (Parameters.Session.UseKeyValueStore)
             {
+                /*
                 string pageName = context.Page ?? string.Empty;
                 StackExchange.Redis.IDatabase iDatabase = Implem.Pleasanter.Libraries.Redis.CacheForRedisConnection.Connection.GetDatabase();
                 string fieldName = pageName.IsNullOrEmpty() ? $"{key}" : $"{key}_{pageName}";
@@ -461,6 +474,7 @@ namespace Implem.Pleasanter.Models
                     hashEntrys
                 );
                 iDatabase.KeyExpire(context.SessionGuid, TimeSpan.FromMinutes(Parameters.Session.RetentionPeriod));
+                */
             }
             else
             {
@@ -484,6 +498,7 @@ namespace Implem.Pleasanter.Models
             string key = "Export";
             if (Parameters.Session.UseKeyValueStore)
             {
+                /*
                 string pageName = context.Page ?? string.Empty;
                 StackExchange.Redis.IDatabase iDatabase = Implem.Pleasanter.Libraries.Redis.CacheForRedisConnection.Connection.GetDatabase();
                 string fieldName = pageName.IsNullOrEmpty() ? $"{key}" : $"{key}_{pageName}";
@@ -493,6 +508,7 @@ namespace Implem.Pleasanter.Models
                     hashEntrys
                 );
                 iDatabase.KeyExpire(context.SessionGuid, TimeSpan.FromMinutes(Parameters.Session.RetentionPeriod));
+                */
             }
             else
             {
@@ -516,6 +532,7 @@ namespace Implem.Pleasanter.Models
             string key = "DisableSiteCreatorPermission";
             if (Parameters.Session.UseKeyValueStore)
             {
+                /*
                 string pageName = context.Page ?? string.Empty;
                 StackExchange.Redis.IDatabase iDatabase = Implem.Pleasanter.Libraries.Redis.CacheForRedisConnection.Connection.GetDatabase();
                 string fieldName = pageName.IsNullOrEmpty() ? $"{key}" : $"{key}_{pageName}";
@@ -525,6 +542,7 @@ namespace Implem.Pleasanter.Models
                     hashEntrys
                 );
                 iDatabase.KeyExpire(context.SessionGuid, TimeSpan.FromMinutes(Parameters.Session.RetentionPeriod));
+                */
             }
             else
             {
