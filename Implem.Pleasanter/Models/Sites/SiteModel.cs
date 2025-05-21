@@ -394,7 +394,6 @@ namespace Implem.Pleasanter.Models
                 iDatabase.HashDelete(
                     context.SessionGuid,
                     fieldName);
-                iDatabase.KeyExpire(context.SessionGuid, TimeSpan.FromMinutes(Parameters.Session.RetentionPeriod));
             }
             else
             {
@@ -424,7 +423,6 @@ namespace Implem.Pleasanter.Models
                 iDatabase.HashDelete(
                     context.SessionGuid,
                     fieldName);
-                iDatabase.KeyExpire(context.SessionGuid, TimeSpan.FromMinutes(Parameters.Session.RetentionPeriod));
             }
             else
             {
@@ -454,7 +452,6 @@ namespace Implem.Pleasanter.Models
                 iDatabase.HashDelete(
                     context.SessionGuid,
                     fieldName);
-                iDatabase.KeyExpire(context.SessionGuid, TimeSpan.FromMinutes(Parameters.Session.RetentionPeriod));
             }
             else
             {
@@ -484,7 +481,6 @@ namespace Implem.Pleasanter.Models
                 iDatabase.HashDelete(
                     context.SessionGuid,
                     fieldName);
-                iDatabase.KeyExpire(context.SessionGuid, TimeSpan.FromMinutes(Parameters.Session.RetentionPeriod));
             }
             else
             {
@@ -514,7 +510,6 @@ namespace Implem.Pleasanter.Models
                 iDatabase.HashDelete(
                     context.SessionGuid,
                     fieldName);
-                iDatabase.KeyExpire(context.SessionGuid, TimeSpan.FromMinutes(Parameters.Session.RetentionPeriod));
             }
             else
             {
