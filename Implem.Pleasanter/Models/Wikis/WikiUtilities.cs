@@ -428,9 +428,6 @@ namespace Implem.Pleasanter.Models
                     case "Body": value = wikiModel.Body.GridText(
                         context: context,
                         column: column); break;
-                    case "TitleBody": value = wikiModel.TitleBody.GridText(
-                        context: context,
-                        column: column); break;
                     case "Locked": value = wikiModel.Locked.GridText(
                         context: context,
                         column: column); break;
@@ -1871,8 +1868,10 @@ namespace Implem.Pleasanter.Models
             var errorData = ApplyCreateByApi(
                 context: context,
                 ss: ss,
+                processes: processes,
                 wikiModel: wikiModel,
-                processes: processes);
+                migrationMode: ss.AllowMigrationMode == true
+                    && wikiApiModel?.MigrationMode == true);
             switch (errorData.Type)
             {
                 case Error.Types.None:
@@ -1894,7 +1893,8 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             WikiModel wikiModel,
-            List<Process> processes)
+            List<Process> processes,
+            bool migrationMode = false)
         {
             var invalid = WikiValidators.OnCreating(
                 context: context,
@@ -1910,7 +1910,8 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 processes: processes,
-                notice: true);
+                notice: true,
+                migrationMode: migrationMode);
             BinaryUtilities.UploadImage(
                 context: context,
                 ss: ss,

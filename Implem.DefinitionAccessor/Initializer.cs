@@ -184,6 +184,12 @@ namespace Implem.DefinitionAccessor
                 Parameters.CommercialLicense()
                     ? "ee"
                     : "com");
+            Parameters.General.RecommendUrl1 = Strings.CoalesceEmpty(
+                Parameters.General.RecommendUrl1,
+                "https://pleasanter.org/enterprise");
+            Parameters.General.RecommendUrl2 = Strings.CoalesceEmpty(
+                Parameters.General.RecommendUrl2,
+                "https://pleasanter.org/ja/manual/pleasanter-code-assist-overview");
             if (Parameters.Security.AspNetCoreDataProtection == null)
             {
                 Parameters.Security.AspNetCoreDataProtection = new AspNetCoreDataProtection();
