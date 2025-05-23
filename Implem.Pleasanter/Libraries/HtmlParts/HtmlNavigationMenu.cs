@@ -958,7 +958,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             return (Parameters.Deleted.Restore || Parameters.Deleted.PhysicalDelete)
                 && context.Controller == "depts"
-                && Permissions.CanManageTenant(context: context);
+                && (Permissions.CanManageTenant(context: context)
+                    || context.UserSettings?.EnableManageTenant == true);
         }
 
         private static bool CanManageUserTrashBox(Context context, SiteSettings ss)
