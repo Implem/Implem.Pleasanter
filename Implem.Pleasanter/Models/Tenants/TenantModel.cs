@@ -330,11 +330,24 @@ namespace Implem.Pleasanter.Models
 
         public void Session_TenantSettings(Context context, string value)
         {
-            SessionUtilities.Set(
+            string key = "TenantSettings";
+            if (Parameters.Session.UseKeyValueStore && value == null)
+            {
+                string pageName = context.Page ?? string.Empty;
+                StackExchange.Redis.IDatabase iDatabase = Implem.Pleasanter.Libraries.Redis.CacheForRedisConnection.Connection.GetDatabase();
+                string fieldName = pageName.IsNullOrEmpty() ? $"{key}" : $"{key}_{pageName}";
+                iDatabase.HashDelete(
+                    context.SessionGuid,
+                    fieldName);
+            }
+            else
+            {
+                SessionUtilities.Set(
                 context: context,
-                key: "TenantSettings",
+                key: key,
                 value: value,
                 page: true);
+            }
         }
 
         public List<int> SwitchTargets;
