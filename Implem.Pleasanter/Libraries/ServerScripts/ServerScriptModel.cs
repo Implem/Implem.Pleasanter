@@ -135,7 +135,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 onTesting: onTesting,
                 scriptDepth: context.ServerScriptDepth,
                 controlId: context.Forms.ControlId(),
-                condition: condition.ToString());
+                condition: condition.ToString(),
+                referenceType: ss?.ReferenceType);
             SiteSettings = new ServerScriptModelSiteSettings(
                 context: context,
                 ss: ss);

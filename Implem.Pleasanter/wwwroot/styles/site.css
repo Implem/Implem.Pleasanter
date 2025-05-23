@@ -355,14 +355,6 @@ pre {
     visibility: hidden;
 }
 
-#SiteTitleDialog .field-normal {
-    margin-left: 60px;
-}
-
-#SiteTitleDialog .field-auto-thin {
-    width: 220px;
-}
-
 #Demo {
     width: 500px;
     margin: 0px auto;
@@ -1853,6 +1845,21 @@ th.calendar-header {
     display: none;
 }
 
+.fieldset-inner-bottom.is-right {
+    clear: both;
+    padding: 8px;
+    text-align: right;
+}
+
+.fieldset-inner-bottom a {
+    color: #00f;
+    text-decoration: none;
+}
+
+.fieldset-inner-bottom a:hover {
+    text-decoration: underline;
+}
+
 .command-field {
     clear: both;
     padding: 10px 5px 5px 136px;
@@ -1866,6 +1873,7 @@ th.calendar-header {
 }
 
 .command-center {
+    position: relative;
     clear: both;
     padding: 5px 5px 5px 5px;
     text-align: center;
@@ -1875,6 +1883,30 @@ th.calendar-header {
     display: inline;
     float: none;
     margin: 2px 4px;
+}
+
+.command-center.has-link {
+    display: flex;
+    align-items: center;
+}
+
+.command-center.has-link::after {
+    flex: 1;
+    content: "";
+}
+
+.command-center.has-link .link-item {
+    flex: 1;
+    text-align: right;
+}
+
+.command-center.has-link .link-item a {
+    color: #00f;
+    text-decoration: none;
+}
+
+.command-center.has-link .link-item a:hover {
+    text-decoration: underline;
 }
 
 .command-left {
@@ -4019,4 +4051,10 @@ div.lower-search-ui {
 #LoginTrialMessage span.license-deadline {
     color: #ff0000;
     font-weight: bold;
+}
+
+#OpenSearchEditorColumnDialog {
+    position: absolute;
+    right: 0;
+    bottom: 0;
 }

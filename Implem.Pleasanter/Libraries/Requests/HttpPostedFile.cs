@@ -2,7 +2,7 @@
 using System.IO;
 namespace Implem.Pleasanter.Libraries.Requests
 {
-    class HttpPostedFile : IHttpPostedFile
+    public class HttpPostedFile : IHttpPostedFile
     {
         IFormFile _file;
 
