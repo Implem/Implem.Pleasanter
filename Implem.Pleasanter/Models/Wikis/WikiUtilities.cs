@@ -428,9 +428,6 @@ namespace Implem.Pleasanter.Models
                     case "Body": value = wikiModel.Body.GridText(
                         context: context,
                         column: column); break;
-                    case "TitleBody": value = wikiModel.TitleBody.GridText(
-                        context: context,
-                        column: column); break;
                     case "Locked": value = wikiModel.Locked.GridText(
                         context: context,
                         column: column); break;

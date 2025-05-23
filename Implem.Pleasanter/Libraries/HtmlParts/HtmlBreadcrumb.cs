@@ -31,12 +31,24 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     hb.CopyDirectUrlToClipboard(
                         context: context,
                         view: view);
-                    return Breadcrumb(
-                        hb: hb,
-                        context: context,
-                        ss: ss,
-                        controller: context.Controller,
-                        display: Displays.Depts(context: context));
+                    return Permissions.CanManageTenant(context: context)
+                        ? Breadcrumb(
+                            hb: hb,
+                            context: context,
+                            ss: ss,
+                            controller: context.Controller,
+                            display: Displays.Depts(context: context))
+                        : (context.UserSettings?.EnableManageTenant == true)
+                            ? BreadcrumbWithoutAdmins(
+                                hb: hb,
+                                context: context,
+                                ss: ss,
+                                controller: context.Controller,
+                                display: Displays.Depts(context: context))
+                            : Breadcrumb(
+                                hb: hb,
+                                context: context,
+                                ss: ss);
                 case "tenants":
                     return hb.TenantsBreadcrumb(
                         context: context,
@@ -52,10 +64,17 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             ss: ss,
                             controller: context.Controller,
                             display: Displays.Groups(context: context))
-                        : Breadcrumb(
-                            hb: hb,
-                            context: context,
-                            ss: ss);
+                        : (context.UserSettings?.EnableManageTenant == true)
+                            ? BreadcrumbWithoutAdmins(
+                                hb: hb,
+                                context: context,
+                                ss: ss,
+                                controller: context.Controller,
+                                display: Displays.Groups(context: context))
+                            : Breadcrumb(
+                                hb: hb,
+                                context: context,
+                                ss: ss);
                 case "users":
                     switch (context.Action)
                     {
@@ -81,17 +100,23 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 context: context,
                                 view: view);
                             return Permissions.CanManageTenant(context: context)
-                                || context.UserSettings?.EnableManageTenant == true
                                 ? Breadcrumb(
                                     hb: hb,
                                     context: context,
                                     ss: ss,
                                     controller: context.Controller,
                                     display: Displays.Users(context: context))
-                                : Breadcrumb(
-                                    hb: hb,
-                                    context: context,
-                                    ss: ss);
+                                : (context.UserSettings?.EnableManageTenant == true)
+                                    ? BreadcrumbWithoutAdmins(
+                                        hb: hb,
+                                        context: context,
+                                        ss: ss,
+                                        controller: context.Controller,
+                                        display: Displays.Users(context: context))
+                                    : Breadcrumb(
+                                        hb: hb,
+                                        context: context,
+                                        ss: ss);
                     }
                 case "syslogs":
                     hb.CopyDirectUrlToClipboard(
