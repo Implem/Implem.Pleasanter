@@ -199,6 +199,14 @@ $(function () {
 
     document.addEventListener('touchstart', function (e) {
         if (!isRwd) return false
+        if (e.target.closest('.ui-multiselect-menu')) {
+            if($(".menu-sort:visible").length){
+                setTimeout( () => {
+                    filterHide();
+                }, 100)
+            }
+            return false
+        }
         if (!e.target.closest('#GridHeaderMenus')) {
             setTimeout(function () {
                 if (spToggle) {
@@ -209,6 +217,7 @@ $(function () {
             });
         }
     });
+
     $('#ViewModeContainer .grid-wrap').scroll(function () {
         if (!$('#GridHeaderMenus.length')) return false;
         filterHide();
