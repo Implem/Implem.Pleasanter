@@ -1231,9 +1231,6 @@ namespace Implem.Pleasanter.Models
                     case "Body": value = resultModel.Body.GridText(
                         context: context,
                         column: column); break;
-                    case "TitleBody": value = resultModel.TitleBody.GridText(
-                        context: context,
-                        column: column); break;
                     case "Status": value = resultModel.Status.GridText(
                         context: context,
                         column: column); break;
@@ -4820,6 +4817,10 @@ namespace Implem.Pleasanter.Models
                             {
                                 found = !string.IsNullOrEmpty((string)valueToken);
                             }
+                            else
+                            {
+                                found = (valueToken?.Type != Newtonsoft.Json.Linq.JTokenType.Null);
+                            }
                         }
                     }
                     break;
@@ -4855,6 +4856,10 @@ namespace Implem.Pleasanter.Models
                             if (valueToken?.Type == Newtonsoft.Json.Linq.JTokenType.String)
                             {
                                 found = !string.IsNullOrEmpty((string)valueToken);
+                            }
+                            else
+                            {
+                                found = (valueToken?.Type != Newtonsoft.Json.Linq.JTokenType.Null);
                             }
                         }
                     }

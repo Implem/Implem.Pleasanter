@@ -885,9 +885,6 @@ namespace Implem.Pleasanter.Models
                     case "Body": value = siteModel.Body.GridText(
                         context: context,
                         column: column); break;
-                    case "TitleBody": value = siteModel.TitleBody.GridText(
-                        context: context,
-                        column: column); break;
                     case "Comments": value = siteModel.Comments.GridText(
                         context: context,
                         column: column); break;

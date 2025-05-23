@@ -355,14 +355,6 @@ pre {
     visibility: hidden;
 }
 
-#SiteTitleDialog .field-normal {
-    margin-left: 60px;
-}
-
-#SiteTitleDialog .field-auto-thin {
-    width: 220px;
-}
-
 #Demo {
     width: 500px;
     margin: 0px auto;
@@ -1855,8 +1847,8 @@ th.calendar-header {
 
 .fieldset-inner-bottom.is-right {
     clear: both;
-    text-align: right;
     padding: 8px;
+    text-align: right;
 }
 
 .fieldset-inner-bottom a {
@@ -1881,10 +1873,10 @@ th.calendar-header {
 }
 
 .command-center {
+    position: relative;
     clear: both;
     padding: 5px 5px 5px 5px;
     text-align: center;
-    position: relative;
 }
 
 .command-center > button {
@@ -1899,8 +1891,8 @@ th.calendar-header {
 }
 
 .command-center.has-link::after {
-    content: '';
     flex: 1;
+    content: "";
 }
 
 .command-center.has-link .link-item {

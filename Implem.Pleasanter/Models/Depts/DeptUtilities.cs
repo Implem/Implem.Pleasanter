@@ -2927,7 +2927,8 @@ namespace Implem.Pleasanter.Models
             {
                 return Error.Types.InvalidRequest.MessageJson(context: context);
             }
-            else if (Permissions.CanManageTenant(context: context))
+            else if (Permissions.CanManageTenant(context: context)
+                || context.UserSettings?.EnableManageTenant == true)
             {
                 var selector = new RecordSelector(context: context);
                 var count = 0;
@@ -3042,7 +3043,8 @@ namespace Implem.Pleasanter.Models
             {
                 return Error.Types.InvalidRequest.MessageJson(context: context);
             }
-            if (Permissions.CanManageTenant(context: context))
+            if (Permissions.CanManageTenant(context: context)
+                || context.UserSettings?.EnableManageTenant == true)
             {
                 var selector = new RecordSelector(context: context);
                 var count = 0;
