@@ -5035,6 +5035,10 @@ namespace Implem.Pleasanter.Models
                             {
                                 found = !string.IsNullOrEmpty((string)valueToken);
                             }
+                            else
+                            {
+                                found = (valueToken?.Type != Newtonsoft.Json.Linq.JTokenType.Null);
+                            }
                         }
                     }
                     break;
@@ -5070,6 +5074,10 @@ namespace Implem.Pleasanter.Models
                             if (valueToken?.Type == Newtonsoft.Json.Linq.JTokenType.String)
                             {
                                 found = !string.IsNullOrEmpty((string)valueToken);
+                            }
+                            else
+                            {
+                                found = (valueToken?.Type != Newtonsoft.Json.Linq.JTokenType.Null);
                             }
                         }
                     }
