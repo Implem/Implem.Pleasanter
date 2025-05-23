@@ -1,0 +1,268 @@
+﻿{
+  "HeaderInfo": {
+    "AssemblyVersion": "1.4.9.1",
+    "BaseSiteId": 122176,
+    "Server": "http://localhost:59802",
+    "CreatorName": "テナント管理者",
+    "PackageTime": "2024-10-10T18:16:43.109718+09:00",
+    "Convertors": [
+      {
+        "SiteId": 122176,
+        "SiteTitle": "循環",
+        "ReferenceType": "Sites",
+        "IncludeData": false,
+        "Order": "[122177,122178,122179]"
+      },
+      {
+        "SiteId": 122177,
+        "SiteTitle": "循環参照1",
+        "ReferenceType": "Results",
+        "IncludeData": false
+      },
+      {
+        "SiteId": 122178,
+        "SiteTitle": "循環参照2",
+        "ReferenceType": "Results",
+        "IncludeData": false
+      },
+      {
+        "SiteId": 122179,
+        "SiteTitle": "循環参照3",
+        "ReferenceType": "Results",
+        "IncludeData": false
+      }
+    ],
+    "IncludeSitePermission": false,
+    "IncludeRecordPermission": false,
+    "IncludeColumnPermission": false,
+    "IncludeNotifications": false,
+    "IncludeReminders": false
+  },
+  "Sites": [
+    {
+      "TenantId": 152,
+      "SiteId": 122176,
+      "Title": "循環",
+      "SiteName": "",
+      "SiteGroupName": "",
+      "Body": "",
+      "GridGuide": "",
+      "EditorGuide": "",
+      "CalendarGuide": "",
+      "CrosstabGuide": "",
+      "GanttGuide": "",
+      "BurnDownGuide": "",
+      "TimeSeriesGuide": "",
+      "AnalyGuide": "",
+      "KambanGuide": "",
+      "ImageLibGuide": "",
+      "ReferenceType": "Sites",
+      "ParentId": 0,
+      "InheritPermission": 122176,
+      "SiteSettings": {
+        "Version": 1.017,
+        "ReferenceType": "Sites",
+        "NoDisplayIfReadOnly": false
+      },
+      "Publish": false,
+      "DisableCrossSearch": false,
+      "Comments": []
+    },
+    {
+      "TenantId": 152,
+      "SiteId": 122177,
+      "Title": "循環参照1",
+      "SiteName": "",
+      "SiteGroupName": "",
+      "Body": "",
+      "GridGuide": "",
+      "EditorGuide": "",
+      "CalendarGuide": "",
+      "CrosstabGuide": "",
+      "GanttGuide": "",
+      "BurnDownGuide": "",
+      "TimeSeriesGuide": "",
+      "AnalyGuide": "",
+      "KambanGuide": "",
+      "ImageLibGuide": "",
+      "ReferenceType": "Results",
+      "ParentId": 122176,
+      "InheritPermission": 122176,
+      "SiteSettings": {
+        "Version": 1.017,
+        "ReferenceType": "Results",
+        "EditorColumnHash": {
+          "General": [
+            "ResultId",
+            "Ver",
+            "Title",
+            "Body",
+            "Status",
+            "Manager",
+            "Owner",
+            "Comments",
+            "ClassA"
+          ]
+        },
+        "LinkColumns": [
+          "ResultId",
+          "Title",
+          "Status",
+          "Owner",
+          "Updator",
+          "UpdatedTime",
+          "ClassB",
+          "ClassA"
+        ],
+        "Columns": [
+          {
+            "ColumnName": "ClassA",
+            "ChoicesText": "[[122178]]",
+            "Link": true,
+            "SearchType": "PartialMatch"
+          }
+        ],
+        "Links": [
+          {
+            "ColumnName": "ClassA",
+            "SiteId": 122178
+          }
+        ],
+        "NoDisplayIfReadOnly": false
+      },
+      "Publish": false,
+      "DisableCrossSearch": false,
+      "Comments": []
+    },
+    {
+      "TenantId": 152,
+      "SiteId": 122178,
+      "Title": "循環参照2",
+      "SiteName": "",
+      "SiteGroupName": "",
+      "Body": "",
+      "GridGuide": "",
+      "EditorGuide": "",
+      "CalendarGuide": "",
+      "CrosstabGuide": "",
+      "GanttGuide": "",
+      "BurnDownGuide": "",
+      "TimeSeriesGuide": "",
+      "AnalyGuide": "",
+      "KambanGuide": "",
+      "ImageLibGuide": "",
+      "ReferenceType": "Results",
+      "ParentId": 122176,
+      "InheritPermission": 122176,
+      "SiteSettings": {
+        "Version": 1.017,
+        "ReferenceType": "Results",
+        "EditorColumnHash": {
+          "General": [
+            "ResultId",
+            "Ver",
+            "Title",
+            "Body",
+            "Status",
+            "Manager",
+            "Owner",
+            "Comments",
+            "ClassA",
+            "ClassB"
+          ]
+        },
+        "Columns": [
+          {
+            "ColumnName": "ClassA",
+            "ChoicesText": "[[122177]]",
+            "Link": true,
+            "SearchType": "PartialMatch"
+          },
+          {
+            "ColumnName": "ClassB",
+            "ChoicesText": "[[122179]]",
+            "Link": true,
+            "SearchType": "PartialMatch"
+          }
+        ],
+        "Links": [
+          {
+            "ColumnName": "ClassA",
+            "SiteId": 122177
+          },
+          {
+            "ColumnName": "ClassB",
+            "SiteId": 122179
+          }
+        ],
+        "NoDisplayIfReadOnly": false
+      },
+      "Publish": false,
+      "DisableCrossSearch": false,
+      "Comments": []
+    },
+    {
+      "TenantId": 152,
+      "SiteId": 122179,
+      "Title": "循環参照3",
+      "SiteName": "",
+      "SiteGroupName": "",
+      "Body": "",
+      "GridGuide": "",
+      "EditorGuide": "",
+      "CalendarGuide": "",
+      "CrosstabGuide": "",
+      "GanttGuide": "",
+      "BurnDownGuide": "",
+      "TimeSeriesGuide": "",
+      "AnalyGuide": "",
+      "KambanGuide": "",
+      "ImageLibGuide": "",
+      "ReferenceType": "Results",
+      "ParentId": 122176,
+      "InheritPermission": 122176,
+      "SiteSettings": {
+        "Version": 1.017,
+        "ReferenceType": "Results",
+        "EditorColumnHash": {
+          "General": [
+            "ResultId",
+            "Ver",
+            "Title",
+            "Body",
+            "Status",
+            "Manager",
+            "Owner",
+            "Comments",
+            "ClassA"
+          ]
+        },
+        "Columns": [
+          {
+            "ColumnName": "ClassA",
+            "ChoicesText": "[[122177]]",
+            "Link": true,
+            "SearchType": "PartialMatch"
+          }
+        ],
+        "Links": [
+          {
+            "ColumnName": "ClassA",
+            "SiteId": 122177
+          }
+        ],
+        "NoDisplayIfReadOnly": false
+      },
+      "Publish": false,
+      "DisableCrossSearch": false,
+      "Comments": []
+    }
+  ],
+  "Data": [],
+  "Permissions": [],
+  "PermissionIdList": {
+    "DeptIdList": [],
+    "GroupIdList": [],
+    "UserIdList": []
+  }
+}
