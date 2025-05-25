@@ -652,6 +652,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                                         permissionIdList: sitePackage.PermissionIdList,
                                         idHash: idHash,
                                         exportModel: body);
+                                    count++;
                                 });
                             }
                             break;
