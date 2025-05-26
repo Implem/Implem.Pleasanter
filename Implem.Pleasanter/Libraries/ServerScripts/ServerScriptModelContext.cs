@@ -50,6 +50,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         public readonly string ContentType;
         public readonly string ControlId;
         public readonly string Condition;
+        public readonly string ReferenceType;
 
         public ServerScriptModelContext(
             Context context,
@@ -91,7 +92,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             bool onTesting,
             long scriptDepth,
             string controlId,
-            string condition)
+            string condition,
+            string referenceType)
         {
             LogBuilder = logBuilder;
             UserData = userData;
@@ -135,6 +137,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             ContentType = contentType;
             ControlId = controlId;
             Condition = condition;
+            ReferenceType = referenceType;
         }
 
         public void Log(object log)
