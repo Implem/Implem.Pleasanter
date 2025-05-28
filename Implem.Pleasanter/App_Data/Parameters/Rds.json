@@ -10,5 +10,5 @@
     "DeadlockRetryInterval": 1000,
     "DisableIndexChangeDetection": true,
     "SysLogsSchemaVersion": 1,
-    "MySqlConnectingHost": null
+    "MySqlConnectingHost": "%"
 }
