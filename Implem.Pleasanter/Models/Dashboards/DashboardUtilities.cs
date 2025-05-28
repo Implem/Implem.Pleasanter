@@ -931,9 +931,6 @@ namespace Implem.Pleasanter.Models
                     case "Body": value = dashboardModel.Body.GridText(
                         context: context,
                         column: column); break;
-                    case "TitleBody": value = dashboardModel.TitleBody.GridText(
-                        context: context,
-                        column: column); break;
                     case "Locked": value = dashboardModel.Locked.GridText(
                         context: context,
                         column: column); break;
