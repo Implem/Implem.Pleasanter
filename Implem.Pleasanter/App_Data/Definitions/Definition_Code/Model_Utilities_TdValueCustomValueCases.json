@@ -3,5 +3,6 @@
     "RepeatType": "Column",
     "Indent": "5",
     "Separator": "\\r\\n",
-    "GridColumn": "1"
+    "GridColumn": "1",
+    "Exclude": "TitleBody"
 }
