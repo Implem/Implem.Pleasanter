@@ -9,10 +9,12 @@ using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web.WebPages;
 using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
 namespace Implem.Pleasanter.Libraries.DataTypes
 {
@@ -271,29 +273,32 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                     comments: body);
                 if (update
                     && splitComments.Count == 1
-                    && splitComments.First() == body)
+                    && splitComments.First().Body == body)
                 {
                     return this;
                 }
                 Clear();
                 foreach (var splitComment in splitComments)
                 {
-                    Insert(0, new Comment
-                    {
-                        CommentId = CommentId(),
-                        CreatedTime = DateTime.Now,
-                        Creator = context.UserId,
-                        Body = splitComment,
-                        Created = true
-                    });
+                    Insert(0, splitComment);
                 }
             }
             return this;
         }
 
-        private List<string> ToSplitComments(Context context, string comments)
+        private List<Comment> ToSplitComments(Context context, string comments)
         {
-            var originalComments = new List<string> { comments };
+            var originalComments = new List<Comment>
+            {
+                new Comment
+                {
+                    CommentId = CommentId(),
+                    CreatedTime = DateTime.Now,
+                    Creator = context.UserId,
+                    Body = comments,
+                    Created = true
+                }
+            };
             if (string.IsNullOrWhiteSpace(comments)
                 || !comments.TrimStart().StartsWith("[")
                 || !comments.TrimEnd().EndsWith("]"))
@@ -303,30 +308,24 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             try
             {
                 var commentsJArray = JArray.Parse(comments);
-                var sortedComments = commentsJArray
+                var splitComments = commentsJArray
+                    .Reverse()
                     .OfType<JObject>()
-                    .Where(jobject =>
+                    .Where(jobject => jobject.TryGetValue("Body", out var bodyToken)
+                    && !string.IsNullOrWhiteSpace((string?)bodyToken))
+                    .Select(token => new Comment
                     {
-                        var commentKeys = new[] { "CommentId", "CreatedTime", "Creator", "Body" };
-                        var jobjectKeys = jobject
-                            .Properties()
-                            .Select(p => p.Name)
-                            .OrderBy(name => name);
-                        return commentKeys
-                            .OrderBy(key => key)
-                            .SequenceEqual(jobjectKeys);
+                        CommentId = (int?)token["CommentId"] ?? CommentId(),
+                        CreatedTime = (DateTime?)token["CreatedTime"] ?? DateTime.Now,
+                        Creator = (int?)token["Creator"] ?? context.UserId,
+                        Body = (string?)token["Body"] ?? string.Empty,
+                        Created = true
                     })
-                    .ToDictionary(
-                        jobject => (int)jobject["CommentId"],
-                        jobject => (string)jobject["Body"]);
-                if (sortedComments.Count == 0
-                    || sortedComments.Count != commentsJArray.Count) {
-                    return originalComments;
-                }
-                return sortedComments
-                    .OrderBy(pair => pair.Key)
-                    .Select(pair => pair.Value)
+                    .OrderBy(comment => comment.CommentId)
                     .ToList();
+                return splitComments.Count == 0
+                    ? originalComments
+                    : splitComments;
             }
             catch (Exception e)
             {
