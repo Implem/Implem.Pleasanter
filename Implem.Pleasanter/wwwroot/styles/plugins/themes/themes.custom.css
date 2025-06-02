@@ -497,6 +497,7 @@ input {
     .ui-spinner {
         background-color: transparent;
         border: none;
+        transform: translateZ(0);
     }
     /* .with-unit */
     &:has(.with-unit) {
