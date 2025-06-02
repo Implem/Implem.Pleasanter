@@ -116,6 +116,7 @@ namespace Implem.ParameterAccessor.Parts
         public DateTime MinTime { get; set; }
         public DateTime MaxTime { get; set; }
         public int DateTimeStep { get; set; }
+        public bool UseOldDatepicker { get; set; }
         public bool HideCurrentTimeIcon { get; set; }
         public bool HideCurrentUserIcon { get; set; }
         public bool HideCurrentDeptIcon { get; set; }
