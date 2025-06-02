@@ -498,6 +498,72 @@ input {
         background-color: transparent;
         border: none;
         transform: translateZ(0);
+        .ui-button{
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: none;
+            padding: 0!important;
+            cursor: pointer;
+            .ui-button-icon-space{
+                display: none;
+            }
+            &:active{
+                color: var(--base-text);
+                border-color: var(--control-border);
+                border-top-style: none;
+                border-right-style: none;
+                border-bottom-style: none;
+                background: var(--btn-normal-hover);
+            }
+            &:hover{
+                color: var(--base-text);
+            }
+
+        }
+        .ui-button-icon{
+            position: static;
+            margin: 0;
+            padding: 0;
+            width: auto;
+            height: auto;
+            font-family: 'Material Symbols Sharp';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 20px;
+            vertical-align: bottom;
+            line-height: 1;
+            letter-spacing: normal;
+            text-transform: none;
+            display: inline-block;
+            white-space: nowrap;
+            word-wrap: normal;
+            direction: ltr;
+            text-indent: 0;
+            font-feature-settings: 'liga';
+            -webkit-font-feature-settings: 'liga';
+            -webkit-font-smoothing: antialiased;
+            background: none;
+        }
+        .ui-spinner-up{
+            .ui-button-icon{
+                &:after{
+                    content: 'arrow_drop_up';
+                }
+            }
+        }
+        .ui-spinner-down{
+            &,
+            &:active{
+                border-top-style: solid;
+            }
+            .ui-button-icon{
+                &:after{
+                    content: 'arrow_drop_down';
+                }
+            }
+        }
     }
     /* .with-unit */
     &:has(.with-unit) {
