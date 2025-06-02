@@ -382,11 +382,24 @@ namespace Implem.Pleasanter.Models
 
         public void Session_SiteSettings(Context context, string value)
         {
-            SessionUtilities.Set(
+            string key = "SiteSettings";
+            if (Parameters.Session.UseKeyValueStore && value == null)
+            {
+                string pageName = context.Page ?? string.Empty;
+                StackExchange.Redis.IDatabase iDatabase = Implem.Pleasanter.Libraries.Redis.CacheForRedisConnection.Connection.GetDatabase();
+                string fieldName = pageName.IsNullOrEmpty() ? $"{key}" : $"{key}_{pageName}";
+                iDatabase.HashDelete(
+                    context.SessionGuid,
+                    fieldName);
+            }
+            else
+            {
+                SessionUtilities.Set(
                 context: context,
-                key: "SiteSettings",
+                key: key,
                 value: value,
                 page: true);
+            }
         }
 
         public List<string> Session_MonitorChangesColumns(Context context)
@@ -398,11 +411,24 @@ namespace Implem.Pleasanter.Models
 
         public void Session_MonitorChangesColumns(Context context, string value)
         {
-            SessionUtilities.Set(
+            string key = "MonitorChangesColumns";
+            if (Parameters.Session.UseKeyValueStore && value == null)
+            {
+                string pageName = context.Page ?? string.Empty;
+                StackExchange.Redis.IDatabase iDatabase = Implem.Pleasanter.Libraries.Redis.CacheForRedisConnection.Connection.GetDatabase();
+                string fieldName = pageName.IsNullOrEmpty() ? $"{key}" : $"{key}_{pageName}";
+                iDatabase.HashDelete(
+                    context.SessionGuid,
+                    fieldName);
+            }
+            else
+            {
+                SessionUtilities.Set(
                 context: context,
-                key: "MonitorChangesColumns",
+                key: key,
                 value: value,
                 page: true);
+            }
         }
 
         public List<string> Session_TitleColumns(Context context)
@@ -414,11 +440,24 @@ namespace Implem.Pleasanter.Models
 
         public void Session_TitleColumns(Context context, string value)
         {
-            SessionUtilities.Set(
+            string key = "TitleColumns";
+            if (Parameters.Session.UseKeyValueStore && value == null)
+            {
+                string pageName = context.Page ?? string.Empty;
+                StackExchange.Redis.IDatabase iDatabase = Implem.Pleasanter.Libraries.Redis.CacheForRedisConnection.Connection.GetDatabase();
+                string fieldName = pageName.IsNullOrEmpty() ? $"{key}" : $"{key}_{pageName}";
+                iDatabase.HashDelete(
+                    context.SessionGuid,
+                    fieldName);
+            }
+            else
+            {
+                SessionUtilities.Set(
                 context: context,
-                key: "TitleColumns",
+                key: key,
                 value: value,
                 page: true);
+            }
         }
 
         public Export Session_Export(Context context)
@@ -430,11 +469,24 @@ namespace Implem.Pleasanter.Models
 
         public void Session_Export(Context context, string value)
         {
-            SessionUtilities.Set(
+            string key = "Export";
+            if (Parameters.Session.UseKeyValueStore && value == null)
+            {
+                string pageName = context.Page ?? string.Empty;
+                StackExchange.Redis.IDatabase iDatabase = Implem.Pleasanter.Libraries.Redis.CacheForRedisConnection.Connection.GetDatabase();
+                string fieldName = pageName.IsNullOrEmpty() ? $"{key}" : $"{key}_{pageName}";
+                iDatabase.HashDelete(
+                    context.SessionGuid,
+                    fieldName);
+            }
+            else
+            {
+                SessionUtilities.Set(
                 context: context,
-                key: "Export",
+                key: key,
                 value: value,
                 page: true);
+            }
         }
 
         public bool Session_DisableSiteCreatorPermission(Context context)
@@ -446,11 +498,24 @@ namespace Implem.Pleasanter.Models
 
         public void Session_DisableSiteCreatorPermission(Context context, string value)
         {
-            SessionUtilities.Set(
+            string key = "DisableSiteCreatorPermission";
+            if (Parameters.Session.UseKeyValueStore && value == null)
+            {
+                string pageName = context.Page ?? string.Empty;
+                StackExchange.Redis.IDatabase iDatabase = Implem.Pleasanter.Libraries.Redis.CacheForRedisConnection.Connection.GetDatabase();
+                string fieldName = pageName.IsNullOrEmpty() ? $"{key}" : $"{key}_{pageName}";
+                iDatabase.HashDelete(
+                    context.SessionGuid,
+                    fieldName);
+            }
+            else
+            {
+                SessionUtilities.Set(
                 context: context,
-                key: "DisableSiteCreatorPermission",
+                key: key,
                 value: value,
                 page: true);
+            }
         }
 
         public string PropertyValue(Context context, Column column)
