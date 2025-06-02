@@ -97,16 +97,25 @@ namespace Implem.Pleasanter.Models
                 case "Local":
                     return new Libraries.Images.ImageData(
                         referenceId, Libraries.Images.ImageData.Types.TenantImage)
-                            .Exists(sizeType);
+                            .Exists(sizeType)
+                                || ExistsTenantImage(context, referenceId);
                 default:
-                    return Repository.ExecuteScalar_int(
-                        context: context,
-                        statements: Rds.SelectBinaries(
-                            column: Rds.BinariesColumn().BinariesCount(),
-                            where: Rds.BinariesWhere()
-                                .ReferenceId(referenceId)
-                                .BinaryType("TenantImage"))) == 1;
+                    return ExistsTenantImage(context, referenceId);
             }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static bool ExistsTenantImage(Context context, long referenceId)
+        {
+            return Repository.ExecuteScalar_int(
+                context: context,
+                statements: Rds.SelectBinaries(
+                    column: Rds.BinariesColumn().BinariesCount(),
+                    where: Rds.BinariesWhere()
+                        .ReferenceId(referenceId)
+                        .BinaryType("TenantImage"))) == 1;
         }
 
         /// <summary>
