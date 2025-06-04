@@ -284,7 +284,9 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             return this;
         }
 
-        private List<Comment> ToSplitComments(Context context, string comments)
+        private List<Comment> ToSplitComments(
+            Context context,
+            string comments)
         {
             var originalComments = new List<Comment>
             {
@@ -310,12 +312,14 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                     .Reverse()
                     .OfType<JObject>()
                     .Where(jobject => jobject.TryGetValue("Body", out var bodyToken)
-                    && !string.IsNullOrWhiteSpace((string?)bodyToken))
+                    && bodyToken != null)
                     .Select(token => new Comment
                     {
                         CommentId = (int?)token["CommentId"] ?? CommentId(),
                         CreatedTime = (DateTime?)token["CreatedTime"] ?? DateTime.Now,
-                        Creator = (int?)token["Creator"] ?? context.UserId,
+                        Creator = ToCreator(
+                            context: context,
+                            jtoken: token["Creator"]),
                         Body = (string?)token["Body"] ?? string.Empty,
                         Created = true
                     })
@@ -332,6 +336,25 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                     e: e);
                 return originalComments;
             }
+        }
+
+        private int ToCreator(
+            Context context,
+            JToken jtoken)
+        {
+            if (jtoken == null)
+            {
+               return context.UserId;
+            }
+            if (jtoken.Type == JTokenType.Integer)
+            {
+                return (int)jtoken;
+            }
+            return SiteInfo.TenantCaches.Get(context.TenantId)
+                .UserHash
+                .Values
+                .FirstOrDefault(o => o.Name == (string)jtoken)
+                ?.Id ?? 0;
         }
     }
 }
