@@ -193,8 +193,6 @@ namespace Implem.PleasanterTest.Utilities
                         .TenantId(TenantId),
                     param: Rds.UsersParam()
                         .Password("ABCDEF".Sha512Cng())));
-            //テナント管理画面テスト用のサーバスクリプトを追加
-            UpdateTenantSettings();
             // サイトパッケージをテストデータとして登録。
             ImportSitePackageForTest();
             // サイトパッケージから追加したテストデータのサイトにアクセス権を付与
@@ -294,17 +292,6 @@ namespace Implem.PleasanterTest.Utilities
                         .Title(title),
                     orderBy: Rds.SitesOrderBy().SiteId(),
                     top: 1));
-        }
-
-        public static void UpdateTenantSettings()
-        {
-            var userModel = UserData.Get(userType: UserData.UserTypes.Privileged);
-            var tenantsettings = $@"{{""BackgroundServerScripts"":{{""Scripts"":[{{""backgoundSchedules"":[],""UserId"":{userModel.UserId},""Title"":""xUnitテスト1"",""Name"":"""",""WhenloadingSiteSettings"":false,""WhenViewProcessing"":false,""WhenloadingRecord"":false,""BeforeFormula"":false,""AfterFormula"":false,""BeforeCreate"":false,""AfterCreate"":false,""BeforeUpdate"":false,""AfterUpdate"":false,""BeforeDelete"":false,""BeforeBulkDelete"":false,""AfterDelete"":false,""AfterBulkDelete"":false,""BeforeOpeningPage"":false,""BeforeOpeningRow"":false,""Shared"":false,""Body"":""context.Log(\""xUnitテスト用1\"");"",""Functionalize"":false,""TryCatch"":false,""Disabled"":false,""TimeOut"":0,""Background"":true,""Id"":1}},{{""backgoundSchedules"":[],""UserId"":{userModel.UserId},""Title"":""xUnitテスト2"",""Name"":"""",""WhenloadingSiteSettings"":false,""WhenViewProcessing"":false,""WhenloadingRecord"":false,""BeforeFormula"":false,""AfterFormula"":false,""BeforeCreate"":false,""AfterCreate"":false,""BeforeUpdate"":false,""AfterUpdate"":false,""BeforeDelete"":false,""BeforeBulkDelete"":false,""AfterDelete"":false,""AfterBulkDelete"":false,""BeforeOpeningPage"":false,""BeforeOpeningRow"":false,""Shared"":false,""Body"":""context.Log(\""xUnitテスト用2\"");"",""Functionalize"":false,""TryCatch"":false,""Disabled"":false,""TimeOut"":0,""Background"":true,""Id"":2}}],""TenantId"":{Context.TenantId}}}}}";
-            Rds.ExecuteNonQuery(
-                context: Context,
-                statements: Rds.UpdateTenants(
-                    param: Rds.TenantsParam().TenantSettings(tenantsettings),
-                    where: Rds.TenantsWhere().TenantId(TenantId)));
         }
     }
 }
