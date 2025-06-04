@@ -36,7 +36,7 @@ namespace Implem.Pleasanter.Models
                       {
                         "Name": "スケジュール1",
                         "ScheduleType": "hourly",
-                        "ScheduleTimeZoneId": "Tokyo Standard Time",
+                        "ScheduleTimeZoneId": "{TimeZone}",
                         "ScheduleHourlyTime": "05",
                         "ScheduleDailyTime": "00:00",
                         "ScheduleWeeklyWeek": "[\"2\",\"3\",\"4\"]",
@@ -50,7 +50,7 @@ namespace Implem.Pleasanter.Models
                       {
                         "Name": "スケジュール2",
                         "ScheduleType": "hourly",
-                        "ScheduleTimeZoneId": "Tokyo Standard Time",
+                        "ScheduleTimeZoneId": "{TimeZone}",
                         "ScheduleHourlyTime": "00",
                         "ScheduleDailyTime": "00:00",
                         "ScheduleWeeklyWeek": "[]",
@@ -239,13 +239,21 @@ namespace Implem.Pleasanter.Models
                 sendMail: sendMail);
             if (Environments.PleasanterTest)
             {
+                var timeZone = "Asia/Tokyo";
+                if (!TimeZoneInfo.GetSystemTimeZones().Any(o => o.Id == timeZone))
+                {
+                    timeZone = "Tokyo Standard Time";
+                }
                 var user = new UserCollection(
                     context: context,
                     ss: SiteSettingsUtilities.UsersSiteSettings(context: context),
                     where: Rds.UsersWhere().TenantId(tenantModel.TenantId))
                         .ToDictionary(o => o.UserId, o => o);
                 var userId = user.FirstOrDefault(o => o.Value.LoginId == $"Tenant{tenantModel.TenantId}_User20");
-                TenantSettingsJson = TenantSettingsJson.Replace("{Test_UserId}", tenantModel.TenantId.ToString()).Replace("{Test_TenantId}", userId.Key.ToString()); ;
+                TenantSettingsJson = TenantSettingsJson
+                    .Replace("{Test_UserId}", tenantModel.TenantId.ToString())
+                    .Replace("{Test_TenantId}", userId.Key.ToString())
+                    .Replace("{TimeZone}", timeZone);
                 tenantModel.TenantSettings = Newtonsoft.Json.JsonConvert.DeserializeObject<TenantSettings>(TenantSettingsJson);
                 tenantModel.Update(
                     context: context,
