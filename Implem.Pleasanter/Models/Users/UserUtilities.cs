@@ -4481,7 +4481,10 @@ namespace Implem.Pleasanter.Models
                                 action: () => hb
                                     .Span(action: () => hb
                                         .A(
-                                            href: Parameters.General.HtmlTrialLicenseUrl,
+                                            href: Parameters.General.HtmlTrialLicenseUrl.Params(
+                                                Parameters.General.PleasanterSource,
+                                                "manual-extensions-trial",
+                                                "trial-login"),
                                             action: () => hb
                                                 .Text(text: Displays.TrialLicenseInUse(context: context)))))
                             .Div(
@@ -4495,7 +4498,10 @@ namespace Implem.Pleasanter.Models
                                 action: () => hb
                                     .Span(action: () => hb
                                         .A(
-                                            href: Parameters.General.HtmlEnterPriseEditionUrl,
+                                            href: Parameters.General.HtmlEnterPriseEditionUrl.Params(
+                                                Parameters.General.PleasanterSource,
+                                                "enterprise",
+                                                "trial-login"),
                                             action: () => hb
                                                 .Text(text: Displays.SwitchToCommercialLicense(context: context))))),
                         _using: (Parameters.GetLicenseType() & 0x08) != 0)
