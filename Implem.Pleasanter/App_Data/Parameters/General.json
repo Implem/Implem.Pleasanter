@@ -10,7 +10,7 @@
     "HtmlSupportUrl": "https://pleasanter.org/support?utm_source={0}&utm_medium=app&utm_campaign={1}&utm_content={2}",
     "HtmlContactUrl": "https://pleasanter.org/contact/",
     "HtmlAGPLUrl": "https://github.com/Implem/Implem.Pleasanter/blob/master/LICENSE",
-    "HtmlTrialLicenseUrl": "https://pleasanter.org/ja/manual/pleasanter-extensions-trial",
+    "HtmlTrialLicenseUrl": "https://pleasanter.org/ja/manual/pleasanter-extensions-trial?utm_source={0}&utm_medium=app&utm_campaign={1}&utm_content={2}",
     "HtmlEnterpriseEditionUrl": "https://pleasanter.org/enterprise?utm_source={0}&utm_medium=app&utm_campaign={1}&utm_content={2}",
     "HtmlCasesUrl": "https://pleasanter.org/cases?utm_source={0}&utm_medium=app&utm_campaign={1}&utm_content={2}",
     "DisplayLogoText": false,
