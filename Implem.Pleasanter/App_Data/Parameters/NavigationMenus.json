@@ -188,42 +188,42 @@
                 "MenuId": "HelpMenu_UserManual",
                 "Name": "UserManual",
                 "Icon": "ui-icon ui-icon-help",
-                "Url": "https://pleasanter.org/manual",
+                "Url": "https://pleasanter.org/manual?utm_source={0}&utm_medium=app&utm_campaign=manual&utm_content=nav-menu",
                 "Target": "_blank"
             },
             {
                 "MenuId": "HelpMenu_AnnualSupportService",
                 "Name": "AnnualSupportService",
                 "Icon": "ui-icon ui-icon-clipboard",
-                "Url": "https://pleasanter.org/support",
+                "Url": "https://pleasanter.org/support?utm_source={0}&utm_medium=app&utm_campaign=support&utm_content=nav-menu",
                 "Target": "_blank"
             },
             {
                 "MenuId": "HelpMenu_EnterpriseEdition",
                 "Name": "EnterpriseEdition",
                 "Icon": "ui-icon ui-icon-lightbulb",
-                "Url": "https://pleasanter.org/enterprise",
+                "Url": "https://pleasanter.org/enterprise?utm_source={0}&utm_medium=app&utm_campaign=enterprise&utm_content=nav-menu",
                 "Target": "_blank"
             },
             {
                 "MenuId": "HelpMenu_Blog",
                 "Name": "Blog",
                 "Icon": "ui-icon ui-icon-info",
-                "Url": "https://pleasanter.org/archives/category/%e3%83%96%e3%83%ad%e3%82%b0",
+                "Url": "https://pleasanter.org/redirects/go-blogs?utm_source={0}&utm_medium=app&utm_campaign=blog&utm_content=nav-menu",
                 "Target": "_blank"
             },
             {
                 "MenuId": "HelpMenu_Contact",
                 "Name": "Contact",
                 "Icon": "ui-icon ui-icon-contact",
-                "Url": "https://pleasanter.org/contact",
+                "Url": "https://pleasanter.org/contact?utm_source={0}&utm_medium=app&utm_campaign=contact&utm_content=nav-menu",
                 "Target": "_blank"
             },
             {
                 "MenuId": "HelpMenu_Portal",
                 "Name": "Portal",
                 "Icon": "ui-icon ui-icon-cart",
-                "Url": "https://pleasanter.net",
+                "Url": "https://pleasanter.net/?utm_source={0}&utm_medium=app&utm_campaign=cloud&utm_content=nav-menu",
                 "Target": "_blank"
             },
             {

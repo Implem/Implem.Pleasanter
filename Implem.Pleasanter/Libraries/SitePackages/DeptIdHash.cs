@@ -4,5 +4,6 @@
     {
         public int DeptId;
         public string DeptCode;
+        public string DeptName;
     }
 }

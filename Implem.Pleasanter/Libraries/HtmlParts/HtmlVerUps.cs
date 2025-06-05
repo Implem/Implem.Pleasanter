@@ -12,23 +12,24 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder VerUpCheckBox(
             this HtmlBuilder hb, Context context, SiteSettings ss, BaseModel baseModel)
         {
+            bool isNewMethod = baseModel.MethodType == BaseModel.MethodTypes.New;
+            bool cannotUpdate = !context.CanUpdate(ss: ss);
+            bool isLatestVersion = baseModel.VerType == Versions.VerTypes.Latest;
+            if (isNewMethod || cannotUpdate || isLatestVersion) return hb;
+
             var mustVerUp = Versions.MustVerUp(
                 context: context,
                 ss: ss,
                 baseModel: baseModel,
                 isSite: ss.SiteId == 0 || ss.IsSite(context: context));
-            return baseModel.VerType == Versions.VerTypes.Latest
-                && baseModel.MethodType != BaseModel.MethodTypes.New
-                && context.CanUpdate(ss: ss)
-                    ? hb.FieldCheckBox(
+            return hb.FieldCheckBox(
                         controlId: "VerUp",
                         labelText: Displays.VerUp(context: context),
                         _checked: mustVerUp,
                         disabled: mustVerUp,
                         fieldCss: " w400 both",
                         controlCss: " always-send",
-                        labelPositionIsRight: true)
-                    : hb;
+                        labelPositionIsRight: true);
         }
     }
 }
