@@ -1,5 +1,7 @@
 ﻿## 関連Issue番号
 
+### 製品開発レコード
+> 関連Issueに紐づく[製品開発](https://pleasanter.net/fs/items/10840783/index) のレコードのURLを貼り付けてください。
 
 ## 変更内容
 

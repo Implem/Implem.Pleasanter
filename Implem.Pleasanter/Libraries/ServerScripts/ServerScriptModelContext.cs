@@ -21,6 +21,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         public readonly Forms Forms;
         public readonly string FormStringRaw;
         public readonly string FormString;
+        public readonly string HttpMethod;
         public readonly bool Ajax;
         public readonly bool Mobile;
         public readonly string ApplicationPath;
@@ -50,6 +51,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         public readonly string ContentType;
         public readonly string ControlId;
         public readonly string Condition;
+        public readonly string ReferenceType;
 
         public ServerScriptModelContext(
             Context context,
@@ -61,6 +63,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             RedirectData redirectData,
             string formStringRaw,
             string formString,
+            string httpMethod,
             bool ajax,
             bool mobile,
             string applicationPath,
@@ -91,7 +94,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             bool onTesting,
             long scriptDepth,
             string controlId,
-            string condition)
+            string condition,
+            string referenceType)
         {
             LogBuilder = logBuilder;
             UserData = userData;
@@ -106,6 +110,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             Forms = context.Forms;
             FormStringRaw = formStringRaw;
             FormString = formString;
+            HttpMethod = httpMethod;
             Ajax = ajax;
             Mobile = mobile;
             ApplicationPath = applicationPath;
@@ -135,6 +140,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             ContentType = contentType;
             ControlId = controlId;
             Condition = condition;
+            ReferenceType = referenceType;
         }
 
         public void Log(object log)

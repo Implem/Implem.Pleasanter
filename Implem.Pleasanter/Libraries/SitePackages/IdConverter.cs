@@ -23,7 +23,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
             ConvertUserId = permissionShortModel.UserId;
             if (permissionShortModel.DeptId > 0)
             {
-                var deptId = Utilities.ConvertedDeptId(
+                var deptId = IdConvertUtilities.ConvertedDeptId(
                     context: context,
                     permissionIdList: permissionIdList,
                     deptId: permissionShortModel.DeptId);
@@ -38,7 +38,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
             }
             if (permissionShortModel.GroupId > 0)
             {
-                var groupId = Utilities.ConvertedGroupId(
+                var groupId = IdConvertUtilities.ConvertedGroupId(
                     context: context,
                     permissionIdList: permissionIdList,
                     groupId: permissionShortModel.GroupId);
@@ -65,7 +65,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
             }
             if (permissionShortModel.UserId > 0)
             {
-                var userId = Utilities.ConvertedUserId(
+                var userId = IdConvertUtilities.ConvertedUserId(
                     context: context,
                     permissionIdList: permissionIdList,
                     userId: permissionShortModel.UserId);

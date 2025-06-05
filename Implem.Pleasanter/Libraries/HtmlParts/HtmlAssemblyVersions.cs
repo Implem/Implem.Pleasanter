@@ -64,7 +64,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 action: () => hb
                                     .Span(action: () => hb
                                         .A(
-                                            href: Parameters.General.HtmlTrialLicenseUrl,
+                                            href: Parameters.General.HtmlTrialLicenseUrl.Params(
+                                                Parameters.General.PleasanterSource,
+                                                "manual-extensions-trial",
+                                                "versions"),
                                             action: () => hb
                                                 .Text(text: Displays.TrialLicenseInUse(context: context)))),
                                 _using: isTrialLicense)
@@ -79,7 +82,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 action: () => hb
                                     .Span(action: () => hb
                                         .A(
-                                            href: Parameters.General.HtmlEnterPriseEditionUrl,
+                                            href: Parameters.General.HtmlEnterPriseEditionUrl.Params(
+                                                Parameters.General.PleasanterSource,
+                                                "enterprise",
+                                                "versions"),
                                             action: () => hb
                                                 .Text(text: Displays.SwitchToCommercialLicense(context: context)))),
                                 _using: !isCommercialLicense)

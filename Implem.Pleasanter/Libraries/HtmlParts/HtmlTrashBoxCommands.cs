@@ -47,7 +47,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 case "groups":
                     return Permissions.CanEditGroup(context: context);
                 case "depts":
-                    return Permissions.CanManageTenant(context: context);
+                    return Permissions.CanManageTenant(context: context)
+                        || context.UserSettings.EnableManageTenant == true;
                 default:
                     return false;
             }
