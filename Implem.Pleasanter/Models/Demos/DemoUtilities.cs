@@ -92,7 +92,6 @@ namespace Implem.Pleasanter.Models
             var contractSettingsDefault = Def.ColumnDefinitionCollection
                 .Where(x => x.Id == "Tenants_ContractSettings")
                 .FirstOrDefault()?.DefaultInput;
-
             var tenantModel = new TenantModel()
             {
                 TenantName = mailAddress,

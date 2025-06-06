@@ -111,7 +111,6 @@ namespace Implem.PleasanterTest.Utilities
             {
                 $"Tenant{TenantId}_User20"
             };
-            //特権ユーザでバックグラウンドサーバスクリプトテストのため
             Parameters.Script.BackgroundServerScript = true;
             Context.TenantId = TenantId;
             Tenant = new TenantModel(
