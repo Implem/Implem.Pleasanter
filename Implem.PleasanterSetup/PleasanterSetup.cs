@@ -1318,6 +1318,20 @@ namespace Implem.PleasanterSetup
                     Environment.GetEnvironmentVariable($"{serviceName}_Rds_{rdsData.Dbms}_ConnectionString"),
                     Environment.GetEnvironmentVariable($"{serviceName}_Rds_UserConnectionString"),
                     Environment.GetEnvironmentVariable($"{serviceName}_Rds_ConnectionString"));
+                // プリザンター1.4.18.0より低いバージョンからそれ以上への更新であるか否かの判定。
+                // パラメータ名の文字列が現行のRds.jsonに存在しない場合が該当する。
+                if (rdsData.Dbms.Equals("MySQL") && !rdsJson.Contains("MySqlConnectingHost"))
+                {
+                    // 後でパラメータをマージするフェーズで設定される既定値"%"を確認画面に表示する。
+                    mySqlConnectingHost = "%";
+                }
+                else
+                {
+                    mySqlConnectingHost = CoalesceEmpty(
+                        rdsData.MySqlConnectingHost,
+                        Environment.GetEnvironmentVariable($"{serviceData.EnvironmentName}_Rds_MySqlConnectingHost"),
+                        Environment.GetEnvironmentVariable($"{serviceName}_Rds_MySqlConnectingHost"));
+                }
                 GetDbms(rdsData);
                 GetServerAndPort(rdsData.Dbms);
                 GetUserId();
