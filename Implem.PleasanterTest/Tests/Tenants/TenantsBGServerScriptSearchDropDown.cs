@@ -38,7 +38,6 @@ namespace Implem.PleasanterTest.Tests.Tenants
 
         public static IEnumerable<object[]> GetData()
         {
-            
             var userModel = UserData.Get(UserData.UserTypes.Privileged);
             var validHtmlTests = BaseData.Tests(HtmlData.ExistsOne(selector: "#Editor"));
             var notFoundMessage = BaseData.Tests(HtmlData.NotFoundMessage());
