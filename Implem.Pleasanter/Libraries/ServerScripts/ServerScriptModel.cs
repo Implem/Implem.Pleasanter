@@ -105,6 +105,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 redirectData: context.RedirectData,
                 formStringRaw: context.FormStringRaw,
                 formString: context.FormString,
+                httpMethod: context.HttpMethod,
                 ajax: context.Ajax,
                 mobile: context.Mobile,
                 applicationPath: context.ApplicationPath,

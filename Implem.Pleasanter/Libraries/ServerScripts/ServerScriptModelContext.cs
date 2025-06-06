@@ -21,6 +21,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         public readonly Forms Forms;
         public readonly string FormStringRaw;
         public readonly string FormString;
+        public readonly string HttpMethod;
         public readonly bool Ajax;
         public readonly bool Mobile;
         public readonly string ApplicationPath;
@@ -62,6 +63,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             RedirectData redirectData,
             string formStringRaw,
             string formString,
+            string httpMethod,
             bool ajax,
             bool mobile,
             string applicationPath,
@@ -108,6 +110,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             Forms = context.Forms;
             FormStringRaw = formStringRaw;
             FormString = formString;
+            HttpMethod = httpMethod;
             Ajax = ajax;
             Mobile = mobile;
             ApplicationPath = applicationPath;
