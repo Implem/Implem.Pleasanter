@@ -27,103 +27,6 @@ namespace Implem.Pleasanter.Models
 {
     public static class DemoUtilities
     {
-        static string TenantSettingsJson = """
-            {
-              "BackgroundServerScripts": {
-                "Scripts": [
-                  {
-                    "backgoundSchedules": [
-                      {
-                        "Name": "スケジュール1",
-                        "ScheduleType": "hourly",
-                        "ScheduleTimeZoneId": "{TimeZone}",
-                        "ScheduleHourlyTime": "05",
-                        "ScheduleDailyTime": "00:00",
-                        "ScheduleWeeklyWeek": "[\"2\",\"3\",\"4\"]",
-                        "ScheduleWeeklyTime": "00:00",
-                        "ScheduleMonthlyMonth": "[]",
-                        "ScheduleMonthlyDay": "[]",
-                        "ScheduleMonthlyTime": "00:00",
-                        "ScheduleOnlyOnceTime": "2025/06/03 13:31",
-                        "Id": 1
-                      },
-                      {
-                        "Name": "スケジュール2",
-                        "ScheduleType": "hourly",
-                        "ScheduleTimeZoneId": "{TimeZone}",
-                        "ScheduleHourlyTime": "00",
-                        "ScheduleDailyTime": "00:00",
-                        "ScheduleWeeklyWeek": "[]",
-                        "ScheduleWeeklyTime": "00:00",
-                        "ScheduleMonthlyMonth": "[]",
-                        "ScheduleMonthlyDay": "[]",
-                        "ScheduleMonthlyTime": "00:00",
-                        "ScheduleOnlyOnceTime": "",
-                        "Id": 2
-                      }
-                    ],
-                    "UserId": "{Test_UserId}",
-                    "Title": "BGServerScript:Test1",
-                    "Name": "xUnitTest",
-                    "WhenloadingSiteSettings": false,
-                    "WhenViewProcessing": false,
-                    "WhenloadingRecord": false,
-                    "BeforeFormula": false,
-                    "AfterFormula": false,
-                    "BeforeCreate": false,
-                    "AfterCreate": false,
-                    "BeforeUpdate": false,
-                    "AfterUpdate": false,
-                    "BeforeDelete": false,
-                    "BeforeBulkDelete": false,
-                    "AfterDelete": false,
-                    "AfterBulkDelete": false,
-                    "BeforeOpeningPage": false,
-                    "BeforeOpeningRow": false,
-                    "Shared": false,
-                    "Body": "context.Log(\"BGServerScript:Test1\");",
-                    "Functionalize": false,
-                    "TryCatch": false,
-                    "Disabled": false,
-                    "TimeOut": 0,
-                    "Background": true,
-                    "Id": 1
-                  },
-                  {
-                    "backgoundSchedules": [],
-                    "UserId": "{Test_UserId}",
-                    "Title": "BGServerScript:Test2",
-                    "Name": "",
-                    "WhenloadingSiteSettings": false,
-                    "WhenViewProcessing": false,
-                    "WhenloadingRecord": false,
-                    "BeforeFormula": false,
-                    "AfterFormula": false,
-                    "BeforeCreate": false,
-                    "AfterCreate": false,
-                    "BeforeUpdate": false,
-                    "AfterUpdate": false,
-                    "BeforeDelete": false,
-                    "BeforeBulkDelete": false,
-                    "AfterDelete": false,
-                    "AfterBulkDelete": false,
-                    "BeforeOpeningPage": false,
-                    "BeforeOpeningRow": false,
-                    "Shared": false,
-                    "Body": "context.Log(\"BGServerScript:Test2\")",
-                    "Functionalize": false,
-                    "TryCatch": false,
-                    "Disabled": false,
-                    "TimeOut": 0,
-                    "Background": true,
-                    "Id": 2
-                  }
-                ],
-                "TenantId": "{Test_TenantId}"
-              }
-            }
-            """;
-
         /// <summary>
         /// Fixed:
         /// </summary>
@@ -237,28 +140,6 @@ namespace Implem.Pleasanter.Models
                 userHash: userHash,
                 async: async,
                 sendMail: sendMail);
-            if (Environments.PleasanterTest)
-            {
-                var timeZone = "Asia/Tokyo";
-                if (!TimeZoneInfo.GetSystemTimeZones().Any(o => o.Id == timeZone))
-                {
-                    timeZone = "Tokyo Standard Time";
-                }
-                var user = new UserCollection(
-                    context: context,
-                    ss: SiteSettingsUtilities.UsersSiteSettings(context: context),
-                    where: Rds.UsersWhere().TenantId(tenantModel.TenantId))
-                        .ToDictionary(o => o.UserId, o => o);
-                var userId = user.FirstOrDefault(o => o.Value.LoginId == $"Tenant{tenantModel.TenantId}_User20");
-                TenantSettingsJson = TenantSettingsJson
-                    .Replace("{Test_UserId}", tenantModel.TenantId.ToString())
-                    .Replace("{Test_TenantId}", userId.Key.ToString())
-                    .Replace("{TimeZone}", timeZone);
-                tenantModel.TenantSettings = Newtonsoft.Json.JsonConvert.DeserializeObject<TenantSettings>(TenantSettingsJson);
-                tenantModel.Update(
-                    context: context,
-                    ss: ss);
-            }
         }
 
         /// <summary>

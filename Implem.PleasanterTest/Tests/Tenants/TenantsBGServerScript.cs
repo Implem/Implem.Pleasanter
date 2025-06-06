@@ -16,6 +16,113 @@ namespace Implem.PleasanterTest.Tests.Tenants
     [Collection(nameof(TenantsBGServerScript))]
     public class TenantsBGServerScript
     {
+        static string TenantSettingsJson = """
+            {
+              "BackgroundServerScripts": {
+                "Scripts": [
+                  {
+                    "backgoundSchedules": [
+                      {
+                        "Name": "スケジュール1",
+                        "ScheduleType": "hourly",
+                        "ScheduleTimeZoneId": "{TimeZone}",
+                        "ScheduleHourlyTime": "05",
+                        "ScheduleDailyTime": "00:00",
+                        "ScheduleWeeklyWeek": "[\"2\",\"3\",\"4\"]",
+                        "ScheduleWeeklyTime": "00:00",
+                        "ScheduleMonthlyMonth": "[]",
+                        "ScheduleMonthlyDay": "[]",
+                        "ScheduleMonthlyTime": "00:00",
+                        "ScheduleOnlyOnceTime": "2025/06/03 13:31",
+                        "Id": 1
+                      },
+                      {
+                        "Name": "スケジュール2",
+                        "ScheduleType": "hourly",
+                        "ScheduleTimeZoneId": "{TimeZone}",
+                        "ScheduleHourlyTime": "00",
+                        "ScheduleDailyTime": "00:00",
+                        "ScheduleWeeklyWeek": "[]",
+                        "ScheduleWeeklyTime": "00:00",
+                        "ScheduleMonthlyMonth": "[]",
+                        "ScheduleMonthlyDay": "[]",
+                        "ScheduleMonthlyTime": "00:00",
+                        "ScheduleOnlyOnceTime": "",
+                        "Id": 2
+                      }
+                    ],
+                    "UserId": "{Test_UserId}",
+                    "Title": "BGServerScript:Test1",
+                    "Name": "xUnitTest",
+                    "WhenloadingSiteSettings": false,
+                    "WhenViewProcessing": false,
+                    "WhenloadingRecord": false,
+                    "BeforeFormula": false,
+                    "AfterFormula": false,
+                    "BeforeCreate": false,
+                    "AfterCreate": false,
+                    "BeforeUpdate": false,
+                    "AfterUpdate": false,
+                    "BeforeDelete": false,
+                    "BeforeBulkDelete": false,
+                    "AfterDelete": false,
+                    "AfterBulkDelete": false,
+                    "BeforeOpeningPage": false,
+                    "BeforeOpeningRow": false,
+                    "Shared": false,
+                    "Body": "context.Log(\"BGServerScript:Test1\");",
+                    "Functionalize": false,
+                    "TryCatch": false,
+                    "Disabled": false,
+                    "TimeOut": 0,
+                    "Background": true,
+                    "Id": 1
+                  },
+                  {
+                    "backgoundSchedules": [],
+                    "UserId": "{Test_UserId}",
+                    "Title": "BGServerScript:Test2",
+                    "Name": "",
+                    "WhenloadingSiteSettings": false,
+                    "WhenViewProcessing": false,
+                    "WhenloadingRecord": false,
+                    "BeforeFormula": false,
+                    "AfterFormula": false,
+                    "BeforeCreate": false,
+                    "AfterCreate": false,
+                    "BeforeUpdate": false,
+                    "AfterUpdate": false,
+                    "BeforeDelete": false,
+                    "BeforeBulkDelete": false,
+                    "AfterDelete": false,
+                    "AfterBulkDelete": false,
+                    "BeforeOpeningPage": false,
+                    "BeforeOpeningRow": false,
+                    "Shared": false,
+                    "Body": "context.Log(\"BGServerScript:Test2\")",
+                    "Functionalize": false,
+                    "TryCatch": false,
+                    "Disabled": false,
+                    "TimeOut": 0,
+                    "Background": true,
+                    "Id": 2
+                  }
+                ],
+                "TenantId": "{Test_TenantId}"
+              }
+            }
+            """;
+
+        private static string TimeZone = "Asia/Tokyo";
+
+        static TenantsBGServerScript()
+        {
+            if (!TimeZoneInfo.GetSystemTimeZones().Any(o => o.Id == TimeZone))
+            {
+                TimeZone = "Tokyo Standard Time";
+            }
+        }
+
         [Theory]
         [MemberData(nameof(GetData))]
         public void Test(
@@ -23,13 +130,12 @@ namespace Implem.PleasanterTest.Tests.Tenants
             UserModel userModel,
             List<BaseTest> baseTests)
         {
-            var tenantsettings = TenantData.Get();
             var context = ContextData.Get(
                 userId: userModel.UserId,
                 routeData: RouteData.TenantsBGServerScript(),
                 httpMethod: "POST",
                 forms: forms);
-            context.SessionData.Add("TenantSettings", tenantsettings);
+            context.SessionData.Add("TenantSettings", TenantSettingsJson);
             var results = Results(context: context);
             Initializer.SaveResults(results);
             Assert.True(Tester.Test(
@@ -41,6 +147,10 @@ namespace Implem.PleasanterTest.Tests.Tenants
         public static IEnumerable<object[]> GetData()
         {
             var userModel = UserData.Get(UserData.UserTypes.Privileged);
+            TenantSettingsJson = TenantSettingsJson
+                .Replace("{Test_UserId}", userModel.UserId.ToString())
+                .Replace("{Test_TenantId}", userModel.TenantId.ToString())
+                .Replace("{TimeZone}", TimeZone);
             var validHtmlTests = BaseData.Tests(HtmlData.ExistsOne(selector: "#Editor"));
             var notFoundMessage = BaseData.Tests(HtmlData.NotFoundMessage());
             var testParts = new List<TestPart>()
