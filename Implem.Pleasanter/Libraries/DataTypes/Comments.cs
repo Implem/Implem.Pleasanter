@@ -308,22 +308,23 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             try
             {
                 var commentsJArray = JArray.Parse(comments);
+                
                 var splitComments = commentsJArray
-                    .Reverse()
                     .OfType<JObject>()
                     .Where(jobject => jobject.TryGetValue("Body", out var bodyToken)
                     && bodyToken != null)
-                    .Select(token => new Comment
+                    .Select((token,i) => new Comment
                     {
-                        CommentId = (int?)token["CommentId"] ?? CommentId(),
-                        CreatedTime = (DateTime?)token["CreatedTime"] ?? DateTime.Now,
+                        CommentId = i+1,
+                        CreatedTime = ToCreatedTime(
+                            context:context,
+                            jtoken: token["CreatedTime"]),
                         Creator = ToCreator(
                             context: context,
                             jtoken: token["Creator"]),
                         Body = (string?)token["Body"] ?? string.Empty,
                         Created = true
                     })
-                    .OrderBy(comment => comment.CommentId)
                     .ToList();
                 return splitComments.Count == 0
                     ? originalComments
@@ -336,6 +337,23 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                     e: e);
                 return originalComments;
             }
+        }
+
+        private DateTime ToCreatedTime(Context context, JToken jtoken)
+        {
+            if (jtoken == null)
+            {
+                return DateTime.Now;
+            }
+            var dateTime = new Time(
+                context: context,
+                value: jtoken.ToDateTime(),
+                byForm: true).Value;
+            if (dateTime == 0.ToDateTime())
+            {
+                return DateTime.Now;
+            }
+            return dateTime;
         }
 
         private int ToCreator(
