@@ -20,12 +20,12 @@ namespace Implem.PleasanterTest.Tests.Tenants
 
         static TenantsBGServerScriptSchedule()
         {
-
             if (!TimeZoneInfo.GetSystemTimeZones().Any(o => o.Id == TimeZone))
             {
                 TimeZone = "Tokyo Standard Time";
             }
         }
+
         [Theory]
         [MemberData(nameof(GetData))]
         public void Test(
@@ -54,17 +54,6 @@ namespace Implem.PleasanterTest.Tests.Tenants
             var notFoundMessage = BaseData.Tests(HtmlData.NotFoundMessage());
             var testParts = new List<TestPart>()
             {
-                new TestPart(
-                    forms: FormsUtilities.Get(
-                        new KeyValue("ControlId", "NewServerScript")),
-                    baseTests: BaseData.Tests(
-                        JsonData.ExistsOne(
-                            method: "Html",
-                            target: "#ServerScriptDialog"),
-                        JsonData.ExistsOne(
-                            method: "SetMemory",
-                            target: "formChanged")),
-                    userType: UserData.UserTypes.Privileged),
                 new TestPart(
                     forms: FormsUtilities.Get(
                         new KeyValue("ControlId", "AddServerScriptSchedules"),

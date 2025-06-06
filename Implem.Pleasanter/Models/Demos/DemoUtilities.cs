@@ -64,7 +64,7 @@ namespace Implem.Pleasanter.Models
                     ],
                     "UserId": "{Test_UserId}",
                     "Title": "BGServerScript:Test1",
-                    "Name": "",
+                    "Name": "xUnitTest",
                     "WhenloadingSiteSettings": false,
                     "WhenViewProcessing": false,
                     "WhenloadingRecord": false,
