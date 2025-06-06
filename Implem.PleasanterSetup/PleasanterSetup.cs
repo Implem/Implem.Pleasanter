@@ -767,6 +767,10 @@ namespace Implem.PleasanterSetup
             }
             logger.LogInformation($"Server                    : {server}");
             logger.LogInformation($"Service Name              : {serviceName}");
+            if (dbms.Equals("3"))
+            {
+                logger.LogInformation($"MySqlConnectingHost       : {mySqlConnectingHost}");
+            }
             if (!versionUp)
             {
                 logger.LogInformation($"DefaultLanguage           : {defaultLanguage}");
