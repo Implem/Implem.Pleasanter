@@ -56,6 +56,7 @@ namespace Implem.PleasanterSetup
         private string saPassword;
         private string ownerPassword;
         private string userPassword;
+        private string mySqlConnectingHost;
         private bool isEnvironmentUser;
         private bool versionUp;
         private bool enterpriseEdition;
@@ -463,6 +464,15 @@ namespace Implem.PleasanterSetup
             server = string.IsNullOrEmpty(userInputServer)
                 ? DefaultParameters.HostName ?? string.Empty
                 : userInputServer;
+        }
+
+        private void AskForMySqlConnectingHost()
+        {
+            logger.LogInformation("MySQL Connecting Host [Default: %] : ");
+            var userInputMySqlConnectingHost = Console.ReadLine();
+            mySqlConnectingHost = string.IsNullOrEmpty(userInputMySqlConnectingHost)
+                ? "%"
+                : userInputMySqlConnectingHost;
         }
 
         private void AskForServiceName()
@@ -1091,6 +1101,10 @@ namespace Implem.PleasanterSetup
                 data.OwnerConnectionString = connectionString;
                 data.UserConnectionString = connectionString;
             }
+            if (data.Dbms.Equals("MySQL"))
+            {
+                data.MySqlConnectingHost = mySqlConnectingHost;
+            }
             JObject dataAsJObject = JObject.FromObject(data);
             //読み込んだファイルに存在するパラメータ
             foreach (var prop in dataAsJObject.Properties())
@@ -1162,6 +1176,10 @@ namespace Implem.PleasanterSetup
                 if (provider.Equals("Azure"))
                 {
                     AskForConnectionString();
+                }
+                if (dbms.Equals("3"))
+                {
+                    AskForMySqlConnectingHost();
                 }
                 AskForDefaultLanguage();
                 AskForDefaultTimeZone();
