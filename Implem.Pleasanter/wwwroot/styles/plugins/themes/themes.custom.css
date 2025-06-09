@@ -736,6 +736,23 @@ input {
                     background-color: var(--primaryColor);
                 }
             }
+            &:has(input:disabled){
+                &,
+                &:before{
+                    background-color: var(--control-bg-read);
+                }
+                &:has(input:checked){
+                    &:before{
+                        opacity: .5;
+                        background-color: var(--control-text);
+                    }
+                }
+                &:not(:has(input:checked)){
+                    + .radio-text{
+                        opacity: .5;
+                    }
+                }
+            }
         }
         .radio-text{
             display: block;

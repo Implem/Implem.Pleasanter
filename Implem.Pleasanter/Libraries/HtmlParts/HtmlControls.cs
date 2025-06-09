@@ -550,6 +550,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string name = null,
             string controlCss = null,
             Dictionary<string, ControlData> optionCollection = null,
+            bool disabled = false,
             string selectedValue = null,
             bool _using = true)
         {
@@ -570,6 +571,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     .Class(Css.Class("control-radio", controlCss))
                                     .Type("radio")
                                     .Value(data.Option.Key)
+                                    .Disabled(disabled)
                                     .Checked(data.Option.Key == selectedValue)))
                             .Span(
                                 attributes: new HtmlAttributes().Class("radio-text"),
