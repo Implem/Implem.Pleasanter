@@ -10,6 +10,7 @@ using Implem.Pleasanter.Libraries.Settings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using static System.Collections.Specialized.BitVector32;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlControls
@@ -557,16 +558,22 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 optionCollection
                     .Select((o, i) => new { Option = o, Index = i })
                     .ForEach(data => hb.Label(
-                        attributes: new HtmlAttributes().For(name + data.Index),
+                        attributes: new HtmlAttributes()
+                            .Class("radio-option")
+                            .For(name + data.Index),
                         action: () => hb
-                            .Input(attributes: new HtmlAttributes()
-                                .Id(name + data.Index)
-                                .Name(name)
-                                .Class(Css.Class("control-radio", controlCss))
-                                .Type("radio")
-                                .Value(data.Option.Key)
-                                .Checked(data.Option.Key == selectedValue))
-                            .Text(data.Option.Value.Text)));
+                            .Span(
+                                attributes: new HtmlAttributes().Class("radio-icon"),
+                                action: () => hb.Input(attributes: new HtmlAttributes()
+                                    .Id(name + data.Index)
+                                    .Name(name)
+                                    .Class(Css.Class("control-radio", controlCss))
+                                    .Type("radio")
+                                    .Value(data.Option.Key)
+                                    .Checked(data.Option.Key == selectedValue)))
+                            .Span(
+                                attributes: new HtmlAttributes().Class("radio-text"),
+                                action: () => hb.Text(data.Option.Value.Text))));
             }
             return hb;
         }

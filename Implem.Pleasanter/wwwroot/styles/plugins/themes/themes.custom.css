@@ -701,6 +701,49 @@ input {
     .control-markdown {
         border: 1px solid var(--control-border-focus);
     }
+    .container-radio{
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 16px;
+        .radio-option{
+            display: flex;
+            gap: 4px;
+            margin: 0;
+            float: none;
+        }
+        .radio-icon{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 20px;
+            border: 1px solid var(--control-border);
+            background-color: var(--control-bg);
+            border-radius: 100%;
+            input{
+                display: none;
+            }
+            &:before{
+                width: 12px;
+                height: 12px;
+                background-color: var(--control-bg);
+                border-radius: 100%;
+                content: "";
+                transition: background-color 150ms ease-out;
+            }
+            &:has(input:checked){
+                &:before{
+                    background-color: var(--primaryColor);
+                }
+            }
+        }
+        .radio-text{
+            display: block;
+            text-align: left;
+            line-height: 1.2;
+            padding-top: 3px;
+        }
+    }
 }
 
 /* Atoms ---------------------------------------------------------------- */
