@@ -61,6 +61,7 @@ namespace Implem.PleasanterSetup
         private bool versionUp;
         private bool enterpriseEdition;
         private bool isProviderAzure;
+        private bool addMySqlConnectingHost;
         private ExtendedColumns extendedIssuesColumns;
         private ExtendedColumns extendedResultsColumns;
         private enum DBMS
@@ -1044,6 +1045,14 @@ namespace Implem.PleasanterSetup
                     SetRdsParameters(parametersDir);
                     SetServiceParameters(parametersDir);
                 }
+                else
+                {
+                    // バージョンアップ時にMySqlConnectingHostをRds.jsonに新規追加する場合
+                    if (addMySqlConnectingHost)
+                    {
+                        AddMySqlConnectingHostRds(parametersDir);
+                    }
+                }
                 logger.LogInformation("Finish setting parameters");
             }
             catch (Exception e)
@@ -1143,6 +1152,20 @@ namespace Implem.PleasanterSetup
             File.WriteAllText(
                 file,
                 json);
+        }
+
+        private void AddMySqlConnectingHostRds(string parametersDir)
+        {
+            var file = Path.Combine(parametersDir, "Rds.json");
+            var json = File.ReadAllText(file);
+            JObject inputData = (JObject)JsonConvert.DeserializeObject(json);
+            if (inputData.ContainsKey("MySqlConnectingHost"))
+            {
+                inputData["MySqlConnectingHost"] = mySqlConnectingHost;
+            }
+            File.WriteAllText(
+                file,
+                Jsons.ToJson(inputData));
         }
 
         private void SetSummary(
@@ -1318,12 +1341,11 @@ namespace Implem.PleasanterSetup
                     Environment.GetEnvironmentVariable($"{serviceName}_Rds_{rdsData.Dbms}_ConnectionString"),
                     Environment.GetEnvironmentVariable($"{serviceName}_Rds_UserConnectionString"),
                     Environment.GetEnvironmentVariable($"{serviceName}_Rds_ConnectionString"));
-                // プリザンター1.4.18.0より低いバージョンからそれ以上への更新であるか否かの判定。
-                // パラメータ名の文字列が現行のRds.jsonに存在しない場合が該当する。
-                if (rdsData.Dbms.Equals("MySQL") && !rdsJson.Contains("MySqlConnectingHost"))
+                // MySQLかつRds.jsonにMySqlConnectingHostの追加を要する更新であるか否かの判定。
+                if (rdsData.Dbms.Equals("MySQL") && rdsData.MySqlConnectingHost == null)
                 {
-                    // 後でパラメータをマージするフェーズで設定される既定値"%"を確認画面に表示する。
-                    mySqlConnectingHost = "%";
+                    AskForMySqlConnectingHost();
+                    addMySqlConnectingHost = true;
                 }
                 else
                 {
