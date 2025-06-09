@@ -2250,13 +2250,13 @@ namespace Implem.Pleasanter.Models
                             deptModel.Body = recordingData;
                             break;
                         case "Comments":
-                            if (deptModel.AccessStatus != Databases.AccessStatuses.Selected &&
-                                !data.Row[column.Key].IsNullOrEmpty())
+                            if (!data.Row[column.Key].IsNullOrEmpty())
                             {
-                                deptModel.Comments.Prepend(
+                                deptModel.Comments.ClearAndSplitPrepend(
                                     context: context,
                                     ss: ss,
-                                    body: data.Row[column.Key]);
+                                    body: data.Row[column.Key],
+                                    update: deptModel.AccessStatus == Databases.AccessStatuses.Selected);
                             }
                             break;
                         case "Disabled":
