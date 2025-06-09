@@ -2123,13 +2123,13 @@ namespace Implem.Pleasanter.Models
                                 groupModel.Body = recordingData;
                                 break;
                             case "Comments":
-                                if (groupModel.AccessStatus != Databases.AccessStatuses.Selected &&
-                                    !data.Row[column.Key].IsNullOrEmpty())
+                                if (!data.Row[column.Key].IsNullOrEmpty())
                                 {
-                                    groupModel.Comments.Prepend(
+                                    groupModel.Comments.ClearAndSplitPrepend(
                                         context: context,
                                         ss: ss,
-                                        body: data.Row[column.Key]);
+                                        body: data.Row[column.Key],
+                                        update: groupModel.AccessStatus == Databases.AccessStatuses.Selected);
                                 }
                                 break;
                             case "Disabled":
@@ -2392,13 +2392,13 @@ namespace Implem.Pleasanter.Models
                                 groupModel.Body = recordingData;
                                 break;
                             case "Comments":
-                                if (groupModel.AccessStatus != Databases.AccessStatuses.Selected &&
-                                    !data.Row[column.Key].IsNullOrEmpty())
+                                if (!data.Row[column.Key].IsNullOrEmpty())
                                 {
-                                    groupModel.Comments.Prepend(
+                                    groupModel.Comments.ClearAndSplitPrepend(
                                         context: context,
                                         ss: ss,
-                                        body: data.Row[column.Key]);
+                                        body: data.Row[column.Key],
+                                        update: groupModel.AccessStatus == Databases.AccessStatuses.Selected);
                                 }
                                 break;
                             case "Disabled":

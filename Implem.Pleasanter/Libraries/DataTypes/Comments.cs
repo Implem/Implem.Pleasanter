@@ -8,6 +8,8 @@ using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
+using Implem.Pleasanter.Models;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -253,6 +255,124 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 }
             }
             return null;
+        }
+
+        public Comments ClearAndSplitPrepend(
+            Context context,
+            SiteSettings ss,
+            string body,
+            bool update,
+            bool force = false)
+        {
+            if (body.Trim() != string.Empty || force == true)
+            {
+                var splitComments = ToSplitComments(
+                    context: context,
+                    comments: body);
+                if (update
+                    && splitComments.Count == 1
+                    && splitComments.First().Body == body)
+                {
+                    return this;
+                }
+                Clear();
+                foreach (var splitComment in splitComments)
+                {
+                    Insert(0, splitComment);
+                }
+            }
+            return this;
+        }
+
+        private List<Comment> ToSplitComments(
+            Context context,
+            string comments)
+        {
+            var originalComments = new List<Comment>
+            {
+                new Comment
+                {
+                    CommentId = CommentId(),
+                    CreatedTime = DateTime.Now,
+                    Creator = context.UserId,
+                    Body = comments,
+                    Created = true
+                }
+            };
+            if (string.IsNullOrWhiteSpace(comments)
+                || !comments.TrimStart().StartsWith("[")
+                || !comments.TrimEnd().EndsWith("]"))
+            {
+                return originalComments;
+            }
+            try
+            {
+                var commentsJArray = JArray.Parse(comments);
+                
+                var splitComments = commentsJArray
+                    .OfType<JObject>()
+                    .Where(jobject => jobject.TryGetValue("Body", out var bodyToken)
+                    && bodyToken != null)
+                    .Select((token,i) => new Comment
+                    {
+                        CommentId = i+1,
+                        CreatedTime = ToCreatedTime(
+                            context:context,
+                            jtoken: token["CreatedTime"]),
+                        Creator = ToCreator(
+                            context: context,
+                            jtoken: token["Creator"]),
+                        Body = (string?)token["Body"] ?? string.Empty,
+                        Created = true
+                    })
+                    .ToList();
+                return splitComments.Count == 0
+                    ? originalComments
+                    : splitComments;
+            }
+            catch (Exception e)
+            {
+                new SysLogModel(
+                    context: context,
+                    e: e);
+                return originalComments;
+            }
+        }
+
+        private DateTime ToCreatedTime(Context context, JToken jtoken)
+        {
+            if (jtoken == null)
+            {
+                return DateTime.Now;
+            }
+            var dateTime = new Time(
+                context: context,
+                value: jtoken.ToDateTime(),
+                byForm: true).Value;
+            if (dateTime == 0.ToDateTime())
+            {
+                return DateTime.Now;
+            }
+            return dateTime;
+        }
+
+        private int ToCreator(
+            Context context,
+            JToken jtoken)
+        {
+            if (jtoken == null)
+            {
+               return context.UserId;
+            }
+            if (jtoken.Type == JTokenType.Integer)
+            {
+                return (int)jtoken;
+            }
+            return SiteInfo.TenantCaches.Get(context.TenantId)
+                .UserHash
+                .Values
+                .FirstOrDefault(o => o.Name == (string)jtoken)
+                ?.Id ?? 0;
         }
     }
 }
