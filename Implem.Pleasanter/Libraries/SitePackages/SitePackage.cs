@@ -3,6 +3,7 @@ using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using Newtonsoft.Json;
@@ -10,7 +11,6 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 namespace Implem.Pleasanter.Libraries.SitePackages
 {
@@ -45,6 +45,10 @@ namespace Implem.Pleasanter.Libraries.SitePackages
             Sites = new List<PackageSiteModel>();
             Data = new List<JsonExport>();
             Permissions = new List<PackagePermissionModel>();
+            PermissionIdList = new PermissionIdList();
+            var deptIds = new HashSet<int>();
+            var groupIds = new HashSet<int>();
+            var userIds = new HashSet<int>();
             Construct(
                 context: context,
                 siteList: siteList,
@@ -52,12 +56,27 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                 includeRecordPermission: includeRecordPermission,
                 includeColumnPermission: includeColumnPermission,
                 includeNotifications: includeNotifications,
-                includeReminders: includeReminders);
-            PermissionIdList = new PermissionIdList(
+                includeReminders: includeReminders,
+                deptIds: deptIds,
+                groupIds: groupIds,
+                userIds: userIds);
+            SetPermissionIdList(
                 context: context,
                 sites: Sites,
                 packagePermissionModels: Permissions,
-                includeSitePermission: includeSitePermission);
+                includeSitePermission: includeSitePermission,
+                deptIds: deptIds,
+                groupIds: groupIds,
+                userIds: userIds);
+            SetDeptIdList(
+                context: context,
+                deptIds: deptIds);
+            SetGroupIdList(
+                context: context,
+                groupIds: groupIds);
+            SetUserIdList(
+                context: context,
+                userIds: userIds);
         }
 
         private void Construct(
@@ -67,7 +86,10 @@ namespace Implem.Pleasanter.Libraries.SitePackages
             bool includeRecordPermission,
             bool includeColumnPermission,
             bool includeNotifications,
-            bool includeReminders)
+            bool includeReminders,
+            HashSet<int> deptIds,
+            HashSet<int> groupIds,
+            HashSet<int> userIds)
         {
             var recordIdList = new List<long>();
             if ((siteList != null) && (siteList.Count > 0))
@@ -131,6 +153,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                     recordIdList.Clear();
                     View view = null;
                     var ss = siteModel.SiteSettings;
+                    ss.SetChoiceHash(context: context);
                     ss.SetPermissions(
                         context: context,
                         referenceId: ss.SiteId);
@@ -162,6 +185,35 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                                         ss: ss,
                                         export: export));
                                 }
+                                var columns = ss.Columns.Where(
+                                    o => o.Type == Column.Types.Dept
+                                        || o.Type == Column.Types.Group
+                                        || o.Type == Column.Types.User)
+                                            .ToList();
+                                foreach (var dataRow in gridData.DataRows)
+                                {
+                                    foreach (var column in columns)
+                                    {
+                                        var id = dataRow.Int(column.ColumnName);
+                                        if (id > 0)
+                                        {
+                                            switch (column.Type)
+                                            {
+                                                case Column.Types.Dept:
+                                                    deptIds.Add(id);
+                                                    break;
+                                                case Column.Types.Group:
+                                                    groupIds.Add(id);
+                                                    break;
+                                                case Column.Types.User:
+                                                    userIds.Add(id);
+                                                    break;
+                                                default:
+                                                    break;
+                                            }
+                                        }
+                                    }
+                                }
                                 break;
                         }
                     }
@@ -177,6 +229,180 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                     }
                 }
             }
+        }
+
+        private void SetPermissionIdList(
+            Context context,
+            List<PackageSiteModel> sites,
+            List<PackagePermissionModel> packagePermissionModels,
+            bool includeSitePermission,
+            HashSet<int> deptIds,
+            HashSet<int> groupIds,
+            HashSet<int> userIds)
+        {
+            if (includeSitePermission)
+            {
+                foreach (var packagePermissionModel in packagePermissionModels)
+                {
+                    foreach (var permission in packagePermissionModel.Permissions)
+                    {
+                        if (permission.DeptId > 0 && !deptIds.Contains(permission.DeptId))
+                        {
+                            deptIds.Add(permission.DeptId);
+                        }
+                        if (permission.GroupId > 0 && !groupIds.Contains(permission.GroupId))
+                        {
+                            groupIds.Add(permission.GroupId);
+                        }
+                        if (permission.UserId > 0 && !userIds.Contains(permission.UserId))
+                        {
+                            userIds.Add(permission.UserId);
+                        }
+                    }
+                }
+            }
+            foreach (var packageSiteModel in sites)
+            {
+                foreach (var cca in packageSiteModel.SiteSettings.CreateColumnAccessControls)
+                {
+                    foreach (var dept in cca.Depts ?? new List<int>() { 0 })
+                    {
+                        deptIds.Add(dept);
+                    }
+                    foreach (var group in cca.Groups ?? new List<int>() { 0 })
+                    {
+                        groupIds.Add(group);
+                    }
+                    foreach (var user in cca.Users ?? new List<int>() { 0 })
+                    {
+                        userIds.Add(user);
+                    }
+                }
+                foreach (var rca in packageSiteModel.SiteSettings.ReadColumnAccessControls)
+                {
+                    foreach (var dept in rca.Depts ?? new List<int>() { 0 })
+                    {
+                        deptIds.Add(dept);
+                    }
+                    foreach (var group in rca.Groups ?? new List<int>() { 0 })
+                    {
+                        groupIds.Add(group);
+                    }
+                    foreach (var user in rca.Users ?? new List<int>() { 0 })
+                    {
+                        userIds.Add(user);
+                    }
+                }
+                foreach (var uca in packageSiteModel.SiteSettings.UpdateColumnAccessControls)
+                {
+                    foreach (var dept in uca.Depts ?? new List<int>() { 0 })
+                    {
+                        deptIds.Add(dept);
+                    }
+                    foreach (var group in uca.Groups ?? new List<int>() { 0 })
+                    {
+                        groupIds.Add(group);
+                    }
+                    foreach (var user in uca.Users ?? new List<int>() { 0 })
+                    {
+                        userIds.Add(user);
+                    }
+                }
+                foreach (var process in packageSiteModel.SiteSettings.Processes)
+                {
+                    foreach (var dept in process.Depts ?? new List<int>() { 0 })
+                    {
+                        deptIds.Add(dept);
+                    }
+                    foreach (var group in process.Groups ?? new List<int>() { 0 })
+                    {
+                        groupIds.Add(group);
+                    }
+                    foreach (var user in process.Users ?? new List<int>() { 0 })
+                    {
+                        userIds.Add(user);
+                    }
+                }
+                foreach (var view in packageSiteModel.SiteSettings.Views)
+                {
+                    foreach (var dept in view.Depts ?? new List<int>() { 0 })
+                    {
+                        deptIds.Add(dept);
+                    }
+                    foreach (var group in view.Groups ?? new List<int>() { 0 })
+                    {
+                        groupIds.Add(group);
+                    }
+                    foreach (var user in view.Users ?? new List<int>() { 0 })
+                    {
+                        userIds.Add(user);
+                    }
+                }
+                foreach (var export in packageSiteModel.SiteSettings.Exports)
+                {
+                    foreach (var dept in export.Depts ?? new List<int>() { 0 })
+                    {
+                        deptIds.Add(dept);
+                    }
+                    foreach (var group in export.Groups ?? new List<int>() { 0 })
+                    {
+                        groupIds.Add(group);
+                    }
+                    foreach (var user in export.Users ?? new List<int>() { 0 })
+                    {
+                        userIds.Add(user);
+                    }
+                }
+            }
+        }
+
+        private void SetDeptIdList(Context context, HashSet<int> deptIds)
+        {
+            PermissionIdList.DeptIdList = deptIds
+                .Where(deptId => deptId > 0)
+                .Select(deptId => SiteInfo.Dept(
+                    tenantId: context.TenantId,
+                    deptId: deptId))
+                .Select(dept => new DeptIdHash()
+                {
+                    DeptId = dept.Id,
+                    DeptCode = dept.Code,
+                    DeptName = dept.Name
+                })
+                .ToList();
+        }
+
+        private void SetGroupIdList(Context context, HashSet<int> groupIds)
+        {
+            PermissionIdList.GroupIdList = groupIds
+                .Where(groupId => groupId > 0)
+                .Select(groupId => SiteInfo.Group(
+                    tenantId: context.TenantId,
+                    groupId: groupId))
+                .Select(group => new GroupIdHash()
+                {
+                    GroupId = group.Id,
+                    GroupName = group.Name
+                })
+                .ToList();
+        }
+
+        private void SetUserIdList(Context context, HashSet<int> userIds)
+        {
+            PermissionIdList.UserIdList = userIds
+                .Where(userId => userId > 0)
+                .Select(userId => SiteInfo.User(
+                    context: context,
+                    userId: userId))
+                .Where(user => !user.Anonymous())
+                .Select(user => new UserIdHash()
+                {
+                    UserId = user.Id,
+                    LoginId = user.LoginId,
+                    UserCode = user.UserCode,
+                    Name = user.Name
+                })
+                .ToList();
         }
 
         private static PackagePermissionModel GetPackagePermissionModel(

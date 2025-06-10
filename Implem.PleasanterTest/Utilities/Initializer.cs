@@ -6,6 +6,7 @@ using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using Implem.PleasanterTest.Models;
+using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -188,8 +189,101 @@ namespace Implem.PleasanterTest.Utilities
                         .TenantId(TenantId),
                     param: Rds.UsersParam()
                         .Password("ABCDEF".Sha512Cng())));
+            // サイトパッケージをテストデータとして登録。
+            ImportSitePackageForTest();
         }
+        private static void ImportSitePackageForTest()
+        {
+            var hasPrivilege = Context.HasPrivilege;
+            Context.HasPrivilege = true;
+            // IncludeData(データを含める)のみ選択状態にする。
+            // IncludeSitePermission | IncludeRecordPermission | IncludeColumnPermission | IncludeNotifications | IncludeReminders は非選択。
+            Context.Forms.Add("IncludeData", "True");
+            var path = Path.Combine(Directories.PleasanterTest(), "Data_Package");
+            foreach (var filePath in Directory.GetFiles(path))
+            {
+                var fileStream = new FileStream(filePath, FileMode.Open);
+                var file = new FormFile(fileStream, 0, fileStream.Length, null, Path.GetFileName(filePath));
+                if (Context.PostedFiles.Count > 0)
+                {
+                    Context.PostedFiles.RemoveAt(0);
+                }
+                Context.PostedFiles.Add(new PostedFile()
+                {
+                    Guid = new HttpPostedFile(file).WriteToTemp(Context),
+                    FileName = file.FileName.Split(Path.DirectorySeparatorChar).Last(),
+                    Extension = new HttpPostedFile(file).Extension(),
+                    Size = file.Length,
+                    ContentType = "application/json",
+                    ContentRange = file.Length > 0
+                        ? new System.Net.Http.Headers.ContentRangeHeaderValue(
+                            0,
+                            file.Length - 1,
+                            file.Length)
+                        : new System.Net.Http.Headers.ContentRangeHeaderValue(0, 0, 0),
+                    InputStream = file.OpenReadStream()
+                });
+                new ItemModel(
+                    context: Context,
+                    referenceId: 0)
+                    .ImportSitePackage(context: Context);
+                // インポートした全サイトのタイトルを取得、標準的なアクセス権を付与する。
+                Implem.Pleasanter.Libraries.SitePackages.Utilities.GetSitePackageFromPostedFile(context: Context)
+                    .Sites.ForEach(site => InsertCommonPermissions(site.Title));
+            }
+            Context.HasPrivilege = hasPrivilege;
+        }
+        private static void InsertCommonPermissions(string title)
+        {
+            // サイトパッケージから追加したテストデータにアクセス権を付与。
+            // →仕様：テナント管理者に511のアクセス権を付与、全組織に31のアクセス権を付与。
+            // →仕様の根拠：標準的なデモ用のサイト(Defで管理しているもの)と同様としている。
+            // ※他のアクセス権のパターンは別のメソッドを追加して対応してください。(todo)
 
+            var siteId = GetSiteIdByPackageTitle(title);
 
+            // テナント管理者にアクセス権を付与
+            var privilegeUserId = Users.Values
+                .Where(user => user.Name == "テナント管理者")
+                .Select(user => user.UserId)
+                .FirstOrDefault();
+            Repository.ExecuteNonQuery(
+                context: Context,
+                statements: Rds.InsertPermissions(
+                    param: Rds.PermissionsParam()
+                        .ReferenceId(siteId)
+                        .DeptId(0)
+                        .GroupId(0)
+                        .UserId(privilegeUserId)
+                        .PermissionType(511)));
+            // 全組織にアクセス権を付与
+            Depts.Values
+                .ForEach(dept =>
+                {
+                    Repository.ExecuteNonQuery(
+                        context: Context,
+                        statements: Rds.InsertPermissions(
+                            param: Rds.PermissionsParam()
+                                .ReferenceId(siteId)
+                                .DeptId(dept.DeptId)
+                                .GroupId(0)
+                                .UserId(0)
+                                .PermissionType(31)));
+                });
+        }
+        public static long GetSiteIdByPackageTitle(string title)
+        {
+            // サイトパッケージから追加したテストデータはInitializerのフィールドに登録されないので、
+            // タイトルをキーにサイトIDを取得する際は、DB検索で取得する。
+            return Repository.ExecuteScalar_long(
+                context: Context,
+                statements: Rds.SelectSites(
+                    column: Rds.SitesColumn().SiteId(),
+                    where: Rds.SitesWhere()
+                        .TenantId(TenantId)
+                        .Title(title),
+                    orderBy: Rds.SitesOrderBy().SiteId(),
+                    top: 1));
+        }
     }
 }

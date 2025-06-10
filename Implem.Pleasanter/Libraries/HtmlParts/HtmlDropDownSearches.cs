@@ -96,6 +96,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 context: context,
                 addNotSet: column?.MultipleSelections != true,
                 own: filter);
+            var searchText = context.Forms.Data("DropDownSearchText").IsNullOrEmpty()
+                ? string.Empty
+                : context.Forms.Data("DropDownSearchText");
             if (column?.MultipleSelections == true || filter)
             {
                 return hb
@@ -153,6 +156,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 .TextBox(
                                     controlId: "DropDownSearchText",
                                     controlCss: " auto-postback always-send w150",
+                                    text: searchText,
                                     action: "SearchDropDown",
                                     method: "post")
                                 .Button(
@@ -178,6 +182,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 controlId: "DropDownSearchText",
                                 controlCss: " auto-postback always-send w200",
                                 action: "SearchDropDown",
+                                text: searchText,
                                 method: "post")
                             .Button(
                                 text: Displays.Search(context: context),
