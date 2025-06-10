@@ -20,6 +20,11 @@ $p.openDropDownSearchDialog = function ($control) {
     if ($('#IsNew').val() === '1') {
         $p.data.MainForm.IsNew = '1';
     }
+    if ($('#DropDownSearchText').length > 0) {
+        $p.set($('#DropDownSearchText'), '');
+    } else {
+        $p.data.MainForm.DropDownSearchText = '';
+    }
     $p.setMustData($('#MainForm'));
     $p.data.DropDownSearchDialogForm = $p.data.MainForm;
     var referenceId = $p.id();

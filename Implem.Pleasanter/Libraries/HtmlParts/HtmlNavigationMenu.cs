@@ -956,7 +956,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             return (Parameters.Deleted.Restore || Parameters.Deleted.PhysicalDelete)
                 && context.Controller == "depts"
-                && Permissions.CanManageTenant(context: context);
+                && (Permissions.CanManageTenant(context: context)
+                    || context.UserSettings?.EnableManageTenant == true);
         }
 
         private static bool CanManageUserTrashBox(Context context, SiteSettings ss)
@@ -1023,6 +1024,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             var menus = navigationMenus
                 .ToJson()
                 .Deserialize<List<NavigationMenu>>();
+            var helpMenu = menus.FirstOrDefault(m => m.MenuId == "HelpMenu");
+            if (helpMenu?.ChildMenus != null)
+            {
+                foreach (var childMenu in helpMenu.ChildMenus
+                    .Where(child => child != null
+                    && child.Url != null))
+                {
+                    childMenu.Url = childMenu.Url.Params(Parameters.General.PleasanterSource);
+                }
+            }
             var exMenus = extendedNavigationMenus
                 .ToJson()
                 .Deserialize<List<ParameterAccessor.Parts.ExtendedNavigationMenu>>();

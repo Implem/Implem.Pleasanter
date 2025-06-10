@@ -105,6 +105,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 redirectData: context.RedirectData,
                 formStringRaw: context.FormStringRaw,
                 formString: context.FormString,
+                httpMethod: context.HttpMethod,
                 ajax: context.Ajax,
                 mobile: context.Mobile,
                 applicationPath: context.ApplicationPath,
@@ -135,7 +136,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 onTesting: onTesting,
                 scriptDepth: context.ServerScriptDepth,
                 controlId: context.Forms.ControlId(),
-                condition: condition.ToString());
+                condition: condition.ToString(),
+                referenceType: ss?.ReferenceType);
             SiteSettings = new ServerScriptModelSiteSettings(
                 context: context,
                 ss: ss);

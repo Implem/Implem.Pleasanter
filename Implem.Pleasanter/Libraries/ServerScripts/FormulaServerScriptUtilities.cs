@@ -1838,7 +1838,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         || value == '#NAME?'
                         || value == '#NULL!'
                         || value == 'Invalid Parameter'
-                        || !Number.isFinite(value);
+                        || ((typeof value === 'number') && !Number.isFinite(value));
                 }";
         }
 
@@ -1851,9 +1851,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     {
                         return 'Invalid Parameter';
                     }
-                    return value === undefined || value === ''
-                        ? 0
-                        : ($ISERROR(value) ? value_if_error : value);
+                    return $ISERROR(value) === true ? value_if_error : value;
                 }";
         }
 

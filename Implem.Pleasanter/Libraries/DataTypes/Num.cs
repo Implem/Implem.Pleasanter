@@ -123,6 +123,14 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                         unit: true)));
         }
 
+        public string GridText(Context context, Column column)
+        {
+            return column.Display(
+                context: context,
+                value: Value,
+                unit: true);
+        }
+
         public object ToApiDisplayValue(Context context, SiteSettings ss, Column column)
         {
             return Value;
@@ -184,7 +192,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 : column.Display(
                     context: context,
                     value: Value,
-                    format: column.Format == "C" || column.Format == "N");
+                    format: column.Format == "C" || column.Format == "N" || column.EditorReadOnly == true);
         }
 
         public void FullText(
