@@ -37,6 +37,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 
 namespace Implem.Pleasanter.NetCore
@@ -270,6 +271,29 @@ namespace Implem.Pleasanter.NetCore
             }
             app.UseHsts();
             app.UseSecurityHeadersMiddleware();
+            var cspSettings = Parameters.Security.ContentSecurityPolicy;
+            var nonce = CreateNonceValue();
+            var cspHeaderValues = cspSettings.GetHeaderValues(
+                nonce: nonce,
+                isDevelopment: env.IsDevelopment());
+            var cspEnabled = cspSettings.Enabled
+                || cspSettings.ReportOnlyEnabled;
+            if (!cspHeaderValues.IsNullOrEmpty() && cspEnabled)
+            {
+                app.Use(async (context, next) =>
+                {
+                    context.Items["Nonce"] = nonce;
+                    if (cspSettings.Enabled)
+                    {
+                        context.Response.Headers.ContentSecurityPolicy = cspHeaderValues;
+                    }
+                    if (cspSettings.ReportOnlyEnabled)
+                    {
+                        context.Response.Headers.ContentSecurityPolicyReportOnly = cspHeaderValues;
+                    }
+                    await next();
+                });
+            }
             app.Use(async (context, next) => await Invoke(context, next));
             app.UseStatusCodePages(context =>
             {
@@ -477,6 +501,16 @@ namespace Implem.Pleasanter.NetCore
             NotificationInitializer.Initialize();
             SiteInfo.Refresh(context: context);
             log.Finish(context: context);
+        }
+
+        private string CreateNonceValue()
+        {
+            var nonceBytes = new byte[16];
+            using (var rng = RandomNumberGenerator.Create())
+            {
+                rng.GetBytes(nonceBytes);
+            }
+            return Convert.ToBase64String(nonceBytes);
         }
     }
 
