@@ -651,42 +651,48 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             if (_using)
             {
-                hb.Input(attributes: new HtmlAttributes()
-                    .Id(controlId)
-                    .Name(controlId)
-                    .Class(Css.Class("control-checkbox", controlCss))
-                    .Type("checkbox")
-                    .Disabled(disabled)
-                    .DataAlwaysSend(alwaysSend)
-                    .DataId(dataId)
-                    .OnChange(onChange)
-                    .DataValidateRequired(validateRequired)
-                    .DataAction(action)
-                    .DataMethod(method)
-                    .DataReadOnly(disabled)
-                    .Checked(_checked));
-                if (!controlOnly)
-                {
-                    if (labelRaw != null)
-                    {
-                        hb.Raw(text: labelRaw);
-                    }
-                    else if (labelText != string.Empty)
-                    {
-                        if (!labelIcon.IsNullOrEmpty())
-                        {
-                            hb.Span(css: $"ui-icon {labelIcon}");
-                        }
-                        hb.Label(
-                            attributes: new HtmlAttributes()
-                                .For(controlId)
-                                .Class(validateRequired
-                                    ? " required"
-                                    : string.Empty),
-                            action: () => hb
-                                .Text(text: labelText));
-                    }
-                }
+                hb.Label(
+                    attributes: new HtmlAttributes()
+                        .Class(validateRequired
+                            ? "check-option required"
+                            : "check-option")
+                        .For(controlId),
+                    action: () => hb
+                        .Span(
+                            attributes: new HtmlAttributes().Class("check-icon"),
+                            action: () => hb.Input(attributes: new HtmlAttributes()
+                                .Id(controlId)
+                                .Name(controlId)
+                                .Class(Css.Class("control-checkbox", controlCss))
+                                .Type("checkbox")
+                                .Disabled(disabled)
+                                .DataAlwaysSend(alwaysSend)
+                                .DataId(dataId)
+                                .OnChange(onChange)
+                                .DataValidateRequired(validateRequired)
+                                .DataAction(action)
+                                .DataMethod(method)
+                                .DataReadOnly(disabled)
+                                .Checked(_checked)))
+                        .Span(
+                            attributes: new HtmlAttributes().Class("check-text"),
+                            action: () => {
+                                if (!controlOnly)
+                                {
+                                    if (labelRaw != null)
+                                    {
+                                        hb.Raw(text: labelRaw);
+                                    }
+                                    else if (labelText != string.Empty)
+                                    {
+                                        if (!labelIcon.IsNullOrEmpty())
+                                        {
+                                            hb.Span(css: $"check-add-icon ui-icon {labelIcon}");
+                                        }
+                                    }
+                                }
+                                hb.Text(text: labelText);
+                            }));
             }
             return hb;
         }

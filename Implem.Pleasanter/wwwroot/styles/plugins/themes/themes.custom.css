@@ -743,7 +743,7 @@ input {
                 }
                 &:has(input:checked){
                     &:before{
-                        opacity: .5;
+                        opacity: .4;
                         background-color: var(--control-text);
                     }
                 }
@@ -761,7 +761,78 @@ input {
             padding-top: 3px;
         }
     }
+
+    .check-option {
+        display: flex;
+        gap: 4px;
+        .check-icon {
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 20px;
+            margin: 5px 0px;
+            border: 1px solid var(--control-border);
+            background-color: var(--control-bg);
+            border-radius: 4px;
+            transition: background-color 150ms ease-out;
+            input{
+                display: none;
+            }
+            &:before{
+                margin: 0;
+                padding: 0;
+                font-family: "Material Symbols Sharp";
+                font-size: 18px;
+                font-weight: normal;
+                -webkit-font-smoothing: antialiased;
+                font-feature-settings: "liga";
+                -webkit-font-feature-settings: "liga";
+                font-variation-settings: 'FILL' 0, 'wght' 700, 'GRAD' 0, 'opsz' 48;
+                line-height: 1;
+                letter-spacing: normal;
+                text-indent: 0;
+                text-transform: none;
+                white-space: nowrap;
+                word-wrap: normal;
+                background: none;
+                direction: ltr;
+                color: var(--control-bg);
+                content: 'check';
+            }
+            &:has(input:checked) {
+                background-color: var(--primaryColor);
+                border-color: transparent;
+            }
+            &:has(input:disabled) {
+                background-color: var(--control-bg-read);
+                border: 1px solid var(--control-border);
+                &:has(input:checked) {
+                    background-color: var(--control-border);
+                    &:before {
+                        color: var(--nonColor14);
+                    }
+                }
+                &:not(:has(input:checked)) {
+                    &:before {
+                        color: var(--control-bg-read);
+                    }
+                    + .check-text{
+                        color: var(--control-text-read);
+                    }
+                }
+            }
+        }
+        .check-text {
+            margin: 5px 0;
+        }
+        .check-add-icon {
+            margin-left: -3px;
+        }
+    }
 }
+
 
 /* Atoms ---------------------------------------------------------------- */
 /* password-items */

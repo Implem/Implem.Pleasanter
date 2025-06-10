@@ -2457,32 +2457,23 @@ label.required:after {
     border-radius: 5px;
 }
 
-.control-checkbox {
-    display: block;
-    float: left;
+.check-option {
+    display: flex;
+    gap: 5px;
+}
+.check-option .check-icon {
     margin: 8px 0px;
 }
-
-.control-checkbox ~ label {
+.check-option .check-icon input {
     display: block;
-    float: left;
-    margin: 7px 5px 0px 6px;
 }
-
-.control-checkbox + .ui-icon.ui-icon-info {
+.check-option .check-text {
     display: block;
-    float: left;
-    margin: 7px -7px 0px 0px;
+    flex: 1;
+    margin: 6px 0;
 }
-
-.field-normal .control-checkbox + label {
-    width: 175px;
-}
-
-_::-webkit-full-page-media,
-_:future,
-:root .field-normal .control-checkbox + label {
-    width: 172px;
+.check-option .check-add-icon {
+    margin-left: -5px;
 }
 
 .container-radio {
