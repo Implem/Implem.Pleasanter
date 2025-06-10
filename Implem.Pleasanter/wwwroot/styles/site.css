@@ -2461,6 +2461,10 @@ label.required:after {
     display: flex;
     gap: 5px;
 }
+.check-option.required:after {
+    margin-left: 0;
+    content: "";
+}
 .check-option .check-icon {
     margin: 8px 0px;
 }
@@ -2471,6 +2475,11 @@ label.required:after {
     display: block;
     flex: 1;
     margin: 6px 0;
+}
+.check-option.required .check-text:after {
+    margin-left: 3px;
+    color: red;
+    content: "*";
 }
 .check-option .check-add-icon {
     margin-left: -5px;
