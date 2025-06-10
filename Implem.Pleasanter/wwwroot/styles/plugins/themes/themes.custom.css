@@ -720,6 +720,7 @@ input {
             border: 1px solid var(--control-border);
             background-color: var(--control-bg);
             border-radius: 100%;
+            transition: background-color 150ms ease-out;
             input{
                 display: none;
             }
@@ -732,6 +733,7 @@ input {
                 transition: background-color 150ms ease-out;
             }
             &:has(input:checked){
+                background-color: var(--nonColor16);
                 &:before{
                     background-color: var(--primaryColor);
                 }
@@ -743,7 +745,7 @@ input {
                 }
                 &:has(input:checked){
                     &:before{
-                        opacity: .4;
+                        opacity: .5;
                         background-color: var(--control-text);
                     }
                 }
@@ -804,6 +806,9 @@ input {
             &:has(input:checked) {
                 background-color: var(--primaryColor);
                 border-color: transparent;
+                &:before{
+                    color: var(--nonColor16);
+                }
             }
             &:has(input:disabled) {
                 background-color: var(--control-bg-read);

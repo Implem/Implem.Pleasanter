@@ -262,7 +262,7 @@
         }
         &:has(.control-checkbox) {
             .field-control {
-                padding-top: 36px;
+                padding-top: 30px;
             }
         }
         label {
