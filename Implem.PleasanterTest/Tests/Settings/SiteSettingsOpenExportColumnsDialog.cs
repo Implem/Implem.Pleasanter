@@ -53,8 +53,23 @@ namespace Implem.PleasanterTest.Tests.Settings
                     forms: FormsUtilities.Get(
                         new KeyValue("ControlId", "OpenExportColumnsDialog"),
                         new KeyValue("ExportId", "1"),
-                        new KeyValue("ExportColumns", "[\"{\\\"Id\\\":1,\\\"ColumnName\\\":\\\"ResultId\\\"}\"]"),
-                        new KeyValue("ExportColumnsAll", "[\"{\\\"Id\\\":1,\\\"ColumnName\\\":\\\"ResultId\\\"}\",\"{\\\"Id\\\":2,\\\"ColumnName\\\":\\\"Title\\\"}\",\"{\\\"Id\\\":3,\\\"ColumnName\\\":\\\"Body\\\"}\",\"{\\\"Id\\\":4,\\\"ColumnName\\\":\\\"TitleBody\\\"}\",\"{\\\"Id\\\":5,\\\"ColumnName\\\":\\\"Comments\\\"}\",\"{\\\"Id\\\":6,\\\"ColumnName\\\":\\\"Status\\\"}\",\"{\\\"Id\\\":7,\\\"ColumnName\\\":\\\"Manager\\\"}\",\"{\\\"Id\\\":8,\\\"ColumnName\\\":\\\"Owner\\\"}\",\"{\\\"Id\\\":9,\\\"ColumnName\\\":\\\"Creator\\\"}\",\"{\\\"Id\\\":10,\\\"ColumnName\\\":\\\"Updator\\\"}\",\"{\\\"Id\\\":11,\\\"ColumnName\\\":\\\"UpdatedTime\\\"}\"]")),
+                        new KeyValue(
+                            key: "ExportColumns",
+                            value: "[\"{\\\"Id\\\":1,\\\"ColumnName\\\":\\\"ResultId\\\",\\\"ExportJsonFormat\\\":false}\"]"),
+                        new KeyValue(
+                            key: "ExportColumnsAll",
+                            value: "[" +
+                            "\"{\\\"Id\\\":1,\\\"ColumnName\\\":\\\"ResultId\\\",\\\"ExportJsonFormat\\\":false}\"," +
+                            "\"{\\\"Id\\\":2,\\\"ColumnName\\\":\\\"Title\\\",\\\"ExportJsonFormat\\\":false}\"," +
+                            "\"{\\\"Id\\\":3,\\\"ColumnName\\\":\\\"Body\\\",\\\"ExportJsonFormat\\\":false}\"," +
+                            "\"{\\\"Id\\\":4,\\\"ColumnName\\\":\\\"TitleBody\\\",\\\"ExportJsonFormat\\\":false}\"," +
+                            "\"{\\\"Id\\\":5,\\\"ColumnName\\\":\\\"Comments\\\",\\\"ExportJsonFormat\\\":false}\"," +
+                            "\"{\\\"Id\\\":6,\\\"ColumnName\\\":\\\"Status\\\",\\\"ExportJsonFormat\\\":false}\"," +
+                            "\"{\\\"Id\\\":7,\\\"ColumnName\\\":\\\"Manager\\\",\\\"ExportJsonFormat\\\":false}\"," +
+                            "\"{\\\"Id\\\":8,\\\"ColumnName\\\":\\\"Owner\\\",\\\"ExportJsonFormat\\\":false}\"," +
+                            "\"{\\\"Id\\\":9,\\\"ColumnName\\\":\\\"Creator\\\",\\\"ExportJsonFormat\\\":false}\"," +
+                            "\"{\\\"Id\\\":10,\\\"ColumnName\\\":\\\"Updator\\\",\\\"ExportJsonFormat\\\":false}\"," +
+                            "\"{\\\"Id\\\":11,\\\"ColumnName\\\":\\\"UpdatedTime\\\",\\\"ExportJsonFormat\\\":false}\"]")),
                     sessionData: sessionData,
                     baseTests: BaseData.Tests(
                         JsonData.ExistsOne(

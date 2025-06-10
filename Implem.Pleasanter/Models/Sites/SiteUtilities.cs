@@ -13833,7 +13833,9 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .Text(text: Displays.EncloseDoubleQuotes(context: context)))
                     .Th(action: () => hb
-                        .Text(text: Displays.ExportExecutionType(context: context)))));
+                        .Text(text: Displays.ExportExecutionType(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.ExportCommentsJsonFormat(context: context)))));
         }
 
         /// <summary>
@@ -13880,7 +13882,11 @@ namespace Implem.Pleasanter.Models
                             .Td(action: () => hb
                                  .Text(text: Displays.Get(
                                      context: context,
-                                     id: export.ExecutionType.ToString()))))));
+                                     id: export.ExecutionType.ToString())))
+                            .Td(action: () => hb
+                                .Span(
+                                    css: "ui-icon ui-icon-circle-check",
+                                    _using: export.ExportCommentsJsonFormat)))));
         }
 
         /// <summary>
@@ -14117,6 +14123,11 @@ namespace Implem.Pleasanter.Models
                         controlCss: " always-send",
                         labelText: Displays.OutputHeader(context: context),
                         _checked: export.Header != false)
+                    .FieldCheckBox(
+                        controlId: "ExportCommentsJsonFormat",
+                        controlCss: " always-send",
+                        labelText: Displays.ExportCommentsJsonFormat(context: context),
+                        _checked: export.ExportCommentsJsonFormat)
                     .FieldSet(
                         css: " enclosed",
                         legendText: Displays.ExportColumns(context: context),
