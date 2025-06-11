@@ -5,6 +5,7 @@ using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -94,7 +95,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder LinkedHeadLink(
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
-            var json = ManifestLoader("wwwroot/components/manifest.json");
+            var path = Path.Combine(AppContext.BaseDirectory, "wwwroot", "components", "manifest.json");
+            var json = ManifestLoader(path);
             return hb
                 .Link(
                     href: Responses.Locations.Get(
