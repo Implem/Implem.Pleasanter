@@ -226,7 +226,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         originEndDate = endDate;
                     if (startDate === 0 && endDate === 0)
                     {
-                        if(['Y', 'M', 'D', 'MD', 'YM', 'YD'].includes(unit) ) 
+                        if(['Y', 'M', 'D', 'H', 'N', 'S', 'MD', 'YM', 'YD'].includes(unit) ) 
                         {
                             return 0;
                         }
@@ -280,6 +280,12 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                                 || (endDate >= startDate && startDate >= -2203915324000))
                                 ? diff
                                 : (startDate < endDate ? diff - 1 : diff);
+                        case 'H':
+                            return Math.floor((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60));
+                        case 'N':
+                            return Math.floor((endDate.getTime() - startDate.getTime()) / (1000 * 60));
+                        case 'S':
+                            return Math.floor((endDate.getTime() - startDate.getTime()) / 1000);
                         case 'MD':
                             return endDate.getDate() - startDate.getDate()
                                 + (endDate.getDate() >= startDate.getDate() ? 0 : new Date(endDate.setDate(0)).getDate());
@@ -1839,7 +1845,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         || value == '#NAME?'
                         || value == '#NULL!'
                         || value == 'Invalid Parameter'
-                        || !Number.isFinite(value);
+                        || ((typeof value === 'number') && !Number.isFinite(value));
                 }";
         }
 
@@ -1852,9 +1858,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     {
                         return 'Invalid Parameter';
                     }
-                    return value === undefined || value === ''
-                        ? 0
-                        : ($ISERROR(value) ? value_if_error : value);
+                    return $ISERROR(value) === true ? value_if_error : value;
                 }";
         }
 

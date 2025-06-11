@@ -4109,6 +4109,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string ExportCommentsJsonFormat(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ExportCommentsJsonFormat",
+                data: data);
+        }
+
         public static string ExportEmailBody(
             Context context,
             params string[] data)
