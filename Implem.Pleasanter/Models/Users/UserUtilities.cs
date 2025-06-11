@@ -3897,7 +3897,9 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return null;
             }
-            var export = ss.GetExport(context: context);
+            var export = ss.GetExport(
+                context: context,
+                exportCommentsJsonFormat: context.Forms.Bool("ExportCommentsJsonFormat"));
             var view = Views.GetBySession(context: context, ss: ss);
             var csv = new System.Text.StringBuilder();
             if (export.Header == true)
