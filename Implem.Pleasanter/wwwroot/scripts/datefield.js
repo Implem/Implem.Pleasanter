@@ -48,7 +48,7 @@
                 disableMobile: true,
                 dateFormat: params.dateFormat,
                 onReady: function(selectedDates, dateStr, instance) {
-                    if(instance.timeContainer) return false
+                    if(!instance.timeContainer) return false
                     const timeInputs = instance.timeContainer.querySelectorAll("input[type='number']");
                     if (timeInputs) {
                         timeInputs.forEach(input => {
