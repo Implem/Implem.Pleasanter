@@ -21,6 +21,7 @@ namespace Implem.ParameterAccessor.Parts
         public string HtmlUrlPrefix { get; set; }
         public string RecommendUrl1 { get; set; }
         public string RecommendUrl2 { get; set; }
+        public string PleasanterSource { get; set; }
         public bool DisplayLogoText { get; set; }
         public bool DisableAutoComplete { get; set; }
         public int SiteMenuHotSpan { get; set; }

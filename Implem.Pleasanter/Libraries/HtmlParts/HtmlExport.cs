@@ -19,7 +19,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     controlId: "ExportId",
                     controlCss: " always-send",
                     labelText: Displays.Format(context: context),
-                    optionCollection: optionCollection)
+                    optionCollection: optionCollection,
+                    onChange: "$p.changeExportIdSelector($(this));")
                 .FieldDropDown(
                     context: context,
                     controlId: "ExportEncoding",
@@ -30,6 +31,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         { "Shift-JIS", new ControlData("Shift-JIS") },
                         { "UTF-8", new ControlData("UTF-8") },
                     })
+                .FieldCheckBox(
+                    controlId: "ExportCommentsJsonFormat",
+                    controlCss: " always-send",
+                    labelText: Displays.ExportCommentsJsonFormat(context: context),
+                    fieldCss: "field-wide")
                 .P(css: "message-dialog")
                 .Div(css: "command-center", action: () => hb
                     .Button(
