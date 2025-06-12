@@ -2467,13 +2467,13 @@ label.required:after {
 }
 .check-option .check-icon {
     margin: 8px 0px;
+    flex-shrink: 0;
 }
 .check-option .check-icon input {
     display: block;
 }
 .check-option .check-text {
     display: block;
-    flex: 1;
     margin: 6px 0;
 }
 .check-option.required .check-text:after {
