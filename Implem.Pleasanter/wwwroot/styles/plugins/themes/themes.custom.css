@@ -3496,6 +3496,9 @@ span.flatpickr-weekday {
     background-color: transparent !important;
     border: 0 !important;
 }
+.flatpickr-time input.flatpickr-hour{
+    font-weight: 400;
+}
 .flatpickr-time .numInputWrapper {
     &:hover,
     &:has(input:focus) {
