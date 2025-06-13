@@ -1492,7 +1492,8 @@ th.calendar-header {
     text-align: center;
 }
 
-#MainCommands > button {
+#MainCommands > button ,
+#MainCommands > .select-field {
     display: inline;
     float: none;
     margin: 2px 4px;
