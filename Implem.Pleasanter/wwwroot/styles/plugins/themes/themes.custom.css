@@ -1821,7 +1821,8 @@ body {
     gap: 8px;
     align-items: center;
     justify-content: center;
-    button {
+    button ,
+    .select-field {
         display: block;
         float: none;
         margin: 0;
