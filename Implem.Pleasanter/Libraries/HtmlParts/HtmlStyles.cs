@@ -122,6 +122,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         "Styles/Plugins/jquery.multiselect.css",
                         "Styles/Plugins/jquery.multiselect.filter.css",
                         "Scripts/Plugins/gridstack.js/gridstack.min.css",
+                        "Styles/Plugins/flatpickr.min.css",
                         "Styles/Plugins/material-symbols-0.31.2/material-symbols/index.css"])
                 .Link(
                     href: context.VirtualPathToAbsolute($"~/content/styles.min.css?v={Environments.BundlesVersions.Get("styles.css")}"),
