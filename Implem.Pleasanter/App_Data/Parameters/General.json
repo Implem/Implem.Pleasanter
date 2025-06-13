@@ -97,6 +97,7 @@
     "MinTime": "1900/1/1",
     "MaxTime": "2100/1/1",
     "DateTimeStep": 10,
+    "UseOldDatepicker": false,
     "HideCurrentTimeIcon": false,
     "HideCurrentUserIcon": false,
     "HideCurrentDeptIcon": false,
