@@ -190,10 +190,19 @@ namespace Implem.DefinitionAccessor
                     : "com");
             Parameters.General.RecommendUrl1 = Strings.CoalesceEmpty(
                 Parameters.General.RecommendUrl1,
-                "https://pleasanter.org/enterprise");
+                "https://pleasanter.org/enterprise?utm_source={0}&utm_medium=app&utm_campaign={1}&utm_content={2}");
             Parameters.General.RecommendUrl2 = Strings.CoalesceEmpty(
                 Parameters.General.RecommendUrl2,
-                "https://pleasanter.org/ja/manual/pleasanter-code-assist-overview");
+                "https://pleasanter.org/ja/manual/pleasanter-code-assist-overview?utm_source={0}&utm_medium=app&utm_campaign={1}&utm_content={2}");
+            Parameters.General.PleasanterSource = Strings.CoalesceEmpty(
+                Parameters.General.PleasanterSource,
+                Parameters.General.HtmlUrlPrefix switch
+                {
+                    "ee" => "pleasanter-ee",
+                    "com" => "pleasanter-ce",
+                    "demo" => "pleasanter-demo",
+                    _ => "pleasanter-cloud"
+                });
             if (Parameters.Security.AspNetCoreDataProtection == null)
             {
                 Parameters.Security.AspNetCoreDataProtection = new AspNetCoreDataProtection();

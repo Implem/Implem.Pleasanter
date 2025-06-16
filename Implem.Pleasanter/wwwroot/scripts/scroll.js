@@ -20,7 +20,7 @@ $p.paging = function (selector) {
     var $offset = $(selector + 'Offset');
     var $observer = $(selector + 'Observer');
     if ($control.length) {
-        var $target = $observer || $control
+        var $target = ($observer.length)? $observer : $control
         if ($(window).scrollTop() + window.innerHeight >= $target.offset().top + $target.height()) {
             if ($offset.val() !== '-1') {
                 $p.setData($offset);

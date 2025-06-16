@@ -5066,12 +5066,24 @@ namespace Implem.Pleasanter.Libraries.Settings
                     test: test));
         }
 
-        public Export GetExport(Context context, int id = 0)
+        public Export GetExport(
+            Context context,
+            int id = 0,
+            bool exportCommentsJsonFormat = false)
         {
-            return Exports
+            var export = Exports
                 ?.Where(o => o.Accessable(context: context))
                 .FirstOrDefault(o => o.Id == id)
                     ?? new Export(DefaultExportColumns(context: context));
+            if (exportCommentsJsonFormat)
+            {
+                var commentsColumn = export.Columns.FirstOrDefault(column => column.ColumnName == "Comments");
+                if (commentsColumn != null)
+                {
+                    commentsColumn.ExportJsonFormat = true;
+                }
+            }
+            return export;
         }
 
         public List<ExportColumn> DefaultExportColumns(Context context)

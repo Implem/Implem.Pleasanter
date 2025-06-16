@@ -1,0 +1,33 @@
+﻿{
+    "Id": "ExportCommentsJsonFormat",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Export comments in Json format"
+        },
+        {
+            "Language": "zh",
+            "Body": "以 Json 格式导出注释"
+        },
+        {
+            "Language": "ja",
+            "Body": "コメントをJson形式でエクスポートする"
+        },
+        {
+            "Language": "de",
+            "Body": "Exportieren von Kommentaren im Json-Format"
+        },
+        {
+            "Language": "ko",
+            "Body": "Json 형식으로 주석 내보내기"
+        },
+        {
+            "Language": "es",
+            "Body": "Exportar comentarios en formato Json"
+        },
+        {
+            "Language": "vn",
+            "Body": "Xuất nhận xét ở định dạng Json"
+        }
+    ]
+}
