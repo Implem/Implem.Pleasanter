@@ -33,6 +33,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             id: ss.SiteId)),
                     action: () => hb
                         .FieldTextBox(
+                            context: context,
                             textType: HtmlTypes.TextTypes.DateTime,
                             fieldId: "DateRangeStartFieldField",
                             controlId: "DateRangeStart",
@@ -55,6 +56,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     { "data-step", column.DateTimeStep?.ToString() }
                                 })
                         .FieldTextBox(
+                            context: context,
                             textType: HtmlTypes.TextTypes.DateTime,
                             fieldId: "DateRangeEndField",
                             controlId: "DateRangeEnd",
