@@ -18283,6 +18283,8 @@ namespace Implem.Pleasanter.Models
             }
             return ApiResults.Get(apiResponse: new
             {
+                // 正しいAPIの戻り値はResponseの中にSiteId,Dataを入れるべきだが、既にリリースしている為にStatusCodeのみを追加する。
+                StatusCode = 200,
                 SiteId = id,
                 Data = resultCollection
             }.ToJson());
