@@ -765,6 +765,11 @@ input {
     }
 }
 
+.radio-clear-both{
+    .container-radio{
+        flex-direction: column;
+    }
+}
 
 .check-option {
     display: flex;
