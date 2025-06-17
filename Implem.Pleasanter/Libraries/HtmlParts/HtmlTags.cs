@@ -783,6 +783,28 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 : hb;
         }
 
+        public static HtmlBuilder DateField(
+            this HtmlBuilder hb,
+            string id = null,
+            string css = null,
+            HtmlAttributes attributes = null,
+            bool _using = true,
+            Action action = null)
+        {
+            return _using
+                ? hb.Append(
+                    tag: "date-field",
+                    id: id,
+                    css: css,
+                    attributes: (attributes ?? new HtmlAttributes())
+                        .Id(id)
+                        .Class(css)
+                        .DataHideCurrent(Parameters.General.HideCurrentTimeIcon),
+                    action: action)
+                : hb;
+        }
+
+
         public static HtmlBuilder CodeEditor(
             this HtmlBuilder hb,
             string id = null,

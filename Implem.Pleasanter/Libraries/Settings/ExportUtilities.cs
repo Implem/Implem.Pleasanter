@@ -239,12 +239,15 @@ namespace Implem.Pleasanter.Libraries.Settings
                     o => new
                     {
                         id = o.Id,
-                        mailNotify = o.ExecutionType == Settings.Export.ExecutionTypes.MailNotify
+                        mailNotify = o.ExecutionType == Settings.Export.ExecutionTypes.MailNotify,
+                        exportCommentsJsonFormat = o.ExportCommentsJsonFormat
                     }.ToJson(),
                     o => o.Name) ?? new Dictionary<string, string>();
             if (context.HasPrivilege || ss.AllowStandardExport != false)
             {
-                optionCollection.Add("{\"id\":0, \"mailNotify\":false}", Displays.Standard(context: context));
+                optionCollection.Add(
+                    key: $"{{\"id\":0, \"mailNotify\":false, \"exportCommentsJsonFormat\":false}}",
+                    value: Displays.Standard(context: context));
             }
             return optionCollection;
         }

@@ -797,6 +797,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 extendedHtmlAfterControl: extendedHtmlAfterControl);
                         case ControlTypes.TextBoxDateTime:
                             return hb.FieldTextBox(
+                                context: context,
                                 textType: HtmlTypes.TextTypes.DateTime,
                                 fieldId: controlId + "Field",
                                 controlId: controlId,
@@ -1242,6 +1243,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder FieldTextBox(
             this HtmlBuilder hb,
+            Context context = null,
             HtmlTypes.TextTypes textType = HtmlTypes.TextTypes.Normal,
             string fieldId = null,
             string controlId = null,
@@ -1305,6 +1307,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     controlAction: () =>
                     {
                         hb.TextBox(
+                            context: context,
                             textType: textType,
                             controlId: controlId,
                             controlCss: controlCss +
