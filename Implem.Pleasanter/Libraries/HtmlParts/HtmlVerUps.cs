@@ -14,8 +14,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             bool isNewMethod = baseModel.MethodType == BaseModel.MethodTypes.New;
             bool cannotUpdate = !context.CanUpdate(ss: ss);
-            bool isLatestVersion = baseModel.VerType == Versions.VerTypes.Latest;
-            if (isNewMethod || cannotUpdate || isLatestVersion) return hb;
+            bool isOldVersion = baseModel.VerType != Versions.VerTypes.Latest;
+            if (isNewMethod || cannotUpdate || isOldVersion) return hb;
 
             var mustVerUp = Versions.MustVerUp(
                 context: context,
