@@ -95,7 +95,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder LinkedHeadLink(
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
-            var path = Path.Combine(AppContext.BaseDirectory, "wwwroot", "components", "manifest.json");
+            var path = Path.Combine(Environments.CurrentDirectoryPath, "wwwroot", "components", "manifest.json");
             var json = ManifestLoader(path);
             return hb
                 .Link(

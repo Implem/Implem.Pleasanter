@@ -165,10 +165,4 @@
     </None>
   </ItemGroup>
 
-  <ItemGroup>
-    <Content Update="wwwroot\components\manifest.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
 </Project>
