@@ -52,6 +52,14 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 o.Body).Join("\n\n");
         }
 
+        private string ToDisplayId(Context context)
+        {
+            return this.Select(o =>
+                o.CreatedTime.ToLocal(context: context).ToViewText(context: context) + " " +
+                o.Creator.ToString() + "\n" +
+                o.Body).Join("\n\n");
+        }
+
         public string ToLookup(Context context, SiteSettings ss, Column column, Lookup.Types? type)
         {
             switch (type)
@@ -118,7 +126,16 @@ namespace Implem.Pleasanter.Libraries.DataTypes
 
         public string ToExport(Context context, Column column, ExportColumn exportColumn = null)
         {
-            return ToDisplay(context: context);
+            var type = exportColumn?.Type;
+            if (exportColumn?.ExportJsonFormat == true)
+            {
+                return ToExportJson(
+                    context: context,
+                    type: type ?? ExportColumn.Types.Value);
+            }
+            return (type ?? ExportColumn.Types.Text) == ExportColumn.Types.Text
+                ? ToDisplay(context: context)
+                : ToDisplayId(context: context);
         }
 
         public string ToNotice(
@@ -308,16 +325,15 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             try
             {
                 var commentsJArray = JArray.Parse(comments);
-                
                 var splitComments = commentsJArray
                     .OfType<JObject>()
                     .Where(jobject => jobject.TryGetValue("Body", out var bodyToken)
                     && bodyToken != null)
-                    .Select((token,i) => new Comment
+                    .Select((token, i) => new Comment
                     {
-                        CommentId = i+1,
+                        CommentId = i + 1,
                         CreatedTime = ToCreatedTime(
-                            context:context,
+                            context: context,
                             jtoken: token["CreatedTime"]),
                         Creator = ToCreator(
                             context: context,
@@ -336,6 +352,57 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                     context: context,
                     e: e);
                 return originalComments;
+            }
+        }
+
+        private string ToExportJson(
+            Context context,
+            ExportColumn.Types type)
+        {
+            Reverse();
+            var commentsJson = this.Any()
+                ? ToJson()
+                : string.Empty;
+            return type == ExportColumn.Types.Value
+                ? commentsJson
+                : ConvertedCreatorName(
+                    context: context,
+                    commentsJson: commentsJson);
+        }
+
+        private string ConvertedCreatorName(
+            Context context,
+            string commentsJson)
+        {
+            try
+            {
+                var tenantUsers = SiteInfo.TenantCaches.Get(context.TenantId)
+                    .UserHash
+                    .Values;
+                var commentsJArray = JArray.Parse(commentsJson);
+                foreach (var comment in commentsJArray.OfType<JObject>())
+                {
+                    var creator = comment["Creator"];
+                    if (creator?.Type != JTokenType.Integer)
+                    {
+                        continue;
+                    }
+                    string creatorName = tenantUsers
+                        .FirstOrDefault(o => o.Id == (int)creator)
+                        ?.Name;
+                    if (!string.IsNullOrEmpty(creatorName))
+                    {
+                        comment["Creator"] = creatorName;
+                    }
+                }
+                return Jsons.ToJson(commentsJArray);
+            }
+            catch (Exception e)
+            {
+                new SysLogModel(
+                    context: context,
+                    e: e);
+                return commentsJson;
             }
         }
 
@@ -362,7 +429,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         {
             if (jtoken == null)
             {
-               return context.UserId;
+                return context.UserId;
             }
             if (jtoken.Type == JTokenType.Integer)
             {

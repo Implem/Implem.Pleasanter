@@ -39,6 +39,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public List<int> Users;
         // compatibility Version 1.014
         public Join Join;
+        public bool ExportCommentsJsonFormat = false;
 
         public Export()
         {
@@ -52,7 +53,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             List<ExportColumn> columns,
             DelimiterTypes delimiterType,
             bool encloseDoubleQuotes,
-            ExecutionTypes executionType)
+            ExecutionTypes executionType,
+            bool exportCommentsJsonFormat)
         {
             Id = id;
             Name = name;
@@ -67,6 +69,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             DelimiterType = delimiterType;
             EncloseDoubleQuotes = encloseDoubleQuotes;
             ExecutionType = executionType;
+            ExportCommentsJsonFormat = exportCommentsJsonFormat;
         }
 
         public Export(List<ExportColumn> columns)
@@ -105,7 +108,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             DelimiterTypes delimiterType,
             bool encloseDoubleQuotes,
             ExecutionTypes executionType,
-            List<Permission> permissions)
+            List<Permission> permissions,
+            bool exportCommentsJsonFormat)
         {
             Name = name;
             Type = type;
@@ -114,6 +118,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             DelimiterType = delimiterType;
             EncloseDoubleQuotes = encloseDoubleQuotes;
             ExecutionType = executionType;
+            ExportCommentsJsonFormat = exportCommentsJsonFormat;
             SetPermissions(permissions);
         }
 
@@ -231,6 +236,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 : EncloseDoubleQuotes;
             Columns?.ForEach(column => export.Columns.Add(column.GetRecordingData()));
             export.ExecutionType = ExecutionType;
+            export.ExportCommentsJsonFormat = ExportCommentsJsonFormat;
             if (Depts?.Any() == true)
             {
                 export.Depts = Depts;
