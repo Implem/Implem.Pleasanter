@@ -1373,8 +1373,105 @@ namespace Implem.Pleasanter.Models
                 }
                 SetAttachments(columnName: columnName, value: newAttachments);
             });
+            data.ImageHash?.ForEach(o =>
+            {
+                var bytes = Convert.FromBase64String(o.Value.Base64);
+                var stream = new System.IO.MemoryStream(bytes);
+                var file = new Microsoft.AspNetCore.Http.FormFile(stream, 0, bytes.Length, null, $"image{o.Value.Extension}");
+                if (ss.ColumnHash.Get(o.Key).AllowImage == true)
+                {
+                    SetPostedFile(
+                        context: context,
+                        file: file,
+                        columnName: o.Key,
+                        image: o.Value);
+                    SetImageValue(
+                        context: context,
+                        ss: ss,
+                        columnName: o.Key,
+                        imageApiModel: o.Value);
+                }
+            });
+            RecordPermissions = data.RecordPermissions;
             SetByFormula(context: context, ss: ss);
             SetChoiceHash(context: context, ss: ss);
+        }
+
+        public void SetPostedFile(
+            Context context,
+            Microsoft.AspNetCore.Http.IFormFile file,
+            string columnName,
+            Shared._ImageApiModel image)
+        {
+            PostedImageHash.Add(
+                columnName,
+                new PostedFile()
+                {
+                    Guid = new HttpPostedFile(file).WriteToTemp(context),
+                    FileName = file.FileName.Split(System.IO.Path.DirectorySeparatorChar).Last(),
+                    Extension = image.Extension,
+                    Size = file.Length,
+                    ContentType = MimeKit.MimeTypes.GetMimeType(image.Extension),
+                    ContentRange = file.Length > 0
+                        ? new System.Net.Http.Headers.ContentRangeHeaderValue(
+                            0,
+                            file.Length - 1,
+                            file.Length)
+                        : new System.Net.Http.Headers.ContentRangeHeaderValue(0, 0, 0),
+                    InputStream = file.OpenReadStream()
+                });
+        }
+
+        public void SetImageValue(
+            Context context,
+            SiteSettings ss,
+            string columnName,
+            Shared._ImageApiModel imageApiModel)
+        {
+            var imageText = $"![{imageApiModel.Alt}]" + "({0})".Params(Locations.ShowFile(
+                context: context,
+                guid: PostedImageHash.Get(columnName).Guid));
+            switch (columnName)
+            {
+                case "Body":
+                    Body = InsertImageText(
+                        body: Body,
+                        imageText: imageText,
+                        imageApiModel: imageApiModel);
+                    break;
+                case "Comments":
+                    var comment = Comments.GetCreated(
+                        context: context,
+                        ss: ss);
+                    comment.Body = InsertImageText(
+                        body: comment.Body,
+                        imageText: imageText,
+                        imageApiModel: imageApiModel);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        public string InsertImageText(
+            string body,
+            string imageText,
+            Shared._ImageApiModel imageApiModel)
+        {
+            if (imageApiModel.HeadNewLine == true)
+            {
+                imageText = $"\n{imageText}";
+            }
+            if (imageApiModel.EndNewLine == true)
+            {
+                imageText = $"{imageText}\n";
+            }
+            var insertedBody = imageApiModel.Position.ToInt() == -1
+                ? body + imageText
+                : imageApiModel.Position.ToInt() < body.Length
+                    ? body.Insert(imageApiModel.Position.ToInt(), imageText)
+                    : body + imageText;
+            return insertedBody;
         }
 
         public void UpdateFormulaColumns(
