@@ -1449,6 +1449,17 @@ namespace Implem.Pleasanter.Models
                         imageApiModel: imageApiModel);
                     break;
                 default:
+                    if (Def.ExtendedColumnTypes.Get(columnName) == "Description")
+                    {
+                        if (!DescriptionHash.ContainsKey(columnName))
+                        {
+                            DescriptionHash.Add(columnName, string.Empty);
+                        }
+                        DescriptionHash[columnName] = InsertImageText(
+                            body: DescriptionHash.Get(columnName),
+                            imageText: imageText,
+                            imageApiModel: imageApiModel);
+                    }
                     break;
             }
         }
