@@ -120,7 +120,7 @@ namespace Implem.PleasanterTest.Tests.Settings
                         JsonData.Value(
                             method: "ReplaceAll",
                             target:"#EditRelatingColumns",
-                            value: "<div id=\"EditRelatingColumnsWrap\" class=\"grid-wrap\"><table data-name=\"RelatingColumnId\" data-func=\"openRelatingColumnDialog\" data-action=\"SetSiteSettings\" data-method=\"post\" id=\"EditRelatingColumns\" class=\"grid\"><thead><tr class=\"ui-widget-header\"><th><input class=\"select-all\" type=\"checkbox\" /><label></label></th><th>タイトル</th><th>リンク</th></tr></thead><tbody></tbody></table></div>")),
+                            value: "<div id=\"EditRelatingColumnsWrap\" class=\"grid-wrap\"><table data-name=\"RelatingColumnId\" data-func=\"openRelatingColumnDialog\" data-action=\"SetSiteSettings\" data-method=\"post\" id=\"EditRelatingColumns\" class=\"grid\"><thead><tr class=\"ui-widget-header\"><th><label class=\"check-option\"><span class=\"check-icon\"><input class=\"select-all\" type=\"checkbox\" /></span><span class=\"check-text\"></span></label></th><th>タイトル</th><th>リンク</th></tr></thead><tbody></tbody></table></div>")),
                     userType: UserData.UserTypes.Privileged),
                 new TestPart(
                     title: "サイト設定 - RelatingColumns",

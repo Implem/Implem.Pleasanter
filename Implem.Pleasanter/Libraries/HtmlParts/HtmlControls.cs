@@ -10,6 +10,7 @@ using Implem.Pleasanter.Libraries.Settings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using static System.Collections.Specialized.BitVector32;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlControls
@@ -576,6 +577,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string name = null,
             string controlCss = null,
             Dictionary<string, ControlData> optionCollection = null,
+            bool disabled = false,
             string selectedValue = null,
             bool _using = true)
         {
@@ -584,16 +586,23 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 optionCollection
                     .Select((o, i) => new { Option = o, Index = i })
                     .ForEach(data => hb.Label(
-                        attributes: new HtmlAttributes().For(name + data.Index),
+                        attributes: new HtmlAttributes()
+                            .Class("radio-option")
+                            .For(name + data.Index),
                         action: () => hb
-                            .Input(attributes: new HtmlAttributes()
-                                .Id(name + data.Index)
-                                .Name(name)
-                                .Class(Css.Class("control-radio", controlCss))
-                                .Type("radio")
-                                .Value(data.Option.Key)
-                                .Checked(data.Option.Key == selectedValue))
-                            .Text(data.Option.Value.Text)));
+                            .Span(
+                                attributes: new HtmlAttributes().Class("radio-icon"),
+                                action: () => hb.Input(attributes: new HtmlAttributes()
+                                    .Id(name + data.Index)
+                                    .Name(name)
+                                    .Class(Css.Class("control-radio", controlCss))
+                                    .Type("radio")
+                                    .Value(data.Option.Key)
+                                    .Disabled(disabled)
+                                    .Checked(data.Option.Key == selectedValue)))
+                            .Span(
+                                attributes: new HtmlAttributes().Class("radio-text"),
+                                action: () => hb.Text(data.Option.Value.Text))));
             }
             return hb;
         }
@@ -669,42 +678,48 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             if (_using)
             {
-                hb.Input(attributes: new HtmlAttributes()
-                    .Id(controlId)
-                    .Name(controlId)
-                    .Class(Css.Class("control-checkbox", controlCss))
-                    .Type("checkbox")
-                    .Disabled(disabled)
-                    .DataAlwaysSend(alwaysSend)
-                    .DataId(dataId)
-                    .OnChange(onChange)
-                    .DataValidateRequired(validateRequired)
-                    .DataAction(action)
-                    .DataMethod(method)
-                    .DataReadOnly(disabled)
-                    .Checked(_checked));
-                if (!controlOnly)
-                {
-                    if (labelRaw != null)
-                    {
-                        hb.Raw(text: labelRaw);
-                    }
-                    else if (labelText != string.Empty)
-                    {
-                        if (!labelIcon.IsNullOrEmpty())
-                        {
-                            hb.Span(css: $"ui-icon {labelIcon}");
-                        }
-                        hb.Label(
-                            attributes: new HtmlAttributes()
-                                .For(controlId)
-                                .Class(validateRequired
-                                    ? " required"
-                                    : string.Empty),
-                            action: () => hb
-                                .Text(text: labelText));
-                    }
-                }
+                hb.Label(
+                    attributes: new HtmlAttributes()
+                        .Class(validateRequired
+                            ? "check-option required"
+                            : "check-option")
+                        .For(controlId),
+                    action: () => hb
+                        .Span(
+                            attributes: new HtmlAttributes().Class("check-icon"),
+                            action: () => hb.Input(attributes: new HtmlAttributes()
+                                .Id(controlId)
+                                .Name(controlId)
+                                .Class(Css.Class("control-checkbox", controlCss))
+                                .Type("checkbox")
+                                .Disabled(disabled)
+                                .DataAlwaysSend(alwaysSend)
+                                .DataId(dataId)
+                                .OnChange(onChange)
+                                .DataValidateRequired(validateRequired)
+                                .DataAction(action)
+                                .DataMethod(method)
+                                .DataReadOnly(disabled)
+                                .Checked(_checked)))
+                        .Span(
+                            attributes: new HtmlAttributes().Class("check-text"),
+                            action: () => {
+                                if (!controlOnly)
+                                {
+                                    if (labelRaw != null)
+                                    {
+                                        hb.Raw(text: labelRaw);
+                                    }
+                                    else if (labelText != string.Empty)
+                                    {
+                                        if (!labelIcon.IsNullOrEmpty())
+                                        {
+                                            hb.Span(css: $"check-add-icon ui-icon {labelIcon}");
+                                        }
+                                    }
+                                }
+                                hb.Text(text: labelText);
+                            }));
             }
             return hb;
         }
