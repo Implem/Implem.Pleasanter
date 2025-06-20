@@ -4419,7 +4419,9 @@ namespace Implem.Pleasanter.Models
                                             action: () => hb.Raw(HtmlHtmls.ExtendedHtmls(
                                                 context: context,
                                                 id: "LoginGuideTop")))
-                                        .Div(action: () => hb
+                                        .Div(
+                                            id: "login-fields-body",
+                                            action: () => hb
                                             .Field(
                                                 context: context,
                                                 ss: ss,
