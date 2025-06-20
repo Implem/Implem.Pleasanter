@@ -6,8 +6,11 @@ using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text.Json.Nodes;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlScripts
@@ -22,7 +25,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             if (!context.Ajax)
             {
                 var extendedScripts = ExtendedScripts(context: context);
-                var webComponentsHash = "2014160";
+                var path = Path.Combine(Environments.CurrentDirectoryPath, "wwwroot", "components", "manifest.json");
+                var json = ManifestLoader(path);
                 return hb
                     .Script(src: Responses.Locations.Get(
                         context: context,
@@ -93,7 +97,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Script(src:
                         Responses.Locations.Get(
                             context: context,
-                            parts: $"scripts/plugins/components.bundle.js?v={webComponentsHash}"),
+                            parts: $"components/{json["main"]}"),
                             type: "module",
                             crossorigin: true
                     )
@@ -155,6 +159,26 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 id: context.Id,
                 controller: context.Controller,
                 action: context.Action);
+        }
+
+        public static Dictionary<string, string> ManifestLoader(string fileName)
+        {
+            if (!File.Exists(fileName))
+                throw new FileNotFoundException("manifest.json not found", fileName);
+            var json = File.ReadAllText(fileName);
+            var manifest = JsonNode.Parse(json)?.AsObject();
+            var result = new Dictionary<string, string>();
+            if (manifest == null) return result;
+            foreach (var entry in manifest)
+            {
+                var name = entry.Value?["name"]?.ToString();
+                var file = entry.Value?["file"]?.ToString();
+                if (!string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(file))
+                {
+                    result[name] = file;
+                }
+            }
+            return result;
         }
 
         public static string ExtendedScripts(
