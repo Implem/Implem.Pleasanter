@@ -2458,32 +2458,32 @@ label.required:after {
     border-radius: 5px;
 }
 
-.control-checkbox {
-    display: block;
-    float: left;
+.check-option {
+    display: flex;
+    gap: 5px;
+}
+.check-option.required:after {
+    margin-left: 0;
+    content: "";
+}
+.check-option .check-icon {
     margin: 8px 0px;
+    flex-shrink: 0;
 }
-
-.control-checkbox ~ label {
+.check-option .check-icon input {
     display: block;
-    float: left;
-    margin: 7px 5px 0px 6px;
 }
-
-.control-checkbox + .ui-icon.ui-icon-info {
+.check-option .check-text {
     display: block;
-    float: left;
-    margin: 7px -7px 0px 0px;
+    margin: 6px 0;
 }
-
-.field-normal .control-checkbox + label {
-    width: 175px;
+.check-option.required .check-text:after {
+    margin-left: 3px;
+    color: red;
+    content: "*";
 }
-
-_::-webkit-full-page-media,
-_:future,
-:root .field-normal .control-checkbox + label {
-    width: 172px;
+.check-option .check-add-icon {
+    margin-left: -5px;
 }
 
 .container-radio {
