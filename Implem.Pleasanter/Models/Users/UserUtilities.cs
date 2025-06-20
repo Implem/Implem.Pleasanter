@@ -1712,8 +1712,9 @@ namespace Implem.Pleasanter.Models
                     .A(
                         href: "#FieldSetMailAddresses",
                         text: Displays.MailAddresses(context: context),
-                        _using: userModel.MethodType != BaseModel.MethodTypes.New
-                        || !context.UserSettings?.EnableManageTenant == true))
+                        _using: context.UserSettings.EnableManageTenant == true
+                            ? false
+                            : userModel.MethodType != BaseModel.MethodTypes.New))
                 .Li(
                     _using: userModel.MethodType != BaseModel.MethodTypes.New,
                     action: () => hb
