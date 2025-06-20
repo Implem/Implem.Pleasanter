@@ -595,48 +595,84 @@ namespace Implem.Pleasanter.Libraries.SitePackages
             });
         }
 
-        private static int ImportData(Context context, SitePackage sitePackage, Dictionary<long, long> idHash)
+        private static int ImportData(
+            Context context,
+            SitePackage sitePackage,
+            Dictionary<long, long> idHash)
         {
             var count = 0;
             sitePackage.Data.ForEach(jsonExport =>
             {
-                jsonExport.Body.ForEach(body =>
+                if (jsonExport.Body.Any())
                 {
-                    switch (body.GetReferenceType())
+                    var m = jsonExport.Body[0];
+                    switch (m.GetReferenceType())
                     {
                         case "Issues":
-                            ImportIssues(
-                                context: context,
-                                idHash: idHash,
-                                exportModel: body);
-                            count++;
+                            {
+                                var model = jsonExport.Body[0] as IssueExportModel;
+                                var siteId = idHash.Get(model.SiteId.ToLong());
+                                var referenceId = idHash.Get(model.IssueId.ToLong());
+                                var ss = new SiteModel(
+                                    context: context,
+                                    siteId: siteId)
+                                        .IssuesSiteSettings(
+                                            context: context,
+                                            referenceId: referenceId);
+                                ss.SetChoiceHash(context: context);
+                                jsonExport.Body.ForEach(body =>
+                                {
+                                    ImportIssues(
+                                        context: context,
+                                        ss: ss,
+                                        permissionIdList: sitePackage.PermissionIdList,
+                                        idHash: idHash,
+                                        exportModel: body);
+                                    count++;
+                                });
+                            }
                             break;
                         case "Results":
-                            ImportResults(
-                                context: context,
-                                idHash: idHash,
-                                exportModel: body);
-                            count++;
+                            {
+                                var model = jsonExport.Body[0] as ResultExportModel;
+                                var siteId = idHash.Get(model.SiteId.ToLong());
+                                var referenceId = idHash.Get(model.ResultId.ToLong());
+                                var ss = new SiteModel(
+                                    context: context,
+                                    siteId: siteId)
+                                        .ResultsSiteSettings(
+                                            context: context,
+                                            referenceId: referenceId);
+                                ss.SetChoiceHash(context: context);
+                                jsonExport.Body.ForEach(body =>
+                                {
+                                    ImportResults(
+                                        context: context,
+                                        ss: ss,
+                                        permissionIdList: sitePackage.PermissionIdList,
+                                        idHash: idHash,
+                                        exportModel: body);
+                                    count++;
+                                });
+                            }
                             break;
                     }
-                });
+                }
             });
             return count;
         }
 
-        private static void ImportIssues(Context context, Dictionary<long, long> idHash, IExportModel exportModel)
+        private static void ImportIssues(
+            Context context,
+            SiteSettings ss,
+            PermissionIdList permissionIdList,
+            Dictionary<long, long> idHash,
+            IExportModel exportModel)
         {
             var model = exportModel as IssueExportModel;
-            var siteId = idHash.Get(model.SiteId.ToLong());
             var referenceId = idHash.Get(model.IssueId.ToLong());
-            var ss = new SiteModel(
-                context: context,
-                siteId: siteId)
-                    .IssuesSiteSettings(
-                        context: context,
-                        referenceId: referenceId);
             var param = Rds.IssuesParam()
-                .SiteId(siteId)
+                .SiteId(ss.SiteId)
                 .IssueId(referenceId)
                 .Title(model.Title?.ToString() ?? string.Empty)
                 .Body(model.Body, _using: model.Body != null)
@@ -651,8 +687,16 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                 .WorkValue(value: model.WorkValue?.Value, _using: model.WorkValue != null)
                 .ProgressRate(value: model.ProgressRate?.Value, _using: model.ProgressRate != null)
                 .Status(model.Status?.Value ?? ss.ColumnHash["Status"].DefaultInput.ToInt())
-                .Manager(model.Manager?.Id, _using: model.Manager != null)
-                .Owner(model.Owner?.Id, _using: model.Owner != null)
+                .Manager(IdConvertUtilities.ConvertedUserId(
+                    context: context,
+                    permissionIdList: permissionIdList,
+                    userId: model.Manager?.Id ?? 0),
+                        _using: model.Manager != null)
+                .Owner(IdConvertUtilities.ConvertedUserId(
+                    context: context,
+                    permissionIdList: permissionIdList,
+                    userId: model.Owner?.Id ?? 0),
+                        _using: model.Owner != null)
                 .Comments(model.Comments?.ToJson(), _using: model.Comments?.Any() == true);
             model.ClassHash
                 ?.Where(o => ss.ColumnDefinitionHash.ContainsKey(o.Key))
@@ -661,7 +705,12 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                     param.Add(
                         columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
-                        value: o.Value.ToString().MaxLength(1024)));
+                        value: ConvertClassValue(
+                            context: context,
+                            ss: ss,
+                            permissionIdList: permissionIdList,
+                            columnName: o.Key,
+                            value: o.Value.ToString()).MaxLength(1024)));
             model.NumHash
                 ?.Where(o => ss.ColumnDefinitionHash.ContainsKey(o.Key))
                 .ForEach(o =>
@@ -705,25 +754,31 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                 updateItems: true);
         }
 
-        private static void ImportResults(Context context, Dictionary<long, long> idHash, IExportModel exportModel)
+        private static void ImportResults(
+            Context context,
+            SiteSettings ss,
+            PermissionIdList permissionIdList,
+            Dictionary<long, long> idHash,
+            IExportModel exportModel)
         {
             var model = exportModel as ResultExportModel;
-            var siteId = idHash.Get(model.SiteId.ToLong());
             var referenceId = idHash.Get(model.ResultId.ToLong());
-            var ss = new SiteModel(
-                context: context,
-                siteId: siteId)
-                    .ResultsSiteSettings(
-                        context: context,
-                        referenceId: referenceId);
             var param = Rds.ResultsParam()
-                .SiteId(siteId)
+                .SiteId(ss.SiteId)
                 .ResultId(referenceId)
                 .Title(model.Title?.ToString(), _using: model.Title != null)
                 .Body(model.Body, _using: model.Body != null)
                 .Status(model.Status?.Value, _using: model.Status != null)
-                .Manager(model.Manager?.Id, _using: model.Manager != null)
-                .Owner(model.Owner?.Id, _using: model.Owner != null)
+                .Manager(IdConvertUtilities.ConvertedUserId(
+                    context: context,
+                    permissionIdList: permissionIdList,
+                    userId: model.Manager?.Id ?? 0),
+                        _using: model.Manager != null)
+                .Owner(IdConvertUtilities.ConvertedUserId(
+                    context: context,
+                    permissionIdList: permissionIdList,
+                    userId: model.Owner?.Id ?? 0),
+                        _using: model.Owner != null)
                 .Comments(model.Comments?.ToJson(), _using: model.Comments?.Any() == true);
             model.ClassHash
                 ?.Where(o => ss.ColumnDefinitionHash.ContainsKey(o.Key))
@@ -732,7 +787,12 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                     param.Add(
                         columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
-                        value: o.Value.ToString().MaxLength(1024)));
+                        value: ConvertClassValue(
+                            context: context,
+                            ss: ss,
+                            permissionIdList: permissionIdList,
+                            columnName: o.Key,
+                            value: o.Value.ToString()).MaxLength(1024)));
             model.NumHash
                 ?.Where(o => ss.ColumnDefinitionHash.ContainsKey(o.Key))
                 .ForEach(o =>
@@ -774,6 +834,38 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                 ss: ss,
                 extendedSqls: false,
                 updateItems: true);
+        }
+
+        private static string ConvertClassValue(
+            Context context,
+            SiteSettings ss,
+            PermissionIdList permissionIdList,
+            string columnName,
+            string value)
+        {
+            var column = ss.GetColumn(
+                context: context,
+                columnName: columnName);
+            switch (column?.Type)
+            {
+                case Column.Types.Dept:
+                    return IdConvertUtilities.ConvertedDeptId(
+                        context: context,
+                        permissionIdList: permissionIdList,
+                        deptId: value.ToInt()).ToString();
+                case Column.Types.Group:
+                    return IdConvertUtilities.ConvertedGroupId(
+                        context: context,
+                        permissionIdList: permissionIdList,
+                        groupId: value.ToInt()).ToString();
+                case Column.Types.User:
+                    return IdConvertUtilities.ConvertedUserId(
+                        context: context,
+                        permissionIdList: permissionIdList,
+                        userId: value.ToInt()).ToString();
+                default:
+                    return value;
+            }
         }
 
         public static string OpenExportSitePackageDialog(
@@ -964,72 +1056,6 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                                 .ReferenceType(raw: "'Results'"))))
                                     > Parameters.SitePackage.ExportLimit
                     : false;
-        }
-
-        public static int ConvertedDeptId(
-            Context context,
-            PermissionIdList permissionIdList,
-            int deptId)
-        {
-            var deptCode = permissionIdList?.DeptIdList
-                .FirstOrDefault(x => x.DeptId == deptId)
-                ?.DeptCode;
-            return !deptCode.IsNullOrEmpty()
-                ? Repository.ExecuteTable(
-                    context: context,
-                    statements: Rds.SelectDepts(
-                        column: Rds.DeptsColumn().DeptId(),
-                        where: Rds.DeptsWhere()
-                            .TenantId(context.TenantId)
-                            .DeptCode(deptCode)))
-                                .AsEnumerable()
-                                .FirstOrDefault()
-                                ?.Int("DeptId") ?? 0
-                : 0;
-        }
-
-        public static int ConvertedGroupId(
-            Context context,
-            PermissionIdList permissionIdList,
-            int groupId)
-        {
-            var groupName = permissionIdList?.GroupIdList
-                .FirstOrDefault(x => x.GroupId == groupId)
-                ?.GroupName;
-            return !groupName.IsNullOrEmpty()
-                ? Repository.ExecuteTable(
-                    context: context,
-                    statements: Rds.SelectGroups(
-                        column: Rds.GroupsColumn().GroupId(),
-                        where: Rds.GroupsWhere()
-                            .TenantId(context.TenantId)
-                            .GroupName(groupName)))
-                                .AsEnumerable()
-                                .FirstOrDefault()
-                                ?.Int("GroupId") ?? 0
-                : 0;
-        }
-
-        public static int ConvertedUserId(
-            Context context,
-            PermissionIdList permissionIdList,
-            int userId)
-        {
-            var loginId = permissionIdList?.UserIdList
-                .FirstOrDefault(x => x.UserId == userId)
-                ?.LoginId;
-            return !loginId.IsNullOrEmpty()
-                ? Repository.ExecuteTable(
-                    context: context,
-                    statements: Rds.SelectUsers(
-                        column: Rds.UsersColumn().UserId(),
-                        where: Rds.UsersWhere()
-                            .TenantId(context.TenantId)
-                            .LoginId(loginId)))
-                                .AsEnumerable()
-                                .FirstOrDefault()
-                                ?.Int("UserId") ?? 0
-                : 0;
         }
 
         public static View GetView(

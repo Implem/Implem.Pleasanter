@@ -3830,13 +3830,13 @@ namespace Implem.Pleasanter.Models
                             userModel.SynchronizedTime = recordingData.ToDateTime();
                             break;
                         case "Comments":
-                            if (userModel.AccessStatus != Databases.AccessStatuses.Selected &&
-                                !data.Row[column.Key].IsNullOrEmpty())
+                            if (!data.Row[column.Key].IsNullOrEmpty())
                             {
-                                userModel.Comments.Prepend(
+                                userModel.Comments.ClearAndSplitPrepend(
                                     context: context,
                                     ss: ss,
-                                    body: data.Row[column.Key]);
+                                    body: data.Row[column.Key],
+                                    update: userModel.AccessStatus == Databases.AccessStatuses.Selected);
                             }
                             break;
                         default:
@@ -3897,7 +3897,9 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return null;
             }
-            var export = ss.GetExport(context: context);
+            var export = ss.GetExport(
+                context: context,
+                exportCommentsJsonFormat: context.Forms.Bool("ExportCommentsJsonFormat"));
             var view = Views.GetBySession(context: context, ss: ss);
             var csv = new System.Text.StringBuilder();
             if (export.Header == true)
@@ -4481,7 +4483,10 @@ namespace Implem.Pleasanter.Models
                                 action: () => hb
                                     .Span(action: () => hb
                                         .A(
-                                            href: Parameters.General.HtmlTrialLicenseUrl,
+                                            href: Parameters.General.HtmlTrialLicenseUrl.Params(
+                                                Parameters.General.PleasanterSource,
+                                                "manual-extensions-trial",
+                                                "trial-login"),
                                             action: () => hb
                                                 .Text(text: Displays.TrialLicenseInUse(context: context)))))
                             .Div(
@@ -4495,7 +4500,10 @@ namespace Implem.Pleasanter.Models
                                 action: () => hb
                                     .Span(action: () => hb
                                         .A(
-                                            href: Parameters.General.HtmlEnterPriseEditionUrl,
+                                            href: Parameters.General.HtmlEnterPriseEditionUrl.Params(
+                                                Parameters.General.PleasanterSource,
+                                                "enterprise",
+                                                "trial-login"),
                                             action: () => hb
                                                 .Text(text: Displays.SwitchToCommercialLicense(context: context))))),
                         _using: (Parameters.GetLicenseType() & 0x08) != 0)

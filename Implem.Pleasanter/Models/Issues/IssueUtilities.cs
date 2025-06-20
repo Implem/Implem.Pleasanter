@@ -1321,9 +1321,6 @@ namespace Implem.Pleasanter.Models
                     case "Body": value = issueModel.Body.GridText(
                         context: context,
                         column: column); break;
-                    case "TitleBody": value = issueModel.TitleBody.GridText(
-                        context: context,
-                        column: column); break;
                     case "StartTime": value = issueModel.StartTime.GridText(
                         context: context,
                         column: column); break;
@@ -8310,7 +8307,8 @@ namespace Implem.Pleasanter.Models
             }
             var export = ss.GetExport(
                 context: context,
-                id: context.Forms.Int("ExportId"));
+                id: context.Forms.Int("ExportId"),
+                exportCommentsJsonFormat: context.Forms.Bool("ExportCommentsJsonFormat"));
             var content = ExportUtilities.Export(
                 context: context,
                 ss: ss,

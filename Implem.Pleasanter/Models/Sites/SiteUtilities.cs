@@ -885,9 +885,6 @@ namespace Implem.Pleasanter.Models
                     case "Body": value = siteModel.Body.GridText(
                         context: context,
                         column: column); break;
-                    case "TitleBody": value = siteModel.TitleBody.GridText(
-                        context: context,
-                        column: column); break;
                     case "Comments": value = siteModel.Comments.GridText(
                         context: context,
                         column: column); break;
@@ -4843,7 +4840,6 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static HtmlBuilder StartGuide(this HtmlBuilder hb, Context context)
         {
-            var queryString = $"?re=startguide{Parameters.General.HtmlUrlPrefix}";
             return context.UserSettings.StartGuide(context: context)
                 ? hb.Div(
                     id: "StartGuide",
@@ -4852,7 +4848,10 @@ namespace Implem.Pleasanter.Models
                             id: "StartGuideContents",
                             action: () => hb
                                 .A(
-                                    href: Parameters.General.HtmlApplicationBuildingGuideUrl + queryString,
+                                    href: Parameters.General.HtmlApplicationBuildingGuideUrl.Params(
+                                        Parameters.General.PleasanterSource,
+                                        "hands-on1",
+                                        "startguide"),
                                     action: () => hb
                                         .Img(src: Locations.Get(
                                             context: context,
@@ -4861,7 +4860,10 @@ namespace Implem.Pleasanter.Models
                                         .Div(action: () => hb
                                             .Text(text: Displays.ApplicationBuildingGuide(context: context))))
                                 .A(
-                                    href: Parameters.General.HtmlUserManualUrl + queryString,
+                                    href: Parameters.General.HtmlUserManualUrl.Params(
+                                        Parameters.General.PleasanterSource,
+                                        "manual",
+                                        "startguide"),
                                     action: () => hb
                                         .Img(src: Locations.Get(
                                             context: context,
@@ -4869,7 +4871,10 @@ namespace Implem.Pleasanter.Models
                                             "Hayato2.png"))
                                         .Text(text: Displays.UserManual(context: context)))
                                 .A(
-                                    href: Parameters.General.HtmlEnterPriseEditionUrl + queryString,
+                                    href: Parameters.General.HtmlEnterPriseEditionUrl.Params(
+                                        Parameters.General.PleasanterSource,
+                                        "enterprise",
+                                        "startguide"),
                                     action: () => hb
                                         .Img(src: Locations.Get(
                                             context: context,
@@ -4877,7 +4882,10 @@ namespace Implem.Pleasanter.Models
                                             "Hayato3.png"))
                                         .Text(text: Displays.EnterpriseEdition(context: context)))
                                 .A(
-                                    href: Parameters.General.HtmlSupportUrl + queryString,
+                                    href: Parameters.General.HtmlSupportUrl.Params(
+                                        Parameters.General.PleasanterSource,
+                                        "support",
+                                        "startguide"),
                                     action: () => hb
                                         .Img(src: Locations.Get(
                                             context: context,
@@ -5148,7 +5156,6 @@ namespace Implem.Pleasanter.Models
             var showComments = true;
             var showBanner = !Parameters.DisableAds()
                 && (!Parameters.CommercialLicense() || Parameters.Service.Demo);
-            var queryString = $"?re=tableedit{Parameters.General.HtmlUrlPrefix}";
             var tabsCss = showComments ? null : "max";
             return hb.Div(id: "Editor", action: () => hb
                 .Form(
@@ -5178,7 +5185,10 @@ namespace Implem.Pleasanter.Models
                         .Div(
                             id: "EnterPriseBanner", action: () => hb
                                 .A(
-                                    attributes: new HtmlAttributes().Href(Parameters.General.HtmlEnterPriseEditionUrl + queryString),
+                                    attributes: new HtmlAttributes().Href(Parameters.General.HtmlEnterPriseEditionUrl.Params(
+                                        Parameters.General.PleasanterSource,
+                                        "enterprise",
+                                        "table-management")),
                                     action: () => hb
                                         .Img(
                                             id: "EnterPriseBannerImage",
@@ -5190,7 +5200,10 @@ namespace Implem.Pleasanter.Models
                         .Div(
                             id: "SupportBanner", action: () => hb
                                 .A(
-                                    attributes: new HtmlAttributes().Href(Parameters.General.HtmlSupportUrl + queryString),
+                                    attributes: new HtmlAttributes().Href(Parameters.General.HtmlSupportUrl.Params(
+                                        Parameters.General.PleasanterSource,
+                                        "support",
+                                        "table-management")),
                                     action: () => hb
                                         .Img(
                                             id: "SupportBannerImage",
@@ -5202,7 +5215,10 @@ namespace Implem.Pleasanter.Models
                         .Div(
                             id: "CasesBanner", action: () => hb
                                 .A(
-                                    attributes: new HtmlAttributes().Href(Parameters.General.HtmlCasesUrl + queryString),
+                                    attributes: new HtmlAttributes().Href(Parameters.General.HtmlCasesUrl.Params(
+                                        Parameters.General.PleasanterSource,
+                                        "cases",
+                                        "table-management")),
                                     action: () => hb
                                         .Img(
                                             id: "CasesBannerImage",
@@ -6756,7 +6772,10 @@ namespace Implem.Pleasanter.Models
                             css: "fieldset-inner-bottom is-right",
                             action: () => hb.A(
                                 text: Displays.DoNotHaveEnoughColumns(context: context),
-                                href: Parameters.General.RecommendUrl1 + "?re=EditorSettings",
+                                href: Parameters.General.RecommendUrl1.Params(
+                                    Parameters.General.PleasanterSource,
+                                    "enterprise",
+                                    "editor-settings"),
                                 target: "_blank"),
                             _using: showLinkText)
                         .Hidden(
@@ -8436,6 +8455,15 @@ namespace Implem.Pleasanter.Models
                                         controlCss: "button-icon",
                                         onClick: "$p.moveColumns(event, $(this),'Link');",
                                         icon: "ui-icon-circle-triangle-w"))))
+                .FieldSpinner(
+                    controlId: "LinkPageSize",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.LinkPageSize(context: context),
+                    value: ss.LinkPageSize.ToInt(),
+                    min: Parameters.General.LinkPageSizeMin.ToDecimal(),
+                    max: Parameters.General.LinkPageSizeMax.ToDecimal(),
+                    step: 1,
+                    width: 25)
                 .FieldDropDown(
                     context: context,
                     controlId: "LinkTableView",
@@ -13536,6 +13564,7 @@ namespace Implem.Pleasanter.Models
                         optionCollection: ss.ReminderColumnOptions(),
                         selectedValue: reminder.GetColumn(ss))
                     .FieldTextBox(
+                        context: context,
                         textType: HtmlTypes.TextTypes.DateTime,
                         controlId: "ReminderStartDateTime",
                         controlCss: " always-send",
@@ -13814,7 +13843,9 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .Text(text: Displays.EncloseDoubleQuotes(context: context)))
                     .Th(action: () => hb
-                        .Text(text: Displays.ExportExecutionType(context: context)))));
+                        .Text(text: Displays.ExportExecutionType(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.ExportCommentsJsonFormat(context: context)))));
         }
 
         /// <summary>
@@ -13861,7 +13892,11 @@ namespace Implem.Pleasanter.Models
                             .Td(action: () => hb
                                  .Text(text: Displays.Get(
                                      context: context,
-                                     id: export.ExecutionType.ToString()))))));
+                                     id: export.ExecutionType.ToString())))
+                            .Td(action: () => hb
+                                .Span(
+                                    css: "ui-icon ui-icon-circle-check",
+                                    _using: export.ExportCommentsJsonFormat)))));
         }
 
         /// <summary>
@@ -14098,6 +14133,11 @@ namespace Implem.Pleasanter.Models
                         controlCss: " always-send",
                         labelText: Displays.OutputHeader(context: context),
                         _checked: export.Header != false)
+                    .FieldCheckBox(
+                        controlId: "ExportCommentsJsonFormat",
+                        controlCss: " always-send",
+                        labelText: Displays.ExportCommentsJsonFormat(context: context),
+                        _checked: export.ExportCommentsJsonFormat)
                     .FieldSet(
                         css: " enclosed",
                         legendText: Displays.ExportColumns(context: context),
@@ -14949,7 +14989,10 @@ namespace Implem.Pleasanter.Models
                             css: "link-item",
                             action: () => hb.A(
                                 text: Displays.HowToDevelopEfficiently(context: context),
-                                href: Parameters.General.RecommendUrl2 + "?re=StylesSettings",
+                                href: Parameters.General.RecommendUrl2.Params(
+                                    Parameters.General.PleasanterSource,
+                                    "code-assist",
+                                    "styles-settings"),
                                 target: "_blank"),
                             _using: showLinkText)
                         .Button(
@@ -15349,7 +15392,10 @@ namespace Implem.Pleasanter.Models
                             css: "link-item",
                             action: () => hb.A(
                                 text: Displays.HowToDevelopEfficiently(context: context),
-                                href: Parameters.General.RecommendUrl2 + "?re=ScriptsSettings",
+                                href: Parameters.General.RecommendUrl2.Params(
+                                    Parameters.General.PleasanterSource,
+                                    "code-assist",
+                                    "scripts-settings"),
                                 target: "_blank"),
                             _using: showLinkText)
                         .Button(
@@ -15802,7 +15848,10 @@ namespace Implem.Pleasanter.Models
                             css: "link-item",
                             action: () => hb.A(
                                 text: Displays.HowToDevelopEfficiently(context: context),
-                                href: Parameters.General.RecommendUrl2 + "?re=HtmlsSettings",
+                                href: Parameters.General.RecommendUrl2.Params(
+                                    Parameters.General.PleasanterSource,
+                                    "code-assist",
+                                    "htmls-settings"),
                                 target: "_blank"),
                             _using: showLinkText)
                         .Button(
@@ -16262,7 +16311,10 @@ namespace Implem.Pleasanter.Models
                             css: "link-item",
                             action: () => hb.A(
                                 text: Displays.HowToDevelopEfficiently(context: context),
-                                href: Parameters.General.RecommendUrl2 + "?re=ServerScriptsSettings",
+                                href: Parameters.General.RecommendUrl2.Params(
+                                    Parameters.General.PleasanterSource,
+                                    "code-assist",
+                                    "server-scripts-settings"),
                                 target: "_blank"),
                             _using: showLinkText)
                         .Button(
