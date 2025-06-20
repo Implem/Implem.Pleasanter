@@ -1,0 +1,15 @@
+{
+  "_vendor_CwlOzDbG.js": {
+    "file": "vendor_CwlOzDbG.js",
+    "name": "vendor"
+  },
+  "src/main.ts": {
+    "file": "components_NhCwCX43.js",
+    "name": "main",
+    "src": "src/main.ts",
+    "isEntry": true,
+    "imports": [
+      "_vendor_CwlOzDbG.js"
+    ]
+  }
+}

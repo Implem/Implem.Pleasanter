@@ -6449,6 +6449,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string LinkPageSize(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "LinkPageSize",
+                data: data);
+        }
+
         public static string Links(
             Context context,
             params string[] data)
