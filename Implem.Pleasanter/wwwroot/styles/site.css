@@ -2488,7 +2488,7 @@ label.required:after {
 .field-normal.right-align .check-option{
     justify-content: flex-end;
 }
-.field-normal.right-center .check-option{
+.field-normal.center-align .check-option{
     justify-content: center;
 }
 
