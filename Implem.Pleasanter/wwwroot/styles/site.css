@@ -2485,6 +2485,12 @@ label.required:after {
 .check-option .check-add-icon {
     margin-left: -5px;
 }
+.field-normal.right-align .check-option{
+    justify-content: flex-end;
+}
+.field-normal.right-center .check-option{
+    justify-content: center;
+}
 
 .container-radio {
     padding: 7px 0px;
