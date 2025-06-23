@@ -1079,21 +1079,59 @@ label {
 
 /* field-section */
 .field-section {
+    display: flex;
+    align-items: center;
     float: none;
+    gap: 8px;
     width: auto;
-    margin: 16px 0 16px 16px;
-    padding: 16px 4px 0;
-    /*
-    padding: 8px 16px;
+    min-height: 46px;
     margin: 16px 0;
-    border-radius: 5px;
+    padding: 8px 16px 8px 8px;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: normal;
+    font-family: 'noto-font';
     background-color: var(--primaryColor);
     color: var(--invert-text);
     border-color: transparent;
     .ui-icon {
-        background-image: url("../images/ui-icons_ffffff_256x240.png");
+        display: flex;
+        align-items: center;
+        width: 20px;
+        height: 30px;
+        margin: 0;
+        justify-content: center;
+        font-family: "Material Symbols Sharp";
+        font-size: 20px;
+        margin-left: 5px;
+        font-weight: normal;
+        -webkit-font-smoothing: antialiased;
+        font-style: normal;
+        font-feature-settings: "liga";
+        -webkit-font-feature-settings: "liga";
+        font-variation-settings: "FILL" 1;
+        line-height: 1;
+        letter-spacing: normal;
+        text-indent: 0;
+        text-transform: none;
+        white-space: nowrap;
+        word-wrap: normal;
+        background: none;
+        direction: ltr;
+        &:after{
+            content: "expand_circle_down";
+        }
+        &::selection {
+            background-color: transparent;
+        }
+        &.ui-icon-triangle-1-e{
+            &:after{
+                content: "expand_circle_up";
+            }
+        }
     }
-    */
+
 }
 
 .field-normal {
