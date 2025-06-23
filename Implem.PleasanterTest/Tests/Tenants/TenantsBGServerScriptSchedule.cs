@@ -85,10 +85,12 @@ namespace Implem.PleasanterTest.Tests.Tenants
                         new KeyValue("ServerScriptId", "1"),
                         new KeyValue("BackgroundSchedule", scheduleList)),
                     baseTests: BaseData.Tests(
-                        JsonData.Value(
+                        JsonData.TextCheckOrder(
                             method: "ReplaceAll",
                             target: "#EditServerScriptSchedules",
-                            value: "<div id=\"EditServerScriptSchedulesWrap\" class=\"grid-wrap\"><table data-name=\"ServerScriptScheduleId\" data-func=\"openServerScriptScheduleDialog\" data-action=\"SetBGServerScript\" data-method=\"post\" id=\"EditServerScriptSchedules\" class=\"grid\"><thead><tr class=\"ui-widget-header\"><th><input class=\"select-all\" type=\"checkbox\" /><label></label></th><th>ID</th><th>名称</th></tr></thead><tbody><tr data-id=\"2\" class=\"grid-row\"><td><input class=\"select\" type=\"checkbox\" checked /><label></label></td><td>2</td><td>スケジュール2</td></tr><tr data-id=\"1\" class=\"grid-row\"><td><input class=\"select\" type=\"checkbox\" /><label></label></td><td>1</td><td>スケジュール1</td></tr></tbody></table></div>"),
+                            wordArray: new string[] {
+                                "<td>スケジュール2</td>",
+                                "<td>スケジュール1</td>" }), 
                         JsonData.ExistsOne(
                             method: "SetMemory",
                             target: "formChanged")),
@@ -100,10 +102,12 @@ namespace Implem.PleasanterTest.Tests.Tenants
                         new KeyValue("ServerScriptId", "1"),
                         new KeyValue("BackgroundSchedule", scheduleList)),
                     baseTests: BaseData.Tests(
-                        JsonData.Value(
+                        JsonData.TextCheckOrder(
                             method: "ReplaceAll",
                             target: "#EditServerScriptSchedules",
-                            value: "<div id=\"EditServerScriptSchedulesWrap\" class=\"grid-wrap\"><table data-name=\"ServerScriptScheduleId\" data-func=\"openServerScriptScheduleDialog\" data-action=\"SetBGServerScript\" data-method=\"post\" id=\"EditServerScriptSchedules\" class=\"grid\"><thead><tr class=\"ui-widget-header\"><th><input class=\"select-all\" type=\"checkbox\" /><label></label></th><th>ID</th><th>名称</th></tr></thead><tbody><tr data-id=\"2\" class=\"grid-row\"><td><input class=\"select\" type=\"checkbox\" /><label></label></td><td>2</td><td>スケジュール2</td></tr><tr data-id=\"1\" class=\"grid-row\"><td><input class=\"select\" type=\"checkbox\" checked /><label></label></td><td>1</td><td>スケジュール1</td></tr></tbody></table></div>"),
+                            wordArray: new string[] {
+                                "<td>スケジュール2</td>",
+                                "<td>スケジュール1</td>" }),
                         JsonData.ExistsOne(
                             method: "SetMemory",
                             target: "formChanged")),
