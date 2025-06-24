@@ -68,10 +68,10 @@ namespace Implem.PleasanterTest.Tests.Users
                     baseTests: BaseData.Tests(
                         JsonData.ExistsOne(
                             method: "Html",
-                            target: "#DropDownSearchDialogBody"),
+                            target: "#DropDownSearchResults"),
                         JsonData.TextCheckOrder(
                             method: "Html",
-                            target: "#DropDownSearchDialogBody",
+                            target: "#DropDownSearchResults",
                             wordArray: new string[]
                             {
                                 "未設定",
