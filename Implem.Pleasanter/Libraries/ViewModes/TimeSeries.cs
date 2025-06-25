@@ -83,7 +83,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                     .ForEach(element =>
                     {
                         element.Latest = true;
-                        if (element.IsHistory)
+                        if (value.EditorFormat == "Ymd" || element.IsHistory)
                         {
                             element.HorizontalAxis = element.HorizontalAxis.AddDays(-1);
                         }
