@@ -9,8 +9,8 @@ using Xunit;
 
 namespace Implem.PleasanterTest.Tests.Tenants
 {
-    [Collection(nameof(TenantsEdit))]
-    public class TenantsEdit
+    [Collection(nameof(TenantEditorJson))]
+    public class TenantEditorJson
     {
         [Theory]
         [MemberData(nameof(GetData))]
@@ -36,16 +36,11 @@ namespace Implem.PleasanterTest.Tests.Tenants
             var testParts = new List<TestPart>()
             {
                 new TestPart(
-                    userType: UserData.UserTypes.TenantManager1,
-                    baseTests: validHtmlTests),
-                new TestPart(
-                    userType: UserData.UserTypes.Privileged,
-                    baseTests: BaseData.Tests(
-                        HtmlData.ExistsOne(selector: "#Editor"),
-                        HtmlData.ExistsOne(selector: "#FieldSetServerScript"))),
-                new TestPart(
                     userType: UserData.UserTypes.General1,
-                    baseTests: notFoundMessage)
+                    baseTests: BaseData.Tests(
+                        JsonData.ExistsOne(
+                            method: "ReplaceAll",
+                            target: "#MainContainer"))),
             };
             foreach (var testPart in testParts)
             {
@@ -68,11 +63,10 @@ namespace Implem.PleasanterTest.Tests.Tenants
 
         private static string Results(Context context)
         {
-            return TenantUtilities.Editor(
+            return TenantUtilities.EditorJson(
                 context: context,
                 ss: SiteSettingsUtilities.TenantsSiteSettings(context: context),
-                tenantId: context.TenantId,
-                clearSessions: true);
+                tenantId: context.TenantId);
         }
     }
 }
