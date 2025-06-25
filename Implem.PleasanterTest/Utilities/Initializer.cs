@@ -2,10 +2,12 @@
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
+using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using Implem.PleasanterTest.Models;
+using Implem.PleasanterTest.Operations;
 using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using System.IO;
@@ -109,6 +111,7 @@ namespace Implem.PleasanterTest.Utilities
             {
                 $"Tenant{TenantId}_User20"
             };
+            Parameters.Script.BackgroundServerScript = true;
             Context.TenantId = TenantId;
             Tenant = new TenantModel(
                 context: Context,
