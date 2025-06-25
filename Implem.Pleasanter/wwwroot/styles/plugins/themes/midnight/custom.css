@@ -82,7 +82,7 @@
 
     /* FormController ---------------------------------------------------------- */
     --control-text: var(--base-text);
-    --control-text-read: var(--nonColor09);
+    --control-text-read: var(--nonColor11);
     --control-border: var(--nonColor07);
     --control-border-focus: var(--nonColor07);
     --control-bg: var(--nonColor07);

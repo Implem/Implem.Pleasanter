@@ -56,10 +56,12 @@ namespace Implem.PleasanterSetup
         private string saPassword;
         private string ownerPassword;
         private string userPassword;
+        private string mySqlConnectingHost;
         private bool isEnvironmentUser;
         private bool versionUp;
         private bool enterpriseEdition;
         private bool isProviderAzure;
+        private bool addMySqlConnectingHost;
         private ExtendedColumns extendedIssuesColumns;
         private ExtendedColumns extendedResultsColumns;
         private enum DBMS
@@ -465,6 +467,15 @@ namespace Implem.PleasanterSetup
                 : userInputServer;
         }
 
+        private void AskForMySqlConnectingHost()
+        {
+            logger.LogInformation("MySQL Connecting Host [Default: %] : ");
+            var userInputMySqlConnectingHost = Console.ReadLine();
+            mySqlConnectingHost = string.IsNullOrEmpty(userInputMySqlConnectingHost)
+                ? "%"
+                : userInputMySqlConnectingHost;
+        }
+
         private void AskForServiceName()
         {
             logger.LogInformation("ServiceName [Default: Implem.Pleasanter] : ");
@@ -757,6 +768,10 @@ namespace Implem.PleasanterSetup
             }
             logger.LogInformation($"Server                    : {server}");
             logger.LogInformation($"Service Name              : {serviceName}");
+            if (dbms.Equals("3"))
+            {
+                logger.LogInformation($"MySqlConnectingHost       : {mySqlConnectingHost}");
+            }
             if (!versionUp)
             {
                 logger.LogInformation($"DefaultLanguage           : {defaultLanguage}");
@@ -1030,6 +1045,14 @@ namespace Implem.PleasanterSetup
                     SetRdsParameters(parametersDir);
                     SetServiceParameters(parametersDir);
                 }
+                else
+                {
+                    // バージョンアップ時にMySqlConnectingHostをRds.jsonに新規追加する場合
+                    if (addMySqlConnectingHost)
+                    {
+                        AddMySqlConnectingHostRds(parametersDir);
+                    }
+                }
                 logger.LogInformation("Finish setting parameters");
             }
             catch (Exception e)
@@ -1091,6 +1114,10 @@ namespace Implem.PleasanterSetup
                 data.OwnerConnectionString = connectionString;
                 data.UserConnectionString = connectionString;
             }
+            if (data.Dbms.Equals("MySQL"))
+            {
+                data.MySqlConnectingHost = mySqlConnectingHost;
+            }
             JObject dataAsJObject = JObject.FromObject(data);
             //読み込んだファイルに存在するパラメータ
             foreach (var prop in dataAsJObject.Properties())
@@ -1125,6 +1152,20 @@ namespace Implem.PleasanterSetup
             File.WriteAllText(
                 file,
                 json);
+        }
+
+        private void AddMySqlConnectingHostRds(string parametersDir)
+        {
+            var file = Path.Combine(parametersDir, "Rds.json");
+            var json = File.ReadAllText(file);
+            JObject inputData = (JObject)JsonConvert.DeserializeObject(json);
+            if (inputData.ContainsKey("MySqlConnectingHost"))
+            {
+                inputData["MySqlConnectingHost"] = mySqlConnectingHost;
+            }
+            File.WriteAllText(
+                file,
+                Jsons.ToJson(inputData));
         }
 
         private void SetSummary(
@@ -1162,6 +1203,10 @@ namespace Implem.PleasanterSetup
                 if (provider.Equals("Azure"))
                 {
                     AskForConnectionString();
+                }
+                if (dbms.Equals("3"))
+                {
+                    AskForMySqlConnectingHost();
                 }
                 AskForDefaultLanguage();
                 AskForDefaultTimeZone();
@@ -1296,6 +1341,19 @@ namespace Implem.PleasanterSetup
                     Environment.GetEnvironmentVariable($"{serviceName}_Rds_{rdsData.Dbms}_ConnectionString"),
                     Environment.GetEnvironmentVariable($"{serviceName}_Rds_UserConnectionString"),
                     Environment.GetEnvironmentVariable($"{serviceName}_Rds_ConnectionString"));
+                // MySQLかつRds.jsonにMySqlConnectingHostの追加を要する更新であるか否かの判定。
+                if (rdsData.Dbms.Equals("MySQL") && rdsData.MySqlConnectingHost == null)
+                {
+                    AskForMySqlConnectingHost();
+                    addMySqlConnectingHost = true;
+                }
+                else
+                {
+                    mySqlConnectingHost = CoalesceEmpty(
+                        rdsData.MySqlConnectingHost,
+                        Environment.GetEnvironmentVariable($"{serviceData.EnvironmentName}_Rds_MySqlConnectingHost"),
+                        Environment.GetEnvironmentVariable($"{serviceName}_Rds_MySqlConnectingHost"));
+                }
                 GetDbms(rdsData);
                 GetServerAndPort(rdsData.Dbms);
                 GetUserId();

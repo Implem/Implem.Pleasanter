@@ -3040,6 +3040,10 @@ namespace Implem.Pleasanter.Models
                     return errorData;
                 }
             }
+            if (context.UserSettings.EnableManageTenant == true)
+            {
+                updateMailAddresses = false;
+            }
             if (setBySession)
             {
                 SetBySession(context: context);

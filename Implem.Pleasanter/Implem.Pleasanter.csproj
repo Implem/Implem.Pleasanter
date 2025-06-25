@@ -5,9 +5,9 @@
     <Copyright>Copyright © Implem Inc 2014 - $(Year)</Copyright>
     <Description>Business application platform</Description>
     <AssemblyName>Implem.Pleasanter</AssemblyName>
-    <AssemblyVersion>1.4.17.0</AssemblyVersion>
-    <FileVersion>1.4.17.0</FileVersion>
-    <Version>1.4.17.0</Version>
+    <AssemblyVersion>1.4.17.1</AssemblyVersion>
+    <FileVersion>1.4.17.1</FileVersion>
+    <Version>1.4.17.1</Version>
     <Nullable>disable</Nullable>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
@@ -163,6 +163,12 @@
     <None Update="App_Data\Definitions\Definition_Code\Model_SysLogLogger.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+      <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+          <_Parameter1>Implem.PleasanterTest</_Parameter1>
+      </AssemblyAttribute>
   </ItemGroup>
 
 </Project>
