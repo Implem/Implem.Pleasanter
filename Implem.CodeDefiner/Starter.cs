@@ -506,19 +506,6 @@ namespace Implem.CodeDefiner
             {
                 throw new JsonException($"The value \"{Parameters.Migration.Dbms}\" cannot be set for \"Dbms\" in Migration.json.");
             }
-            var checkMigrationProvider = false;
-            switch (Parameters.Migration.Provider)
-            {
-                case "Local":
-                    checkMigrationProvider = true;
-                    break;
-                default:
-                    break;
-            }
-            if (!checkMigrationProvider)
-            {
-                throw new JsonException($"The value \"{Parameters.Migration.Provider}\" cannot be set for \"Provider\" in Migration.json.");
-            }
             var checkRdsDbms = false;
             switch (Parameters.Rds.Dbms)
             {
@@ -532,19 +519,6 @@ namespace Implem.CodeDefiner
             if (!checkRdsDbms)
             {
                 throw new JsonException($"The value \"{Parameters.Rds.Dbms}\" cannot be set for \"Dbms\" in Rds.json.");
-            }
-            var checkRdsProvider = false;
-            switch (Parameters.Rds.Provider)
-            {
-                case "Local":
-                    checkRdsProvider = true;
-                    break;
-                default:
-                    break;
-            }
-            if (!checkRdsProvider)
-            {
-                throw new JsonException($"The value \"{Parameters.Rds.Provider}\" cannot be set for \"Provider\" in Rds.json.");
             }
             if (Parameters.Rds.Dbms != Parameters.Migration.Dbms ||
                 Parameters.Rds.Provider != Parameters.Migration.Provider ||

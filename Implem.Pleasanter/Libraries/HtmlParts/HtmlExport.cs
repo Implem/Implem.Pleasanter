@@ -32,6 +32,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         { "UTF-8", new ControlData("UTF-8") },
                     })
                 .FieldCheckBox(
+                    fieldId: "ExportCommentsJsonFormatField",
                     controlId: "ExportCommentsJsonFormat",
                     controlCss: " always-send",
                     labelText: Displays.ExportCommentsJsonFormat(context: context),

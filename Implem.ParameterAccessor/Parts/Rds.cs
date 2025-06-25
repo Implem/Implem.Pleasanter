@@ -14,6 +14,7 @@ namespace Implem.ParameterAccessor.Parts
         public int DeadlockRetryInterval;
         public bool DisableIndexChangeDetection;
         public int SysLogsSchemaVersion;
+        public string MySqlConnectingHost;
 
         [OnDeserialized]
         private void OnDeserialized(StreamingContext streamingContext)
