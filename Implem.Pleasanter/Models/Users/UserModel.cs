@@ -4395,6 +4395,7 @@ namespace Implem.Pleasanter.Models
                         userModel: this);
                     break;
                 case "SAML":
+                case "SAML-MultiTenant":
                     authenticated = GetByCredentials(
                         context: context,
                         loginId: LoginId,
