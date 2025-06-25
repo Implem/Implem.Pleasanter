@@ -497,6 +497,73 @@ input {
     .ui-spinner {
         background-color: transparent;
         border: none;
+        transform: translateZ(0);
+        .ui-button{
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: none;
+            padding: 0!important;
+            cursor: pointer;
+            .ui-button-icon-space{
+                display: none;
+            }
+            &:active{
+                color: var(--base-text);
+                border-color: var(--control-border);
+                border-top-style: none;
+                border-right-style: none;
+                border-bottom-style: none;
+                background: var(--btn-normal-hover);
+            }
+            &:hover{
+                color: var(--base-text);
+            }
+
+        }
+        .ui-button-icon{
+            position: static;
+            margin: 0;
+            padding: 0;
+            width: auto;
+            height: auto;
+            font-family: 'Material Symbols Sharp';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 20px;
+            vertical-align: bottom;
+            line-height: 1;
+            letter-spacing: normal;
+            text-transform: none;
+            display: inline-block;
+            white-space: nowrap;
+            word-wrap: normal;
+            direction: ltr;
+            text-indent: 0;
+            font-feature-settings: 'liga';
+            -webkit-font-feature-settings: 'liga';
+            -webkit-font-smoothing: antialiased;
+            background: none;
+        }
+        .ui-spinner-up{
+            .ui-button-icon{
+                &:after{
+                    content: 'arrow_drop_up';
+                }
+            }
+        }
+        .ui-spinner-down{
+            &,
+            &:active{
+                border-top-style: solid;
+            }
+            .ui-button-icon{
+                &:after{
+                    content: 'arrow_drop_down';
+                }
+            }
+        }
     }
     /* .with-unit */
     &:has(.with-unit) {
@@ -634,7 +701,169 @@ input {
     .control-markdown {
         border: 1px solid var(--control-border-focus);
     }
+    .container-radio{
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 16px;
+        .radio-option{
+            display: flex;
+            gap: 4px;
+            margin: 0;
+            float: none;
+        }
+        .radio-icon{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 20px;
+            border: 1px solid var(--control-border);
+            background-color: var(--control-bg);
+            border-radius: 100%;
+            transition: background-color 150ms ease-out;
+            input{
+                display: none;
+            }
+            &:before{
+                width: 12px;
+                height: 12px;
+                background-color: var(--control-bg);
+                border-radius: 100%;
+                content: "";
+                transition: background-color 150ms ease-out;
+            }
+            &:has(input:checked){
+                background-color: var(--nonColor16);
+                &:before{
+                    background-color: var(--primaryColor);
+                }
+            }
+            &:has(input:disabled){
+                &,
+                &:before{
+                    background-color: var(--control-bg-read);
+                }
+                &:has(input:checked){
+                    &:before{
+                        opacity: .5;
+                        background-color: var(--control-text);
+                    }
+                }
+                &:not(:has(input:checked)){
+                    + .radio-text{
+                        opacity: .5;
+                    }
+                }
+            }
+        }
+        .radio-text{
+            display: block;
+            text-align: left;
+            line-height: 1.2;
+            padding-top: 3px;
+        }
+    }
 }
+
+.radio-clear-both{
+    .container-radio{
+        flex-direction: column;
+    }
+}
+
+.check-option {
+    display: flex;
+    gap: 4px;
+    &:has(.check-text:empty){
+        display: inline-flex;
+    }
+    .check-icon {
+        overflow: hidden;
+        display: flex;
+        float: none;
+        align-items: center;
+        justify-content: center;
+        width: 20px;
+        height: 20px;
+        margin: 5px 0px;
+        border: 1px solid var(--control-border);
+        background-color: var(--control-bg);
+        border-radius: 4px;
+        transition: background-color 150ms ease-out;
+        input{
+            display: none;
+        }
+        &:before{
+            margin: 0;
+            padding: 0;
+            font-family: "Material Symbols Sharp";
+            font-size: 18px;
+            font-weight: normal;
+            -webkit-font-smoothing: antialiased;
+            font-feature-settings: "liga";
+            -webkit-font-feature-settings: "liga";
+            font-variation-settings: 'FILL' 0, 'wght' 700, 'GRAD' 0, 'opsz' 48;
+            line-height: 1;
+            letter-spacing: normal;
+            text-indent: 0;
+            text-transform: none;
+            white-space: nowrap;
+            word-wrap: normal;
+            background: none;
+            direction: ltr;
+            color: var(--control-bg);
+            content: 'check';
+        }
+        &:has(input:checked) {
+            background-color: var(--primaryColor);
+            border-color: transparent;
+            &:before{
+                color: var(--nonColor16);
+            }
+        }
+        &:has(input:disabled) {
+            background-color: var(--control-bg-read);
+            border: 1px solid var(--control-border);
+            &:has(input:checked) {
+                background-color: var(--control-border);
+                &:before {
+                    color: var(--nonColor14);
+                }
+            }
+            &:not(:has(input:checked)) {
+                &:before {
+                    color: var(--control-bg-read);
+                }
+                + .check-text{
+                    color: var(--control-text-read);
+                }
+            }
+        }
+    }
+    .check-text {
+        margin: 5px 0;
+    }
+    .check-add-icon {
+        margin-left: -3px;
+    }
+}
+.grid-wrap{
+    th,td{
+        &:has(.check-option){
+            text-align: center;
+            .check-option{
+                .check-icon{
+                    width: 16px;
+                    height: 16px;
+                    &:before{
+                        font-size: 16px;
+                    }
+                }
+            }
+        }
+    }
+}
+
 
 /* Atoms ---------------------------------------------------------------- */
 /* password-items */
@@ -1754,7 +1983,8 @@ body {
     gap: 8px;
     align-items: center;
     justify-content: center;
-    button {
+    button ,
+    .select-field {
         display: block;
         float: none;
         margin: 0;
@@ -2281,15 +2511,12 @@ body:not(:has(#Editor)) {
 
     th:has(.control-checkbox),
     td:has(.grid-check) {
-        padding: 0 16px;
+        padding: 0 8px;
         vertical-align: middle;
-        .control-checkbox,
-        .grid-check {
-            display: block;
-            float: none;
+        .check-option{
             margin: auto;
         }
-        label:empty {
+        .check-text:empty {
             display: none;
         }
     }
@@ -3367,5 +3594,77 @@ body:has(input#Controller[value="syslogs"]) {
     .loader {
         border-color: var(--primaryColor);
         border-right-color: transparent;
+    }
+}
+
+/* flatpickr */
+.flatpickr-calendar {
+    input {
+        position: static;
+        width: auto;
+    }
+    select:focus {
+        background-color: transparent;
+        border: 0;
+    }
+}
+.flatpickr-calendar.arrowTop:after {
+    border-bottom-color: var(--primaryColor);
+}
+.flatpickr-months .flatpickr-month,
+.flatpickr-weekdays {
+    background: var(--primaryColor);
+}
+.flatpickr-months .flatpickr-month {
+    border-radius: 5px 5px 0 0;
+}
+.flatpickr-current-month .flatpickr-monthDropdown-months,
+.flatpickr-current-month input.cur-year,
+span.flatpickr-weekday {
+    color: var(--nonColor16);
+    font-size: 15px;
+    font-weight: normal;
+    option {
+        color: var(--nonColor01);
+    }
+}
+.flatpickr-current-month .numInputWrapper span.arrowUp:after {
+    border-bottom-color: var(--nonColor16);
+}
+.flatpickr-current-month .numInputWrapper span.arrowDown:after {
+    border-top-color: var(--nonColor16);
+}
+.flatpickr-current-month .numInputWrapper input {
+    width: 100%;
+    border: 0 !important;
+}
+.flatpickr-months .flatpickr-prev-month,
+.flatpickr-months .flatpickr-next-month {
+    color: var(--nonColor16) !important;
+    fill: var(--nonColor16) !important;
+}
+.flatpickr-day.selected {
+    color: var(--nonColor16);
+    background: var(--primaryColor);
+    border-color: var(--primaryColor);
+}
+.flatpickr-day.selected:hover {
+    background: var(--primaryDark);
+    border-color: var(--primaryDark);
+}
+.flatpickr-time input {
+    background-color: transparent !important;
+    border: 0 !important;
+}
+.flatpickr-time input.flatpickr-hour{
+    font-weight: 400;
+}
+.flatpickr-time .numInputWrapper {
+    &:hover,
+    &:has(input:focus) {
+        background-color: rgba(0, 0, 0, 0.05);
+        span {
+            opacity: 1;
+        }
     }
 }

@@ -519,6 +519,26 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 extendedHtmlBeforeLabel: extendedHtmlBeforeLabel,
                                 extendedHtmlBetweenLabelAndControl: extendedHtmlBetweenLabelAndControl,
                                 extendedHtmlAfterControl: extendedHtmlAfterControl);
+                        case ControlTypes.Radio:
+                            return hb.FieldRadio(
+                                fieldId: controlId + "Field",
+                                controlId: controlId,
+                                fieldCss: fieldCss,
+                                fieldDescription: column.Description,
+                                labelCss: labelCss,
+                                controlContainerCss: "container-normal container-radio",
+                                controlCss: controlCss,
+                                labelText: labelText,
+                                labelRaw: labelRaw,
+                                disabled: true,
+                                controlOnly: controlOnly,
+                                optionCollection: optionCollection,
+                                alwaysSend: alwaysSend,
+                                validateRequired: required,
+                                selectedValue: value,
+                                extendedHtmlBeforeLabel: extendedHtmlBeforeLabel,
+                                extendedHtmlBetweenLabelAndControl: extendedHtmlBetweenLabelAndControl,
+                                extendedHtmlAfterControl: extendedHtmlAfterControl);
                         default:
                             var dataRaw = column.TypeName.CsTypeSummary() == Types.CsNumeric
                                 ? rawValue?.ToString() ?? (column.Nullable == true ? "" : "0")
@@ -777,6 +797,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 extendedHtmlAfterControl: extendedHtmlAfterControl);
                         case ControlTypes.TextBoxDateTime:
                             return hb.FieldTextBox(
+                                context: context,
                                 textType: HtmlTypes.TextTypes.DateTime,
                                 fieldId: controlId + "Field",
                                 controlId: controlId,
@@ -926,7 +947,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             case "Attachments":
                                 return ControlTypes.Attachments;
                             default:
-                                return ControlTypes.Text;
+                                if (!column.ChoicesText.IsNullOrEmpty() && column.ChoicesControlType == "Radio")
+                                {
+                                    return ControlTypes.Radio;
+                                }
+                                else
+                                {
+                                    return ControlTypes.Text;
+                                }
                         }
                 }
             }
@@ -1215,6 +1243,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder FieldTextBox(
             this HtmlBuilder hb,
+            Context context = null,
             HtmlTypes.TextTypes textType = HtmlTypes.TextTypes.Normal,
             string fieldId = null,
             string controlId = null,
@@ -1278,6 +1307,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     controlAction: () =>
                     {
                         hb.TextBox(
+                            context: context,
                             textType: textType,
                             controlId: controlId,
                             controlCss: controlCss +
@@ -1771,6 +1801,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string labelRaw = null,
             string labelTitle = null,
             string labelIcon = null,
+            bool disabled = false,
             bool controlOnly = false,
             bool alwaysSend = false,
             bool validateRequired = false,
@@ -1808,6 +1839,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             name: controlId,
                             controlCss: controlCss,
                             optionCollection: optionCollection,
+                            disabled: disabled,
                             selectedValue: selectedValue))
                 : hb;
         }

@@ -21,6 +21,7 @@ namespace Implem.ParameterAccessor.Parts
         public string HtmlUrlPrefix { get; set; }
         public string RecommendUrl1 { get; set; }
         public string RecommendUrl2 { get; set; }
+        public string PleasanterSource { get; set; }
         public bool DisplayLogoText { get; set; }
         public bool DisableAutoComplete { get; set; }
         public int SiteMenuHotSpan { get; set; }
@@ -116,6 +117,7 @@ namespace Implem.ParameterAccessor.Parts
         public DateTime MinTime { get; set; }
         public DateTime MaxTime { get; set; }
         public int DateTimeStep { get; set; }
+        public bool UseOldDatepicker { get; set; }
         public bool HideCurrentTimeIcon { get; set; }
         public bool HideCurrentUserIcon { get; set; }
         public bool HideCurrentDeptIcon { get; set; }
@@ -125,5 +127,8 @@ namespace Implem.ParameterAccessor.Parts
         public int BulkUpsertMax { get; set; }
         public bool EnableExpandLinkPath { get; set; }
         public bool BlockSiteTaskWhileRunning { get; set; }
+        public int? LinkPageSize { get; set; }
+        public int LinkPageSizeMin { get; set; }
+        public int LinkPageSizeMax { get; set; }
     }
 }

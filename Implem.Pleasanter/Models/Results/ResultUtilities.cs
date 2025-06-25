@@ -7939,7 +7939,8 @@ namespace Implem.Pleasanter.Models
             }
             var export = ss.GetExport(
                 context: context,
-                id: context.Forms.Int("ExportId"));
+                id: context.Forms.Int("ExportId"),
+                exportCommentsJsonFormat: context.Forms.Bool("ExportCommentsJsonFormat"));
             var content = ExportUtilities.Export(
                 context: context,
                 ss: ss,
