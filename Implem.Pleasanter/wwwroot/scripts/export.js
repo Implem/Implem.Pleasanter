@@ -68,15 +68,13 @@ $p.deleteExportAccessControl = function () {
 
 $p.changeExportIdSelector = function ($control) {
     const $exportCommentsCheckbox = $('#ExportCommentsJsonFormat');
-    const $exportCommentsLabel = $('label[for="ExportCommentsJsonFormat"]');
+    const $exportCommentsField = $('#ExportCommentsJsonFormatField');
     const exp = JSON.parse($('#ExportId').val());
     const checked = !!exp.exportCommentsJsonFormat;
     $exportCommentsCheckbox.prop('checked', checked);
     if (exp.id === 0) {
-        $exportCommentsCheckbox.show();
-        $exportCommentsLabel.show();
+        $exportCommentsField.show();
     } else {
-        $exportCommentsCheckbox.hide();
-        $exportCommentsLabel.hide();
+        $exportCommentsField.hide();
     }
 }

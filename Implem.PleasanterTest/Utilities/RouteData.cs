@@ -34,6 +34,16 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
+        public static Dictionary<string, string> TenantsBGServerScript()
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "tenants" },
+                { "action", "setbgserverscript" },
+                { "id", "0" }
+            };
+        }
+
         public static Dictionary<string, string> DeptsIndex()
         {
             return new Dictionary<string, string>()
