@@ -41,7 +41,7 @@ namespace Implem.PleasanterTest.Tests.Users
         public static IEnumerable<object[]> GetData()
         {
             //テナントId取得
-            var userModel = UserData.Get(UserData.UserTypes.ChagePasswordUser);
+            var userModel = UserData.Get(UserData.UserTypes.ChangePasswordUser);
             var testParts = new List<TestPart>()
             {
                 new TestPart(
@@ -52,7 +52,7 @@ namespace Implem.PleasanterTest.Tests.Users
                         JsonData.Value(
                             method: "Message",
                             value: "{\"Id\":\"AlreadyAdded\",\"Text\":\"既に追加されています。\",\"Css\":\"alert-error\"}")),
-                    userType: UserData.UserTypes.ChagePasswordUser),
+                    userType: UserData.UserTypes.ChangePasswordUser),
                 new TestPart(
                     forms: FormsUtilities.Get(
                         new KeyValue("MailAddress", $"AddMailAddress_User26@example.com"),
@@ -69,7 +69,7 @@ namespace Implem.PleasanterTest.Tests.Users
                         JsonData.ExistsOne(
                             method: "SetMemory",
                             target: "formChanged")),
-                    userType: UserData.UserTypes.ChagePasswordUser),
+                    userType: UserData.UserTypes.ChangePasswordUser),
             };
             foreach (var testPart in testParts)
             {

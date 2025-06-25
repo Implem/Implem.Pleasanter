@@ -40,7 +40,7 @@ namespace Implem.PleasanterTest.Tests.Users
         }
         public static IEnumerable<object[]> GetData()
         {
-            var userModel = UserData.Get(UserData.UserTypes.ChagePasswordUser);
+            var userModel = UserData.Get(UserData.UserTypes.ChangePasswordUser);
             var testParts = new List<TestPart>()
             {
                 new TestPart(
@@ -56,7 +56,7 @@ namespace Implem.PleasanterTest.Tests.Users
                         JsonData.ExistsOne(
                             method: "SetMemory",
                             target: "formChanged")),
-                    userType: UserData.UserTypes.ChagePasswordUser),
+                    userType: UserData.UserTypes.ChangePasswordUser),
             };
             foreach (var testPart in testParts)
             {

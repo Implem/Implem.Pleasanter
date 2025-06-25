@@ -50,7 +50,7 @@ namespace Implem.PleasanterTest.Tests.Users
                         JsonData.Value(
                             method: "Message",
                             value: "{\"Id\":\"ChangingPasswordComplete\",\"Text\":\"パスワードを変更しました。\",\"Css\":\"alert-success\"}")),
-                    userType: UserData.UserTypes.ChagePasswordUser),
+                    userType: UserData.UserTypes.ChangePasswordUser),
             };
             foreach (var testPart in testParts)
             {

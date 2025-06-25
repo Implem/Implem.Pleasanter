@@ -23,7 +23,7 @@ namespace Implem.PleasanterTest.Utilities
             Lockout,
             Disabled,
             UserDeptsGroups,
-            ChagePasswordUser
+            ChangePasswordUser
         }
 
         public static UserModel Get(int userId)
@@ -76,7 +76,7 @@ namespace Implem.PleasanterTest.Utilities
                 case UserTypes.UserDeptsGroups:
                     userModel = Initializer.Users.Values.FirstOrDefault(o => o.LoginId.EndsWith("User23_Site_SScript_UsersDeptsGroups"));
                     break;
-                case UserTypes.ChagePasswordUser:
+                case UserTypes.ChangePasswordUser:
                     userModel = Initializer.Users.Values.FirstOrDefault(o => o.LoginId.EndsWith("User26"));
                     break;
             }
