@@ -50,7 +50,8 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             string aggregationType,
             Column value,
             bool historyHorizontalAxis,
-            IEnumerable<DataRow> dataRows)
+            IEnumerable<DataRow> dataRows,
+            string horizontalAxis)
         {
             SiteSettings = ss;
             AggregationType = aggregationType;
@@ -71,7 +72,19 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                         : false))));
             if (this.Any())
             {
-                MinTime = this.Select(o => o.HorizontalAxis).Min().AddDays(-1);
+                bool isDateFormatYmd = false;
+                DateTime minTime = this.Select(o => o.HorizontalAxis).Min();
+                if (horizontalAxis == "CompletionTime")
+                {
+                    var column = ss.Columns.FirstOrDefault(c => c.ColumnName == horizontalAxis);
+                    isDateFormatYmd = column != null && column.EditorFormat == "Ymd";
+                    minTime = minTime.AddDays(-2);
+                }
+                else
+                {
+                    minTime = minTime.AddDays(-1);
+                }
+                MinTime = minTime;
                 MaxTime = historyHorizontalAxis
                     ? DateTime.Today
                     : this.Select(o => o.HorizontalAxis).Max().AddDays(1);
@@ -82,8 +95,8 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                     .Select(o => o.First())
                     .ForEach(element =>
                     {
-                        element.Latest = true;
-                        if (value.EditorFormat == "Ymd" || element.IsHistory)
+                        element.Latest = true;          
+                        if (element.IsHistory || isDateFormatYmd)
                         {
                             element.HorizontalAxis = element.HorizontalAxis.AddDays(-1);
                         }
