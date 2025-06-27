@@ -743,11 +743,24 @@ namespace Implem.Pleasanter.Models
 
         public void Session_UserSettings(Context context, string value)
         {
-            SessionUtilities.Set(
+            string key = "UserSettings";
+            if (Parameters.Session.UseKeyValueStore && value == null)
+            {
+                string pageName = context.Page ?? string.Empty;
+                StackExchange.Redis.IDatabase iDatabase = Implem.Pleasanter.Libraries.Redis.CacheForRedisConnection.Connection.GetDatabase();
+                string fieldName = pageName.IsNullOrEmpty() ? $"{key}" : $"{key}_{pageName}";
+                iDatabase.HashDelete(
+                    context.SessionGuid,
+                    fieldName);
+            }
+            else
+            {
+                SessionUtilities.Set(
                 context: context,
-                key: "UserSettings",
+                key: key,
                 value: value,
                 page: true);
+            }
         }
 
         public List<string> Session_MailAddresses(Context context)
@@ -759,11 +772,24 @@ namespace Implem.Pleasanter.Models
 
         public void Session_MailAddresses(Context context, string value)
         {
-            SessionUtilities.Set(
+            string key = "MailAddresses";
+            if (Parameters.Session.UseKeyValueStore && value == null)
+            {
+                string pageName = context.Page ?? string.Empty;
+                StackExchange.Redis.IDatabase iDatabase = Implem.Pleasanter.Libraries.Redis.CacheForRedisConnection.Connection.GetDatabase();
+                string fieldName = pageName.IsNullOrEmpty() ? $"{key}" : $"{key}_{pageName}";
+                iDatabase.HashDelete(
+                    context.SessionGuid,
+                    fieldName);
+            }
+            else
+            {
+                SessionUtilities.Set(
                 context: context,
-                key: "MailAddresses",
+                key: key,
                 value: value,
                 page: true);
+            }
         }
 
         public string CsvData(

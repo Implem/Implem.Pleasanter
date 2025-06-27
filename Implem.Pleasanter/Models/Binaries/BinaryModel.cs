@@ -225,11 +225,24 @@ namespace Implem.Pleasanter.Models
 
         public void Session_BinarySettings(Context context, string value)
         {
-            SessionUtilities.Set(
+            string key = "BinarySettings";
+            if (Parameters.Session.UseKeyValueStore && value == null)
+            {
+                string pageName = context.Page ?? string.Empty;
+                StackExchange.Redis.IDatabase iDatabase = Implem.Pleasanter.Libraries.Redis.CacheForRedisConnection.Connection.GetDatabase();
+                string fieldName = pageName.IsNullOrEmpty() ? $"{key}" : $"{key}_{pageName}";
+                iDatabase.HashDelete(
+                    context.SessionGuid,
+                    fieldName);
+            }
+            else
+            {
+                SessionUtilities.Set(
                 context: context,
-                key: "BinarySettings",
+                key: key,
                 value: value,
                 page: true);
+            }
         }
 
         public BinaryModel()
@@ -853,22 +866,25 @@ namespace Implem.Pleasanter.Models
         public DateTime SiteImageUpdatedTime(
             Context context, Libraries.Images.ImageData.SizeTypes sizeType)
         {
-            switch (Parameters.BinaryStorage.GetSiteImageProvider())
+            var updatedTime = DateTime.FromOADate(0);
+            if (Parameters.BinaryStorage.GetSiteImageProvider() == "Local")
             {
-                case "Local":
-                    return new Libraries.Images.ImageData(
-                        ReferenceId, Libraries.Images.ImageData.Types.SiteImage)
-                            .LastWriteTime(sizeType);
-                default:
-                    return Repository.ExecuteScalar_datetime(
-                        context: context,
-                        statements: Rds.SelectBinaries(
-                            column: Rds.BinariesColumn()
-                                .UpdatedTime(function: Sqls.Functions.Max),
-                            where: Rds.BinariesWhere()
-                                .ReferenceId(ReferenceId)
-                                .BinaryType("SiteImage")));
+                updatedTime = new Libraries.Images.ImageData(
+                    ReferenceId, Libraries.Images.ImageData.Types.SiteImage)
+                        .LastWriteTime(sizeType);
             }
+            if (updatedTime == DateTime.FromOADate(0))
+            {
+                updatedTime = Repository.ExecuteScalar_datetime(
+                    context: context,
+                    statements: Rds.SelectBinaries(
+                        column: Rds.BinariesColumn()
+                            .UpdatedTime(function: Sqls.Functions.Max),
+                        where: Rds.BinariesWhere()
+                            .ReferenceId(ReferenceId)
+                            .BinaryType("SiteImage")));
+            }
+            return updatedTime;
         }
 
         /// <summary>
@@ -877,22 +893,25 @@ namespace Implem.Pleasanter.Models
         public DateTime TenantImageUpdatedTime(
             Context context, Libraries.Images.ImageData.SizeTypes sizeType)
         {
-            switch (Parameters.BinaryStorage.GetSiteImageProvider())
+            var updatedTime = DateTime.FromOADate(0);
+            if (Parameters.BinaryStorage.GetSiteImageProvider() == "Local")
             {
-                case "Local":
-                    return new Libraries.Images.ImageData(
-                        ReferenceId, Libraries.Images.ImageData.Types.TenantImage)
-                            .LastWriteTime(sizeType);
-                default:
-                    return Repository.ExecuteScalar_datetime(
-                        context: context,
-                        statements: Rds.SelectBinaries(
-                            column: Rds.BinariesColumn()
-                                .UpdatedTime(function: Sqls.Functions.Max),
-                            where: Rds.BinariesWhere()
-                                .ReferenceId(ReferenceId)
-                                .BinaryType("TenantImage")));
+                updatedTime = new Libraries.Images.ImageData(
+                    ReferenceId, Libraries.Images.ImageData.Types.TenantImage)
+                        .LastWriteTime(sizeType);
             }
+            if (updatedTime == DateTime.FromOADate(0))
+            {
+                updatedTime = Repository.ExecuteScalar_datetime(
+                    context: context,
+                    statements: Rds.SelectBinaries(
+                        column: Rds.BinariesColumn()
+                            .UpdatedTime(function: Sqls.Functions.Max),
+                        where: Rds.BinariesWhere()
+                            .ReferenceId(ReferenceId)
+                            .BinaryType("TenantImage")));
+            }
+            return updatedTime;
         }
 
         /// <summary>
@@ -946,16 +965,27 @@ namespace Implem.Pleasanter.Models
                 case "Local":
                     return new Libraries.Images.ImageData(
                         ReferenceId, Libraries.Images.ImageData.Types.TenantImage)
-                            .Read(sizeType);
+                            .Read(sizeType)
+                                ?? TenantImage(
+                                    context: context,
+                                    column: column);
                 default:
-                    return Repository.ExecuteScalar_bytes(
-                        context: context,
-                        statements: Rds.SelectBinaries(
-                            column: column,
-                            where: Rds.BinariesWhere()
-                                .ReferenceId(ReferenceId)
-                                .BinaryType("TenantImage")));
+                    return TenantImage(context, column);
             }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private byte[] TenantImage(Context context, SqlColumnCollection column)
+        {
+            return Repository.ExecuteScalar_bytes(
+                context: context,
+                statements: Rds.SelectBinaries(
+                    column: column,
+                    where: Rds.BinariesWhere()
+                        .ReferenceId(ReferenceId)
+                        .BinaryType("TenantImage")));
         }
 
         /// <summary>

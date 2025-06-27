@@ -2534,7 +2534,7 @@ namespace Implem.Pleasanter.Models
                     id: context.Id,
                     limitPerDate: context.ContractSettings.ApiLimit(),
                     limitRemaining: context.ContractSettings.ApiLimit() - ss.ApiCount,
-                    message: Messages.Imported(
+                    message: Messages.GroupImported(
                         context: context,
                         data: new string[]
                         {
