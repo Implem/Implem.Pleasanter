@@ -3,31 +3,31 @@
     "Type": 110,
     "Languages": [
         {
-            "Body": "Export comments in Json format"
+            "Body": "Export comments in JSON format"
         },
         {
             "Language": "zh",
-            "Body": "以 Json 格式导出注释"
+            "Body": "以 JSON 格式导出注释"
         },
         {
             "Language": "ja",
-            "Body": "コメントをJson形式でエクスポートする"
+            "Body": "コメントをJSON形式でエクスポートする"
         },
         {
             "Language": "de",
-            "Body": "Exportieren von Kommentaren im Json-Format"
+            "Body": "Exportieren von Kommentaren im JSON-Format"
         },
         {
             "Language": "ko",
-            "Body": "Json 형식으로 주석 내보내기"
+            "Body": "JSON 형식으로 주석 내보내기"
         },
         {
             "Language": "es",
-            "Body": "Exportar comentarios en formato Json"
+            "Body": "Exportar comentarios en formato JSON"
         },
         {
             "Language": "vn",
-            "Body": "Xuất nhận xét ở định dạng Json"
+            "Body": "Xuất nhận xét ở định dạng JSON"
         }
     ]
 }

@@ -1,9 +1,9 @@
-{
+﻿{
     "Id": "Json",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Json"
+            "Body": "JSON"
         }
     ]
 }
