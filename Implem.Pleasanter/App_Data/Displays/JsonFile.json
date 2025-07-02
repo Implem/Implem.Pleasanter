@@ -3,19 +3,19 @@
     "Type": 110,
     "Languages": [
         {
-            "Body": "Json file"
+            "Body": "JSON file"
         },
         {
             "Language": "zh",
-            "Body": "Json文件"
+            "Body": "JSON文件"
         },
         {
             "Language": "ja",
-            "Body": "Jsonファイル"
+            "Body": "JSONファイル"
         },
         {
             "Language": "de",
-            "Body": "Json-Datei"
+            "Body": "JSON-Datei"
         },
         {
             "Language": "ko",
@@ -23,11 +23,11 @@
         },
         {
             "Language": "es",
-            "Body": "Archivo Json"
+            "Body": "Archivo JSON"
         },
         {
             "Language": "vn",
-            "Body": "Tệp Json"
+            "Body": "Tệp JSON"
         }
     ]
 }
