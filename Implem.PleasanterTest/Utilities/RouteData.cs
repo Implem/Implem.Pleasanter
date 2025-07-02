@@ -133,12 +133,31 @@ namespace Implem.PleasanterTest.Utilities
                 { "id", id.ToString() }
             };
         }
+        public static Dictionary<string, string> DeptsImport()
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "depts" },
+                { "action", "import" },
+                { "id", "0" }
+            };
+        }
         public static Dictionary<string, string> DeptsExport()
         {
             return new Dictionary<string, string>()
             {
                 { "controller", "depts" },
                 { "action", "export" },
+                { "id", "0" }
+            };
+        }
+
+        public static Dictionary<string, string> DeptsTrashBox()
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "depts" },
+                { "action", "trashbox" },
                 { "id", "0" }
             };
         }
