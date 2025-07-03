@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Implem.DefinitionAccessor;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -18,6 +19,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         static ServerScriptModelHttpClient()
         {
             _httpClient = new HttpClient();
+            _httpClient.Timeout = TimeSpan.FromSeconds(Parameters.Script.ServerScriptHttpClientTimeOut);
         }
 
         public string Get()
