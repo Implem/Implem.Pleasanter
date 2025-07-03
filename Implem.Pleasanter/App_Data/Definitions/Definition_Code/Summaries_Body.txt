@@ -29,6 +29,12 @@ namespace Implem.Pleasanter.Libraries.Models
 
         public static void Synchronize(Context context, SiteSettings ss, Summary summary)
         {
+            //サマリに設定されているLinkColumnに対応するリンクの設定がss.Linksに無ければリンク切れと判断して何もしない
+            if (ss.Links?.Any(link => link.SiteId == summary.SiteId
+                && link.ColumnName == summary.LinkColumn) is null or false)
+            {
+                return;
+            }
             var destinationSs = SiteSettingsUtilities.Get(
                 context: context, siteId: summary?.SiteId ?? 0);
             if (destinationSs != null && summary != null)
