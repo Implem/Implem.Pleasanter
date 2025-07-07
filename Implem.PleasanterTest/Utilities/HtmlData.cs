@@ -5,6 +5,14 @@ namespace Implem.PleasanterTest.Utilities
 {
     public static class HtmlData
     {
+        public static HtmlTest Exists(string selector)
+        {
+            return new HtmlTest()
+            {
+                Type = HtmlTest.Types.Exists,
+                Selector = selector
+            };
+        }
         public static HtmlTest ExistsOne(string selector)
         {
             return new HtmlTest()
