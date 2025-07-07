@@ -381,6 +381,26 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
+        public static Dictionary<string, string> UsersImport(int id)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "users" },
+                { "action", "import" },
+                { "id", id.ToString() }
+            };
+        }
+
+        public static Dictionary<string, string> UsersExport(int id)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "users" },
+                { "action", "export" },
+                { "id", id.ToString() }
+            };
+        }
+
         public static Dictionary<string, string> UsersApiGet(int id)
         {
             return new Dictionary<string, string>()
