@@ -370,6 +370,7 @@ namespace Implem.Pleasanter.Models
                         issueModel.SetCopyDefault(
                             context: context,
                             ss: ss);
+                        issueModel.CopiedGrid = true;
                     }
                     else
                     {
@@ -3116,6 +3117,7 @@ namespace Implem.Pleasanter.Models
                                     issueModel: issueModel,
                                     column: column,
                                     controlOnly: true,
+                                    alwaysSend: issueModel.CopiedGrid,
                                     idSuffix: $"_{ss.SiteId}_{newRowId}"));
                         }
                         else if (!column.Joined

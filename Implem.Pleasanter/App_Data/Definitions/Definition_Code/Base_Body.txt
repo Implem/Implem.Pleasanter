@@ -814,6 +814,7 @@ namespace Implem.Pleasanter.Models
 <!--Base_SavedProperty ( RepeatType = BaseItemModel ) -->
 
         public List<string> RecordPermissions;
+        public bool CopiedGrid = false;
 
 <!--Base_PropertyUpdated ( RepeatType = BaseItemModel ) -->
 <!--Base_PropertyUpdated_DateTime ( RepeatType = BaseItemModel ) -->
