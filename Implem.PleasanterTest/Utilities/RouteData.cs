@@ -241,6 +241,16 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
+        public static Dictionary<string, string> GroupsBulkDelete(int id)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "groups" },
+                { "action", "bulkdelete" },
+                { "id", id.ToString() }
+            };
+        }
+
         public static Dictionary<string, string> GroupsHistories(int id)
         {
             return new Dictionary<string, string>()
@@ -248,6 +258,36 @@ namespace Implem.PleasanterTest.Utilities
                 { "controller", "groups" },
                 { "action", "histories" },
                 { "id", id.ToString() }
+            };
+        }
+
+        public static Dictionary<string, string> GroupsImport()
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "groups" },
+                { "action", "import" },
+                { "id", "0" }
+            };
+        }
+
+        public static Dictionary<string, string> GroupsExport()
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "groups" },
+                { "action", "histories" },
+                { "id", "0" }
+            };
+        }
+
+        public static Dictionary<string, string> GroupsTrashBox()
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "groups" },
+                { "action", "trashbox" },
+                { "id", "0" }
             };
         }
 
