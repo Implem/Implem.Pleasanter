@@ -22,7 +22,8 @@ namespace Implem.PleasanterTest.Utilities
             Privileged,
             Lockout,
             Disabled,
-            UserDeptsGroups
+            UserDeptsGroups,
+            ChangePasswordUser
         }
 
         public static UserModel Get(int userId)
@@ -74,6 +75,9 @@ namespace Implem.PleasanterTest.Utilities
                     break;
                 case UserTypes.UserDeptsGroups:
                     userModel = Initializer.Users.Values.FirstOrDefault(o => o.LoginId.EndsWith("User23_Site_SScript_UsersDeptsGroups"));
+                    break;
+                case UserTypes.ChangePasswordUser:
+                    userModel = Initializer.Users.Values.FirstOrDefault(o => o.LoginId.EndsWith("User26"));
                     break;
             }
             return userModel;

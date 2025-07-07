@@ -114,6 +114,16 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
+        public static Dictionary<string, string> DeptsBulkDelete(int id)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "depts" },
+                { "action", "bulkdelete" },
+                { "id", id.ToString()  }
+            };
+        }
+
         public static Dictionary<string, string> DeptsHistories(int id)
         {
             return new Dictionary<string, string>()
@@ -123,7 +133,34 @@ namespace Implem.PleasanterTest.Utilities
                 { "id", id.ToString() }
             };
         }
+        public static Dictionary<string, string> DeptsImport()
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "depts" },
+                { "action", "import" },
+                { "id", "0" }
+            };
+        }
+        public static Dictionary<string, string> DeptsExport()
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "depts" },
+                { "action", "export" },
+                { "id", "0" }
+            };
+        }
 
+        public static Dictionary<string, string> DeptsTrashBox()
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "depts" },
+                { "action", "trashbox" },
+                { "id", "0" }
+            };
+        }
         public static Dictionary<string, string> DeptsApiGet(int id)
         {
             return new Dictionary<string, string>()
@@ -380,6 +417,26 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "users" },
                 { "action", "resetpassword" },
+                { "id", id.ToString() }
+            };
+        }
+
+        public static Dictionary<string, string> UsersImport(int id)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "users" },
+                { "action", "import" },
+                { "id", id.ToString() }
+            };
+        }
+
+        public static Dictionary<string, string> UsersExport(int id)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "users" },
+                { "action", "export" },
                 { "id", id.ToString() }
             };
         }
