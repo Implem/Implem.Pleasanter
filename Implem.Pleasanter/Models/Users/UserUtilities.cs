@@ -1712,8 +1712,9 @@ namespace Implem.Pleasanter.Models
                     .A(
                         href: "#FieldSetMailAddresses",
                         text: Displays.MailAddresses(context: context),
-                        _using: userModel.MethodType != BaseModel.MethodTypes.New
-                        || !context.UserSettings?.EnableManageTenant == true))
+                        _using: context.UserSettings.EnableManageTenant == true
+                            ? false
+                            : userModel.MethodType != BaseModel.MethodTypes.New))
                 .Li(
                     _using: userModel.MethodType != BaseModel.MethodTypes.New,
                     action: () => hb
@@ -3830,13 +3831,13 @@ namespace Implem.Pleasanter.Models
                             userModel.SynchronizedTime = recordingData.ToDateTime();
                             break;
                         case "Comments":
-                            if (userModel.AccessStatus != Databases.AccessStatuses.Selected &&
-                                !data.Row[column.Key].IsNullOrEmpty())
+                            if (!data.Row[column.Key].IsNullOrEmpty())
                             {
-                                userModel.Comments.Prepend(
+                                userModel.Comments.ClearAndSplitPrepend(
                                     context: context,
                                     ss: ss,
-                                    body: data.Row[column.Key]);
+                                    body: data.Row[column.Key],
+                                    update: userModel.AccessStatus == Databases.AccessStatuses.Selected);
                             }
                             break;
                         default:
@@ -3897,7 +3898,9 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return null;
             }
-            var export = ss.GetExport(context: context);
+            var export = ss.GetExport(
+                context: context,
+                exportCommentsJsonFormat: context.Forms.Bool("ExportCommentsJsonFormat"));
             var view = Views.GetBySession(context: context, ss: ss);
             var csv = new System.Text.StringBuilder();
             if (export.Header == true)
@@ -4416,32 +4419,34 @@ namespace Implem.Pleasanter.Models
                                             action: () => hb.Raw(HtmlHtmls.ExtendedHtmls(
                                                 context: context,
                                                 id: "LoginGuideTop")))
-                                        .Div(action: () => hb
-                                            .Field(
-                                                context: context,
-                                                ss: ss,
-                                                column: ss.GetColumn(
+                                        .Div(
+                                            id: "login-fields-body",
+                                            action: () => hb
+                                                .Field(
                                                     context: context,
-                                                    columnName: "LoginId"),
-                                                fieldCss: "field-wide",
-                                                controlCss: " always-send focus")
-                                            .Field(
-                                                context: context,
-                                                ss: ss,
-                                                column: ss.GetColumn(
+                                                    ss: ss,
+                                                    column: ss.GetColumn(
+                                                        context: context,
+                                                        columnName: "LoginId"),
+                                                    fieldCss: "field-wide",
+                                                    controlCss: " always-send focus")
+                                                .Field(
                                                     context: context,
-                                                    columnName: "Password"),
-                                                fieldCss: "field-wide",
-                                                controlCss: " always-send")
-                                            .Div(
-                                                id: "Tenants",
-                                                css: "field-wide")
-                                            .Field(
-                                                context: context,
-                                                ss: ss,
-                                                column: ss.GetColumn(
+                                                    ss: ss,
+                                                    column: ss.GetColumn(
+                                                        context: context,
+                                                        columnName: "Password"),
+                                                    fieldCss: "field-wide",
+                                                    controlCss: " always-send")
+                                                .Div(
+                                                    id: "Tenants",
+                                                    css: "field-wide")
+                                                .Field(
                                                     context: context,
-                                                    columnName: "RememberMe")))
+                                                    ss: ss,
+                                                    column: ss.GetColumn(
+                                                        context: context,
+                                                        columnName: "RememberMe")))
                                         .Div(id: "LoginCommands", action: () => hb
                                             .Button(
                                                 controlId: "Login",

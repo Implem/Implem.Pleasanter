@@ -216,7 +216,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             var where = View.Where(
                 context: context,
                 ss: ss,
-                itemJoin: false);
+                itemJoin: false,
+                requestSearchCondition: false);
             var linksSub = Rds.SelectItems(
                 column: Rds.ItemsColumn().ReferenceId(),
                 join: new Rds.LinksJoinCollection().Add(new SqlJoin(

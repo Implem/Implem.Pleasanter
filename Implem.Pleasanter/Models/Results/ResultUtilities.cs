@@ -370,6 +370,7 @@ namespace Implem.Pleasanter.Models
                         resultModel.SetCopyDefault(
                             context: context,
                             ss: ss);
+                        resultModel.CopiedGrid = true;
                     }
                     else
                     {
@@ -2905,6 +2906,7 @@ namespace Implem.Pleasanter.Models
                                     resultModel: resultModel,
                                     column: column,
                                     controlOnly: true,
+                                    alwaysSend: resultModel.CopiedGrid,
                                     idSuffix: $"_{ss.SiteId}_{newRowId}"));
                         }
                         else if (!column.Joined
@@ -7937,7 +7939,8 @@ namespace Implem.Pleasanter.Models
             }
             var export = ss.GetExport(
                 context: context,
-                id: context.Forms.Int("ExportId"));
+                id: context.Forms.Int("ExportId"),
+                exportCommentsJsonFormat: context.Forms.Bool("ExportCommentsJsonFormat"));
             var content = ExportUtilities.Export(
                 context: context,
                 ss: ss,
