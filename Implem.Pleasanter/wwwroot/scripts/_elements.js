@@ -35,6 +35,10 @@ $p.userId = function () {
     return parseInt($('#UserId').val());
 }
 
+$p.groupIds = function () {
+    return JSON.parse($('#GroupIds').val());
+}
+
 $p.userName = function () {
     return $('#AccountUserName').text();
 }

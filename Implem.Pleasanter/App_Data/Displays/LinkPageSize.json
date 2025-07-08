@@ -1,33 +1,33 @@
 ﻿{
-    "Id": "JsonFile",
+    "Id": "LinkPageSize",
     "Type": 110,
     "Languages": [
         {
-            "Body": "JSON file"
+            "Body": "Number of displays"
         },
         {
             "Language": "zh",
-            "Body": "JSON文件"
+            "Body": "显示器数量"
         },
         {
             "Language": "ja",
-            "Body": "JSONファイル"
+            "Body": "表示件数"
         },
         {
             "Language": "de",
-            "Body": "JSON-Datei"
+            "Body": "Anzahl der Anzeigen"
         },
         {
             "Language": "ko",
-            "Body": "JSON 파일"
+            "Body": "디스플레이 개수"
         },
         {
             "Language": "es",
-            "Body": "Archivo JSON"
+            "Body": "Número de pantallas"
         },
         {
             "Language": "vn",
-            "Body": "Tệp JSON"
+            "Body": "Số lượng jispy"
         }
     ]
 }

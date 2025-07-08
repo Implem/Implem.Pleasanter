@@ -1,9 +1,10 @@
 ﻿$p.openExportSelectorDialog = function ($control) {
     error = $p.syncSend($control);
     if (error === 0) {
+        $p.changeExportIdSelector($control);
         $('#ExportSelectorDialog').dialog({
             modal: true,
-            width: '420px',
+            width: '450px',
             resizable: false
         });
     }
@@ -35,6 +36,7 @@ $p.export = function () {
         addInput(form, 'GridCheckAll', data.GridCheckAll);
         addInput(form, 'GridUnCheckedItems', data.GridUnCheckedItems);
         addInput(form, 'GridCheckedItems', data.GridCheckedItems);
+        addInput(form, 'ExportCommentsJsonFormat', $('#ExportCommentsJsonFormat').prop('checked'));
         if ($('#Token').length) {
             addInput(form, 'Token', $('#Token').val());
         }
@@ -62,4 +64,17 @@ $p.addExportAccessControl = function () {
 
 $p.deleteExportAccessControl = function () {
     $('#CurrentExportAccessControl li.ui-selected').appendTo('#SourceExportAccessControl');
+}
+
+$p.changeExportIdSelector = function ($control) {
+    const $exportCommentsCheckbox = $('#ExportCommentsJsonFormat');
+    const $exportCommentsField = $('#ExportCommentsJsonFormatField');
+    const exp = JSON.parse($('#ExportId').val());
+    const checked = !!exp.exportCommentsJsonFormat;
+    $exportCommentsCheckbox.prop('checked', checked);
+    if (exp.id === 0) {
+        $exportCommentsField.show();
+    } else {
+        $exportCommentsField.hide();
+    }
 }

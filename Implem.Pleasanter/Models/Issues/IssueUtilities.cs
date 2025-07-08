@@ -370,6 +370,7 @@ namespace Implem.Pleasanter.Models
                         issueModel.SetCopyDefault(
                             context: context,
                             ss: ss);
+                        issueModel.CopiedGrid = true;
                     }
                     else
                     {
@@ -3112,6 +3113,7 @@ namespace Implem.Pleasanter.Models
                                     issueModel: issueModel,
                                     column: column,
                                     controlOnly: true,
+                                    alwaysSend: issueModel.CopiedGrid,
                                     idSuffix: $"_{ss.SiteId}_{newRowId}"));
                         }
                         else if (!column.Joined
@@ -8263,7 +8265,8 @@ namespace Implem.Pleasanter.Models
             }
             var export = ss.GetExport(
                 context: context,
-                id: context.Forms.Int("ExportId"));
+                id: context.Forms.Int("ExportId"),
+                exportCommentsJsonFormat: context.Forms.Bool("ExportCommentsJsonFormat"));
             var content = ExportUtilities.Export(
                 context: context,
                 ss: ss,

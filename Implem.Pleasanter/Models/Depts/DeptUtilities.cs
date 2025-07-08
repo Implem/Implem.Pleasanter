@@ -2249,13 +2249,13 @@ namespace Implem.Pleasanter.Models
                             deptModel.Body = recordingData;
                             break;
                         case "Comments":
-                            if (deptModel.AccessStatus != Databases.AccessStatuses.Selected &&
-                                !data.Row[column.Key].IsNullOrEmpty())
+                            if (!data.Row[column.Key].IsNullOrEmpty())
                             {
-                                deptModel.Comments.Prepend(
+                                deptModel.Comments.ClearAndSplitPrepend(
                                     context: context,
                                     ss: ss,
-                                    body: data.Row[column.Key]);
+                                    body: data.Row[column.Key],
+                                    update: deptModel.AccessStatus == Databases.AccessStatuses.Selected);
                             }
                             break;
                         case "Disabled":
@@ -2319,7 +2319,9 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return null;
             }
-            var export = ss.GetExport(context: context);
+            var export = ss.GetExport(
+                context: context,
+                exportCommentsJsonFormat: context.Forms.Bool("ExportCommentsJsonFormat"));
             var view = Views.GetBySession(context: context, ss: ss);
             var csv = new System.Text.StringBuilder();
             if (export.Header == true)
