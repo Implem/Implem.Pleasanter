@@ -15,7 +15,9 @@
             isRwd: $('head').css('font-family') === 'responsive',
             hideCurrent: this.dataset.hideCurrent,
             inputElm: this.querySelector('input'),
-            dateFormat: this.querySelector('input').dataset.format.replace(/s/g, 'S'),
+            dateFormat: this.querySelector('input').dataset.format
+                ? this.querySelector('input').dataset.format.replace(/s/g, 'S')
+                : "Y/m/d H:i",
             dateFnsFormat: null,
             language: document.getElementById('Language').value,
             currentElem: this.shadowRoot.querySelector('.current-date'),
