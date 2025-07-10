@@ -1,9 +1,10 @@
 ﻿using Implem.DefinitionAccessor;
 using System;
-using System.Threading;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Reflection.Metadata;
+using System.Threading;
 namespace Implem.Pleasanter.Libraries.ServerScripts
 {
     public class ServerScriptModelHttpClient
@@ -15,20 +16,13 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         public string MediaType { get; set; } = "application/json";
         public Dictionary<string, string> RequestHeaders { get; set; } = new Dictionary<string, string>();
         public Dictionary<string, IList<string>> ResponseHeaders { get; set; } = new Dictionary<string, IList<string>>();
+        public int TimeOut { get; set; }
         public int StatusCode { get; private set; }
         public bool IsSuccess { get; private set; }
+
         static ServerScriptModelHttpClient()
         {
             _httpClient = new HttpClient();
-
-            if (Parameters.Script.ServerScriptHttpClientTimeOut == 0)
-            {
-                _httpClient.Timeout = Timeout.InfiniteTimeSpan;
-            }
-            else
-            {
-                _httpClient.Timeout = TimeSpan.FromSeconds(Parameters.Script.ServerScriptHttpClientTimeOut);
-            }
         }
 
         public string Get()
@@ -36,6 +30,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             try
             {
                 var request = CreateHttpRequest(HttpMethod.Get);
+                _httpClient.Timeout = GetTimeOut();
                 var response = _httpClient.SendAsync(request).Result;
                 StatusCode = (int)response.StatusCode;
                 IsSuccess = response.IsSuccessStatusCode;
@@ -61,6 +56,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     encoding: System.Text.Encoding.GetEncoding(Encoding),
                     mediaType: MediaType);
                 var request = CreateHttpRequest(HttpMethod.Post, content);
+                _httpClient.Timeout = GetTimeOut();
                 var response = _httpClient.SendAsync(request).Result;
                 StatusCode = (int)response.StatusCode;
                 IsSuccess = response.IsSuccessStatusCode;
@@ -86,6 +82,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     encoding: System.Text.Encoding.GetEncoding(Encoding),
                     mediaType: MediaType);
                 var request = CreateHttpRequest(HttpMethod.Put, content);
+                _httpClient.Timeout = GetTimeOut();
                 var response = _httpClient.SendAsync(request).Result;
                 StatusCode = (int)response.StatusCode;
                 IsSuccess = response.IsSuccessStatusCode;
@@ -111,6 +108,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     encoding: System.Text.Encoding.GetEncoding(Encoding),
                     mediaType: MediaType);
                 var request = CreateHttpRequest(HttpMethod.Patch, content);
+                _httpClient.Timeout = GetTimeOut();
                 var response = _httpClient.SendAsync(request).Result;
                 StatusCode = (int)response.StatusCode;
                 IsSuccess = response.IsSuccessStatusCode;
@@ -132,6 +130,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             try
             {
                 var request = CreateHttpRequest(HttpMethod.Delete);
+                _httpClient.Timeout = GetTimeOut();
                 var response = _httpClient.SendAsync(request).Result;
                 StatusCode = (int)response.StatusCode;
                 IsSuccess = response.IsSuccessStatusCode;
@@ -159,6 +158,23 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 request.Headers.Add(header.Key, header.Value);
             }
             return request;
+        }
+
+        private TimeSpan GetTimeOut()
+        {
+            var timeOut = TimeSpan.FromMilliseconds(
+                Parameters.Script.ServerScriptHttpClientTimeOut == TimeOut
+                ? Parameters.Script.ServerScriptHttpClientTimeOut
+                : TimeOut
+            );
+            var timeOutMax = TimeSpan.FromMilliseconds(Parameters.Script.ServerScriptHttpClientTimeOutMax);
+            var timeOutMin = TimeSpan.FromMilliseconds(Parameters.Script.ServerScriptHttpClientTimeOutMin);
+
+            timeOut = (timeOutMin <= timeOut && timeOut <= timeOutMin)
+                ? timeOut
+                : TimeSpan.FromSeconds(100);
+
+            return timeOut == TimeSpan.Zero ? Timeout.InfiniteTimeSpan : timeOut;
         }
     }
 }
