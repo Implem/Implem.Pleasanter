@@ -16,7 +16,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         public string MediaType { get; set; } = "application/json";
         public Dictionary<string, string> RequestHeaders { get; set; } = new Dictionary<string, string>();
         public Dictionary<string, IList<string>> ResponseHeaders { get; set; } = new Dictionary<string, IList<string>>();
-        public int TimeOut { get; set; }
+        public int TimeOut { get; set; } = Parameters.Script.ServerScriptHttpClientTimeOut;
         public int StatusCode { get; private set; }
         public bool IsSuccess { get; private set; }
 
@@ -162,11 +162,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
 
         private TimeSpan GetTimeOut()
         {
-            var timeOut = TimeSpan.FromMilliseconds(
-                Parameters.Script.ServerScriptHttpClientTimeOut == TimeOut
-                ? Parameters.Script.ServerScriptHttpClientTimeOut
-                : TimeOut
-            );
+            var timeOut = TimeSpan.FromMilliseconds(TimeOut);
             var timeOutMax = TimeSpan.FromMilliseconds(Parameters.Script.ServerScriptHttpClientTimeOutMax);
             var timeOutMin = TimeSpan.FromMilliseconds(Parameters.Script.ServerScriptHttpClientTimeOutMin);
 
