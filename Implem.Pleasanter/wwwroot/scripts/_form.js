@@ -83,6 +83,9 @@ $p.send = function ($control, formId, _async, clearMessage) {
         if (!$form.valid()) {
             $p.setValidationError($form);
             $p.setErrorMessage('ValidationError');
+            if ($p.data.MainForm && $p.data.MainForm.ControlId) {
+                delete $p.data.MainForm.ControlId;
+            }
             if (!$control.closest('.ui-dialog')) {
                 $("html,body").animate({
                     scrollTop: $('.error:first').offset().top
