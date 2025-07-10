@@ -15,3 +15,8 @@ $p.closeDialog = function ($control) {
 $p.clearDialogs = function () {
     $('body > .ui-dialog').remove();
 }
+
+$(document).ready(function () {
+    $.ui.dialog.prototype._focusTabbable = function() {};
+})
+
