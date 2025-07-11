@@ -196,8 +196,15 @@
 
     /* field-section */
     .field-section {
-        margin: 16px 0;
-        padding: 16px 4px 8px;
+        margin: 8px 0;
+        font-size: 14px;
+        border-radius: 4px;
+        min-height: 40px;
+        .ui-icon{
+            width: 20px;
+            height: 20px;
+            font-size: 20px;
+        }
     }
 
     .field-normal {

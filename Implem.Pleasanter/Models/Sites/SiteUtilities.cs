@@ -13569,6 +13569,7 @@ namespace Implem.Pleasanter.Models
                         controlId: "ReminderStartDateTime",
                         controlCss: " always-send",
                         labelText: Displays.StartDateTime(context: context),
+                        format: Displays.YmdhmDatePickerFormat(context: context),
                         text: reminder.StartDateTime.InRange()
                             ? reminder.StartDateTime.ToString(Displays.Get(
                                 context: context,
