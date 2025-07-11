@@ -5,9 +5,9 @@
     <Copyright>Copyright © Implem Inc 2014 - $(Year)</Copyright>
     <Description>Business application platform</Description>
     <AssemblyName>Implem.Pleasanter</AssemblyName>
-    <AssemblyVersion>1.4.17.1</AssemblyVersion>
-    <FileVersion>1.4.17.1</FileVersion>
-    <Version>1.4.17.1</Version>
+    <AssemblyVersion>1.4.18.1</AssemblyVersion>
+    <FileVersion>1.4.18.1</FileVersion>
+    <Version>1.4.18.1</Version>
     <Nullable>disable</Nullable>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
@@ -52,6 +52,7 @@
     <PackageReference Include="Microsoft.AspNet.WebPages" Version="3.3.0">
       <NoWarn>NU1701</NoWarn>
     </PackageReference>
+    <PackageReference Include="Microsoft.AspNetCore.AzureAppServices.HostingStartup" Version="8.0.17" />
     <PackageReference Include="Microsoft.ClearScript.Complete" Version="7.5.0" />
     <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="8.0.8" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.2" />
@@ -163,6 +164,12 @@
     <None Update="App_Data\Definitions\Definition_Code\Model_SysLogLogger.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+      <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+          <_Parameter1>Implem.PleasanterTest</_Parameter1>
+      </AssemblyAttribute>
   </ItemGroup>
 
 </Project>

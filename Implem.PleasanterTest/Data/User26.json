@@ -1,0 +1,10 @@
+﻿{
+    "Id": "User26",
+    "Language": "ja",
+    "Type": "Users",
+    "ParentId": "Dept9",
+    "Title": "ユーザ26（パスワード設定用）",
+    "ClassA": "2",
+    "CreatedTime": "36640",
+    "UpdatedTime": "36640"
+}

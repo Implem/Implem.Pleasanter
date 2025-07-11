@@ -704,6 +704,7 @@ input {
     .container-radio{
         display: flex;
         flex-wrap: wrap;
+        padding: 8px 0;
         gap: 8px 16px;
         .radio-option{
             display: flex;

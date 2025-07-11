@@ -4419,32 +4419,34 @@ namespace Implem.Pleasanter.Models
                                             action: () => hb.Raw(HtmlHtmls.ExtendedHtmls(
                                                 context: context,
                                                 id: "LoginGuideTop")))
-                                        .Div(action: () => hb
-                                            .Field(
-                                                context: context,
-                                                ss: ss,
-                                                column: ss.GetColumn(
+                                        .Div(
+                                            id: "login-fields-body",
+                                            action: () => hb
+                                                .Field(
                                                     context: context,
-                                                    columnName: "LoginId"),
-                                                fieldCss: "field-wide",
-                                                controlCss: " always-send focus")
-                                            .Field(
-                                                context: context,
-                                                ss: ss,
-                                                column: ss.GetColumn(
+                                                    ss: ss,
+                                                    column: ss.GetColumn(
+                                                        context: context,
+                                                        columnName: "LoginId"),
+                                                    fieldCss: "field-wide",
+                                                    controlCss: " always-send focus")
+                                                .Field(
                                                     context: context,
-                                                    columnName: "Password"),
-                                                fieldCss: "field-wide",
-                                                controlCss: " always-send")
-                                            .Div(
-                                                id: "Tenants",
-                                                css: "field-wide")
-                                            .Field(
-                                                context: context,
-                                                ss: ss,
-                                                column: ss.GetColumn(
+                                                    ss: ss,
+                                                    column: ss.GetColumn(
+                                                        context: context,
+                                                        columnName: "Password"),
+                                                    fieldCss: "field-wide",
+                                                    controlCss: " always-send")
+                                                .Div(
+                                                    id: "Tenants",
+                                                    css: "field-wide")
+                                                .Field(
                                                     context: context,
-                                                    columnName: "RememberMe")))
+                                                    ss: ss,
+                                                    column: ss.GetColumn(
+                                                        context: context,
+                                                        columnName: "RememberMe")))
                                         .Div(id: "LoginCommands", action: () => hb
                                             .Button(
                                                 controlId: "Login",

@@ -497,7 +497,18 @@ namespace Implem.Pleasanter.NetCore
                 AspNetCoreCurrentRequestContext.AspNetCoreHttpContext.Current.Session.Set("SessionGuid", System.Text.Encoding.UTF8.GetBytes(Newtonsoft.Json.JsonConvert.SerializeObject(Strings.NewGuid())));
                 SetClientId();
                 httpContext.Session.Set(enabled, new byte[] { 1 });
-                var context = SessionStartContext();
+
+                Context context = null;
+                try
+                {
+                    context = SessionStartContext();
+                }
+                catch (InvalidDataException ex)
+                {
+                    httpContext.Response.StatusCode = 400;
+                    await httpContext.Response.WriteAsJsonAsync(new { ex.Message });
+                    return;
+                }
                 SessionUtilities.SetStartTime(context: context);
                 if (WindowsAuthenticated(context))
                 {
