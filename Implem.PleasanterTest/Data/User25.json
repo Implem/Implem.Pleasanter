@@ -1,0 +1,10 @@
+﻿{
+    "Id": "User25",
+    "Language": "ja",
+    "Type": "Users",
+    "ParentId": "Dept9",
+    "Title": "ユーザ25（一括削除用）",
+    "ClassA": "2",
+    "CreatedTime": "36640",
+    "UpdatedTime": "36640"
+}
