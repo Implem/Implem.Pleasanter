@@ -23,8 +23,8 @@ namespace Implem.ParameterAccessor.Parts
         public int ServerScriptHttpClientTimeOutMax { get; set; } = 1000 * 60 * 60 * 24;
         [DefaultValue(10)]
         public int ServerScriptIncludeDepthLimit { get; set; } = 10;
-        [DefaultValue(false)]
-        public bool DisableServerScriptFile { get; set; }
+        [DefaultValue(true)]
+        public bool DisableServerScriptFile { get; set; } = true;
         [DefaultValue(1)]
         public long ServerScriptFileSizeMax { get; set; } = 1;
         public string ServerScriptFilePath { get; set; }
