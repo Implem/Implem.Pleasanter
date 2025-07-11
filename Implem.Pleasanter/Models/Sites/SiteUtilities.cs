@@ -8455,6 +8455,15 @@ namespace Implem.Pleasanter.Models
                                         controlCss: "button-icon",
                                         onClick: "$p.moveColumns(event, $(this),'Link');",
                                         icon: "ui-icon-circle-triangle-w"))))
+                .FieldSpinner(
+                    controlId: "LinkPageSize",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.LinkPageSize(context: context),
+                    value: ss.LinkPageSize.ToInt(),
+                    min: Parameters.General.LinkPageSizeMin.ToDecimal(),
+                    max: Parameters.General.LinkPageSizeMax.ToDecimal(),
+                    step: 1,
+                    width: 25)
                 .FieldDropDown(
                     context: context,
                     controlId: "LinkTableView",
@@ -13560,6 +13569,7 @@ namespace Implem.Pleasanter.Models
                         controlId: "ReminderStartDateTime",
                         controlCss: " always-send",
                         labelText: Displays.StartDateTime(context: context),
+                        format: Displays.YmdhmDatePickerFormat(context: context),
                         text: reminder.StartDateTime.InRange()
                             ? reminder.StartDateTime.ToString(Displays.Get(
                                 context: context,
@@ -18283,6 +18293,8 @@ namespace Implem.Pleasanter.Models
             }
             return ApiResults.Get(apiResponse: new
             {
+                // 正しいAPIの戻り値はResponseの中にSiteId,Dataを入れるべきだが、既にリリースしている為にStatusCodeのみを追加する。
+                StatusCode = 200,
                 SiteId = id,
                 Data = resultCollection
             }.ToJson());

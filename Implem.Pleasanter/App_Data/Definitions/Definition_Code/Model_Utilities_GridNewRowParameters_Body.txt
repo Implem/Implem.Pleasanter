@@ -23,6 +23,7 @@ if (editRow && offset == 0)
             #modelName#Model.SetCopyDefault(
                 context: context,
                 ss: ss);
+            #modelName#Model.CopiedGrid = true;
         }
         else
         {

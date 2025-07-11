@@ -701,7 +701,170 @@ input {
     .control-markdown {
         border: 1px solid var(--control-border-focus);
     }
+    .container-radio{
+        display: flex;
+        flex-wrap: wrap;
+        padding: 8px 0;
+        gap: 8px 16px;
+        .radio-option{
+            display: flex;
+            gap: 4px;
+            margin: 0;
+            float: none;
+        }
+        .radio-icon{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 20px;
+            border: 1px solid var(--control-border);
+            background-color: var(--control-bg);
+            border-radius: 100%;
+            transition: background-color 150ms ease-out;
+            input{
+                display: none;
+            }
+            &:before{
+                width: 12px;
+                height: 12px;
+                background-color: var(--control-bg);
+                border-radius: 100%;
+                content: "";
+                transition: background-color 150ms ease-out;
+            }
+            &:has(input:checked){
+                background-color: var(--nonColor16);
+                &:before{
+                    background-color: var(--primaryColor);
+                }
+            }
+            &:has(input:disabled){
+                &,
+                &:before{
+                    background-color: var(--control-bg-read);
+                }
+                &:has(input:checked){
+                    &:before{
+                        opacity: .5;
+                        background-color: var(--control-text);
+                    }
+                }
+                &:not(:has(input:checked)){
+                    + .radio-text{
+                        opacity: .5;
+                    }
+                }
+            }
+        }
+        .radio-text{
+            display: block;
+            text-align: left;
+            line-height: 1.2;
+            padding-top: 3px;
+        }
+    }
 }
+
+.radio-clear-both{
+    .container-radio{
+        flex-direction: column;
+    }
+}
+
+.check-option {
+    display: flex;
+    gap: 4px;
+    &:has(.check-text:empty){
+        display: inline-flex;
+    }
+    .check-icon {
+        overflow: hidden;
+        display: flex;
+        float: none;
+        align-items: center;
+        justify-content: center;
+        width: 20px;
+        height: 20px;
+        margin: 5px 0px;
+        border: 1px solid var(--control-border);
+        background-color: var(--control-bg);
+        border-radius: 4px;
+        transition: background-color 150ms ease-out;
+        input{
+            display: none;
+        }
+        &:before{
+            margin: 0;
+            padding: 0;
+            font-family: "Material Symbols Sharp";
+            font-size: 18px;
+            font-weight: normal;
+            -webkit-font-smoothing: antialiased;
+            font-feature-settings: "liga";
+            -webkit-font-feature-settings: "liga";
+            font-variation-settings: 'FILL' 0, 'wght' 700, 'GRAD' 0, 'opsz' 48;
+            line-height: 1;
+            letter-spacing: normal;
+            text-indent: 0;
+            text-transform: none;
+            white-space: nowrap;
+            word-wrap: normal;
+            background: none;
+            direction: ltr;
+            color: var(--control-bg);
+            content: 'check';
+        }
+        &:has(input:checked) {
+            background-color: var(--primaryColor);
+            border-color: transparent;
+            &:before{
+                color: var(--nonColor16);
+            }
+        }
+        &:has(input:disabled) {
+            background-color: var(--control-bg-read);
+            border: 1px solid var(--control-border);
+            &:has(input:checked) {
+                background-color: var(--control-border);
+                &:before {
+                    color: var(--nonColor14);
+                }
+            }
+            &:not(:has(input:checked)) {
+                &:before {
+                    color: var(--control-bg-read);
+                }
+                + .check-text{
+                    color: var(--control-text-read);
+                }
+            }
+        }
+    }
+    .check-text {
+        margin: 5px 0;
+    }
+    .check-add-icon {
+        margin-left: -3px;
+    }
+}
+.grid-wrap{
+    th,td{
+        &:has(.check-option){
+            text-align: center;
+            .check-option{
+                .check-icon{
+                    width: 16px;
+                    height: 16px;
+                    &:before{
+                        font-size: 16px;
+                    }
+                }
+            }
+        }
+    }
+}
+
 
 /* Atoms ---------------------------------------------------------------- */
 /* password-items */
@@ -917,21 +1080,59 @@ label {
 
 /* field-section */
 .field-section {
+    display: flex;
+    align-items: center;
     float: none;
+    gap: 8px;
     width: auto;
-    margin: 16px 0 16px 16px;
-    padding: 16px 4px 0;
-    /*
-    padding: 8px 16px;
+    min-height: 46px;
     margin: 16px 0;
-    border-radius: 5px;
+    padding: 8px 16px 8px 8px;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: normal;
+    font-family: 'noto-font';
     background-color: var(--primaryColor);
     color: var(--invert-text);
     border-color: transparent;
     .ui-icon {
-        background-image: url("../images/ui-icons_ffffff_256x240.png");
+        display: flex;
+        align-items: center;
+        width: 20px;
+        height: 30px;
+        margin: 0;
+        justify-content: center;
+        font-family: "Material Symbols Sharp";
+        font-size: 20px;
+        margin-left: 5px;
+        font-weight: normal;
+        -webkit-font-smoothing: antialiased;
+        font-style: normal;
+        font-feature-settings: "liga";
+        -webkit-font-feature-settings: "liga";
+        font-variation-settings: "FILL" 1;
+        line-height: 1;
+        letter-spacing: normal;
+        text-indent: 0;
+        text-transform: none;
+        white-space: nowrap;
+        word-wrap: normal;
+        background: none;
+        direction: ltr;
+        &:after{
+            content: "expand_circle_down";
+        }
+        &::selection {
+            background-color: transparent;
+        }
+        &.ui-icon-triangle-1-e{
+            &:after{
+                content: "expand_circle_up";
+            }
+        }
     }
-    */
+
 }
 
 .field-normal {
@@ -2349,15 +2550,12 @@ body:not(:has(#Editor)) {
 
     th:has(.control-checkbox),
     td:has(.grid-check) {
-        padding: 0 16px;
+        padding: 0 8px;
         vertical-align: middle;
-        .control-checkbox,
-        .grid-check {
-            display: block;
-            float: none;
+        .check-option{
             margin: auto;
         }
-        label:empty {
+        .check-text:empty {
             display: none;
         }
     }

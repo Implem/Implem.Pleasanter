@@ -40,7 +40,9 @@ namespace Implem.PleasanterTest.Tests.Tenants
                     baseTests: validHtmlTests),
                 new TestPart(
                     userType: UserData.UserTypes.Privileged,
-                    baseTests: validHtmlTests),
+                    baseTests: BaseData.Tests(
+                        HtmlData.ExistsOne(selector: "#Editor"),
+                        HtmlData.ExistsOne(selector: "#FieldSetServerScript"))),
                 new TestPart(
                     userType: UserData.UserTypes.General1,
                     baseTests: notFoundMessage)

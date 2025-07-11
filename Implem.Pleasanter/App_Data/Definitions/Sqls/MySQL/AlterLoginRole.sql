@@ -1,1 +1,1 @@
-﻿alter user "#Uid#"@"localhost" identified by '#Pwd#';
+﻿alter user "#Uid#"@"#MySqlConnectingHost#" identified by '#Pwd#';

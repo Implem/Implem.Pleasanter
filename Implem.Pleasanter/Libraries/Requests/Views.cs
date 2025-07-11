@@ -173,6 +173,10 @@ namespace Implem.Pleasanter.Libraries.Requests
             }
             if (view == null)
             {
+                view = ss.Views.Get(ss.LinkPageSize);
+            }
+            if (view == null)
+            {
                 view = new View();
             }
             if (ss.LinkTableView != null && view.GridColumns?.Any() != true)

@@ -3040,6 +3040,10 @@ namespace Implem.Pleasanter.Models
                     return errorData;
                 }
             }
+            if (context.UserSettings.EnableManageTenant == true)
+            {
+                updateMailAddresses = false;
+            }
             if (setBySession)
             {
                 SetBySession(context: context);
@@ -4391,6 +4395,7 @@ namespace Implem.Pleasanter.Models
                         userModel: this);
                     break;
                 case "SAML":
+                case "SAML-MultiTenant":
                     authenticated = GetByCredentials(
                         context: context,
                         loginId: LoginId,

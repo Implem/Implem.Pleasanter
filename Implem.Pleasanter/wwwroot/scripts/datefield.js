@@ -15,7 +15,9 @@
             isRwd: $('head').css('font-family') === 'responsive',
             hideCurrent: this.dataset.hideCurrent,
             inputElm: this.querySelector('input'),
-            dateFormat: this.querySelector('input').dataset.format.replace(/s/g, 'S'),
+            dateFormat: this.querySelector('input').dataset.format
+                ? this.querySelector('input').dataset.format.replace(/s/g, 'S')
+                : "Y/m/d H:i",
             dateFnsFormat: null,
             language: document.getElementById('Language').value,
             currentElem: this.shadowRoot.querySelector('.current-date'),
@@ -34,6 +36,7 @@
         };
 
         const initDatePicker = () => {
+            const dialog = params.inputElm.closest('.ui-dialog')
             this.dataPicker = flatpickr(params.inputElm, {
                 locale: Object.assign(
                     {},
@@ -41,12 +44,26 @@
                     params.language === 'ja' ? flatpickr.l10ns.ja : {},
                     { firstDayOfWeek: 1 }
                 ),
+                appendTo: dialog ? dialog : document.body,
+                positionElement: params.inputElm,
                 enableTime: params.inputElm.dataset.timepicker === '1',
                 enableSeconds: params.inputElm.dataset.format && params.inputElm.dataset.format.includes(':s') || false,
                 minuteIncrement: Number(params.inputElm.dataset.step || 1),
                 allowInput: !params.isRwd ? true : false,
                 disableMobile: true,
                 dateFormat: params.dateFormat,
+                onOpen: function(selectedDates, dateStr, instance) {
+                    if(dialog){
+                        requestAnimationFrame(() => {
+                            const cal = instance.calendarContainer;
+                            const dialogRect = dialog.getBoundingClientRect();
+                            const top = parseFloat(cal.style.top) - parseFloat(dialogRect.top)  - window.scrollY
+                            const left = parseFloat(cal.style.left) - parseFloat(dialogRect.left)  - window.scrollX
+                            cal.style.top  = `${top}px`;
+                            cal.style.left  = `${left}px`;
+                        });
+                    }
+                },
                 onReady: function(selectedDates, dateStr, instance) {
                     if(!instance.timeContainer) return false
                     const timeInputs = instance.timeContainer.querySelectorAll("input[type='number']");
@@ -114,9 +131,10 @@
             params.dateFnsFormat = dateFnsFormat;
         };
 
-
         if (typeof flatpickr !== 'undefined' ){
-            return init();
+            setTimeout(() => {
+                return init();
+            })
         }else{
             window.addEventListener('load', () => {
                 return init();
