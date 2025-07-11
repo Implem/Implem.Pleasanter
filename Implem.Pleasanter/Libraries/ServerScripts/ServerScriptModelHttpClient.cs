@@ -1,4 +1,5 @@
 ﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -170,7 +171,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             var timeOutMax = TimeSpan.FromMilliseconds(Parameters.Script.ServerScriptHttpClientTimeOutMax);
             var timeOutMin = TimeSpan.FromMilliseconds(Parameters.Script.ServerScriptHttpClientTimeOutMin);
 
-            timeOut = (timeOutMin <= timeOut && timeOut <= timeOutMin)
+            timeOut = timeOut.Between(timeOutMin, timeOutMax)
                 ? timeOut
                 : TimeSpan.FromSeconds(100);
 
