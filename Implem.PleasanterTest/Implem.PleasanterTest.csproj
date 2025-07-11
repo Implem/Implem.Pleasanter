@@ -3,9 +3,9 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <IsPackable>false</IsPackable>
-    <AssemblyVersion>1.4.17.1</AssemblyVersion>
-    <FileVersion>1.4.17.1</FileVersion>
-    <Version>1.4.17.1</Version>
+    <AssemblyVersion>1.4.18.1</AssemblyVersion>
+    <FileVersion>1.4.18.1</FileVersion>
+    <Version>1.4.18.1</Version>
     <Nullable>disable</Nullable>
   </PropertyGroup>
 
