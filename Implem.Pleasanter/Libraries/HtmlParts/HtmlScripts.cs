@@ -94,12 +94,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Script(src: Responses.Locations.Get(
                         context: context,
                         parts: "Scripts/Plugins/qrcode.min.js"))
-                    .Script(src:
-                        Responses.Locations.Get(
+                    .Script(
+                        src: Responses.Locations.Raw(
                             context: context,
                             parts: $"components/{json["main"]}"),
-                            type: "module",
-                            crossorigin: true
+                        type: "module",
+                        crossorigin: true
                     )
                     .Generals(context: context)
                     .Script(

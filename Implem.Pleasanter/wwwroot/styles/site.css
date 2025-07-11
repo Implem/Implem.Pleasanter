@@ -2191,6 +2191,7 @@ label.required:after {
 
 .control-textbox {
     width: 100%;
+    min-width: 80px;
     height: 30px;
     padding: 4px;
     border: solid 1px silver;
@@ -2234,7 +2235,7 @@ label.required:after {
     display: block;
     float: left;
     width: 100%;
-    padding: 25px 0px;
+    padding: 25px 8px;
     text-align: center;
     border: dotted 2px #d19405;
     border-radius: 3px;
@@ -2311,6 +2312,7 @@ label.required:after {
 .field-control .control-markup {
     float: left;
     width: 100%;
+    min-width: 260px;
     min-height: 100px;
     padding: 4px 25px 4px 6px;
     color: black;
@@ -2442,6 +2444,7 @@ label.required:after {
 
 .control-dropdown {
     width: 100%;
+    min-width: 80px;
     height: 30px;
     padding: 4px;
     border: solid 1px silver;
@@ -2493,7 +2496,7 @@ label.required:after {
 }
 
 .container-radio {
-    padding: 7px 0px;
+    padding: 8px 8px 8px 0px;
 }
 
 .container-radio > label {
@@ -2743,7 +2746,10 @@ label.required:after {
 .grid > thead > tr > th.sortable:hover {
     cursor: pointer;
 }
-
+.grid > tbody {
+    position: relative;
+    z-index: 1;
+}
 .grid > tbody > tr > td {
     max-width: 300px;
     word-wrap: break-word;
@@ -3386,9 +3392,13 @@ input[type="password"]::-ms-reveal {
     float: left;
     margin: 6px 0px 0px 0px;
 }
+.date-field {
+    min-width: 100px;
+}
 
 .spinner-field .ui-spinner {
     display: block;
+    min-width: 80px;
     background: #fff;
     border: none;
     border-radius: 5px;

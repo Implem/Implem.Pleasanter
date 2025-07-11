@@ -28,7 +28,7 @@ namespace Implem.PleasanterTest.Utilities
             string absoluteUri = "http://localhost:59802/",
             string absolutePath = "",
             string url = "",
-            string redirectUrl = "", 
+            string redirectUrl = "",
             string urlReferrer = "",
             string query = "",
             string userHostName = "::1",
