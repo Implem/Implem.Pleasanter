@@ -50,35 +50,35 @@ namespace Implem.PleasanterTest.Tests.Items
                     title: "WBS",
                     forms: FormsUtilities.Get(
                          baseKeyValues.Concat(new[] {
-                         new KeyValue("AnalyPartAggregationType", "Count")
+                            new KeyValue("AnalyPartAggregationType", "Count")
                          }).ToArray()
                      )),
                 new TestPart(
                     title: "WBS",
                     forms: FormsUtilities.Get(
                          baseKeyValues.Concat(new[] {
-                         new KeyValue("AnalyPartAggregationType", "Total")
+                            new KeyValue("AnalyPartAggregationType", "Total")
                          }).ToArray()
                      )),
                 new TestPart(
                     title: "WBS",
                     forms: FormsUtilities.Get(
                          baseKeyValues.Concat(new[] {
-                         new KeyValue("AnalyPartAggregationType", "Average")
+                            new KeyValue("AnalyPartAggregationType", "Average")
                          }).ToArray()
                      )),
                 new TestPart(
                     title: "WBS",
                     forms: FormsUtilities.Get(
                          baseKeyValues.Concat(new[] {
-                         new KeyValue("AnalyPartAggregationType", "Min")
+                            new KeyValue("AnalyPartAggregationType", "Min")
                          }).ToArray()
                      )),
                 new TestPart(
                     title: "WBS",
                     forms: FormsUtilities.Get(
                          baseKeyValues.Concat(new[] {
-                         new KeyValue("AnalyPartAggregationType", "Max")
+                            new KeyValue("AnalyPartAggregationType", "Max")
                          }).ToArray()
                      )),
             };
