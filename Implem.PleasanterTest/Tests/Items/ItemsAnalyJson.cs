@@ -16,13 +16,15 @@ namespace Implem.PleasanterTest.Tests.Items
         [MemberData(nameof(GetData))]
         public void Test(
             string title,
+            Forms forms,
             UserModel userModel,
             List<BaseTest> baseTests)
         {
             var siteId = Initializer.Sites.Get(title).SiteId;
             var context = ContextData.Get(
                 userId: userModel.UserId,
-                routeData: RouteData.ItemsAnaly(id: siteId));
+                routeData: RouteData.ItemsAnaly(id: siteId),
+                forms: forms);
             var results = Results(context: context);
             Initializer.SaveResults(results);
             Assert.True(Tester.Test(
@@ -33,19 +35,58 @@ namespace Implem.PleasanterTest.Tests.Items
 
         public static IEnumerable<object[]> GetData()
         {
+            var baseKeyValues = new List<KeyValue>
+            {
+                 new KeyValue("AnalyPartTimePeriodValue", "1"),
+                 new KeyValue("AnalyPartAggregationTarget", ""),
+                 new KeyValue("ControlId", "AddAnalyPart"),
+                 new KeyValue("AnalyPartId", "0"),
+                 new KeyValue("AnalyPartGroupBy", "Status"),
+                 new KeyValue("AnalyPartTimePeriod", "DaysAgoNoArgs")
+            };
             var testParts = new List<TestPart>()
             {
-                new TestPart(title: "WBS"),
-                new TestPart(title: "課題管理"),
-                new TestPart(title: "レビュー記録"),
-                new TestPart(title: "顧客マスタ"),
-                new TestPart(title: "商談"),
-                new TestPart(title: "仕入")
+                new TestPart(
+                    title: "WBS",
+                    forms: FormsUtilities.Get(
+                         baseKeyValues.Concat(new[] {
+                         new KeyValue("AnalyPartAggregationType", "Count")
+                         }).ToArray()
+                     )),
+                new TestPart(
+                    title: "WBS",
+                    forms: FormsUtilities.Get(
+                         baseKeyValues.Concat(new[] {
+                         new KeyValue("AnalyPartAggregationType", "Total")
+                         }).ToArray()
+                     )),
+                new TestPart(
+                    title: "WBS",
+                    forms: FormsUtilities.Get(
+                         baseKeyValues.Concat(new[] {
+                         new KeyValue("AnalyPartAggregationType", "Average")
+                         }).ToArray()
+                     )),
+                new TestPart(
+                    title: "WBS",
+                    forms: FormsUtilities.Get(
+                         baseKeyValues.Concat(new[] {
+                         new KeyValue("AnalyPartAggregationType", "Min")
+                         }).ToArray()
+                     )),
+                new TestPart(
+                    title: "WBS",
+                    forms: FormsUtilities.Get(
+                         baseKeyValues.Concat(new[] {
+                         new KeyValue("AnalyPartAggregationType", "Max")
+                         }).ToArray()
+                     )),
             };
             foreach (var testPart in testParts)
             {
                 yield return TestData(
                     title: testPart.Title,
+                    forms: testPart.Forms,
                     userModel: testPart.UserModel,
                     baseTests: BaseData.Tests(
                         JsonData.Html(
@@ -56,12 +97,14 @@ namespace Implem.PleasanterTest.Tests.Items
 
         private static object[] TestData(
             string title,
+            Forms forms,
             UserModel userModel,
             List<BaseTest> baseTests)
         {
             return new object[]
             {
                 title,
+                forms,
                 userModel,
                 baseTests
             };
