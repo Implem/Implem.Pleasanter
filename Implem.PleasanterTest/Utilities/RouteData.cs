@@ -701,6 +701,16 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
+        public static Dictionary<string, string> ItemsAnaly(long id)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "items" },
+                { "action", "analy" },
+                { "id", id.ToString() }
+            };
+        }
+
         public static Dictionary<string, string> ItemsKamban(long id)
         {
             return new Dictionary<string, string>()
@@ -1217,6 +1227,16 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "items" },
                 { "action", "openimportsitepackagedialog" },
+                { "id", id.ToString() }
+            };
+        }
+
+        public static Dictionary<string, string> ItemsOpenAnalyPartDialog(long id)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "items" },
+                { "action", "openanalypartdialog" },
                 { "id", id.ToString() }
             };
         }
