@@ -571,7 +571,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             return context.Authenticated
                 && context.ContractSettings.Attachments() != false
-                && !context.Mobile
+                && (!context.Mobile || Parameters.Mobile.EnableMobileCamera)
                 && !context.Ajax
                     ? hb
                         .Div(
@@ -589,6 +589,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         controlCss: "button-icon button-positive",
                                         onClick: "$p.toShoot($(this));",
                                         icon: "ui-icon-video")
+                                    // fixme カメラ切替ボタン
                                     .Button(
                                         text: Displays.Cancel(context: context),
                                         controlCss: "button-icon button-neutral",

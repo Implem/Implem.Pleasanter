@@ -1,5 +1,5 @@
 ﻿$p.openVideo = function (controlId) {
-    navigator.mediaDevices.getUserMedia({ video: true, audio: false }).then(function (stream) {
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" }, audio: false }).then(function (stream) {
         $('#VideoTarget').val(controlId);
         $('#VideoDialog').dialog({
             modal: true,
@@ -12,8 +12,10 @@
         });
         $p.video = document.getElementById('Video');
         $p.video.srcObject = stream;
-        $p.videoTracks = stream.getVideoTracks();
-        $p.video.play();
+        $p.video.onloadedmetadata = function (e) {
+            $p.videoTracks = stream.getVideoTracks();
+            $p.video.play();
+        };
     }).catch(function (error) {
         $p.setErrorMessage('CanNotConnectCamera');
         return;
