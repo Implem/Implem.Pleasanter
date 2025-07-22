@@ -1819,6 +1819,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string ChangeCamera(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ChangeCamera",
+                data: data);
+        }
+
         public static string ChangeHistoryList(
             Context context,
             params string[] data)

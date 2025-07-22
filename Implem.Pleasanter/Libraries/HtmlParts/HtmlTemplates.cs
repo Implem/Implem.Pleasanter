@@ -589,7 +589,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         controlCss: "button-icon button-positive",
                                         onClick: "$p.toShoot($(this));",
                                         icon: "ui-icon-video")
-                                    // fixme カメラ切替ボタン
+                                    .Button(
+                                        controlId: "ChangeCamera",
+                                        text: Displays.ChangeCamera(context: context),
+                                        controlCss: "button-icon button-positive",
+                                        icon: "ui-icon-refresh")
                                     .Button(
                                         text: Displays.Cancel(context: context),
                                         controlCss: "button-icon button-neutral",
