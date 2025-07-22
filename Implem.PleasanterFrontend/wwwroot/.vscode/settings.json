@@ -1,0 +1,16 @@
+{
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.tabSize": 4,
+    "diffEditor.ignoreTrimWhitespace": true,
+    "files.eol": "\r\n",
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": "explicit",
+        "source.fixAll.stylelint": "explicit"
+    },
+    "stylelint.validate": ["css", "scss"],
+    "eslint.validate": [
+        "javascript",
+        "typescript"
+    ]
+}

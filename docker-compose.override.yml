@@ -1,6 +1,4 @@
-﻿version: '3.5'
-
-services:
+﻿services:
   Implem.Pleasanter:
     build:
       target: testing
@@ -18,4 +16,3 @@ services:
       - db
     networks:
       - default
-

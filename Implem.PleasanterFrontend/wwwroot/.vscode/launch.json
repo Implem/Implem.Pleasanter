@@ -1,0 +1,19 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Launch IIS:59802",
+            "url": "http://localhost:59802",
+            "webRoot": "${workspaceFolder}"
+        },
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Launch .NetCore:59803",
+            "url": "http://localhost:59803",
+            "webRoot": "${workspaceFolder}"
+        }
+    ]
+}
