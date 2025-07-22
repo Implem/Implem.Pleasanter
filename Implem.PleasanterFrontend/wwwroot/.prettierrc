@@ -1,0 +1,25 @@
+{
+    "plugins": ["prettier-plugin-embed"],
+    "tabWidth": 4,
+    "useTabs": false,
+    "printWidth": 120,
+    "semi": true,
+    "singleQuote": true,
+    "trailingComma": "none",
+    "bracketSpacing": true,
+    "arrowParens": "avoid",
+    "overrides": [
+        {
+            "files": "*.json",
+            "options": {
+                "printWidth": 50
+            }
+        },
+        {
+            "files": "*.js",
+            "options": {
+                "printWidth": 100
+            }
+        }
+    ]
+}

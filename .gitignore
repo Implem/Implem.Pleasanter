@@ -82,4 +82,8 @@ TestResults/
 Env.json
 .env
 *.env
+
+/Implem.Pleasanter/wwwroot/**/*.map
+/Implem.Pleasanter/wwwroot/assets
+/Implem.Pleasanter/wwwroot/components/watch
 /Implem.Pleasanter/wwwroot/operations-tools
