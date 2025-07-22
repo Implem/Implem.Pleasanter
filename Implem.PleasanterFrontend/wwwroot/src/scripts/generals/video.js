@@ -2,7 +2,7 @@
     $p.getVideoDeviceList().then(function (videoDeviceList) {
         const maxDeviceIdIndexNo = videoDeviceList.length - 1;
         if (maxDeviceIdIndexNo === 0) {
-            // カメラが一つなら切替ボタンを表示しない
+            $('#ChangeCamera').hide()
         }
         if (maxDeviceIdIndexNo - deviceIdIndexNo < 0) {
             deviceIdIndexNo = 0;
