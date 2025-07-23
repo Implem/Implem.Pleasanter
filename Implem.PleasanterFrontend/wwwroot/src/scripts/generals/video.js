@@ -1,6 +1,6 @@
 ﻿$p.openVideo = function (controlId) {
     $p.getVideoDeviceList().then(function (videoDeviceList) {
-        const maxDeviceIdIndexNo = videoDeviceList.length - 1;
+        var maxDeviceIdIndexNo = videoDeviceList.length - 1;
         if (maxDeviceIdIndexNo === 0) {
             $('#ChangeCamera').hide()
         }
@@ -12,7 +12,7 @@
 }
 
 $p.playVideo = function (controlId, videoDeviceList, maxDeviceIdIndexNo, deviceIdIndexNo) {
-    const deviceId = videoDeviceList[deviceIdIndexNo].deviceId;
+    var deviceId = videoDeviceList[deviceIdIndexNo].deviceId;
     navigator.mediaDevices.getUserMedia({ video: { deviceId }, audio: false }).then(function (stream) {
         $('#VideoTarget').val(controlId);
         $('#VideoDialog').dialog({
@@ -53,7 +53,7 @@ $p.toShoot = function ($control) {
 }
 
 $p.changeCamera = function (controlId, videoDeviceList, $videoTracks, maxDeviceIdIndexNo, nowDeviceIdIndexNo) {
-    let deviceIdIndexNo = nowDeviceIdIndexNo + 1;
+    var deviceIdIndexNo = nowDeviceIdIndexNo + 1;
     if (maxDeviceIdIndexNo - deviceIdIndexNo < 0) {
         deviceIdIndexNo = 0;
     }
